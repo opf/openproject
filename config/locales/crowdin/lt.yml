@@ -63,13 +63,16 @@ lt:
         main-menu-bg-color: "Kairiojo šoninio meniu fono spalva."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
       replace_token: "Pakeisti savo esamą paramos raktą"
       order: "Ušsakyti „Enterprise Edition“ versiją"
       paste: "Įklijuokite savo „Enterprise Edition“ paramos raktą"
       required_for_feature: "Ši funkcija galima tiks su aktyviu Enterprise Edition versijos raktu."
       enterprise_link: "Norėdami gauti daugiau informacijos, spustelėkite čia."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
@@ -104,9 +107,18 @@ lt:
         Įveskite submedžio, kuriame OpenProject ieškos vartotojų ir grupių šaknies DN (Base DN).
         OpenProject ieškos vartotojų tik šio submedžio ribose.
         Pavyzdys: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus vartotojus pagal LDAP informaciją, kai tik šie vartotojai pirmą kartą prisijungs prie OpenProject.
         Nežymėkite šio lauko, jei norite, kad tik jau sukurti vartotojai galėtų prisijungti pasinaudodami LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Jungties šifravimas'
     system_account: 'Sistemos paskyra'
     system_account_legend: |
@@ -218,6 +230,9 @@ lt:
       no_results_title_text: Nėra jokių naujienų.
       no_results_content_text: Pridėti kaip naujieną
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
   prioritiies:
@@ -345,7 +360,7 @@ lt:
         attr_mail: "El. paštos atributas"
         base_dn: "Bazinis DN"
         host: "Hostas"
-        onthefly: "Automatinis vartotojų registravimas"
+        onthefly: "Automatic user creation"
         port: "Jungtis"
       changeset:
         repository: "Repozitorija"
@@ -760,6 +775,7 @@ lt:
     version: "Versija"
     work_package: "Darbų paketas"
   button_add: "Pridėti"
+  button_add_comment: "Pridėti komentarą"
   button_add_member: Pridėti narį
   button_add_watcher: "Pridėti stebėtojų"
   button_annotate: "Rašyti pastabą"
@@ -1168,13 +1184,8 @@ lt:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Tapti didvyriu!"
         title: "Patobulinti į „Enterprise Edition“ versiją"
-        description: "Kokie privalumai?"
         more_info: "Daugiau informacijos"
-        additional_features: "Papildomos galingos premium funkcijos"
-        professional_support: "Profesionali parama iš OpenProject expertų"
-        you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
     links:
       upgrade_enterprise_edition: "Patobulinti į „Enterprise Edition“ versiją"
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
@@ -1186,9 +1197,10 @@ lt:
       forums: "Bendruomenės forumas"
       newsletter: "Saugos įspėjimai / Naujienos"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Konfigūravimo vadovas'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Galėsite prisijungti, kai tik jūsų paskyra bus aktyvuota paspaudžiant %{signin}."
   instructions_after_logout: "Galite vėl prisijungti paspausdami %{signin}."
   instructions_after_error: "Bandykite prisijungti dar kartą spustelėdami %{signin}. Jei klaida kartosis, kreipkitės į administratorių."
@@ -1345,6 +1357,7 @@ lt:
   label_duplicate: "dubliuoti"
   label_duplicates: "dubliuojasi"
   label_edit: "Redaguoti"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Perjungti daugybinį pažymėjimą"
   label_enabled_project_custom_fields: 'Įgalinti papildomi laukai'
   label_enabled_project_modules: 'Įgalinti moduliai'
@@ -1478,7 +1491,7 @@ lt:
   label_new: "Naujas"
   label_new_features: "Naujos savybės"
   label_new_statuses_allowed: "Naujos galimos būsenos"
-  label_news: "Naujienos"
+  label_news_singular: "Naujienos"
   label_news_added: "Pridėta naujiena"
   label_news_comment_added: "Prie naujienos pridėtas komentaras"
   label_news_latest: "Paskutinės naujienos"
@@ -1746,31 +1759,6 @@ lt:
     other: "%{count} projektai (-as, -ų)"
   label_year: "Metai"
   label_yesterday: "vakar"
-  label_keyboard_function: "Funkcija"
-  label_keyboard_shortcut: "Nuoroda"
-  label_keyboard_accesskey: "Prieigos raktas"
-  label_keyboard_shortcut_help_heading: "Galimi spartieji klavišai"
-  label_keyboard_shortcut_within_project: "Su projektu susiję spartieji klavišai:"
-  label_keyboard_shortcut_global_shortcuts: "Globalios nuorodos:"
-  label_keyboard_shortcut_some_pages_only: "Specialios nuorodos:"
-  label_keyboard_shortcut_search_global: "Globali paieška"
-  label_keyboard_shortcut_search_project: "Rasti mano projektą"
-  label_keyboard_shortcut_go_my_page: "Eiti į mano puslapį"
-  label_keyboard_shortcut_show_help: "Rodyti šį pagalbos pranešimą"
-  label_keyboard_shortcut_go_overview: "Eiti į projekto apžvalgą"
-  label_keyboard_shortcut_go_work_package: "Eiti į projekto darbų paketus"
-  label_keyboard_shortcut_go_wiki: "Eiti į projekto wiki"
-  label_keyboard_shortcut_go_activity: "Eiti į projekto veiklas"
-  label_keyboard_shortcut_go_calendar: "Eiti į projekto kalendorių"
-  label_keyboard_shortcut_go_news: "Eiti į projekto naujienas"
-  label_keyboard_shortcut_go_timelines: "Eiti į tvarkaraščius"
-  label_keyboard_shortcut_new_work_package: "Sukurti naują darbų paketą"
-  label_keyboard_shortcut_details_package: "Rodyti darbų paketų išsamios informacijos panelę"
-  label_keyboard_shortcut_go_edit: "Eiti redaguoti esamą elementą (tik didelio detalumo puslapiuose)"
-  label_keyboard_shortcut_open_more_menu: "Atidaryti daugiau-meniu (tik didelio detalumo puslapiuose)"
-  label_keyboard_shortcut_go_preview: "Eiti į esamos redakcijos peržiūrą (tik redagavimo puslapiuose)"
-  label_keyboard_shortcut_focus_previous_item: "Sutelkti dėmesį į ankstesnį sąrašo elementą (tik kai kuriuose sąrašuose)"
-  label_keyboard_shortcut_focus_next_item: "Sutelkti dėmesį į sekantį sąrašo elementą (tik kai kuriuose sąrašuose)"
   auth_source:
     using_abstract_auth_source: "Negalima naudoti abstraktaus autentifikavimo šaltinio."
     ldap_error: "LDAP-Klaida: %{error_message}"
@@ -2565,6 +2553,7 @@ lt:
       mail_self_notified: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
     status_user_and_brute_force: "%{user} ir %{brute_force}"
     status_change: "Būsenos keitimas"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Atrakinti"
     unlock_and_reset_failed_logins: "Atrakintiir iš naujo nustatyti nepavykusius prisijungimus"
   version_status_closed: "uždarytas"

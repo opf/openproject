@@ -1,0 +1,31 @@
+name: PullPreview
+on:
+  push:
+  pull_request:
+    types: [labeled, unlabeled, closed]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v2
+    - name: Generate .env.pullpreview file
+      run: |
+        echo "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off" >> .env.pullpreview
+        echo "OPENPROJECT_SHOW__SETTING__MISMATCH__WARNING=false" >> .env.pullpreview
+    - name: Boot as BIM edition
+      if: contains(github.ref, 'bim/') || contains(github.head_ref, 'bim/')
+      run: |
+        echo "OPENPROJECT_EDITION=bim" >> .env.pullpreview
+    - uses: pullpreview/action@master
+      with:
+        admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde
+        always_on: dev
+        compose_files: docker-compose.pullpreview.yml
+        instance_type: medium_2_0
+      env:
+        AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+        AWS_REGION: eu-central-1

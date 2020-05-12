@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Watcher < ActiveRecord::Base
+class Watcher < ApplicationRecord
   belongs_to :watchable, polymorphic: true
   belongs_to :user
 

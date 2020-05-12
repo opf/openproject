@@ -28,7 +28,10 @@
 
 require_relative '../../spec_helper'
 
-describe 'Create viewpoint from BCF details page', type: :feature, js: true do
+describe 'Create viewpoint from BCF details page',
+         type: :feature,
+         with_config: { edition: 'bim' },
+         js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
   let(:user) { FactoryBot.create :admin }
 

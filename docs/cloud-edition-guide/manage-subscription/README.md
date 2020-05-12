@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Manage subscription
-  priority: 996
+  priority: 970
 description: View the invoices and payment history.
 robots: index, follow
 keywords: manage subscription
@@ -61,3 +61,21 @@ Click on the **Cancel Subscription link** if you want to terminate your OpenProj
 <div class="alert alert-info" role="alert">
 **Note**: After cancellation you will receive an email confirmation. Your subscription will be terminated at the end of the current subscription period. After cancellation your data will be kept for a certain period of time in case of reactivation of a subscription.
 </div>
+
+## Frequently asked questions (FAQ)
+
+### How can I increase the number of users in the OpenProject Cloud Edition?
+
+Please note that the minimum number of users is 5. You can then increase the number of users in steps of 5. Just write an email to sales@openproject.com.
+
+### Is it possible to change the number of users in the OpenProject Cloud Edition?
+
+You can always increase the number of users. The number of users can be increased in steps of 5 (e.g. you could start with 5 users and then increase the number of users to 10 users). You can purchase the Enterprise Edition from [here](https://www.openproject.org/enterprise-edition/). Simply click on the button "Book now" and follow the steps. A reduction in the number of users would take effect after the current service period.
+
+### Do you have OpenProject guest accounts?
+
+Currently, all users working in the OpenProject Enterprise Edition need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users.
+
+### Can I run OpenProject as a single user?
+
+Our minimum plan for the Cloud Edition and Enterprise Edition is five users. Our pricing scheme covers three subscription options: Community ($0), Cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [community version](https://www.openproject.org/download-and-installation/) free of charge if the 5 user minimum is an issue.

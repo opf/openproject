@@ -461,12 +461,12 @@ module API
 
             root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
 
-            root_url.gsub(duplicate_regexp, '') + ApiV3Path.send(path, arguments)
+            root_url.gsub(duplicate_regexp, '') + send(path, arguments)
           end
         end
 
         def api_v3_paths
-          ApiV3Path
+          ::API::V3::Utilities::PathHelper::ApiV3Path
         end
       end
     end

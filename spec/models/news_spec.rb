@@ -51,6 +51,8 @@ describe News, type: :model do
   end
 
   describe '.latest' do
+    let(:project_news) { News.where(project: project) }
+
     before do
       Role.anonymous
     end
@@ -74,34 +76,35 @@ describe News, type: :model do
     end
 
     it 'limits the number of returned news elements' do
-      News.delete_all
+      project_news.delete_all
 
       10.times do
         FactoryBot.create(:news, project: project)
       end
 
-      expect(News.latest(user: User.current, count:  2).size).to eq(2)
-      expect(News.latest(user: User.current, count:  6).size).to eq(6)
-      expect(News.latest(user: User.current, count: 15).size).to eq(10)
+      expect(project_news.latest(user: User.current, count:  2).size).to eq(2)
+      expect(project_news.latest(user: User.current, count:  6).size).to eq(6)
+      expect(project_news.latest(user: User.current, count: 15).size).to eq(10)
     end
 
     it 'returns five news elements by default' do
-      News.delete_all
+      project_news.delete_all
 
       2.times do
         FactoryBot.create(:news, project: project)
       end
-      expect(News.latest.size).to eq(2)
+
+      expect(project_news.latest.size).to eq(2)
 
       3.times do
         FactoryBot.create(:news, project: project)
       end
-      expect(News.latest.size).to eq(5)
+      expect(project_news.latest.size).to eq(5)
 
       2.times do
         FactoryBot.create(:news, project: project)
       end
-      expect(News.latest.size).to eq(5)
+      expect(project_news.latest.size).to eq(5)
     end
   end
 

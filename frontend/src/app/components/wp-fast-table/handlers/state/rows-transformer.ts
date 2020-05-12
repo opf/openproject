@@ -6,7 +6,6 @@ import {States} from 'core-components/states.service';
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {debugLog} from "core-app/helpers/debug_output";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class RowsTransformer {

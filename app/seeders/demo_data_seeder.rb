@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -31,7 +32,8 @@ class DemoDataSeeder < CompositeSeeder
       DemoData::GroupSeeder,
       DemoData::AttributeHelpTextSeeder,
       DemoData::GlobalQuerySeeder,
-      DemoData::ProjectSeeder
+      DemoData::ProjectSeeder,
+      DemoData::OverviewSeeder
     ]
   end
 

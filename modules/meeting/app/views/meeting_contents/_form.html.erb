@@ -49,7 +49,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <p><%= f.text_field :comment, :size => 120 %></p>
   <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark button--save-agenda' %>
-  <%= link_to t(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button button--cancel-agenda' %>
+  <%= link_to t(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button -with-icon icon-cancel button--cancel-agenda' %>
 <% end %>
 
 <%= render :partial => 'shared/meeting_header' %>

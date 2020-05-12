@@ -27,7 +27,7 @@
 // ++
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpenProjectFileUploadService, UploadBlob} from "core-components/api/op-file-upload/op-file-upload.service";
+import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {UploadFile} from "core-components/api/op-file-upload/op-file-upload.service";
 import {ImageHelpers} from "core-app/helpers/images/resizer";

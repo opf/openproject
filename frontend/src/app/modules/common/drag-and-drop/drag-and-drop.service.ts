@@ -2,7 +2,6 @@ import {Inject, Injectable, Injector, OnDestroy} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DomAutoscrollService} from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
 import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
-import DropEvent = JQuery.DropEvent;
 
 export interface DragMember {
   dragContainer:HTMLElement;

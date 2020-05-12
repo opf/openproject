@@ -183,8 +183,10 @@ describe 'custom field inplace editor', js: true do
         field.set_value ''
         field.expect_invalid
 
-        expect(WorkPackages::UpdateService).not_to receive(:new)
         field.save!
+
+        work_package.reload
+        expect(work_package.send("custom_field_#{custom_field.id}")).to eq 123
       end
     end
   end

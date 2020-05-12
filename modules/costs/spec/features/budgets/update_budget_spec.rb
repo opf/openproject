@@ -78,13 +78,15 @@ describe 'updating a budget', type: :feature, js: true do
     end
 
     let(:material_budget_item) do
-      FactoryBot.create :material_budget_item, units: 3,
+      FactoryBot.create :material_budget_item,
+                        units: 3,
                         cost_type: cost_type,
                         cost_object: budget
     end
 
     let(:labor_budget_item) do
-      FactoryBot.create :labor_budget_item, hours: 5,
+      FactoryBot.create :labor_budget_item,
+                        hours: 5,
                         user: user,
                         cost_object: budget
     end
@@ -133,6 +135,42 @@ describe 'updating a budget', type: :feature, js: true do
       expect(budget_page.overall_labor_costs).to have_content '75.00 EUR'
     end
 
+    context 'with german locale' do
+      let(:user) { FactoryBot.create :admin, language: :de }
+      let(:cost_type2) do
+        FactoryBot.create :cost_type, name: 'ABC', unit: 'abc', unit_plural: 'abcs'
+      end
+
+      let(:material_budget_item2) do
+        FactoryBot.create :material_budget_item,
+                          units: 3,
+                          cost_type: cost_type2,
+                          cost_object: budget,
+                          budget: 1000.0
+      end
+
+      it 'retains the overridden budget when opening, but not editing (Regression #32822)' do
+        material_budget_item2
+        budget_page.visit!
+        click_on 'Bearbeiten'
+
+        budget_page.expect_planned_costs! type: :material, row: 1, expected: '150,00 EUR'
+        budget_page.expect_planned_costs! type: :material, row: 2, expected: '1.000,00 EUR'
+        budget_page.expect_planned_costs! type: :labor, row: 1, expected: '125,00 EUR'
+
+        # Open first item
+        budget_page.open_edit_planned_costs! material_budget_item.id, type: :material
+        expect(page).to have_field("cost_object_existing_material_budget_item_attributes_#{material_budget_item.id}_costs_edit")
+
+        click_on 'OK'
+        expect(budget_page).to have_content("Erfolgreich aktualisiert.")
+
+        expect(page).to have_selector('tbody td.currency', text: '150,00 EUR')
+        expect(page).to have_selector('tbody td.currency', text: '1.000,00 EUR')
+        expect(page).to have_selector('tbody td.currency', text: '125,00 EUR')
+      end
+    end
+
     context 'with two material budget items' do
       let!(:material_budget_item_2) do
         FactoryBot.create :material_budget_item, units: 5,
@@ -171,7 +209,6 @@ describe 'updating a budget', type: :feature, js: true do
       end
 
       context 'with a reversed currency format' do
-
         before do
           allow(Setting)
             .to receive(:plugin_openproject_costs)

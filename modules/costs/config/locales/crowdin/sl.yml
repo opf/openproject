@@ -1,0 +1,195 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#---
+sl:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Zahtevek"
+        overridden_costs: "Vsiljeni stroški "
+        spent: "Porabljeno"
+        spent_on: "Datum"
+      cost_object:
+        author: "Avtor"
+        available: "Na voljo"
+        budget: "Načrtovano"
+        budget_ratio: "Poraba (razmerje)"
+        created_on: "Ustvarjeno dne"
+        description: "Opis"
+        fixed_date: "Fiksen datum"
+        spent: "Porabljeno"
+        status: "Stanje"
+        subject: "Zadeva"
+        type: "Vrsta stroška"
+        updated_on: "Posodobljeno"
+      cost_type:
+        unit: "Ime enote"
+        unit_plural: "Pluralized unit name"
+      work_package:
+        costs_by_type: "Porabljene enote"
+        cost_object_subject: "Naslov proračuna"
+        labor_costs: "Stroški dela"
+        material_costs: "Strošek enote"
+        overall_costs: "Celotni stroški"
+        spent_costs: "Porabljeni stroški"
+        spent_units: "Porabljene enote"
+      rate:
+        rate: "Stopnja"
+      user:
+        default_rates: "Privzeti tečaj"
+      variable_cost_object:
+        labor_budget: "Načrtovani stroški dela"
+        material_budget: "Načrtovani stroški enote"
+    models:
+      cost_object: "Proračun"
+      cost_type:
+        one: "Vrsta stroška"
+        two: "Vrsta stroška"
+        few: "Vrsta stroškov"
+        other: "Vrsta stroška"
+      material_budget_item: "Enota"
+      rate: "Stopnja"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Delovni paket #% {id} ni veljaven cilj za prerazporeditev vnosov stroškov."
+          nullify_is_not_valid_for_cost_entries: "Vnosa stroškov ni mogoče dodeliti projektu."
+  attributes:
+    budget: "Planirani stroški"
+    comment: "Komentar"
+    cost_object: "Proračun"
+    cost_type: "Vrsta stroška"
+    costs: "Stroški"
+    current_rate: "Trenutni tečaj"
+    hours: "Ure"
+    units: "Enote"
+    valid_from: "Veljavno od"
+  button_add_budget_item: "Vnesi planirane stroške"
+  button_add_cost_object: "Dodaj proračun"
+  button_add_cost_type: "Dodaj vrsto stroška"
+  button_add_rate: "Vnesi tečaj"
+  button_cancel_edit_budget: "Prekliči urejanje proračuna"
+  button_cancel_edit_costs: "Prekliči urejanje stroškov"
+  button_log_costs: "Stroški enote dnevnika"
+  button_log_time: "Datum vpisa"
+  caption_booked_on_project: "Rezervirano na projektu"
+  caption_default: "Privzeto"
+  caption_default_rate_history_for: "Zgodovina privzetih tečajev za %{user}"
+  caption_labor: "Delo"
+  caption_labor_costs: "Dejanski stroški dela"
+  caption_locked_on: "Zaklenjeno"
+  caption_material_costs: "Dejanski stroški enote"
+  caption_materials: "Enote"
+  caption_rate_history: "Zgodovina tečaja"
+  caption_rate_history_for: "Zgodovina tečajev za %{user}"
+  caption_rate_history_for_project: "Zgodovina tečajev za %{user} v projektu %{project}"
+  caption_save_rate: "Shrani tečaj"
+  caption_set_rate: "Nastavite trenutni tečaj"
+  caption_show_locked: "Pokaži zaklenjene enote"
+  cost_objects_title: "Proračun"
+  description_date_for_new_rate: "Datum novega tečaja"
+  events:
+    cost_object: "Proračun urejen"
+  group_by_others: "ni v nobeni skupini"
+  help_click_to_edit: "Kliknite tukaj, za urejanje"
+  help_currency_format: "Oblika prikazanih vrednosti valut. %n se nadomesti z vrednostjo valute, %u je zamenjan z enoto valute."
+  help_override_rate: "Vnesite vrednost, da nadomestite privzeto stopnjo."
+  label_between: "med"
+  label_cost_filter_add: "Dodajte filter za vnos stroškov"
+  label_costlog: "Stroški enote dnevnika"
+  label_cost_object: "Proračun"
+  label_cost_object_id: "Proračun #%{id}"
+  label_cost_object_new: "Nov proračun"
+  label_cost_object_plural: "Proračun"
+  label_cost_plural: "Stroški"
+  label_cost_report: "Poročilo o stroških"
+  label_cost_type_specific: "Proračun #%{id}: %{name}"
+  label_cost_type_plural: "Vrsta stroška"
+  label_costs_per_page: "Strošek na stran"
+  label_currency: "Valuta"
+  label_currency_format: "Oblika valute"
+  label_current_default_rate: "Trenuten prevzeti tečaj\n"
+  label_date_on: "vključeno"
+  label_deleted_cost_types: "Izbrisane vrste stroškov"
+  label_locked_cost_types: "Zaklenjene vrste stroškov"
+  label_deliverable: "Proračun"
+  label_display_cost_entries: "Prikaži strošek enote"
+  label_display_time_entries: "Prikaz prijavljenih ur"
+  label_display_types: "Prikazi vrste"
+  label_edit: "Uredi"
+  label_fixed_cost_object: "Fiksni proračun"
+  label_fixed_date: "Fiksen datum"
+  label_generic_user: "Generični uporabnik"
+  label_greater_or_equal: ">="
+  label_group_by: "Razvrsti po"
+  label_group_by_add: "Dodajte polje za grupiranje"
+  label_hourly_rate: "Urna postavka"
+  label_include_deleted: "Vključi izbrisano"
+  label_work_package_filter_add: "Dodajte filter delovnega paketa"
+  label_kind: "Vrsta"
+  label_less_or_equal: "<="
+  label_log_costs: "Stroški enote dnevnika"
+  label_no: "Ne"
+  label_option_plural: "Možnosti"
+  label_overall_costs: "Celotni stroški"
+  label_rate: "Stopnja"
+  label_rate_plural: "Cene"
+  label_status_finished: "Končano"
+  label_units: "Stroškovne enote"
+  label_user: "Uporabnik"
+  label_until: "do"
+  label_valid_from: "Veljavno od"
+  label_variable_cost_object: "Proračun na osnovi spremenljive stopnje"
+  label_view_all_cost_objects: "Oglejte si vse proračune"
+  label_yes: "Da"
+  notice_cost_object_conflict: "Delovni paketi morajo biti pd istega projekta."
+  notice_no_cost_objects_available: "Proračuni niso na voljo."
+  notice_something_wrong: "nekaj je šlo narobe. Prosim poskusite ponovno."
+  notice_successful_restore: "Uspešna obnovitev."
+  notice_successful_lock: "Uspešno zaklenjeno."
+  notice_cost_logged_successfully: 'Stroški na enoto so bili uspešno prijavljeni.'
+  permission_edit_cost_entries: "Uredite rezervirane stroške na enoto"
+  permission_edit_cost_objects: "Uredi proračun"
+  permission_edit_own_cost_entries: "Uredite lastne rezervirane stroške na enoto"
+  permission_edit_hourly_rates: "Urejanje urnih postavk"
+  permission_edit_own_hourly_rate: "uredite lastne urne postavke"
+  permission_edit_rates: "Uredite cene"
+  permission_log_costs: "Book unit costs"
+  permission_log_own_costs: "Book unit costs for oneself"
+  permission_view_cost_entries: "View booked costs"
+  permission_view_cost_objects: "Oglejte si proračune"
+  permission_view_cost_rates: "Oglejte si stopnje stroškov"
+  permission_view_hourly_rates: "View all hourly rates"
+  permission_view_own_cost_entries: "View own booked costs"
+  permission_view_own_hourly_rate: "Oglejte si lastno urno postavko"
+  permission_view_own_time_entries: "Oglejte si svoj porabljen čas"
+  project_module_costs_module: "Proračun"
+  text_assign_time_and_cost_entries_to_project: "Projektu dodelite prijavljene ure in stroške"
+  text_cost_object_change_type_confirmation: "Ali si prepričan? Ta operacija bo uničila podatke o določeni vrsti proračuna."
+  text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_destroy_time_and_cost_entries: "Izbrišite prijavljene ure in stroške"
+  text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_reassign_time_and_cost_entries: "Ponovno dodelite tem delovnemu paketu prijavljene ure in stroške:"
+  text_warning_hidden_elements: "Nekateri vnosi so bili morda izključeni iz združevanja."
+  week: "teden"
+  js:
+    text_are_you_sure: "Ste prepričani?"

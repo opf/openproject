@@ -74,12 +74,14 @@ fil:
   permission_send_meeting_agendas_notification: "Ipadala ang abiso ng pagsusuri para sa mga adyenda"
   permission_create_meeting_minutes: "Pamahalaan ang minutes"
   permission_send_meeting_minutes_notification: "Ipadala ang abiso ng pagsusuri sa minutes"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Mga Pagpupulong"
   text_duration_in_hours: "Tagal sa oras"
   text_in_hours: "sa mga oras"
   text_meeting_agenda_for_meeting: 'adyenda para sa pulong "%{meeting}"'
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
-  text_meeting_agenda_open_are_you_sure: "Mawawala ang hindi nakasave na mga nilalaman sa minutes! Ipagpatuloy?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'minutes para sa pulong "%{meeting}"'
   text_review_meeting_agenda: "Ang %{author} ay naglagay ng %{link} para sa pagsusuri."
   text_review_meeting_minutes: "Ang %{author} ay naglagay ng %{link} para sa pagsusuri."

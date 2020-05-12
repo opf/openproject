@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe ::OpenProject::Bim::BcfXml::Exporter do
-  let(:query) { FactoryBot.build(:global_query)}
+  let(:query) { FactoryBot.build(:global_query) }
   let(:work_package) { FactoryBot.create :work_package }
   let(:admin) { FactoryBot.create(:admin) }
   let(:current_user) { admin }
 
   before do
     work_package
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
   end
 
   subject { described_class.new(query) }

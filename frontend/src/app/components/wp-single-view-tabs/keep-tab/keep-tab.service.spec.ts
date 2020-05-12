@@ -27,7 +27,6 @@
 // ++
 
 import {KeepTabService} from './keep-tab.service';
-import {StateService, Transition} from '@uirouter/core';
 
 describe('keepTab service', () => {
   let callback:(transition:any) => void;

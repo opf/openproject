@@ -12,9 +12,10 @@ tr:
     ifc_models:
       empty_warning: "Bu projenin henüz IFC modeli yok."
       use_this_link_to_manage: "IFC modellerinizi yüklemek ve yönetmek için bu bağlantıyı kullanın"
+      keyboard_input_disabled: "Görüntüleyicide klavye denetimleri yoktur. Görüntüleyiciye klavye kontrolü vermek için görüntüleyiciyi tıklayın."
       models:
         default: 'Varsayılan IFC modelleri'
         manage: 'Modelleri yönetin'
       views:
-        viewer: 'izleyici'
+        viewer: 'Görüntüleyici'
         split: 'Görüntüleyici ve kartlar'

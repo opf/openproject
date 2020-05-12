@@ -125,34 +125,6 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
     end
   end
 
-  describe '#configure_import' do
-    let(:action) do
-      post :configure_import, params: { project_id: project.identifier.to_s }
-    end
-
-    context 'with valid BCF file' do
-      let(:filename) { 'MaximumInformation.bcf' }
-      let(:file) do
-        Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
-          'application/octet-stream'
-        )
-      end
-
-      before do
-        allow_any_instance_of(Attachment).to receive(:diskfile).and_return(file)
-        allow(Attachment).to receive(:find_by).and_return(Attachment.new)
-      end
-
-      it 'should be successful' do
-        expect { action }.to change { Attachment.count }.by(0)
-        expect(response).to be_successful
-      end
-
-      it_behaves_like "check permissions"
-    end
-  end
-
   describe '#perform_import' do
     let(:action) do
       post :perform_import, params: { project_id: project.identifier.to_s }

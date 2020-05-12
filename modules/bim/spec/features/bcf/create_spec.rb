@@ -1,6 +1,10 @@
 require_relative '../../spec_helper'
 
-describe 'Create BCF', type: :feature, js: true, with_mail: false do
+describe 'Create BCF',
+         type: :feature,
+         js: true,
+         with_config: { edition: 'bim' },
+         with_mail: false do
   let(:project) do
     FactoryBot.create(:project,
                       types: [type, type_with_cf],
@@ -54,7 +58,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
         create_page.expect_viewpoint_count 3
 
         # Expect no confirm dialog to be present
-        create_page.delete_current_viewpoint
+        create_page.delete_viewpoint_at_position 2
         create_page.expect_viewpoint_count 2
       else
         create_page.expect_no_viewpoint_addable

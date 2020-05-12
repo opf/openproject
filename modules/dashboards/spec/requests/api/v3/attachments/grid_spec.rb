@@ -30,6 +30,10 @@ require 'spec_helper'
 require File.join(Rails.root, 'spec', 'requests', 'api', 'v3', 'attachments', 'attachment_resource_shared_examples')
 
 describe "grid attachments" do
+  before do
+    Grids::Dashboard
+  end
+
   it_behaves_like "an APIv3 attachment resource" do
     let(:attachment_type) { :grid }
 

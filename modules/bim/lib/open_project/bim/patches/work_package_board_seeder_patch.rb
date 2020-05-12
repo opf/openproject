@@ -7,7 +7,7 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
     def seed_data!
       super
 
-      if project_has_data_for?(key, 'boards.bcf')
+      if OpenProject::Configuration.bim? && project_has_data_for?(key, 'boards.bcf')
         print '    ↳ Creating demo BCF board'
         seed_bcf_board
         puts

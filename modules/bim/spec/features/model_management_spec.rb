@@ -30,7 +30,10 @@ require 'spec_helper'
 
 require_relative '../support/pages/ifc_models/index'
 
-describe 'model management', type: :feature, js: true do
+describe 'model management',
+         with_config: { edition: 'bim' },
+         type: :feature,
+         js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_bcf manage_ifc_models view_work_packages]) }

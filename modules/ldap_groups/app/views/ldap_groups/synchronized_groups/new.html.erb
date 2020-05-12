@@ -27,13 +27,11 @@
     <legend class="form--fieldset-legend"><%= @group.class.model_name.human  %></legend>
 
     <div class="form--field -required">
-      <%= f.text_field :entry,
+      <%= f.text_field :dn,
                        required: true,
-                       container_class: '-middle',
-                       prefix: "#{::OpenProject::LdapGroups.group_key || '[group key]'}=",
-                       suffix: ",#{::OpenProject::LdapGroups.group_base || '[group base]'}" %>
+                       container_class: '-middle' %>
       <div class="form--field-instructions">
-        <%= t('ldap_groups.synchronized_groups.form.entry_text') %>
+        <%= t('ldap_groups.synchronized_groups.form.dn_text') %>
       </div>
     </div>
 
@@ -51,7 +49,7 @@
 
   <p>
     <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), url_for(action: :index), class: 'button' %>
+    <%= link_to t(:button_cancel), url_for(action: :index), class: 'button -with-icon icon-cancel' %>
   </p>
 <% end %>
 

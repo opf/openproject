@@ -30,7 +30,7 @@ it:
         num_issues_found: '%{x_bcf_issues} sono contenuti nel file BCF-XML, i loro dettagli sono elencati di seguito.'
         button_prepare: 'Prepara l''importazione'
         button_perform_import: 'Conferma importazione'
-        button_proceed: 'Procedere'
+        button_proceed: 'Procedi con l''importazione'
         button_back_to_list: 'Torna alla lista'
         no_permission_to_add_members: 'Non hai i permessi sufficienti per aggiungerli come membri al progetto.'
         contact_project_admin: 'Contatta l''amministratore del progetto per aggiungerli come membri e ricomincia questa importazione.'
@@ -56,6 +56,7 @@ it:
         import_as_system_user: 'Importali come utente "Sistema".'
         what_to_do: "Cosa vuoi fare?"
         work_package_has_newer_changes: "Non aggiornato! Questo argomento non è stato aggiornato perché le ultime modifiche sul server sono più recenti della \"Data di modifica\" dell'argomento importato. Tuttavia, i commenti all'argomento sono stati importati."
+        bcf_file_not_found: "Impossibile trovare il file BCF. Riavvia il processo di caricamento."
   export:
     format:
       bcf: "BCF-XML"
@@ -71,7 +72,7 @@ it:
       bcf_v2_1_text: "L'applicazione riceverà accesso completo in lettura e scrittura alle API BCF v2.1 per effettuare azioni a tuo nome."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "Modello IFC"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "File IFC"

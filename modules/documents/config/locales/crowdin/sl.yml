@@ -1,0 +1,42 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+sl:
+  activerecord:
+    models:
+      document: "Dokument"
+  default_doc_category_tech: "Tehnična dokumentacija"
+  default_doc_category_user: "Uporabniška dokumentacija"
+  enumeration_doc_categories: "Kategorije dokumentov"
+  enumeration:
+    document_category:
+      documentation: Dokumentacija
+      specification: Specifikacija
+      other: Drugo
+  documents:
+    label_attachment_author: "Avtor priloge"
+  label_document_added: "Dokument dodan"
+  label_document_new: "Nov dokument"
+  label_document_plural: "Dokumenti"
+  label_documents: "Dokumenti"
+  permission_manage_documents: "Uredi dokumente"
+  permission_view_documents: "Poglej dokumente"
+  project_module_documents: "Dokumenti"

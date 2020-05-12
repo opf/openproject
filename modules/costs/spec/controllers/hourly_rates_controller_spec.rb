@@ -29,8 +29,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe HourlyRatesController do
+  using_shared_fixtures :admin
+
   let(:user) { FactoryBot.create(:user) }
-  let(:admin) { FactoryBot.create(:admin) }
   let(:default_rate) { FactoryBot.create(:default_hourly_rate, user: user) }
 
   describe 'PUT update' do

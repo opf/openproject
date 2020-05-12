@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Meeting < ActiveRecord::Base
+class Meeting < ApplicationRecord
   include VirtualAttribute
 
   self.table_name = 'meetings'

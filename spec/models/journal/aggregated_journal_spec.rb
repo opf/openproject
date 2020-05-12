@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -63,8 +64,9 @@ RSpec::Matchers.define :be_equivalent_to_journal do |expected|
 end
 
 describe Journal::AggregatedJournal, type: :model do
+  let(:project) { FactoryBot.create(:project) }
   let(:work_package) do
-    FactoryBot.build(:work_package)
+    FactoryBot.build(:work_package, project: project)
   end
   let(:user1) { FactoryBot.create(:user) }
   let(:user2) { FactoryBot.create(:user) }
@@ -73,7 +75,7 @@ describe Journal::AggregatedJournal, type: :model do
   subject { described_class.aggregated_journals }
 
   before do
-    allow(User).to receive(:current).and_return(initial_author)
+    login_as(initial_author)
     work_package.save!
   end
 
@@ -338,6 +340,87 @@ describe Journal::AggregatedJournal, type: :model do
           expect(subject.count).to eq 1
           expect(subject.first).to be_equivalent_to_journal work_package.journals.first
         end
+      end
+    end
+  end
+
+  context 'passing a filtering sql' do
+    let!(:other_work_package) { FactoryBot.create(:work_package) }
+    let(:sql) do
+      <<~SQL
+        SELECT journals.*
+        FROM journals
+        JOIN work_package_journals
+          ON work_package_journals.journal_id = journals.id
+          AND work_package_journals.project_id = #{project.id}
+      SQL
+    end
+    subject { described_class.aggregated_journals(sql: sql) }
+
+    it 'returns the journal of the work package in the project filtered for' do
+      expect(subject.count).to eql 1
+      expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+    end
+
+    context 'with a sql filtering out every journal' do
+      let(:sql) do
+        <<~SQL
+          SELECT journals.*
+          FROM journals
+          JOIN work_package_journals
+            ON work_package_journals.journal_id = journals.id
+            AND work_package_journals.project_id = #{project.id}
+          WHERE journals.created_at < '#{Date.yesterday}'
+        SQL
+      end
+
+      it 'returns no journal' do
+        expect(subject.count).to eql 0
+      end
+    end
+
+    context 'with a sql filtering out the first journal and having 3 journals' do
+      let(:sql) do
+        <<~SQL
+          SELECT journals.*
+          FROM journals
+          JOIN work_package_journals
+            ON work_package_journals.journal_id = journals.id
+          WHERE journals.version > 1
+        SQL
+      end
+
+      context 'with the first of the remaining journals having a comment' do
+        before do
+          other_work_package.add_journal(initial_author, 'some other notes')
+          other_work_package.save!
+          work_package.add_journal(initial_author, 'some notes')
+          work_package.save!
+          work_package.subject = 'A new subject'
+          work_package.save!
+        end
+
+        it 'returns one journal per work package' do
+          expect(subject.count).to eql 2
+        end
+      end
+    end
+
+    context 'with an sql filtering for both projects' do
+      let(:sql) do
+        <<~SQL
+          SELECT journals.*
+          FROM journals
+          JOIN work_package_journals
+            ON work_package_journals.journal_id = journals.id
+            AND work_package_journals.project_id IN (#{project.id}, #{other_work_package.project_id})
+        SQL
+      end
+
+      it 'returns no journal' do
+        expect(subject.count).to eql 2
+        expect(subject.first).to be_equivalent_to_journal work_package.journals.first
+        expect(subject.last).to be_equivalent_to_journal other_work_package.journals.first
       end
     end
   end

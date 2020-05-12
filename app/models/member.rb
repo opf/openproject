@@ -27,9 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   extend DeprecatedAlias
-
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true
   has_many :roles, through: :member_roles

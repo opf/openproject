@@ -121,6 +121,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       const toState = transition.to();
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
+      this.cdRef.detectChanges();
     });
 
     // If the query was loaded, reload invisibly

@@ -29,7 +29,6 @@
 require 'active_job'
 
 class ApplicationJob < ::ActiveJob::Base
-
   ##
   # Return a priority number on the given payload
   def self.priority_number(prio = :default)
@@ -55,6 +54,14 @@ class ApplicationJob < ::ActiveJob::Base
 
   def self.inherited(child)
     child.prepend Setup
+  end
+
+  # Delayed jobs can have a status:
+  # Delayed::Job::Status
+  # which is related to the job via a reference which is an AR model instance.
+  # If no such reference is defined, there is no status stored in the db.
+  def status_reference
+    nil
   end
 
   module Setup

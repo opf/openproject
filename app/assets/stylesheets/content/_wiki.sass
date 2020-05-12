@@ -63,6 +63,11 @@ div.wiki
 
     td, th
       border: 1px solid #bbb
+      text-align: left
+
+      .task-list
+        margin-bottom: 0
+        margin-left: 5px
 
     th
       background: rgba(0, 0, 0, 0.05)
@@ -150,10 +155,9 @@ h1:hover, h2:hover, h3:hover
   @include styled-scroll-bar
 
 .wiki--content--attribute
-  .form--field-container
-    max-width: 100%
+  .form--field-container,
   .form--text-area-container
-    overflow: hidden
+    max-width: 100%
 
 #wiki_page_parent_id
   overflow: auto

@@ -158,7 +158,7 @@ feature 'Wiki menu items' do
 
     # removing the menu item which is also the last wiki menu item
     # removing the default wiki menu item programatically first
-    MenuItems::WikiMenuItem.where(name: "wiki").delete_all
+    MenuItems::WikiMenuItem.where(navigatable_id: project.wiki.id, name: "wiki").delete_all
     visit project_wiki_path(project, other_wiki_page)
 
     click_link 'More'

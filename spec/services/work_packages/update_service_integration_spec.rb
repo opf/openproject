@@ -1197,12 +1197,14 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
   #
   # Trying to set parent of C to B failed because parent relation is requested before change is saved.
   describe 'Changing parent to a new one that has the same parent as the current element (Regression #27746)' do
+    using_shared_fixtures :admin
+    let(:user) { admin }
+
     let(:project) { FactoryBot.create :project }
     let!(:wp_a) { FactoryBot.create :work_package }
     let!(:wp_b) { FactoryBot.create :work_package, parent: wp_a }
     let!(:wp_c) { FactoryBot.create :work_package, parent: wp_a }
 
-    let(:user) { FactoryBot.create :admin }
     let(:work_package) { wp_c }
 
     let(:attributes) { { parent: wp_b } }

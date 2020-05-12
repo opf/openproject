@@ -1,0 +1,32 @@
+FROM ruby:2.6-stretch
+MAINTAINER operations@openproject.com
+
+ENV USER=dev
+ENV RAILS_ENV=development
+
+ENV NODE_VERSION "10.15.0"
+ENV BUNDLER_VERSION "2.0.2"
+
+RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
+
+RUN useradd -d /home/$USER -m $USER
+WORKDIR /home/$USER
+
+RUN gem install bundler --version "${bundler_version}" --no-document
+
+RUN apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    postgresql-client \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY scripts/seeder bin/seeder
+COPY scripts/backend bin/backend
+COPY scripts/frontend bin/frontend
+
+EXPOSE 3000 4200
+
+VOLUME ["/usr/local/bundle", "/home/$USER/openproject"]
+
+WORKDIR /home/$USER/openproject
+
+ENTRYPOINT ["/bin/sh", "-c"]

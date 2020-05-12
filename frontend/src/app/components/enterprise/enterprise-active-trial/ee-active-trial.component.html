@@ -1,0 +1,49 @@
+<div class="enterprise--active-token">
+  <div class="attributes-group">
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key" [textContent]="text.label_subscriber"></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span [textContent]="subscriber"></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key" [textContent]="text.label_email"> </div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span [textContent]="email"></span>
+        </div>
+      </div>
+      <div *ngIf="company" class="attributes-key-value--key" [textContent]="text.label_company"></div>
+      <div *ngIf="company" class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span [textContent]="company"></span>
+        </div>
+      </div>
+      <div *ngIf="domain" class="attributes-key-value--key" [textContent]="text.label_domain"></div>
+      <div *ngIf="domain" class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span [textContent]="domain"></span>
+        </div>
+      </div>
+      <div *ngIf="userCount" class="attributes-key-value--key" [textContent]="text.label_maximum_users"> </div>
+      <div *ngIf="userCount" class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span [textContent]="userCount"></span>
+        </div>
+      </div>
+      <div *ngIf="startsAt" class="attributes-key-value--key" [textContent]="text.label_starts_at"> </div>
+      <div *ngIf="startsAt" class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span [textContent]="startsAt"></span>
+        </div>
+      </div>
+      <!-- only show if token expires -->
+      <div *ngIf="expiresAt" class="attributes-key-value--key" [textContent]="text.label_expires_at"></div>
+      <div *ngIf="expiresAt" class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span [textContent]="expiresAt"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -99,12 +99,8 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:comments_field) { ::EditField.new(page, 'comment') }
-  let(:activity_field) { ::EditField.new(page, 'activity') }
-  let(:hours_field) { ::EditField.new(page, 'hours') }
-  let(:spent_on_field) { ::EditField.new(page, 'spentOn') }
-  let(:wp_field) { ::EditField.new(page, 'workPackage') }
   let(:cf_field) { ::EditField.new(page, "customField#{custom_field.id}") }
+  let(:time_logging_modal) { ::Components::TimeLoggingModal.new }
 
   before do
     login_as user
@@ -170,30 +166,29 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       find(".fc-content-skeleton td:nth-of-type(5) .te-calendar--add-entry", visible: false).click
     end
 
-    expect(page)
-      .to have_content(I18n.t('js.time_entry.work_package_required'))
+    time_logging_modal.is_visible true
 
-    spent_on_field.expect_value((Date.today.beginning_of_week(:sunday) + 3.days).strftime)
+    time_logging_modal.work_package_is_missing true
+
+    time_logging_modal.has_field_with_value 'spentOn', (Date.today.beginning_of_week(:sunday) + 3.days).strftime
 
     expect(page)
       .not_to have_selector('.ng-spinner-loader')
 
-    wp_field.input_element.click
-    wp_field.set_value(other_work_package.subject)
+    time_logging_modal.update_work_package_field other_work_package.subject
 
-    expect(page)
-      .to have_no_content(I18n.t('js.time_entry.work_package_required'))
+    time_logging_modal.work_package_is_missing false
 
-    comments_field.set_value('Comment for new entry')
+    time_logging_modal.update_field 'comment', 'Comment for new entry'
 
-    activity_field.input_element.click
-    activity_field.set_value(activity.name)
+    time_logging_modal.update_field 'activity', activity.name
 
-    hours_field.set_value('4')
+    time_logging_modal.update_field 'hours', 4
 
     sleep(0.1)
 
-    click_button I18n.t('js.label_create')
+    time_logging_modal.perform_action 'Create'
+    time_logging_modal.is_visible false
 
     my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_create)
 
@@ -215,27 +210,22 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .te-calendar--time-entry").click
     end
 
-    expect(page)
-      .to have_content(I18n.t('js.time_entry.label'))
+    time_logging_modal.is_visible true
 
-    activity_field.input_element.click
-    activity_field.set_value(other_activity.name)
+    time_logging_modal.update_field 'activity', other_activity.name
 
-    wp_field.input_element.click
     # As the other_work_package now has time logged, it is now considered to be a
     # recent work package.
-    within('.ng-dropdown-header') do
-      click_link(I18n.t('js.label_recent'))
-    end
-    wp_field.set_value(other_work_package.subject)
+    time_logging_modal.update_work_package_field other_work_package.subject, true
 
-    hours_field.set_value('6')
+    time_logging_modal.update_field 'hours', 6
 
-    comments_field.set_value('Some comment')
+    time_logging_modal.update_field 'comment', 'Some comment'
 
     cf_field.set_value('Cf text value')
 
-    click_button 'Save'
+    time_logging_modal.perform_action 'Save'
+    time_logging_modal.is_visible false
 
     sleep(0.1)
     my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_update)
@@ -265,8 +255,11 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       find(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .te-calendar--time-entry").click
     end
 
-    click_button 'Delete'
+    time_logging_modal.is_visible true
+    time_logging_modal.perform_action 'Delete'
+
     page.driver.browser.switch_to.alert.accept
+    time_logging_modal.is_visible false
 
     within entries_area.area do
       expect(page)

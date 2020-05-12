@@ -73,9 +73,13 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   /* Do not close on outside click (because the select option are appended to the body */
   public closeOnOutsideClick = false;
 
+  public valuesAvailable:boolean = true;
+
+  public warningText:string|undefined;
+
   public text:any = {
     title: this.I18n.t('js.boards.add_list'),
-    button_continue: this.I18n.t('js.button_continue'),
+    button_add: this.I18n.t('js.button_add'),
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
 
@@ -117,6 +121,14 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .getAvailableValues(this.board, this.queries)
       .then(available => {
         this.availableValues = available;
+        if (this.availableValues.length === 0) {
+          this.actionService
+            .warningTextWhenNoOptionsAvailable()
+            .then((text) => {
+              this.warningText = text;
+              this.valuesAvailable = false;
+            });
+        }
       });
   }
 

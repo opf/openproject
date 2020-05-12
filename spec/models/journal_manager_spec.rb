@@ -160,41 +160,4 @@ describe JournalManager, type: :model do
       end
     end
   end
-
-  describe '.with_send_notifications' do
-    let!(:send_notification_before) { described_class.send_notification }
-    let(:proc_called_counter) { OpenStruct.new called: false, send_notifications: !send_notification_before }
-    let(:proc) { Proc.new { proc_called_counter.called = true } }
-
-    it 'executes the block' do
-      described_class.with_send_notifications !send_notification_before, &proc
-
-      expect(proc_called_counter.called)
-        .to be_truthy
-    end
-
-    it 'uses the provided send_notifications value within the proc' do
-      described_class.with_send_notifications !send_notification_before, &proc
-
-      expect(proc_called_counter.send_notifications)
-        .to eql !send_notification_before
-    end
-
-    it 'resets the send_notifications to the value before' do
-      described_class.with_send_notifications !send_notification_before, &proc
-
-      expect(described_class.send_notification)
-        .to eql send_notification_before
-    end
-
-    context 'with an exception being raised within the block' do
-      it 'raises the exception but always resets the notification value' do
-        expect { described_class.with_send_notifications(!send_notification_before) { raise ArgumentError } }
-          .to raise_error ArgumentError
-
-        expect(described_class.send_notification)
-          .to eql send_notification_before
-      end
-    end
-  end
 end

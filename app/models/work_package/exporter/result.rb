@@ -32,4 +32,8 @@ class WorkPackage::Exporter::Result
   def error?
     false
   end
+
+  def delayed?
+    false
+  end
 end

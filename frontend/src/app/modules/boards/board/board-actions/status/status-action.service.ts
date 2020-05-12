@@ -128,6 +128,10 @@ export class BoardStatusActionService implements BoardActionService {
     return undefined;
   }
 
+  public warningTextWhenNoOptionsAvailable() {
+    return Promise.resolve(this.I18n.t('js.boards.add_list_modal.warning.status'));
+  }
+
   private getStatuses():Promise<StatusResource[]> {
     return this.statusDm
       .list()

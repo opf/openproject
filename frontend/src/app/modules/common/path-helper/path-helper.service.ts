@@ -171,14 +171,6 @@ export class PathHelperService {
     }
   }
 
-  public timeEntryPath(timeEntryIdentifier:string) {
-    return this.staticBase + '/time_entries/' + timeEntryIdentifier;
-  }
-
-  public timeEntryEditPath(timeEntryIdentifier:string) {
-    return this.timeEntryPath(timeEntryIdentifier) + '/edit';
-  }
-
   public usersPath() {
     return this.staticBase + '/users';
   }

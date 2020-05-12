@@ -58,7 +58,7 @@ module Redmine::Acts::Journalized
         after_save :save_journals
         after_destroy :remove_journal_version
 
-        attr_accessor :journal_notes, :journal_user, :extra_journal_attributes
+        attr_accessor :journal_notes, :journal_user
       end
     end
 
@@ -69,31 +69,36 @@ module Redmine::Acts::Journalized
     end
 
     def save_journals
-      @journal_user ||= User.current
-      @journal_notes ||= ''
+      with_ensured_journal_attributes do
+        add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
 
-      add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
+        if add_journal
+          journal = JournalManager.add_journal!(self, @journal_user, @journal_notes)
 
-      if add_journal
-        journal = JournalManager.add_journal!(self, @journal_user, @journal_notes)
+          OpenProject::Notifications.send('journal_created',
+                                          journal: journal,
+                                          send_notification: Journal::NotificationConfiguration.active?)
 
-        OpenProject::Notifications.send('journal_created',
-                                        journal: journal,
-                                        send_notification: JournalManager.send_notification)
+          true
+        end
       end
-
-      # Need to clear the notification setting after each usage otherwise it might be cached
-      JournalManager.reset_notification
-
-      @journal_user = nil
-      @journal_notes = nil
-
-      true
     end
 
     def add_journal(user = User.current, notes = '')
       @journal_user ||= user
       @journal_notes ||= notes
+    end
+
+    private
+
+    def with_ensured_journal_attributes
+      @journal_user ||= User.current
+      @journal_notes ||= ''
+
+      yield
+    ensure
+      @journal_user = nil
+      @journal_notes = nil
     end
 
     module ClassMethods

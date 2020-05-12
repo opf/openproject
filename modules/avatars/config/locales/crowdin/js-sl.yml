@@ -1,0 +1,14 @@
+#English strings go here
+sl:
+  js:
+    label_preview: 'Predogled'
+    button_update: 'Posodobi'
+    avatars:
+      label_choose_avatar: "Izberi podobo iz datoteke"
+      uploading_avatar: "Naložite svoj avatar"
+      text_upload_instructions: |
+        Naložite podobo po meri velikosti 128x128 pixlov. Večje datoteke bodo zmanjšane in odrezane. Predpodoba bo prikazana pred končno naložitvijo, ko izberete sliko.
+      error_image_too_large: "Slika je prevelika."
+      wrong_file_format: "Dovoljeni formati so jpg, png, gif"
+      empty_file_error: "Prosimo naložite veljavno sliko (jpg, png, gif)"
+

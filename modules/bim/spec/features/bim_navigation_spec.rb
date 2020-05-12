@@ -28,7 +28,10 @@
 
 require_relative '../spec_helper'
 
-describe 'BIM navigation spec', type: :feature, js: true do
+describe 'BIM navigation spec',
+         type: :feature,
+         with_config: { edition: 'bim' },
+         js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }

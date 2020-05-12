@@ -165,9 +165,12 @@ module OpenProject
 
       # Log errors to sentry instance
       'sentry_dsn' => nil,
-      # Allow error reporting for frontend errors
-      'sentry_report_js' => false,
-      'sentry_host' => 'https://sentry.openproject.com'
+      # Allow separate error reporting for frontend errors
+      'sentry_frontend_dsn' => nil,
+      'sentry_host' => 'https://sentry.openproject.com',
+
+      # Allow connection to Augur
+      'enterprise_trial_creation_host' => 'https://augur.openproject.com'
     }
 
     @config = nil

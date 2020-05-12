@@ -27,7 +27,7 @@
 // ++
 
 import {
-  QueryResource, TimelineLabels,
+  TimelineLabels,
   TimelineZoomLevel
 } from 'core-app/modules/hal/resources/query-resource';
 

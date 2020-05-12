@@ -37,6 +37,8 @@
 # than creating new records (especially, work packages).
 #
 # Since test-prof added `let_it_be` this is only a wrapper for it
+# before_all / let_it_be fixture
+require 'test_prof/recipes/rspec/before_all'
 require 'test_prof/recipes/rspec/let_it_be'
 
 def shared_let(key, reload: true, refind: false, &block)

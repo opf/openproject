@@ -26,7 +26,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: t(:'attribute_help_texts.label_plural') %>
+<% name = 'WorkPackage' %>
+
+<%= toolbar title: t(:'attribute_help_texts.label_plural') do %>
+  <li class="toolbar-item">
+    <%= link_to new_attribute_help_text_path(name: name),
+                { class: 'attribute-help-texts--create-button button -alt-highlight',
+                  aria: {label: t(:'attribute_help_texts.add_new')},
+                  title: t(:'attribute_help_texts.add_new')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('activerecord.models.attribute_help_text') %></span>
+    <% end %>
+  </li>
+<% end %>
 
 <div class="notification-box -info">
   <div class="notification-box--content">
@@ -35,7 +47,6 @@ See docs/COPYRIGHT.rdoc for more details.
 </div>
 
 <% html_title(t(:label_administration), t(:'attribute_help_texts.label_plural')) -%>
-<% name = 'WorkPackage' %>
 
 <% entries = @texts_by_type[name] || [] %>
 <% if entries.any? %>
@@ -105,13 +116,3 @@ See docs/COPYRIGHT.rdoc for more details.
 <% else %>
   <%= no_results_box %>
 <% end %>
-
-<div class="generic-table--action-buttons">
-  <%= link_to new_attribute_help_text_path(name: name),
-              { class: 'attribute-help-texts--create-button button -alt-highlight',
-                aria: {label: t(:'attribute_help_texts.add_new')},
-                title: t(:'attribute_help_texts.add_new')} do %>
-    <%= op_icon('button--icon icon-add') %>
-    <span class="button--text"><%= t('activerecord.models.attribute_help_text') %></span>
-  <% end %>
-</div>

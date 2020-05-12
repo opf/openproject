@@ -9,8 +9,8 @@ release_date: 2020-02-20
 
 | Release notes                                                | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [OpenProject 10.4.0](#openproject-10-4-0)                    | What is new for OpenProject 10.4.0?                          |
-| [OpenProject 10.4 BIM Edition for construction project management](#openproject-10-4-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.4.0? |
+| [OpenProject 10.4.0](#openproject-1040)                      | What is new for OpenProject 10.4.0?                          |
+| [OpenProject 10.4 BIM Edition for construction project management](#openproject-104-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.4.0? |
 
 ## OpenProject 10.4.0
 

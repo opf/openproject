@@ -30,8 +30,10 @@ require 'spec_helper'
 
 describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
   include ::Components::NgSelectAutocompleteHelpers
+
+  using_shared_fixtures :admin
+  let(:user) { admin }
   let(:project) { FactoryBot.create :project }
-  let(:user) { FactoryBot.create :admin }
   let(:searchable) { true }
   let(:is_filter) { true }
 
@@ -75,6 +77,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     end
   end
 
+  let(:global_search) { ::Components::GlobalSearch.new }
+
   let(:query) { 'Subject' }
 
   let(:params) { [project, { q: query }] }
@@ -100,49 +104,66 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     let!(:other_work_package) { FactoryBot.create(:work_package, subject: 'Other work package', project: project) }
 
     it 'provides suggestions' do
-      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: query)
+      global_search.search(query, submit: false)
+
       # Suggestions shall show latest WPs first.
-      expect(suggestions).to have_text('No. 11 WP', wait: 10)
+      global_search.expect_work_package_option(work_packages[11])
       #  and show maximum 10 suggestions.
-      expect(suggestions).to_not have_text('No. 1 WP')
+      global_search.expect_work_package_option(work_packages[2])
+      global_search.expect_no_work_package_option(work_packages[1])
       # and unrelated work packages shall not get suggested
-      expect(suggestions).to_not have_text(other_work_package.subject)
+      global_search.expect_no_work_package_option(other_work_package)
 
       target_work_package = work_packages.last
 
-      # Expect redirection when WP is selected from results
-      select_autocomplete(page.find('.top-menu-search--input'),
-                          query: target_work_package.subject,
-                          select_text: "##{target_work_package.id}")
+      # If no direct match is available, the first option is marked
+      global_search.expect_in_project_and_subproject_scope_marked
 
-      sleep 1
+      # Expect redirection when WP is selected from results
+      global_search.search(target_work_package.subject, submit: false)
+
+      # Even though there is a work package named the same, we did not search by id
+      # and thus the work package is not selected.
+      global_search.expect_in_project_and_subproject_scope_marked
+
+      # But we can open it by clicking
+      global_search.click_work_package(target_work_package)
+
+      expect(page)
+        .to have_selector('.subject', text: target_work_package.subject)
 
       expect(current_path).to eql project_work_package_path(target_work_package.project, target_work_package, state: 'activity')
 
       first_wp = work_packages.first
 
       # Typing a work package id shall find that work package
-      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: first_wp.id.to_s)
-      expect(suggestions).to have_text('No. 1 WP', wait: 10)
+      global_search.search(first_wp.id.to_s, submit: false)
+
+      # And it shall be marked as the direct hit.
+      global_search.expect_work_package_marked(first_wp)
+
+      # And the direct hit is opened when enter is pressed
+      global_search.submit_with_enter
+
+      expect(page)
+        .to have_selector('.subject', text: first_wp.subject)
+
+      expect(current_path).to eql project_work_package_path(first_wp.project, first_wp, state: 'activity')
 
       # Typing a hash sign before an ID shall only suggest that work package and (no hits within the subject)
-      suggestions = search_autocomplete(page.find('.top-menu-search--input'),
-                                        query: "##{first_wp.id}")
-      expect(suggestions).to have_text("Subject", count: 1)
+      global_search.search("##{first_wp.id}", submit: false)
+
+      global_search.expect_work_package_marked(first_wp)
 
       # Expect to have 3 project scope selecting menu entries
-      expect(suggestions).to have_text('In this project ↵')
-      expect(suggestions).to have_text('In this project + subprojects ↵')
-      expect(suggestions).to have_text('In all projects ↵')
+      global_search.expect_scope('In this project ↵')
+      global_search.expect_scope('In this project + subprojects ↵')
+      global_search.expect_scope('In all projects ↵')
 
       # Selection project scope 'In all projects' redirects away from current project.
-      select_autocomplete(page.find('.top-menu-search--input'),
-                          query: query,
-                          select_text: "In all projects ↵")
+      global_search.submit_in_global_scope
       expect(current_path).to match(/\/search/)
-      expect(current_url).to match(/\/search\?q=#{query}&work_packages=1&scope=all$/)
+      expect(current_url).to match(/\/search\?q=#{"%23#{first_wp.id}"}&work_packages=1&scope=all$/)
     end
   end
 
@@ -197,7 +218,6 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       let(:filters) { ::Components::WorkPackages::Filters.new }
       let(:columns) { ::Components::WorkPackages::Columns.new }
       let(:top_menu) { ::Components::Projects::TopMenu.new }
-      let(:global_search) { ::Components::GlobalSearch.new }
 
       it 'shows a work package table with correct results' do
         # Search without subprojects
@@ -254,7 +274,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         expect(global_search.input.value).to eq query
 
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
-        global_search.search work_packages[6].subject, submit_with_enter: true
+        global_search.search work_packages[6].subject, submit: true
 
         expect(page).to have_text "Search for \"#{work_packages[6].subject}\" in #{project.name}"
 
@@ -268,7 +288,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
         # Expect that changing the search term without using the autocompleter will leave the project scope unchanged
         # at current_project.
-        global_search.search other_work_package.subject, submit_with_enter: true
+        global_search.search other_work_package.subject, submit: true
 
         expect(page).to have_text "Search for \"#{other_work_package.subject}\" in #{project.name}"
 
@@ -279,11 +299,11 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
         # Expect to find custom field values
         # ...for type: text
-        global_search.search custom_field_text_value, submit_with_enter: true
+        global_search.search custom_field_text_value, submit: true
         table.ensure_work_package_not_listed! work_packages[1]
         table.expect_work_package_subject(work_packages[0].subject)
         # ... for type: string
-        global_search.search custom_field_string_value, submit_with_enter: true
+        global_search.search custom_field_string_value, submit: true
         table.ensure_work_package_not_listed! work_packages[0]
         table.expect_work_package_subject(work_packages[1].subject)
 
@@ -361,7 +381,6 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     let(:wp_2) { FactoryBot.create :work_package, subject: "Foo # Bar", project: project }
     let(:wp_3) { FactoryBot.create :work_package, subject: "Foo &# Bar", project: project }
     let!(:work_packages) { [wp_1, wp_2, wp_3] }
-    let(:global_search) { ::Components::GlobalSearch.new }
     let(:table) { Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container')) }
 
     let(:run_visit) { false }
@@ -375,6 +394,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       # Bug in ng-select causes highlights to break up entities
       global_search.find_option "Foo &amp;&amp; Bar"
       global_search.find_option "Foo &amp;# Bar"
+      global_search.expect_global_scope_marked
       global_search.submit_in_global_scope
 
       table.ensure_work_package_not_listed! wp_2

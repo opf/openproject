@@ -4,7 +4,6 @@ import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routin
 import {debugLog} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
 import {KeepTabService} from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
-import {tdClassName} from '../../builders/cell-builder';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';

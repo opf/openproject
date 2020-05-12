@@ -74,12 +74,14 @@ ko:
   permission_send_meeting_agendas_notification: "의제에 대한 검토 알림 보내기"
   permission_create_meeting_minutes: "의사록 관리"
   permission_send_meeting_minutes_notification: "의사록에 대한 검토 알림 보내기"
+  permission_meetings_send_invite: "미팅에 사용자 초대"
+  permission_send_meeting_agendas_icalendar: "달력 항목으로 미팅 의제 보내기"
   project_module_meetings: "미팅"
   text_duration_in_hours: "기간(시간)"
   text_in_hours: " 시간"
   text_meeting_agenda_for_meeting: '미팅 "%{meeting}"에 대한 의제'
   text_meeting_closing_are_you_sure: "이 미팅을 닫으시겠습니까?"
-  text_meeting_agenda_open_are_you_sure: "의사록의 저장되지 않은 콘텐츠는 손실됩니다! 계속하시겠습니까?"
+  text_meeting_agenda_open_are_you_sure: "그러면 몇 분 내에 모든 변경 사항을 덮어씁니다. 계속하시겠습니까?"
   text_meeting_minutes_for_meeting: '미팅 "%{meeting}"에 대한 의사록'
   text_review_meeting_agenda: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
   text_review_meeting_minutes: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."

@@ -41,6 +41,15 @@ module OpenProject
         (self['attachments_storage'] || 'file').to_sym
       end
 
+      # Augur connect host
+      def enterprise_trial_creation_host
+        if Rails.env.production?
+          self['enterprise_trial_creation_host']
+        else
+          'https://augur.openproject-edge.com'
+        end
+      end
+
       def file_storage?
         attachments_storage == :file
       end
@@ -82,13 +91,6 @@ module OpenProject
       def bim?
         self['edition'] == 'bim'
       end
-
-      ##
-      # Whether we want to report to sentry
-      def frontend_sentry?
-        self['sentry_dsn'].present? && sentry_report_js?
-      end
-
 
       def available_file_uploaders
         uploaders = {

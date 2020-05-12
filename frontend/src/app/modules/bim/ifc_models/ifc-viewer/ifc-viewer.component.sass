@@ -1,0 +1,48 @@
+@import "helpers"
+
+.ifc-model-viewer
+  height: 100%
+
+  .notification-box
+    position: absolute
+    right: 10px
+
+.ifc-model-viewer--nav-cube-canvas
+  position: absolute
+  width: 200px
+  height: 200px
+  bottom: 0
+  right: 0
+  z-index: 10
+
+.ifc-model-viewer--section-planes-overview-canvas
+  position: absolute
+  width: 250px
+  height: 250px
+  top: 50px
+  right: 50px
+  z-index: 2000
+
+.ifc-model-viewer--container
+  position: relative
+  width: 100%
+  height: 100%
+  padding-bottom: 10px
+  overflow: hidden
+  min-width: 420px
+
+.ifc-model-viewer--model-canvas
+  width: 100%
+  height: 100%
+
+  &:focus
+    outline: none
+
+.ifc-model-viewer--focus-warning
+  @include without-link-styling
+  position: absolute
+  top: 6px
+  right: 395px
+
+.ifc-model-viewer--keyboard-disabled-icon
+  font-size: 20px

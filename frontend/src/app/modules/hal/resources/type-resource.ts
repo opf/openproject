@@ -27,7 +27,7 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {InputState, State} from 'reactivestates';
+import {InputState} from 'reactivestates';
 
 export class TypeResource extends HalResource {
   public color:string;

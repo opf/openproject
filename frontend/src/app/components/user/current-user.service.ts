@@ -46,6 +46,10 @@ export class CurrentUserService {
     return this.userMeta.data('mail');
   }
 
+  public get language() {
+    return I18n.locale || 'en';
+  }
+
   private get userMeta():JQuery {
     return jQuery('meta[name=current_user]');
   }

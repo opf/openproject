@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DesignColor < ActiveRecord::Base
+class DesignColor < ApplicationRecord
   after_commit -> do
     # CustomStyle.current.updated_at determins the cache key for inline_css
     # in which the CSS color variables will be overwritten. That is why we need

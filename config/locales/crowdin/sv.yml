@@ -63,13 +63,16 @@ sv:
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Uppgradera till Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
       replace_token: "Ersätta din nuvarande support-nyckel"
       order: "Beställ Enterprise Edition"
       paste: "Klistra in din Enterprise Edition support-nyckel"
       required_for_feature: "Denna funktion är endast tillgänglig med en aktiv Enterprise Edition support-nyckel."
       enterprise_link: "För mer information, klicka här."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Visa fram till
     is_active: visas för tillfället
@@ -104,10 +107,19 @@ sv:
         Ange bas-DN för underträdet i LDAP som du vill att OpenProject ska leta efter användare och grupper.
         OpenProject filtrerar endast angivna användarnamn i detta underträd.
         Exempel: ou=users,dc=exempel,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Om du kryssar i den här rutan kommer OpenProject automatiskt att skapa nya användare från sina LDAP-poster
         när de först autentiserar med OpenProject.
         Lämna detta avmarkerat för att endast tillåta befintliga konton i OpenProject att autentisera via LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Kryptering av anslutning'
     system_account: 'Systemkonto'
     system_account_legend: |
@@ -220,6 +232,9 @@ sv:
       no_results_title_text: Det finns för närvarande inget att rapportera.
       no_results_content_text: Lägg till nyhet
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Denna användare är för närvarande inte medlem i något projekt.
   prioritiies:
@@ -345,7 +360,7 @@ sv:
         attr_mail: "E-postattribut"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Skapa användarkonto i farten"
+        onthefly: "Automatic user creation"
         port: "Port"
       changeset:
         repository: "Versionsarkiv"
@@ -754,6 +769,7 @@ sv:
     version: "Version"
     work_package: "Arbetspaket"
   button_add: "Lägg till"
+  button_add_comment: "Lägg till kommentar"
   button_add_member: Lägg till medlem
   button_add_watcher: "Lägg till bevakare"
   button_annotate: "Kommentera"
@@ -1138,13 +1154,8 @@ sv:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Bli en hjälte!"
         title: "Uppgradera till Enterprise Edition"
-        description: "Vad är fördelarna?"
         more_info: "Mer information"
-        additional_features: "Ytterligare kraftfulla premium-funktioner"
-        professional_support: "Professionell support från OpenProject-experterna"
-        you_contribute: "Utvecklare har också räkningar att betala. Med Enterprise Edition bidrar du väsentligt till detta open source-projekt."
     links:
       upgrade_enterprise_edition: "Uppgradera till Enterprise Edition"
       postgres_migration: "Migrera din installation till PostgreSQL"
@@ -1156,9 +1167,10 @@ sv:
       forums: "Community forum"
       newsletter: "Säkerhetsnotifieringar / Nyhetsbrev"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Konfigurationsguide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Du kan logga in så snart ditt konto har aktiverats genom att klicka på %{signin}."
   instructions_after_logout: "Du kan logga in igen genom att klicka på %{signin}."
   instructions_after_error: "Du kan försöka logga in igen genom att klicka på %{signin}. Om felet kvarstår, be din systemadministratör om hjälp."
@@ -1315,6 +1327,7 @@ sv:
   label_duplicate: "dublett"
   label_duplicates: "dubblett av"
   label_edit: "Redigera"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Växla multival"
   label_enabled_project_custom_fields: 'Aktiverade anpassade fält'
   label_enabled_project_modules: 'Aktiverad Moduler'
@@ -1448,7 +1461,7 @@ sv:
   label_new: "Ny"
   label_new_features: "Nya funktioner"
   label_new_statuses_allowed: "Nya statusar tillåtna"
-  label_news: "Nyheter"
+  label_news_singular: "Nyheter"
   label_news_added: "Nyheter tillagda"
   label_news_comment_added: "Kommentar tillagd till en nyhet"
   label_news_latest: "Senaste nyheterna"
@@ -1708,31 +1721,6 @@ sv:
     other: "%{count} projekt"
   label_year: "År"
   label_yesterday: "igår"
-  label_keyboard_function: "Funktion"
-  label_keyboard_shortcut: "Genväg"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Tillgängliga kortkommandon"
-  label_keyboard_shortcut_within_project: "Projektspecifika genvägar:"
-  label_keyboard_shortcut_global_shortcuts: "Globala genvägar:"
-  label_keyboard_shortcut_some_pages_only: "Special genvägar:"
-  label_keyboard_shortcut_search_global: "Global sökning"
-  label_keyboard_shortcut_search_project: "Hitta ett projekt"
-  label_keyboard_shortcut_go_my_page: "Gå till min sida"
-  label_keyboard_shortcut_show_help: "Visa detta hjälpmeddelande"
-  label_keyboard_shortcut_go_overview: "Gå till projektöversikten"
-  label_keyboard_shortcut_go_work_package: "Gå till projektets arbetspaket"
-  label_keyboard_shortcut_go_wiki: "Gå till projektets wiki"
-  label_keyboard_shortcut_go_activity: "Gå till projektaktiviteter"
-  label_keyboard_shortcut_go_calendar: "Gå till projektkalendern"
-  label_keyboard_shortcut_go_news: "Gå till projektnyheter"
-  label_keyboard_shortcut_go_timelines: "Gå till tidslinjer"
-  label_keyboard_shortcut_new_work_package: "Skapa nya arbetspaket"
-  label_keyboard_shortcut_details_package: "Visa informationsfönstret för arbetspaket"
-  label_keyboard_shortcut_go_edit: "Gå till redigering av den aktuella artikeln (på detaljsidor endast)"
-  label_keyboard_shortcut_open_more_menu: "Öppna mer-menyn (på detaljsidor endast)"
-  label_keyboard_shortcut_go_preview: "Gå till förhandsgranskning av den aktuella redigeringen (på Redigera sidor endast)"
-  label_keyboard_shortcut_focus_previous_item: "Fokusera tidigare listelement (på vissa listor endast)"
-  label_keyboard_shortcut_focus_next_item: "Fokusera nästa listelement (på vissa listor endast)"
   auth_source:
     using_abstract_auth_source: "Kan inte använda en abstrakt autentiseringskälla."
     ldap_error: "LDAP-fel: %{error_message}"
@@ -2521,6 +2509,7 @@ sv:
       mail_self_notified: "Jag vill bli meddelad om ändringar som jag själv gör"
     status_user_and_brute_force: "%{user} och %{brute_force}"
     status_change: "Statusändring"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Lås upp"
     unlock_and_reset_failed_logins: "Lås upp och nollställ misslyckade inloggningsförsök"
   version_status_closed: "stängt"

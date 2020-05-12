@@ -13,10 +13,6 @@ module OpenProject::Bim::BcfXml
       User.current
     end
 
-    def work_packages
-      super.includes(journals: [:bcf_comment], bcf_issue: [:comments, { viewpoints: :attachments }])
-    end
-
     def list
       Dir.mktmpdir do |dir|
         files = create_bcf! dir
@@ -41,7 +37,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def success(zip)
-      WorkPackage::Exporter::Success
+      WorkPackage::Exporter::Result::Success
         .new format: :xls,
              content: zip,
              title: bcf_filename,

@@ -63,13 +63,16 @@ fil:
         main-menu-bg-color: "Kabilang kaliwa ang kulay ng pagpipiliang nakapalibot na kulay."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "I-upgrade sa Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "I-upload ang isang Enterprise Edition support token"
       replace_token: "Palitan ang iyong kasulukuyang support token"
       order: "Order Enterprise Edition"
       paste: "Idikit ang iyong Enterprise Editoon ng support token"
       required_for_feature: "Ang tampok na ito ay magagamit lamang sa isang aktibong support token ng Enterprise Edition."
       enterprise_link: "Para sa karagdagang impormasyon, pindutin dito."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Ipakita hanggang
     is_active: kasalukuyang naka-displey
@@ -104,10 +107,19 @@ fil:
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
         Example: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -220,6 +232,9 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga balita para ma-ireport.
       no_results_content_text: Magdagdag ng bagong news item
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Ang user na ito ay kasalukuyang hindi myembro ng proyekto.
   prioritiies:
@@ -346,7 +361,7 @@ fil:
         attr_mail: "Ang katangian ng Email"
         base_dn: "Ang Base DN"
         host: "Host"
-        onthefly: "On-the-fly paglilikha ng gumagamit"
+        onthefly: "Automatic user creation"
         port: "Port"
       changeset:
         repository: "Repositoryo"
@@ -755,6 +770,7 @@ fil:
     version: "Bersyon"
     work_package: "Work package"
   button_add: "Magdagdag"
+  button_add_comment: "Magdagdag ng komento"
   button_add_member: Magdagdag ng miyembro
   button_add_watcher: "Magdagdag ng manunuod"
   button_annotate: "Anotasyon"
@@ -1139,13 +1155,8 @@ fil:
     blocks:
       community: "Komunidad ng OpenProject"
       upsale:
-        become_hero: "Maging isang bayani!"
         title: "I-upgrade sa Enterprise Edition"
-        description: "What are the benefits?"
         more_info: "Karagdagang impornasyon"
-        additional_features: "Karagdagang tampok ng powerful premium"
-        professional_support: "Propesyonal na suporta mula sa OpenProject eksperto"
-        you_contribute: "Ang mga developer ay kailangan rin magbayad sa kanilang bayarin. Kasama ang Enterprise Edition maaring kang mag-mabag ng marami para sa pagsisikap ng Open-Source community."
     links:
       upgrade_enterprise_edition: "I-upgrade sa Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1157,9 +1168,10 @@ fil:
       forums: "Komunidad forum"
       newsletter: "Mga alertong seguridad/ Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Gabay ng kumpigurasyon'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Maari kang mag-sign in sa lalong madaling panahon bilang ang iyong akwant ay naka-aktibo sa pamamagitan ng pagpipindut%{signin}."
   instructions_after_logout: "Maari kang maka-sign in ulit sa pamamagitan ng pagpipindut %{signin}."
   instructions_after_error: "Maaring mong subukan muli sa pamamagitan ng pagpipindut %{signin}. kung ang mali ay nagpatuloy, magtanong sa namuno para sa tulong."
@@ -1316,6 +1328,7 @@ fil:
   label_duplicate: "gayahin"
   label_duplicates: "mga ginaya"
   label_edit: "I-edit"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Toggle multi select"
   label_enabled_project_custom_fields: 'Pinagana ang mga custom na patlang'
   label_enabled_project_modules: 'Pinagana ang mga modyul'
@@ -1449,7 +1462,7 @@ fil:
   label_new: "Bago"
   label_new_features: "New features"
   label_new_statuses_allowed: "Pinayagang bagong estado"
-  label_news: "Mga balita"
+  label_news_singular: "Mga balita"
   label_news_added: "Bagong idinagdag"
   label_news_comment_added: "Ang komento idinagdag sa mga balita"
   label_news_latest: "Pinakamabagong balita"
@@ -1709,31 +1722,6 @@ fil:
     other: "%{count} mga proyekto"
   label_year: "Taon"
   label_yesterday: "kahapon"
-  label_keyboard_function: "Gumana"
-  label_keyboard_shortcut: "Madalian"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Magagamit na mga keyboard shortcut"
-  label_keyboard_shortcut_within_project: "Proyektong kaugnau sa mga madalian:"
-  label_keyboard_shortcut_global_shortcuts: "Pandaigdigang mga shortcut:"
-  label_keyboard_shortcut_some_pages_only: "Espesyal na mga shortcut:"
-  label_keyboard_shortcut_search_global: "Pandaigdigang paghahanap"
-  label_keyboard_shortcut_search_project: "Humanap ng proyekto"
-  label_keyboard_shortcut_go_my_page: "Pumunta sa aking pahina"
-  label_keyboard_shortcut_show_help: "Ipakita ang itong mensaheng tulong"
-  label_keyboard_shortcut_go_overview: "Pumunta sa buod ng proyekto"
-  label_keyboard_shortcut_go_work_package: "Pumunta sa mga proyektong work package"
-  label_keyboard_shortcut_go_wiki: "Pumunta sa proyektong wiki"
-  label_keyboard_shortcut_go_activity: "Pumunta sa aktibidad ng wiki"
-  label_keyboard_shortcut_go_calendar: "Pumunya sa proyektong kalendaryo"
-  label_keyboard_shortcut_go_news: "Pumunta sa proyektong balita"
-  label_keyboard_shortcut_go_timelines: "Pumunta sa mga timenline"
-  label_keyboard_shortcut_new_work_package: "Lumikha ng bagong work package"
-  label_keyboard_shortcut_details_package: "Ipakita ang work package na detalyeng pane"
-  label_keyboard_shortcut_go_edit: "Pumunta sa i-edit kasulukuyang aytem (sa detalyeng proyekto lamang)"
-  label_keyboard_shortcut_open_more_menu: "Buksan ang more-menu (sa detalye ng pahina lamang)"
-  label_keyboard_shortcut_go_preview: "Pumunta sa prebyu ng kasulukuyang i-edit (sa mga edit pahina lamang)"
-  label_keyboard_shortcut_focus_previous_item: "Tumuon sa nakaraan listahan ng elemento (sa ilang listahan lamang)"
-  label_keyboard_shortcut_focus_next_item: "Tumuoj sa susunod na listahang elemento (sa ilang listahan lamang)"
   auth_source:
     using_abstract_auth_source: "Hindi magamit ang isang abstrak na pagpapatunay ng pinagmulan."
     ldap_error: "LDAP-Error: %{error_message}"
@@ -2522,6 +2510,7 @@ fil:
       mail_self_notified: "Gusto kong mapa-alam sa mga pagbabago na ginagawa ko sa aking sarili"
     status_user_and_brute_force: "%{user} at %{brute_force}"
     status_change: "Pagbabago ng estado"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "I-unlock"
     unlock_and_reset_failed_logins: "I-unlock at i-reset ang mga nabigong paglog-im"
   version_status_closed: "isinara"

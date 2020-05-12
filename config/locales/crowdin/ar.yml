@@ -63,13 +63,16 @@ ar:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Replace your current support token"
       order: "Order Enterprise Edition"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "For more information, click here."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: أظهِر حتّى
     is_active: معروض حاليًا
@@ -104,10 +107,19 @@ ar:
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
         Example: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -220,6 +232,9 @@ ar:
       no_results_title_text: لا يوجد حالياً أخبار لتقدم.
       no_results_content_text: أضف عنصر أخبار
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
   prioritiies:
@@ -350,7 +365,7 @@ ar:
         attr_mail: "سمة البريد الإلكتروني"
         base_dn: "قاعدة DN"
         host: "المضيف"
-        onthefly: "إنشاء مستخدم On-the-fly"
+        onthefly: "Automatic user creation"
         port: "منفذ"
       changeset:
         repository: "مستودع البيانات"
@@ -645,12 +660,12 @@ ar:
               numeric: "رقمية (على سبيل المثال، '1')"
               special: "خاصة (مثل '%')"
               reused:
-                zero: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
+                zero: "has been used before. Please choose one that is different from your last %{count}."
                 one: "has been used before. Please choose one that is different from your last one."
-                two: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
-                few: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
-                many: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
-                other: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
+                two: "has been used before. Please choose one that is different from your last %{count}."
+                few: "has been used before. Please choose one that is different from your last %{count}."
+                many: "has been used before. Please choose one that is different from your last %{count}."
+                other: "has been used before. Please choose one that is different from your last %{count}."
               match:
                 confirm: "تأكيد كلمة المرور الجديدة."
                 description: "'تأكيد كلمة المرور' يجب أن يطابق الإدخال في حقل 'كلمة المرور الجديدة'."
@@ -671,12 +686,12 @@ ar:
       template:
         body: "من فضلك تحقّقْ من الحقول التالية:"
         header:
-          zero: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
+          zero: "%{count} errors prohibited this %{model} from being saved"
           one: "1 error prohibited this %{model} from being saved"
-          two: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
-          few: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
-          many: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
-          other: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
+          two: "%{count} errors prohibited this %{model} from being saved"
+          few: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: "ملف"
       attribute_help_text: "Attribute help text"
@@ -771,6 +786,7 @@ ar:
     version: "الإصدار"
     work_package: "مجموعة العمل"
   button_add: "أَضِفْ"
+  button_add_comment: "أضِف تعليقًا"
   button_add_member: أضف عضو
   button_add_watcher: "إضافة مراقب"
   button_annotate: "كتابة تعليق"
@@ -927,41 +943,41 @@ ar:
         many: "حوالي %{count} ساعات"
         other: "حوالي %{count} ساعات"
       about_x_months:
-        zero: "حوالي %{count} ساعات"
+        zero: "about %{count} months"
         one: "about 1 month"
-        two: "حوالي %{count} ساعات"
-        few: "حوالي %{count} ساعات"
-        many: "حوالي %{count} ساعات"
-        other: "حوالي %{count} ساعات"
+        two: "about %{count} months"
+        few: "about %{count} months"
+        many: "about %{count} months"
+        other: "about %{count} months"
       about_x_years:
-        zero: "حوالي %{count} سنوات"
+        zero: "about %{count} years"
         one: "about 1 year"
-        two: "حوالي %{count} سنوات"
-        few: "حوالي %{count} سنوات"
-        many: "حوالي %{count} سنوات"
-        other: "حوالي %{count} سنوات"
+        two: "about %{count} years"
+        few: "about %{count} years"
+        many: "about %{count} years"
+        other: "about %{count} years"
       almost_x_years:
-        zero: "تقريبا %{count} سنوات"
+        zero: "almost %{count} years"
         one: "almost 1 year"
-        two: "تقريبا %{count} سنوات"
-        few: "تقريبا %{count} سنوات"
-        many: "تقريبا %{count} سنوات"
-        other: "تقريبا %{count} سنوات"
+        two: "almost %{count} years"
+        few: "almost %{count} years"
+        many: "almost %{count} years"
+        other: "almost %{count} years"
       half_a_minute: "نصف دقيقة"
       less_than_x_minutes:
-        zero: "أقل من %{count} دقائق"
+        zero: "less than %{count} minutes"
         one: "less than a minute"
-        two: "أقل من %{count} دقائق"
-        few: "أقل من %{count} دقائق"
-        many: "أقل من %{count} دقائق"
-        other: "أقل من %{count} دقائق"
+        two: "less than %{count} minutes"
+        few: "less than %{count} minutes"
+        many: "less than %{count} minutes"
+        other: "less than %{count} minutes"
       less_than_x_seconds:
-        zero: "أقل من %{count} ثواني"
+        zero: "less than %{count} seconds"
         one: "less than 1 second"
-        two: "أقل من %{count} ثواني"
-        few: "أقل من %{count} ثواني"
-        many: "أقل من %{count} ثواني"
-        other: "أقل من %{count} ثواني"
+        two: "less than %{count} seconds"
+        few: "less than %{count} seconds"
+        many: "less than %{count} seconds"
+        other: "less than %{count} seconds"
       over_x_years:
         zero: "على مدى %{count} سنوات"
         one: "على مدى %{count} سنوات"
@@ -977,19 +993,19 @@ ar:
         many: "%{count} يوم"
         other: "%{count} يوم"
       x_minutes:
-        zero: "دقائق %{count}"
+        zero: "%{count} minutes"
         one: "1 minute"
-        two: "دقائق %{count}"
-        few: "دقائق %{count}"
-        many: "دقائق %{count}"
-        other: "دقائق %{count}"
+        two: "%{count} minutes"
+        few: "%{count} minutes"
+        many: "%{count} minutes"
+        other: "%{count} minutes"
       x_months:
-        zero: "%{count} ساعه"
+        zero: "%{count} months"
         one: "1 month"
-        two: "%{count} ساعه"
-        few: "%{count} ساعه"
-        many: "%{count} ساعه"
-        other: "%{count} ساعه"
+        two: "%{count} months"
+        few: "%{count} months"
+        many: "%{count} months"
+        other: "%{count} months"
       x_seconds:
         zero: "%{count} ثانية"
         one: "1 ثانية\n\n%{count} ثانية"
@@ -1203,13 +1219,8 @@ ar:
     blocks:
       community: "مجتمع أوبِن بروجِكت"
       upsale:
-        become_hero: "Become a hero!"
         title: "Upgrade to Enterprise Edition"
-        description: "What are the benefits?"
         more_info: "More information"
-        additional_features: "Additional powerful premium features"
-        professional_support: "Professional support from the OpenProject experts"
-        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1221,9 +1232,10 @@ ar:
       forums: "منتدى المجتمع"
       newsletter: "Security alerts / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Configuration guide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "يمكنك تسجيل الدخول بمجرد أن تم تنشيط الحساب الخاص بك عن طريق النقر فوق %{signin}."
   instructions_after_logout: "يمكنك تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}."
   instructions_after_error: "يمكنك محاولة تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}. إذا استمر الخطأ، اسأل المسؤول الخاص بك للحصول على تعليمات."
@@ -1380,6 +1392,7 @@ ar:
   label_duplicate: "مكرر"
   label_duplicates: "التكرارات"
   label_edit: "تعديل"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "تبديل متعدد الخيارات"
   label_enabled_project_custom_fields: 'تمكين الحقول المخصصة'
   label_enabled_project_modules: 'تمكين الأنماط'
@@ -1513,7 +1526,7 @@ ar:
   label_new: "جديد"
   label_new_features: "New features"
   label_new_statuses_allowed: "الحالات الجديدة المسموح بها"
-  label_news: "الأخبار"
+  label_news_singular: "الأخبار"
   label_news_added: "تم إضافة أحداث"
   label_news_comment_added: "تم إضافة تعليق إلى أحداث"
   label_news_latest: "آخر الأحداث"
@@ -1765,55 +1778,30 @@ ar:
     other: "%{count} مغلق"
   label_x_comments:
     zero: "no comments"
-    zero: "%{count} تعليقات"
+    zero: "%{count} comments"
     one: "1 comment"
-    two: "%{count} تعليقات"
-    few: "%{count} تعليقات"
-    many: "%{count} تعليقات"
-    other: "%{count} تعليقات"
+    two: "%{count} comments"
+    few: "%{count} comments"
+    many: "%{count} comments"
+    other: "%{count} comments"
   label_x_open_work_packages_abbr:
     zero: "0 open"
-    zero: "%{count} مفتوح"
+    zero: "%{count} open"
     one: "1 open"
-    two: "%{count} مفتوح"
-    few: "%{count} مفتوح"
-    many: "%{count} مفتوح"
-    other: "%{count} مفتوح"
+    two: "%{count} open"
+    few: "%{count} open"
+    many: "%{count} open"
+    other: "%{count} open"
   label_x_projects:
     zero: "no projects"
-    zero: "%{count} مشاريع"
+    zero: "%{count} projects"
     one: "1 project"
-    two: "%{count} مشاريع"
-    few: "%{count} مشاريع"
-    many: "%{count} مشاريع"
-    other: "%{count} مشاريع"
+    two: "%{count} projects"
+    few: "%{count} projects"
+    many: "%{count} projects"
+    other: "%{count} projects"
   label_year: "السنة"
   label_yesterday: "الأمس"
-  label_keyboard_function: "دالة"
-  label_keyboard_shortcut: "إختصار"
-  label_keyboard_accesskey: "مفتاح الوصول"
-  label_keyboard_shortcut_help_heading: "اختصارات لوحة المفاتيح المتوفرة"
-  label_keyboard_shortcut_within_project: "الاختصارات المتعلقة بالمشروع:"
-  label_keyboard_shortcut_global_shortcuts: "الاختصارات العالمية:"
-  label_keyboard_shortcut_some_pages_only: "الاختصارات الخاصة:"
-  label_keyboard_shortcut_search_global: "البحث العالمي"
-  label_keyboard_shortcut_search_project: "البحث عن مشروع"
-  label_keyboard_shortcut_go_my_page: "انتقل إلى الصفحة الخاصة بي"
-  label_keyboard_shortcut_show_help: "إظهار رسالة المساعدة هذه"
-  label_keyboard_shortcut_go_overview: "الذهاب إلى نظرة عامة على المشروع"
-  label_keyboard_shortcut_go_work_package: "انتقل إلى المشروع مجموعات العمل"
-  label_keyboard_shortcut_go_wiki: "انتقل إلى مشروع wiki"
-  label_keyboard_shortcut_go_activity: "انتقل إلى أنشطة المشروع"
-  label_keyboard_shortcut_go_calendar: "انتقل إلى تقويم المشروع"
-  label_keyboard_shortcut_go_news: "انتقل إلى أخبار المشروع"
-  label_keyboard_shortcut_go_timelines: "اذهب إلى الجداول الزمنية"
-  label_keyboard_shortcut_new_work_package: "إنشاء حزمة جديدة"
-  label_keyboard_shortcut_details_package: "اظهار جزء التفاصيل في مجموعات العمل"
-  label_keyboard_shortcut_go_edit: "انتقل إلى تحرير العنصر الحالي (في الصفحات من التفصيل فقط)"
-  label_keyboard_shortcut_open_more_menu: "فتح قائمة أكثر (على صفحات التفاصيل فقط)"
-  label_keyboard_shortcut_go_preview: "الذهاب لمعاينة التحرير الحالي(بشأن تحرير صفحات فقط)"
-  label_keyboard_shortcut_focus_previous_item: "التركيز عنصر القائمة السابقة (في بعض القوائم فقط)"
-  label_keyboard_shortcut_focus_next_item: "التركيز عنصر القائمة التالي (في بعض القوائم فقط)"
   auth_source:
     using_abstract_auth_source: "لا يمكن استخدام مصدر مصادقة الملخص."
     ldap_error: "خطأ LDAP: %{error_message}"
@@ -1944,12 +1932,12 @@ ar:
         format: "%n %u"
         units:
           byte:
-            zero: "بايت"
+            zero: "Bytes"
             one: "Byte"
-            two: "بايت"
-            few: "بايت"
-            many: "بايت"
-            other: "بايت"
+            two: "Bytes"
+            few: "Bytes"
+            many: "Bytes"
+            other: "Bytes"
           gb: "غيغا بايت"
           kb: "كيلو بايت"
           mb: "ميغا بايت"
@@ -2614,6 +2602,7 @@ ar:
       mail_self_notified: "أريد إعلامك بالتغييرات التي فعلتها"
     status_user_and_brute_force: "%{user} و %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "فتح القفل"
     unlock_and_reset_failed_logins: "فتح وإعادة تعيين تسجيلات الدخول الفاشلة"
   version_status_closed: "مغلق"

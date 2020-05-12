@@ -31,7 +31,7 @@
 ##
 # A custom option is a possible value for a given custom field
 # which is restricted to a set of specific values.
-class CustomOption < ActiveRecord::Base
+class CustomOption < ApplicationRecord
   acts_as_list
 
   belongs_to :custom_field, touch: true

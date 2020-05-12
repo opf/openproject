@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Query < ActiveRecord::Base
+class Query < ApplicationRecord
   include Timelines
   include Highlighting
   include ManualSorting

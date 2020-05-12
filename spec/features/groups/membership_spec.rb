@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 feature 'group memberships through project members page', type: :feature do
+  using_shared_fixtures :admin
   let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin) { FactoryBot.create :admin }
   let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Wonderland' }
   let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
   let(:group) { FactoryBot.create :group, lastname: 'group1' }
@@ -47,10 +47,9 @@ feature 'group memberships through project members page', type: :feature do
   end
 
   context 'given a group with members' do
+    let!(:group) { FactoryBot.create :group, lastname: 'group1', members: alice }
     before do
       allow(User).to receive(:current).and_return bob
-
-      group.add_member! alice
     end
 
     scenario 'adding group1 as a member with the beta role', js: true do

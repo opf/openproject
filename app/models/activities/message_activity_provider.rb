@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,47 +29,47 @@
 #++
 
 class Activities::MessageActivityProvider < Activities::BaseActivityProvider
-  acts_as_activity_provider type: 'messages',
-                            permission: :view_messages
+  activity_provider_for type: 'messages',
+                        permission: :view_messages
 
-  def extend_event_query(query, activity)
-    query.join(forums_table).on(activity_journals_table(activity)[:forum_id].eq(forums_table[:id]))
+  def extend_event_query(query)
+    query.join(forums_table).on(activity_journals_table[:forum_id].eq(forums_table[:id]))
   end
 
-  def event_query_projection(activity)
+  def event_query_projection
     [
-      activity_journal_projection_statement(:subject, 'message_subject', activity),
-      activity_journal_projection_statement(:content, 'message_content', activity),
-      activity_journal_projection_statement(:parent_id, 'message_parent_id', activity),
+      activity_journal_projection_statement(:subject, 'message_subject'),
+      activity_journal_projection_statement(:content, 'message_content'),
+      activity_journal_projection_statement(:parent_id, 'message_parent_id'),
       projection_statement(forums_table, :id, 'forum_id'),
       projection_statement(forums_table, :name, 'forum_name'),
       projection_statement(forums_table, :project_id, 'project_id')
     ]
   end
 
-  def projects_reference_table(_activity)
+  def projects_reference_table
     forums_table
   end
 
   protected
 
-  def event_title(event, _activity)
+  def event_title(event)
     "#{event['forum_name']}: #{event['message_subject']}"
   end
 
-  def event_description(event, _activity)
+  def event_description(event)
     event['message_content']
   end
 
-  def event_type(event, _activity)
+  def event_type(event)
     event['parent_id'].blank? ? 'message' : 'reply'
   end
 
-  def event_path(event, _activity)
+  def event_path(event)
     url_helpers.topic_path(*url_helper_parameter(event))
   end
 
-  def event_url(event, _activity)
+  def event_url(event)
     url_helpers.topic_url(*url_helper_parameter(event))
   end
 

@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService} from '@uirouter/core';
 import {Injectable, Injector} from '@angular/core';
 import {INotification} from 'core-app/modules/common/notifications/notifications.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";

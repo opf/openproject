@@ -28,14 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   extend Pagination::Model
   extend FriendlyId
 
   include Projects::Copy
   include Projects::Storage
   include Projects::Activity
-  include Scopes::Scoped
+  include ::Scopes::Scoped
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
@@ -250,9 +250,11 @@ class Project < ActiveRecord::Base
   #   project.project_condition(true)  => "(projects.id = 1 OR (projects.lft > 1 AND projects.rgt < 10))"
   #   project.project_condition(false) => "projects.id = 1"
   def project_condition(with_subprojects)
-    cond = "#{Project.table_name}.id = #{id}"
-    cond = "(#{cond} OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt}))" if with_subprojects
-    cond
+    projects_table = Project.arel_table
+
+    stmt = projects_table[:id].eq(id)
+    stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt))) if with_subprojects
+    stmt
   end
 
   def types_used_by_work_packages

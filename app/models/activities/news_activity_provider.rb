@@ -28,34 +28,31 @@
 #++
 
 class Activities::NewsActivityProvider < Activities::BaseActivityProvider
-  acts_as_activity_provider type: 'news',
-                            permission: :view_news
+  activity_provider_for type: 'news',
+                        permission: :view_news
 
-  def extend_event_query(_query, _activity)
-  end
-
-  def event_query_projection(activity)
+  def event_query_projection
     [
-      activity_journal_projection_statement(:title, 'title', activity),
-      activity_journal_projection_statement(:project_id, 'project_id', activity)
+      activity_journal_projection_statement(:title, 'title'),
+      activity_journal_projection_statement(:project_id, 'project_id')
     ]
   end
 
   protected
 
-  def event_title(event, _activity)
+  def event_title(event)
     event['title']
   end
 
-  def event_type(_event, _activity)
+  def event_type(_event)
     'news'
   end
 
-  def event_path(event, _activity)
+  def event_path(event)
     url_helpers.news_path(url_helper_parameter(event))
   end
 
-  def event_url(event, _activity)
+  def event_url(event)
     url_helpers.news_url(url_helper_parameter(event))
   end
 

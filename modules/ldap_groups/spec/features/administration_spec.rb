@@ -22,28 +22,28 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
       expect(page).to have_no_selector('.upsale-notification')
 
       # Create group
-      find('.button.-alt-highlight', text: I18n.t('ldap_groups.synchronized_groups.singular')).click
+      find('.button', text: I18n.t('ldap_groups.synchronized_groups.singular')).click
 
       select 'ldap', from: 'synchronized_group_auth_source_id'
       select 'foo', from: 'synchronized_group_group_id'
-      fill_in 'synchronized_group_entry', with: 'attr'
+      fill_in 'synchronized_group_dn', with: 'cn=foo,ou=groups,dc=example,dc=com'
 
       click_on 'Create'
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_create))
-      expect(page).to have_selector('td.entry', text: 'attr')
+      expect(page).to have_selector('td.dn', text: 'cn=foo,ou=groups,dc=example,dc=com')
       expect(page).to have_selector('td.auth_source', text: 'ldap')
       expect(page).to have_selector('td.group', text: 'foo')
       expect(page).to have_selector('td.users', text: '0')
 
       # Show entry
-      find('td.entry a').click
+      find('td.dn a').click
       expect(page).to have_selector '.generic-table--empty-row'
 
       # Check created group
       sync = ::LdapGroups::SynchronizedGroup.last
       expect(sync.group_id).to eq(group.id)
       expect(sync.auth_source_id).to eq(auth_source.id)
-      expect(sync.entry).to eq 'attr'
+      expect(sync.dn).to eq 'cn=foo,ou=groups,dc=example,dc=com'
 
       # Assume we have a membership
       sync.users.create user_id: admin.id
@@ -56,7 +56,7 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
       expect_angular_frontend_initialized
 
       find('.buttons a', text: 'Delete').click
-      find('.danger-zone--verification input').set 'attr'
+      find('.danger-zone--verification input').set 'cn=foo,ou=groups,dc=example,dc=com'
 
       sleep 2
       click_on 'Delete'

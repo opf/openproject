@@ -2,18 +2,34 @@ ko:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        entry: '항목 식별자'
+        dn: 'DN'
         auth_source: 'LDAP 연결'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP filter'
+        auth_source: 'LDAP 연결'
+        group_name_attribute: "Group name attribute"
     models:
       ldap_groups/synchronized_group: '동기화된 LDAP 그룹'
+      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
   ldap_groups:
     label_menu_item: 'LDAP 그룹 동기화'
     label_group_key: 'LDAP 그룹 필터 키'
+    label_synchronize: 'Synchronize'
     settings:
-      group_key: 'LDAP 그룹 특성'
-      group_key_text: '그룹을 식별하는 데 사용되는 LDAP 특성 이름입니다.'
-      group_base: 'LDAP 그룹 기반'
-      group_base_text: '그룹 항목 검색에 사용되는 LDAP 그룹 기반입니다.'
+      name_attribute: 'LDAP groups name attribute'
+      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+    synchronized_filters:
+      add_new: 'Add synchronized LDAP filter'
+      singular: 'LDAP Group synchronization filter'
+      plural: 'LDAP Group synchronization filters'
+      destroy:
+        title: 'Remove synchronized filter %{name}'
+        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
+        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
+        verification: "Enter the filter name %{name} to verify the deletion."
+      form:
+        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
+        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
     synchronized_groups:
       add_new: '동기화된 LDAP 그룹 추가'
       destroy:
@@ -32,7 +48,7 @@ ko:
       plural: '동기화된 LDAP 그룹'
       singular: '동기화된 LDAP 그룹'
       form:
-        auth_source_text: '사용되는 LDAP 인증 모드를 사용하십시오.'
-        entry_text: 'LDAP 그룹 식별자를 정의하십시오.'
+        auth_source_text: 'Select which LDAP connection should be used.'
+        dn_text: 'Enter the full DN of the group in LDAP'
         group_text: 'LDAP 그룹의 멤버가 동기화되는 기존 OpenProject 그룹 선택'
 

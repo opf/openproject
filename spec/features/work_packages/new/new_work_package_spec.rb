@@ -13,7 +13,13 @@ describe 'new work package', js: true do
     FactoryBot.create(:project, types: types)
   end
 
-  let(:user) { FactoryBot.create :admin }
+  let(:permissions) { [:view_work_packages, :add_work_packages, :edit_work_packages] }
+  let(:user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: permissions)
+  end
+
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   let(:subject) { 'My subject' }
@@ -22,6 +28,7 @@ describe 'new work package', js: true do
   let(:subject_field) { wp_page.edit_field :subject }
   let(:description_field) { wp_page.edit_field :description }
   let(:project_field) { wp_page.edit_field :project }
+  let(:assignee_field) { wp_page.edit_field :assignee }
   let(:type_field) { wp_page.edit_field :type }
   let(:notification) { PageObjects::Notifications.new(page) }
 
@@ -59,6 +66,12 @@ describe 'new work package', js: true do
 
     project_field.openSelectField
     project_field.set_value project
+
+    sleep 1
+
+    # Select self as assignee
+    assignee_field.openSelectField
+    assignee_field.set_value user.name
 
     sleep 1
   end
@@ -289,6 +302,19 @@ describe 'new work package', js: true do
       project_field.set_value project.name
 
       click_on 'Cancel'
+    end
+
+    it 'can save the work package with an assignee (Regression #32887)' do
+      create_work_package_globally(type_task, project.name)
+      expect(page).to have_selector(safeguard_selector, wait: 10)
+
+      wp_page.subject_field.set('new work package')
+      save_work_package!
+      wp_page.dismiss_notification!
+
+      assignee_field.expect_state_text user.name
+      wp = WorkPackage.last
+      expect(wp.assigned_to).to eq user
     end
 
     context 'with a project without type_bug' do

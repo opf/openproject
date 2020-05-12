@@ -27,6 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require Rails.root.join('config/constants/open_project/activity')
+
 module Redmine #:nodoc:
   class PluginError < StandardError
     attr_reader :plugin_id
@@ -350,7 +352,6 @@ module Redmine #:nodoc:
     #
     # Retrieving events:
     # Associated model(s) must implement the find_events class method.
-    # ActiveRecord models can use acts_as_activity_provider as a way to implement this class method.
     #
     # The following call should return all the scrum events visible by current user that occurred in the 5 last days:
     #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today)
@@ -358,7 +359,8 @@ module Redmine #:nodoc:
     #
     # Note that :view_scrums permission is required to view these events in the activity view.
     def activity_provider(*args)
-      Redmine::Activity.register(*args)
+      ActiveSupport::Deprecation.warn('Use ActsAsOpEngine#activity_provider instead.')
+      OpenProject::Activity.register(*args)
     end
 
     # Registers a wiki formatter.

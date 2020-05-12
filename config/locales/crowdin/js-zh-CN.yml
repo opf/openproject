@@ -37,6 +37,7 @@ zh-CN:
     close_filter_title: "关闭过滤器"
     close_form_title: "关闭表单"
     button_add_watcher: "添加关注者"
+    button_add: "添加"
     button_back: "返回"
     button_back_to_list_view: "返回列表视图"
     button_cancel: "取消"
@@ -163,6 +164,59 @@ zh-CN:
         edit_query: '编辑查询'
         new_group: '新的组'
         reset_to_defaults: '重置为默认值'
+      enterprise:
+        trial:
+          confirmation: "确认电子邮件地址"
+          confirmation_info: "我们向您发送了一封电子邮件。请查看您的电子邮件并点击提供的确认链接以开始 14 天的试用。"
+          form:
+            general_consent: >
+              我同意<a target="_blank" href="%{link_terms}">服务条款</a>和<a target="_blank" href="%{link_privacy}">隐私政策</a>。
+            invalid_email: "电子邮件地址无效"
+            label_company: "公司"
+            label_first_name: "名字"
+            label_last_name: "姓氏"
+            label_email: "电子邮件"
+            label_domain: "域"
+            label_subscriber: "订阅者"
+            label_maximum_users: "最大活动用户数"
+            label_starts_at: "开始时间："
+            label_expires_at: "到期时间"
+            receive_newsletter: 我想要接收 OpenProject <a target="_blank" href="%{link}">简报</a>。
+            taken_domain: 每个域名只能有一个活跃的试用。
+            taken_email: 每个用户只能创建一个试用。
+          email_not_received: "没有收到电子邮件？您可以使用右侧的链接重新发送电子邮件。"
+          try_another_email: "或者尝试使用另一个电子邮件地址。"
+          next_steps: "后续步骤"
+          resend_link: "重新发送"
+          resend_success: "已重新发送电子邮件。请查看您的电子邮件并点击提供的确认链接。"
+          resend_warning: "无法重新发送电子邮件。"
+          session_timeout: "您的会话超时。请尝试重新加载该页面或重新发送电子邮件。"
+          status_label: "状态："
+          status_confirmed: "已确认"
+          status_waiting: "电子邮件已发送 - 等待确认"
+          test_ee: "免费测试企业版 14 天"
+          quick_overview: "快速了解 OpenProject 企业版的项目管理和团队协作。"
+        upsale:
+          become_hero: "成为英雄！"
+          benefits:
+            description: "有什么好处？"
+            high_security: "安全功能"
+            high_security_text: "单点登录（SAML、OpenID Connect、CAS）、双重身份验证和 LDAP 组自动同步。"
+            installation: "安装支持"
+            installation_text: "经验丰富的软件工程师将指导您在自己的基础结构中完成整个安装和设置过程。"
+            premium_features: "高级功能"
+            premium_features_text: "敏捷面板，自定义主题和徽标，图表，包含自定义操作的智能工作流，全文搜索工作包附件和多选自定义字段。"
+            professional_support: "专业支持"
+            professional_support_text: "从高级支持工程师那里获得可靠的个性化支持，这些工程师拥有在业务关键型环境中运行 OpenProject 的专业知识。"
+          button_start_trial: "开始免费试用"
+          button_book_now: "立即预订"
+          confidence: >
+            我们秉承开源和开放心态，有信心提供经得起考验和充分支持的企业级项目管理软件。
+          link_quote: "获取报价"
+          text: >
+            OpenProject 企业版以社区版为基础。它包括高级功能和专业支持，主要面向拥有 10 个以上用户并使用 OpenProject 管理业务关键型项目的组织。
+          unlimited: "不受限制"
+          you_contribute: "开发者也需要支付账单。使用企业版，您可以为这项开源社区工作提供大力支持。"
     custom_actions:
       date:
         specific: '于'
@@ -210,13 +264,13 @@ zh-CN:
           text_new_features: "了解新功能和产品更新。"
           learn_about: "详细了解新功能"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              该版本包含各种新功能和改进：<br><br> <ul> <li>默认<b>设计模板</b>，用于选择浅色或深色主题（高级功能）。</li> <li><i>我的页面</i>新增<b>时间跟踪微件</b>，在条形图中显示花费的时间。</li> <li><b>以 XLS 导出费用报告</b>和工作包 PDF 导出结果中的格式化文本。</li> <li><b>改进了设计和实用性</b>，在项目设置和管理中添加了更多选项卡。</li> </ul>
+              此版本包含许多新功能和改进：<br><br> <ul> <li><b>面向被分派人的操作面板</b>：创建操作面板，在列表中移动卡片时，它们会自动更新被分派人。</li> <li>按照名称而不是日期对版本排序，这样可以更轻松地从列表中选择版本。</li> <li><b>移除 24 小时限制</b>，以便进行时间跟踪。</li> <li>在项目概览微件上显示新闻摘要。</li> <li>各种错误修复和<b>实用性改进</b>。</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 包含<b>一个新的 IFC 模块</b>，可用于将 3D 模型集成到您的项目管理应用程序中以及与您的团队合作处理这些文件，而无需单独安装昂贵的软件或许可证。<br><br> <ul> <li><b>将构建模型的 IFC 文件导入</b>您的 OpenProject 应用程序。</li> <li>在您的浏览器中<b>打开 3D 模型并可视化构建模型</b>。</li> <li>直接在 OpenProject 中轻松地与您的团队<b>合作处理多个 IFC 文件</b>，无需单独安装昂贵的软件。</li> </ul>
+              OpenProject 10.5 现在支持 <b>BIM Collaboration Format (BCF)</b> - BIM 模型的开放式问题跟踪标准。<br><br> <ul> <li>轻松创建并<b>管理 BIM 问题</b>（如交互式 3D IFC 模型中的冲突、请求和问题），并<b>与项目团队共享</b>。</li> <li>使用强大的 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a> 将 OpenProject 与您最喜欢的 BIM 软件集成到一起。</li> <li>导入和导出 BCF XML 文件。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -227,7 +281,7 @@ zh-CN:
     label_add_row_before: "之前添加行"
     label_add_selected_columns: "添加所选的列"
     label_added_by: "添加人"
-    label_added_time_by: "由 %{author} %{age} 添加"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "天前"
     label_all: "所有"
     label_all_work_packages: "所有工作包"
@@ -268,6 +322,7 @@ zh-CN:
     label_expand_all: "全部展开"
     label_expand_project_menu: "展开项目菜单"
     label_export: "导出"
+    label_export_preparing: "导出文件已开始准备并将很快被下载。"
     label_filename: "文件"
     label_filesize: "大小"
     label_general: "通用"
@@ -286,6 +341,7 @@ zh-CN:
     label_import: "导入"
     label_latest_activity: "最新活动"
     label_last_updated_on: "最后更新日期"
+    label_learn_more_link: "了解更多信息"
     label_less_or_equal: "<="
     label_less_than_ago: "小于数日前"
     label_loading: "正在加载..."
@@ -466,7 +522,7 @@ zh-CN:
       duration: '持续时间'
       spent_on: '日期'
       hours: '小时'
-      label: '时间条目'
+      title: '记录时间'
     two_factor_authentication:
       label_two_factor_authentication: '双重身份验证'
     watchers:
@@ -770,7 +826,7 @@ zh-CN:
           automatic: '自动'
           manually: '手动'
           warning: '激活自动排序模式时，您将丢失以前的排序结果。'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "使用上面的输入向表视图添加列。 您可以拖放列来为它们重新排序。"
         upsale:
           attribute_highlighting: '需要特定的工作包以脱颖而出？'
           relation_columns: '需要查看工作包列表中的关系吗？'

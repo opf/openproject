@@ -61,7 +61,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-          .and_return(assignee)
+                .and_return(assignee)
       end
 
       it 'returns the work package' do
@@ -84,7 +84,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-          .and_return(FactoryBot.create(:user))
+                .and_return(FactoryBot.create(:user))
       end
 
       it 'does not return the work package' do
@@ -106,7 +106,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
         allow(User)
           .to receive(:current)
-          .and_return(user)
+                .and_return(user)
       end
 
       it 'returns the mapped value' do
@@ -130,10 +130,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
     context 'for a group value with a group member being assignee' do
       let(:values) { [group.id.to_s] }
-
-      before do
-        group.users << assignee
-      end
+      let(:group) { FactoryBot.create(:group, members: assignee) }
 
       it 'does not return the work package' do
         is_expected
@@ -154,10 +151,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
       let(:user) { FactoryBot.create(:user) }
-
-      before do
-        group.users << user
-      end
+      let(:group) { FactoryBot.create(:group, members: user) }
 
       it 'does not return the work package' do
         is_expected
@@ -197,10 +191,10 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       loader = double('principal_loader')
       allow(loader)
         .to receive(:user_values)
-        .and_return(user_values)
+              .and_return(user_values)
       allow(loader)
         .to receive(:group_values)
-        .and_return(group_values)
+              .and_return(group_values)
 
       loader
     end
@@ -224,8 +218,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     before do
       allow(Queries::WorkPackages::Filter::PrincipalLoader)
         .to receive(:new)
-        .with(project)
-        .and_return(principal_loader)
+              .with(project)
+              .and_return(principal_loader)
     end
 
     describe '#available?' do
@@ -234,7 +228,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive_message_chain(:current, :logged?)
-          .and_return(logged_in)
+                .and_return(logged_in)
       end
 
       context 'when being logged in' do
@@ -245,7 +239,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         it 'is true if there is another user selectable' do
           allow(principal_loader)
             .to receive(:user_values)
-            .and_return([user_1])
+                  .and_return([user_1])
 
           expect(instance).to be_available
         end
@@ -253,7 +247,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         it 'is true if there is another group selectable' do
           allow(principal_loader)
             .to receive(:group_values)
-            .and_return([[group_1.name, group_1.id.to_s]])
+                  .and_return([[group_1.name, group_1.id.to_s]])
 
           expect(instance).to be_available
         end
@@ -269,7 +263,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         it 'is true if there is another user selectable' do
           allow(principal_loader)
             .to receive(:user_values)
-            .and_return([[user_1.name, user_1.id.to_s]])
+                  .and_return([[user_1.name, user_1.id.to_s]])
 
           expect(instance).to be_available
         end
@@ -277,7 +271,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         it 'is true if there is another group selectable' do
           allow(principal_loader)
             .to receive(:group_values)
-            .and_return([[group_1.name, group_1.id.to_s]])
+                  .and_return([[group_1.name, group_1.id.to_s]])
 
           expect(instance).to be_available
         end
@@ -285,11 +279,11 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         it 'is false if there is another group selectable but the setting is not favourable' do
           allow(Setting)
             .to receive(:work_package_group_assignment?)
-            .and_return(false)
+                  .and_return(false)
 
           allow(principal_loader)
             .to receive(:group_values)
-            .and_return([[group_1.name, group_1.id.to_s]])
+                  .and_return([[group_1.name, group_1.id.to_s]])
 
           expect(instance).to_not be_available
         end
@@ -302,15 +296,15 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive_message_chain(:current, :logged?)
-          .and_return(logged_in)
+                .and_return(logged_in)
 
         allow(principal_loader)
           .to receive(:user_values)
-          .and_return([[user_1.name, user_1.id.to_s]])
+                .and_return([[user_1.name, user_1.id.to_s]])
 
         allow(principal_loader)
           .to receive(:group_values)
-          .and_return([[group_1.name, group_1.id.to_s]])
+                .and_return([[group_1.name, group_1.id.to_s]])
       end
 
       context 'when being logged in' do
@@ -324,7 +318,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         it 'returns the me value and only the available users if no group assignmit is allowed' do
           allow(Setting)
             .to receive(:work_package_group_assignment?)
-            .and_return(false)
+                  .and_return(false)
 
           expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
@@ -344,7 +338,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         it 'returns the available users if no group assignmit is allowed' do
           allow(Setting)
             .to receive(:work_package_group_assignment?)
-            .and_return(false)
+                  .and_return(false)
 
           expect(instance.allowed_values)
             .to match_array([[user_1.name, user_1.id.to_s]])

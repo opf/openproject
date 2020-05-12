@@ -36,9 +36,7 @@ export class IFCViewerService extends ViewerBridgeService {
       let viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
       viewerUI.on("queryPicked", (event:any) => {
-        const entity = event.entity; // Entity
-        const metaObject = event.metaObject; // MetaObject
-        alert(`Query result:\n\nObject ID = ${entity.id}\nIFC type = "${metaObject.type}"`);
+        alert(`IFC Name = "${event.objectName}"\nIFC class = "${event.objectType}"\nIFC GUID = ${event.objectId}`);
       });
 
       viewerUI.on("modelLoaded", () => this.$loaded.complete());
@@ -68,8 +66,12 @@ export class IFCViewerService extends ViewerBridgeService {
     this._viewer = viewer;
   }
 
+  public setKeyboardEnabled(val:boolean) {
+    this.viewer.setKeyboardEnabled(val);
+  }
+
   public getViewpoint():Promise<BcfViewpointInterface> {
-    const viewpoint = this.viewer.saveBCFViewpoint({});
+    const viewpoint = this.viewer.saveBCFViewpoint({ spacesVisible: true });
 
     // The backend rejects viewpoints with bitmaps
     delete viewpoint.bitmaps;

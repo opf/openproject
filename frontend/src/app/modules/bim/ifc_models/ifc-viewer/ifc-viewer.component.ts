@@ -26,7 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -34,27 +42,34 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 @Component({
   selector: 'ifc-viewer',
   templateUrl: './ifc-viewer.component.html',
+  styleUrls: ['./ifc-viewer.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
   private viewerUI:any;
-
-  modelCount = this.ifcData.models.length;
-
+  modelCount:number;
   canManage = this.ifcData.allowed('manage_ifc_models');
 
   text = {
     empty_warning: this.I18n.t('js.ifc_models.empty_warning'),
-    use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage')
+    use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage'),
+    keyboard_input_disabled: this.I18n.t('js.ifc_models.keyboard_input_disabled')
   };
+
+  keyboardEnabled = false;
+
+  @ViewChild('outerContainer') outerContainer:ElementRef;
+  @ViewChild('modelCanvas') modelCanvas:ElementRef;
 
   constructor(private I18n:I18nService,
               private elementRef:ElementRef,
-              private ifcData:IfcModelsDataService,
+              public ifcData:IfcModelsDataService,
               private ifcViewer:IFCViewerService) {
   }
 
   ngOnInit():void {
+    this.modelCount = this.ifcData.models.length;
+
     if (this.modelCount === 0) {
       return;
     }
@@ -75,5 +90,33 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy():void {
     this.ifcViewer.destroy();
+  }
+
+  @HostListener('mousedown')
+  enableKeyBoard() {
+    if (this.modelCount) {
+      this.keyboardEnabled = true;
+      this.ifcViewer.setKeyboardEnabled(true);
+    }
+  }
+
+  @HostListener('window:mousedown', ['$event.target'])
+  disableKeyboard(target:Element) {
+    if (this.modelCount && !this.outerContainer.nativeElement!.contains(target)) {
+      this.keyboardEnabled = false;
+      this.ifcViewer.setKeyboardEnabled(false);
+    }
+  }
+
+  enableFromIcon(event:MouseEvent) {
+    this.enableKeyBoard();
+
+    // Focus on the canvas
+    this.modelCanvas.nativeElement.focus();
+
+    // Ensure we don't bubble this event to the window:mousedown handler
+    // as the target will already be removed from the DOM by angular
+    event.stopImmediatePropagation();
+    return false;
   }
 }

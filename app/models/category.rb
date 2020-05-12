@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Category < ActiveRecord::Base
+class Category < ApplicationRecord
   belongs_to :project
   belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
   has_many :work_packages, foreign_key: 'category_id', dependent: :nullify

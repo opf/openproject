@@ -61,7 +61,7 @@ zh-CN:
         header-item-font-hover-color: "鼠标悬停时可点击标题的特定颜色。"
         header-border-bottom-color: "页眉下方法细线。如果你不想看到，将其留白。"
         main-menu-bg-color: "左菜单的背景色。"
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: 更改主题将覆盖您的自定义样式。设计将会丢失。您确定要继续吗？
     enterprise:
       upgrade_to_ee: "升级到企业版"
       add_token: "上传企业版支持令牌"
@@ -70,6 +70,9 @@ zh-CN:
       paste: "粘贴您的企业版支持令牌"
       required_for_feature: "此功能仅限具有活动企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
+      start_trial: '开始免费试用'
+      book_now: '立即预订'
+      get_quote: '获取报价'
   announcements:
     show_until: 显示截至日期
     is_active: 当前已显示
@@ -104,9 +107,18 @@ zh-CN:
         输入 LDAP 中您希望 OpenProject 查找用户和组的子树的基本 DN。
         OpenProject 将仅在此子树中筛选提供的用户名。
         示例：ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         如果选中此框，OpenProject 将在新用户首次向 OpenProject 验证身份时从其 LDAP 条目创建这些用户。
         不选中此框则会仅允许 OpenProject 中的现有帐户通过 LDAP 验证身份！
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: '连接加密'
     system_account: '系统帐户'
     system_account_legend: |
@@ -218,6 +230,9 @@ zh-CN:
       no_results_title_text: 目前没有消息报告。
       no_results_content_text: 添加新闻项
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
   prioritiies:
@@ -342,7 +357,7 @@ zh-CN:
         attr_mail: "电子邮件属性"
         base_dn: "基本 DN"
         host: "主机"
-        onthefly: "运行中用户创建"
+        onthefly: "Automatic user creation"
         port: "端口"
       changeset:
         repository: "代码库"
@@ -748,6 +763,7 @@ zh-CN:
     version: "版本"
     work_package: "工作包"
   button_add: "添加"
+  button_add_comment: "添加评论"
   button_add_member: 添加成员
   button_add_watcher: "添加关注者"
   button_annotate: "批注"
@@ -1120,13 +1136,8 @@ zh-CN:
     blocks:
       community: "OpenProject 社区"
       upsale:
-        become_hero: "成为英雄！"
         title: "升级到企业版"
-        description: "有什么好处？"
         more_info: "更多信息"
-        additional_features: "其他强大的高级功能"
-        professional_support: "由 OpenProject 专家提供专业支持"
-        you_contribute: "开发人员也需要支付账单。使用企业版，您可以为此 Open-Source 社区工作提供大力的财力支持。"
     links:
       upgrade_enterprise_edition: "升级到企业版"
       postgres_migration: "将您的安装迁移到 PostgreSQL"
@@ -1138,9 +1149,10 @@ zh-CN:
       forums: "社区论坛"
       newsletter: "安全警报/通信"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "更改已撤回。"
   links:
     configuration_guide: '配置指南'
+    get_in_touch: "遇到问题了？与我们联系。"
   instructions_after_registration: "只要您的帐户已被激活您可以点击 %{signin} 登录。"
   instructions_after_logout: "你可以点击 %{signin} 重新登录。"
   instructions_after_error: "你可以尝试点击 %{signin} 重新登录。如果错误仍然存在，请向您的管理员寻求帮助。"
@@ -1297,6 +1309,7 @@ zh-CN:
   label_duplicate: "重复"
   label_duplicates: "复制"
   label_edit: "编辑"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "切换多选"
   label_enabled_project_custom_fields: '启用自定义字段'
   label_enabled_project_modules: '启用的模块'
@@ -1430,7 +1443,7 @@ zh-CN:
   label_new: "新增"
   label_new_features: "新功能"
   label_new_statuses_allowed: "允许的新状态"
-  label_news: "新闻"
+  label_news_singular: "新闻"
   label_news_added: "添加新闻"
   label_news_comment_added: "评论添加到新闻"
   label_news_latest: "最新消息"
@@ -1686,31 +1699,6 @@ zh-CN:
     other: "%{count} 个项目"
   label_year: "年"
   label_yesterday: "昨天"
-  label_keyboard_function: "功能"
-  label_keyboard_shortcut: "快捷方式"
-  label_keyboard_accesskey: "访问键"
-  label_keyboard_shortcut_help_heading: "可用的键盘快捷键"
-  label_keyboard_shortcut_within_project: "项目相关的快捷方式:"
-  label_keyboard_shortcut_global_shortcuts: "全局快捷方式："
-  label_keyboard_shortcut_some_pages_only: "特殊的快捷方式："
-  label_keyboard_shortcut_search_global: "全局搜索"
-  label_keyboard_shortcut_search_project: "查找项目"
-  label_keyboard_shortcut_go_my_page: "转到我的页面"
-  label_keyboard_shortcut_show_help: "显示此帮助消息"
-  label_keyboard_shortcut_go_overview: "转到项目概述"
-  label_keyboard_shortcut_go_work_package: "转到项目工作包"
-  label_keyboard_shortcut_go_wiki: "转到项目 wiki"
-  label_keyboard_shortcut_go_activity: "转到项目活动"
-  label_keyboard_shortcut_go_calendar: "转到项目日历"
-  label_keyboard_shortcut_go_news: "转到项目新闻"
-  label_keyboard_shortcut_go_timelines: "转到时间线"
-  label_keyboard_shortcut_new_work_package: "创建新的工作包"
-  label_keyboard_shortcut_details_package: "显示工作包的详细信息窗口"
-  label_keyboard_shortcut_go_edit: "转到要编辑当前项 （仅在详细信息页)"
-  label_keyboard_shortcut_open_more_menu: "打开更多菜单 （在详细信息页)"
-  label_keyboard_shortcut_go_preview: "转到预览当前编辑 （仅在编辑页)"
-  label_keyboard_shortcut_focus_previous_item: "聚焦前面的列表元素 （只有某些列表)"
-  label_keyboard_shortcut_focus_next_item: "聚焦下一个的列表元素 （只有某些列表)"
   auth_source:
     using_abstract_auth_source: "无法使用抽象的验证源。"
     ldap_error: "LDAP 错误：%{error_message}"
@@ -2495,6 +2483,7 @@ zh-CN:
       mail_self_notified: "我想要自己的更改通知"
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "状态更改"
+    text_change_disabled_for_provider_login: "名称由您的登录提供商设置，因此无法更改。"
     unlock: "解锁​​​​"
     unlock_and_reset_failed_logins: "解锁和重置失败的帐户"
   version_status_closed: "关闭"

@@ -40,7 +40,7 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
   end
 
   def build_cost_rows
-    query.each_direct_result do |result|
+    sorted_results.each do |result|
       spreadsheet.add_row(cost_row(result))
     end
   end
@@ -92,5 +92,15 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
 
   def cost_entry_attributes
     %i[spent_on user_id activity_id work_package_id comments project_id]
+  end
+
+  # Returns the results of the query sorted by date the time was spent on and by id
+  def sorted_results
+    query
+      .each_direct_result
+      .map(&:itself)
+      .group_by { |r| DateTime.parse(r.fields['spent_on']) }
+      .sort
+      .flat_map { |_, date_results| date_results.sort_by { |r| r.fields['id'] } }
   end
 end

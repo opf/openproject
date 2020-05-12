@@ -35,7 +35,6 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Injectable()
 export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {

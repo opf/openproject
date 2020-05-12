@@ -36,21 +36,21 @@ describe 'Work Package table cost entries', type: :feature, js: true do
   let(:work_package) { FactoryBot.create :work_package, project: project, parent: parent }
   let(:hourly_rate) { FactoryBot.create :default_hourly_rate, user: user, rate: 1.00 }
 
-  let!(:time_entry1) {
+  let!(:time_entry1) do
     FactoryBot.create :time_entry,
-                       user: user,
-                       work_package: parent,
-                       project: project,
-                       hours: 10
-  }
+                      user: user,
+                      work_package: parent,
+                      project: project,
+                      hours: 10
+  end
 
-  let!(:time_entry2) {
+  let!(:time_entry2) do
     FactoryBot.create :time_entry,
-                       user: user,
-                       work_package: work_package,
-                       project: project,
-                       hours: 2.50
-  }
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 2.50
+  end
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let!(:query) do
@@ -81,8 +81,8 @@ describe 'Work Package table cost entries', type: :feature, js: true do
     visit project_activities_path project
 
     # Activate budget filter
-    find('#show_time_entries').set true
-    find('#show_cost_objects').set true
+    check('Spent time')
+    check('Budgets')
     click_on 'Apply'
 
     expect(page).to have_selector('.time-entry a', text: '10.00 h')

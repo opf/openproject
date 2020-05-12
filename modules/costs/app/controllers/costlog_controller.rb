@@ -79,7 +79,6 @@ class CostlogController < ApplicationController
     end
   end
 
-  verify method: :delete, only: :destroy, render: { nothing: true, status: :method_not_allowed }
   def destroy
     render_404 and return unless @cost_entry
     render_403 and return unless @cost_entry.editable_by?(User.current)

@@ -63,13 +63,16 @@ nl:
         main-menu-bg-color: "De kleur van de achtergrond van de linkerzijde menu's."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade naar Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
       replace_token: "Uw huidige ondersteuningstoken vervangen"
       order: "Bestel de Enterprise Edition"
       paste: "Plak uw Enterprise Edition ondersteuningstoken"
       required_for_feature: "Deze functie is alleen beschikbaar met een actieve Enterprise Edition ondersteuningstoken."
       enterprise_link: "Klik hier voor meer informatie."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Toon tot
     is_active: momenteel getoond
@@ -104,10 +107,19 @@ nl:
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
         Example: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Verbinding encryptie'
     system_account: 'System account'
     system_account_legend: |
@@ -220,6 +232,9 @@ nl:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
       no_results_content_text: Voeg een nieuwsitem toe
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
   prioritiies:
@@ -272,7 +287,7 @@ nl:
   work_packages:
     x_descendants:
       one: 'One descendant work package'
-      other: '%{count} werk pakket afstammelingen'
+      other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
     move:
@@ -346,7 +361,7 @@ nl:
         attr_mail: "Emailadres"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "On-the-fly gebruiker creëren"
+        onthefly: "Automatic user creation"
         port: "Poort"
       changeset:
         repository: "Repository"
@@ -755,6 +770,7 @@ nl:
     version: "Versie"
     work_package: "Werkpakket"
   button_add: "Toevoegen"
+  button_add_comment: "Commentaar toevoegen"
   button_add_member: Lid toevoegen
   button_add_watcher: "Watcher toevoegen"
   button_annotate: "Aantekeningen"
@@ -1139,13 +1155,8 @@ nl:
     blocks:
       community: "OpenProject gemeenschap"
       upsale:
-        become_hero: "Word een held!"
         title: "Upgrade naar Enterprise Edition"
-        description: "Wat zijn de voordelen?"
         more_info: "Meer informatie"
-        additional_features: "Extra krachtige premium functies"
-        professional_support: "Professionele ondersteuning van de OpenProject experts"
-        you_contribute: "Ontwikkelaars moeten hun rekeningen ook betalen. Met Enterprise Edition bedraagt je aanzijnlijk bij aan deze Open-Source gemeenschaps inspanning."
     links:
       upgrade_enterprise_edition: "Upgrade naar Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1157,9 +1168,10 @@ nl:
       forums: "Gemeenschapsforum"
       newsletter: "Beveiligingswaarschuwingen / nieuwsbrief"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Configuratiegids'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "U kan inloggen zodra uw account geactiveerd is door te klikken op %{signin}."
   instructions_after_logout: "U kan terug inloggen door op %{signin} te klikken."
   instructions_after_error: "U kan opnieuw proberen inloggen door op %{signin} te klikken. Als de fout aanhoudt, vraag dan uw admin om hulp."
@@ -1316,6 +1328,7 @@ nl:
   label_duplicate: "dupliceren"
   label_duplicates: "duplicaten"
   label_edit: "Wijzig"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Omschakelen multiselect"
   label_enabled_project_custom_fields: 'Ingeschakelde aangepaste velden'
   label_enabled_project_modules: 'Ingeschakelde modules'
@@ -1449,7 +1462,7 @@ nl:
   label_new: "Nieuw"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nieuwe statussen toegestaan"
-  label_news: "Nieuws"
+  label_news_singular: "Nieuws"
   label_news_added: "Nieuws toegevoegd"
   label_news_comment_added: "Commentaar toegevoegd aan nieuws"
   label_news_latest: "Laatste nieuws"
@@ -1709,31 +1722,6 @@ nl:
     other: "%{count} projecten"
   label_year: "Jaar"
   label_yesterday: "gisteren"
-  label_keyboard_function: "Functie"
-  label_keyboard_shortcut: "Snelkoppeling"
-  label_keyboard_accesskey: "toegangssleutel"
-  label_keyboard_shortcut_help_heading: "Beschikbare sneltoetsen"
-  label_keyboard_shortcut_within_project: "Project gerelateerde snelkoppelingen:"
-  label_keyboard_shortcut_global_shortcuts: "Algemene snelkoppelingen:"
-  label_keyboard_shortcut_some_pages_only: "Speciale snelkoppelingen:"
-  label_keyboard_shortcut_search_global: "Globaal zoeken"
-  label_keyboard_shortcut_search_project: "Zoeken naar een project"
-  label_keyboard_shortcut_go_my_page: "Ga naar mijn pagina"
-  label_keyboard_shortcut_show_help: "Toon dit helpbericht"
-  label_keyboard_shortcut_go_overview: "Ga naar overzicht van project"
-  label_keyboard_shortcut_go_work_package: "Ga naar project werkpakketten"
-  label_keyboard_shortcut_go_wiki: "Ga naar project wiki"
-  label_keyboard_shortcut_go_activity: "Ga naar projectactiviteiten"
-  label_keyboard_shortcut_go_calendar: "Ga naar de projectagenda"
-  label_keyboard_shortcut_go_news: "Ga naar Projectnieuws"
-  label_keyboard_shortcut_go_timelines: "Ga naar tijdlijnen"
-  label_keyboard_shortcut_new_work_package: "Nieuw werkpakket maken"
-  label_keyboard_shortcut_details_package: "Toon detailvlak van het werkpakket"
-  label_keyboard_shortcut_go_edit: "Ga naar het bewerken van het huidige item (enkel op de detailpagina's)"
-  label_keyboard_shortcut_open_more_menu: "Meer-menu openen (enkel op de detailpagina's)"
-  label_keyboard_shortcut_go_preview: "Naar het voorbeeld van de huidige bewerking (enkel op bewerken pagina's)"
-  label_keyboard_shortcut_focus_previous_item: "Focus vorige lijstelement (enkel op sommige lijsten)"
-  label_keyboard_shortcut_focus_next_item: "Focus volgende lijstelement (enkel op sommige lijsten)"
   auth_source:
     using_abstract_auth_source: "Kan geen abstracte authenticatiebron gebruiken."
     ldap_error: "LDAP-fout: %{error_message}"
@@ -2523,6 +2511,7 @@ nl:
       mail_self_notified: "Ik wil op de hoogte worden gesteld van wijzigingen die ik zelf maak"
     status_user_and_brute_force: "%{user} en %{brute_force}"
     status_change: "Statuswijziging"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Ontgrendelen"
     unlock_and_reset_failed_logins: "Openen en herstellen mislukte aanmeldingen"
   version_status_closed: "gesloten"

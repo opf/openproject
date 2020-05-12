@@ -32,8 +32,6 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {EditableAttributeFieldComponent} from 'core-app/modules/fields/edit/field/editable-attribute-field.component';
 import {input} from 'reactivestates';
 import {filter, map, take} from 'rxjs/operators';
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {
   activeFieldClassName,

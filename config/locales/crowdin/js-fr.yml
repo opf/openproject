@@ -37,6 +37,7 @@ fr:
     close_filter_title: "Fermer le filtre"
     close_form_title: "Fermer le formulaire"
     button_add_watcher: "Ajouter observateur"
+    button_add: "Ajouter"
     button_back: "Retour"
     button_back_to_list_view: "Retour à la liste"
     button_cancel: "Annuler"
@@ -163,6 +164,59 @@ fr:
         edit_query: 'Modifier la requête'
         new_group: 'Nouveau groupe'
         reset_to_defaults: 'Rétablir les valeurs par défaut'
+      enterprise:
+        trial:
+          confirmation: "Confirmation de l'adresse e-mail"
+          confirmation_info: "Nous vous avons envoyé un e-mail. Veuillez vérifier vos e-mails et cliquer sur le lien de confirmation fourni pour commencer votre essai de 14 jours."
+          form:
+            general_consent: >
+              J'accepte les <a target="_blank" href="%{link_terms}">conditions d'utilisation</a> et la <a target="_blank" href="%{link_privacy}">politique de confidentialité</a>.
+            invalid_email: "Adresse e-mail invalide"
+            label_company: "Société"
+            label_first_name: "Prénom"
+            label_last_name: "Nom de famille"
+            label_email: "Courriel"
+            label_domain: "Domaine"
+            label_subscriber: "Abonné"
+            label_maximum_users: "Nombre maximal d’utilisateurs actif"
+            label_starts_at: "Commence à"
+            label_expires_at: "Expire le"
+            receive_newsletter: Je veux recevoir la <a target="_blank" href="%{link}">newsletter OpenProject</a>.
+            taken_domain: Il ne peut y avoir qu'un seul essai actif par domaine.
+            taken_email: Chaque utilisateur ne peut créer qu'un essai.
+          email_not_received: "Vous n'avez pas reçu d'e-mail ? Vous pouvez renvoyer l'e-mail avec le lien à droite."
+          try_another_email: "Ou essayez avec une autre adresse e-mail."
+          next_steps: "Prochaines étapes"
+          resend_link: "Renvoyer"
+          resend_success: "L'e-mail a été renvoyé. Veuillez vérifier vos e-mails et cliquer sur le lien de confirmation fourni."
+          resend_warning: "Impossible de renvoyer l'e-mail"
+          session_timeout: "Votre session a expiré. Veuillez rafraîchir la page ou renvoyer l'e-mail."
+          status_label: "Statut :"
+          status_confirmed: "confirmé"
+          status_waiting: "e-mail envoyé - en attente de confirmation"
+          test_ee: "Essayez gratuitement la version Entreprise pendant 14 jours"
+          quick_overview: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "Devenez un héros !"
+          benefits:
+            description: "Quels sont les avantages?"
+            high_security: "Fonctionnalités de sécurité"
+            high_security_text: "Authentification unique (SAML, OpenID Connect, CAS), authentification à deux facteurs et synchronisation automatique des groupes LDAP."
+            installation: "Assistance à l'installation"
+            installation_text: "Des ingénieurs logiciel expérimentés vous guident à travers le processus complet d'installation et de configuration de votre propre infrastructure."
+            premium_features: "Fonctionnalités premium"
+            premium_features_text: "Tableaux agiles, thème et logo personnalisés, graphiques, flux de travail intelligents avec actions personnalisées, recherche en plein texte des pièces jointes de lots de travaux et champs personnalisés à choix multiples"
+            professional_support: "Support professionnel"
+            professional_support_text: "Obtenez une assitance fiable et à haut contact de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
+          button_start_trial: "Commencer l'essai gratuit"
+          button_book_now: "Réserver maintenant"
+          confidence: >
+            Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
+          link_quote: "Obtenir un devis"
+          text: >
+            L'Entreprise Edition d'OpenProject s'appuie sur la Community Edition. Elle comprend des fonctionnalités premium et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
+          unlimited: "Illimité"
+          you_contribute: "Les développeurs ont aussi besoin payer leurs factures. Avec la version Entreprise, vous contribuez significativement à cet effort de la communauté Open Source."
     custom_actions:
       date:
         specific: 'le'
@@ -210,13 +264,13 @@ fr:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br><br> <ul> <li><b>Modèles de design</b> par défaut pour sélectionner un thème clair ou sombre (fonctionnalité premium).</li> <li>Nouveau <b>widget de suivi du temps</b> pour <i>Ma page</i> pour afficher le temps passé sur un diagramme à barres.</li> <li><b>Exportations XLS pour les rapports de coûts</b> et texte formaté dans l'exportation PDF des lots de travaux.</li> <li><b>Amélioration du design et de la facilité d'utilisation</b>, par ex. onglets et plus dans les paramètres et l'administration du projet.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject contient un <b>nouveau module IFC pour intégrer des modèles 3D</b> dans votre application de gestion de projet et pour travailler en collaboration avec ces fichiers avec votre équipe sans installation de logiciels ou licences coûteux supplémentaires. <br><br> <ul> <li><b>Importez les fichiers IFC</b>des modèles de bâtiment dans votre application OpenProject.</li> <li><b>Ouvrez des modèles 3D et visualisez les modèles de bâtiment</b> dans votre navigateur.</li> <li> Vous pouvez facilement <b>travailler sur plusieurs fichiers IFC</b> avec votre équipe directement dans OpenProject sans installer de logiciel supplémentaire coûteux. </li> </ul>
+              OpenProject 10.5 prend maintenant en charge le <b>BIM Collaboration Format (BCF)</b> – la norme ouverte de suivi des problèmes pour les modèles BIM.<br><br> <ul> <li>Créez et <b>gérez facilement les problèmes BIM</b> telles que les désaccords, demandes et questions dans le modèle interactif 3D IFC et <b>partager-ler avec l'équipe du projet.</b></li> <li>Intégrez OpenProject à votre logiciel BIM préféré en utilisant la puissante <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importez et exportez des fichiers BCF XML.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -227,7 +281,7 @@ fr:
     label_add_row_before: "Ajouter une ligne avant"
     label_add_selected_columns: "Ajouter les colonnes sélectionnées"
     label_added_by: "Ajouté par"
-    label_added_time_by: "Ajouté par %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "il y a quelques jours"
     label_all: "tous"
     label_all_work_packages: "tous les lots de travaux"
@@ -268,6 +322,7 @@ fr:
     label_expand_all: "Tout déplier"
     label_expand_project_menu: "Déplier le menu du projet"
     label_export: "Exporter"
+    label_export_preparing: "L'export est en cours de préparation et sera téléchargé sous peu."
     label_filename: "Fichier"
     label_filesize: "Taille"
     label_general: "Général"
@@ -286,6 +341,7 @@ fr:
     label_import: "Importer"
     label_latest_activity: "Dernière activité"
     label_last_updated_on: "Dernière modification le"
+    label_learn_more_link: "En savoir plus"
     label_less_or_equal: "<="
     label_less_than_ago: "il y a moins de quelques jours"
     label_loading: "Chargement…"
@@ -466,7 +522,7 @@ fr:
       duration: 'Durée'
       spent_on: 'date'
       hours: 'Heures'
-      label: 'Saisie du temps'
+      title: 'Consigner temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'
     watchers:
@@ -770,7 +826,7 @@ fr:
           automatic: 'Automatique'
           manually: 'Manuellement'
           warning: 'Vous perdrez votre tri précédent lors de l''activation du mode de tri automatique.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Utilisez l’entrée ci-dessus pour ajouter des colonnes à votre vue tableau. Vous pouvez déplacer les colonnes par glisser/déposer pour les réorganiser."
         upsale:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'

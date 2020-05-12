@@ -53,8 +53,6 @@ module Pages::Messages
     end
 
     def reply(text)
-      click_on 'Reply'
-
       find('.ck-content').base.send_keys text
 
       click_button 'Submit'
@@ -73,6 +71,9 @@ module Pages::Messages
         end
       end
 
+      sleep 1
+
+      scroll_to_element find('.ck-content')
       fill_in 'reply_subject', with: subject if subject
 
       editor = find('.ck-content')

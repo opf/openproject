@@ -25,6 +25,8 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 | [View all projects](#view-all-projects)                 | How to get an overview about all my projects?         |
 | [Advanced project settings](#advanced-project-settings) | Configure further advanced settings for your project. |
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/q1jxzPNQTls" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Open an existing project
 
 In order to open an existing project, click on the **Select a project** button on the top left corner of the header, and click the project which you want to open.

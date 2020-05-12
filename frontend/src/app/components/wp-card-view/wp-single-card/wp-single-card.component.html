@@ -13,16 +13,14 @@
        (accessibleClick)="onRemoved(workPackage)">
       <op-icon icon-classes="icon icon-close"></op-icon>
     </a>
-
-    <a class="wp-card--details-button -no-decoration"
+    <a class="wp-card--details-button -no-decoration" 
        *ngIf="!workPackage.isNew && showInfoButton"
        [title]="text.detailsView"
        (accessibleClick)="openSplitScreen(workPackage)">
       <op-icon icon-classes="icon icon-info2"></op-icon>
     </a>
   </div>
-
-  <edit-form [resource]="workPackage"
+  <edit-form [resource]="workPackage" 
              [inEditMode]="workPackage.isNew"
              *ngIf="workPackage.isNew">
     <div class="wp-card--content -new">
@@ -40,22 +38,25 @@
 
   <div *ngIf="!workPackage.isNew"
        class="wp-card--content">
-      <span [textContent]="wpTypeAttribute(workPackage)"
-            class="wp-card--type"
-            [ngClass]="typeHighlightingClass(workPackage)"></span>
-    <a uiSref="work-packages.show"
+    <span [textContent]="wpProjectName(workPackage)"
+          class="wp-card--project-name">
+    </span>
+    <span [textContent]="wpTypeAttribute(workPackage)" 
+          class="wp-card--type"
+          [ngClass]="typeHighlightingClass(workPackage)">
+    </span>
+    <a uiSref="work-packages.show" 
        [uiParams]="{workPackageId: workPackage.id}"
        class="wp-card--id"
        [ngClass]="uiStateLinkClass">
       #{{workPackage.id}}
     </a>
-    <span [textContent]="wpSubject(workPackage)"
-          class="wp-card--subject"></span>
-
-    <img *ngIf="this.cardCoverImageShown(workPackage)"
+    <span [textContent]="wpSubject(workPackage)" 
+          class="wp-card--subject">
+    </span>
+    <img *ngIf="this.cardCoverImageShown(workPackage)" 
          [src]="this.bcfSnapshotPath(workPackage)"
          class="wp-card--cover-image">
-
     <wp-status-button *ngIf="showStatusButton"
                       [workPackage]="workPackage"
                       class="wp-card--status">

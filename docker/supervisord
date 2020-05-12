@@ -69,7 +69,8 @@ migrate() {
 	pushd $APP_PATH >/dev/null
 	/etc/init.d/memcached start
 	bundle exec rake db:migrate
-	bundle exec rake db:seed
+	# run seed as app user so created attachments (and folder) belong to app, not root
+	su app -c 'bundle exec rake db:seed'
 	/etc/init.d/memcached stop
 	popd >/dev/null
 }

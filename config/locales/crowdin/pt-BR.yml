@@ -63,13 +63,16 @@ pt-BR:
         main-menu-bg-color: "Cor de fundo do menu esquerdo."
       theme_warning: Alterar o tema irá sobrescrever seu estilo personalizado. O design será perdido. Tem certeza que deseja continuar?
     enterprise:
-      upgrade_to_ee: "Atualizar para a versão Enterprise Edition"
+      upgrade_to_ee: "Atualizar para a Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
       replace_token: "Substitua seu token atual de suporte"
       order: "Obter a versão Enterprise Edition"
       paste: "Cole seu token de suporte Enterprise Edition"
       required_for_feature: "Esse recurso só está disponível com um token de suporte Enterprise Edition ativo."
       enterprise_link: "Para mais informações, clique aqui."
+      start_trial: 'Iniciar avaliação gratuita'
+      book_now: 'Reserve agora'
+      get_quote: 'Fazer uma cotação'
   announcements:
     show_until: Mostrar até
     is_active: atualmente exibido
@@ -104,10 +107,19 @@ pt-BR:
         Digite a Base DN da subárvore no LDAP que você quer que o OpenProject procure por usuários e grupos.
         O OpenProject irá filtrar os nomes de usuários fornecidos apenas nesta subárvore.
         Exemplo: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Se você marcar esta caixa, o OpenProject irá automaticamente criar novos usuários a partir de suas entradas LDAP
         quando eles forem autenticados pela primeira vez com o OpenProject.
         Deixe isso desmarcado para permitir que apenas contas existentes no OpenProject possam se autenticar através do LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Criptografia de Conexão'
     system_account: 'Conta do sistema'
     system_account_legend: |
@@ -220,6 +232,9 @@ pt-BR:
       no_results_title_text: Atualmente, não há notícias para reportar.
       no_results_content_text: Adicionar um item de notícias
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
   prioritiies:
@@ -345,7 +360,7 @@ pt-BR:
         attr_mail: "Campo do E-mail"
         base_dn: "DN principal"
         host: "Servidor"
-        onthefly: "Criar usuários automaticamente"
+        onthefly: "Automatic user creation"
         port: "Porta"
       changeset:
         repository: "Repositório"
@@ -754,6 +769,7 @@ pt-BR:
     version: "Versão"
     work_package: "Pacote de trabalho"
   button_add: "Adicionar"
+  button_add_comment: "Adicionar comentário"
   button_add_member: Adicionar membro
   button_add_watcher: "Adicionar observador"
   button_annotate: "Anotar"
@@ -1138,13 +1154,8 @@ pt-BR:
     blocks:
       community: "Comunidade do OpenProject"
       upsale:
-        become_hero: "Torne-se um herói!"
         title: "Atualizar para a versão Enterprise Edition"
-        description: "Quais são os benefícios?"
         more_info: "Mais informações"
-        additional_features: "Poderosos recursos adicionais"
-        professional_support: "Suporte profissional dos peritos da OpenProject"
-        you_contribute: "Desenvolvedores também precisam pagar suas contas. Com a versão Enterprise Edition você contribui para o esforço da comunidade Open-Source."
     links:
       upgrade_enterprise_edition: "Atualizar para a versão Enterprise Edition"
       postgres_migration: "Migrando sua instalação para PostgreSQL"
@@ -1156,9 +1167,10 @@ pt-BR:
       forums: "Fórum da Comunidade"
       newsletter: "Alertas de segurança / Newsletter"
   journals:
-    changes_retracted: "As mudanças em que retraído."
+    changes_retracted: "As mudanças foram retraídas."
   links:
     configuration_guide: 'Guia de configuração'
+    get_in_touch: "Com dúvidas? Entre em contato conosco."
   instructions_after_registration: "Você pode entrar, assim que a sua conta for ativada clicando %{signin}."
   instructions_after_logout: "Você pode entrar novamente clicando em %{signin}."
   instructions_after_error: "Você pode tentar entrar novamente, clicando em %{signin}. Se o erro persistir, consulte seu administrador para obter ajuda."
@@ -1315,6 +1327,7 @@ pt-BR:
   label_duplicate: "duplicado"
   label_duplicates: "Duplicados"
   label_edit: "Editar"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Alterna para seleção múltipla"
   label_enabled_project_custom_fields: 'Campos personalizados habilitados'
   label_enabled_project_modules: 'Módulos habilitados'
@@ -1448,7 +1461,7 @@ pt-BR:
   label_new: "Novo"
   label_new_features: "Novos recursos"
   label_new_statuses_allowed: "Novas situações permitidas"
-  label_news: "Notícias"
+  label_news_singular: "Notícias"
   label_news_added: "Notícia adicionada"
   label_news_comment_added: "Comentário adicionado a uma notícia"
   label_news_latest: "Últimas notícias"
@@ -1708,31 +1721,6 @@ pt-BR:
     other: "%{count} projetos"
   label_year: "Ano"
   label_yesterday: "ontem"
-  label_keyboard_function: "Função"
-  label_keyboard_shortcut: "Atalho"
-  label_keyboard_accesskey: "Chave de Acesso"
-  label_keyboard_shortcut_help_heading: "Atalhos de teclado disponíveis"
-  label_keyboard_shortcut_within_project: "Atalhos de projetos relacionados:"
-  label_keyboard_shortcut_global_shortcuts: "Atalhos globais:"
-  label_keyboard_shortcut_some_pages_only: "Atalhos especiais:"
-  label_keyboard_shortcut_search_global: "Pesquisa global"
-  label_keyboard_shortcut_search_project: "Localizar um projeto"
-  label_keyboard_shortcut_go_my_page: "Ir para minha página"
-  label_keyboard_shortcut_show_help: "Mostrar esta mensagem de ajuda"
-  label_keyboard_shortcut_go_overview: "Ir para visão geral do projeto"
-  label_keyboard_shortcut_go_work_package: "Ir para pacotes de trabalho do projeto"
-  label_keyboard_shortcut_go_wiki: "Ir para a wiki do projeto"
-  label_keyboard_shortcut_go_activity: "Ir para as atividades do projeto"
-  label_keyboard_shortcut_go_calendar: "Ir para calendário do projeto"
-  label_keyboard_shortcut_go_news: "Ir para notícias do projeto"
-  label_keyboard_shortcut_go_timelines: "Ir para cronogramas"
-  label_keyboard_shortcut_new_work_package: "Criar novo pacote de trabalho"
-  label_keyboard_shortcut_details_package: "Mostrar o painel de detalhes de pacotes de trabalho"
-  label_keyboard_shortcut_go_edit: "Ir para edição do item atual (somente nas páginas de detalhes)"
-  label_keyboard_shortcut_open_more_menu: "Menu mais aberto (somente nas páginas de detalhes)"
-  label_keyboard_shortcut_go_preview: "Ir para visualizar da edição atual (em editar páginas apenas)"
-  label_keyboard_shortcut_focus_previous_item: "Focar lista prévia de elementos (em algumas listas apenas)"
-  label_keyboard_shortcut_focus_next_item: "Focar próxima lista de elementos (em algumas listas apenas)"
   auth_source:
     using_abstract_auth_source: "Não é possível usar uma fonte de autenticação abstrata."
     ldap_error: "Erro LDAP: %{error_message}"
@@ -2523,6 +2511,7 @@ pt-BR:
       mail_self_notified: "Quero ser notificado das alterações que eu faço"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Mudança de situação"
+    text_change_disabled_for_provider_login: "O nome é definido por seu fornecedor de início de sessão e, desta forma, não pode ser alterado."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear e redefinir logins com falha"
   version_status_closed: "fechado"

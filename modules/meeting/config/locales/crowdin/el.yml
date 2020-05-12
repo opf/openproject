@@ -74,12 +74,14 @@ el:
   permission_send_meeting_agendas_notification: "Αποστολή ειδοποίηση αναθεώρησης για ατζέντες"
   permission_create_meeting_minutes: "Διαχείριση πρακτικών"
   permission_send_meeting_minutes_notification: "Αποστολή ειδοποίηση αναθεώρησης για τα πρακτικά"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Συναντήσεις"
   text_duration_in_hours: "Διάρκεια σε ώρες"
   text_in_hours: "σε ώρες"
   text_meeting_agenda_for_meeting: 'ατζέντα για τη συνάντηση "%{meeting}"'
   text_meeting_closing_are_you_sure: "Είστε βέβαιοι ότι θέλετε να κλείσετε τη συνάντηση;"
-  text_meeting_agenda_open_are_you_sure: "Το μη αποθηκευμένο περιεχόμενο στα πρακτικά θα χαθεί! Συνέχεια;"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'πρακτικά για τη συνάντηση "%{meeting}"'
   text_review_meeting_agenda: "Ο/Η %{author} έχει βάλει το %{link} για αναθεώρηση."
   text_review_meeting_minutes: "Ο/Η %{author} έχει βάλει το %{link} για αναθεώρηση."

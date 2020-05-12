@@ -30,8 +30,8 @@ ru:
           no_results: 'Для проектов не определены настраиваемые поля.'
         project_status:
           title: 'Состояние проекта'
-          on_track: 'На треке'
-          off_track: 'Выключить трек'
+          on_track: 'В работе'
+          off_track: 'Приостановлен'
           at_risk: 'Под угрозой'
           not_set: 'Не задано'
         subprojects:
@@ -53,7 +53,7 @@ ru:
         work_packages_table:
           title: 'Таблица пакетов работ'
         work_packages_graph:
-          title: 'График пакетов работ'
+          title: 'Диаграмма по пакетам работ'
         work_packages_calendar:
           title: 'Календарь'
         work_packages_overview:

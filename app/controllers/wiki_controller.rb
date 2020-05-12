@@ -55,10 +55,6 @@ class WikiController < ApplicationController
                                               destroy]
   before_action :build_wiki_page_and_content, only: %i[new create]
 
-  verify method: :post, only: [:protect], redirect_to: { action: :show }
-  verify method: :get,  only: %i[new new_child], render: { nothing: true, status: :method_not_allowed }
-  verify method: :post, only: :create, render: { nothing: true, status: :method_not_allowed }
-
   include AttachmentsHelper
   include PaginationHelper
   include Redmine::MenuManager::WikiMenuHelper
@@ -298,7 +294,6 @@ class WikiController < ApplicationController
     render_404 unless @annotate
   end
 
-  verify method: :delete, only: [:destroy], redirect_to: { action: :show }
   # Removes a wiki page and its history
   # Children can be either set as root pages, removed or reassigned to another parent page
   def destroy

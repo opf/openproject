@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature, js: true do
+  using_shared_fixtures :admin
   let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)     { FactoryBot.create :admin }
   let!(:peter)    { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
   let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith' }
   let(:group)     { FactoryBot.create :group, lastname: 'A-Team' }
@@ -45,7 +45,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
   before do
     allow(User).to receive(:current).and_return admin
 
-    group.add_member! peter
+    group.add_members! peter
   end
 
   scenario 'adding a user to a group adds the user to the project as well' do
@@ -66,7 +66,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
   context 'given a group with members in a project' do
     before do
-      group.add_member! hannibal
+      group.add_members! hannibal
       project.add_member! group, [manager]
     end
 

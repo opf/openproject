@@ -28,7 +28,6 @@
 
 import {Component, ElementRef, OnInit} from "@angular/core";
 import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export const hideSectionLinkSelector = 'hide-section-link';
 

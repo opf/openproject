@@ -37,7 +37,6 @@ module OpenProject::Meeting
     register 'openproject-meeting',
              author_url: 'http://finn.de',
              bundled: true do
-
       project_module :meetings do
         permission :view_meetings, meetings: [:index, :show], meeting_agendas: [:history, :show, :diff], meeting_minutes: [:history, :show, :diff]
         permission :create_meetings, { meetings: [:new, :create, :copy] }, require: :member
@@ -65,11 +64,9 @@ module OpenProject::Meeting
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.uncountable 'meeting_minutes'
       end
-
-      Redmine::Activity.map do |activity|
-        activity.register :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
-      end
     end
+
+    activity_provider :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
 
     patches [:Project]
     patch_with_namespace :BasicData, :RoleSeeder

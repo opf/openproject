@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Subscribe
-  priority:
+  priority: 960
 description: Book the OpenProject Cloud Edition.
 robots: index, follow
 keywords: Book Cloud Edition
@@ -83,3 +83,9 @@ You will get an overview of your booked subscription.
 An invoice will be sent via email to the Billing email.
 
 ![Subscription](image-20200115141724205.png)
+
+## Frequently asked questions (FAQ)
+
+### Is there an advantage of the annual over the monthly OpenProject plan?
+
+We offer two months of the Cloud Edition for free if you choose an annual plan.

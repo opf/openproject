@@ -31,19 +31,36 @@ require 'spec_helper'
 shared_examples_for 'API V3 collection response' do |total, count, type|
   subject { last_response.body }
 
-  it { expect(last_response.status).to eql(200) }
+  # Allow input to pass a proc to avoid counting before the example
+  # context
+  let(:total_number) do
+    if total.is_a? Proc
+      total.call
+    else
+      total
+    end
+  end
 
-  it { is_expected.to be_json_eql('Collection'.to_json).at_path('_type') }
+  let(:count_number) do
+    if count.is_a? Proc
+      count.call
+    else
+      count
+    end
+  end
 
-  it { is_expected.to be_json_eql(count.to_json).at_path('count') }
+  it 'returns a collection successfully' do
+    aggregate_failures do
 
-  it { is_expected.to be_json_eql(total.to_json).at_path('total') }
+      expect(last_response.status).to eql(200)
+      expect(subject).to be_json_eql('Collection'.to_json).at_path('_type')
+      expect(subject).to be_json_eql(count_number.to_json).at_path('count')
+      expect(subject).to be_json_eql(total_number.to_json).at_path('total')
+      expect(subject).to have_json_size(count_number).at_path('_embedded/elements')
 
-  it { is_expected.to have_json_size(count) .at_path('_embedded/elements') }
-
-  it 'has element of specified type if elements exist' do
-    if count > 0
-      is_expected.to be_json_eql(type.to_json).at_path('_embedded/elements/0/_type')
+      if count_number > 0
+        expect(subject).to be_json_eql(type.to_json).at_path('_embedded/elements/0/_type')
+      end
     end
   end
 end

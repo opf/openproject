@@ -93,13 +93,6 @@ module ApplicationHelper
     t "status_#{user.status_name}"
   end
 
-  def toggle_link(name, id, options = {}, html_options = {})
-    onclick = "jQuery('##{id}').toggle(); "
-    onclick << (options[:focus] ? "jQuery('##{options[:focus]}').focus(); " : 'this.blur(); ')
-    onclick << 'return false;'
-    link_to_function(name, onclick, html_options)
-  end
-
   def delete_link(url, options = {})
     options = {
       method: :delete,
@@ -257,6 +250,10 @@ module ApplicationHelper
   def authoring(created, author, options = {})
     label = options[:label] || :label_added_time_by
     l(label, author: link_to_user(author), age: time_tag(created)).html_safe
+  end
+
+  def authoring_at(created, author)
+    l(:'js.label_added_time_by', author: author.name, age: created, authorLink: user_path(author)).html_safe unless author.nil?
   end
 
   def time_tag(time)

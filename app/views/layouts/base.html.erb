@@ -53,8 +53,8 @@ See docs/COPYRIGHT.rdoc for more details.
           data-id="<%= User.current.id %>" />
   <% end %>
 
-  <% if OpenProject::Configuration.frontend_sentry? %>
-    <%= tag :meta, name: 'openproject_sentry', data: { dsn: OpenProject::Configuration.sentry_dsn } %>
+  <% if OpenProject::Configuration.sentry_frontend_dsn %>
+    <%= tag :meta, name: 'openproject_sentry', data: { dsn: OpenProject::Configuration.sentry_frontend_dsn } %>
   <% end %>
 
   <meta name="openproject_initializer"
@@ -204,13 +204,18 @@ See docs/COPYRIGHT.rdoc for more details.
   (function($) {
     var wrapper = $('#wrapper');
     var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
+    var mainMenuCollapsed =  window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
 
     if (window.innerWidth < 680) {
       // force hide on load for mobile
       $('.can-hide-navigation').addClass('hidden-navigation');
     }
 
-    if (savedMainMenuWidth) {
+    if (mainMenuCollapsed === 'true') {
+      savedMainMenuWidth = 0;
+    }
+
+    if (savedMainMenuWidth || savedMainMenuWidth === 0) {
       document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
     }
 

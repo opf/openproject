@@ -28,7 +28,7 @@ module OpenProject::Bim
         @viewpoint_hash ||= begin
           # Load from XML using activesupport
           hash = Hash.from_xml(xml)
-          hash = hash[ROOT_NODE] if hash.key?(ROOT_NODE)
+          hash = hash[ROOT_NODE] if hash[ROOT_NODE]
 
           # Perform destructive transformations
           transformations.each do |method_name|
@@ -58,6 +58,7 @@ module OpenProject::Bim
       def remove_keys(hash)
         hash.delete 'xmlns:xsi'
         hash.delete 'xmlns:xsd'
+        hash.delete 'VisualizationInfo' unless hash['VisualizationInfo']
       end
 
       def set_uuid(hash)
@@ -96,7 +97,7 @@ module OpenProject::Bim
       def transform_lines(hash)
         return unless hash['lines']
 
-        hash['lines'] = hash['lines']['line'].map! do |line|
+        hash['lines'] = [hash['lines']['line']].flatten(1).map! do |line|
           line.deep_transform_values! { |val| to_numeric(val) }
         end
       end
@@ -104,7 +105,7 @@ module OpenProject::Bim
       def transform_clipping_planes(hash)
         return unless hash['clipping_planes']
 
-        hash['clipping_planes'] = hash['clipping_planes']['clipping_plane'].map! do |plane|
+        hash['clipping_planes'] = [hash['clipping_planes']['clipping_plane']].flatten(1).map! do |plane|
           plane.deep_transform_values! { |val| to_numeric(val) }
         end
       end

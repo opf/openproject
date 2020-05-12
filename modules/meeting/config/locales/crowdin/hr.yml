@@ -74,12 +74,14 @@ hr:
   permission_send_meeting_agendas_notification: "Pošalji notifikaciju o uređenim dnevnim redovima"
   permission_create_meeting_minutes: "Upravljaj minutama"
   permission_send_meeting_minutes_notification: "Pošalji notifikaciju o uređenim minutama"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Sastanci"
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "u satima"
   text_meeting_agenda_for_meeting: 'dnevni red za sastank "%{meeting}"'
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
-  text_meeting_agenda_open_are_you_sure: "Nepohranjeni sadržaj u minutama biti će izgubljen! Da li želite nastaviti?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'minute za sastanak "%{meeting}"'
   text_review_meeting_agenda: "%{author} je dodao poveznicu %{link} za provjeru."
   text_review_meeting_minutes: "%{author} je dodao poveznicu %{link} za provjeru."

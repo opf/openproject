@@ -1,7 +1,11 @@
 module OpenProject::Bim::Patches
   module API::V3::ExportFormats
     def representation_formats
-      super + [representation_format_bcf]
+      if OpenProject::Configuration.bim?
+        super + [representation_format_bcf]
+      else
+        super
+      end
     end
 
     def representation_format_bcf

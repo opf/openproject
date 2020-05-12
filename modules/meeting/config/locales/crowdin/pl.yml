@@ -74,12 +74,14 @@ pl:
   permission_send_meeting_agendas_notification: "Wyślij powiadomienie o przeglądzie planów"
   permission_create_meeting_minutes: "Zarządzaj protokołami ze spotkań"
   permission_send_meeting_minutes_notification: "Wyślij przegląd uwag do protokołu ze spotkania"
+  permission_meetings_send_invite: "Zaproś użytkowników na spotkania"
+  permission_send_meeting_agendas_icalendar: "Wyślij plan spotkania jako wpis kalendarza"
   project_module_meetings: "Spotkania"
   text_duration_in_hours: "Czas trwania w godzinach"
   text_in_hours: "w godzinach"
   text_meeting_agenda_for_meeting: 'agenda spotkania "%{meeting}"'
   text_meeting_closing_are_you_sure: "Czy na pewno chcesz zamknąć spotkanie?"
-  text_meeting_agenda_open_are_you_sure: "Niezapisane zmiany protokołu zostaną utracone! Kontynuować?"
+  text_meeting_agenda_open_are_you_sure: "To zastąpił wszystkie zmiany w protokołach! Czy chcesz kontynuować?"
   text_meeting_minutes_for_meeting: 'protokół ze spotkania "%{meeting}"'
   text_review_meeting_agenda: "%{author} umieścił %{link} do przeglądu."
   text_review_meeting_minutes: "%{author} umieścił %{link} do przeglądu."

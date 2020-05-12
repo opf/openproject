@@ -2,7 +2,7 @@ import {OptionalBootstrapDefinition} from "core-app/globals/dynamic-bootstrapper
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
 import {
   EmbeddedTablesMacroComponent,
-  wpEmbeddedTableEntrySelector
+  wpEmbeddedTableMacroSelector
 } from "core-components/wp-table/embedded/embedded-tables-macro.component";
 import {
   ColorsAutocompleter,
@@ -100,7 +100,6 @@ import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector
 } from "core-app/modules/common/remote-field-updater/remote-field-updater.component";
-import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/embedded/wp-embedded-table-entry.component";
 import {
   WorkPackageOverviewGraphComponent,
   wpOverviewGraphSelector
@@ -126,13 +125,17 @@ import {
   MembersAutocompleterComponent,
   membersAutocompleterSelector
 } from "core-app/modules/members/members-autocompleter.component";
+import {EnterpriseBaseComponent, enterpriseBaseSelector} from "core-components/enterprise/enterprise-base.component";
+import {
+  EEActiveSavedTrialComponent,
+  enterpriseActiveSavedTrialSelector
+} from "core-components/enterprise/enterprise-active-trial/ee-active-saved-trial.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
   { selector: attributeHelpTextSelector, cls: AttributeHelpTextComponent },
-  { selector: wpEmbeddedTableEntrySelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
+  { selector: wpEmbeddedTableMacroSelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleter },
-  { selector: wpEmbeddedTableEntrySelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: AttachmentsComponent, embeddable: true },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
@@ -161,9 +164,10 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
+  { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
+  { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
-  { selector: wpEmbeddedTableEntrySelector, cls: WorkPackageEmbeddedTableEntryComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
 ];

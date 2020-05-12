@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Setting < ActiveRecord::Base
+class Setting < ApplicationRecord
   DATE_FORMATS = [
     '%Y-%m-%d',
     '%d/%m/%Y',

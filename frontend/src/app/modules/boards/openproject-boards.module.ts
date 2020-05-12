@@ -50,6 +50,7 @@ import {BOARDS_ROUTES, uiRouterBoardsConfiguration} from "core-app/modules/board
 import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board-partitioned-page/board-partitioned-page.component";
 import {BoardListContainerComponent} from "core-app/modules/boards/board/board-partitioned-page/board-list-container.component";
 import {BoardsMenuButtonComponent} from "core-app/modules/boards/board/toolbar-menu/boards-menu-button.component";
+import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
 
 @NgModule({
   imports: [
@@ -84,6 +85,7 @@ import {BoardsMenuButtonComponent} from "core-app/modules/boards/board/toolbar-m
     BoardListMenuComponent,
     BoardFilterComponent,
     VersionBoardHeaderComponent,
+    AssigneeBoardHeaderComponent,
   ]
 })
 export class OpenprojectBoardsModule {

@@ -113,3 +113,11 @@ You will get and overview of planned as well as spent costs and the available co
 <div class="alert alert-info" role="alert">
 **Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/#define-hourly-rate-for-labor-costs) in the user profile.
 </div>
+
+## Frequently asked questions (FAQ)
+
+### How do I prepare a budget in OpenProject?
+
+Budgets are currently limited to a single project. They cannot be shared across multiple projects.
+This means that you would have to set up a separate budget for the different main and sub projects.
+You can however use cost reports to analyze the time (and cost) spent across multiple projects. For details, you can take a look at our [time and cost reports user guide](../time-and-costs/reporting/).

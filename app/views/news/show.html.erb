@@ -60,7 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
       <%= render partial: 'form', locals: { f: f } %>
       <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-      <%= link_to_function l(:button_cancel), 'jQuery("#edit-news").hide()', class: 'button'%>
+      <%= link_to_function l(:button_cancel), 'jQuery("#edit-news").hide()', class: 'button -with-icon icon-cancel'%>
     <% end %>
   </div>
 <% end %>
@@ -94,8 +94,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
   </div>
   <% if authorize_for 'news/comments', 'create' %>
-    <p><%= toggle_link l(:label_comment_add), "add_comment_form", focus: "comment_comments" %></p>
-    <%= form_for([@news, Comment.new], html: { id: "add_comment_form", style: "display:none;" }) do %>
+    <%= form_for([@news, Comment.new], html: { id: "add_comment_form" }) do %>
       <div>
         <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
         <%= text_area 'comment',
@@ -104,8 +103,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
       </div>
       <p>
-        <%= submit_tag l(:button_add), class: 'button -highlight' %>
-        <%= toggle_link t(:button_cancel), "add_comment_form", {}, { class: 'button' } %>
+        <%= submit_tag l(:button_add_comment), class: 'button -highlight' %>
       </p>
     <% end %>
   <% end %>

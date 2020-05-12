@@ -4,12 +4,12 @@ ca:
     label_preview: 'Previsualitzar'
     button_update: 'Actualitza'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
-      uploading_avatar: "Uploading your avatar."
+      label_choose_avatar: "Tria un Avatar des d'un fitxer"
+      uploading_avatar: "Carregant el seu avatar."
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
-      error_image_too_large: "Image is too large."
-      wrong_file_format: "Allowed formats are jpg, png, gif"
-      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+        Puja el teu avatar personalitzat de 128 per 128 pixels. Les imatges més grans es re-dimensionaran i retallaran per encaixar.
+        Una visualització prèvia de l'avatar es mostrarà abans de carregar-la, un cop seleccioni la imatge.
+      error_image_too_large: "La imatge és massa gran."
+      wrong_file_format: "Els formats permesos són jpg, png, gif "
+      empty_file_error: "Si us plau, puja una imatge vàlida (jpg, png, gif)"
 

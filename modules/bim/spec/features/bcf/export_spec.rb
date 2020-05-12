@@ -28,7 +28,10 @@
 require 'spec_helper'
 require_relative '../../support/pages/ifc_models/show_default'
 
-describe 'bcf export', type: :feature, js: true do
+describe 'bcf export',
+         type: :feature,
+         js: true,
+         with_config: { edition: 'bim' } do
   let(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
   let(:closed_status) { FactoryBot.create(:closed_status, name: 'Closed') }
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
@@ -38,7 +41,21 @@ describe 'bcf export', type: :feature, js: true do
   let!(:open_bcf_issue) { FactoryBot.create(:bcf_issue, work_package: open_work_package) }
   let!(:closed_bcf_issue) { FactoryBot.create(:bcf_issue, work_package: closed_work_package) }
 
-  let(:current_user) { FactoryBot.create :admin }
+  let(:permissions) do
+    %i[view_ifc_models
+       view_linked_issues
+       manage_bcf
+       add_work_packages
+       edit_work_packages
+       view_work_packages
+       export_work_packages]
+  end
+
+  let(:current_user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: permissions
+  end
 
   let!(:model) do
     FactoryBot.create(:ifc_model_minimal_converted,
@@ -62,6 +79,7 @@ describe 'bcf export', type: :feature, js: true do
     ::DownloadedFile::clear_downloads
     page.find('.export-bcf-button').click
 
+    perform_enqueued_jobs
     # Wait for the file to download
     ::DownloadedFile.wait_for_download
     ::DownloadedFile.wait_for_download_content

@@ -87,8 +87,8 @@ describe WorkPackages::UpdateService, type: :model do
     let(:send_notifications) { true }
 
     before do
-      expect(JournalManager)
-        .to receive(:with_send_notifications)
+      expect(Journal::NotificationConfiguration)
+        .to receive(:with)
         .with(send_notifications)
         .and_yield
 

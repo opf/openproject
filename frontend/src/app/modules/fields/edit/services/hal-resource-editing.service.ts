@@ -26,12 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup} from 'reactivestates';
 import {map} from 'rxjs/operators';
 import {Injectable, Injector} from '@angular/core';
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {Subject} from "rxjs";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {ChangeMap} from "core-app/modules/fields/changeset/changeset";
@@ -106,25 +103,14 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   }
 
   public async save<V extends HalResource, T extends ResourceChangeset<V>>(change:T):Promise<ResourceChangesetCommit<V>> {
-    change.inFlight = true;
-
     // Form the payload we're going to save
-    const [form, payload] = await change.buildRequestPayload();
-    // Reject errors when occurring in form validation
-    const errors = form.getErrors();
-    if (errors !== null) {
-      change.inFlight = false;
-      throw(errors);
-    }
-
+    const payload = await change.buildRequestPayload();
     const savedResource = await change.pristineResource.$links.updateImmediately(payload);
 
     // Initialize any potentially new HAL values
     savedResource.retainFrom(change.pristineResource);
 
     this.onSaved(savedResource);
-
-    change.inFlight = false;
 
     // Complete the change
     return this.complete(change, savedResource);
@@ -204,7 +190,9 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     if (changeset && !changeset.isEmpty()) {
       return changeset;
     }
-    if (!changeset || resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
+    if (!changeset ||
+      changeset.pristineResource !== resource ||
+      resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
       return this.edit<V, T>(resource);
     }
 

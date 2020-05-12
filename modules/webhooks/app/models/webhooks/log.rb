@@ -1,5 +1,5 @@
 module Webhooks
-  class Log < ActiveRecord::Base
+  class Log < ApplicationRecord
     belongs_to :webhook, foreign_key: :webhooks_webhook_id, class_name: '::Webhooks::Webhook', dependent: :destroy
 
     validates :url, presence: true

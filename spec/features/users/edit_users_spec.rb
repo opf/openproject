@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe 'edit users', type: :feature, js: true do
-  let(:current_user) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
+  let(:current_user) { admin }
   let(:user) { FactoryBot.create :user }
 
   let!(:auth_source) { FactoryBot.create :auth_source }

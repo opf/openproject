@@ -59,17 +59,73 @@ describe Bim::IfcModels::ViewConverterService do
     end
 
     context 'if available' do
+      let(:working_directory) { Dir.mktmpdir }
+      let(:ifc_model_file_name) { "büro.ifc" }
+      let(:ifc_model_path) { File.join working_directory, ifc_model_file_name }
+      let(:ext_regex) { /\.[^\.]*\Z/ }
+
       before do
         allow(described_class).to receive(:available?).and_return true
+
+        FileUtils.touch ifc_model_path
+
+        allow(subject).to receive(:ifc_model_path).and_return(ifc_model_path)
+        allow(subject).to receive(:working_directory).and_return(working_directory)
       end
 
-      it 'calls the conversion and returns save result' do
+      after do
+        FileUtils.remove_entry working_directory
+      end
+
+      it 'performs the conversion and returns the save result' do
+        # mocking all convert! calls so they do nothing but create an empty dummy result file
+        allow(subject).to receive(:convert!) do |source_file, ext|
+          expect(File.exists?(source_file)).to be_truthy, "Expected #{source_file} to exist."
+
+          target_file_path = source_file.sub ext_regex, "." + ext
+
+          FileUtils.touch target_file_path
+
+          target_file_path
+        end
+
+        # expect conversion pipeline to start with generic model.ifc and end with
+        # büro.xkt based on the original file name
+
         expect(subject)
-          .to(receive(:perform_conversion!))
+          .to receive(:convert_to_collada)
+          .with(File.join(working_directory, "model.ifc"))
+          .and_call_original
+
+        expect(subject)
+          .to receive(:convert_to_gltf)
+          .with(File.join(working_directory, "model.dae"))
+          .and_call_original
+
+        expect(subject)
+          .to receive(:convert_to_xkt)
+          .with(File.join(working_directory, "model.gltf"))
+          .and_call_original
 
         expect(model)
-          .to(receive(:save))
-          .and_return(true)
+          .to receive(:xkt_attachment=) { |file|
+            expect(file.path).to end_with(ifc_model_file_name.sub(ext_regex, ".xkt"))
+          }
+
+        # expect metadata conversion starting with generic model.ifc and ending
+        # with büro.json based on the original file name
+
+        expect(subject)
+          .to receive(:convert_metadata)
+          .with(File.join(working_directory, "model.ifc"))
+          .and_call_original
+
+        expect(model)
+          .to receive(:metadata_attachment=) { |file|
+            expect(file.path).to end_with(ifc_model_file_name.sub(ext_regex, ".json"))
+          }
+
+        expect(model).to receive(:save).and_return(true)
 
         expect(subject.call).to be_success
       end
@@ -84,6 +140,15 @@ describe Bim::IfcModels::ViewConverterService do
 
         expect(subject.call).not_to be_success
       end
+    end
+  end
+
+  describe '#change_basename' do
+    it "should return the new basename" do
+      path = "/tmp/file.xml"
+      new_path = subject.change_basename path, "/home/model.xml", ".json"
+
+      expect(new_path.to_s).to eq "/tmp/model.json"
     end
   end
 end

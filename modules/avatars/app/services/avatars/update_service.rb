@@ -36,19 +36,20 @@ module ::Avatars
       ServiceResult.new(success: true, result: I18n.t(:message_avatar_uploaded))
     rescue StandardError => e
       Rails.logger.error "Failed to update avatar of user##{user.id}: #{e}"
-      return error_result(I18n.t(:error_image_upload))
+      error_result(I18n.t(:error_image_upload))
     end
 
     def destroy
       current_attachment = @user.local_avatar_attachment
       if current_attachment && current_attachment.destroy
+        @user.reload
         ServiceResult.new(success: true, result: I18n.t(:avatar_deleted))
       else
-        return error_result(I18n.t(:unable_to_delete_avatar))
+        error_result(I18n.t(:unable_to_delete_avatar))
       end
     rescue StandardError => e
       Rails.logger.error "Failed to delete avatar of user##{user.id}: #{e}"
-      return error_result(e.message)
+      error_result(e.message)
     end
 
     private

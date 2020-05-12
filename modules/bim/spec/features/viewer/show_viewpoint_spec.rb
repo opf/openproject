@@ -28,8 +28,16 @@
 
 require_relative '../../spec_helper'
 
-describe 'Show viewpoint in model viewer', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
+describe 'Show viewpoint in model viewer',
+         with_config: { edition: 'bim' },
+         type: :feature,
+         js: true do
+  let(:project) do
+    FactoryBot.create(:project,
+                      enabled_module_names: [:bim, :work_package_tracking],
+                      parent: parent_project)
+  end
+  let(:parent_project) { nil }
   let(:user) { FactoryBot.create :admin }
 
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
@@ -91,18 +99,33 @@ describe 'Show viewpoint in model viewer', type: :feature, js: true do
 
   context 'when in work packages details view' do
     let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, project) }
+    
+    shared_examples "moves to the BCF page" do
+      it 'moves to the bcf page' do
+        wp_details.visit!
+        bcf_details.expect_viewpoint_count 1
+        bcf_details.show_current_viewpoint
 
-    it 'moves to the bcf page' do
-      wp_details.visit!
-      bcf_details.expect_viewpoint_count 1
-      bcf_details.show_current_viewpoint
+        path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
+        expect(page).to have_current_path /#{path}/
 
-      path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
-      expect(page).to have_current_path /#{path}/
+        expect(page).to have_current_path /#{project.id}/
+      end
     end
 
-    context 'when user only has view_linked_issues permission' do
-      let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf view_work_packages] }
+    context "current project is the work package's project" do
+      it_behaves_like 'moves to the BCF page'
+    end
+
+    context "current project is a parent of the work package's project" do
+      let(:parent_project) { FactoryBot.create :project, enabled_module_names: [:work_package_tracking] }
+      let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, parent_project) }
+
+      it_behaves_like "moves to the BCF page"
+    end
+
+    context 'when user does not have view_linked_issues permission' do
+      let(:permissions) { %i[view_ifc_models view_work_packages] }
 
       let(:user) do
         FactoryBot.create :user,

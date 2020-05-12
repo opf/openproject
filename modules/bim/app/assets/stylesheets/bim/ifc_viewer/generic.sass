@@ -9,6 +9,7 @@
 @import "loading_modal"
 @import "context_menu"
 @import "tooltips"
+@import "pivot_point"
 
 // The IFC viewer shall fill the viewport to the bottom.
 // This is different to how we style #content else where.
@@ -30,39 +31,10 @@
       flex-direction: column
 
     .ifc-model-viewer--container
-      height: 33vh
+      height: 33vh !important
 
 [data-name="bim"] .main-menu--children
   overflow-x: hidden !important
-
-.ifc-model-viewer--nav-cube-canvas
-  position: absolute
-  width: 200px
-  height: 200px
-  bottom: 0
-  right: 0
-  z-index: 10
-
-.ifc-model-viewer--section-planes-overview-canvas
-  position: absolute
-  width: 250px
-  height: 250px
-  top: 50px
-  right: 50px
-  z-index: 2000
-
-.ifc-model-viewer--container
-  position: relative
-  width: 100%
-  height: 100%
-  padding-bottom: 10px
-  overflow: hidden
-  min-width: 400px
-
-.ifc-model-viewer--model-canvas
-  width: 100%
-  height: 100%
-
 
 // -------------------------- XEOKIT specific rules for BUTTONS --------------------------
 .xeokit-btn-group

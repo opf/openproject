@@ -31,8 +31,8 @@ require 'spec_helper'
 require 'factory_bot_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'
-require 'rspec/example_disabler'
 require 'test_prof/recipes/rspec/before_all'
+
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

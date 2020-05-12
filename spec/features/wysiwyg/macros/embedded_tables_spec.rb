@@ -30,10 +30,14 @@ require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
          type: :feature, js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
+  using_shared_fixtures :admin
+  let(:user) { admin }
+  let(:type_task) { FactoryBot.create :type_task }
+  let(:type_bug) { FactoryBot.create :type_bug }
+  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking]) }
   let(:editor) { ::Components::WysiwygEditor.new }
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let!(:wp_task) { FactoryBot.create(:work_package, project: project, type: type_task) }
+  let!(:wp_bug) { FactoryBot.create(:work_package, project: project, type: type_bug) }
 
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
@@ -56,7 +60,7 @@ describe 'Wysiwyg embedded work package tables',
           modal.expect_open
           modal.switch_to 'Filters'
           filters.expect_filter_count 2
-          filters.add_filter_by('Type', 'is', work_package.type.name)
+          filters.add_filter_by('Type', 'is', type_task.name)
 
           modal.switch_to 'Columns'
           columns.assume_opened
@@ -91,7 +95,8 @@ describe 'Wysiwyg embedded work package tables',
           # Expect we can preview the table within ckeditor
           editor.within_enabled_preview do |preview_container|
             embedded_table = ::Pages::EmbeddedWorkPackagesTable.new preview_container
-            embedded_table.expect_work_package_listed work_package
+            embedded_table.expect_work_package_listed wp_task
+            embedded_table.ensure_work_package_not_listed! wp_bug
           end
         end
 
@@ -101,10 +106,11 @@ describe 'Wysiwyg embedded work package tables',
         expect(page).to have_selector('.flash.notice')
 
         embedded_table = ::Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
-        embedded_table.expect_work_package_listed work_package
+        embedded_table.expect_work_package_listed wp_task
+        embedded_table.ensure_work_package_not_listed! wp_bug
 
         # Clicking on work package ID redirects
-        full_view = embedded_table.open_full_screen_by_doubleclick work_package
+        full_view = embedded_table.open_full_screen_by_doubleclick wp_task
         full_view.ensure_page_loaded
       end
     end

@@ -16,7 +16,7 @@ RSpec.configure do |config|
 
   # We don't want this to be reported on CI as it breaks the build
   unless ENV['CI']
-    config.after(:suite) do
+    config.append_after(:suite) do
       [User, Project, WorkPackage].each do |cls|
         next if cls.count == 0
         raise <<-EOS

@@ -31,7 +31,10 @@ require 'spec_helper'
 require_relative '../support/pages/ifc_models/show'
 require_relative '../support/pages/ifc_models/show_default'
 
-describe 'BIM filter spec', type: :feature, js: true do
+describe 'BIM filter spec',
+         with_config: { edition: 'bim' },
+         type: :feature,
+         js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: %w(bim work_package_tracking) }
   let(:open_status) { FactoryBot.create(:status, is_closed: false) }
   let(:closed_status) { FactoryBot.create(:status, is_closed: true) }

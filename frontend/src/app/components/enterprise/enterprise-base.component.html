@@ -1,0 +1,21 @@
+<div *ngIf="noTrialRequested; else alreadyRequested">
+  <p>{{ text.enterprise_edition }}</p>
+  <p class="-bold">{{ text.confidence }}</p>
+  <p>
+    <span class="-bold">{{ text.become_hero }}</span><br>
+    <span>{{ text.you_contribute }}</span>
+  </p>
+  <button class="button -alt-highlight" (click)="openTrialModal()">
+    {{ text.button_trial }}
+  </button>
+</div>
+
+<ng-template #alreadyRequested>
+  <enterprise-trial-waiting></enterprise-trial-waiting>
+  <p class="confirmation-hint">{{ text.email_not_received }}
+    <a (click)="openTrialModal()">{{ text.try_another_email }}</a>
+  </p>
+</ng-template>
+
+
+

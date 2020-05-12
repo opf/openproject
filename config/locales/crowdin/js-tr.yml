@@ -37,6 +37,7 @@ tr:
     close_filter_title: "Filtreyi kapat"
     close_form_title: "Formu kapat"
     button_add_watcher: "Takipçi ekle"
+    button_add: "Ekle"
     button_back: "Geri"
     button_back_to_list_view: "Listeye görünümüne geri dön"
     button_cancel: "İptal"
@@ -163,6 +164,59 @@ tr:
         edit_query: 'Sorguyu düzenle'
         new_group: 'Yeni grup'
         reset_to_defaults: 'Varsayılanlara geri yükle'
+      enterprise:
+        trial:
+          confirmation: "E-posta adresi doğrulama"
+          confirmation_info: "Size bir e-posta gönderdik. Lütfen e-postalarınızı kontrol edin ve 14 günlük denemenize başlamak için verilen onay bağlantısını tıklayın."
+          form:
+            general_consent: >
+              Katılıyorum  <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+            invalid_email: "Geçersiz e-posta adresi"
+            label_company: "Şirket"
+            label_first_name: "İsim"
+            label_last_name: "Soyisim"
+            label_email: "Eposta"
+            label_domain: "Alan adı"
+            label_subscriber: "Abone"
+            label_maximum_users: "En çok aktif kullanıcı"
+            label_starts_at: "Başlangıç tarihi:"
+            label_expires_at: "Süre sonu: "
+            receive_newsletter: OpenProject almak istiyorum  <a target="_blank" href="%{link}">Bülten</a>.
+            taken_domain: Alan adı başına yalnızca bir etkin deneme olabilir.
+            taken_email: Her kullanıcı yalnızca bir deneme oluşturabilir.
+          email_not_received: "E-posta almadınız mı? Sağdaki bağlantıyı kullanarak e-postayı yeniden gönderebilirsiniz."
+          try_another_email: "Veya başka bir e-posta adresiyle deneyin."
+          next_steps: "Sonraki adımlar"
+          resend_link: "Tekrar gönder"
+          resend_success: "E-posta yeniden gönderildi. Lütfen e-postalarınızı kontrol edin ve verilen onay bağlantısını tıklayın."
+          resend_warning: "E-posta tekrar gönderilemedi."
+          session_timeout: "Oturumunuz zaman aşımına uğradı. Lütfen sayfayı yeniden yüklemeyi veya e-postayı tekrar göndermeyi deneyin."
+          status_label: "Durum:"
+          status_confirmed: "onaylanmış"
+          status_waiting: "e-posta gönderildi - onay bekleniyor"
+          test_ee: "Enterprise Edition ürününü 14 gün ücretsiz test edin"
+          quick_overview: "OpenProject Enterprise Edition ile proje yönetimi ve ekip işbirliğine hızlı bir genel bakış edinin."
+        upsale:
+          become_hero: "Kahraman olun!"
+          benefits:
+            description: "Avantajı nedir?"
+            high_security: "Güvenlik özellikleri"
+            high_security_text: "Tek oturum açma (SAML, OpenID Connect, CAS), iki faktörlü kimlik doğrulama ve LDAP gruplarının otomatik senkronizasyonu."
+            installation: "Kurulum desteği"
+            installation_text: "Deneyimli yazılım mühendisleri, kendi altyapınızdaki eksiksiz kurulum ve kurulum sürecinde size rehberlik eder."
+            premium_features: "Ayrıcalıklı özellikler"
+            premium_features_text: "Çevik tahtalar, özel tema ve logo, grafikler, özel eylemlerle akıllı iş akışları, iş paketi ekleri için tam metin araması ve çoklu seçim özel alanları."
+            professional_support: "Profesyonel destek"
+            professional_support_text: "İş açısından kritik ortamlarda OpenProject çalıştırma konusunda uzman bilgiye sahip kıdemli destek mühendislerinden güvenilir, yüksek dokunuşlu destek alın."
+          button_start_trial: "Deneme sürümüne başla"
+          button_book_now: "Şimdi rezervasyon yaptırın"
+          confidence: >
+            Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
+          link_quote: "Fiyat teklifi alın"
+          text: >
+            OpenProject Enterprise Edition, Topluluk Sürümü'nün üzerine kuruludur. OpenProject ile iş açısından kritik öneme sahip projeleri yöneten 10'dan fazla kullanıcısı olan kuruluşlara yönelik premium özellikler ve profesyonel destek içerir.
+          unlimited: "Sınırsız"
+          you_contribute: "Geliştiricilerin faturalarını da ödemeleri gerekiyor. Enterprise Edition ile bu Açık Kaynak topluluk çalışmasına önemli ölçüde katkıda bulunursunuz."
     custom_actions:
       date:
         specific: 'açık'
@@ -210,13 +264,13 @@ tr:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              Sürüm çeşitli yeni özellikler ve geliştirmeler içeriyor: <br><br> <ul> <li>Default <b> Açık veya karanlık bir tema (premium özellik) seçmek için varsayılan <b> tasarım şablonları </li> <li>New <b> Sayfam </i> için çubuk grafikte harcanan zamanı göstermek üzere yeni <b> zaman izleme widget'ı </b>. </li> <li> <b> Maliyet raporları için XLS dışa aktarma </b> ve iş paketlerinin PDF dışa aktarımında biçimlendirilmiş metin. </li> <li><b> Geliştirilmiş tasarım ve kullanılabilirlik </b>, yani proje ayarları ve yönetimindeki sekmeler ve daha fazlası. </li> </ul>
+              Sürüm çeşitli yeni özellikler ve geliştirmeler içeriyor: <br> <br> <ul> <li> <b> Atanan kişiler için eylem panosu </b>: kartları listeler arasında taşırken atananı otomatik olarak güncelleyecek eylem panoları oluşturun. </ li> <li> Sürümleri listeden sürüm seçmeyi çok daha kolay hale getiren tarihe göre değil, ada göre sıralayın. </li> <li> <b> Zamanlı izleme için 24 saatlik kısıtlamayı kaldırın </b>. </ li> <li> Proje özeti widget'ında haber özetini göster. </li> <li> Çeşitli hata düzeltmeleri ve <b> kullanılabilirlik geliştirmeleri </b>. </li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject, proje yönetim uygulamanıza <b> 3B modelleri entegre etmek için </b> yeni bir IFC modülü içerir </b> ve ayrı pahalı yazılım veya lisanslar kurmadan ekibinizle bu dosyalarla işbirliği içinde çalışmak. <br> <br> <ul> <li> <b> Bina modellerinin IFC dosyalarını </b> OpenProject uygulamanıza aktarın. </li> <li> <b> 3D modelleri açın ve bina modellerini görselleştirin </ b > tarayıcınızda. </li> <li> Ekibi ayrı bir pahalı yazılım yüklemeden doğrudan OpenProject ile kolayca <b> birden fazla IFC dosyası üzerinde çalışın </b>. </li> </ul>
+              OpenProject 10.5 artık BIM modelleri için açık sorun izleme standardı olan <b> BIM İşbirliği Formatını (BCF) </b> desteklemektedir. <br> <br> <ul> <li> BIM sorunlarını kolayca oluşturun ve <b> yönetin < / b> gibi etkileşimli 3D IFC modelindeki çakışmalar, istekler ve sorular ve <b> proje ekibiyle paylaşın. </b> </li> <li> Güçlü <a kullanarak OpenProject'i favori BIM yazılımınızla entegre edin target = "_ blank" href = "% {bcf_api_link}"> BCF REST API'sı. </a> </li> <li> BCF XML dosyalarını içe ve dışa aktarın. </li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -227,7 +281,7 @@ tr:
     label_add_row_before: "Öncesine satır ekle"
     label_add_selected_columns: "Seçilen sütunları ekle"
     label_added_by: "ekleyen"
-    label_added_time_by: "%{author} %{age} tarafından eklendi"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "gün önce"
     label_all: "tüm"
     label_all_work_packages: "tüm iş paketleri"
@@ -268,6 +322,7 @@ tr:
     label_expand_all: "Tümünü genişlet"
     label_expand_project_menu: "Proje menüsünü genişlet"
     label_export: "Dışarı aktar"
+    label_export_preparing: "İhracat hazırlanıyor ve kısa süre içinde indirilecek."
     label_filename: "Dosya"
     label_filesize: "Boyutu"
     label_general: "Genel"
@@ -286,6 +341,7 @@ tr:
     label_import: "İçeri Aktar"
     label_latest_activity: "En son etkinlik"
     label_last_updated_on: "Son güncelleme"
+    label_learn_more_link: "Daha fazla bilgi edin"
     label_less_or_equal: "<="
     label_less_than_ago: "bir haftadan kısa bir süre önce"
     label_loading: "Yükleniyor..."
@@ -466,7 +522,7 @@ tr:
       duration: 'Süre'
       spent_on: 'Tarih'
       hours: 'Saat'
-      label: 'Zaman girişi'
+      title: 'Zaman kaydet'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     watchers:
@@ -770,7 +826,7 @@ tr:
           automatic: 'Otomatik'
           manually: 'el ile'
           warning: 'Otomatik sıralama modunu etkinleştirirken önceki sıralamanızı kaybedeceksiniz.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Tablo görünümünüze sütun eklemek için yukarıdaki girişi kullanın. Sütunları yeniden sıralamak için sürükleyip bırakabilirsiniz."
         upsale:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'

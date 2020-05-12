@@ -51,7 +51,7 @@ module Shared
 
       ActiveRecord::Base.transaction do
         User.execute_as user do
-          JournalManager.with_send_notifications(send_notifications) do
+          Journal::NotificationConfiguration.with(send_notifications) do
             result = yield
 
             if result.failure?

@@ -169,7 +169,6 @@ import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routi
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
 
-
 @NgModule({
   imports: [
     // Commons

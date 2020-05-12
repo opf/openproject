@@ -193,7 +193,7 @@ class TimeEntries::ReportsController < ApplicationController
     if @project.nil?
       project_context_sql_condition
     elsif @issue.nil?
-      @project.project_condition(Setting.display_subprojects_work_packages?)
+      @project.project_condition(Setting.display_subprojects_work_packages?).to_sql
     else
       WorkPackage.self_and_descendants_of_condition(@issue)
     end

@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe User, 'deletion', type: :model do
   let(:project) { FactoryBot.create(:project_with_types) }
-  let(:user) { FactoryBot.build(:user, member_in_project: project) }
-  let(:user2) { FactoryBot.build(:user) }
+  let(:user) { FactoryBot.create(:user, member_in_project: project) }
+  let(:user2) { FactoryBot.create(:user) }
   let(:member) { project.members.first }
   let(:role) { member.roles.first }
   let(:status) { FactoryBot.create(:status) }
@@ -51,13 +51,6 @@ describe User, 'deletion', type: :model do
   }
 
   let(:substitute_user) { DeletedUser.first }
-
-  before do
-    # for some reason there seem to be users in the db
-    User.delete_all
-    user.save!
-    user2.save!
-  end
 
   describe 'WHEN there is the user' do
     before do
@@ -334,13 +327,17 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN the user is a member of a project' do
     before do
-      member # saving
-      user.destroy
+      user
+      member
     end
 
-    it { expect(Member.find_by(id: member.id)).to be_nil }
-    it { expect(Role.find_by(id: role.id)).to eq(role) }
-    it { expect(Project.find_by(id: project.id)).to eq(project) }
+    it 'removes that member' do
+      user.destroy
+
+      expect(Member.find_by(id: member.id)).to be_nil
+      expect(Role.find_by(id: role.id)).to eq(role)
+      expect(Project.find_by(id: project.id)).to eq(project)
+    end
   end
 
   describe 'WHEN the user is watching something' do

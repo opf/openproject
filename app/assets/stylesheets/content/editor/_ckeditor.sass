@@ -101,6 +101,10 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
     border-top-left-radius: 0
     border-top-right-radius: 0
 
+    .document-editor__editable
+      .-large-height &
+        min-height: 250px
+
   .ck-editor__editable
     padding: 1cm 2cm 2cm
     border: 1px hsl( 0,0%,82.7% ) solid
@@ -118,8 +122,10 @@ label.todo-list__label
     margin-top: 0
 
 // todolist list-style
-.ck-editor__editable .todo-list li
-  list-style: none
+.ck-editor__editable .todo-list
+  margin-bottom: 0
+  li
+    list-style: none
 
 .ck-editor__editable[dir="rtl"]
   ol, ul

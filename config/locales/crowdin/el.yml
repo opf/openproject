@@ -70,6 +70,9 @@ el:
       paste: "Επικολλήστε ένα token υποστήριξης Έκδοσης για Επιχειρήσεις"
       required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό token υποστήριξης Έκδοσης για Επιχειρήσεις."
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
+      start_trial: 'Έναρξη δωρεάν δοκιμαστικής περιόδου'
+      book_now: 'Κάντε κράτηση τώρα'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Εμφάνιση μέχρι
     is_active: εμφανίζεται αυτή τη στιγμή
@@ -104,9 +107,18 @@ el:
         Εισάγετε το Base DN του υποδέντρου στο LDAP που θέλετε το OpenProject να αναζητήσει χρήστες και ομάδες.
         Το OpenProject θα φιλτράρει τα δοθέντα ονόματα χρηστών μόνο σε αυτό το υποδέντρο.
         Παράδειγμα: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Αν επιλέξετε αυτό το κουτί, το OpenProject θα δημιουργεί αυτόματα καινούργιους χρήστες από τις καταχωρήσεις του LDAP όταν ταυτοποιούνται για πρώτη φορά στο OpenProject.
         Αφήστε το μη επιλεγμένο για να επιτρέψετε μόνο στους υπάρχοντες λογαριασμούς στο OpenProject να ταυτοποιηθούν μέσω LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Κρυπτογράφηση σύνδεσης'
     system_account: 'Λογαριασμός συστήματος'
     system_account_legend: |
@@ -218,6 +230,9 @@ el:
       no_results_title_text: Δεν υπάρχουν προς το παρόν νέα για αναφορά.
       no_results_content_text: Προσθέστε ένα στοιχείο νέων
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
   prioritiies:
@@ -343,7 +358,7 @@ el:
         attr_mail: "Χαρακτηριστικό email"
         base_dn: "Base DN"
         host: "Διακομιστής"
-        onthefly: "Δημιουργία χρήστη επί τόπου"
+        onthefly: "Automatic user creation"
         port: "Θύρα"
       changeset:
         repository: "Αποθετήριο"
@@ -752,6 +767,7 @@ el:
     version: "Έκδοση"
     work_package: "Εργασία"
   button_add: "Προσθήκη"
+  button_add_comment: "Προσθέστε σχόλιο"
   button_add_member: Προσθήκη μέλους
   button_add_watcher: "Προσθήκη παρατηρητή"
   button_annotate: "Σχολιασμός"
@@ -1136,13 +1152,8 @@ el:
     blocks:
       community: "Κοινότητα OpenProject"
       upsale:
-        become_hero: "Γίνετε ήρωας!"
         title: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
-        description: "Ποιά είναι τα οφέλη;"
         more_info: "Περισσότερες πληροφορίες"
-        additional_features: "Επιπλέον ισχυρές premium λειτουργίες"
-        professional_support: "Επαγγελματική υποστήριξη από τους ειδικούς του OpenProject"
-        you_contribute: "Και οι προγραμματιστές πρέπει να πληρώσουν τους λογαριασμούς τους. Με την Έκδοση για Επιχειρήσεις μπορείτε να συνεισφέρετε ουσιαστικά σε αυτή προσπάθεια της Open-Source κοινότητας."
     links:
       upgrade_enterprise_edition: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
       postgres_migration: "Μεταφορά της εγκατάστασης σας σε PostgreSQL"
@@ -1157,6 +1168,7 @@ el:
     changes_retracted: "Οι αλλαγές αποσύρθηκαν."
   links:
     configuration_guide: 'Οδηγός διαμόρφωσης'
+    get_in_touch: "Έχετε απορίες; Επικοινωνήστε μαζί μας."
   instructions_after_registration: "Μπορείτε να συνδεθείτε μόλις ο λογαριασμός σας ενεργοποιηθεί κάνοντας κλικ στο %{signin}."
   instructions_after_logout: "Μπορείτε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}."
   instructions_after_error: "Μπορείτε να δοκιμάσετε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}. Αν το σφάλμα παραμένει, ρωτήστε τον διαχειριστή σας για βοήθεια."
@@ -1313,6 +1325,7 @@ el:
   label_duplicate: "αντιγραφή"
   label_duplicates: "αντίγραφα"
   label_edit: "Επεξεργασία"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Ενεργοποίηση πολλαπλής επιλογής"
   label_enabled_project_custom_fields: 'Ενεργοποίηση προσαρμοσμένων πεδίων'
   label_enabled_project_modules: 'Ενεργοποίηση ενοτήτων'
@@ -1446,7 +1459,7 @@ el:
   label_new: "Νέο"
   label_new_features: "Νέες λειτουργίες"
   label_new_statuses_allowed: "Επιτρέπονται νέες καταστάσεις"
-  label_news: "Νέα"
+  label_news_singular: "Νέα"
   label_news_added: "Νέα προστέθηκαν"
   label_news_comment_added: "Το σχόλιο προστέθηκε σε ένα από τα νέα"
   label_news_latest: "Τελευταία νέα"
@@ -1706,31 +1719,6 @@ el:
     other: "%{count} έργα"
   label_year: "Έτος"
   label_yesterday: "χθες"
-  label_keyboard_function: "Συνάρτηση"
-  label_keyboard_shortcut: "Συντόμευση"
-  label_keyboard_accesskey: "Κλειδί πρόσβασης"
-  label_keyboard_shortcut_help_heading: "Διαθέσιμες Συντομεύσεις Πληκτρολογίου"
-  label_keyboard_shortcut_within_project: "Συντομεύσεις που σχετίζονται με έργα:"
-  label_keyboard_shortcut_global_shortcuts: "Καθολικές συντομεύσεις:"
-  label_keyboard_shortcut_some_pages_only: "Ειδικές συντομεύσεις:"
-  label_keyboard_shortcut_search_global: "Καθολική αναζήτηση"
-  label_keyboard_shortcut_search_project: "Βρείτε ένα έργο"
-  label_keyboard_shortcut_go_my_page: "Μετάβαση στη σελίδα μου"
-  label_keyboard_shortcut_show_help: "Εμφάνιση αυτού του μηνύματος βοήθειας"
-  label_keyboard_shortcut_go_overview: "Μετάβαση στην επισκόπηση έργου"
-  label_keyboard_shortcut_go_work_package: "Μετάβαση στα πακέτα εργασίας του έργου"
-  label_keyboard_shortcut_go_wiki: "Μετάβαση στο wiki του έργου"
-  label_keyboard_shortcut_go_activity: "Μετάβαση στις δραστηριότητες του έργου"
-  label_keyboard_shortcut_go_calendar: "Μετάβαση στο ημερολόγιο του έργου"
-  label_keyboard_shortcut_go_news: "Μετάβαση στο νέα του έργου"
-  label_keyboard_shortcut_go_timelines: "Μετάβαση στα χρονοδιαγράμματα"
-  label_keyboard_shortcut_new_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
-  label_keyboard_shortcut_details_package: "Εμφανίστε το πλαίσιο λεπτομερειών των πακέτων εργασίας"
-  label_keyboard_shortcut_go_edit: "Πηγαίνετε στην επεξεργασία του τρέχοντος αντικειμένου (μόνο στη σελίδα λεπτομερειών)"
-  label_keyboard_shortcut_open_more_menu: "Εμφάνιση μενού-περισσότερων (στη σελίδα λεπτομερειών μόνο)"
-  label_keyboard_shortcut_go_preview: "Μετάβαση στην προεπισκόπηση της τρέχουσας επεξεργασίας (μόνο στη σελίδα επεξεργασίας)"
-  label_keyboard_shortcut_focus_previous_item: "Εστίαση στο προηγούμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
-  label_keyboard_shortcut_focus_next_item: "Εστίαση στο επόμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
   auth_source:
     using_abstract_auth_source: "Δεν μπορεί να χρησιμοποιηθεί μια αφηρημένη πηγή αυθεντικοποίησης."
     ldap_error: "Σφάλμα-LDAP: %{error_message}"
@@ -2521,6 +2509,7 @@ el:
       mail_self_notified: "Θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
     status_user_and_brute_force: "%{user} και %{brute_force}"
     status_change: "Αλλαγή κατάστασης"
+    text_change_disabled_for_provider_login: "Το όνομα έχει οριστεί από τον πάροχο σύνδεσης και γι'αυτό δεν μπορεί να αλλαχθεί."
     unlock: "Ξεκλείδωμα"
     unlock_and_reset_failed_logins: "Ξεκλειδώστε και επαναφέρετε τις αποτυχημένες συνδέσεις"
   version_status_closed: "κλειστό"

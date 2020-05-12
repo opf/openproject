@@ -2,18 +2,34 @@ ja:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        entry: '識別子の入力'
+        dn: 'DN'
         auth_source: 'LDAP 接続'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP filter'
+        auth_source: 'LDAP 接続'
+        group_name_attribute: "Group name attribute"
     models:
       ldap_groups/synchronized_group: '同期済 LDAP グループ'
+      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
   ldap_groups:
     label_menu_item: 'LDAP グループの同期'
     label_group_key: 'LDAP グループ フィルターキー'
+    label_synchronize: 'Synchronize'
     settings:
-      group_key: 'LDAP グループ属性'
-      group_key_text: 'LDAP 属性名はグループを識別するために使用されます'
-      group_base: 'LDAP グループベース'
-      group_base_text: 'LDAP グループベースはグループのエントリーを検索するために使用されます。'
+      name_attribute: 'LDAP groups name attribute'
+      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+    synchronized_filters:
+      add_new: 'Add synchronized LDAP filter'
+      singular: 'LDAP Group synchronization filter'
+      plural: 'LDAP Group synchronization filters'
+      destroy:
+        title: 'Remove synchronized filter %{name}'
+        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
+        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
+        verification: "Enter the filter name %{name} to verify the deletion."
+      form:
+        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
+        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
     synchronized_groups:
       add_new: '同期済 LDAP グループを追加'
       destroy:
@@ -32,7 +48,7 @@ ja:
       plural: '同期済 LDAP グループ'
       singular: '同期済 LDAP グループ'
       form:
-        auth_source_text: '使用する LDAP 認証モードを選択してください。'
-        entry_text: 'LDAP グループ識別子を定義してください。'
+        auth_source_text: 'Select which LDAP connection should be used.'
+        dn_text: 'Enter the full DN of the group in LDAP'
         group_text: 'LDAP グループのメンバーを同期する既存の OpenProject グループを選択'
 
