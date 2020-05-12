@@ -18,6 +18,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 
 
 @Component({
@@ -49,6 +50,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
               readonly I18n:I18nService,
               readonly $state:StateService,
               readonly wpTableSelection:WorkPackageViewSelectionService,
+              readonly wpTableFocus:WorkPackageViewFocusService,
               readonly cardView:WorkPackageCardViewService,
               readonly cdRef:ChangeDetectorRef) {
     super();
@@ -72,6 +74,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   public openSplitScreen(wp:WorkPackageResource) {
     let classIdentifier = this.classIdentifier(wp);
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
+    this.wpTableFocus.updateFocus(wp.id!);
     this.$state.go(
       this.$state.current.data.baseRoute + '.details',
       { workPackageId: wp.id! }

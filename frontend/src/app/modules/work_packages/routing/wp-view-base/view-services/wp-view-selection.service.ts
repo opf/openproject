@@ -9,10 +9,10 @@ import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/re
 
 export interface WorkPackageViewSelectionState {
   // Map of selected rows
-  selected:{[workPackageId:string]:boolean};
+  selected:{ [workPackageId:string]:boolean };
   // Index of current selection
   // required for shift-offsets
-  activeRowIndex:number | null;
+  activeRowIndex:number|null;
 }
 
 @Injectable()
@@ -128,11 +128,19 @@ export class WorkPackageViewSelectionService implements OnDestroy {
    * Override current selection with the given work package id.
    */
   public setSelection(wpId:string, position:number) {
+    this.setMultiSelection([wpId], position);
+  }
+
+  /**
+   * Select a number of work packages
+   */
+  public setMultiSelection(selectedWorkPackageIds:string[], activeRowIndex:number|null = null) {
     let state:WorkPackageViewSelectionState = {
       selected: {},
-      activeRowIndex: position
+      activeRowIndex: activeRowIndex
     };
-    state.selected[wpId] = true;
+
+    selectedWorkPackageIds.forEach(id => state.selected[id] = true);
 
     this.selectionState.putValue(state);
   }

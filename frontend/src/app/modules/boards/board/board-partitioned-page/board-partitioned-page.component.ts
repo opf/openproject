@@ -24,7 +24,6 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {BoardFiltersService} from "core-app/modules/boards/board/board-filter/board-filters.service";
-import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 
 export function boardCardViewHandlerFactory(injector:Injector) {
@@ -40,7 +39,6 @@ export function boardCardViewHandlerFactory(injector:Injector) {
   providers: [
     DragAndDropService,
     BoardFiltersService,
-    { provide: WorkPackageViewHandlerToken, useFactory: boardCardViewHandlerFactory, deps: [Injector] },
   ]
 })
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin {

@@ -19,10 +19,15 @@ import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-res
 import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board-partitioned-page/board-partitioned-page.component";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
+import {filter} from "rxjs/operators";
 
 @Component({
   templateUrl: './board-list-container.component.html',
-  styleUrls: ['./board-list-container.component.sass']
+  styleUrls: ['./board-list-container.component.sass'],
+  providers: [
+    BoardListCrossSelectionService
+  ]
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
 
@@ -74,6 +79,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
               readonly BoardCache:BoardCacheService,
               readonly Boards:BoardService,
               readonly Banner:BannersService,
+              readonly boardListCrossSelectionService:BoardListCrossSelectionService,
               readonly Drag:DragAndDropService,
               readonly QueryUpdated:QueryUpdatedService) {
     super();
@@ -91,6 +97,16 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .subscribe(board => {
         this.setupQueryUpdatedMonitoring(board);
       });
+
+    this.boardListCrossSelectionService
+      .selections()
+      .pipe(
+        this.untilDestroyed(),
+        filter(() => this.state.includes(this.state.current.data.baseRoute + '.details'))
+      ).subscribe(selection => {
+      // Update split screen
+      this.state.go(this.state.current.data.baseRoute + '.details', { workPackageId: selection.focusedWorkPackage });
+    });
   }
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {

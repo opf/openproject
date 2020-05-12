@@ -49,6 +49,12 @@ import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/se
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 import {BoardFiltersService} from "core-app/modules/boards/board/board-filter/board-filters.service";
+import {StateService, TransitionService} from "@uirouter/core";
+import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
+import {debounceTime} from "rxjs/operators";
+import {combineLatest} from "rxjs";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -123,13 +129,18 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   constructor(readonly QueryDm:QueryDmService,
               readonly I18n:I18nService,
+              readonly state:StateService,
               readonly cdRef:ChangeDetectorRef,
+              readonly transitions:TransitionService,
               readonly boardCache:BoardCacheService,
               readonly boardFilters:BoardFiltersService,
               readonly notifications:NotificationsService,
               readonly querySpace:IsolatedQuerySpace,
               readonly halNotification:HalResourceNotificationService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+              readonly wpViewFocusService:WorkPackageViewFocusService,
+              readonly wpViewSelectionService:WorkPackageViewSelectionService,
+              readonly boardListCrossSelectionService:BoardListCrossSelectionService,
               readonly authorisationService:AuthorisationService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
               readonly injector:Injector,
@@ -147,6 +158,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.initiallyFocused = this.resource.isNewWidget;
     this.resource.isNewWidget = false;
 
+    // Set initial selection if split view open
+    if (this.state.includes(this.state.current.data.baseRoute + '.details')) {
+      let wpId = this.state.params.workPackageId;
+      this.wpViewSelectionService.setMultiSelection([wpId]);
+    }
+
     // Update permission on model updates
     this.authorisationService
       .observeUntil(componentDestroyed(this))
@@ -155,6 +172,41 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
           this.cdRef.detectChanges();
         }
+      });
+
+    let lastSelection:string[];
+
+    // If this query space changes its focused or selected
+    // work packages, update the board cross selection
+    combineLatest([
+      this.wpViewFocusService.state.values$(),
+      this.wpViewSelectionService.selection$()
+    ]).pipe(
+      debounceTime(100),
+      this.untilDestroyed()
+    ).subscribe(([focusedState, selectionState]) => {
+      let selected = Object.keys(_.pickBy(selectionState.selected, (selected, _) => selected === true));
+
+      if (_.isEqual(selected, lastSelection)) {
+        return;
+      }
+
+      this.boardListCrossSelectionService.updateSelection({
+        withinQuery: this.queryId,
+        focusedWorkPackage: focusedState.workPackageId,
+        allSelected: selected
+      });
+    });
+
+    // Apply focus and selection when changed in cross service
+    this.boardListCrossSelectionService
+      .selectionsForQuery(this.queryId)
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe(selection => {
+        lastSelection = selection.allSelected;
+        this.wpViewSelectionService.setMultiSelection(selection.allSelected);
       });
 
     // Update query on filter change
@@ -179,6 +231,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       });
 
     this.updateQuery();
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
   }
 
   public get errorMessage() {
@@ -340,10 +396,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
   }
 
-  private loadQuery(visibly = true) {
-    const queryId:string = (this.resource.options.queryId as number|string).toString();
+  private get queryId():string {
+    return (this.resource.options.queryId as number|string).toString();
+  }
 
-    let observable = this.QueryDm.stream(this.columnsQueryProps, queryId);
+  private loadQuery(visibly = true) {
+    let observable = this.QueryDm.stream(this.columnsQueryProps, this.queryId);
 
     // Spread arguments on pipe does not work:
     // https://github.com/ReactiveX/rxjs/issues/3989
