@@ -110,16 +110,21 @@ production:
   auth_source_sso:
     # The header name is configured here
     header: X-Authenticated-User
+
     # The secret is configurable here
     # You can comment it out to disable if your outer server
     # fully controls this header value and you trust it.
     secret: MyPassword
+
+    # Uncomment to make the header optional.
+    # optional: true
+
+    # Specify a logout URL that gets redirected
+    # after the OpenProject internal logout flow
+    # logout_url: https://sso.example.com/logout
 ```
 
-
-
 Be sure to choose the correct indentation and base key. The `auth_source_sso` key should be indented two spaces (and all other keys accordingly) and the configuration should belong to the `production` group.
-
 
 
 The configuration can be provided in one of three ways:
@@ -141,6 +146,12 @@ As with all the rest of the OpenProject configuration settings, the Kerberos hea
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_HEADER="X-Authenticated-User"
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_SECRET="MyPassword"
 ```
+
+  In case you want to make the header optional, i.e. the header may or may not be present for a subset of users going through Apache, you can set the following value:
+
+  ```bash
+  openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_OPTIONAL=true
+  ```
 
 Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
 (`__`) in the environment variable as the single underscore denotes namespaces.
