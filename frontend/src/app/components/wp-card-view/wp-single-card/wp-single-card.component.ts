@@ -73,7 +73,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     let classIdentifier = this.classIdentifier(wp);
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.$state.go(
-      '.details',
+      this.$state.current.data.baseRoute + '.details',
       { workPackageId: wp.id! }
     );
   }
