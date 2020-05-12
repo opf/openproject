@@ -195,6 +195,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
       return this.edit<V, T>(resource);
     }
 
+    changeset.pristineResource = resource;
     return changeset;
   }
 
