@@ -107,10 +107,19 @@ pt-BR:
         Digite a Base DN da subárvore no LDAP que você quer que o OpenProject procure por usuários e grupos.
         O OpenProject irá filtrar os nomes de usuários fornecidos apenas nesta subárvore.
         Exemplo: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Se você marcar esta caixa, o OpenProject irá automaticamente criar novos usuários a partir de suas entradas LDAP
         quando eles forem autenticados pela primeira vez com o OpenProject.
         Deixe isso desmarcado para permitir que apenas contas existentes no OpenProject possam se autenticar através do LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Criptografia de Conexão'
     system_account: 'Conta do sistema'
     system_account_legend: |
@@ -223,6 +232,9 @@ pt-BR:
       no_results_title_text: Atualmente, não há notícias para reportar.
       no_results_content_text: Adicionar um item de notícias
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
   prioritiies:
@@ -348,7 +360,7 @@ pt-BR:
         attr_mail: "Campo do E-mail"
         base_dn: "DN principal"
         host: "Servidor"
-        onthefly: "Criar usuários automaticamente"
+        onthefly: "Automatic user creation"
         port: "Porta"
       changeset:
         repository: "Repositório"
@@ -1315,6 +1327,7 @@ pt-BR:
   label_duplicate: "duplicado"
   label_duplicates: "Duplicados"
   label_edit: "Editar"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Alterna para seleção múltipla"
   label_enabled_project_custom_fields: 'Campos personalizados habilitados'
   label_enabled_project_modules: 'Módulos habilitados'

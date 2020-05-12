@@ -107,10 +107,19 @@ ja:
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
         Example: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: '接続の暗号化'
     system_account: 'System account'
     system_account_legend: |
@@ -223,6 +232,9 @@ ja:
       no_results_title_text: 現在、報告するニュースはありません。
       no_results_content_text: ニュース項目を追加
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
   prioritiies:
@@ -346,7 +358,7 @@ ja:
         attr_mail: "メール"
         base_dn: "ベースDN"
         host: "ホスト"
-        onthefly: "あわせてユーザーを作成"
+        onthefly: "Automatic user creation"
         port: "ポート番号"
       changeset:
         repository: "リポジトリ"
@@ -1298,6 +1310,7 @@ ja:
   label_duplicate: "重複"
   label_duplicates: "次と重複"
   label_edit: "編集"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "複数選択の切り替え"
   label_enabled_project_custom_fields: '有効なカスタム フィールド'
   label_enabled_project_modules: '有効なモジュール'

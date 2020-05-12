@@ -280,7 +280,7 @@ el:
     label_add_row_before: "Προσθήκη γραμμής πριν"
     label_add_selected_columns: "Προσθέστε τις επιλεγμένες στήλες"
     label_added_by: "προστέθηκε από"
-    label_added_time_by: "Προστέθηκε από τον %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "ημέρες πριν"
     label_all: "όλα"
     label_all_work_packages: "όλα τα πακέτα εργασίας"
@@ -521,7 +521,7 @@ el:
       duration: 'Διάρκεια'
       spent_on: 'Ημερομηνία'
       hours: 'Ώρες'
-      label: 'Καταχώρηση χρόνου'
+      title: 'Καταγραφή χρόνου'
     two_factor_authentication:
       label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
     watchers:

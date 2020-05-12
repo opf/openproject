@@ -281,7 +281,7 @@ hr:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Dodaj odabrani stupac"
     label_added_by: "dodao"
-    label_added_time_by: "Dodao %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "dana ranije"
     label_all: "sve"
     label_all_work_packages: "svi radni paketi"
@@ -522,7 +522,7 @@ hr:
       duration: 'Trajanje'
       spent_on: 'Datum'
       hours: 'Sati'
-      label: 'Time entry'
+      title: 'Vrijeme pristupa'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

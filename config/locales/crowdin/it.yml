@@ -106,9 +106,18 @@ it:
         Inserire il nome dominio del ramo LDAP che si vuole far scansionare da OpenProject per la ricerca di utenti e gruppi.
         OpenProject scansionerà solo il ramo fornito.
         Esempio: ou=utenti,dc=esempio,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Se selezioni questa spunta, OpenProject creerà automaticamente nuovi utenti dai loro record LDAP quando effettueranno la prima autenticazione con OpenProject.
         Lasciare vuota questa spunta se si vuole garantire ai soli account presenti su OpenProject di autenticarsi tramite LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Crittografia connessione'
     system_account: 'Account di sistema'
     system_account_legend: |
@@ -220,6 +229,9 @@ it:
       no_results_title_text: Al momento non c'è nessuna notizia da segnalare.
       no_results_content_text: Aggiungi una notizia
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
   prioritiies:
@@ -345,7 +357,7 @@ it:
         attr_mail: "Attributo email"
         base_dn: "Nome Dominio (DN) base"
         host: "Host"
-        onthefly: "Creazione dell'utente istantanea"
+        onthefly: "Automatic user creation"
         port: "Porta"
       changeset:
         repository: "Archivio"
@@ -1312,6 +1324,7 @@ it:
   label_duplicate: "duplica"
   label_duplicates: "duplica"
   label_edit: "Modifica"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Attiva/disattiva multiselezione"
   label_enabled_project_custom_fields: 'Campi personalizzati abilitati'
   label_enabled_project_modules: 'Moduli abilitati'
