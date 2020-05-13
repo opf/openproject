@@ -54,7 +54,6 @@ import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routin
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
 import {debounceTime} from "rxjs/operators";
-import {combineLatest} from "rxjs";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -161,7 +160,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     // Set initial selection if split view open
     if (this.state.includes(this.state.current.data.baseRoute + '.details')) {
       let wpId = this.state.params.workPackageId;
-      this.wpViewSelectionService.setMultiSelection([wpId]);
+      this.wpViewSelectionService.initializeSelection([wpId]);
     }
 
     // Update permission on model updates
@@ -174,26 +173,21 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         }
       });
 
-    let lastSelection:string[];
-
     // If this query space changes its focused or selected
     // work packages, update the board cross selection
-    combineLatest([
-      this.wpViewFocusService.state.values$(),
-      this.wpViewSelectionService.selection$()
-    ]).pipe(
-      debounceTime(100),
-      this.untilDestroyed()
-    ).subscribe(([focusedState, selectionState]) => {
+    this.wpViewSelectionService
+      .updates$()
+      .pipe(
+        debounceTime(100),
+        this.untilDestroyed()
+      ).subscribe((selectionState) => {
       let selected = Object.keys(_.pickBy(selectionState.selected, (selected, _) => selected === true));
 
-      if (_.isEqual(selected, lastSelection)) {
-        return;
-      }
+      const focused = this.wpViewFocusService.focusedWorkPackage;
 
       this.boardListCrossSelectionService.updateSelection({
         withinQuery: this.queryId,
-        focusedWorkPackage: focusedState.workPackageId,
+        focusedWorkPackage: focused,
         allSelected: selected
       });
     });
@@ -205,8 +199,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.untilDestroyed()
       )
       .subscribe(selection => {
-        lastSelection = selection.allSelected;
-        this.wpViewSelectionService.setMultiSelection(selection.allSelected);
+        this.wpViewSelectionService.initializeSelection(selection.allSelected);
       });
 
     // Update query on filter change

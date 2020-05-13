@@ -102,6 +102,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .selections()
       .pipe(
         this.untilDestroyed(),
+        filter((state) => state.focusedWorkPackage !== null),
         filter(() => this.state.includes(this.state.current.data.baseRoute + '.details'))
       ).subscribe(selection => {
       // Update split screen

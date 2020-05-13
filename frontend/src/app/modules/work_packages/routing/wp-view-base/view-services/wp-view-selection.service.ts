@@ -1,4 +1,3 @@
-import {input} from 'reactivestates';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {Injectable, OnDestroy} from '@angular/core';
@@ -6,6 +5,9 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {States} from 'core-components/states.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import {WorkPackageViewBaseService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 
 export interface WorkPackageViewSelectionState {
   // Map of selected rows
@@ -16,14 +18,13 @@ export interface WorkPackageViewSelectionState {
 }
 
 @Injectable()
-export class WorkPackageViewSelectionService implements OnDestroy {
-
-  private selectionState = input<WorkPackageViewSelectionState>();
+export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<WorkPackageViewSelectionState> implements OnDestroy {
 
   public constructor(readonly querySpace:IsolatedQuerySpace,
                      readonly states:States,
                      readonly wpCacheService:WorkPackageCacheService,
                      readonly opContextMenu:OPContextMenuService) {
+    super(querySpace);
     this.reset();
   }
 
@@ -32,8 +33,20 @@ export class WorkPackageViewSelectionService implements OnDestroy {
     Mousetrap.unbind(['command+a', 'ctrl+a']);
   }
 
-  public isSelected(workPackageId:string) {
-    return this.currentState.selected[workPackageId];
+  public initializeSelection(selectedWorkPackageIds:string[]) {
+    let state:WorkPackageViewSelectionState = {
+      selected: {},
+      activeRowIndex: null
+    };
+
+    selectedWorkPackageIds.forEach(id => state.selected[id] = true);
+
+    this.updatesState.clear();
+    this.pristineState.putValue(state);
+  }
+
+  public isSelected(workPackageId:string):boolean {
+    return !!this.current?.selected[workPackageId];
   }
 
   /**
@@ -48,7 +61,7 @@ export class WorkPackageViewSelectionService implements OnDestroy {
       }
     });
 
-    this.selectionState.putValue(state);
+    this.update(state);
   }
 
   /**
@@ -62,7 +75,7 @@ export class WorkPackageViewSelectionService implements OnDestroy {
   public getSelectedWorkPackageIds():string[] {
     let selected:string[] = [];
 
-    _.each(this.currentState.selected, (isSelected:boolean, wpId:string) => {
+    _.each(this.current?.selected, (isSelected:boolean, wpId:string) => {
       if (isSelected) {
         selected.push(wpId);
       }
@@ -75,22 +88,7 @@ export class WorkPackageViewSelectionService implements OnDestroy {
    * Reset the selection state to an empty selection
    */
   public reset() {
-    this.selectionState.putValue(this._emptyState);
-  }
-
-  /**
-   * Observe selection state
-   */
-  public selection$() {
-    return this.selectionState.values$();
-  }
-
-  /**
-   * Get current selection state.
-   * @returns {WorkPackageViewSelectionState}
-   */
-  public get currentState():WorkPackageViewSelectionState {
-    return this.selectionState.value as WorkPackageViewSelectionState;
+    this.update(this._emptyState);
   }
 
   public get isEmpty() {
@@ -101,7 +99,7 @@ export class WorkPackageViewSelectionService implements OnDestroy {
    * Return the number of selected rows.
    */
   public get selectionCount():number {
-    return _.size(this.currentState.selected);
+    return _.size(this.current?.selected);
   }
 
   /**
@@ -109,7 +107,7 @@ export class WorkPackageViewSelectionService implements OnDestroy {
    * @param workPackageId
    */
   public toggleRow(workPackageId:string) {
-    let isSelected = this.currentState.selected[workPackageId];
+    let isSelected = this.current?.selected[workPackageId];
     this.setRowState(workPackageId, !isSelected);
   }
 
@@ -119,30 +117,20 @@ export class WorkPackageViewSelectionService implements OnDestroy {
    * @param newState
    */
   public setRowState(workPackageId:string, newState:boolean) {
-    let state = this.currentState;
+    let state = this.current || this._emptyState;
     state.selected[workPackageId] = newState;
-    this.selectionState.putValue(state);
+    this.update(state);
   }
 
   /**
    * Override current selection with the given work package id.
    */
   public setSelection(wpId:string, position:number) {
-    this.setMultiSelection([wpId], position);
-  }
+    const current = this._emptyState;
+    current.selected[wpId] = true;
+    current.activeRowIndex = position;
 
-  /**
-   * Select a number of work packages
-   */
-  public setMultiSelection(selectedWorkPackageIds:string[], activeRowIndex:number|null = null) {
-    let state:WorkPackageViewSelectionState = {
-      selected: {},
-      activeRowIndex: activeRowIndex
-    };
-
-    selectedWorkPackageIds.forEach(id => state.selected[id] = true);
-
-    this.selectionState.putValue(state);
+    this.update(current);
   }
 
   /**
@@ -151,7 +139,7 @@ export class WorkPackageViewSelectionService implements OnDestroy {
    * (aka shift click expansion)
    */
   public setMultiSelectionFrom(rows:RenderedWorkPackage[], wpId:string, position:number) {
-    let state = this.currentState;
+    let state = this.current || this._emptyState;
 
     // If there are no other selections, it does not matter what the index is
     if (this.selectionCount === 0 || state.activeRowIndex === null) {
@@ -168,7 +156,7 @@ export class WorkPackageViewSelectionService implements OnDestroy {
       });
     }
 
-    this.selectionState.putValue(state);
+    this.update(state);
   }
 
   public registerSelectAllListener(renderedElements:() => RenderedWorkPackage[]) {
@@ -199,4 +187,9 @@ export class WorkPackageViewSelectionService implements OnDestroy {
       activeRowIndex: null
     };
   }
+
+  valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):WorkPackageViewSelectionState|undefined {
+    return undefined;
+  }
 }
+

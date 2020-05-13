@@ -58,7 +58,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   ngOnInit():void {
     // Update selection state
-    this.wpTableSelection.selection$()
+    this.wpTableSelection.live$()
       .pipe(
         this.untilDestroyed()
       )

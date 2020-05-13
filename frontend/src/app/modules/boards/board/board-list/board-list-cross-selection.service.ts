@@ -6,7 +6,7 @@ export interface BoardSelection {
   withinQuery:string;
 
   /** The focused selected work package */
-  focusedWorkPackage:string;
+  focusedWorkPackage:string|null;
 
   /** Array of selected work packages */
   allSelected:string[];
