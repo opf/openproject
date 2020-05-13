@@ -1343,6 +1343,7 @@ en:
   label_delete_project: "Delete project"
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Descending"
   label_details: "Details"
   label_development_roadmap: "Development roadmap"
