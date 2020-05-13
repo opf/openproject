@@ -124,6 +124,29 @@ export class WorkPackageEmbeddedGraphComponent {
       };
     }
 
+    if (this.chartType === 'bar') {
+      chartTypeDefaults = {
+        scales: {
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              callback: (value:number) => {
+                if (Math.floor(value) === value) {
+                  return value;
+                } else {
+                  return 0;
+                }
+              }
+            }
+          }],
+            xAxes:
+          [{
+            stacked: true
+          }]
+        }
+      };
+    }
+
     this.chartOptions = Object.assign({}, defaults, chartTypeDefaults, this.inputChartOptions);
   }
 
