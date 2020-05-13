@@ -36,6 +36,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -98,6 +99,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
               readonly wpCreate:WorkPackageCreateService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
               readonly notificationService:WorkPackageNotificationService,
+              readonly halEvents:HalEventsService,
               readonly authorisationService:AuthorisationService,
               readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,
@@ -121,6 +123,19 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
         this.canReference = this.wpInlineCreate.canReference;
         this.cdRef.detectChanges();
       });
+
+    // Observe changes to the work packages in this view
+    this.halEvents
+      .aggregated$('WorkPackage')
+      .pipe(
+        filter(events => {
+          const wpIds:string[] = this.workPackages.map(el => el.id!.toString());
+          return !!events.find(event => wpIds.indexOf(event.id) !== -1);
+        })
+      ).subscribe(() => {
+      this.workPackages = this.wpViewOrder.orderedWorkPackages();
+      this.cdRef.detectChanges();
+    });
 
     this.querySpace.results
       .values$()
