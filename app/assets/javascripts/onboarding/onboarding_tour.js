@@ -30,6 +30,7 @@
         var demoProjectsAvailable = $('meta[name=demo_projects_available]').attr('content') === "true";
         var boardsDemoDataAvailable = $('meta[name=boards_demo_data_available]').attr('content') === "true";
         var eeTokenAvailable = !$('body').hasClass('ee-banners-visible');
+        var tourCancelled = false;
 
         // ------------------------------- Initial start -------------------------------
         // Do not show the tutorial on mobile or when the demo data has been deleted
@@ -43,15 +44,17 @@
 
                 // Start automatically when the language selection is closed
                 $('.op-modal--modal-close-button').click(function () {
+                    tourCancelled = true;
                     homescreenTour();
                 });
 
                 //Start automatically when the escape button is pressed
-                $(document).on('keydown', function(event) {
-                    if (event.key == "Escape") {
+                document.addEventListener('keydown', function(event) {
+                    if (event.key == "Escape" && !tourCancelled) {
+                        tourCancelled = true;
                         homescreenTour();
                     }
-                });
+                }, { once: true });
             }
 
             // ------------------------------- Tutorial Homescreen page -------------------------------
