@@ -270,7 +270,7 @@ sl:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
               OpenProject 10.5 zdaj podpira <b> BIM Collaboration Format (BCF) </b> - odprto problemski sledilni standard za modele BIM. <br> <br> <ul> <li> Preprosto ustvarjanje in <b> urejanje BIM težav < / b> kot so spopadi, zahteve in vprašanja v interaktivnem 3D-IFC modelu in <b>  ga delite s projektno skupino. </b> </li> <li> Integracija OpenProject s svojo najljubšo programsko opremo BIM s pomočjo zmogljive <a target = "_ blank" href = "% {bcf_api_link}"> BCF REST API. </a> </li> <li> Uvoz in izvoz datotek XML BCF. </li> </ul>
-    label_activate: "Activate"
+    label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
     label_add_columns: "Dodaj stolpce"
@@ -280,7 +280,7 @@ sl:
     label_add_row_before: "Dodaj vrstico pred"
     label_add_selected_columns: "Dodajte izbrane stolpce"
     label_added_by: "dodal"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Dodano od  <a href=%{authorLink}>%{author}</a> na %{age}"
     label_ago: "pred dnevi"
     label_all: "vsi"
     label_all_work_packages: "Vsi zahtevki"
@@ -628,8 +628,8 @@ sl:
         level2: "Razširi drugo stopnjo"
         level3: "Razširi tretjo stopnjo"
         level4: "Razširi četrto stopnjo"
-        level5: "Expand level 5"
-        all: "Show all"
+        level5: "Razširi stopnjo 5"
+        all: "Prikaži vse"
       project_status: "Status projekta"
       really_close_dialog: "Ali res želite zapreti pogovor in zgubiti vse podatke? "
       responsible: "Odgovoren"
