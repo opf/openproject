@@ -32,7 +32,10 @@ import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {
+  HalResourceEditingService,
+  ResourceChangesetCommit
+} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -87,9 +90,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   /**
    * Optional callback when the form is being saved
    */
-  protected onSaved(isInitial:boolean, saved:HalResource):void {
-    const eventType = isInitial ? 'created' : 'updated';
-    this.halEvents.push(saved, { eventType });
+  protected onSaved(commit:ResourceChangesetCommit):void {
+    // Does nothing by default
   }
 
   protected abstract focusOnFirstError():void;
@@ -190,7 +192,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
           this.halNotification.showSave(result.resource, result.wasNew);
           this.editMode = false;
-          this.onSaved(result.wasNew, result.resource);
+          this.onSaved(result);
           this.change.inFlight = false;
         })
         .catch((error:ErrorResource|Object) => {

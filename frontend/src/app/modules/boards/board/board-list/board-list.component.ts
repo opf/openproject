@@ -53,7 +53,8 @@ import {StateService, TransitionService} from "@uirouter/core";
 import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
-import {debounceTime} from "rxjs/operators";
+import {debounceTime, filter, map} from "rxjs/operators";
+import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -136,6 +137,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               readonly notifications:NotificationsService,
               readonly querySpace:IsolatedQuerySpace,
               readonly halNotification:HalResourceNotificationService,
+              readonly halEvents:HalEventsService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly wpViewFocusService:WorkPackageViewFocusService,
               readonly wpViewSelectionService:WorkPackageViewSelectionService,
@@ -210,6 +212,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.untilDestroyed()
       )
       .subscribe(() => this.updateQuery(true));
+
+    // Listen to changes to action attribute
+    this.listenToActionAttributeChanges();
 
     this.querySpace.query
       .values$()
@@ -425,5 +430,25 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     };
 
     this.columnsQueryProps = newColumnsQueryProps;
+  }
+
+  private listenToActionAttributeChanges() {
+
+    // If we don't have an action attribute
+    // nothing to do
+    if (!this.board.actionAttribute) {
+      return;
+    }
+
+    // Listen to hal events to detect changes to an action attribute
+    this.halEvents
+      .events$
+      .pipe(
+        filter(event => event.resourceType === 'WorkPackage'),
+        map((event:HalEvent) => event.commit?.changes[this.board.actionAttribute!]),
+        filter((value:HalResource|undefined) => this.actionResource?.href === value?.href)
+      ).subscribe((event) => {
+      this.updateQuery(true);
+    });
   }
 }

@@ -43,6 +43,7 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
 import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
+import {ResourceChangesetCommit} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -129,9 +130,8 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     ctrl.deactivate(focus);
   }
 
-  public onSaved(isInitial:boolean, saved:HalResource) {
-    super.onSaved(isInitial, saved);
-    this.stopEditingAndLeave(saved, isInitial);
+  public onSaved(commit:ResourceChangesetCommit) {
+    this.stopEditingAndLeave(commit.resource, commit.wasNew);
   }
 
   public requireVisible(fieldName:string):Promise<void> {
@@ -196,7 +196,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public stopEditingAndLeave(savedResource:HalResource, isInitial:boolean) {
     this.stop();
-    this.onSavedEmitter.emit({savedResource, isInitial});
+    this.onSavedEmitter.emit({ savedResource, isInitial });
   }
 
   protected focusOnFirstError():void {
