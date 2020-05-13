@@ -112,6 +112,12 @@ Reporting.Controls = function($){
 
   var update_result_table = function (response) {
     $('#result-table').html(response);
+
+    window.OpenProject.pluginContext
+      .valuesPromise()
+      .then((context) => {
+        context.bootstrap(document.getElementById('result-table'));
+      });
   };
 
   var default_failure_callback = function (response) {

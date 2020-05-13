@@ -75,6 +75,12 @@ export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {
       .toPromise();
   }
 
+  public delete(resource:TimeEntryResource) {
+    return this.halResourceService
+      .delete<TimeEntryResource>(this.pathHelper.api.v3.time_entries.id(resource.idFromLink).toString())
+      .toPromise();
+  }
+
   public extractPayload(resource:TimeEntryResource|null = null, schema:SchemaResource|null = null) {
     if (resource && schema) {
       return this.payloadDm.extract(resource, schema);
