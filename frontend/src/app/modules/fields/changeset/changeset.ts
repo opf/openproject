@@ -1,4 +1,8 @@
-export type ChangeMap = { [attribute:string]:unknown };
+export type ChangeItem = {
+  from:unknown;
+  to:unknown;
+};
+export type ChangeMap = { [attribute:string]:ChangeItem };
 
 export class Changeset {
   private changes:ChangeMap = {};
@@ -32,7 +36,9 @@ export class Changeset {
    * @param key
    */
   public reset(...keys:string[]) {
-    keys.forEach((k) => delete this.changes[k]);
+    keys.forEach((k) => {
+      delete this.changes[k];
+    });
   }
 
   /**
@@ -42,15 +48,34 @@ export class Changeset {
     this.changes = {};
   }
 
-  public set(key:string, value:unknown):void {
-    this.changes[key] = value;
+  public set(key:string, value:unknown, pristineValue:unknown):void {
+    this.changes[key] = {
+      from: pristineValue,
+      to: value
+    };
+  }
+
+  /**
+   * Get a change item for the given key, if any
+   * @param key
+   */
+  public getItem(key:string):ChangeItem|undefined {
+    return this.changes[key];
   }
 
   /**
    * Get a single value from the changeset
    * @param key
    */
-  public get(key:string):unknown|undefined {
-    return this.changes[key];
+  public getValue(key:string):unknown|undefined {
+    return this.getItem(key)?.to;
+  }
+
+  /**
+   * Get a single pristine value from the changeset
+   * @param key
+   */
+  public getPristine(key:string):unknown|undefined {
+    return this.changes[key]?.from;
   }
 }

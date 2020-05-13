@@ -1,12 +1,11 @@
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ChangeMap, Changeset} from "core-app/modules/fields/changeset/changeset";
+import {ChangeItem, ChangeMap, Changeset} from "core-app/modules/fields/changeset/changeset";
 import {input, InputState} from "reactivestates";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {debugLog} from "core-app/helpers/debug_output";
 import {take} from "rxjs/operators";
-import {Form} from "@angular/forms";
 
 /**
  * Temporary class living while a resource is being edited
@@ -67,8 +66,6 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       .getForm()
       .then(() => this.buildPayloadFromChanges());
   }
-
-
 
 
   public getSchemaName(attribute:string):string {
@@ -138,9 +135,22 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   }
 
   /**
-   * Return a shallow copy of the changes
+   * Returns the changed `to` values of the ChangeMap
    */
-  public get changes():ChangeMap {
+  public get changes():{ [key:string]:unknown } {
+    let changes:{ [key:string]:unknown } = {};
+
+    _.each(this.changeset.all, (item, key) => {
+      changes[key] = item.to;
+    });
+
+    return changes;
+  }
+
+  /**
+   * Returns the change map with from and to values
+   */
+  public get changeMap():ChangeMap {
     return { ...this.changeset.all };
   }
 
@@ -199,7 +209,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   public value(key:string) {
     // Overridden value by user?
     if (this.changeset.contains(key)) {
-      return this.changeset.get(key);
+      return this.changeset.getValue(key);
     }
 
     // Return whatever is on the base.
@@ -217,7 +227,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   }
 
   public setValue(key:string, val:any) {
-    this.changeset.set(key, val);
+    this.changeset.set(key, val, this.pristineResource[key]);
   }
 
   public clear() {
@@ -269,7 +279,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       reference = this.form$.value.payload.$source;
     }
 
-    _.each(this.changeset.all, (val:unknown, key:string) => {
+    _.each(this.changeset.all, (val:ChangeItem, key:string) => {
       const fieldSchema:IFieldSchema|undefined = this.schema[key];
       if (!(typeof (fieldSchema) === 'object' && fieldSchema.writable)) {
         debugLog(`Trying to write ${key} but is not writable in schema`);
@@ -278,9 +288,9 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
 
       // Override in _links if it is a linked property
       if (reference._links[key]) {
-        plainPayload._links[key] = this.getLinkedValue(val, fieldSchema);
+        plainPayload._links[key] = this.getLinkedValue(val.to, fieldSchema);
       } else {
-        plainPayload[key] = val;
+        plainPayload[key] = val.to;
       }
     });
 

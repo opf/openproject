@@ -55,6 +55,7 @@ import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/ro
 import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
 import {debounceTime, filter, map} from "rxjs/operators";
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {ChangeItem} from "core-app/modules/fields/changeset/changeset";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -446,7 +447,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .pipe(
         filter(event => event.resourceType === 'WorkPackage'),
         map((event:HalEvent) => event.commit?.changes[this.board.actionAttribute!]),
-        filter((value:HalResource|undefined) => this.actionResource?.href === value?.href)
+        filter(value => !!value),
+        filter((value:ChangeItem) => {
+
+          // Compare the from and to values from the committed changes
+          // with the current actionResource
+          const current = this.actionResource?.href;
+          const to = (value.to as HalResource|undefined)?.href;
+          const from = (value.from as HalResource|undefined)?.href;
+
+          return !!current && (current === to || current === from);
+        })
       ).subscribe((event) => {
       this.updateQuery(true);
     });

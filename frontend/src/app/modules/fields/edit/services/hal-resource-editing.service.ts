@@ -81,7 +81,7 @@ export class ResourceChangesetCommit<T extends HalResource = HalResource> {
     this.id = saved.id!.toString();
     this.wasNew = change.pristineResource.isNew;
     this.resource = saved;
-    this.changes = change.changes;
+    this.changes = change.changeMap;
   }
 }
 
