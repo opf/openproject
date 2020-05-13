@@ -52,6 +52,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
     const link = document.createElement('a');
     link.textContent = displayText;
     link.setAttribute('title', this.text.linkTitle);
+    link.setAttribute('class', 'time-logging--value');
 
     if (this.resource.project) {
       const wpID = this.resource.id.toString();

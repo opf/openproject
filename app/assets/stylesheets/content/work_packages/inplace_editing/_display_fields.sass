@@ -86,6 +86,9 @@
       font-style: italic
       font-weight: bold
 
+  &.spentTime .time-logging--value
+    padding: 0 2px
+
 .wp-table--cell-container
   &.estimatedTime
     width: 100%
@@ -118,11 +121,14 @@
       white-space: inherit
 
 // Mark focused, non-editable read-values
-.inline-edit--display-field:not(.id).-read-only
+// Special handling for spent time field, as the logTime link should not be highlighted
+.inline-edit--display-field:not(.id):not(.spentTime).-read-only,
+.inline-edit--display-field.spentTime.-read-only .time-logging--value
+  cursor: not-allowed
+
   &:focus, &:hover
     color: $inplace-edit--color--disabled
     background: $inplace-edit--bg-color--disabled
-  cursor: not-allowed
 
 editable-attribute-field
   width: 100%
