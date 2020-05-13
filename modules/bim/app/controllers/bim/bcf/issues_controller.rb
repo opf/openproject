@@ -43,6 +43,7 @@ module Bim
       before_action :set_import_options, only: %i[perform_import]
 
       before_action :build_importer, only: %i[prepare_import perform_import]
+      before_action :check_bcf_version, only: %i[prepare_import]
 
       menu_item :work_packages
 
@@ -179,11 +180,11 @@ module Bim
       end
 
       def build_importer
-        @importer = ::OpenProject::Bim::BcfXml::Importer.new @bcf_xml_file, @project, current_user: current_user
+        @importer = ::OpenProject::Bim::BcfXml::Importer.new(@bcf_xml_file, @project, current_user: current_user)
       end
 
       def get_persisted_file
-        @bcf_attachment = Attachment.find_by! id: session[:bcf_file_id], author: current_user
+        @bcf_attachment = Attachment.find_by!(id: session[:bcf_file_id], author: current_user)
         @bcf_xml_file = File.new @bcf_attachment.local_path
       rescue ActiveRecord::RecordNotFound
         flash[:error] = I18n.t('bcf.bcf_xml.import.bcf_file_not_found')
@@ -205,6 +206,13 @@ module Bim
         path = params[:bcf_file]&.path
         unless path && File.readable?(path)
           flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: 'File missing or not readable')
+          redirect_to action: :upload
+        end
+      end
+
+      def check_bcf_version
+        unless @importer.bcf_version_valid?
+          flash[:error] = I18n.t('bcf.bcf_xml.import_failed_unsupported_bcf_version', minimal_version: OpenProject::Bim::BcfXml::Importer::MINIMUM_BCF_VERSION)
           redirect_to action: :upload
         end
       end
