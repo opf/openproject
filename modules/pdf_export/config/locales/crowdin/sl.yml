@@ -27,7 +27,7 @@ sl:
   label_export_card_configuration_new: "Nova izvozna kartica konfiguracije"
   label_export_card_configuration: "Izvozna kartica konfiguracije"
   label_export_card_configuration_plural: "Izvozne kartice konfiguracije"
-  label_export_card_activate: "Activate"
+  label_export_card_activate: "Aktiviraj"
   label_export_card_deactivate: "Onemogoči"
   notice_export_card_configuration_activated: "Konfiguracija je uspešno aktivirana"
   notice_export_card_configuration_deactivated: "Konfiguracija je uspešno onemogočena"
