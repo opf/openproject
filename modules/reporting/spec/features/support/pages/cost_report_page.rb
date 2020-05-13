@@ -79,6 +79,14 @@ module Pages
       end
     end
 
+    def show_loading_indicator(present: true)
+      if present
+        expect(page).to have_selector('#ajax-indicator')
+      else
+        expect(page).to have_no_selector('#ajax-indicator')
+      end
+    end
+
     def path
       cost_reports_path(project)
     end

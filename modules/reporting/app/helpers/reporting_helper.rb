@@ -185,7 +185,11 @@ module ReportingHelper
   ##
   # Create the appropriate action for an entry with the type of log to use
   def action_for(result, options = {})
-    options.merge controller: result.fields['type'] == 'TimeEntry' ? 'timelog' : 'costlog', id: result.fields['id'].to_i
+    options.merge controller: controller_for(result.fields['type']), id: result.fields['id'].to_i
+  end
+
+  def controller_for(type)
+    type == 'TimeEntry' ? 'timelog' : 'costlog'
   end
 
   ##

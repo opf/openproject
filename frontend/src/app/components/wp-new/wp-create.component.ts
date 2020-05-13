@@ -118,7 +118,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
       .createdWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
         this.change = changeset;
-        this.newWorkPackage = changeset.projectedResource;
+        this.newWorkPackage = changeset.pristineResource;
         this.cdRef.detectChanges();
 
         this.setTitle();

@@ -76,7 +76,13 @@ Example:
 
     auth_source_sso:
       header: X-Remote-User
+      
+      # Optional secret to be passed by the header in form
+      # of a colon-separted userinfo string
+      # e.g., X-Remote-User "username:s3cret"
       secret: s3cr3t
+      # Uncomment to make the header optional.
+      # optional: true
 
 Can be used to automatically login a user defined through a custom header
 sent by a load balancer or reverse proxy in front of OpenProject,

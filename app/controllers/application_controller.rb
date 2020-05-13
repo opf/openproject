@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
   include Redmine::I18n
   include HookHelper
   include ErrorsHelper
+  include Accounts::CurrentUser
   include ::OpenProject::Authentication::SessionExpiry
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
@@ -167,67 +168,6 @@ class ApplicationController < ActionController::Base
     OpenProject::Configuration.reload_mailer_configuration!
   end
 
-  # The current user is a per-session kind of thing and session stuff is controller responsibility.
-  # A globally accessible User.current is a big code smell. When used incorrectly it allows getting
-  # the current user outside of a session scope, i.e. in the model layer, from mailers or
-  # in the console which doesn't make any sense. For model code that needs to be aware of the
-  # current user, i.e. when returning all visible projects for <somebody>, the controller should
-  # pass the current user to the model, instead of letting it fetch it by itself through
-  # `User.current`. This method acts as a reminder and wants to encourage you to use it.
-  # Project.visible_by actually allows the controller to pass in a user but it falls back
-  # to `User.current` and there are other places in the session-unaware codebase,
-  # that rely on `User.current`.
-  def current_user
-    User.current
-  end
-  helper_method :current_user
-
-  def user_setup
-    # Find the current user
-    User.current = find_current_user
-  end
-
-  # Returns the current user or nil if no user is logged in
-  # and starts a session if needed
-  def find_current_user
-    if session[:user_id]
-      # existing session
-      User.active.find_by(id: session[:user_id])
-    elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting.autologin?
-      # auto-login feature starts a new session
-      user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
-      session[:user_id] = user.id if user
-      user
-    elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
-      # RSS key authentication does not start a session
-      User.find_by_rss_key(params[:key])
-    elsif Setting.rest_api_enabled? && api_request?
-      if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
-        # Use API key
-        User.find_by_api_key(key)
-      end
-    end
-  end
-
-  # Sets the logged in user
-  def logged_user=(user)
-    reset_session
-
-    if user&.is_a?(User)
-      User.current = user
-      Sessions::InitializeSessionService.call(user, session)
-    else
-      User.current = User.anonymous
-    end
-  end
-
-  # check if login is globally required to access the application
-  def check_if_login_required
-    # no check needed if user is already logged in
-    return true if User.current.logged?
-    require_login if Setting.login_required?
-  end
-
   # Checks if the session cookie is missing.
   # This is useful only on a second request
   def openproject_cookie_missing?
@@ -268,39 +208,6 @@ class ApplicationController < ActionController::Base
 
   def set_localization
     SetLocalizationService.new(User.current, request.env['HTTP_ACCEPT_LANGUAGE']).call
-  end
-
-  def require_login
-    unless User.current.logged?
-
-      respond_to do |format|
-        format.any(:html, :atom) do
-          # Ensure we reset the session to terminate any old session objects
-          # but ONLY for html requests to avoid double-resetting sessions
-          reset_session
-
-          redirect_to main_app.signin_path(back_url: login_back_url)
-        end
-
-        auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(request_headers: request.headers)
-
-        format.any(:xml, :js, :json) do
-          head :unauthorized,
-               'X-Reason' => 'login needed',
-               'WWW-Authenticate' => auth_header
-        end
-
-        format.all { head :not_acceptable }
-      end
-      return false
-    end
-    true
-  end
-
-  def require_admin
-    return unless require_login
-
-    render_403 unless User.current.admin?
   end
 
   def deny_access(not_found: false)
