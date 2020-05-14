@@ -80,6 +80,8 @@ module WorkPackages
                               model.project.possible_responsible_members
     end
 
+    attribute :schedule_manually
+
     attribute :start_date,
               writeable: ->(*) {
                 model.leaf?

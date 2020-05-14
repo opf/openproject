@@ -41,6 +41,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:priority) { FactoryBot.build_stubbed(:priority, updated_at: Time.now) }
   let(:assignee) { nil }
   let(:responsible) { nil }
+  let(:schedule_manually) { nil }
   let(:start_date) { Date.today.to_datetime }
   let(:due_date) { Date.today.to_datetime }
   let(:type_milestone) { false }
@@ -49,6 +50,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:spent_hours) { 0 }
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
+                             schedule_manually: schedule_manually,
                              start_date: start_date,
                              due_date: due_date,
                              done_ratio: 50,
@@ -120,6 +122,30 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:format) { 'markdown' }
         let(:raw) { work_package.description }
         let(:html) { '<p>' + work_package.description + '</p>' }
+      end
+
+      describe 'scheduleManually' do
+        context 'no value' do
+          it 'renders as false (default value)' do
+            is_expected.to be_json_eql(false.to_json).at_path('scheduleManually')
+          end
+        end
+
+        context 'false' do
+          let(:schedule_manually) { false }
+
+          it 'renders as false' do
+            is_expected.to be_json_eql(false.to_json).at_path('scheduleManually')
+          end
+        end
+
+        context 'true' do
+          let(:schedule_manually) { true }
+
+          it 'renders as true' do
+            is_expected.to be_json_eql(true.to_json).at_path('scheduleManually')
+          end
+        end
       end
 
       describe 'startDate' do

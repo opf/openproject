@@ -474,6 +474,19 @@ describe 'API v3 Work package resource',
         end
       end
 
+      context 'schedule manually' do
+        let(:schedule_manually) { true }
+        let(:params) { valid_params.merge(scheduleManually: schedule_manually) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) }
+
+        it 'should update the scheduling mode' do
+          expect(subject.body).to be_json_eql(schedule_manually.to_json).at_path('scheduleManually')
+        end
+      end
+
       context 'start date' do
         let(:dateString) { Date.today.to_date.iso8601 }
         let(:params) { valid_params.merge(startDate: dateString) }
@@ -1257,6 +1270,33 @@ describe 'API v3 Work package resource',
 
       it 'should not create a work package' do
         expect(WorkPackage.all.count).to eq(0)
+      end
+    end
+
+    context 'schedule manually' do
+      let(:work_package) { WorkPackage.first }
+
+      context 'with true' do
+        # mind the () for the super call, those are required in rspec's super
+        let(:parameters) { super().merge(scheduleManually: true) }
+
+        it 'should set the scheduling mode to true' do
+          expect(work_package.schedule_manually).to eq true
+        end
+      end
+
+      context 'with false' do
+        let(:parameters) { super().merge(scheduleManually: false) }
+
+        it 'should set the scheduling mode to false' do
+          expect(work_package.schedule_manually).to eq false
+        end
+      end
+
+      context 'with scheduleManually absent' do
+        it 'should set the scheduling mode to false (default)' do
+          expect(work_package.schedule_manually).to eq false
+        end
       end
     end
 

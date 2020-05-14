@@ -119,6 +119,11 @@ module API
                  type: 'Formattable',
                  required: false
 
+          schema :schedule_manually,
+                 type: 'Boolean',
+                 required: false,
+                 has_default: true
+
           schema :start_date,
                  type: 'Date',
                  required: false,

@@ -485,6 +485,28 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
     end
 
+    describe 'scheduleManually' do
+      let(:value) { raise "define value" }
+
+      let(:attributes) { { scheduleManually: value } }
+
+      context 'with true' do
+        let(:value) { true }
+
+        it 'reads true' do
+          expect(subject.schedule_manually).to eq true
+        end
+      end
+
+      context 'with false' do
+        let(:value) { false }
+
+        it 'reads false' do
+          expect(subject.schedule_manually).to eq false
+        end
+      end
+    end
+
     describe 'startDate' do
       it_behaves_like 'settable ISO 8601 date only' do
         let(:property) { :startDate }

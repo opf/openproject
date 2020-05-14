@@ -38,6 +38,10 @@ module WorkPackage::SchedulingRules
       .call(date)
   end
 
+  def schedule_automatically?
+    !schedule_manually?
+  end
+
   # Calculates the minimum date that
   # will not violate the precedes relations (max(finish date, start date) + delay)
   # of this work package or its ancestors

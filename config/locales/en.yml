@@ -535,6 +535,7 @@ en:
         parent_work_package: "Parent"
         priority: "Priority"
         progress: "Progress (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
