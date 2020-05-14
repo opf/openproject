@@ -446,6 +446,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .events$
       .pipe(
         filter(event => event.resourceType === 'WorkPackage'),
+        // Only allow updates, otherwise this causes an error reloading the list
+        // before the work package can be added to the query order
+        filter(event => event.eventType === 'updated'),
         map((event:HalEvent) => event.commit?.changes[this.board.actionAttribute!]),
         filter(value => !!value),
         filter((value:ChangeItem) => {

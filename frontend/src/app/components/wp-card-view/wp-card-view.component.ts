@@ -25,7 +25,7 @@ import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {filter, withLatestFrom} from 'rxjs/operators';
+import {filter, map, withLatestFrom} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
@@ -128,6 +128,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     this.halEvents
       .aggregated$('WorkPackage')
       .pipe(
+        map(events => events.filter(event => event.eventType === 'update')),
         filter(events => {
           const wpIds:string[] = this.workPackages.map(el => el.id!.toString());
           return !!events.find(event => wpIds.indexOf(event.id) !== -1);
