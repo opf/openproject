@@ -63,16 +63,38 @@ describe 'Work Package boards spec', type: :feature, js: true do
     board_page.add_card 'List 1', 'Task 1'
     board_page.expect_notification message: I18n.t(:notice_successful_create)
 
+    wp = WorkPackage.last
+    expect(wp.subject).to eq 'Task 1'
+
     # Double click leads to the full view
     click_target = board_page.find('.wp-card--type')
     page.driver.browser.action.double_click(click_target.native).perform
 
-    wp = WorkPackage.last
-    expect(current_path).to eq project_work_package_path(project, wp.id, 'activity')
+    expect(page).to have_current_path project_work_package_path(project, wp.id, 'activity')
 
     # Click back goes back to the board
     find('.work-packages-back-button').click
-    expect(current_path).to eq project_work_package_boards_path(project, board_view.id)
+    expect(page).to have_current_path project_work_package_boards_path(project, board_view.id)
+
+    # Open the details page with the info icon
+    card = board_page.card_for(wp)
+    split_view = card.open_details_view
+    split_view.expect_subject
+
+    expect(page).to have_current_path /details\/#{wp.id}\/overview/
+    card.expect_selected
+
+    # Add a second card, focus on that
+    board_page.add_card 'List 1', 'Foobar'
+    board_page.expect_notification message: I18n.t(:notice_successful_create)
+
+    wp = WorkPackage.last
+    expect(wp.subject).to eq 'Foobar'
+    card = board_page.card_for(wp)
+
+    # Click on the card
+    card.card_element.click
+    expect(page).to have_current_path /details\/#{wp.id}\/overview/
   end
 
   it 'navigates correctly the path from overview page to the boards page' do
