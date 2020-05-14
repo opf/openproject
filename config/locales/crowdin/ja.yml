@@ -1293,6 +1293,7 @@ ja:
   label_delete_project: "プロジェクトを削除"
   label_deleted: "削除された"
   label_deleted_custom_field: "（削除されたカスタムフィールド）"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "降順"
   label_details: "詳細"
   label_development_roadmap: "開発ロードマップ"

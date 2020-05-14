@@ -1294,6 +1294,7 @@ id:
   label_delete_project: "Hapus proyek"
   label_deleted: "dihapus"
   label_deleted_custom_field: "(isian kustom dihapus)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Deskending"
   label_details: "Detil"
   label_development_roadmap: "Development roadmap"

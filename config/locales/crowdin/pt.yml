@@ -1309,6 +1309,7 @@ pt:
   label_delete_project: "Apagar projeto"
   label_deleted: "eliminado"
   label_deleted_custom_field: "(campo personalizado apagado)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Descendente"
   label_details: "Detalhes"
   label_development_roadmap: "Mapa de Desenvolvimento"

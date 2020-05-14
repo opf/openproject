@@ -1311,6 +1311,7 @@ da:
   label_delete_project: "Delete project"
   label_deleted: "slettet"
   label_deleted_custom_field: "(slettet selvvalgt felt)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Faldende"
   label_details: "Detaljer"
   label_development_roadmap: "Udviklingskøreplan"

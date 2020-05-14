@@ -1343,6 +1343,7 @@ uk:
   label_delete_project: "Видалити проект"
   label_deleted: "вилучено "
   label_deleted_custom_field: "(видалено спеціальне поле)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "За спаданням"
   label_details: "Детальніше"
   label_development_roadmap: "Розробка дорожньої карти"

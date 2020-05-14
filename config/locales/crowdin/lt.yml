@@ -1340,6 +1340,7 @@ lt:
   label_delete_project: "Ištrinti projektą"
   label_deleted: "panaikintas"
   label_deleted_custom_field: "(panaikintas vartotojo laukas)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Mažėjančiai"
   label_details: "Detali informacija"
   label_development_roadmap: "Plėtros veiklos grafikas"

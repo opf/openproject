@@ -1327,6 +1327,7 @@ hr:
   label_delete_project: "Delete project"
   label_deleted: "izbrisano"
   label_deleted_custom_field: "(izbrisano prilagođeno polje)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Silazno"
   label_details: "Pojedinosti"
   label_development_roadmap: "Razvojni plan"

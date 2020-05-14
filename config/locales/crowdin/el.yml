@@ -1308,6 +1308,7 @@ el:
   label_delete_project: "Διαγραφή έργου"
   label_deleted: "διαγραμμένο"
   label_deleted_custom_field: "(διαγραμμένο προσαρμοσμένο πεδίο)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Φθίνουσα"
   label_details: "Λεπτομέρειες"
   label_development_roadmap: "Χάρτης πορείας ανάπτυξης"

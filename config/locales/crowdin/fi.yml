@@ -1311,6 +1311,7 @@ fi:
   label_delete_project: "Poista projekti"
   label_deleted: "poistettu"
   label_deleted_custom_field: "(poistettu mukautettu kenttä)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Laskeva"
   label_details: "Yksityiskohdat"
   label_development_roadmap: "Kehittämisen toteutussuunnitelma"

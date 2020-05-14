@@ -1297,6 +1297,7 @@ vi:
   label_delete_project: "Delete project"
   label_deleted: "đã xóa"
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Giảm dần"
   label_details: "Chi tiết"
   label_development_roadmap: "Development roadmap"

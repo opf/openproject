@@ -1311,6 +1311,7 @@ tr:
   label_delete_project: "Projeyi sil"
   label_deleted: "silindi"
   label_deleted_custom_field: "(özel alan silindi)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Azalan"
   label_details: "Detaylar"
   label_development_roadmap: "Geliştirme yol haritası"
@@ -1328,7 +1329,7 @@ tr:
   label_duplicate: "kopya"
   label_duplicates: "çoğaltır"
   label_edit: "Düzenle"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Düzenle: %{x}"
   label_enable_multi_select: "Çoklu seçimi etkinleştir"
   label_enabled_project_custom_fields: 'Etkin özel alanlar'
   label_enabled_project_modules: 'Aktif modüller'

@@ -1341,6 +1341,7 @@ pl:
   label_delete_project: "Usuń projekt"
   label_deleted: "Usunięty"
   label_deleted_custom_field: "(usunięte pole niestandardowe)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Malejąco"
   label_details: "Szczegóły"
   label_development_roadmap: "Droga rozwoju"

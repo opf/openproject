@@ -1310,6 +1310,7 @@ sv:
   label_delete_project: "Ta bort projekt"
   label_deleted: "raderad"
   label_deleted_custom_field: "(raderat anpassat fält)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Fallande"
   label_details: "Detaljer"
   label_development_roadmap: "Utvecklingsplan"

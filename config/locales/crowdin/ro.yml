@@ -1327,6 +1327,7 @@ ro:
   label_delete_project: "Delete project"
   label_deleted: "șters"
   label_deleted_custom_field: "(câmp personalizat șters)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Descrescător"
   label_details: "Detalii"
   label_development_roadmap: "Plan de lucru pentru dezvoltare"

@@ -1311,6 +1311,7 @@
   label_delete_project: "Delete project"
   label_deleted: "slettet"
   label_deleted_custom_field: "(slettet egendefinert felt)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Synkende"
   label_details: "Detaljer"
   label_development_roadmap: "Development roadmap"

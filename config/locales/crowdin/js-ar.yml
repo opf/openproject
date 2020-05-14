@@ -288,7 +288,7 @@ ar:
     label_and: "و"
     label_ascending: "ترتيب تصاعدي"
     label_author: "الكاتب%{user}"
-    label_avatar: "Avatar"
+    label_avatar: "الصورةالرمزية"
     label_between: "بين"
     label_board: "Board"
     label_board_locked: "مقفل"

@@ -1294,6 +1294,7 @@ ko:
   label_delete_project: "프로젝트 삭제"
   label_deleted: "삭제됨"
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "내림차순"
   label_details: "세부 정보"
   label_development_roadmap: "개발 로드맵"
