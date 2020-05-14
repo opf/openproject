@@ -1375,6 +1375,7 @@ ar:
   label_delete_project: "Delete project"
   label_deleted: "محذوف"
   label_deleted_custom_field: "(حذف حقل مخصص)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "ترتيب تنازلي"
   label_details: "تفاصيل"
   label_development_roadmap: "خارطة طريق التطوير"

@@ -1307,6 +1307,7 @@ de:
   label_delete_project: "Projekt löschen"
   label_deleted: "gelöscht"
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Absteigend"
   label_details: "Details"
   label_development_roadmap: "Entwicklungs-Roadmap"

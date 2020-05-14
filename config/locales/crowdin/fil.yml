@@ -1311,6 +1311,7 @@ fil:
   label_delete_project: "Burahin ang proyekto"
   label_deleted: "binura"
   label_deleted_custom_field: "(binurang custom field)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Pababa"
   label_details: "Mga detalye"
   label_development_roadmap: "Kaunlaran ng roadmao"

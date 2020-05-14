@@ -1308,6 +1308,7 @@ hu:
   label_delete_project: "Projekt törlése"
   label_deleted: "Törölve"
   label_deleted_custom_field: "(egyéni mező törölve)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Csökkenő"
   label_details: "Részletek"
   label_development_roadmap: "Fejlesztési ütemterv"

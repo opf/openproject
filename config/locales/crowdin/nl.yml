@@ -1311,6 +1311,7 @@ nl:
   label_delete_project: "Verwijder project"
   label_deleted: "verwijderd"
   label_deleted_custom_field: "(verwijderde aangepast veld)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Aflopend"
   label_details: "Details"
   label_development_roadmap: "Ontwikkeling roadmap"

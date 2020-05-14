@@ -7,29 +7,29 @@ sl:
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filter'
         auth_source: 'LDAP povezava'
-        group_name_attribute: "Group name attribute"
+        group_name_attribute: "Atribut imena skupine\n"
     models:
       ldap_groups/synchronized_group: 'sinhronizacija LDAP skupine'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_filter: 'Sinhronizacijski filter skupine LDAP'
   ldap_groups:
     label_menu_item: 'LDAP sinhronizacija skupine'
     label_group_key: 'LDAP skupinski filter ključ'
-    label_synchronize: 'Synchronize'
+    label_synchronize: 'Sinhroniziraj'
     settings:
-      name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+      name_attribute: "Atribut imena skupine LDAP\n"
+      name_attribute_text: 'Atribut LDAP, ki se uporablja za poimenovanje skupine OpenProject, ko jo ustvari filter'
     synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
+      add_new: "Dodajte sinhroniziran LDAP filter\n"
+      singular: 'Sinhronizacijski filter skupine LDAP'
+      plural: 'Sinhronizacijski filter skupine LDAP'
       destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
-        verification: "Enter the filter name %{name} to verify the deletion."
+        title: 'Odstrani sinhronizirani filter %{name}'
+        confirmation: "Če nadaljujete, bo sinhronizirani filter %{name} in vse skupine %{groups_count}, ustvarjene prek njega, odstranjene.\n"
+        removed_groups: "Opozorilo: S tem odstranite naslednje skupine iz OpenProject-a in ga odstranite iz vseh projektov!"
+        verification: "Vnesite ime filtra %{name}, da preverite izbris."
       form:
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+        group_name_attribute_text: "Vnesite atribut skupine LDAP, ki se uporablja za nastavitev imena skupine OpenProject.\n"
+        filter_string_text: 'Vnesite filter RFC4515 LDAP, ki vrne skupine v vašem LDAP za sinhronizacijo z OpenProject.'
     synchronized_groups:
       add_new: 'dodaj sinhroniziranje LDAP skupini'
       destroy:
@@ -48,7 +48,7 @@ sl:
       plural: 'Synchronized LDAP groups'
       singular: 'sinhronizacija LDAP skupine'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
-        dn_text: 'Enter the full DN of the group in LDAP'
+        auth_source_text: 'Izberite, katera povezava LDAP naj bo uporabljena.'
+        dn_text: 'Vnesite celoten DN skupine v LDAP'
         group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
 

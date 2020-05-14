@@ -1310,6 +1310,7 @@ fr:
   label_delete_project: "Supprimer le projet"
   label_deleted: "supprimé"
   label_deleted_custom_field: "(champs personnalisés supprimés)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Décroissant"
   label_details: "Détails"
   label_development_roadmap: "Feuille de route de développement"

@@ -108,8 +108,8 @@ ru:
         OpenProject будет фильтровать указанных пользователей только в этом поддереве.
         Пример: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Добавьте опциональный фильтр RFC4515 для применения к результатам, полученным от пользователей, отфильтрованных в LDAP.
+        Это можно использовать при ограничении набора пользователей, найденых OpenProject для аутентификации и групповой синхронизации.
       filter_string_concat: |
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
@@ -1342,6 +1342,7 @@ ru:
   label_delete_project: "Удалить проект"
   label_deleted: "﻿Удалено"
   label_deleted_custom_field: "(удалено настраиваемое поле)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "По убыванию"
   label_details: "Детали"
   label_development_roadmap: "Дорожная карта разработки"

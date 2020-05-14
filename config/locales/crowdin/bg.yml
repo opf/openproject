@@ -1311,6 +1311,7 @@ bg:
   label_delete_project: "Изтриване на проект"
   label_deleted: "изтрит"
   label_deleted_custom_field: "(изтрито потребителско поле)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Низходящо"
   label_details: "Подробности"
   label_development_roadmap: "Развитие на пътната карта"

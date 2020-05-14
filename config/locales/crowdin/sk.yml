@@ -1343,6 +1343,7 @@ sk:
   label_delete_project: "Vymazať projekt"
   label_deleted: "odstránené"
   label_deleted_custom_field: "(odstrániť vlastné pole)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Zostupne"
   label_details: "Podrobnosti"
   label_development_roadmap: "Plán vývoja"

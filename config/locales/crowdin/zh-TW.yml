@@ -1295,6 +1295,7 @@ zh-TW:
   label_delete_project: "刪除專案"
   label_deleted: "刪除線"
   label_deleted_custom_field: "(已刪除的自訂欄位)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "降冪"
   label_details: "詳細資料"
   label_development_roadmap: "發展路徑圖"

@@ -1292,6 +1292,7 @@ zh-CN:
   label_delete_project: "删除项目"
   label_deleted: "已删除"
   label_deleted_custom_field: "（删除自定义字段）"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "降序"
   label_details: "详细信息"
   label_development_roadmap: "发展蓝图"
