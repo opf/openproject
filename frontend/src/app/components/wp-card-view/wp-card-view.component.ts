@@ -143,7 +143,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
       .pipe(
         withLatestFrom(this.querySpace.query.values$()),
         this.untilDestroyed(),
-        filter(([results, query]) => results && !this.causedUpdates.includes(query))
       ).subscribe(([results, query]) => {
       this.query = query;
       this.workPackages = this.wpViewOrder.orderedWorkPackages();
