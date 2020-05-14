@@ -88,7 +88,17 @@ module API
                     importer = ::OpenProject::Bim::BcfXml::Importer.new(file,
                                                                         project,
                                                                         current_user: User.current)
+
+                    unless importer.bcf_version_valid?
+                      error_message = I18n.t('bcf.bcf_xml.import_failed_unsupported_bcf_version',
+                                             minimal_version: OpenProject::Bim::BcfXml::Importer::MINIMUM_BCF_VERSION)
+
+                      raise API::Errors::UnsupportedMediaType.new(error_message)
+                    end
+
                     importer.import!(import_options)
+                  rescue API::Errors::UnsupportedMediaType => e
+                    raise e
                   rescue StandardError => e
                     raise API::Errors::InternalError.new(e.message)
                   ensure
