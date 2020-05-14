@@ -89,7 +89,6 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   }
 
   protected newWorkPackageCreated(wp:WorkPackageResource) {
-    this.halEvents.push(wp, { eventType: 'created' });
     this.reset();
     this.newWorkPackageCreatedSubject.next(wp);
   }
