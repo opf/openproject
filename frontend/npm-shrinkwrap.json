@@ -3146,9 +3146,9 @@
       }
     },
     "@types/chart.js": {
-      "version": "2.9.15",
-      "resolved": "https://registry.npmjs.org/@types/chart.js/-/chart.js-2.9.15.tgz",
-      "integrity": "sha512-PRxv/KYzmeVXDgp9nHJBoIQh9iJEyBm/OocnSrIEU9VZSNW5lcbXVkYjkb4V78VGGJESf57tk7KxK1LBAccOAQ==",
+      "version": "2.9.20",
+      "resolved": "https://registry.npmjs.org/@types/chart.js/-/chart.js-2.9.20.tgz",
+      "integrity": "sha512-Xv4dd+DYqtTdUWbDIwaDEFtUIFwoQN44wiDDrWXdJtfGtOFlFIxXrsu8D+XJCS9o7mZbW29X8vPptwVrduz4JA==",
       "requires": {
         "moment": "^2.10.2"
       }
@@ -4599,28 +4599,21 @@
       "integrity": "sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA=="
     },
     "chart.js": {
-      "version": "2.8.0",
-      "resolved": "https://registry.npmjs.org/chart.js/-/chart.js-2.8.0.tgz",
-      "integrity": "sha512-Di3wUL4BFvqI5FB5K26aQ+hvWh8wnP9A3DWGvXHVkO13D3DSnaSsdZx29cXlEsYKVkn1E2az+ZYFS4t0zi8x0w==",
+      "version": "2.9.3",
+      "resolved": "https://registry.npmjs.org/chart.js/-/chart.js-2.9.3.tgz",
+      "integrity": "sha512-+2jlOobSk52c1VU6fzkh3UwqHMdSlgH1xFv9FKMqHiNCpXsGPQa/+81AFa+i3jZ253Mq9aAycPwDjnn1XbRNNw==",
       "requires": {
         "chartjs-color": "^2.1.0",
         "moment": "^2.10.2"
       }
     },
     "chartjs-color": {
-      "version": "2.3.0",
-      "resolved": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.3.0.tgz",
-      "integrity": "sha512-hEvVheqczsoHD+fZ+tfPUE+1+RbV6b+eksp2LwAhwRTVXEjCSEavvk+Hg3H6SZfGlPh/UfmWKGIvZbtobOEm3g==",
+      "version": "2.4.1",
+      "resolved": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.4.1.tgz",
+      "integrity": "sha512-haqOg1+Yebys/Ts/9bLo/BqUcONQOdr/hoEr2LLTRl6C5LXctUdHxsCYfvQVg5JIxITrfCNUDr4ntqmQk9+/0w==",
       "requires": {
         "chartjs-color-string": "^0.6.0",
-        "color-convert": "^0.5.3"
-      },
-      "dependencies": {
-        "color-convert": {
-          "version": "0.5.3",
-          "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz",
-          "integrity": "sha1-vbbGnOZg+t/+CwAHzER+G59ygr0="
-        }
+        "color-convert": "^1.9.3"
       }
     },
     "chartjs-color-string": {
@@ -8828,6 +8821,11 @@
       "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz",
       "integrity": "sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A=="
     },
+    "lodash-es": {
+      "version": "4.17.15",
+      "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.15.tgz",
+      "integrity": "sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ=="
+    },
     "lodash.clonedeep": {
       "version": "4.5.0",
       "resolved": "https://registry.npmjs.org/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz",
@@ -9588,20 +9586,13 @@
       "integrity": "sha512-soZdXYd7oWivBuJOEpyTos5Mkp0/y3Dyjl1JPahSnevdozDgY/dqBkPHzkSllCbOQaCxllFjqYy+B0rOQaOolA=="
     },
     "ng2-charts": {
-      "version": "2.3.0",
-      "resolved": "https://registry.npmjs.org/ng2-charts/-/ng2-charts-2.3.0.tgz",
-      "integrity": "sha512-D5K7OqF0m5lOBYvNOsraoEo4OPHja9zfGNj+HWy2nUcP0LP2s+Y/QaQlkG/1rHlwXq9HPm8rLxzSutA0eLHxGQ==",
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/ng2-charts/-/ng2-charts-2.3.1.tgz",
+      "integrity": "sha512-YSBlvLQK45wHTIzdLHcnsFr7+rgr4K9UrWfx3aK8xGhpOWI4UKC2/rpKRyJBGV5KHe4oO8mQjh0R09HMywINMQ==",
       "requires": {
         "@types/chart.js": "^2.7.48",
-        "lodash": "^4.17.11",
+        "lodash-es": "^4.17.11",
         "tslib": "^1.9.0"
-      },
-      "dependencies": {
-        "@types/chart.js": {
-          "version": "2.7.54",
-          "resolved": "https://registry.npmjs.org/@types/chart.js/-/chart.js-2.7.54.tgz",
-          "integrity": "sha512-BxIUR4mfk0zOqOPEu4gxLP5herra6INQLyFmgVE6JVRNNB+r36g2cd67nDUEEdD/EShZvaR33xausxOGv1+nbw=="
-        }
       }
     },
     "ng2-dragula": {
