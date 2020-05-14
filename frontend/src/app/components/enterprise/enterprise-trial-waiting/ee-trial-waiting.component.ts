@@ -26,21 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
+import {EnterpriseTrialData, EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
 import {HttpClient} from "@angular/common/http";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-
+import {distinctUntilChanged} from "rxjs/operators";
 
 @Component({
   selector: 'enterprise-trial-waiting',
   templateUrl: './ee-trial-waiting.component.html',
   styleUrls: ['./ee-trial-waiting.component.sass']
 })
-export class EETrialWaitingComponent {
+export class EETrialWaitingComponent implements OnInit {
   public text = {
-    confirmation_info: this.I18n.t('js.admin.enterprise.trial.confirmation_info'),
+    confirmation_info: this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+        date: '',
+        email: this.eeTrialService.userData$.getValueOr({})
+    }),
     resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
     resend_success: this.I18n.t('js.admin.enterprise.trial.resend_success'),
     resend_warning: this.I18n.t('js.admin.enterprise.trial.resend_warning'),
@@ -51,10 +54,27 @@ export class EETrialWaitingComponent {
   };
 
   constructor(readonly elementRef:ElementRef,
+              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
               protected http:HttpClient,
               protected notificationsService:NotificationsService,
               public eeTrialService:EnterpriseTrialService) {
+  }
+
+  ngOnInit() {
+    this.eeTrialService.userData$
+      .values$()
+      .pipe(
+        distinctUntilChanged(),
+      )
+      .subscribe(userForm => {
+        this.text.confirmation_info = this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+          date: '',
+          email: userForm.email
+        });
+
+        this.cdRef.detectChanges();
+      });
   }
 
   // resend mail if resend link has been clicked
