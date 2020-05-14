@@ -170,7 +170,10 @@ module OpenProject
       'sentry_host' => 'https://sentry.openproject.com',
 
       # Allow connection to Augur
-      'enterprise_trial_creation_host' => 'https://augur.openproject.com'
+      'enterprise_trial_creation_host' => 'https://augur.openproject.com',
+
+      # Allow override of LDAP options
+      'ldap_auth_source_tls_options' => nil
     }
 
     @config = nil
@@ -200,8 +203,7 @@ module OpenProject
       # Replace config values for which an environment variable with the same key in upper case
       # exists
       def override_config!(config, source = default_override_source)
-        config.keys
-              .select { |key| source.include? key.upcase }
+        config.keys.select { |key| source.include? key.upcase }
               .each   { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)
