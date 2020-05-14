@@ -11,6 +11,7 @@ $board-list-max-width: 300px
 
   // Make it scrollable
   overflow-y: auto
+  @include styled-scroll-bar
 
 .boards-list-item-handle
   position: absolute
@@ -36,10 +37,12 @@ $board-list-max-width: 300px
   // Same height as board list header
   height: 42px
   line-height: 42px
-  margin: 5px 0 0 15px
   font-size: 14px
   cursor: pointer
   color: var(--gray-dark)
+
+  .boards-list--add-item-text
+    padding: 5px 15px 0 15px
 
   .boards-list--container.-free &
     margin-top: 0

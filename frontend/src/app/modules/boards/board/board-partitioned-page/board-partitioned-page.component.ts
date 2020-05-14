@@ -33,7 +33,8 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
-    '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass'
+    '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
+    './board-partitioned-page.component.sass'
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
