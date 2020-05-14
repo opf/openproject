@@ -21,6 +21,9 @@ $board-list-max-width: 300px
   opacity: 0
   cursor: grab
 
+  .boards-list--container.-free &
+    top: 13px
+
   &:before
     padding: 0
     color: var(--light-gray)
@@ -37,6 +40,9 @@ $board-list-max-width: 300px
   font-size: 14px
   cursor: pointer
   color: var(--gray-dark)
+
+  .boards-list--container.-free &
+    margin-top: 0
 
   &:hover
     color: var(--body-font-color)

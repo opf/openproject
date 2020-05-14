@@ -1,5 +1,6 @@
 <ng-container *ngIf="(board$ | async) as board">
   <div class="boards-list--container"
+       [ngClass]="{ '-free' : board.isFree }"
        #container
        *ngIf="showBoardListView()"
        cdkDropList

@@ -47,10 +47,7 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 @Component({
   templateUrl: './filter-container.directive.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'filter-container',
-  styleUrls: ['./filter-container.directive.sass'],
-  // To have access to partitioned-query-space styles
-  encapsulation: ViewEncapsulation.None
+  selector: 'filter-container'
 })
 export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input('showFilterButton') showFilterButton:boolean = false;
