@@ -30,11 +30,13 @@ require 'spec_helper'
 
 describe 'OAuth authorization code flow', type: :feature, js: true do
   let!(:user) { FactoryBot.create(:user) }
+  let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
+  let!(:allowed_redirect_uri) { redirect_uri }
   let!(:app) { FactoryBot.create(:oauth_application, name: 'Cool API app!') }
   let(:client_secret) { app.plaintext_secret }
 
-  def oauth_path(client_id)
-    "/oauth/authorize?response_type=code&client_id=#{client_id}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=api_v3"
+  def oauth_path(client_id, redirect_url)
+    "/oauth/authorize?response_type=code&client_id=#{client_id}&redirect_uri=#{CGI.escape(redirect_url)}&scope=api_v3"
   end
 
   before do
@@ -42,7 +44,7 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
   end
 
   it 'can authorize and manage an OAuth application grant' do
-    visit oauth_path app.uid
+    visit oauth_path app.uid, redirect_uri
 
     # Expect we're guided to the login screen
     login_with user.login, 'adminADMIN!', visit_signin_path: false
@@ -53,6 +55,9 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
     # With the correct scope printed
     expect(page).to have_selector('li strong', text: I18n.t('oauth.scopes.api_v3'))
     expect(page).to have_selector('li', text: I18n.t('oauth.scopes.api_v3_text'))
+
+    # Check that the hosts of allowed redirection urls are present in the content security policy
+    expect(page.response_headers['content-security-policy']).to include("form-action 'self' urn:ietf:wg:oauth:2.0:oob;")
 
     # Authorize
     find('input.button[value="Authorize"]').click
@@ -108,7 +113,7 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
   end
 
   it 'does not authenticate unknown applications' do
-    visit oauth_path 'WAT'
+    visit oauth_path 'WAT', redirect_uri
 
     # Expect we're guided to the login screen
     login_with user.login, 'adminADMIN!', visit_signin_path: false
@@ -119,5 +124,21 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
     # And also have no grant for this application
     user.oauth_grants.reload
     expect(user.oauth_grants.count).to eq 0
+  end
+
+  context 'with real urls as allowed redirect uris' do
+    let!(:redirect_uri) { "https://foo.com/foo " }
+    let!(:allowed_redirect_uri) { "#{redirect_uri} https://bar.com/bar" }
+    it 'can authorize and manage an OAuth application grant' do
+      visit oauth_path app.uid, redirect_uri
+
+      # Expect we're guided to the login screen
+      login_with user.login, 'adminADMIN!', visit_signin_path: false
+
+      # Check that the hosts of allowed redirection urls are present in the content security policy
+      expect(page.response_headers['content-security-policy']).to(
+        include("form-action 'self' https://foo.com/ https://bar.com/;")
+      )
+    end
   end
 end

@@ -34,6 +34,11 @@ module OAuth
   # See config/initializers/doorkeeper.rb
   class AuthBaseController < ::ApplicationController
     skip_before_action :check_if_login_required
+    after_action :extend_content_security_policy
     layout 'only_logo'
+
+    def extend_content_security_policy
+      use_content_security_policy_named_append(:oauth)
+    end
   end
 end

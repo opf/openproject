@@ -73,3 +73,14 @@ SecureHeaders::Configuration.default do |config|
     connect_src: connect_src
   }
 end
+
+SecureHeaders::Configuration.named_append(:oauth) do |request|
+  hosts = []
+  if request.controller_instance.respond_to?(:pre_auth, true)
+    allowed_redirect_urls = request.controller_instance.send(:pre_auth)&.client&.application&.redirect_uri
+    urls = allowed_redirect_urls.to_s.split
+    hosts = urls.map { |url| URI.join(url, '/') }.map(&:to_s)
+  end
+
+  { form_action: hosts }
+end
