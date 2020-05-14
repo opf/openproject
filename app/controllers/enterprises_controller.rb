@@ -96,7 +96,8 @@ class EnterprisesController < ApplicationController
     @trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
     if @trial_key
       gon.ee_trial_key = {
-        value: @trial_key.value
+        value: @trial_key.value,
+        created: @trial_key.created_on
       }
     end
   end

@@ -32,6 +32,7 @@ import {EnterpriseTrialData, EnterpriseTrialService} from "app/components/enterp
 import {HttpClient} from "@angular/common/http";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {distinctUntilChanged} from "rxjs/operators";
+import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Component({
   selector: 'enterprise-trial-waiting',
@@ -39,9 +40,11 @@ import {distinctUntilChanged} from "rxjs/operators";
   styleUrls: ['./ee-trial-waiting.component.sass']
 })
 export class EETrialWaitingComponent implements OnInit {
+  public created:string;
+
   public text = {
     confirmation_info: this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
-        date: '',
+        date: this.created,
         email: this.eeTrialService.userData$.getValueOr({})
     }),
     resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
@@ -57,11 +60,15 @@ export class EETrialWaitingComponent implements OnInit {
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
               protected http:HttpClient,
+              readonly Gon:GonService,
               protected notificationsService:NotificationsService,
               public eeTrialService:EnterpriseTrialService) {
   }
 
   ngOnInit() {
+    let savedDateStr = (this.Gon.get('ee_trial_key') as any).created.split(' ')[0];
+    this.created = new Date(savedDateStr).toLocaleDateString();
+
     this.eeTrialService.userData$
       .values$()
       .pipe(
@@ -69,7 +76,7 @@ export class EETrialWaitingComponent implements OnInit {
       )
       .subscribe(userForm => {
         this.text.confirmation_info = this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
-          date: '',
+          date: this.created,
           email: userForm.email
         });
 
