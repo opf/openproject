@@ -57,9 +57,6 @@ describe 'Logging time within the work package view', type: :feature, js: true d
     # a click on save creates a time entry
     time_logging_modal.perform_action 'Create'
     wp_page.expect_and_dismiss_notification message: 'Successful creation.'
-
-    # the value is updated automatically
-    spent_time_field.expect_display_value '1 h'
   end
 
   context 'as an admin' do
@@ -75,6 +72,9 @@ describe 'Logging time within the work package view', type: :feature, js: true d
       spent_time_field.open_time_log_modal
 
       log_time_via_modal
+
+      # the value is updated automatically
+      spent_time_field.expect_display_value '1 h'
     end
 
     it 'the context menu entry to log time leads to the modal' do
@@ -83,6 +83,9 @@ describe 'Logging time within the work package view', type: :feature, js: true d
       find('.menu-item', text: 'Log time').click
 
       log_time_via_modal
+
+      # the value is updated automatically
+      spent_time_field.expect_display_value '1 h'
     end
   end
 
@@ -96,6 +99,32 @@ describe 'Logging time within the work package view', type: :feature, js: true d
     it 'shows no logging button within the display field' do
       spent_time_field.time_log_icon_visible false
       spent_time_field.expect_display_value '-'
+    end
+  end
+
+  context 'within the table' do
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+    let(:second_work_package) { FactoryBot.create :work_package, project: project }
+    let(:query) { FactoryBot.create :public_query, project: project, column_names: ['subject', 'spent_hours'] }
+
+    before do
+      work_package
+      second_work_package
+      login_as(admin)
+
+      wp_table.visit_query query
+      loading_indicator_saveguard
+    end
+
+    it 'shows no logging button within the display field' do
+      wp_table.expect_work_package_listed work_package, second_work_package
+
+      find('tr:nth-of-type(1) .wp-table--cell-td.spentTime .icon-time').click
+
+      log_time_via_modal
+
+      expect(page).to have_selector('tr:nth-of-type(1) .wp-table--cell-td.spentTime', text: '1 h')
+      expect(page).to have_selector('tr:nth-of-type(2) .wp-table--cell-td.spentTime', text: '-')
     end
   end
 end
