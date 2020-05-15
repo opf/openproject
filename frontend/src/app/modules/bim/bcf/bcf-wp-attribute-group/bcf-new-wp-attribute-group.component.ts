@@ -20,11 +20,11 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
   }
 
   // Disable show viewpoint functionality
-  showViewpoint(index:number) {
+  showViewpoint(workPackage:WorkPackageResource, index:number) {
     return;
   }
 
-  deleteViewpoint(index:number) {
+  deleteViewpoint(workPackage:WorkPackageResource, index:number) {
     this.setViewpoints(
       this.viewpoints.filter((_, i) => i !== index)
     );
