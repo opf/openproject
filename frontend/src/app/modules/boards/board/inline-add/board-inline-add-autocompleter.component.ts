@@ -65,7 +65,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
 
-  @Input() appendToContainer:string = '.board--container';
+  @Input() appendToContainer:string = '.work-packages-partitioned-query-space--container';
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();

@@ -25,7 +25,7 @@ import {StateService} from "@uirouter/core";
 import {States} from "core-components/states.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {filter, withLatestFrom} from 'rxjs/operators';
+import {filter, map, withLatestFrom} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
@@ -36,6 +36,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -98,6 +99,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
               readonly wpCreate:WorkPackageCreateService,
               readonly wpInlineCreate:WorkPackageInlineCreateService,
               readonly notificationService:WorkPackageNotificationService,
+              readonly halEvents:HalEventsService,
               readonly authorisationService:AuthorisationService,
               readonly causedUpdates:CausedUpdatesService,
               readonly cdRef:ChangeDetectorRef,
@@ -122,12 +124,25 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
         this.cdRef.detectChanges();
       });
 
+    // Observe changes to the work packages in this view
+    this.halEvents
+      .aggregated$('WorkPackage')
+      .pipe(
+        map(events => events.filter(event => event.eventType === 'update')),
+        filter(events => {
+          const wpIds:string[] = this.workPackages.map(el => el.id!.toString());
+          return !!events.find(event => wpIds.indexOf(event.id) !== -1);
+        })
+      ).subscribe(() => {
+      this.workPackages = this.wpViewOrder.orderedWorkPackages();
+      this.cdRef.detectChanges();
+    });
+
     this.querySpace.results
       .values$()
       .pipe(
         withLatestFrom(this.querySpace.query.values$()),
         this.untilDestroyed(),
-        filter(([results, query]) => results && !this.causedUpdates.includes(query))
       ).subscribe(([results, query]) => {
       this.query = query;
       this.workPackages = this.wpViewOrder.orderedWorkPackages();
@@ -147,7 +162,11 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
     // Register event handlers for the cards
     let registry = this.injector.get<any>(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
-    new registry(this.injector).attachTo(this);
+    if (registry instanceof CardViewHandlerRegistry) {
+      registry.attachTo(this);
+    } else {
+      new registry(this.injector).attachTo(this);
+    }
     this.wpTableSelection.registerSelectAllListener(() => {
       return this.cardView.renderedCards;
     });

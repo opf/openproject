@@ -8,7 +8,7 @@ import {BoardAssigneeActionService} from "core-app/modules/boards/board/board-ac
 
 @Component({
   selector: 'boards-entry',
-  template: '<ui-view></ui-view>',
+  template: '<ui-view wp-isolated-query-space></ui-view>',
   providers: [
     BoardConfigurationService,
     BoardStatusActionService,

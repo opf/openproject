@@ -166,6 +166,19 @@ describe 'Assignee action board',
 
       work_package.reload
       expect(work_package.assigned_to).to eq(group)
+
+      # Open remaining in split view
+      card = board_page.card_for(work_package)
+      split_view = card.open_details_view
+      split_view.expect_subject
+      split_view.edit_field(:assignee).update('Foo Bar')
+      split_view.expect_and_dismiss_notification message: 'Successful update.'
+
+      work_package.reload
+      expect(work_package.assigned_to).to eq(foobar_user)
+
+      board_page.expect_card('Foo Bar', 'Some Task', present: true)
+      board_page.expect_card('Grouped', 'Some Task', present: false)
     end
   end
 

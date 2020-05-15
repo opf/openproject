@@ -36,6 +36,7 @@ import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-chan
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {StateCacheService} from "core-components/states/state-cache.service";
 import {HookService} from "core-app/modules/plugins/hook-service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';
@@ -80,7 +81,7 @@ export class ResourceChangesetCommit<T extends HalResource = HalResource> {
     this.id = saved.id!.toString();
     this.wasNew = change.pristineResource.isNew;
     this.resource = saved;
-    this.changes = change.changes;
+    this.changes = change.changeMap;
   }
 }
 
@@ -98,6 +99,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   private stateGroup = new ChangesetStates();
 
   constructor(protected readonly injector:Injector,
+              protected readonly halEvents:HalEventsService,
               protected readonly hook:HookService) {
     super();
   }
@@ -124,6 +126,9 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     const commit = new ResourceChangesetCommit<V>(change, saved);
     this.comittedChanges.next(commit);
     this.reset(change);
+
+    const eventType = commit.wasNew ? 'created' : 'updated';
+    this.halEvents.push(commit.resource, { eventType, commit });
 
     return commit;
   }

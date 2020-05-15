@@ -60,6 +60,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     name: 'bim.partitioned.list',
     url: '/list',
     data: {
+      baseRoute: 'bim.partitioned.list',
       newRoute: 'bim.partitioned.list.new',
       partition: '-left-only'
     },
@@ -73,6 +74,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     url: '/split',
     data: {
       partition: '-split',
+      baseRoute: 'bim.partitioned.split',
       newRoute: 'bim.partitioned.split.new',
       bodyClasses: 'router--work-packages-partitioned-split-view'
     },

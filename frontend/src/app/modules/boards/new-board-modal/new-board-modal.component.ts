@@ -96,7 +96,7 @@ export class NewBoardModalComponent extends OpModalComponent {
         this.inFlight = false;
         this.closeMe();
         this.boardCache.update(board);
-        this.state.go('boards.show', { board_id: board.id, isNew: true });
+        this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
       .catch((error:unknown) => {
         this.inFlight = false;

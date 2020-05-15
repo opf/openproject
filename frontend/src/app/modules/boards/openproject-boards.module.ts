@@ -29,8 +29,7 @@
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {Ng2StateDeclaration, UIRouter, UIRouterModule} from "@uirouter/angular";
-import {BoardComponent} from "core-app/modules/boards/board/board.component";
+import {UIRouterModule} from "@uirouter/angular";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {BoardsRootComponent} from "core-app/modules/boards/boards-root/boards-root.component";
 import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
@@ -47,63 +46,11 @@ import {DragScrollModule} from "cdk-drag-scroll";
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {DynamicModule} from "ng-dynamic-component";
+import {BOARDS_ROUTES, uiRouterBoardsConfiguration} from "core-app/modules/boards/openproject-boards.routes";
+import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board-partitioned-page/board-partitioned-page.component";
+import {BoardListContainerComponent} from "core-app/modules/boards/board/board-partitioned-page/board-list-container.component";
+import {BoardsMenuButtonComponent} from "core-app/modules/boards/board/toolbar-menu/boards-menu-button.component";
 import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
-
-const menuItemClass = 'board-view-menu-item';
-
-export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'boards',
-    parent: 'root',
-    // The trailing slash is important
-    // cf., https://community.openproject.com/wp/29754
-    url: '/boards/?query_props',
-    data: {
-      bodyClasses: 'router--boards-view-base',
-      menuItem: menuItemClass
-    },
-    params: {
-      // Use custom encoder/decoder that ensures validity of URL string
-      query_props: { type: 'opQueryString', dynamic: true }
-    },
-    redirectTo: 'boards.list',
-    component: BoardsRootComponent
-  },
-  {
-    name: 'boards.list',
-    component: BoardsIndexPageComponent,
-    data: {
-      parent: 'boards',
-      bodyClasses: 'router--boards-list-view',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'boards.show',
-    url: '{board_id}',
-    params: {
-      board_id: { type: 'int' },
-      isNew: { type: 'bool', inherit: false, dynamic: true }
-    },
-    reloadOnSearch: false,
-    component: BoardComponent,
-    data: {
-      parent: 'boards',
-      bodyClasses: 'router--boards-full-view',
-      menuItem: menuItemClass
-    }
-  }
-];
-
-export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
-  // Ensure boards/ are being redirected correctly
-  // cf., https://community.openproject.com/wp/29754
-  uiRouter.urlService.rules
-    .when(
-      new RegExp("^/projects/(.*)/boards$"),
-      match => `/projects/${match[1]}/boards/`
-    );
-}
 
 @NgModule({
   imports: [
@@ -122,7 +69,8 @@ export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
   ],
   declarations: [
     BoardsIndexPageComponent,
-    BoardComponent,
+    BoardPartitionedPageComponent,
+    BoardListContainerComponent,
     BoardListComponent,
     BoardsRootComponent,
     BoardInlineAddAutocompleterComponent,
@@ -130,6 +78,7 @@ export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
     BoardHighlightingTabComponent,
     BoardConfigurationModal,
     BoardsToolbarMenuDirective,
+    BoardsMenuButtonComponent,
     NewBoardModalComponent,
     AddListModalComponent,
     AddCardDropdownMenuDirective,

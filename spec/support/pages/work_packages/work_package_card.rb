@@ -38,7 +38,15 @@ module Pages
     end
 
     def card_element
-      page.find(".wp-card-#{work_package.id}")
+      page.find(card_selector)
+    end
+
+    def card_selector
+      ".wp-card-#{work_package.id}"
+    end
+
+    def expect_selected
+      expect(page).to have_selector("#{card_selector}.-checked")
     end
 
     def expect_type(name)
@@ -51,6 +59,13 @@ module Pages
       page.within(card_element) do
         expect(page).to have_selector('.wp-card--subject', text: subject)
       end
+    end
+
+    def open_details_view
+      card_element.hover
+      card_element.find('.wp-card--details-button').click
+
+      ::Pages::SplitWorkPackage.new work_package
     end
   end
 end

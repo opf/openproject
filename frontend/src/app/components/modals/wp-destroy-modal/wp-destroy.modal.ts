@@ -134,7 +134,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       .then(() => {
         this.busy = false;
         this.closeMe($event);
-        this.wpTableFocus.clear();
+        this.wpTableFocus.clear('Clearing after destroying work packages');
 
         // Go back to a previous list state if we're in a split or full view
         if (this.$state.current.data.baseRoute) {
