@@ -55,7 +55,9 @@ class OpenProject::XlsExport::XlsViews
   end
 
   def set_title
-    spreadsheet.add_title("#{@project.name + ' >> ' if @project}#{I18n.t(:cost_reports_title)} (#{format_date(Date.today)})")
+    spreadsheet.add_title(
+      "#{@project.name + ' >> ' if @project}#{I18n.t(:label_cost_report_plural)} (#{format_date(Date.today)})"
+    )
   end
 
   def currency_format

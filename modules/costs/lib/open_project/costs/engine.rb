@@ -35,7 +35,7 @@ module OpenProject::Costs
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-costs',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.com',
              bundled: true,
              settings: {
                default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },

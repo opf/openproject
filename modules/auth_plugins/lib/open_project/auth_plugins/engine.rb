@@ -36,7 +36,7 @@ module OpenProject::AuthPlugins
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-auth_plugins',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.com',
              bundled: true
 
     initializer 'auth_plugins.register_hooks' do

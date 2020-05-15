@@ -35,7 +35,7 @@ module OpenProject::Meeting
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-meeting',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.com',
              bundled: true do
       project_module :meetings do
         permission :view_meetings, meetings: [:index, :show], meeting_agendas: [:history, :show, :diff], meeting_minutes: [:history, :show, :diff]

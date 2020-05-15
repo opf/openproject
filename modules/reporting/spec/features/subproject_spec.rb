@@ -18,7 +18,7 @@ describe 'Cost report in subproject', type: :feature, js: true do
 
   it 'provides filtering' do
     within '#main-menu' do
-      click_on 'Cost reports'
+      click_on 'Time and costs'
     end
 
     within '#content' do

@@ -7,7 +7,7 @@ module OpenProject::TwoFactorAuthentication
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-two_factor_authentication',
-             author_url: 'http://openproject.com',
+             author_url: 'https://www.openproject.com',
              settings: {
                default: {
                  # Only app-based 2FA allowed per default
