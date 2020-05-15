@@ -280,7 +280,7 @@ ru:
     label_add_row_before: "Добавить строку перед"
     label_add_selected_columns: "Добавить выбранные столбцы"
     label_added_by: "Добавил(-а)"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Добавлено <a href=%{authorLink}>%{author}</a> в %{age}"
     label_ago: "дней назад"
     label_all: "все"
     label_all_work_packages: "Все пакеты работ"

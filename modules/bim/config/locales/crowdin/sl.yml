@@ -25,6 +25,7 @@ sl:
       export: 'Izvozi'
       import_update_comment: '(Posodobljeno v uvozu BCF)'
       import_failed: 'BCF datoteke ni mogoče uvoziti: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Uvožene %{count} težave BCF'
       import_canceled: "BCF-XML uvoz preklican\n"
       type_not_active: "Vrsta težave za ta projekt ni aktivirana"

@@ -22,6 +22,7 @@ vi:
       export: 'Xuất'
       import_update_comment: '(Cập nhật từ file BCF)'
       import_failed: 'Không thể nhập file BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Đã nhập %{count} vấn đề'
       import_canceled: 'Nhập BCF-XML bị hủy.'
       type_not_active: "Loại vấn đề không được kích hoạt cho dự án này."

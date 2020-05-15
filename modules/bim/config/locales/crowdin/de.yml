@@ -23,6 +23,7 @@ de:
       export: 'Exportieren'
       import_update_comment: '(In BCF-Import aktualisiert)'
       import_failed: 'BCF-Datei kann nicht importiert werden: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: '%{count} BCF-Fälle importiert'
       import_canceled: 'BCF-XML-Import abgebrochen.'
       type_not_active: "Der BCF-Fall Arbeitspakettyp ist nicht für dieses Projekt aktiviert."
