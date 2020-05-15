@@ -35,7 +35,7 @@ module OpenProject::GlobalRoles
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-global_roles',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.com',
              bundled: true
 
     assets %w(global_roles/global_roles.js)
