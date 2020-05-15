@@ -40,5 +40,11 @@ module OAuth
     def extend_content_security_policy
       use_content_security_policy_named_append(:oauth)
     end
+
+    def allowed_forms
+      allowed_redirect_urls = pre_auth&.client&.application&.redirect_uri
+      urls = allowed_redirect_urls.to_s.split
+      urls.map { |url| URI.join(url, '/') }.map(&:to_s)
+    end
   end
 end
