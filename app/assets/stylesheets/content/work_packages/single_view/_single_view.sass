@@ -151,16 +151,6 @@ i
     .-columns-2
       @include two-column-layout
 
-      @supports (column-span: all)
-        // Let some elements still span both columns
-        .attributes-key-value.-span-all-columns
-          column-span: all
-          .attributes-key-value--key
-            flex-basis: calc(22.5% - (4rem / 6))
-          .attributes-key-value--value-container
-            flex-basis: calc(77.5% + (4rem / 6))
-            max-width: calc(77.5% + (4rem / 6))
-
   @supports (column-span: all)
     // Remove the outline on focus since that breaks the column in chrome
     // Chrome bug https://bugs.chromium.org/p/chromium/issues/detail?id=565116
