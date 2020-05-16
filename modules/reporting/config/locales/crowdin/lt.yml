@@ -19,12 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 lt:
   button_save_as: "Įrašyti ataskaitą kaip..."
   comments: "Komentaras"
-  cost_reports_title: "Kaštų ataskaitos"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Kaštų ataskaita"
+  label_cost_report_plural: "Kaštų ataskaitos"
   description_drill_down: "Rodyti Išsamią informaciją"
   description_filter_selection: "Pasirinkimas"
   description_multi_select: "Rodyti multipasirinkimą"

@@ -19,12 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 hu:
   button_save_as: "Mentés másként..."
   comments: "Vélemény"
-  cost_reports_title: "Költség jelentések"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Költség jelentés"
+  label_cost_report_plural: "Költség jelentések"
   description_drill_down: "Részletek megjelenítése"
   description_filter_selection: "Kijelölés"
   description_multi_select: "Több kiválasztása"

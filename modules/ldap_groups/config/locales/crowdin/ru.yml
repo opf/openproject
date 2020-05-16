@@ -5,22 +5,22 @@ ru:
         dn: 'DN'
         auth_source: 'LDAP-подключение'
       ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
+        filter_string: 'Фильтр LDAP'
         auth_source: 'LDAP-подключение'
-        group_name_attribute: "Group name attribute"
+        group_name_attribute: "Атрибут имени группы"
     models:
       ldap_groups/synchronized_group: 'Синхронизированная LDAP-группа'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_filter: 'Фильтр синхронизации групп LDAP'
   ldap_groups:
     label_menu_item: 'Синхронизация LDAP-группы'
     label_group_key: 'Ключ фильтра LDAP-группы'
-    label_synchronize: 'Synchronize'
+    label_synchronize: 'Синхронизировать'
     settings:
-      name_attribute: 'LDAP groups name attribute'
+      name_attribute: 'Атрибут имени группы LDAP'
       name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
     synchronized_filters:
       add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
+      singular: 'Фильтр синхронизации групп LDAP'
       plural: 'LDAP Group synchronization filters'
       destroy:
         title: 'Remove synchronized filter %{name}'

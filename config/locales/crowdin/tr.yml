@@ -108,18 +108,18 @@ tr:
         OpenProject yalnızca bu alt ağaçta belirtilen kullanıcı adlarını filtreleyecektir.
         Örnek: ou = kullanıcılar, dc = örnek, dc = com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        LDAP'de filtrelenen kullanıcılar için döndürülen sonuçlara uygulamak üzere isteğe bağlı bir RFC4515 filtresi ekleyin.
+        Bu, OpenProject tarafından kimlik doğrulama ve grup senkronizasyonu için bulunan kullanıcı kümesini kısıtlamak için kullanılabilir.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject her zaman kullanıcının kaydı tanımlaması için sağlanan oturum açma özniteliğine filtre uygular. Burada bir filtre sağlarsanız,
+        bir AND ile birleştirilecektir. Varsayılan olarak filtre olarak bir tümünü yakala (objectClass = *) kullanılır.
       onthefly_register: |
         Bu kutuyu işaretlerseniz, OpenProject otomatik olarak LDAP girişlerinden yeni kullanıcılar oluşturur
         OpenProject ile ilk kimlik doğrulaması yaptıklarında.
         Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        Bu LDAP bağlantısı için grup senkronizasyonunu etkinleştirirseniz, kullanıcılar da otomatik olarak oluşturulur
+        senkronize gruplar için OpenProject'te. Bu olmadan, gruplara yalnızca OpenProject'teki mevcut hesaplar eklenir.
     connection_encryption: 'Bağlantı şifreleme'
     system_account: 'Sistem hesabı'
     system_account_legend: |
@@ -233,8 +233,8 @@ tr:
       no_results_content_text: Haber öğesi ekle
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'Bu kullanıcı şu anda aşağıdaki grupların bir üyesidir:'
+      no_results_title_text: Bu kullanıcı şu anda hiçbir gruba üye değil.
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
   prioritiies:
@@ -361,7 +361,7 @@ tr:
         attr_mail: "E-posta özniteliği"
         base_dn: "Temel DN"
         host: "Sunucu"
-        onthefly: "Automatic user creation"
+        onthefly: "Otomatik kullanıcı oluşturma"
         port: "Port"
       changeset:
         repository: "Depo"
@@ -485,6 +485,7 @@ tr:
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
         subproject: "Alt proje"
@@ -1311,7 +1312,7 @@ tr:
   label_delete_project: "Projeyi sil"
   label_deleted: "silindi"
   label_deleted_custom_field: "(özel alan silindi)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(silinen seçenek)"
   label_descending: "Azalan"
   label_details: "Detaylar"
   label_development_roadmap: "Geliştirme yol haritası"

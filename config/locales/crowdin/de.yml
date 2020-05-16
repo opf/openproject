@@ -481,6 +481,7 @@ de:
         parent_work_package: "Übergeordnetes Arbeitspaket"
         priority: "Priorität"
         progress: "Fortschritt (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
         subproject: "Unterprojekt"

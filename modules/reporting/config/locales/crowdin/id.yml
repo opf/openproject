@@ -19,12 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 id:
   button_save_as: "Simpan sebagai..."
   comments: "Komentar"
-  cost_reports_title: "Pelaporan biaya"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Laporan biaya"
+  label_cost_report_plural: "Pelaporan biaya"
   description_drill_down: "Lihat detail"
   description_filter_selection: "Seleksi"
   description_multi_select: "Tampilkan multiselect"
