@@ -22,7 +22,7 @@
 nl:
   button_save_as: "Rapport opslaan als..."
   comments: "Commentaar"
-  cost_reports_title: "Kostenrapporten"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Kostenrapport"
   description_drill_down: "Details weergeven"
   description_filter_selection: "Selectie"

@@ -23,7 +23,7 @@ ar:
   no_results_title_text: لا يوجد حالياً أي شيء لعرضه.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: ولم يكن هناك أي نشاط للمشروع ضمن هذا الإطار الزمني.
   admin:
     plugins:
       no_results_title_text: لا يوجد حالياً أية إضافات متاحة.

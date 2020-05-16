@@ -22,7 +22,7 @@
 fil:
   button_save_as: "Save report as..."
   comments: "Komento"
-  cost_reports_title: "Cost reports"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Cost report"
   description_drill_down: "Show details"
   description_filter_selection: "Selection"

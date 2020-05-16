@@ -22,7 +22,7 @@
 uk:
   button_save_as: "Зберегти звіт до:"
   comments: "Коментар"
-  cost_reports_title: "Звіти про витрати"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Звіт про витрати"
   description_drill_down: "Детальніше"
   description_filter_selection: "Вибір"

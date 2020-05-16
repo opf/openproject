@@ -22,7 +22,7 @@
 sk:
   button_save_as: "Uložiť prehľad ako..."
   comments: "Komentár"
-  cost_reports_title: "Výkazy nákladov"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Výkaz nákladov"
   description_drill_down: "Zobraziť Podrobnosti"
   description_filter_selection: "Výber"

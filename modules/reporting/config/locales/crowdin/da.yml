@@ -22,7 +22,7 @@
 da:
   button_save_as: "Gem rapport som..."
   comments: "Kommentér"
-  cost_reports_title: "Omkostningsrapporter"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Omkostningsrapport"
   description_drill_down: "Vis detaljer"
   description_filter_selection: "Markering"
