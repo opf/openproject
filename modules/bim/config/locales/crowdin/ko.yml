@@ -22,6 +22,7 @@ ko:
       export: '내보내기'
       import_update_comment: '(BCF 가져오기에서 업데이트됨)'
       import_failed: 'BCF 파일을 가져올 수 없음: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: '%{count}개 BCF 이슈 가져옴'
       import_canceled: 'BCF-XML 가져오기가 취소되었습니다.'
       type_not_active: "이 프로젝트에 대해 해당 이슈 유형이 활성화되지 않았습니다."

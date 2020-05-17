@@ -24,7 +24,6 @@ fi:
   comments: "Kommentti"
   cost_reports_title: "Time and costs"
   label_cost_report: "Kustannusraportti"
-  label_cost_report_plural: "Kustannusraportit"
   description_drill_down: "Näytä tiedot"
   description_filter_selection: "Valinta"
   description_multi_select: "Näytä monivalinta"

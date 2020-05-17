@@ -24,7 +24,6 @@ nl:
   comments: "Commentaar"
   cost_reports_title: "Time and costs"
   label_cost_report: "Kostenrapport"
-  label_cost_report_plural: "Kostenrapporten"
   description_drill_down: "Details weergeven"
   description_filter_selection: "Selectie"
   description_multi_select: "Bekijk de meervoudige selectie"

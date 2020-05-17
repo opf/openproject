@@ -24,7 +24,6 @@ uk:
   comments: "Коментар"
   cost_reports_title: "Time and costs"
   label_cost_report: "Звіт про витрати"
-  label_cost_report_plural: "Звіти про витрати"
   description_drill_down: "Детальніше"
   description_filter_selection: "Вибір"
   description_multi_select: "Показати багатозначний вибір"

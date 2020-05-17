@@ -24,7 +24,6 @@ sl:
   comments: "Komentar"
   cost_reports_title: "Time and costs"
   label_cost_report: "Poročilo o stroških"
-  label_cost_report_plural: "Poročilo o stroških"
   description_drill_down: "Pokaži podrobnosti"
   description_filter_selection: "Izbor"
   description_multi_select: "Prikaži večselektor"

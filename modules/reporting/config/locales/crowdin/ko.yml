@@ -24,7 +24,6 @@ ko:
   comments: "코멘트"
   cost_reports_title: "Time and costs"
   label_cost_report: "비용 보고서"
-  label_cost_report_plural: "비용 보고서"
   description_drill_down: "세부 정보 표시"
   description_filter_selection: "선택"
   description_multi_select: "다중 선택 표시"

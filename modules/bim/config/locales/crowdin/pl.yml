@@ -25,6 +25,7 @@ pl:
       export: 'Eksportuj'
       import_update_comment: '(Zaktualizowano w imporcie BCF)'
       import_failed: 'Nie można zaimportować pliku BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Zaimportowano problemy BCF (%{count})'
       import_canceled: 'Anulowano import BCF-XML.'
       type_not_active: "Typ problemu nie jest aktywowany dla tego projektu."

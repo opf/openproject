@@ -23,6 +23,7 @@ tr:
       export: 'Dışarı aktar'
       import_update_comment: '(BCF ithalatında güncellendi)'
       import_failed: 'BCF dosyası alınamıyor: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'İçe aktarılan %{count} BCF sorunları'
       import_canceled: 'BCF-XML içe aktarma işlemi iptal edildi.'
       type_not_active: "Bu proje için sorun türü etkinleştirilmedi."

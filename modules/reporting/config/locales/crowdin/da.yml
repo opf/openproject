@@ -24,7 +24,6 @@ da:
   comments: "Kommentér"
   cost_reports_title: "Time and costs"
   label_cost_report: "Omkostningsrapport"
-  label_cost_report_plural: "Omkostningsrapporter"
   description_drill_down: "Vis detaljer"
   description_filter_selection: "Markering"
   description_multi_select: "Vis flere markeringer"

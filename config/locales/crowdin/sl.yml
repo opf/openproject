@@ -485,7 +485,6 @@ sl:
         parent_work_package: "Nadrejeni"
         priority: "Prioriteta"
         progress: "Napredek (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"

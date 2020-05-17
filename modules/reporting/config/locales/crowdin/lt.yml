@@ -24,7 +24,6 @@ lt:
   comments: "Komentaras"
   cost_reports_title: "Time and costs"
   label_cost_report: "Kaštų ataskaita"
-  label_cost_report_plural: "Kaštų ataskaitos"
   description_drill_down: "Rodyti Išsamią informaciją"
   description_filter_selection: "Pasirinkimas"
   description_multi_select: "Rodyti multipasirinkimą"

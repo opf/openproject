@@ -24,7 +24,6 @@ pt:
   comments: "Comentario"
   cost_reports_title: "Time and costs"
   label_cost_report: "Relatório de custo"
-  label_cost_report_plural: "Relatórios de custos"
   description_drill_down: "Mostrar detalhes"
   description_filter_selection: "Seleção"
   description_multi_select: "Mostrar multiseleção"

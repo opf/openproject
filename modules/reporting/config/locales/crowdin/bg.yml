@@ -24,7 +24,6 @@ bg:
   comments: "Коментар"
   cost_reports_title: "Time and costs"
   label_cost_report: "Cost report"
-  label_cost_report_plural: "Cost reports"
   description_drill_down: "Show details"
   description_filter_selection: "Selection"
   description_multi_select: "Show multiselect"

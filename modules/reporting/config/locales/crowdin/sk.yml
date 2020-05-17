@@ -24,7 +24,6 @@ sk:
   comments: "Komentár"
   cost_reports_title: "Time and costs"
   label_cost_report: "Výkaz nákladov"
-  label_cost_report_plural: "Výkazy nákladov"
   description_drill_down: "Zobraziť Podrobnosti"
   description_filter_selection: "Výber"
   description_multi_select: "Zobraziť multiselect"

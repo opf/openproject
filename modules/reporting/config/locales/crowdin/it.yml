@@ -24,7 +24,6 @@ it:
   comments: "Commento"
   cost_reports_title: "Time and costs"
   label_cost_report: "Relazione sui costi"
-  label_cost_report_plural: "Report costi"
   description_drill_down: "Mostra dettagli"
   description_filter_selection: "Selezione"
   description_multi_select: "Visualizza multiselect"

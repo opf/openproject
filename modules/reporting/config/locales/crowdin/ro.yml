@@ -24,7 +24,6 @@ ro:
   comments: "Comentariu"
   cost_reports_title: "Time and costs"
   label_cost_report: "Raport de cost"
-  label_cost_report_plural: "Rapoarte de cost"
   description_drill_down: "Afișare detalii"
   description_filter_selection: "Selecție"
   description_multi_select: "Afișare selecție multiplă"

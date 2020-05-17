@@ -24,7 +24,6 @@ tr:
   comments: "Yorum"
   cost_reports_title: "Time and costs"
   label_cost_report: "Maliyet raporu"
-  label_cost_report_plural: "Maliyet raporları"
   description_drill_down: "Ayrıntıları görüntüle"
   description_filter_selection: "Seçim"
   description_multi_select: "Çoklu görüntüle"
