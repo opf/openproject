@@ -22,7 +22,7 @@
 tr:
   button_save_as: "Raporu... şeklinde kaydet"
   comments: "Yorum"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Maliyet raporları"
   label_cost_report: "Maliyet raporu"
   description_drill_down: "Ayrıntıları görüntüle"
   description_filter_selection: "Seçim"

@@ -22,7 +22,7 @@
 ca:
   button_save_as: "Save report as..."
   comments: "Comentari"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Cost reports"
   label_cost_report: "Cost report"
   description_drill_down: "Mostra els detalls"
   description_filter_selection: "Selection"
