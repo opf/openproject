@@ -128,7 +128,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     this.halEvents
       .aggregated$('WorkPackage')
       .pipe(
-        map(events => events.filter(event => event.eventType === 'update')),
+        map(events => events.filter(event => event.eventType === 'updated')),
         filter(events => {
           const wpIds:string[] = this.workPackages.map(el => el.id!.toString());
           return !!events.find(event => wpIds.indexOf(event.id) !== -1);
