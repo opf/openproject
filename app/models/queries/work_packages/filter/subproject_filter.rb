@@ -65,9 +65,11 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   end
 
   def value_objects
-    value_ints = values.map(&:to_i)
+    available_subprojects = visible_subprojects.index_by(&:id)
 
-    visible_subprojects.where(id: value_ints)
+    values
+      .map { |subproject_id| available_subprojects[subproject_id.to_i] }
+      .compact
   end
 
   def where

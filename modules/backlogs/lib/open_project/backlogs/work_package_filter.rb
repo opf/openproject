@@ -72,8 +72,11 @@ module OpenProject::Backlogs
     end
 
     def value_objects
-      allowed_values
-        .select { |av| values.include?(av.last) }
+      available_backlog_types = allowed_values.index_by(&:last)
+
+      values
+        .map { |backlog_type_id| available_backlog_types[backlog_type_id] }
+        .compact
         .map { |value| BacklogsType.new(*value) }
     end
 
