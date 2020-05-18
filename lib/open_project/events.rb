@@ -39,5 +39,9 @@ module OpenProject
   module Events
     AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready".freeze
     NEW_TIME_ENTRY_CREATED = "new_time_entry_created".freeze
+
+    PROJECT_CREATED = "project_created".freeze
+    PROJECT_UPDATED = "project_updated".freeze
+    PROJECT_RENAMED = "project_renamed".freeze
   end
 end

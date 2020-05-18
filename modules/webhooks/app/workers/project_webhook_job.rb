@@ -1,5 +1,6 @@
-#-- encoding: UTF-8
+require 'rest-client'
 
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,17 +29,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class CreateService < ::BaseServices::Create
-    def after_perform(attributes_call)
-      attributes_call.result.add_member!(user, Role.in_new_project) unless user.admin?
+class ProjectWebhookJob < RepresentedWebhookJob
+  def payload_key
+    :project
+  end
 
-      OpenProject::Notifications.send(
-        OpenProject::Events::PROJECT_CREATED,
-        project: attributes_call.result
-      )
+  def accepted_in_project?
+    if event_name == 'project:created'
+      true
+    else
+      webhook.enabled_for_project?(resource.id)
+    end
+  end
 
-      super
+  def payload_representer
+    User.system.run_given do |user|
+      ::API::V3::Projects::ProjectRepresenter
+        .create(resource, current_user: user, embed_links: true)
     end
   end
 end
