@@ -109,7 +109,7 @@ sl:
     description_subwork_package: "Podrejen delovni paket #%{id}"
     editor:
       preview: 'Preklopi način predogleda'
-      source_code: 'Toggle Markdown source mode'
+      source_code: 'Preklopite vhodni način označevanja'
       error_saving_failed: 'Shranjevanje dokumenta ni uspelo zaradi napake: %{error}'
       error_initialization_failed: 'Napaka pri inicializaciji CKEditorja'
       mode:
@@ -461,12 +461,12 @@ sl:
           overview: "Upravljajte svoje delo v <b>Backlogs</b> pogledu. <br> Na desni strani imate Produktne zaostanke ali zaostanke Napak, na levi imate ustrezne šprinte. Tukaj lahko ustvarite <b>epe, zgodbe uporabnikov in napake</b>, določite prednost preko drag'n'drop in jih dodajte v šprint."
           task_board_arrow: 'Za prikaz vaše <b>Tabela nalog</b>, odprite šprint spustni meni...'
           task_board_select: '... in izberite <b>Tabela nalog</b> zapis.'
-          task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
+          task_board: "Plošča<b>opravil</b> predstavlja napredek tega šprinta. Z ikono + zraven uporabniške zgodbe dodajte nove naloge ali ovire. Preko povleka 'stanje lahko posodobite stanje."
         boards:
           overview: 'Organiziraj svoje delo z intuitivnim <b>Board</b> pogledom.'
-          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
+          lists: 'V enem pogledu plošče lahko ustvarite več seznamov (stolpcev), npr. ustvarite tablo KANBAN.'
           add: 'Klik na + bo <b>dodal novo kartico</b> na seznam v vaš Board.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          drag: 'Povlecite in spustite svoje kartice znotraj seznama, če ga želite ponovno naročiti, ali na drug seznam. Z dvojnim klikom se odpre pogled s podrobnostmi.'
         wp:
           toggler: "Zdaj pa poglejmo <b>Delovni paket</b> del, ki vam da bolj podroben pregled vašega dela. "
           list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
