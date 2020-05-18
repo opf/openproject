@@ -45,7 +45,7 @@ module Bim
       before_action :build_importer, only: %i[prepare_import perform_import]
       before_action :check_bcf_version, only: %i[prepare_import]
 
-      menu_item :work_packages
+      menu_item :ifc_models
 
       def upload;
       end
