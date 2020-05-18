@@ -86,7 +86,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       hours: 4
   end
   let!(:custom_field) do
-    FactoryBot.create :time_entry_custom_field, field_format: 'string'
+    FactoryBot.create :time_entry_custom_field, field_format: 'text'
   end
   let(:other_user) do
     FactoryBot.create(:user)
@@ -99,7 +99,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:cf_field) { ::EditField.new(page, "customField#{custom_field.id}") }
+  let(:cf_field) { ::TextEditorField.new(page, "customField#{custom_field.id}") }
   let(:time_logging_modal) { ::Components::TimeLoggingModal.new }
 
   before do
