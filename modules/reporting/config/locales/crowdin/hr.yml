@@ -22,7 +22,7 @@
 hr:
   button_save_as: "Spremi izvješće kao..."
   comments: "Komentar"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Izvješća troškova"
   label_cost_report: "Izvješće troška"
   description_drill_down: "Prikaži detalje"
   description_filter_selection: "Izbor"

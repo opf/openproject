@@ -22,7 +22,7 @@
 fi:
   button_save_as: "Tallenna raportti nimellä..."
   comments: "Kommentti"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Kustannusraportit"
   label_cost_report: "Kustannusraportti"
   description_drill_down: "Näytä tiedot"
   description_filter_selection: "Valinta"

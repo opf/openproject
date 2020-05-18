@@ -22,7 +22,7 @@
 zh-TW:
   button_save_as: "將報表另存為..。"
   comments: "評論"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "成本報告"
   label_cost_report: "成本報告"
   description_drill_down: "顯示詳細資訊"
   description_filter_selection: "選擇"

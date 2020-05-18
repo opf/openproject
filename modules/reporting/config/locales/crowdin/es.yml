@@ -22,7 +22,7 @@
 es:
   button_save_as: "Guardar informe como..."
   comments: "Comentario"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Reportes de costo"
   label_cost_report: "Informe costo"
   description_drill_down: "Ver detalles"
   description_filter_selection: "Selección"
