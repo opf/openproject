@@ -65,7 +65,7 @@ class OpenProject::XlsExport::XlsViews
   end
 
   def number_format
-    "0.0"
+    "0.00"
   end
 
   def project_representation(value)

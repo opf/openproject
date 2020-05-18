@@ -130,6 +130,32 @@ describe 'Work package table context menu', js: true do
       menu.open_for(work_package)
       menu.expect_options ['Add predecessor', 'Add follower']
     end
+
+    describe 'creating work packages' do
+      let!(:priority) { FactoryBot.create :issue_priority, is_default: true }
+      let!(:status) { FactoryBot.create :default_status }
+      let!(:type) { FactoryBot.create :type_task }
+      let!(:project) { FactoryBot.create :project, types: [type] }
+      let!(:work_package) { FactoryBot.create :work_package, project: project, type: type, status: status, priority: priority }
+      let(:wp_table) { Pages::WorkPackagesTable.new project }
+
+      it 'can create a new child from the context menu (Regression #33329)' do
+        goto_context_menu true
+        menu.choose('Create new child')
+        expect(page).to have_selector('.inline-edit--container.subject input')
+        expect(current_url).to match(/.*\/create_new\?.*(\&)*parent_id=#{work_package.id.to_s}/)
+
+        split_view = ::Pages::SplitWorkPackageCreate.new project: work_package.project
+        subject = split_view.edit_field(:subject)
+        subject.set_value 'Child task'
+        subject.submit_by_enter
+
+        split_view.expect_and_dismiss_notification message: 'Successful creation.'
+        expect(page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{work_package.subject}")
+        wp = WorkPackage.last
+        expect(wp.parent).to eq work_package
+      end
+    end
   end
 
   context 'in the card view' do

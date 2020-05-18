@@ -1341,7 +1341,7 @@ sl:
   label_delete_project: "Brisanje projekta"
   label_deleted: "Izbrisano"
   label_deleted_custom_field: "(izbrisano polje po meri)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(izbrisana možnost)"
   label_descending: "Padajoče"
   label_details: "Podrobnosti"
   label_development_roadmap: "Načrt razvoja"

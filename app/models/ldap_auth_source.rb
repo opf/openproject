@@ -134,11 +134,12 @@ class LdapAuthSource < AuthSource
   end
 
   def ldap_encryption
-    if tls_mode == 'plain_ldap'
-      nil
-    else
-      tls_mode.to_sym
-    end
+    return nil if tls_mode.to_s == 'plain_ldap'
+
+    {
+      method: tls_mode.to_sym,
+      tls_options: OpenProject::Configuration.ldap_tls_options.with_indifferent_access
+    }
   end
 
   # Check if a DN (user record) authenticates with the password

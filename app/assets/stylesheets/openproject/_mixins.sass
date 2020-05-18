@@ -135,6 +135,16 @@ $scrollbar-size: 10px
 @mixin two-column-layout
   column-count: 2
   column-gap: 3rem
+  
+  @supports (column-span: all)
+        // Let some elements still span both columns
+        .attributes-key-value.-span-all-columns
+          column-span: all
+          .attributes-key-value--key
+            flex-basis: calc(22.5% - (4rem / 6))
+          .attributes-key-value--value-container
+            flex-basis: calc(77.5% + (4rem / 6))
+            max-width: calc(77.5% + (4rem / 6))
 
   .attributes-key-value
     -webkit-column-break-inside: avoid

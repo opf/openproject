@@ -41,6 +41,19 @@ describe LdapAuthSource, type: :model do
     expect(a.reload.attr_firstname).to eq 'givenName'
   end
 
+  describe 'overriding tls_options',
+           with_config: { ldap_tls_options: { ca_file: '/path/to/ca/file' } } do
+    it 'sets the encryption options for start_tls' do
+      ldap = LdapAuthSource.new tls_mode: :start_tls
+      expect(ldap.send(:ldap_encryption)).to eq(method: :start_tls, tls_options: { 'ca_file' => '/path/to/ca/file' })
+    end
+
+    it 'does nothing for plain_ldap' do
+      ldap = LdapAuthSource.new tls_mode: :plain_ldap
+      expect(ldap.send(:ldap_encryption)).to eq nil
+    end
+  end
+
   describe 'with live LDAP' do
     before(:all) do
       ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')

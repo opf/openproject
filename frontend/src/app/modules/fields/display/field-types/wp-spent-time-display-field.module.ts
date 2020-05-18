@@ -33,6 +33,7 @@ import { ProjectResource } from "core-app/modules/hal/resources/project-resource
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/modules/time_entries/create/create.service';
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
@@ -81,16 +82,13 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
       element.appendChild(timelogElement);
 
-      let classContext = this;
-      timelogElement.addEventListener('click', function() {
-        classContext.showTimelogWidget();
-      });
+      timelogElement.addEventListener('click', this.showTimelogWidget.bind(this, this.resource));
     }
   }
 
-  private showTimelogWidget() {
+  private showTimelogWidget(wp:WorkPackageResource) {
     this.timeEntryCreateService
-      .create(moment(new Date()), this.resource, false)
+      .create(moment(new Date()), wp, false)
       .catch(() => {
         // do nothing, the user closed without changes
       });
