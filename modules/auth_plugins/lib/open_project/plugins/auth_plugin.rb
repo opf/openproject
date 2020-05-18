@@ -51,7 +51,9 @@ module OpenProject::Plugins
     end
 
     def self.providers
-      filtered_strategies strategies.values.flatten.map(&:call).flatten.map(&:to_hash)
+      RequestStore.fetch(:openproject_omniauth_filtered_strategies) do
+        filtered_strategies strategies.values.flatten.map(&:call).flatten.map(&:to_hash)
+      end
     end
 
     def self.filtered_strategies(options)

@@ -2,15 +2,22 @@ require 'omniauth-saml'
 module OpenProject
   module AuthSaml
     def self.configuration
-      Hash(settings_from_config || settings_from_yaml)
-        .with_indifferent_access
-        .deep_merge(settings_from_db)
+      RequestStore.fetch(:openproject_omniauth_saml_provider) do
+        @saml_settings ||= load_global_settings!
+        @saml_settings.deep_merge(settings_from_db)
+      end
+    end
+
+    ##
+    # Loads the settings once to avoid accessing the file in each request
+    def self.load_global_settings!
+       Hash(settings_from_config || settings_from_yaml).with_indifferent_access
     end
 
     def self.settings_from_db
       value = Hash(Setting.plugin_openproject_auth_saml).with_indifferent_access[:providers]
 
-      value.is_a?(Hash) ? value.with_indifferent_access : {}
+      value.is_a?(Hash) ? value : {}
     end
 
     def self.settings_from_config
