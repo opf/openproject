@@ -27,3 +27,20 @@ You can configure the following options to add your oauth application.
 5. Press the blue **Create** button to add your oauth application.
 
 ![Sys-admin-authentication-add-oauth-application](Sys-admin-authentication-add-oauth-application.png)
+
+## Oauth endpoints
+
+The authentication endpoints are at
+
+* Auth URL: `https://example.com/oauth/authorize`
+* Access Token URL: `https://example.com/oauth/token`
+
+## Using Postman with oauth?
+
+Set redirect URLs to `urn:ietf:wg:oauth:2.0:oob` in both, for your application (see step 2 above) and 
+within Postman.
+
+In Postman the configuration should look like this (Replace `{{protocolHostPort}}` with your host, 
+i.e. `https://example.com`)
+
+![Sys-admin-authentication-add-oauth-application](Sys-admin-authentication-oauth-postman.png)

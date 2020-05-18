@@ -28,21 +28,37 @@
 
 require 'spec_helper'
 
-describe 'OAuth authorization code flow', type: :feature, js: true do
+describe 'OAuth authorization code flow',
+         type: :feature,
+         js: true do
   let!(:user) { FactoryBot.create(:user) }
-  let!(:app) { FactoryBot.create(:oauth_application, name: 'Cool API app!') }
+  let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
+  let!(:allowed_redirect_uri) { redirect_uri }
+  let!(:app) { FactoryBot.create(:oauth_application, name: 'Cool API app!', redirect_uri: allowed_redirect_uri) }
   let(:client_secret) { app.plaintext_secret }
 
-  def oauth_path(client_id)
-    "/oauth/authorize?response_type=code&client_id=#{client_id}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=api_v3"
+  def oauth_path(client_id, redirect_url)
+    "/oauth/authorize?response_type=code&client_id=#{client_id}&redirect_uri=#{CGI.escape(redirect_url)}&scope=api_v3"
   end
 
   before do
-    # Do not login, will do that in the oauth flow
+    @record_requests = Billy.config.record_requests
+    @whitelist = Billy.config.whitelist
+    Billy.configure do |c|
+      c.record_requests = true
+      c.whitelist = []
+    end
+  end
+
+  after do
+    Billy.configure do |c|
+      c.record_requests = @record_requests
+      c.whitelist = @whitelist
+    end
   end
 
   it 'can authorize and manage an OAuth application grant' do
-    visit oauth_path app.uid
+    visit oauth_path app.uid, redirect_uri
 
     # Expect we're guided to the login screen
     login_with user.login, 'adminADMIN!', visit_signin_path: false
@@ -53,6 +69,20 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
     # With the correct scope printed
     expect(page).to have_selector('li strong', text: I18n.t('oauth.scopes.api_v3'))
     expect(page).to have_selector('li', text: I18n.t('oauth.scopes.api_v3_text'))
+
+    first = true
+    allow_any_instance_of(::OAuth::AuthBaseController)
+      .to receive(:allowed_forms).and_wrap_original do |m|
+      forms = m.call
+
+      # Multiple requests end up here with one not containing the request url
+      if first
+        expect(forms).to include redirect_uri
+        first = false
+      end
+
+      forms
+    end
 
     # Authorize
     find('input.button[value="Authorize"]').click
@@ -108,7 +138,7 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
   end
 
   it 'does not authenticate unknown applications' do
-    visit oauth_path 'WAT'
+    visit oauth_path 'WAT', redirect_uri
 
     # Expect we're guided to the login screen
     login_with user.login, 'adminADMIN!', visit_signin_path: false
@@ -119,5 +149,35 @@ describe 'OAuth authorization code flow', type: :feature, js: true do
     # And also have no grant for this application
     user.oauth_grants.reload
     expect(user.oauth_grants.count).to eq 0
+  end
+
+  # Selenium can't return response headers
+  context 'in browser that can log response headers', js: false do
+    before do
+      login_as user
+    end
+
+    context 'with real urls as allowed redirect uris' do
+      let!(:redirect_uri) { "https://foo.com/foo " }
+      let!(:allowed_redirect_uri) { "#{redirect_uri} https://bar.com/bar" }
+      it 'can authorize and manage an OAuth application grant' do
+        visit oauth_path app.uid, redirect_uri
+
+        allow_any_instance_of(::OAuth::AuthBaseController)
+          .to receive(:allowed_forms).and_wrap_original do |m|
+          forms = m.call
+
+          expect(forms).to include 'https://foo.com/'
+          expect(forms).to include 'https://bar.com/'
+
+          forms
+        end
+
+        # Check that the hosts of allowed redirection urls are present in the content security policy
+        expect(page.response_headers['content-security-policy']).to(
+          include("form-action 'self' https://foo.com/ https://bar.com/;")
+        )
+      end
+    end
   end
 end
