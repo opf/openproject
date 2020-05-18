@@ -41,22 +41,6 @@ describe 'OAuth authorization code flow',
     "/oauth/authorize?response_type=code&client_id=#{client_id}&redirect_uri=#{CGI.escape(redirect_url)}&scope=api_v3"
   end
 
-  before do
-    @record_requests = Billy.config.record_requests
-    @whitelist = Billy.config.whitelist
-    Billy.configure do |c|
-      c.record_requests = true
-      c.whitelist = []
-    end
-  end
-
-  after do
-    Billy.configure do |c|
-      c.record_requests = @record_requests
-      c.whitelist = @whitelist
-    end
-  end
-
   it 'can authorize and manage an OAuth application grant' do
     visit oauth_path app.uid, redirect_uri
 
