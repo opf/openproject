@@ -197,5 +197,70 @@ describe OpenProject::TextFormatting,
         expect(subject).to be_html_eql(expected)
       end
     end
+
+    describe 'with a todo list with a link on second place' do
+      let(:raw) do
+        <<~RAW
+          <table>
+            <tbody>
+              <tr>
+                <td>asdf</td>
+                <td>asdfasdf</td>
+              </tr>
+              <tr>
+                <td>
+                  <ul class="todo-list">
+                    <li>
+                      <label class="todo-list__label"><input type="checkbox" disabled="disabled">
+                        <span class="todo-list__label__description">asdfasdfasdf </span>
+                      </label>
+                      <a href="https://example.com/">
+                        <label class="todo-list__label">
+                          <span class="todo-list__label__description">foobar</span>
+                        </label>
+                      </a>
+                    </li>
+                  </ul>
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        RAW
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <table>
+            <tbody>
+              <tr>
+                <td>asdf</td>
+                <td>asdfasdf</td>
+              </tr>
+              <tr>
+                <td>
+                  <ul class="task-list">
+                    <li class="task-list-item">
+                      <input type="checkbox" class="task-list-item-checkbox" disabled>
+                      <span>asdfasdfasdf </span>
+                      <a href="https://example.com/" rel="noopener noreferrer">
+                        <span>foobar</span>
+                      </a>
+                    </li>
+                  </ul>
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        EXPECTED
+      end
+
+      subject { format_text(raw) }
+
+      it 'should correctly place the link after the text node' do
+        expect(subject).to be_html_eql(expected)
+      end
+    end
   end
 end
