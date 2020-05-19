@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.2'
+gem 'rails', '~> 6.0.3.1'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
