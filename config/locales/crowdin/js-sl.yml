@@ -469,8 +469,8 @@ sl:
           drag: 'Povlecite in spustite svoje kartice znotraj seznama, če ga želite ponovno naročiti, ali na drug seznam. Z dvojnim klikom se odpre pogled s podrobnostmi.'
         wp:
           toggler: "Zdaj pa poglejmo <b>Delovni paket</b> del, ki vam da bolj podroben pregled vašega dela. "
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
+          list: "To je <b> Delovni paket </b> seznam s pomembnimi deli v vašem projektu, kot so naloge, funkcije, mejniki, napake in drugo. <br> Delovni paket lahko ustvarite ali uredite neposredno na tem seznamu. Če si želite ogledati njegove podrobnosti, lahko dvakrat kliknete na vrstico.\n"
+          full_view: 'V <b>Podrobnostih delovnega paketa </b> najdete vse ustrezne informacije, na primer opis, stanje in prednostno nalogo, dejavnosti, odvisnosti ali komentarje.'
           back_button: 'S puščico lahko navigirate nazaj na seznam delovnih paketov. '
           create_button: 'Gumb <b>Ustvari</b> bo dodal nov delovni paket vašemu projektu. '
           timeline_button: 'Omogočite lahko <b>Gantogram</b> da ustvarite časovnico za vaš projekt.'
@@ -604,7 +604,7 @@ sl:
         farRight: 'Čisto desno'
         showNone: '-- Brez labele --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
+          Izberite atribute, ki jih želite ves čas prikazati na ustreznih mestih Gantograma. Upoštevajte, da se ob premikanju elementa namesto teh atributov prikažejo njegove datumske nalepke.
       button_activate: 'Prikaži gantogram'
       button_deactivate: 'Skrij gantogram'
       cancel: Prekliči
@@ -637,7 +637,7 @@ sl:
       start_date: "Datum začetka"
       tooManyProjects: "Več kot %{count} projektov. Prosimo uporabite boljši filter!"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Za ustvarjanje razmerja kliknite kateri koli poudarjen delovni paket. Če želite preklicati, pritisnite escape.'
       zoom:
         in: "Povečaj"
         out: "Pomanjšaj"
@@ -649,18 +649,18 @@ sl:
         years: "let"
         slider: "Drsnik za povečevanje"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Izberite začetno stopnjo povečave, ki naj bo prikazana, ko samodejno povečanje ni na voljo.
     tl_toolbar:
       zooms: "Stopnja povečave"
       outlines: "Stopnja hierarhije"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Podjetniška verzija edina funkcija'
     wiki_formatting:
       strong: "Močno"
       italic: "Nagnjeno"
       underline: "Podčrtaj"
       deleted: "Izbrisano"
-      code: "Inline Code"
+      code: "Vgrajena koda\n"
       heading1: "Naslov 1"
       heading2: "Naslov 2"
       heading3: "Naslov 3"
@@ -693,13 +693,13 @@ sl:
       label_filter_add: "Dodaj filter"
       label_filter_by_text: "Filtreraj po besedilu"
       label_options: "Možnosti"
-      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
+      label_column_multiselect: "Kombinirano spustno polje: Izberite s puščicami, izbiro potrdite s tipko enter, izbrišite s tipko izbriši."
       message_error_during_bulk_delete: Med brisanjem delovnih paketov se je zgodila napaka. 
       message_successful_bulk_delete: Delovni paketi so uspešno izbrisani. 
       message_successful_show_in_fullscreen: "Za celozaslonski pogled delovnih paketov, kliknite tukaj. "
       message_view_spent_time: "Prikaži porabljen čas za ta delovni paket"
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Stanja delovnega paketa ni mogoče napisati zaradi zaprtega stanja in dodeljene zaprte različice."
       placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
       inline_create:
         title: 'Za dodajanje novega delovnega paketa kliknite tukaj'
@@ -714,13 +714,13 @@ sl:
       hierarchy:
         show: "Prikaži hiearhijo"
         hide: "Skrij hierarhijo"
-        toggle_button: 'Click to toggle hierarchy mode.'
-        leaf: 'Work package leaf at level %{level}.'
-        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
-        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
+        toggle_button: "Kliknite, če želite preklopiti hierarhični način.\n"
+        leaf: "List delovnega paketa na ravni %{level}.\n"
+        children_collapsed: 'Hierarhijska raven %{level}, se je sesula. Kliknite, če želite prikazati filtrirane ukaze.'
+        children_expanded: 'Hierarhijska raven %{level}, se je razširila. Kliknite, če želite prikazati filtrirane ukaze.'
       faulty_query:
         title: Delavnega paketa ni bilo mogoče naložiti. 
-        description: Your view is erroneous and could not be processed.
+        description: "Vaš pogled je napačen in ga ni mogoče obdelati.\n"
       no_results:
         title: Nobenega delovnega paketa za prikaz.
         description: Ali noben ni bil ustvarjen ali pa so bili vsi delovni paketi filtrirani stran.
@@ -760,8 +760,8 @@ sl:
         all_open: "Vse odprto"
         summary: "Povzetek"
       jump_marks:
-        pagination: "Jump to table pagination"
-        label_pagination: "Click here to skip over the work packages table and go to pagination"
+        pagination: "Pojdi na stran s tabelo"
+        label_pagination: "Kliknite tukaj, da preskočite tabelo delovnih paketov in pojdite na stran"
         content: "Skoči na vsebino"
         label_content: "Kliknite tukaj za preskok menija na vsebino"
       placeholders:
@@ -771,7 +771,7 @@ sl:
         column_names: "Stolpci"
         group_by: "Rezultati grupirani po"
         group: "Razvrsti po"
-        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
+        group_by_disabled_by_hierarchy: "Skupina je onemogočena, ker je aktiven hierarhijski način."
         hierarchy_disabled_by_group_by: "Hirarhični pogled je onemogočen zaradi grupiranja po %{column}."
         sort_ascending: "Sortiraj naraščajoče"
         sort_descending: "Razvrsti padajoče"
@@ -784,32 +784,32 @@ sl:
         confirm_edit_cancel: "Ali ste prepričani, da želite preklicati urejanje tega pogleda? Naslov bo spremenjen nazaj v prejšnjega."
         click_to_edit_query_name: "Kliknite za urejanje naslova tega pogleda."
         rename_query_placeholder: "Ime tega pogleda"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Ta pogled označite kot najljubši in dodajte v stransko vrstico shranjenih pogledov na levi strani."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Objavite ta pogled in drugim uporabnikom omogočite dostop do vašega pogleda. Uporabniki z dovoljenjem »Upravljanje javnih pogledov« lahko spremenijo ali odstranijo javno poizvedbo. To v tem pogledu ne vpliva na vidnost rezultatov delovnega paketa in uporabniki lahko glede na svoja dovoljenja vidijo različne rezultate.
         errors:
-          unretrievable_query: "Unable to retrieve view from URL"
+          unretrievable_query: "Ogleda ni mogoče pridobiti iz URL-ja\n"
           not_found: "Ta pogled ne obstaja"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
+          duplicate_query_title: "Ime tega pogleda že obstaja. Se vseeno spremeni?"
         text_no_results: "Ujemanj ni bilo najdenih."
       table:
         configure_button: 'Uredi tabelo delovnega paketa'
-        summary: "Table with rows of work package and columns of work package attributes."
-        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
-        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
-        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+        summary: "Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.\n"
+        text_inline_edit: "Večina celic te tabele predstavlja gumbe, ki aktivirajo funkcionalnost urejanja v atributu."
+        text_sort_hint: "S povezavami v glavah tabel lahko sortirate, razvrstite, preuredite, odstranite in dodate stolpce tabel."
+        text_select_hint: "Izbrana polja je treba odpreti s tipko ALT in puščicami."
       table_configuration:
-        button: 'Configure this work package table'
+        button: 'Uredi tabelo delovnega paketa'
         choose_display_mode: 'Prikaži delovni paket kot'
         modal_title: 'Urejanje tabele delovnega paketa'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "Ta zavihek konfiguracije ni na voljo za vdelani pogled, ki ga urejate."
         default: "Privzeto"
         display_settings: 'Prikaži nastavitve'
-        default_mode: "Flat list"
+        default_mode: "Raven seznam\n"
         hierarchy_mode: "Hierarhija"
-        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
-        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
-        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        hierarchy_hint: "Vsi rezultati filtrirane tabele bodo dopolnjeni s svojimi predniki. Hierarhijo je mogoče razširiti in strniti."
+        display_sums_hint: "Prikažite vsote vseh atributov, ki seštevajo v vrstici pod rezultati tabele."
+        show_timeline_hint: "Pokažite interaktivni gantogram na desni strani. Njegovo širino lahko spremenite tako, da povlečete delilnik med tabelo in gantogramom.\n"
         highlighting: 'Poudarjanje'
         highlighting_mode:
           description: "Poudarjanje z barvo"
@@ -878,8 +878,8 @@ sl:
         title: "Potrdite izbris %{label}"
         text: "Ali ste prepričani, da želite izbrisati naslednje %{label} ?"
         has_children: "Ta delavni paket ima %{childUnits}:"
-        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
-        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+        confirm_deletion_children: "Zavedam se, da bodo VSI potomci naštetih delovnih paketov rekurzivno odstranjeni."
+        deletes_children: "Vsi delovni paketi in njihovi potomci bodo tudi rekurzivno izbrisani."
     notice_no_results_to_display: "Ni vidnih rezultatov za prikaz."
     notice_successful_create: "Ustvarjanje uspelo."
     notice_successful_delete: "Uspešen izbris."
