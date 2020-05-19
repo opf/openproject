@@ -81,21 +81,34 @@ module OpenProject::TextFormatting
 
           table.css('label.todo-list__label').each do |label|
             checkbox = label.css('input[type=checkbox]').first
-            checked = checkbox.attr('checked') == 'checked' ? 'x' : ' '
-            checkbox.unlink
+            li_node = label.ancestors.detect { |node| node.name == 'li' }
 
             # assign all children of the label to its parent
             # that might be the LI, or another element (code, link)
             parent = label.parent
-            # However the task list text must be added to the LI
-            li_node = label.ancestors.detect { |node| node.name == 'li' }
-            li_node.prepend_child " [#{checked}] "
 
-            # Prepend if there is a parent in between
-            if parent == li_node
-              parent.add_child label.children
+            # CKEditor splits text nodes within task lists so that there are multiple labels
+            # but only the first has a checkbox
+            # e.g., - [ ] Foo [Bar](https://example.com)
+            # both Foo and Bar are contained by labels
+            if checkbox.nil?
+              # In case we don't have a checkbox, add the content of the label
+              # or it's parent in case of links directly to the node
+              to_add = li_node == parent ? label.children : parent
+              li_node.add_child to_add
             else
-              parent.prepend_child label.children
+              checked = checkbox.attr('checked') == 'checked' ? 'x' : ' '
+              checkbox.unlink
+
+              # Ensure the task list text is be added as first child to the LI
+              li_node.prepend_child " [#{checked}] "
+
+              # Prepend if there is a parent in between
+              if parent == li_node
+                parent.add_child label.children
+              else
+                parent.prepend_child label.children
+              end
             end
           end
         }
