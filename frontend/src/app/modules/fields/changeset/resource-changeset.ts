@@ -297,10 +297,11 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
     if (this.pristineResource.isNew) {
       // If the resource is new, we need to pass the entire form payload
       // to let all default values be transmitted (type, status, etc.)
+      // We clone the object to avoid later manipulations to affect the original resource.
       if (this.form$.value) {
-        payload = this.form$.value.payload.$source;
+        payload = _.cloneDeep(this.form$.value.payload.$source);
       } else {
-        payload = this.pristineResource.$source;
+        payload = _.cloneDeep(this.pristineResource.$source);
       }
 
       // Add attachments to be assigned.
