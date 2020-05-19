@@ -485,6 +485,7 @@ fi:
         parent_work_package: "Ylätaso"
         priority: "Tärkeys"
         progress: "Edistyminen (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"
         subproject: "Aliprojekti"

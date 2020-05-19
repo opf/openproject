@@ -482,6 +482,7 @@ es:
         parent_work_package: "Padre"
         priority: "Prioridad"
         progress: "Progreso (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tiempo empleado"
         spent_time: "Tiempo empleado"
         subproject: "Subproyecto"
