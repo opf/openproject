@@ -137,25 +137,30 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   ngAfterViewInit():void {
-    // Observe changes on the work package to update the viewpoints
-    this.observeChanges();
+    this.initialize();
+  }
+
+  viewerCouldBeVisible():boolean {
+    return this.state.includes('bim.partitioned.split');
   }
 
   showViewpoint(index:number) {
-    this
-      .viewpointFromIndex(index)
-      .get()
-      .subscribe(data => {
-        if (this.viewerVisible) {
-          this.viewerBridge.showViewpoint(data);
-        } else {
-          window.location.href = this.pathHelper.bimDetailsPath(
-            this.workPackage.project.idFromLink,
-            this.workPackage.id!,
-            index
-          );
-        }
-      });
+    if (this.viewerCouldBeVisible()) {
+      if (this.viewerVisible) {
+        this
+          .viewpointFromIndex(index)
+          .get()
+          .subscribe(data => {
+            this.viewerBridge.showViewpoint(data);
+          });
+      }
+    } else {
+      window.location.href = this.pathHelper.bimDetailsPath(
+        this.workPackage.project.idFromLink,
+        this.workPackage.id!,
+        index
+      );
+    }
   }
 
   deleteViewpoint(index:number) {
@@ -169,7 +174,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       .subscribe(data => {
         // Update the work package to reload the viewpoint
         this.notifications.addSuccess(this.text.notice_successful_delete);
-        this.wpCache.require(this.workPackage.id!, true);
+        this.wpCache.require(this.workPackage.id!, true).then(async wp => this.setup(wp));
         this.gallery.preview.close();
       });
   }
@@ -201,29 +206,36 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     this.showIndex = event.index;
   }
 
-  protected observeChanges() {
+  protected initialize() {
+    this.wpCache
+      .require(this.workPackage.id!)
+      .then(async wp => this.setup(wp, true));
+
     this.wpCache
       .observe(this.workPackage.id!)
-      .pipe(
-        this.untilDestroyed()
-      )
-      .subscribe(async wp => {
-        this.workPackage = wp;
-        this.setTopicUUIDFromWorkPackage();
+      .pipe(this.untilDestroyed())
+      .subscribe(async wp => this.setup(wp, false));
+  }
 
-        const projectId = this.workPackage.project.idFromLink;
-        this.viewAllowed = await this.bcfAuthorization.isAllowedTo(projectId, 'project_actions', 'viewTopic');
-        this.createAllowed = await this.bcfAuthorization.isAllowedTo(projectId, 'topic_actions', 'createViewpoint');
+  protected async setup(wp:WorkPackageResource, initial:boolean = false) {
+    this.workPackage = wp;
+    this.setTopicUUIDFromWorkPackage();
 
-        if (wp.bcfViewpoints) {
-          this.setViewpoints(wp.bcfViewpoints.map((el:HalLink) => {
-            return { href: el.href, snapshotURL: `${el.href}/snapshot` };
-          }));
-          this.loadViewpointFromRoute();
-        }
+    if (initial) {
+      const projectId = this.workPackage.project.idFromLink;
+      this.viewAllowed = await this.bcfAuthorization.isAllowedTo(projectId, 'project_actions', 'viewTopic');
+      this.createAllowed = await this.bcfAuthorization.isAllowedTo(projectId, 'topic_actions', 'createViewpoint');
+    }
 
-        this.cdRef.detectChanges();
-      });
+    if (wp.bcfViewpoints) {
+      this.setViewpoints(wp.bcfViewpoints.map((el:HalLink) => {
+        return { href: el.href, snapshotURL: `${el.href}/snapshot` };
+      }));
+      if (initial) {
+        this.loadViewpointFromRoute();
+      }
+    }
+    this.cdRef.detectChanges();
   }
 
   protected async persistViewpoint(viewpoint:BcfViewpointInterface) {

@@ -80,7 +80,9 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public showViewpoint(viewpoint:BcfViewpointInterface) {
-    this.viewer.loadBCFViewpoint(viewpoint, {});
+    if (this.viewerVisible()) {
+      this.viewer.loadBCFViewpoint(viewpoint, {});
+    }
   }
 
   public viewerVisible():boolean {
