@@ -22,9 +22,8 @@
 ro:
   button_save_as: "Salvare raport ca..."
   comments: "Comentariu"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Rapoarte de cost"
   label_cost_report: "Raport de cost"
-  label_cost_report_plural: "Rapoarte de cost"
   description_drill_down: "Afișare detalii"
   description_filter_selection: "Selecție"
   description_multi_select: "Afișare selecție multiplă"

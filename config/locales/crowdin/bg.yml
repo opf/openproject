@@ -485,7 +485,6 @@ bg:
         parent_work_package: "Горна категория"
         priority: "Приоритет"
         progress: "Прогрес (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Отработено време"
         spent_time: "Отработено време"
         subproject: "Подпроект"
