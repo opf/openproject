@@ -30,14 +30,18 @@ require 'spec_helper'
 
 describe EnterprisesController, type: :controller do
   let(:a_token) { EnterpriseToken.new }
-  let(:token_object) do
-    token = OpenProject::Token.new
-    token.subscriber = 'Foobar'
-    token.mail = 'foo@example.org'
-    token.starts_at = Date.today
-    token.expires_at = nil
 
-    token
+  let(:token_attributes) do
+    {
+      subscriber: "Foobar",
+      mail: "foo@example.org",
+      starts_at: Date.today,
+      expires_at: nil
+    }
+  end
+
+  let(:token_object) do
+    OpenProject::Token.new token_attributes
   end
 
   before do
@@ -57,11 +61,53 @@ describe EnterprisesController, type: :controller do
           get :show
         end
 
-        it 'renders the overview' do
-          expect(response).to be_successful
-          expect(response).to render_template 'show'
-          expect(response).to render_template partial: 'enterprises/_current'
-          expect(response).to render_template partial: 'enterprises/_form'
+        shared_examples 'it renders the EE overview' do
+          it 'renders the overview' do
+            expect(response).to be_successful
+            expect(response).to render_template 'show'
+            expect(response).to render_template partial: 'enterprises/_current'
+            expect(response).to render_template partial: 'enterprises/_form'
+          end
+        end
+
+        it_behaves_like 'it renders the EE overview'
+
+        context 'with version >= 2.0' do
+          let(:token_attributes) { super().merge version: "2.0" }
+
+          context 'with correct domain', with_settings: { host_name: 'community.openproject.com' } do
+            let(:token_attributes) { super().merge domain: 'community.openproject.com' }
+
+            it_behaves_like 'it renders the EE overview'
+
+            it "doesn't show any warnings or errors" do
+              expect(controller).not_to set_flash.now
+            end
+          end
+
+          context 'with wrong domain', with_settings: { host_name: 'community.openproject.com' } do
+            let(:token_attributes) { super().merge domain: 'localhost' }
+
+            it_behaves_like 'it renders the EE overview'
+
+            it "shows an invalid domain error" do
+              expect(controller).to set_flash.now[:error].to(/.*localhost.*does not match.*community.openproject.com/)
+            end
+          end
+        end
+
+        context 'with version < 2.0' do
+          let(:token_attributes) { super().merge version: "1.0.3" }
+
+          context 'with wrong domain', with_settings: { host_name: 'community.openproject.com' } do
+            let(:token_attributes) { super().merge domain: 'localhost' }
+
+            it_behaves_like 'it renders the EE overview'
+
+            it "doesn't show any warnings or errors" do
+              expect(controller).not_to set_flash.now
+            end
+          end
         end
       end
 
