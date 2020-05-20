@@ -27,71 +27,30 @@
 //++
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input} from "@angular/core";
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {ColorsService} from "core-app/modules/common/colors/colors.service";
+import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
 
 export const userAvatarSelector = 'user-avatar';
 
 @Component({
   selector: userAvatarSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './user-avatar.component.html'
+  template: ''
 })
 export class UserAvatarComponent implements AfterViewInit {
-  /** If coming from angular, pass a user resource if availabe */
+  /** If coming from angular, pass a user resource if available */
   @Input() public user?:UserResource;
 
-  public userInitials:string;
-  public userName:string;
-  public colorCode:string;
-  public userId:string;
-  public classes:string;
-  public userAvatarUrl:string;
-
-  public useFallback:boolean;
-
   constructor(protected elementRef:ElementRef,
-              protected ref:ChangeDetectorRef,
-              protected pathHelper:PathHelperService,
-              protected colors:ColorsService) {
+              protected avatarRenderer:UserAvatarRendererService,
+              protected pathHelper:PathHelperService) {
   }
 
   public ngAfterViewInit() {
-    this.initialize();
-  }
-
-  public replaceWithDefault() {
-    this.useFallback = true;
-    this.ref.detectChanges();
-  }
-
-  private initialize() {
     const element = this.elementRef.nativeElement;
-
-    if (this.user) {
-      this.userId = this.user.id!;
-      this.userName = this.user.name;
-    } else {
-      this.userId = element.dataset.userId!;
-      this.userName = element.dataset.userName!;
-    }
-
-    this.classes = element.dataset.classList!;
-    this.useFallback = element.dataset.useFallback!;
-    this.userAvatarUrl = this.pathHelper.api.v3.users.id(this.userId).avatar.toString();
-    this.userInitials = this.getInitials(this.userName);
-    this.colorCode = this.colors.toHsl(this.userName);
-    this.ref.detectChanges();
-  }
-
-  private getInitials(name:string) {
-    let characters = [...name];
-    let lastSpace = name.lastIndexOf(' ');
-    let first = characters[0]?.toUpperCase();
-    let last = name[lastSpace + 1]?.toUpperCase();
-
-    return [first, last].join("");
+    let user = this.user || { name: element.dataset.userName!, id: element.dataset.userId };
+    this.avatarRenderer.render(element, user, false, element.dataset.classList);
   }
 }
 
