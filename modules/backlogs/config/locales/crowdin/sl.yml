@@ -102,7 +102,7 @@ sl:
   backlogs_velocity_missing: "Za ta projekt ni mogoče izračunati hitrosti"
   backlogs_velocity_varies: "Hitrost se med sprinti občutno razlikuje\n"
   backlogs_wiki_template: "Predloga za wiki sprint"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_title: "Za zaostanke ni definirana nobena različica"
   backlogs_empty_action_text: "Če želite začeti z Backlogs vtičnikom, ustvarite novo različico in jo dodelite stolpcu Backlogs."
   button_edit_wiki: "Uredi wiki strani"
   error_intro_plural: "Prišlo je do naslednjih napak:"

@@ -483,6 +483,7 @@ pt:
         parent_work_package: "Mãe"
         priority: "Prioridade"
         progress: "Progresso (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tempo usado"
         spent_time: "Tempo usado"
         subproject: "Sub-projecto"
