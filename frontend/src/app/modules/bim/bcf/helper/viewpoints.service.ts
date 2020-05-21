@@ -70,7 +70,7 @@ export class ViewpointsService {
             );
   }
 
-  setBcfTopic$(workPackage:WorkPackageResource) {
+  public setBcfTopic$(workPackage:WorkPackageResource) {
     if (this.topicUUID) {
       return of(this.topicUUID);
     } else {
@@ -83,7 +83,7 @@ export class ViewpointsService {
     }
   }
 
-  public createBcfTopic$(workPackage:WorkPackageResource):Observable<string> {
+  private createBcfTopic$(workPackage:WorkPackageResource):Observable<string> {
     const wpProjectId = workPackage.project.idFromLink;
     const wpPayload = workPackage.convertBCF.payload;
 
