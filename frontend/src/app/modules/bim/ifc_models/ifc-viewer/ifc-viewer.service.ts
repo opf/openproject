@@ -46,7 +46,6 @@ export class IFCViewerService extends ViewerBridgeService {
 
   constructor(readonly injector:Injector){
     super(injector);
-    console.log('IFCViewerService constructor called', this.pathHelper, this.bcfApi);
   }
 
   public newViewer(elements:XeokitElements, projects:any[]) {
@@ -99,18 +98,16 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
-    console.log('showViewpoint  1:', workPackage, workPackage.project.identifier, index, this.viewer, this.pathHelper, this.bcfApi, this.pathHelper.bimDetailsPath(
-        workPackage.project.idFromLink,
-        workPackage.id!,
-        index
-      ));
-    
-    if (this.viewer) {
-      this.viewpointsService
-            .getViewPoint$(workPackage, index)
-            .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, {}));
+    // Avoid reload the app when 
+    if (this.routeWithViewer) {
+      if (this.viewer) {
+        this.viewpointsService
+              .getViewPoint$(workPackage, index)
+              .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, {}));
+      }
     } else {
       // Reload the whole app to get the correct menus and GON data
+      // and redirect to a route with a place for the viewer
       window.location.href = this.pathHelper.bimDetailsPath(
         workPackage.project.idFromLink,
         workPackage.id!,
