@@ -22,9 +22,8 @@
 de:
   button_save_as: "Speichern unter ..."
   comments: "Kommentar"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Kostenauswertungen"
   label_cost_report: "Report"
-  label_cost_report_plural: "Kostenauswertungen"
   description_drill_down: "Details anzeigen"
   description_filter_selection: "Auswahl"
   description_multi_select: "Mehrfachauswahl anzeigen"
