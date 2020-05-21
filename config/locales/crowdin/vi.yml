@@ -514,7 +514,7 @@ vi:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "could not be (fully) copied."
         does_not_exist: "does not exist."
-        error_unauthorized: "có thể không được truy cập."
+        error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."
         empty: "can't be empty."
         even: "must be even."
