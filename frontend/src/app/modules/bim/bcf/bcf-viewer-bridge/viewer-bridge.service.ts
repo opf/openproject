@@ -3,12 +3,21 @@ import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf
 import {Observable} from "rxjs";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {StateService} from "@uirouter/core";
 
 
 @Injectable()
 export abstract class ViewerBridgeService {
-  constructor(readonly injector:Injector) {}
+  @InjectField() state:StateService;
+  /**
+   * Check if we are on a router state where there is a place
+   * where the viewer could be shown
+   */
+  get routeWithViewer():boolean {
+    return this.state.includes('bim.partitioned.split');
+  }
 
+  constructor(readonly injector:Injector) {}
   /**
    * Get a viewpoint from the viewer
    */

@@ -10,35 +10,24 @@ import {
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {NgxGalleryComponent, NgxGalleryOptions} from '@kolkov/ngx-gallery';
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
-import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
-import {BcfViewpointPaths} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {BcfAuthorizationService} from "core-app/modules/bim/bcf/api/bcf-authorization.service";
 import {ViewpointsService} from "core-app/modules/bim/bcf/helper/viewpoints.service";
+import {BcfViewpointItem} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface";
 
 
-export interface ViewpointItem {
-  /** The URL of the viewpoint, if persisted */
-  href?:string;
-  /** URL (persisted or data) to the snapshot */
-  snapshotURL:string;
-  /** The loaded snapshot, if exists */
-  viewpoint?:BcfViewpointInterface;
-}
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
   styleUrls: ['./bcf-wp-attribute-group.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ViewpointsService]
 })
 export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy {
   @Input() workPackage:WorkPackageResource;
@@ -109,25 +98,19 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     }
   ];
 
-  viewpoints:ViewpointItem[] = [];
+  viewpoints:BcfViewpointItem[] = [];
 
   galleryImages:any[] = [];
-
-  // Remember the topic UUID, which we might just create
-  topicUUID:string|undefined;
 
   // Store whether viewing is allowed
   viewAllowed:boolean = false;
   // Store whether viewpoint creation is allowed
   createAllowed:boolean = false;
-
   // Currently, this is static. Need observable if this changes over time
   viewerVisible = this.viewerBridge.viewerVisible();
+  projectId: string;
 
   constructor(readonly state:StateService,
-              readonly pathHelper:PathHelperService,
-              readonly currentProject:CurrentProjectService,
-              readonly bcfApi:BcfApiService,
               readonly bcfAuthorization:BcfAuthorizationService,
               readonly viewerBridge:ViewerBridgeService,
               readonly wpCache:WorkPackageCacheService,
@@ -146,52 +129,38 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
   protected observeChanges() {
     this.wpCache
-      .observe(this.workPackage.id!)
-      .pipe(
-        this.untilDestroyed()
-      )
-      .subscribe(async wp => {
-        this.workPackage = wp;
-        //this.setTopicUUIDFromWorkPackage();
+          .observe(this.workPackage.id!)
+          .pipe(this.untilDestroyed())
+          .subscribe(async wp => {
+            this.workPackage = wp;
 
-        const projectId = this.workPackage.project.idFromLink;
-        this.viewAllowed = await this.bcfAuthorization.isAllowedTo(projectId, 'project_actions', 'viewTopic');
-        this.createAllowed = await this.bcfAuthorization.isAllowedTo(projectId, 'topic_actions', 'createViewpoint');
+            if (!this.projectId) {
+              await this.initialize(this.workPackage);
+            }
 
-        if (wp.bcfViewpoints) {
-          this.viewpoints = wp.bcfViewpoints.map((el:HalLink) => {
-            return { href: el.href, snapshotURL: `${el.href}/snapshot` };
+            if (wp.bcfViewpoints) {
+              this.refreshViewpoints(wp.bcfViewpoints);
+            }
           });
-          this.setViewpointsOnGallery(this.viewpoints);
-          this.loadViewpointFromRoute(this.workPackage);
-        }
+  }
 
-        this.cdRef.detectChanges();
-      });
+  async initialize(workPackage:WorkPackageResource) {
+    this.projectId = workPackage.project.idFromLink;
+    this.viewAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'project_actions', 'viewTopic');
+    this.createAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'topic_actions', 'createViewpoint'); 
+
+    this.loadViewpointFromRoute(workPackage);
+    this.cdRef.detectChanges();
+  }
+
+  refreshViewpoints(viewpoints:HalLink[]) {
+    this.viewpoints = viewpoints.map((el:HalLink) => ({ href: el.href, snapshotURL: `${el.href}/snapshot` }));
+
+    this.setViewpointsOnGallery(this.viewpoints);
   }
 
   protected showViewpoint(workPackage:WorkPackageResource, index:number) {
     this.viewerBridge.showViewpoint(workPackage, index);
-
-    /* this
-      .viewpointFromIndex(index)
-      .get()
-      .subscribe(data => {
-        if (this.viewerVisible) {
-          this.viewerBridge.showViewpoint(data);
-        } else {
-          // Send a message to Revit, waiting for response
-          // TODO: Show feedback to the user (Trying to communicate with Revit...)
-          // TODO: Check if there is a 'model-loaded' event
-
-          // SKIP this on PLUGINS SCENARIO
-          window.location.href = this.pathHelper.bimDetailsPath(
-            this.workPackage.project.identifier,
-            this.workPackage.id!,
-            index
-          );
-        }
-      }); */
   }
 
   protected deleteViewpoint(workPackage:WorkPackageResource, index:number) {
@@ -202,42 +171,18 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     this.viewpointsService
           .deleteViewPoint$(workPackage, index) 
           .subscribe(data => {
-            // Update the work package to reload the viewpoint
             this.notifications.addSuccess(this.text.notice_successful_delete);
-            this.wpCache.require(this.workPackage.id!, true);
             this.gallery.preview.close();
           });
-
-    /* this
-      .viewpointFromIndex(index)
-      .delete()
-      .subscribe(data => {
-        // Update the work package to reload the viewpoint
-        this.notifications.addSuccess(this.text.notice_successful_delete);
-        this.wpCache.require(this.workPackage.id!, true);
-        this.gallery.preview.close();
-      }); */
   }
 
-  public saveCurrentAsViewpoint(workPackage:WorkPackageResource) {
+  public saveViewpoint(workPackage:WorkPackageResource) {
     this.viewpointsService
-          .saveCurrentAsViewpoint$(workPackage) 
-          .subscribe(response => {
-            console.log('Type this response', response);
-            // Update the work package to reload the viewpoint
+          .saveViewpoint$(workPackage) 
+          .subscribe(viewpoint => {
             this.notifications.addSuccess(this.text.notice_successful_create);
             this.showIndex = this.viewpoints.length;
-            this.wpCache.require(this.workPackage.id!, true);
           });
-
-    /* const viewpoint = await this.viewerBridge!.getViewpoint();
-
-    await this.persistViewpoint(viewpoint);
-
-    // Update the work package to reload the viewpoint
-    this.notifications.addSuccess(this.text.notice_successful_create);
-    this.showIndex = this.viewpoints.length;
-    this.wpCache.require(this.workPackage.id!, true); */
   }
 
   protected loadViewpointFromRoute(workPackage:WorkPackageResource) {
@@ -255,43 +200,6 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       (this.viewpoints.length > 0 ||
         (this.createAllowed && this.viewerVisible));
   }
-
-  /* protected async persistViewpoint(viewpoint:BcfViewpointInterface) {
-    this.topicUUID = this.topicUUID || await this.createBcfTopic();
-
-    return this.bcfApi
-      .projects.id(this.wpProjectId)
-      .topics.id(this.topicUUID)
-      .viewpoints
-      .post(viewpoint)
-      .toPromise();
-  } */
-
-  /* protected setTopicUUIDFromWorkPackage() {
-    const topicHref:string|undefined = this.workPackage.bcfTopic?.href;
-
-    if (topicHref) {
-      this.topicUUID = this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id as string;
-    }
-  } */
-
-/*   protected async createBcfTopic():Promise<string> {
-    return this.bcfApi
-      .projects.id(this.wpProjectId)
-      .topics
-      .post(this.workPackage.convertBCF.payload)
-      .toPromise()
-      .then(resource => resource.guid);
-  } */
-
-  /* protected viewpointFromIndex(index:number):BcfViewpointPaths {
-    let viewpointHref = this.workPackage.bcfViewpoints[index].href;
-    return this.bcfApi.parse<BcfViewpointPaths>(viewpointHref);
-  } */
-
-  /*   protected get wpProjectId() {
-    return this.workPackage.project.idFromLink;
-  } */
 
   // Gallery functionality
   protected actions() {
@@ -335,7 +243,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     return this.galleryOptions[0].startIndex!;
   }
 
-  protected setViewpointsOnGallery(viewpoints:ViewpointItem[]) {
+  protected setViewpointsOnGallery(viewpoints:BcfViewpointItem[]) {
     const length = viewpoints.length;
 
     this.setThumbnailProperties(length);
