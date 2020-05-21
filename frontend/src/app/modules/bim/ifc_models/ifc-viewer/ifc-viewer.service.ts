@@ -98,7 +98,8 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
-    // Avoid reload the app when 
+    // Avoid reload the app when there is a place to show the viewer
+    // ('bim.partitioned.split')
     if (this.routeWithViewer) {
       if (this.viewer) {
         this.viewpointsService
@@ -107,7 +108,8 @@ export class IFCViewerService extends ViewerBridgeService {
       }
     } else {
       // Reload the whole app to get the correct menus and GON data
-      // and redirect to a route with a place for the viewer
+      // and redirect to a route with a place to show viewer
+      // ('bim.partitioned.split')
       window.location.href = this.pathHelper.bimDetailsPath(
         workPackage.project.idFromLink,
         workPackage.id!,
