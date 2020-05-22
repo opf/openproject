@@ -68,7 +68,6 @@ describe('UserAvatar component test', () => {
 
     it('should render the fallback avatar', function () {
       const link = element.querySelector('.avatar-default')!;
-      expect(app.userInitials).toEqual('FL');
       expect(link.textContent).toEqual('FL');
     });
   });
@@ -88,7 +87,6 @@ describe('UserAvatar component test', () => {
 
     it('should render the fallback avatar', function () {
       const link = element.querySelector('.avatar-default')!;
-      expect(app.userInitials).toEqual('\uFe0F' + 'B');
       expect(link.textContent).toEqual('\uFe0F' + 'B');
     });
   });

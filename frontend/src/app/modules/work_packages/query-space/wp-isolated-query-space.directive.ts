@@ -56,7 +56,6 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {debugLog} from "core-app/helpers/debug_output";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
@@ -123,7 +122,6 @@ import {TimeEntryCreateService} from "core-app/modules/time_entries/create/creat
     WorkPackageCreateService,
 
     WorkPackageStatesInitializationService,
-    PortalCleanupService,
 
     // Table Drag & Drop actions
     TableDragActionsRegistryService,

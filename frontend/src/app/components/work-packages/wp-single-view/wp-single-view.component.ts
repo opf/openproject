@@ -53,7 +53,6 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 import {Subject} from "rxjs";
 import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
@@ -87,10 +86,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 @Component({
   templateUrl: './wp-single-view.html',
   selector: 'wp-single-view',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    PortalCleanupService
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -147,7 +143,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
               protected injector:Injector,
               protected cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef,
-              readonly cleanupService:PortalCleanupService,
               readonly browserDetector:BrowserDetector) {
     super();
   }
