@@ -916,10 +916,10 @@ sl:
         few: "Delovni paketi"
         other: "Delovni paketi"
       child_work_packages:
-        one: "one child work package"
-        two: "%{count} work package children"
-        few: "%{count} work package children"
-        other: "%{count} work package children"
+        one: "en podrejeni delovni paket"
+        two: "%{count} podrejena delovna paketa"
+        few: "%{count} podrejenih delovnih paketov"
+        other: "%{count} podrejeni delovni paketi"
       hour:
         zero: "0 ur"
         one: "%{count} ura"

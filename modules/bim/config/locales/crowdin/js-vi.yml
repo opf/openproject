@@ -12,10 +12,10 @@ vi:
     ifc_models:
       empty_warning: "Dự án này chưa có mô hình IFC nào."
       use_this_link_to_manage: "Dùng link này để tải lên và quản lý mô hình IFC"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      keyboard_input_disabled: "Trình xem không có quyền điều khiển bàn phím. Kích vào \"trình xem\" để cấp quyền điều khiển bàn phím cho \"trình xem\""
       models:
         default: 'Các mô hình IFC mặc định'
         manage: 'Quản lý mô hình'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and cards'
+        viewer: 'Trình xem'
+        split: 'Trình xem và thẻ'
