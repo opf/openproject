@@ -3,7 +3,14 @@ require 'open_project/auth_saml'
 
 describe OpenProject::AuthSaml do
   describe ".configuration" do
-    let(:config) { OpenProject::AuthSaml.configuration }
+    let(:config) do
+      # the `configuration` method is cached to avoid
+      # loading the SAML file more than once
+      # thus remove any cached value here
+      OpenProject::AuthSaml.remove_instance_variable('@saml_settings')
+      OpenProject::AuthSaml.configuration
+    end
+
 
     context(
       "with configuration",
