@@ -1,0 +1,24 @@
+name: Docker
+on:
+  # Scheduled workflows run on the latest commit on the default or base branch
+  schedule:
+    - cron: '20 2 * * *' # Daily at 02:20
+
+  push:
+    tags:
+      - v*
+jobs:
+  publish:
+    # restrict this job to base repo for now
+    if: github.repository == 'opf/openproject'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish to registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: openproject/community-test
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tag_semver: true
+          cache: ${{ github.event_name != 'schedule' }}
