@@ -79,7 +79,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
 
   def sum_of(work_packages)
     if work_packages.respond_to?(:joins)
-      cast = @cf.field_format == 'int' ? 'INTEGER' : 'FLOAT'
+      cast = @cf.field_format == 'int' ? 'BIGINT' : 'FLOAT'
 
       CustomValue
         .where(customized: work_packages, custom_field: @cf)
