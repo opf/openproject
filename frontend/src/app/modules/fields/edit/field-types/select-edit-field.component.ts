@@ -153,7 +153,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   protected loadValuesFromBackend(query?:string) {
     return from(
-      this.allowedValuesFetch(query)
+      this.loadAllowedValues(query)
     ).pipe(
       tap(collection => {
         // if it is an unpaginated collection or if we get all possible entries when fetching with a blank
@@ -174,7 +174,17 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     );
   }
 
-  protected allowedValuesFetch(query?:string) {
+  protected loadAllowedValues(query?:string):Promise<CollectionResource> {
+    // Cache the search without any params
+    if (!query) {
+      const cacheKey = this.schema.allowedValues.$link.href;
+      return this.change.cacheValue(cacheKey, this.fetchAllowedValueQuery.bind(this));
+    }
+
+    return this.fetchAllowedValueQuery(query);
+  }
+
+  protected fetchAllowedValueQuery(query?:string) {
     return this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
   }
 
