@@ -70,7 +70,6 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   destroy() {
     this.resourceSubscription.unsubscribe();
-    super.destroy();
   }
 
   public findContainer(fieldName:string):JQuery {

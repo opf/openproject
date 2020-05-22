@@ -338,7 +338,7 @@ export class WorkPackageBaseResource extends HalResource {
   /**
    * Update the state
    */
-  public push(newValue:this):void {
+  public push(newValue:this):Promise<unknown> {
     this.wpActivity.clear(newValue.id!);
 
     // If there is a parent, its view has to be updated as well
@@ -346,7 +346,7 @@ export class WorkPackageBaseResource extends HalResource {
       this.wpCacheService.require(newValue.parent.id!, true);
     }
 
-    this.wpCacheService.updateWorkPackage(newValue as any);
+    return this.wpCacheService.updateWorkPackage(newValue as any);
   }
 
   public get hasOverriddenSchema():boolean {

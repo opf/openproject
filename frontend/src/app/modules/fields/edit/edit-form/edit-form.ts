@@ -32,7 +32,10 @@ import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {
+  HalResourceEditingService,
+  ResourceChangesetCommit
+} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -63,9 +66,6 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   // Whether this form exists in edit mode
   public editMode:boolean = false;
 
-  // Subscribe to changes to the temporary edit form
-  protected subscription:Subscription;
-
   protected constructor(public injector:Injector) {
   }
 
@@ -87,9 +87,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   /**
    * Optional callback when the form is being saved
    */
-  protected onSaved(isInitial:boolean, saved:HalResource):void {
-    const eventType = isInitial ? 'created' : 'updated';
-    this.halEvents.push(saved, { eventType });
+  protected onSaved(commit:ResourceChangesetCommit):void {
+    // Does nothing by default
   }
 
   protected abstract focusOnFirstError():void;
@@ -190,7 +189,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
           this.halNotification.showSave(result.resource, result.wasNew);
           this.editMode = false;
-          this.onSaved(result.wasNew, result.resource);
+          this.onSaved(result);
           this.change.inFlight = false;
         })
         .catch((error:ErrorResource|Object) => {
@@ -207,35 +206,23 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   }
 
   /**
-   * Close all fields and unsubscribe the observers on this form.
-   */
-  public destroy() {
-    if (this.subscription) {
-      // Unsubscribe changes
-      this.subscription.unsubscribe();
-    }
-
-    // Kill all active fields
-    // Without resetting the changeset, if, e.g., we're moving an active edit
-    _.each(this.activeFields, (handler) => {
-      handler && handler.deactivate(false);
-    });
-  }
-
-  /**
    * Close the given or all open fields.
    *
    * @param {string[]} fields
+   * @param resetChange whether to undo any changes made
    */
-  public closeEditFields(fields?:string[]) {
-    if (!fields) {
+  public closeEditFields(fields:string[]|'all' = 'all', resetChange:boolean = true) {
+    if (fields === 'all') {
       fields = _.keys(this.activeFields);
     }
 
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
       handler && handler.deactivate(false);
-      this.change.reset(name);
+
+      if (resetChange) {
+        this.change.reset(name);
+      }
     });
   }
 
