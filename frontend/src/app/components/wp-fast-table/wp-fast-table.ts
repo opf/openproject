@@ -16,7 +16,6 @@ import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
@@ -26,7 +25,6 @@ export class WorkPackageTable {
   @InjectField() wpCacheService:WorkPackageCacheService;
   @InjectField() states:States;
   @InjectField() I18n:I18nService;
-  @InjectField() portalCleanupService:PortalCleanupService;
 
   public originalRows:string[] = [];
   public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
@@ -81,7 +79,7 @@ export class WorkPackageTable {
       // Ensure we get the latest version
       wp = this.wpCacheService.current(wpId, wp)!;
 
-      this.originalRowIndex[wpId] = <WorkPackageTableRow>{object: wp, workPackageId: wpId, position: i};
+      this.originalRowIndex[wpId] = <WorkPackageTableRow>{ object: wp, workPackageId: wpId, position: i };
       return wpId;
     });
   }
@@ -161,7 +159,6 @@ export class WorkPackageTable {
    * @param insert whether to insert the result (set to false for timeline)
    */
   private performRenderPass(insert:boolean = true) {
-    this.portalCleanupService.clear();
     this.editing.reset();
     const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 

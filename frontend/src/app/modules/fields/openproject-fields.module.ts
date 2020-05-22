@@ -45,13 +45,11 @@ import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-port
 import {EditFieldControlsComponent,} from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
-import {UserFieldPortalComponent} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal.component";
 import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/field/editable-attribute-field.component";
 import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/field-types/project-status-edit-field.component";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
 import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
 
@@ -64,12 +62,10 @@ import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/ed
   exports: [
     EditFieldControlsComponent,
     EditFormPortalComponent,
-    UserFieldPortalComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
   ],
   providers: [
-    PortalCleanupService,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeCoreEditFields,
@@ -85,7 +81,6 @@ import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/ed
   ],
   declarations: [
     EditFormPortalComponent,
-    UserFieldPortalComponent,
     BooleanEditFieldComponent,
     DateEditFieldComponent,
     DurationEditFieldComponent,

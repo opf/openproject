@@ -27,22 +27,16 @@
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
-import {DomPortalOutlet} from "@angular/cdk/portal";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
 
 export class UserDisplayField extends DisplayField {
-  @InjectField() userDisplayPortal:UserFieldPortalService;
-  @InjectField() portalCleanup:PortalCleanupService;
-
-  public outlet:DomPortalOutlet;
+  @InjectField() avatarRenderer:UserAvatarRendererService;
 
   public get value() {
     if (this.schema) {
       return this.attribute && this.attribute.name;
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -51,8 +45,10 @@ export class UserDisplayField extends DisplayField {
     if (this.placeholder === displayText) {
       this.renderEmpty(element);
     } else {
-      this.outlet = this.userDisplayPortal.create(element, [this.attribute]);
-      this.portalCleanup.add(() => this.outlet.dispose());
+      this.avatarRenderer.render(
+        element,
+        this.attribute,
+      );
     }
   }
 }
