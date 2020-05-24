@@ -486,7 +486,6 @@ vi:
         parent_work_package: "Cha"
         priority: "Độ ưu tiên"
         progress: "Progress (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Thời gian"
         spent_time: "Thời gian"
         subproject: "Dự án con"
