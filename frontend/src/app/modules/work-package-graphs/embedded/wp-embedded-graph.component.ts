@@ -96,6 +96,11 @@ export class WorkPackageEmbeddedGraphComponent {
       legend: {
         // Only display legends if more than one dataset is provided.
         display: this.datasets.length > 1
+      },
+      plugins: {
+        datalabels: {
+          align: this.chartType === 'bar' ? 'top' : 'center',
+        }
       }
     };
 
