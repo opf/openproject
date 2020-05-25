@@ -26,6 +26,9 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   /** Reference and load promise for the current form */
   protected form$ = input<FormResource>();
 
+  /** Request cache for objects within the changeset for the current form */
+  protected cache:{ [key:string]:Promise<unknown> } = {};
+
   /** Flag whether this is currently being saved */
   public inFlight = false;
 
@@ -114,6 +117,10 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       .toPromise();
   }
 
+  /**
+   * Cache some promised value in the course of this changeset.
+   * Will get cleared automatically by the changeset on destroy/submission
+   */
 
   /**
    * Posts to the form with the current changes
@@ -126,6 +133,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       .$links
       .update(payload)
       .then((form:FormResource) => {
+        this.cache = {};
         this.form$.putValue(form);
         this.setNewDefaults(form);
         this.push();
@@ -247,6 +255,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   public clear() {
     this.state && this.state.clear();
     this.changeset.clear();
+    this.cache = {};
     this.form$.clear();
   }
 
@@ -274,6 +283,18 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    */
   public get schema():SchemaResource {
     return this.form$.getValueOr(this.pristineResource).schema;
+  }
+
+  /**
+   * Access some promised value
+   * that should be cached for the lifetime duration of the form.
+   */
+  public cacheValue<T>(key:string, request:() => Promise<T>):Promise<T> {
+    if (this.cache[key]) {
+      return this.cache[key] as Promise<T>;
+    }
+    
+    return this.cache[key] = request();
   }
 
   protected get minimalPayload() {
