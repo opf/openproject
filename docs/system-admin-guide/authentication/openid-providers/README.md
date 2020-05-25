@@ -98,6 +98,9 @@ Q: After clicking on a provider badge, I am redirected to a signup form that say
 
 A: This can happen if you previously created user accounts in OpenProject with the same email than what is stored in the OpenID provider. In this case, if you want to allow existing users to be automatically remapped to the OpenID provider, you should do the following:
 
+Spawn an interactive console in OpenProject. The following example shows the command for the packaged installation.
+See [our process control guide](https://docs.openproject.org/installation-and-operations/operation/control/) for information on other installation types.
+
 ```
 sudo openproject run console
 > Setting.oauth_allow_remapping_of_existing_users = true
