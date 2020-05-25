@@ -110,6 +110,14 @@ Get the current version of OpenProject
 docker exec -it $CIT bash -c "RAILS_ENV=production rails version"
 ```
 
+In case of using kubernetes, the command is a bit different
+
+```bash
+kubectl exec -it {POD_ID} -- bash -c "RAILS_ENV=production bundle exec rails console"
+```
+
+
+
 Launch an interactive console to directly interact with the underlying Ruby on Rails application:
 
 ```bash
