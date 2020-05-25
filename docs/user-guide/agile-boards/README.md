@@ -132,7 +132,9 @@ Verify and **update roles and permissions for boards** in the system's Administr
 
  ![OpenProject-Boards_manage-permissions](OpenProject-Boards_manage-permissions-1568640266543.png)
  
+ 
  ## Frequently asked questions (FAQ)
+ 
  
  ### How can I activate Boards in OpenProject? 
  
