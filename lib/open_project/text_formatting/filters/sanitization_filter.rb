@@ -43,6 +43,7 @@ module OpenProject::TextFormatting
           attributes: base[:attributes].deep_merge(
             'macro' => ['class', :data],
             # add styles to tables
+            'figure' => ['class', 'style'],
             'table' => ['style'],
             'th' => ['style'],
             'tr' => ['style'],
