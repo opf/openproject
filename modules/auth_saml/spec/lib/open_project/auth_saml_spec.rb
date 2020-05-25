@@ -2,6 +2,14 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 require 'open_project/auth_saml'
 
 describe OpenProject::AuthSaml do
+  before do
+    OpenProject::AuthSaml.reload_configuration!
+  end
+
+  after do
+    OpenProject::AuthSaml.reload_configuration!
+  end
+
   describe ".configuration" do
     let(:config) do
       # the `configuration` method is cached to avoid
