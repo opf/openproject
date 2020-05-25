@@ -204,7 +204,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
       return this.edit<V, T>(resource);
     }
 
-    changeset.pristineResource = resource;
+    changeset.updatePristineResource(resource);
     return changeset;
   }
 
@@ -229,7 +229,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
           filter(([resource, _]) => !!resource),
           map(([resource, change]) => {
             if (change) {
-              change.pristineResource = resource as V;
+              change.updatePristineResource(resource as V);
               return change.projectedResource;
             }
 

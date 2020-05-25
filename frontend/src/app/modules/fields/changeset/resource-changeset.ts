@@ -6,7 +6,8 @@ import {input, InputState} from "reactivestates";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {debugLog} from "core-app/helpers/debug_output";
 import {take} from "rxjs/operators";
-import {Form} from "@angular/forms";
+
+export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
 /**
  * Temporary class living while a resource is being edited
@@ -28,22 +29,16 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   /** Flag whether this is currently being saved */
   public inFlight = false;
 
-  /** The projected resource, which will proxy values from the change set */
-  public projectedResource:T = new Proxy(
-    this.pristineResource,
-    {
-      get: (_, key:string) => this.proxyGet(key),
-      set: (_, key:string, val:any) => {
-        this.setValue(key, val);
-        return true;
-      },
-    }
-  );
+  /** Keep a reference to the original resource */
+  protected _pristineResource:T;
 
-  constructor(public pristineResource:T,
+  /** The projected resource, which will proxy values from the change set */
+  public projectedResource:T;
+
+  constructor(pristineResource:T,
               public readonly state?:InputState<ResourceChangeset<T>>,
               loadedForm:FormResource|null = null) {
-
+    this.updatePristineResource(pristineResource);
     if (loadedForm) {
       this.form$.putValue(loadedForm);
     }
@@ -68,8 +63,33 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       .then(() => this.buildPayloadFromChanges());
   }
 
+  /**
+   * Update the pristine resource in case it changed
+   *
+   * @param attribute
+   */
+  public updatePristineResource(resource:T) {
+    // Ensure we're not passing in a proxy
+    if ((resource as any)[PROXY_IDENTIFIER]) {
+      throw "You're trying to pass proxy object as a pristine resource. This will cause errors";
+    }
 
+    this._pristineResource = resource;
+    this.projectedResource = new Proxy(
+      this._pristineResource,
+      {
+        get: (_, key:string) => this.proxyGet(key),
+        set: (_, key:string, val:any) => {
+          this.setValue(key, val);
+          return true;
+        },
+      }
+    );
+  }
 
+  public get pristineResource():T {
+    return this._pristineResource;
+  }
 
   public getSchemaName(attribute:string):string {
     if (this.projectedResource.getSchemaName) {
@@ -185,6 +205,10 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   private proxyGet(key:string) {
     if (key === 'schema') {
       return this.schema;
+    }
+
+    if (key === '__is_proxy') {
+      return true;
     }
 
     return this.value(key);
