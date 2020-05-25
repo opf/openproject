@@ -67,11 +67,11 @@ describe 'Meetings deletion', type: :feature do
 
       page.accept_confirm
 
-      expect(current_path)
-        .to eql meetings_path(project)
-
       expect(page)
         .to have_content(I18n.t('.no_results_title_text', cascade: true))
+
+      expect(current_path)
+        .to eql meetings_path(project)
     end
   end
 
