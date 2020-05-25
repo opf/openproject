@@ -11,21 +11,26 @@ keywords: SAML, SSO, single sign-on, authentication
 <div class="alert alert-info" role="alert">
 **Note**: This documentation is valid for the OpenProject Enterprise Edition only.
 </div>
-
 You can integrate your active directory or other SAML compliant identity provider in your OpenProject Enterprise Edition.
+
+
 
 ### 1: Configuring the SAML integration
 
 The configuration can be provided in one of three ways:
 
 * `configuration.yml` file (1.1)
+
 * Environment variables (1.2)
-* `settings.yml` file (1.3)
+
+  
 
 Whatever means are chosen, the plugin simply passes all options to omniauth-saml. See [their configuration
 documentation](https://github.com/omniauth/omniauth-saml#usage) for further details.
 
 The three options are mutually exclusive. I.e. if settings are already provided via the `configuration.yml` file, settings in a `settings.yml` file will be ignored. Environment variables will override the `configuration.yml` based configuration, though.
+
+
 
 #### 1.1 configuration.yml file
 
@@ -80,7 +85,7 @@ Be sure to choose the correct indentation and base key. The `saml` key should be
 
 #### 1.2 Environment variables
 
-As with all the rest of the OpenProject configuration settings, the SAML configuration can be provided via environment variables.
+As with [all the rest of the OpenProject configuration settings](https://docs.openproject.org/installation-and-operations/configuration/environment/), the SAML configuration can be provided via environment variables.
 
 E.g.
 
@@ -92,30 +97,89 @@ OPENPROJECT_SAML_MY__SAML_ATTRIBUTE__STATEMENTS_ADMIN="['openproject-isadmin']"
 ```
 
 Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
-(`__`) in the environment variable as the single underscore denotes namespaces.
+(`__`) in the environment variable as the single underscore denotes namespaces. For more information, follow our [guide on environment variables](https://docs.openproject.org/installation-and-operations/configuration/environment/).
 
-#### 1.3 settings.yml file
 
-In your OpenProject packaged installation, add the `/opt/openproject/config/plugins/auth_saml/settings.yml` file. This will contain metadata settings and connection details for your SSO identity provider.
 
-The structure and options are the same compared to having the options as environment variables or in the configuration.yml file
+### 2. Configuration details
+
+In this section, we detail some of the required and optional configuration options for SAML.
+
+
+
+**Mandatory: Response signature verification**
+
+SAML responses by identity providers are required to be signed. You can configure this by either specifying the response's certificate fingerprint in `idp_cert_fingerprint` , or by passing the entire PEM-encoded certificate string in `idp_cert` (beware of newlines and formatting the cert, [c.f. the idP certificate options in omniauth-saml](https://github.com/omniauth/omniauth-saml#options))
+
+
+
+**Mandatory: Attribute mapping**
+
+Use the key `attribute_statements` to provide mappings for attributes returned by the SAML identity provider's response to OpenProject internal attributes. 
 
 ```yaml
-saml:
-  name: "saml"
-  display_name: "My SSO"
-  <-- omitted for brevity
+# <-- other configuration -->
+# Attribute map in SAML
+attribute_statements:
+  # Use the `mail` attribute for 
+  email: ['mail']
+  # Use the mail address as login
+  login: ['mail']
+  # What attribute in SAML maps to the first name (default: givenName)
+  first_name: ['givenName']
+  # What attribute in SAML maps to the last name (default: sn)
+  last_name: ['sn']
+
+
 ```
 
-<div class="alert alert-info" role="alert">
-**Note**: Providing the configuration via the `settings.yml` is deprecated.
-</div>
 
-### 2: Restarting the server
+
+You may provide attribute names or namespace URIs as follows: `email: ['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']`. 
+
+The OpenProject username is taken by default from the `email` attribute if no explicit login attribute is present.
+
+
+
+**Optional: Request signature and Assertion Encryption**
+
+Your identity provider may optionally encrypt the assertion response, however note that with the required use of TLS transport security, in many cases this is not necessary. You may wish to use Assertion Encryption if TLS is terminated before the OpenProject application server (e.g., on the load balancer level).
+
+To configure assertion encryption, you need to provide the certificate to send in the request and private key to decrypt the response:
+
+```yaml
+  certificate: "-----BEGIN CERTIFICATE-----\n .... certificate contents ....\n-----END CERTIFICATE-----",
+  private_key: "-----BEGIN PRIVATE KEY-----\n .... private key contents ....\n-----END PRIVATE KEY-----"
+```
+
+Request signing means that the service provider (OpenProject in this case) uses the certificate specified to sign the request to the identity provider. They reuse the same `certificate` and `private_key` settings as for assertion encryption.
+
+To enable request signing, enable the following flag:
+
+```yaml
+  certificate: "-----BEGIN CERTIFICATE-----\n .... certificate contents ....\n-----END CERTIFICATE-----",
+  private_key: "-----BEGIN PRIVATE KEY-----\n .... private key contents ....\n-----END PRIVATE KEY-----",
+  security: {
+    authn_requests_signed: true,
+    want_assertions_signed: true,
+    embed_sign: true,
+    signature_method: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
+    digest_method: 'http://www.w3.org/2001/04/xmlenc#sha256',
+  }
+```
+
+
+
+With request signing enabled, the certificate will be added to the identity provider to validate the signature of the service provider's request.
+
+
+
+
+### 3: Restarting the server
 
 Once the configuration is completed, restart your OpenProject server with `service openproject restart`. 
 
-### 3: Logging in
+### 4: Logging in
 
 From there on, you will see a button dedicated to logging in via SAML, e.g named "My SSO" (depending on the name you chose in the configuration), when logging in. Clicking it will redirect to your SSO provider and return with your attribute data to set up the account, or to log in.
 
