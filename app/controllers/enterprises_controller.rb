@@ -38,6 +38,7 @@ class EnterprisesController < ApplicationController
   before_action :youtube_content_security_policy
   before_action :require_admin
   before_action :check_user_limit, only: [:show]
+  before_action :check_domain, only: [:show]
 
   def show
     @current_token = EnterpriseToken.current
@@ -118,6 +119,16 @@ class EnterprisesController < ApplicationController
         "warning_user_limit_reached_instructions",
         current: OpenProject::Enterprise.active_user_count,
         max: OpenProject::Enterprise.user_limit
+      )
+    end
+  end
+
+  def check_domain
+    if OpenProject::Enterprise.token.try(:invalid_domain?)
+      flash.now[:error] = I18n.t(
+        "error_enterprise_token_invalid_domain",
+        expected: Setting.host_name,
+        actual: OpenProject::Enterprise.token.domain
       )
     end
   end
