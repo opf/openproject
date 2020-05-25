@@ -75,7 +75,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
   }
 
   public save() {
-    return this.editForm.save();
+    return this.editForm.submit();
   }
 
   public get inEditMode() {

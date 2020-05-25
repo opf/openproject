@@ -147,6 +147,7 @@ describe 'Switching types in work package table', js: true do
 
       # Now switch back to a type without the required CF
       type_field.activate!
+      type_field.openSelectField
       type_field.set_value type_task.name
 
       wp_table.expect_notification(

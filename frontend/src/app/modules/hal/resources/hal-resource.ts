@@ -235,10 +235,12 @@ export class HalResource {
   /**
    * Update the state
    */
-  public push(newValue:this):void {
+  public push(newValue:this):Promise<unknown> {
     if (this.state) {
       this.state.putValue(newValue);
     }
+
+    return Promise.resolve();
   }
 
   public previewPath():string|undefined {
