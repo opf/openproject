@@ -1343,7 +1343,7 @@ ru:
   label_delete_project: "Удалить проект"
   label_deleted: "﻿Удалено"
   label_deleted_custom_field: "(удалено настраиваемое поле)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(удалённая опция)"
   label_descending: "По убыванию"
   label_details: "Детали"
   label_development_roadmap: "Дорожная карта разработки"

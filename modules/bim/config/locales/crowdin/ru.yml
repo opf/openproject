@@ -25,7 +25,7 @@ ru:
       export: 'Экспорт'
       import_update_comment: '(Обновлено в импорте BCF)'
       import_failed: 'Не удается импортировать файл BCF: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: 'Не удалось прочитать файл BCF: версия BCF не поддерживается. Пожалуйста, убедитесь, что версия не ниже %{minimal_version} или выше.'
       import_successful: 'Импортировано %{count} BCF проблем'
       import_canceled: 'Импорт BCF-XML отменен.'
       type_not_active: "Тип задачи не активирован для этого проекта."

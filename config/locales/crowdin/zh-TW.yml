@@ -1052,7 +1052,7 @@ zh-TW:
   error_can_not_find_all_resources: "Could not find all related resources to this request."
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "請選擇一個使用者與一個角色。"
-  error_code: "Error %{code}"
+  error_code: "錯誤碼 %{code}"
   error_cookie_missing: 'OpenProject的Cookie遺失了。請確保瀏覽器的Cookie已經啟用，否則本應用程式將無法正常做用。'
   error_custom_option_not_found: "選項不存在。"
   error_enterprise_activation_user_limit: "無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。"
