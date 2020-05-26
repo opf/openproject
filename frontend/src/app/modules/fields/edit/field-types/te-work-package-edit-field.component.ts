@@ -93,10 +93,10 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
             .map((timeEntry) => timeEntry.workPackage.idFromLink)
             .filter((v, i, a) => a.indexOf(v) === i);
 
-          return super.allowedValuesFetch(query);
+          return super.loadAllowedValues(query);
         });
     } else {
-      return super.allowedValuesFetch(query);
+      return super.loadAllowedValues(query);
     }
   }
 

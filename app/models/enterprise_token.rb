@@ -56,14 +56,16 @@ class EnterpriseToken < ApplicationRecord
 
   validates_presence_of :encoded_token
   validate :valid_token_object
+  validate :valid_domain
 
   before_save :unset_current_token
   before_destroy :unset_current_token
 
   delegate :will_expire?,
-           :expired?,
            :subscriber,
            :mail,
+           :company,
+           :domain,
            :issued_at,
            :starts_at,
            :expires_at,
@@ -84,6 +86,18 @@ class EnterpriseToken < ApplicationRecord
     RequestStore.delete :current_ee_token
   end
 
+  def expired?
+    token_object.expired? || invalid_domain?
+  end
+
+  ##
+  # The domain is only validated for tokens from version 2.0 onwards.
+  def invalid_domain?
+    return false unless token_object&.validate_domain?
+
+    token_object.domain != Setting.host_name
+  end
+
   private
 
   def load_token!
@@ -95,5 +109,9 @@ class EnterpriseToken < ApplicationRecord
 
   def valid_token_object
     errors.add(:encoded_token, :unreadable) unless load_token!
+  end
+
+  def valid_domain
+    errors.add :domain, :invalid if invalid_domain?
   end
 end

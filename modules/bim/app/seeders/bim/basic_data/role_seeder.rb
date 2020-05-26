@@ -44,7 +44,7 @@ module Bim
 
       def non_member
         super.tap do |role_data|
-          role_data[:permissions] += %i[view_linked_issues]
+          role_data[:permissions] += %i[view_linked_issues view_ifc_models]
         end
       end
 

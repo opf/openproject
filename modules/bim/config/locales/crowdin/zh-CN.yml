@@ -66,6 +66,7 @@ zh-CN:
   project_module_bim: "BCF"
   permission_view_linked_issues: "查看 BCF 问题"
   permission_manage_bcf: "导入和管理 BCF 问题"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "BCF v2.1 API 的完全访问权限"

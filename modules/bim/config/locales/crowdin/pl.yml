@@ -69,6 +69,7 @@ pl:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Wyświetlanie problemów BCF"
   permission_manage_bcf: "Importowanie problemów BCF i zarządzanie nimi"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Pełny dostęp do interfejsu API BCF v2.1"

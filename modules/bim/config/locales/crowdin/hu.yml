@@ -67,6 +67,7 @@ hu:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Nézd BCF eredmény"
   permission_manage_bcf: "Import és manage BCF eredmények"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Teljes hozzáférés a BCF v2.1 API-hoz"

@@ -92,7 +92,6 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
   public ngOnDestroy() {
     super.ngOnDestroy();
-    this.editForm.destroy();
   }
 
   public switchToFullscreen() {
@@ -102,7 +101,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
     let { savedResource, isInitial } = params;
 
-    this.editForm?.stop();
+    this.editForm?.cancel(false);
 
     if (this.successState) {
       this.$state.go(this.successState, { workPackageId: savedResource.id })

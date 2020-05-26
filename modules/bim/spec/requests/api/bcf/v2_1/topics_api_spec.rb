@@ -52,8 +52,17 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
                                                   add_work_packages
                                                   view_linked_issues
                                                   view_work_packages
-                                                  edit_work_packages
-                                                  delete_work_packages])
+                                                  edit_work_packages])
+  end
+  let(:edit_and_delete_member_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: %i[delete_bcf
+                                                  delete_work_packages
+                                                  manage_bcf
+                                                  add_work_packages
+                                                  view_linked_issues
+                                                  view_work_packages])
   end
   let(:edit_work_package_member_user) do
     FactoryBot.create(:user,
@@ -61,8 +70,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
                       member_with_permissions: %i[add_work_packages
                                                   view_linked_issues
                                                   edit_work_packages
-                                                  view_work_packages
-                                                  delete_work_packages])
+                                                  view_work_packages])
   end
   let(:non_member_user) do
     FactoryBot.create(:user)
@@ -287,7 +295,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
   describe 'DELETE /api/bcf/2.1/projects/:project_id/topics/:uuid' do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
-    let(:current_user) { edit_member_user }
+    let(:current_user) { edit_and_delete_member_user }
 
     before do
       login_as(current_user)
@@ -307,8 +315,8 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to match_array []
     end
 
-    context 'lacking permission to manage bcf' do
-      let(:current_user) { edit_work_package_member_user }
+    context 'lacking permission to delete bcf' do
+      let(:current_user) { edit_member_user }
 
       it_behaves_like 'bcf api not allowed response'
 

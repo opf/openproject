@@ -8,6 +8,11 @@ module OpenProject
       end
     end
 
+    def self.reload_configuration!
+      @saml_settings = nil
+      RequestStore.delete :openproject_omniauth_saml_provider
+    end
+
     ##
     # Loads the settings once to avoid accessing the file in each request
     def self.load_global_settings!

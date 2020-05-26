@@ -27,7 +27,7 @@
 // ++
 
 import {combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup} from 'reactivestates';
-import {map} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {Injectable, Injector} from '@angular/core';
 import {Subject} from "rxjs";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
@@ -112,7 +112,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     // Initialize any potentially new HAL values
     savedResource.retainFrom(change.pristineResource);
 
-    this.onSaved(savedResource);
+    await this.onSaved(savedResource);
 
     // Complete the change
     return this.complete(change, savedResource);
@@ -195,12 +195,16 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     if (changeset && !changeset.isEmpty()) {
       return changeset;
     }
-    if (!changeset ||
-      resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
+
+    if (!changeset) {
       return this.edit<V, T>(resource);
     }
 
-    changeset.pristineResource = resource;
+    if (resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
+      return this.edit<V, T>(resource);
+    }
+
+    changeset.updatePristineResource(resource);
     return changeset;
   }
 
@@ -222,12 +226,14 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     return deriveRaw(combined,
       ($) => $
         .pipe(
+          filter(([resource, _]) => !!resource),
           map(([resource, change]) => {
-            if (resource && change && !change.isEmpty()) {
-              return change.projectedResource as V;
-            } else {
-              return resource;
+            if (change) {
+              change.updatePristineResource(resource as V);
+              return change.projectedResource;
             }
+
+            return resource;
           })
         )
     );
@@ -241,10 +247,12 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     return Promise.reject('Loading not applicable for changesets.') as any;
   }
 
-  protected onSaved(saved:HalResource) {
+  protected onSaved(saved:HalResource):Promise<unknown> {
     if (saved.state) {
-      saved.push(saved);
+      return saved.push(saved);
     }
+
+    return Promise.resolve();
   }
 
   protected loadAll(hrefs:string[]) {

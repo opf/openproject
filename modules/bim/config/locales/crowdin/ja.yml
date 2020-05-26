@@ -66,6 +66,7 @@ ja:
   project_module_bim: "BCF"
   permission_view_linked_issues: "BCF チケットを表示"
   permission_manage_bcf: "BCF チケットのインポートと管理"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"

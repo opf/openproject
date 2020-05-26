@@ -7,6 +7,8 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {debugLog} from "core-app/helpers/debug_output";
 import {take} from "rxjs/operators";
 
+export const PROXY_IDENTIFIER = '__is_changeset_proxy';
+
 /**
  * Temporary class living while a resource is being edited
  * Maintains references to:
@@ -24,25 +26,22 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   /** Reference and load promise for the current form */
   protected form$ = input<FormResource>();
 
+  /** Request cache for objects within the changeset for the current form */
+  protected cache:{ [key:string]:Promise<unknown> } = {};
+
   /** Flag whether this is currently being saved */
   public inFlight = false;
 
-  /** The projected resource, which will proxy values from the change set */
-  public projectedResource:T = new Proxy(
-    this.pristineResource,
-    {
-      get: (_, key:string) => this.proxyGet(key),
-      set: (_, key:string, val:any) => {
-        this.setValue(key, val);
-        return true;
-      },
-    }
-  );
+  /** Keep a reference to the original resource */
+  protected _pristineResource:T;
 
-  constructor(public pristineResource:T,
+  /** The projected resource, which will proxy values from the change set */
+  public projectedResource:T;
+
+  constructor(pristineResource:T,
               public readonly state?:InputState<ResourceChangeset<T>>,
               loadedForm:FormResource|null = null) {
-
+    this.updatePristineResource(pristineResource);
     if (loadedForm) {
       this.form$.putValue(loadedForm);
     }
@@ -67,6 +66,33 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       .then(() => this.buildPayloadFromChanges());
   }
 
+  /**
+   * Update the pristine resource in case it changed
+   *
+   * @param attribute
+   */
+  public updatePristineResource(resource:T) {
+    // Ensure we're not passing in a proxy
+    if ((resource as any)[PROXY_IDENTIFIER]) {
+      throw "You're trying to pass proxy object as a pristine resource. This will cause errors";
+    }
+
+    this._pristineResource = resource;
+    this.projectedResource = new Proxy(
+      this._pristineResource,
+      {
+        get: (_, key:string) => this.proxyGet(key),
+        set: (_, key:string, val:any) => {
+          this.setValue(key, val);
+          return true;
+        },
+      }
+    );
+  }
+
+  public get pristineResource():T {
+    return this._pristineResource;
+  }
 
   public getSchemaName(attribute:string):string {
     if (this.projectedResource.getSchemaName) {
@@ -91,6 +117,10 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       .toPromise();
   }
 
+  /**
+   * Cache some promised value in the course of this changeset.
+   * Will get cleared automatically by the changeset on destroy/submission
+   */
 
   /**
    * Posts to the form with the current changes
@@ -103,6 +133,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       .$links
       .update(payload)
       .then((form:FormResource) => {
+        this.cache = {};
         this.form$.putValue(form);
         this.setNewDefaults(form);
         this.push();
@@ -197,6 +228,10 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       return this.schema;
     }
 
+    if (key === '__is_proxy') {
+      return true;
+    }
+
     return this.value(key);
   }
 
@@ -233,6 +268,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   public clear() {
     this.state && this.state.clear();
     this.changeset.clear();
+    this.cache = {};
     this.form$.clear();
   }
 
@@ -260,6 +296,18 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    */
   public get schema():SchemaResource {
     return this.form$.getValueOr(this.pristineResource).schema;
+  }
+
+  /**
+   * Access some promised value
+   * that should be cached for the lifetime duration of the form.
+   */
+  public cacheValue<T>(key:string, request:() => Promise<T>):Promise<T> {
+    if (this.cache[key]) {
+      return this.cache[key] as Promise<T>;
+    }
+
+    return this.cache[key] = request();
   }
 
   protected get minimalPayload() {

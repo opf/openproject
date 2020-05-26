@@ -85,7 +85,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
           return false;
         }
 
-        this.stop();
+        this.cancel(false);
       }
 
       return true;
@@ -93,7 +93,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   ngOnDestroy() {
-    this.destroy();
+    this.unregisterListener();
   }
 
   ngOnInit() {
@@ -102,11 +102,6 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     if (this.initializeEditMode) {
       this.start();
     }
-  }
-
-  destroy() {
-    this.unregisterListener();
-    super.destroy();
   }
 
   public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
@@ -131,7 +126,17 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   public onSaved(commit:ResourceChangesetCommit) {
-    this.stopEditingAndLeave(commit.resource, commit.wasNew);
+    this.cancel(false);
+    this.onSavedEmitter.emit({savedResource: commit.resource, isInitial: commit.wasNew });
+  }
+
+  public cancel(reset:boolean = false) {
+    this.editMode = false;
+    this.closeEditFields('all', reset);
+
+    if (reset) {
+      this.halEditing.reset(this.change)
+    }
   }
 
   public requireVisible(fieldName:string):Promise<void> {
@@ -176,27 +181,6 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public start() {
     _.each(this.fields, ctrl => this.activate(ctrl.fieldName));
-  }
-
-  public stop() {
-    this.editMode = false;
-    this.closeEditFields();
-    this.halEditing.stopEditing(this.resource);
-    this.destroy();
-  }
-
-  public save() {
-    const isInitial = this.resource.isNew;
-    return this
-      .submit()
-      .then((savedResource:HalResource) => {
-        this.stopEditingAndLeave(savedResource, isInitial);
-      });
-  }
-
-  public stopEditingAndLeave(savedResource:HalResource, isInitial:boolean) {
-    this.stop();
-    this.onSavedEmitter.emit({ savedResource, isInitial });
   }
 
   protected focusOnFirstError():void {

@@ -67,6 +67,7 @@ tr:
   project_module_bim: "BCF"
   permission_view_linked_issues: "BCF sorunlarını görüntüleyin"
   permission_manage_bcf: "BCF sorunlarını içe aktarın ve yönetin"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "BCF v2.1 API'sine tam erişim"

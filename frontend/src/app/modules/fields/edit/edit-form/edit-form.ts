@@ -66,9 +66,6 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   // Whether this form exists in edit mode
   public editMode:boolean = false;
 
-  // Subscribe to changes to the temporary edit form
-  protected subscription:Subscription;
-
   protected constructor(public injector:Injector) {
   }
 
@@ -209,35 +206,23 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   }
 
   /**
-   * Close all fields and unsubscribe the observers on this form.
-   */
-  public destroy() {
-    if (this.subscription) {
-      // Unsubscribe changes
-      this.subscription.unsubscribe();
-    }
-
-    // Kill all active fields
-    // Without resetting the changeset, if, e.g., we're moving an active edit
-    _.each(this.activeFields, (handler) => {
-      handler && handler.deactivate(false);
-    });
-  }
-
-  /**
    * Close the given or all open fields.
    *
    * @param {string[]} fields
+   * @param resetChange whether to undo any changes made
    */
-  public closeEditFields(fields?:string[]) {
-    if (!fields) {
+  public closeEditFields(fields:string[]|'all' = 'all', resetChange:boolean = true) {
+    if (fields === 'all') {
       fields = _.keys(this.activeFields);
     }
 
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
       handler && handler.deactivate(false);
-      this.change.reset(name);
+
+      if (resetChange) {
+        this.change.reset(name);
+      }
     });
   }
 
