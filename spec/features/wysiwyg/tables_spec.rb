@@ -167,10 +167,15 @@ describe 'Wysiwyg tables',
           expect(page).to have_selector('.ck-input-color input', count: 2)
           # Pick the latter one, it's the background color
           page.all('.ck-input-color input').last.set '#123456'
+          # Set vertical center / horizontal top
+          editor.click_hover_toolbar_button 'Align cell text to the center'
+          editor.click_hover_toolbar_button 'Align cell text to the top'
           find('.ck-button-save').click
 
           # Table should now have header
           expect(editable).to have_selector('td[style*="background-color:#123456"]')
+          expect(editable).to have_selector('td[style*="text-align:center"]')
+          expect(editable).to have_selector('td[style*="vertical-align:top"]')
         end
 
         # Save wiki page
@@ -180,6 +185,8 @@ describe 'Wysiwyg tables',
 
         within('#content') do
           expect(page).to have_selector('td[style*="background-color:#123456"]')
+          expect(page).to have_selector('td[style*="text-align:center"]')
+          expect(page).to have_selector('td[style*="vertical-align:top"]')
         end
 
         # Edit again
@@ -187,6 +194,73 @@ describe 'Wysiwyg tables',
 
         editor.in_editor do |container, editable|
           expect(editable).to have_selector('td[style*="background-color:#123456"]')
+
+          # Change table styles
+          tds = editable.all('.table.ck-widget td')
+          tds.first.click
+          editor.click_hover_toolbar_button 'Table properties'
+
+          # Set style to dotted
+          page.find('.ck-table-form__border-style').click
+          page.find('.ck-button_with-text', text: 'Dotted').click
+          page.find('.ck-table-form__border-row .ck-input-color').set 'black'
+          page.find('.ck-table-form__border-width .ck-input-text').set '10px'
+
+          # background
+          page.find('.ck-table-properties-form__background .ck-input-text').set 'red'
+
+          # width, height
+          page.find('.ck-table-form__dimensions-row__width .ck-input-text').set '500px'
+          page.find('.ck-table-form__dimensions-row__height .ck-input-text').set '500px'
+          find('.ck-button-save').click
+
+          # table height and width is set on figure
+          expect(editable).to have_selector('figure[style*="width:500px"]')
+          expect(editable).to have_selector('figure[style*="height:500px"]')
+
+          # rest is set on table
+          expect(editable).to have_selector('table[style*="background-color:red"]')
+          expect(editable).to have_selector('table[style*="border-bottom:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-right:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-left:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-top:10px dotted"]')
+        end
+
+        # Save wiki page
+        click_on 'Save'
+
+        expect(page).to have_selector('.flash.notice')
+
+        within('#content') do
+          # table height and width is set on figure
+          expect(page).to have_selector('figure[style*="width:500px"]')
+          expect(page).to have_selector('figure[style*="height:500px"]')
+
+          # rest is set on table
+          expect(page).to have_selector('table[style*="background-color:red"]')
+          expect(page).to have_selector('table[style*="border-bottom:10px dotted"]')
+          expect(page).to have_selector('table[style*="border-right:10px dotted"]')
+          expect(page).to have_selector('table[style*="border-left:10px dotted"]')
+          expect(page).to have_selector('table[style*="border-top:10px dotted"]')
+        end
+
+        # Edit again
+        click_on 'Edit'
+
+        # Expect all previous changes to be there
+        editor.in_editor do |container, editable|
+          expect(editable).to have_selector('td[style*="background-color:#123456"]')
+
+          # table height and width is set on figure
+          expect(editable).to have_selector('figure[style*="width:500px"]')
+          expect(editable).to have_selector('figure[style*="height:500px"]')
+
+          # rest is set on table
+          expect(editable).to have_selector('table[style*="background-color:red"]')
+          expect(editable).to have_selector('table[style*="border-bottom:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-right:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-left:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-top:10px dotted"]')
         end
       end
     end
