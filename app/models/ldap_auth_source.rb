@@ -185,7 +185,7 @@ class LdapAuthSource < AuthSource
   end
 
   def parsed_filter_string
-    Net::LDAP::Filter.from_rfc2254(filter_string) if filter_string
+    Net::LDAP::Filter.from_rfc2254(filter_string) if filter_string.present?
   end
 
   private
