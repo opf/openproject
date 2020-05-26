@@ -76,6 +76,8 @@ module Pages
       scroll_to_element(element)
       element.hover
       element.find('.wp-card--details-button').click
+
+      ::Pages::SplitWorkPackage.new(work_package, project)
     end
 
     def select_work_package(work_package)

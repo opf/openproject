@@ -18,7 +18,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-
+import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 @Component({
   selector: 'wp-single-card',
@@ -73,7 +73,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     let classIdentifier = this.classIdentifier(wp);
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.$state.go(
-      '.details',
+      splitViewRoute(this.$state),
       { workPackageId: wp.id! }
     );
   }

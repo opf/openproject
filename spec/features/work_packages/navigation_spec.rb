@@ -260,4 +260,27 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
       expect(page).to have_selector('.work-package--attachments--filename', text: 'attachment-first.pdf', wait: 10)
     end
   end
+
+  context 'two work packages with card view' do
+    let!(:work_package) { FactoryBot.create :work_package, project: project }
+    let!(:work_package2) { FactoryBot.create :work_package, project: project }
+    let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+    let(:cards) { ::Pages::WorkPackageCards.new(project) }
+
+    it 'can move between card details using info icon (Regression #33451)' do
+      wp_table.visit!
+      wp_table.expect_work_package_listed work_package, work_package2
+      display_representation.switch_to_card_layout
+      cards.expect_work_package_listed work_package, work_package2
+
+      # move to first details
+      split = cards.open_full_screen_by_details work_package
+      split.expect_subject
+
+      # move to second details
+      split2 = cards.open_full_screen_by_details work_package2
+      split2.expect_subject
+    end
+  end
 end
