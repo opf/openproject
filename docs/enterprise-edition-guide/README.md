@@ -37,6 +37,8 @@ The Enterprise Edition is an upgrade of the self-hosted Community Edition. When 
 ### Is it possible to buy and upgrade to enterprise version on a community edition already installed?
 
 Yes, you can upgrade your existing OpenProject Community Edition to the Enterprise Edition. You can then continue to use the same data as before but also use the premium features. When you purchase the Enterprise Edition, you receive an Enterprise Edition license. You can use this license to upgrade your Community Edition.
+To upgrade your Community installation, navigate to your system -> Administration -> Enterprise Edition. Here, you can simply click the green Start free trial button. You can then trial the Enterprise Edition 14 days for free before booking. If you like the premium features and want to continue, you can easily book the Enterprise version via the Enterprise Edition menu in the Administration. Find more information [here](https://www.openproject.org/enterprise-edition-upgrade-test-free/).
+
 
 ### Do you have a reseller program for OpenProject?
 
