@@ -1071,6 +1071,7 @@ tr:
   error_cookie_missing: 'OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi için, tarayıcınızda çerezlere izin verildiğine emin olun.'
   error_custom_option_not_found: "Seçenek yok."
   error_enterprise_activation_user_limit: "Hesabınız etkinleştirilemedi (kullanıcı limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Girdi silinemedi.'
   error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Seçili değeri geçersiz."

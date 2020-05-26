@@ -1071,6 +1071,7 @@ fi:
   error_cookie_missing: 'OpenProject evästeen puuttuu. Varmista, että evästeet ovat käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.'
   error_custom_option_not_found: "Vaihtoehtoa ei ole olemassa."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Tämän merkinnän poisto ei onnistunut.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."

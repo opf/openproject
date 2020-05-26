@@ -67,6 +67,7 @@ el:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Προβολή ζητημάτων BCF"
   permission_manage_bcf: "Εισαγωγή και διαχείριση ζητημάτων BCF"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Πλήρης πρόσβαση στο BCF v2.1 API"

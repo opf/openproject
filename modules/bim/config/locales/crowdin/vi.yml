@@ -66,6 +66,7 @@ vi:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Xem các vấn đề trong BCF"
   permission_manage_bcf: "Nhập và quản lý các vấn đề trong BCF"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Truy cập đầy đủ vào API BCF v2.1"

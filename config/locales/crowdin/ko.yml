@@ -1054,6 +1054,7 @@ ko:
   error_cookie_missing: 'OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를 활성화해야 합니다.'
   error_custom_option_not_found: "존재하지 않는 옵션입니다."
   error_enterprise_activation_user_limit: "사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면 관리자에게 문의하세요."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
   error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."

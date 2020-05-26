@@ -66,6 +66,7 @@ ko:
   project_module_bim: "BCF"
   permission_view_linked_issues: "BCF 이슈 보기"
   permission_manage_bcf: "BCF 이슈 가져오기 및 관리"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "BCF v2.1 API에 대한 전체 액세스"

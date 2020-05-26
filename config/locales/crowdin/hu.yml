@@ -1068,6 +1068,7 @@ hu:
   error_cookie_missing: 'Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud megfelelően működni.'
   error_custom_option_not_found: "A beállítás nem létezik."
   error_enterprise_activation_user_limit: "Fiókját nem lehet aktiválni (elérte a felhasználói korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nem sikerült törölni ezt a bejegyzést.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Kijelölt érték érvénytelen."

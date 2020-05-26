@@ -1087,6 +1087,7 @@ ro:
   error_cookie_missing: 'Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Contul dvs. nu a putut fi activat (limita utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."

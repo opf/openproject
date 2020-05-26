@@ -1101,6 +1101,7 @@ pl:
   error_cookie_missing: 'Brakuje pliku cookie OpenProject. Upewnij się, że obsługa plików cookie jest włączona, ponieważ bez tego aplikacja nie będzie funkcjonować prawidłowo.'
   error_custom_option_not_found: "Opcja nie istnieje."
   error_enterprise_activation_user_limit: "Twoje konto nie mogło zostać aktywowane (osiągnięty limit użytkownika). Skontaktuj się z administratorem, aby uzyskać dostęp."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
   error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
