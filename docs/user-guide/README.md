@@ -60,4 +60,4 @@ Please choose the module you want to learn more about.
 
 ### Is there an OpenProject app?
 
-There is no native app for OpenProject, but OpenProject is responsive - so it is displayed well on smaller displays.
+There is no native iOs or Android app for OpenProject, but OpenProject is responsive - so it is displayed well on smaller displays.
