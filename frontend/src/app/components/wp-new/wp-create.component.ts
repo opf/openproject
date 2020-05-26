@@ -45,10 +45,11 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import * as URI from 'urijs';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
-  public successState:string = this.$state.current.data.baseRoute + '.details';
+  public successState:string = splitViewRoute(this.$state);
   public cancelState:string = this.$state.current.data.baseRoute;
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;

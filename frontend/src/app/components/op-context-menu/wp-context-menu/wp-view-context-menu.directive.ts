@@ -16,6 +16,7 @@ import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy
 import {StateService} from "@uirouter/core";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
+import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
@@ -185,7 +186,9 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
           disabled: false,
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
-          href: this.$state.href(this.baseRoute + '.details.overview', { workPackageId: this.workPackageId }),
+          href: this.$state.href(
+            splitViewRoute(this.$state) + '.overview',
+            { workPackageId: this.workPackageId }),
           linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQuery.TriggeredEvent) => {
             if (LinkHandling.isClickedWithModifier($event)) {
@@ -193,7 +196,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             }
 
             this.$state.go(
-              this.baseRoute + '.details.overview',
+              splitViewRoute(this.$state) + '.overview',
               { workPackageId: this.workPackageId }
             );
             return true;
