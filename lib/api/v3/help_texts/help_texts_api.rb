@@ -47,6 +47,8 @@ module API
             get do
               HelpTextRepresenter.new(@help_text, current_user: current_user)
             end
+
+            mount ::API::V3::Attachments::AttachmentsByHelpTextAPI
           end
         end
       end

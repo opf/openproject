@@ -207,7 +207,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
-            parent: :admin_work_packages,
+            icon: 'icon2 icon-help2',
             if: Proc.new {
               EnterpriseToken.allows_to?(:attribute_help_texts)
             }

@@ -51,6 +51,13 @@ describe ::API::V3::HelpTexts::HelpTextRepresenter do
         "editText" => {
           "href" => edit_attribute_help_text_path(help_text.id),
           "type" => "text/html"
+        },
+        "attachments" => {
+          "href" => api_v3_paths.attachments_by_help_text(help_text.id)
+        },
+        "addAttachment" => {
+          "href" => api_v3_paths.attachments_by_help_text(help_text.id),
+          "method" => "post"
         }
       },
       "id" => help_text.id,

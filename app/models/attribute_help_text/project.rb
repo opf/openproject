@@ -26,57 +26,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AttributeHelpText < ApplicationRecord
-  acts_as_attachable viewable_by_all_users: true
+class AttributeHelpText::Project < AttributeHelpText
+  def self.available_attributes
+    skip = %w[_type links _dependencies id]
 
-  def self.available_types
-    subclasses.map { |child| child.name.demodulize }
-  end
+    attributes = API::V3::Projects::Schemas::ProjectSchemaRepresenter
+      .representable_definitions
+      .reject { |key, _| skip.include?(key.to_s) }
+      .transform_values { |definition| definition[:name_source].call }
 
-  def self.used_attributes(type)
-    where(type: type)
-      .select(:attribute_name)
-      .distinct
-      .pluck(:attribute_name)
-  end
-
-  def self.all_by_scope
-    all.group_by(&:attribute_scope)
-  end
-
-  def self.visible(user)
-    scope = AttributeHelpText.subclasses[0].visible_condition(user)
-
-    AttributeHelpText.subclasses[1..-1].each do |subclass|
-      scope = scope.or(subclass.visible_condition(user))
+    ProjectCustomField.all.each do |field|
+      attributes["custom_field_#{field.id}"] = field.name
     end
 
-    scope
+    attributes
   end
 
-  validates_presence_of :help_text
-  validates_uniqueness_of :attribute_name, scope: :type
-
-  def attribute_caption
-    @caption ||= self.class.available_attributes[attribute_name]
-  end
-
-  def attribute_scope
-    self.class.to_s.demodulize
-  end
+  validates_inclusion_of :attribute_name, in: ->(*) { available_attributes.keys }
 
   def type_caption
-    raise NotImplementedError
+    Project.model_name.human
   end
 
-  def self.visible_condition
-    raise NotImplementedError
-  end
-
-  def self.available_attributes
-    raise NotImplementedError
+  def self.visible_condition(_user)
+    ::AttributeHelpText.where(attribute_name: available_attributes.keys)
   end
 end
-
-require_dependency 'attribute_help_text/work_package'
-require_dependency 'attribute_help_text/project'
