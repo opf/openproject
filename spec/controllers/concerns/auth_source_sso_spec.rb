@@ -109,6 +109,16 @@ describe MyController, type: :controller do
       end
     end
 
+    context 'when the user is invited' do
+      let!(:user) {
+        FactoryBot.create :user, login: login, status: Principal::STATUSES[:invited], auth_source_id: auth_source.id
+      }
+
+      it "should log in given user and activate it" do
+        expect(response.body.squish).to have_content("Username   h.wurst")
+        expect(user.reload).to be_active
+      end
+    end
 
     context "with no auth source sso configured" do
       let(:sso_config) { nil }

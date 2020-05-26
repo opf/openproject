@@ -123,13 +123,16 @@ module AuthSourceSSO
   end
 
   def sso_login_failed?(user)
-    user.nil? || user.new_record? || !user.active?
+    user.nil? || user.new_record? || !(user.active? || user.invited?)
   end
 
   def handle_sso_for!(user, login)
     if sso_login_failed?(user)
       handle_sso_failure!({ user: user, login: login })
     else # valid user
+      # If a user is invited, ensure it gets activated
+      activate_user_if_invited! user
+
       handle_sso_success user
     end
   end
@@ -139,6 +142,12 @@ module AuthSourceSSO
     session[:user_from_auth_header] = true
 
     user
+  end
+
+  def activate_user_if_invited!(user)
+    return unless user.invited?
+
+    user.activate!
   end
 
   def perform_post_logout(prev_session)
