@@ -27,22 +27,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for_contract(project, errors) unless local_assigns[:no_error_messages] %>
-
-<!--[form:project]-->
-
-<section class="form--section">
-  <%= render partial: "projects/form/project_attributes",
-             locals: { project: project, form: f, render_advanced: render_advanced } %>
-
-  <%= call_hook(:view_projects_form, project: project, form: f) %>
-</section>
-
-<% if project.persisted? %>
-  <section class="form--section">
-    <%= render partial: "projects/form/required_storage",
-               locals: { project: project, storage: project.count_required_storage } %>
-  </section>
-<% end %>
-
-<!--[eoform:project]-->
+<div class="form--field">
+  <%= styled_label_tag 'from_template', l('project.template.use_template') %>
+  <div class="form--field-container">
+    <%= styled_select_tag :from_template,
+                          options_for_select(project_options_for_templated),
+                          prompt: "(#{t(:label_none)})",
+                          container_class: '-wide' %>
+  </div>
+</div>

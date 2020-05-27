@@ -30,6 +30,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= render partial: "projects/form/attributes/name",
            locals: { form: form } %>
+
+<% if project.new_record? %>
+  <%= render partial: "projects/form/select_template",
+             locals: { project: project, form: form } %>
+<% end %>
+
 <%= render partial: "customizable/form",
            locals: { form: form, all_fields: all_fields, only_required: render_advanced } %>
 <% if render_advanced %>
@@ -48,7 +54,9 @@ See docs/COPYRIGHT.rdoc for more details.
                locals: { form: form } %>
     <%= render partial: "projects/form/attributes/public",
                locals: { form: form } %>
-    <%= render partial: "projects/form/attributes/status",
+<%= render partial: "projects/form/attributes/templated",
+           locals: { form: form } %>
+<%= render partial: "projects/form/attributes/status",
                locals: { form: form } %>
     <% unless all_fields %>
       <%= render partial: "customizable/form",
