@@ -32,7 +32,7 @@ hu:
       color_theme_custom: "(Egyéni)"
       colors:
         alternative-color: "Alternatíva"
-        content-link-color: "Link betűtípusa"
+        content-link-color: "Hivatkozás betűkészlete"
         primary-color: "Elsődleges"
         primary-color-dark: "Elsődleges (sötét)"
         header-bg-color: "Fejléc háttér"

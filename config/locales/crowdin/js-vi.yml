@@ -207,11 +207,11 @@ vi:
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "Bắt đầu dùng thử miễn phí"
+          button_book_now: "Đặt chỗ ngay"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+          link_quote: "Lấy trích dẫn"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -287,7 +287,7 @@ vi:
     label_and: "and"
     label_ascending: "Tăng dần"
     label_author: "Tác giả: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Hình đại diện"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Đã khóa"

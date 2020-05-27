@@ -2297,7 +2297,7 @@ pt-BR:
       default: "%d/%m/%Y %H:%M"
       long: "%d de %B de %Y %H:%M"
       short: "%d/%b %H:%M"
-      time: "%I:% M %p"
+      time: "%I:%M %p"
     pm: "pm"
   timeframe:
     show: "Mostrar calendário"

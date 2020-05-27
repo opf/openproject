@@ -39,9 +39,9 @@ es:
         action_text: >
           Cree un panel con listas filtradas en un único atributo. Al mover los paquetes de trabajo a otras listas, se actualizará su atributo.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: asignado
+          status: estado
+          version: versión
         select_attribute: "Atributo de acción"
       configuration_modal:
         title: 'Configurar este panel'

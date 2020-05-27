@@ -39,8 +39,8 @@ fr:
         action_text: >
           Créez un tableau avec des listes filtrées sur un seul attribut. Déplacer des lots de travaux vers d'autres listes mettra à jour leur attribut.
         action_type:
-          assignee: assignee
-          status: status
+          assignee: responsable
+          status: état
           version: version
         select_attribute: "Attribut d'action"
       configuration_modal:

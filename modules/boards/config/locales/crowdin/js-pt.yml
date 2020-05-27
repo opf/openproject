@@ -39,9 +39,9 @@ pt:
         action_text: >
           Crie um quadro com listas filtradas num único atributo. Mover os pacotes de trabalho para outras listas atualizará o seu atributo.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: responsável
+          status: estado
+          version: versão
         select_attribute: "Atributo de ação"
       configuration_modal:
         title: 'Configurar este quadro'

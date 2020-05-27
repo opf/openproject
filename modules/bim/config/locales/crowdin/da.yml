@@ -101,9 +101,9 @@ da:
   ifc_models:
     label_ifc_models: 'IFC models'
     label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
+    label_show_defaults: 'Vis standarder'
     label_default_ifc_models: 'Default IFC models'
-    label_edit_defaults: 'Edit defaults'
+    label_edit_defaults: 'Rediger standarder'
     no_defaults_warning:
       title: 'No IFC model was set as default for this project.'
       check_1: 'Check that you have uploaded at least one IFC model.'

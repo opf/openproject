@@ -19,7 +19,6 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 sl:
   activerecord:
     attributes:
@@ -70,7 +69,7 @@ sl:
     points: "Točke"
     positions_could_not_be_rebuilt: "Položajev ni bilo mogoče obnoviti"
     positions_rebuilt_successfully: "Položaj je uspešno spremenjen!"
-    properties: "Properties"
+    properties: "Lastnosti"
     rebuild: "Obnovi"
     rebuild_positions: "Obnovi položaj"
     remaining_hours: "Preostale ure"
@@ -103,7 +102,7 @@ sl:
   backlogs_velocity_missing: "Za ta projekt ni mogoče izračunati hitrosti"
   backlogs_velocity_varies: "Hitrost se med sprinti občutno razlikuje\n"
   backlogs_wiki_template: "Predloga za wiki sprint"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_title: "Za zaostanke ni definirana nobena različica"
   backlogs_empty_action_text: "Če želite začeti z Backlogs vtičnikom, ustvarite novo različico in jo dodelite stolpcu Backlogs."
   button_edit_wiki: "Uredi wiki strani"
   error_intro_plural: "Prišlo je do naslednjih napak:"
@@ -129,7 +128,7 @@ sl:
   label_points_burn_up: "Navzgor"
   label_product_backlog: "Backlog produkt"
   label_select_all: "Izberi vse"
-  label_sprint_backlog: "sprint backlog"
+  label_sprint_backlog: "sprint zaostanek"
   label_sprint_cards: "Izvozi"
   label_sprint_impediments: "Motnje šprinta"
   label_sprint_name: "Sprint \"%{name}\""
@@ -141,7 +140,7 @@ sl:
   label_version: 'Različica'
   label_webcal: "Spletni vir"
   label_wiki: "Wiki"
-  permission_view_master_backlog: "View master backlog"
+  permission_view_master_backlog: "glavni zaostanek prejšnje poizvedbe"
   permission_view_taskboards: "Prikaz delovene table"
   permission_update_sprints: "Posodobi šprinte"
   points_accepted: "sprejete točke"
@@ -156,8 +155,8 @@ sl:
   rb_label_copy_tasks_open: "Odprto"
   rb_label_link_to_original: "Vključi poveavo do izvirne zgodbe"
   remaining_hours: "Preostale ure"
-  required_burn_rate_hours: "required burn rate (hours)"
-  required_burn_rate_points: "required burn rate (points)"
+  required_burn_rate_hours: "potrebna hitrost porabe (ure)"
+  required_burn_rate_points: "potrebna hitrost porabe (točke)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Stolpec v Backlog"

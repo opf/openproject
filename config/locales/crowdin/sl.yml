@@ -668,10 +668,10 @@ sl:
       template:
         body: "Preverite naslednja polja:"
         header:
-          one: "1 error prohibited this %{model} from being saved"
-          two: "%{count} errors prohibited this %{model} from being saved"
-          few: "%{count} errors prohibited this %{model} from being saved"
-          other: "%{count} errors prohibited this %{model} from being saved"
+          one: "1 napaka je preprečila shranjevanje %{model}"
+          two: "2 napaki sta preprečili shranjevanje %{model}"
+          few: "več napak je preprečilo shranjevanje %{model}"
+          other: "%{count} napak je preprečilo shranjevanje %{model}"
     models:
       attachment: "Datoteka"
       attribute_help_text: "Tekst pomoči atributa"
@@ -687,10 +687,10 @@ sl:
       project: "Projekt"
       query: "Iskanje po meri"
       role:
-        one: "Role"
-        two: "Roles"
-        few: "Roles"
-        other: "Roles"
+        one: "Vloga"
+        two: "Vlogi"
+        few: "Vloge"
+        other: "Vloge"
       type: "Vrsta"
       user: "Uporabnik"
       version: "Različica"
@@ -971,10 +971,10 @@ sl:
         other: "%{count} sekund"
     units:
       hour:
-        one: "hour"
-        two: "hours"
-        few: "hours"
-        other: "hours"
+        one: "ura"
+        two: "uri"
+        few: "ure"
+        other: "ure"
   default_activity_development: "Razvoj"
   default_activity_management: "Upravljanje"
   default_activity_other: "Drugo"
@@ -1155,7 +1155,7 @@ sl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Angleščina"
+  general_lang_name: "Slovenščina"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ne"
   general_text_yes: "da"
@@ -1723,10 +1723,10 @@ sl:
   label_workflow_summary: "Povzetek"
   label_x_closed_work_packages_abbr:
     zero: "0 zaprtih"
-    one: "1 closed"
-    two: "%{count} closed"
-    few: "%{count} closed"
-    other: "%{count} closed"
+    one: "1 zaprt"
+    two: "dva zaprta"
+    few: "več zaprtih"
+    other: "%{count} zaprtih"
   label_x_comments:
     zero: "Ni komentarjev"
     one: "1 komentar"
@@ -1821,8 +1821,8 @@ sl:
   notice_account_registered_and_logged_in: "Dobrodošli, vaš račun je aktiviran. Zdaj ste prijavljeni."
   notice_activation_failed: Računa ni bilo mogoče aktivirati.
   notice_auth_stage_verification_error: "Faze ni bilo mogoče preveriti '%{stage}'."
-  notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
-  notice_auth_stage_error: "Authentication stage '%{stage}' failed."
+  notice_auth_stage_wrong_stage: "Pričakovano je, da bo faza preverjanja pristnosti končana '%{expected}', vendar se je vrnil '%{actual}'."
+  notice_auth_stage_error: "Faza overjanja '%{stage}' ni uspela."
   notice_can_t_change_password: "Ta račun za overjanje uporablja zunanji vir. Nemogoče je zamenjati geslo."
   notice_custom_options_deleted: "Opcija '%{option_value}' in njeni %{num_deleted} dogodki so bili izbrisani."
   notice_email_error: "Napaka se je pojavila med pošiljanjem e-sporočila (%{value})"
@@ -1877,10 +1877,10 @@ sl:
         format: "%n %u"
         units:
           byte:
-            one: "Byte"
-            two: "Bytes"
-            few: "Bytes"
-            other: "Bytes"
+            one: "Bajt"
+            two: "Bajta"
+            few: "Bajtov"
+            other: "Bajtov"
           gb: "GB"
           kb: "kB"
           mb: "MB"
@@ -2010,7 +2010,7 @@ sl:
         subversion: |-
           Podatke v tem odlagališču lahko prenesete s programom Subversion.
           Prosimo, preberite dokumentacijo Subversion-a, če potrebujete več informacij o postopku prevzema in razpoložljivih strankah.
-      enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
+      enable_instructions_text: "Prikaže spodaj določena navodila za odjava na vseh straneh, povezanih z repozitorijem."
       instructions: "Navodila za prevzem"
       show_instructions: "Prikaži navodila za plačilo"
       text_instructions: "To besedilo je prikazano zraven URL-ja za prevzeem  za navodila, kako preveriti odlagališče."
@@ -2040,22 +2040,22 @@ sl:
       unauthorized: "Niste odobreni ali pa vaše poverilnice niso veljavne za dostop do odlagališča."
       unavailable: "Repozitorij ni na voljo"
       exception_title: "Do skladišča ni mogoče dostopati:% {message}"
-      disabled_or_unknown_type: "The selected type %{type} is disabled or no longer available for the SCM vendor %{vendor}."
-      disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
-      remote_call_failed: "Calling the managed remote failed with message '%{message}' (Code: %{code})"
-      remote_invalid_response: "Received an invalid response from the managed remote."
-      remote_save_failed: "Could not save the repository with the parameters retrieved from the remote."
+      disabled_or_unknown_type: "Izbrani tip% {type} je  onemogočen ali ni več na voljo za  SCM proizvajalca %{vendor}."
+      disabled_or_unknown_vendor: "Prodajalec SCM %{vendor} je onemogočen ali ni več na voljo."
+      remote_call_failed: "Klic upravljalnega daljinca s sporočilom ni uspel  '%{message}' (Koda: %{code})"
+      remote_invalid_response: "Prejeli smo neveljaven odgovor z upravljalnega daljinca.\n"
+      remote_save_failed: "Repozitorija ni bilo mogoče shraniti s parametri, pridobljenimi iz  daljinca.."
     git:
       instructions:
-        managed_url: "This is the URL of the managed (local) Git repository."
+        managed_url: "To je URL upravljanega (lokalnega) skladišča Git."
         path: >-
-          Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
-        path_encoding: "Override Git path encoding (Default: UTF-8)"
-      local_title: "Link existing local Git repository"
+          Določite pot do svojega lokalnega Git skladišča (npr., %{example_path} ). Uporabite lahko tudi oddaljena skladišča, ki so klonirane v lokalno kopijo z uporabo vrednosti, ki se začne z http(s):// ali datoteka://.
+        path_encoding: "Preveri kodiranje Git poti (Privzeto: UTF-8)"
+      local_title: "Povežite obstoječe lokalno Git skladišče"
       local_url: "Lokalni URL"
-      local_introduction: "If you have an existing local Git repository, you can link it with OpenProject to access it from within the application."
-      managed_introduction: "Let OpenProject create and integrate a local Git repository automatically."
-      managed_title: "Git repository integrated into OpenProject"
+      local_introduction: "Če imate obstoječe lokalno Git skladišče, ga lahko povežete z OpenProjectom, če želite dostopati do njega znotraj aplikacije."
+      managed_introduction: "Naj OpenProject samodejno ustvari in vključi lokalno Git skladišče avtomatično."
+      managed_title: "Git skladišče, integrirano v OpenProject"
       managed_url: "Upravljani URL"
       path: "Pot do skladišča Git"
       path_encoding: "Kodiranje poti"
@@ -2088,7 +2088,7 @@ sl:
       managed_url: "Upravljani URL"
       password: "Geslo odlagališča"
       username: "Uporbniški ime odlagališča"
-    truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
+    truncated: "Žal smo morali ta imenik prerezati v %{limit} datotek. %{truncated} vnosi so bili s seznama izpuščeni."
     named_repository: "%{vendor_name} odlagališče"
     update_settings_successful: "Nastavitve so bile uspešno shranjene."
     url: "Pot do shrambe"
@@ -2115,11 +2115,11 @@ sl:
   setting_bcc_recipients: "Prejemniki slepih kopij (psk)"
   setting_brute_force_block_after_failed_logins: "Blokiraj uporabnika, ko preseže to število napačnih poizkusov vpisa."
   setting_brute_force_block_minutes: "Čas za katerega je blokiran uporabnik"
-  setting_cache_formatted_text: "Cache formatted text"
+  setting_cache_formatted_text: "Besedilo oblikovano v predpomnilniku"
   setting_use_wysiwyg_description: "Izberi, da privzeto omogočiš CKEditor5 WYSIWYG urejevalnik za vse uporabnike. CKEditor ima omejene funkcionalnosti za GFM Markdown"
   setting_column_options: "Prilagodite izgled seznama delovnih paketov"
   setting_commit_fix_keywords: "Urejanje ključne besede"
-  setting_commit_logs_encoding: "Commit messages encoding"
+  setting_commit_logs_encoding: "Zaznaj kodiranje sporočil"
   setting_commit_logtime_activity_id: "Aktivnost uporabnika za čas prijave"
   setting_commit_logtime_enabled: "Omogoči beleženje časa"
   setting_commit_ref_keywords: "Referenčne ključne besede"
@@ -2133,7 +2133,7 @@ sl:
   setting_default_notification_option: "Privzeta možnost obveščanja"
   setting_default_projects_modules: "Privzeti omogočeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti so privzeto javni"
-  setting_diff_max_lines_displayed: "Max number of diff lines displayed"
+  setting_diff_max_lines_displayed: "Maksimalno število prikazanih vrstic različnosti"
   setting_display_subprojects_work_packages: "Privzeto prikazuj delovne pakete podprojektov na glavnem projektu"
   setting_emails_footer: "Noga e-sporočil"
   setting_emails_header: "Glava e-pošte"
@@ -2188,8 +2188,8 @@ sl:
   setting_session_ttl_hint: "Vrednost pod 5 deluje kot onemogočena"
   setting_session_ttl_enabled: "Seja je potekla"
   setting_start_of_week: "Teden se začne na (Automatic Translation)"
-  setting_sys_api_enabled: "Enable repository management web service"
-  setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
+  setting_sys_api_enabled: "Omogoči spletno storitev upravljanja repozitorija"
+  setting_sys_api_description: "Spletna storitev za upravljanje skladišča nudi integracijo in pooblastilo uporabnika za dostop do repozitorija."
   setting_time_format: "Format časa"
   setting_accessibility_mode_for_anonymous: "Omogoči način dostopa za anonimne uporabnike"
   setting_user_format: "Oblika prikaza uporabnikov"
@@ -2201,7 +2201,7 @@ sl:
   setting_welcome_on_homescreen: "Prikažite blok dobrodošlice na osnovnem zaslonu"
   setting_work_package_group_assignment: "Dovoli dodeljevanje skupinam"
   setting_work_package_list_default_highlighting_mode: "Privzeti način osvetlitve"
-  setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
   settings:
     general: "Splošno"
     other: "Drugo"
@@ -2213,13 +2213,13 @@ sl:
       deletion: "brisanje"
     highlighting:
       mode_long:
-        inline: "Highlight attribute(s) inline"
+        inline: "Označite atribut(e) v vrstici"
         none: "Brez poudarjanja"
         status: "Celotna vrstica razvrščena glede na Status"
         type: "Celotna vrstica glede na Tip"
         priority: "Celotna vrstica glede na pomembnost."
   text_formatting:
-    markdown: 'Markdown'
+    markdown: 'Označba'
     plain: 'Golo besedilo'
   status_active: "aktiven"
   status_archived: "Arhiviran"
@@ -2266,7 +2266,7 @@ sl:
   text_enumeration_category_reassign_to: "Ponastavi jih na to vrednost:"
   text_enumeration_destroy_question: "%{count} objekti so nastavljeni na to vrednost."
   text_file_repository_writable: "Omogočeno pisanje v shrambo priponk"
-  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
+  text_git_repo_example: "prazno in lokalno odlagališče (npr. /gitrepo, c:\\gitrepo)"
   text_hint_date_format: "Vnesite datum v obliki LLLL-MM-DD. Drugi formati se lahko spremenijo v neželen datum."
   text_hint_disable_with_0: "Opomba: Onemogoči z 0"
   text_hours_between: "Med %{min} in %{max} ur."
@@ -2307,7 +2307,7 @@ sl:
   text_project_identifier_info: "Dovoljene so samo male črke (a-z), številke, črtice in podčrtaji, ki se začnejo z malo začetnico."
   text_reassign: "Ponovno dodelitev delovnemu paketu:"
   text_regexp_info: "npr. ^[A-Z0-9]+$"
-  text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
+  text_regexp_multiline: 'Označba se uporablja v večvrstičnem načinu. npr. ^ --- \ s +'
   text_repository_usernames_mapping: "Izberite ali posodobite uporabnika OpenProject, vezanega na vsako uporabniško ime, ki ga najdete v dnevniku repozitorija.\nUporabniki z istim uporabniškim imenom ali e-poštnim imenom skladišča OpenProject se samodejno povežejo."
   text_select_mail_notifications: "Izberi dejanja za katera naj bodo poslana oznanila preko e-pošto."
   text_status_changed_by_changeset: "Dodano v zapis sprememb %{value}."
@@ -2332,13 +2332,13 @@ sl:
   text_zoom_out: "Pomanjšaj"
   text_setup_mail_configuration: "Konfigurirajte ponudnika e-pošte"
   time:
-    am: "am"
+    am: "pred poldnevom"
     formats:
-      default: "%m/%d/%Y %I:%M %p"
-      long: "%B %d, %Y %H:%M"
-      short: "%d %b %H:%M"
-      time: "%I:%M %p"
-    pm: "pm"
+      default: "%m/%d/%L %U:%M %s"
+      long: "%d. %B, %Y %H:%M"
+      short: "%d. %b %H:%M"
+      time: "%U:%M %s"
+    pm: "po poldnevu"
   timeframe:
     show: "Pokaži časovni okvir"
     end: "do"
@@ -2366,7 +2366,7 @@ sl:
     edit_color: "Uredi barvo"
     edit_thing: "Uredi"
     edit_timeline: "Urejanje poročila o časovni premici% {timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
+    delete_timeline: "Izbriši poročilo o časovnici %{timeline}"
     empty: "(prazno)"
     enable_type_in_project: 'Omogoči tip "% {type}"'
     end: "Konec"
@@ -2377,8 +2377,8 @@ sl:
       report_timeout: "Časovnica se ne more naložiti v razumnem času."
     filter:
       errors:
-        timeframe_start: "The timeframe start "
-        timeframe_end: "The timeframe end "
+        timeframe_start: "Začetek časovnega okvira"
+        timeframe_end: "Konec časovnega okvira"
         compare_to_relative: "Vrednost relativne primerjave"
         compare_to_absolute: "Vrednost absolutne primerjave"
         planning_element_time_relative_one: "Začetek delovnih paketov v določenem časovnem okvirju"
@@ -2435,7 +2435,7 @@ sl:
       project_time_filter_historical_from: "od"
       project_time_filter_historical_to: "do"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} pred, %{end_label} %{endspan}%{endspanunit} od sedaj"
       project_filters: "Filtriraj projekte"
       project_responsible: "Prikaži projekte z dodeljenimi osebami"
       project_status: "Prikaži status projekta"
@@ -2443,14 +2443,14 @@ sl:
       timeframe_end: "do"
       timeframe_start: "od"
       timeline: "Osnovne nastavitve\n"
-      zoom: "Zoom factor"
+      zoom: "Faktor povečave"
     history: "Zgodovina"
     new_color: "Nova barva"
     new_association: "Nova odvisnost"
     new_work_package: "Nov delovni paket"
     new_reporting: "novo poročanje"
     new_timeline: "Novo poročilo časovnice"
-    no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
+    no_projects_for_reporting_available: "Ni projektov, ki bi jih bilo mogoče ustanoviti poročevalsko združenje."
     no_right_to_view_timeline: "Nimate potrebnih dovoljenj za ogled povezane časovnice."
     no_timeline_for_id: "Ni časovnice z ID-jem %{id}."
     notice_successful_deleted_all_elements: "Uspešno izbrisali vse elemente"
@@ -2461,30 +2461,30 @@ sl:
       level2: "Razširi drugo stopnjo"
       level3: "Razširi tretjo stopnjo"
       level4: "Razširi četrto stopnjo"
-      level5: "Expand level 5"
-      all: "Show all"
+      level5: "Razširi stopnjo 5"
+      all: "Prikaži vse"
     reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
+      show: "Stanje poročano projektu: %{title}"
+      edit_delete: "Poročanje stanja za projekt: %{title}"
+      history: "Zgodovina stanja projekta: °%{title}"
     reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Type could not be saved"
-    reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
+      delete: "Izbriši stanje: %{comment}"
+      edit: "Uredi stanje: %{comment}"
+      show: "Stanje: %{comment}"
+    planning_element_update: "Posodobljeno: %{title}"
+    type_could_not_be_saved: "Vnosa ni bilo mogoče shraniti"
+    reporting_could_not_be_saved: "Poročanja ni bilo mogoče shraniti"
+    properties: "Lastnosti"
     really_delete_color: >
       Ali ste prepričani, da želite izbrisati naslednjo barvo? Tipi, ki uporabljajo to barvo, ne bodo izbrisani.
     really_delete_reporting: >
       Ali ste prepričani, da želite izbrisati naslednje poročanje? Tudi prejšnja stanja poročanja bodo izbrisana.
     start: "Začetek"
-    timeline: "Timeline report"
-    timelines: "Timeline reports"
+    timeline: "Poročilo časovnice"
+    timelines: "Poročila časovnice"
     settings: "Časovnice"
-    vertical_work_package: "Vertical work packages"
-    you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
+    vertical_work_package: "Vertikalni delovni paketi"
+    you_are_viewing_the_selected_timeline: "Ogledujete si izbrano poročilo o časovnici"
     zoom:
       in: "Povečaj"
       out: "Pomanjšaj"
@@ -2496,27 +2496,27 @@ sl:
   title_remove_and_delete_user: Povabljenega uporabnika odstranite iz projekta in izbrišite.
   title_enterprise_upgrade: "Nadgradite, da odklenete več uporabnikov."
   tooltip_user_default_timezone: >
-    The default time zone for new users. Can be changed in a user's settings.
+    Privzeti časovni pas za nove uporabnike. Lahko se spremeni v uporabnikovih nastavitvah.
   tooltip_resend_invitation: >
     Pošlje drugo e-poštno sporočilo s svežim žetonom v primeru, da je stari potekel ali uporabnik ni dobil izvirnega e-poštnega sporočila. Aktivni uporabniki se lahko odločijo za izbiro novega načina preverjanja pristnosti. Če se uporabljajo z aktivnimi uporabniki, se njihov status spremeni v »povabljeni«.
   tooltip:
     setting_email_login: >
       Če je omogočeno, uporabnik med registracijo ne bo mogel izbrati prijave. Namesto tega bo njihov e-poštni naslov služil kot prijava. Skrbnik lahko še vedno ločeno spremeni prijavo.
   queries:
-    apply_filter: Apply preconfigured filter
+    apply_filter: Uporabite predhodno konfiguriran filter
   top_menu:
-    additional_resources: "Additional resources"
-    getting_started: "Getting started"
-    help_and_support: "Help and support"
-  total_progress: "Total progress"
+    additional_resources: "Dodatna sredstva\n"
+    getting_started: "Začnite"
+    help_and_support: "Pomoč in podpora"
+  total_progress: "Skupni napredek"
   user:
     all: "vsi"
     active: "aktiven"
-    activate: "Activate"
+    activate: "Aktiviraj"
     activate_and_reset_failed_logins: "Aktivirajte in ponastavite neuspele prijave"
     authentication_provider: "Ponudnik overovitve"
     authentication_settings_disabled_due_to_external_authentication: >
-      This user authenticates via an external authentication provider, so there is no password in OpenProject to be changed.
+      Ta uporabnik overja prek zunanjega ponudnika overjanja, tako da v OpenProjectu ni gesla, ki bi ga bilo treba spremeniti.
     authorization_rejected: "Nimate dovoljenja za prijavo."
     assign_random_password: "Dodelite naključno geslo (poslano uporabniku po e-pošti)"
     blocked: "začasno zaklenjen"
@@ -2525,7 +2525,7 @@ sl:
       two: "začasno zaklenjen (dva neuspela poskusa prijave)"
       few: "začasno zaklenjen (več neuspelih poskusov prijave)"
       other: "začasno zaklenjen (% {count} neuspeli poskusi prijave)"
-    confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
+    confirm_status_change: "Spremenili boste  status '% {name}'. Ali ste prepričani, da želite nadaljevati?"
     deleted: "Izbrisani uporabnik"
     error_status_change_failed: "Spreminjanje uporabnikovega statusa je spodletelo zaradi naslednjih napak: %{errors}"
     invite: Povabi uporabnika preko e-sporočila
@@ -2540,7 +2540,7 @@ sl:
       mail_notifications: "Pošlji e-poštna obvestila"
       mail_project_explanaition: "Na neizbrane projekte boste prejemali le obvestila o zadevah ki jih spremljate ali v katere ste vključeni (npr. delovni paketi katerih ste avtor)."
       mail_self_notified: "Želim biti opozorjen(a) za spremembe, ki jih naredim sam(a)"
-    status_user_and_brute_force: "%{user} and %{brute_force}"
+    status_user_and_brute_force: "%{user} in %{brute_force}"
     status_change: "Sprememba stanja"
     text_change_disabled_for_provider_login: "Ime je določil skrbnik in ga ni mogoče spremeniti."
     unlock: "Odkleni"
@@ -2551,7 +2551,7 @@ sl:
   note: Opomba
   note_password_login_disabled: "Prijava z geslom je bila onemogočena zaradi %{configuration}."
   warning: Opozorilo
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} datotek(e) ni bilo mogoče shraniti."
   warning_imminent_user_limit: >
     Povabili ste več uporabnikov, kot jih podpira vaš trenutni načrt. Povabljeni uporabniki se ne bodo mogli pridružiti vašemu okolju OpenProject. <a href="%{upgrade_url}"> nadgradite svoj načrt </a> ali blokirajte obstoječe uporabnike, če želite povabljenim in registriranim uporabnikom omogočiti pridružitev.
   warning_registration_token_expired: |
@@ -2560,156 +2560,158 @@ sl:
   warning_user_limit_reached: >
     Dosežena omejitev uporabnika. Ne morete več aktivirati uporabnikov. <a href="%{upgrade_url}"> nadgradite svoj načrt </a> ali blokirajte člane, da omogočite dodatne uporabnike.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
+    Dosegli ste uporabniško omejitev (%{current} /%{max} aktivni uporabniki).Prosimo kontaktirajte sales@openproject.com  če želite nadgraditi načrt za Enterprise Edition in dodati dodatne uporabnike.
   0: >
 
   warning_bar:
     protocol_mismatch:
       title: 'Neusklajenost nastavitve protokola'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Vaša aplikacija deluje z nastavitvijo protokola <code>%{set_protocol}</code>, vendar je zahteva <code>{dejanska_protocol} </code>. To bo povzročilo napake! Pojdite na <a href="%{setting_path}"> Sistemske nastavitve </a> in spremenite nastavitev "Protokol", da to popravite.
     hostname_mismatch:
       title: 'Neskladje nastavitve imena gostitelja'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Vaša aplikacija deluje z nastavitvijo imena gostitelja na <code>%{set_hostname} </code>, vendar je zahteva <code>% {actual_hostname}</code> ime gostitelja. To bo povzročilo napake! Pojdite na <a href="%{setting_path}"> Sistemske nastavitve </a> in spremenite nastavitev "Ime gostitelja", da to popravite.
   menu_item: "Elementi menija"
   menu_item_setting: "Vidljivost"
-  wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
+  wiki_menu_item_for: "Element menija za wikipage \"%{title}\""
   wiki_menu_item_setting: "Vidljivost"
   wiki_menu_item_new_main_item_explanation: >
     Izbrisali boste edini glavni element menija wiki. Zdaj morate izbrati stran wiki, za katero bo ustvarjen nov glavni element. Da bi izbrisali wiki, lahko modul wiki deaktivirajo skrbniki projektov.
   wiki_menu_item_delete_not_permitted: Elementa v meniju wiki na edini strani wikija ni mogoče izbrisati.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Element menija za poizvedbo \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _Updated automatically by changing values within child work package %{child}_
+      _ Samodejno posodobljeno s spreminjanjem vrednosti v otroškem delovnem paketu %{child} _
     destroy:
-      info: "Deleting the work package is an irreversible action."
-      title: "Delete the work package"
-  nothing_to_preview: "Nothing to preview"
+      info: "Brisanje delovnega paketa je nepovraten ukrep."
+      title: "Izbriši delovni paket"
+  nothing_to_preview: "Ničesar za predogled"
   api_v3:
     attributes:
-      lock_version: "Lock Version"
+      lock_version: "Zakleni verzijo"
     errors:
-      code_400: "Bad request: %{message}"
-      code_401: "You need to be authenticated to access this resource."
-      code_401_wrong_credentials: "You did not provide the correct credentials."
-      code_403: "You are not authorized to access this resource."
-      code_404: "The requested resource could not be found."
-      code_409: "Could not update the resource because of conflicting modifications."
-      code_500: "An internal error has occured."
+      code_400: "Slaba zahteva: %{message}"
+      code_401: "Za dostop do tega vira morate imeti pooblastila."
+      code_401_wrong_credentials: "Niste zagotovili pravilnih poverilnic.\n"
+      code_403: "Nimate pooblastila za dostop do tega vira."
+      code_404: "Zahtevanega vira ni moč najti."
+      code_409: "Vira ni bilo mogoče posodobiti zaradi nasprotujočih si sprememb."
+      code_500: "Prišlo je do notranje napake."
       expected:
-        date: "YYYY-MM-DD (ISO 8601 date only)"
-        duration: "ISO 8601 duration"
-      invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
-      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
-      invalid_json: "The request could not be parsed as JSON."
-      invalid_relation: "The relation is invalid."
-      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
-      invalid_user_status_transition: "The current user account status does not allow this operation."
-      missing_content_type: "not specified"
-      missing_request_body: "There was no request body."
-      missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
-      multipart_body_error: "The request body did not contain the expected multipart parts."
-      multiple_errors: "Multiple field constraints have been violated."
-      unable_to_create_attachment: "The attachment could not be created"
-      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+        date: "LLLL-MM-DD (ISO 8601 le datum)"
+        duration: "ISO 8601 trajanje"
+      invalid_content_type: "Pričakovano je, da je VRSTA-VSEBINE '%{content_type}', vendar je dobil '%{actual}'."
+      invalid_format: "neveljaven format za lastnost '%{property}': Pričakovana oblika, kot je '%{expected_format}', vendar je dobila '%{actual}'."
+      invalid_json: "Zahteve ni bilo mogoče razčleniti kot JSON."
+      invalid_relation: "Relacija ni veljavna."
+      invalid_resource: "Za lastnost '%{property}' se pričakuje povezava, kot je '%{expected}, vendar je dobila '%{actual}'."
+      invalid_user_status_transition: "Trenutno stanje uporabniškega računa ne omogoča te operacije.\n"
+      missing_content_type: "Ni določeno"
+      missing_request_body: "Ni bilo organa zahteve."
+      missing_or_malformed_parameter: "Parameter poizvedbe '%{parameter}' manjka ali je napačno oblikovan."
+      multipart_body_error: "Organ zahteve ni vseboval pričakovanih večdelnih členov."
+      multiple_errors: "Kršilo se je več omejitev polja."
+      unable_to_create_attachment: "Priloge ni bilo mogoče ustvariti"
+      unable_to_create_attachment_permissions: "Priloge ni bilo mogoče shraniti zaradi pomanjkanja dovoljenj datotečnega sistema"
       render:
-        context_not_parsable: "The context provided is not a link to a resource."
-        unsupported_context: "The resource given is not supported as context."
-        context_object_not_found: "Cannot find the resource given as the context."
+        context_not_parsable: "Navedeni kontekst ni povezava do vira."
+        unsupported_context: "Navedeni vir ni podprt kot kontekst."
+        context_object_not_found: "Ni mogoče najti vira kot konteksta."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
-        due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
-        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
-        start_date: "Start date cannot be set on parent work packages."
+        done_ratio: "Končnega razmerja ni mogoče določiti za nadrejene delovne pakete, na podlagi statusa ali ko je onemogočeno."
+        due_date: "Končnega datuma ni mogoče določiti za nadrejene delovne pakete."
+        estimated_hours: "Predvidenih ur ni mogoče nastaviti v nadrejenih delovnih paketih."
+        invalid_user_assigned_to_work_package: "Izbrani uporabnik ne sme biti '%{property}' za ta delovni paket."
+        start_date: "Na nadrejenih delovnih paketih začetnega datuma ni mogoče nastaviti."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "je neveljaven gzip: %{message}"
+        invalid_json: "je neveljaven json: %{message}"
     resources:
-      schema: 'Schema'
+      schema: 'Shema'
   doorkeeper:
     pre_authorization:
-      status: 'Pre-authorization'
+      status: 'Pred odobritvijo'
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
-        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        invalid_request: 'Zahtevku manjka zahtevani parameter, vključuje nepodprto vrednost parametra ali je drugače nepravilno oblikovan.'
+        invalid_redirect_uri: "Zahtevani URI preusmeritve je nepravilno oblikovan ali se ne ujema z URI preusmeritve odjemalca.\n"
+        unauthorized_client: 'Stranka nima pooblastila za izvajanje te zahteve po tej metodi.'
+        access_denied: "Lastnik vira ali pooblastitveni strežnik je zahtevo zavrnil.\n"
+        invalid_scope: 'Zahtevani obseg je neveljaven, neznan ali nepravilen.'
+        invalid_code_challenge_method: 'Način izziva kode mora biti navaden ali S256.'
+        server_error: 'Strežnik pooblastil je naletel na nepričakovano stanje, ki je preprečilo, da bi izpolnil zahtevo.'
+        temporarily_unavailable: 'Strežnik pooblastil, zaradi začasne preobremenitve ali vzdrževanja, trenutno ne more obdelati zahteve.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        credential_flow_not_configured: 'Pretok geselskih pooblastil lastnika virov ni uspel, ker Doorkeeper.configure.resource_owner_from_credentials ni nastavljen.'
+        resource_owner_authenticator_not_configured: 'Iskanje lastnika virov ni uspelo, ker Doorkeeper.configure.resource_owner_authenticator ni nastavljen.'
+        admin_authenticator_not_configured: 'Dostop do skrbniške plošče je prepovedan, ker Doorkeeper.configure.admin_authenticator ni konfiguriran.'
         #Access grant errors
-        unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_type: 'Strežnik pooblastil ne podpira te vrste odziva.'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: 'Overitev odjemalca ni uspelo zaradi neznanega odjemalca, zaradi nevključitve overitve odjemalca ali zaradi nepodprte metode overitve.'
+        invalid_grant: 'Predložena odobritev za pooblastilo je neveljavna, potekla, preklicana, se ne ujema z URI preusmeritvijo, ki je uporabljena v zahtevi za pooblastilo ali je bila izdana drugemu odjemalcu.'
+        unsupported_grant_type: 'Strežnik pooblastil ne podpira te vrste odobritve pooblastila.'
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "Žeton za dostop je bil preklican"
+          expired: "Žeton za dostop je pretekel"
+          unknown: "Žeton za dostop je neveljaven"
   unsupported_browser:
-    title: "Your browser is outdated and unsupported."
-    message: "You may run into errors and degraded experience on this page."
-    update_message: 'Please update your browser.'
-    close_warning: "Ignore this warning."
+    title: "Vaš brskalnik je zastarel in nepodprt.\n"
+    message: "Na tej strani lahko naletite na napake in slabšo izkušnjo."
+    update_message: "Posodobite svoj brskalnik.\n"
+    close_warning: "Ignorirajte to opozorilo.\n"
   oauth:
     application:
       singular: "Aplikacija OAuth"
-      plural: "OAuth applications"
-      named: "OAuth application '%{name}'"
-      new: "New OAuth application"
-      default_scopes: "(Default scopes)"
+      plural: "Aplikacija OAuth"
+      named: "OAuth aplikacija '%{name}'"
+      new: "Nova OAuth aplikacija"
+      default_scopes: "(Privzeti obsegi)"
       instructions:
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        name: "Ime vaše prijave. To bo prikazano drugim uporabnikom po odobritvi."
         redirect_uri_html: >
-          The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
-        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
-        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+          Dovoljene uporabnike lahko preusmerimo na dovoljene URL-je. En vnos na vrstico. <br/> Če registrirate aplikacijo za namizje, uporabite naslednji URL.
+        confidential: "Preverite, ali se bo aplikacija uporabljala tam, kjer je lahko tajna stranke zaupna. Domače mobilne aplikacije in aplikacije za eno stran veljajo za nezaupne.\n"
+        scopes: "Preverite področja uporabe, do katerih aplikacija lahko odobri dostop. Če obseg ni preverjen, se domneva, da je api_v3.\n"
+        client_credential_user_id: "Izbirni ID uporabnika, da se predstavi, ko stranke uporabljajo to aplikacijo. Pustite prazno, če želite omogočiti samo javni dostop\n"
+        register_intro: "Če razvijate odjemalsko aplikacijo API OAuth za OpenProject, jo lahko registrirate s tem obrazcem za vse uporabnike."
         default_scopes: ""
     client_id: "ID odjemalca"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      To je edini čas, ko lahko natisnemo skrivnost stranke. Prosimo, zapišite jo in ohranite varno. To bi moralo biti obravnavano kot geslo in ga OpenProject ne more pozneje pridobiti.
+
     authorization_dialog:
-      authorize: "Authorize"
-      cancel: "Cancel and deny authorization."
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
-      title: "Authorize %{application_name}"
+      authorize: "Avtorizacija"
+      cancel: "Prekličite in zavrnite avtorizacijo."
+      prompt_html: "Odobrite <strong>%{application_name}</strong> za uporabo vašega računa <em>%{login}</em>?"
+      title: "Odobrite %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+
+        Ta aplikacija zahteva dostop do vašega računa OpenProject. <br/> <strong> Zahteval je naslednja dovoljenja: </strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Polni API v3 dostop"
+      api_v3_text: "Aplikacija bo prejela popoln dostop za branje in pisanje do API-ja OpenProject v3 za izvajanje dejanj v vašem imenu."
     grants:
-      created_date: "Approved on"
+      created_date: "Odobreno na"
       scopes: "Dovoljenja"
-      successful_application_revocation: "Revocation of application %{application_name} successful."
-      none_given: "No OAuth applications have been granted access to your user account."
+      successful_application_revocation: "Razveljavitev prijave %{application_name} je bila uspešna."
+      none_given: "Noben program OAuth ni omogočil dostopa do vašega uporabniškega računa."
     x_active_tokens:
-      one: 'one active token'
-      two: '%{count} active token'
-      few: '%{count} active token'
-      other: '%{count} active token'
+      one: 'en aktiven žeton'
+      two: 'dva aktivna žetona'
+      few: 'več aktivnih žetonov'
+      other: '%{count} aktivnih žetonov'
     flows:
-      authorization_code: "Authorization code flow"
-      client_credentials: "Client credentials flow"
-    client_credentials: "User used for Client credentials"
-    client_credentials_impersonation_set_to: "Client credentials user set to"
-    client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
+      authorization_code: "Tok avtorizacije"
+      client_credentials: "Pretok poverilnic stranke"
+    client_credentials: "Uporabnik, ki se uporablja za poverilnice stranke"
+    client_credentials_impersonation_set_to: "Uporabnik poverilnic uporabnika nastavljen na"
+    client_credentials_impersonation_warning: "Opomba: Odjemalci, ki v tej aplikaciji uporabljajo tok »poverilnice strank«, bodo imeli pravice tega uporabnika"
     client_credentials_impersonation_html: >
-      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
-    authorization_error: "An authorization error has occurred."
-    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
-    my_registered_applications: "Registered OAuth applications"
+      OpenProject privzeto zagotavlja pooblastilo OAuth 2.0 prek %{authorization_code_flow_link}. Izbirno lahko omogočite %{client_credentials_flow_link}, vendar morate navesti uporabnika, po imenu katerega se bodo izvajale zahteve.
+    authorization_error: "Prišlo je do napake v avtorizaciji."
+    revoke_my_application_confirmation: "Ali res želite odstraniti to aplikacijo? To bo preklicalo %{token_count} aktivno."
+    my_registered_applications: "Registrirane aplikacije OAuth"

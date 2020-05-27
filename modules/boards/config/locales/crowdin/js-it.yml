@@ -39,9 +39,9 @@ it:
         action_text: >
           Crea una scheda con elenchi filtrati su un singolo attributo. Spostare le macro-attività in altre liste aggiornerà il loro attributo.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: assegnatario
+          status: stato
+          version: versione
         select_attribute: "Attributo azione"
       configuration_modal:
         title: 'Configura questa scheda'

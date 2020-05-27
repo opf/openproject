@@ -120,7 +120,7 @@ de:
     conversion:
       missing_commands: "Die folgenden IFC-Konverterbefehle fehlen auf diesem System: %{names}"
   project_module_ifc_models: "IFC-Modelle"
-  permission_view_ifc_models: "Neues IFC-Modell"
+  permission_view_ifc_models: "IFC-Modelle sehen"
   permission_manage_ifc_models: "IFC-Modelle importieren und verwalten"
   extraction:
     available:
