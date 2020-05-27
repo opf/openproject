@@ -464,6 +464,7 @@ en:
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -2004,6 +2005,9 @@ en:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      use_template: 'Use template'
+      make_template: 'Set as template'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"

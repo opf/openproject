@@ -36,6 +36,7 @@ module Projects
     attribute :name
     attribute :identifier
     attribute :description
+    attribute :templated
     attribute :public
     attribute :active do
       validate_active_present
