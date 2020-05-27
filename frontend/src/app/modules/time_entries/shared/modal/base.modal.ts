@@ -44,13 +44,13 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   }
 
   public saveEntry() {
-    this.service.close();
     this.editForm.save()
       .then(() => {
         // reload workPackage
         if (this.entry.workPackage) {
           this.workPackageCacheService.require(this.entry.workPackage.id, true);
         }
+        this.service.close();
       });
   }
 
