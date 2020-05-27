@@ -27,15 +27,23 @@
 #++
 
 module Projects
-  class CreateContract < BaseContract
+  class InstantiateTemplateContract < CreateContract
+    def validate
+      validate_user_allowed_to_instantiate_template
+
+      super
+    end
+
     private
 
-    def validate_user_allowed_to_manage
-      unless user.allowed_to_globally?(:add_project) ||
-             model.parent && user.allowed_to?(:add_subprojects, model.parent)
-
+    def validate_user_allowed_to_instantiate_template
+      unless template_project && user.allowed_to?(:copy_projects, template_project)
         errors.add :base, :error_unauthorized
       end
+    end
+
+    def template_project
+      options[:template_project]
     end
   end
 end

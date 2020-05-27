@@ -80,10 +80,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    call_result = Projects::CreateService
-                  .new(user: current_user)
-                  .call(permitted_params.project)
-
+    call_result = create_project
     @project = call_result.result
 
     if call_result.success?
@@ -260,6 +257,17 @@ class ProjectsController < ApplicationController
   end
 
   protected
+
+  def create_project
+    service =
+      if params[:from_template]
+        Projects::InstantiateTemplateService.new(user: current_user, template_id: params[:from_template])
+      else
+        Projects::CreateService.new(user: current_user)
+      end
+
+    service.call(permitted_params.project)
+  end
 
   def set_sorting(query)
     orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }

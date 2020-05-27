@@ -29,15 +29,26 @@
 #++
 
 module Projects
-  class CreateFromTemplateService < ::BaseServices::BaseContracted
-    attr_reader :template_id
+  class InstantiateTemplateService < ::BaseServices::Create
+    attr_reader :template_project
 
-    def initialize(user:, template_id: )
-      super user: user, contract_class:
-      @template_id = template_id
+    def initialize(user:, template_id:)
+      @template_project = Project.find_by(id: template_id)
+
+      super user: user,
+            contract_class: Projects::InstantiateTemplateContract,
+            contract_options: { template_project: template_project }
     end
 
-    def after_validate(params)
+    def after_validate(params, call)
+      # TODO
+      warn "Scheduling job for #{params.inspect} to create template copy from #{template_project.inspect}"
+    end
+
+    # Do not actually try to save the project here
+    # but simply pass the previous call
+    def persist(call)
+      call
     end
   end
 end
