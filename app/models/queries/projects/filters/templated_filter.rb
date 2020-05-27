@@ -28,10 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Filters::ActiveFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::TemplatedFilter < Queries::Projects::Filters::ProjectFilter
   include Queries::Filters::Shared::BooleanFilter
 
   def self.key
-    :active
+    :templated
   end
 end

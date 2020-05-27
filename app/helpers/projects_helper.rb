@@ -45,6 +45,7 @@ module ProjectsHelper
   def whitelisted_project_filter?(filter)
     whitelist = [
       Queries::Projects::Filters::ActiveFilter,
+      Queries::Projects::Filters::TemplatedFilter,
       Queries::Projects::Filters::ProjectStatusFilter,
       Queries::Projects::Filters::CreatedAtFilter,
       Queries::Projects::Filters::LatestActivityAtFilter,
@@ -143,6 +144,13 @@ module ProjectsHelper
       .map do |code|
       [I18n.t("activerecord.attributes.projects/status.codes.#{code}"), code]
     end
+  end
+
+  def project_options_for_templated
+    Project
+      .allowed_to(current_user, :copy_projects)
+      .where(templated: true)
+      .pluck(:name, :id)
   end
 
   def shorten_text(text, length)
