@@ -266,7 +266,7 @@ ko:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
+              이 릴리스에는 다음과 같은 여러 가지 새로운 기능과 개선된 기능이 포함되어 있습니다: <br><br> <ul> <li><b>담당자용 작업 보드</b>: 목록 간에 카드를 이동할 때 담당자를 자동으로 업데이트하는 작업 보드를 만듭니다.</li> <li>날짜가 아닌 이름 기준으로 버전을 정렬하므로 목록에서 버전을 훨씬 더 쉽게 선택할 수 있습니다.</li> <li>시간 추적을 위해 <b>24시간 제한을 제거</b>합니다.</li> <li>프로젝트 개요 위젯에 뉴스 요약을 표시합니다.</li> <li>다양한 버그 수정 및 <b>사용성 개선</b>.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -281,7 +281,7 @@ ko:
     label_add_row_before: "다음 앞에 행 추가"
     label_add_selected_columns: "선택된 열 추가"
     label_added_by: "추가함 : "
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "<a href=%{authorLink}>%{author}</a>(%{age}) 님이 추가함"
     label_ago: "일 전"
     label_all: "모두"
     label_all_work_packages: "모든 작업 패키지"

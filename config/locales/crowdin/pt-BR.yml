@@ -108,18 +108,17 @@ pt-BR:
         O OpenProject irá filtrar os nomes de usuários fornecidos apenas nesta subárvore.
         Exemplo: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Adicione um filtro RFC4515 opcional para aplicar os resultados retornados pelos usuários filtrados no LDAP. Isto pode ser usado para restringir o conjunto de usuários que foram encontrados pelo OpenProject para a autenticação e sincronização de grupo.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        O OpenProject sempre filtrará o atributo de login fornecido pelo usuário para identificar o registro. Se você fornecer um filtro aqui,
+        ele seria concatenado com um AND. Por padrão, uma atualização (objectClass=*) será utilizada como um filtro.
       onthefly_register: |
         Se você marcar esta caixa, o OpenProject irá automaticamente criar novos usuários a partir de suas entradas LDAP
         quando eles forem autenticados pela primeira vez com o OpenProject.
         Deixe isso desmarcado para permitir que apenas contas existentes no OpenProject possam se autenticar através do LDAP!
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        Se você habilitar a sincronização em grupo para esta conexão LDAP, os usuários também serão automaticamente criados
+        no OpenProject para o grupos sincronizados. Sem isso, apenas as contas existentes no OpenProjectserão adicionados aos grupos.
     connection_encryption: 'Criptografia de Conexão'
     system_account: 'Conta do sistema'
     system_account_legend: |
@@ -233,8 +232,8 @@ pt-BR:
       no_results_content_text: Adicionar um item de notícias
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'No momento, este usuário é um membro dos seguintes grupos: '
+      no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
   prioritiies:
@@ -360,7 +359,7 @@ pt-BR:
         attr_mail: "Campo do E-mail"
         base_dn: "DN principal"
         host: "Servidor"
-        onthefly: "Automatic user creation"
+        onthefly: "Criação de usuário automático"
         port: "Porta"
       changeset:
         repository: "Repositório"
@@ -1071,7 +1070,7 @@ pt-BR:
   error_cookie_missing: 'Está faltando o cookie do OpenProject. Por favor, certifique-se de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.'
   error_custom_option_not_found: "A opção não existe."
   error_enterprise_activation_user_limit: "Sua conta não pôde ser ativada (limite de usuários atingido). Por favor, contate o administrador para obter acesso."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "A Enterprise Edition não esta ativa. Seu domínio do token Enterprise (%{actual}) não corresponde ao nome do host do sistema (%{expected})."
   error_failed_to_delete_entry: 'Falha ao excluir esta entrada.'
   error_in_dependent: "Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valor selecionado inválido."
@@ -1312,7 +1311,7 @@ pt-BR:
   label_delete_project: "Excluir projeto"
   label_deleted: "excluído"
   label_deleted_custom_field: "(campo personalizado excluído)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(opção excluída)"
   label_descending: "Decrescente"
   label_details: "Detalhes"
   label_development_roadmap: "Planejamento do desenvolvimento"
@@ -1330,7 +1329,7 @@ pt-BR:
   label_duplicate: "duplicado"
   label_duplicates: "Duplicados"
   label_edit: "Editar"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Editar: %{x}"
   label_enable_multi_select: "Alterna para seleção múltipla"
   label_enabled_project_custom_fields: 'Campos personalizados habilitados'
   label_enabled_project_modules: 'Módulos habilitados'

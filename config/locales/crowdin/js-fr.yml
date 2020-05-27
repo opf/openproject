@@ -266,7 +266,7 @@ fr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
+              Cette version contient diverses nouvelles fonctionnalités et améliorations : <br><br> <ul> <li><b>Tableau d'action pour les cessionnaires</b> : créez des tableaux d'action qui préviendront automatiquement le cessionnaire lors du déplacement des cartes dans les listes.</li> <li>Triez les versions par nom et non par date ce qui facilite grandement la sélection d'une version de la liste.</li> <li><b>Retrait de la restriction de 24 heures</b> pour le suivi du temps.</li> <li>Affichez le résumé des nouvelles sur le widget Aperçu du projet.</li> <li>Diverses corrections de bugs et <b>améliorations d'utilisation</b>.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -281,7 +281,7 @@ fr:
     label_add_row_before: "Ajouter une ligne avant"
     label_add_selected_columns: "Ajouter les colonnes sélectionnées"
     label_added_by: "Ajouté par"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Ajouté par <a href=%{authorLink}>%{author}</a> à %{age}"
     label_ago: "il y a quelques jours"
     label_all: "tous"
     label_all_work_packages: "tous les lots de travaux"
