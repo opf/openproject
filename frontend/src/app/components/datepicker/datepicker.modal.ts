@@ -50,7 +50,7 @@ import flatpickr from "flatpickr";
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class DatePickerModal extends OpModalComponent {
+export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   @InjectField() I18n:I18nService;
   @InjectField() timezoneService:TimezoneService;
 
@@ -76,6 +76,10 @@ export class DatePickerModal extends OpModalComponent {
     this.endDate = locals.dates.endDate;
   }
 
+  ngAfterViewInit():void {
+    this.refreshDatepicker();
+  }
+
   changeSchedulingMode() {
     // Todo
   }
@@ -90,6 +94,16 @@ export class DatePickerModal extends OpModalComponent {
 
   clear():void {
     // Todo
+  }
+
+  updateFlatpickrDates(val:string) {
+    if (this.validDate(val)) {
+      this._startDate = val;
+    } else {
+      const splittedDate = val.split(' ');
+      this._startDate = splittedDate[0];
+      this._endDate = splittedDate[2];
+    }
   }
 
   get startDate():string {
@@ -107,6 +121,9 @@ export class DatePickerModal extends OpModalComponent {
 
   set startDate(val:string) {
     this._startDate = val;
+    if (this.validDate(this._startDate)) {
+      this.refreshDatepicker();
+    }
   }
 
   get endDate():string {
@@ -124,6 +141,9 @@ export class DatePickerModal extends OpModalComponent {
 
   set endDate(val:string) {
     this._endDate = val;
+    if (this.validDate(this._endDate)) {
+      this.refreshDatepicker();
+    }
   }
 
   schedulingButtonText():string {
@@ -140,6 +160,14 @@ export class DatePickerModal extends OpModalComponent {
       at: 'left bottom',
       of: target,
       collision: 'flipfit'
+    });
+  }
+
+  private refreshDatepicker() {
+    flatpickr('#flatpickr-input', {
+      mode: 'range',
+      inline: true,
+      defaultDate: [this.startDate, this.endDate]
     });
   }
 

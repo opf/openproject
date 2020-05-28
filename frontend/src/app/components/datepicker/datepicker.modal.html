@@ -34,6 +34,10 @@
       </div>
     </form>
 
+    <input id="flatpickr-input"
+           (change)="updateFlatpickrDates($event.target.value)"
+           hidden>
+
     <div class="datepicker-modal--actions-container">
       <a (click)="save()"
          class="datepicker-modal--action"
