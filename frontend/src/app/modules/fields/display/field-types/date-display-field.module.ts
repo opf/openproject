@@ -37,6 +37,15 @@ export class DateDisplayField extends HighlightableDisplayField {
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);
 
+    // Show scheduling mode in front of the start date field
+    if (this.showSchedulingMode()) {
+      const schedulingIcon = document.createElement('span');
+      schedulingIcon.classList.add('icon-context');
+      schedulingIcon.classList.add(this.resource.scheduleManually ? 'icon-pin' : 'icon-arrow-left-right');
+
+      element.prepend(schedulingIcon);
+    }
+
     // Highlight overdue tasks
     if (this.shouldHighlight && this.canOverdue) {
       const diff = this.timezoneService.daysFromToday(this.value);
@@ -54,5 +63,9 @@ export class DateDisplayField extends HighlightableDisplayField {
     } else {
       return '';
     }
+  }
+
+  private showSchedulingMode():boolean {
+    return this.name === 'startDate' || this.name === 'date';
   }
 }
