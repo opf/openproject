@@ -108,17 +108,15 @@ zh-CN:
         OpenProject 将仅在此子树中筛选提供的用户名。
         示例：ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        添加一个可选的 RFC4515 筛选器以应用于为 LDAP 中的筛选用户返回的结果。
+        这可以用于限制 OpenProject 为身份验证和组同步找到的用户集。
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject 将始终筛选用户提供的登录属性来识别记录。如果您在这里提供筛选器，它将与 AND 串联。默认情况下，将使用“全部捕获”(objectClass=*) 作为筛选器。
       onthefly_register: |
         如果选中此框，OpenProject 将在新用户首次向 OpenProject 验证身份时从其 LDAP 条目创建这些用户。
         不选中此框则会仅允许 OpenProject 中的现有帐户通过 LDAP 验证身份！
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        如果您为此 LDAP 连接启用组同步，还会在 OpenProject 中为同步的组自动创建用户。如果不启用，只有 OpenProject 中的现有帐户会被添加到组中。
     connection_encryption: '连接加密'
     system_account: '系统帐户'
     system_account_legend: |
@@ -231,8 +229,8 @@ zh-CN:
       no_results_content_text: 添加新闻项
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: '此用户当前是以下组的成员：'
+      no_results_title_text: 此用户当前不是任何组的成员。
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
   prioritiies:
@@ -357,7 +355,7 @@ zh-CN:
         attr_mail: "电子邮件属性"
         base_dn: "基本 DN"
         host: "主机"
-        onthefly: "Automatic user creation"
+        onthefly: "自动创建用户"
         port: "端口"
       changeset:
         repository: "代码库"
@@ -481,6 +479,7 @@ zh-CN:
         parent_work_package: "父"
         priority: "优先级"
         progress: "进度 (%)"
+        schedule_manually: "手动计划"
         spent_hours: "已耗时间"
         spent_time: "已耗时间"
         subproject: "子项目"
@@ -1052,7 +1051,7 @@ zh-CN:
   error_cookie_missing: 'OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。'
   error_custom_option_not_found: "选项不存在。"
   error_enterprise_activation_user_limit: "无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。"
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "企业版未激活。您的企业版令牌的域 (%{actual}) 与系统的主机名不匹配 (%{expected})。"
   error_failed_to_delete_entry: '无法删除此条目。'
   error_in_dependent: "尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}"
   error_invalid_selected_value: "选中的值无效。"
@@ -1293,7 +1292,7 @@ zh-CN:
   label_delete_project: "删除项目"
   label_deleted: "已删除"
   label_deleted_custom_field: "（删除自定义字段）"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "（删除的选项）"
   label_descending: "降序"
   label_details: "详细信息"
   label_development_roadmap: "发展蓝图"
@@ -1311,7 +1310,7 @@ zh-CN:
   label_duplicate: "重复"
   label_duplicates: "复制"
   label_edit: "编辑"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "编辑：%{x}"
   label_enable_multi_select: "切换多选"
   label_enabled_project_custom_fields: '启用自定义字段'
   label_enabled_project_modules: '启用的模块'

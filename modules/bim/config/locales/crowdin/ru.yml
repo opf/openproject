@@ -69,7 +69,7 @@ ru:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Просмотр проблем BCF"
   permission_manage_bcf: "Импорт и управление проблемами BCF"
-  permission_delete_bcf: "Delete BCF issues"
+  permission_delete_bcf: "Удалить задачи BCF"
   oauth:
     scopes:
       bcf_v2_1: "Полный доступ к BCF v2.1 API"

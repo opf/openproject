@@ -22,7 +22,7 @@ zh-CN:
       export: '导出'
       import_update_comment: '（在 BCF 导入中更新）'
       import_failed: '无法导入 BCF 文件：%{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: '读取 BCF 文件失败：不支持该 BCF 版本。请确保版本至少为 %{minimal_version} 或更高版本。'
       import_successful: '已导入 %{count} 个 BCF 问题'
       import_canceled: 'BCF-XML 导入已取消。'
       type_not_active: "此项目未激活该问题类型。"
@@ -66,7 +66,7 @@ zh-CN:
   project_module_bim: "BCF"
   permission_view_linked_issues: "查看 BCF 问题"
   permission_manage_bcf: "导入和管理 BCF 问题"
-  permission_delete_bcf: "Delete BCF issues"
+  permission_delete_bcf: "删除 BCF 问题"
   oauth:
     scopes:
       bcf_v2_1: "BCF v2.1 API 的完全访问权限"

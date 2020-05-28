@@ -39,17 +39,17 @@ fr:
         action_text: >
           Créez un tableau avec des listes filtrées sur un seul attribut. Déplacer des lots de travaux vers d'autres listes mettra à jour leur attribut.
         action_type:
-          assignee: assignee
-          status: status
+          assignee: responsable
+          status: état
           version: version
         select_attribute: "Attribut d'action"
       add_list_modal:
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: This project currently does not have any members that can be added. <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            Il n'y a actuellement aucun statut disponible. <br>
+            Soit il n'y en a aucun ou ils ont tous déjà été ajoutés au tableau.
+          assignee: Ce projet n'a actuellement aucun membre à ajouter. <br>
+          add_members: <a href="%{link}">Ajoutez un nouveau membre à ce projet</a> pour sélectionner à nouveau les utilisateurs.
       configuration_modal:
         title: 'Configurer ce tableau'
         display_settings:
