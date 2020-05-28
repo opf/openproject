@@ -58,18 +58,17 @@ See docs/COPYRIGHT.rdoc for more details.
         <span class="button--text"><%= t(:label_archive_project) %></span>
       <% end %>
     </li>
-    <% unless @project.templated? %>
     <li class="toolbar-item hidden-for-mobile">
       <%= form_for(@project,
                    html: { class: 'toolbar-item'},
                    url: project_path(@project),
                    method: :patch) do |f| %>
-        <%= f.hidden_field :templated, value: true %>
-        <button class="button" title="<%= t('project.template.make_template') %>">
-          <%= op_icon('button--icon icon-duplicate') %>
-          <span class="button--text"><%= t('project.template.make_template') %></span>
+        <%= f.hidden_field :templated, value: !@project.templated %>
+        <% label = @project.templated ? 'remove_from_templates' : 'make_template' %>
+        <button class="button" title="<%= t("project.template.#{label}") %>">
+          <%= op_icon('button--icon icon-duplicate') unless @project.templated %>
+          <span class="button--text"><%= t("project.template.#{label}") %></span>
         </button>
-      <% end %>
     </li>
     <% end %>
     <li class="toolbar-item">

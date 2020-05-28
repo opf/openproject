@@ -2011,6 +2011,7 @@ en:
         You will be notified by mail as soon as the project is available.
       use_template: 'Use template'
       make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"
