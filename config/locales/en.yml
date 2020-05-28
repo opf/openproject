@@ -2006,7 +2006,9 @@ en:
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
     template:
-      copying: 'Your project is being created from the selected template project.'
+      copying: >
+        Your project is being created from the selected template project.
+        You will be notified by mail as soon as the project is available.
       use_template: 'Use template'
       make_template: 'Set as template'
     archive:
