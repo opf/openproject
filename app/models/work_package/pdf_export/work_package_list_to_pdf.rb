@@ -317,4 +317,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
       false
     end
   end
+
+  def make_bcf_thumbnail_field_value(work_package)
+    # A BCF viewpoint must have a snapshot. So it's safe to check for
+    # viewpoint existence only.
+    work_package.bcf_issue.viewpoints.any? ? 'X' : ''
+  end
 end
