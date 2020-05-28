@@ -80,13 +80,15 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    call_result = create_project
-    @project = call_result.result
+    call_result =
+      if params[:from_template]
+        create_from_template
+      else
+        create_from_params
+      end
 
-    if call_result.success?
-      flash[:notice] = t(:notice_successful_create)
-      redirect_work_packages_or_overview
-    else
+    # In success case, nothing to do
+    call_result.on_failure do
       @errors = call_result.errors
       assign_default_create_variables
 
@@ -258,15 +260,31 @@ class ProjectsController < ApplicationController
 
   protected
 
-  def create_project
-    service =
-      if params[:from_template]
-        Projects::InstantiateTemplateService.new(user: current_user, template_id: params[:from_template])
-      else
-        Projects::CreateService.new(user: current_user)
-      end
+  def create_from_params
+    call_result = Projects::CreateService
+      .new(user: current_user)
+      .call(permitted_params.project)
+    @project = call_result.result
 
-    service.call(permitted_params.project)
+    call_result.on_success do
+      flash[:notice] = t(:notice_successful_create)
+      redirect_work_packages_or_overview
+    end
+
+    call_result
+  end
+
+  def create_from_template
+    call_result = Projects::InstantiateTemplateService
+      .new(user: current_user, template_id: params[:from_template])
+      .call(permitted_params.project)
+
+    call_result.on_success do
+      flash[:notice] = t('project.template.copying')
+      redirect_to home_path
+    end
+
+    call_result
   end
 
   def set_sorting(query)
