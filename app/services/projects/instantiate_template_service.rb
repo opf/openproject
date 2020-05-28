@@ -41,8 +41,17 @@ module Projects
     end
 
     def after_validate(params, call)
-      # TODO
-      warn "Scheduling job for #{params.inspect} to create template copy from #{template_project.inspect}"
+      ::CopyProjectJob.perform_later(
+        user_id: user.id,
+        source_project_id: template_project.id,
+        target_project_params: params,
+        # Copy all associations
+        associations_to_copy: nil,
+        # Send mails for now until we send our own mails
+        send_mails: true
+      )
+
+      call
     end
 
     # Do not actually try to save the project here
