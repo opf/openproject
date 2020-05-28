@@ -488,4 +488,26 @@ describe 'filter work packages', js: true do
       end
     end
   end
+
+  describe 'keep the filter attribute order (Regression #33136)' do
+    let(:version1) { FactoryBot.create :version, project: project, name: 'Version 1', id: 1 }
+    let(:version2) { FactoryBot.create :version, project: project, name: 'Version 2', id: 2 }
+
+    it do
+      wp_table.visit!
+      loading_indicator_saveguard
+
+      filters.open
+      filters.add_filter_by 'Version', 'is', [version2.name, version1.name]
+      loading_indicator_saveguard
+
+      sleep(3)
+
+      filters.expect_filter_by 'Version', 'is', [version1.name]
+      filters.expect_filter_by 'Version', 'is', [version2.name]
+
+      # Order should stay unchanged
+      filters.expect_filter_order('Version', [version2.name, version1.name])
+    end
+  end
 end

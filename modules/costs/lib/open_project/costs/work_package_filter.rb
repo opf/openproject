@@ -59,7 +59,11 @@ module OpenProject::Costs
     end
 
     def value_objects
-      cost_objects.where(id: values)
+      available_cost_objects = cost_objects.index_by(&:id)
+
+      values
+        .map { |cost_object_id| available_cost_objects[cost_object_id.to_i] }
+        .compact
     end
 
     def human_name

@@ -53,9 +53,11 @@ class Queries::WorkPackages::Filter::TypeFilter <
   end
 
   def value_objects
-    value_ints = values.map(&:to_i)
+    available_types = types.index_by(&:id)
 
-    types.select { |t| value_ints.include?(t.id) }
+    values
+      .map { |type_id| available_types[type_id.to_i] }
+      .compact
   end
 
   private

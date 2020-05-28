@@ -48,9 +48,11 @@ class Queries::WorkPackages::Filter::CategoryFilter <
   end
 
   def value_objects
-    int_values = values.map(&:to_i)
+    available_categories = all_project_categories.index_by(&:id)
 
-    all_project_categories.select { |c| int_values.include?(c.id) }
+    values
+      .map { |category_id| available_categories[category_id.to_i] }
+      .compact
   end
 
   def ar_object_filter?
