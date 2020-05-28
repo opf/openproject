@@ -49,7 +49,8 @@ describe Messages::SetAttributesService, type: :model do
   let(:instance) do
     described_class.new(user: user,
                         model: message_instance,
-                        contract_class: contract_class)
+                        contract_class: contract_class,
+                        contract_options: {})
   end
   let(:message_instance) { Message.new }
   let(:contract_class) do
