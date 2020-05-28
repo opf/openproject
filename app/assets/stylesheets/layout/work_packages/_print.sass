@@ -62,43 +62,37 @@
       overflow: hidden
 
   // -------------------- Sepcial Rules for FF --------------------
-  html.-browser-firefox
+  body.-browser-firefox
+    #wrapper,
+    #main,
+    .work-packages-partitioned-query-space--container,
+    .work-packages-partitioned-page--content-container,
+    .work-packages-split-view--tabletimeline-side,
+    .work-packages-split-view--tabletimeline-content
+      display: block !important
+
     .router--work-packages-partitioned-split-view,
     .router--work-packages-full-view,
     .router--work-packages-full-create
-      #main
-        display: block
+      .work-packages-partitioned-query-space--container
+        .toolbar-container
+          display: none
 
-        #content-wrapper,
-        #content
-          .work-packages-partitioned-query-space--container
-            display: block
-            .toolbar-container
-              display: none
-            .work-packages-split-view
-              display: block
-
-              .work-packages-split-view--tabletimeline-side
-                display: block
-                .work-packages-split-view--tabletimeline-content
-                  display: block
-                  .work-packages-split-view--tabletimeline-side
-                    display: none
-                  .work-packages-tabletimeline--table-side
-                    &.-timeline-visible
-                      display: initial
-
-                    &.-timeline-visible
-                      thead
-                        // Undo that hack from above for FF
-                        display: table-header-group
-                  .work-packages-tabletimeline--timeline-side
-                    // As this print is worthless, we remove it for FF
-                    display: none !important
+          .work-packages-split-view--tabletimeline-side
+            display: none
+          .work-packages-tabletimeline--table-side
+            &.-timeline-visible
+              display: initial
+              thead
+                // Undo that hack from above for FF
+                display: table-header-group
+          .work-packages-tabletimeline--timeline-side
+            // As this print is worthless, we remove it for FF
+            display: none !important
 
 
-  html.-browser-firefox,
-  html.-browser-edge
+  body.-browser-firefox,
+  body.-browser-edge
     .router--work-packages-full-view,
       .work-packages--show-view,
       .work-packages-full-view--split-container
