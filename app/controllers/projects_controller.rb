@@ -81,7 +81,7 @@ class ProjectsController < ApplicationController
 
   def create
     call_result =
-      if params[:from_template]
+      if params[:from_template].present?
         create_from_template
       else
         create_from_params
@@ -89,6 +89,7 @@ class ProjectsController < ApplicationController
 
     # In success case, nothing to do
     call_result.on_failure do
+      @project = call_result.result
       @errors = call_result.errors
       assign_default_create_variables
 
