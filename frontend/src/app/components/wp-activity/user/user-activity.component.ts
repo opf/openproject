@@ -171,9 +171,10 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
         this.updateCommentText();
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
-        this.deactivate(true);
       })
-      .catch(() => this.deactivate(true));
+      .finally(() => {
+        this.deactivate(true); this.inFlight = false;
+      });
   }
 
   public focusEditIcon() {

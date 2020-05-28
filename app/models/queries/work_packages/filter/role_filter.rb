@@ -55,9 +55,11 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
   end
 
   def value_objects
-    value_ints = values.map(&:to_i)
+    available_roles = roles.index_by(&:id)
 
-    roles.select { |r| value_ints.include?(r.id) }
+    values
+      .map { |role_id| available_roles[role_id.to_i] }
+      .compact
   end
 
   def where

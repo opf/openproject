@@ -50,9 +50,11 @@ class Queries::WorkPackages::Filter::PriorityFilter <
   end
 
   def value_objects
-    value_ints = values.map(&:to_i)
+    available_priorities = priorities.index_by(&:id)
 
-    priorities.select { |p| value_ints.include? p.id }
+    values
+      .map { |priority_id| available_priorities[priority_id.to_i] }
+      .compact
   end
 
   private

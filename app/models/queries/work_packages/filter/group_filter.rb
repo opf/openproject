@@ -53,9 +53,11 @@ class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter
   end
 
   def value_objects
-    value_ints = values.map(&:to_i)
+    available_groups = all_groups.index_by(&:id)
 
-    all_groups.select { |g| value_ints.include?(g.id) }
+    values
+      .map { |group_id| available_groups[group_id.to_i] }
+      .compact
   end
 
   def where
