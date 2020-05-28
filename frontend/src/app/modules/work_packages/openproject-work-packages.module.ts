@@ -168,6 +168,7 @@ import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
+import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 
 @NgModule({
   imports: [
@@ -363,6 +364,7 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
     QuerySharingModal,
     SaveQueryModal,
     WpDestroyModal,
+    DatePickerModal,
 
     // CustomActions
     WpCustomActionComponent,

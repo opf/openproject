@@ -1,0 +1,61 @@
+<div class="op-modal--modal-container datepicker-modal loading-indicator--location"
+     data-indicator-name="modal"
+     tabindex="0">
+  <div class="op-modal--modal-body">
+    <form class="form -vertical">
+      <div class="grid-block">
+      <div class="form--field">
+        <label class="form--label"
+               [textContent]="text.startDate">
+        </label>
+        <div class="form--field-container">
+          <div class="form--text-field-container -xslim">
+            <input type="text"
+                   name="startDate"
+                   class="form--date-field"
+                   [(ngModel)]="startDate">
+          </div>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <label class="form--label"
+               [textContent]="text.endDate">
+        </label>
+        <div class="form--field-container">
+          <div class="form--text-field-container -xslim">
+            <input type="text"
+                   name="endDate"
+                   class="form--date-field"
+                   [(ngModel)]="endDate">
+          </div>
+        </div>
+      </div>
+      </div>
+    </form>
+
+    <div class="datepicker-modal--actions-container">
+      <a (click)="save()"
+         class="datepicker-modal--action"
+         [textContent]="text.save">
+      </a>
+      <a (click)="cancel()"
+         class="datepicker-modal--action"
+         [textContent]="text.cancel">
+      </a>
+      <a (click)="clear()"
+         class="datepicker-modal--action"
+         [textContent]="text.clear">
+      </a>
+
+      <button class="button datepicker-modal--scheduling-action"
+              (click)="changeSchedulingMode()">
+        <op-icon [icon-classes]="schedulingButtonIcon()">
+        </op-icon>
+        <span class="button--text"
+              [textContent]="schedulingButtonText()">
+        </span>
+      </button>
+    </div>
+  </div>
+</div>

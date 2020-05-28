@@ -26,19 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import * as moment from "moment";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
 
 @Component({
   template: `
-    <op-date-picker
-      tabindex="-1"
-      (onChange)="onValueSelected($event)"
-      (onClose)="handler.handleUserSubmit()"
-      [initialDate]="defaultDate">
 
       <input [ngModel]="formatter(value)"
              (ngModelChange)="value = parser($event);"
@@ -50,12 +47,17 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
              [attr.placeholder]="placeholder"
              [id]="handler.htmlId"/>
 
-    </op-date-picker>
 
   `
 })
-export class DateEditFieldComponent extends EditFieldComponent {
+export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() readonly timezoneService:TimezoneService;
+  @InjectField() opModalService:OpModalService;
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.showDatePickerModal();
+  }
 
   public onValueSelected(data:string) {
     this.value = this.parser(data);
@@ -90,5 +92,22 @@ export class DateEditFieldComponent extends EditFieldComponent {
     }
 
     return '';
+  }
+
+  private showDatePickerModal():void {
+    const dates:{startDate:Date, endDate:Date} = {
+      startDate: this.resource.startDate,
+      endDate: this.resource.dueDate
+    };
+
+    const modal = this
+      .opModalService
+      .show(DatePickerModal, this.injector, { scheduleManually: this.resource.scheduleManually, dates: dates });
+
+    setTimeout(() => {
+      const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');
+      const field = jQuery(this.elementRef.nativeElement);
+      modal.reposition(modalElement, field);
+    });
   }
 }
