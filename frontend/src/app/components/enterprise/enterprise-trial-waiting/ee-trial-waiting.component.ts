@@ -33,6 +33,7 @@ import {HttpClient} from "@angular/common/http";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {distinctUntilChanged} from "rxjs/operators";
 import {GonService} from "core-app/modules/common/gon/gon.service";
+import {CurrentUserService} from "core-components/user/current-user.service";
 
 @Component({
   selector: 'enterprise-trial-waiting',
@@ -40,13 +41,10 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
   styleUrls: ['./ee-trial-waiting.component.sass']
 })
 export class EETrialWaitingComponent implements OnInit {
-  public created:string;
+  private created = new Date().toLocaleDateString(this.currentUserService.language);
 
   public text = {
-    confirmation_info: this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
-        date: this.created,
-        email: this.eeTrialService.userData$.getValueOr({})
-    }),
+    confirmation_info: '',
     resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
     resend_success: this.I18n.t('js.admin.enterprise.trial.resend_success'),
     resend_warning: this.I18n.t('js.admin.enterprise.trial.resend_warning'),
@@ -60,14 +58,17 @@ export class EETrialWaitingComponent implements OnInit {
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
               protected http:HttpClient,
-              readonly Gon:GonService,
+              readonly currentUserService:CurrentUserService,
               protected notificationsService:NotificationsService,
               public eeTrialService:EnterpriseTrialService) {
   }
 
   ngOnInit() {
-    let savedDateStr = (this.Gon.get('ee_trial_key') as any).created.split(' ')[0];
-    this.created = new Date(savedDateStr).toLocaleDateString();
+    let eeTrialKey = (window as any).gon.ee_trial_key;
+    if (eeTrialKey) {
+      let savedDateStr = eeTrialKey.created.split(' ')[0];
+      this.created = new Date(savedDateStr).toLocaleDateString(this.currentUserService.language);
+    }
 
     this.eeTrialService.userData$
       .values$()
@@ -79,7 +80,6 @@ export class EETrialWaitingComponent implements OnInit {
           date: this.created,
           email: userForm.email
         });
-
         this.cdRef.detectChanges();
       });
   }
