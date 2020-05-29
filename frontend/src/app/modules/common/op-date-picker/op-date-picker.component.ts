@@ -26,28 +26,40 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {DatePicker} from 'core-app/modules/common/op-date-picker/datepicker';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import flatpickr from "flatpickr";
+import {Instance} from "flatpickr/dist/types/instance";
 
 @Component({
   selector: 'op-date-picker',
   templateUrl: './op-date-picker.component.html'
 })
-export class OpDatePickerComponent implements OnInit, OnDestroy {
+export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() public onChange = new EventEmitter<string>();
   @Output() public onInputChange = new EventEmitter<string>();
   @Output() public onClose = new EventEmitter<string>();
-  @Input() public initialDate?:string;
+
+  @Input() public initialDate:string = '';
+  @Input() public appendTo?:HTMLElement = document.body;
+  @Input() public classes:string = '';
+  @Input() public id:string = '';
+  @Input() public name:string = '';
+  @Input() public required:boolean = false;
+  @Input() public size:number = 20;
+  @Input() public focus:boolean = false;
 
   private $element:JQuery;
-  private datePickerInstance:DatePicker;
+  private datePickerInstance:Instance;
   private input:JQuery;
 
   public constructor(private elementRef:ElementRef,
                      private ConfigurationService:ConfigurationService,
                      private timezoneService:TimezoneService) {
+    if (!this.id) {
+      this.id = 'datepicker-input-' + Math.floor(Math.random() * 1000).toString(3);
+    }
   }
 
 
@@ -55,8 +67,13 @@ export class OpDatePickerComponent implements OnInit, OnDestroy {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     this.input = this.$element.find('input');
-    this.input.on('change', () => this.onInputChange.emit(this.currentValue()))
+    this.input.on('change', () => this.onInputChange.emit(this.currentValue()));
+
     this.setup();
+  }
+
+  ngAfterViewInit():void {
+    this.initializeDatepicker();
   }
 
   ngOnDestroy() {
@@ -64,7 +81,8 @@ export class OpDatePickerComponent implements OnInit, OnDestroy {
   }
 
   public setup() {
-    this.input.focus(() => this.showDatePicker());
+    this.input.click(() => this.datePickerInstance.open());
+    this.input.blur(() => this.datePickerInstance.close());
     this.input.keydown((event) => {
       if (this.isEmpty()) {
         this.datePickerInstance.clear();
@@ -79,25 +97,8 @@ export class OpDatePickerComponent implements OnInit, OnDestroy {
   private currentValue():string {
     return this.input.val() as string;
   }
-
-  private showDatePicker() {
-    let options:any = {
-      onSelect: (date:any) => {
-        this.datePickerInstance.hide();
-
-        let val = date;
-
-        if (this.isEmpty()) {
-          val = null;
-        }
-
-        this.input.val(val);
-        this.input.trigger('change');
-        this.onChange.emit(val);
-      },
-      onClose: () => this.onClose.emit()
-    };
-
+  
+  private initializeDatepicker() {
     let initialValue;
     if (this.isEmpty && this.initialDate) {
       initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
@@ -105,14 +106,24 @@ export class OpDatePickerComponent implements OnInit, OnDestroy {
       initialValue = this.currentValue();
     }
 
-    this.datePickerInstance = new DatePicker(
-      this.ConfigurationService,
-      this.timezoneService,
-      this.input,
-      initialValue,
-      options
-    );
+    var datePickerInstances = flatpickr('#' + this.id, {
+      allowInput: true,
+      appendTo: this.appendTo,
+      defaultDate: initialValue,
+      onChange:(selectedDates, dateStr) => {
+        let val:string = dateStr;
 
-    this.datePickerInstance.show();
+        if (this.isEmpty()) {
+          val = '';
+        }
+
+        this.input.val(val);
+        this.input.trigger('change');
+        this.onChange.emit(val);
+      },
+      onClose: () => this.onClose.emit()
+    });
+
+    this.datePickerInstance = Array.isArray(datePickerInstances)? datePickerInstances[0] : datePickerInstances;
   }
 }
