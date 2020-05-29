@@ -16,13 +16,7 @@ export class BcfClickHandler extends CardClickHandler {
 
     // Open the viewpoint if any
     if (this.viewer.viewerVisible() && wp.bcfViewpoints) {
-      const first = wp.bcfViewpoints[0].href;
-      const resource = this.bcfApi.parse(first) as BcfViewpointPaths;
-      resource
-        .get()
-        .subscribe((viewpoint) => {
-          this.viewer.showViewpoint(viewpoint);
-        });
+      this.viewer.showViewpoint(wp, 0);
     }
   }
 }
