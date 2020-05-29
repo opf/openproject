@@ -144,25 +144,24 @@ If you have URN or OID attribute identifiers, you can modify the request as foll
 ```yaml
 # <-- other configuration -->
 # Modify the request attribute sent in the request
+# These oids are exemplary, but will often be identical,
+# please check with your identity provider for the correct oids
 request_attributes:
-  - name: email
+  - name: 'urn:oid:0.9.2342.19200300.100.1.3'
+    friendly_name: 'Mail address'
     name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
-  - name: first_name
+  - name: 'urn:oid:2.5.4.42'
+    friendly_name: 'First name'
     name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
-  - name: last_name
+  - name: 'urn:oid:2.5.4.4'
+    friendly_name: 'Last name'
     name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
 
 # Attribute map in SAML
-# These oids are exemplary, but will often be identical,
-# please check with your identity provider for the correct oids
 attribute_statements:
-  # Use the `mail` attribute for 
   email: ['urn:oid:0.9.2342.19200300.100.1.3']
-  # Use the mail address as login
   login: ['urn:oid:0.9.2342.19200300.100.1.3']
-  # What attribute in SAML maps to the first name (default: givenName)
   first_name: ['urn:oid:2.5.4.42']
-  # What attribute in SAML maps to the last name (default: sn)
   last_name: ['urn:oid:2.5.4.4']
 ```
 
