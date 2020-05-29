@@ -264,13 +264,13 @@ it:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
           learn_about: "Scopri di più sulle nuove funzionalità"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Questa versione contiene molte funzionalità nuove e miglioramenti: <br><br> <ul> <li><b>Scheda azione per gli assegnatari</b>: crea una scheda azione che aggiornerà automaticamente l'assegnatario quando si spostano le schede tra le liste.</li> <li>Ordinamento delle versioni per nome e non per data che facilita la selezione di una versione dall'elenco.</li> <li><b>Rimozione della restrizione di 24 ore</b> per il modulo Monitoraggio tempi.</li> <li>Mostra il riepilogo delle notizie nel widget della panoramica del progetto.</li> <li>Diverse correzioni di bug e <b>miglioramenti nell'usabilità</b>.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 ora supporta il <b>BIM Collaboration Format (BCF)</b>, lo standard di monitoraggio dei problemi aperti per i modelli BIM.<br><br> <ul> <li>Crea e <b>gestisci facilmente i problemi di BIM</b> come disaccordi, richieste e domande nel modello interattivo 3D IFC e <b>condividili con il team del progetto.</b></li> <li>Integra OpenProject con il tuo software BIM preferito utilizzando la <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importa ed esporta file BCF XML.</li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"

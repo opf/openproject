@@ -31,7 +31,7 @@ sl:
       OpenProject uporabi vašega gravatarja, če ga registrirate ali pa privzeto sliko ali ikono, če ta obstaja. Vaša trenutna podoba je takšna:
     settings:
       enable_gravatars: 'Omogoči uporabniškega gravatarja'
-      gravatar_default: "Privzeta slika Gravatarja"
+      gravatar_default: "Privzeta Gravatar slika"
       enable_local_avatars: 'Omogoči podobo po meri'
 
 
