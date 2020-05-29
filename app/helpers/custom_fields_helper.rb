@@ -92,12 +92,12 @@ module CustomFieldsHelper
 
     tag = case field_format.try(:edit_as)
           when 'date'
-            styled_text_field_tag(field_name, custom_value.value, id: field_id, class: '-augmented-datepicker', size: 10, container_class: '-slim')
+            styled_text_field_tag(field_name, custom_value.value, id: field_id, class: '-augmented-datepicker', size: 10, container_class: '-slim', required: custom_field.is_required)
           when 'text'
-            styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3, container_class: '-middle')
+            styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3, container_class: '-middle', required: custom_field.is_required)
           when 'bool'
             hidden_tag = hidden_field_tag(field_name, '0')
-            checkbox_tag = styled_check_box_tag(field_name, '1', custom_value.typed_value, id: field_id)
+            checkbox_tag = styled_check_box_tag(field_name, '1', custom_value.typed_value, id: field_id, required: custom_field.is_required)
             hidden_tag + checkbox_tag
           when 'list'
             blank_option = if custom_field.is_required? && custom_field.default_value.blank?
@@ -110,9 +110,9 @@ module CustomFieldsHelper
 
             options = blank_option.html_safe + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value)
 
-            styled_select_tag(field_name, options, id: field_id, container_class: '-middle')
+            styled_select_tag(field_name, options, id: field_id, container_class: '-middle', required: custom_field.is_required)
           else
-            styled_text_field_tag(field_name, custom_value.value, id: field_id, container_class: '-middle')
+            styled_text_field_tag(field_name, custom_value.value, id: field_id, container_class: '-middle', required: custom_field.is_required)
     end
 
     tag = content_tag :span, tag, lang: custom_field.name_locale, class: 'form--field-container'
