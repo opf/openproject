@@ -67,7 +67,10 @@ class EnterprisesController < ApplicationController
         @token.encoded_token = saved_encoded_token
         @current_token = @token || EnterpriseToken.new
       end
-      render action: :show
+      respond_to do |format|
+        format.html { render action: :show }
+        format.json { render json: { description: @token.errors.full_messages.join(", ") }, status: 400 }
+      end
     end
   end
 
@@ -77,8 +80,7 @@ class EnterprisesController < ApplicationController
       token.destroy
       flash[:notice] = t(:notice_successful_delete)
 
-      trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
-      trial_key&.destroy
+      delete_trial_key
 
       redirect_to action: :show
     else
@@ -88,6 +90,10 @@ class EnterprisesController < ApplicationController
 
   def save_trial_key
     Token::EnterpriseTrialKey.create(user_id: User.system.id, value: params[:trial_key])
+  end
+
+  def delete_trial_key
+    Token::EnterpriseTrialKey.where(user_id: User.system.id).delete_all
   end
 
   private

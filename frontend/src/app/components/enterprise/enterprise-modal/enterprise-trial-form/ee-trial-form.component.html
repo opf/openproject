@@ -53,7 +53,8 @@
         <input type="text"
                id="trial-domain-name"
                class="form--text-field"
-               formControlName="domain">
+               formControlName="domain"
+               disabled>
       </div>
     </div>
     <div *ngIf="eeTrialService.domainTaken" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
