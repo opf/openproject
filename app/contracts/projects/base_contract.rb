@@ -36,7 +36,6 @@ module Projects
     attribute :name
     attribute :identifier
     attribute :description
-    attribute :templated
     attribute :public
     attribute :active do
       validate_active_present
@@ -46,6 +45,9 @@ module Projects
     end
     attribute :status do
       validate_status_code_included
+    end
+    attribute :templated do
+      validate_templated_set_by_admin
     end
 
     def validate
@@ -100,6 +102,12 @@ module Projects
 
     def validate_status_code_included
       errors.add :status, :inclusion if model.status&.code && !Projects::Status.codes.keys.include?(model.status.code.to_s)
+    end
+
+    def validate_templated_set_by_admin
+      if model.templated_changed? && !user.admin?
+        errors.add :templated, :error_unauthorized
+      end
     end
 
     def manage_permission
