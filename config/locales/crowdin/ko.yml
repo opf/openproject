@@ -483,7 +483,6 @@ ko:
         parent_work_package: "부모"
         priority: "우선 순위"
         progress: "진행률 (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
         subproject: "하위 프로젝트"

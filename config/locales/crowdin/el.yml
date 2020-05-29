@@ -72,7 +72,7 @@ el:
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
       start_trial: 'Έναρξη δωρεάν δοκιμαστικής περιόδου'
       book_now: 'Κάντε κράτηση τώρα'
-      get_quote: 'Get a quote'
+      get_quote: 'Λάβετε μια προσφορά'
   announcements:
     show_until: Εμφάνιση μέχρι
     is_active: εμφανίζεται αυτή τη στιγμή
@@ -482,7 +482,6 @@ el:
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
