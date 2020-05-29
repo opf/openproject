@@ -159,7 +159,6 @@ describe 'Enterprise trial management',
     fill_in 'First name', with: 'Foo'
     fill_in 'Last name', with: 'Bar'
     fill_in 'Email', with: mail
-    fill_in 'Domain', with: 'foo.example.com'
 
     find('#trial-general-consent').check
   end
