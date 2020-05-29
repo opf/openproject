@@ -22,9 +22,8 @@
 ru:
   button_save_as: "Сохранить отчет как..."
   comments: "Комментарий"
-  cost_reports_title: "Время и затраты"
+  cost_reports_title: "Стоимость отчетов"
   label_cost_report: "Отчет по расходам"
-  label_cost_report_plural: "Стоимость отчетов"
   description_drill_down: "Показать в деталях"
   description_filter_selection: "Выбор"
   description_multi_select: "Показать множественный выбор"
