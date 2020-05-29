@@ -55,6 +55,10 @@ export class WorkPackageBreadcrumbComponent {
   public get hierarchyLabel() {
     return (this.hierarchyCount === 1) ? this.text.parent : this.text.hierarchy;
   }
+
+  public updateActiveInput(val:boolean) {
+    this.inputActive = val;
+  }
 }
 
 
