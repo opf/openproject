@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {FormGroup} from "@angular/forms";
@@ -91,13 +91,6 @@ export class EnterpriseTrialService {
         if (!res.token_retrieved) {
           await this.saveToken(res.token);
         }
-
-        // load page if mail was confirmed and modal window is not open
-        if (!this.modalOpen) {
-          setTimeout(() => { // display confirmed status before reloading
-            window.location.reload();
-          }, 500);
-        }
       })
       .catch((error:HttpErrorResponse) => {
         // returns error 422 while waiting of confirmation
@@ -144,7 +137,24 @@ export class EnterpriseTrialService {
       { withCredentials: true }
     )
       .toPromise()
+      .then(() => {
+        // load page if mail was confirmed and modal window is not open
+        if (!this.modalOpen) {
+          setTimeout(() => { // display confirmed status before reloading
+            window.location.reload();
+          }, 500);
+        }
+      })
       .catch((error:HttpErrorResponse) => {
+        // Delete the trial key as the token could not be saved and thus something is wrong with the token.
+        // Without this deletion, we run into an endless loop of an confirmed mail, but no saved token.
+        this.http
+          .delete(
+          this.pathHelper.api.v3.appBasePath + '/admin/enterprise/delete_trial_key',
+        { withCredentials: true }
+          )
+          .toPromise();
+
         this.notificationsService.addError(error.error.description || I18n.t('js.error.internal'));
       });
   }
