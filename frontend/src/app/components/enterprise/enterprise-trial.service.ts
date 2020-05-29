@@ -22,8 +22,8 @@ export class EnterpriseTrialService {
   // user data needs to be sync in ee-active-trial.component.ts
   userData$ = input<EnterpriseTrialData>();
 
-  public baseUrlAugur:string;
-
+  public readonly baseUrlAugur:string;
+  public readonly tokenVersion:string;
 
   public trialLink:string;
   public resendLink:string;
@@ -46,6 +46,7 @@ export class EnterpriseTrialService {
               protected notificationsService:NotificationsService) {
     let gon = (window as any).gon;
     this.baseUrlAugur = gon.augur_url;
+    this.tokenVersion = gon.token_version;
 
     if ((window as any).gon.ee_trial_key) {
       this.setMailSubmittedStatus();
@@ -55,7 +56,8 @@ export class EnterpriseTrialService {
   // send POST request with form object
   // receive an enterprise trial link to access a token
   public sendForm(form:FormGroup) {
-    this.http.post(this.baseUrlAugur + '/public/v1/trials', form.value)
+    const request = { ...form.value, token_version: this.tokenVersion};
+    this.http.post(this.baseUrlAugur + '/public/v1/trials', request)
       .toPromise()
       .then((enterpriseTrial:any) => {
         this.userData$.putValue(form.value);
