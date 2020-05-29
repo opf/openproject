@@ -106,7 +106,6 @@ Please note that every underscore (`_`) in the original configuration key has to
 In this section, we detail some of the required and optional configuration options for SAML.
 
 
-
 **Mandatory: Response signature verification**
 
 SAML responses by identity providers are required to be signed. You can configure this by either specifying the response's certificate fingerprint in `idp_cert_fingerprint` , or by passing the entire PEM-encoded certificate string in `idp_cert` (beware of newlines and formatting the cert, [c.f. the idP certificate options in omniauth-saml](https://github.com/omniauth/omniauth-saml#options))
@@ -129,17 +128,43 @@ attribute_statements:
   first_name: ['givenName']
   # What attribute in SAML maps to the last name (default: sn)
   last_name: ['sn']
-
-
 ```
-
-
 
 You may provide attribute names or namespace URIs as follows: `email: ['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']`. 
 
 The OpenProject username is taken by default from the `email` attribute if no explicit login attribute is present.
 
+**Optional: Setting the attribute format**
 
+By default, the attributes above will be requested with the format `urn:oasis:names:tc:SAML:2.0:attrname-format:basic`.
+That means the response should contain attribute names 'mail', etc. as configured above.
+
+If you have URN or OID attribute identifiers, you can modify the request as follows:
+
+```yaml
+# <-- other configuration -->
+# Modify the request attribute sent in the request
+request_attributes:
+  - name: email
+    name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
+  - name: first_name
+    name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
+  - name: last_name
+    name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
+
+# Attribute map in SAML
+# These oids are exemplary, but will often be identical,
+# please check with your identity provider for the correct oids
+attribute_statements:
+  # Use the `mail` attribute for 
+  email: ['urn:oid:0.9.2342.19200300.100.1.3']
+  # Use the mail address as login
+  login: ['urn:oid:0.9.2342.19200300.100.1.3']
+  # What attribute in SAML maps to the first name (default: givenName)
+  first_name: ['urn:oid:2.5.4.42']
+  # What attribute in SAML maps to the last name (default: sn)
+  last_name: ['urn:oid:2.5.4.4']
+```
 
 **Optional: Request signature and Assertion Encryption**
 
@@ -169,15 +194,17 @@ To enable request signing, enable the following flag:
 ```
 
 
-
 With request signing enabled, the certificate will be added to the identity provider to validate the signature of the service provider's request.
-
-
 
 
 ### 3: Restarting the server
 
 Once the configuration is completed, restart your OpenProject server with `service openproject restart`. 
+
+#### XML Metadata exchange
+
+The configuration will enable the SAML XML metadata endpoint at `https://<your openproject host>/auth/saml/metadata`
+for service discovery use with your identity provider.
 
 ### 4: Logging in
 
