@@ -26,14 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
+import {Component, ElementRef, OnInit} from "@angular/core";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {EnterpriseTrialData, EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
+import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
 import {HttpClient} from "@angular/common/http";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {distinctUntilChanged} from "rxjs/operators";
-import {GonService} from "core-app/modules/common/gon/gon.service";
-import {CurrentUserService} from "core-components/user/current-user.service";
+import {TimezoneService} from "core-components/datetime/timezone.service";
 
 @Component({
   selector: 'enterprise-trial-waiting',
@@ -41,10 +40,14 @@ import {CurrentUserService} from "core-components/user/current-user.service";
   styleUrls: ['./ee-trial-waiting.component.sass']
 })
 export class EETrialWaitingComponent implements OnInit {
-  private created = new Date().toLocaleDateString(this.currentUserService.language);
+  created = this.timezoneService.formattedDate(new Date().toString());
+  email:string = '';
 
   public text = {
-    confirmation_info: '',
+    confirmation_info: (date:string, email:string) => this.I18n.t('js.admin.enterprise.trial.confirmation_info',{
+      date: date,
+      email: email
+    }),
     resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
     resend_success: this.I18n.t('js.admin.enterprise.trial.resend_success'),
     resend_warning: this.I18n.t('js.admin.enterprise.trial.resend_warning'),
@@ -55,19 +58,18 @@ export class EETrialWaitingComponent implements OnInit {
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
               protected http:HttpClient,
-              readonly currentUserService:CurrentUserService,
               protected notificationsService:NotificationsService,
-              public eeTrialService:EnterpriseTrialService) {
+              public eeTrialService:EnterpriseTrialService,
+              readonly timezoneService:TimezoneService) {
   }
 
   ngOnInit() {
     let eeTrialKey = (window as any).gon.ee_trial_key;
     if (eeTrialKey) {
       let savedDateStr = eeTrialKey.created.split(' ')[0];
-      this.created = new Date(savedDateStr).toLocaleDateString(this.currentUserService.language);
+      this.created = this.timezoneService.formattedDate(savedDateStr);
     }
 
     this.eeTrialService.userData$
@@ -76,11 +78,7 @@ export class EETrialWaitingComponent implements OnInit {
         distinctUntilChanged(),
       )
       .subscribe(userForm => {
-        this.text.confirmation_info = this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
-          date: this.created,
-          email: userForm.email
-        });
-        this.cdRef.detectChanges();
+        this.email = userForm.email;
       });
   }
 
