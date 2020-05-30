@@ -481,6 +481,7 @@ it:
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"

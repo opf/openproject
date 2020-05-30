@@ -266,11 +266,11 @@ fr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br><br> <ul class="%{list_styling_class}"> <li><b>Journalisation du temps plus rapide</b> des lots de travaux à partir de la vue détaillée ou liste.</li> <li><b>Mise en forme des tableaux améliorée</b> pour mieux configurer les tableaux dans l'éditeur de texte, par exemple pour la largeur, la couleur, l'alignement ou le remplissage de la cellule.</li> <li>La vue carte pour les lots de travaux contient maintenant également le nom du projet.</li> <li>OpenProject est maintenant <b>% traduit en slovène</b>. Zabavaj se !</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 prend maintenant en charge le <b>BIM Collaboration Format (BCF)</b> – la norme ouverte de suivi des problèmes pour les modèles BIM.<br><br> <ul class="%{list_styling_class}"> <li>Créez et <b>gérez facilement les problèmes BIM</b> telles que les désaccords, demandes et questions dans le modèle interactif 3D IFC et <b>partager-ler avec l'équipe du projet.</b></li> <li>Intégrez OpenProject à votre logiciel BIM préféré en utilisant la puissante <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importez et exportez des fichiers BCF XML.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"

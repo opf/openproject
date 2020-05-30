@@ -266,11 +266,11 @@ ko:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br><br> <ul class="%{list_styling_class}"> <li>세부 정보 또는 목록 보기의 작업 패키지에서 <b>보다 빠른 시간 기록</b>.</li> <li>셀의 너비, 색상, 맞춤 또는 패딩 등 텍스트 편집기에서 더욱 우수하게 테이블을 구성할 수 있도록 <b>개선된 테이블 서식 지정</b>.</li> <li>이제 작업 패키지에 대한 카드 보기에 프로젝트 이름도 포함됩니다.</li> <li>현재 OpenProject가 <b>슬로베니아어로 100% 번역되었습니다</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              이제 OpenProject 10.5는 BIM 모델에 대한 오픈 이슈 추적 표준인 <b>BIM Collaboration Format(BCF)</b>을 지원합니다.<br><br> <ul class="%{list_styling_class}"> <li>대화형 3D IFC 모델의 충돌, 요청, 질문 등 <b>BIM 이슈 관리</b> 및 생성을 손쉽게 하고 <b>프로젝트 팀과 공유</b>합니다.</li> <li>강력한 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a>를 사용하여 원하는 BIM 소프트웨어와 OpenProject를 통합합니다.</li> <li>BCF XML 파일을 가져오고 내보냅니다.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
