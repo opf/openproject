@@ -266,11 +266,11 @@ zh-CN:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              该版本包含各种新功能和改进：<br><br> <ul class="%{list_styling_class}"> <li>从详细信息或列表视图在工作包上<b>更快地启动时间记录</b>。</li> <li><b>改进了表格式化</b>，可在文本编辑器中更好地配置表，例如调整单元格的宽度、颜色、对齐或边距。</li> <li>工作包的卡片视图现在也包含项目名称。</li> <li>OpenProject 现在已<b>完全翻译成斯洛文尼亚语</b>。Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 现在支持 <b>BIM Collaboration Format (BCF)</b> - BIM 模型的开放式问题跟踪标准。<br><br> <ul> <ul class="%{list_styling_class}"> <li>轻松创建并<b>管理 BIM 问题</b>（如交互式 3D IFC 模型中的冲突、请求和问题），并<b>与项目团队共享</b>。</li> <li>使用强大的 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a> 将 OpenProject 与您最喜欢的 BIM 软件集成。</li> <li>导入和导出 BCF XML 文件。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"

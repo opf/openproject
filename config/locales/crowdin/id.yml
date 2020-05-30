@@ -483,6 +483,7 @@ id:
         parent_work_package: "Induk"
         priority: "Prioritas"
         progress: "Progress (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Durasi"
         spent_time: "Durasi"
         subproject: "Sub-Project"

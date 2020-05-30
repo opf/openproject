@@ -485,6 +485,7 @@ ca:
         parent_work_package: "Pare"
         priority: "Prioritat"
         progress: "Progrés (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
         subproject: "Subprojecte"
