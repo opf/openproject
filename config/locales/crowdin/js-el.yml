@@ -166,7 +166,8 @@ el:
       enterprise:
         trial:
           confirmation: "Επιβεβαίωση της διεύθυνσης email"
-          confirmation_info: "Σας έχουμε στείλει ένα email. Παρακαλούμε ελέγξτε τα emails σας  και πατήστε στον σύνδεσμο επιβεβαίωσης για να αρχίσετε τις 14 δοκιμαστικές ημέρες."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Συμφωνώ με τους <a target="_blank" href="%{link_terms}">όρους χρήσης</a> και με την <a target="_blank" href="%{link_privacy}">πολιτική απορρήτου</a>.

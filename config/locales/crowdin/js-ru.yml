@@ -166,7 +166,8 @@ ru:
       enterprise:
         trial:
           confirmation: "Подтверждение адреса электронной почты"
-          confirmation_info: "Мы отправили вам письмо. Проверьте электронную почту и нажмите на ссылку подтверждения в письме, чтобы получить 14-дневную пробную версию."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Я принимаю <a target="_blank" href="%{link_terms}">условия обслуживания</a> и <a target="_blank" href="%{link_privacy}">политику конфиденциальности</a>.
@@ -269,7 +270,7 @@ ru:
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 теперь поддерживает <b>BIM (BCF)</b> формат сотрудничества – стандарт открытого отслеживания ошибок для моделей BIM.<br><br> <ul class="%{list_styling_class}"> <li>Легко создавайте и <b>управляйте выпусками BIM</b> , такими как столкновения, запросы и вопросы в интерактивной 3D-модели IFC и <b>делитесь ими с командой проекта.</b></li> <li>Интегрируйте OpenProject со своим программным обеспечением BIM, используя мощный <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Импортируйте и экспортируйте BCF XML-файлы</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"

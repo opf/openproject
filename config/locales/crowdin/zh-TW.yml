@@ -484,7 +484,6 @@ zh-TW:
         parent_work_package: "上層目錄："
         priority: "優先等級"
         progress: "進度 (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "耗時"
         spent_time: "耗時"
         subproject: "子專案"
