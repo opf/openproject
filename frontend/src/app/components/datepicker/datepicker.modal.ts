@@ -42,7 +42,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
-import flatpickr from "flatpickr";
+import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 
 @Component({
   templateUrl: './datepicker.modal.html',
@@ -64,6 +64,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
   };
 
+  private datePickerInstance:DatePicker;
   private _startDate:string;
   private _endDate:string;
 
@@ -77,7 +78,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   ngAfterViewInit():void {
-    this.refreshDatepicker();
+    this.initializeDatepicker();
   }
 
   changeSchedulingMode() {
@@ -93,24 +94,14 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   clear():void {
-    // Todo
-  }
-
-  updateFlatpickrDates(val:string) {
-    if (this.validDate(val)) {
-      this._startDate = val;
-    } else {
-      const splittedDate = val.split(' ');
-      this._startDate = splittedDate[0];
-      this._endDate = splittedDate[2];
-    }
+    this.datePickerInstance.clear();
   }
 
   get startDate():string {
     if (this._startDate) {
       if (this.validDate(this._startDate)) {
-        var date = this.timezoneService.parseDate(this._startDate);
-        return this.timezoneService.formattedISODate(date);
+        var startDate = this.timezoneService.parseDate(this._startDate);
+        return this.timezoneService.formattedISODate(startDate);
       } else {
         return this._startDate;
       }
@@ -122,15 +113,15 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   set startDate(val:string) {
     this._startDate = val;
     if (this.validDate(this._startDate)) {
-      this.refreshDatepicker();
+      this.setDatesToDatepicker();
     }
   }
 
   get endDate():string {
     if (this._endDate) {
       if (this.validDate(this._endDate)) {
-        var date = this.timezoneService.parseDate(this._endDate);
-        return this.timezoneService.formattedISODate(date);
+        var endDate = this.timezoneService.parseDate(this._endDate);
+        return this.timezoneService.formattedISODate(endDate);
       } else {
         return this._endDate;
       }
@@ -142,7 +133,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   set endDate(val:string) {
     this._endDate = val;
     if (this.validDate(this._endDate)) {
-      this.refreshDatepicker();
+      this.setDatesToDatepicker();
     }
   }
 
@@ -163,16 +154,36 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     });
   }
 
-  private refreshDatepicker() {
-    flatpickr('#flatpickr-input', {
+  private initializeDatepicker() {
+    let options:any = {
       mode: 'range',
       inline: true,
-      defaultDate: [this.startDate, this.endDate]
-    });
+      onChange: (selectedDates:Date[]) => {
+        this._startDate = selectedDates[0] ? selectedDates[0].toDateString() : '-';
+        this._endDate = selectedDates[1] ? selectedDates[1].toDateString() : '-';
+        this.cdRef.detectChanges();
+      }
+    };
+
+    this.datePickerInstance = new DatePicker(
+      this.timezoneService,
+      'flatpickr-input',
+      [this.startDate, this.endDate],
+      options
+    );
+  }
+
+  private setDatesToDatepicker() {
+    var dates = [this.parseDate(this._startDate), this.parseDate(this._endDate)];
+    this.datePickerInstance.setDates(dates);
   }
 
   private validDate(date:string) {
     // Todo: improve
     return !!new Date(date).valueOf();
+  }
+
+  private parseDate(date:string):Date {
+    return new Date(date);
   }
 }

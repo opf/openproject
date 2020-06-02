@@ -29,8 +29,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
-import flatpickr from "flatpickr";
-import {Instance} from "flatpickr/dist/types/instance";
+import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 
 @Component({
   selector: 'op-date-picker',
@@ -51,7 +50,7 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public focus:boolean = false;
 
   private $element:JQuery;
-  private datePickerInstance:Instance;
+  private datePickerInstance:DatePicker;
   private input:JQuery;
 
   public constructor(private elementRef:ElementRef,
@@ -81,8 +80,8 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public setup() {
-    this.input.click(() => this.datePickerInstance.open());
-    this.input.blur(() => this.datePickerInstance.close());
+    this.input.click(() => this.datePickerInstance.show());
+    this.input.blur(() => this.datePickerInstance.hide());
     this.input.keydown((event) => {
       if (this.isEmpty()) {
         this.datePickerInstance.clear();
@@ -99,18 +98,10 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   
   private initializeDatepicker() {
-    let initialValue;
-    if (this.isEmpty && this.initialDate) {
-      initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
-    } else {
-      initialValue = this.currentValue();
-    }
-
-    var datePickerInstances = flatpickr('#' + this.id, {
+    let options:any = {
       allowInput: true,
       appendTo: this.appendTo,
-      defaultDate: initialValue,
-      onChange:(selectedDates, dateStr) => {
+      onChange:(selectedDates:Date[], dateStr:string) => {
         let val:string = dateStr;
 
         if (this.isEmpty()) {
@@ -122,8 +113,20 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
         this.onChange.emit(val);
       },
       onClose: () => this.onClose.emit()
-    });
+    };
 
-    this.datePickerInstance = Array.isArray(datePickerInstances)? datePickerInstances[0] : datePickerInstances;
+    let initialValue;
+    if (this.isEmpty && this.initialDate) {
+      initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
+    } else {
+      initialValue = this.currentValue();
+    }
+
+    this.datePickerInstance = new DatePicker(
+      this.timezoneService,
+      this.id,
+      initialValue,
+      options
+    );
   }
 }

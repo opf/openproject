@@ -26,66 +26,56 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ConfigurationService} from '../../common/config/configuration.service';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import flatpickr from "flatpickr";
+import {Instance} from "flatpickr/dist/types/instance";
 
 export class DatePicker {
-  public datepickerFormat = 'yy-mm-dd';
+  public datepickerFormat = 'Y-m-d';
 
-  private datepickerCont: JQuery = jQuery(this.datepickerElem);
-  private datepickerInstance:any = null;
+  private datepickerCont: JQuery = jQuery('#' + this.datepickerElemIdentifier);
+  private datepickerInstance:Instance;
 
-  constructor(readonly ConfigurationService:ConfigurationService,
-              readonly timezoneService:TimezoneService,
-              private datepickerElem:JQuery,
+  constructor(readonly timezoneService:TimezoneService,
+              private datepickerElemIdentifier:string,
               private date:any,
               private options:any) {
     this.initialize(options);
   }
 
   private initialize(options:any) {
-    const firstDayOfWeek = this.ConfigurationService.startOfWeekPresent() ?
-      this.ConfigurationService.startOfWeek() : (jQuery.datepicker as any)._defaults.firstDay;
-
     var mergedOptions = _.extend({}, options, {
-      firstDay: firstDayOfWeek,
-      showWeeks: true,
-      changeMonth: true,
-      changeYear: true,
-      closeText: I18n.t('js.button_confirm'),
+      weekNumbers: true,
       dateFormat: this.datepickerFormat,
-      defaultDate: this.timezoneService.formattedISODate(this.date),
-      showButtonPanel: true,
-      yearRange: "-15:+20"
+      defaultDate: this.timezoneService.formattedISODate(this.date)
     });
 
-    this.datepickerInstance = this.datepickerCont.datepicker(mergedOptions);
+    var datePickerInstances = flatpickr('#' + this.datepickerElemIdentifier, mergedOptions);
 
-    // Disable autocomplete to avoid overlay
-    this.datepickerCont.attr('autocomplete', 'off');
+    this.datepickerInstance = Array.isArray(datePickerInstances)? datePickerInstances[0] : datePickerInstances;
   }
 
   public clear() {
-    this.datepickerInstance.datepicker('setDate', null);
+    this.datepickerInstance.clear();
   }
 
   public destroy() {
     this.hide();
-    this.datepickerInstance.datepicker('destroy');
+    this.datepickerInstance.destroy();
   }
 
   public hide() {
-    this.datepickerInstance.datepicker('hide');
+    this.datepickerInstance.close();
     this.datepickerCont.scrollParent().off('scroll');
   }
 
   public show() {
-    this.datepickerInstance.datepicker('show');
+    this.datepickerInstance.open();
     this.hideDuringScroll();
   }
 
-  public reshow() {
-    this.datepickerInstance.datepicker('show');
+  public setDates(dates:Date[]) {
+    this.datepickerInstance.setDate(dates);
   }
 
   private hideDuringScroll() {
@@ -93,14 +83,14 @@ export class DatePicker {
     let scrollParent = this.datepickerCont.scrollParent();
 
     scrollParent.scroll(() => {
-      this.datepickerInstance.datepicker('hide');
+      this.datepickerInstance.close();
       if (reshowTimeout) {
         clearTimeout(reshowTimeout);
       }
 
       reshowTimeout = setTimeout(() => {
         if (this.visibleAndActive()) {
-          this.datepickerInstance.datepicker('show');
+          this.datepickerInstance.open();
         }
       }, 50);
     });

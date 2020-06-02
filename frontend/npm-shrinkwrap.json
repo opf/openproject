@@ -11206,16 +11206,6 @@
       "resolved": "https://registry.npmjs.org/prepend-http/-/prepend-http-1.0.4.tgz",
       "integrity": "sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw="
     },
-    "primeicons": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/primeicons/-/primeicons-2.0.0.tgz",
-      "integrity": "sha512-GJTCeMSQU8UU1GqbsaDrg/IH+b/vSinJQl52NVpdJ7sShYLZA8Eq6jLF48Ye3N/dQloGrE07i7XsZvxQ9pNbqg=="
-    },
-    "primeng": {
-      "version": "9.1.0",
-      "resolved": "https://registry.npmjs.org/primeng/-/primeng-9.1.0.tgz",
-      "integrity": "sha512-EeW+WA7uT4/7UBJ23Gfb4x8MaTdFpeV9XxAy68K/XIoeTmZ2hNJrdVdfF63y6k7nxwA/mOrkIMshY0eM8nMzoQ=="
-    },
     "private": {
       "version": "0.1.8",
       "resolved": "https://registry.npmjs.org/private/-/private-0.1.8.tgz",
