@@ -48,6 +48,8 @@ describe 'Projects', type: :feature do
       fill_in 'project[name]', with: 'Foo bar'
       click_on 'Advanced settings'
       fill_in 'project[identifier]', with: 'foo'
+      sleep 1
+
       click_on 'Create'
 
       expect(page).to have_content 'Successful creation.'
@@ -63,6 +65,7 @@ describe 'Projects', type: :feature do
         fill_in 'project[name]', with: 'Foo bar'
         click_on 'Advanced settings'
         fill_in 'project[identifier]', with: 'foo'
+        sleep 1
         click_on 'Create'
 
         expect(page).to have_content 'Successful creation.'

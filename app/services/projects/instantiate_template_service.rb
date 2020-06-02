@@ -28,54 +28,47 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Write < BaseContracted
-    protected
+module Projects
+  class InstantiateTemplateService < ::BaseServices::Create
+    attr_reader :template_id
 
-    def persist(service_result)
-      service_result = super(service_result)
+    def initialize(user:, template_id:)
+      @template_id = template_id
 
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
-      end
-
-      service_result
+      super user: user,
+            contract_class: Projects::InstantiateTemplateContract,
+            contract_options: { template_project_id: template_id }
     end
 
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
+    def after_validate(params, call)
+      ::CopyProjectJob.perform_later(
+        user_id: user.id,
+        source_project_id: template_id,
+        target_project_params: project_params(params),
+        # Copy all associations
+        associations_to_copy: nil,
+        # Send mails for now until we send our own mails
+        send_mails: true
+      )
+
+      call
     end
 
-    def before_perform(params)
-      set_attributes(params)
+    # Do not actually try to save the project here
+    # but simply pass the previous call
+    def persist(call)
+      call
     end
 
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class,
-             contract_options: contract_options)
-        .call(params)
-    end
+    private
 
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance(_params)
-      raise NotImplementedError
-    end
-
-    def default_contract_class
-      raise NotImplementedError
-    end
-
-    def instance_class
-      namespace.singularize.constantize
+    ##
+    # Modifies params to ensure we unset
+    # the templated option
+    def project_params(params)
+      params.to_h.merge(
+        templated: false
+      )
     end
   end
 end

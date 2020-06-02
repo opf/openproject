@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,54 +26,34 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Write < BaseContracted
-    protected
-
-    def persist(service_result)
-      service_result = super(service_result)
-
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
-      end
-
-      service_result
+module Projects
+  class InstantiateTemplateContract < CreateContract
+    def self.visible_templates(user)
+      Project
+        .allowed_to(user, :copy_projects)
+        .where(templated: true)
     end
 
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
+    def validate
+      validate_user_allowed_to_instantiate_template
+
+      super
     end
 
-    def before_perform(params)
-      set_attributes(params)
+    private
+
+    def validate_user_allowed_to_instantiate_template
+      errors.add(:base, :error_unauthorized) unless visible_template?
     end
 
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class,
-             contract_options: contract_options)
-        .call(params)
+    def visible_template?
+      return false if template_project_id.nil?
+
+      self.class.visible_templates(user).exists?(template_project_id)
     end
 
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance(_params)
-      raise NotImplementedError
-    end
-
-    def default_contract_class
-      raise NotImplementedError
-    end
-
-    def instance_class
-      namespace.singularize.constantize
+    def template_project_id
+      options[:template_project_id]
     end
   end
 end

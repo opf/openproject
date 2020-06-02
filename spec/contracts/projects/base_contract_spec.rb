@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,54 +26,42 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Write < BaseContracted
-    protected
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-    def persist(service_result)
-      service_result = super(service_result)
+describe Projects::BaseContract do
+  let(:project) { Project.new(name: 'Foo', identifier: 'foo', templated: false) }
+  let(:contract) { described_class.new(project, current_user) }
+  subject { contract.validate }
 
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
+  describe 'templated attribute' do
+    before do
+      # Assume the user may manage the project
+      allow(contract)
+        .to(receive(:validate_user_allowed_to_manage))
+        .and_return true
+
+      # Assume templated attribute got changed
+      project.templated = true
+      expect(project.templated_changed?).to eq true
+    end
+
+    context 'as admin' do
+      let(:current_user) { FactoryBot.build_stubbed :admin }
+
+      it 'validates the contract' do
+        expect(subject).to eq true
       end
-
-      service_result
     end
 
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
-    end
+    context 'as regular user' do
+      let(:current_user) { FactoryBot.build_stubbed :user }
 
-    def before_perform(params)
-      set_attributes(params)
-    end
-
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class,
-             contract_options: contract_options)
-        .call(params)
-    end
-
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance(_params)
-      raise NotImplementedError
-    end
-
-    def default_contract_class
-      raise NotImplementedError
-    end
-
-    def instance_class
-      namespace.singularize.constantize
+      it 'returns an error on validation' do
+        expect(subject).to eq false
+        expect(contract.errors.symbols_for(:templated))
+          .to match_array [:error_unauthorized]
+      end
     end
   end
 end

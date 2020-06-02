@@ -37,6 +37,7 @@ module Queries::Projects
   register.filter query, filters::AncestorFilter
   register.filter query, filters::TypeFilter
   register.filter query, filters::ActiveFilter
+  register.filter query, filters::TemplatedFilter
   register.filter query, filters::NameAndIdentifierFilter
   register.filter query, filters::CustomFieldFilter
   register.filter query, filters::CreatedAtFilter
