@@ -132,21 +132,6 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     this.datePickerInstance.clear();
   }
 
-  formattedDate(key:DateKeys) {
-    const val = this.dates[key];
-
-    if (!val) {
-      return this.text.placeholder;
-    }
-
-    if (this.validDate(val)) {
-      let parsed = this.timezoneService.parseDate(val);
-      return this.timezoneService.formattedISODate(parsed);
-    } else {
-      return val;
-    }
-  }
-
   updateDate(key:DateKeys, val:string) {
     this.dates[key] = val;
     if (this.validDate(val) && this.datePickerInstance) {
@@ -155,11 +140,11 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   schedulingButtonText():string {
-    return this.locals.scheduleManually ? this.text.automaticScheduling : this.text.manualScheduling;
+    return this.scheduleManually ? this.text.manualScheduling: this.text.automaticScheduling;
   }
 
   schedulingButtonIcon():string {
-    return 'button--icon ' + (this.locals.scheduleManually ? 'icon-arrow-left-right' : 'icon-pin');
+    return 'button--icon ' + (this.scheduleManually ?  'icon-pin' : 'icon-arrow-left-right');
   }
 
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
@@ -179,20 +164,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
         mode: this.singleDate ? 'single' : 'range',
         inline: true,
         onChange: (dates:Date[]) => {
-          if (this.singleDate && dates.length === 1) {
-            this.dates.date = this.timezoneService.formattedISODate(dates[0]);
-          }
-
-          if (!this.singleDate && dates.length >= 1) {
-            this.dates.start = this.timezoneService.formattedISODate(dates[0]);
-            this.dates.end = '-';
-          }
-
-          if (dates.length >= 2) {
-            this.dates.end = dates[1] ? this.timezoneService.formattedISODate(dates[1]) : '-';
-          }
-
-          this.cdRef.detectChanges();
+          this.onDatePickerChange(dates);
         }
       }
     );
@@ -206,6 +178,23 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       let dates = [this.parseDate(this.dates.start), this.parseDate(this.dates.end)];
       this.datePickerInstance.setDates(dates);
     }
+  }
+
+  private onDatePickerChange(dates:Date[]) {
+    if (this.singleDate && dates.length === 1) {
+      this.dates.date = this.timezoneService.formattedISODate(dates[0]);
+    }
+
+    if (!this.singleDate && dates.length >= 1) {
+      this.dates.start = this.timezoneService.formattedISODate(dates[0]);
+      this.dates.end = '-';
+    }
+
+    if (dates.length >= 2) {
+      this.dates.end = dates[1] ? this.timezoneService.formattedISODate(dates[1]) : '-';
+    }
+
+    this.cdRef.detectChanges();
   }
 
   private validDate(date:Date|string) {

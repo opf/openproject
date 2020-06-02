@@ -10,7 +10,7 @@ import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
   if (target.hasClass('-augmented-datepicker')) {
     target
-      .attr('autocomplete', 'off') // Disable autocomplete for those fields
+      .attr('autocomplete', 'off'); // Disable autocomplete for those fields
 
     var datePicker = new DatePicker(
       '.-augmented-datepicker',

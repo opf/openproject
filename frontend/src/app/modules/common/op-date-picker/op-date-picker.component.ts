@@ -96,7 +96,7 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
   private currentValue():string {
     return this.input.val() as string;
   }
-  
+
   private initializeDatepicker() {
     let options:any = {
       allowInput: true,
