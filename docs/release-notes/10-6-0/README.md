@@ -11,7 +11,7 @@ release_date: 2020-06-02
 | Release notes                                                | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [OpenProject 10.6.0](#openproject-1060)                      | What is new for OpenProject 10.6.0?                          |
-| [OpenProject 10.6 BIM Edition for construction project management](#openproject-106-bim-edition) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
+| [OpenProject 10.6.0 BIM Edition for construction project management](#openproject-1060-bim-edition) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
 
 # OpenProject 10.6.0
 
@@ -101,7 +101,7 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-## OpenProject 10.6 BIM Edition
+## OpenProject 10.6.0 BIM Edition
 
 OpenProject BIM 10.6 released with improved BCF Management. We released OpenProject BIM 10.6. The new release contains improvements  for BIM project management for the building industry, especially with  improved features for BCF Management.
 
