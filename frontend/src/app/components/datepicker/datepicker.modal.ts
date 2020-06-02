@@ -43,6 +43,10 @@ import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+
+type DateKeys = 'date'|'start'|'end';
 
 @Component({
   templateUrl: './datepicker.modal.html',
@@ -53,6 +57,7 @@ import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   @InjectField() I18n:I18nService;
   @InjectField() timezoneService:TimezoneService;
+  @InjectField() halEditing:HalResourceEditingService;
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -60,21 +65,42 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     clear: this.I18n.t('js.work_packages.button_clear'),
     manualScheduling: this.I18n.t('js.scheduling.manual'),
     automaticScheduling: this.I18n.t('js.scheduling.automatic'),
+    date: this.I18n.t('js.work_packages.properties.date'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
+    placeholder: this.I18n.t('js.placeholders.default')
   };
 
   private datePickerInstance:DatePicker;
-  private _startDate:string;
-  private _endDate:string;
+
+  public singleDate = false;
+
+  public scheduleManually = false;
+
+  public dates:{ [key in DateKeys]:string } = {
+    date: '',
+    start: '',
+    end: ''
+  };
+
+  private changeset:ResourceChangeset;
 
   constructor(readonly injector:Injector,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef) {
     super(locals, cdRef, elementRef);
-    this.startDate = locals.dates.startDate;
-    this.endDate = locals.dates.endDate;
+    this.changeset = locals.changeset;
+
+    this.singleDate = this.changeset.isWritable('date');
+    this.scheduleManually = this.changeset.value('scheduleManually');
+
+    if (this.singleDate) {
+      this.dates.date = this.changeset.value('date');
+    } else {
+      this.dates.start = this.changeset.value('startDate');
+      this.dates.end = this.changeset.value('dueDate');
+    }
   }
 
   ngAfterViewInit():void {
@@ -82,67 +108,58 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   changeSchedulingMode() {
-    // Todo
+    this.scheduleManually = !this.scheduleManually;
+    this.cdRef.detectChanges();
   }
 
   save():void {
-    // Todo
+    if (this.singleDate) {
+      this.changeset.setValue('date', this.dates.date);
+    } else {
+      this.changeset.setValue('startDate', this.dates.start);
+      this.changeset.setValue('dueDate', this.dates.end);
+    }
+
+    this.changeset.setValue('scheduleManually', !this.changeset.value('scheduleManually'));
+    this.closeMe();
   }
 
   cancel():void {
-    // Todo
+    this.closeMe();
   }
 
   clear():void {
     this.datePickerInstance.clear();
   }
 
-  get startDate():string {
-    if (this._startDate) {
-      if (this.validDate(this._startDate)) {
-        var startDate = this.timezoneService.parseDate(this._startDate);
-        return this.timezoneService.formattedISODate(startDate);
-      } else {
-        return this._startDate;
-      }
+  formattedDate(key:DateKeys) {
+    const val = this.dates[key];
+
+    if (!val) {
+      return this.text.placeholder;
+    }
+
+    if (this.validDate(val)) {
+      let parsed = this.timezoneService.parseDate(val);
+      return this.timezoneService.formattedISODate(parsed);
     } else {
-      return '-'
+      return val;
     }
   }
 
-  set startDate(val:string) {
-    this._startDate = val;
-    if (this.validDate(this._startDate) && this.datePickerInstance) {
-      this.setDatesToDatepicker();
-    }
-  }
-
-  get endDate():string {
-    if (this._endDate) {
-      if (this.validDate(this._endDate)) {
-        var endDate = this.timezoneService.parseDate(this._endDate);
-        return this.timezoneService.formattedISODate(endDate);
-      } else {
-        return this._endDate;
-      }
-    } else {
-      return '-'
-    }
-  }
-
-  set endDate(val:string) {
-    this._endDate = val;
-    if (this.validDate(this._endDate) && this.datePickerInstance) {
+  updateDate(key:DateKeys, val:string) {
+    this.dates[key] = val;
+    if (this.validDate(val) && this.datePickerInstance) {
       this.setDatesToDatepicker();
     }
   }
 
   schedulingButtonText():string {
-    return this.locals.scheduleManually ? this.text.automaticScheduling : this.text.manualScheduling ;
+    return this.locals.scheduleManually ? this.text.automaticScheduling : this.text.manualScheduling;
   }
 
   schedulingButtonIcon():string {
-    return 'button--icon ' + (this.locals.scheduleManually ?  'icon-arrow-left-right' : 'icon-pin');
+    return 'button--icon ' + (this.locals.scheduleManually ? 'icon-arrow-left-right' : 'icon-pin');
   }
 
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
@@ -155,34 +172,55 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   private initializeDatepicker() {
-    let options:any = {
-      mode: 'range',
-      inline: true,
-      onChange: (selectedDates:Date[]) => {
-        this._startDate = selectedDates[0] ? selectedDates[0].toDateString() : '-';
-        this._endDate = selectedDates[1] ? selectedDates[1].toDateString() : '-';
-        this.cdRef.detectChanges();
-      }
-    };
-
     this.datePickerInstance = new DatePicker(
       '#flatpickr-input',
-      [this.startDate, this.endDate],
-      options
+      this.singleDate ? this.dates.date : [this.dates.start, this.dates.end],
+      {
+        mode: this.singleDate ? 'single' : 'range',
+        inline: true,
+        onChange: (dates:Date[]) => {
+          if (this.singleDate && dates.length === 1) {
+            this.dates.date = this.timezoneService.formattedISODate(dates[0]);
+          }
+
+          if (!this.singleDate && dates.length >= 1) {
+            this.dates.start = this.timezoneService.formattedISODate(dates[0]);
+            this.dates.end = '-';
+          }
+
+          if (dates.length >= 2) {
+            this.dates.end = dates[1] ? this.timezoneService.formattedISODate(dates[1]) : '-';
+          }
+
+          this.cdRef.detectChanges();
+        }
+      }
     );
   }
 
   private setDatesToDatepicker() {
-    var dates = [this.parseDate(this._startDate), this.parseDate(this._endDate)];
-    this.datePickerInstance.setDates(dates);
+    if (this.singleDate) {
+      let date = this.parseDate(this.dates.date);
+      this.datePickerInstance.setDates(date);
+    } else {
+      let dates = [this.parseDate(this.dates.start), this.parseDate(this.dates.end)];
+      this.datePickerInstance.setDates(dates);
+    }
   }
 
-  private validDate(date:string) {
-    // Todo: improve
-    return !!new Date(date).valueOf();
+  private validDate(date:Date|string) {
+    if (date instanceof Date) {
+      return true;
+    } else {
+      return !!new Date(date).valueOf();
+    }
   }
 
-  private parseDate(date:string):Date {
-    return new Date(date);
+  private parseDate(date:Date|string):Date {
+    if (date instanceof Date) {
+      return date;
+    } else {
+      return new Date(date);
+    }
   }
 }

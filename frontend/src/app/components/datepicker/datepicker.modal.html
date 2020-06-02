@@ -4,33 +4,51 @@
   <div class="op-modal--modal-body">
     <form class="form -vertical">
       <div class="grid-block">
-      <div class="form--field">
-        <label class="form--label"
-               [textContent]="text.startDate">
-        </label>
-        <div class="form--field-container">
-          <div class="form--text-field-container -xslim">
-            <input type="text"
-                   name="startDate"
-                   class="form--date-field"
-                   [(ngModel)]="startDate">
+        <ng-container *ngIf="singleDate">
+          <div class="form--field">
+            <label class="form--label"
+                   [textContent]="text.startDate">
+            </label>
+            <div class="form--field-container">
+              <div class="form--text-field-container -xslim">
+                <input type="text"
+                       name="startDate"
+                       class="form--date-field"
+                       [(ngModel)]="dates.date">
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </ng-container>
 
-      <div class="form--field">
-        <label class="form--label"
-               [textContent]="text.endDate">
-        </label>
-        <div class="form--field-container">
-          <div class="form--text-field-container -xslim">
-            <input type="text"
-                   name="endDate"
-                   class="form--date-field"
-                   [(ngModel)]="endDate">
+        <ng-container *ngIf="!singleDate">
+          <div class="form--field">
+            <label class="form--label"
+                   [textContent]="text.startDate">
+            </label>
+            <div class="form--field-container">
+              <div class="form--text-field-container -xslim">
+                <input type="text"
+                       name="startDate"
+                       class="form--date-field"
+                       [ngModel]="dates.start"
+                       (ngModelChange)="updateDate('start', $event)">
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          <div class="form--field">
+            <label class="form--label"
+                   [textContent]="text.endDate">
+            </label>
+            <div class="form--field-container">
+              <div class="form--text-field-container -xslim">
+                <input type="text"
+                       name="endDate"
+                       class="form--date-field"
+                       [(ngModel)]="dates.end">
+              </div>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </form>
 

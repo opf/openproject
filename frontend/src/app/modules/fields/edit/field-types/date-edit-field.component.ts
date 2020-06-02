@@ -33,19 +33,20 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {take} from "rxjs/operators";
 
 @Component({
   template: `
 
-      <input [ngModel]="formatter(value)"
-             (ngModelChange)="value = parser($event);"
-             type="text"
-             class="inline-edit--field"
-             (keydown)="handler.handleUserKeydown($event)"
-             [attr.required]="required"
-             [disabled]="inFlight"
-             [attr.placeholder]="placeholder"
-             [id]="handler.htmlId"/>
+    <input [ngModel]="formatter(value)"
+           (ngModelChange)="value = parser($event);"
+           type="text"
+           class="inline-edit--field"
+           (keydown)="handler.handleUserKeydown($event)"
+           [attr.required]="required"
+           [disabled]="inFlight"
+           [attr.placeholder]="placeholder"
+           [id]="handler.htmlId"/>
 
 
   `
@@ -95,19 +96,21 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
   }
 
   private showDatePickerModal():void {
-    const dates:{startDate:Date, endDate:Date} = {
-      startDate: this.resource.startDate,
-      endDate: this.resource.dueDate
-    };
-
     const modal = this
       .opModalService
-      .show(DatePickerModal, this.injector, { scheduleManually: this.resource.scheduleManually, dates: dates });
+      .show(DatePickerModal, this.injector, { changeset: this.change });
 
     setTimeout(() => {
       const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');
       const field = jQuery(this.elementRef.nativeElement);
       modal.reposition(modalElement, field);
     });
+
+    modal
+      .closingEvent
+      .pipe(take(1))
+      .subscribe(() => {
+        this.handler.handleUserSubmit();
+      });
   }
 }

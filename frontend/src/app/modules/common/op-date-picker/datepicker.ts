@@ -34,7 +34,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
 
-  private datepickerCont: JQuery = jQuery(this.datepickerElemIdentifier);
+  private datepickerCont:JQuery = jQuery(this.datepickerElemIdentifier);
   public datepickerInstance:Instance;
 
   constructor(private datepickerElemIdentifier:string,
@@ -97,7 +97,7 @@ export class DatePicker {
     this.hideDuringScroll();
   }
 
-  public setDates(dates:Date[]) {
+  public setDates(dates:Date|Date[]) {
     this.datepickerInstance.setDate(dates);
   }
 
@@ -125,7 +125,7 @@ export class DatePicker {
     try {
       return document.elementFromPoint(input.offset()!.left, input.offset()!.top) === input[0] &&
         document.activeElement === input[0];
-    } catch(e) {
+    } catch (e) {
       console.error("Failed to test visibleAndActive " + e)
       return false;
     }
