@@ -44,7 +44,7 @@ module Projects
       ::CopyProjectJob.perform_later(
         user_id: user.id,
         source_project_id: template_id,
-        target_project_params: params,
+        target_project_params: project_params(params),
         # Copy all associations
         associations_to_copy: nil,
         # Send mails for now until we send our own mails
@@ -58,6 +58,17 @@ module Projects
     # but simply pass the previous call
     def persist(call)
       call
+    end
+
+    private
+
+    ##
+    # Modifies params to ensure we unset
+    # the templated option
+    def project_params(params)
+      params.to_h.merge(
+        templated: false
+      )
     end
   end
 end

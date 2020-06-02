@@ -91,7 +91,8 @@ class CopyProjectJob < ApplicationJob
       if service_call.success? && target_project.save
         errors = copy_project_associations(target_project)
       else
-        errors = service_call.errors.merge(target_project.errors).full_messages
+        service_call.errors.merge!(target_project.errors, nil)
+        errors = service_call.errors.full_messages
         target_project = nil
         logger.error("Copying project fails with validation errors: #{errors.join("\n")}")
       end

@@ -45,8 +45,8 @@ describe 'Projects status administration', type: :feature, js: true do
         .and_return(r.id.to_s)
     end
   end
-  let(:create_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(6)') }
-  let(:edit_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(7)') }
+  let(:create_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(5)') }
+  let(:edit_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(6)') }
 
   before do
     login_as current_user

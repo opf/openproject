@@ -94,6 +94,7 @@ describe 'Project templates', type: :feature, js: true do
 
       project = Project.find_by identifier: 'foo'
       expect(project.name).to eq 'Foo bar'
+      expect(project).not_to be_templated
       expect(project.users.first).to eq current_user
       expect(project.enabled_module_names.sort).to eq(template.enabled_module_names.sort)
 
