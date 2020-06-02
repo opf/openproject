@@ -98,11 +98,7 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Changed: Enable Projects for outgoing Webhooks \[[#33355](https://community.openproject.com/wp/33355)\]
 - Changed: New Features teaser for 10.6 \[[#33470](https://community.openproject.com/wp/33470)\]
 
-### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
-Marc Vollmer, Ricardo Vigatti, Sébastien VITA, Tino Breddin, Lukas Zeil, Rajesh Vishwakarma, Gio @ Enuan, Harald Holzmann
 
 
 ## OpenProject 10.6.0 BIM Edition
@@ -135,9 +131,12 @@ Please note that the OpenProject BIM Edition is under continuous  development. T
 
 Test OpenProject BIM 10.6 immediately, [create a free test instance](https://start.openproject.com/go/bim) for the OpenProject BIM Edition.
 
-#### Credits
+### Credits and contributions
 
-A special thanks goes to all OpenProject contributors without whom this release would not have been possible:
+A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+
+Special thanks for reporting and finding bugs go to
+Marc Vollmer, Ricardo Vigatti, Sébastien VITA, Tino Breddin, Lukas Zeil, Rajesh Vishwakarma, Gio @ Enuan, Harald Holzmann.
 
 - DBI AG for sponsoring the BCF Management.
 - Lindsay Kay for the integration of the 3D Modell viewer, [xeokit](https://xeokit.io/), as well as for improving the camera control in the IFC viewer.
@@ -145,11 +144,3 @@ A special thanks goes to all OpenProject contributors without whom this release 
 - All the developers, designers, project managers who have contributed to OpenProject.
 - Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
-
-### What is on the Roadmap?
-
-We continuously develop new features for the OpenProject BIM Edition:
-
-**Plugins into common BIM tools**
-
-Plug-ins into the common BIM tools (such as ARCHICAD, Navisworks,  Solibri etc.) make the exchange of BCF issues from the central BCF  management system even faster, easier and more transparent. The next  step on the roadmap is an **integration with Revit**.
