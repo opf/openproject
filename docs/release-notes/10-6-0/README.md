@@ -27,17 +27,19 @@ With the new release of OpenProject you can now customize your tables in the tex
 - alignment within the cell, and
 - defining a CSS rule to break long words in cells.
 
-![table-formatting](table-formatting-1087365.png)
+![table-format](table-format.png)
 
 ### Quicker time logging on work packages
 
 From now on, time logging is even  quicker. You won’t have to leave your current work environment to log  time. For example, directly in the work package you will find an icon to log time. When you click on it, you can log your time in a pop-up window.
 
-![time logging](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/time-logging.png)
+![time-logging](time-logging.png)
+
+
 
 Also, you can log time to a work package directly from your work  package list view if you include the SPENT TIME as a column to the list. Clicking on the Log time will also open a pop-up window to book your  spent time.
 
-![Log time list view](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/Log-time-1.png)
+![time-log-work-package](time-log-work-package-1103367.png)
 
 ### Support of Slovenian language
 
@@ -49,13 +51,13 @@ We are very happy that OpenProject is now 100% translated into Slovenian.  Zabav
 
 OpenProject 10.6 will upgrade the card view of work packages. To make clear what card belongs to what project, the project name will be shown on the card.
 
-![card view with sub project](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/card-view-with-sub-project.png)
+![card-view-subproject](card-view-subproject.png)
 
 ### Improved assignee board if there are no members in a project
 
 If you are creating an agile boards by assignees, you will get  notified if there are no members in your project. You will also get  notified if you are trying to add another assignee list to your board  even though there is no more member left.
 
-![Assignee board notification](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/Assignee-board-notification.png)
+![asssignee-board-notification](asssignee-board-notification.png)
 
 ### Various usability improvements and bug fixes
 
