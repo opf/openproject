@@ -84,7 +84,7 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Fixed: Oauth endpoints need to allow target hosts in CSP header "form-action" \[[#33336](https://community.openproject.com/wp/33336)\]
 - Fixed: Time logging not possible with custom field of type "version" \[[#33378](https://community.openproject.com/wp/33378)\]
 - Fixed: Mailing configuration appears not to be reloaded in workers \[[#33413](https://community.openproject.com/wp/33413)\]
-- Fixed: OpenProject | Usability bug: layout bug when setting new parent \[[#33449](https://community.openproject.com/wp/33449)\]
+- Fixed: layout bug when setting new parent \[[#33449](https://community.openproject.com/wp/33449)\]
 - Fixed: Clicking on info icon on card view doesn't do anything \[[#33451](https://community.openproject.com/wp/33451)\]
 - Fixed: Fetching recent work packages when logging time fails with internal error \[[#33472](https://community.openproject.com/wp/33472)\]
 - Changed: Show Project name in Card View \[[#31556](https://community.openproject.com/wp/31556)\]
