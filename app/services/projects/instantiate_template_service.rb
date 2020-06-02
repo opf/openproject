@@ -30,20 +30,20 @@
 
 module Projects
   class InstantiateTemplateService < ::BaseServices::Create
-    attr_reader :template_project
+    attr_reader :template_id
 
     def initialize(user:, template_id:)
-      @template_project = Project.find_by(id: template_id)
+      @template_id = template_id
 
       super user: user,
             contract_class: Projects::InstantiateTemplateContract,
-            contract_options: { template_project: template_project }
+            contract_options: { template_project_id: template_id }
     end
 
     def after_validate(params, call)
       ::CopyProjectJob.perform_later(
         user_id: user.id,
-        source_project_id: template_project.id,
+        source_project_id: template_id,
         target_project_params: params,
         # Copy all associations
         associations_to_copy: nil,

@@ -28,6 +28,12 @@
 
 module Projects
   class InstantiateTemplateContract < CreateContract
+    def self.visible_templates(user)
+      Project
+        .allowed_to(user, :copy_projects)
+        .where(templated: true)
+    end
+
     def validate
       validate_user_allowed_to_instantiate_template
 
@@ -37,13 +43,17 @@ module Projects
     private
 
     def validate_user_allowed_to_instantiate_template
-      unless template_project && user.allowed_to?(:copy_projects, template_project)
-        errors.add :base, :error_unauthorized
-      end
+      errors.add(:base, :error_unauthorized) unless visible_template?
     end
 
-    def template_project
-      options[:template_project]
+    def visible_template?
+      return false if template_project_id.nil?
+
+      self.class.visible_templates(user).exists?(template_project_id)
+    end
+
+    def template_project_id
+      options[:template_project_id]
     end
   end
 end

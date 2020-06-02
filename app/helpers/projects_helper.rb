@@ -147,9 +147,8 @@ module ProjectsHelper
   end
 
   def project_options_for_templated
-    Project
-      .allowed_to(current_user, :copy_projects)
-      .where(templated: true)
+    ::Projects::InstantiateTemplateContract
+      .visible_templates(current_user)
       .pluck(:name, :id)
   end
 

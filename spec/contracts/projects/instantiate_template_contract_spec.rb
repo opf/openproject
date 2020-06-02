@@ -33,7 +33,7 @@ describe Projects::InstantiateTemplateContract do
   let(:user) { FactoryBot.build_stubbed :user }
   let(:project) { Project.new name: 'Foo Bar', identifier: 'foo' }
   let(:template) { FactoryBot.build_stubbed :project }
-  let(:options) { { template_project: template } }
+  let(:options) { { template_project_id: template.id } }
 
   subject { described_class.new(project, user, options: options) }
 
@@ -43,9 +43,8 @@ describe Projects::InstantiateTemplateContract do
       .with(:add_project)
       .and_return(allowed_to_add)
 
-    allow(user)
-      .to(receive(:allowed_to?))
-      .with(:copy_projects, template)
+    allow(Project)
+      .to receive_message_chain(:allowed_to, :where, :exists?)
       .and_return(allowed_to_copy)
   end
 
