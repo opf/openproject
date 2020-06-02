@@ -166,7 +166,8 @@ ru:
       enterprise:
         trial:
           confirmation: "Подтверждение адреса электронной почты"
-          confirmation_info: "Мы отправили вам письмо. Проверьте электронную почту и нажмите на ссылку подтверждения в письме, чтобы получить 14-дневную пробную версию."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Я принимаю <a target="_blank" href="%{link_terms}">условия обслуживания</a> и <a target="_blank" href="%{link_privacy}">политику конфиденциальности</a>.

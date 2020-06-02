@@ -167,7 +167,8 @@ tr:
       enterprise:
         trial:
           confirmation: "E-posta adresi doğrulama"
-          confirmation_info: "Size bir e-posta gönderdik. Lütfen e-postalarınızı kontrol edin ve 14 günlük denemenize başlamak için verilen onay bağlantısını tıklayın."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Katılıyorum  <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
