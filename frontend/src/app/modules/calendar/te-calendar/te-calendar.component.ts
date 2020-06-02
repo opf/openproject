@@ -54,6 +54,9 @@ interface CalendarMoveEvent {
   view:View;
 }
 
+// An array of all the days that are displayed. The zero index represents Monday.
+export type DisplayedDays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
+
 const TIME_ENTRY_CLASS_NAME = 'te-calendar--time-entry';
 const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
 const ADD_ENTRY_CLASS_NAME = 'te-calendar--add-entry';
@@ -76,6 +79,9 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
+  @Input() set displayedDays(days:DisplayedDays) {
+    this.setHiddenDays(days);
+  }
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
 
   // Not used by the calendar but rather is the maximum/minimum of the graph.
@@ -104,6 +110,7 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
 
   protected memoizedTimeEntries:{ start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>> };
   public memoizedCreateAllowed:boolean = false;
+  public hiddenDays:number[] = [];
 
   public text = {
     logTime: this.i18n.t('js.button_log_time')
@@ -587,5 +594,15 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
     }
 
     return 1;
+  }
+
+  protected setHiddenDays(displayedDays:DisplayedDays) {
+    this.hiddenDays = Array.from(displayedDays, (value, index) => {
+      if (!value) {
+        return (index + 1) % 7;
+      } else {
+        return null;
+      }
+    }).filter((value) => value !== null) as number[];
   }
 }

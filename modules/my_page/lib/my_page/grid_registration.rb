@@ -28,6 +28,10 @@ module MyPage
     widget_strategy 'work_packages_watched', &wp_table_strategy_proc
     widget_strategy 'work_packages_created', &wp_table_strategy_proc
 
+    widget_strategy 'time_entries_current_user' do
+      options_representer '::API::V3::Grids::Widgets::TimeEntryCalendarOptionsRepresenter'
+    end
+
     widget_strategy 'custom_text' do
       # Requiring a permission here as one is required to assign attachments.
       # Should be replaced by a global permission to have a my page

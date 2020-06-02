@@ -2,13 +2,15 @@
   [name]="widgetName"
   [editable]="isEditable">
 
-  <widget-menu
-    [resource]="resource">
-  </widget-menu>
+  <widget-time-entries-current-user-menu
+    [resource]="resource"
+    (onConfigured)="updateConfiguration($event)">
+  </widget-time-entries-current-user-menu>
 </widget-header>
 
 <te-calendar
   (entries)="updateEntries($event)"
+  [displayedDays]="displayedDays"
 ></te-calendar>
 
 <ng-container>
