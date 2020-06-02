@@ -6,13 +6,62 @@ release_version: 10.6.0
 release_date: 2020-06-02
 ---
 
+# Release notes OpenProject 10.6.0
+
+| Release notes                                                | Description                                                  |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| [OpenProject 10.6.0](#openproject-1060)                      | What is new for OpenProject 10.6.0?                          |
+| [OpenProject 10.6 BIM Edition for construction project management](#openproject-106-bim-edition) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
+
 # OpenProject 10.6.0
 
-We released [OpenProject 10.6.0](https://community.openproject.com/versions/1416).
-The release contains several bug fixes and we recommend updating to the newest version.
+The new release of the open source project management software brings improved table formatting, quicker time logging, the Slovenian translation, better overview over activities and  much more usability improvements and bug fixes.
 
-<!--more-->
-#### Bug fixes and changes
+### Better styling of tables with improved table formatting options
+
+With the new release of OpenProject you can now customize your tables in the text editor even more. When integrating a table in a work  package description, a meeting, the wiki or news, format it the way you  want to. The new additional options are:
+
+- limiting of the table’s and cell’s width,
+- choose a color for the grid and the cell’s background (HEX/XSL or standard color palette),
+- padding in cells,
+- alignment within the cell, and
+- defining a CSS rule to break long words in cells.
+
+### 
+
+### Quicker time logging on work packages
+
+From now on, time logging is even  quicker. You won’t have to leave your current work environment to log  time. For example, directly in the work package you will find an icon to log time. When you click on it, you can log your time in a pop-up window.
+
+![time logging](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/time-logging.png)
+
+Also, you can log time to a work package directly from your work  package list view if you include the SPENT TIME as a column to the list. Clicking on the Log time will also open a pop-up window to book your  spent time.
+
+![Log time list view](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/Log-time-1.png)
+
+### Support of Slovenian language
+
+We are very happy that OpenProject is now 100% translated into Slovenian.  Zabavaj se!
+
+![flag-slovenia](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/flag-slovenia-300x200.jpg)
+
+### Attribution of cards to a project
+
+OpenProject 10.6 will upgrade the card view of work packages. To make clear what card belongs to what project, the project name will be shown on the card.
+
+![card view with sub project](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/card-view-with-sub-project.png)
+
+### Improved assignee board if there are no members in a project
+
+If you are creating an agile boards by assignees, you will get  notified if there are no members in your project. You will also get  notified if you are trying to add another assignee list to your board  even though there is no more member left.
+
+![Assignee board notification](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/Assignee-board-notification.png)
+
+### Various usability improvements and bug fixes
+
+Furthermore, the **styling of the news widget** on the project overview page as well as the start page has been improved. Going forward, the **Activity module is only showing one activity per minute** per user per work package and type of change. That means the changes per minute are aggregated.
+
+#### All bug fixes and changes
 
 - Epic: Aggregate activity entries \[[#23744](https://community.openproject.com/wp/23744)\]
 - Fixed: Date picker allows selection a year for only the next 10 years. Needs to increase. \[[#29413](https://community.openproject.com/wp/29413)\]
@@ -52,6 +101,51 @@ The release contains several bug fixes and we recommend updating to the newest v
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
+## OpenProject 10.6 BIM Edition
 
-Marc Vollmer, Ricardo Vigatti, Sébastien VITA, Tino Breddin, Lukas Zeil, Rajesh Vishwakarma, Gio @ Enuan, Harald Holzmann
+OpenProject BIM 10.6 released with improved BCF Management. We released OpenProject BIM 10.6. The new release contains improvements  for BIM project management for the building industry, especially with  improved features for BCF Management.
+
+### Improved BCF XML Import
+
+The import of BCF XML files will check the version to be 2.1 before  importing. If it’s an older version the import will not start to avoid  errors.
+
+### Maximum size for IFC files increased
+
+The maximum size for IFC files has been increased to 500 MB.
+
+### Improved permissions for BCF Management
+
+We introduced a separate permission for deleting BCF issues.
+
+## Further improvements and bug fixes
+
+- Changed: Bim error on console when creating a global Work Package.
+- Changed: Since 2.1 BCF-XML files should have suffix .bcf instead of .bcfzip.
+- Changed: BCF-XML import screens have "Work Package" module active in main menu.
+- Changed: Redirect loop for viewpoint URL when no IFC in project.
+- Changed: On boarding tour: Non-admins can't complete onboarding as they lack permissions for viewing boards.
+
+## How can you try the OpenProject BIM Edition?
+
+Please note that the OpenProject BIM Edition is under continuous  development. The current version is only a first state, which will be  continuously enhanced with important build specific functions.
+
+Test OpenProject BIM 10.6 immediately, [create a free test instance](https://start.openproject.com/go/bim) for the OpenProject BIM Edition.
+
+## Credits
+
+A special thanks goes to all OpenProject contributors without whom this release would not have been possible:
+
+- DBI AG for sponsoring the BCF Management.
+- Lindsay Kay for the integration of the 3D Modell viewer, [xeokit](https://xeokit.io/).
+- [Georg Dangl](https://blog.dangl.me/categories/BIM) for developing the Revit Integration in OpenProject.
+- All the developers, designers, project managers who have contributed to OpenProject.
+- Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
+
+## What is on the Roadmap?
+
+We continuously develop new features for the OpenProject BIM Edition:
+
+**Plugins into common BIM tools**
+
+Plug-ins into the common BIM tools (such as ARCHICAD, Navisworks,  Solibri etc.) make the exchange of BCF issues from the central BCF  management system even faster, easier and more transparent. The next  step on the roadmap is an **integration with Revit**.
