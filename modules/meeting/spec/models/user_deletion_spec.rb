@@ -29,28 +29,24 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User, '#destroy', type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:user2) { FactoryBot.create(:user) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:user2) { FactoryBot.create(:user) }
   let(:substitute_user) { DeletedUser.first }
   let(:project) do
-    project = FactoryBot.create(:valid_project)
-    project
+    FactoryBot.create(:valid_project)
   end
 
-  let(:meeting) {
-    FactoryBot.create(:meeting, project: project,
-                                 author: user2)
-  }
-  let(:participant) {
-    FactoryBot.create(:meeting_participant, user: user,
-                                             meeting: meeting,
-                                             invited: true,
-                                             attended: true)
-  }
-
-  before do
-    user
-    user2
+  let(:meeting) do
+    FactoryBot.create(:meeting,
+                      project: project,
+                      author: user2)
+  end
+  let(:participant) do
+    FactoryBot.create(:meeting_participant,
+                      user: user,
+                      meeting: meeting,
+                      invited: true,
+                      attended: true)
   end
 
   shared_examples_for 'updated journalized associated object' do
@@ -81,13 +77,13 @@ describe User, '#destroy', type: :model do
     it { expect(associated_instance.journals.first.user).to eq(user2) }
     it 'should update first journal changes' do
       associations.each do |association|
-        expect(associated_instance.journals.first.changed_data[(association.to_s + '_id').to_sym].last).to eq(user2.id)
+        expect(associated_instance.journals.first.details[(association.to_s + '_id').to_sym].last).to eq(user2.id)
       end
     end
     it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
     it 'should update second journal changes' do
       associations.each do |association|
-        expect(associated_instance.journals.last.changed_data[(association.to_s + '_id').to_sym].last).to eq(substitute_user.id)
+        expect(associated_instance.journals.last.details[(association.to_s + '_id').to_sym].last).to eq(substitute_user.id)
       end
     end
   end
@@ -120,14 +116,14 @@ describe User, '#destroy', type: :model do
     it { expect(associated_instance.journals.first.user).to eq(substitute_user) }
     it 'should update the first journal' do
       associations.each do |association|
-        expect(associated_instance.journals.first.changed_data[(association.to_s + '_id').to_sym].last).to eq(substitute_user.id)
+        expect(associated_instance.journals.first.details[(association.to_s + '_id').to_sym].last).to eq(substitute_user.id)
       end
     end
     it { expect(associated_instance.journals.last.user).to eq(user2) }
     it 'should update the last journal' do
       associations.each do |association|
-        expect(associated_instance.journals.last.changed_data[(association.to_s + '_id').to_sym].first).to eq(substitute_user.id)
-        expect(associated_instance.journals.last.changed_data[(association.to_s + '_id').to_sym].last).to eq(user2.id)
+        expect(associated_instance.journals.last.details[(association.to_s + '_id').to_sym].first).to eq(substitute_user.id)
+        expect(associated_instance.journals.last.details[(association.to_s + '_id').to_sym].last).to eq(user2.id)
       end
     end
   end
@@ -150,10 +146,10 @@ describe User, '#destroy', type: :model do
 
   describe 'WHEN the user created a meeting agenda' do
     let(:associations) { [:author] }
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryBot.build(:meeting_agenda, meeting: meeting,
                                          text: 'lorem')
-    }
+    end
     let(:associated_class) { MeetingAgenda }
 
     it_should_behave_like 'created journalized associated object'
@@ -161,10 +157,10 @@ describe User, '#destroy', type: :model do
 
   describe 'WHEN the user updated a meeting agenda' do
     let(:associations) { [:author] }
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryBot.build(:meeting_agenda, meeting: meeting,
                                          text: 'lorem')
-    }
+    end
     let(:associated_class) { MeetingAgenda }
 
     it_should_behave_like 'updated journalized associated object'
@@ -172,10 +168,11 @@ describe User, '#destroy', type: :model do
 
   describe 'WHEN the user created a meeting minutes' do
     let(:associations) { [:author] }
-    let(:associated_instance) {
-      FactoryBot.build(:meeting_minutes, meeting: meeting,
-                                          text: 'lorem')
-    }
+    let(:associated_instance) do
+      FactoryBot.build(:meeting_minutes,
+                       meeting: meeting,
+                       text: 'lorem')
+    end
     let(:associated_class) { MeetingMinutes }
 
     it_should_behave_like 'created journalized associated object'
@@ -183,10 +180,11 @@ describe User, '#destroy', type: :model do
 
   describe 'WHEN the user updated a meeting minutes' do
     let(:associations) { [:author] }
-    let(:associated_instance) {
-      FactoryBot.build(:meeting_minutes, meeting: meeting,
-                                          text: 'lorem')
-    }
+    let(:associated_instance) do
+      FactoryBot.build(:meeting_minutes,
+                       meeting: meeting,
+                       text: 'lorem')
+    end
     let(:associated_class) { MeetingMinutes }
 
     it_should_behave_like 'updated journalized associated object'

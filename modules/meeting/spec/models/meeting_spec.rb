@@ -108,22 +108,6 @@ describe Meeting, type: :model do
     end
   end
 
-  describe 'Journalized Objects' do
-    before(:each) do
-      @project ||= FactoryBot.create(:project_with_types)
-      @current = FactoryBot.create(:user, login: 'user1', mail: 'user1@users.com')
-      allow(User).to receive(:current).and_return(@current)
-    end
-
-    it 'should work with meeting' do
-      @meeting ||= FactoryBot.create(:meeting, title: 'Test', project: @project, author: @current)
-
-      initial_journal = @meeting.journals.first
-      recreated_journal = @meeting.recreate_initial_journal!
-      expect(initial_journal.identical?(recreated_journal)).to be true
-    end
-  end
-
   describe 'all_changeable_participants' do
     describe 'WITH a user having the view_meetings permission' do
       before do

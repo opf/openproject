@@ -27,26 +27,22 @@
 #++
 require File.dirname(__FILE__) + '/../spec_helper'
 
-
 describe Document do
-
   let(:documentation_category) { FactoryBot.create :document_category, name: 'User documentation'}
   let(:project)                { FactoryBot.create :project}
   let(:user)                   { FactoryBot.create(:user)}
   let(:admin)                  { FactoryBot.create(:admin)}
 
-  let(:mail)      do
+  let(:mail) do
     mock = Object.new
     allow(mock).to receive(:deliver_now)
     mock
   end
 
   context "validation" do
-
     it { is_expected.to validate_presence_of :project}
     it { is_expected.to validate_presence_of :title}
     it { is_expected.to validate_presence_of :category}
-
   end
 
   describe "create with a valid document" do
@@ -82,7 +78,7 @@ describe Document do
       expect(document.category).to eql default_category
       expect{
         document.save
-      }.to change{Document.count}.by 1
+      }.to change { Document.count }.by 1
     end
 
     it "with attachments should change the updated_on-date on the document to the attachment's date" do

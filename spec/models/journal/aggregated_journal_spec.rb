@@ -246,8 +246,8 @@ describe Journal::AggregatedJournal, type: :model do
     before do
       work_package.status = FactoryBot.build(:status)
       work_package.save!
-      work_package.journals.second.created_at += delay
-      work_package.journals.second.save!
+      second_journal = work_package.journals.second
+      second_journal.update_column(:created_at, second_journal.created_at + delay)
     end
 
     it 'returns both journals' do

@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file is part of the acts_as_journalized plugin for the redMine
 # project management software
 #
@@ -46,29 +47,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module Redmine::Acts::Journalized
-  module Permissions
-    # Default implementation of journal editing permission
-    # Is overridden if defined in the journalized model directly
-    def journal_editable_by?(user)
-      return true if user.admin?
-
-      if respond_to? :editable_by?
-        editable_by? user
-      else
-        p = @project || (project if respond_to? :project)
-        options = { global: p.present? }
-        user.allowed_to? journable_edit_permission, p, options
-      end
+module Acts::Journalized
+  module FormatHooks
+    def self.included(base)
+      base.extend ClassMethods
     end
 
-    private
+    module ClassMethods
+      # Shortcut to register a formatter for a number of fields
+      def register_on_journal_formatter(formatter, *field_names)
+        formatter = formatter.to_sym
+        journal_class = self.journal_class
+        field_names.each do |field|
+          JournalFormatter.register_formatted_field(journal_class.name.to_sym, field, formatter)
+        end
+      end
 
-    def journable_edit_permission
-      if respond_to? :journal_permission
-        journal_permission
-      else
-        :"edit_#{self.class.to_s.pluralize.underscore}"
+      # Shortcut to register a new proc as a named formatter. Overwrites
+      # existing formatters with the same name
+      def register_journal_formatter(formatter, klass = nil, &block)
+        if block_given?
+          klass = Class.new(JournalFormatter::Proc) do
+            @proc = block
+          end
+        end
+
+        raise ArgumentError 'Provide either a class or a block defining the value formatting' if klass.nil?
+
+        JournalFormatter.register formatter.to_sym => klass
       end
     end
   end

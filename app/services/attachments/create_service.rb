@@ -42,7 +42,7 @@ class Attachments::CreateService
   def call(uploaded_file:, description:)
     if container.nil?
       create_attachment(uploaded_file, description)
-    elsif JournalManager.journalized?(container)
+    elsif container.class.journaled?
       create_journalized(uploaded_file, description)
     else
       create_unjournalized(uploaded_file, description)

@@ -33,7 +33,7 @@ describe Burndown, type: :model do
     story.reload
     story.send(attribute, value)
     story.save!
-    story.current_journal.update(created_at: day)
+    story.last_journal.update(created_at: day)
   end
 
   let(:user) { @user ||= FactoryBot.create(:user) }
@@ -123,7 +123,7 @@ describe Burndown, type: :model do
             before(:each) do
               @story.story_points = 9
               @story.save!
-              @story.current_journal.update_attribute(:created_at, @story.created_at)
+              @story.last_journal.update_attribute(:created_at, @story.created_at)
             end
 
             describe 'WITH the story being closed and opened again within the sprint duration' do
@@ -169,7 +169,7 @@ describe Burndown, type: :model do
                                                        priority: issue_priority,
                                                        created_at: Date.today - (20 - i).days,
                                                        updated_at: Date.today - (20 - i).days)
-              @stories[i].current_journal.update_attribute(:created_at, @stories[i].created_at)
+              @stories[i].last_journal.update_attribute(:created_at, @stories[i].created_at)
             end
           end
 

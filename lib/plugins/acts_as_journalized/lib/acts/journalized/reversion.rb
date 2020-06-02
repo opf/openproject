@@ -65,7 +65,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module Redmine::Acts::Journalized
+module Acts::Journalized
   # Enables versioned ActiveRecord::Base instances to revert to a previously saved version.
   module Reversion
     def self.included(base) # :nodoc:
@@ -88,7 +88,7 @@ module Redmine::Acts::Journalized
       # because some logic is based on this eager loading bug/feature
       def last_loaded_journal
         if journals.loaded?
-          journals.sort_by(&:version).last
+          journals.max_by(&:version)
         end
       end
 

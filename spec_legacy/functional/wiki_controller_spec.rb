@@ -119,34 +119,6 @@ describe WikiController, type: :controller do
     assert_equal 'testfile.txt', page.attachments.first.filename
   end
 
-  it 'should update page' do
-    page = Wiki.find(1).pages.find_by(title: 'Another page')
-    page.content.recreate_initial_journal!
-
-    session[:user_id] = 2
-    assert_no_difference 'WikiPage.count' do
-      assert_no_difference 'WikiContent.count' do
-        assert_difference 'Journal.count' do
-          put :update, params: { project_id: 1,
-                                 id: 'Another page',
-                                 content: {
-                                   comments: 'my comments',
-                                   text: 'edited',
-                                   lock_version: 1,
-                                   page: { title: 'Another page',
-                                           parent_id: '' } } }
-        end
-      end
-    end
-    assert_redirected_to '/projects/ecookbook/wiki/another-page'
-
-    page.reload
-    assert_equal 'edited', page.content.text
-    assert_equal 'edited', page.content.text
-    assert_equal page.content.journals.map(&:version).max, page.content.version
-    assert_equal 'my comments', page.content.last_journal.notes
-  end
-
   it 'should update page with failure' do
     session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do

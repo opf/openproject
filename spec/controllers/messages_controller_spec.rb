@@ -66,35 +66,6 @@ describe MessagesController, type: :controller do
     end
   end
 
-  describe '#create' do
-    context 'attachments' do
-      let(:attachment) { FactoryBot.create(:attachment, container: nil, author: user) }
-      # see ticket #2464 on OpenProject.org
-      context 'new attachment on new messages' do
-        before do
-          expect(controller).to receive(:authorize).and_return(true)
-
-          allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
-
-          post 'create', params: { forum_id: forum.id,
-                                   message: { subject: 'Test created message',
-                                              content: 'Messsage body' },
-                                   attachments: { '0' => { 'id' => attachment.id } } }
-        end
-
-        describe '#journal' do
-          let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}" }
-
-          subject { Message.last.journals.last.details }
-
-          it { is_expected.to have_key attachment_id }
-
-          it { expect(subject[attachment_id]).to eq([nil, filename]) }
-        end
-      end
-    end
-  end
-
   describe '#update' do
     let(:message) { FactoryBot.create :message, forum: forum }
     let(:other_forum) { FactoryBot.create :forum, project: project }
@@ -122,8 +93,6 @@ describe MessagesController, type: :controller do
       describe 'add' do
         before do
           allow_any_instance_of(Message).to receive(:editable_by?).and_return(true)
-
-          allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
         end
 
         context 'journal' do
@@ -142,7 +111,7 @@ describe MessagesController, type: :controller do
           describe '#value' do
             subject { message.journals.last.details[attachment_id].last }
 
-            it { is_expected.to eq(filename) }
+            it { is_expected.to eq(attachment.filename) }
           end
         end
       end

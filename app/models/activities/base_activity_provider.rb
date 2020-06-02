@@ -293,7 +293,7 @@ class Activities::BaseActivityProvider
   end
 
   def activity_journals_table
-    @activity_journals_table ||= JournalManager.journal_class(activitied_type).arel_table
+    @activity_journals_table ||= activitied_type.journal_class.arel_table
   end
 
   def activity_journal_projection_statement(column, name)

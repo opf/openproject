@@ -79,17 +79,15 @@ class UsersController < ApplicationController
     events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
-    unless User.current.admin?
-      if !(@user.active? ||
-         @user.registered?) ||
-         (@user != User.current && @memberships.empty? && events.empty?)
-        render_404
-        return
+    if !User.current.admin? &&
+       (!(@user.active? ||
+       @user.registered?) ||
+       (@user != User.current && @memberships.empty? && events.empty?))
+      render_404
+    else
+      respond_to do |format|
+        format.html { render layout: 'no_menu' }
       end
-    end
-
-    respond_to do |format|
-      format.html { render layout: 'no_menu' }
     end
   end
 
