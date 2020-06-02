@@ -98,8 +98,12 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Changed: Enable Projects for outgoing Webhooks \[[#33355](https://community.openproject.com/wp/33355)\]
 - Changed: New Features teaser for 10.6 \[[#33470](https://community.openproject.com/wp/33470)\]
 
-#### Contributions
+### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+
+Special thanks for reporting and finding bugs go to
+Marc Vollmer, Ricardo Vigatti, Sébastien VITA, Tino Breddin, Lukas Zeil, Rajesh Vishwakarma, Gio @ Enuan, Harald Holzmann
+
 
 ## OpenProject 10.6.0 BIM Edition
 
@@ -117,7 +121,7 @@ The maximum size for IFC files has been increased to 500 MB.
 
 We introduced a separate permission for deleting BCF issues.
 
-## Further improvements and bug fixes
+#### Further improvements and bug fixes
 
 - Changed: Bim error on console when creating a global Work Package.
 - Changed: Since 2.1 BCF-XML files should have suffix .bcf instead of .bcfzip.
@@ -125,13 +129,13 @@ We introduced a separate permission for deleting BCF issues.
 - Changed: Redirect loop for viewpoint URL when no IFC in project.
 - Changed: On boarding tour: Non-admins can't complete onboarding as they lack permissions for viewing boards.
 
-## How can you try the OpenProject BIM Edition?
+#### How can you try the OpenProject BIM Edition?
 
 Please note that the OpenProject BIM Edition is under continuous  development. The current version is only a first state, which will be  continuously enhanced with important build specific functions.
 
 Test OpenProject BIM 10.6 immediately, [create a free test instance](https://start.openproject.com/go/bim) for the OpenProject BIM Edition.
 
-## Credits
+#### Credits
 
 A special thanks goes to all OpenProject contributors without whom this release would not have been possible:
 
@@ -142,7 +146,7 @@ A special thanks goes to all OpenProject contributors without whom this release 
 - Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
 
-## What is on the Roadmap?
+### What is on the Roadmap?
 
 We continuously develop new features for the OpenProject BIM Edition:
 
