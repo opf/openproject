@@ -28,9 +28,11 @@
 
 import flatpickr from "flatpickr";
 import {Instance} from "flatpickr/dist/types/instance";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export class DatePicker {
-  public datepickerFormat = 'Y-m-d';
+  private datepickerFormat = 'Y-m-d';
 
   private datepickerCont: JQuery = jQuery(this.datepickerElemIdentifier);
   private datepickerInstance:Instance;
@@ -38,15 +40,32 @@ export class DatePicker {
   constructor(private datepickerElemIdentifier:string,
               private date:any,
               private options:any,
-              private datepickerTarget?:HTMLElement) {
+              private datepickerTarget?:HTMLElement,
+              private configurationService?:ConfigurationService) {
     this.initialize(options);
   }
 
   private initialize(options:any) {
-    var mergedOptions = _.extend({}, options, {
+    const I18n = new I18nService();
+    const firstDayOfWeek =
+      this.configurationService?.startOfWeekPresent() ? this.configurationService.startOfWeek() : 1;
+
+    const mergedOptions = _.extend({}, options, {
       weekNumbers: true,
       dateFormat: this.datepickerFormat,
-      defaultDate: this.date
+      defaultDate: this.date,
+      locale: {
+        weekdays: {
+          shorthand: I18n.t('date.abbr_day_names'),
+          longhand: I18n.t('date.day_names'),
+        },
+        months: {
+          shorthand: (I18n.t('date.abbr_month_names') as any).slice(1),
+          longhand: (I18n.t('date.month_names') as any).slice(1),
+        },
+        firstDayOfWeek: firstDayOfWeek,
+        weekAbbreviation: I18n.t('date.abbr_week')
+      },
     });
 
     var datePickerInstances:Instance|Instance[];
