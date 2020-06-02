@@ -148,6 +148,19 @@ describe 'Enterprise trial management',
     }
   end
 
+  let(:other_error_body) do
+    {
+      _type: "error",
+      code: 409,
+      description: "Token version is invalid",
+      identifier: "token_version_too_old",
+      errors: {
+        token_version: [
+          "does not have a valid value"
+        ]
+      }
+    }
+  end
 
   before do
     login_as(admin)
@@ -159,14 +172,13 @@ describe 'Enterprise trial management',
     fill_in 'First name', with: 'Foo'
     fill_in 'Last name', with: 'Bar'
     fill_in 'Email', with: mail
-    fill_in 'Domain', with: 'foo.example.com'
 
     find('#trial-general-consent').check
   end
 
   it 'blocks the request assuming the mail was used' do
     proxy.stub('https://augur.openproject-edge.com:443/public/v1/trials', method: 'post')
-      .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 422, body: mail_in_use_body.to_json)
+      .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 422, body: mail_in_use_body.to_json)
 
     find('.button', text: 'Start free trial').click
     fill_out_modal
@@ -179,7 +191,7 @@ describe 'Enterprise trial management',
 
   it 'blocks the request assuming the domain was used' do
     proxy.stub('https://augur.openproject-edge.com:443/public/v1/trials', method: 'post')
-      .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 422, body: domain_in_use_body.to_json)
+      .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 422, body: domain_in_use_body.to_json)
 
     find('.button', text: 'Start free trial').click
     fill_out_modal
@@ -190,16 +202,28 @@ describe 'Enterprise trial management',
     expect(page).to have_no_text 'email sent - waiting for confirmation'
   end
 
+  it 'shows an error in case of other errors' do
+    proxy.stub('https://augur.openproject-edge.com:443/public/v1/trials', method: 'post')
+      .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 409, body: other_error_body.to_json)
+
+    find('.button', text: 'Start free trial').click
+    fill_out_modal
+    find('.button:not(:disabled)', text: 'Submit').click
+
+    expect(page).to have_text('Token version is invalid')
+    expect(page).to have_no_text 'email sent - waiting for confirmation'
+  end
+
   context 'with a waiting request pending' do
     before do
       proxy.stub('https://augur.openproject-edge.com:443/public/v1/trials', method: 'post')
-        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: created_body.to_json)
+        .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 200, body: created_body.to_json)
 
       proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
-        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 422, body: waiting_body.to_json)
+        .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 422, body: waiting_body.to_json)
 
       proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}/resend", method: 'post')
-        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: waiting_body.to_json)
+        .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 200, body: waiting_body.to_json)
 
       find('.button', text: 'Start free trial').click
       fill_out_modal
@@ -217,11 +241,11 @@ describe 'Enterprise trial management',
       # Stub the proxy to a successful return
       # which marks the user has confirmed the mail link
       proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
-        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: confirmed_body.to_json)
+        .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 200, body: confirmed_body.to_json)
 
       # Stub the details URL to still return 403
       proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}/details")
-        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 403)
+        .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 403)
 
       visit enterprise_path
 
@@ -243,7 +267,7 @@ describe 'Enterprise trial management',
       # Stub the proxy to a successful return
       # which marks the user has confirmed the mail link
       proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
-        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: confirmed_body.to_json)
+        .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 200, body: confirmed_body.to_json)
 
       # Wait until the next request
       expect(page).to have_selector '.status--confirmed', text: 'confirmed', wait: 20

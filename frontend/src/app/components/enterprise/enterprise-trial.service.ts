@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {FormGroup} from "@angular/forms";
@@ -22,8 +22,8 @@ export class EnterpriseTrialService {
   // user data needs to be sync in ee-active-trial.component.ts
   userData$ = input<EnterpriseTrialData>();
 
-  public baseUrlAugur:string;
-
+  public readonly baseUrlAugur:string;
+  public readonly tokenVersion:string;
 
   public trialLink:string;
   public resendLink:string;
@@ -46,6 +46,7 @@ export class EnterpriseTrialService {
               protected notificationsService:NotificationsService) {
     let gon = (window as any).gon;
     this.baseUrlAugur = gon.augur_url;
+    this.tokenVersion = gon.token_version;
 
     if ((window as any).gon.ee_trial_key) {
       this.setMailSubmittedStatus();
@@ -55,7 +56,8 @@ export class EnterpriseTrialService {
   // send POST request with form object
   // receive an enterprise trial link to access a token
   public sendForm(form:FormGroup) {
-    this.http.post(this.baseUrlAugur + '/public/v1/trials', form.value)
+    const request = { ...form.value, token_version: this.tokenVersion};
+    this.http.post(this.baseUrlAugur + '/public/v1/trials', request)
       .toPromise()
       .then((enterpriseTrial:any) => {
         this.userData$.putValue(form.value);
@@ -90,13 +92,6 @@ export class EnterpriseTrialService {
         // -> if token is new (token_retrieved: false) save token in backend
         if (!res.token_retrieved) {
           await this.saveToken(res.token);
-        }
-
-        // load page if mail was confirmed and modal window is not open
-        if (!this.modalOpen) {
-          setTimeout(() => { // display confirmed status before reloading
-            window.location.reload();
-          }, 500);
         }
       })
       .catch((error:HttpErrorResponse) => {
@@ -144,7 +139,24 @@ export class EnterpriseTrialService {
       { withCredentials: true }
     )
       .toPromise()
+      .then(() => {
+        // load page if mail was confirmed and modal window is not open
+        if (!this.modalOpen) {
+          setTimeout(() => { // display confirmed status before reloading
+            window.location.reload();
+          }, 500);
+        }
+      })
       .catch((error:HttpErrorResponse) => {
+        // Delete the trial key as the token could not be saved and thus something is wrong with the token.
+        // Without this deletion, we run into an endless loop of an confirmed mail, but no saved token.
+        this.http
+          .delete(
+          this.pathHelper.api.v3.appBasePath + '/admin/enterprise/delete_trial_key',
+        { withCredentials: true }
+          )
+          .toPromise();
+
         this.notificationsService.addError(error.error.description || I18n.t('js.error.internal'));
       });
   }
