@@ -27,7 +27,7 @@ With the new release of OpenProject you can now customize your tables in the tex
 - alignment within the cell, and
 - defining a CSS rule to break long words in cells.
 
-### 
+![table-formatting](table-formatting-1087365.png)
 
 ### Quicker time logging on work packages
 
