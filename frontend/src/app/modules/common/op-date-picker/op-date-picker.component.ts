@@ -124,8 +124,7 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.datePickerInstance = new DatePicker(
-      this.timezoneService,
-      this.id,
+      '#' + this.id,
       initialValue,
       options
     );

@@ -56,7 +56,6 @@ export class CostSubformAugmentService {
         container.append(row);
         rowIndex += 1;
 
-        container.find('.costs-date-picker').datepicker();
         container.find('.subform-row:last-child input:first').focus();
 
         return false;

@@ -166,8 +166,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     };
 
     this.datePickerInstance = new DatePicker(
-      this.timezoneService,
-      'flatpickr-input',
+      '#flatpickr-input',
       [this.startDate, this.endDate],
       options
     );

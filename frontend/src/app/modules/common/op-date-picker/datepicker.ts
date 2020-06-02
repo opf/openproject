@@ -26,20 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {TimezoneService} from 'core-components/datetime/timezone.service';
 import flatpickr from "flatpickr";
 import {Instance} from "flatpickr/dist/types/instance";
 
 export class DatePicker {
   public datepickerFormat = 'Y-m-d';
 
-  private datepickerCont: JQuery = jQuery('#' + this.datepickerElemIdentifier);
+  private datepickerCont: JQuery = jQuery(this.datepickerElemIdentifier);
   private datepickerInstance:Instance;
 
-  constructor(readonly timezoneService:TimezoneService,
-              private datepickerElemIdentifier:string,
+  constructor(private datepickerElemIdentifier:string,
               private date:any,
-              private options:any) {
+              private options:any,
+              private datepickerTarget?:HTMLElement) {
     this.initialize(options);
   }
 
@@ -47,12 +46,17 @@ export class DatePicker {
     var mergedOptions = _.extend({}, options, {
       weekNumbers: true,
       dateFormat: this.datepickerFormat,
-      defaultDate: this.timezoneService.formattedISODate(this.date)
+      defaultDate: this.date
     });
 
-    var datePickerInstances = flatpickr('#' + this.datepickerElemIdentifier, mergedOptions);
+    var datePickerInstances:Instance|Instance[];
+    if (this.datepickerTarget) {
+      datePickerInstances = flatpickr(this.datepickerTarget as Node, mergedOptions);
+    } else {
+      datePickerInstances = flatpickr(this.datepickerElemIdentifier, mergedOptions);
+    }
 
-    this.datepickerInstance = Array.isArray(datePickerInstances)? datePickerInstances[0] : datePickerInstances;
+    this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
   }
 
   public clear() {
