@@ -35,6 +35,8 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {concatAll} from "rxjs/operators";
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: 'wp-status-button',
@@ -67,18 +69,19 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
       )
       .subscribe((wp) => {
         this.workPackage = wp;
-        this.cdRef.detectChanges();
 
         if (this.workPackage.status) {
           this.workPackage.status.$load();
         }
+
+        this.cdRef.detectChanges();
       });
   }
 
   public get buttonTitle() {
     if (this.workPackage.isReadonly) {
       return this.text.workPackageReadOnly;
-    } else if (this.workPackage.isEditable && this.isDisabled) {
+    } else if (this.workPackage.isEditable && !this.allowed) {
       return this.text.workPackageStatusBlocked;
     } else {
       return '';
@@ -93,25 +96,11 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
     return Highlighting.backgroundClass('status', status.id!);
   }
 
-  public get status():HalResource|undefined {
-    if (!this.halEditing) {
-      return;
-    }
-
-    return this.changeset.projectedResource.status;
+  public get status():HalResource {
+    return this.workPackage.status;
   }
 
   public get allowed() {
     return this.workPackage.isAttributeEditable('status');
-  }
-
-  public get isDisabled() {
-    let writable = this.changeset.isWritable('status');
-
-    return !this.allowed || !writable || this.changeset.inFlight;
-  }
-
-  private get changeset() {
-    return this.halEditing.changeFor(this.workPackage);
   }
 }

@@ -15,6 +15,8 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {StateService} from "@uirouter/core";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
+import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
@@ -24,6 +26,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @InjectField() protected $state:StateService;
   @InjectField() protected wpTableSelection:WorkPackageViewSelectionService;
   @InjectField() protected WorkPackageContextMenuHelper:WorkPackageContextMenuHelperService;
+  @InjectField() protected timeEntryCreateService:TimeEntryCreateService;
 
   protected workPackage = this.states.workPackages.get(this.workPackageId).value!;
   protected selectedWorkPackages = this.getSelectedWorkPackages();
@@ -77,6 +80,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
         break;
 
+      case 'log_time':
+        this.logTimeForSelectedWorkPackage();
+        break;
+
       default:
         window.location.href = link!;
         break;
@@ -110,6 +117,14 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     };
 
     this.$state.go(this.baseRoute + '.copy', params);
+  }
+
+  private logTimeForSelectedWorkPackage() {
+    this.timeEntryCreateService
+      .create(moment(new Date()), this.workPackage)
+      .catch(() => {
+        // do nothing, the user closed without changes
+      });
   }
 
   private getSelectedWorkPackages() {
@@ -171,7 +186,9 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
           disabled: false,
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
-          href: this.$state.href(this.baseRoute + '.details.overview', { workPackageId: this.workPackageId }),
+          href: this.$state.href(
+            splitViewRoute(this.$state) + '.overview',
+            { workPackageId: this.workPackageId }),
           linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQuery.TriggeredEvent) => {
             if (LinkHandling.isClickedWithModifier($event)) {
@@ -179,7 +196,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             }
 
             this.$state.go(
-              this.baseRoute + '.details.overview',
+              splitViewRoute(this.$state) + '.overview',
               { workPackageId: this.workPackageId }
             );
             return true;

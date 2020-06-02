@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,37 +29,37 @@
 #++
 
 class Activities::ChangesetActivityProvider < Activities::BaseActivityProvider
-  acts_as_activity_provider type: 'changesets',
-                            permission: :view_changesets
+  activity_provider_for type: 'changesets',
+                        permission: :view_changesets
 
-  def extend_event_query(query, activity)
-    query.join(repositories_table).on(activity_journals_table(activity)[:repository_id].eq(repositories_table[:id]))
+  def extend_event_query(query)
+    query.join(repositories_table).on(activity_journals_table[:repository_id].eq(repositories_table[:id]))
   end
 
-  def event_query_projection(activity)
+  def event_query_projection
     [
-      activity_journal_projection_statement(:revision, 'revision', activity),
-      activity_journal_projection_statement(:comments, 'comments', activity),
-      activity_journal_projection_statement(:committed_on, 'committed_on', activity),
+      activity_journal_projection_statement(:revision, 'revision'),
+      activity_journal_projection_statement(:comments, 'comments'),
+      activity_journal_projection_statement(:committed_on, 'committed_on'),
       projection_statement(repositories_table, :project_id, 'project_id'),
       projection_statement(repositories_table, :type, 'repository_type')
     ]
   end
 
-  def projects_reference_table(_activity)
+  def projects_reference_table
     repositories_table
   end
 
   ##
   # Override this method if not the journal created_at datetime, but another column
   # value is the actual relevant time event. (e..g., commit date)
-  def filter_for_event_datetime(query, journals_table, typed_journals_table, from, to)
+  def filter_for_event_datetime(query, from, to)
     if from
-      query = query.where(typed_journals_table[:committed_on].gteq(from))
+      query = query.where(activity_journals_table[:committed_on].gteq(from))
     end
 
     if to
-      query = query.where(typed_journals_table[:committed_on].lteq(to))
+      query = query.where(activity_journals_table[:committed_on].lteq(to))
     end
 
     query
@@ -66,11 +67,11 @@ class Activities::ChangesetActivityProvider < Activities::BaseActivityProvider
 
   protected
 
-  def event_type(_event, _activity)
+  def event_type(_event)
     'changeset'
   end
 
-  def event_title(event, _activity)
+  def event_title(event)
     revision = format_revision(event)
 
     short_comment = split_comment(event['comments']).first
@@ -79,20 +80,20 @@ class Activities::ChangesetActivityProvider < Activities::BaseActivityProvider
     title << (short_comment.blank? ? '' : (': ' + short_comment))
   end
 
-  def event_description(event, _activity)
+  def event_description(event)
     split_comment(event['comments']).last
   end
 
-  def event_datetime(event, _activity)
+  def event_datetime(event)
     committed_on = event['committed_on']
-    committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on) : committed_on
+    committed_on.is_a?(String) ? DateTime.parse(committed_on) : committed_on
   end
 
-  def event_path(event, _activity)
+  def event_path(event)
     url_helpers.revisions_project_repository_path(url_helper_parameter(event))
   end
 
-  def event_url(event, _activity)
+  def event_url(event)
     url_helpers.revisions_project_repository_url(url_helper_parameter(event))
   end
 

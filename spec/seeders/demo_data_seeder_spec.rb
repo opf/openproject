@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe 'seeds' do
+describe 'seeds', :with_clean_fixture do
   context 'standard edition', with_config: { edition: 'standard' } do
     it 'create the demo data' do
       expect { StandardSeeder::BasicDataSeeder.new.seed! }.not_to raise_error

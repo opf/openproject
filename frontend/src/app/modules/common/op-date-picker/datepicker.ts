@@ -55,7 +55,8 @@ export class DatePicker {
       closeText: I18n.t('js.button_confirm'),
       dateFormat: this.datepickerFormat,
       defaultDate: this.timezoneService.formattedISODate(this.date),
-      showButtonPanel: true
+      showButtonPanel: true,
+      yearRange: "-15:+20"
     });
 
     this.datepickerInstance = this.datepickerCont.datepicker(mergedOptions);

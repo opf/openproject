@@ -21,8 +21,3 @@ A [manual installation](installation/manual) option is also documented, but due 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
 The Community and [Enterprise Edition](https://www.openproject.org/enterprise-edition/) are on premise solutions and thus need installation from your side while the [Cloud Edition](https://www.openproject.org/hosting/) is hosted by us. The Community Edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). If you would like us to install the Enterprise Edition for you, we are charging a fee of €150 for this once-off service. You can add the installation support during your Enterprise Edition booking process.
-
-### How can I migrate MySQL to PostgreSQL in OpenProject?
-
-We have prepared a [guide for the migration of MySQL to PostgreSQL](https://docs.openproject.org/installation-and-operations/misc/packaged-postgresql-migration/).
-If you are experiencing difficulties in following this guide, we could use a temporary remote SSH access to your servers to perform the migration for you, or you provide us with the dump of the MySQL database and will be returned a migrated PostgreSQL dump.

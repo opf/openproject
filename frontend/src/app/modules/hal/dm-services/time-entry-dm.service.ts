@@ -35,7 +35,6 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Injectable()
 export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {
@@ -73,6 +72,12 @@ export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {
   public create(payload:{}):Promise<TimeEntryResource> {
     return this.halResourceService
       .post<TimeEntryResource>(this.pathHelper.api.v3.time_entries.path, payload)
+      .toPromise();
+  }
+
+  public delete(resource:TimeEntryResource) {
+    return this.halResourceService
+      .delete<TimeEntryResource>(this.pathHelper.api.v3.time_entries.id(resource.idFromLink).toString())
       .toPromise();
   }
 

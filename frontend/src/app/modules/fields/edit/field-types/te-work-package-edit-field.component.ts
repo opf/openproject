@@ -82,7 +82,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   // associated with the time entries so that we have the most recent work packages the user logged time on.
   // As a worst case, the user logged RECENT_TIME_ENTRIES_MAGIC_NUMBER times on one work package so we can not guarantee to actually have
   // a fixed number returned.
-  protected allowedValuesFetch(query?:string) {
+  protected loadAllowedValues(query?:string) {
     if (!this.recentWorkPackageIds) {
       return this
         .timeEntryDm
@@ -93,10 +93,10 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
             .map((timeEntry) => timeEntry.workPackage.idFromLink)
             .filter((v, i, a) => a.indexOf(v) === i);
 
-          return super.allowedValuesFetch(query);
+          return this.fetchAllowedValueQuery(query);
         });
     } else {
-      return super.allowedValuesFetch(query);
+      return this.fetchAllowedValueQuery(query);
     }
   }
 

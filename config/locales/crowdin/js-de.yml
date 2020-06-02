@@ -205,7 +205,7 @@ de:
             installation_text: "Erfahrene Software-Ingenieure führen Sie durch den gesamten Installations- und Einrichtungsprozess in Ihrer eigenen Infrastruktur."
             premium_features: "Premiumfunktionen"
             premium_features_text: "Agile Boards, benutzerdefinierte Farben und Logo, Graphen, intelligente Workflows und vieles mehr."
-            professional_support: "Professioneller Support"
+            professional_support: "Professionelle Unterstützung"
             professional_support_text: "Erhalten Sie zuverlässigen und schnellen Support von erfahrenen OpenProject Software-Ingenieuren."
           button_start_trial: "Kostenlose Testversion starten"
           button_book_now: "Jetzt buchen"
@@ -263,13 +263,13 @@ de:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
-            learn_about_link: "https://www.openproject.org/openproject-10-5\n"
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br><br> <ul> <li><b>Aktionsboards für zugewiesene Nutzer</b>: Erstellen Sie Aktionsboards, über die Sie Arbeitspakete einfach via Drag & Drop Nutzern zuweisen können.</li> <li>Versionen werden nach Namen, nicht nach Datum sortiert, was die Auswahl einer Version aus der Liste vereinfacht.</li> <li><b>Entfernung der 24-Stunden Beschränkung</b> für Zeiterfassung.</li> <li>Nachrichten-Zusammenfassung wird im Projekt-Übersichts-Widget anzeigen.</li> <li>Verschiedene Fehlerbehebungen und <b>Verbesserungen der Benutzerfreundlichkeit</b>.</li> </ul>
+              Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br><br> <ul class="%{list_styling_class}"> <li><b>Schnellere Zeiterfassung</b> für Arbeitspakete aus der Detailansicht oder der Listenansicht.</li> <li><b>Verbesserte Tabellenformatierung</b> um Tabellen im WYSIWYG-Editor besser zu konfigurieren, z. B. für Breite, Farbe, Ausrichtung oder Padding der Zelle .</li> <li>Die Kartenansicht für Arbeitspakete enthält nun auch den Projektnamen.</li> <li>OpenProject ist jetzt <b>100% ins Slowenische übersetzt</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: "https://www.openproject.org/openproject-bim-10-5\n"
             current_new_feature_html: >
-              OpenProject 10.5 unterstützt nun das <b>BIM Collaboration Format (BCF)</b> – den offenen Standard für Ticketverfolgung in BIM Modellen.<br><br> <ul> <li>Einfach <b>BIM Tickets anlegen und verwalten</b> wie z. B. Konflikte, Anfragen und Fragen im interaktiven 3D-IFC-Viewer und <b>teilen der Informationen mit dem Projektteam.</b></li> <li>Integrieren Sie OpenProject mit Ihrer bevorzugten BIM Software mit der leistungsstarken <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>BCF XML-Dateien importieren und exportieren.</li> </ul>
+              OpenProject 10.5 unterstützt nun das <b>BIM Collaboration Format (BCF)</b> – den offenen Standard für Ticketverfolgung in BIM Modellen.<br><br> <ul class="%{list_styling_class}"> <li>Einfach <b>BIM Tickets anlegen und verwalten</b> wie z. B. Konflikte, Anfragen und Fragen im interaktiven 3D-IFC-Viewer und <b>teilen der Informationen mit dem Projektteam.</b></li> <li>Integrieren Sie OpenProject mit Ihrer bevorzugten BIM Software mit der leistungsstarken <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>BCF XML-Dateien importieren und exportieren.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -280,7 +280,7 @@ de:
     label_add_row_before: "Zeile davor hinzufügen"
     label_add_selected_columns: "Ausgewählte Spalten hinzufügen"
     label_added_by: "hinzugefügt von"
-    label_added_time_by: "Von %{author} %{age} hinzugefügt"
+    label_added_time_by: "Hinzugefügt von <a href=%{authorLink}>%{author}</a> am %{age}"
     label_ago: "vor (Tage)"
     label_all: "alle"
     label_all_work_packages: "alle Arbeitspakete"

@@ -55,7 +55,7 @@ describe OpenProject::Reminders::DueIssuesReminder do
       end
 
       context 'with work package assigned to group' do
-        let!(:group) { FactoryBot.create(:group, lastname: "Managers", users: [user]) }
+        let!(:group) { FactoryBot.create(:group, lastname: "Managers", members: user) }
         let!(:group_wp) do
           FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: group, subject: 'some group issue')
         end

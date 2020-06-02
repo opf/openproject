@@ -19,14 +19,13 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 vi:
   activerecord:
     attributes:
       work_package:
         position: "Vị trí"
-        remaining_hours: "Remaining Hours"
-        remaining_time: "Remaining hours"
+        remaining_hours: "Số giờ còn lại"
+        remaining_time: "Số giờ còn lại"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -35,7 +34,7 @@ vi:
           attributes:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
-              must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
+              must_block_at_least_one_work_package: "bắt buộc phải chứa ID của ít nhất một việc"
             parent_id:
               type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
         sprint:
@@ -73,7 +72,7 @@ vi:
     properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
+    remaining_hours: "Số giờ còn lại"
     remaining_hours_ideal: "Remaining hours (ideal)"
     show_burndown_chart: "Burndown Chart"
     story: "Story"
@@ -97,10 +96,10 @@ vi:
   backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
   backlogs_sprints: "Sprints"
   backlogs_story: "Story"
-  backlogs_story_type: "Story types"
+  backlogs_story_type: "Loại câu truyện tóm tắt"
   backlogs_task: "Nhiệm vụ"
-  backlogs_task_type: "Task type"
-  backlogs_velocity_missing: "No velocity could be calculated for this project"
+  backlogs_task_type: "Loại công việc"
+  backlogs_velocity_missing: "Không có tốc độ hoàn thành nào được tính cho dự án này"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
   backlogs_wiki_template: "Template for sprint wiki page"
   backlogs_empty_title: "No versions are defined to be used in backlogs"

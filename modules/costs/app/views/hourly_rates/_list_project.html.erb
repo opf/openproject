@@ -37,7 +37,7 @@ See docs/COPYRIGHT.rdoc for more details.
                    current_rate = @user.current_rate(project)
                  end
 %>
-
+<div class="user-rate-history-list">
 <div class="contextual">
   <% if project && User.current.allowed_to?({:controller => '/hourly_rates', :action => 'edit'}, project) %>
     <%= link_to t(:button_update), {:controller => '/hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
@@ -100,3 +100,4 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 <% end %>
+</div>

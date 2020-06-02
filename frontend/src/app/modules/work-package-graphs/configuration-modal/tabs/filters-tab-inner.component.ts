@@ -6,7 +6,6 @@ import {WorkPackageViewFiltersService} from 'core-app/modules/work_packages/rout
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {QuerySpacedTabComponent} from "core-app/modules/work-package-graphs/configuration-modal/tabs/abstract-query-spaced-tab.component";
 
 @Component({

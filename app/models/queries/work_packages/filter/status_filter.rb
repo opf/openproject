@@ -30,7 +30,7 @@
 
 class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    all_statuses.map { |s| [s.name, s.id.to_s] }
+    all_statuses.values.map { |s| [s.name, s.id.to_s] }
   end
 
   def available_operators
@@ -54,13 +54,13 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
   end
 
   def value_objects
-    values_ids = values.map(&:to_i)
-
-    all_statuses.select { |status| values_ids.include?(status.id) }
+    values
+      .map { |status_id| all_statuses[status_id.to_i] }
+      .compact
   end
 
   def allowed_objects
-    all_statuses
+    all_statuses.values
   end
 
   def ar_object_filter?
@@ -73,7 +73,7 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
     key = 'Queries::WorkPackages::Filter::StatusFilter/all_statuses'
 
     RequestStore.fetch(key) do
-      Status.all.to_a
+      Status.all.to_a.index_by(&:id)
     end
   end
 

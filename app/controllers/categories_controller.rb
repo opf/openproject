@@ -28,7 +28,7 @@
 #++
 
 class CategoriesController < ApplicationController
-  menu_item :settings
+  menu_item :settings_categories
   model_object Category
   before_action :find_model_object, except: [:new, :create]
   before_action :find_project_from_association, except: [:new, :create]

@@ -1,5 +1,4 @@
 import {Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset

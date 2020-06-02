@@ -28,7 +28,7 @@
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, Inject, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({

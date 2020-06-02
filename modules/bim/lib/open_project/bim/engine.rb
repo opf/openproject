@@ -61,6 +61,13 @@ module OpenProject::Bim
                    dependencies: %i[view_linked_issues
                                     view_work_packages
                                     add_work_packages
+                                    edit_work_packages]
+        permission :delete_bcf,
+                   {},
+                   dependencies: %i[view_linked_issues
+                                    manage_bcf
+                                    view_work_packages
+                                    add_work_packages
                                     edit_work_packages
                                     delete_work_packages]
       end

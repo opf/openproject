@@ -114,7 +114,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public get ckEditorContext():ICKEditorContext {
     return {
-      resource: this.resource,
+      resource: this.change.pristineResource,
       macros: 'none' as 'none',
       previewContext: this.previewContext,
       options: { rtl: this.schema.options && this.schema.options.rtl }

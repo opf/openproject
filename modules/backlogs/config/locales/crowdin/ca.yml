@@ -19,7 +19,6 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 ca:
   activerecord:
     attributes:
@@ -46,7 +45,7 @@ ca:
         work_package:
           attributes:
             version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "ha de ser el mateix que la versió pare de la història."
             parent_id:
               parent_child_relationship_across_projects: "no és vàlid perquè el paquet de treball '%{work_package_name}' és una tasca de la llista de pendents i per tant no pot tenir un pare fora el projecte actual."
   backlogs:
@@ -55,7 +54,7 @@ ca:
     backlog_settings: "Configuració de la llista de pendents"
     burndown_graph: "Gràfic de progrés"
     card_paper_size: "Mida de paper per a impressió de targetes"
-    chart_options: "Chart options"
+    chart_options: "Opcions del gràfic"
     close: "Tancar"
     column_width: "Amplada de la columna:"
     date: "Dia"
@@ -103,8 +102,8 @@ ca:
   backlogs_velocity_missing: "No es pot calcular la velocitat d'aquest projecte"
   backlogs_velocity_varies: "La velocitat varia significativament d'un sprint a l'altre"
   backlogs_wiki_template: "Plantilla per a la pàgina wiki de l'sprint"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "No hi ha versions definides per a ser utilitzades als backlogs"
+  backlogs_empty_action_text: "Per a introduir-se als backlogs, generi una nova versio i assigni-la a la columna bakclogs."
   button_edit_wiki: "Editar pàgina wiki"
   error_intro_plural: "S'han produït els següents errors:"
   error_intro_singular: "S'ha produït el següent error:"
@@ -128,32 +127,32 @@ ca:
   label_points_burn_down: "A baix"
   label_points_burn_up: "Amunt"
   label_product_backlog: "llista de pendents del producte"
-  label_select_all: "Select all"
-  label_sprint_backlog: "sprint backlog"
-  label_sprint_cards: "Export cards"
-  label_sprint_impediments: "Sprint Impediments"
-  label_sprint_name: "Sprint \"%{name}\""
-  label_sprint_velocity: "Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days"
-  label_stories: "Stories"
-  label_stories_tasks: "Stories/Tasks"
-  label_task_board: "Task board"
+  label_select_all: "Selecciona-ho tot"
+  label_sprint_backlog: "esprint backlog"
+  label_sprint_cards: "Exportar targetes"
+  label_sprint_impediments: "Impediments d'esprint"
+  label_sprint_name: "Esprint \"%{name}\""
+  label_sprint_velocity: "Velocitat %{velocity}, basada en %{sprints} esprints amb una mitja de %{days} dies"
+  label_stories: "Històries"
+  label_stories_tasks: "Històries/Tasques"
+  label_task_board: "Taulers"
   label_version_setting: "Versions"
   label_version: 'Versió'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
-  permission_view_master_backlog: "View master backlog"
-  permission_view_taskboards: "View taskboards"
-  permission_update_sprints: "Update sprints"
-  points_accepted: "points accepted"
-  points_committed: "points committed"
-  points_resolved: "points resolved"
-  points_to_accept: "points not accepted"
-  points_to_resolve: "points not resolved"
+  permission_view_master_backlog: "Veure el backlog mestre"
+  permission_view_taskboards: "Veure taulers"
+  permission_update_sprints: "Actualitzar esprints"
+  points_accepted: "punts acceptats"
+  points_committed: "punts compromesos"
+  points_resolved: "punts resolts"
+  points_to_accept: "punts no acceptats"
+  points_to_resolve: "punts no resolts"
   project_module_backlogs: "Llistes de pendents"
-  rb_label_copy_tasks: "Copy work packages"
-  rb_label_copy_tasks_all: "All"
+  rb_label_copy_tasks: "Copiar paquets de treball"
+  rb_label_copy_tasks_all: "Tot"
   rb_label_copy_tasks_none: "Cap"
-  rb_label_copy_tasks_open: "Open"
+  rb_label_copy_tasks_open: "Obert"
   rb_label_link_to_original: "Incloure l'enllaç a la història original"
   remaining_hours: "hores restants"
   required_burn_rate_hours: "ritme de progrés necessari (hores)"

@@ -1,7 +1,7 @@
 import {Component, Input, SimpleChanges} from '@angular/core';
 import {WorkPackageTableConfiguration} from 'core-components/wp-table/wp-table-configuration';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {Chart, ChartOptions, ChartType} from 'chart.js';
+import {ChartOptions, ChartType} from 'chart.js';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface WorkPackageEmbeddedGraphDataset {
@@ -96,9 +96,13 @@ export class WorkPackageEmbeddedGraphComponent {
       legend: {
         // Only display legends if more than one dataset is provided.
         display: this.datasets.length > 1
-      }
-    };
-
+      },
+      plugins: {
+        datalabels: {
+            align :this.chartType === 'bar' ? 'top' :'center',
+        }
+    }
+  };
     let chartTypeDefaults:ChartOptions = {};
 
     if (this.chartType === 'horizontalBar') {

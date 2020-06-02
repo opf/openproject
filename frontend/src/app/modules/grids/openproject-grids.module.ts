@@ -63,6 +63,7 @@ import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subproj
 import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
 import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/members.component";
 import {WidgetProjectStatusComponent} from "core-app/modules/grids/widgets/project-status/project-status.component";
+import {OpenprojectTimeEntriesModule} from "core-app/modules/time_entries/openproject-time-entries.module";
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import {WidgetProjectStatusComponent} from "core-app/modules/grids/widgets/proje
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageGraphsModule,
     OpenprojectCalendarModule,
+    OpenprojectTimeEntriesModule,
 
     OpenprojectAttachmentsModule,
 

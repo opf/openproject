@@ -10,6 +10,7 @@ import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates
 import {bimSplitViewIdentifier, BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/wp-list-view/wp-list-view.component.html',
@@ -24,6 +25,7 @@ import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routin
 })
 export class BcfListContainerComponent extends WorkPackageListViewComponent implements OnInit {
   @InjectField() bimView:BimViewService;
+  @InjectField() ifcModelsService:IfcModelsDataService;
 
   public wpTableConfiguration = {
     dragAndDropEnabled: false
@@ -35,6 +37,10 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   }
 
   protected showResizerInCardView():boolean {
-    return this.bimView.currentViewerState() === bimSplitViewIdentifier;
+    if (this.noResults && this.ifcModelsService.models.length === 0) {
+      return false;
+    } else {
+      return this.bimView.currentViewerState() === bimSplitViewIdentifier;
+    }
   }
 }

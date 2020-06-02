@@ -22,6 +22,7 @@ ja:
       export: '外部出力'
       import_update_comment: '(BCF インポートで更新済)'
       import_failed: 'BCF ファイルをインポートできません: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: '%{count} BCF チケットをインポートしました'
       import_canceled: 'BCF-XML インポートをキャンセルしました。'
       type_not_active: "チケットの形式がこのプロジェクトで有効になっていません。"
@@ -65,6 +66,7 @@ ja:
   project_module_bim: "BCF"
   permission_view_linked_issues: "BCF チケットを表示"
   permission_manage_bcf: "BCF チケットのインポートと管理"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"

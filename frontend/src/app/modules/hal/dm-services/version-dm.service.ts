@@ -33,9 +33,6 @@ import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {Observable} from "rxjs";
 import {buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable()

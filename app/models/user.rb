@@ -269,25 +269,27 @@ class User < Principal
   def self.try_authentication_and_create_user(login, password)
     return nil if OpenProject::Configuration.disable_password_login?
 
-    user = nil
     attrs = AuthSource.authenticate(login, password)
-    if attrs
-      # login is both safe and protected in chilis core code
-      # in case it's intentional we keep it that way
-      user = new(attrs.except(:login))
-      user.login = login
+    try_to_create(attrs) if attrs
+  end
+
+  # Try to create the user from attributes
+  def self.try_to_create(attrs, notify: false)
+    new(attrs).tap do |user|
       user.language = Setting.default_language
 
       if OpenProject::Enterprise.user_limit_reached?
-        OpenProject::Enterprise.send_activation_limit_notification_about user
+        OpenProject::Enterprise.send_activation_limit_notification_about(user) if notify
 
+        Rails.logger.error("User '#{user.login}' could not be created as user limit exceeded.")
         user.errors.add :base, I18n.t(:error_enterprise_activation_user_limit)
       elsif user.save
         user.reload
-        logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
+        Rails.logger.info("User '#{user.login}' created from external auth source: #{user.auth_source&.type} - #{user.auth_source&.name}")
+      else
+        Rails.logger.error("User '#{user.login}' could not be created: #{user.errors.full_messages.join(". ")}")
       end
     end
-    user
   end
 
   # Returns the user who matches the given autologin +key+ or nil

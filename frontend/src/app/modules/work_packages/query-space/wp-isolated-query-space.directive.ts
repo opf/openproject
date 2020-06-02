@@ -56,7 +56,6 @@ import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedd
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {debugLog} from "core-app/helpers/debug_output";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
@@ -65,6 +64,7 @@ import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work
 import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -118,10 +118,10 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
     WorkPackageCardViewService,
 
     HalResourceEditingService,
+    TimeEntryCreateService,
     WorkPackageCreateService,
 
     WorkPackageStatesInitializationService,
-    PortalCleanupService,
 
     // Table Drag & Drop actions
     TableDragActionsRegistryService,

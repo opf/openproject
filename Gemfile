@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.2'
+gem 'rails', '~> 6.0.3.1'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -178,7 +178,7 @@ gem 'aws-sdk-core', '~> 3.91.0'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.61.0'
 
-gem 'openproject-token', '~> 1.0.2'
+gem 'openproject-token', '~> 2.0'
 
 gem 'plaintext', '~> 0.3.2'
 

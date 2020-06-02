@@ -47,8 +47,8 @@ feature 'group memberships through groups page', type: :feature, js: true do
   before do
     allow(User).to receive(:current).and_return admin
 
-    group.add_member! peter
-    group.add_member! hannibal
+    group.add_members! peter
+    group.add_members! hannibal
   end
 
   shared_examples 'adding and removing principals' do

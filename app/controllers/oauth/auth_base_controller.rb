@@ -34,6 +34,17 @@ module OAuth
   # See config/initializers/doorkeeper.rb
   class AuthBaseController < ::ApplicationController
     skip_before_action :check_if_login_required
+    after_action :extend_content_security_policy
     layout 'only_logo'
+
+    def extend_content_security_policy
+      use_content_security_policy_named_append(:oauth)
+    end
+
+    def allowed_forms
+      allowed_redirect_urls = pre_auth&.client&.application&.redirect_uri
+      urls = allowed_redirect_urls.to_s.split
+      urls.map { |url| URI.join(url, '/') }.map(&:to_s)
+    end
   end
 end

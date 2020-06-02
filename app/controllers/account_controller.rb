@@ -60,13 +60,12 @@ class AccountController < ApplicationController
 
   # Log out current user and redirect to welcome page
   def logout
+    # Keep attributes from the session
+    # to identify the user
+    previous_session = session.to_h.with_indifferent_access
     logout_user
-    if Setting.login_required? && omniauth_direct_login?
-      flash.now[:notice] = I18n.t :notice_logged_out
-      render :exit, locals: { instructions: :after_logout }
-    else
-      redirect_to home_url
-    end
+
+    perform_post_logout previous_session
   end
 
   # Enable user to choose a new password
@@ -358,14 +357,6 @@ class AccountController < ApplicationController
       instructions = error ? :after_error : :after_registration
 
       render :exit, locals: { instructions: instructions }
-    end
-  end
-
-  def logout_user
-    if User.current.logged?
-      cookies.delete OpenProject::Configuration['autologin_cookie_name']
-      Token::AutoLogin.where(user_id: current_user.id).delete_all
-      self.logged_user = nil
     end
   end
 

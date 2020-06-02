@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, Injector} from "@angular/core";
+import {ChangeDetectorRef, Injector, OnInit} from "@angular/core";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
@@ -7,6 +7,9 @@ import {TimezoneService} from "core-components/datetime/timezone.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
@@ -26,8 +29,11 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   private entriesLoaded = false;
   public rows:{ date:string, sum?:string, entry?:TimeEntryResource}[] = [];
 
+  @InjectField() public readonly timeEntryEditService:TimeEntryEditService;
+  @InjectField() public readonly timeEntryCache:TimeEntryCacheService;
+
   constructor(readonly timeEntryDm:TimeEntryDmService,
-              protected readonly injector:Injector,
+              readonly injector:Injector,
               readonly timezone:TimezoneService,
               readonly i18n:I18nService,
               readonly pathHelper:PathHelperService,
@@ -82,20 +88,29 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     return this.formatNumber(this.timezone.toHours(entry.hours));
   }
 
-  public editPath(entry:TimeEntryResource) {
-    return this.pathHelper.timeEntryEditPath(entry.id!);
-  }
-
-  public deletePath(entry:TimeEntryResource) {
-    return this.pathHelper.timeEntryPath(entry.id!);
-  }
-
   public workPackagePath(entry:TimeEntryResource) {
     return this.pathHelper.workPackagePath(entry.workPackage.idFromLink);
   }
 
   public get isEditable() {
     return false;
+  }
+
+  public editTimeEntry(entry:TimeEntryResource) {
+    this.timeEntryCache.require(entry.id!).then((loadedEntry) => {
+      this.timeEntryEditService
+        .edit(loadedEntry)
+        .then((changedEntry) => {
+          let oldEntryIndex:number = this.entries.findIndex(el => el.id === changedEntry.entry.id);
+          let newEntries = this.entries;
+          newEntries[oldEntryIndex] = changedEntry.entry;
+
+          this.buildEntries(newEntries);
+        })
+        .catch(() => {
+          // User canceled the modal
+        });
+    });
   }
 
   public deleteIfConfirmed(event:Event, entry:TimeEntryResource) {

@@ -26,26 +26,30 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Injector, ViewChild, ElementRef} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {PortalCleanupService} from 'core-app/modules/fields/display/display-portal/portal-cleanup.service';
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
-import {from, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 @Component({
   templateUrl: './project-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    // required by the displayField service to render the fields
-    PortalCleanupService,
     WorkPackageViewHighlightingService,
     IsolatedQuerySpace,
     HalResourceEditingService

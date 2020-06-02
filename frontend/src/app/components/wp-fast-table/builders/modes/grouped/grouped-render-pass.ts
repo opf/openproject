@@ -9,7 +9,6 @@ import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
 import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {collapsedRowClass} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import {getLocaleCurrencyName} from "@angular/common";
 
 export class GroupedRenderPass extends PlainRenderPass {
 

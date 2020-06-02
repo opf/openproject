@@ -264,13 +264,13 @@ tr:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Sürüm çeşitli yeni özellikler ve geliştirmeler içeriyor: <br> <br> <ul> <li> <b> Atanan kişiler için eylem panosu </b>: kartları listeler arasında taşırken atananı otomatik olarak güncelleyecek eylem panoları oluşturun. </ li> <li> Sürümleri listeden sürüm seçmeyi çok daha kolay hale getiren tarihe göre değil, ada göre sıralayın. </li> <li> <b> Zamanlı izleme için 24 saatlik kısıtlamayı kaldırın </b>. </ li> <li> Proje özeti widget'ında haber özetini göster. </li> <li> Çeşitli hata düzeltmeleri ve <b> kullanılabilirlik geliştirmeleri </b>. </li> </ul>
+              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 artık BIM modelleri için açık sorun izleme standardı olan <b> BIM İşbirliği Formatını (BCF) </b> desteklemektedir. <br> <br> <ul> <li> BIM sorunlarını kolayca oluşturun ve <b> yönetin < / b> gibi etkileşimli 3D IFC modelindeki çakışmalar, istekler ve sorular ve <b> proje ekibiyle paylaşın. </b> </li> <li> Güçlü <a kullanarak OpenProject'i favori BIM yazılımınızla entegre edin target = "_ blank" href = "% {bcf_api_link}"> BCF REST API'sı. </a> </li> <li> BCF XML dosyalarını içe ve dışa aktarın. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -281,7 +281,7 @@ tr:
     label_add_row_before: "Öncesine satır ekle"
     label_add_selected_columns: "Seçilen sütunları ekle"
     label_added_by: "ekleyen"
-    label_added_time_by: "%{author} %{age} tarafından eklendi"
+    label_added_time_by: "<a href=%{authorLink}>%{author}</a> at %{age} tarafından eklendi"
     label_ago: "gün önce"
     label_all: "tüm"
     label_all_work_packages: "tüm iş paketleri"

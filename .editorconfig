@@ -474,7 +474,7 @@ ij_ruby_spaces_around_other_operators = true
 ij_ruby_spaces_around_range_operators = false
 ij_ruby_spaces_around_relational_operators = true
 ij_ruby_spaces_within_array_initializer_braces = true
-ij_ruby_spaces_within_braces = false
+ij_ruby_spaces_within_braces = true
 
 [{version-autocompleter.component.ts,*.ats,*.ts}]
 ij_continuation_indent_size = 2

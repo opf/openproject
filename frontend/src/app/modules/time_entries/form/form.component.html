@@ -27,11 +27,13 @@
       </editable-attribute-field>
     </div>
 
-    <div class="attributes-map--key"
+    <div *ngIf="showWorkPackageField"
+         class="attributes-map--key"
          [ngClass]="{'-required': isRequired('workPackage')}"
          [textContent]="text.attributes.workPackage">
     </div>
-    <div class="attributes-map--value">
+    <div *ngIf="showWorkPackageField"
+         class="attributes-map--value">
       <editable-attribute-field [resource]="entry"
                                 [fieldName]="'workPackage'">
       </editable-attribute-field>

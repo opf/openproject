@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,21 +29,21 @@
 #++
 
 class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
-  acts_as_activity_provider type: 'time_entries',
-                            permission: :view_time_entries
+  activity_provider_for type: 'time_entries',
+                        permission: :view_time_entries
 
-  def extend_event_query(query, activity)
-    query.join(work_packages_table).on(activity_journals_table(activity)[:work_package_id].eq(work_packages_table[:id]))
+  def extend_event_query(query)
+    query.join(work_packages_table).on(activity_journals_table[:work_package_id].eq(work_packages_table[:id]))
     query.join(types_table).on(work_packages_table[:type_id].eq(types_table[:id]))
     query.join(statuses_table).on(work_packages_table[:status_id].eq(statuses_table[:id]))
   end
 
-  def event_query_projection(activity)
+  def event_query_projection
     [
-      activity_journal_projection_statement(:hours, 'time_entry_hours', activity),
-      activity_journal_projection_statement(:comments, 'time_entry_comments', activity),
-      activity_journal_projection_statement(:project_id, 'project_id', activity),
-      activity_journal_projection_statement(:work_package_id, 'work_package_id', activity),
+      activity_journal_projection_statement(:hours, 'time_entry_hours'),
+      activity_journal_projection_statement(:comments, 'time_entry_comments'),
+      activity_journal_projection_statement(:project_id, 'project_id'),
+      activity_journal_projection_statement(:work_package_id, 'work_package_id'),
       projection_statement(projects_table, :name, 'project_name'),
       projection_statement(work_packages_table, :subject, 'work_package_subject'),
       projection_statement(statuses_table, :name, 'status_name'),
@@ -53,12 +54,12 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
 
   protected
 
-  def event_title(event, _activity)
+  def event_title(event)
     time_entry_object_name = event['work_package_id'].blank? ? event['project_name'] : work_package_title(event)
     "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
   end
 
-  def event_type(_event, _activity)
+  def event_type(_event)
     'time-entry'
   end
 
@@ -70,23 +71,35 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
                                                                event['is_standard'])
   end
 
-  def event_description(event, _activity)
+  def event_description(event)
     event['time_entry_description']
   end
 
-  def event_path(event, _activity)
-    unless event['work_package_id'].blank?
-      url_helpers.work_package_time_entries_path(event['work_package_id'])
-    else
+  def event_path(event)
+    if event['work_package_id'].present?
       url_helpers.project_time_entries_path(event['project_id'])
+    else
+      url_helpers.work_package_time_entries_path(event['work_package_id'])
     end
   end
 
-  def event_url(event, _activity)
-    unless event['work_package_id'].blank?
-      url_helpers.work_package_time_entries_url(event['work_package_id'])
-    else
+  def event_url(event)
+    if event['work_package_id'].present?
       url_helpers.project_time_entries_url(event['project_id'])
+    else
+      url_helpers.work_package_time_entries_url(event['work_package_id'])
     end
+  end
+
+  def types_table
+    @types_table = Type.arel_table
+  end
+
+  def statuses_table
+    @statuses_table = Status.arel_table
+  end
+
+  def work_packages_table
+    @work_packages_table ||= WorkPackage.arel_table
   end
 end

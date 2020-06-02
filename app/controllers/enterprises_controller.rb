@@ -38,6 +38,7 @@ class EnterprisesController < ApplicationController
   before_action :youtube_content_security_policy
   before_action :require_admin
   before_action :check_user_limit, only: [:show]
+  before_action :check_domain, only: [:show]
 
   def show
     @current_token = EnterpriseToken.current
@@ -66,7 +67,10 @@ class EnterprisesController < ApplicationController
         @token.encoded_token = saved_encoded_token
         @current_token = @token || EnterpriseToken.new
       end
-      render action: :show
+      respond_to do |format|
+        format.html { render action: :show }
+        format.json { render json: { description: @token.errors.full_messages.join(", ") }, status: 400 }
+      end
     end
   end
 
@@ -76,8 +80,7 @@ class EnterprisesController < ApplicationController
       token.destroy
       flash[:notice] = t(:notice_successful_delete)
 
-      trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
-      trial_key&.destroy
+      delete_trial_key
 
       redirect_to action: :show
     else
@@ -89,19 +92,25 @@ class EnterprisesController < ApplicationController
     Token::EnterpriseTrialKey.create(user_id: User.system.id, value: params[:trial_key])
   end
 
+  def delete_trial_key
+    Token::EnterpriseTrialKey.where(user_id: User.system.id).delete_all
+  end
+
   private
 
   def write_trial_key_to_gon
     @trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
     if @trial_key
       gon.ee_trial_key = {
-        value: @trial_key.value
+        value: @trial_key.value,
+        created: @trial_key.created_on
       }
     end
   end
 
   def write_augur_to_gon
     gon.augur_url = OpenProject::Configuration.enterprise_trial_creation_host
+    gon.token_version = OpenProject::Token::VERSION
   end
 
   def default_breadcrumb
@@ -118,6 +127,16 @@ class EnterprisesController < ApplicationController
         "warning_user_limit_reached_instructions",
         current: OpenProject::Enterprise.active_user_count,
         max: OpenProject::Enterprise.user_limit
+      )
+    end
+  end
+
+  def check_domain
+    if OpenProject::Enterprise.token.try(:invalid_domain?)
+      flash.now[:error] = I18n.t(
+        "error_enterprise_token_invalid_domain",
+        expected: Setting.host_name,
+        actual: OpenProject::Enterprise.token.domain
       )
     end
   end

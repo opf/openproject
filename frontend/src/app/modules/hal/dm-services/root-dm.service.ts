@@ -27,7 +27,7 @@
 //++
 
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 

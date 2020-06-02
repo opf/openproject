@@ -27,18 +27,12 @@
 // ++
 
 import {ResourcesDisplayField} from "./resources-display-field.module";
-import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
-import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
-import {DomPortalOutlet} from "@angular/cdk/portal";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
 
 export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
-  @InjectField() userDisplayPortal:UserFieldPortalService;
-  @InjectField() portalCleanup:PortalCleanupService;
-
-  public outlet:DomPortalOutlet;
+  @InjectField() avatarRenderer:UserAvatarRendererService;
 
   public render(element:HTMLElement, displayText:string):void {
     const values = this.attribute;
@@ -55,7 +49,6 @@ export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
   }
 
   protected renderValues(values:UserResource[], element:HTMLElement) {
-    this.outlet = this.userDisplayPortal.create(element, values, true);
-    this.portalCleanup.add(() => this.outlet.dispose());
+    this.avatarRenderer.renderMultiple(element, values, true, true);
   }
 }

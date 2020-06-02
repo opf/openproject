@@ -9,7 +9,7 @@ module OpenProject::LdapGroups
              bundled: true,
              settings: {
                default: {
-                 group_base: nil
+                 name_attribute: 'cn'
                }
              } do
       menu :admin_menu,

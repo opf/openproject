@@ -54,7 +54,7 @@ de:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Protokoll"
   label_meeting_close: "Schließen"
-  label_meeting_open: "Öffnen"
+  label_meeting_open: "Offene"
   label_meeting_agenda_close: "Agenda schließen um mit dem Protokoll zu beginnen"
   label_meeting_date_time: "Datum/Uhrzeit"
   label_meeting_diff: "Differenz"

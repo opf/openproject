@@ -25,6 +25,7 @@ pl:
       export: 'Eksportuj'
       import_update_comment: '(Zaktualizowano w imporcie BCF)'
       import_failed: 'Nie można zaimportować pliku BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Nie można odczytać pliku BCF: Wersja BCF jest nieobsługiwana. Użyj wersji co najmniej %{minimal_version}.'
       import_successful: 'Zaimportowano problemy BCF (%{count})'
       import_canceled: 'Anulowano import BCF-XML.'
       type_not_active: "Typ problemu nie jest aktywowany dla tego projektu."
@@ -68,6 +69,7 @@ pl:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Wyświetlanie problemów BCF"
   permission_manage_bcf: "Importowanie problemów BCF i zarządzanie nimi"
+  permission_delete_bcf: "Usuń problemy BCF"
   oauth:
     scopes:
       bcf_v2_1: "Pełny dostęp do interfejsu API BCF v2.1"

@@ -108,17 +108,17 @@ ru:
         OpenProject будет фильтровать указанных пользователей только в этом поддереве.
         Пример: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Добавьте опциональный фильтр RFC4515 для применения к результатам, полученным от пользователей, отфильтрованных в LDAP.
+        Это можно использовать при ограничении набора пользователей, найденых OpenProject для аутентификации и групповой синхронизации.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject всегда фильтрует атрибут логина, предоставленный пользователем для определения записи. Если вы предоставите здесь фильтр,
+        он будет объединён с AND. По умолчанию в качестве фильтра будет использоваться catch-all (objectClass=*).
       onthefly_register: |
         Отмеченный флажок разрешает OpenProject при первой аутентификации создавать новых пользователей из их LDAP записей.
         Для аутентификации существующих в OpenProject учетных записей через LDAP не отмечайте!
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        Если вы включите синхронизацию групп для этого подключения LDAP, пользователи также будут автоматически созданы
+        в OpenProject для синхронизированных групп. Без него в группе будут добавлены только существующие учетные записи в OpenProject.
     connection_encryption: 'Шифрование подключения'
     system_account: 'Системный аккаунт'
     system_account_legend: |
@@ -231,6 +231,9 @@ ru:
       no_results_title_text: На данный момент новостей для отчета нет.
       no_results_content_text: Добавить новость
   users:
+    groups:
+      member_in_these_groups: 'Этот пользователь в настоящее время является членом следующих групп:'
+      no_results_title_text: Этот пользователь в настоящее время не является членом какой-либо группы.
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   prioritiies:
@@ -359,7 +362,7 @@ ru:
         attr_mail: "Атрибуты e-mail"
         base_dn: "Корневой элемент(Base DN)"
         host: "Хост"
-        onthefly: "Automatic user creation"
+        onthefly: "Автоматическое создание пользователя"
         port: "Порт"
       changeset:
         repository: "Репозиторий"
@@ -483,6 +486,7 @@ ru:
         parent_work_package: "Родитель"
         priority: "Приоритет"
         progress: "Прогресс (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
         subproject: "Подпроект"
@@ -1099,6 +1103,7 @@ ru:
   error_cookie_missing: 'Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что Cookie разрешены. Без них приложение не будет функционировать должным образом.'
   error_custom_option_not_found: "Параметр не существует."
   error_enterprise_activation_user_limit: "Ваша учетная запись не может быть активирована (достигнут предел пользователя). Обратитесь к администратору для получения доступа."
+  error_enterprise_token_invalid_domain: "Корпоративная версия не активна. Домен вашего корпоративного токена (%{actual}) не совпадает с системным именем (%{expected})."
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
   error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Выбранное значение недопустимо."
@@ -1339,6 +1344,7 @@ ru:
   label_delete_project: "Удалить проект"
   label_deleted: "﻿Удалено"
   label_deleted_custom_field: "(удалено настраиваемое поле)"
+  label_deleted_custom_option: "(удалённая опция)"
   label_descending: "По убыванию"
   label_details: "Детали"
   label_development_roadmap: "Дорожная карта разработки"
@@ -1356,7 +1362,7 @@ ru:
   label_duplicate: "дублировать"
   label_duplicates: "Дубликаты"
   label_edit: "Правка"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Правка: %{x}"
   label_enable_multi_select: "Разрешен множественный выбор"
   label_enabled_project_custom_fields: 'Доступные настраиваемые поля'
   label_enabled_project_modules: 'Включенные модули'

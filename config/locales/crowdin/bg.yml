@@ -232,6 +232,9 @@ bg:
       no_results_title_text: Няма новини за докладване.
       no_results_content_text: Добави новина
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Този потребител в момента не е член на проекта.
   prioritiies:
@@ -482,6 +485,7 @@ bg:
         parent_work_package: "Горна категория"
         priority: "Приоритет"
         progress: "Прогрес (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Отработено време"
         spent_time: "Отработено време"
         subproject: "Подпроект"
@@ -1068,6 +1072,7 @@ bg:
   error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies са активирани, тъй като това приложение не функционира правилно без тях.'
   error_custom_option_not_found: "Опцията не съществува."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
@@ -1308,6 +1313,7 @@ bg:
   label_delete_project: "Изтриване на проект"
   label_deleted: "изтрит"
   label_deleted_custom_field: "(изтрито потребителско поле)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Низходящо"
   label_details: "Подробности"
   label_development_roadmap: "Развитие на пътната карта"

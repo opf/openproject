@@ -232,6 +232,9 @@ ro:
       no_results_title_text: În acest moment nu există știri de raportat.
       no_results_content_text: Adăugare știre nouă
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
   prioritiies:
@@ -483,6 +486,7 @@ ro:
         parent_work_package: "Părinte"
         priority: "Prioritate"
         progress: "Progres (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
         subproject: "Subproiect"
@@ -1084,6 +1088,7 @@ ro:
   error_cookie_missing: 'Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Contul dvs. nu a putut fi activat (limita utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
@@ -1324,6 +1329,7 @@ ro:
   label_delete_project: "Delete project"
   label_deleted: "șters"
   label_deleted_custom_field: "(câmp personalizat șters)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Descrescător"
   label_details: "Detalii"
   label_development_roadmap: "Plan de lucru pentru dezvoltare"

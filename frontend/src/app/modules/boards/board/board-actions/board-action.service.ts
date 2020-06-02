@@ -1,7 +1,6 @@
 import {Board} from "core-app/modules/boards/board/board";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {Component} from "@angular/compiler/src/core";
 import {ComponentType} from "@angular/cdk/portal";
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 import {DisabledButtonPlaceholder} from "core-app/modules/boards/board/board-list/board-list.component";
@@ -82,4 +81,10 @@ export interface BoardActionService {
    * @returns {the icon class or nothing}
    */
   disabledAddButtonPlaceholder(resource?:HalResource):DisabledButtonPlaceholder|undefined;
+
+  /**
+   * Determines the specific warning to be shown, when there are no options to add as a list
+   * @returns {the text or nothing}
+   */
+  warningTextWhenNoOptionsAvailable():Promise<string|undefined>;
 }

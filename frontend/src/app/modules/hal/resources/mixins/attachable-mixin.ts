@@ -33,7 +33,6 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {HttpErrorResponse} from "@angular/common/http";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 

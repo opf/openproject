@@ -232,6 +232,9 @@ zh-TW:
       no_results_title_text: 目前沒有新消息報告
       no_results_content_text: 新增一個消息
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: 這個使用者目前不是任何專案的成員
   prioritiies:
@@ -481,6 +484,7 @@ zh-TW:
         parent_work_package: "上層目錄："
         priority: "優先等級"
         progress: "進度 (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "耗時"
         spent_time: "耗時"
         subproject: "子專案"
@@ -1048,10 +1052,11 @@ zh-TW:
   error_can_not_find_all_resources: "Could not find all related resources to this request."
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "請選擇一個使用者與一個角色。"
-  error_code: "Error %{code}"
+  error_code: "錯誤碼 %{code}"
   error_cookie_missing: 'OpenProject的Cookie遺失了。請確保瀏覽器的Cookie已經啟用，否則本應用程式將無法正常做用。'
   error_custom_option_not_found: "選項不存在。"
   error_enterprise_activation_user_limit: "無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。"
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: '刪除此項目失敗。'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "不合法的項目數值。"
@@ -1292,6 +1297,7 @@ zh-TW:
   label_delete_project: "刪除專案"
   label_deleted: "刪除線"
   label_deleted_custom_field: "(已刪除的自訂欄位)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "降冪"
   label_details: "詳細資料"
   label_development_roadmap: "發展路徑圖"

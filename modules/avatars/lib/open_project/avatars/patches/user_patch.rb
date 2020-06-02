@@ -34,14 +34,39 @@ module OpenProject::Avatars
       end
 
       module InstanceMethods
+        def reload(*args)
+          reset_avatar_attachment_cache!
+
+          super
+        end
+
         def local_avatar_attachment
-          attachments.find_by_description('avatar')
+          # @local_avatar_attachment can legitimately be nil which is why the
+          # typical
+          # inst_var ||= calculation
+          # pattern does not work for caching
+          return @local_avatar_attachment if @local_avatar_attachment_calculated
+
+          @local_avatar_attachment_calculated ||= begin
+                                                    @local_avatar_attachment = attachments.find_by_description('avatar')
+
+                                                    true
+                                                  end
+
+          @local_avatar_attachment
         end
 
         def local_avatar_attachment=(file)
-          local_avatar_attachment.destroy if local_avatar_attachment
-          self.attach_files('first' => { 'file' => file, 'description' => 'avatar' })
-          self.save
+          local_avatar_attachment&.destroy
+          reset_avatar_attachment_cache!
+
+          attach_files('first' => { 'file' => file, 'description' => 'avatar' })
+          save
+        end
+
+        def reset_avatar_attachment_cache!
+          @local_avatar_attachment = nil
+          @local_avatar_attachment_calculated = nil
         end
       end
     end

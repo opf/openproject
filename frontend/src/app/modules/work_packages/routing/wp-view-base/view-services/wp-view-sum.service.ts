@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InputState} from 'reactivestates';
 import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";

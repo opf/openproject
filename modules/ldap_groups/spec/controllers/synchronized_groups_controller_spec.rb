@@ -121,7 +121,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
       end
 
       context 'with valid params' do
-        let(:params) { { auth_source_id: 1, group_id: 1, entry: 'foo' } }
+        let(:params) { { auth_source_id: 1, group_id: 1, dn: 'cn=foo,ou=groups,dc=example,dc=com' } }
 
         context 'and saving succeeds' do
           let(:save_result) { true }

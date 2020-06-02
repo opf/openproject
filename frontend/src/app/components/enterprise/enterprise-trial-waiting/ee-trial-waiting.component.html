@@ -1,6 +1,6 @@
 <enterprise-active-trial></enterprise-active-trial>
 
-<p>{{ text.confirmation_info }}</p>
+<p>{{ text.confirmation_info(created, email) }}</p>
 <p>
   <span>{{ text.status_label }} </span>
   <span *ngIf="!eeTrialService.confirmed; else confirmedStatus" class="status--waiting">

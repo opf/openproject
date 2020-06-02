@@ -55,7 +55,6 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 import {WpRelationInlineCreateService} from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {IsolatedGraphQuerySpace} from "core-app/modules/work_packages/query-space/isolated-graph-query-space";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
@@ -99,12 +98,9 @@ export const WpIsolatedGraphQuerySpaceProviders = [
 
   WorkPackageStatesInitializationService,
 
-  PortalCleanupService,
-
   // Table Drag & Drop actions
   TableDragActionsRegistryService,
 ];
-
 
 
 /**

@@ -23,6 +23,7 @@ hu:
       export: 'Exportálás'
       import_update_comment: 'Frissítve a BCF import'
       import_failed: 'Nem lehet importálni a BCF fájlt! %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Importálva %{count} BCF eredmény'
       import_canceled: 'BCF-XML import megszakítva.'
       type_not_active: "Ez az eredmény típus nincs aktiválva ebben a projektben. "
@@ -66,6 +67,7 @@ hu:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Nézd BCF eredmény"
   permission_manage_bcf: "Import és manage BCF eredmények"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Teljes hozzáférés a BCF v2.1 API-hoz"

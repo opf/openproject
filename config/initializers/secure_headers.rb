@@ -73,3 +73,9 @@ SecureHeaders::Configuration.default do |config|
     connect_src: connect_src
   }
 end
+
+SecureHeaders::Configuration.named_append(:oauth) do |request|
+  hosts = request.controller_instance.try(:allowed_forms) || []
+
+  { form_action: hosts }
+end

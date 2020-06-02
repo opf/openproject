@@ -16,10 +16,5 @@ module OpenProject::Bim::Patches::ProjectSeederPatch
         data
       end
     end
-
-    def seed_settings
-      super
-      Setting.attachment_max_size = 256000
-    end
   end
 end

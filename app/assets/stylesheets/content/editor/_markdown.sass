@@ -1,7 +1,8 @@
 // Specific styles for displaying rendered markdown on all pages
 // This is still selected by div.wiki since this is still used throughout the app.
 
-div.wiki
+div.wiki,
+div.ck-editor__preview
 
   // Style pre tags alone
   pre
@@ -42,3 +43,15 @@ div.wiki
   // remove indentation of top-level task-list
   > ul.task-list
     margin-left: 0
+
+  // Style tables within figure.table
+  figure.table
+    // Copy the display style of CKEDitors table figures
+    // this prevents cutting of the figure if float is involved
+    display: table
+
+    // If a figure is present, it might set the width and height
+    // so we want to have the table at full width and height
+    > table
+      height: 100%
+      width: 100%

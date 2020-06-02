@@ -40,7 +40,6 @@ import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {States} from 'core-components/states.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
@@ -339,7 +338,7 @@ export class WorkPackageBaseResource extends HalResource {
   /**
    * Update the state
    */
-  public push(newValue:this):void {
+  public push(newValue:this):Promise<unknown> {
     this.wpActivity.clear(newValue.id!);
 
     // If there is a parent, its view has to be updated as well
@@ -347,7 +346,7 @@ export class WorkPackageBaseResource extends HalResource {
       this.wpCacheService.require(newValue.parent.id!, true);
     }
 
-    this.wpCacheService.updateWorkPackage(newValue as any);
+    return this.wpCacheService.updateWorkPackage(newValue as any);
   }
 
   public get hasOverriddenSchema():boolean {

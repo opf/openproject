@@ -79,7 +79,7 @@ feature 'user memberships through user page', type: :feature, js: true do
     let(:group_page) { Pages::Groups.new.group(group.id) }
 
     before do
-      group.add_member! admin
+      group.add_members! admin
     end
 
     scenario 'it can remove all other roles' do

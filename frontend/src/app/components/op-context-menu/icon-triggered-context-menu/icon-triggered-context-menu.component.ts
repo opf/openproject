@@ -28,14 +28,9 @@
 
 import {ChangeDetectorRef, Component, ElementRef, Injector, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
-import {Board} from "core-app/modules/boards/board/board";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 
 @Component({

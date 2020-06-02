@@ -53,7 +53,6 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 import {Subject} from "rxjs";
 import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
@@ -87,10 +86,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 @Component({
   templateUrl: './wp-single-view.html',
   selector: 'wp-single-view',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    PortalCleanupService
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -147,7 +143,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
               protected injector:Injector,
               protected cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef,
-              readonly cleanupService:PortalCleanupService,
               readonly browserDetector:BrowserDetector) {
     super();
   }
@@ -156,7 +151,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     this.$element = jQuery(this.elementRef.nativeElement);
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
-    this.resourceContextChange.next(this.contextFrom(change));
+    this.resourceContextChange.next(this.contextFrom(change.projectedResource));
     this.refresh(change);
 
     // Whenever the resource context changes in any way,
@@ -172,13 +167,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
     this.halEditing
-      .typedState<WorkPackageResource, WorkPackageChangeset>(this.workPackage)
+      .temporaryEditResource(this.workPackage)
       .values$()
       .pipe(
         this.untilDestroyed()
       )
-      .subscribe((change:WorkPackageChangeset) => {
-        this.resourceContextChange.next(this.contextFrom(change));
+      .subscribe(resource => {
+        this.resourceContextChange.next(this.contextFrom(resource));
       });
   }
 
@@ -368,12 +363,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * Used to identify changes in the schema or project that may result in visual changes
    * to the single view.
    *
-   * @param {WorkPackageChangeset} change
+   * @param {WorkPackage} workPackage
    * @returns {SchemaContext}
    */
-  private contextFrom(change:WorkPackageChangeset):ResourceContextChange {
-    let schema = change.schema;
-    let workPackage = change.projectedResource;
+  private contextFrom(workPackage:WorkPackageResource):ResourceContextChange {
+    let schema = workPackage.schema;
 
     let schemaHref:string|null = null;
     let projectHref:string|null = workPackage.project && workPackage.project.href;

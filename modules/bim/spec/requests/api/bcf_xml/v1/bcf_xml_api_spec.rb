@@ -151,6 +151,16 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
         expect(project.work_packages.count).to eql(1)
       end
     end
+
+    context "with unsupported BCF version (2.0)" do
+      let(:filename) { 'bcf_2_0_dummy.bcf' }
+
+      it "returns a status 415" do
+        expect(subject.status).to eql(415)
+        expect(subject.body).to match /BCF version is not supported/
+        expect(project.work_packages.count).to eql(1)
+      end
+    end
   end
 
   def zip_has_file?(zip_string, filename)

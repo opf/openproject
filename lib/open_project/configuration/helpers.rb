@@ -106,6 +106,11 @@ module OpenProject
         uploaders
       end
 
+      def ldap_tls_options
+        val = self['ldap_tls_options']
+        val.presence || {}
+      end
+
       private
 
       ##

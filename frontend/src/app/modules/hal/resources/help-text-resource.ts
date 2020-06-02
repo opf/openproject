@@ -27,7 +27,7 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CallableHalLink, HalLink} from 'core-app/modules/hal/hal-link/hal-link';
+import {CallableHalLink} from 'core-app/modules/hal/hal-link/hal-link';
 
 export class HelpTextResource extends HalResource {
 

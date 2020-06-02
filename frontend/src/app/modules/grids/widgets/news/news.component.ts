@@ -14,9 +14,10 @@ import { DmListParameter } from "core-app/modules/hal/dm-services/dm.service.int
 })
 export class WidgetNewsComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    createdBy: this.i18n.t('js.label_created_by'),
     at: this.i18n.t('js.grid.widgets.news.at'),
     noResults: this.i18n.t('js.grid.widgets.news.no_results'),
+    addedBy: (news:NewsResource) => this.i18n.t('js.label_added_time_by',
+      { author: this.newsAuthorName(news), age: this.newsCreated(news), authorLink: this.newsAuthorPath(news)})
   };
 
   public entries:NewsResource[] = [];

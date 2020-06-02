@@ -27,12 +27,8 @@
 // ++
 import {MultiInputState} from "reactivestates";
 import {Injectable} from '@angular/core';
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {StateCacheService} from 'core-components/states/state-cache.service';
-import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {States} from 'core-components/states.service';
-import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 

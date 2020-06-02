@@ -35,3 +35,18 @@ Or the all-in-one docker installation:
 ```bash
 docker logs -f --tail 1000 openproject
 ```
+
+### Raising the log level
+
+OpenProject can log at different service levels, the default being `info`. You can set the [environment variable](https://docs.openproject.org/installation-and-operations/configuration/environment/#environment-variables) `OPENPROJECT_LOG__LEVEL` to any of the following values:
+
+- debug, info, warn, error
+
+For example, to set this in the packaged installation, use the following command:
+
+```bash
+openproject config:set OPENPROJECT_LOG__LEVEL="debug"
+service openproject restart
+```
+
+For Docker-based installations, add the ENV variable to your env file and restart the containers.

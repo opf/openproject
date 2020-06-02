@@ -26,6 +26,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 })
 export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() entry:TimeEntryResource;
+  @Input() showWorkPackageField:boolean = true;
 
   @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
 
@@ -74,7 +75,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
   }
 
   public save() {
-    return this.editForm.save();
+    return this.editForm.submit();
   }
 
   public get inEditMode() {

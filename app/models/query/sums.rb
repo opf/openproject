@@ -99,7 +99,7 @@ module ::Query::Sums
   end
 
   def crunch(num)
-    return num if num.nil? or num.integer?
+    return num if num.nil? || !num.respond_to?(:integer?) || num.integer?
 
     Float(format('%.2f', num.to_f))
   end

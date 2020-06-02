@@ -47,19 +47,19 @@ describe ActivitiesController, type: :controller do
 
     describe 'global' do
       let(:work_package) { FactoryBot.create(:work_package) }
-      let!(:journal) {
+      let!(:journal) do
         FactoryBot.create(:work_package_journal,
-                           journable_id: work_package.id,
-                           created_at: 3.days.ago.to_date.to_s(:db),
-                           version: Journal.maximum(:version) + 1,
-                           data: FactoryBot.build(:journal_work_package_journal,
-                                                   subject: work_package.subject,
-                                                   status_id: work_package.status_id,
-                                                   type_id: work_package.type_id,
-                                                   project_id: work_package.project_id))
-      }
+                          journable_id: work_package.id,
+                          created_at: 3.days.ago.to_date.to_s(:db),
+                          version: Journal.maximum(:version) + 1,
+                          data: FactoryBot.build(:journal_work_package_journal,
+                                                 subject: work_package.subject,
+                                                 status_id: work_package.status_id,
+                                                 type_id: work_package.type_id,
+                                                 project_id: work_package.project_id))
+      end
 
-      before do get 'index' end
+      before { get 'index' }
 
       it_behaves_like 'valid index response'
 
@@ -70,18 +70,18 @@ describe ActivitiesController, type: :controller do
 
         it do
         assert_select 'h3',
-                     content: /#{3.day.ago.to_date.day}/,
-                     sibling: { tag: 'dl',
-                                child: { tag: 'dt',
-                                         attributes: { class: /work_package/ },
-                                         child: { tag: 'a',
-                                                  content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
+                      content: /#{3.day.ago.to_date.day}/,
+                      sibling: { tag: 'dl',
+                                 child: { tag: 'dt',
+                                          attributes: { class: /work_package/ },
+                                          child: { tag: 'a',
+                                                   content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
         end
       end
 
       describe 'empty filter selection' do
         before do
-          get 'index', params: { apply: true }
+          get 'index', params: { event_types: [''] }
         end
 
         it_behaves_like 'valid index response'
@@ -91,10 +91,10 @@ describe ActivitiesController, type: :controller do
     end
 
     describe 'with activated activity module' do
-      let(:project) {
+      let(:project) do
         FactoryBot.create(:project,
-                           enabled_module_names: %w[activity wiki])
-      }
+                          enabled_module_names: %w[activity wiki])
+      end
 
       it 'renders activity' do
         get 'index', params: { project_id: project.id }
@@ -104,10 +104,10 @@ describe ActivitiesController, type: :controller do
     end
 
     describe 'without activated activity module' do
-      let(:project) {
+      let(:project) do
         FactoryBot.create(:project,
-                           enabled_module_names: %w[wiki])
-      }
+                          enabled_module_names: %w[wiki])
+      end
 
       it 'renders 403' do
         get 'index', params: { project_id: project.id }
@@ -127,35 +127,35 @@ describe ActivitiesController, type: :controller do
       let(:project) { FactoryBot.create(:project) }
 
       context 'work_package' do
-        let!(:wp_1) {
+        let!(:wp_1) do
           FactoryBot.create(:work_package,
-                             project: project,
-                             author: user)
-        }
+                            project: project,
+                            author: user)
+        end
 
         describe 'global' do
           render_views
 
-          before do get 'index', format: 'atom' end
+          before { get 'index', format: 'atom' }
 
           it do
           assert_select 'entry',
-                       child: { tag: 'link',
-                                attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
+                        child: { tag: 'link',
+                                 attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
           end
         end
 
         describe 'list' do
-          let!(:wp_2) {
+          let!(:wp_2) do
             FactoryBot.create(:work_package,
-                               project: project,
-                               author: user)
-          }
+                              project: project,
+                              author: user)
+          end
 
-          let(:params) {
+          let(:params) do
             { project_id: project.id,
               format: :atom }
-          }
+          end
 
           include_context 'index with params'
 
@@ -166,24 +166,23 @@ describe ActivitiesController, type: :controller do
       end
 
       context 'forums' do
-        let(:forum) {
+        let(:forum) do
           FactoryBot.create(:forum,
-                             project: project)
-        }
-        let!(:message_1) {
+                            project: project)
+        end
+        let!(:message_1) do
           FactoryBot.create(:message,
-                             forum: forum)
-        }
-        let!(:message_2) {
+                            forum: forum)
+        end
+        let!(:message_2) do
           FactoryBot.create(:message,
-                             forum: forum)
-        }
-        let(:params) {
+                            forum: forum)
+        end
+        let(:params) do
           { project_id: project.id,
-            apply: true,
-            show_messages: 1,
+            event_types: [:messages],
             format: :atom }
-        }
+        end
 
         include_context 'index with params'
 
@@ -219,7 +218,7 @@ describe ActivitiesController, type: :controller do
 
       describe 'selection with apply' do
         let(:scope) { [] }
-        let(:params) { { apply: true } }
+        let(:params) { { event_types: [''] } }
 
         include_context 'index with params'
 

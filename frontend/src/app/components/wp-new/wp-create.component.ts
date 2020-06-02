@@ -45,10 +45,11 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import * as URI from 'urijs';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
-  public successState:string = this.$state.current.data.baseRoute + '.details';
+  public successState:string = splitViewRoute(this.$state);
   public cancelState:string = this.$state.current.data.baseRoute;
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
@@ -92,7 +93,6 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
   public ngOnDestroy() {
     super.ngOnDestroy();
-    this.editForm.destroy();
   }
 
   public switchToFullscreen() {
@@ -102,7 +102,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
     let { savedResource, isInitial } = params;
 
-    this.editForm?.stop();
+    this.editForm?.cancel(false);
 
     if (this.successState) {
       this.$state.go(this.successState, { workPackageId: savedResource.id })
@@ -118,15 +118,16 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
       .createdWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
         this.change = changeset;
-        this.newWorkPackage = changeset.projectedResource;
+        this.newWorkPackage = changeset.pristineResource;
         this.cdRef.detectChanges();
 
         this.setTitle();
 
         if (this.stateParams['parent_id']) {
-          this.newWorkPackage.parent = {
-            href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path
-          };
+          changeset.setValue(
+            'parent',
+            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path }
+          );
         }
 
         // Load the parent simply to display the type name :-/

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
 @Injectable()
 export class GridInitializationService {

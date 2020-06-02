@@ -4,67 +4,69 @@ vi:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    label_imported_failed: 'Nhập các chủ đề BCF thất bại'
+    label_imported_successfully: 'Đã nhập các chủ đề BCF thành công'
+    issues: "Các vấn đề"
+    recommended: 'khuyến nghị'
+    not_recommended: 'không khuyến nghị'
+    no_viewpoints: 'Không có góc nhìn nào'
     new_badge: "Mới"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "Tệp BCF không hợp lệ"
     x_bcf_issues:
       zero: 'Không có vấn đề BCF'
-      other: '%{count} BCF issues'
+      other: '%{count} vấn đề trong BCF'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'Tệp BCF XML'
       import_title: 'Import'
       export: 'Xuất'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_update_comment: '(Cập nhật từ file BCF)'
+      import_failed: 'Không thể nhập file BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_successful: 'Đã nhập %{count} vấn đề'
+      import_canceled: 'Nhập BCF-XML bị hủy.'
+      type_not_active: "Loại vấn đề không được kích hoạt cho dự án này."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed with import'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        num_issues_found: '%{x_bcf_issues} vấn đề nằm trong tệp BCF-XML, chi tiết như sau.'
+        button_prepare: 'Chuẩn bị nhập dữ liệu'
+        button_perform_import: 'Xác nhận nhập dữ liệu'
+        button_proceed: 'Tiếp tục nhập dữ liệu'
+        button_back_to_list: 'Quay lại danh sách'
+        no_permission_to_add_members: 'Bạn không đủ quyền thêm họ vào làm thành viên của dự án.'
+        contact_project_admin: 'Liên hệ quản trị viên dự án để thêm họ vào làm thành viên và thực hiện nhập dữ liệu lại.'
+        continue_anyways: 'Bạn có muốn tiếp tục và kết thúc nhập dữ liệu?'
+        description: "Hãy cũng cấp tệp BCF-XML phiên bản 2.1 để nhập vào dự án. Bạn có thể kiểm tra nội dung trước khi thực hiện nhập dữ liệu."
+        invalid_types_found: 'Tên chủ đề không hợp lệ'
+        invalid_statuses_found: 'Tên trạng thái không hợp lệ'
+        invalid_priorities_found: 'Tên mức độ ưu tiên không hợp lệ'
+        invalid_emails_found: 'Địa chỉ email không hợp lệ'
+        unknown_emails_found: 'Không tìm thấy địa chỉ email'
+        unknown_property: 'Thuộc tính không xác định'
+        non_members_found: 'Tìm thấy thành viên không thuộc dự án'
+        import_types_as: 'Đặt tất cả các kiểu thành'
+        import_statuses_as: 'Đặt tất cả trạng thái thành'
+        import_priorities_as: 'Đặt tất cả mức độ ưu tiên thành'
+        invite_as_members_with_role: 'Mời họ làm thành viên của dự án "%{project}" với vai trò'
+        add_as_members_with_role: 'Thêm họ làm thành viên của dự án "%{project}" với vai trò'
+        no_type_provided: 'Không cung cấp kiểu'
+        no_status_provided: 'Không cung cấp trạng thái'
+        no_priority_provided: 'Không cung cấp mức độ ưu tiên'
+        perform_description: "Bạn có muốn nhập hoặc cập nhật các vấn đề trên?"
+        replace_with_system_user: 'Đổi họ thành người dùng "Hệ thống"'
+        import_as_system_user: 'Nhập họ làm người dùng "Hệ thống"'
         what_to_do: "What do you want to do?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        work_package_has_newer_changes: "Lỗi thời! Chủ đề này không được cập nhật vì các thay đổi mới nhất trên máy chủ mới hơn \"ModifiedDate\" của chủ đề được nhập vào. Tuy nhiên, các bình luận của chủ đề vẫn được nhập vào."
+        bcf_file_not_found: "Xác định tệp BCF thất bại. Hãy upload lại."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "Hình ảnh xem trước của BCF"
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Xem các vấn đề trong BCF"
+  permission_manage_bcf: "Nhập và quản lý các vấn đề trong BCF"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Truy cập đầy đủ vào API BCF v2.1"

@@ -3,11 +3,11 @@ require 'ladle'
 
 describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:plugin_settings) do
-    { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
+    {group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn'}
   end
 
   before(:all) do
-    ldif = File.expand_path('../../fixtures/users.ldif', __FILE__)
+    ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
     @ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
   end
 
@@ -15,22 +15,25 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
     @ldap_server.stop
   end
 
-  before do
-    # cn=<groupname>,ou=groups,...
-    allow(Setting).to receive(:plugin_openproject_ldap_groups).and_return(plugin_settings)
-  end
-
   # Ldap has:
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
     FactoryBot.create :ldap_auth_source,
-                       port: '12389',
-                       account: 'uid=admin,ou=system',
-                       account_password: 'secret',
-                       base_dn: 'ou=people,dc=example,dc=com',
-                       attr_login: 'uid'
+                      port: '12389',
+                      account: 'uid=admin,ou=system',
+                      account_password: 'secret',
+                      base_dn: 'ou=people,dc=example,dc=com',
+                      onthefly_register: onthefly_register,
+                      filter_string: ldap_filter,
+                      attr_login: 'uid',
+                      attr_firstname: 'givenName',
+                      attr_lastname: 'sn',
+                      attr_mail: 'mail'
   end
+
+  let(:onthefly_register) { false }
+  let(:ldap_filter) { nil }
 
   let(:user_aa729) { FactoryBot.create :user, login: 'aa729', auth_source: auth_source }
   let(:user_bb459) { FactoryBot.create :user, login: 'bb459', auth_source: auth_source }
@@ -39,10 +42,15 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal' }
   let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
-  let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, entry: 'foo', group: group_foo, auth_source: auth_source }
-  let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, entry: 'bar', group: group_bar, auth_source: auth_source }
+  let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo, auth_source: auth_source }
+  let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar, auth_source: auth_source }
 
-  subject { described_class.new auth_source }
+  subject do
+    # Need the system user for admin permission
+    User.system.run_given do
+      described_class.new auth_source
+    end
+  end
 
   shared_examples 'does not change membership count' do
     it 'does not change membership count' do
@@ -128,10 +136,8 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
           end
 
           it 'removes all memberships and groups after removing auth source' do
-            expect{ auth_source.destroy }
-              .to change{::LdapGroups::Membership.count}.from(4).to(0)
-
-            auth_source.destroy
+            expect { auth_source.destroy! }
+              .to change { ::LdapGroups::Membership.count }.from(4).to(0)
 
             expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
             expect { synced_bar.reload }.to raise_error ActiveRecord::RecordNotFound
@@ -163,21 +169,52 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
           expect(group_foo.users).to be_empty
           expect(group_bar.users).to eq([user_cc414])
         end
+
+        context 'with LDAP on-the-fly enabled' do
+          let(:onthefly_register) { true }
+          let(:user_aa729) { User.find_by login: 'aa729' }
+          let(:user_bb459) { User.find_by login: 'bb459' }
+
+          it 'creates the remaining users' do
+            subject
+            expect(synced_foo.users.count).to eq(1)
+            expect(synced_bar.users.count).to eq(3)
+
+            expect(group_foo.users).to contain_exactly(user_aa729)
+            expect(group_bar.users).to contain_exactly(user_aa729, user_bb459, user_cc414)
+          end
+        end
+
+        context 'with an LDAP filter for users starting with b and on-the-fly enabled' do
+          let(:onthefly_register) { true }
+          let(:ldap_filter) { '(uid=b*)' }
+          let(:user_bb459) { User.find_by login: 'bb459' }
+
+          it 'creates the remaining users' do
+            subject
+            expect(synced_foo.users.count).to eq(0)
+            expect(synced_bar.users.count).to eq(1)
+
+            expect(User.find_by(login: 'aa729')).to eq nil
+            # Only matched users are added to the group, meaning cc414 is not added
+            expect(group_bar.users).to contain_exactly(user_bb459)
+          end
+        end
       end
     end
 
     context 'foo group exists' do
+      let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: user_aa729 }
+
       before do
         group_foo
         synced_foo
       end
 
       it 'ignores users that are already in the group' do
-        group_foo.users << user_aa729
-
         # Outputs that nothing was added to sync group
-        expect(Rails.logger).to receive(:info).with("[LDAP groups] No users to remove for foo")
-        expect(Rails.logger).to receive(:info).with("[LDAP groups] No new users to add for foo")
+        expect(Rails.logger).to receive(:info).with("[LDAP groups] No users to remove for cn=foo,ou=groups,dc=example,dc=com")
+        expect(Rails.logger).to receive(:info).with("[LDAP groups] No new users to add for cn=foo,ou=groups,dc=example,dc=com")
 
         subject
 
@@ -189,8 +226,9 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
 
   describe 'removing memberships' do
     context 'with a user in a group thats not in ldap' do
+      let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
+
       before do
-        group_foo.users << [user_cc414, user_aa729]
         synced_foo.users.create(user: user_aa729)
         synced_foo.users.create(user: user_cc414)
 
@@ -220,10 +258,9 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
     end
   end
 
-  context 'with invalid settings' do
-    let(:plugin_settings) do
-      { group_base: 'ou=invalid,dc=example,dc=com', group_key: 'cn' }
-    end
+  context 'with invalid base' do
+    let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo, auth_source: auth_source }
+    let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar, auth_source: auth_source }
 
     context 'when one synced group exists' do
       before do

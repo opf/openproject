@@ -26,20 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DurationDisplayField} from './duration-display-field.module';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {ProjectCacheService} from "core-components/projects/project-cache.service";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { DurationDisplayField } from './duration-display-field.module';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { ProjectCacheService } from "core-components/projects/project-cache.service";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
+import { TimeEntryCreateService } from 'core-app/modules/time_entries/create/create.service';
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
-    linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')
+    linkTitle: this.I18n.t('js.work_packages.message_view_spent_time'),
+    logTime: this.I18n.t('js.button_log_time')
   };
 
   @InjectField() PathHelper:PathHelperService;
   @InjectField() projectCacheService:ProjectCacheService;
+  @InjectField() timeEntryCreateService:TimeEntryCreateService;
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {
@@ -49,6 +53,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
     const link = document.createElement('a');
     link.textContent = displayText;
     link.setAttribute('title', this.text.linkTitle);
+    link.setAttribute('class', 'time-logging--value');
 
     if (this.resource.project) {
       const wpID = this.resource.id.toString();
@@ -56,7 +61,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         .require(this.resource.project.idFromLink)
         .then((project:ProjectResource) => {
           const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
-            .search({work_package_id: wpID})
+            .search({ work_package_id: wpID })
             .toString();
 
           link.href = href;
@@ -65,5 +70,28 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
     element.innerHTML = '';
     element.appendChild(link);
+
+    this.appendTimelogLink(element);
+  }
+
+  private appendTimelogLink(element:HTMLElement) {
+    if (this.resource.logTime) {
+      const timelogElement = document.createElement('a');
+      timelogElement.setAttribute('class', 'icon icon-time');
+      timelogElement.setAttribute('href', '');
+      timelogElement.textContent = this.text.logTime;
+
+      element.appendChild(timelogElement);
+
+      timelogElement.addEventListener('click', this.showTimelogWidget.bind(this, this.resource));
+    }
+  }
+
+  private showTimelogWidget(wp:WorkPackageResource) {
+    this.timeEntryCreateService
+      .create(moment(new Date()), wp, false)
+      .catch(() => {
+        // do nothing, the user closed without changes
+      });
   }
 }

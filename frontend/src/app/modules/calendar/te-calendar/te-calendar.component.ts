@@ -103,7 +103,7 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
   public calendarEventOverlap = (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME);
 
   protected memoizedTimeEntries:{ start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>> };
-  protected memoizedCreateAllowed:boolean = false;
+  public memoizedCreateAllowed:boolean = false;
 
   public text = {
     logTime: this.i18n.t('js.button_log_time')

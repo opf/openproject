@@ -33,7 +33,6 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {StateService} from "@uirouter/core";
 import {CurrentUserService} from "core-components/user/current-user.service";
-import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
 
 @Injectable()
 export class WorkPackageStaticQueriesService {

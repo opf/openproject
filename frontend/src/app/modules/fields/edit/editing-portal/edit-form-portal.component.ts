@@ -19,7 +19,6 @@ import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/e
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditFieldService, IEditFieldType} from "core-app/modules/fields/edit/edit-field.service";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
   selector: 'edit-form-portal',

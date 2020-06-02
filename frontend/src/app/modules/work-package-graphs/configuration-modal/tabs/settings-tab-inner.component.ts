@@ -2,7 +2,7 @@
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageViewGroupByService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {Component, Injector} from "@angular/core";
+import {Component} from "@angular/core";
 import {ChartType} from 'chart.js';
 import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";

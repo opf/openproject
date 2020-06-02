@@ -29,23 +29,22 @@
 require 'spec_helper'
 
 describe ::API::V3::Relations::RelationRepresenter do
-  using_shared_fixtures :admin
-  let(:user) { admin }
+  let(:user) { FactoryBot.build_stubbed(:admin) }
 
-  let(:from) { FactoryBot.create :work_package }
-  let(:to) { FactoryBot.create :work_package }
+  let(:from) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:to) { FactoryBot.build_stubbed :stubbed_work_package }
 
   let(:type) { "follows" }
   let(:description) { "This first" }
   let(:delay) { 3 }
 
   let(:relation) do
-    FactoryBot.create :relation,
-                      from: from,
-                      to: to,
-                      relation_type: type,
-                      description: description,
-                      delay: delay
+    FactoryBot.build_stubbed :relation,
+                             from: from,
+                             to: to,
+                             relation_type: type,
+                             description: description,
+                             delay: delay
   end
 
   let(:representer) { described_class.new relation, current_user: user }
@@ -91,11 +90,11 @@ describe ::API::V3::Relations::RelationRepresenter do
   end
 
   it 'deserializes the relation correctly' do
-    rep = ::API::V3::Relations::RelationRepresenter.new Relation.new, current_user: user
+    rep = ::API::V3::Relations::RelationRepresenter.new OpenStruct.new, current_user: user
     rel = rep.from_json result.except(:id).to_json
 
-    expect(rel.from).to eq from
-    expect(rel.to).to eq to
+    expect(rel.from_id).to eq from.id.to_s
+    expect(rel.to_id).to eq to.id.to_s
     expect(rel.delay).to eq delay
     expect(rel.relation_type).to eq type
     expect(rel.description).to eq description

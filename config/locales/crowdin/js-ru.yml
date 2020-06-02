@@ -63,8 +63,8 @@ ru:
     button_open_details: "Открыть детальный просмотр"
     button_close_details: "Закрыть детальный просмотр"
     button_open_fullscreen: "Полноэкранный просмотр"
-    button_show_cards: "Показать в виде карточек"
-    button_show_list: "Показать в виде списка"
+    button_show_cards: "В виде карточек"
+    button_show_list: "В виде списка"
     button_quote: "Цитата"
     button_save: "Сохранить"
     button_settings: "Параметры"
@@ -263,13 +263,13 @@ ru:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
           learn_about: "Подробнее о новых функциях"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Релиз содержит различные новые функции и улучшения: <br><br> <ul> <li><b>Панель действий для исполнителей</b>: создание рабочих досок, которые будут автоматически обновлять получателя при перемещении карт по спискам.</li> <li>Сортировка версий по названию не по датам, что облегчает выбор версии из списка.</li> <li><b>Удалите 24-часовое ограничение</b> для отслеживания времени.</li> <li>Показать сводку новостей об обзоре проекта.</li> <li>Исправления ошибок и <b>улучшения удобства использования</b></li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br><br> <ul class="%{list_styling_class}"> <li><b>Более быстрое журналирование времени</b> в рабочих пакетах из подробностей или списка.</li> <li><b>Улучшение форматирования таблиц</b> для лучшей настройки таблиц в текстовом редакторе, e. . для ширины, цвета, выравнивания или отступа ячейки.</li> <li>Карточка просмотра пакетов работ теперь также содержит название проекта.</li> <li>OpenProject теперь <b>на 100% переведён на словенский</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 теперь поддерживает <b>BIM Collaboration Format (BCF)</b> – открытый стандарт отслеживания проблем для BIM-моделей.<br><br> <ul> <li>Вы сможете легко регистрировать и <b>отслеживать различные проблемы BIM</b>, включая конфликты, запросы и вопросы, в интерактивной 3D-модели IFC и <b>делиться ею с командой проекта.</b></li> <li>Интегрируйте OpenProject с привычной для вас BIM-системой посредством мощного <a target="_blank" href="%{bcf_api_link}">REST API для BCF.</a></li> <li>Импортируйте и экспортируйте XML-файлы для BCF.</li> </ul>
+              OpenProject 10.5 теперь поддерживает <b>BIM (BCF)</b> формат сотрудничества – стандарт открытого отслеживания ошибок для моделей BIM.<br><br> <ul class="%{list_styling_class}"> <li>Легко создавайте и <b>управляйте выпусками BIM</b> , такими как столкновения, запросы и вопросы в интерактивной 3D-модели IFC и <b>делитесь ими с командой проекта.</b></li> <li>Интегрируйте OpenProject со своим программным обеспечением BIM, используя мощный <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Импортируйте и экспортируйте BCF XML-файлы</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -280,7 +280,7 @@ ru:
     label_add_row_before: "Добавить строку перед"
     label_add_selected_columns: "Добавить выбранные столбцы"
     label_added_by: "Добавил(-а)"
-    label_added_time_by: "Добавил(-а) %{author} %{age}"
+    label_added_time_by: "Добавлено <a href=%{authorLink}>%{author}</a> в %{age}"
     label_ago: "дней назад"
     label_all: "все"
     label_all_work_packages: "Все пакеты работ"

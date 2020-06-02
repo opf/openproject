@@ -29,7 +29,7 @@ Boards can be for anything you would like to keep track of within your projects:
 | [Remove cards](#remove-cards)                                | How to remove cards.                                         |
 | [Manage boards](#manage-boards)                              | How to manage permissions for boards.                        |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Z7iE_BNCDus" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dvmS4tOHVcw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ## Agile Boards in OpenProject
 
 The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](#work-pages) or [Gantt charts](#gantt-charts).  This makes it so easy and practical to include the Boards in your daily  project management routines and to gain a much quicker overview of  important topics in your project.![OpenProject-Boards_Overview](OpenProject-Boards_Overview.png) 
@@ -132,9 +132,11 @@ Verify and **update roles and permissions for boards** in the system's Administr
 
  ![OpenProject-Boards_manage-permissions](OpenProject-Boards_manage-permissions-1568640266543.png)
  
- ## Frequently asked questions (FAQ)
  
- ### How can I activate Boards in OpenProject? 
+## Frequently asked questions (FAQ)
+ 
+ 
+### How can I activate Boards in OpenProject? 
  
 The boards module is a premium feature of the Enterprise And Cloud Edition. You can upgrade your Community Edition installation by entering a valid subscription token in the application administration. You can purchase the token on our [website](https://www.openproject.org/enterprise-edition/).
 In addition, you need to activate the boards module in the project settings.

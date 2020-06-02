@@ -23,6 +23,7 @@ el:
       export: 'Εξαγωγή'
       import_update_comment: '(Ενημερώθηκε στην εισαγωγή BCF)'
       import_failed: 'Δεν είναι δυνατή η εισαγωγή του BCF αρχείου: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Εισήχθησαν %{count} ζητήματα BCF'
       import_canceled: 'η εισαγωγή BCF-XML ακυρώθηκε.'
       type_not_active: "Ο τύπος του ζητήματος δεν είναι ενεργοποιημένος για αυτό το έργο."
@@ -66,6 +67,7 @@ el:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Προβολή ζητημάτων BCF"
   permission_manage_bcf: "Εισαγωγή και διαχείριση ζητημάτων BCF"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Πλήρης πρόσβαση στο BCF v2.1 API"

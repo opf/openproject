@@ -232,6 +232,9 @@ cs:
       no_results_title_text: V současné době neexistují žádné zprávy k zobrazení.
       no_results_content_text: Přidat příspěvek
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
   prioritiies:
@@ -484,6 +487,7 @@ cs:
         parent_work_package: "Rodič"
         priority: "Priorita"
         progress: "Průběh (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Dílčí projekt"
@@ -1100,6 +1104,7 @@ cs:
   error_cookie_missing: 'OpenProject cookie chybí. Ujistěte se, že jsou soubory cookie povoleny, protože aplikace nebude správně fungovat.'
   error_custom_option_not_found: "Nastavení neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nebyl aktivován (dosažen limit počtu uživatelů). Prosím obraťte se na správce pro získání přístupu."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nepodařilo se odstranit tento záznam.'
   error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neplatná vybraná hodnota."
@@ -1340,6 +1345,7 @@ cs:
   label_delete_project: "Odstranit projekt"
   label_deleted: "Smazáno"
   label_deleted_custom_field: "(odstraněno vlastní pole)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Sestupně"
   label_details: "Podrobnosti"
   label_development_roadmap: "Plán vývoje"

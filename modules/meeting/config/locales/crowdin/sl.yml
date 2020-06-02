@@ -25,7 +25,7 @@ sl:
     attributes:
       meeting:
         location: "Lokacija"
-        duration: "Duration"
+        duration: "Trajanje"
         participants: "Udeleženci"
         participants_attended: "Udeleženi"
         participants_invited: "Povabljeni"
@@ -74,8 +74,8 @@ sl:
   permission_send_meeting_agendas_notification: "Pošlji obvestilo o pregledu dnevnih redov"
   permission_create_meeting_minutes: "Uredi minute"
   permission_send_meeting_minutes_notification: "Pošlji obvestilo o pregledu minut"
-  permission_meetings_send_invite: "Invite users to meetings"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  permission_meetings_send_invite: "Povabite uporabnike na sestanke"
+  permission_send_meeting_agendas_icalendar: "ošlji dnevni red sestanka kot vnos v koledar"
   project_module_meetings: "Sestanki"
   text_duration_in_hours: "Trajanje v urah"
   text_in_hours: "v urah"

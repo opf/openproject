@@ -159,6 +159,7 @@ module BasicData
           browse_repository
           view_changesets
           view_wiki_pages
+          show_board_views
         ]
       }
     end

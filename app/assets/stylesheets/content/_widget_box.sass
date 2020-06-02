@@ -137,7 +137,7 @@ $widget-box--enumeration-width: 20px
 
 .widget-box--arrow-links
   list-style: none
-  margin: 0.5rem 0 1rem 0
+  margin: 0.5rem 0 1rem 20px
 
   &:last-child
     margin-bottom: 0
@@ -150,9 +150,11 @@ $widget-box--enumeration-width: 20px
     font-size: 0.6rem
     color: $content-icon-link-color
     width: $widget-box--enumeration-width
+    margin-left: -20px
 
   .-widget-box--arrow-multiline
     &:before
+      line-height: 2
       float: left
 
     &:after
@@ -172,3 +174,7 @@ $widget-box--enumeration-width: 20px
     &.-flex
       .widget-box
         flex-basis: 100%
+
+  .widget-box--arrow-links
+    .-widget-box--arrow-multiline:before
+      padding-top: 0

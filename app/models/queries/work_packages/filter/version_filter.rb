@@ -54,9 +54,11 @@ class Queries::WorkPackages::Filter::VersionFilter <
   end
 
   def value_objects
-    value_ints = values.map(&:to_i)
+    available_versions = versions.index_by(&:id)
 
-    versions.select { |v| value_ints.include?(v.id) }
+    values
+      .map { |version_id| available_versions[version_id.to_i] }
+      .compact
   end
 
   private

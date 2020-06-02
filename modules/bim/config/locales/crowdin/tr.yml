@@ -23,6 +23,7 @@ tr:
       export: 'Dışarı aktar'
       import_update_comment: '(BCF ithalatında güncellendi)'
       import_failed: 'BCF dosyası alınamıyor: %{error}'
+      import_failed_unsupported_bcf_version: 'BCF dosyası okunamadı: BCF sürümü desteklenmiyor. Lütfen sürümün en az  %{minimal_version} veya daha yüksek olduğundan emin olun.'
       import_successful: 'İçe aktarılan %{count} BCF sorunları'
       import_canceled: 'BCF-XML içe aktarma işlemi iptal edildi.'
       type_not_active: "Bu proje için sorun türü etkinleştirilmedi."
@@ -66,6 +67,7 @@ tr:
   project_module_bim: "BCF"
   permission_view_linked_issues: "BCF sorunlarını görüntüleyin"
   permission_manage_bcf: "BCF sorunlarını içe aktarın ve yönetin"
+  permission_delete_bcf: "BCF sorunlarını sil"
   oauth:
     scopes:
       bcf_v2_1: "BCF v2.1 API'sine tam erişim"

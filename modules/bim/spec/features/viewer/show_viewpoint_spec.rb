@@ -109,8 +109,7 @@ describe 'Show viewpoint in model viewer',
         path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
         expect(page).to have_current_path /#{path}/
 
-        project_identifier = Regexp.escape(project.identifier)
-        expect(page).to have_current_path /#{project_identifier}/
+        expect(page).to have_current_path /#{project.id}/
       end
     end
 
@@ -125,8 +124,8 @@ describe 'Show viewpoint in model viewer',
       it_behaves_like "moves to the BCF page"
     end
 
-    context 'when user only has view_linked_issues permission' do
-      let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf view_work_packages] }
+    context 'when user does not have view_linked_issues permission' do
+      let(:permissions) { %i[view_ifc_models view_work_packages] }
 
       let(:user) do
         FactoryBot.create :user,

@@ -24,6 +24,7 @@ hr:
       export: 'Izvezi'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Imported %{count} BCF issues'
       import_canceled: 'BCF-XML import canceled.'
       type_not_active: "The issue type is not activated for this project."
@@ -67,6 +68,7 @@ hr:
   project_module_bim: "BCF"
   permission_view_linked_issues: "View BCF issues"
   permission_manage_bcf: "Import and manage BCF issues"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"

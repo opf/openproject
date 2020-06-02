@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Observable, Subject} from "rxjs";
-import {buffer, debounceTime, filter, map, scan} from "rxjs/operators";
+import {buffer, debounceTime, filter, scan} from "rxjs/operators";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export interface HalEvent {
