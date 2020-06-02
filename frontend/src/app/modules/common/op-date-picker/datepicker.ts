@@ -35,7 +35,7 @@ export class DatePicker {
   private datepickerFormat = 'Y-m-d';
 
   private datepickerCont: JQuery = jQuery(this.datepickerElemIdentifier);
-  private datepickerInstance:Instance;
+  public datepickerInstance:Instance;
 
   constructor(private datepickerElemIdentifier:string,
               private date:any,

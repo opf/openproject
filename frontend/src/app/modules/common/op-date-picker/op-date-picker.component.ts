@@ -81,9 +81,8 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public setup() {
     this.input.click(() => this.datePickerInstance.show());
-    // Todo: only hide when not clicked in the datepicker
-    this.input.blur(() => this.datePickerInstance.hide());
-    this.input.keydown((event) => {
+    this.input.blur((event) => this.closeOnOutsideClick(event));
+    this.input.keydown(() => {
       if (this.isEmpty()) {
         this.datePickerInstance.clear();
       }
@@ -128,5 +127,12 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
       initialValue,
       options
     );
+  }
+
+  private closeOnOutsideClick(event:any) {
+    if (event.originalEvent &&
+        !this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.originalEvent.relatedTarget)) {
+      this.datePickerInstance.hide();
+    }
   }
 }
