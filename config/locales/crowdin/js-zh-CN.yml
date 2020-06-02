@@ -167,8 +167,7 @@ zh-CN:
       enterprise:
         trial:
           confirmation: "确认电子邮件地址"
-          confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+          confirmation_info: "我们向您发送了一封电子邮件。请查看您的电子邮件并点击提供的确认链接以开始 14 天的试用。"
           form:
             general_consent: >
               我同意<a target="_blank" href="%{link_terms}">服务条款</a>和<a target="_blank" href="%{link_privacy}">隐私政策</a>。
