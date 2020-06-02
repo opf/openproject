@@ -140,7 +140,7 @@ Test OpenProject BIM 10.6 immediately, [create a free test instance](https://sta
 A special thanks goes to all OpenProject contributors without whom this release would not have been possible:
 
 - DBI AG for sponsoring the BCF Management.
-- Lindsay Kay for the integration of the 3D Modell viewer, [xeokit](https://xeokit.io/).
+- Lindsay Kay for the integration of the 3D Modell viewer, [xeokit](https://xeokit.io/), as well as for improving the camera control in the IFC viewer.
 - [Georg Dangl](https://blog.dangl.me/categories/BIM) for developing the Revit Integration in OpenProject.
 - All the developers, designers, project managers who have contributed to OpenProject.
 - Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
