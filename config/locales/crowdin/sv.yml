@@ -484,6 +484,7 @@ sv:
         parent_work_package: "Överordnad"
         priority: "Prioritet"
         progress: "Progress (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"

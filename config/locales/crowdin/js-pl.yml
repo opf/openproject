@@ -167,8 +167,7 @@ pl:
       enterprise:
         trial:
           confirmation: "Potwierdzenie adresu e-mail"
-          confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+          confirmation_info: "Wysłaliśmy Ci wiadomość e-mail. Sprawdź swoje wiadomości e-mail i kliknij link potwierdzenia, aby rozpocząć 14-dniowy okres próbny."
           form:
             general_consent: >
               Przyjmuję <a target="_blank" href="%{link_terms}">warunki umowy</a> i <a target="_blank" href="%{link_privacy}">politykę prywatności</a>.

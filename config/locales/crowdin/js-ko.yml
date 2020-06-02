@@ -167,8 +167,7 @@ ko:
       enterprise:
         trial:
           confirmation: "이메일 주소 확인"
-          confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+          confirmation_info: "이메일이 전송되었습니다. 이메일을 확인하고 제공된 인증 링크를 클릭하여 14일 평가판을 시작하세요. "
           form:
             general_consent: >
               <a target="_blank" href="%{link_terms}">서비스 약관</a> 및 <a target="_blank" href="%{link_privacy}">개인정보 취급방침</a>에 동의합니다.
