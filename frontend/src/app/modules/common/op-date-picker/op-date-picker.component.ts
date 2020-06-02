@@ -81,6 +81,7 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public setup() {
     this.input.click(() => this.datePickerInstance.show());
+    // Todo: only hide when not clicked in the datepicker
     this.input.blur(() => this.datePickerInstance.hide());
     this.input.keydown((event) => {
       if (this.isEmpty()) {

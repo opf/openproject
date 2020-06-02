@@ -112,7 +112,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   set startDate(val:string) {
     this._startDate = val;
-    if (this.validDate(this._startDate)) {
+    if (this.validDate(this._startDate) && this.datePickerInstance) {
       this.setDatesToDatepicker();
     }
   }
@@ -132,7 +132,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   set endDate(val:string) {
     this._endDate = val;
-    if (this.validDate(this._endDate)) {
+    if (this.validDate(this._endDate) && this.datePickerInstance) {
       this.setDatesToDatepicker();
     }
   }
