@@ -59,7 +59,7 @@ export interface WorkPackageResourceEmbedded {
   availableWatchers:HalResource|any;
   category:HalResource|any;
   children:WorkPackageResource[];
-  parent:HalResource|any;
+  parent:WorkPackageResource|null;
   priority:HalResource|any;
   project:HalResource|any;
   relations:CollectionResource;
@@ -237,7 +237,7 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public isParentOf(otherWorkPackage:WorkPackageResource) {
-    return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
+    return otherWorkPackage.parent?.$links.self.$link.href === this.$links.self.$link.href;
   }
 
   /**

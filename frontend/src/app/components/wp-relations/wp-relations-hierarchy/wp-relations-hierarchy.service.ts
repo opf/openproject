@@ -135,7 +135,10 @@ export class WorkPackageRelationsHierarchyService {
         },
         lockVersion: childWorkPackage.lockVersion
       }).then(wp => {
-        this.wpCacheService.loadWorkPackage(parentWorkPackage.id!, true);
+        if (parentWorkPackage) {
+          this.wpCacheService.require(parentWorkPackage.id!, true);
+        }
+
         this.wpCacheService.updateWorkPackage(wp);
       })
         .catch((error) => {

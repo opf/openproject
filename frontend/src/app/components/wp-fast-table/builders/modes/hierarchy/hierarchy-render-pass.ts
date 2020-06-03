@@ -152,7 +152,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     // If the work package has deferred children to render,
     // run them through the callback
     deferredChildren.forEach((child:WorkPackageResource) => {
-      this.insertUnderParent(this.getOrBuildRow(child), child.parent);
+      this.insertUnderParent(this.getOrBuildRow(child), child.parent || workPackage);
 
       // Descend into any children the child WP might have and callback
       this.renderAllDeferredChildren(child);
