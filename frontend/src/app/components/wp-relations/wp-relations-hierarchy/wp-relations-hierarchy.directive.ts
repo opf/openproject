@@ -82,15 +82,14 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
         this.workPackage = wp;
 
         let toLoad:string[] = [];
+        let parentId = this.workPackage.parent?.id?.toString();
 
-        if (this.workPackage.parent) {
-          toLoad.push(this.workPackage.parent.id.toString());
+        if (parentId) {
+          toLoad.push(parentId.toString());
 
-          this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$()
-            .pipe(
-              take(1)
-            )
-            .subscribe((parent:WorkPackageResource) => {
+          this.wpCacheService
+            .require(parentId)
+            .then((parent:WorkPackageResource) => {
               this.workPackage.parent = parent;
             });
         }
