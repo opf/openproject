@@ -78,9 +78,9 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   def activity_journals_table
     @activity_journals_table ||= case activity
                                  when :meeting
-                                   JournalManager.journal_class(Meeting).arel_table
+                                   Meeting.journal_class.arel_table
                                  else
-                                   JournalManager.journal_class(MeetingContent).arel_table
+                                   MeetingContent.journal_class.arel_table
                                  end
   end
 
@@ -102,8 +102,11 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   def event_title(event)
     case activity
     when :meeting
-      start_time = event['meeting_start_time'].is_a?(String) ? DateTime.parse(event['meeting_start_time'])
-                                                             : event['meeting_start_time']
+      start_time = if event['meeting_start_time'].is_a?(String)
+                     DateTime.parse(event['meeting_start_time'])
+                   else
+                     event['meeting_start_time']
+                   end
       end_time = start_time + event['meeting_duration'].to_f.hours
 
       "#{l :label_meeting}: #{event['meeting_title']} (#{format_date start_time} #{format_time start_time, false}-#{format_time end_time, false})"

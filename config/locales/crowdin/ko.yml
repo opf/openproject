@@ -412,6 +412,7 @@ ko:
         types: "종류"
         versions: "버전"
         work_packages: "작업 패키지"
+        templated: 'Template project'
       projects/status:
         code: '상태'
         explanation: '상태 설명'
@@ -1923,6 +1924,12 @@ ko:
       warning_one: 프로젝트 멤버는 프로젝트의 리포지토리를 재배치해야 합니다.
       warning_two: 프로젝트의 기존 링크는 더 이상 작동하지 않습니다.
       title: 프로젝트의 식별자 변경
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
       archived: "보관됨"

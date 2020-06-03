@@ -166,7 +166,8 @@ sl:
       enterprise:
         trial:
           confirmation: "Potrdite e-poštni naslov"
-          confirmation_info: "Poslali smo vam e-pošto. Prosimo preglejte vašo pošto in kliknite potrditveno povezavo za začetek vašega 14 dnevnega preizkusa."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Strinjam se z  <a target="_blank" href="%{link_terms}">terms of service</a> in <a target="_blank" href="%{link_privacy}">privacy policy</a>.
@@ -263,13 +264,13 @@ sl:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Izdaja vsebuje različne nove funkcije in izboljšave: <br> <br> <ul> <li> <b> Delovna deska za prejemnike </b>: ustvarite akcijske plošče, ki bodo samodejno posodobile prejemnika pri premikanju kart po seznamih. </ li> <li> Razvrstite različice po imenu, ne po datumih, kar olajša izbiro različice s seznama. </li> <li> <b> Odstranite 24-urno omejitev </b> za sledenje času. </ li> <li> Pokaži povzetek novic o pripomočku za pregled projekta. </li> <li> Različni popravki napak in <b> izboljšave uporabnosti </b>. </li> </ul>
+              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 zdaj podpira <b> BIM Collaboration Format (BCF) </b> - odprto problemski sledilni standard za modele BIM. <br> <br> <ul> <li> Preprosto ustvarjanje in <b> urejanje BIM težav < / b> kot so spopadi, zahteve in vprašanja v interaktivnem 3D-IFC modelu in <b>  ga delite s projektno skupino. </b> </li> <li> Integracija OpenProject s svojo najljubšo programsko opremo BIM s pomočjo zmogljive <a target = "_ blank" href = "% {bcf_api_link}"> BCF REST API. </a> </li> <li> Uvoz in izvoz datotek XML BCF. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"

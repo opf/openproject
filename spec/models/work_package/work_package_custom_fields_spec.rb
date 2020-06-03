@@ -34,18 +34,20 @@ describe WorkPackage, type: :model do
     let(:project) { FactoryBot.create(:project, types: [type]) }
     let(:work_package) do
       FactoryBot.build(:work_package,
-                        project: project,
-                        type: type)
+                       project: project,
+                       type: type)
     end
-    let (:custom_field) do
+    let(:custom_field) do
       FactoryBot.create(:work_package_custom_field,
-                         name: 'Database',
-                         field_format: 'list',
-                         possible_values: %w(MySQL PostgreSQL Oracle),
-                         is_required: true)
+                        name: 'Database',
+                        field_format: 'list',
+                        possible_values: %w(MySQL PostgreSQL Oracle),
+                        is_required: cf_required)
     end
 
-    shared_context 'project with required custom field' do
+    let(:cf_required) { true }
+
+    shared_context 'project with custom field' do
       before do
         project.work_package_custom_fields << custom_field
         type.custom_fields << custom_field
@@ -69,8 +71,74 @@ describe WorkPackage, type: :model do
       it { is_expected.to include(custom_field) }
     end
 
+    context 'touch on save' do
+      include_context 'project with custom field'
+      let(:cf_required) { false }
+
+      before do
+        work_package.update_columns(updated_at: 3.days.ago)
+      end
+
+      context 'creating a cf value' do
+        it 'updates the updated_at attribute' do
+          expect { change_custom_field_value(work_package, custom_field.possible_values.first) }
+            .to change { work_package.updated_at }
+        end
+
+        it 'updates the lock_version attribute' do
+          expect { change_custom_field_value(work_package, custom_field.possible_values.first) }
+            .to change { work_package.lock_version }.by(1)
+        end
+      end
+
+      context 'deleting a cf value' do
+        before do
+          change_custom_field_value(work_package, custom_field.possible_values.first)
+        end
+
+        it 'updates the updated_at attribute' do
+          expect { change_custom_field_value(work_package, nil) }
+            .to change { work_package.updated_at }
+        end
+
+        it 'updates the lock_version attribute' do
+          expect { change_custom_field_value(work_package, nil) }
+            .to change { work_package.lock_version }.by(1)
+        end
+      end
+
+      context 'updating a cf value' do
+        before do
+          change_custom_field_value(work_package, custom_field.possible_values.first)
+        end
+
+        it 'updates the updated_at attribute' do
+          expect { change_custom_field_value(work_package, custom_field.possible_values.last) }
+            .to change { work_package.updated_at }
+        end
+
+        it 'updates the lock_version attribute' do
+          expect { change_custom_field_value(work_package, custom_field.possible_values.last) }
+            .to change { work_package.lock_version }.by(1)
+        end
+      end
+
+      context 'updating a cf value and another attribute at the same time' do
+        before do
+          change_custom_field_value(work_package, custom_field.possible_values.first)
+        end
+
+        it 'updates the lock_version attribute by 1' do
+          work_package.subject = 'new subject'
+
+          expect { change_custom_field_value(work_package, custom_field.possible_values.last) }
+            .to change { work_package.lock_version }.by(1)
+        end
+      end
+    end
+
     context 'required custom field exists' do
-      include_context 'project with required custom field'
+      include_context 'project with custom field'
 
       it_behaves_like 'work package with required custom field'
 
@@ -186,7 +254,7 @@ describe WorkPackage, type: :model do
       let (:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
       let(:type_feature) do
         FactoryBot.create(:type_feature,
-                           custom_fields: [custom_field_2])
+                          custom_fields: [custom_field_2])
       end
 
       before do
@@ -195,7 +263,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'with initial type' do
-        include_context 'project with required custom field'
+        include_context 'project with custom field'
 
         describe 'pre-condition' do
           it_behaves_like 'work package with required custom field'
@@ -217,8 +285,8 @@ describe WorkPackage, type: :model do
       context 'w/o initial type' do
         let(:work_package_without_type) do
           FactoryBot.build_stubbed(:work_package,
-                                    project: project,
-                                    type: type)
+                                   project: project,
+                                   type: type)
         end
 
         describe 'pre-condition' do
@@ -261,12 +329,12 @@ describe WorkPackage, type: :model do
       let(:value) { 'text' * 1024 }
       let(:custom_field) do
         FactoryBot.create(:work_package_custom_field,
-                           name: 'Test Text',
-                           field_format: 'text',
-                           is_required: true)
+                          name: 'Test Text',
+                          field_format: 'text',
+                          is_required: true)
       end
 
-      include_context 'project with required custom field'
+      include_context 'project with custom field'
 
       it_behaves_like 'work package with required custom field'
 
@@ -287,13 +355,13 @@ describe WorkPackage, type: :model do
     describe 'validation error interpolation' do
       let :custom_field do
         FactoryBot.create :work_package_custom_field,
-                           name: 'PIN',
-                           field_format: 'text',
-                           max_length: 4,
-                           is_required: true
+                          name: 'PIN',
+                          field_format: 'text',
+                          max_length: 4,
+                          is_required: true
       end
 
-      include_context 'project with required custom field'
+      include_context 'project with custom field'
 
       it 'works for the max length validation' do
         work_package.custom_field_values.first.value = '12345'

@@ -57,7 +57,8 @@ module BaseServices
       attributes_service_class
         .new(user: user,
              model: instance(params),
-             contract_class: contract_class)
+             contract_class: contract_class,
+             contract_options: contract_options)
         .call(params)
     end
 

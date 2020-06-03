@@ -30,7 +30,7 @@
     "tslint": "^6.1.0"
   },
   "dependencies": {
-    "@angular-devkit/build-angular": "~0.901.0",
+    "@angular-devkit/build-angular": "^0.901.7",
     "@angular/animations": "9.1.0",
     "@angular/cdk": "^9.2.0",
     "@angular/cli": "^9.1.0",
@@ -71,8 +71,8 @@
     "@uirouter/core": "^6.0.4",
     "@uirouter/rx": "^0.6.5",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
-    "@xeokit/xeokit-bim-viewer": "^1.7.83",
-    "@xeokit/xeokit-sdk": "^0.9.98",
+    "@xeokit/xeokit-bim-viewer": "^1.7.95",
+    "@xeokit/xeokit-sdk": "^1.2.1",
     "amdefine": "^1.0.0",
     "angular-dragula": "^1.2.8",
     "atoa": "^1.0.0",
@@ -114,7 +114,7 @@
     "ng2-charts": "^2.3.1",
     "ng2-dragula": "^2.1.1",
     "ngtemplate-loader": "^2.0.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "observable-array": "0.0.4",
     "reactivestates": "2.0.1",
     "reflect-metadata": "^0.1.13",

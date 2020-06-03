@@ -167,7 +167,8 @@ it:
       enterprise:
         trial:
           confirmation: "Conferma l'indirizzo email"
-          confirmation_info: "Ti abbiamo inviato un'email. Controlla le tue email e clicca sul link di conferma fornito per iniziare la prova di 14 giorni."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Accetto le <a target="_blank" href="%{link_terms}">condizioni d'uso</a> e l'<a target="_blank" href="%{link_privacy}">informativa sulla privacy</a>.
@@ -264,13 +265,13 @@ it:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
           learn_about: "Scopri di più sulle nuove funzionalità"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Questa versione contiene molte funzionalità nuove e miglioramenti: <br><br> <ul> <li><b>Scheda azione per gli assegnatari</b>: crea una scheda azione che aggiornerà automaticamente l'assegnatario quando si spostano le schede tra le liste.</li> <li>Ordinamento delle versioni per nome e non per data che facilita la selezione di una versione dall'elenco.</li> <li><b>Rimozione della restrizione di 24 ore</b> per il modulo Monitoraggio tempi.</li> <li>Mostra il riepilogo delle notizie nel widget della panoramica del progetto.</li> <li>Diverse correzioni di bug e <b>miglioramenti nell'usabilità</b>.</li> </ul>
+              Questa versione contiene nuove funzionalità e miglioramenti: <br><br> <ul class="%{list_styling_class}"> <li><b>Registrazione più rapida dei tempi</b> sulle macro-attività dai dettagli o dalla vista elenco.</li> <li><b>Migliorata la formattazione delle tabelle</b> per configurare meglio le tabelle nell'editor di testo, ad esempio larghezza, colore, allineamento o distanziamento della cella.</li> <li>La visualizzazione delle schede delle macro-attività ora contiene anche il nome del progetto.</li> <li>OpenProject è ora al <b>100% tradotto in sloveno</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 ora supporta il <b>BIM Collaboration Format (BCF)</b>, lo standard di monitoraggio dei problemi aperti per i modelli BIM.<br><br> <ul> <li>Crea e <b>gestisci facilmente i problemi di BIM</b> come disaccordi, richieste e domande nel modello interattivo 3D IFC e <b>condividili con il team del progetto.</b></li> <li>Integra OpenProject con il tuo software BIM preferito utilizzando la <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importa ed esporta file BCF XML.</li> </ul>
+              OpenProject 10.5 ora supporta il <b>BIM Collaboration Format (BCF)</b>, lo standard di monitoraggio dei problemi aperti per i modelli BIM.<br><br> <ul class="%{list_styling_class}"> <li>Crea e <b>gestisci facilmente i problemi di BIM</b> come disaccordi, richieste e domande nel modello interattivo 3D IFC e <b>condividili con il team del progetto.</b></li> <li>Integra OpenProject con il tuo software BIM preferito utilizzando la <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importa ed esporta file BCF XML.</li> </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"

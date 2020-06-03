@@ -342,6 +342,7 @@ OpenProject::Application.routes.draw do
       resource :enterprise, only: %i[show create destroy]
       scope controller: 'enterprises' do
         post 'enterprise/save_trial_key' => 'enterprises#save_trial_key'
+        delete 'enterprise/delete_trial_key' => 'enterprises#delete_trial_key'
       end
     end
     resources :enumerations

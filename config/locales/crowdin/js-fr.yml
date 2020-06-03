@@ -167,7 +167,8 @@ fr:
       enterprise:
         trial:
           confirmation: "Confirmation de l'adresse e-mail"
-          confirmation_info: "Nous vous avons envoyé un e-mail. Veuillez vérifier vos e-mails et cliquer sur le lien de confirmation fourni pour commencer votre essai de 14 jours."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               J'accepte les <a target="_blank" href="%{link_terms}">conditions d'utilisation</a> et la <a target="_blank" href="%{link_privacy}">politique de confidentialité</a>.
@@ -264,13 +265,13 @@ fr:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Cette version contient diverses nouvelles fonctionnalités et améliorations : <br><br> <ul> <li><b>Tableau d'action pour les cessionnaires</b> : créez des tableaux d'action qui préviendront automatiquement le cessionnaire lors du déplacement des cartes dans les listes.</li> <li>Triez les versions par nom et non par date ce qui facilite grandement la sélection d'une version de la liste.</li> <li><b>Retrait de la restriction de 24 heures</b> pour le suivi du temps.</li> <li>Affichez le résumé des nouvelles sur le widget Aperçu du projet.</li> <li>Diverses corrections de bugs et <b>améliorations d'utilisation</b>.</li> </ul>
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br><br> <ul class="%{list_styling_class}"> <li><b>Journalisation du temps plus rapide</b> des lots de travaux à partir de la vue détaillée ou liste.</li> <li><b>Mise en forme des tableaux améliorée</b> pour mieux configurer les tableaux dans l'éditeur de texte, par exemple pour la largeur, la couleur, l'alignement ou le remplissage de la cellule.</li> <li>La vue carte pour les lots de travaux contient maintenant également le nom du projet.</li> <li>OpenProject est maintenant <b>% traduit en slovène</b>. Zabavaj se !</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 prend maintenant en charge le <b>BIM Collaboration Format (BCF)</b> – la norme ouverte de suivi des problèmes pour les modèles BIM.<br><br> <ul> <li>Créez et <b>gérez facilement les problèmes BIM</b> telles que les désaccords, demandes et questions dans le modèle interactif 3D IFC et <b>partager-ler avec l'équipe du projet.</b></li> <li>Intégrez OpenProject à votre logiciel BIM préféré en utilisant la puissante <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importez et exportez des fichiers BCF XML.</li> </ul>
+              OpenProject 10.5 prend maintenant en charge le <b>BIM Collaboration Format (BCF)</b> – la norme ouverte de suivi des problèmes pour les modèles BIM.<br><br> <ul class="%{list_styling_class}"> <li>Créez et <b>gérez facilement les problèmes BIM</b> telles que les désaccords, demandes et questions dans le modèle interactif 3D IFC et <b>partager-ler avec l'équipe du projet.</b></li> <li>Intégrez OpenProject à votre logiciel BIM préféré en utilisant la puissante <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importez et exportez des fichiers BCF XML.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"

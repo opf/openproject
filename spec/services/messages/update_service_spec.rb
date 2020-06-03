@@ -39,7 +39,8 @@ describe Messages::UpdateService, type: :model do
   let(:instance) do
     described_class.new(user: user,
                         model: message,
-                        contract_class: contract_class)
+                        contract_class: contract_class,
+                        contract_options: {})
   end
   let(:call_attributes) { {} }
   let(:set_attributes_success) do
@@ -69,7 +70,8 @@ describe Messages::UpdateService, type: :model do
       .to receive(:new)
       .with(user: user,
             model: message,
-            contract_class: contract_class)
+            contract_class: contract_class,
+            contract_options: {})
       .and_return(service)
 
     allow(service)

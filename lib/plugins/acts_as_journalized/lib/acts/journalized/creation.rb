@@ -65,7 +65,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module Redmine::Acts::Journalized
+module Acts::Journalized
   # Adds the functionality necessary to control journal creation on a journaled instance of
   # ActiveRecord::Base.
   module Creation
@@ -82,7 +82,7 @@ module Redmine::Acts::Journalized
     # Class methods added to ActiveRecord::Base to facilitate the creation of new journals.
     module ClassMethods
       # Overrides the basal +prepare_journaled_options+ method defined in VestalVersions::Options
-      # to extract the <tt>:only</tt> and <tt>:except</tt> options into +vestal_journals_options+.
+      # to extract the <tt>:calculate</tt> option into +vestal_journals_options+.
       def prepare_journaled_options(options)
         result = super(options)
 
@@ -96,93 +96,16 @@ module Redmine::Acts::Journalized
                                          end
         end
 
-        assign_vestal.call(:only, true)
-        assign_vestal.call(:except, true)
-        assign_vestal.call(:calculate, false)
+        assign_vestal.call(:data_sql, false)
 
         result
       end
     end
 
-    # Instance methods that determine whether to save a journal and actually perform the save.
     module InstanceMethods
-      # Recreates the initial journal used to track the beginning state
-      # of the object. Useful for objects that didn't have an initial journal
-      # created (e.g. legacy data)
-      def recreate_initial_journal!
-        new_journal = journals.find_by(version: 1)
-        new_journal ||= journals.build
-
-        initial_changes = {}
-
-        JournalManager.journal_class(self.class).journaled_attributes.each do |name|
-          # Set the current attributes as initial attributes
-          # This works as a fallback if no prior change is found
-          initial_changes[name] = send(name)
-
-          # Try to find the real initial values
-          unless journals.empty?
-            journals[1..-1].each do |journal|
-              unless journal.details[name].nil?
-                # Found the first change in journals
-                # Copy the first value as initial change value
-                initial_changes[name] = journal.details[name].first
-                break
-              end
-            end
-          end
-        end
-
-        fill_object = self.class.new
-
-        # Force the gathered attributes onto the fill object
-        # FIX ME: why not just call the method directly on fill_object?
-        attributes_setter = ActiveRecord::Base.instance_method(:assign_attributes)
-        attributes_setter = attributes_setter.bind(fill_object)
-
-        attributes_setter.call(initial_changes)
-
-        # Get the changed attributes
-        changed_data = fill_object.changes.reject do |_, change|
-          change[0].blank? && change[1].blank?
-        end.slice(*journaled_columns)
-
-        new_journal.version = 1
-        new_journal.activity_type = activity_type
-
-        if respond_to?(:author)
-          new_journal.user_id = author.id
-        elsif respond_to?(:user)
-          new_journal.user_id = user.id
-        end
-
-        # Ensure journal version exists
-        ::JournalVersion.find_or_create_by(journable_type: self.class.name, journable_id: id, version: 1)
-        JournalManager.recreate_initial_journal self.class, new_journal, changed_data
-
-        # Backdate journal
-        if respond_to?(:created_at)
-          new_journal.update_attribute(:created_at, created_at)
-        elsif respond_to?(:created_on)
-          new_journal.update_attribute(:created_at, created_on)
-        end
-        new_journal
-      end
-
-      private
-
-      # Returns an array of column names that should be included in the changes of created
-      # journals. If <tt>vestal_journals_options[:only]</tt> is specified, only those columns
-      # will be journaled. Otherwise, if <tt>vestal_journals_options[:except]</tt> is specified,
-      # all columns will be journaled other than those specified. Without either option, the
-      # default is to journal all columns. At any rate, the four "automagic" timestamp columns
-      # maintained by Rails are never journaled.
-      def journaled_columns
-        case
-        when vestal_journals_options[:only] then self.class.column_names & vestal_journals_options[:only]
-        when vestal_journals_options[:except] then self.class.column_names - vestal_journals_options[:except]
-        else self.class.column_names
-        end - %w(created_at updated_at)
+      # Returns an array of column names that are journaled.
+      def journaled_columns_names
+        self.class.journal_class.journaled_attributes
       end
 
       # Returns the activity type. Should be overridden in the journalized class to offer

@@ -53,7 +53,8 @@ module Redmine
           send :include, Redmine::Acts::Customizable::InstanceMethods
 
           before_save :ensure_custom_values_complete
-          after_save :reset_custom_values_change_tracker
+          after_save :touch_customizable,
+                     :reset_custom_values_change_tracker
         end
       end
 
@@ -86,8 +87,6 @@ module Redmine
         # instead of a single value you'd pass an array.
         def custom_field_values=(values)
           return unless values.is_a?(Hash) && values.any?
-
-          @custom_field_values_changed = true
 
           values.with_indifferent_access.each do |custom_field_id, val|
             existing_custom_values = custom_values_for_custom_field id: custom_field_id
@@ -159,10 +158,6 @@ module Redmine
           custom_field_values.select(&:visible?)
         end
 
-        def custom_field_values_changed?
-          @custom_field_values_changed == true
-        end
-
         def custom_value_for(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
           values = custom_field_values.select { |v| v.custom_field_id == field_id }
@@ -203,13 +198,11 @@ module Redmine
         end
 
         def reset_custom_values_change_tracker
-          @custom_field_values_changed = false
           @custom_field_values = nil
         end
 
         def reset_custom_values!
           @custom_field_values = nil
-          @custom_field_values_changed = true
           custom_values.each { |cv| cv.destroy unless custom_field_values.include?(cv) }
         end
 
@@ -318,6 +311,10 @@ module Redmine
             value = value.id if value.respond_to?(:id)
             self.custom_field_values = { custom_field.id => Array(value) }
           end
+        end
+
+        def touch_customizable
+          touch if !saved_changes? && custom_values.loaded? && custom_values.any?(&:saved_changes?)
         end
 
         module ClassMethods

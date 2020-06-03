@@ -167,7 +167,8 @@ zh-CN:
       enterprise:
         trial:
           confirmation: "确认电子邮件地址"
-          confirmation_info: "我们向您发送了一封电子邮件。请查看您的电子邮件并点击提供的确认链接以开始 14 天的试用。"
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               我同意<a target="_blank" href="%{link_terms}">服务条款</a>和<a target="_blank" href="%{link_privacy}">隐私政策</a>。
@@ -264,13 +265,13 @@ zh-CN:
           text_new_features: "了解新功能和产品更新。"
           learn_about: "详细了解新功能"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              此版本包含许多新功能和改进：<br><br> <ul> <li><b>面向被分派人的操作面板</b>：创建操作面板，在列表中移动卡片时，它们会自动更新被分派人。</li> <li>按照名称而不是日期对版本排序，这样可以更轻松地从列表中选择版本。</li> <li><b>移除 24 小时限制</b>，以便进行时间跟踪。</li> <li>在项目概览微件上显示新闻摘要。</li> <li>各种错误修复和<b>实用性改进</b>。</li> </ul>
+              该版本包含各种新功能和改进：<br><br> <ul class="%{list_styling_class}"> <li>从详细信息或列表视图在工作包上<b>更快地启动时间记录</b>。</li> <li><b>改进了表格式化</b>，可在文本编辑器中更好地配置表，例如调整单元格的宽度、颜色、对齐或边距。</li> <li>工作包的卡片视图现在也包含项目名称。</li> <li>OpenProject 现在已<b>完全翻译成斯洛文尼亚语</b>。Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 现在支持 <b>BIM Collaboration Format (BCF)</b> - BIM 模型的开放式问题跟踪标准。<br><br> <ul> <li>轻松创建并<b>管理 BIM 问题</b>（如交互式 3D IFC 模型中的冲突、请求和问题），并<b>与项目团队共享</b>。</li> <li>使用强大的 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a> 将 OpenProject 与您最喜欢的 BIM 软件集成到一起。</li> <li>导入和导出 BCF XML 文件。</li> </ul>
+              OpenProject 10.5 现在支持 <b>BIM Collaboration Format (BCF)</b> - BIM 模型的开放式问题跟踪标准。<br><br> <ul> <ul class="%{list_styling_class}"> <li>轻松创建并<b>管理 BIM 问题</b>（如交互式 3D IFC 模型中的冲突、请求和问题），并<b>与项目团队共享</b>。</li> <li>使用强大的 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a> 将 OpenProject 与您最喜欢的 BIM 软件集成。</li> <li>导入和导出 BCF XML 文件。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,23 +27,14 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-
 require 'spec_helper'
 
-describe "Journalized Objects" do
-  before(:each) do
-    @type ||= FactoryBot.create(:type_feature)
-    @project ||= FactoryBot.create(:project_with_types)
-    @current = FactoryBot.create(:user, login: "user1", mail: "user1@users.com")
-    allow(User).to receive(:current).and_return @current
-  end
-
-  it 'should work with documents' do
-    @document ||= FactoryBot.create(:document)
-
-    initial_journal = @document.journals.first
-    recreated_journal = @document.recreate_initial_journal!
-
-    expect(initial_journal).to be_identical(recreated_journal)
+describe Journal,
+         type: :model do
+  describe '#journable' do
+    it 'raises no error on a new journal without a journable' do
+      expect(Journal.new.journable)
+        .to be_nil
+    end
   end
 end

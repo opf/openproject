@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -101,7 +102,7 @@ class JournalsController < ApplicationController
   end
 
   def valid_diff?
-    return false unless valid_field?(params[:field])
-    @journal.journable.class == WorkPackage
+    valid_field?(params[:field]) &&
+      @journal.journable.class == WorkPackage
   end
 end

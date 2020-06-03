@@ -167,7 +167,8 @@ pl:
       enterprise:
         trial:
           confirmation: "Potwierdzenie adresu e-mail"
-          confirmation_info: "Wysłaliśmy Ci wiadomość e-mail. Sprawdź swoje wiadomości e-mail i kliknij link potwierdzenia, aby rozpocząć 14-dniowy okres próbny."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Przyjmuję <a target="_blank" href="%{link_terms}">warunki umowy</a> i <a target="_blank" href="%{link_privacy}">politykę prywatności</a>.
@@ -264,13 +265,13 @@ pl:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br><br> <ul> <li><b>Tablica działania dla osób przypisanych</b>: tworzenie tablic działań, które będą automatycznie aktualizować osobę przypisaną podczas przenoszenia kart między listami.</li> <li>Sortowanie wersji według nazw, a nie dat, co znacznie ułatwia wybór wersji z listy.</li> <li><b>Usunięcie 24-godzinnego ograniczenia</b> śledzenia czasu.</li> <li>Pokazywanie podsumowania aktualności w widżecie przeglądu projektu.</li> <li>Poprawki różnych usterek i <b>ulepszenia użytkowe</b>.</li> </ul>
+              Wersja zawiera różne nowe funkcje i ulepszenia: <br><br> <ul class="%{list_styling_class}"> <li><b>Szybsze rejestrowanie czasu pracy</b> na pakietach roboczych z widoku szczegółów lub listy.</li> <li><b>Ulepszone formatowanie tabel</b> w celu lepszej konfiguracji tabel w edytorze tekstu, np. szerokości, koloru, wyrównania lub wypełnienia komórki.</li> <li>Widok kart pakietów roboczych zawiera teraz również nazwę projektu.</li> <li>OpenProject jest teraz w <b>100% przetłumaczony na język słoweński</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 obsługuje teraz <b>BIM Collaboration Format (BCF)</b> – standard śledzenia otwartych problemów dla modeli BIM.<br><br> <ul> <li>Z łatwością twórz i <b>zarządzaj problemami BIM</b>, takimi jak kolizje, żądania i pytania w interaktywnym modelu 3D IFC i <b>udostępniaj je zespołowi projektowemu.</b></li> <li>Zintegruj OpenProject z ulubionym oprogramowaniem BIM za pomocą wszechstronnego <a target="_blank" href="%{bcf_api_link}">interfejsu API BCF REST.</a></li> <li>Importuj i eksportuj pliki BCF w formacie XML.</li> </ul>
+              OpenProject 10.5 obsługuje teraz <b>BIM Collaboration Format (BCF)</b> – standard śledzenia otwartych problemów dla modeli BIM.<br><br> <ul class="%{list_styling_class}"> <li>Z łatwością twórz i <b>zarządzaj problemami BIM</b>, takimi jak kolizje, żądania i pytania w interaktywnym modelu 3D IFC i <b>udostępniaj je zespołowi projektowemu.</b></li> <li>Zintegruj OpenProject z ulubionym oprogramowaniem BIM za pomocą wszechstronnego <a target="_blank" href="%{bcf_api_link}">interfejsu API BCF REST.</a></li> <li>Importuj i eksportuj pliki BCF w formacie XML.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"

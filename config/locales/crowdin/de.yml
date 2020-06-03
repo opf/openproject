@@ -409,6 +409,7 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeschreibung'
@@ -1067,7 +1068,7 @@ de:
   error_cookie_missing: 'Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert.'
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: 'Fehler beim Löschen dieses Eintrags.'
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ausgewählter Wert ist ungültig."
@@ -1940,6 +1941,12 @@ de:
       warning_one: Projektmitglieder müssen die Projektarchive des Projekts umziehen.
       warning_two: Bestehende Projekt-Links werden nicht mehr funktionieren.
       title: Projektkennung ändern
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?"
       archived: "Archiviert"

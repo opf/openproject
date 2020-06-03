@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,14 +28,47 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+module Projects
+  class InstantiateTemplateService < ::BaseServices::Create
+    attr_reader :template_id
 
-require 'journal/meeting_content_journal'
+    def initialize(user:, template_id:)
+      @template_id = template_id
 
-describe Journal, type: :model do
-  include PluginSpecHelper
+      super user: user,
+            contract_class: Projects::InstantiateTemplateContract,
+            contract_options: { template_project_id: template_id }
+    end
 
-  let(:journal) { FactoryBot.build(:meeting_content_journal) }
+    def after_validate(params, call)
+      ::CopyProjectJob.perform_later(
+        user_id: user.id,
+        source_project_id: template_id,
+        target_project_params: project_params(params),
+        # Copy all associations
+        associations_to_copy: nil,
+        # Send mails for now until we send our own mails
+        send_mails: true
+      )
 
-  it_should_behave_like 'customized journal class'
+      call
+    end
+
+    # Do not actually try to save the project here
+    # but simply pass the previous call
+    def persist(call)
+      call
+    end
+
+    private
+
+    ##
+    # Modifies params to ensure we unset
+    # the templated option
+    def project_params(params)
+      params.to_h.merge(
+        templated: false
+      )
+    end
+  end
 end

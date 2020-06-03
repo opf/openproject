@@ -100,7 +100,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <% @content_versions.each_with_index do |content_version,index| %>
           <tr>
             <td class="id -short">
-              <%= content_version.version == @content.current_journal.version ?
+              <%= content_version.version == @content.last_journal.version ?
                     link_to(content_version.version, tab_meeting_path(@meeting, :tab => @content_type.sub(/^meeting_/, '')), id: "version-#{content_version.version}") :
                     link_to(content_version.version, send(:"#{@content_type}_version_path", @meeting, content_version.version), id: "version-#{content_version.version}") %>
             </td>

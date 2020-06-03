@@ -38,7 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= call_hook(:view_projects_form, project: project, form: f) %>
 </section>
 
-<% unless project.new_record? %>
+<% if project.persisted? %>
   <section class="form--section">
     <%= render partial: "projects/form/required_storage",
                locals: { project: project, storage: project.count_required_storage } %>

@@ -166,16 +166,17 @@ el:
       enterprise:
         trial:
           confirmation: "Επιβεβαίωση της διεύθυνσης email"
-          confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              Συμφωνώ με τους <a target="_blank" href="%{link_terms}">όρους χρήσης</a> και με την <a target="_blank" href="%{link_privacy}">πολιτική απορρήτου</a>.
+            invalid_email: "Μη έγκυρη διεύθυνση email"
+            label_company: "Εταιρεία"
             label_first_name: "Όνομα"
             label_last_name: "Επώνυμο"
             label_email: "Email"
-            label_domain: "Domain"
+            label_domain: "Τομέας"
             label_subscriber: "Συνδρομητής"
             label_maximum_users: "Μέγιστοι ενεργοί χρήστες"
             label_starts_at: "Starts at"
@@ -185,13 +186,13 @@ el:
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
+          next_steps: "Επόμενα βήματα"
           resend_link: "Αποστολή ξανά"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
+          resend_success: "Το email απεστάλη ξανά. Παρακαλούμε ελέγξτε τα emails σας και πατήστε τον σύνδεσμο επιβεβαίωσης."
+          resend_warning: "Δεν ήταν δυνατή η αποστολή email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_label: "Κατάσταση:"
+          status_confirmed: "επιβεβαιωμένο"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
@@ -211,7 +212,7 @@ el:
           button_book_now: "Κάντε κράτηση τώρα"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+          link_quote: "Λάβετε μια προσφορά"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -263,13 +264,13 @@ el:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"

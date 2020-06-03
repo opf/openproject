@@ -174,7 +174,7 @@ class Journal::AggregatedJournal
 
   include JournalChanges
   include JournalFormatter
-  include Redmine::Acts::Journalized::FormatHooks
+  include ::Acts::Journalized::FormatHooks
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
@@ -204,7 +204,6 @@ class Journal::AggregatedJournal
            :notes_version,
            :project,
            :data,
-           :data=,
            to: :journal
 
   # Initializes a new AggregatedJournal. Allows to explicitly set a predecessor, if it is already
@@ -227,6 +226,10 @@ class Journal::AggregatedJournal
 
   def user
     @user ||= User.find(user_id)
+  end
+
+  def data=(data)
+    @data = data
   end
 
   def predecessor

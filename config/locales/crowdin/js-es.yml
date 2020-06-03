@@ -167,7 +167,8 @@ es:
       enterprise:
         trial:
           confirmation: "Confirmación de dirección de correo electrónico"
-          confirmation_info: "Le hemos enviado un mensaje. Consulte su correo electrónico y haga clic en el enlace de confirmación proporcionado para iniciar su prueba de 14 días."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Estoy de acuerdo con los <a target="_blank" href="%{link_terms}">Términos del servicio</a> y la <a target="_blank" href="%{link_privacy}">Política de privacidad</a>.
@@ -264,13 +265,13 @@ es:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
           learn_about: "Más información sobre las nuevas características"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Esta versión contiene nuevas características y mejoras: <br><br> <ul> <li><b>Panel de acciones de asignados</b>: cree paneles de acciones que actualicen automáticamente el usuario asignado al mover tarjetas entre listas.</li> <li>Permite ordenar las versiones por nombre, en lugar de ordenarlas por fecha, para que resulte más fácil seleccionar una versión de la lista.</li> <li><b>Se ha eliminado la restricción de 24 horas</b> para el seguimiento del tiempo.</li> <li>Se muestra un resumen de noticias en el widget de información general del proyecto.</li> <li>Correcciones de errores y <b>mejoras de usabilidad</b>.</li> </ul>
+              Esta versión contiene nuevas características y mejoras: <br><br> <ul class="%{list_styling_class}"> <li><b>Registro de tiempo más rápido</b> en paquetes de trabajo desde la vista de lista o de detalles.</li> <li><b>Mejoras en el formato de tabla</b> para configurar fácilmente tablas en el editor de texto (por ejemplo, se puede modificar el ancho, el color, la alineación o el relleno de la celda).</li> <li>Ahora, en la vista de tarjetas de paquetes de trabajo se muestra el nombre del proyecto.</li> <li>OpenProject ya está <b>traducido en su totalidad al eslovaco</b>. ¡Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 ahora es compatible con el <b>formato de colaboración BIM</b> (BCF): el estándar de seguimiento de incidencias sin resolver para modelos BIM.<br><br> <ul> <li>Cree y gestione fácilmente <b>incidencias de BIM</b> (como conflictos, solicitudes y preguntas) en el modelo IFC 3D interactivo y <b>compártalas con el equipo del proyecto</b>.</li> <li>Integre OpenProject con su software de BIM favorito mediante la avanzada <a target="_blank" href="%{bcf_api_link}">API de REST de BCF</a>.</li> <li>Importe y exporte archivos XML de BCF.</li> </ul>
+              OpenProject 10.5 ahora es compatible con el <b>formato de colaboración BIM (BCF)</b>: el estándar de seguimiento de incidencias sin resolver para modelos BIM.<br><br> <ul class="%{list_styling_class}"> <li>Cree y gestione fácilmente <b>incidencias de BIM</b> (como conflictos, solicitudes y preguntas) en el modelo IFC 3D interactivo y <b>compártalas con el equipo del proyecto</b>.</li> <li>Integre OpenProject con su software de BIM favorito mediante la avanzada <a target="_blank" href="%{bcf_api_link}">API de REST de BCF</a>.</li> <li>Importe y exporte archivos XML de BCF.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"

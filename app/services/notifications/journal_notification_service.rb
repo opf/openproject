@@ -34,26 +34,11 @@ class Notifications::JournalNotificationService
 
     def call(journal, send_mails)
       if journal.journable_type == 'WorkPackage'
-        handle_work_package_journal(journal, send_mails)
+        enqueue_work_package_notification(journal, send_mails)
       end
     end
 
     private
-
-    def handle_work_package_journal(journal, send_mails)
-      notify_for_wp_predecessor(journal, send_mails)
-      enqueue_work_package_notification(journal, send_mails)
-    end
-
-    # Send the notification on behalf of the predecessor in case it could not send it on its own
-    def notify_for_wp_predecessor(journal, send_mails)
-      aggregated = find_aggregated_journal_for(journal)
-
-      if Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
-        aggregated_predecessor = find_aggregated_journal_for(aggregated.predecessor)
-        notify_journal_complete(aggregated_predecessor, send_mails)
-      end
-    end
 
     def enqueue_work_package_notification(journal, send_mails)
       EnqueueWorkPackageNotificationJob

@@ -34,20 +34,6 @@ describe VariableCostObject, type: :model do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:user) { FactoryBot.create(:user) }
 
-  describe 'recreate initial journal' do
-    before do
-      allow(User).to receive(:current).and_return(user)
-
-      @variable_cost_object = FactoryBot.create(:variable_cost_object, project: project,
-                                                                        author: user)
-
-      @initial_journal = @variable_cost_object.journals.first
-      @recreated_journal = @variable_cost_object.recreate_initial_journal!
-    end
-
-    it { expect(@initial_journal).to be_identical(@recreated_journal) }
-  end
-
   describe 'initialization' do
     let(:cost_object) { VariableCostObject.new }
 

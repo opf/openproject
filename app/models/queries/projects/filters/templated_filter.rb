@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,23 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module PluginSpecHelper
-  shared_examples_for 'customized journal class' do
-    describe '#save' do
-      let(:text) { 'Lorem ipsum' }
-      let(:changed_data) { { text: [nil, text] } }
+class Queries::Projects::Filters::TemplatedFilter < Queries::Projects::Filters::ProjectFilter
+  include Queries::Filters::Shared::BooleanFilter
 
-      describe 'WITHOUT compression' do
-        before do
-          # we have to save here because changed_data will update (and save) attributes and miss an ID
-          journal.save!
-          journal.changed_data = changed_data
-
-          journal.reload
-        end
-
-        it { expect(journal.changed_data[:text][1]).to eq(text) }
-      end
-    end
+  def self.key
+    :templated
   end
 end

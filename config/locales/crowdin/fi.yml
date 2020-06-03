@@ -414,6 +414,7 @@ fi:
         types: "Tyypit"
         versions: "Versiot"
         work_packages: "Työpaketit"
+        templated: 'Template project'
       projects/status:
         code: 'Tila'
         explanation: 'Status description'
@@ -1945,6 +1946,12 @@ fi:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Projektin nykyiset linkit eivät enää toimi.
       title: Muuta projektin tunnistetta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
       archived: "Archived"
