@@ -412,6 +412,7 @@ pt:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Tarefas"
+        templated: 'Template project'
       projects/status:
         code: 'Situação'
         explanation: 'Descrição do estado'
@@ -1943,6 +1944,12 @@ pt:
       warning_one: Os membros do projeto terão de realocar os repositórios do projeto.
       warning_two: Os links existentes para o projeto já não funcionarão.
       title: Alterar o identificador do projeto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Tem a certeza de que deseja arquivar o projeto '%{name}'?"
       archived: "Arquivado"

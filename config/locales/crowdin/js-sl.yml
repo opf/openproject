@@ -166,7 +166,8 @@ sl:
       enterprise:
         trial:
           confirmation: "Potrdite e-poštni naslov"
-          confirmation_info: "Poslali smo vam e-pošto. Prosimo preglejte vašo pošto in kliknite potrditveno povezavo za začetek vašega 14 dnevnega preizkusa."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Strinjam se z  <a target="_blank" href="%{link_terms}">terms of service</a> in <a target="_blank" href="%{link_privacy}">privacy policy</a>.
