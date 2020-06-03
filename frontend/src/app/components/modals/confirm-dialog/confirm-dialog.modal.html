@@ -29,12 +29,12 @@
         </section>
 
         <div class="form--space -left-spacing">
-          <button class="button" 
+          <button class="confirm-form-submit--continue button" 
                   [ngClass]="options.classes?.button ? options.classes?.button : '-highlight'" 
                   (click)="confirmAndClose($event)" [textContent]="text.button_continue"
                   [attr.title]="text.button_continue">
           </button>
-          <button class="button" 
+          <button class="confirm-form-submit--cancel button" 
                   (click)="closeMe($event)"
                   [textContent]="text.button_cancel"
                   [attr.title]="text.button_cancel">
