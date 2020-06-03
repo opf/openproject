@@ -42,6 +42,8 @@ export interface ConfirmDialogOptions {
   closeByEscape?:boolean;
   showClose?:boolean;
   closeByDocument?:boolean;
+  passedData?:any;
+  classes?:{form?:string; button?:string};
 }
 
 @Component({
@@ -54,7 +56,7 @@ export class ConfirmDialogModal extends OpModalComponent {
 
   public confirmed = false;
 
-  private options:ConfirmDialogOptions;
+  public options:ConfirmDialogOptions;
 
   public text:any = {
     title: this.I18n.t('js.modals.form_submit.title'),
@@ -70,12 +72,10 @@ export class ConfirmDialogModal extends OpModalComponent {
               readonly I18n:I18nService) {
 
     super(locals, cdRef, elementRef);
-
     this.options = locals.options || {};
     this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
     this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
     this.showClose = _.defaultTo(this.options.showClose, true);
-
     // override default texts if any
     this.text = _.defaults(this.options.text, this.text);
   }

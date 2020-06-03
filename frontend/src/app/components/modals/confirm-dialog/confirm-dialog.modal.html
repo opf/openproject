@@ -1,33 +1,46 @@
-<div class="op-modal--portal confirm-form-submit--modal  ngdialog-theme-openproject">
+<div class="op-modal--portal ">
   <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
-       data-indicator-name="modal"
-       tabindex="0">
+    data-indicator-name="modal"
+    tabindex="0">
+
     <div class="op-modal--modal-header">
       <a class="op-modal--modal-close-button" *ngIf="showClose">
-        <i
-            class="icon-close"
-            (click)="closeMe($event)"
-            [attr.title]="text.close_popup">
+        <i 
+        class="icon-close" 
+        (click)="closeMe($event)" 
+        [attr.title]="text.close_popup">
         </i>
       </a>
-      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
     </div>
 
-    <div class="ngdialog-body op-modal--modal-body">
-      <p [textContent]="text.text"></p>
-    </div>
-    <div class="op-modal--modal-footer">
-      <button class="confirm-form-submit--continue button -highlight"
-              (click)="confirmAndClose($event)"
-              [textContent]="text.button_continue"
-              [attr.title]="text.button_continue">
-      </button>
-      <button class="confirm-form-submit--cancel button"
-              (click)="closeMe($event)"
-              [textContent]="text.button_cancel"
-              [attr.title]="text.button_cancel">
-      </button>
-      
-    </div>
+    <form class="form"
+        [ngClass]="options.classes?.form">
+        <section class="form--section -inner-scrolling">
+          <h3 class="form--section-title" [textContent]="text.title"></h3>
+          <div class="modal-inner-scrolling-container">
+            <ng-container>
+              <p>
+                <span [textContent]="text.text"></span>
+                <br/>
+                <strong>{{options.passedData}}</strong>
+              </p>
+            </ng-container>
+          </div>
+        </section>
+
+        <div class="form--space -left-spacing">
+          <button class="button" 
+                  [ngClass]="options.classes?.button ? options.classes?.button : '-highlight'" 
+                  (click)="confirmAndClose($event)" [textContent]="text.button_continue"
+                  [attr.title]="text.button_continue">
+          </button>
+          <button class="button" 
+                  (click)="closeMe($event)"
+                  [textContent]="text.button_cancel"
+                  [attr.title]="text.button_cancel">
+          </button>
+        </div>
+    
+    </form>
   </div>
 </div>
