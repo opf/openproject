@@ -16,7 +16,9 @@ If you find a bug please create a bug report.
 
 Prior to detailing which steps to take to reproduce the error, the necessary preconditions which have to be met should be stated.
 * Which browser did you use when you experienced the error?
-* Do you receive any error messages in the rails console or browser console when the error occurs? Please include the error message if applicable.
+* Do you receive any error messages in the browser console when the error occurs? Please include the error message if applicable.
+* Please also include the contents of the browser's developer tool's network tab where applicable.
+* If you are self-hosting please include logs from `sudo openproject logs` gathered while you are reproducing the error.
 
 Example:
 
