@@ -12,14 +12,12 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
 @Component({
   selector: triggerActionsEntryComponentSelector,
   template: `
-    <a *ngIf="entry"
-       (click)="editTimeEntry(entry)"
+    <a (click)="editTimeEntry(entry)"
        [title]="text.edit"
        class="no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-edit"></op-icon>
     </a>
-    <a *ngIf="entry"
-       (click)="deleteTimeEntry(entry)"
+    <a (click)="deleteTimeEntry(entry)"
        [title]="text.delete"
        class="no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-delete"></op-icon>
@@ -27,7 +25,7 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TriggerActionsEntryComponent implements OnInit {
+export class TriggerActionsEntryComponent {
   @InjectField() readonly timeEntryEditService:TimeEntryEditService;
   @InjectField() readonly timeEntryCache:TimeEntryCacheService;
   @InjectField() readonly timeEntryDmService:TimeEntryDmService;
@@ -46,27 +44,20 @@ export class TriggerActionsEntryComponent implements OnInit {
   };
 
   constructor(readonly injector:Injector) {
-
   }
 
-  ngOnInit() {
-    let timeEntryId = this.elementRef.nativeElement.dataset['entry'];
-    this.timeEntryCache
-      .require(timeEntryId)
-      .then((loadedEntry) => {
-        this.entry = loadedEntry;
-        this.cdRef.detectChanges();
-      });
-  }
 
   editTimeEntry(entry:TimeEntryResource) {
-    this.timeEntryEditService
-      .edit(entry)
-      .then(() => {
-        window.location.reload();
-      })
-      .catch(() => {
-        // User canceled the modal
+    this.loadEntry()
+      .then(entry => {
+        this.timeEntryEditService
+          .edit(entry)
+          .then(() => {
+            window.location.reload();
+          })
+          .catch(() => {
+            // User canceled the modal
+          });
       });
   }
 
@@ -75,13 +66,23 @@ export class TriggerActionsEntryComponent implements OnInit {
       return;
     }
 
-    this.timeEntryDmService
-      .delete(entry)
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((error) => {
-        this.notificationsService.addError(error || this.text.error);
+    this.loadEntry()
+      .then(entry => {
+        this.timeEntryDmService
+          .delete(entry)
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((error) => {
+            this.notificationsService.addError(error || this.text.error);
+          });
       });
+  }
+
+  protected loadEntry() {
+    let timeEntryId = this.elementRef.nativeElement.dataset['entry'];
+
+    return this.timeEntryCache
+      .require(timeEntryId);
   }
 }
