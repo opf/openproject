@@ -26,35 +26,38 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector, Input} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {FieldDescriptor, GroupDescriptor} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import {DateDisplayField} from "core-app/modules/fields/display/field-types/date-display-field.module";
 
-@Component({
-  selector: 'wp-attribute-group',
-  templateUrl: './wp-attribute-group.template.html'
-})
-export class WorkPackageFormAttributeGroupComponent {
-  @Input() public workPackage:WorkPackageResource;
-  @Input() public group:GroupDescriptor;
+export class CombinedDateDisplayField extends DateDisplayField {
+  text = {
+    placeholder: {
+      startDate: this.I18n.t('js.label_no_start_date'),
+      dueDate: this.I18n.t('js.label_no_due_date')
+    },
+  };
 
-  constructor(readonly I18n:I18nService,
-              public wpeditForm:EditFormComponent,
-              protected injector:Injector) {
+  public render(element:HTMLElement, displayText:string):void {
+    var startDateElement = this.createDateDisplayField('startDate');
+    var dueDateElement = this.createDateDisplayField('dueDate');
+
+    var separator = document.createElement('span');
+    separator.textContent = ' - ';
+
+    element.appendChild(startDateElement);
+    element.appendChild(separator);
+    element.appendChild(dueDateElement);
   }
 
-  public trackByName(_index:number, elem:{ name:string }) {
-    return elem.name;
-  }
+  private createDateDisplayField(date:'dueDate'|'startDate'):HTMLElement {
+    var dateElement = document.createElement('span');
+    var dateDisplayField = new DateDisplayField(date, this.context);
+    var text = this.resource[date] ?
+      this.timezoneService.formattedDate(this.resource[date]) :
+      this.text.placeholder[date];
 
-  /**
-   * Hide read-only fields, but only when in the create mode
-   * @param {FieldDescriptor} field
-   */
-  public shouldHideField(descriptor:FieldDescriptor) {
-    const field = descriptor.field || descriptor.fields![0];
-    return this.wpeditForm.editMode && !field.writable;
+    dateDisplayField.apply(this.resource, this.schema);
+    dateDisplayField.render(dateElement, text);
+
+    return dateElement;
   }
 }

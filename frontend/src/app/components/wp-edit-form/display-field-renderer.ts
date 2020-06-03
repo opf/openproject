@@ -9,6 +9,7 @@ import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/fiel
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {CombinedDateDisplayField} from "core-app/modules/fields/display/field-types/combined-date-display.field";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -102,6 +103,11 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       return new MultipleLinesUserFieldModule(name, context) as DisplayField;
     }
 
+    // In the single view, start and end date are shown in a combined date field
+    if (this.container === 'single-view' && (name === 'startDate')) {
+      return new CombinedDateDisplayField(name, context) as DisplayField;
+    }
+
     // We handle progress differently in the timeline
     if (this.container === 'timeline' && name === 'percentageDone') {
       return new ProgressTextDisplayField(name, context);
@@ -190,7 +196,6 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     return name;
-
   }
 
   private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
