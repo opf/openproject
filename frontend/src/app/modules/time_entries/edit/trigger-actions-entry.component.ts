@@ -3,7 +3,6 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
 import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
@@ -12,12 +11,12 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
 @Component({
   selector: triggerActionsEntryComponentSelector,
   template: `
-    <a (click)="editTimeEntry(entry)"
+    <a (click)="editTimeEntry()"
        [title]="text.edit"
        class="no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-edit"></op-icon>
     </a>
-    <a (click)="deleteTimeEntry(entry)"
+    <a (click)="deleteTimeEntry()"
        [title]="text.delete"
        class="no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-delete"></op-icon>
@@ -34,8 +33,6 @@ export class TriggerActionsEntryComponent {
   @InjectField() readonly i18n:I18nService;
   @InjectField() readonly cdRef:ChangeDetectorRef;
 
-  public entry:TimeEntryResource;
-
   public text = {
     edit: this.i18n.t('js.button_edit'),
     delete: this.i18n.t('js.button_delete'),
@@ -46,8 +43,7 @@ export class TriggerActionsEntryComponent {
   constructor(readonly injector:Injector) {
   }
 
-
-  editTimeEntry(entry:TimeEntryResource) {
+  editTimeEntry() {
     this.loadEntry()
       .then(entry => {
         this.timeEntryEditService
@@ -61,7 +57,7 @@ export class TriggerActionsEntryComponent {
       });
   }
 
-  deleteTimeEntry(entry:TimeEntryResource) {
+  deleteTimeEntry() {
     if (!window.confirm(this.text.areYouSure)) {
       return;
     }
