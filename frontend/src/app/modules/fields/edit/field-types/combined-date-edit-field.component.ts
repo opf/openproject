@@ -31,66 +31,42 @@ import * as moment from "moment";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {take} from "rxjs/operators";
+import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
 
 @Component({
-  template: `
-    <op-date-picker
-        tabindex="-1"
-        (onChange)="onValueSelected($event)"
-        (onClose)="handler.handleUserSubmit()"
-        [initialDate]="defaultDate"
-        [required]="required"
-        [disabled]="inFlight"
-        [id]="handler.htmlId"
-        classes="inline-edit--field">
-
-      <!-- <input [ngModel]="formatter(value)"
-             (keydown)="handler.handleUserKeydown($event)"/> -->
-
-    </op-date-picker>
+  template: `    
+    <input type="text"
+           hidden/>
   `
 })
-export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
+export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit {
   @InjectField() readonly timezoneService:TimezoneService;
   @InjectField() opModalService:OpModalService;
 
   ngOnInit() {
     super.ngOnInit();
+    this.showDatePickerModal();
   }
 
-  public onValueSelected(data:string) {
-    this.value = this.parser(data);
-  }
+  private showDatePickerModal():void {
+    const modal = this
+      .opModalService
+      .show(DatePickerModal, this.injector, { changeset: this.change });
 
-  public parser(data:any) {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      return data;
-    } else {
-      return null;
-    }
-  }
+    setTimeout(() => {
+      const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');
+      const field = jQuery(this.elementRef.nativeElement);
+      modal.reposition(modalElement, field);
+    });
 
-  public formatter(data:any) {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      var d = this.timezoneService.parseDate(data);
-      return this.timezoneService.formattedISODate(d);
-    } else {
-      return null;
-    }
-  }
-
-  /**
-   * Return the default date for the datepicker instance.
-   * If this field is the finish date, we select the start date + 1 as the default.
-   */
-  public get defaultDate():String {
-    const isDueDate = this.name === 'dueDate';
-
-    if (isDueDate) {
-      return this.resource.startDate;
-    }
-
-    return '';
+    modal
+      .closingEvent
+      .pipe(take(1))
+      .subscribe(() => {
+        this.handler.handleUserSubmit();
+      });
   }
 }

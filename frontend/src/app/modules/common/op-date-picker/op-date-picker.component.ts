@@ -48,6 +48,7 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public required:boolean = false;
   @Input() public size:number = 20;
   @Input() public focus:boolean = false;
+  @Input() public disabled:boolean = false;
 
   private $element:JQuery;
   private datePickerInstance:DatePicker;
@@ -80,7 +81,7 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public setup() {
-    this.input.click(() => this.datePickerInstance.show());
+    this.input.click(() => this.openOnClick());
     this.input.blur((event) => this.closeOnOutsideClick(event));
     this.input.keydown(() => {
       if (this.isEmpty()) {
@@ -127,6 +128,12 @@ export class OpDatePickerComponent implements OnInit, OnDestroy, AfterViewInit {
       initialValue,
       options
     );
+  }
+
+  private openOnClick() {
+    if (!this.disabled) {
+      this.datePickerInstance.show();
+    }
   }
 
   private closeOnOutsideClick(event:any) {
