@@ -55,3 +55,11 @@ div.ck-editor__preview
     > table
       height: 100%
       width: 100%
+
+    // Ensure we break apart words in table cells that
+    // are restricted in width (OP#33524)
+    td[style*=";width:"],
+    td[style^="width:"],
+    th[style*=";width:"],
+    th[style^="width:"]
+      word-break: break-all
