@@ -43,12 +43,11 @@ export interface ConfirmDialogOptions {
   showClose?:boolean;
   closeByDocument?:boolean;
   passedData?:string[];
-  classes?:{form?:string; button?:string};
+  dangerHighlighting?:boolean;
 }
 
 @Component({
-  templateUrl: './confirm-dialog.modal.html',
-  styleUrls:['./confirm-dialog.modal.sass']
+  templateUrl: './confirm-dialog.modal.html'
 })
 export class ConfirmDialogModal extends OpModalComponent {
 
@@ -66,9 +65,9 @@ export class ConfirmDialogModal extends OpModalComponent {
     close_popup: this.I18n.t('js.close_popup_title')
   };
 
-  public passedData?:string[];
+  public passedData:string[];
 
-  public classes:{form?:string; button?:string} = {};
+  public dangerHighlighting:boolean;
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -77,10 +76,9 @@ export class ConfirmDialogModal extends OpModalComponent {
 
     super(locals, cdRef, elementRef);
     this.options = locals.options || {};
-    this.classes = this.options.classes || {};
-    this.classes.button = this.options.classes?.button || '-highlight';
-    //this.classes = this.options.classes;
-    this.passedData = this.options?.passedData || [];
+
+    this.dangerHighlighting = _.defaultTo(this.options.dangerHighlighting, false);
+    this.passedData = _.defaultTo(this.options.passedData, []);
     this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
     this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
     this.showClose = _.defaultTo(this.options.showClose, true);

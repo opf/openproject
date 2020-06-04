@@ -88,7 +88,6 @@ $modal-footer-height: $modal-header-height
       margin-bottom: 0px
 
 .op-modal--modal-footer
-  margin: 1em 0
   padding: 0 1.5rem
 
   button:last-of-type
@@ -127,6 +126,10 @@ $modal-footer-height: $modal-header-height
     h2, h3
       @include text-shortener
       margin: 0
+      border: none
+
+  .op-modal--modal-footer
+    margin: 1em 0
 
   .op-modal--modal-close-button
     right: 10px
@@ -134,9 +137,17 @@ $modal-footer-height: $modal-header-height
     @include varprop(line-height, modal-header-height)
     @include varprop(color, header-item-font-color)
 
-  .avatar,
-  .icon-context
+  .avatar
     margin-right: 0.5rem
+
+  &.-danger-zone
+    .op-modal--modal-header
+      @include varprop(background-color, content-form-danger-zone-bg-color)
+      @include varprop(border-bottom-color, content-form-danger-zone-bg-color)
+
+    .op-modal--modal-close-button
+      @include varprop(color, content-form-danger-zone-font-color)
+
 
 // Specific styles for columns-modal
 .columns-modal--content
