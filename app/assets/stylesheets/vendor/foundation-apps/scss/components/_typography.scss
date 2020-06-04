@@ -253,6 +253,7 @@ $acronym-underline: 1px dotted #ddd !default;
     border-style: $code-border-style;
     border-color: $code-border-color;
     padding: $code-padding;
+    line-height: $code-line-height;
   }
 
   /* Lists */
