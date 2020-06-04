@@ -120,7 +120,10 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       closeByEscape: true,
       showClose: true,
       closeByDocument: true,
-      passedData:entry.activity?.name + '-' + entry.project?.name + '-' + entry.workPackage?.name + ': ' + this.timezone.toHours(entry.hours) + this.text.hour,
+      passedData:[
+        '#' + entry.workPackage?.idFromLink + ' ' + entry.workPackage?.name,
+        this.timezone.toHours(entry.hours) + ' ' + this.text.hour + ' (' + entry.activity?.name + ')'
+      ],
       classes: {form:'danger-zone' , button:'-danger'}
     }).then(() => {
       entry.delete().then(() => {

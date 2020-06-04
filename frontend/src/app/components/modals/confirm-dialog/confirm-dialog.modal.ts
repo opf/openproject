@@ -42,7 +42,7 @@ export interface ConfirmDialogOptions {
   closeByEscape?:boolean;
   showClose?:boolean;
   closeByDocument?:boolean;
-  passedData?:any;
+  passedData?:string[];
   classes?:{form?:string; button?:string};
 }
 
@@ -56,7 +56,7 @@ export class ConfirmDialogModal extends OpModalComponent {
 
   public confirmed = false;
 
-  public options:ConfirmDialogOptions;
+  private options:ConfirmDialogOptions;
 
   public text:any = {
     title: this.I18n.t('js.modals.form_submit.title'),
@@ -66,6 +66,10 @@ export class ConfirmDialogModal extends OpModalComponent {
     close_popup: this.I18n.t('js.close_popup_title')
   };
 
+  public passedData?:string[];
+
+  public classes:{form?:string; button?:string} = {};
+
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
@@ -73,6 +77,10 @@ export class ConfirmDialogModal extends OpModalComponent {
 
     super(locals, cdRef, elementRef);
     this.options = locals.options || {};
+    this.classes = this.options.classes || {};
+    this.classes.button = this.options.classes?.button || '-highlight';
+    //this.classes = this.options.classes;
+    this.passedData = this.options?.passedData || [];
     this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
     this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
     this.showClose = _.defaultTo(this.options.showClose, true);

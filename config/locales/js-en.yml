@@ -948,7 +948,7 @@ en:
         deletes_children: "All child work packages and their descendants will also be recursively deleted."
       destroy_time_entry:
         title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry ?"
+        text: "Are you sure you want to delete the following time entry?"
 
     notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Successful creation."
