@@ -18,6 +18,7 @@ declare global {
 
 @Injectable()
 export class RevitBridgeService extends ViewerBridgeService {
+  public shouldShowViewer = false;
   private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:string }>();
   private _trackingIdNumber = 0;
   private _ready$ = input<boolean>(false);

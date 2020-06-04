@@ -13,7 +13,7 @@ export class OPContextMenuComponent {
   public service:OPContextMenuService;
 
   constructor(@Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap) {
-    this.items = this.locals.items;
+    this.items = this.locals.items.filter(item => !item?.hidden);
     this.service = this.locals.service;
   }
 
