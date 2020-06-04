@@ -48,12 +48,12 @@ module OpenProject::Bim::BcfXml
       # We often have an internal query name that is not meant
       # for public use or was given by a user.
       if query.name.present? && query.name != '_'
-        return sane_filename("#{query.name}.bcfzip")
+        return sane_filename("#{query.name}.bcf")
       end
 
       sane_filename(
         "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} \
-        #{format_time_as_date(Time.now, '%Y-%m-%d')}.bcfzip"
+        #{format_time_as_date(Time.now, '%Y-%m-%d')}.bcf"
       )
     end
 
