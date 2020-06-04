@@ -20,8 +20,8 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     edit: this.i18n.t('js.button_edit'),
     delete: this.i18n.t('js.button_delete'),
     confirmDelete: {
-      text: this.i18n.t('js.text_are_you_sure'),
-      title: this.i18n.t('js.modals.form_submit.title')
+      text: this.i18n.t('js.modals.destroy_time_entry.text'),
+      title: this.i18n.t('js.modals.destroy_time_entry.title')
     },
     noResults: this.i18n.t('js.grid.widgets.time_entries_list.no_results'),
   };
@@ -115,12 +115,18 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   public deleteIfConfirmed(event:Event, entry:TimeEntryResource) {
     event.preventDefault();
-
     this.confirmDialog.confirm({
       text: this.text.confirmDelete,
       closeByEscape: true,
       showClose: true,
-      closeByDocument: true
+      closeByDocument: true,
+      passedData:[
+        '#' + entry.workPackage?.idFromLink + ' ' + entry.workPackage?.name,
+        this.i18n.t(
+          'js.units.hour',
+          { count: this.timezone.toHours(entry.hours) }) + ' (' + entry.activity?.name + ')'
+      ],
+      dangerHighlighting: true
     }).then(() => {
       entry.delete().then(() => {
         let newEntries = this.entries.filter((anEntry) => {
