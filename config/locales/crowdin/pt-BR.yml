@@ -412,7 +412,6 @@ pt-BR:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Descrição do estado'
@@ -484,7 +483,6 @@ pt-BR:
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
         subproject: "Subprojeto"
@@ -1944,12 +1942,6 @@ pt-BR:
       warning_one: Membros do projeto terão que realocar os repositórios do projeto.
       warning_two: Links existentes para o projeto deixarão de funcionar.
       title: Alterar o identificador do projeto
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
       archived: "Arquivado"

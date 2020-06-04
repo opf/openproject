@@ -93,7 +93,7 @@ export class HierarchyDragActionService extends TableDragActionService {
   private loadParentOfWP(wpId:string):Promise<string|null> {
     return this.wpCacheService.require(wpId)
       .then((wp:WorkPackageResource) => {
-        return Promise.resolve(wp.parent.id);
+        return Promise.resolve(wp.parent?.id || null);
       });
   }
 }

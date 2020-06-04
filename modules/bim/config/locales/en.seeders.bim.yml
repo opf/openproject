@@ -1101,7 +1101,7 @@ en:
             boards:
               bcf:
                 name: "BCF issues"
-            bcf_xml_file: "seed.bcfzip"
+            bcf_xml_file: "seed.bcf"
             work_packages:
               - :start: 77
                 :bcf_issue_uuid: fbbf9ecf-5721-4bf1-a08c-aed50dc19353

@@ -55,7 +55,7 @@
     </ul>
 ```
 
-## Modals: With footer
+## Modals: Highlighted and with footer
 
 ```
 <div class="op-modal--modal-container -highlight">
@@ -84,6 +84,27 @@
   </div>
   <div class="op-modal--modal-footer">
     <button name="button" type="submit" class="button -highlight">Save</button>
+  </div>
+</div>
+```
+
+## Modals: Danger zone highlighting
+
+```
+<div class="op-modal--modal-container -highlight -danger-zone">
+  <div class="op-modal--modal-header">
+    <h3 class="icon-context icon-warning">Confirm deletion of Work Package</h3>
+    <a class="op-modal--modal-close-button" title="Close popup">
+      <i class="icon-close"></i>
+    </a>
+  </div>
+  <div class="op-modal--modal-body">
+    <p>Are you sure you want to delete the following work package?<p>
+    <p> ... </p>
+  </div>
+  <div class="op-modal--modal-footer">
+    <button name="button" type="submit" class="button -danger">Continue</button>
+    <button name="button" type="submit" class="button">Cancel</button>
   </div>
 </div>
 ```
