@@ -9,8 +9,7 @@
          *ngIf="firstGroup">
       <accessible-by-keyboard #wpRelationGroupByToggler
                               (execute)="toggleButton()"
-                              linkClass="panel-toggler ng-scope ng-isolate-scope hide-when-print
-                                         button -small -with-icon icon-group-by icon-small"
+                              linkClass="button -small -with-icon icon-group-by icon-small hide-when-print"
                               [linkAriaLabel]="togglerText">
         <span [textContent]="togglerText"></span>
       </accessible-by-keyboard>
