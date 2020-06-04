@@ -27,6 +27,10 @@
         overflow: visible !important
         position: relative
 
+        .work-packages-partitioned-page--content-right
+          .work-packages--details-toolbar-container
+            display: none
+
         .work-packages-partitioned-query-space--container
           padding-left: 0
 
@@ -79,25 +83,15 @@
         .toolbar-container
           display: none
 
-          .work-packages-split-view--tabletimeline-side
-            display: none
-          .work-packages-tabletimeline--table-side
-            &.-timeline-visible
-              display: initial
-              thead
-                // Undo that hack from above for FF
-                display: table-header-group
-          .work-packages-tabletimeline--timeline-side
-            // As this print is worthless, we remove it for FF
-            display: none !important
-
+    .work-packages-partitioned-page--content-right
+      .work-packages--details-content
+        position: relative
 
   body.-browser-firefox,
   body.-browser-edge
-    .router--work-packages-full-view,
-      .work-packages--show-view,
-      .work-packages-full-view--split-container
-        display: block
+    .work-packages--show-view,
+    .work-packages-full-view--split-container
+      display: block
 
   // ------------------Only WP full screen view ------------------
   .router--work-packages-full-view
