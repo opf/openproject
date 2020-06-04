@@ -418,7 +418,6 @@ ar:
         types: "الأنواع"
         versions: "الإصدارات"
         work_packages: "مجموعات العمل"
-        templated: 'Template project'
       projects/status:
         code: 'الحالة'
         explanation: 'Status description'
@@ -490,7 +489,6 @@ ar:
         parent_work_package: "الجذر"
         priority: "الأولوية"
         progress: "التقدم (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "الوقت المستهلك"
         spent_time: "الوقت المستهلك"
         subproject: "مشروع فرعي"
@@ -2030,12 +2028,6 @@ ar:
       warning_one: وسيكون أعضاء المشروع إلى نقل مستودعات للمشروع.
       warning_two: لن تعد تعمل الارتباطات الموجودة في المشروع.
       title: تغيير معرف المشروع
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟"
       archived: "Archived"

@@ -22,9 +22,8 @@
 el:
   button_save_as: "Αποθήκευση αναφοράς ως..."
   comments: "Σχόλιο"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Αναφορές κόστους"
   label_cost_report: "Αναφορά κόστους"
-  label_cost_report_plural: "Αναφορές κόστους"
   description_drill_down: "Εμφάνιση λεπτομερειών"
   description_filter_selection: "Επιλογή"
   description_multi_select: "Εμφάνιση πολλαπλής επιλογής"

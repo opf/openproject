@@ -413,7 +413,6 @@ fr:
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
-        templated: 'Template project'
       projects/status:
         code: 'Statut'
         explanation: 'Description du statut'
@@ -485,7 +484,6 @@ fr:
         parent_work_package: "Parent"
         priority: "Priorité"
         progress: "Progrès (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
         subproject: "Sous-projet"
@@ -1945,12 +1943,6 @@ fr:
       warning_one: Les membres du projet devront déplacer les répertoires du projet.
       warning_two: Les liens existants vers le projet ne fonctionneront plus.
       title: Modifier l'identifiant du projet
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?"
       archived: "Archivé"
