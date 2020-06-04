@@ -47,6 +47,8 @@
 
   &.-placeholder
     font-style: italic
+    display: inline-block
+    min-width: 100px
 
   // Always render custom options as inline
   // when only one line
@@ -90,12 +92,13 @@
     padding: 0 2px
 
 .wp-table--cell-container
+  .inline-edit--display-field.-placeholder,
   &.estimatedTime
     width: 100%
 
     .-placeholder
       @include wp-table--placeholder-time-values
-      
+
 // Sums in wp table
 .wp-table--sum-container
   .split-time-field
