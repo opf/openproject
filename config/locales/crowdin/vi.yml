@@ -1890,7 +1890,7 @@ vi:
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Quản lý truy vấn công cộng"
   permission_manage_repository: "Manage repository"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "Manage subtasks"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
   permission_manage_wiki_menu: "Manage wiki menu"
