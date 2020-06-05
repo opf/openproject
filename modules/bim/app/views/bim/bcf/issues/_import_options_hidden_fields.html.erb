@@ -24,8 +24,8 @@
     <%= hidden_field :import_options, 'unknown_mails_invite_role_ids[]', :name => 'import_options[unknown_mails_invite_role_ids][]', :value => id %>
   <% end %>
 <% end %>
-<% if params.dig(:import_options, :non_members_add_role_ids)&.any? %>
-  <% params.dig(:import_options, :non_members_add_role_ids).each do |id| %>
-    <%= hidden_field :import_options, 'non_members_add_role_ids[]', :name => 'import_options[non_members_add_role_ids][]', :value => id %>
+<% if params.dig(:import_options, :non_members_chose_role_ids)&.any? %>
+  <% params.dig(:import_options, :non_members_chose_role_ids).each do |id| %>
+    <%= hidden_field :import_options, 'non_members_chose_role_ids[]', :name => 'import_options[non_members_chose_role_ids][]', :value => id %>
   <% end %>
 <% end %>
