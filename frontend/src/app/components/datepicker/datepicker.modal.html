@@ -12,9 +12,10 @@
             <div class="form--field-container">
               <div class="form--text-field-container -xslim">
                 <input type="text"
-                       name="startDate"
+                       name="date"
                        class="form--date-field"
-                       [(ngModel)]="dates.date">
+                       [ngModel]="dates.date"
+                       (ngModelChange)="updateDate('date', $event)">
               </div>
             </div>
           </div>
@@ -44,7 +45,8 @@
                 <input type="text"
                        name="endDate"
                        class="form--date-field"
-                       [(ngModel)]="dates.end">
+                       [ngModel]="dates.end"
+                       (ngModelChange)="updateDate('end', $event)">
               </div>
             </div>
           </div>

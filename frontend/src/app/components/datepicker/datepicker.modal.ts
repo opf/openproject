@@ -114,10 +114,10 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   save():void {
     if (this.singleDate) {
-      this.changeset.setValue('date', this.dates.date);
+      this.changeset.setValue('date', this.mappedDate('date'));
     } else {
-      this.changeset.setValue('startDate', this.dates.start);
-      this.changeset.setValue('dueDate', this.dates.end);
+      this.changeset.setValue('startDate', this.mappedDate('start'));
+      this.changeset.setValue('dueDate', this.mappedDate('end'));
     }
 
     this.changeset.setValue('scheduleManually', !this.changeset.value('scheduleManually'));
@@ -129,6 +129,12 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   clear():void {
+    this.dates = {
+      date: '',
+      start: '',
+      end: ''
+    };
+
     this.datePickerInstance.clear();
   }
 
@@ -140,11 +146,11 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   schedulingButtonText():string {
-    return this.scheduleManually ? this.text.manualScheduling: this.text.automaticScheduling;
+    return this.scheduleManually ? this.text.manualScheduling : this.text.automaticScheduling;
   }
 
   schedulingButtonIcon():string {
-    return 'button--icon ' + (this.scheduleManually ?  'icon-pin' : 'icon-arrow-left-right');
+    return 'button--icon ' + (this.scheduleManually ? 'icon-pin' : 'icon-arrow-left-right');
   }
 
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
@@ -187,7 +193,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
     if (!this.singleDate && dates.length >= 1) {
       this.dates.start = this.timezoneService.formattedISODate(dates[0]);
-      this.dates.end = '-';
+      this.dates.end = '';
     }
 
     if (dates.length >= 2) {
@@ -203,6 +209,16 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     } else {
       return !!new Date(date).valueOf();
     }
+  }
+
+  /**
+   * Map the date to the internal format,
+   * setting to null if it's empty.
+   * @param key
+   */
+  private mappedDate(key:DateKeys):string|null {
+    const val = this.dates[key];
+    return val === '' ? null : val;
   }
 
   private parseDate(date:Date|string):Date {
