@@ -202,8 +202,14 @@ module Accounts::OmniauthLogin
     end
   end
 
+  ##
+  # Allow strategies to map a value for uid instead
+  # of always taking the global UID.
+  # For SAML, the global UID may change with every session
+  # (in case of transient nameIds)
   def identity_url_from_omniauth(auth)
-    "#{auth[:provider]}:#{auth[:uid]}"
+    identifier = auth[:info][:uid] || auth[:uid]
+    "#{auth[:provider]}:#{identifier}"
   end
 
   # if the omni auth registration happened too long ago,
