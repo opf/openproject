@@ -881,6 +881,9 @@ ru:
         has_children: "Пакет работ имеет %{childUnits}:"
         confirm_deletion_children: "Я понимаю, что ВСЕ производные элементы указанных пакетов работ будут рекурсивно удалены."
         deletes_children: "Все дочерние пакеты работ и их потомки будут также рекурсивно удалены."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Нет видимых результатов для отображения."
     notice_successful_create: "Создание выполнено."
     notice_successful_delete: "Удаление выполнено."

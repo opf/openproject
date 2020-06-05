@@ -881,6 +881,9 @@ sv:
         has_children: "Arbetspaketet har %{childUnits}:"
         confirm_deletion_children: "Jag bekräftar att allt underliggande till de listade arbetspaketen kommer att tas bort rekursivt."
         deletes_children: "Alla barnarbetspaket och deras underliggande kommer också att raderas rekursivt."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Inga synliga resultat att visa."
     notice_successful_create: "Skapades utan problem."
     notice_successful_delete: "Raderades utan problem."

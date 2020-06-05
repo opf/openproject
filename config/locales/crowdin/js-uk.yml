@@ -882,6 +882,9 @@ uk:
         has_children: "Робочий пакет має %{childUnits}"
         confirm_deletion_children: "Я визнаю, що <b>ВСІ</b> нащадки перерахованих робочих пакетів будуть рекурсивно видалені."
         deletes_children: "Всі дочірні робочі пакети та їх нащадки також будуть рекурсивно видалені."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Не відображаються видимі результати."
     notice_successful_create: "Створення успішно завершене."
     notice_successful_delete: "Видалення успішно завершене."

@@ -881,6 +881,9 @@ vi:
         has_children: "The work package has %{childUnits}:"
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "Các gói công việc con cũng sẽ bị xóa theo."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."

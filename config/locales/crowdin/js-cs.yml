@@ -882,6 +882,9 @@ cs:
         has_children: "Pracovní balíček má %{childUnits}:"
         confirm_deletion_children: "Jsem si vědom, že všechny potomky uvedených pracovních balíčků budou rekurzivně odstraněny."
         deletes_children: "Všechny podřízené pracovní balíčky a jejich potomci budou také rekurzivně odstraněny."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Žádné viditelné výsledky k zobrazení."
     notice_successful_create: "Úspěšné vytvoření."
     notice_successful_delete: "Úspěšné odstranění."

@@ -4,7 +4,7 @@ nl:
     label_preview: 'Voorbeeld'
     button_update: 'Bijwerken'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
+      label_choose_avatar: "Kies Avatar van bestand"
       uploading_avatar: "Uploading your avatar."
       text_upload_instructions: |
         Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.

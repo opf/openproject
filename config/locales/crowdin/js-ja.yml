@@ -885,6 +885,9 @@ ja:
         has_children: "ワークパッケージは %{childUnits} あります。"
         confirm_deletion_children: "列挙された作業項目のすべての子孫が再帰的に削除されることを承認します。"
         deletes_children: "すべての子作業項目とその子孫も再帰的に削除されます。"
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "表示結果はありません。"
     notice_successful_create: "正常に作成しました。"
     notice_successful_delete: "正常に削除しました。"

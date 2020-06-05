@@ -882,6 +882,9 @@ it:
         has_children: "Questa macro-attività ha %{childUnits}:"
         confirm_deletion_children: "Prendo atto che TUTTI i discendenti delle macro-attività elencate verranno eliminati in modo ricorsivo."
         deletes_children: "Tutte le macro-attività ed i relativi discendenti verranno eliminati ricorsivamente."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Nessun risultato visibile da mostrare."
     notice_successful_create: "Creato con successo."
     notice_successful_delete: "Cancellato con successo."

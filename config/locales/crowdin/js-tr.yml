@@ -882,6 +882,9 @@ tr:
         has_children: "İş paketi %{childUnits} alt paketlerine sahip:"
         confirm_deletion_children: "Listelenen iş paketlerinin TÜM soylarının tekrar tekrar kaldırılacağını kabul ediyorum."
         deletes_children: "Tüm çocuk iş paketleri ve torunları da tekrar tekrar silinir."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Gösterilecek görünür bir sonuç yok."
     notice_successful_create: "Oluşturma başarılı."
     notice_successful_delete: "Silme başarılı."

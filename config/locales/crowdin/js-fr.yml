@@ -882,6 +882,9 @@ fr:
         has_children: "Le lot de travaux a %{childUnits} :"
         confirm_deletion_children: "Je reconnais que TOUS les descendants des lots de travaux de la liste seront supprimés récursivement."
         deletes_children: "Tous les lots de travaux enfants et leurs descendants seront également supprimés récursivement."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Aucun résultat visible à afficher."
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."
