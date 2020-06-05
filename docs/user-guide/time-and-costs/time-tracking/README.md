@@ -81,7 +81,7 @@ In order to track labor costs, you need to [define an hourly rate](../cost-track
 
 ## Spent time widget on the My Page
 
-You can easily track spent time in the **spent time widget on the MyPage** and get an overview about all your activities during a week.
+You can easily track spent time in the **spent time widget on the MyPage** and get an overview about all your activities during a week. It is like a weekly timesheet for yourself.
 
 See more information about the My spent time widget on the [MyPage](../../../getting-started/my-page/#my-spent-time-widget).
 
