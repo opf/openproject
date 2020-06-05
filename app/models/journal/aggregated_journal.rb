@@ -62,11 +62,7 @@ class Journal::AggregatedJournal
       # We need to limit the journal aggregation as soon as possible for performance reasons.
       # Therefore we have to provide the notes_id to the aggregation on top of it being used
       # in the where clause to pick the desired AggregatedJournal.
-      raw_journal = Journal::Scopes::AggregatedJournal.fetch
-                    .where(id: notes_id)
-                    .first
-
-      raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
+      containing_journal(Journal.find(notes_id))
     end
 
     ##
