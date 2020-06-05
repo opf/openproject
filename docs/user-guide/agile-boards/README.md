@@ -49,7 +49,7 @@ Next, you need to choose if you want to create a Basic board or an Action board.
 
 **Basic board**: You can freely create lists, name them  and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package  itself. This allows you to create flexible boards for any kind of  activity you would like to track, e.g. Management of Ideas.
 
-**Action board**: Create boards with filtered lists on a single attribute, e.g. Status. Moving work packages between the lists will update the attribute, e.g. Status. You can choose between Action boards for **Status** or **Versions**. More to be added soon.
+**Action board**: Create boards with filtered lists on a single attribute, e.g. Status. Moving work packages between the lists will update the attribute, e.g. Status. You can choose between Action boards for **Status**, **Assignee** or **Versions**. More to be added soon.
 
 ![OpenProject-Boards_create-form](OpenProject-Boards_create-form.png)
 
@@ -61,9 +61,9 @@ Choose a meaningful title for your Board so that it is clear, e.g. for other tea
 
 ## Add lists to your board
 
-**Lists** usually represent a **status workflow**, a **version**, or **anything** that you would like to track within your project. You can add as many lists that you need to a Board.
+**Lists** usually represent a **status workflow**, **assignees**, a **version** or **anything** that you would like to track within your project. You can add as many lists that you need to a Board.
 
-**Action boards lists**: can be for Status, Versions, and more to come. Remember: if you change a card between the lists, the respective attribute (e.g. Status) will be updated automatically.
+**Action boards lists**: can be for Status, Versions, Assignees and more to come. Remember: if you change a card between the lists, the respective attribute (e.g. Status) will be updated automatically.
 **Basic board lists**:  you can create any kind of list and name them to your needs. Remember:  no updates to the attributes will happen when moving cards between the  lists.
 
 ![OpenProject-Boards_lists](OpenProject-Boards_lists.png)
