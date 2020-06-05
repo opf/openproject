@@ -33,7 +33,7 @@ Agile Boards in OpenProject support teams in their agile project management meth
 
 You can create as many flexible boards as you want with both lists and cards on it. A list usually represents a workflow, e.g. status or version of a work package. The cards are work packages, e.g. tasks, on this list.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Z7iE_BNCDus" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dvmS4tOHVcw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ## Manage your work in a Board
 
 To manage your work in an agile board, open the Boards module in the project menu.
