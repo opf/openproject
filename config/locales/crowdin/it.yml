@@ -410,6 +410,7 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
+        templated: 'Template project'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -481,6 +482,7 @@ it:
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"
@@ -1940,6 +1942,12 @@ it:
       warning_one: I membri del progetto dovranno trasferire gli archivi del progetto.
       warning_two: I collegamenti esistenti al progetto non funzioneranno più.
       title: Modifica l'identificatore del progetto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sicuro di voler archiviare il progetto '%{name}'?"
       archived: "Archiviato"

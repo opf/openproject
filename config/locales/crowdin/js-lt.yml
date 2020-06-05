@@ -882,6 +882,9 @@ lt:
         has_children: "Darbų paketas turi %{childUnits}:"
         confirm_deletion_children: "Aš sutinku, kad VISI šio darbų paketo palikuoniai bus rekursiškai ištrinti."
         deletes_children: "Visi darbų paketo vaikai ir jų palikuoniai taip pat bus rekursiškai ištrinti."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Nėra rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."

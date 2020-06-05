@@ -882,6 +882,9 @@ pl:
         has_children: "Pakiet roboczy zawiera %{childUnits}:"
         confirm_deletion_children: "Potwierdzam, że WSZYSTKIE elementy potomne pakietów roboczych z listy będą rekurencyjnie usuwane."
         deletes_children: "Wszystkie pakiety podrzędne i ich elementy potomne również będą rekursywnie usuwane."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Brak widocznych wyników do wyświetlenia."
     notice_successful_create: "Tworzenie zakończone sukcesem."
     notice_successful_delete: "Usuwanie zakończone sukcesem."

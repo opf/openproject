@@ -414,6 +414,7 @@ fil:
         types: "Mga uri"
         versions: "Mga bersyon"
         work_packages: "Ang mga pakete na ginawa"
+        templated: 'Template project'
       projects/status:
         code: 'Estado'
         explanation: 'Status description'
@@ -485,6 +486,7 @@ fil:
         parent_work_package: "Magulang"
         priority: "Ang prayoridad"
         progress: "Isinasagawa (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Nauubos na oras"
         spent_time: "Nauubos na oras"
         subproject: "Kahaliling proyekto"
@@ -1944,6 +1946,12 @@ fil:
       warning_one: Ang mga miyembro ng proyekto ay kinakailangang ilipat ang mga repository ng proyekto.
       warning_two: Ang mga umiiral na mga link sa proyekto ay hindi na maaring magamit.
       title: Baguhin ang mga pagkakilanlan ng proyekto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?"
       archived: "Archived"

@@ -881,6 +881,9 @@ hu:
         has_children: "A feladatcsoportnak van %{childUnits}:"
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "Minden al feladatcsoportot és leszármazottait is rekurzívan törli."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Nincs megjeleníthető eredmény."
     notice_successful_create: "Sikeres létrehozás."
     notice_successful_delete: "Sikeres törlés."

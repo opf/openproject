@@ -881,6 +881,9 @@ sl:
         has_children: "Ta delavni paket ima %{childUnits}:"
         confirm_deletion_children: "Zavedam se, da bodo VSI potomci naštetih delovnih paketov rekurzivno odstranjeni."
         deletes_children: "Vsi delovni paketi in njihovi potomci bodo tudi rekurzivno izbrisani."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Ni vidnih rezultatov za prikaz."
     notice_successful_create: "Ustvarjanje uspelo."
     notice_successful_delete: "Uspešen izbris."

@@ -882,6 +882,9 @@ ko:
         has_children: "작업 패키지에 %{childUnits}이(가) 있습니다."
         confirm_deletion_children: "나는 작업 패키지의 모든 하위 목록이 재귀적으로 제거되는 것을 인정합니다."
         deletes_children: "모든 하위 작업 패키지 및 그 하위 항목도 재귀적으로 삭제됩니다."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "표시할 결과가 없습니다."
     notice_successful_create: "생성에 성공했습니다."
     notice_successful_delete: "삭제에 성공했습니다."

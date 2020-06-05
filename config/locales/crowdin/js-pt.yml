@@ -882,6 +882,9 @@ pt:
         has_children: "O pacote de trabalho tem %{childUnits}:"
         confirm_deletion_children: "Reconheço que todos os descendentes dos pacotes de trabalho listados serão recursivamente removidos."
         deletes_children: "Todos os pacotes de trabalho filhos e seus descendentes serão também recursivamente apagados."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Nenhum resultado visível para exibir."
     notice_successful_create: "Criado com sucesso."
     notice_successful_delete: "Eliminado com sucesso."

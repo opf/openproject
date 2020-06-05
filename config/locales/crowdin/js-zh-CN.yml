@@ -882,6 +882,9 @@ zh-CN:
         has_children: "工作包有 %{childUnits}:"
         confirm_deletion_children: "我确认所列工作包的全部子工作包都将递归移除。"
         deletes_children: "所有子工作包及其子级也将递归删除。"
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "无可供显示的结果。"
     notice_successful_create: "成功创建。"
     notice_successful_delete: "成功删除。"
