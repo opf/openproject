@@ -8,7 +8,7 @@
   <% if @roles.any? %>
     <% if User.current.allowed_to?(:manage_members, @project) %>
 
-      <%= render partial: 'import_solution', locals: { solution_select_id: 'non_members_add_role_ids',
+      <%= render partial: 'import_solution', locals: { solution_select_id: 'non_members_chose_role_ids',
                                                        hidden_field_identifier: 'non_members_action',
                                                        solution_text: t('bcf.bcf_xml.import.add_as_members_with_role', project: @project.name),
                                                        solution_options: @roles.collect { |obj| [obj.name, obj.id] }} %>
