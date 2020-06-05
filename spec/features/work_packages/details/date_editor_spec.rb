@@ -74,9 +74,7 @@ describe 'date inplace editor',
     start_date.clear with_backspace: true
     start_date.input_element.send_keys :backspace
 
-    within('.ui-datepicker') do
-      find('button', text: 'Confirm').click
-    end
+    start_date.save!
 
     work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
 

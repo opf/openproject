@@ -189,18 +189,25 @@ module Pages
     end
 
     def work_package_field(key)
-      if key =~ /customField(\d+)$/
-        cf = CustomField.find $1
-
-        if cf.field_format == 'text'
-          TextEditorField.new container, key
-        else
-          EditField.new container, key
-        end
-      elsif key == :description
+      case key
+      when /customField(\d+)$/
+        work_package_field(key, $1)
+      when :date, :startDate, :dueDate
+        DateEditField.new container, key
+      when :description
         TextEditorField.new container, key
-      elsif key == :status
+      when :status
         WorkPackageStatusField.new container
+      else
+        EditField.new container, key
+      end
+    end
+
+    def work_package_custom_field(key, id)
+      cf = CustomField.find id
+
+      if cf.field_format == 'text'
+        TextEditorField.new container, key
       else
         EditField.new container, key
       end
