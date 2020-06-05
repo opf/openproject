@@ -58,16 +58,17 @@ module API
               end
             end
 
-            get do
-              ActivityRepresenter.new(aggregated_activity(@activity), current_user: current_user)
-            end
+            get &::API::V3::Utilities::Endpoints::Show.new(model: ::Journal,
+                                                           api_name: 'Activity',
+                                                           instance_generator: ->(*) { aggregated_activity(@activity) })
+                                                      .mount
 
             params do
               requires :comment, type: String
             end
 
             patch do
-              # TODO: Write a journal update service
+              # TODO: Write a journal update notes service and mount default endpoint
               authorize_edit_own(@activity)
               @activity.notes = declared_params[:comment]
               save_activity(@activity)
