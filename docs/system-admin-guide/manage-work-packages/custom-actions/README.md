@@ -38,7 +38,7 @@ If a work package is then in the defined condition, the button will appear on to
 
 ![Sys-admin-custom-action-button](Sys-admin-custom-action-button.png)
 
-![custom action](custom action demo copy.gif)
+![custom action](custom-action-demo-copy.gif)
 
 ## Update, sort or delete custom actions
 
