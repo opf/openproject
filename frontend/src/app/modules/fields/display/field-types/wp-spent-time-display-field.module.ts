@@ -38,7 +38,7 @@ import { WorkPackageResource } from "core-app/modules/hal/resources/work-package
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
     linkTitle: this.I18n.t('js.work_packages.message_view_spent_time'),
-    logTime: this.I18n.t('js.button_log_time')
+    logTime: this.I18n.t('js.inplace.button_log_time')
   };
 
   @InjectField() PathHelper:PathHelperService;
@@ -77,10 +77,13 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   private appendTimelogLink(element:HTMLElement) {
     if (this.resource.logTime) {
       const timelogElement = document.createElement('a');
-      timelogElement.setAttribute('class', 'icon icon-time');
+      timelogElement.setAttribute('class', 'time-logging--link icon5 icon-time');
       timelogElement.setAttribute('href', '');
-      timelogElement.textContent = this.text.logTime;
+      const linkText = document.createElement('span');
+      linkText.setAttribute('class', 'time-logging--link-text');
+      linkText.textContent = this.text.logTime;
 
+      timelogElement.appendChild(linkText);
       element.appendChild(timelogElement);
 
       timelogElement.addEventListener('click', this.showTimelogWidget.bind(this, this.resource));

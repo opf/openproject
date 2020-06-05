@@ -967,6 +967,7 @@ en:
       button_cancel: "%{attribute}: Cancel"
       button_save_all: "Save"
       button_cancel_all: "Cancel"
+      button_log_time: "log time"
       link_formatting_help: "Text formatting help"
       btn_preview_enable: "Preview"
       btn_preview_disable: "Disable preview"

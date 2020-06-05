@@ -86,8 +86,16 @@
       font-style: italic
       font-weight: bold
 
-  &.spentTime .time-logging--value
-    padding: 0 2px
+  &.spentTime
+    .time-logging--value
+      padding: 0 2px
+    .time-logging--link
+      font-style: normal
+
+      &:hover
+        text-decoration: none
+        .time-logging--link-text
+          text-decoration: underline
 
 .wp-table--cell-container
   &.estimatedTime
