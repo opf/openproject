@@ -67,7 +67,7 @@ You can make changes to the order of the grouping criteria in the columns or row
 
 In the time and cost reports you can select the **units** which you want to display.
 
-You can either select **Labor** which will display the logged time to the work packages according the filter and group by criteria above.
+You can either select **Labor** which will display the logged time to the work packages according the filter and group by criteria above.Depending on your filter, e.g. when you filter by assignee, it will give you an overview like a timesheet.
 
 ![Time-costs-units](Time-costs-units-1574773348146.png)
 
