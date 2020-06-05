@@ -191,7 +191,7 @@ module Pages
     def work_package_field(key)
       case key
       when /customField(\d+)$/
-        work_package_field(key, $1)
+        work_package_custom_field(key, $1)
       when :date, :startDate, :dueDate
         DateEditField.new container, key
       when :description

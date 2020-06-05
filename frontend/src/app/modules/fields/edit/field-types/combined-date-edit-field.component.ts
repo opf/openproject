@@ -37,7 +37,7 @@ import {take} from "rxjs/operators";
 import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
 
 @Component({
-  template: `    
+  template: `
     <input type="text"
            hidden/>
   `

@@ -1,5 +1,9 @@
 module Components
   class Datepicker
+    include Capybara::DSL
+    include RSpec::Matchers
+    attr_reader :context_selector
+
     def initialize(context = '#content')
       @context_selector = context
     end
@@ -28,11 +32,13 @@ module Components
     # Select day from datepicker
     def select_day(value)
       unless (1..31).cover?(value.to_i)
-        raise ArgumentError, "Invalid value #{value}, expected 1-31"
+        raise ArgumentError, "Invalid value #{value} for day, expected 1-31"
       end
 
       container
-        .find('.flatpickr-day', text: value)
+        .find('.flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)',
+              text: value,
+              exact_text: true)
         .click
     end
 
@@ -43,7 +49,7 @@ module Components
 
       select_year date.year
       select_month date.strftime('%B')
-      click_on_day_in_current_month date.day
+      select_day date.day
     end
 
     ##

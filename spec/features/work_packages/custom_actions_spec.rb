@@ -289,15 +289,10 @@ describe 'Custom actions', type: :feature, js: true do
       select date_custom_field.name, from: 'Add action'
       select 'on', from: date_custom_field.name
 
-      date = (Date.today + 5.days).to_s
-      field_name = "custom_action_actions_custom_field_#{date_custom_field.id}_visible"
-      page.execute_script("jQuery('##{field_name}').val('#{date}');")
-      page.execute_script("jQuery('##{field_name}').trigger('change');")
-
-      # Close autocompleter
-      if page.has_selector? '.ui-datepicker-close'
-        scroll_to_and_click(find('.ui-datepicker-close'))
-      end
+      date = (Date.today + 5.days)
+      find("#custom_action_actions_custom_field_#{date_custom_field.id}_visible").click
+      datepicker = Components::Datepicker.new 'body'
+      datepicker.set_date date
 
       new_ca_page.add_action('Type', other_type.name)
       new_ca_page.expect_action('type', other_type.id)

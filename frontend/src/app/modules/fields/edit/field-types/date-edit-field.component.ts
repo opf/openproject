@@ -39,15 +39,11 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
         tabindex="-1"
         (onChange)="onValueSelected($event)"
         (onClose)="handler.handleUserSubmit()"
-        [initialDate]="defaultDate"
+        [initialDate]="formatter(value)"
         [required]="required"
         [disabled]="inFlight"
         [id]="handler.htmlId"
         classes="inline-edit--field">
-
-      <!-- <input [ngModel]="formatter(value)"
-             (keydown)="handler.handleUserKeydown($event)"/> -->
-
     </op-date-picker>
   `
 })
@@ -78,19 +74,5 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
     } else {
       return null;
     }
-  }
-
-  /**
-   * Return the default date for the datepicker instance.
-   * If this field is the finish date, we select the start date + 1 as the default.
-   */
-  public get defaultDate():String {
-    const isDueDate = this.name === 'dueDate';
-
-    if (isDueDate) {
-      return this.resource.startDate;
-    }
-
-    return '';
   }
 }
