@@ -81,7 +81,7 @@ The View all members button brings you to the list of project members.
 
 Display the latest project news in the news widget on the project overview page.
 
-![news widget](image-20191112143403101.png)
+![news-widget](news-widget-1376304.png)
 
 ### Project description
 
