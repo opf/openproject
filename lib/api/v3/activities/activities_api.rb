@@ -36,9 +36,10 @@ module API
           route_param :id, type: Integer, desc: 'Activity ID' do
             after_validation do
               @activity = Journal::AggregatedJournal.with_notes_id(declared_params[:id])
-              raise API::Errors::NotFound unless @activity
 
-              authorize(:view_project, context: @activity.journable.project)
+              authorize_by_with_raise @activity&.journable&.visible?(current_user) do
+                raise API::Errors::NotFound
+              end
             end
 
             helpers do
@@ -49,8 +50,7 @@ module API
               end
 
               def authorize_edit_own(activity)
-                authorize({ controller: :journals, action: :edit },
-                          context: activity.journable.project)
+                authorize_by_with_raise activity.editable_by?(current_user)
               end
             end
 
@@ -63,6 +63,7 @@ module API
             end
 
             patch do
+              # TODO: Write a journal update service
               editable_activity = Journal.find(@activity.notes_id)
               authorize_edit_own(editable_activity)
               editable_activity.notes = declared_params[:comment]

@@ -96,10 +96,16 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
       end
     end
 
-    context 'without sufficient permissions' do
+    context 'without sufficient permissions to edit' do
       let(:permissions) { [:view_work_packages] }
 
       it_behaves_like 'unauthorized access'
+    end
+
+    context 'without sufficient permissions to see' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found'
     end
   end
 
@@ -129,7 +135,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
       context 'without sufficient permissions' do
         let(:permissions) { [] }
 
-        it_behaves_like 'unauthorized access'
+        it_behaves_like 'not found'
       end
     end
 
