@@ -64,6 +64,8 @@ In the menu, choose **Add predecessor** or **Add follower**.
 
 Select the item which you want to create the dependency with. The precede and follow relation is marked with a small blue line in the Gantt chart.
 
+OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/projects/openproject/work_packages/26448/activity)for an update.
+
 ![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
 
 
