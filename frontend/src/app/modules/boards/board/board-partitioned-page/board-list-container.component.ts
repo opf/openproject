@@ -13,7 +13,7 @@ import {BannersService} from "core-app/modules/common/enterprise/banners.service
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {Board} from "core-app/modules/boards/board/board";
+import {Board, BoardWidgetOption} from "core-app/modules/boards/board/board";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board-partitioned-page/board-partitioned-page.component";
@@ -130,11 +130,11 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         })
         .catch(error => this.showError(error));
     } else {
-      const queries = this.lists.map(list => list.query);
+      const active = this.getActionFiltersFromWidget(board);
       this.opModalService.show(
         AddListModalComponent,
         this.injector,
-        { board: board, queries: queries }
+        { board: board, active: active }
       );
     }
   }
@@ -181,6 +181,26 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         })
         .forEach((listComponent) => listComponent.refreshQueryUnlessCaused(query, false));
     });
+  }
+
+  /**
+   * Returns the current filter values for an action board.
+   * By extracting them from the widget options, we can avoid waiting for the queries
+   * to be loaded for each list
+   *
+   * @param board
+   */
+  private getActionFiltersFromWidget(board:Board):string[] {
+    return board.grid.widgets
+      .map(widget => {
+        const options:BoardWidgetOption = widget.options as any;
+        const filter = _.find(options.filters, (filter) => !!filter[board.actionAttribute!]);
+
+        if (filter) {
+          return filter[board.actionAttribute!].values[0];
+        }
+      })
+      .filter(value => !!value);
   }
 
 }

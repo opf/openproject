@@ -82,10 +82,12 @@ export class BoardStatusActionService implements BoardActionService {
       name: value.name,
     };
 
-    let filter = { status: {
-      operator: '=' as FilterOperator,
-      values: [value.id]
-    }};
+    let filter = {
+      status: {
+        operator: '=' as FilterOperator,
+        values: [value.id]
+      }
+    };
 
     return this.boardListsService.addQuery(board, params, [filter]);
   }
@@ -95,16 +97,12 @@ export class BoardStatusActionService implements BoardActionService {
    * queries in the board.
    *
    * @param board The board we're looking at
-   * @param queries The active set of queries
+   * @param active The active set of values (hrefs or plain values)
    */
-  public getAvailableValues(board:Board, queries:QueryResource[]):Promise<HalResource[]> {
-    const active = new Set(
-      queries.map(query => this.getFilterHref(query))
-    );
-
+  public getAvailableValues(board:Board, active:Set<string>):Promise<HalResource[]> {
     return this.getStatuses()
       .then(results =>
-        results.filter(status => !active.has(status.href!))
+        results.filter(status => !active.has(status.id!))
       );
   }
 
