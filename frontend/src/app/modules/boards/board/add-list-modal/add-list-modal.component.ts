@@ -35,7 +35,6 @@ import {Board} from "core-app/modules/boards/board/board";
 import {StateService} from "@uirouter/core";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -53,8 +52,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** Active board */
   public board:Board;
 
-  /** Current set of queries */
-  public queries:QueryResource[];
+  /** Current active set of values */
+  public active:Set<string>;
 
   /** Action service used by the board */
   public actionService:BoardActionService;
@@ -114,11 +113,11 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     super.ngOnInit();
 
     this.board = this.locals.board;
-    this.queries = this.locals.queries;
+    this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
 
     this.actionService
-      .getAvailableValues(this.board, this.queries)
+      .getAvailableValues(this.board, this.active)
       .then(available => {
         this.availableValues = available;
         if (this.availableValues.length === 0) {

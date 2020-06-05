@@ -98,17 +98,13 @@ export class BoardAssigneeActionService implements BoardActionService {
    * queries in the board.
    *
    * @param board The board we're looking at
-   * @param queries The active set of queries
+   * @param active The active set of values (hrefs)
    */
-  public getAvailableValues(board:Board, queries:QueryResource[]):Promise<HalResource[]> {
-    const active = new Set(
-      queries.map(query => this.getFilterHref(query))
-    );
-
+  public getAvailableValues(board:Board, active:Set<string>):Promise<HalResource[]> {
     return this
       .getAssignees()
       .then(results =>
-        results.filter(assignee => !active.has(assignee.href!))
+        results.filter(assignee => !active.has(assignee.id!))
       );
   }
 
