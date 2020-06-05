@@ -39,7 +39,9 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
                       member_with_permissions: permissions)
   end
   let(:project) { FactoryBot.create(:project, public: false) }
-  let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
+  let(:work_package) do
+    FactoryBot.create(:work_package, author: current_user, project: project)
+  end
   let(:permissions) { %i[view_work_packages edit_work_package_notes] }
   let(:activity) { work_package.journals.first }
   let(:comment) { 'This is a new test comment!' }
@@ -94,6 +96,35 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
       it_behaves_like 'constraint violation' do
         let(:message) { 'Version is invalid' }
       end
+    end
+
+    context 'for an activity created by a different user' do
+      let(:activity) do
+        work_package.journals.first.tap do |journal|
+          # it does not matter that the user does not exist
+          journal.update_column(:user_id, 0)
+        end
+      end
+
+      context 'when having the necessary permission' do
+        it_behaves_like 'valid activity request', 'Activity::Comment'
+
+        it_behaves_like 'valid activity patch request'
+      end
+
+      context 'when having only the edit own permission' do
+        let(:permissions) { %i[view_work_packages edit_own_work_package_notes] }
+
+        it_behaves_like 'unauthorized access'
+      end
+    end
+
+    context 'when having only the edit own permission' do
+      let(:permissions) { %i[view_work_packages edit_own_work_package_notes] }
+
+      it_behaves_like 'valid activity request', 'Activity::Comment'
+
+      it_behaves_like 'valid activity patch request'
     end
 
     context 'without sufficient permissions to edit' do

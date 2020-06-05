@@ -380,10 +380,9 @@ class WorkPackage < ApplicationRecord
 
   # check if user is allowed to edit WorkPackage Journals.
   # see Redmine::Acts::Journalized::Permissions#journal_editable_by
-  def editable_by?(user)
-    project = self.project
+  def journal_editable_by?(journal, user)
     user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
-      user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?)
+      user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id
   end
 
   # Adds the 'virtual' attribute 'hours' to the result set.  Using the
