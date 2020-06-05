@@ -35,14 +35,18 @@ module API
         resources :activities do
           route_param :id, type: Integer, desc: 'Activity ID' do
             after_validation do
-              @activity = Journal::AggregatedJournal.with_notes_id(declared_params[:id])
+              @activity = Journal.find(declared_params[:id])
 
-              authorize_by_with_raise @activity&.journable&.visible?(current_user) do
+              authorize_by_with_raise @activity.journable.visible?(current_user) do
                 raise API::Errors::NotFound
               end
             end
 
             helpers do
+              def aggregated_activity(activity)
+                Journal::AggregatedJournal.containing_journal(activity)
+              end
+
               def save_activity(activity)
                 unless activity.save
                   fail ::API::Errors::ErrorBase.create_and_merge_errors(activity.errors)
@@ -55,7 +59,7 @@ module API
             end
 
             get do
-              ActivityRepresenter.new(@activity, current_user: current_user)
+              ActivityRepresenter.new(aggregated_activity(@activity), current_user: current_user)
             end
 
             params do
@@ -64,12 +68,11 @@ module API
 
             patch do
               # TODO: Write a journal update service
-              editable_activity = Journal.find(@activity.notes_id)
-              authorize_edit_own(editable_activity)
-              editable_activity.notes = declared_params[:comment]
-              save_activity(editable_activity)
+              authorize_edit_own(@activity)
+              @activity.notes = declared_params[:comment]
+              save_activity(@activity)
 
-              ActivityRepresenter.new(@activity.reloaded, current_user: current_user)
+              ActivityRepresenter.new(aggregated_activity(@activity), current_user: current_user)
             end
           end
         end
