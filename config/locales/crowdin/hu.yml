@@ -1907,7 +1907,7 @@ hu:
   permission_manage_project_activities: "Projekt tevékenységek kezelése"
   permission_manage_public_queries: "Nyilvános nézetek kezelése"
   permission_manage_repository: "Csomagtároló kezelése"
-  permission_manage_subtasks: "Altevékenységek kezelése"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Verziók kezelése"
   permission_manage_wiki: "Wiki kezelése"
   permission_manage_wiki_menu: "Wiki menü kezelése"

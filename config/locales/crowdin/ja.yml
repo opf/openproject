@@ -1888,7 +1888,7 @@ ja:
   permission_manage_project_activities: "プロジェクト活動の管理"
   permission_manage_public_queries: "公開ビューの管理"
   permission_manage_repository: "リポジトリの管理"
-  permission_manage_subtasks: "子タスクの管理"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "バージョンの管理"
   permission_manage_wiki: "Wiki の管理"
   permission_manage_wiki_menu: "Wikiメニューの管理"

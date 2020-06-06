@@ -1884,7 +1884,7 @@ zh-CN:
   permission_manage_project_activities: "管理项目活动"
   permission_manage_public_queries: "管理公共查询"
   permission_manage_repository: "管理代码库"
-  permission_manage_subtasks: "管理子任务"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "管理版本"
   permission_manage_wiki: "管理 wiki"
   permission_manage_wiki_menu: "管理 wiki 菜单"

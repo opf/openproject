@@ -1910,7 +1910,7 @@ nl:
   permission_manage_project_activities: "Projectactiviteiten beheren"
   permission_manage_public_queries: "Openbare overzichten beheren"
   permission_manage_repository: "Repository beheren"
-  permission_manage_subtasks: "Beheren van subtaken"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Versies beheren"
   permission_manage_wiki: "Wiki beheren"
   permission_manage_wiki_menu: "Wiki menu beheren"

@@ -1907,7 +1907,7 @@ el:
   permission_manage_project_activities: "Διαχείριση δραστηριοτήτων έργου"
   permission_manage_public_queries: "Διαχείριση δημόσιων προβολών"
   permission_manage_repository: "Διαχείριση αποθετηρίου"
-  permission_manage_subtasks: "Διαχείριση υποεργασιών"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Διαχείριση εκδόσεων"
   permission_manage_wiki: "Διαχείριση wiki"
   permission_manage_wiki_menu: "Διαχείριση μενού wiki"

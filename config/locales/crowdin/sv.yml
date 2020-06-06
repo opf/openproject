@@ -1910,7 +1910,7 @@ sv:
   permission_manage_project_activities: "Hantera projektaktivitet"
   permission_manage_public_queries: "Hantera offentliga vyer"
   permission_manage_repository: "Hantera versionsarkiv"
-  permission_manage_subtasks: "Hantera underaktiviteter"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Hantera versioner"
   permission_manage_wiki: "Hantera wiki"
   permission_manage_wiki_menu: "Hantera wiki-menyn"

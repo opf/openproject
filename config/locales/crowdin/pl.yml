@@ -1948,7 +1948,7 @@ pl:
   permission_manage_project_activities: "Zarządzanie działaniami projektu"
   permission_manage_public_queries: "Zarządzaj widokami publicznymi"
   permission_manage_repository: "Zarządzanie repozytorium"
-  permission_manage_subtasks: "Zarządzanie podzadaniami"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Zarządzanie wersjami"
   permission_manage_wiki: "Zarządzanie wiki"
   permission_manage_wiki_menu: "Zarządzanie menu wiki"

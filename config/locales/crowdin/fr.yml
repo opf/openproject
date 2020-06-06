@@ -1910,7 +1910,7 @@ fr:
   permission_manage_project_activities: "Gérer les activités du projet"
   permission_manage_public_queries: "Gérer les vues publiques"
   permission_manage_repository: "Gérer le dépôt"
-  permission_manage_subtasks: "Gérer les sous-tâches"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Gérer les versions"
   permission_manage_wiki: "Gérer le wiki"
   permission_manage_wiki_menu: "Gérer le menu Wiki"

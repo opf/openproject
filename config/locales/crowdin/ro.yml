@@ -1931,7 +1931,7 @@ ro:
   permission_manage_project_activities: "Gestionare activități proiect"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Gestionare arhivă"
-  permission_manage_subtasks: "Gestionare subactivități"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Gestionare versiuni"
   permission_manage_wiki: "Gestionare wiki"
   permission_manage_wiki_menu: "Gestionare meniu wiki"

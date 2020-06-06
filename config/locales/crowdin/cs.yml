@@ -1952,7 +1952,7 @@ cs:
   permission_manage_project_activities: "Spravovat projektové aktivity"
   permission_manage_public_queries: "Spravovat veřejné dotazy"
   permission_manage_repository: "Správa repozitáře"
-  permission_manage_subtasks: "Spravovat dílčí úkoly"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Správovat verze"
   permission_manage_wiki: "Spravovat wiki"
   permission_manage_wiki_menu: "Spravovat wiki menu"

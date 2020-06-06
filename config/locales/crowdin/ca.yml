@@ -1911,7 +1911,7 @@ ca:
   permission_manage_project_activities: "Gestionar les activitats del projecte"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Gestionar el repositori"
-  permission_manage_subtasks: "Gestionar subtasques"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Gestionar les versions"
   permission_manage_wiki: "Gestionar la wiki"
   permission_manage_wiki_menu: "Gestionar el menú wiki"
