@@ -1905,7 +1905,7 @@ it:
   permission_manage_project_activities: "Gestire le attività del progetto"
   permission_manage_public_queries: "Gestisci viste pubbliche"
   permission_manage_repository: "Gestire gli archivi"
-  permission_manage_subtasks: "Gestire sotto-attività"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Gestire le versioni"
   permission_manage_wiki: "Gestire le pagine wiki"
   permission_manage_wiki_menu: "Gestire i menu wiki"

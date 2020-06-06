@@ -1887,7 +1887,7 @@ id:
   permission_manage_project_activities: "Kelola Project Activity"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Kelola repositori"
-  permission_manage_subtasks: "Kelola Sub-Tugas"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Kelola Versi"
   permission_manage_wiki: "Kelola Wiki"
   permission_manage_wiki_menu: "Kelola menu Wiki"

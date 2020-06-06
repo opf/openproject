@@ -1930,7 +1930,7 @@ hr:
   permission_manage_project_activities: "Upravljanje aktivnosima projekta"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Upravljanje repozitorijem"
-  permission_manage_subtasks: "Upravljanje podzadacima"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Upravljanje verzijama"
   permission_manage_wiki: "Uredi wiki"
   permission_manage_wiki_menu: "Upravljanje wiki izbornikom"

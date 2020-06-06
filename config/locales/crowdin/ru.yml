@@ -1949,7 +1949,7 @@ ru:
   permission_manage_project_activities: "Управление проектной деятельностью"
   permission_manage_public_queries: "Управление общими представлениями"
   permission_manage_repository: "Управление репозиторием"
-  permission_manage_subtasks: "Управление подзадачами"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Управление этапами"
   permission_manage_wiki: "Управление wiki"
   permission_manage_wiki_menu: "Управление меню wiki"

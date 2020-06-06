@@ -1887,7 +1887,7 @@ ko:
   permission_manage_project_activities: "프로젝트 작업 관리"
   permission_manage_public_queries: "공용 보기 관리"
   permission_manage_repository: "리포지토리 관리"
-  permission_manage_subtasks: "하위 작업 관리"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "버전 관리"
   permission_manage_wiki: "위키 관리"
   permission_manage_wiki_menu: "위키 메뉴 관리"

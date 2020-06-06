@@ -1909,7 +1909,7 @@ fi:
   permission_manage_project_activities: "Hallinnoi projektin tehtäviä"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Hallinnoi tietovarastoa"
-  permission_manage_subtasks: "Hallinnoi alitehtäviä"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Hallinnoi versioita"
   permission_manage_wiki: "Hallinnoi wikiä"
   permission_manage_wiki_menu: "Hallinnoi Wiki-valikkoa"

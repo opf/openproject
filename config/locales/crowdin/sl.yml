@@ -1949,7 +1949,7 @@ sl:
   permission_manage_project_activities: "Uredi aktivnosti projekta"
   permission_manage_public_queries: "Upravljajte javne poglede"
   permission_manage_repository: "Uredi shrambo"
-  permission_manage_subtasks: "Uredi podnaloge"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Uredi verzije"
   permission_manage_wiki: "Uredi wiki"
   permission_manage_wiki_menu: "Uredi wiki meni"

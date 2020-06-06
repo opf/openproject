@@ -1951,7 +1951,7 @@ uk:
   permission_manage_project_activities: "Управління проектною діяльністю"
   permission_manage_public_queries: "Керуйте переглядами громадськості"
   permission_manage_repository: "Управління сховищем"
-  permission_manage_subtasks: "Управління підзадачами"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Управління версіями"
   permission_manage_wiki: "Управління wiki"
   permission_manage_wiki_menu: "Керування wiki-меню"

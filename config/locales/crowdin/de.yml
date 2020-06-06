@@ -1904,7 +1904,7 @@ de:
   permission_manage_project_activities: "Aktivitäten (Zeiterfassung) verwalten"
   permission_manage_public_queries: "Öffentliche Ansichten verwalten"
   permission_manage_repository: "Projektarchiv verwalten"
-  permission_manage_subtasks: "Unteraufgaben verwalten"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Versionen verwalten"
   permission_manage_wiki: "Wiki verwalten"
   permission_manage_wiki_menu: "Wiki-Menü verwalten"

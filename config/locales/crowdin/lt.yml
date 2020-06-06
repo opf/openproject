@@ -1948,7 +1948,7 @@ lt:
   permission_manage_project_activities: "Valdyti projekto veiklas"
   permission_manage_public_queries: "Tvarkyti viešus rodinius"
   permission_manage_repository: "Valdyti repozitoriją"
-  permission_manage_subtasks: "Valdyti darbų dalis"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Valdyti versijas"
   permission_manage_wiki: "Valdyti wiki"
   permission_manage_wiki_menu: "Valdyti wiki meniu"

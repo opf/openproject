@@ -1909,7 +1909,7 @@ fil:
   permission_manage_project_activities: "Ang mga aktibidad ng pamahalaing proyekto"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Pamahalain ang repositoryo"
-  permission_manage_subtasks: "Pamahalain ang mga subtask"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Pamahalain ang mga bersyon"
   permission_manage_wiki: "Pamahalain ang wiki"
   permission_manage_wiki_menu: "Pagpipilian ng pamahalaing wiki"

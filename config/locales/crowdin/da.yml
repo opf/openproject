@@ -1909,7 +1909,7 @@ da:
   permission_manage_project_activities: "Administrer projektets aktiviteter"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Administrer projektarkiv"
-  permission_manage_subtasks: "Administrer underopgaver"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Administrer versioner"
   permission_manage_wiki: "Administrer wiki"
   permission_manage_wiki_menu: "Administrer wiki-menu"
