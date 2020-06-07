@@ -22,8 +22,9 @@
 sv:
   button_save_as: "Spara rapporten som..."
   comments: "Kommentar"
-  cost_reports_title: "Kostnadsrapporter"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Kostnadsrapport"
+  label_cost_report_plural: "Kostnadsrapporter"
   description_drill_down: "Visa detaljer"
   description_filter_selection: "Urval"
   description_multi_select: "Visa flerval"

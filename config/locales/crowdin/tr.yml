@@ -414,6 +414,7 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
+        templated: 'Template project'
       projects/status:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
@@ -485,6 +486,7 @@ tr:
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
         subproject: "Alt proje"
@@ -1944,6 +1946,12 @@ tr:
       warning_one: Projenin üyeleri, projenin depoları yeniden yerleştirmek zorunda kalacaklardır.
       warning_two: Projeye mevcut bağlantılar artık çalışmayacaktır.
       title: Projenin tanımlayıcısını değiştirme
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
       archived: "Arşivlenen"

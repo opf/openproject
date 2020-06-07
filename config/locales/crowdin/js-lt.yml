@@ -166,58 +166,58 @@ lt:
         reset_to_defaults: 'Atkurti į numatytuosius'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "Patvirtinti el. pašto adresą"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Mes %{date} išsiuntėme jums el. laišką adresu %{email}. Prašome patikrinti savo laiškų dėžutę ir spustelėti ant patvirtinimo nuorodos, kad pradėtumėte savo 14 dienų bandomąjį periodą.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              Sutinku su <a target="_blank" href="%{link_terms}">paslaugos sąlygomis</a> ir <a target="_blank" href="%{link_privacy}">privatumo taisyklėmis</a>.
+            invalid_email: "Neteisingas el. pašto adresas"
+            label_company: "Kompanija"
             label_first_name: "Vardas"
             label_last_name: "Pavardė"
             label_email: "El. paštas"
-            label_domain: "Domain"
+            label_domain: "Domenas"
             label_subscriber: "Prenumeruotojas"
             label_maximum_users: "Maksimalus aktyvių vartotojų skaičius"
-            label_starts_at: "Starts at"
+            label_starts_at: "Prasideda nuo"
             label_expires_at: "Nustoja galioti"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
+            receive_newsletter: Noriu gauti OpenProject <a target="_blank" href="%{link}">naujienlaiškį</a>.
+            taken_domain: Gali būti tik vienas aktyvus bandomasis periodas domenui.
+            taken_email: Kiekvienas vartotojas gali sukurti tik vieną bandomąjį periodą.
+          email_not_received: "Negavote el. laiško? Galite pakartotinai išsiųsti laišką naudodami nuorodą dešinėje."
+          try_another_email: "Arba bandykite su kitu el. pašto adresu."
+          next_steps: "Kiti žingsniai"
           resend_link: "Siųsti iš naujo"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          resend_success: "El. laiškas buvo pakartotinai išsiųstas. Prašome patikrinti savo pašto dėžutę ir paspausti ant pateiktos patvirtinimo nuorodos."
+          resend_warning: "Negalima pakartotinai išsiųsti el. laiško."
+          session_timeout: "Jūsų sesijos laikas baigėsi. Pabandykite perkrauti puslapį ar išsiųsti el. laišką pakartotinai."
+          status_label: "Būsena:"
+          status_confirmed: "patvirtinta"
+          status_waiting: "laiškas išsiųstas -- laukiame patvirtinimo"
+          test_ee: "Išbandykite Enterprise Edition 14 dienų nemokamai"
+          quick_overview: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
         upsale:
           become_hero: "Tapti didvyriu!"
           benefits:
             description: "Kokie privalumai?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            high_security: "Saugumo funkcijos"
+            high_security_text: "Vienas prisijungimas (naudojant SAML, OpenID Connect, CAS), dviejų lygių autentifikacija ir automatinis LDAP grupių sinchronizavimas."
+            installation: "Instaliavimo pagalba"
+            installation_text: "Patyręs programų inžinierius ves jus per visą instaliavimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
+            premium_features: "„Premium“ funkcijos"
+            premium_features_text: "Agile lentos, savo tema ir logotipas, grafai, protingi darbo scenarijai su apibrėžtais veiksmais, pilna teksto paieška darbo paketų prieduose ir galimybė pasirinkti daugiau nei vieną reikšmę pritaikytuose laukuose."
             professional_support: "Profesionali pagalba"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+            professional_support_text: "Gaukite patikimą, artimą pagalbą iš vyresnių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
+          button_start_trial: "Pradėti bandomąjį laikotarpį"
+          button_book_now: "Užsakyti dabar"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
+          link_quote: "Gauti pasiūlymą"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+            OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėta „premium“ savybės ir profesionalus aptarnavimas, pagrindinai orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
+          unlimited: "Neribota"
+          you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
     custom_actions:
       date:
         specific: 'įjungta'
@@ -267,11 +267,11 @@ lt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              Ši versija turi naujas galimybes ir patobulinimus: <br><br> <ul class="%{list_styling_class}"> <li><b>Greitesnis laiko registravimas</b> darbo paketams iš detalių formos arba sąrašo rodinio.</li> <li>Teksto redaktoriuje <b>pagerintas lentelių formatavimas</b> leidžiantis geriau konfigūruoti lenteles, t.y. galima keisti langelio plotį, spalvą, išdėstymą ir paraštes.</li> <li>Kortelių vaizde darbo paketai dabar turi nurodytą ir projekto pavadinimą.</li> <li>OpenProject jau<b>100% išverstas į Slovėnų kalbą</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 jau palaiko <b>BIM Collaboration Format (BCF)</b> – atvirą BIM modelių trūkumų valdymo standartą.<br><br> <ul class="%{list_styling_class}"> <li>Lengvai kurkite ir <b>valdykite BIM trūkumus</b> tokius kaip susikirtimai, užklausos ir klausimai interaktyviame 3D IFC modelyje ir <b>dalinkitės jais su projekto komanda.</b></li> <li>Integruokite OpenProject su jūsų pasirinkta BIM programine įranga naudodami galingą <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importuokite ir eksportuokite BCF XML failus.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -282,7 +282,7 @@ lt:
     label_add_row_before: "Pridėti eilutę prieš"
     label_add_selected_columns: "Pridėti pažymėtus stulpelius"
     label_added_by: "pridėta"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Pridėjo <a href=%{authorLink}>%{author}</a> prieš %{age}"
     label_ago: "dienų prieš"
     label_all: "visi"
     label_all_work_packages: "visi darbų paketai"
@@ -323,7 +323,7 @@ lt:
     label_expand_all: "Išskleisti visus"
     label_expand_project_menu: "Išplėsti projekto meniu"
     label_export: "Eksportuoti"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "Eksportas ruošiamas ir greitai bus parsiųstas."
     label_filename: "Byla"
     label_filesize: "Dydis"
     label_general: "Bendra"
@@ -827,7 +827,7 @@ lt:
           automatic: 'Automatinis'
           manually: 'Rankinis'
           warning: 'Aktyvuojant automatinį rikiavimo režimą jūs prarasite savo ankstesnį rikiavimą.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Aukščiau esančioje įvedimo eilutėje pridėkite stulpelius į lentelės vaizdą. Galite pele perkelti stulpelius, jei reikalinga kita jų tvarka."
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
@@ -883,8 +883,8 @@ lt:
         confirm_deletion_children: "Aš sutinku, kad VISI šio darbų paketo palikuoniai bus rekursiškai ištrinti."
         deletes_children: "Visi darbų paketo vaikai ir jų palikuoniai taip pat bus rekursiškai ištrinti."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Patvirtinkite laiko įrašo trynimą."
+        text: "Ar Jūs tikrai norite ištrinti šį laiko įrašą?"
     notice_no_results_to_display: "Nėra rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
