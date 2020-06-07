@@ -25,7 +25,7 @@ lt:
       export: 'Eksportuoti'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: 'Nepavyko perskaityti BCF failo: Nepalaikoma BCF versija. Įsitikinkite, kad versija yra bent %{minimal_version} ar aukštesnė.'
       import_successful: 'Imported %{count} BCF issues'
       import_canceled: 'BCF-XML import canceled.'
       type_not_active: "The issue type is not activated for this project."
@@ -33,7 +33,7 @@ lt:
         num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
         button_prepare: 'Paruošti importą'
         button_perform_import: 'Patvirtinti importą'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Tęsti importą'
         button_back_to_list: 'Atgal į sąrašą'
         no_permission_to_add_members: 'Jūs neturite teisių pridėti juos kaip projekto narius.'
         contact_project_admin: 'Susisiekite su projekto administratoriumi, kad jie būtų pridėti kaip nariai, tada pakartokite importą.'
@@ -59,7 +59,7 @@ lt:
         import_as_system_user: 'Importuoti juos kaip „Sistemos“ naudotojus.'
         what_to_do: "Ką norite daryti?"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "Nepavyko rasti BCF filo. Prašome pradėti įkėlimo procesą dar kartą."
   export:
     format:
       bcf: "BCF-XML"
@@ -69,7 +69,7 @@ lt:
   project_module_bim: "BCF"
   permission_view_linked_issues: "View BCF issues"
   permission_manage_bcf: "Import and manage BCF issues"
-  permission_delete_bcf: "Delete BCF issues"
+  permission_delete_bcf: "Pašalinti BCF trūkumus"
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"

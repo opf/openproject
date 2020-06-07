@@ -39,17 +39,17 @@ lt:
         action_text: >
           Sukurkite lentą, su filtruotais sąrašais pagal vieną atributą. Perkeliant darbo paketą tarp sąrašų bus keičiamas naudojamas atributas.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: paskirtas
+          status: būsena
+          version: versija
         select_attribute: "Veiksmo atributas"
       add_list_modal:
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: This project currently does not have any members that can be added. <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            Nebėra laisvų statusų. <br>
+            Arba jų nėra apskritai, arba visi jau buvo sudėti į lentą.
+          assignee: Šiuo metu nėra narių, kurie galėtų būti pridėti į šį projektą. <br>
+          add_members: <a href="%{link}">Pridėkite į projektą naujų narių</a> , jei norite daugiau jų pažymėti.
       configuration_modal:
         title: 'Konfigūruoti lentą'
         display_settings:
