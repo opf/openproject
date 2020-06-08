@@ -1,4 +1,5 @@
-<input [id]="id"
+<input #dateInput
+       [id]="id"
        [name]="name"
        [value]="initialDate"
        [ngClass]="classes"
@@ -6,4 +7,7 @@
        [required]="required"
        [focus]="focus"
        [disabled]="disabled"
+       (click)="openOnClick()"
+       (blur)="closeOnOutsideClick($event)"
+       (input)="onInputChange($event)"
        type="text">
