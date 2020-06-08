@@ -36,16 +36,31 @@ import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/d
 
 @Component({
   template: `
-    <input type="text"
-           hidden/>
+    <input [value]="dates"
+           (click)="handleClick()"
+           type="text" />
   `
 })
 export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit {
   @InjectField() readonly timezoneService:TimezoneService;
   @InjectField() opModalService:OpModalService;
 
+  dates:string = '';
+
   ngOnInit() {
     super.ngOnInit();
+
+    this.handler
+      .$onUserActivate
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe(() => {
+        this.showDatePickerModal();
+      });
+  }
+
+  public handleClick() {
     this.showDatePickerModal();
   }
 
@@ -59,6 +74,13 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       const field = jQuery(this.elementRef.nativeElement);
       modal.reposition(modalElement, field);
     });
+
+    modal
+      .onDataUpdated
+      .subscribe((dates:string) => {
+        this.dates = dates;
+        this.cdRef.detectChanges();
+      });
 
     modal
       .closingEvent

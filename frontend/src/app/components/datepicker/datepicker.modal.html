@@ -1,85 +1,87 @@
-<div class="op-modal--modal-container datepicker-modal loading-indicator--location"
-     [attr.id]="htmlId"
-     data-indicator-name="modal"
-     tabindex="0">
-  <div class="op-modal--modal-body">
-    <form class="form -vertical">
-      <div class="grid-block">
-        <ng-container *ngIf="singleDate">
-          <div class="form--field">
-            <label class="form--label"
-                   [textContent]="text.date">
-            </label>
-            <div class="form--field-container">
-              <div class="form--text-field-container -xslim">
-                <input type="text"
-                       name="date"
-                       class="form--date-field"
-                       [ngModel]="dates.date"
-                       (ngModelChange)="updateDate('date', $event)">
+<div class="op-modal--portal -transparent">
+  <div class="op-modal--modal-container datepicker-modal loading-indicator--location"
+       [attr.id]="htmlId"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-body">
+      <form class="form -vertical">
+        <div class="grid-block">
+          <ng-container *ngIf="singleDate">
+            <div class="form--field">
+              <label class="form--label"
+                     [textContent]="text.date">
+              </label>
+              <div class="form--field-container">
+                <div class="form--text-field-container -xslim">
+                  <input type="text"
+                         name="date"
+                         class="form--date-field"
+                         [ngModel]="dates.date"
+                         (ngModelChange)="updateDate('date', $event)">
+                </div>
               </div>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
 
-        <ng-container *ngIf="!singleDate">
-          <div class="form--field">
-            <label class="form--label"
-                   [textContent]="text.startDate">
-            </label>
-            <div class="form--field-container">
-              <div class="form--text-field-container -xslim">
-                <input type="text"
-                       name="startDate"
-                       class="form--date-field"
-                       [ngModel]="dates.start"
-                       (ngModelChange)="updateDate('start', $event)">
+          <ng-container *ngIf="!singleDate">
+            <div class="form--field">
+              <label class="form--label"
+                     [textContent]="text.startDate">
+              </label>
+              <div class="form--field-container">
+                <div class="form--text-field-container -xslim">
+                  <input type="text"
+                         name="startDate"
+                         class="form--date-field"
+                         [ngModel]="dates.start"
+                         (ngModelChange)="updateDate('start', $event)">
+                </div>
               </div>
             </div>
-          </div>
-          <div class="form--field">
-            <label class="form--label"
-                   [textContent]="text.endDate">
-            </label>
-            <div class="form--field-container">
-              <div class="form--text-field-container -xslim">
-                <input type="text"
-                       name="endDate"
-                       class="form--date-field"
-                       [ngModel]="dates.end"
-                       (ngModelChange)="updateDate('end', $event)">
+            <div class="form--field">
+              <label class="form--label"
+                     [textContent]="text.endDate">
+              </label>
+              <div class="form--field-container">
+                <div class="form--text-field-container -xslim">
+                  <input type="text"
+                         name="endDate"
+                         class="form--date-field"
+                         [ngModel]="dates.end"
+                         (ngModelChange)="updateDate('end', $event)">
+                </div>
               </div>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
+      </form>
+
+      <input id="flatpickr-input"
+             hidden>
+
+      <div class="datepicker-modal--actions-container">
+        <a (click)="save()"
+           class="datepicker-modal--action"
+           [textContent]="text.save">
+        </a>
+        <a (click)="cancel()"
+           class="datepicker-modal--action"
+           [textContent]="text.cancel">
+        </a>
+        <a (click)="clear()"
+           class="datepicker-modal--action"
+           [textContent]="text.clear">
+        </a>
+
+        <button class="button datepicker-modal--scheduling-action"
+                (click)="changeSchedulingMode()">
+          <op-icon [icon-classes]="schedulingButtonIcon()">
+          </op-icon>
+          <span class="button--text"
+                [textContent]="schedulingButtonText()">
+          </span>
+        </button>
       </div>
-    </form>
-
-    <input id="flatpickr-input"
-           hidden>
-
-    <div class="datepicker-modal--actions-container">
-      <a (click)="save()"
-         class="datepicker-modal--action"
-         [textContent]="text.save">
-      </a>
-      <a (click)="cancel()"
-         class="datepicker-modal--action"
-         [textContent]="text.cancel">
-      </a>
-      <a (click)="clear()"
-         class="datepicker-modal--action"
-         [textContent]="text.clear">
-      </a>
-
-      <button class="button datepicker-modal--scheduling-action"
-              (click)="changeSchedulingMode()">
-        <op-icon [icon-classes]="schedulingButtonIcon()">
-        </op-icon>
-        <span class="button--text"
-              [textContent]="schedulingButtonText()">
-        </span>
-      </button>
     </div>
   </div>
 </div>

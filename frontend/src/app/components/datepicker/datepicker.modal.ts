@@ -32,6 +32,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Inject,
   Injector,
   ViewEncapsulation
@@ -70,8 +71,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
     placeholder: this.I18n.t('js.placeholders.default')
   };
-
-  private datePickerInstance:DatePicker;
+  public onDataUpdated = new EventEmitter<string>();
 
   public singleDate = false;
 
@@ -86,6 +86,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   };
 
   private changeset:ResourceChangeset;
+
+  private datePickerInstance:DatePicker;
 
   constructor(readonly injector:Injector,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -108,6 +110,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   ngAfterViewInit():void {
     this.initializeDatepicker();
+
+    this.onDataChange();
   }
 
   changeSchedulingMode() {
@@ -174,6 +178,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
         inline: true,
         onChange: (dates:Date[]) => {
           this.onDatePickerChange(dates);
+
+          this.onDataChange();
         }
       }
     );
@@ -204,6 +210,15 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     }
 
     this.cdRef.detectChanges();
+  }
+
+  private onDataChange() {
+    var date = this.dates.date || '';
+    var start = this.dates.start || '';
+    var end = this.dates.end || '';
+
+    var output = this.singleDate ? date : start + ' - ' + end;
+    this.onDataUpdated.emit(output);
   }
 
   private validDate(date:Date|string) {
