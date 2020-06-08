@@ -32,6 +32,15 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
   figure.image
     margin: 1em 0
 
+  figure.table
+    // Ensure we break apart words in table cells that
+    // are restricted in width (OP#33524)
+    td[style*=";width:"],
+    td[style^="width:"],
+    th[style*=";width:"],
+    th[style^="width:"]
+      word-break: break-all
+
 .ck .ck-widget.op-ckeditor--code-block
   // Display content as pre
   white-space: pre-wrap

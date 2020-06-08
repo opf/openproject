@@ -135,5 +135,22 @@ describe ::API::V3::Activities::ActivityRepresenter do
     it 'should link to update' do
       expect(subject).to have_json_path('_links/update/href')
     end
+
+    context 'for a non own journal' do
+      context 'when having edit_work_package_notes' do
+        it 'should link to update' do
+          expect(subject).to have_json_path('_links/update/href')
+        end
+      end
+
+      context 'when only having edit_own_work_package_notes' do
+        let(:permissions) { %i(edit_own_work_package_notes) }
+
+        it 'has no update link' do
+          expect(subject)
+            .not_to have_json_path('_links/update/href')
+        end
+      end
+    end
   end
 end

@@ -415,6 +415,7 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
+        templated: 'Template project'
       projects/status:
         code: 'Состояние'
         explanation: 'Описание статуса'
@@ -1950,7 +1951,7 @@ ru:
   permission_manage_project_activities: "Управление проектной деятельностью"
   permission_manage_public_queries: "Управление общими представлениями"
   permission_manage_repository: "Управление репозиторием"
-  permission_manage_subtasks: "Управление подзадачами"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Управление этапами"
   permission_manage_wiki: "Управление wiki"
   permission_manage_wiki_menu: "Управление меню wiki"
@@ -1985,6 +1986,12 @@ ru:
       warning_one: Участникам проекта нужно будет переместить репозитории проекта.
       warning_two: Существующие ссылки на проект больше работать не будут.
       title: Измените идентификатор проекта
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Уверены, что хотите архивизировать проект %{name}%?"
       archived: "Архивирован"

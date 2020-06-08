@@ -73,6 +73,7 @@ $code-border-size: 1px !default;
 $code-border-style: solid !default;
 $code-border-color: scale-color($code-background-color, $lightness: -10%) !default;
 $code-padding: rem-calc(2) rem-calc(5) rem-calc(1) !default;
+$code-line-height: 1.75em !default;
 
 // We use these to style anchors
 $anchor-text-decoration: none !default;
@@ -252,6 +253,7 @@ $acronym-underline: 1px dotted #ddd !default;
     border-style: $code-border-style;
     border-color: $code-border-color;
     padding: $code-padding;
+    line-height: $code-line-height;
   }
 
   /* Lists */

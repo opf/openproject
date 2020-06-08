@@ -75,10 +75,10 @@ module OpenProject
         strategy :saml do
           OpenProject::AuthSaml.configuration.values.map do |h|
             h[:openproject_attribute_map] = Proc.new do |auth|
-              {
-                login: auth[:uid],
-                admin: (auth.info['admin'].to_s.downcase == "true")
-              }
+              {}.tap do |additional|
+                additional[:login] = auth.info[:login] if auth.info.key? :login
+                additional[:admin] = auth.info[:admin] if auth.info.key? :admin
+              end
             end
             h.symbolize_keys
           end

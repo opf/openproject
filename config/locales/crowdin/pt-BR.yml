@@ -412,6 +412,7 @@ pt-BR:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Descrição do estado'
@@ -1908,7 +1909,7 @@ pt-BR:
   permission_manage_project_activities: "Gerenciar atividades do projeto"
   permission_manage_public_queries: "Gerenciar visões públicas"
   permission_manage_repository: "Gerenciar repositório"
-  permission_manage_subtasks: "Gerenciar subtarefas"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Gerenciar versões"
   permission_manage_wiki: "Gerenciar wiki"
   permission_manage_wiki_menu: "Gerenciar menu da wiki"
@@ -1943,6 +1944,12 @@ pt-BR:
       warning_one: Membros do projeto terão que realocar os repositórios do projeto.
       warning_two: Links existentes para o projeto deixarão de funcionar.
       title: Alterar o identificador do projeto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
       archived: "Arquivado"

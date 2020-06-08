@@ -27,17 +27,19 @@ With the new release of OpenProject you can now customize your tables in the tex
 - alignment within the cell, and
 - defining a CSS rule to break long words in cells.
 
-![table-formatting](table-formatting-1087365.png)
+![table-format](table-format.png)
 
 ### Quicker time logging on work packages
 
 From now on, time logging is even  quicker. You won’t have to leave your current work environment to log  time. For example, directly in the work package you will find an icon to log time. When you click on it, you can log your time in a pop-up window.
 
-![time logging](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/time-logging.png)
+![time-logging](time-logging.png)
+
+
 
 Also, you can log time to a work package directly from your work  package list view if you include the SPENT TIME as a column to the list. Clicking on the Log time will also open a pop-up window to book your  spent time.
 
-![Log time list view](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/Log-time-1.png)
+![time-log-work-package](time-log-work-package-1103367.png)
 
 ### Support of Slovenian language
 
@@ -49,13 +51,13 @@ We are very happy that OpenProject is now 100% translated into Slovenian.  Zabav
 
 OpenProject 10.6 will upgrade the card view of work packages. To make clear what card belongs to what project, the project name will be shown on the card.
 
-![card view with sub project](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/card-view-with-sub-project.png)
+![card-view-subproject](card-view-subproject.png)
 
 ### Improved assignee board if there are no members in a project
 
 If you are creating an agile boards by assignees, you will get  notified if there are no members in your project. You will also get  notified if you are trying to add another assignee list to your board  even though there is no more member left.
 
-![Assignee board notification](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/Assignee-board-notification.png)
+![asssignee-board-notification](asssignee-board-notification.png)
 
 ### Various usability improvements and bug fixes
 
@@ -82,7 +84,7 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Fixed: Oauth endpoints need to allow target hosts in CSP header "form-action" \[[#33336](https://community.openproject.com/wp/33336)\]
 - Fixed: Time logging not possible with custom field of type "version" \[[#33378](https://community.openproject.com/wp/33378)\]
 - Fixed: Mailing configuration appears not to be reloaded in workers \[[#33413](https://community.openproject.com/wp/33413)\]
-- Fixed: OpenProject | Usability bug: layout bug when setting new parent \[[#33449](https://community.openproject.com/wp/33449)\]
+- Fixed: layout bug when setting new parent \[[#33449](https://community.openproject.com/wp/33449)\]
 - Fixed: Clicking on info icon on card view doesn't do anything \[[#33451](https://community.openproject.com/wp/33451)\]
 - Fixed: Fetching recent work packages when logging time fails with internal error \[[#33472](https://community.openproject.com/wp/33472)\]
 - Changed: Show Project name in Card View \[[#31556](https://community.openproject.com/wp/31556)\]
@@ -98,11 +100,7 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Changed: Enable Projects for outgoing Webhooks \[[#33355](https://community.openproject.com/wp/33355)\]
 - Changed: New Features teaser for 10.6 \[[#33470](https://community.openproject.com/wp/33470)\]
 
-### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
-Marc Vollmer, Ricardo Vigatti, Sébastien VITA, Tino Breddin, Lukas Zeil, Rajesh Vishwakarma, Gio @ Enuan, Harald Holzmann
 
 
 ## OpenProject 10.6.0 BIM Edition
@@ -135,9 +133,12 @@ Please note that the OpenProject BIM Edition is under continuous  development. T
 
 Test OpenProject BIM 10.6 immediately, [create a free test instance](https://start.openproject.com/go/bim) for the OpenProject BIM Edition.
 
-#### Credits
+### Credits and contributions
 
-A special thanks goes to all OpenProject contributors without whom this release would not have been possible:
+A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+
+Special thanks for reporting and finding bugs go to
+Marc Vollmer, Ricardo Vigatti, Sébastien VITA, Tino Breddin, Lukas Zeil, Rajesh Vishwakarma, Gio @ Enuan, Harald Holzmann.
 
 - DBI AG for sponsoring the BCF Management.
 - Lindsay Kay for the integration of the 3D Modell viewer, [xeokit](https://xeokit.io/), as well as for improving the camera control in the IFC viewer.
@@ -145,11 +146,3 @@ A special thanks goes to all OpenProject contributors without whom this release 
 - All the developers, designers, project managers who have contributed to OpenProject.
 - Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
-
-### What is on the Roadmap?
-
-We continuously develop new features for the OpenProject BIM Edition:
-
-**Plugins into common BIM tools**
-
-Plug-ins into the common BIM tools (such as ARCHICAD, Navisworks,  Solibri etc.) make the exchange of BCF issues from the central BCF  management system even faster, easier and more transparent. The next  step on the roadmap is an **integration with Revit**.

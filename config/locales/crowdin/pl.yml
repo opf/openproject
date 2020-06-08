@@ -412,6 +412,7 @@ pl:
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Opis statusu'
@@ -1947,7 +1948,7 @@ pl:
   permission_manage_project_activities: "Zarządzanie działaniami projektu"
   permission_manage_public_queries: "Zarządzaj widokami publicznymi"
   permission_manage_repository: "Zarządzanie repozytorium"
-  permission_manage_subtasks: "Zarządzanie podzadaniami"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Zarządzanie wersjami"
   permission_manage_wiki: "Zarządzanie wiki"
   permission_manage_wiki_menu: "Zarządzanie menu wiki"
@@ -1982,6 +1983,12 @@ pl:
       warning_one: Członkowie projektu będą musieli przenieść repozytoria projektu.
       warning_two: Istniejące linki do projektu nie będą dłużej działać.
       title: Zmień identyfikator projektu
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Jesteś pewien, że chcesz zarchiwizować projekt '%{name}'?"
       archived: "Zarchiwizowano"

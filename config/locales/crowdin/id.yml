@@ -412,6 +412,7 @@ id:
         types: "Tipe"
         versions: "Versi"
         work_packages: "Paket-Penugasan"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -1888,7 +1889,7 @@ id:
   permission_manage_project_activities: "Kelola Project Activity"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Kelola repositori"
-  permission_manage_subtasks: "Kelola Sub-Tugas"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Kelola Versi"
   permission_manage_wiki: "Kelola Wiki"
   permission_manage_wiki_menu: "Kelola menu Wiki"
@@ -1923,6 +1924,12 @@ id:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"

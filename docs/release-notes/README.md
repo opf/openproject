@@ -12,6 +12,19 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 10.6.1
+
+Release date: 2020-06-08
+
+[Release Notes](10-6-1/)
+
+
+## 10.6.0
+
+Release date: 2020-06-02
+
+[Release Notes](10-6-0/)
+
 ## 10.5.1
 
 Release date: 2020-05-06

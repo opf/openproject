@@ -167,7 +167,8 @@ pt:
       enterprise:
         trial:
           confirmation: "Confirmação de endereço de email"
-          confirmation_info: "Enviamos-lhe um e-mail. Veja os seus emails e clique no link de confirmação fornecido para iniciar a sua avaliação de 14 dias."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Concordo com os <a target="_blank" href="%{link_terms}">termos do serviço</a> e com a <a target="_blank" href="%{link_privacy}">política de privacidade</a>.
@@ -881,6 +882,9 @@ pt:
         has_children: "O pacote de trabalho tem %{childUnits}:"
         confirm_deletion_children: "Reconheço que todos os descendentes dos pacotes de trabalho listados serão recursivamente removidos."
         deletes_children: "Todos os pacotes de trabalho filhos e seus descendentes serão também recursivamente apagados."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Nenhum resultado visível para exibir."
     notice_successful_create: "Criado com sucesso."
     notice_successful_delete: "Eliminado com sucesso."

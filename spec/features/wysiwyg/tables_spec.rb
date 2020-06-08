@@ -176,6 +176,10 @@ describe 'Wysiwyg tables',
           expect(editable).to have_selector('td[style*="background-color:#123456"]')
           expect(editable).to have_selector('td[style*="text-align:center"]')
           expect(editable).to have_selector('td[style*="vertical-align:top"]')
+
+          # Expect word-break not to be set to cell that does not have width
+          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td').first)
+          expect(value2).to eq('normal')
         end
 
         # Save wiki page
@@ -261,6 +265,74 @@ describe 'Wysiwyg tables',
           expect(editable).to have_selector('table[style*="border-right:10px dotted"]')
           expect(editable).to have_selector('table[style*="border-left:10px dotted"]')
           expect(editable).to have_selector('table[style*="border-top:10px dotted"]')
+        end
+      end
+
+      it 'can restrict table cell width' do
+        editor.in_editor do |container, editable|
+          # strangely, we need visible: :all here
+          editor.click_toolbar_button 'Insert table'
+          # 2x2
+          container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
+
+          # Edit table
+          tds = editable.all('.table.ck-widget td')
+          values = %w(h1 h2 a)
+          expect(tds.length).to eq(4)
+
+          tds.take(3).each_with_index do |td, i|
+            td.click
+            td.send_keys values[i]
+            sleep 0.5
+          end
+
+          # style first td
+          tds.first.click
+
+          # Click row toolbar
+          editor.click_hover_toolbar_button 'Cell properties'
+
+          # Enable header row
+          find('.ck-table-form__dimensions-row__width input').set '250px'
+          find('.ck-button-save').click
+
+          expect(editable).to have_selector('td[style*="width:250px"]')
+
+          # Expect break-all to be applied to this input
+          value = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td')[0])
+          expect(value).to eq('break-all')
+
+          # Expect not to be set to cell that does not have width
+          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td')[1])
+          expect(value2).to eq('normal')
+
+        end
+
+        # Save wiki page
+        click_on 'Save'
+
+        expect(page).to have_selector('.flash.notice')
+
+        within('#content') do
+          expect(page).to have_selector('td[style*="width:250px"]')
+          # Expect not to be set to cell that does not have width
+          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', page.find('td[style*="width:250px"]'))
+          expect(value2).to eq('break-all')
+        end
+
+        # Edit again
+        click_on 'Edit'
+
+        editor.in_editor do |container, editable|
+          expect(editable).to have_selector('td[style*="width:250px"]')
+
+          # Expect break-all to be applied to this input
+          value = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td')[0])
+          expect(value).to eq('break-all')
+
+          # Expect not to be set to cell that does not have width
+          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td')[1])
+          expect(value2).to eq('normal')
         end
       end
     end

@@ -166,7 +166,8 @@ sl:
       enterprise:
         trial:
           confirmation: "Potrdite e-poštni naslov"
-          confirmation_info: "Poslali smo vam e-pošto. Prosimo preglejte vašo pošto in kliknite potrditveno povezavo za začetek vašega 14 dnevnega preizkusa."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Strinjam se z  <a target="_blank" href="%{link_terms}">terms of service</a> in <a target="_blank" href="%{link_privacy}">privacy policy</a>.
@@ -880,6 +881,9 @@ sl:
         has_children: "Ta delavni paket ima %{childUnits}:"
         confirm_deletion_children: "Zavedam se, da bodo VSI potomci naštetih delovnih paketov rekurzivno odstranjeni."
         deletes_children: "Vsi delovni paketi in njihovi potomci bodo tudi rekurzivno izbrisani."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Ni vidnih rezultatov za prikaz."
     notice_successful_create: "Ustvarjanje uspelo."
     notice_successful_delete: "Uspešen izbris."

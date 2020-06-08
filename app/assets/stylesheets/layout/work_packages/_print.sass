@@ -17,19 +17,26 @@
       border: none
       overflow: visible !important
       position: relative
+      grid-template-columns: auto
 
       #content-wrapper,
       #content
         margin: 0
         width: 100%
+        height: 100%
         overflow: visible !important
         position: relative
+
+        .work-packages-partitioned-page--content-right
+          .work-packages--details-toolbar-container
+            display: none
 
         .work-packages-partitioned-query-space--container
           padding-left: 0
 
           .work-packages-split-view--tabletimeline-side
             .work-packages-split-view--tabletimeline-content
+              height: 100%
               .wp-table--hierarchy-aditional-row,
               tr.-checked,
               .row-hovered
@@ -60,47 +67,31 @@
       overflow: hidden
 
   // -------------------- Sepcial Rules for FF --------------------
-  html.-browser-firefox
+  body.-browser-firefox
+    #wrapper,
+    #main,
+    .work-packages-partitioned-query-space--container,
+    .work-packages-partitioned-page--content-container,
+    .work-packages-split-view--tabletimeline-side,
+    .work-packages-split-view--tabletimeline-content
+      display: block !important
+
     .router--work-packages-partitioned-split-view,
     .router--work-packages-full-view,
     .router--work-packages-full-create
-      #main
-        display: block
+      .work-packages-partitioned-query-space--container
+        .toolbar-container
+          display: none
 
-        #content-wrapper,
-        #content
-          .work-packages-partitioned-query-space--container
-            display: block
-            .toolbar-container
-              display: none
-            .work-packages-split-view
-              display: block
+    .work-packages-partitioned-page--content-right
+      .work-packages--details-content
+        position: relative
 
-              .work-packages-split-view--tabletimeline-side
-                display: block
-                .work-packages-split-view--tabletimeline-content
-                  display: block
-                  .work-packages-split-view--tabletimeline-side
-                    display: none
-                  .work-packages-tabletimeline--table-side
-                    &.-timeline-visible
-                      display: initial
-
-                    &.-timeline-visible
-                      thead
-                        // Undo that hack from above for FF
-                        display: table-header-group
-                  .work-packages-tabletimeline--timeline-side
-                    // As this print is worthless, we remove it for FF
-                    display: none !important
-
-
-  html.-browser-firefox,
-  html.-browser-edge
-    .router--work-packages-full-view,
-      .work-packages--show-view,
-      .work-packages-full-view--split-container
-        display: block
+  body.-browser-firefox,
+  body.-browser-edge
+    .work-packages--show-view,
+    .work-packages-full-view--split-container
+      display: block
 
   // ------------------Only WP full screen view ------------------
   .router--work-packages-full-view

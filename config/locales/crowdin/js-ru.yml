@@ -166,7 +166,8 @@ ru:
       enterprise:
         trial:
           confirmation: "Подтверждение адреса электронной почты"
-          confirmation_info: "Мы отправили вам письмо. Проверьте электронную почту и нажмите на ссылку подтверждения в письме, чтобы получить 14-дневную пробную версию."
+          confirmation_info: >
+            Мы отправили вам письмо %{date} на адрес %{email}. Проверьте свой почтовый ящик и нажмите на ссылку подтверждения, чтобы начать 14 дней пробной версии.
           form:
             general_consent: >
               Я принимаю <a target="_blank" href="%{link_terms}">условия обслуживания</a> и <a target="_blank" href="%{link_privacy}">политику конфиденциальности</a>.
@@ -880,6 +881,9 @@ ru:
         has_children: "Пакет работ имеет %{childUnits}:"
         confirm_deletion_children: "Я понимаю, что ВСЕ производные элементы указанных пакетов работ будут рекурсивно удалены."
         deletes_children: "Все дочерние пакеты работ и их потомки будут также рекурсивно удалены."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Нет видимых результатов для отображения."
     notice_successful_create: "Создание выполнено."
     notice_successful_delete: "Удаление выполнено."

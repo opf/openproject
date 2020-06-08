@@ -167,7 +167,8 @@ it:
       enterprise:
         trial:
           confirmation: "Conferma l'indirizzo email"
-          confirmation_info: "Ti abbiamo inviato un'email. Controlla le tue email e clicca sul link di conferma fornito per iniziare la prova di 14 giorni."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               Accetto le <a target="_blank" href="%{link_terms}">condizioni d'uso</a> e l'<a target="_blank" href="%{link_privacy}">informativa sulla privacy</a>.
@@ -881,6 +882,9 @@ it:
         has_children: "Questa macro-attività ha %{childUnits}:"
         confirm_deletion_children: "Prendo atto che TUTTI i discendenti delle macro-attività elencate verranno eliminati in modo ricorsivo."
         deletes_children: "Tutte le macro-attività ed i relativi discendenti verranno eliminati ricorsivamente."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Nessun risultato visibile da mostrare."
     notice_successful_create: "Creato con successo."
     notice_successful_delete: "Cancellato con successo."

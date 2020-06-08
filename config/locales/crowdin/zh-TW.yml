@@ -413,6 +413,7 @@ zh-TW:
         types: "類型"
         versions: "版本"
         work_packages: "工作項目"
+        templated: 'Template project'
       projects/status:
         code: '狀態'
         explanation: 'Status description'
@@ -1888,7 +1889,7 @@ zh-TW:
   permission_manage_project_activities: "管理專案活動"
   permission_manage_public_queries: "管理公開查詢"
   permission_manage_repository: "管理版本庫"
-  permission_manage_subtasks: "管理子任務"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "管理版本"
   permission_manage_wiki: "管理維基"
   permission_manage_wiki_menu: "管理維基選單"
@@ -1923,6 +1924,12 @@ zh-TW:
       warning_one: 這個專案的成員將必須搬移專案的版本庫
       warning_two: 專案現有的連結將不再有效
       title: 修改專案的識別
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "是否確定要 archive 專案 '%{name}'？"
       archived: "Archived"

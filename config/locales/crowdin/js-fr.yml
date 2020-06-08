@@ -167,7 +167,8 @@ fr:
       enterprise:
         trial:
           confirmation: "Confirmation de l'adresse e-mail"
-          confirmation_info: "Nous vous avons envoyé un e-mail. Veuillez vérifier vos e-mails et cliquer sur le lien de confirmation fourni pour commencer votre essai de 14 jours."
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               J'accepte les <a target="_blank" href="%{link_terms}">conditions d'utilisation</a> et la <a target="_blank" href="%{link_privacy}">politique de confidentialité</a>.
@@ -881,6 +882,9 @@ fr:
         has_children: "Le lot de travaux a %{childUnits} :"
         confirm_deletion_children: "Je reconnais que TOUS les descendants des lots de travaux de la liste seront supprimés récursivement."
         deletes_children: "Tous les lots de travaux enfants et leurs descendants seront également supprimés récursivement."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "Aucun résultat visible à afficher."
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."

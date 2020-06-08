@@ -57,18 +57,6 @@ class Journal::AggregatedJournal
       raw ? Journal::AggregatedJournal.new(raw) : nil
     end
 
-    # Returns the aggregated journal that contains the vanilla/pure journal with the specified id.
-    def with_notes_id(notes_id)
-      # We need to limit the journal aggregation as soon as possible for performance reasons.
-      # Therefore we have to provide the notes_id to the aggregation on top of it being used
-      # in the where clause to pick the desired AggregatedJournal.
-      raw_journal = Journal::Scopes::AggregatedJournal.fetch
-                    .where(id: notes_id)
-                    .first
-
-      raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
-    end
-
     ##
     # The +journable+ parameter allows to filter for aggregated journals of a given journable.
     #
@@ -222,7 +210,7 @@ class Journal::AggregatedJournal
 
   # returns an instance of this class that is reloaded from the database
   def reloaded
-    self.class.with_notes_id(notes_id)
+    self.class.containing_journal(journal)
   end
 
   def user

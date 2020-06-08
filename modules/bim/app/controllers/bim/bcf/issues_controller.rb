@@ -102,12 +102,12 @@ module Bim
           unknown_priorities_action: params.dig(:import_options, :unknown_priorities_action).presence || "use_default",
           invalid_people_action: params.dig(:import_options, :invalid_people_action).presence || "anonymize",
           unknown_mails_action: params.dig(:import_options, :unknown_mails_action).presence || 'invite',
-          non_members_action: params.dig(:import_options, :non_members_action).presence || 'add',
+          non_members_action: params.dig(:import_options, :non_members_action).presence || 'chose',
           unknown_types_chose_ids: params.dig(:import_options, :unknown_types_chose_ids) || [],
           unknown_statuses_chose_ids: params.dig(:import_options, :unknown_statuses_chose_ids) || [],
           unknown_priorities_chose_ids: params.dig(:import_options, :unknown_priorities_chose_ids) || [],
           unknown_mails_invite_role_ids: params.dig(:import_options, :unknown_mails_invite_role_ids) || [],
-          non_members_add_role_ids: params.dig(:import_options, :non_members_add_role_ids) || []
+          non_members_chose_role_ids: params.dig(:import_options, :non_members_chose_role_ids) || []
         }
       end
 

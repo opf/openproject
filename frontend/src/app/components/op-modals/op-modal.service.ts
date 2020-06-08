@@ -97,6 +97,8 @@ export class OpModalService {
       this.opening = false;
     }, 20);
 
+    jQuery('.op-modal--modal-container').focus();
+
     return this.active as T;
   }
 

@@ -416,6 +416,7 @@ cs:
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
+        templated: 'Template project'
       projects/status:
         code: 'Stav'
         explanation: 'Status description'
@@ -1951,7 +1952,7 @@ cs:
   permission_manage_project_activities: "Spravovat projektové aktivity"
   permission_manage_public_queries: "Spravovat veřejné dotazy"
   permission_manage_repository: "Správa repozitáře"
-  permission_manage_subtasks: "Spravovat dílčí úkoly"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Správovat verze"
   permission_manage_wiki: "Spravovat wiki"
   permission_manage_wiki_menu: "Spravovat wiki menu"
@@ -1986,6 +1987,12 @@ cs:
       warning_one: Členové projektu budou muset přemístit úložiště projektu.
       warning_two: Existující odkazy na projekt nebudou nadále fungovat.
       title: Změnit identifikátor projektu
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
       archived: "Archived"

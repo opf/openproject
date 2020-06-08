@@ -70,7 +70,7 @@ On the OpenProject landing page of the application, you have a latest news secti
 
 Clicking on the title of a news will bring you to the news details in the corresponding project.
 
-![latest-news](latest-news-1567427351673.png)
+![news-widget-landing-page](news-widget-landing-page.png)
 
 ## Latest news section on the project overview page
 
@@ -78,5 +78,4 @@ You can also include your latest news from a project on the Project overview pag
 
 Find out how to [configure your Project overview](#project-overview) page.
 
-![latest-news-project-overview](1567427575338.png)
-
+![latest-news-project-overview](latest-news-project-overview.png)

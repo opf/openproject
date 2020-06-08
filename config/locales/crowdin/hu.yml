@@ -411,6 +411,7 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
+        templated: 'Template project'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -1906,7 +1907,7 @@ hu:
   permission_manage_project_activities: "Projekt tevékenységek kezelése"
   permission_manage_public_queries: "Nyilvános nézetek kezelése"
   permission_manage_repository: "Csomagtároló kezelése"
-  permission_manage_subtasks: "Altevékenységek kezelése"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Verziók kezelése"
   permission_manage_wiki: "Wiki kezelése"
   permission_manage_wiki_menu: "Wiki menü kezelése"
@@ -1941,6 +1942,12 @@ hu:
       warning_one: A projekt tagjai áthelyezik a projekt tárolóit.
       warning_two: A projekthez tartozó hivatkozások már nem működnek.
       title: Módosítsa a projekt azonosítóját
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
       archived: "Archiválva"
