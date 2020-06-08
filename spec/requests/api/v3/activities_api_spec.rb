@@ -29,73 +29,177 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Activities::ActivitiesAPI, type: :request do
+describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  using_shared_fixtures :admin
+  let(:current_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: permissions)
+  end
+  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:work_package) do
+    FactoryBot.create(:work_package, author: current_user, project: project)
+  end
+  let(:permissions) { %i[view_work_packages edit_work_package_notes] }
+  let(:activity) { work_package.journals.first }
+  let(:comment) { 'This is a new test comment!' }
 
-  let(:comment) { 'This is a test comment!' }
+  shared_examples_for 'valid activity request' do |type|
+    subject { last_response }
 
-  shared_examples_for 'safeguarded API' do
-    it { expect(last_response.status).to eq(403) }
+    it 'returns an activity of the correct type' do
+      expect(subject.body).to be_json_eql(type.to_json).at_path('_type')
+      expect(subject.body).to be_json_eql(activity.id.to_json).at_path('id')
+    end
+
+    it 'responds 200 OK' do
+      expect(subject.status).to eq(200)
+    end
   end
 
-  shared_examples_for 'valid activity request' do
-    before do allow(User).to receive(:current).and_return(admin) end
+  shared_examples_for 'valid activity patch request' do
+    it 'updates the activity comment' do
+      expect(last_response.body).to be_json_eql(comment.to_json).at_path('comment/raw')
+    end
 
-    subject { last_response.body }
-
-    it { is_expected.to be_json_eql('Activity::Comment'.to_json).at_path('_type') }
-
-    it { is_expected.to be_json_eql(comment.to_json).at_path('comment/raw') }
-  end
-
-  shared_examples_for 'invalid activity request' do |message|
-    before do allow(User).to receive(:current).and_return(admin) end
-
-    it_behaves_like 'constraint violation' do
-      let(:message) { message }
+    it 'changes the comment' do
+      expect(activity.reload.notes).to eql comment
     end
   end
 
   describe 'PATCH /api/v3/activities/:activityId' do
-    let(:work_package) { FactoryBot.create(:work_package) }
-    let(:wp_journal) { FactoryBot.build(:journal_work_package_journal) }
-    let(:journal) {
-      FactoryBot.create(:work_package_journal,
-                         data: wp_journal,
-                         journable_id: work_package.id)
-    }
-
-    shared_context 'edit activity' do
-      before {
-        patch api_v3_paths.activity(journal.id),
-              { comment: comment }.to_json,  'CONTENT_TYPE' => 'application/json'
-      }
+    let(:params) { { comment: comment } }
+    before do
+      login_as(current_user)
+      patch api_v3_paths.activity(activity.id), params.to_json
     end
 
-    it_behaves_like 'safeguarded API' do
-      include_context 'edit activity'
-    end
+    it_behaves_like 'valid activity request', 'Activity::Comment'
 
-    it_behaves_like 'valid activity request' do
-      include_context 'edit activity'
-    end
+    it_behaves_like 'valid activity patch request'
 
     it_behaves_like 'invalid activity request', 'Version is invalid' do
-      let(:errors) {
-        ActiveModel::Errors.new(journal).tap do |e|
+      let(:errors) do
+        ActiveModel::Errors.new(work_package.journals.first).tap do |e|
           e.add(:version)
         end
-      }
-
-      before do
+      end
+      let(:activity) do
         allow_any_instance_of(Journal).to receive(:save).and_return(false)
         allow_any_instance_of(Journal).to receive(:errors).and_return(errors)
+
+        work_package.journals.first
       end
 
-      include_context 'edit activity'
+      it_behaves_like 'constraint violation' do
+        let(:message) { 'Version is invalid' }
+      end
+    end
+
+    context 'for an activity created by a different user' do
+      let(:activity) do
+        work_package.journals.first.tap do |journal|
+          # it does not matter that the user does not exist
+          journal.update_column(:user_id, 0)
+        end
+      end
+
+      context 'when having the necessary permission' do
+        it_behaves_like 'valid activity request', 'Activity::Comment'
+
+        it_behaves_like 'valid activity patch request'
+      end
+
+      context 'when having only the edit own permission' do
+        let(:permissions) { %i[view_work_packages edit_own_work_package_notes] }
+
+        it_behaves_like 'unauthorized access'
+      end
+    end
+
+    context 'when having only the edit own permission' do
+      let(:permissions) { %i[view_work_packages edit_own_work_package_notes] }
+
+      it_behaves_like 'valid activity request', 'Activity::Comment'
+
+      it_behaves_like 'valid activity patch request'
+    end
+
+    context 'without sufficient permissions to edit' do
+      let(:permissions) { [:view_work_packages] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'without sufficient permissions to see' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found'
+    end
+  end
+
+  describe '#get api' do
+    let(:get_path) { api_v3_paths.activity activity.id }
+
+    before do
+      login_as(current_user)
+    end
+
+    context 'logged in user' do
+      before do
+        get get_path
+      end
+
+      context 'for a journal without a comment' do
+        it_behaves_like 'valid activity request', 'Activity'
+      end
+
+      context 'for a journal with a comment' do
+        let(:activity) do
+          work_package.journals.first.tap do |journal|
+            journal.update_column(:notes, comment)
+          end
+        end
+
+        it_behaves_like 'valid activity request', 'Activity::Comment'
+      end
+
+      context 'for an aggregated journal when requesting by the notes_id (which is not the aggregated journal`s id)`' do
+        let(:activity) do
+          work_package.journals.first.tap do |journal|
+            journal.update_column(:notes, comment)
+
+            work_package.subject = 'A new subject'
+            work_package.save!
+          end
+        end
+
+        it_behaves_like 'valid activity request', 'Activity::Comment'
+      end
+
+      context 'requesting nonexistent activity' do
+        let(:get_path) { api_v3_paths.activity 9999 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 9999 }
+          let(:type) { 'Journal' }
+        end
+      end
+
+      context 'without sufficient permissions' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'not found'
+      end
+    end
+
+    context 'anonymous user' do
+      it_behaves_like 'handling anonymous user' do
+        let(:project) { FactoryBot.create(:project, public: true) }
+        let(:path) { get_path }
+      end
     end
   end
 end
