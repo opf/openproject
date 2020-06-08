@@ -53,15 +53,37 @@ module Components
     end
 
     ##
+    # Expect the selected month
+    def expect_month(month)
+      month = Date::MONTHNAMES.index(month) if month.is_a?(String)
+
+      # Month is 0-index in select
+      field = container.find('.flatpickr-monthDropdown-months')
+      expect(field.value.to_i).to eq(month - 1)
+    end
+
+    ##
+    # Expect the selected day
+    def expect_day(value)
+      expect(container).to have_selector('.flatpickr-day.selected', text: value)
+    end
+
+    ##
+    # Expect the selected year
+    def expect_year(value)
+      field = container.find('.cur-year')
+      expect(field.value.to_i).to eq(value.to_i)
+    end
+
+    ##
     # Expect the current selection to match the
     # given ISO601 date
     def expect_current_date(date)
       date = Date.parse(date) unless date.is_a?(Date)
 
-      expect(container).to have_selector('.cur-year', value: date.year)
-      # Month is 0-index in select
-      expect(container).to have_selector('.flatpickr-monthDropdown-months', value: date.month - 1)
-      expect(container).to have_selector('.flatpickr-day.selected', text: date.day)
+      expect_year(date.year)
+      expect_month(date.month)
+      expect_day(date.day)
     end
   end
 end

@@ -41,7 +41,6 @@ describe 'date inplace editor',
   let(:user) { FactoryBot.create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package,project) }
 
-  let(:due_date) { work_packages_page.edit_field(:dueDate) }
   let(:start_date) { work_packages_page.edit_field(:startDate) }
 
   before do
@@ -52,17 +51,16 @@ describe 'date inplace editor',
   end
 
   it 'uses the start date as a placeholder for the end date' do
-    due_date.activate!
+    start_date.activate!
+    start_date.expect_active!
 
-    within('.ui-datepicker') do
-      expect(page).to have_selector('.ui-datepicker-month option', text: 'Jan')
-      expect(page).to have_selector('.ui-datepicker-year option', text: '2016')
-      day = find('td a', text: '25')
-      scroll_to_and_click(day)
-    end
+    start_date.datepicker.expect_year '2016'
+    start_date.datepicker.expect_month 'January'
+    start_date.datepicker.select_day '25'
 
-    due_date.expect_inactive!
-    due_date.expect_state_text '2016-01-25'
+    start_date.save!
+    start_date.expect_inactive!
+    start_date.expect_state_text '2016-01-25'
   end
 
   it 'saves the date when clearing and then confirming' do

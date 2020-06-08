@@ -2,7 +2,7 @@ require_relative './edit_field'
 
 class DateEditField < EditField
   def datepicker
-    @datepicker ||= ::Components::Datepicker.new modal_selector
+  @datepicker ||= ::Components::Datepicker.new modal_selector
   end
 
   def modal_selector
@@ -27,6 +27,12 @@ class DateEditField < EditField
 
   def active?
     page.has_selector?("#{modal_selector} #{input_selector}")
+  end
+
+  def expect_active!
+    expect(page)
+      .to have_selector("#{modal_selector} #{input_selector}", wait: 10),
+          "Expected date field '#{property_name}' to be active."
   end
 
   def update(value, save: true, expect_failure: false)
