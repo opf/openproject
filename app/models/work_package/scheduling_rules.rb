@@ -31,13 +31,6 @@
 module WorkPackage::SchedulingRules
   extend ActiveSupport::Concern
 
-  def reschedule_after(date)
-    WorkPackages::RescheduleService
-      .new(user: User.current,
-           work_package: self)
-      .call(date)
-  end
-
   def schedule_automatically?
     !schedule_manually?
   end
