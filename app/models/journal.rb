@@ -90,7 +90,7 @@ class Journal < ApplicationRecord
   end
 
   def editable_by?(user)
-    (journable.journal_editable_by?(user) && self.user == user) || user.admin?
+    journable.journal_editable_by?(self, user)
   end
 
   def details

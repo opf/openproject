@@ -13,12 +13,12 @@ module OpenProject::Bim::BcfXml
       unknown_priorities_action: "use_default",
       invalid_people_action: "anonymize",
       unknown_mails_action: 'invite',
-      non_members_action: 'add',
+      non_members_action: 'chose',
       unknown_types_chose_ids: [],
       unknown_statuses_chose_ids: [],
       unknown_priorities_chose_ids: [],
       unknown_mails_invite_role_ids: [],
-      non_members_add_role_ids: []
+      non_members_chose_role_ids: []
     }.freeze
 
     def initialize(file, project, current_user:)
@@ -135,7 +135,7 @@ module OpenProject::Bim::BcfXml
       membership_service = ::Members::EditMembershipService.new(member,
                                                                 save: true,
                                                                 current_user: User.current)
-      membership_service.call(attributes: { role_ids: options[:non_members_add_role_ids] })
+      membership_service.call(attributes: { role_ids: options[:non_members_chose_role_ids] })
     end
 
     def treat_unknown_mails?(options)
@@ -146,8 +146,8 @@ module OpenProject::Bim::BcfXml
 
     def treat_non_members?(options)
       aggregations.non_members.any? &&
-        options[:non_members_action] == 'add' &&
-        options[:non_members_add_role_ids].any?
+        options[:non_members_action] == 'chose' &&
+        options[:non_members_chose_role_ids].any?
     end
 
     def to_listing(extractor)

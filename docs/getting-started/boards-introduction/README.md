@@ -21,6 +21,8 @@ In this document you will get a first introduction to the Boards in OpenProject,
 
 To find out more about the detailed functionalities of Boards, please visit our [user guide for boards](../../user-guide/agile-boards).
 
+Agile boards is only one of OpenProject's features. Find a comprehensive comparison between OpenProject and Trello [here](https://www.openproject.org/alternatives/best-trello-alternative/).
+
 
 | Feature                                                     | Documentation for                          |
 | ----------------------------------------------------------- | ------------------------------------------ |
