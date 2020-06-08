@@ -27,9 +27,7 @@
 // ++
 
 import {Component, OnInit} from "@angular/core";
-import * as moment from "moment";
 import {TimezoneService} from "core-components/datetime/timezone.service";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
@@ -54,7 +52,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
   private showDatePickerModal():void {
     const modal = this
       .opModalService
-      .show(DatePickerModal, this.injector, { changeset: this.change });
+      .show(DatePickerModal, this.injector, { changeset: this.change, fieldName: this.name });
 
     setTimeout(() => {
       const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');

@@ -69,7 +69,7 @@ class EditField
       end
 
       if expect_open && !active?
-        raise "Expected field input type '#{field_type}' for attribute '#{property_name}'."
+        raise "Expected field for attribute '#{property_name}' to be active."
       end
     end
   end

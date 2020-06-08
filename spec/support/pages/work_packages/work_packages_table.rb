@@ -236,7 +236,7 @@ module Pages
           row(work_package)
         end
 
-      ::EditField.new(context, attribute)
+      work_package_field(work_package, context, attribute)
     end
 
     def click_setting_item(label)
@@ -271,6 +271,15 @@ module Pages
 
     def container
       page
+    end
+
+    def work_package_field(work_package, context, key)
+      case key.to_sym
+      when :date, :startDate, :dueDate
+        DateEditField.new context, key, is_milestone: work_package.milestone?
+      else
+        EditField.new context, key
+      end
     end
 
     private

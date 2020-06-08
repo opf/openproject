@@ -1,16 +1,35 @@
 require_relative './edit_field'
 
 class DateEditField < EditField
+  attr_accessor :milestone
+
+  def initialize(context,
+                 property_name,
+                 selector: nil,
+                 is_milestone: false)
+
+    super(context, property_name, selector: selector)
+    self.milestone = is_milestone
+  end
+
   def datepicker
-  @datepicker ||= ::Components::Datepicker.new modal_selector
+    @datepicker ||= ::Components::Datepicker.new modal_selector
   end
 
   def modal_selector
-    '.datepicker-modal'
+    "#wp-datepicker-#{property_name}"
   end
 
   def input_selector
     "input[name=#{property_name}]"
+  end
+
+  def property_name
+    if milestone
+      'date'
+    else
+      super
+    end
   end
 
   def modal_element
@@ -26,13 +45,18 @@ class DateEditField < EditField
   end
 
   def active?
-    page.has_selector?("#{modal_selector} #{input_selector}")
+    page.has_selector?("#{modal_selector} #{input_selector}", wait: 1)
   end
 
   def expect_active!
     expect(page)
       .to have_selector("#{modal_selector} #{input_selector}", wait: 10),
           "Expected date field '#{property_name}' to be active."
+  end
+
+  def expect_inactive!
+    expect(context).to have_selector(display_selector, wait: 10)
+    expect(page).to have_no_selector("#{modal_selector} #{input_selector}")
   end
 
   def update(value, save: true, expect_failure: false)

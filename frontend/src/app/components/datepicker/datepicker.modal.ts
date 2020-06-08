@@ -77,6 +77,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   public scheduleManually = false;
 
+  public htmlId:string = '';
+
   public dates:{ [key in DateKeys]:string } = {
     date: '',
     start: '',
@@ -91,6 +93,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
               readonly elementRef:ElementRef) {
     super(locals, cdRef, elementRef);
     this.changeset = locals.changeset;
+    this.htmlId = `wp-datepicker-${locals.fieldName}`;
 
     this.singleDate = this.changeset.isWritable('date');
     this.scheduleManually = this.changeset.value('scheduleManually');
