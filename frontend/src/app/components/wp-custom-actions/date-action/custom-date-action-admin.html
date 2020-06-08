@@ -12,7 +12,6 @@
   </span>
   <span class="form--text-field-container -slim" *ngIf="valueVisible">
     <op-date-picker (onChange)="updateField($event)"
-                    (onInputChange)="updateField($event)"
                     [id]="fieldId + '_visible'"
                     [name]="fieldId + '_input'"
                     [initialDate]="fieldValue"

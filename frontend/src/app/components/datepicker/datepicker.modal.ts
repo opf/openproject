@@ -127,7 +127,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       this.changeset.setValue('dueDate', this.mappedDate('end'));
     }
 
-    this.changeset.setValue('scheduleManually', !this.changeset.value('scheduleManually'));
+    this.changeset.setValue('scheduleManually', this.scheduleManually);
     this.closeMe();
   }
 

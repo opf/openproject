@@ -66,13 +66,33 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     }
   }
 
-
   ngAfterViewInit():void {
     this.initializeDatepicker();
   }
 
   ngOnDestroy() {
     this.datePickerInstance && this.datePickerInstance.destroy();
+  }
+
+  openOnClick() {
+    if (!this.disabled) {
+      this.datePickerInstance.show();
+    }
+  }
+
+  onInputChange(_event:KeyboardEvent) {
+    if (this.isEmpty()) {
+      this.datePickerInstance.clear();
+    } else if (this.inputIsValidDate()) {
+      this.onChange.emit(this.currentValue);
+    }
+  }
+
+  closeOnOutsideClick(event:any) {
+    if (event.originalEvent &&
+      !this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.originalEvent.relatedTarget)) {
+      this.datePickerInstance.hide();
+    }
   }
 
   private isEmpty():boolean {
@@ -120,26 +140,5 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
       initialValue,
       options
     );
-  }
-
-  private openOnClick() {
-    if (!this.disabled) {
-      this.datePickerInstance.show();
-    }
-  }
-
-  private closeOnOutsideClick(event:any) {
-    if (event.originalEvent &&
-        !this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.originalEvent.relatedTarget)) {
-      this.datePickerInstance.hide();
-    }
-  }
-
-  onInputChange(_event:KeyboardEvent) {
-    if (this.isEmpty()) {
-      this.datePickerInstance.clear();
-    } else if (this.inputIsValidDate()) {
-      this.onChange.emit(this.currentValue);
-    }
   }
 }
