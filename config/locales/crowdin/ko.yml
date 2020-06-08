@@ -1889,7 +1889,7 @@ ko:
   permission_manage_project_activities: "프로젝트 작업 관리"
   permission_manage_public_queries: "공용 보기 관리"
   permission_manage_repository: "리포지토리 관리"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "OpenProject aims to connect distributed teams and organizations and make project management intuitive and fun. The open source software supports classical project management and team collaboration as well as agile project management methodologies. OpenProject is continuously developed and maintained by an active international community to provide a powerful feature set and yet intuitive user interface. The overall purpose is to create customer benefit. To achieve this, OpenProject follows a requirements and product development process that empathizes identifying and building the functionality which most aligns with OpenProject’s product vision and delivers customer value.\n\nThis guide is an evolving description of the steps taken from collecting requirements all the way to implementation and release. The goal is to provide a single source of truth and provide a guideline for team members, community contributors and interested customers. As such this document will continuously be updated."
   permission_manage_versions: "버전 관리"
   permission_manage_wiki: "위키 관리"
   permission_manage_wiki_menu: "위키 메뉴 관리"

@@ -22,9 +22,8 @@
 zh-CN:
   button_save_as: "报告另存为..."
   comments: "评论"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "成本报告"
   label_cost_report: "成本报告"
-  label_cost_report_plural: "成本报告"
   description_drill_down: "显示详情"
   description_filter_selection: "选择"
   description_multi_select: "显示多选"
