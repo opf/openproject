@@ -213,20 +213,18 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   private onDataChange() {
-    var date = this.dates.date || '';
-    var start = this.dates.start || '';
-    var end = this.dates.end || '';
+    let date = this.dates.date || '';
+    let start = this.dates.start || '';
+    let end = this.dates.end || '';
 
-    var output = this.singleDate ? date : start + ' - ' + end;
+    let output = this.singleDate ? date : start + ' - ' + end;
     this.onDataUpdated.emit(output);
   }
 
   private validDate(date:Date|string) {
-    if (date instanceof Date) {
-      return true;
-    } else {
-      return !!new Date(date).valueOf();
-    }
+    return (date instanceof Date) ||
+      (date === '') ||
+      !!new Date(date).valueOf();
   }
 
   /**
@@ -239,9 +237,11 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     return val === '' ? null : val;
   }
 
-  private parseDate(date:Date|string):Date {
+  private parseDate(date:Date|string):Date|null {
     if (date instanceof Date) {
       return date;
+    } else if (date === '') {
+      return null;
     } else {
       return new Date(date);
     }
