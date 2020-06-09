@@ -87,15 +87,9 @@ class WorkPackages::ScheduleDependency
   end
 
   def load_following(work_packages)
-    # include associations required for journal creation later on
     WorkPackage
       .hierarchy_tree_following(work_packages)
-      .includes(:custom_values,
-                :attachments,
-                :type,
-                :project,
-                :journals,
-                parent_relation: :from,
+      .includes(parent_relation: :from,
                 follows_relations: :to)
   end
 
