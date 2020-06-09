@@ -79,16 +79,12 @@ class WorkPackages::ScheduleDependency
     self.known_work_packages_by_id = known_work_packages.group_by(&:id)
     self.known_work_packages_by_parent_id = known_work_packages.group_by(&:parent_id)
 
-    new_dependencies = add_dependencies(following)
-
-    if new_dependencies.any?
-      load_all_following(new_dependencies.keys)
-    end
+    add_dependencies(following)
   end
 
   def load_following(work_packages)
     WorkPackage
-      .hierarchy_tree_following(work_packages)
+      .for_scheduling(work_packages)
       .includes(parent_relation: :from,
                 follows_relations: :to)
   end
@@ -121,11 +117,9 @@ class WorkPackages::ScheduleDependency
 
     moved = find_moved(added)
 
-    newly_added = moved.except(*dependencies.keys)
+    moved.except(*dependencies.keys)
 
     dependencies.merge!(moved)
-
-    newly_added
   end
 
   class Dependency
