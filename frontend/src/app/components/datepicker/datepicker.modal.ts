@@ -237,11 +237,11 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     return val === '' ? null : val;
   }
 
-  private parseDate(date:Date|string):Date|null {
+  private parseDate(date:Date|string):Date|'' {
     if (date instanceof Date) {
       return date;
     } else if (date === '') {
-      return null;
+      return '';
     } else {
       return new Date(date);
     }

@@ -30,6 +30,7 @@ import flatpickr from "flatpickr";
 import {Instance} from "flatpickr/dist/types/instance";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import DateOption = flatpickr.Options.DateOption;
 
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
@@ -88,7 +89,10 @@ export class DatePicker {
   }
 
   public hide() {
-    this.datepickerInstance.close();
+    if (this.isOpen) {
+      this.datepickerInstance.close();
+    }
+
     this.datepickerCont.scrollParent().off('scroll');
   }
 
@@ -97,8 +101,12 @@ export class DatePicker {
     this.hideDuringScroll();
   }
 
-  public setDates(dates:Date|Date[]) {
+  public setDates(dates:DateOption|DateOption[]) {
     this.datepickerInstance.setDate(dates);
+  }
+
+  public get isOpen():boolean {
+    return this.datepickerInstance.isOpen;
   }
 
   private hideDuringScroll() {

@@ -97,4 +97,52 @@ describe 'date inplace editor',
     # Ensure no modal survives
     expect(page).to have_no_selector('.op-modal--modal-container')
   end
+
+  context 'with a date custom field' do
+    let!(:type) { FactoryBot.create :type }
+    let!(:project) { FactoryBot.create :project, types: [type] }
+    let!(:priority) { FactoryBot.create :default_priority }
+    let!(:status) { FactoryBot.create :default_status }
+
+    let!(:date_cf) do
+      FactoryBot.create(
+        :date_wp_custom_field,
+        name: "My date",
+        types: [type],
+        projects: [project]
+      )
+    end
+
+    let(:cf_field) { EditField.new page, :"customField#{date_cf.id}" }
+    let(:datepicker) { ::Components::Datepicker.new }
+    let(:create_page) { ::Pages::FullWorkPackageCreate.new(project: project) }
+
+    it 'can handle creating a CF date' do
+      create_page.visit!
+
+      type_field = create_page.edit_field(:type)
+      type_field.activate!
+      type_field.set_value type.name
+
+      cf_field.expect_active!
+
+      # When cancelling, expect there to be no notification
+      create_page.cancel!
+      create_page.expect_no_notification type: nil
+
+      create_page.visit!
+      cf_field.expect_active!
+
+      # Open date picker
+      cf_field.input_element.click
+      datepicker.set_date Date.today
+
+      create_page.edit_field(:subject).set_value 'My subject!'
+      create_page.save!
+      create_page.expect_and_dismiss_notification message: 'Successful creation'
+
+      wp = WorkPackage.last
+      expect(wp.custom_value_for(date_cf.id).value).to eq Date.today.iso8601
+    end
+  end
 end

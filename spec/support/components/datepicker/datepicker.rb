@@ -4,7 +4,7 @@ module Components
     include RSpec::Matchers
     attr_reader :context_selector
 
-    def initialize(context = '#content')
+    def initialize(context = 'body')
       @context_selector = context
     end
 
