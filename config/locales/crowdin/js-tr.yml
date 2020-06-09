@@ -168,7 +168,7 @@ tr:
         trial:
           confirmation: "E-posta adresi doğrulama"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            %{email} adresine %{date} tarihinde bir e-posta gönderdik. Lütfen gelen kutunuzu kontrol edin ve 14 günlük denemenize başlamak için verilen onay bağlantısını tıklayın.
           form:
             general_consent: >
               Katılıyorum  <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
@@ -267,11 +267,11 @@ tr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              Sürüm çeşitli yeni özellikler ve geliştirmeler içeriyor: <br> <br> <ul class = "%{list_styling_class}"> <li> <b> Ayrıntılar veya liste görünümünden iş paketlerinde daha hızlı zaman kaydı </b>. / li> <li> <b> Metin düzenleyicide tabloları daha iyi yapılandırmak için iyileştirilmiş tablo biçimlendirme </b>, ör. genişlik, renk, hizalama veya dolgu için. </li> <li> İş paketleri için kart görünümü artık proje adını da içeriyor. </li> <li> OpenProject <b>% 100 Slovence'ye çevrildi </ b>. Zabavaj se! </li> </ul><ul 
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 artık BIM modelleri için açık sorun izleme standardı olan <b> BIM İşbirliği Formatını (BCF) </b> desteklemektedir. <br> <br> <ul class = "%{list_styling_class}">"> <li> Kolayca oluşturun ve etkileşimli 3D IFC modelindeki çakışmalar, istekler ve sorular gibi <b> BIM sorunlarını yönetin </b> ve <b> proje ekibiyle paylaşın. </b> </li> <li> OpenProject'i güçlü <a target="_blank" href="%{bcf_api_link}"> BCF REST API'sini kullanarak favori BIM yazılımı. </a> </li> <li> BCF XML dosyalarını içe ve dışa aktarın. </li> </ ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -883,8 +883,8 @@ tr:
         confirm_deletion_children: "Listelenen iş paketlerinin TÜM soylarının tekrar tekrar kaldırılacağını kabul ediyorum."
         deletes_children: "Tüm çocuk iş paketleri ve torunları da tekrar tekrar silinir."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Zaman girişinin silinmesini onaylayın"
+        text: "Aşağıdaki zaman girişini silmek istediğinizden emin misiniz?"
     notice_no_results_to_display: "Gösterilecek görünür bir sonuç yok."
     notice_successful_create: "Oluşturma başarılı."
     notice_successful_delete: "Silme başarılı."

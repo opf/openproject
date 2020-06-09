@@ -409,7 +409,6 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeschreibung'
@@ -481,7 +480,6 @@ de:
         parent_work_package: "Übergeordnetes Arbeitspaket"
         priority: "Priorität"
         progress: "Fortschritt (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
         subproject: "Unterprojekt"
@@ -1941,12 +1939,6 @@ de:
       warning_one: Projektmitglieder müssen die Projektarchive des Projekts umziehen.
       warning_two: Bestehende Projekt-Links werden nicht mehr funktionieren.
       title: Projektkennung ändern
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?"
       archived: "Archiviert"
