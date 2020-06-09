@@ -32,6 +32,17 @@ class DateEditField < EditField
     end
   end
 
+  def expect_scheduling_mode(manually:)
+    value = manually ? 'Manual scheduling' : 'Automatic scheduling'
+    expect(page).to have_selector("#{modal_selector} .datepicker-modal--scheduling-action", text: value)
+  end
+
+  def toggle_scheduling_mode
+    within_modal do
+      find('.datepicker-modal--scheduling-action').click
+    end
+  end
+
   def modal_element
     page.find(modal_selector)
   end
