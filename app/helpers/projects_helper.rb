@@ -65,6 +65,14 @@ module ProjectsHelper
     end
   end
 
+  def project_custom_fields_for_index
+    @project_custom_fields_for_index ||= if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+                                           ProjectCustomField.visible(User.current).order(:position)
+                                         else
+                                           ProjectCustomField.none
+                                         end
+  end
+
   def project_more_menu_items(project)
     [project_more_menu_subproject_item(project),
      project_more_menu_settings_item(project),

@@ -54,7 +54,6 @@ class ProjectsController < ApplicationController
     end
 
     @projects = load_projects query
-    @custom_fields = ProjectCustomField.visible(User.current)
 
     render layout: 'no_menu'
   end
