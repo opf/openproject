@@ -33,6 +33,8 @@ import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {keyCodes} from "core-app/modules/common/keyCodes.enum";
+import {Instance} from "flatpickr/dist/types/instance";
 
 @Component({
   selector: 'op-date-picker',
@@ -40,7 +42,7 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 })
 export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
   @Output() public onChange = new DebouncedEventEmitter<string>(componentDestroyed(this));
-  @Output() public onClose = new EventEmitter<string>();
+  @Output() public onCancel = new EventEmitter<string>();
 
   @Input() public initialDate:string = '';
   @Input() public appendTo?:HTMLElement = document.body;
@@ -89,8 +91,8 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   }
 
   closeOnOutsideClick(event:any) {
-    if (event.originalEvent &&
-      !this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.originalEvent.relatedTarget)) {
+    if (!(event.relatedTarget &&
+      this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
       this.datePickerInstance.hide();
     }
   }
@@ -125,7 +127,11 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
         this.inputElement.value = val;
         this.onChange.emit(val);
       },
-      onClose: () => this.onClose.emit()
+      onKeyDown: (selectedDates:Date[], dateStr:string, instance:Instance, data:KeyboardEvent) => {
+        if (data.which == keyCodes.ESCAPE) {
+          this.onCancel.emit();
+        }
+      }
     };
 
     let initialValue;

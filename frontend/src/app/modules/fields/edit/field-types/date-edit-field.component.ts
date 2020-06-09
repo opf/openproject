@@ -38,7 +38,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
     <op-date-picker
         tabindex="-1"
         (onChange)="onValueSelected($event)"
-        (onClose)="handler.handleUserSubmit()"
+        (onCancel)="onCancel()"
         [initialDate]="formatter(value)"
         [required]="required"
         [disabled]="inFlight"
@@ -57,6 +57,11 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
 
   public onValueSelected(data:string) {
     this.value = this.parser(data);
+    this.handler.handleUserSubmit();
+  }
+
+  public onCancel() {
+    this.handler.handleUserCancel();
   }
 
   public parser(data:any) {
