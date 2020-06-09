@@ -94,7 +94,7 @@ describe 'date inplace editor',
     page.execute_script('window.history.back()')
     work_packages_page.accept_alert_dialog! if work_packages_page.has_alert_dialog?
 
-    start_date.expect_inactive!
+    # Ensure no modal survives
     expect(page).to have_no_selector('.op-modal--modal-container')
   end
 end
