@@ -40,6 +40,7 @@ describe 'date inplace editor',
   let(:work_package) { FactoryBot.create :work_package, project: project, start_date: '2016-01-01' }
   let(:user) { FactoryBot.create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package,project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:start_date) { work_packages_page.edit_field(:startDate) }
 
@@ -81,5 +82,19 @@ describe 'date inplace editor',
 
     work_package.reload
     expect(work_package.start_date).to be_nil
+  end
+
+  it 'closes the date picker when moving away' do
+    wp_table.visit!
+    wp_table.open_full_screen_by_doubleclick work_package
+
+    start_date.activate!
+    start_date.expect_active!
+
+    page.execute_script('window.history.back()')
+    work_packages_page.accept_alert_dialog! if work_packages_page.has_alert_dialog?
+
+    start_date.expect_inactive!
+    expect(page).to have_no_selector('.op-modal--modal-container')
   end
 end

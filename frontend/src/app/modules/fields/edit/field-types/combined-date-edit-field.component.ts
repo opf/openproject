@@ -26,13 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {take} from "rxjs/operators";
 import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
+import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 
 @Component({
   template: `
@@ -41,11 +42,13 @@ import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/d
            type="text" />
   `
 })
-export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit {
+export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
   @InjectField() opModalService:OpModalService;
 
   dates:string = '';
+
+  private modal:OpModalComponent;
 
   ngOnInit() {
     super.ngOnInit();
@@ -60,12 +63,17 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       });
   }
 
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.modal?.closeMe();
+  }
+
   public handleClick() {
     this.showDatePickerModal();
   }
 
   private showDatePickerModal():void {
-    const modal = this
+    const modal = this.modal = this
       .opModalService
       .show(DatePickerModal, this.injector, { changeset: this.change, fieldName: this.name });
 
