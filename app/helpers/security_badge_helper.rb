@@ -33,7 +33,7 @@ module SecurityBadgeHelper
     info = {
       uuid: Setting.installation_uuid,
       type: OpenProject::Configuration[:installation_type],
-      version: OpenProject::VERSION.to_s,
+      version: OpenProject::VERSION.to_semver,
       db: ActiveRecord::Base.connection.adapter_name.downcase,
       lang: User.current.try(:language),
       ee: EnterpriseToken.current.present?,
