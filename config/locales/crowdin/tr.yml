@@ -414,7 +414,7 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
-        templated: 'Template project'
+        templated: 'Şablon projesi'
       projects/status:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
@@ -486,7 +486,7 @@ tr:
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manuel olarak planla"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
         subproject: "Alt proje"
@@ -1911,7 +1911,7 @@ tr:
   permission_manage_project_activities: "Proje aktivitilerini yönet"
   permission_manage_public_queries: "Herkese açık görünümleri yönetmek"
   permission_manage_repository: "Depo yönetimi"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "İş paketi kategorilerini yönet"
   permission_manage_versions: "Sürümleri yönetmek"
   permission_manage_wiki: "Wiki'yi yönet"
   permission_manage_wiki_menu: "Wiki menüsünü yönet"
@@ -1948,10 +1948,10 @@ tr:
       title: Projenin tanımlayıcısını değiştirme
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+        Projeniz seçilen şablon projesinden oluşturuluyor. Proje hazır olur olmaz posta ile bilgilendirileceksiniz.
+      use_template: 'Şablon kullan'
+      make_template: 'Şablon olarak ayarla'
+      remove_from_templates: 'Şablonlardan kaldır'
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
       archived: "Arşivlenen"
