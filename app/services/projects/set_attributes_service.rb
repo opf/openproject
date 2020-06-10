@@ -32,7 +32,8 @@ module Projects
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
-    def set_attributes(attributes)
+    def set_attributes(params)
+      attributes = params.dup
       status_attributes = attributes.delete(:status) || {}
 
       ret = super(attributes)
