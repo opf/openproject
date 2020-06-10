@@ -50,7 +50,7 @@ export class OpModalService {
       if (this.active &&
         !this.opening &&
         this.active.closeOnOutsideClick &&
-        !this.portalHostElement.contains(evt.target as Element)) {
+        this.activeModal[0] === evt.target as Element) {
         this.close();
       }
     });
