@@ -42,7 +42,7 @@ This assumes that you have configured your application in the respective provide
 including the **redirect URL** which will be the following:
 
 ```ruby
-"#{Setting.protocol}://#{Setting.host_name}/auth/okta"
+"#{Setting.protocol}://#{Setting.host_name}/auth/okta/callback"
 ```
 
 You can copy that into the console to get the URL you need.
