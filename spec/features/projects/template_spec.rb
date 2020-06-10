@@ -65,6 +65,9 @@ describe 'Project templates', type: :feature, js: true do
 
     let!(:role) { FactoryBot.create(:role, permissions: %i[view_project view_work_packages copy_projects add_project]) }
     let!(:current_user) { FactoryBot.create(:user, member_in_project: template, member_through_role: role) }
+    let!(:current_user) { FactoryBot.create(:user, member_in_project: template, member_through_role: role) }
+    let(:status_field_selector) { 'ckeditor-augmented-textarea[textarea-selector="#project_status_explanation"]' }
+    let(:status_description) { ::Components::WysiwygEditor.new status_field_selector }
 
     before do
       login_as current_user
@@ -77,6 +80,11 @@ describe 'Project templates', type: :feature, js: true do
       select 'My template', from: 'Use template'
       click_on 'Advanced settings'
       fill_in 'project[identifier]', with: 'foo'
+
+      # Fill status
+      select 'On track', from: 'Status'
+      status_description.click_and_type_slowly 'Status is OKAYDOKEY'
+
       sleep 1
       click_on 'Create'
 
@@ -97,6 +105,8 @@ describe 'Project templates', type: :feature, js: true do
       expect(project).not_to be_templated
       expect(project.users.first).to eq current_user
       expect(project.enabled_module_names.sort).to eq(template.enabled_module_names.sort)
+      expect(project.status.code).to eq 'on_track'
+      expect(project.status.explanation).to eq 'Status is OKAYDOKEY'
 
       wp_source = template.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])
       wp_target = project.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])
