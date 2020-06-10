@@ -36,7 +36,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <legend class="form--fieldset-legend"><%= t(:'settings.user.default_preferences')%></legend>
 
     <div class="form--field" id="setting_default_language">
-      <%= setting_select :default_language, all_lang_options_for_select(false), container_class: '-slim' %>
+      <%= setting_select :default_language, lang_options_for_select(false), container_class: '-slim' %>
     </div>
 
     <%=

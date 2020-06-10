@@ -12,11 +12,11 @@ class SetLocalizationService
   # The locale is determined with the following priority:
   #
   #   1. The language as configured by the user.
-  #   2. The first language defined in the Accept-Language header sent by the browser.
-  #   3. OpenProject's default language defined in the settings.
+  #   2. OpenProject's default language defined in the settings.
+  #   3. The first language defined in the Accept-Language header sent by the browser.
 
   def call
-    lang = user_language || header_language || default_language
+    lang = user_language || default_language || header_language
 
     set_language_if_valid(lang)
   end
