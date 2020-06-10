@@ -415,7 +415,7 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-        templated: 'Проект шаблона'
+        templated: 'Template project'
       projects/status:
         code: 'Состояние'
         explanation: 'Описание статуса'
@@ -487,7 +487,7 @@ ru:
         parent_work_package: "Родитель"
         priority: "Приоритет"
         progress: "Прогресс (%)"
-        schedule_manually: "Запланировать вручную"
+        schedule_manually: "Schedule manually"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
         subproject: "Подпроект"
@@ -1988,10 +1988,10 @@ ru:
       title: Измените идентификатор проекта
     template:
       copying: >
-        Ваш проект создается из проекта выбранного шаблона. Вы будете уведомлены по почте, как только проект будет доступен.
-      use_template: 'Использовать шаблон'
-      make_template: 'Установить как шаблон'
-      remove_from_templates: 'Удалить из шаблонов'
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Уверены, что хотите архивизировать проект %{name}%?"
       archived: "Архивирован"
