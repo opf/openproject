@@ -27,12 +27,13 @@ div.ck-editor__preview
 
     .task-list-item
       display: flex
-      flex-wrap: wrap
-      white-space: pre-wrap
+      white-space: pre-line
 
       input
         height: 25px
-        margin-right: 5px
+        margin-right: 10px
+        flex-grow: 0
+        flex-shrink: 0
 
       // Ensure nested task lists are wrapped
       // by making nested lists 100% row width
