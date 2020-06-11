@@ -103,13 +103,19 @@ module Accounts::CurrentUser
   end
 
   # Redirect the user according to the logout scheme
-  def perform_post_logout(_prev_session)
+  def perform_post_logout(prev_session, prev_user)
     if Setting.login_required? && omniauth_direct_login?
       flash.now[:notice] = I18n.t :notice_logged_out
       render :exit, locals: { instructions: :after_logout }
-    else
-      redirect_to home_url
+      return
     end
+
+    provider = login_provider_for(prev_user)
+    if provider && (callback = provider[:single_sign_out_callback])
+      instance_exec prev_session, prev_user, &callback
+    end
+
+    redirect_to(home_url) unless performed?
   end
 
   # Login the current user

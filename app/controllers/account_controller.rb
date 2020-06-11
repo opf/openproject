@@ -63,9 +63,11 @@ class AccountController < ApplicationController
     # Keep attributes from the session
     # to identify the user
     previous_session = session.to_h.with_indifferent_access
+    previous_user = current_user
+
     logout_user
 
-    perform_post_logout previous_session
+    perform_post_logout previous_session, previous_user
   end
 
   # Enable user to choose a new password
