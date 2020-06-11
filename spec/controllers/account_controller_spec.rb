@@ -289,6 +289,71 @@ describe AccountController, type: :controller do
         get :logout
         expect(response).to be_redirect
       end
+
+      context 'with a user with an SSO provider attached' do
+        let(:user) { FactoryBot.build_stubbed :user, login: 'bob', identity_url: 'saml:foo' }
+        let(:slo_callback) { nil }
+        let(:sso_provider) do
+          { name: 'saml',  single_sign_out_callback: slo_callback }
+        end
+
+        before do
+          allow(controller)
+            .to(receive(:login_provider_for))
+            .and_return(sso_provider)
+          login_as user
+        end
+
+        context 'with no provider' do
+          it 'will redirect to default' do
+            get :logout
+            expect(response).to redirect_to home_path
+          end
+        end
+
+        context 'with a redirecting callback' do
+          let(:slo_callback) do
+            Proc.new do |prev_session, prev_user|
+              if prev_session[:foo] && prev_user[:login] = 'bob'
+                redirect_to '/login'
+              end
+            end
+          end
+
+          it 'will call the callback' do
+            # Set the previous session
+            session[:foo] = 'bar'
+
+            get :logout
+            expect(response).to redirect_to '/login'
+
+            # Expect session to be cleared
+            expect(session[:foo]).to eq nil
+          end
+        end
+
+        context 'with a no-op callback' do
+          it 'will redirect to default if the callback does nothing' do
+            was_called = false
+            sso_provider[:single_sign_out_callback] = Proc.new {
+              was_called = true
+            }
+
+            get :logout
+            expect(was_called).to eq true
+            expect(response).to redirect_to home_path
+          end
+        end
+
+        context 'with a provider that does not have slo_callback' do
+          let(:slo_callback) { nil }
+
+          it 'will redirect to default if the callback does nothing' do
+            get :logout
+            expect(response).to redirect_to home_path
+          end
+        end
+      end
     end
 
     describe 'for a user trying to log in via an API request' do
