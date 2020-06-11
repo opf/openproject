@@ -137,7 +137,7 @@
       <h3 class="attributes-group--header-text">Related To</h3>
     </div>
     <div class="attributes-group--header-toggle">
-      <a href="#" class="button -small -with-icon icon-group-by icon-small">Group by work package type</a>
+      <a href="#" class="button -small -transparent -with-icon icon-group-by icon-small">Group by work package type</a>
     </div>
   </div>
   <div class="content">

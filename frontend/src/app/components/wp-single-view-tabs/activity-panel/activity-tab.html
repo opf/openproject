@@ -10,7 +10,7 @@
             <span class="activity-date--label" [textContent]="inf.date"></span>
             <accessible-by-keyboard (execute)="toggleComments()"
                                     *ngIf="first && showToggler"
-                                    linkClass="activity-comments--toggler button -small -with-icon icon-filter icon-small hide-when-print"
+                                    linkClass="activity-comments--toggler button -small -transparent -with-icon icon-filter icon-small hide-when-print"
                                     [linkAriaLabel]="togglerText">
               <span [textContent]="togglerText"></span>
             </accessible-by-keyboard>
