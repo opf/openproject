@@ -23,23 +23,20 @@ div.ck-editor__preview
 
   ul.task-list
     list-style: none
-    margin-left: 25px
+    margin-left: 5px
 
     .task-list-item
-      display: flex
-      white-space: pre-line
+      display: grid
+      grid-template-columns: auto 1fr
 
       input
         height: 25px
         margin-right: 10px
-        flex-grow: 0
-        flex-shrink: 0
 
       // Ensure nested task lists are wrapped
       // by making nested lists 100% row width
       ul.task-list
-        flex-basis: 100%
-        white-space: nowrap
+        grid-column: 2
 
   // remove indentation of top-level task-list
   > ul.task-list
