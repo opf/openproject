@@ -110,6 +110,13 @@ module Accounts::OmniauthLogin
     omniauth_start_url(direct_login_provider, params)
   end
 
+  def login_provider_for(user)
+    return unless user.identity_url
+
+    provider_name = user.identity_url.split(':').first
+    ::OpenProject::Plugins::AuthPlugin.find_provider_by_name(provider_name)
+  end
+
   private
 
   def authorization_successful(user, auth_hash)
