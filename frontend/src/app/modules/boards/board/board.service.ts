@@ -7,9 +7,9 @@ import {Board, BoardType} from "core-app/modules/boards/board/board";
 import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {GonService} from "core-app/modules/common/gon/gon.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {BehaviorSubject} from "rxjs";
 
 export interface CreateBoardParams {
   type:BoardType;
@@ -19,6 +19,8 @@ export interface CreateBoardParams {
 
 @Injectable({ providedIn: 'root' })
 export class BoardService {
+
+  public currentBoard$:BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
 
   private loadAllPromise:Promise<Board[]>|undefined;
 
@@ -31,7 +33,6 @@ export class BoardService {
 
   constructor(protected boardDm:BoardDmService,
               protected PathHelper:PathHelperService,
-              protected Gon:GonService,
               protected CurrentProject:CurrentProjectService,
               protected halResourceService:HalResourceService,
               protected boardCache:BoardCacheService,

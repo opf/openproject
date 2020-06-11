@@ -89,6 +89,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     const id:string = this.state.params.board_id.toString();
 
     this.board$ = this.BoardCache.observe(id);
+    this.Boards.currentBoard$.next(id);
 
     this.board$
       .pipe(

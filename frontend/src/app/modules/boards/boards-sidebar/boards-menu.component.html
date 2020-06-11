@@ -5,7 +5,8 @@
          uiSref="boards.partitioned.show"
          [uiOptions]="{ reload: true }"
          [uiParams]="{ board_id: board.id, query_props: '', projects: 'projects', projectPath: currentProjectIdentifier }"
-         class="main-menu--children-sub-item ellipsis">
+         class="main-menu--children-sub-item ellipsis"
+         [ngClass]=" {'selected': selectedBoardId === board.id }">
       </a>
     </li>
   </ul>
