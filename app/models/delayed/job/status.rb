@@ -6,11 +6,14 @@ module Delayed
       belongs_to :reference, polymorphic: true
       belongs_to :job, class_name: '::Delayed::Job'
 
-      enum status: { in_queue: 'in_queue',
-                     error: 'error',
-                     in_process: 'in_process',
-                     success: 'success',
-                     failure: 'failure' }
+      enum status: {
+        in_queue: 'in_queue',
+        error: 'error',
+        in_process: 'in_process',
+        success: 'success',
+        failure: 'failure',
+        cancelled: 'cancelled'
+      }
 
       def self.of_reference(reference)
         where(reference: reference)

@@ -36,7 +36,7 @@ class WorkPackages::Exports::ScheduleService
   end
 
   def call(query:, mime_type:, params: {})
-    export_storage = WorkPackages::Export.create user: user
+    export_storage = WorkPackages::Export.create
     schedule_export(export_storage, mime_type, params, query)
 
     ServiceResult.new success: true, result: export_storage
