@@ -110,7 +110,7 @@ module Accounts::CurrentUser
       return
     end
 
-    provider = login_provider_for(prev_user)
+    provider = ::OpenProject::Plugins::AuthPlugin.login_provider_for(prev_user)
     if provider && (callback = provider[:single_sign_out_callback])
       instance_exec prev_session, prev_user, &callback
     end

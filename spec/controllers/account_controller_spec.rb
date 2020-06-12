@@ -298,7 +298,7 @@ describe AccountController, type: :controller do
         end
 
         before do
-          allow(controller)
+          allow(::OpenProject::Plugins::AuthPlugin)
             .to(receive(:login_provider_for))
             .and_return(sso_provider)
           login_as user

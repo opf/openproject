@@ -44,13 +44,13 @@ module Users
 
       ::Sessions::InitializeSessionService.call(user, controller.session)
 
-      controller.session.merge! retained_values
+      controller.session.merge!(retained_values) if retained_values
 
       ServiceResult.new(result: user)
     end
 
     def retain_sso_session_values!(user)
-      provider = controller.login_provider_for(user)
+      provider = ::OpenProject::Plugins::AuthPlugin.login_provider_for(user)
       return unless provider && provider[:retain_from_session]
 
       controller.session.to_h.slice(*provider[:retain_from_session])

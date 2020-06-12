@@ -51,6 +51,13 @@ module OpenProject::Plugins
       filtered_strategies matching.map(&:call).flatten.map(&:to_hash)
     end
 
+    def self.login_provider_for(user)
+      return unless user.identity_url
+
+      provider_name = user.identity_url.split(':').first
+      find_provider_by_name(provider_name)
+    end
+
     def self.find_provider_by_name(provider_name)
       providers.detect { |hash| hash[:name].to_s == provider_name.to_s }
     end
