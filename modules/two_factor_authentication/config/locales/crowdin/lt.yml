@@ -111,10 +111,10 @@ lt:
       request_2fa: Jūsų asmenybės identifikavimui prašome įvesti kodą iš jūsų %{device_name}.
       totp:
         title: 'Naudoti jūsų aplikacija paremtą autentikatorių'
-        provisioning_uri: 'Provisioning URI'
+        provisioning_uri: 'Įtraukimo URI'
         secret_key: 'Slaptas raktas'
-        time_based: 'Time based'
-        account: 'Account name / Issuer'
+        time_based: 'Pagrįstas laiku'
+        account: 'Prisijungimo vardas / Išdavėjas'
         setup: |
           Norėdami įjungti dviejų veiksnių autentikaciją su Google Authenticator, atsisiųskite aplikaciją iš Apple App ar Google Play Store.
           Atidarę aplikaciją jūs galėsite nuskenuoti šį QR kodą ir priregistruoti įrenginį.
@@ -133,10 +133,10 @@ lt:
     sns:
       delivery_failed: 'SNS pristatymas nepavyko:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'MessageBird SMS pristatymas nepavyko'
+      voice_delivery_failed: 'MessageBird balso skambutis nepavyko.'
     restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
+      delivery_failed_with_code: 'Žetono pristatymas nepavyko. (Klaidos kodas %{code})'
     strategies:
       totp: 'Autentikatoriaus aplikacija'
       sns: 'Amazon SNS'
@@ -144,14 +144,14 @@ lt:
     mobile_transmit_notification: "Vienkartinis slaptažodis buvo išsiųstas į jūsų mobilų telefoną."
     label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+      required_to_add_device: 'Saugumo tvarka reikalauja jus įjungti dviejų-dalių autentifikavimą. Prašome šioje formoje užregistruoti savo įrangą.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      other_active_session_notice: Your account has an active remember cookie on another session.
+        Jūsų paskyra turi aktyvų prisiminimo „sausainį“, kuris galioja iki  %{expires_on}. Šis „sausainis“ leidžia jums prisijungti be dviejų-dalių autentifikacijos iki to laiko.
+      other_active_session_notice: Jūsų paskyra turi aktyvų prisiminimo „sausainį“ kitoje sesijoje.
       label: 'Atsiminti'
-      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
-      cookie_removed: 'All remembered 2FA sessions have been removed.'
+      clear_cookie: 'Paspauskite čia, kad pašalintumėt visas prisimenamas 2FA sesijas.'
+      cookie_removed: 'Visos prisimenamos 2FA sesijos buvo pašalintos.'
       dont_ask_again: "Kurti slapuką, kad šiame kliente 2FA autentikacija būtų atsiminta %{days} dienų."
   field_phone: "Telefonas"
   field_otp: "Vienkartinis slaptažodis"
