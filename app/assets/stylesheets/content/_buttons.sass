@@ -87,23 +87,18 @@ a.button
 
 
   &.-transparent
-    @include button-style($background: $button--font-color, $style: hollow)
-    border-color: transparent
+    background: transparent
 
-    &:hover, &:focus
-      @include varprop(border-color, button--border-color)
-
-    &.-active
-      background: $button--active-background-color
-
-      &:hover, &:focus
-        border-color: $button--active-border-color
+    &:hover, &:focus, &.-active
+      background: $button--background-hover-color
 
   &.-tiny
     @include button-size(tiny)
 
   &.-small
     @include button-size(small)
+    &.-with-icon:before
+      vertical-align: initial
 
   &.-large
     @include button-size(large)
