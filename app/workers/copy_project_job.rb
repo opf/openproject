@@ -71,6 +71,10 @@ class CopyProjectJob < ApplicationJob
     ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
   end
 
+  def store_status?
+    true
+  end
+
   private
 
   def user
