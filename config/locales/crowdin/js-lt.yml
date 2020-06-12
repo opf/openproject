@@ -92,11 +92,11 @@ lt:
       types:
         line: 'Linija'
         horizontal_bar: 'Horizontali juosta'
-        bar: 'Bar'
+        bar: 'Stulpeliai'
         pie: 'Pyragas'
         doughnut: 'Spurga'
         radar: 'Radaras'
-        polar_area: 'Polar area'
+        polar_area: 'Skritulinis'
       tabs:
         graph_settings: 'Bendra'
         dataset: 'Duomenų aibė %{number}'
@@ -407,7 +407,7 @@ lt:
     label_total_progress: "%{percent} % įvykdyta"
     label_total_amount: "Iš viso: %{amount}"
     label_updated_on: "atnaujintas"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(reikšmė išvesta iš vaikų)"
     label_warning: "Įspėjimas"
     label_work_package: "Darbų paketas"
     label_work_package_plural: "Darbų paketai"
@@ -460,7 +460,7 @@ lt:
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
         backlogs:
-          overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
+          overview: "Valdykite savo darbus <b>Darbų sąrašo</b> vaizde. <br> Kairėje jūs matote Produktų darbų sąrašą arba Klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioretizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
           task_board_arrow: 'Norėdami matyti jūsų <b>Užduočių lentą</b>, atverkite Sprinto iškrentantį meniu...'
           task_board_select: '... ir pasirinkite <b>Task board</b> elementą.'
           task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite naujas užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija. Naudodami drag'n'drop, jūs galite pakeisti būseną."
@@ -556,8 +556,8 @@ lt:
       set_parent: "Priskirti tėvą"
       change_parent: "Keisti pirmtaką"
       remove_parent: "Pašalinti tėvą"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Paslinkti hierarchiją"
+      hierarchy_outdent: "Atslinkti hierarchiją"
       group_by_wp_type: "Grupuoti pagal darbų paketo tipą"
       group_by_relation_type: "Grupuoti pagal ryšio tipą"
       add_parent: "Pridėti jau esamą tėvą"
@@ -701,7 +701,7 @@ lt:
       message_successful_show_in_fullscreen: "Paspauskite čia, kad atvertumėte darbų paketą pilno lango režime."
       message_view_spent_time: "Rodyti praleistą laiką su šiuo darbų paketu"
       message_work_package_read_only: "Šioje būsenoje darbų paketas yra užrakintas. Negali būti keičiamas joks atributas, išskyrus būseną."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Darbų paketo statusas negali būti keičiamas, nes dabar yra uždarytas ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
