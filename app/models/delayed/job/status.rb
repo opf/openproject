@@ -3,8 +3,8 @@ module Delayed
     class Status < ApplicationRecord
       self.table_name = 'delayed_job_statuses'
 
+      belongs_to :user
       belongs_to :reference, polymorphic: true
-      belongs_to :job, class_name: '::Delayed::Job'
 
       enum status: {
         in_queue: 'in_queue',
