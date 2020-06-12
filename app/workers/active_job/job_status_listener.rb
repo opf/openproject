@@ -33,45 +33,52 @@ module ActiveJob
         # Listen to enqueues
         ActiveSupport::Notifications.subscribe(/enqueue(_at)?\.active_job/) do |_name, job:, **_args|
           Rails.logger.debug { "Enqueuing background job #{job.inspect}" }
-          create_job_status(job) unless job.store_status?
+          for_statused_jobs(job) { create_job_status(job) }
         end
 
         # Start of process
         ActiveSupport::Notifications.subscribe('perform_start.active_job') do |job:, **_args|
           Rails.logger.debug { "Background job #{job.inspect} is being started" }
-          on_start(job) unless job.store_status?
+          for_statused_jobs(job) { on_start(job) }
         end
 
         # Complete, or failure
         ActiveSupport::Notifications.subscribe('perform.active_job') do |job:, exception_object: nil, **_args|
           Rails.logger.debug do
             successful = exception_object ? "with error: #{exception_object}" : "successful"
-            "Background job #{job.inspect} was performed #{successful}." }
+            "Background job #{job.inspect} was performed #{successful}."
           end
 
-          on_performed(job, exception_object) unless job.store_status?
+          for_statused_jobs(job) { on_performed(job, exception_object) }
         end
 
         # Retry stopped -> failure
         ActiveSupport::Notifications.subscribe('retry_stopped.active_job') do |job:, error: nil, **_args|
           Rails.logger.debug { "Background job #{job.inspect} no longer retrying due to: #{error}" }
-          on_performed(job, error) unless job.store_status?
+          for_statused_jobs(job) { on_performed(job, error) }
         end
 
         # Retry enqueued
         ActiveSupport::Notifications.subscribe('enqueue_retry.active_job') do |job, error: nil, **_args|
           Rails.logger.debug { "Background job #{job.inspect} is being retried after error: #{error}" }
-          on_requeue(job, error) unless job.store_status?
+          for_statused_jobs(job) { on_requeue(job, error) }
         end
 
         # Discarded job
         ActiveSupport::Notifications.subscribe('discard.active_job') do |job:, error: nil, **_args|
           Rails.logger.debug { "Background job #{job.inspect} is being discarded after error: #{error}" }
-          on_cancelled(job, error) unless job.store_status?
+          for_statused_jobs(job) { on_cancelled(job, error) }
         end
       end
 
       private
+
+      ##
+      # Yiels the block if the job
+      # handles statuses
+      def for_statused_jobs(job)
+        yield if job.store_status?
+      end
 
       ##
       # Create a status object when enqueuing a
