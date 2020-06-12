@@ -26,60 +26,94 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class JobStatusListener
-  class << self
-    def register!
-      # Listen to enqueues
-      ActiveSupport::Notifications.subscribe(/enqueue(_at)?\.active_job/) do |job, **_args|
-        create_job_status(job) unless job.store_status?
+module ActiveJob
+  class JobStatusListener
+    class << self
+      def register!
+        # Listen to enqueues
+        ActiveSupport::Notifications.subscribe(/enqueue(_at)?\.active_job/) do |_name, job:, **_args|
+          create_job_status(job) unless job.store_status?
+        end
+
+        # Start of process
+        ActiveSupport::Notifications.subscribe('perform_start.active_job') do |job:, **_args|
+          on_start(job) unless job.store_status?
+        end
+
+        # Complete, or failure
+        ActiveSupport::Notifications.subscribe('perform.active_job') do |job:, exception_object: nil, **_args|
+          on_performed(job, exception_object) unless job.store_status?
+        end
+
+        # Retry stopped -> failure
+        ActiveSupport::Notifications.subscribe('retry_stopped.active_job') do |job:, error: nil, **_args|
+          on_performed(job, error) unless job.store_status?
+        end
+
+        # Retry enqueued
+        ActiveSupport::Notifications.subscribe('enqueue_retry.active_job') do |job, error: nil, **_args|
+          on_requeue(job, error) unless job.store_status?
+        end
+
+        # Discarded job
+        ActiveSupport::Notifications.subscribe('discard.active_job') do |job:, error: nil, **_args|
+          on_cancelled(job, error) unless job.store_status?
+        end
       end
 
-      # Start of process
-      ActiveSupport::Notifications.subscribe("perform_start.active_job") do |job, **_args|
-        on_start(job) unless job.store_status?
+      private
+
+      ##
+      # Create a status object when enqueuing a
+      # new job through activejob that stores statuses
+      def create_job_status(job)
+        Delayed::Job::Status.create status: :in_queue,
+                                    reference: job.status_reference,
+                                    user: User.current,
+                                    job_id: job.job_id
       end
 
-      # Complete, or failure
-      ActiveSupport::Notifications.subscribe("perform.active_job") do |job:, exception_object: nil, **_args|
-        on_performed(job, exception_object) unless job.store_status?
+      ##
+      # On start processing a new job
+      def on_start(job)
+        update_status job, code: :in_process
       end
-    end
 
-    private
-
-    ##
-    # Create a status object when enqueuing a
-    # new job through activejob that stores statuses
-    def create_job_status(job)
-      Delayed::Job::Status.create status: :in_queue,
-                                  reference: job.status_reference,
-                                  job_id: job.job_id
-    end
-
-    ##
-    # On start processing a new job
-    def on_start(job)
-      update_status job, code: :in_process
-    end
-
-    ##
-    # On job performed, update status
-    def on_performed(job, exception_object)
-      if exception_object
+      ##
+      # On requeuing a job after error
+      def on_requeue(job, error)
         update_status job,
-                      code: :failure,
-                      message: exception_object.to_s
-      else
-        update_status job, code: :success
+                      code: :in_queue,
+                      message: I18n.t('background_jobs.status.error_requeue', message: error)
       end
-    end
 
-    ##
-    # Update the status code for a given job
-    def update_status(job, code:, message: nil)
-      Delayed::Job::Status
-        .where(job_id: job.job_id)
-        .update_all(status: code, message: message)
+      ##
+      # On cancellation due to the given error
+      def on_cancelled(job, error)
+        update_status job,
+                      code: :cancelled,
+                      message: I18n.t('background_jobs.status.cancelled_due_to', message: error)
+      end
+
+      ##
+      # On job performed, update status
+      def on_performed(job, exception_object)
+        if exception_object
+          update_status job,
+                        code: :failure,
+                        message: exception_object.to_s
+        else
+          update_status job, code: :success
+        end
+      end
+
+      ##
+      # Update the status code for a given job
+      def update_status(job, code:, message: nil)
+        Delayed::Job::Status
+          .where(job_id: job.job_id)
+          .update_all(status: code, message: message)
+      end
     end
   end
 end

@@ -100,6 +100,11 @@ en:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
 
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
+
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.

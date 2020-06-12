@@ -32,46 +32,4 @@
 # indenpendently from the job itself (which is deleted once successful or after max attempts).
 # That way, the result of a background job is available even after the original job is gone.
 
-ActiveSupport::Notifications.subscribe "perform.active_job" do |job:, exception_object: nil, **_args|
-  next unless job.status_reference
-
-  # job.provider_job_id is not filled at this point as
-  # the ActiveJob adapter for DelayedJob is only setting it
-  # on enqueue and enqueue_at.
-  if exception_object
-    dj_job_attempts = Delayed::Job.where(id: Delayed::Job::Status.of_reference(job.status_reference).select(:job_id))
-                      .pluck(:attempts)
-                      .first || 1
-
-    new_status = if dj_job_attempts + 1 >= Delayed::Worker.max_attempts
-                   :failure
-                 else
-                   :error
-                 end
-
-    Delayed::Job::Status
-      .of_reference(job.status_reference)
-      .update(status: new_status,
-              message: exception_object)
-  else
-    Delayed::Job::Status
-      .of_reference(job.status_reference)
-      .update(status: :success)
-  end
-end
-
-ActiveSupport::Notifications.subscribe "enqueue.active_job" do |job:, **_args|
-  if job.status_reference
-    Delayed::Job::Status.create(status: :in_queue,
-                                reference: job.status_reference,
-                                job_id: job.provider_job_id)
-  end
-end
-
-ActiveSupport::Notifications.subscribe "enqueue_at.active_job" do |job:, **_args|
-  if job.status_reference
-    Delayed::Job::Status.create(status: :in_queue,
-                                reference: job.status_reference,
-                                job_id: job.provider_job_id)
-  end
-end
+::ActiveJob::JobStatusListener.register!
