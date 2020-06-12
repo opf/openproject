@@ -63,9 +63,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel'),
-    clear: this.I18n.t('js.work_packages.button_clear'),
+    clear: this.I18n.t('js.modals.button_clear_all'),
     manualScheduling: this.I18n.t('js.scheduling.manual'),
-    automaticScheduling: this.I18n.t('js.scheduling.automatic'),
     date: this.I18n.t('js.work_packages.properties.date'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
@@ -150,14 +149,6 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     if (this.validDate(val) && this.datePickerInstance) {
       this.setDatesToDatepicker();
     }
-  }
-
-  schedulingButtonText():string {
-    return this.scheduleManually ? this.text.manualScheduling : this.text.automaticScheduling;
-  }
-
-  schedulingButtonIcon():string {
-    return 'button--icon ' + (this.scheduleManually ? 'icon-pin' : 'icon-arrow-left-right');
   }
 
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {

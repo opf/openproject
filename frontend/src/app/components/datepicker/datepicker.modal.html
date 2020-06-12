@@ -53,6 +53,23 @@
               </div>
             </div>
           </ng-container>
+
+          <a (click)="clear()"
+             class="datepicker-modal--action"
+             [textContent]="text.clear">
+          </a>
+        </div>
+        <div class="form--field">
+          <label class="form--label-with-check-box">
+            <div class="form--check-box-container">
+              <input type="checkbox"
+                     name="scheduling"
+                     class="form--check-box"
+                     [ngModel]="scheduleManually"
+                     (ngModelChange)="changeSchedulingMode()">
+            </div>
+            {{ text.manualScheduling }}
+          </label>
         </div>
       </form>
 
@@ -60,27 +77,14 @@
              hidden>
 
       <div class="datepicker-modal--actions-container">
-        <a (click)="save()"
-           class="datepicker-modal--action"
-           [textContent]="text.save">
-        </a>
         <a (click)="cancel()"
            class="datepicker-modal--action"
            [textContent]="text.cancel">
         </a>
-        <a (click)="clear()"
+        <a (click)="save()"
            class="datepicker-modal--action"
-           [textContent]="text.clear">
+           [textContent]="text.save">
         </a>
-
-        <button class="button datepicker-modal--scheduling-action"
-                (click)="changeSchedulingMode()">
-          <op-icon [icon-classes]="schedulingButtonIcon()">
-          </op-icon>
-          <span class="button--text"
-                [textContent]="schedulingButtonText()">
-          </span>
-        </button>
       </div>
     </div>
   </div>

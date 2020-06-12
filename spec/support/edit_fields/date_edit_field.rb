@@ -110,7 +110,7 @@ class DateEditField < EditField
   end
 
   def clear_changes
-    scroll_to_and_click action_button('Clear')
+    scroll_to_and_click action_button('Clear all')
   end
 
   def action_button(text)
