@@ -75,7 +75,7 @@ module OpenProject
         strategy :saml do
           OpenProject::AuthSaml.configuration.values.map do |h|
             # Remember saml session values when logging in user
-            h[:retain_from_session] = %w[saml_uid saml_session_index]
+            h[:retain_from_session] = %w[saml_uid saml_session_index saml_transaction_id]
 
             h[:single_sign_out_callback] = Proc.new do |prev_session, _prev_user|
               next unless h[:idp_slo_target_url]

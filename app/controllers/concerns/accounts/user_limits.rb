@@ -78,10 +78,6 @@ module Accounts::UserLimits
     OpenProject::Enterprise.send_activation_limit_notification_about user
   end
 
-  def show_user_limit_activation_error!
-    flash[:error] = I18n.t(:error_enterprise_activation_user_limit)
-  end
-
   def show_user_limit_warning!(flash_now: false)
     f = flash_now ? flash.now : flash
 

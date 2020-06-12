@@ -320,7 +320,8 @@ class AccountController < ApplicationController
     if session[:auth_source_registration]
       # on-the-fly registration via omniauth or via auth source
       if pending_omniauth_registration?
-        register_via_omniauth(@user, session, permitted_params)
+        @user.assign_attributes permitted_params.user_register_via_omniauth
+        register_via_omniauth(session, @user.attributes)
       else
         register_and_login_via_authsource(@user, session, permitted_params)
       end
@@ -457,10 +458,6 @@ class AccountController < ApplicationController
     end
   end
 
-  def send_activation_email!(token)
-    UserMailer.user_signed_up(token).deliver_later
-  end
-
   def pending_auth_source_registration?
     session[:auth_source_registration] && !pending_omniauth_registration?
   end
@@ -491,58 +488,6 @@ class AccountController < ApplicationController
     render action: 'register'
   end
 
-  # Register a user depending on Setting.self_registration
-  def register_user_according_to_setting(user, opts = {}, &block)
-    return register_automatically(user, opts, &block) if user.invited?
-
-    if Setting::SelfRegistration.by_email?
-      register_by_email_activation(user, opts, &block)
-    elsif Setting::SelfRegistration.automatic?
-      register_automatically(user, opts, &block)
-    else
-      register_manually_by_administrator(user, opts, &block)
-    end
-  end
-
-  # Register a user for email activation.
-  #
-  # Pass a block for behavior when a user fails to save
-  def register_by_email_activation(user, _opts = {})
-    token = Token::Invitation.new(user: user)
-
-    if user.save and token.save
-      send_activation_email! token
-      flash[:notice] = I18n.t(:notice_account_register_done)
-
-      redirect_to action: 'login'
-    elsif block_given?
-      yield
-    end
-  end
-
-  # Automatically register a user
-  #
-  # Pass a block for behavior when a user fails to save
-  def register_automatically(user, opts = {})
-    if user_limit_reached?
-      show_user_limit_activation_error!
-      send_activation_limit_notification_about user
-
-      return redirect_back fallback_location: signin_path
-    end
-
-    # Automatic activation
-    user.activate
-
-    if user.save
-      stages = authentication_stages after_activation: true
-
-      run_registration_stages stages, user, opts
-    elsif block_given?
-      yield
-    end
-  end
-
   def run_registration_stages(stages, user, opts)
     if stages.empty?
       finish_registration! user, opts
@@ -568,24 +513,8 @@ class AccountController < ApplicationController
     redirect_after_login user
   end
 
-  # Manual activation by the administrator
-  #
-  # Pass a block for behavior when a user fails to save
-  def register_manually_by_administrator(user, _opts = {})
-    if user.save
-      # Sends an email to the administrators
-      admins = User.admin.active
-      admins.each do |admin|
-        UserMailer.account_activation_requested(admin, user).deliver_later
-      end
-      account_pending
-    elsif block_given?
-      yield
-    end
-  end
-
   def self_registration_disabled
-    flash[:error] = I18n.t('account.error_self_registration_disabled')
+    flash[:error] = I18n.t(:error_self_registration_disabled)
     redirect_to signin_url
   end
 
@@ -615,13 +544,13 @@ class AccountController < ApplicationController
     end
   end
 
-  def account_pending
-    flash[:notice] = l(:notice_account_pending)
-    # Set back_url to make sure user is not redirected to an external login page
-    # when registering via the external service. This also redirects the user
-    # to the original page where the user clicked on the omniauth login link for a provider.
-    redirect_to action: 'login', back_url: params[:back_url]
-  end
+  # def account_pending
+  #
+  #   # Set back_url to make sure user is not redirected to an external login page
+  #   # when registering via the external service. This also redirects the user
+  #   # to the original page where the user clicked on the omniauth login link for a provider.
+  #   redirect_to action: 'login', back_url: params[:back_url]
+  # end
 
   def invited_user
     if session.include? :invitation_token
