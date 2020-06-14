@@ -412,7 +412,6 @@ id:
         types: "Tipe"
         versions: "Versi"
         work_packages: "Paket-Penugasan"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -484,7 +483,6 @@ id:
         parent_work_package: "Induk"
         priority: "Prioritas"
         progress: "Progress (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Durasi"
         spent_time: "Durasi"
         subproject: "Sub-Project"
@@ -1924,12 +1922,6 @@ id:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"
