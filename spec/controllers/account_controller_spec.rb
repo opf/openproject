@@ -320,6 +320,22 @@ describe AccountController, type: :controller do
             end
           end
 
+          context 'with direct login and redirecting callback',
+                  with_settings: { login_required?: true },
+                  with_config: { omniauth_direct_login_provider: 'foo' } do
+
+            it 'will still call the callback' do
+              # Set the previous session
+              session[:foo] = 'bar'
+
+              get :logout
+              expect(response).to redirect_to '/login'
+
+              # Expect session to be cleared
+              expect(session[:foo]).to eq nil
+            end
+          end
+
           it 'will call the callback' do
             # Set the previous session
             session[:foo] = 'bar'
