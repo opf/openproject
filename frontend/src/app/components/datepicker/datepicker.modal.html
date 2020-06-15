@@ -16,7 +16,7 @@
                   <input type="text"
                          name="date"
                          class="form--date-field"
-                         [ngClass]="{'-current' : isStateOfCurrentActivatedDateField('date')}"
+                         [ngClass]="{'-current' : isStateOfCurrentActivatedField('date')}"
                          [ngModel]="dates.date"
                          (ngModelChange)="updateDate('date', $event)"
                          (click)="setCurrentActivatedField('date')">
@@ -35,7 +35,7 @@
                   <input type="text"
                          name="startDate"
                          class="form--date-field"
-                         [ngClass]="{'-current' : isStateOfCurrentActivatedDateField('start')}"
+                         [ngClass]="{'-current' : isStateOfCurrentActivatedField('start')}"
                          [ngModel]="dates.start"
                          (ngModelChange)="updateDate('start', $event)"
                          (click)="setCurrentActivatedField('start')">
@@ -51,7 +51,7 @@
                   <input type="text"
                          name="endDate"
                          class="form--date-field"
-                         [ngClass]="{'-current' : isStateOfCurrentActivatedDateField('end')}"
+                         [ngClass]="{'-current' : isStateOfCurrentActivatedField('end')}"
                          [ngModel]="dates.end"
                          (ngModelChange)="updateDate('end', $event)"
                          (click)="setCurrentActivatedField('end')">

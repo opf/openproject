@@ -107,7 +107,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     } else {
       this.dates.start = this.changeset.value('startDate');
       this.dates.end = this.changeset.value('dueDate');
-      this.setCurrentActivatedField('start');
+      this.setCurrentActivatedField(this.locals.fieldName === 'dueDate' ? 'end' : 'start');
     }
   }
 
@@ -203,15 +203,23 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
         break;
       }
       case 2: {
-        let index = this.isStateOfCurrentActivatedDateField('start') ? 0 : 1;
-        this.dates[this.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
+        if ((!this.dates.end && this.isStateOfCurrentActivatedField('start')) ||
+            (!this.dates.start && this.isStateOfCurrentActivatedField('end'))) {
+          // If we change a start date when no end date is set, we keep only the newly clicked value and not both
+          this.datePickerInstance.setDates([dates[1]]);
+          this.onDatePickerChange([dates[1]]);
+        } else {
+          let index = this.isStateOfCurrentActivatedField('start') ? 0 : 1;
+          this.dates[this.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
 
-        this.toggleCurrentActivatedField();
-        this.setRangeClasses();
+          this.toggleCurrentActivatedField();
+          this.setRangeClasses();
+        }
         break;
       }
       default: {
-        if (this.isStateOfCurrentActivatedDateField('start')) {
+        // Reset the date picker with the two new values
+        if (this.isStateOfCurrentActivatedField('start')) {
           this.datePickerInstance.setDates([dates[2], dates[1]]);
           this.onDatePickerChange([dates[2], dates[1]]);
         } else {
@@ -268,7 +276,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     this.currentlyActivatedDateField = this.currentlyActivatedDateField === 'start' ? 'end' : 'start';
   }
 
-  private isStateOfCurrentActivatedDateField(val:DateKeys):boolean {
+  private isStateOfCurrentActivatedField(val:DateKeys):boolean {
     return this.currentlyActivatedDateField === val;
   }
 
