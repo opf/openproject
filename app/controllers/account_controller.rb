@@ -420,7 +420,7 @@ class AccountController < ApplicationController
       # setting params back_url to be used by redirect_after_login
       params[:back_url] = session.delete :back_url if session.include?(:back_url)
 
-      if session[:just_registered]
+      if just_registered || session[:just_registered]
         finish_registration! user
       else
         login_user! user
@@ -463,10 +463,16 @@ class AccountController < ApplicationController
   def login_user_if_active(user, just_registered:)
     if user.active?
       successful_authentication(user, just_registered: just_registered)
-    else
-      account_inactive(user, flash_now: false)
-      redirect_to signin_path(back_url: params[:back_url])
+      return
     end
+
+    # Show an appropriate error unless
+    # the user was just registered
+    if !(just_registered && user.registered?)
+      account_inactive(user, flash_now: false)
+    end
+
+    redirect_to signin_path(back_url: params[:back_url])
   end
 
   def pending_auth_source_registration?
