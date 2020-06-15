@@ -104,15 +104,21 @@ module Accounts::CurrentUser
 
   # Redirect the user according to the logout scheme
   def perform_post_logout(prev_session, prev_user)
+    # First, check if there is an SLO callback for a given
+    # omniauth provider of the user
+    provider = ::OpenProject::Plugins::AuthPlugin.login_provider_for(prev_user)
+    if provider && (callback = provider[:single_sign_out_callback])
+      instance_exec prev_session, prev_user, &callback
+      return if performed?
+    end
+
+    # Otherwise, if there is an omniauth direct login
+    # and we're not logging out globablly, ensure the
+    # user does not get re-logged in
     if Setting.login_required? && omniauth_direct_login?
       flash.now[:notice] = I18n.t :notice_logged_out
       render :exit, locals: { instructions: :after_logout }
       return
-    end
-
-    provider = ::OpenProject::Plugins::AuthPlugin.login_provider_for(prev_user)
-    if provider && (callback = provider[:single_sign_out_callback])
-      instance_exec prev_session, prev_user, &callback
     end
 
     redirect_to(home_url) unless performed?
