@@ -34,16 +34,18 @@ module Authentication
 
     attr_accessor :auth_hash,
                   :strategy,
-                  :session,
+                  :controller,
                   :contract,
                   :user_attributes,
                   :identity_url,
                   :user
 
-    def initialize(strategy:, auth_hash:, session:)
+    delegate :session, to: :controller
+
+    def initialize(strategy:, auth_hash:, controller:)
       self.strategy = strategy
       self.auth_hash = auth_hash
-      self.session = session
+      self.controller = controller
       self.contract = ::Authentication::OmniauthAuthHashContract.new(auth_hash)
     end
 

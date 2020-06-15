@@ -41,9 +41,10 @@ describe Authentication::OmniauthService do
       }
     )
   end
-  let(:session) { [] }
+  let(:controller) { double('Controller', session: session_stub) }
+  let(:session_stub) { [] }
 
-  let(:instance) { described_class.new(strategy: strategy, auth_hash: auth_hash, session: session) }
+  let(:instance) { described_class.new(strategy: strategy, auth_hash: auth_hash, controller: controller) }
   let(:user_attributes) { instance.send :build_omniauth_hash_to_user_attributes }
 
   describe '#contract' do

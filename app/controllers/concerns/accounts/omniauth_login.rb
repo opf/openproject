@@ -85,7 +85,7 @@ module Accounts::OmniauthLogin
 
   def handle_omniauth_authentication(auth_hash, user_params: nil)
     call = ::Authentication::OmniauthService
-      .new(strategy: request.env['omniauth.strategy'], auth_hash: auth_hash, session: session)
+      .new(strategy: request.env['omniauth.strategy'], auth_hash: auth_hash, controller: self)
       .call(user_params)
 
     if call.success?
