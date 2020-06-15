@@ -342,7 +342,7 @@ class AccountController < ApplicationController
 
       if call.success?
         flash[:notice] = call.message.presence
-        login_user_if_active(call.result)
+        login_user_if_active(call.result, just_registered: true)
       else
         flash[:error] = error = call.message
         Rails.logger.error "Registration of user #{@user.login} failed: #{error}"
@@ -413,14 +413,14 @@ class AccountController < ApplicationController
     end
   end
 
-  def successful_authentication(user, reset_stages: true)
-    stages = authentication_stages reset: reset_stages
+  def successful_authentication(user, reset_stages: true, just_registered: false)
+    stages = authentication_stages after_activation: just_registered, reset: reset_stages
 
     if stages.empty?
       # setting params back_url to be used by redirect_after_login
       params[:back_url] = session.delete :back_url if session.include?(:back_url)
 
-      if session[:finish_registration]
+      if session[:just_registered]
         finish_registration! user
       else
         login_user! user
@@ -428,6 +428,7 @@ class AccountController < ApplicationController
     else
       stage = stages.first
 
+      session[:just_registered] = just_registered
       session[:authenticated_user_id] = user.id
 
       redirect_to stage.path
@@ -459,9 +460,9 @@ class AccountController < ApplicationController
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
   end
 
-  def login_user_if_active(user)
+  def login_user_if_active(user, just_registered:)
     if user.active?
-      successful_authentication(user)
+      successful_authentication(user, just_registered: just_registered)
     else
       account_inactive(user, flash_now: false)
       redirect_to signin_path(back_url: params[:back_url])
@@ -498,26 +499,10 @@ class AccountController < ApplicationController
     render action: 'register'
   end
 
-  def run_registration_stages(stages, user, opts)
-    if stages.empty?
-      finish_registration! user, opts
-    else
-      stage = stages.first
-
-      session[:authenticated_user_id] = user.id
-      session[:finish_registration] = opts
-
-      redirect_to stage.path
-    end
-  end
-
-  def finish_registration!(user, opts = Hash(session.delete(:finish_registration)))
+  def finish_registration!(user)
+    session[:just_registered] = nil
     self.logged_user = user
     user.update last_login_on: Time.now
-
-    if auth_hash = opts[:omni_auth_hash]
-      OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
-    end
 
     flash[:notice] = I18n.t(:notice_account_registered_and_logged_in)
     redirect_after_login user
