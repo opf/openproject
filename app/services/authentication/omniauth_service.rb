@@ -66,19 +66,20 @@ module Authentication
       activation_call = activate_user!
 
       # The user should be logged in now
-      build_service_result activation_call
+      tap_service_result activation_call
     end
 
     private
 
     ##
     # After login flow
-    def build_service_result(call)
-      return call unless call.success? && user.active?
+    def tap_service_result(call)
+      if call.success? && user.active?
+        user.log_successful_login
+        OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
+      end
 
-      user.log_successful_login
-      OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
-      ServiceResult.new(success: true, result: user)
+      call
     end
 
     ##
