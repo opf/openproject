@@ -54,7 +54,7 @@ module Authentication
         result = ServiceResult.new(success: false, errors: contract.errors)
         Rails.logger.warn { "Failed to process omniauth response for #{auth_uid}: #{result.message}" }
 
-        result
+        return result
       end
 
       # Create or update the user from omniauth
