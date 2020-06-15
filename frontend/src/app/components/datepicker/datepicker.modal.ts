@@ -84,6 +84,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     end: ''
   };
 
+  private currentlyActivatedDateField:DateKeys;
+
   private changeset:ResourceChangeset;
 
   private datePickerInstance:DatePicker;
@@ -101,9 +103,11 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
     if (this.singleDate) {
       this.dates.date = this.changeset.value('date');
+      this.setCurrentActivatedField('date');
     } else {
       this.dates.start = this.changeset.value('startDate');
       this.dates.end = this.changeset.value('dueDate');
+      this.setCurrentActivatedField('start');
     }
   }
 
@@ -165,7 +169,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       '#flatpickr-input',
       this.singleDate ? this.dates.date : [this.dates.start, this.dates.end],
       {
-        mode: this.singleDate ? 'single' : 'range',
+        mode: this.singleDate ? 'single' : 'multiple',
         inline: true,
         onChange: (dates:Date[]) => {
           this.onDatePickerChange(dates);
@@ -187,17 +191,33 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   private onDatePickerChange(dates:Date[]) {
-    if (this.singleDate && dates.length === 1) {
-      this.dates.date = this.timezoneService.formattedISODate(dates[0]);
-    }
+    switch (dates.length) {
+      case 1: {
+        this.dates[this.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[0]);
 
-    if (!this.singleDate && dates.length >= 1) {
-      this.dates.start = this.timezoneService.formattedISODate(dates[0]);
-      this.dates.end = '';
-    }
+        if (!this.singleDate) {
+          this.toggleCurrentActivatedField();
+        }
 
-    if (dates.length >= 2) {
-      this.dates.end = dates[1] ? this.timezoneService.formattedISODate(dates[1]) : '-';
+        break;
+      }
+      case 2: {
+        let index = this.isStateOfCurrentActivatedDateField('start') ? 0 : 1;
+        this.dates[this.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
+
+        this.toggleCurrentActivatedField();
+        break;
+      }
+      default: {
+        if (this.isStateOfCurrentActivatedDateField('start')) {
+          this.datePickerInstance.setDates([dates[2], dates[1]]);
+          this.onDatePickerChange([dates[2], dates[1]]);
+        } else {
+          this.datePickerInstance.setDates([dates[0], dates[2]]);
+          this.onDatePickerChange([dates[0], dates[2]]);
+        }
+        break;
+      }
     }
 
     this.cdRef.detectChanges();
@@ -236,5 +256,17 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     } else {
       return new Date(date);
     }
+  }
+
+  private setCurrentActivatedField(val:DateKeys) {
+    this.currentlyActivatedDateField = val;
+  }
+
+  private toggleCurrentActivatedField() {
+    this.currentlyActivatedDateField = this.currentlyActivatedDateField === 'start' ? 'end' : 'start';
+  }
+
+  private isStateOfCurrentActivatedDateField(val:DateKeys):boolean {
+    return this.currentlyActivatedDateField === val;
   }
 }
