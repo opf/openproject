@@ -33,7 +33,7 @@ module Authentication
     include Contracted
 
     attr_accessor :auth_hash,
-    :strategy,
+                  :strategy,
                   :session,
                   :contract,
                   :user_attributes,
@@ -58,7 +58,9 @@ module Authentication
       end
 
       # Create or update the user from omniauth
-      update_user_from_omniauth!(additional_user_params || {})
+      # and assign non-nil parameters from the registration form - if any
+      assignable_params = (additional_user_params || {}).reject { |_, v| v.nil? }
+      update_user_from_omniauth!(assignable_params)
 
       # If we have a new or invited user, we still need to register them
       activation_call = activate_user!
