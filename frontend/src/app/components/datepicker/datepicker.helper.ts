@@ -112,7 +112,7 @@ export class DatepickerHelper {
 
   private datepickerShowsDate(date:string, datePickerInstance:DatePicker):boolean {
     return datePickerInstance.datepickerInstance.currentMonth === new Date(date).getMonth() &&
-      datePickerInstance.datepickerInstance.currentYear === new Date(date).getFullYear()
+      datePickerInstance.datepickerInstance.currentYear === new Date(date).getFullYear();
   }
 
   private selectRangeFromUntil(from:Element, until:string|Element) {
