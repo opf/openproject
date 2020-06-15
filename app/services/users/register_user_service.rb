@@ -50,7 +50,7 @@ module Users
       end
     rescue StandardError => e
       Rails.logger.error { "User #{user.login} failed to activate #{e}." }
-      ServiceResult.new(success: false, message: e.message)
+      ServiceResult.new(success: false, result: user, message: I18n.t(:notice_activation_failed))
     end
 
     private
@@ -60,7 +60,7 @@ module Users
     # for non-invited users
     def ensure_registration_allowed!
       if Setting::SelfRegistration.disabled?
-        raise I18n.t('account.error_self_registration_disabled')
+        ServiceResult.new(success: false, result: user, message: I18n.t('account.error_self_registration_disabled'))
       end
     end
 
@@ -69,7 +69,7 @@ module Users
     def ensure_user_limit_not_reached!
       if OpenProject::Enterprise.user_limit_reached?
         OpenProject::Enterprise.send_activation_limit_notification_about user
-        raise I18n.t(:error_enterprise_activation_user_limit)
+        ServiceResult.new(success: false, result: user, message: I18n.t(:error_enterprise_activation_user_limit))
       end
     end
 
@@ -88,6 +88,8 @@ module Users
 
     def register_by_email_activation
       return unless Setting::SelfRegistration.by_email?
+
+      user.register
 
       with_saved_user_result(success_message: I18n.t(:notice_account_register_done)) do
         token = Token::Invitation.create!(user: user)
@@ -110,22 +112,22 @@ module Users
     end
 
     def register_manually
-      user.save!
-
-      # Sends an email to the administrators
-      admins = User.admin.active
-      admins.each do |admin|
-        UserMailer.account_activation_requested(admin, user).deliver_later
-      end
+      user.register
 
       with_saved_user_result(success_message: I18n.t(:notice_account_pending)) do
+        # Sends an email to the administrators
+        admins = User.admin.active
+        admins.each do |admin|
+          UserMailer.account_activation_requested(admin, user).deliver_later
+        end
+
         Rails.logger.info { "User #{user.login} was successfully created and is pending admin activation." }
       end
     end
 
     def fail_activation
       Rails.logger.error { "User #{user.login} could not be activated, all options were exhausted." }
-      raise I18n.t(:notice_activation_failed)
+      ServiceResult.new(success: false, message: I18n.t(:notice_activation_failed))
     end
 
     ##
