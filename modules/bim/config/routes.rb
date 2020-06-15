@@ -34,6 +34,7 @@ OpenProject::Application.routes.draw do
       resources :issues, controller: 'bim/bcf/issues' do
         get :upload, action: :upload, on: :collection
         post :prepare_import, action: :prepare_import, on: :collection
+        post :configure_import, action: :configure_import, on: :collection
         post :import, action: :perform_import, on: :collection
       end
 

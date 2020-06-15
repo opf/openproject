@@ -20,7 +20,7 @@
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
          (cdkDragDropped)="drag.drop()"
-         [cdkDragDisabled]="isMobileDevice">
+         [cdkDragDisabled]="isMobileDevice || !drag.isDraggable">
 
       <span *ngIf="drag.isDraggable"
             class="grid--area-drag-handle

@@ -28,22 +28,53 @@
 
 require 'spec_helper'
 
-describe SecurityBadgeHelper, type: :helper do
-  describe '#security_badge_url' do
-    before do
-      # can't use with_settings since Setting.installation_uuid has a custom implementation
-      allow(Setting).to receive(:installation_uuid).and_return 'abcd1234'
-    end
+describe ::Users::LoginService, type: :model do
+  let(:input_user) { FactoryBot.build_stubbed(:user) }
+  let(:controller) { double('ApplicationController') }
+  let(:session) { {} }
 
-    it "generates a URL with the release API path and the details of the installation" do
-      uri = URI.parse(helper.security_badge_url)
-      query = Rack::Utils.parse_nested_query(uri.query)
-      expect(uri.host).to eq("releases.openproject.com")
-      expect(query.keys).to match_array(["uuid", "type", "version", "db", "lang", "ee"])
-      expect(query["uuid"]).to eq("abcd1234")
-      expect(query["version"]).to eq(OpenProject::VERSION.to_semver)
-      expect(query["type"]).to eq("manual")
-      expect(query["ee"]).to eq("false")
+  let(:instance) { described_class.new(controller: controller) }
+
+  subject { instance.call(input_user) }
+
+  describe 'session' do
+    context 'with an SSO provider' do
+      let(:sso_provider) do
+        {
+          name: 'saml',
+          retain_from_session: %i[foo bar]
+        }
+      end
+
+      before do
+        allow(::OpenProject::Plugins::AuthPlugin)
+          .to(receive(:login_provider_for))
+          .and_return sso_provider
+
+        allow(controller)
+          .to(receive(:session))
+          .and_return session
+
+        allow(controller)
+          .to(receive(:reset_session)) do
+          session.clear
+        end
+      end
+
+      context 'if provider retains session values' do
+        let(:retained_values) { %i[foo bar] }
+
+        it 'retains present session values' do
+          session[:foo] = 'foo value'
+          session[:what] = 'should be cleared'
+
+          subject
+
+          expect(session[:foo]).to be_present
+          expect(session[:what]).to eq nil
+          expect(session[:user_id]).to eq input_user.id
+        end
+      end
     end
   end
 end

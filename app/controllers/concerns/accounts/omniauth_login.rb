@@ -81,14 +81,8 @@ module Accounts::OmniauthLogin
     return user unless user.nil?
 
     if Setting.oauth_allow_remapping_of_existing_users?
-      # Allow to map existing users with an Omniauth source if the login
-      # already exists, and no existing auth source or omniauth provider is
-      # linked
-      user = User.find_by(
-        login: user_attributes[:login],
-        identity_url: nil,
-        auth_source_id: nil
-      )
+      # Allow to map existing users with an Omniauth source if the login already exists
+      user = User.find_by(login: user_attributes[:login])
     end
 
     if user.nil?
