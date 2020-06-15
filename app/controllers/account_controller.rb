@@ -322,9 +322,12 @@ class AccountController < ApplicationController
       # on-the-fly registration via omniauth or via auth source
       if pending_omniauth_registration?
         @user.assign_attributes permitted_params.user_register_via_omniauth
-        register_via_omniauth(session, @user.attributes)
+        return register_via_omniauth(session, @user.attributes)
       else
-        register_and_login_via_authsource(@user, session, permitted_params)
+        @user.attributes = permitted_params.user
+        @user.activate
+        @user.login = session[:auth_source_registration][:login]
+        @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
       end
     else
       @user.attributes = permitted_params.user.transform_values do |val|
@@ -337,17 +340,17 @@ class AccountController < ApplicationController
       @user.login = params[:user][:login].strip if params[:user][:login].present?
       @user.password = params[:user][:password]
       @user.password_confirmation = params[:user][:password_confirmation]
+    end
 
-      call = ::Users::RegisterUserService.new(@user).call
+    call = ::Users::RegisterUserService.new(@user).call
 
-      if call.success?
-        flash[:notice] = call.message.presence
-        login_user_if_active(call.result, just_registered: true)
-      else
-        flash[:error] = error = call.message
-        Rails.logger.error "Registration of user #{@user.login} failed: #{error}"
-        onthefly_creation_failed(@user, login: @user.login)
-      end
+    if call.success?
+      flash[:notice] = call.message.presence
+      login_user_if_active(call.result, just_registered: true)
+    else
+      flash[:error] = error = call.message
+      Rails.logger.error "Registration of user #{@user.login} failed: #{error}"
+      onthefly_creation_failed(@user)
     end
   end
 
@@ -481,21 +484,6 @@ class AccountController < ApplicationController
 
   def pending_omniauth_registration?
     Hash(session[:auth_source_registration])[:omniauth]
-  end
-
-  def register_and_login_via_authsource(_user, session, permitted_params)
-    @user.attributes = permitted_params.user
-    @user.activate
-    @user.login = session[:auth_source_registration][:login]
-    @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-
-    if @user.save
-      session[:auth_source_registration] = nil
-      self.logged_user = @user
-      flash[:notice] = I18n.t(:notice_account_activated)
-      redirect_to controller: '/my', action: 'account'
-    end
-    # Otherwise render register view again
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
