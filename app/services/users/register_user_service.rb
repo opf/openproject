@@ -98,6 +98,8 @@ module Users
     def register_automatically
       return unless Setting::SelfRegistration.automatic?
 
+      user.activate
+
       with_saved_user_result do
         Rails.logger.info { "User #{user.login} was successfully activated." }
       end
@@ -132,7 +134,7 @@ module Users
       end
 
       ServiceResult.new(success: false, result: user).tap do |result|
-        result.errors.add(:user, :invalid)
+        result.errors.add(:base, :failed_to_activate)
       end
     end
   end
