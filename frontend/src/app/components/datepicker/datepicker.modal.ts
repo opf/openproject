@@ -113,6 +113,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   ngAfterViewInit():void {
     this.initializeDatepicker();
+    this.setRangeClasses();
 
     this.onDataChange();
   }
@@ -206,6 +207,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
         this.dates[this.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
 
         this.toggleCurrentActivatedField();
+        this.setRangeClasses();
         break;
       }
       default: {
@@ -268,5 +270,15 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   private isStateOfCurrentActivatedDateField(val:DateKeys):boolean {
     return this.currentlyActivatedDateField === val;
+  }
+
+  private setRangeClasses() {
+    var selectedElements = document.getElementsByClassName('flatpickr-day selected');
+    if (selectedElements.length === 2) {
+      selectedElements[0].classList.add('startRange');
+      selectedElements[1].classList.add('endRange');
+
+      jQuery(selectedElements[0]).nextUntil('.flatpickr-day.selected').addClass('inRange');
+    }
   }
 }
