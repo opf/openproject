@@ -243,7 +243,8 @@ describe AccountController, type: :controller do
         end
       end
 
-      context 'with self-registration disabled' do
+      context 'with self-registration disabled',
+              with_settings: { self_registration: 0 } do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
             provider: 'google',
@@ -257,8 +258,6 @@ describe AccountController, type: :controller do
         end
 
         before do
-          allow(Setting).to receive(:self_registration?).and_return(false)
-
           request.env['omniauth.auth'] = omniauth_hash
           request.env['omniauth.origin'] = 'https://example.net/some_back_url'
 
