@@ -139,8 +139,10 @@ module Users
         return ServiceResult.new(success: true, result: user, message: success_message)
       end
 
-      ServiceResult.new(success: false, result: user).tap do |result|
-        result.errors.add(:base, :failed_to_activate)
+      ServiceResult.new(success: false).tap do |call|
+        # Avoid using the errors from the user
+        call.result = user
+        call.errors.add(:base, I18n.t(:notice_activation_failed), error_symbol: :failed_to_activate)
       end
     end
   end
