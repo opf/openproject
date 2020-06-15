@@ -513,8 +513,9 @@ describe AccountController, type: :controller do
         post :omniauth_login, params: { provider: :google }
       end
 
-      it 'should respond with a 400' do
-        expect(response.code.to_i).to eql(400)
+      it 'should respond with an error' do
+        expect(flash[:error]).to include 'The authentication information returned from the identity provider was invalid.'
+        expect(response).to redirect_to signin_path
       end
 
       it 'should not sign in the user' do
