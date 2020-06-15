@@ -90,7 +90,7 @@ module Accounts::OmniauthLogin
 
     if call.success?
       login_user_if_active(call.result)
-    elsif call.errors[:user].any?
+    elsif call.includes_error?(:base, :failed_to_activate)
       redirect_omniauth_register_modal(call.result, auth_hash)
     else
       error = call.message
