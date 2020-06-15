@@ -47,7 +47,7 @@ module Authentication
       self.contract = ::Authentication::OmniauthAuthHashContract.new(auth_hash)
     end
 
-    def call(additional_user_params)
+    def call(additional_user_params = nil)
       Rails.logger.debug { "Returning from omniauth with hash #{auth_hash&.to_hash.inspect} Valid? #{auth_hash&.valid?}" }
 
       unless contract.validate
@@ -183,7 +183,7 @@ module Authentication
         mail: info[:email],
         firstname: info[:first_name] || info[:name],
         lastname: info[:last_name],
-        identity_url: identity_url_from_omniauth(auth_hash)
+        identity_url: identity_url_from_omniauth
       }
 
       # Allow strategies to override mapping
@@ -204,9 +204,9 @@ module Authentication
     # of always taking the global UID.
     # For SAML, the global UID may change with every session
     # (in case of transient nameIds)
-    def identity_url_from_omniauth(auth)
-      identifier = auth[:info][:uid] || auth[:uid]
-      "#{auth[:provider]}:#{identifier}"
+    def identity_url_from_omniauth
+      identifier = auth_hash[:info][:uid] || auth_hash[:uid]
+      "#{auth_hash[:provider]}:#{identifier}"
     end
 
     ##

@@ -539,22 +539,4 @@ describe AccountController, type: :controller do
       end
     end
   end
-
-  describe '#identity_url_from_omniauth' do
-    let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: {}  } }
-
-    it 'should return the correct identity_url' do
-      result = AccountController.new.send(:identity_url_from_omniauth, omniauth_hash)
-      expect(result).to eql('developer:veryuniqueid')
-    end
-
-    context 'with uid mapped from info' do
-      let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: { uid: 'internal'} } }
-
-      it 'should return the correct identity_url' do
-        result = AccountController.new.send(:identity_url_from_omniauth, omniauth_hash)
-        expect(result).to eql('developer:internal')
-      end
-    end
-  end
 end
