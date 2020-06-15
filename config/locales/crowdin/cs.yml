@@ -416,6 +416,7 @@ cs:
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
+        templated: 'Template project'
       projects/status:
         code: 'Stav'
         explanation: 'Status description'
@@ -487,6 +488,7 @@ cs:
         parent_work_package: "Rodič"
         priority: "Priorita"
         progress: "Průběh (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Dílčí projekt"
@@ -1985,6 +1987,12 @@ cs:
       warning_one: Členové projektu budou muset přemístit úložiště projektu.
       warning_two: Existující odkazy na projekt nebudou nadále fungovat.
       title: Změnit identifikátor projektu
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
       archived: "Archived"
