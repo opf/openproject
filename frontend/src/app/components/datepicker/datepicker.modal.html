@@ -16,10 +16,10 @@
                   <input type="text"
                          name="date"
                          class="form--date-field"
-                         [ngClass]="{'-current' : isStateOfCurrentActivatedField('date')}"
+                         [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('date')}"
                          [ngModel]="dates.date"
                          (ngModelChange)="updateDate('date', $event)"
-                         (click)="setCurrentActivatedField('date')">
+                         (click)="datepickerHelper.setCurrentActivatedField('date')">
                 </div>
               </div>
             </div>
@@ -35,10 +35,10 @@
                   <input type="text"
                          name="startDate"
                          class="form--date-field"
-                         [ngClass]="{'-current' : isStateOfCurrentActivatedField('start')}"
+                         [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
                          [ngModel]="dates.start"
                          (ngModelChange)="updateDate('start', $event)"
-                         (click)="setCurrentActivatedField('start')">
+                         (click)="datepickerHelper.setCurrentActivatedField('start')">
                 </div>
               </div>
             </div>
@@ -51,10 +51,10 @@
                   <input type="text"
                          name="endDate"
                          class="form--date-field"
-                         [ngClass]="{'-current' : isStateOfCurrentActivatedField('end')}"
+                         [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
                          [ngModel]="dates.end"
                          (ngModelChange)="updateDate('end', $event)"
-                         (click)="setCurrentActivatedField('end')">
+                         (click)="datepickerHelper.setCurrentActivatedField('end')">
                 </div>
               </div>
             </div>
