@@ -79,7 +79,11 @@ module Users
     def register_invited_user
       return unless user.invited?
 
-      register_automatically
+      user.activate
+
+      with_saved_user_result(success_message: I18n.t(:notice_account_registered_and_logged_in)) do
+        Rails.logger.info { "User #{user.login} was successfully activated after invitation." }
+      end
     end
 
     def register_by_email_activation
