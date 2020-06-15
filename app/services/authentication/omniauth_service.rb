@@ -167,7 +167,7 @@ module Authentication
           .new(user)
           .call
       else
-        ServiceResult.new(success: true)
+        ServiceResult.new(success: true, result: user)
       end
     end
 
