@@ -172,7 +172,8 @@ class AccountController < ApplicationController
   end
 
   def handle_expired_token(token)
-    send_activation_email! Token::Invitation.create!(user: token.user)
+    new_token = Token::Invitation.create!(user: token.user)
+    UserMailer.user_signed_up(new_token).deliver_later
 
     flash[:warning] = I18n.t :warning_registration_token_expired, email: token.user.mail
 
@@ -337,7 +338,16 @@ class AccountController < ApplicationController
       @user.password = params[:user][:password]
       @user.password_confirmation = params[:user][:password_confirmation]
 
-      register_user_according_to_setting @user
+      call = ::Users::RegisterUserService.new(@user).call
+
+      if call.success?
+        flash[:notice] = call.message.presence
+        login_user_if_active(call.result)
+      else
+        flash[:error] = error = call.message
+        Rails.logger.error "Registration of user #{@user.login} failed: #{error}"
+        onthefly_creation_failed(@user, login: @user.login)
+      end
     end
   end
 
@@ -454,7 +464,7 @@ class AccountController < ApplicationController
       successful_authentication(user)
     else
       account_inactive(user, flash_now: false)
-      redirect_to signin_path
+      redirect_to signin_path(back_url: params[:back_url])
     end
   end
 
@@ -514,7 +524,7 @@ class AccountController < ApplicationController
   end
 
   def self_registration_disabled
-    flash[:error] = I18n.t(:error_self_registration_disabled)
+    flash[:error] = I18n.t('account.error_self_registration_disabled')
     redirect_to signin_url
   end
 
@@ -543,14 +553,6 @@ class AccountController < ApplicationController
       'account.error_inactive_activation_by_mail'
     end
   end
-
-  # def account_pending
-  #
-  #   # Set back_url to make sure user is not redirected to an external login page
-  #   # when registering via the external service. This also redirects the user
-  #   # to the original page where the user clicked on the omniauth login link for a provider.
-  #   redirect_to action: 'login', back_url: params[:back_url]
-  # end
 
   def invited_user
     if session.include? :invitation_token

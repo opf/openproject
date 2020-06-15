@@ -55,7 +55,7 @@ module Accounts::UserLimits
 
   def enforce_activation_user_limit(user: nil, redirect_to: signin_path)
     if user_limit_reached?
-      show_user_limit_activation_error!
+      flash[:error] = I18n.t(:error_enterprise_activation_user_limit)
       send_activation_limit_notification_about user if user
 
       redirect_back fallback_location: redirect_to
