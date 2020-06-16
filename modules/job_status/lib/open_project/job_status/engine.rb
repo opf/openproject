@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,8 +27,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Extends the ActiveJob adapter in use (DelayedJob) by a Status which lives
-# indenpendently from the job itself (which is deleted once successful or after max attempts).
-# That way, the result of a background job is available even after the original job is gone.
+require 'open_project/plugins'
 
-::ActiveJob::JobStatusListener.register!
+module OpenProject::JobStatus
+  class Engine < ::Rails::Engine
+    engine_name :openproject_job_status
+
+    include OpenProject::Plugins::ActsAsOpEngine
+
+    register 'openproject-job_status',
+             author_url: 'https://www.openproject.com',
+             bundled: true
+
+    config.to_prepare do
+      # Extends the ActiveJob adapter in use (DelayedJob) by a Status which lives
+      # indenpendently from the job itself (which is deleted once successful or after max attempts).
+      # That way, the result of a background job is available even after the original job is gone.
+
+      EventListener.register!
+    end
+  end
+end
