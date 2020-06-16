@@ -66,7 +66,7 @@ describe WorkPackages::ExportsController, type: :controller do
   let!(:job_status) do
     FactoryBot.build_stubbed(:delayed_job_status, status: status, message: job_message).tap do |s|
       relation = double('AR relation')
-      allow(Delayed::Job::Status)
+      allow(JobStatus::Status)
         .to receive(:of_reference)
         .with(export)
         .and_return(relation)

@@ -281,7 +281,7 @@ class ProjectsController < ApplicationController
 
     call_result.on_success do
       flash[:notice] = t('project.template.copying')
-      redirect_to home_path
+      redirect_to job_status_path(call_result.result.job_id)
     end
 
     call_result

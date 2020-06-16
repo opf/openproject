@@ -62,20 +62,39 @@ class CopyProjectJob < ApplicationJob
 
     if target_project
       ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
+      successful_status_update
     else
       ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+      failure_status_update
     end
   rescue StandardError => e
     logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
     errors = [I18n.t('copy_project.failed_internal')]
     ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+    failure_status_update
   end
 
   def store_status?
     true
   end
 
+  def updates_own_status?
+    true
+  end
+
   private
+
+  def successful_status_update
+    update_status status: :success,
+                  message: I18n.t('copy_project.succeeded', target_project_name: target_project.name),
+                  payload: redirect_payload(url_helpers.project_path(target_project))
+  end
+
+  def failure_status_update
+    update_status status: :failure,
+                  message: I18n.t('copy_project.failed') + ". " + errors.join("\n"),
+                  payload: nil
+  end
 
   def user
     @user ||= User.find user_id
@@ -170,5 +189,9 @@ class CopyProjectJob < ApplicationJob
   def error_prefix_for(error_object)
     base = error_object.instance_variable_get(:@base)
     base.is_a?(Project) ? '' : "#{base.class.model_name.human} '#{base}': "
+  end
+
+  def url_helpers
+    @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
   end
 end

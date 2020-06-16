@@ -51,8 +51,10 @@ module OpenProject::JobStatus
       # Extends the ActiveJob adapter in use (DelayedJob) by a Status which lives
       # indenpendently from the job itself (which is deleted once successful or after max attempts).
       # That way, the result of a background job is available even after the original job is gone.
-
       EventListener.register!
+
+      # Register the cron job to clear statuses periodically
+      ::Cron::CronJob.register! ::JobStatus::Cron::ClearOldJobStatusJob
     end
   end
 end

@@ -46,7 +46,7 @@ module OpenProject
           # Complete, or failure
           ActiveSupport::Notifications.subscribe('perform.active_job') do |job:, exception_object: nil, **_args|
             Rails.logger.debug do
-              successful = exception_object ? "with error: #{exception_object}" : "successful"
+              successful = exception_object ? "with error #{exception_object}" : "successful"
               "Background job #{job.inspect} was performed #{successful}."
             end
 
@@ -85,10 +85,10 @@ module OpenProject
         # Create a status object when enqueuing a
         # new job through activejob that stores statuses
         def create_job_status(job)
-          Delayed::Job::Status.create status: :in_queue,
-                                      reference: job.status_reference,
-                                      user: User.current,
-                                      job_id: job.job_id
+          ::JobStatus::Status.create status: :in_queue,
+                                     reference: job.status_reference,
+                                     user: User.current,
+                                     job_id: job.job_id
         end
 
         ##
@@ -114,13 +114,15 @@ module OpenProject
         end
 
         ##
-        # On job performed, update status
+        # On job performed, handle status updates
+        #  - on error, always update
+        #  - on success, only update if job doesn't do it itself
         def on_performed(job, exception_object)
           if exception_object
             update_status job,
                           code: :failure,
                           message: exception_object.to_s
-          else
+          elsif !job.updates_own_status?
             update_status job, code: :success
           end
         end
@@ -128,9 +130,9 @@ module OpenProject
         ##
         # Update the status code for a given job
         def update_status(job, code:, message: nil)
-          Delayed::Job::Status
+          ::JobStatus::Status
             .where(job_id: job.job_id)
-            .update_all(status: code, message: message)
+            .update_all(status: code, message: message, payload: nil)
         end
       end
     end

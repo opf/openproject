@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,47 +27,52 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class InstantiateTemplateService < ::BaseServices::Create
-    attr_reader :template_id
-
-    def initialize(user:, template_id:)
-      @template_id = template_id
-
-      super user: user,
-            contract_class: Projects::InstantiateTemplateContract,
-            contract_options: { template_project_id: template_id }
+module JobStatus
+  module ApplicationJobWithStatus
+    # Delayed jobs can have a status:
+    # Delayed::Job::Status
+    # which is related to the job via a reference which is an AR model instance.
+    def status_reference
+      nil
     end
-
-    def after_validate(params, call)
-      job = ::CopyProjectJob.perform_later(
-        user_id: user.id,
-        source_project_id: template_id,
-        target_project_params: project_params(params),
-        # Copy all associations
-        associations_to_copy: nil,
-        # Send mails for now until we send our own mails
-        send_mails: true
-      )
-
-      ServiceResult.new(success: true, result: job)
-    end
-
-    # Do not actually try to save the project here
-    # but simply pass the previous call
-    def persist(call)
-      call
-    end
-
-    private
 
     ##
-    # Modifies params to ensure we unset
-    # the templated option
-    def project_params(params)
-      params.to_h.merge(
-        templated: false
-      )
+    # Determine whether to store a status object for this job
+    # By default, will only store if status_reference is present
+    def store_status?
+      !status_reference.nil?
+    end
+
+    ##
+    # For more complex handling of status updates
+    # jobs can do success messages themselves.
+    #
+    # In case of exceptions being caught by activejob
+    # the status will be modified outside.
+    def updates_own_status?
+      false
+    end
+
+    protected
+
+    ##
+    # Crafts a payload for a redirection result
+    def redirect_payload(path)
+      { redirect: path }
+    end
+
+    ##
+    # Crafts a payload for a download result
+    def download_payload(path)
+      { download: path }
+    end
+
+    ##
+    # Updates the associated status object
+    def update_status(**args)
+      ::JobStatus::Status
+        .where(job_id: job_id)
+        .update_all(args)
     end
   end
 end

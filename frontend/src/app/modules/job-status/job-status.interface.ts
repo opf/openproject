@@ -21,6 +21,6 @@ export interface JobStatusInterface {
    */
   payload?:{
     download?:string;
-    redirectTo?:string;
+    redirect?:string;
   };
 }

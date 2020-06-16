@@ -30,7 +30,7 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
   public text = {
     title: this.I18n.t('js.job_status.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
-    exportPreparing: this.I18n.t('js.label_export_preparing')
+    redirect: this.I18n.t('js.job_status.redirect'),
   };
 
   /** The job ID reference */
@@ -94,6 +94,12 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
     let status = this.status = response.status;
     this.message = response.message ||
       this.I18n.t(`js.job_status.generic_messages.${status}`, { defaultValue: status });
+
+    const redirectUrl:string|undefined = response.payload?.redirect;
+    if (redirectUrl !== undefined) {
+      this.message += `. ${this.text.redirect}`;
+      setTimeout(() => window.location.href = redirectUrl, 2000);
+    }
 
     this.cdRef.detectChanges();
   }

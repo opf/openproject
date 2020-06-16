@@ -28,17 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Cron
-  class ClearOldJobStatusJob < CronJob
-    # runs at 4:15 nightly
-    self.cron_expression = '15 4 * * *'
+module JobStatus
+  module Cron
+    class ClearOldJobStatusJob < ::Cron::CronJob
+      # runs at 4:15 nightly
+      self.cron_expression = '15 4 * * *'
 
-    RETENTION_PERIOD = 2.days.freeze
+      RETENTION_PERIOD = 2.days.freeze
 
-    def perform
-      Delayed::Job::Status
-        .where(Delayed::Job::Status.arel_table[:updated_at].lteq(Time.now - RETENTION_PERIOD))
-        .destroy_all
+      def perform
+        ::JobStatus::Status
+          .where(::JobStatus::Status.arel_table[:updated_at].lteq(Time.now - RETENTION_PERIOD))
+          .destroy_all
+      end
     end
   end
 end
