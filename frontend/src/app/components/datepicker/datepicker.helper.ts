@@ -105,7 +105,7 @@ export class DatepickerHelper {
         firstDay.classList.add('inRange');
         this.selectRangeFromUntil(firstDay, selectedElements[0]);
       }
-    } else {
+    } else if (this.datepickerIsInDateRange(dates, datePickerInstance)) {
       jQuery('.dayContainer .flatpickr-day').addClass('inRange');
     }
   }
@@ -113,6 +113,13 @@ export class DatepickerHelper {
   private datepickerShowsDate(date:string, datePickerInstance:DatePicker):boolean {
     return datePickerInstance.datepickerInstance.currentMonth === new Date(date).getMonth() &&
       datePickerInstance.datepickerInstance.currentYear === new Date(date).getFullYear();
+  }
+
+  private datepickerIsInDateRange(dates:{ [key in DateKeys]:string }, datePickerInstance:DatePicker):boolean {
+    return datePickerInstance.datepickerInstance.currentYear <= new Date(dates.end).getFullYear() &&
+           datePickerInstance.datepickerInstance.currentMonth < new Date(dates.end).getMonth() &&
+           datePickerInstance.datepickerInstance.currentYear >= new Date(dates.start).getFullYear() &&
+           datePickerInstance.datepickerInstance.currentMonth > new Date(dates.start).getMonth();
   }
 
   private selectRangeFromUntil(from:Element, until:string|Element) {
