@@ -90,7 +90,7 @@ module Accounts::OmniauthLogin
 
     if call.success?
       flash[:notice] = call.message.presence
-      login_user_if_active(call.result, just_registered: true)
+      login_user_if_active(call.result, just_registered: call.result.just_created?)
     elsif call.includes_error?(:base, :failed_to_activate)
       redirect_omniauth_register_modal(call.result, auth_hash)
     else

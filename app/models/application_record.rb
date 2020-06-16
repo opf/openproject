@@ -8,6 +8,12 @@ class ApplicationRecord < ::ActiveRecord::Base
   end
 
   ##
+  # Determine whether this resource was just created ?
+  def just_created?
+    saved_change_to_attribute?(:id)
+  end
+
+  ##
   # Get the newest recently changed resource for the given record classes
   #
   # e.g., +most_recently_changed(WorkPackage, Type, Status)+
