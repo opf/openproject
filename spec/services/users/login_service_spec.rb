@@ -65,6 +65,9 @@ describe ::Users::LoginService, type: :model do
           session.clear
           flash.clear
         end
+
+        allow(input_user)
+          .to receive(:log_successful_login)
       end
 
       context 'if provider retains session values' do

@@ -52,6 +52,8 @@ module Users
 
       controller.session.merge!(retained_values) if retained_values
 
+      user.log_successful_login
+
       ServiceResult.new(result: user)
     end
 

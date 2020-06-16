@@ -77,7 +77,6 @@ module Authentication
     # After login flow
     def tap_service_result(call)
       if call.success? && user.active?
-        user.log_successful_login
         OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
       end
 

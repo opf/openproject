@@ -100,8 +100,6 @@ describe Authentication::OmniauthService do
         # should update the user attributes
         expect(user).to receive(:update).with(user_attributes)
 
-        # Logs user login and calls callback
-        expect(user).to receive(:log_successful_login)
         expect(OpenProject::OmniAuth::Authorization)
           .to(receive(:after_login!))
           .with(user, auth_hash, instance)
@@ -154,8 +152,6 @@ describe Authentication::OmniauthService do
         # should update the user attributes
         expect(user).to receive(:update).with(user_attributes)
 
-        # Logs user login and calls callback
-        expect(user).to receive(:log_successful_login)
         expect(OpenProject::OmniAuth::Authorization)
           .to(receive(:after_login!))
           .with(user, auth_hash, instance)

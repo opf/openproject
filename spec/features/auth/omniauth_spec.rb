@@ -184,11 +184,11 @@ describe 'Omniauth authentication', type: :feature do
         click_link_or_button 'Create'
       end
 
-      expect(current_url).to eql home_url(first_time_user: true)
+      expect(page).to have_current_path home_path(first_time_user: true)
     end
 
     context 'with password login disabled',
-            with_config: { disabled_password_login: 'true' } do
+            with_config: { disable_password_login: 'true' } do
 
       it_behaves_like 'omniauth user registration'
     end
