@@ -39,6 +39,14 @@ module OpenProject::JobStatus
              author_url: 'https://www.openproject.com',
              bundled: true
 
+    add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::JobStatus::JobStatusAPI
+    end
+
+    add_api_path :job_status do |uuid|
+      "#{root}/job_statuses/#{uuid}"
+    end
+
     config.to_prepare do
       # Extends the ActiveJob adapter in use (DelayedJob) by a Status which lives
       # indenpendently from the job itself (which is deleted once successful or after max attempts).

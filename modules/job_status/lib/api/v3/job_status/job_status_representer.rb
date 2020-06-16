@@ -28,20 +28,23 @@
 
 module API
   module V3
-    module CostTypes
-      class CostTypeRepresenter < ::API::Decorators::Single
-        self_link
-        property :id, render_nil: true
-        property :name, render_nil: true
-        property :unit,
+    module JobStatus
+      class JobStatusRepresenter < ::API::Decorators::Single
+        self_link id_attribute: :job_id,
+                  title_getter: ->(*) { nil }
+
+        property :job_id
+
+        property :status
+
+        property :message,
                  render_nil: true
-        property :unit_plural,
+
+        property :payload,
                  render_nil: true
-        property :is_default,
-                 getter: ->(*) { default }
 
         def _type
-          'CostType'
+          'JobStatus'
         end
       end
     end
