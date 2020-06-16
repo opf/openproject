@@ -1,14 +1,12 @@
 <div class="inline-label" id="div-values-{{filter.id}}">
-  <op-date-picker (onChange)="value = isoDateParser($event)">
-    <input [ngModel]="isoDateFormatter(value)"
-           [focus]="shouldFocus"
-           (ngModelChange)="value = isoDateParser($event)"
-           required
-           id="values-{{filter.id}}"
-           name="v[{{filter.id}}]"
-           class="advanced-filters--date-field"
-           size="10"
-           type="text"/>
+  <op-date-picker (onChange)="value = isoDateParser($event)"
+                  [initialDate]="isoDateFormatter(value)"
+                  [focus]="shouldFocus"
+                  required="true"
+                  [id]="'values-' + filter.id"
+                  [name]="'v[' + filter.id + ']'"
+                  classes="advanced-filters--date-field"
+                  size="10">
   </op-date-picker>
   <span class="advanced-filters--tooltip-trigger -multiline"
         [attr.data-tooltip]="timeZoneText"

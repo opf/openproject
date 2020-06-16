@@ -198,9 +198,9 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    *
    * @param key
    */
-  public isWritable(key:string) {
+  public isWritable(key:string):boolean {
     const fieldSchema = this.schema[key] as IFieldSchema|null;
-    return fieldSchema && fieldSchema.writable;
+    return !!(fieldSchema && fieldSchema.writable);
   }
 
   /**
@@ -261,8 +261,23 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
     return this.changeset.contains(key) || this.pristineResource.hasOwnProperty(key);
   }
 
+  /**
+   * Change the value of the projected resource to some value
+   *
+   * @param key
+   * @param val
+   */
   public setValue(key:string, val:any) {
     this.changeset.set(key, val, this.pristineResource[key]);
+  }
+
+  /**
+   * Clear the changed value of the projected resource
+   *
+   * @param keys A set of keys to reset
+   */
+  public clearValue(...keys:string[]) {
+    this.changeset.reset(...keys);
   }
 
   public clear() {

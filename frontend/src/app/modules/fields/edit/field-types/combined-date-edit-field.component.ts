@@ -26,58 +26,75 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit} from "@angular/core";
-import * as moment from "moment";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {TimezoneService} from "core-components/datetime/timezone.service";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {take} from "rxjs/operators";
+import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
+import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 
 @Component({
   template: `
-    <op-date-picker
-        tabindex="-1"
-        (onChange)="onValueSelected($event)"
-        (onCancel)="onCancel()"
-        [initialDate]="formatter(value)"
-        [required]="required"
-        [disabled]="inFlight"
-        [id]="handler.htmlId"
-        classes="inline-edit--field">
-    </op-date-picker>
+    <input [value]="dates"
+           (click)="handleClick()"
+           type="text" />
   `
 })
-export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
+export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
   @InjectField() opModalService:OpModalService;
 
+  dates:string = '';
+
+  private modal:OpModalComponent;
+
   ngOnInit() {
     super.ngOnInit();
+
+    this.handler
+      .$onUserActivate
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe(() => {
+        this.showDatePickerModal();
+      });
   }
 
-  public onValueSelected(data:string) {
-    this.value = this.parser(data);
-    this.handler.handleUserSubmit();
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.modal?.closeMe();
   }
 
-  public onCancel() {
-    this.handler.handleUserCancel();
+  public handleClick() {
+    this.showDatePickerModal();
   }
 
-  public parser(data:any) {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      return data;
-    } else {
-      return null;
-    }
-  }
+  private showDatePickerModal():void {
+    const modal = this.modal = this
+      .opModalService
+      .show(DatePickerModal, this.injector, { changeset: this.change, fieldName: this.name });
 
-  public formatter(data:any) {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      var d = this.timezoneService.parseDate(data);
-      return this.timezoneService.formattedISODate(d);
-    } else {
-      return null;
-    }
+    setTimeout(() => {
+      const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');
+      const field = jQuery(this.elementRef.nativeElement);
+      modal.reposition(modalElement, field);
+    });
+
+    modal
+      .onDataUpdated
+      .subscribe((dates:string) => {
+        this.dates = dates;
+        this.cdRef.detectChanges();
+      });
+
+    modal
+      .closingEvent
+      .pipe(take(1))
+      .subscribe(() => {
+        this.handler.handleUserSubmit();
+      });
   }
 }

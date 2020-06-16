@@ -111,11 +111,7 @@
     <div class="attributes-key-value--key">Date</div>
     <div class="attributes-key-value--value-container">
       <div class="inline-edit--container">
-          <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="12/06/2018">12/06/2018</span>
-      </div>
-      <span class="attributes-key-value--value-separator"></span>
-      <div class="inline-edit--container">
-          <span class="inline-edit--display-field inline-edit--display-field inplace-edit -placeholder -editable">no end date</span>
+          <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="12/06/2018 - no end date">12/06/2018 - no end date</span>
       </div>
     </div>
     <div class="attributes-key-value--key">Priority</div>

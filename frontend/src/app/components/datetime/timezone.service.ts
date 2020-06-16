@@ -58,7 +58,7 @@ export class TimezoneService {
     return d;
   }
 
-  public parseDate(date:string, format?:string) {
+  public parseDate(date:Date|string, format?:string) {
     return moment(date, format);
   }
 
@@ -149,7 +149,7 @@ export class TimezoneService {
   }
 
   public formattedDuration(durationString:string) {
-    return this.I18n.t('js.units.hour', {count: this.toHours(durationString)});
+    return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
   }
 
   public formattedISODate(date:any) {

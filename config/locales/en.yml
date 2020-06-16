@@ -925,6 +925,7 @@ en:
   date:
     abbr_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     abbr_month_names: [~, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    abbr_week: 'Wk'
     day_names: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     formats:
       # Use the strftime parameters for formats.
