@@ -884,6 +884,7 @@ fil:
       - "Oktubre"
       - "Nobyembre"
       - "Disyembre"
+    abbr_week: 'Wk'
     day_names:
       - "Linggo"
       - "Lunes"

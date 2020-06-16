@@ -887,6 +887,7 @@ lt:
       - "Spa"
       - "Lap"
       - "Gruo"
+    abbr_week: 'Wk'
     day_names:
       - "Sekmadienis"
       - "Pirmadienis"

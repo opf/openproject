@@ -880,6 +880,7 @@ it:
       - "Ott"
       - "Nov"
       - "Dic"
+    abbr_week: 'Wk'
     day_names:
       - "Domenica"
       - "Lunedi"

@@ -584,6 +584,9 @@ tr:
       select_branch: 'Branş seç'
     field_value_enter_prompt: "'%{field}' için bir değer girin"
     project_menu_details: "Detaylar"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
       sorted_dsc: 'Azalan sırılama uygulandı, '
@@ -871,6 +874,7 @@ tr:
       label_delete_page: "Şu anki sayfayı sil"
       button_apply: "Uygula"
       button_save: "Kaydet"
+      button_clear_all: "Clear all"
       button_submit: "Gönder"
       button_cancel: "İptal"
       form_submit:

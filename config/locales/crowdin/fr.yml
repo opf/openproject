@@ -883,6 +883,7 @@ fr:
       - "Oct"
       - "Nov"
       - "Déc"
+    abbr_week: 'Wk'
     day_names:
       - "Dimanche"
       - "Lundi"

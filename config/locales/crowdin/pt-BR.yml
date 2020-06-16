@@ -882,6 +882,7 @@ pt-BR:
       - "Out"
       - "Nov"
       - "Dez"
+    abbr_week: 'Wk'
     day_names:
       - "Domingo"
       - "Segunda"

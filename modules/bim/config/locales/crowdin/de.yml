@@ -100,6 +100,8 @@ de:
           snapshot_type_unsupported: "snapshot_type muss entweder 'png' oder 'jpg' sein."
           snapshot_data_blank: "snapshot_data muss angegeben werden."
           unsupported_key: "Eine nicht unterstützte JSON-Eigenschaft ist enthalten."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC-Modelle'
     label_new_ifc_model: 'Neues IFC-Modell'

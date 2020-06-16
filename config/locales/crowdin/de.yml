@@ -879,6 +879,7 @@ de:
       - "Okt"
       - "Nov"
       - "Dez"
+    abbr_week: 'Wk'
     day_names:
       - "Sonntag"
       - "Montag"

@@ -100,6 +100,8 @@ tr:
           snapshot_type_unsupported: "anlık görüntü türünün 'png' veya 'jpg' olması gerekir."
           snapshot_data_blank: "anlık görüntü verilerinin sağlanması gerekir."
           unsupported_key: "Desteklenmeyen bir json özelliği dahil edilmiştir."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC modelleri'
     label_new_ifc_model: 'Yeni IFC modeli'

@@ -888,6 +888,7 @@ pl:
       - "Paź"
       - "Lis"
       - "Gru"
+    abbr_week: 'Wk'
     day_names:
       - "Niedziela"
       - "Poniedziałek"

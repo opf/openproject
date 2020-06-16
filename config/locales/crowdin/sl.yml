@@ -890,6 +890,7 @@ sl:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Nedelja"
       - "Ponedeljek"

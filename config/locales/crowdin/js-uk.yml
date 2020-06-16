@@ -584,6 +584,9 @@ uk:
       select_branch: 'Виберіть гілку'
     field_value_enter_prompt: "Введіть значення для «%{field}»"
     project_menu_details: "Детальніше"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Застосовується сортування за зростанням,'
       sorted_dsc: 'Застосовується сортування за спаданням,'
@@ -871,6 +874,7 @@ uk:
       label_delete_page: "Видалити поточну сторінку"
       button_apply: "Застосувати"
       button_save: "Зберегти"
+      button_clear_all: "Clear all"
       button_submit: "Підтвердити"
       button_cancel: "Скасувати"
       form_submit:

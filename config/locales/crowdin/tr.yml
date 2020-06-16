@@ -884,6 +884,7 @@ tr:
       - "Eki"
       - "Kas"
       - "Ara"
+    abbr_week: 'Wk'
     day_names:
       - "Pazar"
       - "Pazartesi"

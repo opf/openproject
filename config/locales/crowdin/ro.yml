@@ -888,6 +888,7 @@ ro:
       - "oct"
       - "noi"
       - "dec"
+    abbr_week: 'Wk'
     day_names:
       - "Duminică"
       - "Luni"

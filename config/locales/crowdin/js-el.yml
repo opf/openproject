@@ -583,6 +583,9 @@ el:
       select_branch: 'Επιλογή κλάδου'
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     project_menu_details: "Λεπτομέρειες"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Εφαρμόστηκε αύξουσα ταξινόμηση, '
       sorted_dsc: 'Εφαρμόστηκε φθίνουσα ταξινόμηση, '
@@ -870,6 +873,7 @@ el:
       label_delete_page: "Διαγραφή της τρέχουσας σελίδας"
       button_apply: "Εφαρμογή"
       button_save: "Αποθήκευση"
+      button_clear_all: "Clear all"
       button_submit: "Υποβολή"
       button_cancel: "Ακύρωση"
       form_submit:

@@ -879,6 +879,7 @@ id:
       - "Okt"
       - "Nop"
       - "Des"
+    abbr_week: 'Wk'
     day_names:
       - "Minggu"
       - "Senin"
