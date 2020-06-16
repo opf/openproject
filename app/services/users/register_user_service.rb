@@ -38,6 +38,7 @@ module Users
     def call
       %i[
         register_invited_user
+        register_ldap_user
         ensure_registration_allowed!
         ensure_user_limit_not_reached!
         register_by_email_activation
@@ -78,6 +79,19 @@ module Users
     # bypassing regular restrictions
     def register_invited_user
       return unless user.invited?
+
+      user.activate
+
+      with_saved_user_result(success_message: I18n.t(:notice_account_registered_and_logged_in)) do
+        Rails.logger.info { "User #{user.login} was successfully activated after invitation." }
+      end
+    end
+
+    ##
+    # Try to register a user with an auth source connection
+    # bypassing regular restrictions
+    def register_ldap_user
+      return unless user.auth_source_id.present?
 
       user.activate
 

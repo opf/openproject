@@ -879,7 +879,7 @@ describe AccountController, type: :controller do
                    mail: 'foo@bar.com'
                  }
                }
-          expect(response).to redirect_to '/my/account'
+          expect(response).to redirect_to home_path(first_time_user: true)
 
           user = User.find_by_login('foo')
 

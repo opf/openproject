@@ -59,6 +59,24 @@ describe Users::RegisterUserService do
     end
   end
 
+  describe '#register_ldap_user' do
+    it 'tries to activate that user regardless of settings' do
+      with_all_registration_options do |_type|
+        user = User.new(status: Principal::STATUSES[:registered])
+        instance = described_class.new(user)
+
+        allow(user).to receive(:auth_source_id).and_return 1234
+        expect(user).to receive(:activate)
+        expect(user).to receive(:save).and_return true
+
+        call = instance.call
+        expect(call).to be_success
+        expect(call.result).to eq user
+        expect(call.message).to eq I18n.t(:notice_account_registered_and_logged_in)
+      end
+    end
+  end
+
   describe '#ensure_registration_allowed!' do
     it 'returns an error for disabled' do
       allow(Setting).to receive(:self_registration).and_return(0)
