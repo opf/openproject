@@ -40,7 +40,7 @@ module Projects
             contract_options: { template_project_id: template_id }
     end
 
-    def after_validate(params, call)
+    def after_validate(params, _)
       job = ::CopyProjectJob.perform_later(
         user_id: user.id,
         source_project_id: template_id,

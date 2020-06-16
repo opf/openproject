@@ -20,7 +20,6 @@ class ExtendJobStatus < ActiveRecord::Migration[6.0]
         t.jsonb :payload
       end
 
-
       # Now that we have user reference on job status
       # we don't need it on export
       remove_reference :work_package_exports, :user

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -32,12 +33,6 @@ module API
     module JobStatus
       class JobStatusAPI < ::API::OpenProjectAPI
         resources :job_statuses do
-          after_validation do
-            authorize_any([:view_cost_entries, :view_own_cost_entries],
-                          global: true,
-                          user: current_user)
-          end
-
           route_param :job_id, type: String, desc: 'Job UUID' do
             after_validation do
               @job = ::JobStatus::Status
