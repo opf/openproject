@@ -1,0 +1,37 @@
+<div class="op-modal--portal">
+  <div class="op-modal--modal-container wp-table--configuration-modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+          class="icon-close"
+          (click)="closeMe($event)"
+          [attr.title]="text.closePopup">
+        </i>
+      </a>
+    </div>
+
+    <h3 [textContent]="text.title"></h3>
+
+    <div>
+      <div class="loading-indicator--location"
+           data-indicator-name="modal">
+        <div class="status-icon-wrapper" *ngIf="!isLoading">
+          <ng-container [ngSwitch]="status">
+            <span *ngSwitchCase="'error'" class="icon-big icon-error"></span>
+            <span *ngSwitchCase="'success'" class="icon-big icon-checkmark"></span>
+          </ng-container>
+        </div>
+      </div>
+      <div [textContent]="message"></div>
+    </div>
+
+    <a #downloadLink
+       id="download-link"
+       [title]="'Export'"
+       class="button"
+       download
+       [attr.href]="downloadHref">
+    </a>
+  </div>
+</div>

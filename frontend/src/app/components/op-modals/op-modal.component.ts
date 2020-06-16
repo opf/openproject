@@ -1,8 +1,9 @@
 import {ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
-export abstract class OpModalComponent implements OnInit, OnDestroy {
+export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
 
   /* Close on escape? */
   public closeOnEscape:boolean = true;
@@ -21,9 +22,10 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
 
   public openingEvent = new EventEmitter<this>();
 
-  constructor(public locals:OpModalLocalsMap,
+  protected constructor(public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef) {
+    super();
   }
 
   ngOnInit() {

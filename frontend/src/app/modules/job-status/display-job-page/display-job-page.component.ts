@@ -1,12 +1,25 @@
-import {Component} from "@angular/core";
+import {AfterViewInit, Component, Injector, OnDestroy} from "@angular/core";
 import {StateService} from "@uirouter/core";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalComponent} from "core-components/op-modals/op-modal.component";
+import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 
 @Component({
-  templateUrl: './display-job-page.component.html'
+  template: ''
 })
-export class DisplayJobPageComponent {
-  jobId:string = this.$state.params.jobId;
+export class DisplayJobPageComponent implements AfterViewInit, OnDestroy {
+  private modal?:OpModalComponent;
 
-  constructor(private $state:StateService) {
+  constructor(private injector:Injector,
+              private $state:StateService,
+              private modalService:OpModalService) {
+  }
+
+  ngAfterViewInit() {
+    this.modal = this.modalService.show(JobStatusModal, this.injector, { jobId: this.$state.params.jobId });
+  }
+
+  ngOnDestroy() {
+    this.modal?.closeMe();
   }
 }
