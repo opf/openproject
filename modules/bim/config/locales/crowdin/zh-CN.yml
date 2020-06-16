@@ -99,6 +99,8 @@ zh-CN:
           snapshot_type_unsupported: "snapshot_type 需要为“png”或“jpg”。"
           snapshot_data_blank: "需要提供 snapshot_data。"
           unsupported_key: "包含不受支持的 json 属性。"
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC 模型'
     label_new_ifc_model: '新 IFC 模型'

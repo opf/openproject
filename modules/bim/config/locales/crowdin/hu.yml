@@ -100,6 +100,8 @@ hu:
           snapshot_type_unsupported: "snapshot_type legyen egy 'png' vagy 'jpg'."
           snapshot_data_blank: "A pillanatkép_adatokat meg kell adni."
           unsupported_key: "Nem támogatott json tulajdonság van benne."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC modell'
     label_new_ifc_model: 'Új IFC modell'
