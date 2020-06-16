@@ -34,21 +34,18 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'page' %>
 
 <%= labelled_tabular_form_for @page, url: { id: @page, action: 'update_parent_page' } do |f| %>
-  <div class="box">
-    <p>
-      <%= f.select :parent_id,
-            wiki_page_options_for_select(@parent_pages),
-            { label: WikiPage.human_attribute_name(:parent_title), include_blank: false },
-            { class: "parent-select" } %>
-    </p>
-
-    <%= nonced_javascript_tag  do -%>
-      jQuery(function() {
-          var parent_select = jQuery('#wiki_page_parent_id');
-          parent_select.attr('size', parent_select.children().length);
-        }
-      ));
-    <% end -%>
+  <div class='form--field'>
+    <%= f.select :parent_id,
+                 wiki_page_options_for_select(@parent_pages),
+                 { label: WikiPage.human_attribute_name(:parent_title), include_blank: false, container_class: '-wide' } %>
   </div>
+
+  <%= nonced_javascript_tag  do -%>
+    jQuery(function() {
+        var parent_select = jQuery('#wiki_page_parent_id');
+        parent_select.attr('size', parent_select.children().length);
+      }
+    ));
+  <% end -%>
   <%= submit_tag t(:button_save), class: 'button -highlight' %>
 <% end %>

@@ -33,13 +33,11 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'page' %>
 
 <%= labelled_tabular_form_for @page, url: { id: @page, action: 'rename' }, as: :page do |f| %>
-  <div class="box">
-    <div class='form--field -required'>
-      <%= f.text_field :title, required: true %>
-    </div>
-    <div class='form--field'>
-      <%= f.check_box :redirect_existing_links %>
-    </div>
+  <div class='form--field -required'>
+    <%= f.text_field :title, required: true, container_class: '-middle' %>
+  </div>
+  <div class='form--field'>
+    <%= f.check_box :redirect_existing_links %>
   </div>
   <%= submit_tag t(:button_rename), class: 'button -highlight' %>
 <% end %>
