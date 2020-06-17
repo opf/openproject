@@ -18,6 +18,7 @@ declare global {
 
 @Injectable()
 export class RevitBridgeService extends ViewerBridgeService {
+  public shouldShowViewer = false;
   private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:string }>();
   private _trackingIdNumber = 0;
   private _ready$ = input<boolean>(false);
@@ -58,15 +59,15 @@ export class RevitBridgeService extends ViewerBridgeService {
       )
       .pipe(
         map((message) => {
-          const viewpointJson = typeof message.messagePayload === 'string' ?
-                                  JSON.parse(message.messagePayload) :
-                                  message.messagePayload;
+          let viewpointJson = typeof message.messagePayload === 'string' ?
+                                JSON.parse(message.messagePayload) :
+                                message.messagePayload;
 
           viewpointJson.snapshot = {
             snapshot_type: 'png',
             snapshot_data: viewpointJson.snapshot
           };
-
+          
           return viewpointJson;
         })
       )
@@ -94,8 +95,6 @@ export class RevitBridgeService extends ViewerBridgeService {
       const messageType = message.messageType;
       const trackingId = message.trackingId;
       const messagePayload = JSON.parse(message.messagePayload);
-
-      console.log('sendMessageToOpenProject: ', message);
 
       this.revitMessageReceivedSource.next({
         messageType: messageType,
