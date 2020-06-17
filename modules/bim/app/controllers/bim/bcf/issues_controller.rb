@@ -68,6 +68,21 @@ module Bim
       end
 
       def perform_import
+        import_file
+      rescue StandardError => e
+        flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
+        redirect_to action: :upload
+      ensure
+        @bcf_attachment&.destroy
+      end
+
+      def redirect_to_bcf_issues_listset
+        redirect_to defaults_bcf_project_ifc_models_path(@project)
+      end
+
+      private
+
+      def import_file
         set_import_options
 
         results = @importer.import!(@import_options).flatten
@@ -79,18 +94,7 @@ module Bim
             @issues[:successful] << issue
           end
         end
-      rescue StandardError => e
-        flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
-        redirect_to action: :upload
-      ensure
-        @bcf_attachment&.destroy
       end
-
-      def redirect_to_bcf_issues_list
-        redirect_to defaults_bcf_project_ifc_models_path(@project)
-      end
-
-      private
 
       def import_canceled?
         if %i[unknown_types_action
@@ -133,7 +137,7 @@ module Bim
         elsif render_config_non_members?
           render_config_non_members
         else
-          perform_import
+          import_file
           render :perform_import
         end
       end
