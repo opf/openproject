@@ -61,7 +61,7 @@ $modal-footer-height: $modal-header-height
   transition: opacity 0.25s ease
   background: $ng-modal-background
   position: relative
-  padding: $ng-modal-padding / 2
+  padding: 5px $ng-modal-padding / 2
   min-width: 200px
   max-width: 60vw
   overflow-y: auto
@@ -77,7 +77,21 @@ $modal-footer-height: $modal-header-height
     min-height: 20vh
 
 .op-modal--modal-header
-  padding: 0
+  display: flex
+  align-items: center
+  height: $modal-header-height
+  padding: 0 45px 0 0
+  margin-bottom: 15px
+  border-bottom: 1px solid $light-gray
+
+  *
+    height: $modal-header-height
+    line-height: $modal-header-height
+
+  h2, h3
+    border: none
+    @include text-shortener
+    margin: 0
 
 .op-modal--modal-body
   margin: 1em 0
@@ -98,8 +112,8 @@ $modal-footer-height: $modal-header-height
 
 .op-modal--modal-close-button
   position: absolute
-  top: 0.75rem
-  right: 0.75rem
+  right: 25px
+  top: 4px
   cursor: pointer
   @include varprop(color, body-font-color)
   &:hover
@@ -112,32 +126,19 @@ $modal-footer-height: $modal-header-height
 
   // Overridden header styles
   .op-modal--modal-header
-    display: flex
-    align-items: center
-    height: $modal-header-height
-    padding: 0 45px 0 1.5rem
-    border-bottom-style: solid
+    padding-left: 1.5rem
     @include varprop(background-color, header-bg-color)
     @include varprop(border-bottom-width, header-border-bottom-width)
     @include varprop(border-bottom-color, header-border-bottom-color)
 
     *
       @include varprop(color, header-item-font-color)
-      height: $modal-header-height
-      line-height: $modal-header-height
-
-    h2, h3
-      @include text-shortener
-      margin: 0
-      border: none
 
   .op-modal--modal-footer
     margin: 1em 0
 
   .op-modal--modal-close-button
-    right: 10px
     top: 0
-    @include varprop(line-height, modal-header-height)
     @include varprop(color, header-item-font-color)
 
   .avatar

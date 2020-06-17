@@ -416,7 +416,6 @@ uk:
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
-        templated: 'Template project'
       projects/status:
         code: 'Статус'
         explanation: 'Status description'
@@ -488,7 +487,6 @@ uk:
         parent_work_package: "Джерело"
         priority: "Пріоритет"
         progress: "Прогрес (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
         subproject: "Підпроект"
@@ -1989,12 +1987,6 @@ uk:
       warning_one: Членам проекту доведеться перенести репозиторії проекту.
       warning_two: Існуючі посилання на проект більше не працюватимуть.
       title: Змініть ідентифікатор проекту
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Дійсно архівувати проект %{name} ?"
       archived: "Archived"

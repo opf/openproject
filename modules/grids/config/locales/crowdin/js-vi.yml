@@ -3,7 +3,6 @@ vi:
     grid:
       add_widget: 'Add widget'
       remove: 'Remove widget'
-      configure: 'Configure widget'
       upsale:
         text: "Một số widget, như widget biểu đồ gói công việc, chỉ có sẵn trong"
         link: 'Phiên bản doanh nghiệp.'
@@ -40,7 +39,6 @@ vi:
           no_results: 'No subprojects.'
         time_entries_current_user:
           title: 'Thời gian hiện tại (My spent time)'
-          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Thời gian làm việc (trong 7 ngày gần nhất)'
           no_results: 'Không có ghi nhận thời gian làm việc trong 7 ngày gần nhất.'

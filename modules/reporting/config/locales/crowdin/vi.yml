@@ -22,9 +22,8 @@
 vi:
   button_save_as: "Save report as..."
   comments: "Nhận xét"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Cost reports"
   label_cost_report: "Cost report"
-  label_cost_report_plural: "Cost reports"
   description_drill_down: "Show details"
   description_filter_selection: "Selection"
   description_multi_select: "Show multiselect"
