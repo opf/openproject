@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
@@ -8,13 +8,9 @@ import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import * as URI from 'urijs';
-import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {
-  LoadingIndicatorService,
-  withDelayedLoadingIndicator
-} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {switchMap, takeWhile, map} from 'rxjs/operators';
-import {interval, Observable, Subscription} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {Observable} from 'rxjs';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 
@@ -28,7 +24,8 @@ The modal might also be used to only display the progress of an export. This wil
  */
 @Component({
   templateUrl: './wp-table-export.modal.html',
-  styleUrls: ['./wp-table-export.modal.sass']
+  styleUrls: ['./wp-table-export.modal.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WpTableExportModal extends OpModalComponent implements OnInit {
 
