@@ -71,7 +71,7 @@ module WorkPackages
 
         download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(attachment.id)
 
-        update_status status: :success,
+        upsert_status status: :success,
                       message: I18n.t('export.succeeded'),
                       payload: download_payload(download_url)
       end

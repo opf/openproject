@@ -179,10 +179,17 @@ describe WorkPackagesController, type: :controller do
               .and_return(ServiceResult.new(result: 'uuid of the export job'))
           end
 
-          it 'should fulfill the defined should_receives' do
+          it 'redirects to the job status' do
             call_action
+            expect(response).to redirect_to job_status_path('uuid of the export job')
+          end
 
-            expect(response.body).to eq 'uuid of the export job'
+          context 'with json accept' do
+            it 'should fulfill the defined should_receives' do
+              request.headers['Accept'] = 'application/json'
+              call_action
+              expect(response.body).to eq({ job_id: 'uuid of the export job' }.to_json)
+            end
           end
         end
       end

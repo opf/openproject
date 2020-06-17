@@ -87,7 +87,12 @@ class WorkPackagesController < ApplicationController
                      .new(user: current_user)
                      .call(query: @query, mime_type: mime_type, params: params)
                      .result
-    render plain: job_id
+
+    if request.headers['Accept']&.include?('application/json')
+      render json: { job_id: job_id }
+    else
+      redirect_to job_status_path(job_id)
+    end
   end
 
   def export_single(mime_type)

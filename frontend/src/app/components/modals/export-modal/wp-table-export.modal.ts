@@ -19,8 +19,8 @@ interface ExportLink extends HalLink {
 }
 
 /**
-Modal for exporting work packages to different formats. The user may choose from a variety of formats (e.g. PDF and CSV).
-The modal might also be used to only display the progress of an export. This will happen if a link for exporting is provided via the locals.
+ Modal for exporting work packages to different formats. The user may choose from a variety of formats (e.g. PDF and CSV).
+ The modal might also be used to only display the progress of an export. This will happen if a link for exporting is provided via the locals.
  */
 @Component({
   templateUrl: './wp-table-export.modal.html',
@@ -82,13 +82,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
 
   private triggerByLink(url:string, event:MouseEvent) {
     event.preventDefault();
-
-    this
-      .requestExport(url)
-      .subscribe(
-        jobId => this.replaceWithJobModal(jobId),
-        error => this.handleError(error)
-      );
+    this.requestExport(url);
   }
 
   /**
@@ -96,10 +90,15 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
    *
    * @param url
    */
-  private requestExport(url:string):Observable<string> {
-    return this
+  private requestExport(url:string):void {
+    this
       .httpClient
-      .get(url, { observe: 'body', responseType: 'text' });
+      .get(url, { observe: 'body', responseType: 'json' })
+      .subscribe(
+        (json:{ job_id:string }) => this.replaceWithJobModal(json.job_id),
+        error => this.handleError(error)
+      );
+
   }
 
   private replaceWithJobModal(jobId:string) {

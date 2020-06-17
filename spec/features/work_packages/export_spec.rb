@@ -70,7 +70,7 @@ describe 'work package export', type: :feature do
     click_on export_type
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content 'The job has been queued and will be processed shortly.',
+    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'),
                                  wait: 10
 
     begin

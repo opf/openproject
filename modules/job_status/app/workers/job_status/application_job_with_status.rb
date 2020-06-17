@@ -68,7 +68,7 @@ module JobStatus
         message: nil,
         payload: nil,
         reference_id: status_reference&.id,
-        reference_type: status_reference&.type,
+        reference_type: status_reference&.class.to_s,
         user_id: User.current.id,
         job_id: job_id
       )
