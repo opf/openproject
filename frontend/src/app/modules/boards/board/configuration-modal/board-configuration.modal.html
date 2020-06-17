@@ -3,6 +3,8 @@
        data-indicator-name="modal"
        tabindex="0">
     <div class="op-modal--modal-header">
+      <h3 [textContent]="text.title"></h3>
+
       <a class="op-modal--modal-close-button">
         <i
             class="icon-close"
@@ -11,8 +13,6 @@
         </i>
       </a>
     </div>
-
-    <h3 [textContent]="text.title"></h3>
 
     <div *ngIf="!!tabPortalHost"
          class="content--tabs scrollable-tabs">

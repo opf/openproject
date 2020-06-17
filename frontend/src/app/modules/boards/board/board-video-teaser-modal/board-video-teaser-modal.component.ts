@@ -14,6 +14,8 @@ import {DomSanitizer} from "@angular/platform-browser";
            data-indicator-name="modal"
            tabindex="0">
         <div class="op-modal--modal-header">
+          <h3 [textContent]="text.title"></h3>
+          
           <a class="op-modal--modal-close-button">
             <i
               class="icon-close"
@@ -22,8 +24,6 @@ import {DomSanitizer} from "@angular/platform-browser";
             </i>
           </a>
         </div>
-
-        <h3 [textContent]="text.title"></h3>
 
         <iframe [src]="teaserVideoUrl"
                 width="800"
