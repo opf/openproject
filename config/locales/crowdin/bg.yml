@@ -414,6 +414,7 @@ bg:
         types: "Видове"
         versions: "Версии"
         work_packages: "Работен пакет"
+        templated: 'Template project'
       projects/status:
         code: 'Състояние'
         explanation: 'Status description'
@@ -485,6 +486,7 @@ bg:
         parent_work_package: "Горна категория"
         priority: "Приоритет"
         progress: "Прогрес (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Отработено време"
         spent_time: "Отработено време"
         subproject: "Подпроект"
@@ -1945,6 +1947,12 @@ bg:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Наистина ли искате да архивирате на проекта \"%{name}\"?"
       archived: "Archived"

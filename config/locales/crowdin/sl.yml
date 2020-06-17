@@ -414,6 +414,7 @@ sl:
         types: "Tipi"
         versions: "Verzije"
         work_packages: "zahtevki"
+        templated: 'Template project'
       projects/status:
         code: 'Stanje'
         explanation: 'Opis stanja'
@@ -485,6 +486,7 @@ sl:
         parent_work_package: "Nadrejeni"
         priority: "Prioriteta"
         progress: "Napredek (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"
@@ -1985,6 +1987,12 @@ sl:
       warning_one: Člani projekta bodo morali preseliti shrambo projekta.
       warning_two: Obstoječe povezave do projekta ne bodo več delovale.
       title: Spremenite identifikator projekta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Ali ste prepričani, da želite arhivirati projekt '% {name}'?"
       archived: "Arhiviran"

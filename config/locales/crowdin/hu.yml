@@ -411,6 +411,7 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
+        templated: 'Template project'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -482,6 +483,7 @@ hu:
         parent_work_package: "Szülő"
         priority: "Fontosság"
         progress: "Folyamat állapot (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
         subproject: "Alprojekt"
@@ -1941,6 +1943,12 @@ hu:
       warning_one: A projekt tagjai áthelyezik a projekt tárolóit.
       warning_two: A projekthez tartozó hivatkozások már nem működnek.
       title: Módosítsa a projekt azonosítóját
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
       archived: "Archiválva"

@@ -412,6 +412,7 @@ pl:
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Opis statusu'
@@ -483,6 +484,7 @@ pl:
         parent_work_package: "Rodzic"
         priority: "Priorytet"
         progress: "Postęp (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
         subproject: "Podprojekt"
@@ -1982,6 +1984,12 @@ pl:
       warning_one: Członkowie projektu będą musieli przenieść repozytoria projektu.
       warning_two: Istniejące linki do projektu nie będą dłużej działać.
       title: Zmień identyfikator projektu
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Jesteś pewien, że chcesz zarchiwizować projekt '%{name}'?"
       archived: "Zarchiwizowano"
