@@ -85,6 +85,10 @@ module Pages
         expect(page).to have_selector('#bim-view-toggle-button', text: value)
       end
 
+      def has_no_menu_item_with_text(value)   
+        expect(page).to have_no_selector('.menu-item', text: value)
+      end
+
       private
 
       def toolbar_items

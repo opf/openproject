@@ -54,4 +54,12 @@ describe 'BIM Revit Add-in navigation spec',
   it 'shows "Cards" view by default' do
     model_page.expect_view_toggle_at 'Cards'
   end
+
+  it 'shows no viewer' do
+    model_page.model_viewer_visible false
+  end
+
+  it 'has no viewer options' do
+    model_page.has_no_menu_item_with_text 'Viewer'
+  end
 end
