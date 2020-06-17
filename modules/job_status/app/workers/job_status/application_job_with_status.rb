@@ -53,6 +53,30 @@ module JobStatus
       false
     end
 
+    ##
+    # Get the current status object, if any
+    def job_status
+      ::JobStatus::Status
+        .find_by(job_id: job_id)
+    end
+
+    ##
+    # Update the status code for a given job
+    def upsert_status(status:, **args)
+      upsert_attributes = args.reverse_merge(
+        status: status,
+        message: nil,
+        payload: nil,
+        reference_id: status_reference&.id,
+        reference_type: status_reference&.type,
+        user_id: User.current.id,
+        job_id: job_id
+      )
+
+      ::JobStatus::Status.upsert upsert_attributes,
+                                 unique_by: :job_id
+    end
+
     protected
 
     ##
@@ -65,14 +89,6 @@ module JobStatus
     # Crafts a payload for a download result
     def download_payload(path)
       { download: path }
-    end
-
-    ##
-    # Updates the associated status object
-    def update_status(**args)
-      ::JobStatus::Status
-        .where(job_id: job_id)
-        .update_all(args)
     end
   end
 end

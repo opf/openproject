@@ -61,17 +61,17 @@ class CopyProjectJob < ApplicationJob
     end
 
     if target_project
-      ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
       successful_status_update
+      ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
     else
-      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
       failure_status_update
+      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
     end
   rescue StandardError => e
     logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
     errors = [I18n.t('copy_project.failed_internal')]
-    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
     failure_status_update
+    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
   end
 
   def store_status?
@@ -85,15 +85,20 @@ class CopyProjectJob < ApplicationJob
   private
 
   def successful_status_update
-    update_status status: :success,
+    upsert_status status: :success,
                   message: I18n.t('copy_project.succeeded', target_project_name: target_project.name),
                   payload: redirect_payload(url_helpers.project_path(target_project))
   end
 
   def failure_status_update
-    update_status status: :failure,
-                  message: I18n.t('copy_project.failed') + ". " + errors.join("\n"),
-                  payload: nil
+    message =
+      if errors
+        "#{I18n.t('copy_project.failed', source_project_name: source_project.name)}. #{errors.join("\n")}"
+      else
+        I18n.t('copy_project.failed')
+      end
+
+    upsert_status status: :failure, message: message
   end
 
   def user

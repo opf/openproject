@@ -16,8 +16,15 @@ class ExtendJobStatus < ActiveRecord::Migration[6.0]
 
       change_table :delayed_job_statuses do |t|
         t.references :user, index: true
-        t.string :job_id, index: true
+        t.string :job_id, index: { unique: true }
         t.jsonb :payload
+      end
+
+      reversible do |dir|
+        dir.up do
+          change_column_default :delayed_job_statuses, :created_at, -> { 'CURRENT_TIMESTAMP' }
+          change_column_default :delayed_job_statuses, :updated_at, -> { 'CURRENT_TIMESTAMP' }
+        end
       end
 
       # Now that we have user reference on job status
