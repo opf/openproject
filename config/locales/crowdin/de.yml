@@ -39,7 +39,7 @@ de:
         header-item-bg-hover-color: "Hintergrund der Kopfzeile bei Hover"
         header-item-font-color: "Textfarbe der Kopfzeile"
         header-item-font-hover-color: "Textfarbe der Kopfzeile bei Hover"
-        header-border-bottom-color: "Rahmenfarbe der Kopfzeile"
+        header-border-bottom-color: "Header border"
         main-menu-bg-color: "Hintergrundfarbe des Hauptmenüs"
         main-menu-bg-selected-background: "Hintergrundfarbe des Hauptmenüs bei Auswahl"
         main-menu-bg-hover-background: "Hintergrundfarbe des Hauptmenüs bei Hover"
