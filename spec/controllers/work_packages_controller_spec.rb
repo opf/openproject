@@ -176,14 +176,13 @@ describe WorkPackagesController, type: :controller do
             allow(service_instance)
               .to receive(:call)
               .with(query: query, mime_type: mime_type.to_sym, params: anything)
-              .and_return(ServiceResult.new(result: export_storage))
+              .and_return(ServiceResult.new(result: 'uuid of the export job'))
           end
 
           it 'should fulfill the defined should_receives' do
             call_action
 
-            expect(response)
-              .to redirect_to(work_packages_export_path(export_storage.id))
+            expect(response.body).to eq 'uuid of the export job'
           end
         end
       end
