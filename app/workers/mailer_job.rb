@@ -45,6 +45,11 @@
 class MailerJob < ApplicationJob
   queue_as { ActionMailer::Base.deliver_later_queue_name }
 
+  # Retry mailing jobs three times with exponential backoff
+  retry_on StandardError, wait: :exponentially_longer, attempts: 3
+
+  # If exception is handled in mail handler
+  # retry_on will be ignored
   rescue_from StandardError, with: :handle_exception_with_mailer_class
 
   def perform(mailer, mail_method, delivery_method, *args)

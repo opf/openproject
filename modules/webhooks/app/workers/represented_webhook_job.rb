@@ -51,6 +51,9 @@ class RepresentedWebhookJob < WebhookJob
 
     begin
       response = RestClient.post webhook.url, request_body, headers
+    rescue RestClient::RequestTimeout => e
+      response = e.response
+      exception = e
     rescue RestClient::Exception => e
       response = e.response
       exception = e
@@ -69,6 +72,12 @@ class RepresentedWebhookJob < WebhookJob
       response_headers: response.try(:headers),
       response_body: response.try(:to_s) || exception.try(:message)
     )
+
+    # We want to re-raise timeout exceptions
+    # but log the request beforehand
+    if exception&.is_a?(RestClient::RequestTimeout)
+      raise exception
+    end
   end
 
   def accepted_in_project?
