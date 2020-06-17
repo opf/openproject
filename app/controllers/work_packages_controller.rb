@@ -83,12 +83,11 @@ class WorkPackagesController < ApplicationController
   protected
 
   def export_list(mime_type)
-    export_storage = WorkPackages::Exports::ScheduleService
+    job_id = WorkPackages::Exports::ScheduleService
                      .new(user: current_user)
                      .call(query: @query, mime_type: mime_type, params: params)
                      .result
-
-    redirect_to work_packages_export_path(export_storage.id)
+    render plain: job_id
   end
 
   def export_single(mime_type)

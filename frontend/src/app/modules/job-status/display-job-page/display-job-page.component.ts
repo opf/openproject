@@ -11,13 +11,12 @@ import {take} from "rxjs/operators";
 export class DisplayJobPageComponent implements AfterViewInit, OnDestroy {
   private modal?:OpModalComponent;
 
-  constructor(private injector:Injector,
-              private $state:StateService,
+  constructor(private $state:StateService,
               private modalService:OpModalService) {
   }
 
   ngAfterViewInit() {
-    this.modal = this.modalService.show(JobStatusModal, this.injector, { jobId: this.$state.params.jobId });
+    this.modal = this.modalService.show(JobStatusModal, 'global', { jobId: this.$state.params.jobId });
     this.modal
       .closingEvent
       .pipe(

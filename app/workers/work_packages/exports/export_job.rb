@@ -1,8 +1,8 @@
 module WorkPackages
   module Exports
     class ExportJob < ::ApplicationJob
-      def perform(export:, mime_type:, query:, query_attributes:, options:)
-        User.execute_as export.user do
+      def perform(export:, user:, mime_type:, query:, query_attributes:, options:)
+        User.execute_as user do
           query = set_query_props(query || Query.new, query_attributes)
           export_work_packages(export, mime_type, query, options)
 
@@ -12,6 +12,10 @@ module WorkPackages
 
       def status_reference
         arguments.first[:export]
+      end
+
+      def updates_own_status?
+        true
       end
 
       private
@@ -61,9 +65,15 @@ module WorkPackages
       end
 
       def store_attachment(storage, file)
-        Attachments::CreateService
-          .new(storage, author: storage.user)
+        attachment = Attachments::CreateService
+          .new(storage, author: User.current)
           .call(uploaded_file: file, description: '')
+
+        download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(attachment.id)
+
+        update_status status: :success,
+                      message: I18n.t('export.succeeded'),
+                      payload: download_payload(download_url)
       end
     end
   end

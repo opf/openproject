@@ -1159,6 +1159,7 @@ en:
     work_package_note: 'Work Package note added'
 
   export:
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"

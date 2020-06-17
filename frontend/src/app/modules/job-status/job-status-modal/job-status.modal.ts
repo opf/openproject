@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -31,6 +31,8 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
     title: this.I18n.t('js.job_status.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
     redirect: this.I18n.t('js.job_status.redirect'),
+    download_starts: this.I18n.t('js.job_status.download_starts'),
+    click_to_download: this.I18n.t('js.job_status.click_to_download'),
   };
 
   /** The job ID reference */
@@ -42,11 +44,16 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
   /** The current status */
   public status:JobStatusEnum;
 
+  /** An associated icon to render, if any */
+  public statusIcon:string|null;
+
   /** Public message to show */
   public message:string;
 
   /** A link in case the job results in a download */
   public downloadHref:string|null = null;
+
+  @ViewChild('downloadLink') private downloadLink:ElementRef<HTMLInputElement>;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
@@ -67,8 +74,6 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
   }
 
   private listenOnJobStatus() {
-    this.isLoading = true;
-
     timer(0, 2000)
       .pipe(
         switchMap(() => this.performRequest()),
@@ -76,10 +81,25 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
         this.untilDestroyed(),
         withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
       ).subscribe(
-        object => this.onResponse(object),
+      object => this.onResponse(object),
       error => this.handleError(error.message),
       () => this.isLoading = false
     );
+  }
+
+  private iconForStatus():string|null {
+    switch (this.status) {
+      case "cancelled":
+      case "failure":
+      case "error":
+        return 'icon-error';
+        break;
+      case "success":
+        return "icon-checkmark";
+        break;
+      default:
+        return null;
+    }
   }
 
   /**
@@ -92,16 +112,32 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
 
   private onResponse(response:JobStatusInterface) {
     let status = this.status = response.status;
+
     this.message = response.message ||
       this.I18n.t(`js.job_status.generic_messages.${status}`, { defaultValue: status });
 
-    const redirectUrl:string|undefined = response.payload?.redirect;
-    if (redirectUrl !== undefined) {
-      this.message += `. ${this.text.redirect}`;
-      setTimeout(() => window.location.href = redirectUrl, 2000);
+    if (response.payload) {
+      this.handleRedirect(response.payload?.redirect);
+      this.handleDownload(response.payload?.download);
     }
 
+    this.statusIcon = this.iconForStatus();
     this.cdRef.detectChanges();
+  }
+
+  private handleRedirect(redirectUrl?:string) {
+    if (redirectUrl !== undefined) {
+      setTimeout(() => window.location.href = redirectUrl, 2000);
+      this.message += `. ${this.text.redirect}`;
+    }
+  }
+
+  private handleDownload(downloadUrl?:string) {
+    if (downloadUrl !== undefined) {
+      this.downloadHref = downloadUrl;
+      // Click download link manually
+      setTimeout(() => this.downloadLink.nativeElement.click(), 50);
+    }
   }
 
   private performRequest():Observable<JobStatusInterface> {

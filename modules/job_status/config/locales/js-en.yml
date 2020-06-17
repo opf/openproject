@@ -1,6 +1,8 @@
 en:
   js:
     job_status:
+      download_starts: 'The download should start automatically.'
+      click_to_download: 'Or click here to download.'
       title: 'Background job status'
       redirect: 'You are being redirected.'
       generic_messages:
