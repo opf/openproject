@@ -69,7 +69,7 @@
       font-size: 12px;
   }
 
-  .icon-list .span {
+  .icon-list span.icon {
       display: block;
       font-size: 30px;
   }

@@ -65,5 +65,9 @@ module Pages
     def save!
       scroll_to_and_click find('.button', text: I18n.t('js.button_save'))
     end
+
+    def cancel!
+      scroll_to_and_click find('.button', text: I18n.t('js.button_cancel'))
+    end
   end
 end

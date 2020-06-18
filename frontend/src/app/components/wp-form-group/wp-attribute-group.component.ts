@@ -40,13 +40,6 @@ export class WorkPackageFormAttributeGroupComponent {
   @Input() public workPackage:WorkPackageResource;
   @Input() public group:GroupDescriptor;
 
-  public text = {
-    date: {
-      startDate: this.I18n.t('js.label_no_start_date'),
-      dueDate: this.I18n.t('js.label_no_due_date')
-    },
-  };
-
   constructor(readonly I18n:I18nService,
               public wpeditForm:EditFormComponent,
               protected injector:Injector) {

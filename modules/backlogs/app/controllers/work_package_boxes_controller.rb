@@ -51,7 +51,7 @@ class WorkPackageBoxesController < WorkPackagesController
 
     update_work_package_from_params
     load_journals
-    @journal = @work_package.current_journal
+    @journal = @work_package.last_journal
 
     respond_to do |format|
       format.js   { render partial: 'edit' }
@@ -68,7 +68,7 @@ class WorkPackageBoxesController < WorkPackagesController
         format.js   { render partial: 'show' }
       end
     else
-      @journal = @work_package.current_journal
+      @journal = @work_package.last_journal
       respond_to do |format|
         format.js { render partial: 'edit' }
       end

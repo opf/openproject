@@ -91,7 +91,6 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
         .save(change)
         .then(() => {
           this.workPackageNotificationService.showSave(this.workPackage);
-          this.halEvents.push(this.workPackage, { eventType: 'updated' });
         });
     }
   }

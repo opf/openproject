@@ -27,8 +27,7 @@
     <%= page_fields.hidden_field :parent_id %>
     <%= page_fields.select :parent_id,
                            wiki_page_options_for_select(@wiki.pages),
-                           { label: WikiPage.human_attribute_name(:parent_title), include_blank: false },
-                           { class: "parent-select form--select" } %>
+                           { label: WikiPage.human_attribute_name(:parent_title), include_blank: false, container_class: '-wide' } %>
   <% end%>
 </div>
 

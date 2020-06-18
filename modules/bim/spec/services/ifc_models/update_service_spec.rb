@@ -43,7 +43,8 @@ describe Bim::IfcModels::UpdateService do
       .to receive(:new)
       .with(user: user,
             model: model,
-            contract_class: contract_class)
+            contract_class: contract_class,
+            contract_options: {})
       .and_return(service)
 
     allow(service)

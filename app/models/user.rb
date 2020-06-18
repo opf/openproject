@@ -795,11 +795,13 @@ class User < Principal
       klass.where(['author_id = ?', id]).update_all ['author_id = ?', substitute.id]
     end
 
-    [TimeEntry, Journal, ::Query].each do |klass|
+    [TimeEntry, ::Query].each do |klass|
       klass.where(['user_id = ?', id]).update_all ['user_id = ?', substitute.id]
     end
 
-    JournalManager.update_user_references id, substitute.id
+    Journals::UserReferenceUpdateService
+      .new(self)
+      .call(substitute)
   end
 
   def delete_associated_private_queries

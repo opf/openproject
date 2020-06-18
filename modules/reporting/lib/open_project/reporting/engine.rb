@@ -33,7 +33,7 @@ module OpenProject::Reporting
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-reporting',
-             author_url: 'https://www.openproject.org',
+             author_url: 'https://www.openproject.com',
              bundled: true do
 
       view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
@@ -60,7 +60,9 @@ module OpenProject::Reporting
       OpenProject::AccessControl.permission(:view_own_cost_entries).actions << "work_package_costlog/index"
 
       #menu extensions
-      menu :top_menu, :cost_reports_global, { controller: '/cost_reports', action: 'index', project_id: nil },
+      menu :top_menu,
+           :cost_reports_global,
+           { controller: '/cost_reports', action: 'index', project_id: nil },
            caption: :cost_reports_title,
            if: Proc.new {
              (User.current.logged? || !Setting.login_required?) &&
@@ -72,7 +74,8 @@ module OpenProject::Reporting
                )
            }
 
-      menu :project_menu, :cost_reports,
+      menu :project_menu,
+           :cost_reports,
            { controller: '/cost_reports', action: 'index' },
            param: :project_id,
            after: :time_entries,

@@ -5,6 +5,11 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export type BoardType = 'free'|'action';
 
+export interface BoardWidgetOption {
+  queryId:string;
+  filters:ApiV3Filter[];
+}
+
 export class Board {
   constructor(public grid:GridResource) {
   }

@@ -70,7 +70,8 @@ describe Grids::UpdateService, type: :model do
       .to receive(:new)
       .with(user: user,
             model: grid,
-            contract_class: contract_class)
+            contract_class: contract_class,
+            contract_options: {})
       .and_return(service)
 
     allow(service)

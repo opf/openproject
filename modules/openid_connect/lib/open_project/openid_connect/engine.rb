@@ -8,7 +8,7 @@ module OpenProject::OpenIDConnect
     extend OpenProject::Plugins::AuthPlugin
 
     register 'openproject-openid_connect',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.com',
              bundled: true,
              settings: { 'default' => { 'providers' => {} } } do
       menu :admin_menu,

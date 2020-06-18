@@ -114,7 +114,7 @@ describe 'Upload attachment to work package', js: true do
 
         sleep 2
 
-        click_on 'Save'
+        scroll_to_and_click find('#work-packages--edit-actions-save')
 
         wp_page.expect_notification(
           message: 'Successful creation.'

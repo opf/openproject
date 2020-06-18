@@ -1,0 +1,62 @@
+@import 'helpers'
+
+$board-list-max-width: 300px
+
+.boards-list--container
+  display: flex
+  flex-direction: row
+  flex-wrap: nowrap
+  flex-grow: 1
+  height: 100%
+
+  // Make it scrollable
+  overflow-y: auto
+  @include styled-scroll-bar
+
+.boards-list-item-handle
+  position: absolute
+  font-size: 14px
+  left: 0
+  top: 18px
+  z-index: 100
+  opacity: 0
+  cursor: grab
+
+  .boards-list--container.-free &
+    top: 13px
+
+  &:before
+    padding: 0
+    color: var(--light-gray)
+
+  .boards-list--item:hover &
+    opacity: 1
+
+.boards-list--add-item
+  flex: 0 0 auto
+  // Same height as board list header
+  height: 42px
+  line-height: 42px
+  font-size: 14px
+  cursor: pointer
+  color: var(--gray-dark)
+
+  .boards-list--add-item-text
+    padding: 5px 15px 0 15px
+
+  .boards-list--container.-free &
+    margin-top: 0
+
+  &:hover
+    color: var(--body-font-color)
+
+.boards-list--item
+  flex: 0 0 $board-list-max-width
+  max-width: $board-list-max-width
+  position: relative
+
+  &:first-of-type
+    margin-left: 5px
+
+  &.cdk-drag-placeholder
+    @include modifying--placeholder

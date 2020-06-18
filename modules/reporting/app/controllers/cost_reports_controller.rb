@@ -315,8 +315,4 @@ class CostReportsController < ApplicationController
   def find_optional_user
     @current_user = User.current || User.anonymous
   end
-
-  def default_breadcrumb
-    l(:cost_reports_title)
-  end
 end

@@ -40,8 +40,11 @@ export interface BoardActionService {
 
   /**
    * Get available values from the active queries
+   *
+   * @param board The board we're looking at
+   * @param active The active set of values (hrefs or plain values)
    */
-  getAvailableValues(board:Board, queries:QueryResource[]):Promise<HalResource[]>;
+  getAvailableValues(board:Board, active:Set<string>):Promise<HalResource[]>;
 
   /**
    * Get action specific items that shall be shown in the list menu

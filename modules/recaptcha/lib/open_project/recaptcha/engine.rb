@@ -8,7 +8,7 @@ module OpenProject::Recaptcha
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-recaptcha',
-             author_url: 'http://openproject.com',
+             author_url: 'https://www.openproject.com',
              settings: {
                default: {
                  recaptcha_type: ::OpenProject::Recaptcha::TYPE_DISABLED

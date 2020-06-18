@@ -379,7 +379,7 @@ class WorkPackage < ApplicationRecord
   end
 
   # check if user is allowed to edit WorkPackage Journals.
-  # see Redmine::Acts::Journalized::Permissions#journal_editable_by
+  # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
     user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
       user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id
@@ -693,8 +693,8 @@ class WorkPackage < ApplicationRecord
   def override_last_journal_notes_and_user_of!(other_work_package)
     journal = other_work_package.journals.last
     # Same user and notes
-    journal.user = current_journal.user
-    journal.notes = current_journal.notes
+    journal.user = last_journal.user
+    journal.notes = last_journal.notes
 
     journal.save
   end

@@ -25,9 +25,6 @@ x-op-app: &app
     - "IMAP_ENABLED=false"
   volumes:
     - "opdata:/var/openproject/assets"
-  depends_on:
-    - db
-    - cache
 
 services:
   db:
@@ -68,18 +65,30 @@ services:
     networks:
       - frontend
       - backend
+    depends_on:
+      - db
+      - cache
+      - seeder
 
   worker:
     <<: *app
     command: "./docker/worker"
     networks:
       - backend
+    depends_on:
+      - db
+      - cache
+      - seeder
 
   cron:
     <<: *app
     command: "./docker/cron"
     networks:
       - backend
+    depends_on:
+      - db
+      - cache
+      - seeder
 
   seeder:
     <<: *app

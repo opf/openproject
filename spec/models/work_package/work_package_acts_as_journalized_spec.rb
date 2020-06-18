@@ -47,7 +47,7 @@ describe WorkPackage, type: :model do
     let(:current_user) { FactoryBot.create(:user) }
 
     before do
-      allow(User).to receive(:current).and_return current_user
+      login_as(current_user)
 
       work_package
     end
@@ -73,6 +73,14 @@ describe WorkPackage, type: :model do
         expect(Journal.first.details[:description])
           .to match_array [nil, work_package.description]
       end
+
+      it 'has the timestamp of the work package update time for created_at' do
+        # This seemingly unnecessary reload leads to the updated_at having the same
+        # precision as the created_at of the Journal. It is database dependent, so it would work without
+        # reload on PG 12 but does not work on PG 9.
+        expect(Journal.first.created_at)
+          .to eql(work_package.reload.updated_at)
+      end
     end
 
     context 'nothing is changed' do
@@ -81,17 +89,6 @@ describe WorkPackage, type: :model do
       end
 
       it { expect(Journal.all.count).to eq(1) }
-    end
-
-    context 'when the journal manager does not detect a change to be tracked' do
-      before do
-        allow(JournalManager).to receive(:changed?).with(work_package).and_return false
-        work_package.assign_attributes subject: "#{work_package.subject} with changes"
-      end
-
-      it 'is not created' do
-        expect { work_package.save! }.not_to(change { work_package.journals.reload.length })
-      end
     end
 
     context 'different newlines' do
@@ -241,6 +238,14 @@ describe WorkPackage, type: :model do
           expect(last_journal.data.description).to eql('description v4')
         end
       end
+
+      it 'has the timestamp of the work package update time for created_at' do
+        # This seemingly unnecessary reload leads to the updated_at having the same
+        # precision as the created_at of the Journal. It is database dependent, so it would work without
+        # reload on PG 12 but does not work on PG 9.
+        expect(work_package.journals.order(:id).last.created_at)
+          .to eql(work_package.reload.updated_at)
+      end
     end
 
     context 'attachments' do
@@ -389,8 +394,6 @@ describe WorkPackage, type: :model do
           include_context 'work package with custom value'
 
           it { expect(work_package.journals.reload.last.customizable_journals).to be_empty }
-
-          it { expect(JournalManager.changed?(work_package)).to be_falsey }
         end
 
         describe 'empty values handled as non existing' do
@@ -398,6 +401,37 @@ describe WorkPackage, type: :model do
 
           it { expect(work_package.journals.reload.last.customizable_journals.count).to eq(0) }
         end
+      end
+    end
+
+    context 'on only journal notes adding' do
+      before do
+        work_package.add_journal(User.current, 'some notes')
+        work_package.save
+      end
+
+      it 'has the timestamp of the work package update time for created_at' do
+        # This seemingly unnecessary reload leads to the updated_at having the same
+        # precision as the created_at of the Journal. It is database dependent, so it would work without
+        # reload on PG 12 but does not work on PG 9.
+        expect(work_package.journals.last.created_at)
+          .to eql(work_package.reload.updated_at)
+      end
+    end
+
+    context 'on mixed journal notes and attribute adding' do
+      before do
+        work_package.add_journal(User.current, 'some notes')
+        work_package.subject = 'blubs'
+        work_package.save
+      end
+
+      it 'has the timestamp of the work package update time for created_at' do
+        # This seemingly unnecessary reload leads to the updated_at having the same
+        # precision as the created_at of the Journal. It is database dependent, so it would work without
+        # reload on PG 12 but does not work on PG 9.
+        expect(work_package.journals.last.created_at)
+          .to eql(work_package.reload.updated_at)
       end
     end
   end
@@ -446,58 +480,6 @@ describe WorkPackage, type: :model do
 
         @issue.description = ''
         @issue.save!
-      end
-    end
-
-    describe 'Acts as journalized recreate initial journal' do
-      it 'should not include certain attributes' do
-        recreated_journal = @issue.recreate_initial_journal!
-
-        expect(recreated_journal.details.include?('lock_version')).to eq(false)
-        expect(recreated_journal.details.include?('updated_at')).to eq(false)
-        expect(recreated_journal.details.include?('updated_on')).to eq(false)
-        expect(recreated_journal.details.include?('id')).to eq(false)
-        expect(recreated_journal.details.include?('type')).to eq(false)
-      end
-
-      it 'should not include useless transitions' do
-        recreated_journal = @issue.recreate_initial_journal!
-
-        recreated_journal.details.values.each do |change|
-          expect(change.first).not_to eq(change.last)
-        end
-      end
-
-      it 'should not be different from the initially created journal by aaj' do
-        # Creating four journals total
-        @issue.status = @status_resolved
-        @issue.assigned_to = @user2
-        @issue.save!
-        @issue.reload
-
-        @issue.priority = @priority_high
-        @issue.save!
-        @issue.reload
-
-        @issue.status = @status_rejected
-        @issue.priority = @priority_low
-        @issue.estimated_hours = 3
-        @issue.save!
-
-        initial_journal = @issue.journals.first
-        recreated_journal = @issue.recreate_initial_journal!
-
-        expect(initial_journal).to be_identical(recreated_journal)
-      end
-
-      it 'should not validate with oddly set estimated_hours' do
-        @issue.estimated_hours = 'this should not work'
-        expect(@issue).not_to be_valid
-      end
-
-      it 'should validate with sane estimated_hours' do
-        @issue.estimated_hours = '13h'
-        expect(@issue).to be_valid
       end
     end
   end

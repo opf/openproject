@@ -2,19 +2,26 @@
       [ngClass]="currentPartition">
   <div class="toolbar-container -editable">
     <div class="toolbar">
+      <back-button *ngIf="backButtonCallback"
+                   linkClass="back-button"
+                   [customBackMethod]="backButtonCallback">
+      </back-button>
+
       <editable-toolbar-title [title]="selectedTitle"
-                              [inFlight]="querySaving"
-                              [showSaveCondition]="hasQueryProps"
-                              (onSave)="saveQueryFromTitle($event)"
-                              (onEmptySubmit)="updateQueryName('')"
+                              [inFlight]="toolbarDisabled"
+                              [showSaveCondition]="showToolbarSaveButton"
+                              (onSave)="changeChangesFromTitle($event)"
+                              (onEmptySubmit)="updateTitleName('')"
                               [editable]="titleEditingEnabled">
       </editable-toolbar-title>
 
       <ul class="toolbar-items hide-when-print"
-          *ngIf="tableInformationLoaded">
+          *ngIf="showToolbar">
 
         <ng-container *ngFor="let definition of toolbarButtonComponents">
-          <li class="toolbar-item" *ngIf="!definition.show || definition.show()" [ngClass]="definition.containerClasses">
+          <li class="toolbar-item"
+              *ngIf="!definition.show || definition.show()"
+              [ngClass]="definition.containerClasses">
             <ndc-dynamic [ndcDynamicComponent]="definition.component"
                          [ndcDynamicInputs]="definition.inputs"
                          [ndcDynamicInjector]="injector"
@@ -26,7 +33,13 @@
     </div>
   </div>
 
-  <filter-container></filter-container>
+  <div class="work-packages-partitioned-query-space--filter-area">
+    <ndc-dynamic [ndcDynamicComponent]="filterContainerDefinition.component"
+                 [ndcDynamicInputs]="filterContainerDefinition.inputs"
+                 [ndcDynamicOutputs]="filterContainerDefinition.outputs"
+                 [ndcDynamicInjector]="injector">
+    </ndc-dynamic>
+  </div>
 
   <div class="work-packages-partitioned-page--content-container">
     <!-- Left content view -->

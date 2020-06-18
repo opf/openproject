@@ -69,6 +69,13 @@ describe 'Status action board', type: :feature, js: true do
                       old_status_id: other_status.id,
                       new_status_id: open_status.id)
   }
+  let!(:workflow_type_back_open) {
+    FactoryBot.create(:workflow,
+                      type: type,
+                      role: role,
+                      old_status_id: closed_status.id,
+                      new_status_id: open_status.id)
+  }
 
   before do
     with_enterprise_token :board_view
@@ -200,6 +207,20 @@ describe 'Status action board', type: :feature, js: true do
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
       expect(subjects).to match_array [['Task 1', closed_status.id]]
+
+      # Open remaining in split view
+      wp = second.ordered_work_packages.first.work_package
+      card = board_page.card_for(wp)
+      split_view = card.open_details_view
+      split_view.expect_subject
+      split_view.edit_field(:status).update('Open')
+      split_view.expect_and_dismiss_notification message: 'Successful update.'
+
+      wp.reload
+      expect(wp.status).to eq(open_status)
+
+      board_page.expect_card('Open', 'Task 1', present: true)
+      board_page.expect_card('Closed', 'Task 1', present: false)
     end
   end
 end

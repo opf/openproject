@@ -32,9 +32,8 @@ require 'spec_helper'
 
 describe EnqueueWorkPackageNotificationJob, type: :model do
   let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:recipient) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role, login: "johndoe")
+    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:view_work_packages], login: "johndoe")
   end
   let(:author) { FactoryBot.create(:user, login: "marktwain") }
   let(:work_package) do
@@ -98,6 +97,35 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     it_behaves_like 'sends no notification'
+  end
+
+  describe 'journal creation' do
+    context 'work_package_created' do
+      before do
+        FactoryBot.create(:work_package, project: project)
+      end
+
+      it_behaves_like 'sends notification'
+    end
+
+    context 'work_package_updated' do
+      before do
+        work_package.add_journal(author)
+        work_package.subject = 'A change to the issue'
+        work_package.save!(validate: false)
+      end
+
+      it_behaves_like 'sends notification'
+    end
+
+    context 'work_package_note_added' do
+      before do
+        work_package.add_journal(author, 'This update has a note')
+        work_package.save!(validate: false)
+      end
+
+      it_behaves_like 'sends notification'
+    end
   end
 
   describe 'mail suppressing aggregation' do

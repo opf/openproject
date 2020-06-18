@@ -70,7 +70,7 @@ export class BoardVersionActionService implements BoardActionService {
   }
 
   public canAddToQuery(query:QueryResource):Promise<boolean> {
-    const formLink = _.get(query, 'results.createWorkPackage.href', null) ;
+    const formLink = _.get(query, 'results.createWorkPackage.href', null);
 
     if (!formLink) {
       return Promise.resolve(false);
@@ -118,16 +118,12 @@ export class BoardVersionActionService implements BoardActionService {
    * queries in the board.
    *
    * @param board The board we're looking at
-   * @param queries The active set of queries
+   * @param active The active set of values (hrefs or plain values)
    */
-  public getAvailableValues(board:Board, queries:QueryResource[]):Promise<HalResource[]> {
-    const active = new Set(
-      queries.map(query => this.getFilterHref(query))
-    );
-
+  public getAvailableValues(board:Board, active:Set<string>):Promise<HalResource[]> {
     return this.getVersions()
       .then(results =>
-        results.filter(version => !active.has(version.href!))
+        results.filter(version => !active.has(version.id!))
       );
   }
 
@@ -186,7 +182,7 @@ export class BoardVersionActionService implements BoardActionService {
 
   private patchVersionStatus(version:VersionResource, newStatus:'open'|'closed'|'locked') {
     this.versionDm
-      .patch(version, {status: newStatus })
+      .patch(version, { status: newStatus })
       .then((version) => {
         this.versionCache.updateValue(version.id!, version);
         this.state.go('.', {}, { reload: true });

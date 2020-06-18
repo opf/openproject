@@ -1,3 +1,5 @@
+import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
+
 /**
  * Our application is still a hybrid one, meaning most routes are still
  * handled by Rails. As such, we disable the default link-hijacking that
@@ -8,8 +10,17 @@
 export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
   if (target.hasClass('-augmented-datepicker')) {
     target
-      .attr('autocomplete', 'off') // Disable autocomplete for those fields
-      .datepicker() // Create datepicker with defaults
-      .datepicker('show'); // And show immediately since the click is not yet wired to the datepicker instance
+      .attr('autocomplete', 'off'); // Disable autocomplete for those fields
+
+    var datePicker = new DatePicker(
+      '.-augmented-datepicker',
+      target.val(),
+      {
+        weekNumbers: true,
+        allowInput: true
+      },
+      target[0]
+    );
+    datePicker.show();
   }
 }

@@ -1,12 +1,14 @@
 import {Injectable} from "@angular/core";
 import {Observable, Subject} from "rxjs";
-import {buffer, debounceTime, filter, scan} from "rxjs/operators";
+import {buffer, debounceTime, filter} from "rxjs/operators";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ResourceChangesetCommit} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 export interface HalEvent {
   id:string;
   eventType:string;
   resourceType:string;
+  commit?:ResourceChangesetCommit;
 }
 
 export interface HalCreatedEvent extends HalEvent {
@@ -43,12 +45,11 @@ export class HalEventsService {
       .events$
       .pipe(
         filter((event:HalEvent) => event.resourceType === resourceType),
-        buffer(this.events$.pipe(debounceTime(debounceTimeInMs))),
-        scan((acc, curr) => acc.concat(curr))
+        buffer(this.events$.pipe(debounceTime(debounceTimeInMs)))
       );
   }
 
-  public push(resourceReference:HalResource|{id:string, _type:string}, event:Partial<HalEventTypes>) {
+  public push(resourceReference:HalResource|{ id:string, _type:string }, event:Partial<HalEventTypes>) {
     event.id = resourceReference.id!;
     event.resourceType = resourceReference._type!;
 

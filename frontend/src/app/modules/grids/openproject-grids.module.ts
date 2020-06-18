@@ -64,6 +64,8 @@ import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openpro
 import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/members.component";
 import {WidgetProjectStatusComponent} from "core-app/modules/grids/widgets/project-status/project-status.component";
 import {OpenprojectTimeEntriesModule} from "core-app/modules/time_entries/openproject-time-entries.module";
+import {WidgetTimeEntriesCurrentUserMenuComponent} from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component";
+import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/time-entries/current-user/time-entries-current-user-configuration.modal';
 
 @NgModule({
   imports: [
@@ -127,6 +129,8 @@ import {OpenprojectTimeEntriesModule} from "core-app/modules/time_entries/openpr
     WidgetMenuComponent,
     WidgetWpTableMenuComponent,
     WidgetWpGraphMenuComponent,
+    WidgetTimeEntriesCurrentUserMenuComponent,
+    TimeEntriesCurrentUserConfigurationModalComponent,
 
     AddGridWidgetModal,
 
@@ -261,6 +265,7 @@ export function registerWidgets(injector:Injector) {
         title: i18n.t(`js.grid.widgets.time_entries_current_user.title`),
         properties: {
           name: i18n.t('js.grid.widgets.time_entries_current_user.title'),
+          days: [true, true, true, true, true, true, true]
         }
       },
       {

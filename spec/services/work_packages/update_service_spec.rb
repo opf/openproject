@@ -51,7 +51,7 @@ describe WorkPackages::UpdateService, type: :model do
   end
 
   before do
-    # Stub update_ancestors because it messes with the JournalManager expect
+    # Stub update_ancestors because it messes with the jouralizing expectations
     allow(instance).to receive(:update_ancestors).and_return []
   end
 

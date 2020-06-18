@@ -42,7 +42,8 @@ describe Bim::IfcModels::CreateService do
       .to receive(:new)
       .with(user: user,
             model: created_model,
-            contract_class: contract_class)
+            contract_class: contract_class,
+            contract_options: {})
       .and_return(service)
 
     allow(service)

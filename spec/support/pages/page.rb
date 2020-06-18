@@ -108,7 +108,11 @@ module Pages
     end
 
     def expect_no_notification(type: :success, message: nil)
-      expect(page).to have_no_selector(".notification-box.-#{type}", text: message)
+      if type.nil?
+        expect(page).to have_no_selector(".notification-box")
+      else
+        expect(page).to have_no_selector(".notification-box.-#{type}", text: message)
+      end
     end
 
     def path

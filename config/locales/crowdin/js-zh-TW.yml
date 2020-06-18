@@ -583,6 +583,9 @@ zh-TW:
       select_branch: '選擇分支'
     field_value_enter_prompt: "輸入'%{field}'的值"
     project_menu_details: "詳細資料"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '已套用升冪排序， '
       sorted_dsc: '已套用降冪排序， '
@@ -870,6 +873,7 @@ zh-TW:
       label_delete_page: "刪除目前的頁面"
       button_apply: "套用"
       button_save: "儲存"
+      button_clear_all: "Clear all"
       button_submit: "提交"
       button_cancel: "取消"
       form_submit:

@@ -62,16 +62,14 @@ module API
           private
 
           def contract
-            @contract ||= begin
-              klass = if work_package.new_record?
-                        ::WorkPackages::CreateContract
-                      else
-                        ::WorkPackages::UpdateContract
-                      end
+            @contract ||= contract_class(work_package).new(work_package, User.current)
+          end
 
-              klass
-                .new(work_package,
-                     User.current)
+          def contract_class(work_package)
+            if work_package.new_record?
+              ::WorkPackages::CreateContract
+            else
+              ::WorkPackages::UpdateContract
             end
           end
         end

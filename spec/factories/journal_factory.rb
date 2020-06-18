@@ -32,10 +32,18 @@ FactoryBot.define do
     created_at { Time.now }
     sequence(:version) { |n| n + 1 }
 
+    callback(:after_create) do |journal, evaluator|
+      data = evaluator.data
+      data.journal = journal
+      data.save
+    end
+
     factory :work_package_journal, class: Journal do
       journable_type { 'WorkPackage' }
       activity_type { 'work_packages' }
-      data { FactoryBot.build(:journal_work_package_journal) }
+      transient do
+        data { FactoryBot.build(:journal_work_package_journal) }
+      end
 
       callback(:after_stub) do |journal, options|
         journal.journable ||= options.journable || FactoryBot.build_stubbed(:work_package)
@@ -45,13 +53,19 @@ FactoryBot.define do
     factory :wiki_content_journal, class: Journal do
       journable_type { 'WikiContent' }
       activity_type { 'wiki_edits' }
-      data { FactoryBot.build(:journal_wiki_content_journal) }
+
+      transient do
+        data { FactoryBot.build(:journal_wiki_content_journal) }
+      end
     end
 
     factory :message_journal, class: Journal do
       journable_type { 'Message' }
       activity_type { 'messages' }
-      data { FactoryBot.build(:journal_message_journal) }
+
+      transient do
+        data { FactoryBot.build(:journal_message_journal) }
+      end
     end
   end
 end

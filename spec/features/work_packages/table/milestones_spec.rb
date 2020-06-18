@@ -37,11 +37,9 @@ describe 'Inline editing milestones', js: true do
     # Open start date
     start_date.activate!
     start_date.expect_active!
-    due_date.expect_inactive!
 
-    # Open second date, closese first
+    # Open second date, closes first
     due_date.activate!
-    start_date.expect_inactive!
     due_date.expect_active!
 
     # Close with escape

@@ -37,13 +37,18 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {ComponentType} from "@angular/cdk/overlay";
 import {Ng2StateDeclaration} from "@uirouter/angular";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageFilterContainerComponent} from "core-components/filters/filter-container/filter-container.directive";
 
-export interface ToolbarButtonComponentDefinition {
+export interface DynamicComponentDefinition {
   component:ComponentType<any>;
-  containerClasses?:string;
-  show?:() => boolean;
   inputs?:{ [inputName:string]:any };
   outputs?:{ [outputName:string]:Function };
+}
+
+export interface ToolbarButtonComponentDefinition extends DynamicComponentDefinition {
+  containerClasses?:string;
+  show?:() => boolean;
 }
 
 export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
@@ -60,6 +65,7 @@ export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
   ]
 })
 export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase implements OnInit, OnDestroy {
+  @InjectField() I18n:I18nService;
   @InjectField() titleService:OpTitleService;
   @InjectField() queryParamListener:QueryParamListenerService;
 
@@ -76,17 +82,17 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   currentQuery:QueryResource|undefined;
 
   /** Whether we're saving the query */
-  querySaving:boolean;
+  toolbarDisabled:boolean;
 
   /** Do we currently have query props ? */
-  hasQueryProps:boolean;
+  showToolbarSaveButton:boolean;
 
   /** Listener callbacks */
   unRegisterTitleListener:Function;
   removeTransitionSubscription:Function;
 
   /** Determine when query is initially loaded */
-  tableInformationLoaded = false;
+  showToolbar = false;
 
   /** The toolbar buttons to render */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [];
@@ -97,15 +103,23 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /** We need to pass the correct partition state to the view to manage the grid */
   currentPartition:ViewPartitionState = '-split';
 
+  /** What route (if any) should we go back to using the back button left of the title? */
+  backButtonCallback:Function|undefined;
+
+  /** Which filter container component to mount */
+  filterContainerDefinition:DynamicComponentDefinition = {
+    component: WorkPackageFilterContainerComponent
+  };
+
   ngOnInit() {
     super.ngOnInit();
 
-    this.hasQueryProps = !!this.$state.params.query_props;
+    this.showToolbarSaveButton = !!this.$state.params.query_props;
     this.setPartition(this.$state.current);
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       const params = transition.params('to');
       const toState = transition.to();
-      this.hasQueryProps = !!params.query_props;
+      this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
       this.cdRef.detectChanges();
     });
@@ -157,7 +171,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       .values$()
       .pipe(take(1))
       .subscribe(() => {
-        this.tableInformationLoaded = true;
+        this.showToolbar = true;
         this.cdRef.detectChanges();
       });
   }
@@ -177,25 +191,24 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.queryParamListener.removeQueryChangeListener();
   }
 
-  public saveQueryFromTitle(val:string) {
+  public changeChangesFromTitle(val:string) {
     if (this.currentQuery && this.currentQuery.persisted) {
-      this.updateQueryName(val);
+      this.updateTitleName(val);
     } else {
       this.wpListService
         .create(this.currentQuery!, val)
-        .then(() => this.querySaving = false)
-        .catch(() => this.querySaving = false);
+        .then(() => this.toolbarDisabled = false)
+        .catch(() => this.toolbarDisabled = false);
     }
   }
 
-  updateQueryName(val:string) {
-    this.querySaving = true;
+  updateTitleName(val:string) {
+    this.toolbarDisabled = true;
     this.currentQuery!.name = val;
     this.wpListService.save(this.currentQuery)
-      .then(() => this.querySaving = false)
-      .catch(() => this.querySaving = false);
+      .then(() => this.toolbarDisabled = false)
+      .catch(() => this.toolbarDisabled = false);
   }
-
 
   updateTitle(query?:QueryResource) {
 

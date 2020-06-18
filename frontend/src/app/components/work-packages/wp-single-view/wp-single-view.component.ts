@@ -343,16 +343,16 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    */
   private getDateField(resource:WorkPackageResource):FieldDescriptor {
     let object:any = {
-      name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
       multiple: false
     };
 
     if (resource.schema.hasOwnProperty('date')) {
       object.field = this.displayField(resource, 'date');
+      object.name = 'date';
     } else {
-      object.fields = [this.displayField(resource, 'startDate'), this.displayField(resource, 'dueDate')];
-      object.multiple = true;
+      object.field = this.displayField(resource, 'startDate');
+      object.name = 'startDate';
     }
 
     return object;

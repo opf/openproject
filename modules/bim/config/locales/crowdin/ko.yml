@@ -99,6 +99,8 @@ ko:
           snapshot_type_unsupported: "snapshot_type은 'png' 또는 'jpg'여야 합니다."
           snapshot_data_blank: "snapshot_data를 제공해야 합니다."
           unsupported_key: "지원되지 않는 json 속성이 포함되어 있습니다."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC 모델'
     label_new_ifc_model: '새 IFC 모델'

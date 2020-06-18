@@ -61,7 +61,7 @@ lt:
         header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
         header-border-bottom-color: "Linija po antrašte. Palikite laukelį tuščią, jei nenorite jokios linijos."
         main-menu-bg-color: "Kairiojo šoninio meniu fono spalva."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Temos keitimas perrašys jūsų pritaikytą stilių. Ankstesnis dizainas bus prarastas. Ar esate tikri, kad norite tęsti?
     enterprise:
       upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
@@ -131,8 +131,8 @@ lt:
       simple_tls: 'simple_tls'
       start_tls: 'start_tls'
       plain_description: "Paprasta, nešifruota jungtis, be TLS derybų."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      simple_tls_description: "Numanomas TLS šifravimas, bet be sertifikato tikrinimo. Naudoti atsargiai kai besąlygiškai pasitikite LDAP jungtimi."
+      start_tls_description: "Pilnas TLS šifravimas su pilnu jungties validavimu. Naudokite LDAP per TLS/SSL."
       section_more_info_link_html: >
         Ši skiltis apie šio LDAP autentikacijos šaltinio jungties saugumą. Daugiau informacijos rasite <a href="%{link}">Net::LDAP dokumentacijoje</a>.
   forums:
@@ -411,6 +411,7 @@ lt:
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
+        templated: 'Template project'
       projects/status:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
@@ -482,6 +483,7 @@ lt:
         parent_work_package: "Tėvas"
         priority: "Pirmenybė"
         progress: "Progresas (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
         subproject: "Sub-projektas"
@@ -575,7 +577,7 @@ lt:
               id_filter_required: "Reikalingas „id“ filtras."
         project:
           archived_ancestor: 'Projektas turi suarchyvuotą protėvį.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          foreign_wps_reference_version: 'Darbų paketai iš kitų projektų medžių turi nuorodas į versijas šiame projekte arba jo subprojektuose.'
           attributes:
             types:
               in_use_by_work_packages: "vis dar naudojama darbų paketuose: %{types}"
@@ -885,6 +887,7 @@ lt:
       - "Spa"
       - "Lap"
       - "Gruo"
+    abbr_week: 'Wk'
     day_names:
       - "Sekmadienis"
       - "Pirmadienis"
@@ -1108,7 +1111,7 @@ lt:
   error_journal_attribute_not_present: "Žurnale nėra atributo %{attribute}."
   error_pdf_export_too_many_columns: "PDF eksportavimui pasirinkta per daug stulpelių. Prašome sumažinti stulpelių skaičių."
   error_pdf_failed_to_export: "PDF eksportas negali būti išsaugotas: %{error}"
-  error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again.'
+  error_token_authenticity: 'Neįmanoma patikrinti Cross-Site Request Forgery žetono. Gal bandėte nusiųsti duomenis iš kelių naršyklių ar kortelių? Prašome uždaryti visas korteles ir pabandyti dar kartą.'
   error_work_package_done_ratios_not_updated: "Darbų paketo atlikimo rodikliai neatnaujinti."
   error_work_package_not_found_in_project: "Darbų paketas nerastas arba nepriklauso šiam projektui"
   error_must_be_project_member: "turi būti projekto narys"
@@ -1462,7 +1465,7 @@ lt:
   label_max_size: "Maksimalus dydis"
   label_me: "aš"
   label_member_new: "Naujas narys"
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Visos rolės, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
   label_menu_item_name: "Meniu punkto pavadinimas"
   label_message: "Pranešimas"
@@ -1981,6 +1984,12 @@ lt:
       warning_one: Projekto nariai turės perkelti projekto saugyklas.
       warning_two: Esamos nuorodos į projektą nebeveiks.
       title: Pakeisti projekto identifikatorių
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?"
       archived: "Suarchyvuotas"

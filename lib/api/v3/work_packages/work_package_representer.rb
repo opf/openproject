@@ -329,6 +329,10 @@ module API
 
         formattable_property :description
 
+        property :schedule_manually,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.schedule_manually? }
+
         date_property :start_date,
                       skip_render: ->(represented:, **) {
                         represented.milestone?
@@ -542,6 +546,10 @@ module API
 
         def visible_children
           @visible_children ||= represented.children.select(&:visible?)
+        end
+
+        def schedule_manually=(value)
+          represented.schedule_manually = value
         end
 
         def estimated_time=(value)

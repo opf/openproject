@@ -584,6 +584,9 @@ nl:
       select_branch: 'Selecteer pad'
     field_value_enter_prompt: "Breng een waarde in voor veld '%{field}'"
     project_menu_details: "Details"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '
@@ -871,6 +874,7 @@ nl:
       label_delete_page: "Verwijder huidige pagina"
       button_apply: "Toepassen"
       button_save: "Opslaan"
+      button_clear_all: "Clear all"
       button_submit: "Verzenden"
       button_cancel: "Annuleren"
       form_submit:

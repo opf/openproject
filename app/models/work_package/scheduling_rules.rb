@@ -31,11 +31,8 @@
 module WorkPackage::SchedulingRules
   extend ActiveSupport::Concern
 
-  def reschedule_after(date)
-    WorkPackages::RescheduleService
-      .new(user: User.current,
-           work_package: self)
-      .call(date)
+  def schedule_automatically?
+    !schedule_manually?
   end
 
   # Calculates the minimum date that

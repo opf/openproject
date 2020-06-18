@@ -1,0 +1,42 @@
+<ng-container *ngIf="(board$ | async) as board">
+  <div class="boards-list--container"
+       [ngClass]="{ '-free' : board.isFree }"
+       #container
+       *ngIf="showBoardListView()"
+       cdkDropList
+       [cdkDropListDisabled]="!board.editable"
+       cdkDropListOrientation="horizontal"
+       (cdkDropListDropped)="moveList(board, $event)"
+  >
+    <div *ngFor="let queryWidget of board.queries; trackBy:trackByQueryId"
+         class="boards-list--item"
+         wp-isolated-query-space
+         cdkDrag
+         vsDragScroll
+         [cdkDragData]="queryWidget"
+         [vsDragScrollContainer]="_container">
+      <span *ngIf="board.editable"
+            class="boards-list-item-handle icon icon-drag-handle"
+            cdkDragHandle></span>
+      <board-list [resource]="queryWidget"
+                  [board]="board"
+                  (onRemove)="removeList(board, queryWidget)"></board-list>
+    </div>
+
+    <div class="boards-list--add-item -no-text-select"
+         *ngIf="board.editable"
+         (click)="addList(board)">
+      <div class="boards-list--add-item-text">
+        <op-icon icon-classes="icon-add icon-context"></op-icon>
+        <span [textContent]="text.addList"></span>
+      </div>
+    </div>
+  </div>
+
+  <enterprise-banner *ngIf="!showBoardListView()"
+                     [leftMargin]="true"
+                     [linkMessage]="text.upsaleCheckOutLink"
+                     [textMessage]="text.upsaleBoards"
+                     [opReferrer]="opReferrer(board)">
+  </enterprise-banner>
+</ng-container>

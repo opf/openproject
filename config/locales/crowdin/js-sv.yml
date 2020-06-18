@@ -583,6 +583,9 @@ sv:
       select_branch: 'Välj gren'
     field_value_enter_prompt: "Ange ett värde för \"%{field}\""
     project_menu_details: "Detaljer"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Stigande sortering används, '
       sorted_dsc: 'Fallande sortering används, '
@@ -870,6 +873,7 @@ sv:
       label_delete_page: "Ta bort aktuell sida"
       button_apply: "Tilldela"
       button_save: "Spara"
+      button_clear_all: "Clear all"
       button_submit: "Skicka"
       button_cancel: "Avbryt"
       form_submit:

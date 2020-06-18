@@ -289,6 +289,17 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'scheduleManually' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'scheduleManually' }
+        let(:type) { 'Boolean' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.schedule_manually') }
+        let(:required) { false }
+        let(:has_default) { true }
+        let(:writable) { true }
+      end
+    end
+
     describe 'date' do
       before do
         allow(schema)

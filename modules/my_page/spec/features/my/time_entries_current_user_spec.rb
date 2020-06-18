@@ -249,10 +249,26 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     expect(page)
       .to have_content "Total: 12.00"
 
+    ## Hiding weekdays
+    entries_area.click_menu_item I18n.t('js.grid.configure')
+
+    uncheck 'Monday' # the day visible_time_entry is logged for
+
+    click_button 'Apply'
+
+    within entries_area.area do
+      expect(page)
+        .not_to have_selector('.fc-day-header', text: 'Mon')
+      expect(page)
+        .not_to have_selector('.fc-duration', text: "6 h")
+    end
+
     ## Removing the time entry
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .te-calendar--time-entry").click
+      # to place the tooltip at a different spot
+      find(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .te-calendar--time-entry").hover
+      find(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .te-calendar--time-entry").click
     end
 
     time_logging_modal.is_visible true
@@ -263,14 +279,26 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     within entries_area.area do
       expect(page)
-       .not_to have_selector(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .te-calendar--time-entry")
+       .not_to have_selector(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .te-calendar--time-entry")
     end
-
-    expect(page)
-      .to have_content "Total: 10.00"
 
     expect(TimeEntry.where(id: other_visible_time_entry.id))
       .not_to be_exist
+
+    ## Reloading keeps the configuration
+    visit root_path
+    my_page.visit!
+
+    within entries_area.area do
+      expect(page)
+        .to have_content(/#{Regexp.escape(I18n.t('js.grid.widgets.time_entries_current_user.title'))}/i)
+
+      expect(page)
+        .to have_selector(".fc-event-container .te-calendar--time-entry", count: 1)
+
+      expect(page)
+        .not_to have_selector('.fc-day-header', text: 'Mon')
+    end
 
     # Removing the widget
 

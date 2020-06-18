@@ -1,0 +1,26 @@
+.datepicker-modal
+  position: relative
+  z-index: 500
+  width: fit-content
+  padding: 5px 0
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25)
+
+  .op-modal--modal-body
+    overflow: hidden
+
+  .grid-block
+    align-items: center
+
+.datepicker-modal--actions-container
+  display: grid
+  grid-template-columns: auto auto
+  grid-column-gap: 30px
+  margin-top: 20px
+  justify-content: end
+
+.form--date-field
+  margin: 2px !important
+
+  &.-current,
+  &.-current:hover
+    outline: 2px solid var(--primary-color)

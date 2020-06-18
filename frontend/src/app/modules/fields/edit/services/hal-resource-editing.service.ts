@@ -81,7 +81,7 @@ export class ResourceChangesetCommit<T extends HalResource = HalResource> {
     this.id = saved.id!.toString();
     this.wasNew = change.pristineResource.isNew;
     this.resource = saved;
-    this.changes = change.changes;
+    this.changes = change.changeMap;
   }
 }
 
@@ -128,7 +128,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     this.reset(change);
 
     const eventType = commit.wasNew ? 'created' : 'updated';
-    this.halEvents.push(commit.resource, { eventType }) ;
+    this.halEvents.push(commit.resource, { eventType, commit });
 
     return commit;
   }

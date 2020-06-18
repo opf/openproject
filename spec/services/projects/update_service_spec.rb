@@ -72,7 +72,8 @@ describe Projects::UpdateService, type: :model do
       .to receive(:new)
       .with(user: user,
             model: project,
-            contract_class: contract_class)
+            contract_class: contract_class,
+            contract_options: {})
       .and_return(service)
 
     allow(service)

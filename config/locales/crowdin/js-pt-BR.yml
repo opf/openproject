@@ -167,7 +167,7 @@ pt-BR:
         trial:
           confirmation: "Confirmação de endereço de e-mail"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Enviamos um e-mail para %{email} em %{date}. Por favor, verifique sua caixa de entrada e clique no link de confirmação fornecido para iniciar seu teste de 14 dias.
           form:
             general_consent: >
               Concordo com os <a target="_blank" href="%{link_terms}">termos do serviço</a> e com a <a target="_blank" href="%{link_privacy}">política de privacidade</a>.
@@ -583,6 +583,9 @@ pt-BR:
       select_branch: 'Selecionar o branch'
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     project_menu_details: "Detalhes"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -870,6 +873,7 @@ pt-BR:
       label_delete_page: "Excluir página atual"
       button_apply: "Aplicar"
       button_save: "Salvar"
+      button_clear_all: "Clear all"
       button_submit: "Enviar"
       button_cancel: "Cancelar"
       form_submit:
@@ -882,8 +886,8 @@ pt-BR:
         confirm_deletion_children: "Tenho conhecimento que TODOS os descendentes dos pacotes de trabalho listados serão removidos recursivamente."
         deletes_children: "Todos os pacotes de trabalho filhos e seus descendentes também serão excluídos recursivamente."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Confirme a exclusão da entrada de tempo"
+        text: "Você tem certeza que deseja excluir a seguinte entrada de tempo?"
     notice_no_results_to_display: "Nenhum resultado visível para exibir."
     notice_successful_create: "Criado com sucesso."
     notice_successful_delete: "Exclusão bem sucedida."

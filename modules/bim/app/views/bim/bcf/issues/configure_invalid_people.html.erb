@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag 'bim/bcf.css' %>
 <%= toolbar title: t('bcf.bcf_xml.import_title') %>
 
-<%= styled_form_tag({ action: :perform_import }, multipart: true, method: :post) do %>
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post) do %>
   <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.invalid_emails_found'),
                                                  error_objects:  @importer.aggregations.invalid_people,
                                                  error_default_text: t('bcf.bcf_xml.import.unknown_property')} %>

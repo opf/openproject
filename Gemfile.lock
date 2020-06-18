@@ -713,7 +713,7 @@ GEM
       multi_json
     puma (4.3.5)
       nio4r (~> 2.0)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (6.2.2)

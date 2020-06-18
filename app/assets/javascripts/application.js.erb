@@ -165,8 +165,7 @@ function observeProjectName() {
 
 function observeProjectIdentifier() {
   jQuery('#project_identifier').keyup(function() {
-    if(jQuery('#project_identifier').getValue() !== '' &&
-       jQuery('#project_identifier').getValue() != generateProjectIdentifier()) {
+    if(this.value !== '' && this.value != generateProjectIdentifier()) {
       projectIdentifierLocked = true;
     } else {
       projectIdentifierLocked = false;
