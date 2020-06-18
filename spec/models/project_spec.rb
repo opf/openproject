@@ -184,6 +184,18 @@ describe Project, type: :model do
     end
   end
 
+  describe 'name' do
+    let(:project) { FactoryBot.build_stubbed :project, name: '     Hello    World   '}
+
+    before do
+      project.valid?
+    end
+
+    it 'trims the name' do
+      expect(project.name).to eql('Hello World')
+    end
+  end
+
   describe '#types_used_by_work_packages' do
     let(:project) { FactoryBot.create(:project_with_types) }
     let(:type) { project.types.first }
