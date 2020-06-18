@@ -34,7 +34,7 @@ describe 'BIM navigation spec',
          js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages]) }
 
   let(:user) do
     FactoryBot.create :user,
@@ -52,6 +52,7 @@ describe 'BIM navigation spec',
   let(:details_view) { ::Pages::BcfDetailsPage.new(work_package, project) }
   let(:full_view) { Pages::FullWorkPackage.new(work_package) }
   let(:model_tree) { ::Components::XeokitModelTree.new }
+  let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
   shared_examples 'can switch from split to viewer to list-only' do
     before do
@@ -65,9 +66,7 @@ describe 'BIM navigation spec',
         login_as(user)
         model_page.visit!
         model_page.finished_loading
-      end
 
-      it 'can switch between the different view modes' do
         # Should be at split view
         model_page.model_viewer_visible true
         model_page.model_viewer_shows_a_toolbar true
@@ -75,7 +74,9 @@ describe 'BIM navigation spec',
         model_tree.sidebar_shows_viewer_menu true
         expect(page).to have_selector('.wp-cards-container')
         card_view.expect_work_package_listed work_package
+      end
 
+      it 'can switch between the different view modes' do
         # Go to single view
         card_view.open_full_screen_by_details(work_package)
 
@@ -118,6 +119,25 @@ describe 'BIM navigation spec',
         details_view.expect_tab 'Activity'
         details_view.close
         details_view.expect_closed
+      end
+
+      it 'after deleting an WP in full view it returns to the model and list view (see #33317)' do
+        # Go to full single view
+        card_view.open_full_screen_by_details(work_package)
+        details_view.switch_to_fullscreen
+        full_view.expect_tab 'Activity'
+
+        # Delete via the context menu
+        find('#action-show-more-dropdown-menu .button').click
+        find('.menu-item', text: 'Delete').click
+
+        destroy_modal.expect_listed(work_package)
+        destroy_modal.confirm_deletion
+
+        # Expect to return to the start page with closed details view and delete WP
+        model_page.model_viewer_visible true
+        details_view.expect_closed
+        card_view.expect_work_package_not_listed work_package
       end
     end
   end
