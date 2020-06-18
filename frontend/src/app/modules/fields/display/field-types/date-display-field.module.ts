@@ -30,9 +30,11 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/highlightable-display-field.module";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {StatusCacheService} from "core-components/statuses/status-cache.service";
 
 export class DateDisplayField extends HighlightableDisplayField {
   @InjectField() timezoneService:TimezoneService;
+  @InjectField() statusCache:StatusCacheService;
 
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);
@@ -49,7 +51,12 @@ export class DateDisplayField extends HighlightableDisplayField {
     // Highlight overdue tasks
     if (this.shouldHighlight && this.canOverdue) {
       const diff = this.timezoneService.daysFromToday(this.value);
-      element.classList.add(Highlighting.overdueDate(diff));
+
+      this.statusCache.require(this.resource.status.id).then((status) => {
+        if (!status.isClosed) {
+          element.classList.add(Highlighting.overdueDate(diff));
+        }
+      });
     }
   }
 
