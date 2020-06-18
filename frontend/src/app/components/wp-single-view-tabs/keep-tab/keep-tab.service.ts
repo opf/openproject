@@ -68,8 +68,12 @@ export class KeepTabService {
     return 'work-packages.partitioned.list.details.' + this.currentDetailsTab;
   }
 
+  public get currentDetailsSubState():string {
+    return '.details.' + this.currentDetailsTab;
+  }
+
   public isDetailsState(stateName:string) {
-    return stateName === 'work-packages.partitioned.list.details';
+    return !!stateName && stateName.includes('.details');
   }
 
   public get currentShowTab():string {

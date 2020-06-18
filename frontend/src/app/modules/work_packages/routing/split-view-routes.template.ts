@@ -83,6 +83,7 @@ export function makeSplitViewRoutes(baseRoute:string,
       url: '/overview',
       component: WorkPackageOverviewTabComponent,
       data: {
+        baseRoute: baseRoute,
         menuItem: menuItemClass,
         parent: baseRoute + '.details'
       }
@@ -92,6 +93,7 @@ export function makeSplitViewRoutes(baseRoute:string,
       url: '/activity',
       component: WorkPackageActivityTabComponent,
       data: {
+        baseRoute: baseRoute,
         menuItem: menuItemClass,
         parent: baseRoute + '.details'
       }
@@ -101,6 +103,7 @@ export function makeSplitViewRoutes(baseRoute:string,
       url: '/relations',
       component: WorkPackageRelationsTabComponent,
       data: {
+        baseRoute: baseRoute,
         menuItem: menuItemClass,
         parent: baseRoute + '.details'
       }
@@ -110,6 +113,7 @@ export function makeSplitViewRoutes(baseRoute:string,
       url: '/watchers',
       component: WorkPackageWatchersTabComponent,
       data: {
+        baseRoute: baseRoute,
         menuItem: menuItemClass,
         parent: baseRoute + '.details'
       }
