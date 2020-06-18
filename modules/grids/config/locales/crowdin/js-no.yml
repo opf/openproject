@@ -30,9 +30,9 @@
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Prosjektstatus'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: 'På rett spor'
+          off_track: 'Sporet av'
+          at_risk: 'I fare'
           not_set: 'Not set'
         subprojects:
           title: 'Underprosjekter'

@@ -200,7 +200,7 @@
         upsale:
           become_hero: "Bli en helt!"
           benefits:
-            description: "What are the benefits?"
+            description: "Hva er fordelene?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -339,7 +339,7 @@
     label_in_more_than: "i mer enn"
     label_incoming_emails: "Inkommende e-post"
     label_information_plural: "Informasjon"
-    label_import: "Import"
+    label_import: "Importer"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Sist oppdatert"
     label_learn_more_link: "Mer informasjon"
@@ -354,7 +354,7 @@
     label_menu_expand: "utvid"
     label_more_than_ago: "mer enn dager siden"
     label_next: "Neste"
-    label_no_color: "No color"
+    label_no_color: "Ingen farge"
     label_no_data: "Ingen data å vise"
     label_no_due_date: "ingen sluttdato"
     label_no_start_date: "ingen startdato"
@@ -597,7 +597,7 @@
     text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
+      gantt_chart: 'Gantt diagram'
       labels:
         title: 'Label configuration'
         bar: 'Bar labels'
@@ -611,7 +611,7 @@
       button_deactivate: 'Hide Gantt chart'
       cancel: Avbryt
       change: "Endre i planlegging"
-      due_date: "Finish date"
+      due_date: "Sluttdato"
       empty: "(tom)"
       error: "En feil har oppstått."
       errors:
@@ -738,7 +738,7 @@
         createdAt: "Opprettet"
         description: "Beskrivelse"
         date: "Dato"
-        dueDate: "Finish date"
+        dueDate: "Sluttdato"
         estimatedTime: "Tidsestimat"
         spentTime: "Tid brukt"
         category: "Kategori"
@@ -883,8 +883,8 @@
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "All child work packages and their descendants will also be recursively deleted."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Bekreft sletting av tidsregistrering"
+        text: "Er du sikker på at du vil slette følgende tidsregistrering?"
     notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Opprettelsen var vellykket."
     notice_successful_delete: "Slettingen var vellykket."
