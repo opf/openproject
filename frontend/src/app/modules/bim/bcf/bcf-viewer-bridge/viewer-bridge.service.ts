@@ -9,7 +9,7 @@ import {StateService} from "@uirouter/core";
 @Injectable()
 export abstract class ViewerBridgeService {
   @InjectField() state:StateService;
-  
+
   /**
    * Determine whether a viewer should be shown,
    * wether 'bim.partitioned.split' state/route should be activated

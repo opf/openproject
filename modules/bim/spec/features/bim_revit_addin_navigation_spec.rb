@@ -60,6 +60,6 @@ describe 'BIM Revit Add-in navigation spec',
   end
 
   it 'has no viewer options' do
-    model_page.has_no_menu_item_with_text 'Viewer'
+    model_page.has_no_menu_item_with_text? 'Viewer'
   end
 end
