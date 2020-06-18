@@ -85,7 +85,7 @@ gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 3.17.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 5.1.0'
+gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
