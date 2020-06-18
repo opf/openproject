@@ -3,7 +3,7 @@
   js:
     bcf:
       label_bcf: 'BCF'
-      import: 'Import'
+      import: 'Importer'
       export: 'Eksportèr'
       viewpoint: 'Viewpoint'
       add_viewpoint: 'Add viewpoint'
