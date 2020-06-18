@@ -11,6 +11,16 @@
   .grid-block
     align-items: center
 
+.datepicker-modal--dates-container
+  display: grid
+  grid-template-columns: 170px 1fr auto
+
+  .datepicker-modal--scheduling-action-container
+    margin-top: 28px
+
+    .form--label-with-check-box
+      padding: 0
+
 .datepicker-modal--actions-container
   display: grid
   grid-template-columns: auto auto
@@ -24,3 +34,9 @@
   &.-current,
   &.-current:hover
     outline: 2px solid var(--primary-color)
+
+.form--field-inline-action
+  .icon-small:before
+    vertical-align: text-bottom
+  &:hover, &:focus
+    text-decoration: none

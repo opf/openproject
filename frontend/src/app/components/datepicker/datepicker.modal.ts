@@ -65,7 +65,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel'),
-    clear: this.I18n.t('js.modals.button_clear_all'),
+    clear: this.I18n.t('js.button_clear'),
     manualScheduling: this.I18n.t('js.scheduling.manual'),
     date: this.I18n.t('js.work_packages.properties.date'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
@@ -140,14 +140,9 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     this.closeMe();
   }
 
-  clear():void {
-    this.dates = {
-      date: '',
-      start: '',
-      end: ''
-    };
-
-    this.datePickerInstance.clear();
+  clear(key:DateKeys):void {
+    this.dates[key] = '';
+    this.setDatesToDatepicker();
   }
 
   updateDate(key:DateKeys, val:string) {
@@ -172,6 +167,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       this.singleDate ? this.dates.date : [this.dates.start, this.dates.end],
       {
         mode: this.singleDate ? 'single' : 'multiple',
+        showMonths: 2,
         inline: true,
         onChange: (dates:Date[]) => {
           this.onDatePickerChange(dates);

@@ -5,7 +5,7 @@
        tabindex="0">
     <div class="op-modal--modal-body">
       <form class="form -vertical">
-        <div class="grid-block">
+        <div class="datepicker-modal--dates-container">
           <ng-container *ngIf="singleDate">
             <div class="form--field">
               <label class="form--label"
@@ -21,6 +21,11 @@
                          (ngModelChange)="updateDate('date', $event)"
                          (click)="datepickerHelper.setCurrentActivatedField('date')">
                 </div>
+                <a class="form--field-inline-action"
+                   [title]="text.clear"
+                   (click)="clear('date')">
+                  <span class="icon2 icon-small icon-cancel"></span>
+                </a>
               </div>
             </div>
           </ng-container>
@@ -40,6 +45,11 @@
                          (ngModelChange)="updateDate('start', $event)"
                          (click)="datepickerHelper.setCurrentActivatedField('start')">
                 </div>
+                <a class="form--field-inline-action"
+                   [title]="text.clear"
+                   (click)="clear('start')">
+                  <span class="icon2 icon-small  icon-cancel"></span>
+                </a>
               </div>
             </div>
             <div class="form--field">
@@ -56,26 +66,28 @@
                          (ngModelChange)="updateDate('end', $event)"
                          (click)="datepickerHelper.setCurrentActivatedField('end')">
                 </div>
+                <a class="form--field-inline-action"
+                   [title]="text.clear"
+                   (click)="clear('end')">
+                  <span class="icon2 icon-small icon-cancel"></span>
+                </a>
               </div>
             </div>
           </ng-container>
-
-          <a (click)="clear()"
-             class="datepicker-modal--action"
-             [textContent]="text.clear">
-          </a>
-        </div>
-        <div class="form--field">
-          <label class="form--label-with-check-box">
-            <div class="form--check-box-container">
-              <input type="checkbox"
-                     name="scheduling"
-                     class="form--check-box datepicker-modal--scheduling-action"
-                     [ngModel]="scheduleManually"
-                     (ngModelChange)="changeSchedulingMode()">
+          <div class="form--field datepicker-modal--scheduling-action-container">
+            <div class="form--field-container">
+              <label class="form--label-with-check-box">
+                <div class="form--check-box-container">
+                  <input type="checkbox"
+                         name="scheduling"
+                         class="form--check-box datepicker-modal--scheduling-action"
+                         [ngModel]="scheduleManually"
+                         (ngModelChange)="changeSchedulingMode()">
+                </div>
+                {{ text.manualScheduling }}
+              </label>
             </div>
-            {{ text.manualScheduling }}
-          </label>
+          </div>
         </div>
       </form>
 
