@@ -71,14 +71,15 @@ export class DragAndDropService implements OnDestroy {
 
   public register(member:DragMember) {
     this.members.push(member);
-    const dragContainer = member.dragContainer;
+    const scrollContainers = member.scrollContainers;
 
     if (this.autoscroll) {
-      this.autoscroll.add(dragContainer);
+      this.autoscroll.add(scrollContainers);
     } else {
-      this.setupAutoscroll([dragContainer]);
+      this.setupAutoscroll(scrollContainers);
     }
 
+    const dragContainer = member.dragContainer;
     if (this.drake === null) {
       this.initializeDrake([dragContainer]);
     } else {

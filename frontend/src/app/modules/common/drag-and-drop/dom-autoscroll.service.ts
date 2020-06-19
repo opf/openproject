@@ -45,8 +45,15 @@ export class DomAutoscrollService {
     this.cleanAnimation();
   }
 
-  public add(el:Element) {
-    this.elements.push(el);
+  public add(el:Element|Element[]) {
+    if (Array.isArray(el)) {
+      this.elements = this.elements.concat(el);
+
+      // Remove duplicates
+      this.elements = Array.from(new Set(this.elements));
+    } else {
+      this.elements.push(el);
+    }
   }
 
   public onUp() {
