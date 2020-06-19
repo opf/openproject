@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+set -o pipefail
+
+# In case we don't want to build it ourselves, we can just download the already
+# built binaries from packager.io.
+
+apt-get update -qq && apt-get install -y apt-transport-https ca-certificates
+
+wget -qO- https://dl.packager.io/srv/opf/pgloader-ccl/key | apt-key add -
+wget -O /etc/apt/sources.list.d/pgloader-ccl.list https://dl.packager.io/srv/opf/pgloader-ccl/master/installer/debian/9.repo
+
+apt-get update -qq && apt-get install -y pgloader-ccl

@@ -2,10 +2,12 @@
 set -e
 set -o pipefail
 
+apt-get update -qq && apt-get install -y libsqlite3-dev make curl gawk freetds-dev libzip-dev
+
 cd /opt
 
 # install Clozure CL to avoid memory issues with the standard SBCL
-curl -sL https://github.com/Clozure/ccl/releases/download/v1.11.5/ccl-1.11.5-linuxx86.tar.gz -o - | tar xzf - -C /opt/ 
+curl -sL https://github.com/Clozure/ccl/releases/download/v1.11.5/ccl-1.11.5-linuxx86.tar.gz -o - | tar xzf - -C /opt/
 ln -s /opt/ccl/scripts/ccl64 /usr/local/bin/ccl
 
 export CCL_DEFAULT_DIRECTORY=/opt/ccl

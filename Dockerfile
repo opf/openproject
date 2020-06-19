@@ -1,7 +1,6 @@
 FROM ruby:2.6-stretch AS pgloader
-RUN apt-get update -qq && apt-get install -y libsqlite3-dev make curl gawk freetds-dev libzip-dev
-COPY docker/mysql-to-postgres/bin/build /tmp/build-pgloader
-RUN /tmp/build-pgloader && rm /tmp/build-pgloader
+COPY docker/mysql-to-postgres/bin/download /tmp/download-pgloader
+RUN /tmp/download-pgloader && rm /tmp/download-pgloader
 
 FROM ruby:2.6-stretch
 MAINTAINER operations@openproject.com
@@ -26,7 +25,7 @@ ENV ATTACHMENTS_STORAGE_PATH $APP_DATA_PATH/files
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE OVERWRITE_ME
 
-COPY --from=pgloader /usr/local/bin/pgloader-ccl /usr/local/bin/
+COPY --from=pgloader /usr/bin/pgloader-ccl /usr/local/bin/
 
 # install node + npm
 RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
