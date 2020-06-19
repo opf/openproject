@@ -12,7 +12,8 @@ export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin imple
   @Input('wpId') wpId:string;
   public count:number = 0;
 
-  constructor(protected wpCacheService:WorkPackageCacheService, protected wpWatcherService:WorkPackageWatchersService) {
+  constructor(protected wpCacheService:WorkPackageCacheService,
+              protected wpWatcherService:WorkPackageWatchersService) {
     super();
   }
 
