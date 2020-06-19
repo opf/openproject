@@ -167,7 +167,7 @@ sl:
         trial:
           confirmation: "Potrdite e-poštni naslov"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Poslali smo vam e-sporočilo na %{date} na %{email}. Preverite sporočilo »Prejeto« in kliknite povezavo za potrditev, da začnete preizkus v 14 dneh.
           form:
             general_consent: >
               Strinjam se z  <a target="_blank" href="%{link_terms}">terms of service</a> in <a target="_blank" href="%{link_privacy}">privacy policy</a>.
@@ -266,11 +266,11 @@ sl:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              Izdaja vsebuje različne nove funkcije in izboljšave: <br> <br> <ul class ="%{list_styling_class}"> <li> <b> Hitrejše beleženje časa </b> na delovnih paketih s podrobnosti ali pogleda seznama. </li> <li> <b> Izboljšano oblikovanje tabel </b> za boljšo konfiguracijo tabel v urejevalniku besedil, npr za širino, barvo, poravnavo ali oblazinjenje celice. </li> <li> Pregled kartice za delovne pakete zdaj vsebuje tudi ime projekta. </li> <li> OpenProject je <b> 100% preveden v slovenščino </b>. Zabavaj se! </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 zdaj podpira <b> BIM Format sodelovanja (BCF) </b> - standard za sledenje odprtih vprašanj za modele BIM.<br><br> <ul class="%{list_styling_class}"> <li>Preprosto ustvarite in <b> upravljajte težave BIM </b>, kot so spopadi, zahteve in vprašanja v interaktivnem 3D-IFC modelu in ga <b> dajte v skupno rabo s projektno skupino. </b> </li> <li> Integracija OpenProject z vašo najljubšo programsko opremo BIM z uporabo zmogljive <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Uvozite in izvozite BCF XML datoteke.</li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -882,8 +882,8 @@ sl:
         confirm_deletion_children: "Zavedam se, da bodo VSI potomci naštetih delovnih paketov rekurzivno odstranjeni."
         deletes_children: "Vsi delovni paketi in njihovi potomci bodo tudi rekurzivno izbrisani."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Potrdite brisanje časovnega vnosa"
+        text: "Ali ste prepričani, da želite izbrisati naslednji časovni vnos?"
     notice_no_results_to_display: "Ni vidnih rezultatov za prikaz."
     notice_successful_create: "Ustvarjanje uspelo."
     notice_successful_delete: "Uspešen izbris."
