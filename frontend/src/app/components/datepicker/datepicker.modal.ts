@@ -114,7 +114,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   ngAfterViewInit():void {
     this.initializeDatepicker();
     this.datepickerHelper.setDatepickerRestrictions(this.dates, this.datePickerInstance);
-    this.datepickerHelper.setRangeClasses(this.dates, this.datePickerInstance);
+    this.datepickerHelper.setRangeClasses(this.dates);
 
     this.onDataChange();
   }
@@ -174,8 +174,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
           this.onDataChange();
         },
-        onMonthChange: () => { this.datepickerHelper.setRangeClasses(this.dates, this.datePickerInstance); },
-        onYearChange: () => { this.datepickerHelper.setRangeClasses(this.dates, this.datePickerInstance); },
+        onMonthChange: () => { this.datepickerHelper.setRangeClasses(this.dates); },
+        onYearChange: () => { this.datepickerHelper.setRangeClasses(this.dates); },
       }
     );
   }
@@ -229,7 +229,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
           this.dates[this.datepickerHelper.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
 
           this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
-          this.datepickerHelper.setRangeClasses(this.dates, this.datePickerInstance);
+          this.datepickerHelper.setRangeClasses(this.dates);
         }
 
         break;

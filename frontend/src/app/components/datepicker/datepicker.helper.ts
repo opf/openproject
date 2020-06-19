@@ -75,53 +75,59 @@ export class DatepickerHelper {
   public setDatepickerRestrictions(dates:{ [key in DateKeys]:string }, datePicker:DatePicker) {
     if (this.isStateOfCurrentActivatedField('start')) {
       datePicker.datepickerInstance.set('disable', [(date:Date) => {
-        return date > new Date(dates.end).setHours(0,0,0,0);
+        return date.getTime() > new Date(dates.end).setHours(0,0,0,0);
       }]);
     } else {
       datePicker.datepickerInstance.set('disable', [(date:Date) => {
-        return date < new Date(dates.start).setHours(0,0,0,0);
+        return date.getTime() < new Date(dates.start).setHours(0,0,0,0);
       }]);
     }
   }
 
-  public setRangeClasses(dates:{ [key in DateKeys]:string }, datePickerInstance:DatePicker) {
+  public setRangeClasses(dates:{ [key in DateKeys]:string }) {
     if (!dates.start || !dates.end) {
       return;
     }
 
-    var selectedElements = document.getElementsByClassName('flatpickr-day selected');
-    if (selectedElements.length === 2) {
-      selectedElements[0].classList.add('startRange');
-      selectedElements[1].classList.add('endRange');
+    var monthContainer = document.getElementsByClassName('dayContainer');
 
-      this.selectRangeFromUntil(selectedElements[0], selectedElements[1]);
-    } else if (selectedElements.length === 1) {
-      // Date range needs to be shown over multiple months
-      if (this.datepickerShowsDate(dates.start, datePickerInstance)) {
+    for (let i = 0; i < monthContainer.length; i++) {
+      var selectedElements = jQuery(monthContainer[i]).find('.flatpickr-day.selected');
+      if (selectedElements.length === 2) {
         selectedElements[0].classList.add('startRange');
-        this.selectRangeFromUntil(selectedElements[0], '');
-      } else if (this.datepickerShowsDate(dates.end, datePickerInstance)) {
-        selectedElements[0].classList.add('endRange');
+        selectedElements[1].classList.add('endRange');
 
-        let firstDay = jQuery('.flatpickr-days .flatpickr-day')[0];
-        firstDay.classList.add('inRange');
-        this.selectRangeFromUntil(firstDay, selectedElements[0]);
+        this.selectRangeFromUntil(selectedElements[0], selectedElements[1]);
+      } else if (selectedElements.length === 1) {
+
+        if (this.datepickerShowsDate(dates.start, selectedElements[0])) {
+          selectedElements[0].classList.add('startRange');
+          this.selectRangeFromUntil(selectedElements[0], '');
+        } else if (this.datepickerShowsDate(dates.end, selectedElements[0])) {
+          selectedElements[0].classList.add('endRange');
+
+          let firstDay = jQuery(monthContainer[i]).find('.flatpickr-day')[0];
+          firstDay.classList.add('inRange');
+          this.selectRangeFromUntil(firstDay, selectedElements[0]);
+        }
+      } else if (this.datepickerIsInDateRange(monthContainer[i], dates)) {
+        jQuery('.dayContainer .flatpickr-day').addClass('inRange');
       }
-    } else if (this.datepickerIsInDateRange(dates, datePickerInstance)) {
-      jQuery('.dayContainer .flatpickr-day').addClass('inRange');
     }
   }
 
-  private datepickerShowsDate(date:string, datePickerInstance:DatePicker):boolean {
-    return datePickerInstance.datepickerInstance.currentMonth === new Date(date).getMonth() &&
-      datePickerInstance.datepickerInstance.currentYear === new Date(date).getFullYear();
+  private datepickerShowsDate(date:string, selectedElement:Element):boolean {
+    return new Date(selectedElement.getAttribute('aria-label')!).toDateString() === new Date(date).toDateString();
   }
 
-  private datepickerIsInDateRange(dates:{ [key in DateKeys]:string }, datePickerInstance:DatePicker):boolean {
-    return datePickerInstance.datepickerInstance.currentYear <= new Date(dates.end).getFullYear() &&
-           datePickerInstance.datepickerInstance.currentMonth < new Date(dates.end).getMonth() &&
-           datePickerInstance.datepickerInstance.currentYear >= new Date(dates.start).getFullYear() &&
-           datePickerInstance.datepickerInstance.currentMonth > new Date(dates.start).getMonth();
+  private datepickerIsInDateRange(container:Element, dates:{ [key in DateKeys]:string }):boolean {
+    var firstDayOfMonthElement = jQuery(container).find('.flatpickr-day:not(.hidden)')[0];
+    var firstDayOfMonth = new Date(firstDayOfMonthElement.getAttribute('aria-label')!);
+
+    return firstDayOfMonth.getFullYear() <= new Date(dates.end).getFullYear() &&
+           firstDayOfMonth.getMonth() < new Date(dates.end).getMonth() &&
+           firstDayOfMonth.getFullYear() >= new Date(dates.start).getFullYear() &&
+           firstDayOfMonth.getMonth() > new Date(dates.start).getMonth();
   }
 
   private selectRangeFromUntil(from:Element, until:string|Element) {
