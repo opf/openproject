@@ -23,26 +23,15 @@ div.ck-editor__preview
 
   ul.task-list
     list-style: none
-    margin-left: 25px
+    margin-left: 40px
 
     .task-list-item
-      display: flex
-      flex-wrap: wrap
-      white-space: pre-wrap
-
+      *
+        vertical-align: top
       input
         height: 25px
-        margin-right: 5px
-
-      // Ensure nested task lists are wrapped
-      // by making nested lists 100% row width
-      ul.task-list
-        flex-basis: 100%
-        white-space: nowrap
-
-  // remove indentation of top-level task-list
-  > ul.task-list
-    margin-left: 0
+        position: absolute
+        margin-left: -25px
 
   // Style tables within figure.table
   figure.table

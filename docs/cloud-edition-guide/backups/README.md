@@ -10,7 +10,7 @@ keywords: backups
 # Backups
 
 Your cloud data is backed up continuously and retained for 30 days.
-Within those 30 days we can restore your data to any point of time with a precision of 5 minutes, in case you need us to.
+Within those 30 days we can restore your data to any point in time with a precision of 5 minutes, in case you need us to.
 
 ## Download
 
