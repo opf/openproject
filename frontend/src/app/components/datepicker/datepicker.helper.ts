@@ -74,11 +74,13 @@ export class DatepickerHelper {
 
   public setDatepickerRestrictions(dates:{ [key in DateKeys]:string }, datePicker:DatePicker) {
     if (this.isStateOfCurrentActivatedField('start')) {
-      datePicker.datepickerInstance.set('minDate', null);
-      datePicker.datepickerInstance.set('maxDate', dates.end);
+      datePicker.datepickerInstance.set('disable', [(date:Date) => {
+        return date > new Date(dates.end).setHours(0,0,0,0);
+      }]);
     } else {
-      datePicker.datepickerInstance.set('minDate', dates.start);
-      datePicker.datepickerInstance.set('maxDate', null);
+      datePicker.datepickerInstance.set('disable', [(date:Date) => {
+        return date < new Date(dates.start).setHours(0,0,0,0);
+      }]);
     }
   }
 
