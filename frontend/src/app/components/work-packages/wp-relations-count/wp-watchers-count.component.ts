@@ -23,7 +23,7 @@ export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin imple
       ).subscribe((workPackage) => {
         this.wpWatcherService.require(workPackage)
         .then((watchers:HalResource[]) => {
-          this.count = watchers.length;
+          this.count = watchers?.length;
         });
     });
   }
