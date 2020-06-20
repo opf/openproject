@@ -3,7 +3,6 @@ nl:
     grid:
       add_widget: 'Add widget'
       remove: 'Remove widget'
-      configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -40,7 +39,6 @@ nl:
           no_results: 'No subprojects.'
         time_entries_current_user:
           title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Besteed tijd (laatste 7 dagen)'
           no_results: 'Geen tijd items voor de afgelopen 7 dagen.'

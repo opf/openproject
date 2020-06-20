@@ -584,9 +584,6 @@ pt:
       select_branch: 'Selecionar o branch'
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     project_menu_details: "Detalhes"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -874,7 +871,6 @@ pt:
       label_delete_page: "Eliminar página atual"
       button_apply: "Aplicar"
       button_save: "Guardar"
-      button_clear_all: "Clear all"
       button_submit: "Enviar"
       button_cancel: "Cancelar"
       form_submit:

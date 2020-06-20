@@ -411,7 +411,6 @@ lt:
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
-        templated: 'Template project'
       projects/status:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
@@ -483,7 +482,6 @@ lt:
         parent_work_package: "Tėvas"
         priority: "Pirmenybė"
         progress: "Progresas (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
         subproject: "Sub-projektas"
@@ -887,7 +885,6 @@ lt:
       - "Spa"
       - "Lap"
       - "Gruo"
-    abbr_week: 'Wk'
     day_names:
       - "Sekmadienis"
       - "Pirmadienis"
@@ -1984,12 +1981,6 @@ lt:
       warning_one: Projekto nariai turės perkelti projekto saugyklas.
       warning_two: Esamos nuorodos į projektą nebeveiks.
       title: Pakeisti projekto identifikatorių
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?"
       archived: "Suarchyvuotas"

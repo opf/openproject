@@ -584,9 +584,6 @@ id:
       select_branch: 'Pilih cabang'
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
     project_menu_details: "Detil"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Urutan menaik diterapkan, '
       sorted_dsc: 'Urutan menurun diterapkan, '
@@ -874,7 +871,6 @@ id:
       label_delete_page: "Hapus halaman ini"
       button_apply: "Apply"
       button_save: "Simpan"
-      button_clear_all: "Clear all"
       button_submit: "Kirim"
       button_cancel: "Batal"
       form_submit:

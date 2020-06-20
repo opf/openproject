@@ -584,9 +584,6 @@ lt:
       select_branch: 'Parinkti padalinį'
     field_value_enter_prompt: "Įveskite \"%{field}\" reikšmę "
     project_menu_details: "Detali informacija"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Pritaikyta didėjimo tvarka, '
       sorted_dsc: 'Pritaikyta mažėjimo tvarka, '
@@ -874,7 +871,6 @@ lt:
       label_delete_page: "Naikinti dabartinį puslapį"
       button_apply: "Taikyti"
       button_save: "Išsaugoti"
-      button_clear_all: "Clear all"
       button_submit: "Siųsti"
       button_cancel: "Atšaukti"
       form_submit:

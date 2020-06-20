@@ -584,9 +584,6 @@ es:
       select_branch: 'Seleccione Sucursal'
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     project_menu_details: "Detalles"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Orden ascendiente aplicado '
       sorted_dsc: 'Orden descendiente aplicado '
@@ -874,7 +871,6 @@ es:
       label_delete_page: "Borrar página actual"
       button_apply: "Aplicar"
       button_save: "Guardar"
-      button_clear_all: "Clear all"
       button_submit: "Enviar"
       button_cancel: "Cancelar"
       form_submit:

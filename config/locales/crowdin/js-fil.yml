@@ -584,9 +584,6 @@ fil:
       select_branch: 'Pumili ng sangay'
     field_value_enter_prompt: "Ipasok ang halaga para sa %{field}"
     project_menu_details: "Mga detalye"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Pataas na paayos ang inilapat '
       sorted_dsc: 'Pababa na paayosi ang inilapat '
@@ -874,7 +871,6 @@ fil:
       label_delete_page: "Burahin ang kasukuyang pahina"
       button_apply: "Ilagay"
       button_save: "I-save"
-      button_clear_all: "Clear all"
       button_submit: "Sumite"
       button_cancel: "Kanselahin"
       form_submit:

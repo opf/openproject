@@ -22,9 +22,8 @@
 hu:
   button_save_as: "Mentés másként..."
   comments: "Vélemény"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Költség jelentések"
   label_cost_report: "Költség jelentés"
-  label_cost_report_plural: "Költség jelentések"
   description_drill_down: "Részletek megjelenítése"
   description_filter_selection: "Kijelölés"
   description_multi_select: "Több kiválasztása"

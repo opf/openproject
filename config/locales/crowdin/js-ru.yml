@@ -583,9 +583,6 @@ ru:
       select_branch: 'Выберите ветвь'
     field_value_enter_prompt: "Введите значение для «%{field}»"
     project_menu_details: "Детали"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
       sorted_dsc: 'Применяется сортировка по убыванию, '
@@ -873,7 +870,6 @@ ru:
       label_delete_page: "Удалить текущую страницу"
       button_apply: "Применить"
       button_save: "Сохранить"
-      button_clear_all: "Clear all"
       button_submit: "Отправить"
       button_cancel: "Отмена"
       form_submit:

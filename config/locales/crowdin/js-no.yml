@@ -584,9 +584,6 @@
       select_branch: 'Select branch'
     field_value_enter_prompt: "Angi en verdi for '%{field}'"
     project_menu_details: "Detaljer"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -874,7 +871,6 @@
       label_delete_page: "Slett gjeldende side"
       button_apply: "Bruk"
       button_save: "Lagre"
-      button_clear_all: "Clear all"
       button_submit: "Lagre"
       button_cancel: "Avbryt"
       form_submit:
