@@ -5,17 +5,17 @@ lt:
       label_bcf: 'BCF'
       import: 'Importuoti'
       export: 'Eksportuoti'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      viewpoint: 'Požiūrio taškas'
+      add_viewpoint: 'Pridėti požiūrio tašką'
+      show_viewpoint: 'Parodyti požiūrio tašką'
+      delete_viewpoint: 'Pašalinti požiūrio tašką'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      empty_warning: "Šis projektas kol kas neturi jokių IFC modelių."
+      use_this_link_to_manage: "Naudokite šią nuorodą IFC modelių įkėlimui ir valdymui"
+      keyboard_input_disabled: "Peržiūros langas šiuo metu nevaldomas klaviatūra. Spustelėkite ant jo, norėdami valdyti klaviatūra."
       models:
-        default: 'Default IFC models'
-        manage: 'Manage models'
+        default: 'Numatyti IFC modeliai'
+        manage: 'Valdyti modelius'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and cards'
+        viewer: 'Peržiūros priemonės'
+        split: 'Peržiūros priemonės ir kortelės'

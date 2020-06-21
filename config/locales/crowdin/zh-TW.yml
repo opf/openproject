@@ -28,16 +28,16 @@ zh-TW:
     plugins:
       no_results_title_text: 目前沒有外掛可以使用
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "色彩佈景主題"
+      color_theme_custom: "自訂"
       colors:
-        alternative-color: "Alternative"
+        alternative-color: "替代"
         content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
+        primary-color: "主要"
+        primary-color-dark: "主要（深色）"
+        header-bg-color: "頁首背景"
+        header-item-bg-hover-color: "頁首背景（滑鼠停留）"
+        header-item-font-color: "頁首字型"
         header-item-font-hover-color: "Header font on hover"
         header-border-bottom-color: "Header border"
         main-menu-bg-color: "Main menu background"
