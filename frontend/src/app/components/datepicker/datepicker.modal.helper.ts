@@ -32,7 +32,7 @@ import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 import {DateOption} from "flatpickr/dist/types/options";
 
 @Injectable({ providedIn: 'root' })
-export class DatepickerHelper {
+export class DatePickerModalHelper {
   public currentlyActivatedDateField:DateKeys;
 
   /**

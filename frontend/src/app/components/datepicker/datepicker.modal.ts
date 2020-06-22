@@ -46,7 +46,7 @@ import {TimezoneService} from "core-components/datetime/timezone.service";
 import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {DatepickerHelper} from "core-components/datepicker/datepicker.helper";
+import {DatePickerModalHelper} from "core-components/datepicker/datepicker.modal.helper";
 
 export type DateKeys = 'date'|'start'|'end';
 
@@ -60,7 +60,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   @InjectField() I18n:I18nService;
   @InjectField() timezoneService:TimezoneService;
   @InjectField() halEditing:HalResourceEditingService;
-  @InjectField() datepickerHelper:DatepickerHelper;
+  @InjectField() datepickerHelper:DatePickerModalHelper;
 
   text = {
     save: this.I18n.t('js.button_save'),
