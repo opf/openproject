@@ -78,8 +78,8 @@ lt:
     card:
       add_new: 'Pridėti naują kortelę'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
+        inline: 'Paryškinti eilutėje:'
+        entire_card_by: 'Visa kortelė pagal'
       remove_from_list: 'Išimti kortelę iš sąrašo'
     caption_rate_history: "Koeficiento istorija"
     clipboard:
@@ -391,7 +391,7 @@ lt:
     label_sort_lower: "Perkelti žemyn"
     label_sorting: "Rūšiavimas"
     label_spent_time: "Praleista laiko"
-    label_star_query: "Favored"
+    label_star_query: "Mėgiamiausi"
     label_press_enter_to_save: "Saugojimui spauskite enter."
     label_public_query: "Viešas"
     label_sum: "Suma"
