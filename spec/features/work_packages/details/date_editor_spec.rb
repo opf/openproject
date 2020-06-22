@@ -51,17 +51,17 @@ describe 'date inplace editor',
     work_packages_page.ensure_page_loaded
   end
 
-  it 'uses the start date as a placeholder for the end date' do
+  it 'can directly set the due date when only a start date is set' do
     start_date.activate!
     start_date.expect_active!
 
     start_date.datepicker.expect_year '2016'
-    start_date.datepicker.expect_month 'January'
+    start_date.datepicker.expect_month 'January', true
     start_date.datepicker.select_day '25'
 
     start_date.save!
     start_date.expect_inactive!
-    start_date.expect_state_text '2016-01-25'
+    start_date.expect_state_text '2016-01-01 - 2016-01-25'
   end
 
   it 'saves the date when clearing and then confirming' do

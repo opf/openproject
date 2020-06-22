@@ -65,7 +65,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel'),
-    clear: this.I18n.t('js.button_clear'),
+    clear: this.I18n.t('js.work_packages.button_clear'),
     manualScheduling: this.I18n.t('js.scheduling.manual'),
     date: this.I18n.t('js.work_packages.properties.date'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
@@ -107,7 +107,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     } else {
       this.dates.start = this.changeset.value('startDate');
       this.dates.end = this.changeset.value('dueDate');
-      this.datepickerHelper.setCurrentActivatedField(this.locals.fieldName === 'dueDate' ? 'end' : 'start');
+      this.datepickerHelper.setCurrentActivatedField(this.initialActivatedField());
     }
   }
 
@@ -266,5 +266,9 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
     let output = this.singleDate ? date : start + ' - ' + end;
     this.onDataUpdated.emit(output);
+  }
+
+  private initialActivatedField():DateKeys {
+    return this.locals.fieldName === 'dueDate' || (this.dates.start && !this.dates.end) ? 'end' : 'start';
   }
 }

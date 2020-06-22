@@ -95,7 +95,7 @@ class DateEditField < EditField
   end
 
   def select_value(value)
-    datepicker.set_date value
+    datepicker.set_date value, true
   end
 
   def save!
@@ -108,10 +108,6 @@ class DateEditField < EditField
 
   def cancel_by_click
     scroll_to_and_click action_button('Cancel')
-  end
-
-  def clear_changes
-    scroll_to_and_click action_button('Clear all')
   end
 
   def action_button(text)

@@ -941,7 +941,6 @@ en:
       label_delete_page: "Delete current page"
       button_apply: "Apply"
       button_save: "Save"
-      button_clear_all: "Clear all"
       button_submit: "Submit"
       button_cancel: "Cancel"
       form_submit:

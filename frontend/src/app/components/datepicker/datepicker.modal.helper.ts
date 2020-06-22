@@ -83,7 +83,7 @@ export class DatePickerModalHelper {
 
   public setDatepickerRestrictions(dates:{ [key in DateKeys]:string }, datePicker:DatePicker) {
     if (!dates.start && !dates.end) {
-      return false;
+      return;
     }
 
     if (this.isStateOfCurrentActivatedField('start')) {
