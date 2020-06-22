@@ -94,7 +94,7 @@ export class DatePickerModalHelper {
   }
 
   public setRangeClasses(dates:{ [key in DateKeys]:string }) {
-    if (!dates.start || !dates.end) {
+    if (!dates.start || !dates.end || (dates.start === dates.end)) {
       return;
     }
 
