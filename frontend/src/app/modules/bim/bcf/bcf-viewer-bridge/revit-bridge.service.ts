@@ -52,22 +52,23 @@ export class RevitBridgeService extends ViewerBridgeService {
     this.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
 
     return this.revitMessageReceived$
-      .pipe(
-        distinctUntilChanged(),
-        filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
-        first()
-      )
-      .pipe(
-        map((message) => {
-          let viewpointJson = JSON.parse(message.messagePayload);
+                  .pipe(
+                    distinctUntilChanged(),
+                    filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
+                    first()
+                  )
+                  .pipe(
+                    map((message) => {
+                      let viewpointJson = message.messagePayload;
 
-          viewpointJson.snapshot = {
-            snapshot_type: 'png',
-            snapshot_data: viewpointJson.snapshot
-          };
-          return viewpointJson;
-        })
-      )
+                      viewpointJson.snapshot = {
+                        snapshot_type: 'png',
+                        snapshot_data: viewpointJson.snapshot,
+                      };
+                      
+                      return viewpointJson;
+                    })
+                  )
   }
 
   public showViewpoint(workPackage:WorkPackageResource, index:number) {

@@ -152,4 +152,3 @@ describe 'BIM navigation spec',
     it_behaves_like 'can switch from split to viewer to list-only'
   end
 end
-
