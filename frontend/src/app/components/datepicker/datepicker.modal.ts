@@ -148,6 +148,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   updateDate(key:DateKeys, val:string) {
     this.dates[key] = val;
     if (this.datepickerHelper.validDate(val) && this.datePickerInstance) {
+      this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
       this.setDatesToDatepicker();
     }
   }
@@ -194,6 +195,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       let dates = [this.datepickerHelper.parseDate(this.dates.start), this.datepickerHelper.parseDate(this.dates.end)];
       this.datepickerHelper.setDates(dates, this.datePickerInstance);
     }
+    this.datepickerHelper.setRangeClasses(this.dates);
   }
 
   private onDatePickerChange(dates:Date[]) {
