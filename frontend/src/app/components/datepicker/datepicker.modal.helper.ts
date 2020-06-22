@@ -82,13 +82,20 @@ export class DatePickerModalHelper {
   }
 
   public setDatepickerRestrictions(dates:{ [key in DateKeys]:string }, datePicker:DatePicker) {
+    if (!dates.start && !dates.end) {
+      return false;
+    }
+
     if (this.isStateOfCurrentActivatedField('start')) {
+      // In case, that the end date is not set yet, the start date is the limit
+      let limit = dates.end ? dates.end : dates.start;
       datePicker.datepickerInstance.set('disable', [(date:Date) => {
-        return date.getTime() > new Date(dates.end).setHours(0,0,0,0);
+        return date.getTime() > new Date(limit).setHours(0,0,0,0);
       }]);
     } else {
+      let limit = dates.start ? dates.start : dates.end;
       datePicker.datepickerInstance.set('disable', [(date:Date) => {
-        return date.getTime() < new Date(dates.start).setHours(0,0,0,0);
+        return date.getTime() < new Date(limit).setHours(0,0,0,0);
       }]);
     }
   }
