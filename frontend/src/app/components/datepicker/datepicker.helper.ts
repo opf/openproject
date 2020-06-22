@@ -29,6 +29,7 @@
 import {Injectable} from '@angular/core';
 import {DateKeys} from "core-components/datepicker/datepicker.modal";
 import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
+import {DateOption} from "flatpickr/dist/types/options";
 
 @Injectable({ providedIn: 'root' })
 export class DatepickerHelper {
@@ -70,6 +71,14 @@ export class DatepickerHelper {
 
   public isStateOfCurrentActivatedField(val:DateKeys):boolean {
     return this.currentlyActivatedDateField === val;
+  }
+
+  public setDates(dates:DateOption|DateOption[], datePicker:DatePicker) {
+    let currentMonth = datePicker.datepickerInstance.currentMonth;
+    datePicker.setDates(dates);
+
+    // Keep currently active month and avoid jump because of two-month layout
+    datePicker.datepickerInstance.currentMonth = currentMonth;
   }
 
   public setDatepickerRestrictions(dates:{ [key in DateKeys]:string }, datePicker:DatePicker) {

@@ -189,10 +189,10 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   private setDatesToDatepicker() {
     if (this.singleDate) {
       let date = this.datepickerHelper.parseDate(this.dates.date);
-      this.datePickerInstance.setDates(date);
+      this.datepickerHelper.setDates(date, this.datePickerInstance);
     } else {
       let dates = [this.datepickerHelper.parseDate(this.dates.start), this.datepickerHelper.parseDate(this.dates.end)];
-      this.datePickerInstance.setDates(dates);
+      this.datepickerHelper.setDates(dates, this.datePickerInstance);
     }
   }
 
@@ -220,7 +220,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
         if ((!this.dates.end && this.datepickerHelper.isStateOfCurrentActivatedField('start')) ||
             (!this.dates.start && this.datepickerHelper.isStateOfCurrentActivatedField('end'))) {
           // If we change a start date when no end date is set, we keep only the newly clicked value and not both
-          this.datePickerInstance.setDates([dates[1]]);
+          this.datepickerHelper.setDates([dates[1]], this.datePickerInstance);
           this.onDatePickerChange([dates[1]]);
         } else {
           // Sort dates so that the start date is always first
@@ -228,7 +228,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
             dates.sort(function(a:Date, b:Date) {
               return a.getTime() - b.getTime();
             });
-            this.datePickerInstance.setDates([dates[0], dates[1]]);
+            this.datepickerHelper.setDates([dates[0], dates[1]], this.datePickerInstance);
           }
 
           let index = this.datepickerHelper.isStateOfCurrentActivatedField('start') ? 0 : 1;
@@ -243,10 +243,10 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       default: {
         // Reset the date picker with the two new values
         if (this.datepickerHelper.isStateOfCurrentActivatedField('start')) {
-          this.datePickerInstance.setDates([dates[2], dates[1]]);
+          this.datepickerHelper.setDates([dates[2], dates[1]], this.datePickerInstance);
           this.onDatePickerChange([dates[2], dates[1]]);
         } else {
-          this.datePickerInstance.setDates([dates[0], dates[2]]);
+          this.datepickerHelper.setDates([dates[0], dates[2]], this.datePickerInstance);
           this.onDatePickerChange([dates[0], dates[2]]);
         }
 
