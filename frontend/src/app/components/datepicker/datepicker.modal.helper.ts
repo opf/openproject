@@ -46,11 +46,11 @@ export class DatePickerModalHelper {
 
   public parseDate(date:Date|string):Date|'' {
     if (date instanceof Date) {
-      return date;
+      return date.setHours(0,0,0,0);
     } else if (date === '') {
       return '';
     } else {
-      return new Date(date);
+      return new Date(date).setHours(0,0,0,0);
     }
   }
 
@@ -79,6 +79,7 @@ export class DatePickerModalHelper {
 
     // Keep currently active month and avoid jump because of two-month layout
     datePicker.datepickerInstance.currentMonth = currentMonth;
+    datePicker.datepickerInstance.redraw();
   }
 
   public setDatepickerRestrictions(dates:{ [key in DateKeys]:string }, datePicker:DatePicker) {

@@ -70,7 +70,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     date: this.I18n.t('js.work_packages.properties.date'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
-    placeholder: this.I18n.t('js.placeholders.default')
+    placeholder: this.I18n.t('js.placeholders.default'),
+    today: this.I18n.t('js.label_today')
   };
   public onDataUpdated = new EventEmitter<string>();
 
@@ -148,9 +149,13 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   updateDate(key:DateKeys, val:string) {
     this.dates[key] = val;
     if (this.datepickerHelper.validDate(val) && this.datePickerInstance) {
-      this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
       this.setDatesToDatepicker();
     }
+  }
+
+  setToday(key:DateKeys) {
+    this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
+    this.updateDate(key, this.timezoneService.formattedISODate(Date.now()));
   }
 
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {

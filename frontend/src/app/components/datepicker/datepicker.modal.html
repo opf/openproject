@@ -27,6 +27,11 @@
                   <span class="icon2 icon-small icon-cancel"></span>
                 </a>
               </div>
+              <div class="form--field-extra-actions">
+                <a (click)="setToday('date')"
+                   [textContent]="text.today">
+                </a>
+              </div>
             </div>
           </ng-container>
 
@@ -51,6 +56,12 @@
                   <span class="icon2 icon-small  icon-cancel"></span>
                 </a>
               </div>
+              <div class="form--field-extra-actions">
+                <a *ngIf="datepickerHelper.isStateOfCurrentActivatedField('start')"
+                   (click)="setToday('start')"
+                   [textContent]="text.today">
+                </a>
+              </div>
             </div>
             <div class="form--field">
               <label class="form--label"
@@ -70,6 +81,12 @@
                    [title]="text.clear"
                    (click)="clear('end')">
                   <span class="icon2 icon-small icon-cancel"></span>
+                </a>
+              </div>
+              <div class="form--field-extra-actions">
+                <a *ngIf="datepickerHelper.isStateOfCurrentActivatedField('end')"
+                   (click)="setToday('end')"
+                   [textContent]="text.today">
                 </a>
               </div>
             </div>
