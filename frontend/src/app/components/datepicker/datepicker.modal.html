@@ -43,7 +43,7 @@
                          [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
                          [ngModel]="dates.start"
                          (ngModelChange)="updateDate('start', $event)"
-                         (click)="datepickerHelper.setCurrentActivatedField('start')">
+                         (click)="setCurrentActivatedField('start')">
                 </div>
                 <a class="form--field-inline-action"
                    [title]="text.clear"
@@ -64,7 +64,7 @@
                          [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
                          [ngModel]="dates.end"
                          (ngModelChange)="updateDate('end', $event)"
-                         (click)="datepickerHelper.setCurrentActivatedField('end')">
+                         (click)="setCurrentActivatedField('end')">
                 </div>
                 <a class="form--field-inline-action"
                    [title]="text.clear"

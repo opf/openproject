@@ -161,6 +161,12 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     });
   }
 
+  setCurrentActivatedField(key:DateKeys) {
+    this.datepickerHelper.setCurrentActivatedField(key);
+    this.datepickerHelper.setDatepickerRestrictions(this.dates, this.datePickerInstance);
+    this.datepickerHelper.setRangeClasses(this.dates);
+  }
+
   private initializeDatepicker() {
     this.datePickerInstance = new DatePicker(
       '#flatpickr-input',

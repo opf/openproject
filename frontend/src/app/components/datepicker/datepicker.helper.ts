@@ -111,7 +111,7 @@ export class DatepickerHelper {
           this.selectRangeFromUntil(firstDay, selectedElements[0]);
         }
       } else if (this.datepickerIsInDateRange(monthContainer[i], dates)) {
-        jQuery('.dayContainer .flatpickr-day').addClass('inRange');
+        jQuery(monthContainer[i]).find('.flatpickr-day').addClass('inRange');
       }
     }
   }
