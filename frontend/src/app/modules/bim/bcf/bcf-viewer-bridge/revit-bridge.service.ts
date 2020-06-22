@@ -19,7 +19,7 @@ declare global {
 @Injectable()
 export class RevitBridgeService extends ViewerBridgeService {
   public shouldShowViewer = false;
-  private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:string }>();
+  private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:any }>();
   private _trackingIdNumber = 0;
   private _ready$ = input<boolean>(false);
 
@@ -65,16 +65,16 @@ export class RevitBridgeService extends ViewerBridgeService {
                         snapshot_type: 'png',
                         snapshot_data: viewpointJson.snapshot,
                       };
-                      
+
                       return viewpointJson;
                     })
-                  )
+                  );
   }
 
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
      this.viewpointsService
               .getViewPoint$(workPackage, index)
-              .subscribe((viewpoint: BcfViewpointInterface) =>  this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
+              .subscribe((viewpoint:BcfViewpointInterface) =>  this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
   }
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
