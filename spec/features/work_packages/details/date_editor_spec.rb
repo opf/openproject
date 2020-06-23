@@ -64,6 +64,21 @@ describe 'date inplace editor',
     start_date.expect_state_text '2016-01-01 - 2016-01-25'
   end
 
+  it 'can set "today" as a date via the provided link' do
+    start_date.activate!
+    start_date.expect_active!
+
+    start_date.click_today
+
+    start_date.datepicker.expect_year Date.today.year
+    start_date.datepicker.expect_month Date.today.strftime("%B"), true
+    start_date.datepicker.expect_day Date.today.day
+
+    start_date.save!
+    start_date.expect_inactive!
+    start_date.expect_state_text '2016-01-01 - ' + Date.today.strftime('%Y-%m-%d')
+  end
+
   it 'saves the date when clearing and then confirming' do
     start_date.activate!
 

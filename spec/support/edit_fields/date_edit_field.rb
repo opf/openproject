@@ -89,6 +89,12 @@ class DateEditField < EditField
     end
   end
 
+  def click_today
+    within_modal do
+      find('.form--field-extra-actions a', text: 'Today').click
+    end
+  end
+
   def expect_value(value)
     expect
     expect(input_element.text).to eq(value)
