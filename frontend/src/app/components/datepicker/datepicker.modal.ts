@@ -154,7 +154,10 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   setToday(key:DateKeys) {
-    this.updateDate(key, this.timezoneService.formattedISODate(Date.now()));
+    let today = this.datepickerHelper.parseDate(new Date());
+    this.dates[key] = this.timezoneService.formattedISODate(today);
+
+    (today instanceof Date) ? this.setDatesToDatepicker(today) : this.setDatesToDatepicker();
   }
 
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
@@ -203,13 +206,13 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     );
   }
 
-  private setDatesToDatepicker() {
+  private setDatesToDatepicker(enforceDate?:Date) {
     if (this.singleDate) {
       let date = this.datepickerHelper.parseDate(this.dates.date);
-      this.datepickerHelper.setDates(date, this.datePickerInstance);
+      this.datepickerHelper.setDates(date, this.datePickerInstance, enforceDate);
     } else {
       let dates = [this.datepickerHelper.parseDate(this.dates.start), this.datepickerHelper.parseDate(this.dates.end)];
-      this.datepickerHelper.setDates(dates, this.datePickerInstance);
+      this.datepickerHelper.setDates(dates, this.datePickerInstance, enforceDate);
 
       this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
       this.datepickerHelper.setRangeClasses(this.dates);

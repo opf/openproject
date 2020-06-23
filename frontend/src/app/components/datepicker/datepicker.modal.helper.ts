@@ -73,12 +73,20 @@ export class DatePickerModalHelper {
     return this.currentlyActivatedDateField === val;
   }
 
-  public setDates(dates:DateOption|DateOption[], datePicker:DatePicker) {
+  public setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date) {
     let currentMonth = datePicker.datepickerInstance.currentMonth;
+    let currentYear = datePicker.datepickerInstance.currentYear;
     datePicker.setDates(dates);
 
-    // Keep currently active month and avoid jump because of two-month layout
-    datePicker.datepickerInstance.currentMonth = currentMonth;
+    if (enforceDate) {
+      datePicker.datepickerInstance.currentMonth = enforceDate.getMonth();
+      datePicker.datepickerInstance.currentYear = enforceDate.getFullYear();
+    } else {
+      // Keep currently active month and avoid jump because of two-month layout
+      datePicker.datepickerInstance.currentMonth = currentMonth;
+      datePicker.datepickerInstance.currentYear = currentYear;
+    }
+
     datePicker.datepickerInstance.redraw();
   }
 
