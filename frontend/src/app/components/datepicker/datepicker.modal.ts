@@ -154,7 +154,6 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   setToday(key:DateKeys) {
-    this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
     this.updateDate(key, this.timezoneService.formattedISODate(Date.now()));
   }
 
@@ -179,9 +178,9 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     }
 
     if (key === 'start') {
-      return this.datepickerHelper.parseDate(Date.now()) <= this.datepickerHelper.parseDate(this.dates['end']);
+      return new Date().setHours(0,0,0,0) <= new Date(this.dates['end']).setHours(0,0,0,0);
     } else {
-      return this.datepickerHelper.parseDate(Date.now()) >= this.datepickerHelper.parseDate(this.dates['start']);
+      return new Date().setHours(0,0,0,0) >= new Date(this.dates['start']).setHours(0,0,0,0);
     }
   }
 
@@ -211,8 +210,10 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     } else {
       let dates = [this.datepickerHelper.parseDate(this.dates.start), this.datepickerHelper.parseDate(this.dates.end)];
       this.datepickerHelper.setDates(dates, this.datePickerInstance);
+
+      this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
+      this.datepickerHelper.setRangeClasses(this.dates);
     }
-    this.datepickerHelper.setRangeClasses(this.dates);
   }
 
   private onDatePickerChange(dates:Date[]) {

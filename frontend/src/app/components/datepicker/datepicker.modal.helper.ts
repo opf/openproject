@@ -46,11 +46,11 @@ export class DatePickerModalHelper {
 
   public parseDate(date:Date|string):Date|'' {
     if (date instanceof Date) {
-      return date.setHours(0,0,0,0);
+      return date;
     } else if (date === '') {
       return '';
     } else {
-      return new Date(date).setHours(0,0,0,0);
+      return new Date(date);
     }
   }
 
@@ -141,10 +141,8 @@ export class DatePickerModalHelper {
     var firstDayOfMonthElement = jQuery(container).find('.flatpickr-day:not(.hidden)')[0];
     var firstDayOfMonth = new Date(firstDayOfMonthElement.getAttribute('aria-label')!);
 
-    return firstDayOfMonth.getFullYear() <= new Date(dates.end).getFullYear() &&
-           firstDayOfMonth.getMonth() < new Date(dates.end).getMonth() &&
-           firstDayOfMonth.getFullYear() >= new Date(dates.start).getFullYear() &&
-           firstDayOfMonth.getMonth() > new Date(dates.start).getMonth();
+    return firstDayOfMonth <= new Date(dates.end) &&
+           firstDayOfMonth >= new Date(dates.start);
   }
 
   private selectRangeFromUntil(from:Element, until:string|Element) {
