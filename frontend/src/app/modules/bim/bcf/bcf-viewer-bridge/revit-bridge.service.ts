@@ -35,7 +35,7 @@ export class RevitBridgeService extends ViewerBridgeService {
     } else {
       window.addEventListener('revit.plugin.ready', () => {
         this.hookUpRevitListener();
-      });
+      }, { once: true });
     }
   }
 
