@@ -46,11 +46,11 @@ export class DatePickerModalHelper {
 
   public parseDate(date:Date|string):Date|'' {
     if (date instanceof Date) {
-      return date;
+      return new Date(date.setHours(0,0,0,0));
     } else if (date === '') {
       return '';
     } else {
-      return new Date(date);
+      return new Date(new Date(date).setHours(0,0,0,0));
     }
   }
 

@@ -178,9 +178,9 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     }
 
     if (key === 'start') {
-      return new Date().setHours(0,0,0,0) <= new Date(this.dates['end']).setHours(0,0,0,0);
+      return this.datepickerHelper.parseDate(new Date()) <= this.datepickerHelper.parseDate(this.dates.end);
     } else {
-      return new Date().setHours(0,0,0,0) >= new Date(this.dates['start']).setHours(0,0,0,0);
+      return this.datepickerHelper.parseDate(new Date()) >= this.datepickerHelper.parseDate(this.dates.start);
     }
   }
 
