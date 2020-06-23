@@ -290,7 +290,7 @@ ja:
     label_and: "及び"
     label_ascending: "昇順"
     label_author: "作者: %{user}"
-    label_avatar: "アバター"
+    label_avatar: "Avatar"
     label_between: "次の範囲内"
     label_board: "ボード"
     label_board_locked: "ロックされている"
