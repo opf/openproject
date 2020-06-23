@@ -147,9 +147,12 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   updateDate(key:DateKeys, val:string) {
-    this.dates[key] = val;
-    if (this.datepickerHelper.validDate(val) && this.datePickerInstance) {
-      this.setDatesToDatepicker();
+    // Epxected minimal format YYYY-M-D => 8 characters
+    if (val.length >= 8) {
+      this.dates[key] = val;
+      if (this.datepickerHelper.validDate(val) && this.datePickerInstance) {
+        this.setDatesToDatepicker(false);
+      }
     }
   }
 
@@ -157,7 +160,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     let today = this.datepickerHelper.parseDate(new Date());
     this.dates[key] = this.timezoneService.formattedISODate(today);
 
-    (today instanceof Date) ? this.setDatesToDatepicker(today) : this.setDatesToDatepicker();
+    (today instanceof Date) ? this.setDatesToDatepicker(true, today) : this.setDatesToDatepicker();
   }
 
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
@@ -206,7 +209,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     );
   }
 
-  private setDatesToDatepicker(enforceDate?:Date) {
+  private setDatesToDatepicker(toggleField:boolean = true, enforceDate?:Date) {
     if (this.singleDate) {
       let date = this.datepickerHelper.parseDate(this.dates.date);
       this.datepickerHelper.setDates(date, this.datePickerInstance, enforceDate);
@@ -214,8 +217,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       let dates = [this.datepickerHelper.parseDate(this.dates.start), this.datepickerHelper.parseDate(this.dates.end)];
       this.datepickerHelper.setDates(dates, this.datePickerInstance, enforceDate);
 
-      this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
-      this.datepickerHelper.setRangeClasses(this.dates);
+      this.updateDatePickerAppearance(toggleField);
     }
   }
 
@@ -257,8 +259,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
           let index = this.datepickerHelper.isStateOfCurrentActivatedField('start') ? 0 : 1;
           this.dates[this.datepickerHelper.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
 
-          this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
-          this.datepickerHelper.setRangeClasses(this.dates);
+          this.updateDatePickerAppearance();
         }
 
         break;
@@ -291,5 +292,12 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   private initialActivatedField():DateKeys {
     return this.locals.fieldName === 'dueDate' || (this.dates.start && !this.dates.end) ? 'end' : 'start';
+  }
+
+  private updateDatePickerAppearance(toggleField:boolean = true) {
+    if (toggleField) {
+      this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
+    }
+    this.datepickerHelper.setRangeClasses(this.dates);
   }
 }
