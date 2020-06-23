@@ -33,16 +33,13 @@ export interface BCFLoadOptions {
 
 @Injectable()
 export class IFCViewerService extends ViewerBridgeService {
+  public shouldShowViewer = true;
+  private _viewer:any;
+  private $loaded = new Subject<void>();
+
   @InjectField() pathHelper:PathHelperService;
   @InjectField() bcfApi:BcfApiService;
-  @InjectField() viewpointsService:ViewpointsService;  
-
-  private _viewer:any;
-
-  // private _loaded:BehaviorSubject<boolean> = new BehaviorSubject(false);
-  // readonly loaded$:Observable<boolean> = this._loaded.asObservable().pipe(shareReplay({refCount: true, bufferSize: 1}));
-
-  private $loaded = new Subject<void>();
+  @InjectField() viewpointsService:ViewpointsService;
 
   constructor(readonly injector:Injector){
     super(injector);
@@ -122,7 +119,6 @@ export class IFCViewerService extends ViewerBridgeService {
     return !!this.viewer;
   }
 
-  // TODO: Remove this?
   public onLoad$():Observable<void> {
     return this.$loaded;
   }

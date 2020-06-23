@@ -38,6 +38,7 @@ import {
   bimViewerViewIdentifier,
   BimViewService
 } from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Directive({
   selector: '[bimViewDropdown]'
@@ -48,7 +49,8 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
               readonly bimView:BimViewService,
               readonly I18n:I18nService,
               readonly state:StateService,
-              readonly wpFiltersService:WorkPackageFiltersService) {
+              readonly wpFiltersService:WorkPackageFiltersService,
+              readonly viewerBridgeService:ViewerBridgeService) {
 
     super(elementRef, opContextMenu);
   }
@@ -68,35 +70,38 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
   private buildItems() {
     const current = this.bimView.current;
     const viewRoute = this.state.current.data.viewRoute;
+    let items = this.viewerBridgeService.shouldShowViewer ?
+                  [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewIdentifier] :
+                  [bimListViewIdentifier];
 
-    this.items = [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewIdentifier]
-      .map(key => {
-        return {
-          hidden: key === current,
-          linkText: this.bimView.text[key],
-          icon: this.bimView.icon[key],
-          onClick: () => {
-            // Close filter section
-            if (this.wpFiltersService.visible) {
-              this.wpFiltersService.toggleVisibility();
-            }
+    this.items = items
+                  .map(key => {
+                    return {
+                      hidden: key === current,
+                      linkText: this.bimView.text[key],
+                      icon: this.bimView.icon[key],
+                      onClick: () => {
+                        // Close filter section
+                        if (this.wpFiltersService.visible) {
+                          this.wpFiltersService.toggleVisibility();
+                        }
 
-            switch (key) {
-              case bimListViewIdentifier:
-                this.state.go('bim.partitioned.list');
-                break;
-              case bimViewerViewIdentifier:
-                this.state.go('bim.partitioned.model');
-                break;
-              case bimSplitViewIdentifier:
-                this.state.go('bim.partitioned.split');
-                break;
-            }
+                        switch (key) {
+                          case bimListViewIdentifier:
+                            this.state.go('bim.partitioned.list');
+                            break;
+                          case bimViewerViewIdentifier:
+                            this.state.go('bim.partitioned.model');
+                            break;
+                          case bimSplitViewIdentifier:
+                            this.state.go('bim.partitioned.split');
+                            break;
+                        }
 
-            return true;
-          }
-        };
-      });
+                        return true;
+                      }
+                    };
+                  });
   }
 }
 

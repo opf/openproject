@@ -18,7 +18,8 @@ declare global {
 
 @Injectable()
 export class RevitBridgeService extends ViewerBridgeService {
-  private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:string }>();
+  public shouldShowViewer = false;
+  private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:any }>();
   private _trackingIdNumber = 0;
   private _ready$ = input<boolean>(false);
 
@@ -30,14 +31,11 @@ export class RevitBridgeService extends ViewerBridgeService {
     super(injector);
 
     if (window.RevitBridge) {
-      console.log("window.RevitBridge is already there, so let's hook up the Revit Listener");
       this.hookUpRevitListener();
     } else {
-      console.log('Waiting for Revit Plugin to become ready.');
       window.addEventListener('revit.plugin.ready', () => {
-        console.log('CAPTURED EVENT "revit.plugin.ready"');
         this.hookUpRevitListener();
-      });
+      }, { once: true });
     }
   }
 
@@ -51,33 +49,33 @@ export class RevitBridgeService extends ViewerBridgeService {
     this.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
 
     return this.revitMessageReceived$
-      .pipe(
-        distinctUntilChanged(),
-        filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
-        first()
-      )
-      .pipe(
-        map((message) => {
-          let viewpointJson = JSON.parse(message.messagePayload);
+                  .pipe(
+                    distinctUntilChanged(),
+                    filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
+                    first()
+                  )
+                  .pipe(
+                    map((message) => {
+                      let viewpointJson = message.messagePayload;
 
-          viewpointJson.snapshot = {
-            snapshot_type: 'png',
-            snapshot_data: viewpointJson.snapshot
-          };
-          return viewpointJson;
-        })
-      )
+                      viewpointJson.snapshot = {
+                        snapshot_type: 'png',
+                        snapshot_data: viewpointJson.snapshot,
+                      };
+
+                      return viewpointJson;
+                    })
+                  );
   }
 
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
      this.viewpointsService
               .getViewPoint$(workPackage, index)
-              .subscribe((viewpoint: BcfViewpointInterface) =>  this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
+              .subscribe((viewpoint:BcfViewpointInterface) =>  this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
   }
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
     if (!this.viewerVisible()) {
-      console.log('The Revit bridge is not ready yet.');
       return;
     }
 

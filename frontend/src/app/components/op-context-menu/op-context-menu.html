@@ -5,8 +5,8 @@
       role="menu"
       [ngClass]="{'-empty': items.length === 0 }">
     <ng-container *ngFor="let item of items">
-      <li *ngIf="item.divider && !item.hidden" class="dropdown-divider"></li>
-      <li *ngIf="!item.divider && !item.hidden">
+      <li *ngIf="item.divider" class="dropdown-divider"></li>
+      <li *ngIf="!item.divider">
         <a class="menu-item {{ item.class }}"
            tabindex="0"
            [ngClass]="{ 'inactive': item.disabled }"
