@@ -31,12 +31,9 @@ export class RevitBridgeService extends ViewerBridgeService {
     super(injector);
 
     if (window.RevitBridge) {
-      console.log("window.RevitBridge is already there, so let's hook up the Revit Listener");
       this.hookUpRevitListener();
     } else {
-      console.log('Waiting for Revit Plugin to become ready.');
       window.addEventListener('revit.plugin.ready', () => {
-        console.log('CAPTURED EVENT "revit.plugin.ready"');
         this.hookUpRevitListener();
       });
     }
@@ -79,7 +76,6 @@ export class RevitBridgeService extends ViewerBridgeService {
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
     if (!this.viewerVisible()) {
-      console.log('The Revit bridge is not ready yet.');
       return;
     }
 
