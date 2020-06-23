@@ -102,6 +102,8 @@ sl:
           snapshot_type_unsupported: "snapshot_type mora biti ali 'png' ali 'jpg'."
           snapshot_data_blank: "navesti je treba snapshot_data."
           unsupported_key: "Vključena je nepodprta lastnost json."
+        bim/bcf/issue:
+          uuid_already_taken: "Te izdaje BCF ni mogoče uvoziti, saj je že ena z istim GUID-om. Ali je morda ta BCF problem že uvožen v drug projekt?"
   ifc_models:
     label_ifc_models: 'model IFC'
     label_new_ifc_model: 'Nov IFC model'

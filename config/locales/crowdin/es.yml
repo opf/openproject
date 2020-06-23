@@ -881,6 +881,7 @@ es:
       - "Oct"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Domingo"
       - "Lunes"

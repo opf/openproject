@@ -884,6 +884,7 @@ tr:
       - "Eki"
       - "Kas"
       - "Ara"
+    abbr_week: 'Wk'
     day_names:
       - "Pazar"
       - "Pazartesi"
@@ -1911,7 +1912,7 @@ tr:
   permission_manage_project_activities: "Proje aktivitilerini yönet"
   permission_manage_public_queries: "Herkese açık görünümleri yönetmek"
   permission_manage_repository: "Depo yönetimi"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "İş paketi kategorilerini yönet"
   permission_manage_versions: "Sürümleri yönetmek"
   permission_manage_wiki: "Wiki'yi yönet"
   permission_manage_wiki_menu: "Wiki menüsünü yönet"

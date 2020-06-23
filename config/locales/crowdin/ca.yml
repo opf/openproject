@@ -884,6 +884,7 @@ ca:
       - "Oct"
       - "Nov"
       - "Des"
+    abbr_week: 'Wk'
     day_names:
       - "Diumenge"
       - "Dilluns"

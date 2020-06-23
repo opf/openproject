@@ -20,7 +20,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Activate the Gantt chart](#activate-the-gantt-chart)        | How to activate the Gantt chart in OpenProject?              |
 | [Create a new element](#create-a-new-element-in-the-gantt-chart) | How to add a new item to the Gantt chart?                    |
 | [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display relations in the Gantt chart.             |
-| [Gantt chart configuration](#gantt-chart-cconfiguration)     | How to configure the view of your Gantt chart, e.g. add labels? |
+| [Gantt chart configuration](#gantt-chart-configuration)     | How to configure the view of your Gantt chart, e.g. add labels? |
 | [Synchronize data from OpenProject to Excel](#synchronize-data-from-openproject-to-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                       | How to zoom in and out and activate the Zen mode?            |
 

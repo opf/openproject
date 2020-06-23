@@ -100,6 +100,8 @@ el:
           snapshot_type_unsupported: "το snapshot_type πρέπει να είναι είτε 'png' ή 'jpg'."
           snapshot_data_blank: "το snapshot_data πρέπει να παρέχεται."
           unsupported_key: "Συμπεριλαμβάνεται μια μη υποστηριζόμενη ιδιότητα json."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'Μοντέλα IFC'
     label_new_ifc_model: 'Νέο μοντέλο IFC'

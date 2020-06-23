@@ -884,6 +884,7 @@ fi:
       - "Loka"
       - "Marras"
       - "Joulu"
+    abbr_week: 'Wk'
     day_names:
       - "Sunnuntai"
       - "Maanantai"

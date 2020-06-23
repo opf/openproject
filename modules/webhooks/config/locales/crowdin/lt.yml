@@ -2,58 +2,58 @@ lt:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
-        secret: 'Signature secret'
+        url: '„Krovinio“ URL'
+        secret: 'Parašo paslaptis'
         events: 'Įvykiai'
         projects: 'Įgalinti projektai'
       webhooks/log:
         event_name: 'Įvykio pavadinimas'
-        url: 'Payload URL'
+        url: '„Krovinio“ URL'
         response_code: 'Atsako kodas'
         response_body: 'Atsakas'
     models:
-      webhooks/outgoing_webhook: "Outgoing webhook"
+      webhooks/outgoing_webhook: "Išeinantis „webhook“"
   webhooks:
-    singular: Webhook
-    plural: Webhooks
+    singular: '„Webhook“'
+    plural: '„Webhook“''ai'
     resources:
       time_entry:
         name: "Laiko įrašas"
     outgoing:
-      no_results_table: No webhooks have been defined yet.
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
-      label_event_resources: Event resources
+      no_results_table: Dar nenustatytas joks „webhook“.
+      label_add_new: Pridėti „webhook“
+      label_edit: Keisti „webhook“
+      label_event_resources: Įvykio resursai
       events:
         created: "Sukurta"
         updated: "Atnaujinta"
       status:
-        enabled: 'Webhook is enabled'
-        disabled: 'Webhook is disabled'
-        enabled_text: 'The webhook will emit payloads for the defined events below.'
-        disabled_text: 'Click the edit button to activate the webhook.'
+        enabled: '„Webhook“ įgalintas'
+        disabled: '„Webhook“ atjungtas'
+        enabled_text: '„Webhook“ išsiųs „krovinį“ įvykus tokiems įvykiams'
+        disabled_text: 'Paspauskite „Redaguoti“ mygtuką, kad aktyvuotumėte „webhook“.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook.
-        title: 'Recent deliveries'
-        time: 'Delivery time'
+        no_results_table: Šis „webhook“ nesiuntė jokių pranešimų.
+        title: 'Paskutiniai pranešimai'
+        time: 'Pristatymo laikas'
       form:
         introduction: >
-          Send a POST request to the payload URL below for any event in the project your subscribe. Payload will correspond to the APIv3 representation of the object being modified.
-        apiv3_doc_url: For more information, visit the API documentation
+          Pasiųskite POST užklausa į žemiau pateiktą „krovinio“ URL įvykus bet kuriam įvykiui projektuose, kuriuos jūs prenumeruojate. „Krovinys“ atitiks APIv3 formatą to objekto, kuris turi būti keičiamas.
+        apiv3_doc_url: Daugiau informacijos API dokumentacijoje
         description:
-          placeholder: 'Optional description for the webhook.'
+          placeholder: 'Nebūtinas „webhook“ aprašymas.'
         enabled:
           description: >
-            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+            Jei pažymėtas, „webhook“ sudirbs prie pasirinktų įvykių. Nužymėkite, jei norite atjungti „webhook“.
         events:
           title: 'Įjungti įvykiai'
         project_ids:
           title: 'Įgalinti projektai'
-          description: 'Select for which projects this webhook should be executed for.'
+          description: 'Pasirinkite projektus, kuriuose šis „webhook“ turi veikti.'
           all: 'Visi projektai'
           selected: 'Tik parinkti projektai'
         selected_project_ids:
           title: 'Parinkti projektai'
         secret:
           description: >
-            If set, this secret value is used by OpenProject to sign the webhook payload.
+            Jei nustatyta, OpenProject naudos šią slaptą reikšmę „krovinio“ pasirašymui.

@@ -4,33 +4,33 @@ lt:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
+    label_imported_failed: 'BCF temų importas nepavyko'
+    label_imported_successfully: 'BCF temos sėkmingai importuotos'
+    issues: "Trūkumai"
     recommended: 'rekomenduojama'
     not_recommended: 'nerekomenduojama'
-    no_viewpoints: 'No viewpoints'
+    no_viewpoints: 'Nėra peržiūros taškų'
     new_badge: "Naujas"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "Neteisingas BCF failas"
     x_bcf_issues:
-      zero: 'No BCF issues'
+      zero: 'Nėra BCF trūkumų'
       one: 'One BCF issue'
       few: '%{count} BCF issues'
       many: '%{count} BCF issues'
       other: '%{count} BCF issues'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'BCF XML failas'
       import_title: 'Importuoti'
       export: 'Eksportuoti'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
+      import_update_comment: '(Atnaujinta BCF importo metu)'
+      import_failed: 'Negaliu importuoti BCF failo: %{error}'
       import_failed_unsupported_bcf_version: 'Nepavyko perskaityti BCF failo: Nepalaikoma BCF versija. Įsitikinkite, kad versija yra bent %{minimal_version} ar aukštesnė.'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_successful: 'Importuota %{count} BCF trūkumų'
+      import_canceled: 'BCF-XML importas nutrauktas.'
+      type_not_active: "Trūkumo tipas nėra įjungtas šiam projektui."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        num_issues_found: '%{x_bcf_issues} yra šiame BCF-XML faile, jų detalės pateiktos žemiau.'
         button_prepare: 'Paruošti importą'
         button_perform_import: 'Patvirtinti importą'
         button_proceed: 'Tęsti importą'
@@ -38,13 +38,13 @@ lt:
         no_permission_to_add_members: 'Jūs neturite teisių pridėti juos kaip projekto narius.'
         contact_project_admin: 'Susisiekite su projekto administratoriumi, kad jie būtų pridėti kaip nariai, tada pakartokite importą.'
         continue_anyways: 'Ar norite tęsti ir vis tiek baigti importą?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
+        description: "Importui į šį projektą pateikite BCF-XML v2.1 failą. Jūs galėsite peržiūrėti jo turinį prieš patvirtindami importą."
+        invalid_types_found: 'Rastas neteisingas temos tipo pavadinimas'
+        invalid_statuses_found: 'Rastas neteisingas būsenos pavadinimas'
+        invalid_priorities_found: 'Rastas neteisingas prioriteto pavadinimas'
+        invalid_emails_found: 'Rastas neteisingas el. pašto adresas'
+        unknown_emails_found: 'Rasti nežinomi el. pašto adresai'
+        unknown_property: 'Nežinoma sąvybė'
         non_members_found: 'Rasti ne projekto nariai'
         import_types_as: 'Nustatyti visus šiuos tipus į'
         import_statuses_as: 'Nustatyti visas būsenas į'
@@ -58,75 +58,77 @@ lt:
         replace_with_system_user: 'Pakeisti juos „Sistemos“ naudotoju'
         import_as_system_user: 'Importuoti juos kaip „Sistemos“ naudotojus.'
         what_to_do: "Ką norite daryti?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "Pasenęs! Ši tema nebuvo atnaujinta, nes paskutiniai pakeitimai serveryje buvo naujesni nei „ModifiedDate“ importuojamoje temoje. Tačiau, temos komentarai buvo suimportuoti."
         bcf_file_not_found: "Nepavyko rasti BCF filo. Prašome pradėti įkėlimo procesą dar kartą."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "BCF nuotrauka"
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Peržiūrėti BCF trūkumus"
+  permission_manage_bcf: "Įkelti ir valdyti BCF trūkumus"
   permission_delete_bcf: "Pašalinti BCF trūkumus"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Pilna prieiga prie BCF v2.1 API"
+      bcf_v2_1_text: "Aplikacija gaus pilną skaitymo ir rašymo prieigą prie OpenProject BCF API v2.1 vykdyti veiksmus jūsų vardu."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IFC modelis"
     attributes:
       bim/ifc_models/ifc_model:
-        ifc_attachment: "IFC file"
-        is_default: "Default model"
-        attachments: "IFC file"
+        ifc_attachment: "IFC failas"
+        is_default: "Numatytasis modelis"
+        attachments: "IFC failas"
     errors:
       models:
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "No ifc file attached."
-              invalid_ifc_file: "The provided file is not a valid IFC file."
+              ifc_attachment_missing: "Joks IFC failas nėra prikabintas."
+              invalid_ifc_file: "Pateiktas failas nėra geras IFC failas."
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
+          bitmaps_not_writable: "bitmap'ų negalima įrašyti, nes jų apdorojimas dar nėra realizuotas."
+          index_not_integer: "index nėra sveikas skaičius."
+          invalid_clipping_planes: "neteisingi clipping_planes."
+          invalid_components: "neteisingas komponentas."
+          invalid_lines: "neteisingos linijos."
+          invalid_orthogonal_camera: "neteisinga orthogonal_camera."
+          invalid_perspective_camera: "neteisinga perspective_camera."
+          mismatching_guid: "json_viewpoint GUID nesutampa su modelio GUID."
+          no_json: "json struktūra neteisinga."
+          snapshot_type_unsupported: "snapshot_type turi būti 'png' arba 'jpg'."
+          snapshot_data_blank: "būtina pateikti snapshot_data."
           unsupported_key: "Įtraukta nepalaikoma json savybė."
+        bim/bcf/issue:
+          uuid_already_taken: "Negaliu suimportuoti BCF trūkumo, nes sistemoje jau yra viena su tokiu pačiu GUID. Ar negalėjo taip būti, kad BCF trūkumas jau buvo importuota į kitą projektą?"
   ifc_models:
-    label_ifc_models: 'IFC models'
-    label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
-    label_default_ifc_models: 'Default IFC models'
-    label_edit_defaults: 'Edit defaults'
+    label_ifc_models: 'IFC modeliai'
+    label_new_ifc_model: 'Naujas IFC modelis'
+    label_show_defaults: 'Parodyti  numatytąsias reikšmes'
+    label_default_ifc_models: 'Numatyti IFC modeliai'
+    label_edit_defaults: 'Keisti numatytąsias reikšmes'
     no_defaults_warning:
-      title: 'No IFC model was set as default for this project.'
-      check_1: 'Check that you have uploaded at least one IFC model.'
-      check_2: 'Check that at least one IFC model is set to "Default".'
-    no_results: "No IFC models have been uploaded in this project."
+      title: 'Joks IFC modelis šiame projekte nebuvo nustatytas kaip numatytasis.'
+      check_1: 'Patikrinkite, ar įkėlėte bent vieną IFC modelį.'
+      check_2: 'Patikrinkite, ar bent vienas IFC modelis buvo nustatytas kaip „Numatytasis“.'
+    no_results: "Į projektą nebuvo įkelti jokie IFC modeliai."
     processing_state:
-      label: 'Processing?'
+      label: 'Apdorojamas?'
       in_progress: 'Vykdoma'
-      completed: 'Completed'
+      completed: 'Atliktas'
     processing_notice:
-      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+      processing_default: 'Tokie numatytieji IFC modeliai dar yra apdorojami ir todėl dar nėra pasiekiami:'
     flash_messages:
-      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
+      upload_successful: 'Įkėlimas pavyko. Dabar jis bus apdorojamas ir po kelių minučių bus tinkamas naudojimui.'
     conversion:
-      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
-  project_module_ifc_models: "IFC models"
-  permission_view_ifc_models: "View IFC models"
-  permission_manage_ifc_models: "Import and manage IFC models"
+      missing_commands: "Tokios IFC konvertavimo komandos nerastos šioje sistemoje: %{names}"
+  project_module_ifc_models: "IFC modeliai"
+  permission_view_ifc_models: "Peržiūrėti IFC modelius"
+  permission_manage_ifc_models: "Įkelti ir valdyti IFC modelius"
   extraction:
     available:
-      ifc_convert: "IFC conversion pipeline available"
+      ifc_convert: "IFC konvertavimo konvejeris prieinamas"
 

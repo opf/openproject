@@ -32,7 +32,7 @@ zh-TW:
       specification: 規格
       other: 其他
   documents:
-    label_attachment_author: "Attachment author"
+    label_attachment_author: "附件作者"
   label_document_added: "文件已新增"
   label_document_new: "建立新文件"
   label_document_plural: "文件"

@@ -888,6 +888,7 @@ hr:
       - "List"
       - "Stud"
       - "Pro"
+    abbr_week: 'Wk'
     day_names:
       - "Nedjelja"
       - "Ponedjeljak"

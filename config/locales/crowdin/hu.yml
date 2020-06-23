@@ -881,6 +881,7 @@ hu:
       - "Október"
       - "November"
       - "December"
+    abbr_week: 'Wk'
     day_names:
       - "Vasárnap"
       - "Hétfő"

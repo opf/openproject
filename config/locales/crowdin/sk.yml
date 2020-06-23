@@ -892,6 +892,7 @@ sk:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Nedeľa"
       - "Pondelok"

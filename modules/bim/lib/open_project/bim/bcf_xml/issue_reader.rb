@@ -42,6 +42,9 @@ module OpenProject::Bim::BcfXml
     private
 
     def synchronize_with_work_package
+      # If there are already errors during the BCF issue creation, don't create or update the WP.
+      return if issue.errors.any?
+
       self.is_update = issue.work_package.present?
       self.wp_last_updated_at = issue.work_package&.updated_at
 
@@ -142,7 +145,7 @@ module OpenProject::Bim::BcfXml
 
     ##
     # The uploading user might not be the author of the topic/work package. Further, we need to correct the
-    # automatically set craetion timestamps.
+    # automatically set creation timestamps.
     def force_overwrite(work_package)
       created_at = extractor.creation_date
       if created_at || user != author
@@ -200,11 +203,22 @@ module OpenProject::Bim::BcfXml
     ##
     # Find existing issue or create new
     def find_or_initialize_issue
-      ::Bim::Bcf::Issue
-        .joins(:work_package)
-        .where(uuid: topic_uuid, 'work_packages.project_id': @project.id)
-        .references(:work_package).first ||
-        ::Bim::Bcf::Issue.new(uuid: topic_uuid)
+      bcf_issue = ::Bim::Bcf::Issue.eager_load(:work_package).find_by(uuid: topic_uuid)
+
+      if bcf_issue.nil?
+        return initialize_issue
+      end
+
+      if bcf_issue.work_package && bcf_issue.work_package.project_id != project.id
+        bcf_issue = initialize_issue
+        bcf_issue.errors.add :uuid, :uuid_already_taken
+      end
+
+      bcf_issue
+    end
+
+    def initialize_issue
+      ::Bim::Bcf::Issue.new(uuid: topic_uuid)
     end
 
     ##

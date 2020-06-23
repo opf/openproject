@@ -24,7 +24,8 @@ Welcome to the OpenProject **Cloud edition guide**.
 | [Sign in](./sign-in/)                                        | Sing in to your OpenProject Cloud Edition.                   |
 | [View payment history or download invoices](./invoices-and-billing-history) | How to see your payment history and download invoices?       |
 | [Upgrade, downgrade or cancel subscription](./manage-subscription/#update-existing-subscriptions) | How to upgrade your plan, downgrade or cancel your subscription for the Cloud Edition? |
-| Manage your subscription                                     | How to change billing address, add or edit Credit Card details? |
+| [Manage your subscription](./manage-subscription) | How to change billing address, add or edit Credit Card details? |
+| [Backups](./backups) | How do backups work in the cloud? |
 
 The OpenProject Cloud Edition contains all OpenProject Community features plus the additional OpenProject premium features, as well as professional support.
 
@@ -34,7 +35,7 @@ You will get a detailed feature comparison [here](https://www.openproject.org/pr
 
 
 
-## Frequently asked questions - FAQ 
+## Frequently asked questions - FAQ
 
 
 ### Can I import my OpenProject community instance into my cloud environment?

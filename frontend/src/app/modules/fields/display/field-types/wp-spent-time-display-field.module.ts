@@ -79,7 +79,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
       const timelogElement = document.createElement('a');
       timelogElement.setAttribute('class', 'icon icon-time');
       timelogElement.setAttribute('href', '');
-      timelogElement.textContent = this.text.logTime;
+      timelogElement.setAttribute('title', this.text.logTime);
 
       element.appendChild(timelogElement);
 

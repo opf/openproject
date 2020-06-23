@@ -583,6 +583,9 @@ ru:
       select_branch: 'Выберите ветвь'
     field_value_enter_prompt: "Введите значение для «%{field}»"
     project_menu_details: "Детали"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
       sorted_dsc: 'Применяется сортировка по убыванию, '
@@ -870,6 +873,7 @@ ru:
       label_delete_page: "Удалить текущую страницу"
       button_apply: "Применить"
       button_save: "Сохранить"
+      button_clear_all: "Clear all"
       button_submit: "Отправить"
       button_cancel: "Отмена"
       form_submit:
@@ -882,8 +886,8 @@ ru:
         confirm_deletion_children: "Я понимаю, что ВСЕ производные элементы указанных пакетов работ будут рекурсивно удалены."
         deletes_children: "Все дочерние пакеты работ и их потомки будут также рекурсивно удалены."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Подтвердите удаление записи времени"
+        text: "Вы уверены, что хотите удалить следующую запись?"
     notice_no_results_to_display: "Нет видимых результатов для отображения."
     notice_successful_create: "Создание выполнено."
     notice_successful_delete: "Удаление выполнено."

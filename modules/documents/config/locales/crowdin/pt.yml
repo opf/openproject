@@ -24,8 +24,8 @@ pt:
     models:
       document: "Documento"
   default_doc_category_tech: "Documentação técnica"
-  default_doc_category_user: "Documentação de utilizador"
-  enumeration_doc_categories: "Categorias de documentos"
+  default_doc_category_user: "Documentação do usuário"
+  enumeration_doc_categories: "Categorias de documento"
   enumeration:
     document_category:
       documentation: Documentação
@@ -37,6 +37,6 @@ pt:
   label_document_new: "Novo documento"
   label_document_plural: "Documentos"
   label_documents: "Documentos"
-  permission_manage_documents: "Gerir documentos"
-  permission_view_documents: "Ver documentos"
+  permission_manage_documents: "Gerenciar documentos"
+  permission_view_documents: "Visualizar documentos"
   project_module_documents: "Documentos"

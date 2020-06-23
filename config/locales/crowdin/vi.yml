@@ -882,6 +882,7 @@ vi:
       - "Thg 10"
       - "Thg 11"
       - "Thg 12"
+    abbr_week: 'Wk'
     day_names:
       - "Chủ Nhật"
       - "Thứ hai"

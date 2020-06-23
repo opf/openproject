@@ -290,7 +290,7 @@ ja:
     label_and: "及び"
     label_ascending: "昇順"
     label_author: "作者: %{user}"
-    label_avatar: "アバター"
+    label_avatar: "Avatar"
     label_between: "次の範囲内"
     label_board: "ボード"
     label_board_locked: "ロックされている"
@@ -587,6 +587,9 @@ ja:
       select_branch: '分岐を選択する'
     field_value_enter_prompt: "'%{field}'の値を入力"
     project_menu_details: "詳細"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
       sorted_dsc: '降順の並べ替えを適用しました。 '
@@ -874,6 +877,7 @@ ja:
       label_delete_page: "現在のページを削除"
       button_apply: "適用"
       button_save: "保存"
+      button_clear_all: "Clear all"
       button_submit: "適用"
       button_cancel: "キャンセル"
       form_submit:

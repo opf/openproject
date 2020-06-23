@@ -72,6 +72,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     name: 'bim.partitioned.split',
     url: '/split',
     data: {
+      baseRoute: 'bim.partitioned.split',
       partition: '-split',
       newRoute: 'bim.partitioned.split.new',
       bodyClasses: 'router--work-packages-partitioned-split-view'

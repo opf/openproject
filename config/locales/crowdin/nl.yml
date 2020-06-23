@@ -884,6 +884,7 @@ nl:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Zondag"
       - "Maandag"

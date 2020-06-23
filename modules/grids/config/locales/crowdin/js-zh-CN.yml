@@ -3,6 +3,7 @@ zh-CN:
     grid:
       add_widget: '添加微件'
       remove: '移除微件'
+      configure: 'Configure widget'
       upsale:
         text: "某些微件（例如工作包图微件）仅适用于"
         link: '企业版。'
@@ -39,6 +40,7 @@ zh-CN:
           no_results: '无子项目。'
         time_entries_current_user:
           title: '我花费的时间'
+          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: '花费时间 (最近 7天)'
           no_results: '过去7天没有时间记录。'

@@ -583,6 +583,9 @@ da:
       select_branch: 'Vælg gren'
     field_value_enter_prompt: "Indtast en værdi for '%{field}'"
     project_menu_details: "Detaljer"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -870,6 +873,7 @@ da:
       label_delete_page: "Slet denne side"
       button_apply: "Benyt"
       button_save: "Gem"
+      button_clear_all: "Clear all"
       button_submit: "Indsend"
       button_cancel: "Annuller"
       form_submit:
