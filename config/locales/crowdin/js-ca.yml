@@ -584,6 +584,9 @@ ca:
       select_branch: 'Seleccionar branca'
     field_value_enter_prompt: "Introduïu un valor per a '%{field}'"
     project_menu_details: "Detalls"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ordre ascendent aplicat,'
       sorted_dsc: 'Ordre descendent aplicat,'
@@ -871,6 +874,7 @@ ca:
       label_delete_page: "Suprimeix la pàgina actual"
       button_apply: "Aplicar"
       button_save: "Desa"
+      button_clear_all: "Clear all"
       button_submit: "Enviar"
       button_cancel: "Cancel·la"
       form_submit:

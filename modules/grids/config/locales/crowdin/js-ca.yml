@@ -3,6 +3,7 @@ ca:
     grid:
       add_widget: 'Add widget'
       remove: 'Remove widget'
+      configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -39,6 +40,7 @@ ca:
           no_results: 'No subprojects.'
         time_entries_current_user:
           title: 'El meu temps invertit'
+          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Temps invertit (últims 7 dies)'
           no_results: 'Sense entrades de temps per als últims 7 dies.'

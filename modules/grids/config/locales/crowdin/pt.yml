@@ -10,5 +10,5 @@ pt:
       models:
         grids/grid:
           overlaps: 'sobreposição.'
-          outside: 'está fora da rede.'
-          end_before_start: 'o valor final tem de ser maior que o valor inicial.'
+          outside: 'está fora da grade.'
+          end_before_start: 'o valor final precisa ser maior que o valor inicial.'

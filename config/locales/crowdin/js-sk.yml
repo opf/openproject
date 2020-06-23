@@ -584,6 +584,9 @@ sk:
       select_branch: 'Vyberte odbor'
     field_value_enter_prompt: "Zadajte hodnotu pre \"%{field}\""
     project_menu_details: "Podrobnosti"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Použiť vzostupné zoradenie, '
       sorted_dsc: 'Použiť zostupné zoradenie, '
@@ -871,6 +874,7 @@ sk:
       label_delete_page: "Odstrániť aktuálnu stránku"
       button_apply: "Použiť"
       button_save: "Uložiť"
+      button_clear_all: "Clear all"
       button_submit: "Odoslať"
       button_cancel: "Zrušíť"
       form_submit:

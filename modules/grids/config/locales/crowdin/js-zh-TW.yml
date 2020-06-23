@@ -3,6 +3,7 @@ zh-TW:
     grid:
       add_widget: 'Add widget'
       remove: 'Remove widget'
+      configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -30,15 +31,16 @@ zh-TW:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: '專案狀態'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: '進度良好'
+          off_track: '進度脫軌'
+          at_risk: '存在風險'
           not_set: 'Not set'
         subprojects:
           title: '子專案'
           no_results: 'No subprojects.'
         time_entries_current_user:
           title: 'My spent time'
+          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
