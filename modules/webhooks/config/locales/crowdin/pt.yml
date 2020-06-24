@@ -2,13 +2,13 @@ pt:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'URL Payload'
+        url: 'URL do payload'
         secret: 'Assinatura secreta'
         events: 'Eventos'
-        projects: 'Projetos ativados'
+        projects: 'Projetos habilitados'
       webhooks/log:
         event_name: 'Nome do evento'
-        url: 'URL Payload'
+        url: 'URL do payload'
         response_code: 'Código de resposta'
         response_body: 'Resposta'
     models:
@@ -18,7 +18,7 @@ pt:
     plural: Webhooks
     resources:
       time_entry:
-        name: "Entrada de hora"
+        name: "Entrada de tempo"
     outgoing:
       no_results_table: Nenhum webhook definido.
       label_add_new: Adicionar novo webhook
@@ -28,7 +28,7 @@ pt:
         created: "Criado"
         updated: "Atualizado"
       status:
-        enabled: 'Webhook está ativado'
+        enabled: 'Webhook está habilitado'
         disabled: 'Webhook está desativado'
         enabled_text: 'O webhook emitirá payloads para os eventos definidos abaixo.'
         disabled_text: 'Clique no botão editar para ativar o webhook.'
@@ -38,20 +38,20 @@ pt:
         time: 'Tempo de entrega'
       form:
         introduction: >
-          Envie uma requisição POST para a URL do payload abaixo para qualquer evento no projeto inscrito. O payload corresponderá à representação APIv3 do objeto que está a ser modificado.
-        apiv3_doc_url: Para mais informações, consulte a documentação da API
+          Envie uma requisição POST para a URL do payload abaixo para qualquer evento no projeto inscrito. O payload corresponderá à representação APIv3 do objeto que está sendo modificado.
+        apiv3_doc_url: Para mais informações, visite a documentação da API
         description:
           placeholder: 'Descrição opcional para o webhook.'
         enabled:
           description: >
             Quando marcado, o webhook irá acionar nos eventos selecionados. Desmarque para desativar o webhook.
         events:
-          title: 'Eventos ativados'
+          title: 'Eventos habilitados'
         project_ids:
-          title: 'Projetos ativados'
-          description: 'Selecione quais os projetos em que este webhook deve ser executado.'
+          title: 'Projetos habilitados'
+          description: 'Selecione para quais projetos este webhook deve ser executado.'
           all: 'Todos os projetos'
-          selected: 'Apenas projetos selecionados'
+          selected: 'Somente projetos selecionados'
         selected_project_ids:
           title: 'Projetos selecionados'
         secret:

@@ -22,5 +22,5 @@
 pt:
   js:
     reporting_engine:
-      label_remove: "Eliminar"
-      label_response_error: "Houve um erro ao tratar o questionário."
+      label_remove: "Excluir"
+      label_response_error: "Ocorreu um erro na manipulação da consulta."

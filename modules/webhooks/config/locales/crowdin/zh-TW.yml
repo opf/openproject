@@ -4,13 +4,13 @@ zh-TW:
       webhooks/webhook:
         url: 'Payload URL'
         secret: 'Signature secret'
-        events: 'Events'
+        events: '事件'
         projects: '已啟用的專案'
       webhooks/log:
-        event_name: 'Event name'
+        event_name: '事件名稱'
         url: 'Payload URL'
-        response_code: 'Response code'
-        response_body: 'Response'
+        response_code: '回應代碼'
+        response_body: '回應'
     models:
       webhooks/outgoing_webhook: "Outgoing webhook"
   webhooks:
@@ -21,17 +21,17 @@ zh-TW:
         name: "Time entry"
     outgoing:
       no_results_table: No webhooks have been defined yet.
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
+      label_add_new: 新增 Webhook
+      label_edit: 編輯 Webhook
       label_event_resources: Event resources
       events:
         created: "已建立"
-        updated: "Updated"
+        updated: "已更新"
       status:
-        enabled: 'Webhook is enabled'
-        disabled: 'Webhook is disabled'
+        enabled: 'Webhook 已啟用'
+        disabled: 'Webhook 已停用'
         enabled_text: 'The webhook will emit payloads for the defined events below.'
-        disabled_text: 'Click the edit button to activate the webhook.'
+        disabled_text: '點擊編輯按鈕以啟用 Webhook。'
       deliveries:
         no_results_table: No deliveries have been made for this webhook.
         title: 'Recent deliveries'
@@ -46,11 +46,11 @@ zh-TW:
           description: >
             When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
         events:
-          title: 'Enabled events'
+          title: '已啟用的事件'
         project_ids:
           title: '已啟用的專案'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
+          all: '所有專案'
           selected: 'Selected projects only'
         selected_project_ids:
           title: 'Selected projects'

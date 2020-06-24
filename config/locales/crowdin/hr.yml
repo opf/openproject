@@ -415,6 +415,7 @@ hr:
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -486,6 +487,7 @@ hr:
         parent_work_package: "Matični"
         priority: "Prioritet"
         progress: "Napredak (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Utrošeno vrijeme"
         spent_time: "Utrošeno vrijeme"
         subproject: "Potprojekt"
@@ -886,6 +888,7 @@ hr:
       - "List"
       - "Stud"
       - "Pro"
+    abbr_week: 'Wk'
     day_names:
       - "Nedjelja"
       - "Ponedjeljak"
@@ -1965,6 +1968,12 @@ hr:
       warning_one: Članovi projekta morati će relocirati repozitorije projketa.
       warning_two: Postojeće poveznice na projektu neće više funkcionirati.
       title: Promjeni identifikator projekta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"

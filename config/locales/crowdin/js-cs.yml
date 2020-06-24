@@ -584,6 +584,9 @@ cs:
       select_branch: 'Vybrat větev'
     field_value_enter_prompt: "Zadejte hodnotu pro '%{field}'"
     project_menu_details: "Podrobnosti"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Použito vzestupné řazení, '
       sorted_dsc: 'Použité sestupně '
@@ -871,6 +874,7 @@ cs:
       label_delete_page: "Odstranit aktuální stránku"
       button_apply: "Použít"
       button_save: "Uložit"
+      button_clear_all: "Clear all"
       button_submit: "Potvrdit"
       button_cancel: "Zrušit"
       form_submit:

@@ -584,6 +584,9 @@ fi:
       select_branch: 'Valitse haara'
     field_value_enter_prompt: "Syötä arvo kenttään \"%{field}\""
     project_menu_details: "Yksityiskohdat"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -871,6 +874,7 @@ fi:
       label_delete_page: "Poista nykyinen sivu"
       button_apply: "Ota käyttöön"
       button_save: "Tallenna"
+      button_clear_all: "Clear all"
       button_submit: "Lähetä"
       button_cancel: "Peruuta"
       form_submit:
