@@ -21,7 +21,7 @@
             "polyfills": "src/polyfills.ts",
             "assets": [],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",

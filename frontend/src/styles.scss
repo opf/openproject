@@ -1,0 +1,19 @@
+// You can add global styles to this file, and also import other style files
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+// Variables
+@import "global_styles/openproject/_variables.sass";
+// Foundation variables
+@import "global_styles/openproject/_settings.scss";
+
+//  Dependencies
+@import "~bourbon/core/bourbon";
+@import "global_styles/vendor/foundation-apps/scss/foundation.scss";
+@import "~jquery-ui/themes/base/theme";
+
+// Core styles
+@import "global_styles/fonts/_index.sass";
+@import "global_styles/openproject/_index.sass";
+@import "global_styles/vendor/_index.sass";
+@import "global_styles/layout/_index.sass";
+@import "global_styles/content/_index.sass";
