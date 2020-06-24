@@ -60,6 +60,23 @@ export class DatePickerModalHelper {
       !!new Date(date).valueOf();
   }
 
+  public sortDates(dates:Date[]):Date[] {
+    return dates.sort(function(a:Date, b:Date) {
+      return a.getTime() - b.getTime();
+    });
+  }
+
+  public areDatesEqual(firstDate:Date|string, secondDate:Date|string) {
+    let parsedDate1 = this.parseDate(firstDate);
+    let parsedDate2 = this.parseDate(secondDate);
+
+    if ((typeof(parsedDate1) === 'string') || (typeof(parsedDate2) === 'string')) {
+      return false;
+    } else {
+      return parsedDate1.getTime() === parsedDate2.getTime();
+    }
+  }
+
   public setCurrentActivatedField(val:DateKeys) {
     this.currentlyActivatedDateField = val;
   }
@@ -95,18 +112,21 @@ export class DatePickerModalHelper {
       return;
     }
 
-    if (this.isStateOfCurrentActivatedField('start')) {
-      // In case, that the end date is not set yet, the start date is the limit
-      let limit = dates.end ? dates.end : dates.start;
-      datePicker.datepickerInstance.set('disable', [(date:Date) => {
-        return date.getTime() > new Date(limit).setHours(0,0,0,0);
-      }]);
-    } else {
-      let limit = dates.start ? dates.start : dates.end;
-      datePicker.datepickerInstance.set('disable', [(date:Date) => {
-        return date.getTime() < new Date(limit).setHours(0,0,0,0);
-      }]);
+    let disableFunction:Function = (date:Date) => {
+      return false;
+    };
+
+    if (this.isStateOfCurrentActivatedField('start') && dates.end) {
+      disableFunction = (date:Date) => {
+        return date.getTime() > new Date(dates.end).setHours(0,0,0,0);
+      };
+    } else if (this.isStateOfCurrentActivatedField('end') && dates.start) {
+      disableFunction = (date:Date) => {
+        return date.getTime() < new Date(dates.start).setHours(0,0,0,0);
+      };
     }
+
+    datePicker.datepickerInstance.set('disable', [disableFunction]);
   }
 
   public setRangeClasses(dates:{ [key in DateKeys]:string }) {
@@ -115,29 +135,36 @@ export class DatePickerModalHelper {
     }
 
     var monthContainer = document.getElementsByClassName('dayContainer');
-
+    // For each container of the two-month layout, set the highlighting classes
     for (let i = 0; i < monthContainer.length; i++) {
-      var selectedElements = jQuery(monthContainer[i]).find('.flatpickr-day.selected');
-      if (selectedElements.length === 2) {
+      this.highlightRangeInSingleMonth(monthContainer[i], dates);
+    }
+  }
+
+  private highlightRangeInSingleMonth(container:Element, dates:{ [key in DateKeys]:string }) {
+    var selectedElements = jQuery(container).find('.flatpickr-day.selected');
+    if (selectedElements.length === 2) {
+      // Both dates are in the same month
+      selectedElements[0].classList.add('startRange');
+      selectedElements[1].classList.add('endRange');
+
+      this.selectRangeFromUntil(selectedElements[0], selectedElements[1]);
+    } else if (selectedElements.length === 1) {
+      // Only one date is in this month
+      if (this.datepickerShowsDate(dates.start, selectedElements[0])) {
         selectedElements[0].classList.add('startRange');
-        selectedElements[1].classList.add('endRange');
+        this.selectRangeFromUntil(selectedElements[0], '');
+      } else if (this.datepickerShowsDate(dates.end, selectedElements[0])) {
+        let firstDay = jQuery(container).find('.flatpickr-day')[0];
 
-        this.selectRangeFromUntil(selectedElements[0], selectedElements[1]);
-      } else if (selectedElements.length === 1) {
+        selectedElements[0].classList.add('endRange');
+        firstDay.classList.add('inRange');
 
-        if (this.datepickerShowsDate(dates.start, selectedElements[0])) {
-          selectedElements[0].classList.add('startRange');
-          this.selectRangeFromUntil(selectedElements[0], '');
-        } else if (this.datepickerShowsDate(dates.end, selectedElements[0])) {
-          selectedElements[0].classList.add('endRange');
-
-          let firstDay = jQuery(monthContainer[i]).find('.flatpickr-day')[0];
-          firstDay.classList.add('inRange');
-          this.selectRangeFromUntil(firstDay, selectedElements[0]);
-        }
-      } else if (this.datepickerIsInDateRange(monthContainer[i], dates)) {
-        jQuery(monthContainer[i]).find('.flatpickr-day').addClass('inRange');
+        this.selectRangeFromUntil(firstDay, selectedElements[0]);
       }
+    } else if (this.datepickerIsInDateRange(container, dates)) {
+      // No date is in this month, but the month is completely between start and end date
+      jQuery(container).find('.flatpickr-day').addClass('inRange');
     }
   }
 
