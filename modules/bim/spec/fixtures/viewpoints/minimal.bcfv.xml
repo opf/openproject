@@ -16,6 +16,6 @@
       <Y>0.209889</Y>
       <Z>0.951807</Z>
     </CameraUpVector>
-    <FieldOfView>180</FieldOfView>
+    <ViewToWorldScale>180</ViewToWorldScale>
   </OrthogonalCamera>
 </VisualizationInfo>
