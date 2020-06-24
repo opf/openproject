@@ -584,9 +584,6 @@ zh-CN:
       select_branch: '选择分支'
     field_value_enter_prompt: "为'%{field}'输入值"
     project_menu_details: "详细信息"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '升序排列已应用， '
       sorted_dsc: '降序排列已应用， '
@@ -874,7 +871,6 @@ zh-CN:
       label_delete_page: "删除当前页面"
       button_apply: "应用"
       button_save: "保存"
-      button_clear_all: "Clear all"
       button_submit: "提交"
       button_cancel: "取消"
       form_submit:

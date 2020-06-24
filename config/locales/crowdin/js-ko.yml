@@ -584,9 +584,6 @@ ko:
       select_branch: '브랜치 선택'
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     project_menu_details: "세부 정보"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
       sorted_dsc: '내림차순 정렬이 적용됨, '
@@ -874,7 +871,6 @@ ko:
       label_delete_page: "현재 페이지 삭제"
       button_apply: "적용"
       button_save: "저장"
-      button_clear_all: "Clear all"
       button_submit: "제출"
       button_cancel: "취소"
       form_submit:

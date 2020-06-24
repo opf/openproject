@@ -584,9 +584,6 @@ fr:
       select_branch: 'Sélectionner une branche'
     field_value_enter_prompt: "Saisissez une valeur pour « %{field} »"
     project_menu_details: "Détails"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Tri par ordre croissant appliqué, '
       sorted_dsc: 'Tri par ordre décroissant appliqué, '
@@ -874,7 +871,6 @@ fr:
       label_delete_page: "Effacer la page en cours"
       button_apply: "Appliquer"
       button_save: "Enregistrer"
-      button_clear_all: "Clear all"
       button_submit: "Envoyer"
       button_cancel: "Annuler"
       form_submit:

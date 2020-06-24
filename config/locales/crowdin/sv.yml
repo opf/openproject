@@ -413,7 +413,6 @@ sv:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivning'
@@ -485,7 +484,6 @@ sv:
         parent_work_package: "Överordnad"
         priority: "Prioritet"
         progress: "Progress (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"
@@ -883,7 +881,6 @@ sv:
       - "Okt"
       - "Nov"
       - "Dec"
-    abbr_week: 'Wk'
     day_names:
       - "Söndag"
       - "Måndag"
@@ -1946,12 +1943,6 @@ sv:
       warning_one: Projektets medlemmar kommer att vara tvungna att flytta projektetdatabaserna.
       warning_two: Befintliga länkar till projektet kommer inte att fungera längre.
       title: Ändra projektets identifierare
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Är du säker på att du vill arkivera projektet '%{name}'?"
       archived: "Arkiverad"

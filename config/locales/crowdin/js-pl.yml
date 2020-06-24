@@ -584,9 +584,6 @@ pl:
       select_branch: 'Wybierz gałąź'
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
     project_menu_details: "Szczegóły"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '
@@ -874,7 +871,6 @@ pl:
       label_delete_page: "Usuń bieżącą stronę"
       button_apply: "Zastosuj"
       button_save: "Zapisz"
-      button_clear_all: "Clear all"
       button_submit: "Prześlij"
       button_cancel: "Anuluj"
       form_submit:

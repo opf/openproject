@@ -584,9 +584,6 @@ hr:
       select_branch: 'Odaberi ogranak'
     field_value_enter_prompt: "Unesite vrijednost za '%{field}'"
     project_menu_details: "Pojedinosti"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -874,7 +871,6 @@ hr:
       label_delete_page: "Izbrišite trenutnu stranicu"
       button_apply: "Primjeni"
       button_save: "Spremi"
-      button_clear_all: "Clear all"
       button_submit: "Pošalji"
       button_cancel: "Odustani"
       form_submit:

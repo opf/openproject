@@ -583,9 +583,6 @@ vi:
       select_branch: 'Chọn nhánh'
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "Chi tiết"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -873,7 +870,6 @@ vi:
       label_delete_page: "Delete current page"
       button_apply: "Áp dụng"
       button_save: "Lưu"
-      button_clear_all: "Clear all"
       button_submit: "Gửi"
       button_cancel: "Hủy"
       form_submit:

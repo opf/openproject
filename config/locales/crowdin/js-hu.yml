@@ -583,9 +583,6 @@ hu:
       select_branch: 'Branch kiválasztása'
     field_value_enter_prompt: "Adja meg az értéket a %{field} mezőhöz"
     project_menu_details: "Részletek"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Növekvő sorrend alkalmazása, '
       sorted_dsc: 'Csökkenő rendezés alkalmazva, '
@@ -873,7 +870,6 @@ hu:
       label_delete_page: "Aktuális oldal törlése"
       button_apply: "Alkalmaz"
       button_save: "Mentés"
-      button_clear_all: "Clear all"
       button_submit: "Küldés"
       button_cancel: "Mégsem"
       form_submit:

@@ -583,9 +583,6 @@ sl:
       select_branch: 'Izberite vejo'
     field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
     project_menu_details: "Podrobnosti"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
@@ -873,7 +870,6 @@ sl:
       label_delete_page: "Izbriši trenutno stran"
       button_apply: "Potrdi"
       button_save: "Shrani"
-      button_clear_all: "Clear all"
       button_submit: "Potrdi"
       button_cancel: "Prekliči"
       form_submit:
