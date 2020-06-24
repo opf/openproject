@@ -147,8 +147,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   updateDate(key:DateKeys, val:string) {
-    // Epxected minimal format YYYY-M-D => 8 characters
-    if (val.length >= 8) {
+    // Expected minimal format YYYY-M-D => 8 characters OR empty
+    if (val.length >= 8 || val.length === 0) {
       this.dates[key] = val;
       if (this.datepickerHelper.validDate(val) && this.datePickerInstance) {
         this.enforceManualChangesToDatepicker(false);

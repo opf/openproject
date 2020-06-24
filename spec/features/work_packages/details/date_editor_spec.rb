@@ -79,6 +79,21 @@ describe 'date inplace editor',
     start_date.expect_state_text '2016-01-01 - ' + Date.today.strftime('%Y-%m-%d')
   end
 
+  it 'can set start and due date to the same day' do
+    start_date.activate!
+    start_date.expect_active!
+
+    # Set the due date
+    start_date.datepicker.set_date Date.today, true
+    # As the to be selected date is automatically toggled,
+    # we can directly set the start date afterwards to the same day
+    start_date.datepicker.set_date Date.today, true
+
+    start_date.save!
+    start_date.expect_inactive!
+    start_date.expect_state_text Date.today.strftime('%Y-%m-%d') + ' - ' + Date.today.strftime('%Y-%m-%d')
+  end
+
   it 'saves the date when clearing and then confirming' do
     start_date.activate!
 
