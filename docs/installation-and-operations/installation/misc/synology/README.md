@@ -42,3 +42,31 @@ Updating the container then works like this:
 
 This will restart the container with the updated image.
 Your OpenProject data will remain intact as long as you mounted the volumes as described above.
+
+## FAQ
+
+### I had already started OpenProject without mounted volumes. How do I save my data during an update?
+
+You will need to open a terminal on your Synology disk station.
+Then you can extract your data from the existing container and mount it in a new one with the correct configuration.
+
+    1. Stop the container to avoid changes to the data.
+    2. Copy the data to a new directory on the host, e.g. `/volume1/openproject`.
+    3. Launch the new container mounting the folders in that directory as described above.
+    4. Delete the old container once you confirmed the new one is working correctly.
+
+You can copy the data from the container using `docker cp` like this:
+
+```
+docker cp openproject-community1:/var/openproject/assets /volume1/openproject/assets
+docker cp openproject-community1:/var/openproject/pgdata /volume1/openproject/pgdata
+```
+
+Make sure the folders have the correct owner so the new container can read and write them.
+
+```
+sudo chown -R 102 /volume1/openproject/*
+```
+
+After this it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
+as described earlier. Once that is done you can safely update the container.
