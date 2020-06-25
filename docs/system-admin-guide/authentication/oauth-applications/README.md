@@ -35,6 +35,12 @@ The authentication endpoints are at
 * Auth URL: `https://example.com/oauth/authorize`
 * Access Token URL: `https://example.com/oauth/token`
 
+## Performing request to the OpenProject API with OAuth token
+
+The following CURL command fetches all projects from the API V3:
+
+`curl --location --request GET 'https://example.com/api/v3/projects' --header 'Authorization: Bearer <your-access-token>'
+
 ## Using Postman with oauth?
 
 Set redirect URLs to `urn:ietf:wg:oauth:2.0:oob` in both, for your application (see step 2 above) and 
