@@ -47,12 +47,13 @@ import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {DatePickerModalHelper} from "core-components/datepicker/datepicker.modal.helper";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 export type DateKeys = 'date'|'start'|'end';
 
 @Component({
   templateUrl: './datepicker.modal.html',
-  styleUrls: ['./datepicker.modal.sass'],
+  styleUrls: ['./datepicker.modal.sass', './datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -61,6 +62,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   @InjectField() timezoneService:TimezoneService;
   @InjectField() halEditing:HalResourceEditingService;
   @InjectField() datepickerHelper:DatePickerModalHelper;
+  @InjectField() browserDetector:BrowserDetector;
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -196,7 +198,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       this.singleDate ? this.dates.date : [this.dates.start, this.dates.end],
       {
         mode: this.singleDate ? 'single' : 'multiple',
-        showMonths: 2,
+        showMonths: this.browserDetector.isMobile ? 1 : 2,
         inline: true,
         onChange: (dates:Date[]) => {
           this.handleDatePickerChange(dates);
