@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <section class="form--section">
   <%= render partial: "projects/form/project_attributes",
-             locals: { project: project, form: f, render_advanced: render_advanced } %>
+             locals: { project: project, form: f, is_copy: local_assigns[:is_copy], render_advanced: render_advanced } %>
 
   <%= call_hook(:view_projects_form, project: project, form: f) %>
 </section>
