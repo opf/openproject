@@ -204,6 +204,7 @@ export class WorkPackagesListService {
    * Load the query from the given state params
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string) {
+    console.log('loadCurrentQueryFromParams: ', projectIdentifier);
     return this
       .fromQueryParams(this.$state.params as any, projectIdentifier)
       .toPromise();

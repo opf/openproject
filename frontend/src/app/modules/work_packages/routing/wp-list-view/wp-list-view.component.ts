@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, OnChanges, SimpleChanges} from "@angular/core";
 import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
@@ -44,6 +44,9 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+
 
 @Component({
   selector: 'wp-list-view',
@@ -57,7 +60,8 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
     CausedUpdatesService
   ]
 })
-export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
+export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit, OnChanges {
+  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
 
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -100,11 +104,16 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     this.querySpace.query.values$().pipe(
       this.untilDestroyed()
     ).subscribe((query) => {
+      console.log('this.querySpace: ', query, this.wpTableColumns.getColumns());
       // Update the visible representation
       this.updateViewRepresentation(query);
       this.noResults = query.results.total === 0;
       this.cdRef.detectChanges();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes: ', changes);
   }
 
   protected setupInformationLoadedListener() {
@@ -114,6 +123,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       .values$()
       .pipe(take(1))
       .subscribe(() => {
+        // console.log('this.querySpace 2: ', this.wpTableColumns.getColumns());
         this.tableInformationLoaded = true;
         this.cdRef.detectChanges();
       });

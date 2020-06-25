@@ -54,6 +54,7 @@ export class WorkPackageStatesInitializationService {
    * @param results
    */
   public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
+    console.log('WorkPackageStatesInitializationService initialize: ', query, results);
     this.clearStates();
 
     // Update the (global) wp query states
@@ -132,6 +133,7 @@ export class WorkPackageStatesInitializationService {
   }
 
   public initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
+    // console.log('WorkPackageStatesInitializationService initializeFromQuery: ', JSON.stringify(query.columns), results);
     this.querySpace.query.putValue(query);
 
     this.wpTableSum.initialize(query);
