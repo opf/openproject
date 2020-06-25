@@ -155,6 +155,9 @@ class Project < ApplicationRecord
   validates :name,
             presence: true,
             length: { maximum: 255 }
+
+  before_validation :remove_white_spaces_from_project_name
+
   # TODO: we temporarily disable this validation because it leads to failed tests
   # it implicitly assumes a db:seed-created standard type to be present and currently
   # neither development nor deployment setups are prepared for this
@@ -572,5 +575,9 @@ class Project < ApplicationRecord
     Version
       .includes(:project)
       .references(:projects)
+  end
+
+  def remove_white_spaces_from_project_name
+    self.name = name.squish unless self.name.nil?
   end
 end
