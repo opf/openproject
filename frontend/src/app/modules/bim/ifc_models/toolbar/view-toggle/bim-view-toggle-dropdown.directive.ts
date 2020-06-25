@@ -34,23 +34,30 @@ import {StateService} from "@uirouter/core";
 
 import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 import {
-  bimListViewIdentifier, bimSplitViewIdentifier,
+  bimListViewIdentifier, bimSplitViewIdentifier, bimTableViewIdentifier,
   bimViewerViewIdentifier,
   BimViewService
 } from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {
+  WorkPackageViewDisplayRepresentationService,
+  wpDisplayCardRepresentation,
+  wpDisplayListRepresentation,
+} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 @Directive({
   selector: '[bimViewDropdown]'
 })
 export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
+
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly bimView:BimViewService,
               readonly I18n:I18nService,
               readonly state:StateService,
               readonly wpFiltersService:WorkPackageFiltersService,
-              readonly viewerBridgeService:ViewerBridgeService) {
+              readonly viewerBridgeService:ViewerBridgeService,
+              readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService) {
 
     super(elementRef, opContextMenu);
   }
@@ -72,7 +79,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
     const viewRoute = this.state.current.data.viewRoute;
     let items = this.viewerBridgeService.shouldShowViewer ?
                   [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewIdentifier] :
-                  [bimListViewIdentifier];
+                  [bimListViewIdentifier, bimTableViewIdentifier];
 
     this.items = items
                   .map(key => {
@@ -88,7 +95,18 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
 
                         switch (key) {
                           case bimListViewIdentifier:
-                            this.state.go('bim.partitioned.list');
+                            console.log('this.state.current: ', this.state.current);
+                            this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayCardRepresentation);
+                            if (this.state.current.name !== 'bim.partitioned.list') {
+                              this.state.go('bim.partitioned.list');
+                            }
+                            break;
+                            case bimTableViewIdentifier:
+                            console.log('this.state.current 2: ', this.state.current);
+                            this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayListRepresentation);
+                            if (this.state.current.name !== 'bim.partitioned.list') {
+                              this.state.go('bim.partitioned.list');
+                            }
                             break;
                           case bimViewerViewIdentifier:
                             this.state.go('bim.partitioned.model');

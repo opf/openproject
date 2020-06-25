@@ -35,10 +35,11 @@ import {takeUntil} from "rxjs/operators";
 
 
 export const bimListViewIdentifier = 'list';
-export const bimViewerViewIdentifier = 'viewer';
+export const bimTableViewIdentifier = 'table';
 export const bimSplitViewIdentifier = 'split';
+export const bimViewerViewIdentifier = 'viewer';
 
-export type BimViewState = 'list'|'viewer'|'split';
+export type BimViewState = 'list'|'viewer'|'split'|'table';
 
 @Injectable()
 export class BimViewService implements OnDestroy {
@@ -47,13 +48,15 @@ export class BimViewService implements OnDestroy {
   public text:any = {
     list: this.I18n.t('js.views.card'),
     viewer: this.I18n.t('js.ifc_models.views.viewer'),
-    split: this.I18n.t('js.ifc_models.views.split')
+    split: this.I18n.t('js.ifc_models.views.split'),
+    table: this.I18n.t('js.views.list'),
   };
 
   public icon:any = {
     list: 'icon-view-card',
     viewer: 'icon-view-model',
-    split: 'icon-view-split2'
+    split: 'icon-view-split2',
+    table: 'icon-view-list',
   };
 
   private transitionFn:Function;

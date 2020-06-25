@@ -39,6 +39,12 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
 
   public constructor(readonly states:States, readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
+    console.log('WorkPackageViewColumnsService: ', states, querySpace);
+  }
+
+  public initialize(query:any, results:any, schema?:any) {
+    super.initialize(query, results, schema);
+    console.log('--WorkPackageViewColumnsService initialize: ', this.lastUpdatedState.getValueOr([]), query, results);
   }
 
   public valueFromQuery(query:QueryResource):QueryColumn[] {
@@ -149,6 +155,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * Update the selected columns to a new set of columns.
    */
   public setColumns(columns:QueryColumn[]) {
+    // console.log('setColumns: ', columns);
     // Don't publish if this is the same content
     if (this.isCurrentlyEqualTo(columns)) {
       return;
@@ -203,6 +210,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    */
   public addColumn(id:string, position?:number) {
     let columns = this.getColumns();
+    // console.log('addColumn: ', columns, this.all);
 
     if (position === undefined) {
       position = columns.length;
@@ -240,6 +248,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
 
   // Get the available state
   protected get availableState() {
+    // console.log('availableState: ', this.states.queries.columns, this.states.queries.columns.getValueOr([]));
     return this.states.queries.columns;
   }
 
