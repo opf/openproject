@@ -109,8 +109,9 @@ module CustomField::OrderStatements
     (SELECT co_sort.position FROM #{CustomOption.table_name} co_sort
         LEFT JOIN #{CustomValue.table_name} cv_sort
         ON co_sort.id = CAST(cv_sort.value AS decimal(60,3))
-        WHERE cv_sort.custom_field_id=#{id}
+        WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
         AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
+        AND cv_sort.custom_field_id=#{id}
         LIMIT 1
     )
     SQL
