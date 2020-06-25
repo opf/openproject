@@ -71,9 +71,9 @@ See docs/COPYRIGHT.rdoc for more details.
               <%= sort_header_tag("cf_#{custom_field.id}", caption: custom_field.name, param: :json) %>
             <% end %>
             <% if User.current.admin? %>
-              <%= projects_sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
               <%= projects_sort_header_tag('created_at', caption: Project.human_attribute_name(:created_at), param: :json) %>
               <%= projects_sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at), param: :json) %>
+              <%= projects_sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
             <% end %>
             <th class="-right">
               <div class="generic-table--header-outer">
@@ -118,9 +118,9 @@ See docs/COPYRIGHT.rdoc for more details.
                 </td>
               <% end %>
               <% if User.current.admin? %>
-                <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
                 <td><%= format_date(project.created_at) %></td>
                 <td><%= format_date(project.latest_activity_at) %></td>
+                <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
               <% end %>
               <td class="buttons">
                 <% items = project_more_menu_items(project) %>
