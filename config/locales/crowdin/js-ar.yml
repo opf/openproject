@@ -584,6 +584,9 @@ ar:
       select_branch: 'اختر فرع'
     field_value_enter_prompt: "أدخِل قيمة ل '%{field}'"
     project_menu_details: "تفاصيل"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -871,6 +874,7 @@ ar:
       label_delete_page: "احذف الصفحة الحالية"
       button_apply: "تطبيق"
       button_save: "حفظ"
+      button_clear_all: "Clear all"
       button_submit: "إرسال"
       button_cancel: "إلغاء"
       form_submit:

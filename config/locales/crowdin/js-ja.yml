@@ -587,6 +587,9 @@ ja:
       select_branch: '分岐を選択する'
     field_value_enter_prompt: "'%{field}'の値を入力"
     project_menu_details: "詳細"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
       sorted_dsc: '降順の並べ替えを適用しました。 '
@@ -874,6 +877,7 @@ ja:
       label_delete_page: "現在のページを削除"
       button_apply: "適用"
       button_save: "保存"
+      button_clear_all: "Clear all"
       button_submit: "適用"
       button_cancel: "キャンセル"
       form_submit:
