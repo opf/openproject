@@ -58,10 +58,10 @@ Ideally you should also always backup these folders before any updates.
 
 Updating the container then works like this:
 
-    1. Go to the **Registry**
-    2. Search for OpenProject, click download and choose the tag you want to update (e.g. 10 or latest).
-    3. Stop the container once the new image has been downloaded.
-    4. Click on clear and restart the container.
+1. Go to the **Registry**
+2. Search for OpenProject, click download and choose the tag you want to update (e.g. 10 or latest).
+3. Stop the container once the new image has been downloaded.
+4. Click on clear and restart the container.
 
 This will restart the container with the updated image.
 Your OpenProject data will remain intact as long as you mounted the volumes as described above.
@@ -73,10 +73,10 @@ Your OpenProject data will remain intact as long as you mounted the volumes as d
 You will need to open a terminal on your Synology disk station.
 Then you can extract your data from the existing container and mount it in a new one with the correct configuration.
 
-    1. Stop the container to avoid changes to the data.
-    2. Copy the data to a new directory on the host, e.g. `/volume1/openproject`.
-    3. Launch the new container mounting the folders in that directory as described above.
-    4. Delete the old container once you confirmed the new one is working correctly.
+1. Stop the container to avoid changes to the data.
+2. Copy the data to a new directory on the host, e.g. `/volume1/openproject`.
+3. Launch the new container mounting the folders in that directory as described above.
+4. Delete the old container once you confirmed the new one is working correctly.
 
 You can copy the data from the container using `docker cp` like this:
 
@@ -92,4 +92,4 @@ sudo chown -R 102 /volume1/openproject/*
 ```
 
 After this it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
-as described earlier. Once that is done you can safely update the container.
+as described earlier.
