@@ -90,7 +90,7 @@ module CustomField::OrderStatements
     # COALESCE is here to make sure that blank and NULL values are sorted equally
     [
       <<-SQL
-          COALESCE(#{select_custom_value_as_string}, '')
+        COALESCE(#{select_custom_value_as_string}, '')
       SQL
     ]
   end
@@ -98,9 +98,8 @@ module CustomField::OrderStatements
   def select_custom_value_as_string
     <<-SQL
     (SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort
-        WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
-        AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
-        AND cv_sort.custom_field_id=#{id} LIMIT 1)
+        WHERE #{cv_sort_only_custom_field_condition_sql}
+        LIMIT 1)
     SQL
   end
 
@@ -109,9 +108,7 @@ module CustomField::OrderStatements
     (SELECT co_sort.position FROM #{CustomOption.table_name} co_sort
         LEFT JOIN #{CustomValue.table_name} cv_sort
         ON co_sort.id = CAST(cv_sort.value AS decimal(60,3))
-        WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
-        AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
-        AND cv_sort.custom_field_id=#{id}
+        WHERE #{cv_sort_only_custom_field_condition_sql}
         LIMIT 1
     )
     SQL
@@ -120,9 +117,7 @@ module CustomField::OrderStatements
   def select_custom_values_as_group
     <<-SQL
       COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.table_name} cv_sort
-        WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
-          AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
-          AND cv_sort.custom_field_id=#{id}
+        WHERE #{cv_sort_only_custom_field_condition_sql}
           AND cv_sort.value IS NOT NULL), '')
     SQL
   end
@@ -132,18 +127,14 @@ module CustomField::OrderStatements
       COALESCE((SELECT string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC) FROM #{CustomOption.table_name} co_sort
         LEFT JOIN #{CustomValue.table_name} cv_sort
         ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::numeric
-        WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
-          AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
-          AND cv_sort.custom_field_id=#{id}), '')
+        WHERE #{cv_sort_only_custom_field_condition_sql}), '')
     SQL
   end
 
   def select_custom_value_as_decimal
     <<-SQL
     (SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort
-      WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
-      AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
-      AND cv_sort.custom_field_id=#{id}
+      WHERE #{cv_sort_only_custom_field_condition_sql}
       AND cv_sort.value <> ''
       AND cv_sort.value IS NOT NULL
     LIMIT 1)
@@ -163,6 +154,16 @@ module CustomField::OrderStatements
     (SELECT #{column} version_cv_#{column} FROM #{Version.table_name} cv_version
      WHERE cv_version.id = #{select_custom_value_as_decimal}
      LIMIT 1)
+    SQL
+  end
+
+  private
+
+  def cv_sort_only_custom_field_condition_sql
+    <<-SQL
+      cv_sort.customized_type='#{self.class.customized_class.name}'
+      AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
+      AND cv_sort.custom_field_id=#{id}
     SQL
   end
 end
