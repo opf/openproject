@@ -81,6 +81,8 @@ Then you can extract your data from the existing container and mount it in a new
 You can copy the data from the container using `docker cp` like this:
 
 ```
+# Find out the container name with `docker ps`, we use `openproject-community1` here.
+# The target folder should be what ever persistent volume you have on the system, e.g. `/volume1`.
 docker cp openproject-community1:/var/openproject/assets /volume1/openproject/assets
 docker cp openproject-community1:/var/openproject/pgdata /volume1/openproject/pgdata
 ```
