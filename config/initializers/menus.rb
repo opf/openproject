@@ -41,7 +41,14 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
             }
-
+  menu.push :projects,
+            { controller: '/projects', project_id: nil, action: 'index' },
+            context: :modules,
+            caption: I18n.t('label_projects_menu'),
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to?(:view_projects, nil, global: true)
+            }
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
