@@ -83,7 +83,8 @@ module Groups
           SELECT members.project_id AS project_id,
                  members.user_id AS user_id,
                  members.id AS member_id,
-                 member_roles.role_id AS role_id
+                 member_roles.role_id AS role_id,
+                 member_roles.id AS member_role_id
           FROM #{MemberRole.table_name} member_roles
           JOIN #{Member.table_name} members
           ON members.id = member_roles.member_id AND members.user_id = :group_id
@@ -103,12 +104,13 @@ module Groups
           -- even if they already exist as members (e.g., added individually) to ensure we add all roles
           -- to mark that we reset the created_at date since replacing the member
           ON CONFLICT(project_id, user_id) DO UPDATE SET created_on = CURRENT_TIMESTAMP
-          RETURNING id, user_id
+          RETURNING id, user_id, project_id
         )
         -- copy the member roles of the group
         INSERT INTO #{MemberRole.table_name} (member_id, role_id, inherited_from)
-        SELECT new_members.id, group_roles.role_id, group_roles.member_id
-        FROM group_roles, new_members
+        SELECT new_members.id, group_roles.role_id, group_roles.member_role_id
+        FROM group_roles
+        JOIN new_members ON group_roles.project_id = new_members.project_id
         -- Ignore if the role was already inserted by us
         ON CONFLICT DO NOTHING
       SQL
