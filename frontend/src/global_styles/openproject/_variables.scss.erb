@@ -3,7 +3,7 @@ Depend on the design file so that this is recompiled on core changes.
 Doesn't work for theme plugins, sorry :-/ just update the core design.rb as well to reload!
 %>
 <% depend_on Rails.root.join('lib', 'open_project', 'custom_styles', 'design.rb') %>
-<%# ToDo: Replace %>
+<%# Todo for task #33508: Replace %>
 <%#
 Set defaults for the following variables
 primary-color
@@ -36,6 +36,3 @@ $variable-map: (
   #{$prop}: map-get($variable-map, $name) unquote($suffix);
   #{$prop}: var(--#{$name}) unquote($suffix);
 }
-
-// Other variables
-$work-package-details--tab-height: 40px;

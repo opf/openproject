@@ -1,6 +1,6 @@
 @require sassc
 
-@sass ../../frontend/src/global_styles/openproject.sass
+@sass ../../../frontend/src/global_styles/openproject.sass
 @title "Living Style Guide for OpenProject"
 
 @style base-font: Lato
