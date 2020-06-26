@@ -140,7 +140,7 @@ export class WorkPackageRelationsHierarchyService {
             this.halEvents.push(wp, {
             eventType: 'association',
             relatedWorkPackage: null,
-            relationType:''
+            relationType: 'child'
             });
           });
         }
