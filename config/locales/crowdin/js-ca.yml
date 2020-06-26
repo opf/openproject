@@ -398,7 +398,7 @@ ca:
     label_sum_for: "Suma de"
     label_subject: "Assumpte"
     label_this_week: "aquesta setmana"
-    label_today: "avui"
+    label_today: "Today"
     label_time_entry_plural: "Temps invertit"
     label_up: "Amunt"
     label_user_plural: "Usuaris"
@@ -874,7 +874,6 @@ ca:
       label_delete_page: "Suprimeix la pàgina actual"
       button_apply: "Aplicar"
       button_save: "Desa"
-      button_clear_all: "Clear all"
       button_submit: "Enviar"
       button_cancel: "Cancel·la"
       form_submit:

@@ -397,7 +397,7 @@ da:
     label_sum_for: "Sum for"
     label_subject: "Emne"
     label_this_week: "denne uge"
-    label_today: "i dag"
+    label_today: "Today"
     label_time_entry_plural: "Anvendt tid"
     label_up: "Up"
     label_user_plural: "Brugere"
@@ -873,7 +873,6 @@ da:
       label_delete_page: "Slet denne side"
       button_apply: "Benyt"
       button_save: "Gem"
-      button_clear_all: "Clear all"
       button_submit: "Indsend"
       button_cancel: "Annuller"
       form_submit:

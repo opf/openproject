@@ -397,7 +397,7 @@ ro:
     label_sum_for: "Suma pentru"
     label_subject: "Subiect"
     label_this_week: "săptămâna curentă"
-    label_today: "astăzi"
+    label_today: "Today"
     label_time_entry_plural: "Timp consumat"
     label_up: "Sus"
     label_user_plural: "Utilizatori"
@@ -873,7 +873,6 @@ ro:
       label_delete_page: "Ştergeți pagina curentă"
       button_apply: "Salvare"
       button_save: "Salvare"
-      button_clear_all: "Clear all"
       button_submit: "Trimitere"
       button_cancel: "Anulare"
       form_submit:

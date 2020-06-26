@@ -398,7 +398,7 @@ bg:
     label_sum_for: "Сума за"
     label_subject: "Заглавие"
     label_this_week: "тази седмица"
-    label_today: "днес"
+    label_today: "Today"
     label_time_entry_plural: "Отработено време"
     label_up: "Up"
     label_user_plural: "Потребители"
@@ -874,7 +874,6 @@ bg:
       label_delete_page: "Изтриване на текущата страница"
       button_apply: "Приложи"
       button_save: "Запази"
-      button_clear_all: "Clear all"
       button_submit: "Изпрати"
       button_cancel: "Отказ"
       form_submit:

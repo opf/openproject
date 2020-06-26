@@ -397,7 +397,7 @@ hu:
     label_sum_for: "Összeg"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
-    label_today: "Ma"
+    label_today: "Today"
     label_time_entry_plural: "Eltöltött idő"
     label_up: "Fel"
     label_user_plural: "Felhasználók"
@@ -873,7 +873,6 @@ hu:
       label_delete_page: "Aktuális oldal törlése"
       button_apply: "Alkalmaz"
       button_save: "Mentés"
-      button_clear_all: "Clear all"
       button_submit: "Küldés"
       button_cancel: "Mégsem"
       form_submit:

@@ -398,7 +398,7 @@ hr:
     label_sum_for: "Iznos za"
     label_subject: "Predmet"
     label_this_week: "ovog tjedna"
-    label_today: "danas"
+    label_today: "Today"
     label_time_entry_plural: "Utrošeno vrijeme"
     label_up: "Gore"
     label_user_plural: "Korisnici"
@@ -874,7 +874,6 @@ hr:
       label_delete_page: "Izbrišite trenutnu stranicu"
       button_apply: "Primjeni"
       button_save: "Spremi"
-      button_clear_all: "Clear all"
       button_submit: "Pošalji"
       button_cancel: "Odustani"
       form_submit:

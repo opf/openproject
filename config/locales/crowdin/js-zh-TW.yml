@@ -397,7 +397,7 @@ zh-TW:
     label_sum_for: "總和"
     label_subject: "主題"
     label_this_week: "本週"
-    label_today: "今天"
+    label_today: "Today"
     label_time_entry_plural: "耗時"
     label_up: "向上"
     label_user_plural: "使用者"
@@ -873,7 +873,6 @@ zh-TW:
       label_delete_page: "刪除目前的頁面"
       button_apply: "套用"
       button_save: "儲存"
-      button_clear_all: "Clear all"
       button_submit: "提交"
       button_cancel: "取消"
       form_submit:

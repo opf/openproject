@@ -398,7 +398,7 @@ fi:
     label_sum_for: "Summa"
     label_subject: "Aihe"
     label_this_week: "tällä viikolla"
-    label_today: "tänään"
+    label_today: "Today"
     label_time_entry_plural: "Käytetty aika"
     label_up: "Ylös"
     label_user_plural: "Käyttäjät"
@@ -874,7 +874,6 @@ fi:
       label_delete_page: "Poista nykyinen sivu"
       button_apply: "Ota käyttöön"
       button_save: "Tallenna"
-      button_clear_all: "Clear all"
       button_submit: "Lähetä"
       button_cancel: "Peruuta"
       form_submit:
