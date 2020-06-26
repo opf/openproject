@@ -173,7 +173,10 @@ module OpenProject
       'enterprise_trial_creation_host' => 'https://augur.openproject.com',
 
       # Allow override of LDAP options
-      'ldap_auth_source_tls_options' => nil
+      'ldap_auth_source_tls_options' => nil,
+
+      # Slow query logging threshold in ms
+      'sql_slow_query_threshold' => 2000
     }
 
     @config = nil
