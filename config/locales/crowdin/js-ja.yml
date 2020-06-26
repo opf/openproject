@@ -399,7 +399,7 @@ ja:
     label_sum_for: "合計"
     label_subject: "題名"
     label_this_week: "今週"
-    label_today: "今日"
+    label_today: "Today"
     label_time_entry_plural: "作業時間の記録"
     label_up: "アップ"
     label_user_plural: "ユーザ"
@@ -877,7 +877,6 @@ ja:
       label_delete_page: "現在のページを削除"
       button_apply: "適用"
       button_save: "保存"
-      button_clear_all: "Clear all"
       button_submit: "適用"
       button_cancel: "キャンセル"
       form_submit:

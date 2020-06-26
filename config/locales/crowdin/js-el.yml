@@ -397,7 +397,7 @@ el:
     label_sum_for: "Άθροισμα του"
     label_subject: "Θέμα"
     label_this_week: "αυτή την εβδομάδα"
-    label_today: "σήμερα"
+    label_today: "Today"
     label_time_entry_plural: "Χρόνος που δαπανήθηκε"
     label_up: "Πάνω"
     label_user_plural: "Χρήστες"
@@ -873,7 +873,6 @@ el:
       label_delete_page: "Διαγραφή της τρέχουσας σελίδας"
       button_apply: "Εφαρμογή"
       button_save: "Αποθήκευση"
-      button_clear_all: "Clear all"
       button_submit: "Υποβολή"
       button_cancel: "Ακύρωση"
       form_submit:

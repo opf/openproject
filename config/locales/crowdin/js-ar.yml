@@ -398,7 +398,7 @@ ar:
     label_sum_for: "مجموع ال"
     label_subject: "الموضوع"
     label_this_week: "هذا الأسبوع"
-    label_today: "اليوم"
+    label_today: "Today"
     label_time_entry_plural: "الوقت المستهلك"
     label_up: "الأعلى"
     label_user_plural: "المستخدمين"
@@ -874,7 +874,6 @@ ar:
       label_delete_page: "احذف الصفحة الحالية"
       button_apply: "تطبيق"
       button_save: "حفظ"
-      button_clear_all: "Clear all"
       button_submit: "إرسال"
       button_cancel: "إلغاء"
       form_submit:

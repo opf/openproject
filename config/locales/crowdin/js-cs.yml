@@ -398,7 +398,7 @@ cs:
     label_sum_for: "Součet pro"
     label_subject: "Předmět"
     label_this_week: "tento týden"
-    label_today: "dnes"
+    label_today: "Today"
     label_time_entry_plural: "Strávený čas"
     label_up: "Nahoru"
     label_user_plural: "Uživatelé"
@@ -874,7 +874,6 @@ cs:
       label_delete_page: "Odstranit aktuální stránku"
       button_apply: "Použít"
       button_save: "Uložit"
-      button_clear_all: "Clear all"
       button_submit: "Potvrdit"
       button_cancel: "Zrušit"
       form_submit:

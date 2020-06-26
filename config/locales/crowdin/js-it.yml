@@ -398,7 +398,7 @@ it:
     label_sum_for: "Somma per"
     label_subject: "Soggetto"
     label_this_week: "questa settimana"
-    label_today: "oggi"
+    label_today: "Today"
     label_time_entry_plural: "Tempo speso"
     label_up: "Su"
     label_user_plural: "Utenti"
@@ -874,7 +874,6 @@ it:
       label_delete_page: "Elimina pagina corrente"
       button_apply: "Applica"
       button_save: "Salva"
-      button_clear_all: "Clear all"
       button_submit: "Invia"
       button_cancel: "Cancella"
       form_submit:

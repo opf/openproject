@@ -397,7 +397,7 @@ sv:
     label_sum_for: "Summa för"
     label_subject: "Ämne"
     label_this_week: "denna vecka"
-    label_today: "idag"
+    label_today: "Today"
     label_time_entry_plural: "Förbrukad tid"
     label_up: "Upp"
     label_user_plural: "Användare"
@@ -873,7 +873,6 @@ sv:
       label_delete_page: "Ta bort aktuell sida"
       button_apply: "Tilldela"
       button_save: "Spara"
-      button_clear_all: "Clear all"
       button_submit: "Skicka"
       button_cancel: "Avbryt"
       form_submit:

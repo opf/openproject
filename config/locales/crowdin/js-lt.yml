@@ -398,7 +398,7 @@ lt:
     label_sum_for: "Suma"
     label_subject: "Tema"
     label_this_week: "ši savaitė"
-    label_today: "šiandien"
+    label_today: "Today"
     label_time_entry_plural: "Praleista laiko"
     label_up: "Aukštyn"
     label_user_plural: "Vartotojai"
@@ -874,7 +874,6 @@ lt:
       label_delete_page: "Naikinti dabartinį puslapį"
       button_apply: "Taikyti"
       button_save: "Išsaugoti"
-      button_clear_all: "Clear all"
       button_submit: "Siųsti"
       button_cancel: "Atšaukti"
       form_submit:

@@ -398,7 +398,7 @@ fil:
     label_sum_for: "Halaga para sa"
     label_subject: "Paksa"
     label_this_week: "ngayong semana"
-    label_today: "ngayon"
+    label_today: "Today"
     label_time_entry_plural: "Nauubos na oras"
     label_up: "Up"
     label_user_plural: "Mga gumagamit"
@@ -874,7 +874,6 @@ fil:
       label_delete_page: "Burahin ang kasukuyang pahina"
       button_apply: "Ilagay"
       button_save: "I-save"
-      button_clear_all: "Clear all"
       button_submit: "Sumite"
       button_cancel: "Kanselahin"
       form_submit:

@@ -398,7 +398,7 @@ fr:
     label_sum_for: "Somme pour"
     label_subject: "Sujet"
     label_this_week: "cette semaine"
-    label_today: "aujourd'hui"
+    label_today: "Today"
     label_time_entry_plural: "Temps passé"
     label_up: "Haut"
     label_user_plural: "Utilisateurs"
@@ -874,7 +874,6 @@ fr:
       label_delete_page: "Effacer la page en cours"
       button_apply: "Appliquer"
       button_save: "Enregistrer"
-      button_clear_all: "Clear all"
       button_submit: "Envoyer"
       button_cancel: "Annuler"
       form_submit:

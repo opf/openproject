@@ -398,7 +398,7 @@ id:
     label_sum_for: "Jumlah"
     label_subject: "Perihal"
     label_this_week: "minggu ini"
-    label_today: "hari ini"
+    label_today: "Today"
     label_time_entry_plural: "Durasi"
     label_up: "Naik"
     label_user_plural: "User"
@@ -874,7 +874,6 @@ id:
       label_delete_page: "Hapus halaman ini"
       button_apply: "Apply"
       button_save: "Simpan"
-      button_clear_all: "Clear all"
       button_submit: "Kirim"
       button_cancel: "Batal"
       form_submit:

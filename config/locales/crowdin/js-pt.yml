@@ -397,7 +397,7 @@ pt:
     label_sum_for: "Soma para"
     label_subject: "Assunto"
     label_this_week: "esta semana"
-    label_today: "hoje"
+    label_today: "Today"
     label_time_entry_plural: "Tempo gasto"
     label_up: "Acima"
     label_user_plural: "Usuários"
@@ -873,7 +873,6 @@ pt:
       label_delete_page: "Excluir página atual"
       button_apply: "Aplicar"
       button_save: "Salvar"
-      button_clear_all: "Clear all"
       button_submit: "Enviar"
       button_cancel: "Cancelar"
       form_submit:

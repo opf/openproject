@@ -398,7 +398,7 @@ zh-CN:
     label_sum_for: "总和"
     label_subject: "主题"
     label_this_week: "这一周"
-    label_today: "今天"
+    label_today: "Today"
     label_time_entry_plural: "已耗时间"
     label_up: "向上"
     label_user_plural: "用户"
@@ -874,7 +874,6 @@ zh-CN:
       label_delete_page: "删除当前页面"
       button_apply: "应用"
       button_save: "保存"
-      button_clear_all: "Clear all"
       button_submit: "提交"
       button_cancel: "取消"
       form_submit:

@@ -397,7 +397,7 @@ sl:
     label_sum_for: "Vsota za"
     label_subject: "Zadeva"
     label_this_week: "ta teden"
-    label_today: "Danes"
+    label_today: "Today"
     label_time_entry_plural: "Porabljen čas"
     label_up: "Navzgor"
     label_user_plural: "Uporabniki"
@@ -873,7 +873,6 @@ sl:
       label_delete_page: "Izbriši trenutno stran"
       button_apply: "Potrdi"
       button_save: "Shrani"
-      button_clear_all: "Clear all"
       button_submit: "Potrdi"
       button_cancel: "Prekliči"
       form_submit:

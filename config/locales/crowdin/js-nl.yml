@@ -398,7 +398,7 @@ nl:
     label_sum_for: "Som voor"
     label_subject: "Onderwerp"
     label_this_week: "deze week"
-    label_today: "vandaag"
+    label_today: "Today"
     label_time_entry_plural: "Bestede tijd"
     label_up: "Omhoog"
     label_user_plural: "Gebruikers"
@@ -874,7 +874,6 @@ nl:
       label_delete_page: "Verwijder huidige pagina"
       button_apply: "Toepassen"
       button_save: "Opslaan"
-      button_clear_all: "Clear all"
       button_submit: "Verzenden"
       button_cancel: "Annuleren"
       form_submit:
