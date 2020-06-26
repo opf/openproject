@@ -435,7 +435,7 @@ en:
     label_sum_for: "Sum for"
     label_subject: "Subject"
     label_this_week: "this week"
-    label_today: "today"
+    label_today: "Today"
     label_time_entry_plural: "Spent time"
     label_up: "Up"
     label_user_plural: "Users"
@@ -941,7 +941,6 @@ en:
       label_delete_page: "Delete current page"
       button_apply: "Apply"
       button_save: "Save"
-      button_clear_all: "Clear all"
       button_submit: "Submit"
       button_cancel: "Cancel"
       form_submit:
