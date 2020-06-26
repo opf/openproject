@@ -31,8 +31,8 @@ a.button
   @extend %button
   @include button-size(medium)
   @include button-expand(false)
-  @include button-style($button--background-color, $button--background-hover-color, $button--font-color, $button-style)
-  border: 1px solid $button--border-color
+  @include button-style(var(--button--background-color), var(--button--background-hover-color), var(--button--font-color), var(--button-style))
+  border: 1px solid var(--button--border-color)
 
   transition-property: background, border
   transition-duration: 0.25s
@@ -47,50 +47,50 @@ a.button
 
   &.-with-icon
     &::before
-      padding: 0 $button--text-icon-spacing 0 0
+      padding: 0 var(--button--text-icon-spacing) 0 0
 
   &.-danger
-    background: $content-form-danger-zone-bg-color
-    color: $content-form-danger-zone-font-color
-    border-color: $content-form-danger-zone-bg-color
+    background: var(--content-form-danger-zone-bg-color)
+    color: var(--content-form-danger-zone-font-color)
+    border-color: var(--content-form-danger-zone-bg-color)
     &.icon:before,
     &.icon-context:before
-      color: $content-form-danger-zone-font-color
+      color: var(--content-form-danger-zone-font-color)
       padding-left: 0px
 
   &.-highlight
-    @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
-    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), $button--highlight-font-color, $button-style)
-    @include varprop(border-color, button--highlight-background-color)
+    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), var(--button--highlight-font-color), var(--button-style))
+    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), var(--button--highlight-font-color), var(--button-style))
+    border-color: var(--button--highlight-background-color)
 
     &:hover, &:focus
-      @include varprop(border-color, button--highlight-background-hover-color)
+      border-color: var(--button--highlight-background-hover-color)
 
   &.-highlight-inverted
-    @include button-style($body-background, darken($body-background, 5), $content-link-color, $button-style)
-    @include button-style($body-background, darken($body-background, 5), var(--content-link-color), $button-style)
-    @include varprop(border-color, content-link-color)
+    @include button-style(#fff, #f2f2f2, var(--content-link-color), var(--button-style))
+    @include button-style(#fff, #f2f2f2, var(--content-link-color), var(--button-style))
+    border-color: var(--content-link-color)
 
 
   &.-alt-highlight
-    @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
-    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), $button--alt-highlight-font-color, $button-style)
-    @include varprop(border-color, button--alt-highlight-background-color)
+    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color), var(--button-style))
+    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color), var(--button-style))
+    border-color: var(--button--alt-highlight-background-color)
 
     &:hover, &:focus
-      @include varprop(border-color, button--alt-highlight-background-hover-color)
+      border-color: var(--button--alt-highlight-background-hover-color)
 
   &.-active
-    @include button-style($button--active-background-color, $button--active-background-color, $button--active-font-color, $button-style)
-    @include varprop(border-color, button--active-border-color)
-    box-shadow: 0 0 3px $button--active-border-color inset
+    @include button-style(var(--button--active-background-color), var(--button--active-background-color), var(--button--active-font-color), var(--button-style))
+    border-color: var(--button--active-border-color)
+    box-shadow: 0 0 3px var(--button--active-border-color) inset
 
 
   &.-transparent
     background: transparent
 
     &:hover, &:focus, &.-active
-      background: $button--background-hover-color
+      background: var(--button--background-hover-color)
 
   &.-tiny
     @include button-size(tiny)
@@ -121,7 +121,7 @@ a.button
 .button--text + .button--icon,
 .op-icon--wrapper + .button--text,
 .button--text + .op-icon--wrapper
-  margin: 0 0 0 $button--text-icon-spacing
+  margin: 0 0 0 var(--button--text-icon-spacing)
 
 // Hack as Lato font on Win Chrome draws about a pixel too highligh
 html.-browser-windows.-browser-chrome
@@ -141,11 +141,11 @@ html.-browser-windows.-browser-chrome
 .toolbar-item
   .button[class*='icon-']
     &:before
-      margin-right: $button--text-icon-spacing
+      margin-right: var(--button--text-icon-spacing)
 
 // Button class to use as a link-like submit button
 .button--link
-  @include varprop(color, content-link-color)
+  color: var(--content-link-color)
   background: none
   border: none
   padding: 0 1px
@@ -154,7 +154,7 @@ html.-browser-windows.-browser-chrome
     @include button-expand
 
   &:visited, &:active
-    @include varprop(color, content-link-color)
+    color: var(--content-link-color)
 
   &:hover
     text-decoration: underline
@@ -162,4 +162,4 @@ html.-browser-windows.-browser-chrome
   &:disabled, &:disabled:hover
     cursor: not-allowed
     background: none
-    color: $gray-dark
+    color: var(--gray-dark)

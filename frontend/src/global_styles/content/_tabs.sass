@@ -4,8 +4,8 @@
   list-style: none
   margin: 0
   padding: 0
-  line-height: $work-package-details--tab-height - 10px
-  height:      $work-package-details--tab-height
+  line-height: var(--work-package-details--tab-height) - 10px
+  height:      var(--work-package-details--tab-height)
   overflow: hidden
   position: relative
   width: 100%
@@ -32,7 +32,7 @@
       min-height: 1rem
       vertical-align: 0.1rem
       padding: 0 0.15rem 0 0.15rem
-      background: $light-gray
+      background: var(--light-gray)
       font-weight: bold
 
   a
@@ -53,14 +53,14 @@
     color: #999
     border-bottom: 2px solid
     a
-      @include varprop(color, content-link-color)
+      color: var(--content-link-color)
     .wp-tabs-count
-      @include varprop(color, content-link-color)
+      color: var(--content-link-color)
       &:hover
-        @include varprop(color, content-link-color)
+        color: var(--content-link-color)
   li.selected,
   li.selected:hover
-    @include varprop(border-bottom-color, content-link-color)
+    border-bottom-color: var(--content-link-color)
   li:hover
     border-bottom-color: #DDDDDD
 
@@ -69,7 +69,7 @@
     pointer-events: none
     border-bottom-width: 0
     a
-      color: $tabs-font-color-disabled
+      color: var(--tabs-font-color-disabled)
 
 content-tabs
   min-height: 73px
@@ -113,7 +113,7 @@ content-tabs
   top: 0px
   line-height: 38px
   background: white
-  color: $light-gray
+  color: var(--light-gray)
   font-size: 0.7rem
   &.-left
     left: 0
@@ -124,7 +124,7 @@ content-tabs
     text-align: right
     box-shadow: 0px 0px 10px 10px white
   &:hover
-    @include varprop(color, content-link-color)
+    color: var(--content-link-color)
     cursor: pointer
 
 .tab-content

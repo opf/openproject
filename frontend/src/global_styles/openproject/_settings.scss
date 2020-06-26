@@ -413,8 +413,8 @@ $select-background-hover: smartscale($select-background, 0%);
 $label-fontsize: 1em;
 $label-padding: 10px;
 $label-radius: 10px;
-$label-background: $gray;
-$label-color: $gray-dark;
+$label-background: var(--gray);
+$label-color: var(--gray-dark);
 
 // $badge-fontsize: 0.8em;
 // $badge-diameter: 1.5rem;

@@ -88,12 +88,12 @@ div.autocomplete
     &.selected
       border: none
       a
-        @include varprop(color, drop-down-selected-font-color)
+        color: var(--drop-down-selected-font-color)
 
     &.ui-state-active
-      @include varprop(background, drop-down-hover-bg-color)
+      background: var(--drop-down-hover-bg-color)
     &.selected:not(.ui-state-active)
-      @include varprop(background, drop-down-selected-bg-color)
+      background: var(--drop-down-selected-bg-color)
 
   &.-inplace
     position: relative
@@ -112,11 +112,11 @@ div.autocomplete
   // Error highlighting
   &.-error, &.-error:hover, &.-error:focus
     background: $nm-color-error-background
-    border-color: $nm-color-error-border
+    border-color: var(--content-form-danger-zone-bg-color)
 
 mark.ui-autocomplete-match
   background: none
-  @include varprop(color, primary-color)
+  color: var(--primary-color)
   text-decoration: underline
   font-weight: bold !important
 

@@ -67,7 +67,7 @@
   LI > A,
   .menu-item
     display: block
-    @include varprop(color, context-menu-unselected-font-color)
+    color: var(--context-menu-unselected-font-color)
     text-decoration: none
     padding: 4px 13px 4px 10px
     white-space: nowrap
@@ -75,7 +75,7 @@
 
     &:not(.inactive):hover
       background-color: #F0F0F0
-      @include varprop(color, context-menu-hover-font-color)
+      color: var(--context-menu-hover-font-color)
       cursor: pointer
 
     .icon-hierarchy
@@ -89,8 +89,8 @@
     color: #999999
 
   LI > A.selected
-    @include varprop(background, drop-down-selected-bg-color)
-    @include varprop(color, drop-down-selected-font-color)
+    background: var(--drop-down-selected-bg-color)
+    color: var(--drop-down-selected-font-color)
 
 .dropdown
   @include dot_border_width_style
@@ -126,7 +126,7 @@
 
 .dropdown LI > A.dropdown-menu-hasicons
   display: block
-  @include varprop(color, context-menu-unselected-font-color)
+  color: var(--context-menu-unselected-font-color)
   text-decoration: none
   padding: 3px 10px
   white-space: nowrap

@@ -30,19 +30,19 @@ $hamburger-right: -3px
 $hamburger-width: 50px
 
 %top-menu-hover-styles
-  @include varprop(background, header-item-bg-hover-color)
-  @include varprop(color, header-item-font-hover-color)
-  @include varprop(border-bottom-width, header-border-bottom-width)
-  @include varprop(border-bottom-color, header-border-bottom-color)
+  background: var(--header-item-bg-hover-color)
+  color: var(--header-item-font-hover-color)
+  border-bottom-width: var(--header-border-bottom-width)
+  border-bottom-color: var(--header-border-bottom-color)
   border-bottom-style: solid
 
 %top-menu-link-styles
   display: block
-  height: $header-height
-  line-height: $header-height
+  height: var(--header-height)
+  line-height: var(--header-height)
   zoom: 1
-  @include varprop(color, header-item-font-color)
-  @include varprop(font-size, header-item-font-size)
+  color: var(--header-item-font-color)
+  font-size: var(--header-item-font-size)
   text-decoration: none
   padding: 0 15px
   &:hover
@@ -50,7 +50,7 @@ $hamburger-width: 50px
 
 #logo
   width: 230px
-  @include varprop(height, header-height)
+  height: var(--header-height)
   position: absolute
   left: calc(50% - 230px / 2)
 
@@ -58,25 +58,25 @@ $hamburger-width: 50px
     margin-top: 12px
     display: block
     height: 30px
-    background: $header-home-link-bg
+    background: var(--header-home-link-bg)
     text-indent: -9999em
     background-position: center
     background-size: contain
     background-repeat: no-repeat
 
 #top-menu
-  @include varprop(background-color, header-bg-color)
-  height: $header-height
+  background-color: var(--header-bg-color)
+  height: var(--header-height)
   padding: 0
   z-index: 22
   border-bottom-style: solid
-  @include varprop(border-bottom-width, header-border-bottom-width)
-  @include varprop(border-bottom-color, header-border-bottom-color)
+  border-bottom-width: var(--header-border-bottom-width)
+  border-bottom-color: var(--header-border-bottom-color)
   .menu_root
     margin: 0
     padding: 0
     float: left
-    height: $header-height
+    height: var(--header-height)
     border-top: 0
     flex: 1 1 auto
   li.drop-down,
@@ -92,15 +92,15 @@ $hamburger-width: 50px
       @extend %top-menu-link-styles
 
       &:hover .icon-help:before
-        @include varprop(border-color, header-item-font-hover-color)
+        border-color: var(--header-item-font-hover-color)
 
     > ul
       min-width: 270px
       padding: 6px 0
-      border: 1px solid $header-drop-down-border-color
+      border: 1px solid var(--header-drop-down-border-color)
       border-top: 0
-      background-color: $header-drop-down-bg-color
-      max-height: calc(100vh - #{$header-height})
+      background-color: var(--header-drop-down-bg-color)
+      max-height: calc(100vh - var(--header-height))
       overflow-y: auto
       overflow-x: hidden
 
@@ -135,7 +135,7 @@ $hamburger-width: 50px
     .drop-down--help-headline
       padding-left: 10px
       font-size: 12px
-      color: $gray-dark
+      color: var(--gray-dark)
       text-transform: uppercase
 
   #loggedas
@@ -164,7 +164,7 @@ $hamburger-width: 50px
   .skip-navigation-link:focus
     top: 40px
     left: 260px
-    @include varprop(color, font-color-on-primary)
+    color: var(--font-color-on-primary)
 
 #quick-search
   float: right
@@ -191,7 +191,7 @@ $hamburger-width: 50px
 #account-nav-left
   .drop-down
     // Half viewport width minus half logo.
-    max-width: calc((100vW/2) - 115px - #{$hamburger-width + $hamburger-right})
+    max-width: calc((100vW/2) - 115px - var(--hamburger-width) + var(--hamburger-right))
     .nosidebar &
       max-width: calc((100vW/2) - 115px)
   #projects-menu
@@ -203,7 +203,7 @@ $hamburger-width: 50px
     .button--dropdown-text
       @include text-shortener
       // Half viewport width minus half logo minus margins.
-      max-width: calc((100vW/2) - 115px - 50px - #{$hamburger-width + $hamburger-right})
+      max-width: calc((100vW/2) - 115px - 50px - var(--hamburger-width) + var(--hamburger-right))
       .nosidebar &
         max-width: calc((100vW/2) - 115px - 50px)
 
@@ -223,12 +223,12 @@ $hamburger-width: 50px
       margin-top: -5px
     .avatar-default
       border: 1px solid
-      @include varprop(border-color, header-item-font-color)
+      border-color: var(--header-item-font-color)
 
   .icon-help:before
     border-width: 2px
     border-style: solid
-    @include varprop(border-color, header-item-font-color)
+    border-color: var(--header-item-font-color)
     border-radius: 50%
     width: 26px
     height: 26px
@@ -242,11 +242,11 @@ $hamburger-width: 50px
 
 #main-menu-toggle
   display: block
-  width: $hamburger-width
-  height: $header-height-mobile
+  width: var(--hamburger-width)
+  height: var(--header-height-mobile)
   float: left
   text-align: center
-  margin-right: $hamburger-right
+  margin-right: var(--hamburger-right)
   > a
     @extend %top-menu-link-styles
 

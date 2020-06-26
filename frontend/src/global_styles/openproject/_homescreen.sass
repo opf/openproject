@@ -31,7 +31,7 @@
 .controller-homescreen #content-wrapper
   .widget-box
     box-shadow: none
-    border: 1px solid $content-default-border-color
+    border: 1px solid var(--content-default-border-color)
 
 .controller-homescreen #breadcrumb
   display: none
@@ -50,20 +50,20 @@
     flex: 1
     display: block
     text-align: center
-    color: $content-icon-link-color
+    color: var(--content-icon-link-color)
 
     i::before
       display: block
       margin-bottom: 10px
       font-size: 3rem
-      color: $content-icon-link-color
+      color: var(--content-icon-link-color)
 
     &:hover,
     &:hover span
       text-decoration: none
-      @include varprop(color, content-link-color)
+      color: var(--content-link-color)
       i::before
-        @include varprop(color, content-link-color)
+        color: var(--content-link-color)
 
 
 @include breakpoint(680px down)

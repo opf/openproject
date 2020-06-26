@@ -32,12 +32,12 @@ $wp-query-menu-search-container-height: 35px
     display: inline-block
     width: 100%
     white-space: normal
-    font-size: $main-menu-font-size
+    font-size: var(--main-menu-font-size)
 
   .wp-query-menu--search-container
     padding-top: 10px
     overflow: hidden
-    @include varprop(color, main-menu-font-color)
+    color: var(--main-menu-font-color)
 
     // Specific fix for Firefox
     body.-browser-firefox &
@@ -56,11 +56,11 @@ $wp-query-menu-search-container-height: 35px
       text-transform: uppercase
       // border-bottom: 1px solid $main-menu-border-color
       font-size: 0.7rem
-      @include varprop(color, main-menu-fieldset-header-color)
+      color: var(--main-menu-fieldset-header-color)
       cursor: pointer
 
       &:hover
-        @include varprop(background, main-menu-bg-hover-background)
+        background: var(--main-menu-bg-hover-background)
 
   // The actual search input
   .wp-query-menu--search-bar
@@ -79,7 +79,7 @@ $wp-query-menu-search-container-height: 35px
     height: $menu-item-line-height
     margin: 0px 12px
     position: absolute
-    color: $main-menu-fieldset-header-color
+    color: var(--main-menu-fieldset-header-color)
     z-index: 1
     border: none
     background: initial
@@ -108,28 +108,28 @@ $wp-query-menu-search-container-height: 35px
 
     &.selected
       .wp-query-menu--item-link
-        @include varprop(background, main-menu-bg-selected-background)
-        @include varprop(color, main-menu-selected-font-color)
+        background: var(--main-menu-bg-selected-background)
+        color: var(--main-menu-selected-font-color)
 
         &:hover
-          @include varprop(color, main-menu-font-color)
+          color: var(--main-menu-font-color)
 
   // Link within element wrapper
   .wp-query-menu--item-link
     @include text-shortener
-    @include varprop(color, main-menu-font-color)
+    color: var(--main-menu-font-color)
     padding: 0px 2px 0px 33px !important
     margin: 0
     line-height: 30px
     height: 30px !important
 
     &:hover, &:focus, &:active
-      @include varprop(background, main-menu-bg-hover-background)
-      @include varprop(color, main-menu-hover-font-color)
+      background: var(--main-menu-bg-hover-background)
+      color: var(--main-menu-hover-font-color)
 
   // Rule complexed for specificity issues
   input[type="text"].wp-query-menu--search-input
-    @include varprop(color, main-menu-font-color)
+    color: var(--main-menu-font-color)
     width: 100%
     height: 35px
     border: 1px solid rgba(231, 231, 231, 0.15)
@@ -143,7 +143,7 @@ $wp-query-menu-search-container-height: 35px
       display: none
     &::placeholder,
     &::-webkit-input-placeholder
-      @include varprop(color, main-menu-font-color)
+      color: var(--main-menu-font-color)
       opacity: 0.5
       @include text-shortener
 
@@ -151,5 +151,5 @@ $wp-query-menu-search-container-height: 35px
     position: absolute
     top:   5px
     right: 10px
-    @include varprop(color, main-menu-font-color)
+    color: var(--main-menu-font-color)
     opacity: 0.5

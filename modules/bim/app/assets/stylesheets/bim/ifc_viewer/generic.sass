@@ -45,22 +45,22 @@
 
 .xeokit-btn
   position: relative
-  background-color: $button--background-color
+  background-color: var(--button--background-color)
   vertical-align: middle
   padding: .375rem .75rem
   border-radius: 2px
-  border: 1px solid $button--border-color
+  border: 1px solid var(--button--border-color)
   @include default-transition
 
   &:hover
-    @include varprop(background-color, button--background-hover-color)
+    background-color: var(--button--background-hover-color)
 
 
   &.disabled
     opacity: .55
 
   &.active
-    @include varprop(color, button--active-font-color)
-    @include varprop(background-color, button--active-background-color)
-    @include varprop(border-color, button--active-border-color)
-    box-shadow: 0 0 3px $button--active-border-color inset
+    color: var(--button--active-font-color)
+    background-color: var(--button--active-background-color)
+    border-color: var(--button--active-border-color)
+    box-shadow: 0 0 3px var(--button--active-border-color) inset

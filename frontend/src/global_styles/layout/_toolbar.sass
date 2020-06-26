@@ -25,8 +25,6 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-$nm-color-error-border: $content-form-danger-zone-bg-color
-$nm-color-error-icon: $content-form-danger-zone-bg-color
 $nm-color-error-background: #fedada
 
 $nm-color-success-border: #35c53f
@@ -84,7 +82,7 @@ $nm-color-success-background: #d8fdd1
 .toolbar-items
   display: flex
   flex-wrap: wrap
-  margin:  0 -10px 0 0
+  margin: 0 -10px 0 0
   padding: 0
 
   li
@@ -92,7 +90,8 @@ $nm-color-success-background: #d8fdd1
     flex-grow: 1
 
   .toolbar-item
-    margin: 0 10px 10px 0 // spacing between nav items
+    margin: 0 10px 10px 0
+    // spacing between nav items
     flex-grow: 1
 
     // hide right margin for e.g., conditional buttons
@@ -135,17 +134,21 @@ $nm-color-success-background: #d8fdd1
 
     .button--icon
       font-size: 14px
+
     .button--text
       margin-left: 0.2em
+
     .badge
       font-size: 14px
       vertical-align: 1px
 
       font-size: 14px
       line-height: 1
+
       i
         font-size: 14px
         line-height: 1
+
         &::before
           font-size: 14px
           line-height: 1
@@ -156,17 +159,17 @@ $nm-color-success-background: #d8fdd1
   input[type=number],
   select
     @include toolbar-element-sizing
-    border: 1px solid $toolbar-item--border-color
+    border: 1px solid var(--toolbar-item--border-color)
 
   button,
   .button,
   .toolbar-input--affix
-    background: $toolbar-item--bg-color
+    background: var(--toolbar-item--bg-color)
 
     &.-pressed,
     &:active
-      background: $toolbar-item--bg-color-pressed
-      box-shadow: inset 0 2px 3px rgba(0,0,0,.125)
+      background: var(--toolbar-item--bg-color-pressed)
+      box-shadow: inset 0 2px 3px rgba(0, 0, 0, .125)
 
   select
     //extend forms select
@@ -190,6 +193,7 @@ $nm-color-success-background: #d8fdd1
     &.-icon-only
       .button
         text-align: center
+
       .button--icon
         font-size: 1.1rem
         position: relative
@@ -202,7 +206,8 @@ $nm-color-success-background: #d8fdd1
   flex: 1 1
   overflow: hidden
   white-space: nowrap
-  margin-bottom: 10px // margin-bottom of toolbar buttons
+  margin-bottom: 10px
+  // margin-bottom of toolbar buttons
 
   &.-no-grow
     flex-grow: 0
@@ -217,7 +222,7 @@ $nm-color-success-background: #d8fdd1
   div.inline-edit h2
     margin: 10px 0
     padding: 0px 5px
-    color: $toolbar-title-color
+    color: var(--toolbar-title-color)
     line-height: 34px
     height: 34px
     @include breakpoint(medium down)
@@ -237,19 +242,19 @@ $nm-color-success-background: #d8fdd1
     padding: 0px 5px
     -moz-margin: 10px 0
     margin: 9px 0
-    color: $toolbar-title-color
-    font-size: $h2-font-size
+    color: var(--toolbar-title-color)
+    font-size: var(--h2-font-size)
     height: 36px
     line-height: 36px
     width: calc(100% + 2px)
 
     &.-error
       display: block
-      background: $nm-color-error-background  !important
-      border-color: $nm-color-error-border !important
+      background: $nm-color-error-background !important
+      border-color: var(--content-form-danger-zone-bg-color) !important
 
   ul
-    margin:  0
+    margin: 0
     padding: 0
     float: left
 
@@ -257,7 +262,7 @@ $nm-color-success-background: #d8fdd1
     float: none
 
   span.filter-selection
-    @include query-select-dropdown-filter-select($primary-color)
+    @include query-select-dropdown-filter-select(var(--primary-color))
 
 .toolbar-input-group
   display: flex
@@ -278,8 +283,8 @@ $nm-color-success-background: #d8fdd1
     flex-grow: 1
 
   .toolbar-input-group--affix
-    background: $toolbar-item--bg-color
-    border: 1px solid $toolbar-item--border-color
+    background: var(--toolbar-item--bg-color)
+    border: 1px solid var(--toolbar-item--border-color)
     color: $inlinelabel-color
     border-radius: 2px
     white-space: nowrap

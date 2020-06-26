@@ -98,7 +98,7 @@ $widget-box--enumeration-width: 20px
         display: inline-block
         font-size: 0.6rem
         color: $alternative-color
-        @include varprop(color, alternative-color)
+        color: var(--alternative-color)
         width: $widget-box--enumeration-width
 
     .widget-box--description
@@ -148,7 +148,7 @@ $widget-box--enumeration-width: 20px
     @extend .icon-context
     display: inline-block
     font-size: 0.6rem
-    color: $content-icon-link-color
+    color: var(--content-icon-link-color)
     width: $widget-box--enumeration-width
     margin-left: -20px
 

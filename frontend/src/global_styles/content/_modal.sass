@@ -31,7 +31,7 @@ $ng-modal-background: $body-background
 $ng-modal-close-color: $light-gray
 $ng-modal-image-height: 135px
 $ng-modal-image-width: $ng-modal-image-height
-$modal-header-height: $header-height
+$modal-header-height: var(--header-height)
 $modal-footer-height: $modal-header-height
 
 // The portal element of a modal element
@@ -115,10 +115,10 @@ $modal-footer-height: $modal-header-height
   right: 25px
   top: 4px
   cursor: pointer
-  @include varprop(color, body-font-color)
+  color: var(--body-font-color)
   &:hover
     text-decoration: none
-    @include varprop(color, content-link-color)
+    color: var(--content-link-color)
 
 // Highlighted modal style matching header menu
 .op-modal--modal-container.-highlight
@@ -127,30 +127,30 @@ $modal-footer-height: $modal-header-height
   // Overridden header styles
   .op-modal--modal-header
     padding-left: 1.5rem
-    @include varprop(background-color, header-bg-color)
-    @include varprop(border-bottom-width, header-border-bottom-width)
-    @include varprop(border-bottom-color, header-border-bottom-color)
+    background-color: var(--header-bg-color)
+    border-bottom-width: var(--header-border-bottom-width)
+    border-bottom-color: var(--header-border-bottom-color)
 
     *
-      @include varprop(color, header-item-font-color)
+      color: var(--header-item-font-color)
 
   .op-modal--modal-footer
     margin: 1em 0
 
   .op-modal--modal-close-button
     top: 0
-    @include varprop(color, header-item-font-color)
+    color: var(--header-item-font-color)
 
   .avatar
     margin-right: 0.5rem
 
   &.-danger-zone
     .op-modal--modal-header
-      @include varprop(background-color, content-form-danger-zone-bg-color)
-      @include varprop(border-bottom-color, content-form-danger-zone-bg-color)
+      background-color: var(--content-form-danger-zone-bg-color)
+      border-bottom-color: var(--content-form-danger-zone-bg-color)
 
     .op-modal--modal-close-button
-      @include varprop(color, content-form-danger-zone-font-color)
+      color: var(--content-form-danger-zone-font-color)
 
 
 // Specific styles for columns-modal

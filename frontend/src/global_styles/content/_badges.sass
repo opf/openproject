@@ -35,8 +35,8 @@ $badge-diameter: 1.25rem
     @include badge-style($secondary-color, auto)
 
   &.-border-only
-    @include varprop(border-color, button--border-color)
-    @include varprop(color, body-font-color)
+    border-color: var(--button--border-color)
+    color: var(--body-font-color)
     background: transparent
     border-width: 1px
     border-style: solid

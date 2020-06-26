@@ -67,7 +67,7 @@
     // line behind title
     // from http://codepen.io/ericrasch/pen/Irlpm
     &:before
-      border-top: 2px solid $content-form-separator-color
+      border-top: 2px solid var(--content-form-separator-color)
       content: ""
       // this centers the line to the full width specified
       margin: 0 auto
@@ -85,7 +85,7 @@
     span
       // to hide the lines from behind the text, you have to set the
       // background color the same as the container
-      background: $content-form-bg-color
+      background: var(--content-form-bg-color)
       padding: 0 15px
 
   .login-auth-provider-list
@@ -113,14 +113,14 @@
       white-space: normal
 
 .modal-wrapper .login-auth-providers h3 span
-  background: $header-drop-down-bg-color
+  background: var(--header-drop-down-bg-color)
 
 #top-menu #nav-login-content .login-auth-providers
   h3
     &:before
       width: 100%
     span
-      background: $header-drop-down-bg-color
+      background: var(--header-drop-down-bg-color)
   .login-auth-provider-list
     margin-top: -15px
     margin-bottom: 10px

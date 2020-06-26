@@ -72,11 +72,11 @@
   width: auto
 
   &:hover .inline-edit--active-field.-error:hover
-    border-color: $nm-color-error-border
+    border-color: var(--content-form-danger-zone-bg-color)
 
 //
 .wp-table--faulty-query-icon
-  color: $nm-color-error-icon
+  color: var(--content-form-danger-zone-bg-color)
 
 // Remove padding from grouping rows (exceeds allowed width of 41px)
 .wp-table--group-header
@@ -107,7 +107,7 @@ html:not(.-browser-mobile)
 .wp-table--context-menu-td a
   vertical-align: -3px
   .icon:before
-    @include varprop(color, content-link-color)
+    color: var(--content-link-color)
     padding: 0 0 0 0.25rem
   &.-disabled .icon:before
     color: $gray-dark

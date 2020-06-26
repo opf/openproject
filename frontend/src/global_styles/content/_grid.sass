@@ -11,7 +11,7 @@ $grid--widget-padding: 20px 20px 20px 20px
 body.widget-grid-layout
   #content-wrapper,
   #content
-    background-color: $grid-background-color
+    background-color: var(--grid-background-color)
 
 .grid--container
   @include grid--commons
@@ -80,7 +80,7 @@ body.widget-grid-layout
   &.-passive
     border-width: 1px
     border-style: solid
-    border-color: $secondary-color
+    border-color: var(--secondary-color)
     transition: border-color 0.5s ease
     z-index: 20
 
@@ -197,11 +197,11 @@ body.widget-grid-layout
     position: absolute
     left: 0
     top: 0
-    background: linear-gradient(to bottom, rgba($body-background, 0) 60%, rgba($body-background, 1))
+    background: linear-gradient(to bottom, rgba(var(--body-background), 0) 60%, rgba(var(--body-background), 1))
 
 .grid--widget-add
   padding: 15px
-  background-color: $gray
+  background-color: var(--gray)
   border-radius: 50%
   opacity: 0
 
@@ -242,7 +242,7 @@ body.widget-grid-layout
 .grid--addable-widget
   min-width: 400px
   padding: 20px 5px
-  border-bottom: 1px solid $gray
+  border-bottom: 1px solid var(--gray)
   cursor: pointer
   background: none
   transition: background 4s ease

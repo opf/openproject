@@ -93,7 +93,7 @@
         padding-bottom: 2px
 
         h3.attributes-group--header-text
-          line-height: $work-package-details--tab-height - 10px
+          line-height: calc(var(--work-package-details--tab-height) - 10px)
 
 .work-packages-full-view--split-right
   min-width: 500px
@@ -103,7 +103,7 @@
   @include styled-scroll-bar
 
   .work-packages--panel-inner
-    padding: 15px 5px 0px 15px
+    padding: 15px 5px 0 15px
 
   .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
     padding-left: 0

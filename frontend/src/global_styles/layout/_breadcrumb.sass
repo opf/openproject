@@ -27,16 +27,16 @@
 //++
 
 %breadcrumb--default-font
-  @include default-font($breadcrumb-font-color, $breadcrumb-font-size, bold)
+  @include default-font(var(--breadcrumb-font-color), var(--breadcrumb-font-size), bold)
 
 #breadcrumb,
 .wp-breadcrumb
   display: none
   @include default-transition
-  height: $breadcrumb-height
+  height: var(--breadcrumb-height)
   overflow: hidden
   background: none repeat scroll 0 0
-  @include varprop(background-color, body-background)
+  background-color: var(--body-background)
   border: none
   width: auto
   position: relative
@@ -48,15 +48,16 @@
 
   a
     font-size: 12px
-    @include varprop(color, content-link-color)
+    color: var(--content-link-color)
     font-weight: normal
 
   li
     @extend %breadcrumb--default-font
-    color: lighten($breadcrumb-font-color, 20)
+    // TODO was lighten($breadcrumb-font-color, 20)
+    color: #666
     list-style-type: none
     &.cutme
-      max-width: $breadcrumb-height
+      max-width: var(--breadcrumb-height)
 
   &.-show
     display: block
@@ -71,8 +72,8 @@ ul.breadcrumb
   list-style: none
   list-style-position: outside
   // width: 10000px
-  height: $breadcrumb-height
-  line-height: $breadcrumb-height
+  height: var(--breadcrumb-height)
+  line-height: var(--breadcrumb-height)
 
 #breadcrumb,
 .wp-breadcrumb

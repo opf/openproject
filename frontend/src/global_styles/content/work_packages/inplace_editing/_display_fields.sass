@@ -85,7 +85,7 @@
       @include wp-table--actual-time-values
 
     .-derived-value
-      @include varprop(color, gray-dark)
+      color: var(--gray-dark)
       font-style: italic
       font-weight: bold
 
@@ -119,7 +119,7 @@
 
   &:hover,
   &:focus
-    border-color: $inplace-edit--border-color
+    border-color: var(--inplace-edit--border-color)
 
     &.-multiline
       white-space: inherit
@@ -132,7 +132,7 @@
 
   &:focus, &:hover
     color: $inplace-edit--color--disabled
-    background: $inplace-edit--bg-color--disabled
+    background: var(--inplace-edit--bg-color--disabled)
 
 editable-attribute-field
   width: 100%

@@ -30,25 +30,25 @@ $toggler-width: 40px
 $menu-item-line-height: 30px
 
 @mixin main-menu-hover
-  @include varprop(background, main-menu-bg-hover-background)
-  @include varprop(color, main-menu-hover-font-color)
+  background: var(--main-menu-bg-hover-background)
+  color: var(--main-menu-hover-font-color)
 
 @mixin main-menu-selected
-  @include varprop(background, main-menu-bg-selected-background)
-  @include varprop(color, main-menu-selected-font-color)
+  background: var(--main-menu-bg-selected-background)
+  color: var(--main-menu-selected-font-color)
 
 .main-menu
-  @include varprop(width, main-menu-width)
-  @include varprop(min-width, main-menu-width)
+  width: var(--main-menu-width)
+  min-width: var(--main-menu-width)
   overflow-x: hidden
   border-right-style: solid
-  @include varprop(border-right-width, main-menu-border-width)
-  @include varprop(border-right-color, main-menu-border-color)
-  @include varprop(background-color, main-menu-bg-color)
+  border-right-width: var(--main-menu-border-width)
+  border-right-color: var(--main-menu-border-color)
+  background-color: var(--main-menu-bg-color)
 
   #menu-sidebar
     +allow-vertical-scrolling
-    height: calc(100vh - #{$header-height})
+    height: calc(100vh - var(--header-height))
     position: relative
     @include styled-scroll-bar
 
@@ -65,12 +65,12 @@ $menu-item-line-height: 30px
       height: initial
 
     .main-menu--children
-      height: calc(100% - (#{$main-menu-item-height} + 10px)) // 10px spacing
+      height: calc(100% - (var(--main-menu-item-height) + 10px)) // 10px spacing
       overflow: auto
       @include styled-scroll-bar
 
   a:focus
-    @include varprop(color, main-menu-font-color)
+    color: var(--main-menu-font-color)
       
   ul
     margin: 0
@@ -107,21 +107,21 @@ $menu-item-line-height: 30px
 
   a
     text-decoration: none
-    line-height: $main-menu-item-height
+    line-height: var(--main-menu-item-height)
     display: block
     position: relative
-    height: $main-menu-item-height
-    @include varprop(color, main-menu-font-color)
-    font-family: $body-font-family
+    height: var(--main-menu-item-height)
+    color: var(--main-menu-font-color)
+    font-family: var(--body-font-family)
     font-weight: normal
-    font-size: $main-menu-font-size
+    font-size: var(--main-menu-font-size)
     font-style: normal
     &:hover
       text-decoration: none
 
   .toggler
-    width: $toggler-width
-    height: $main-menu-item-height
+    width: var(--toggler-width)
+    height: var(--main-menu-item-height)
     text-align: center
     overflow: hidden
 
@@ -186,7 +186,7 @@ $arrow-left-width: 40px
     &:hover
       // simultaneously hover all menu item anchor tags
       > a
-        @include varprop(color, main-menu-bg-hover-background)
+        color: var(--main-menu-bg-hover-background)
 
     > a
       &.selected, &.selected
@@ -196,7 +196,7 @@ $arrow-left-width: 40px
 
 .main-menu--children-menu-header
   padding: 10px 10px 0 10px
-  height: calc(#{$main-menu-item-height} + 10px)
+  height: calc(var(--main-menu-item-height) + 10px)
 
 .main-menu--arrow-left-to-project
   display: inline-block
@@ -212,13 +212,13 @@ $arrow-left-width: 40px
 a.main-menu--parent-node
   display: inline-block
   padding: 0px 11px 0 11px
-  font-size: $main-menu-font-size
+  font-size: var(--main-menu-font-size)
   font-weight: 700
   width: calc(100% - #{$arrow-left-width})
-  height: $main-menu-item-height
-  line-height: $main-menu-item-height
+  height: var(--main-menu-item-height)
+  line-height: var(--main-menu-item-height)
   border-radius: 3px
-  @include varprop(color, main-menu-font-color)
+  color: var(--main-menu-font-color)
   &:hover, &:focus, &:active
     @include main-menu-hover
 
@@ -252,8 +252,8 @@ a.main-menu--parent-node
 
 .hidden-navigation
   .main-menu
-    width: $main-menu-folded-width
-    min-width: $main-menu-folded-width
+    width: var(--main-menu-folded-width)
+    min-width: var(--main-menu-folded-width)
     ul
       &.menu_root
         > li
@@ -276,16 +276,16 @@ a.main-menu--parent-node
   margin: 30px 0 0 0
   padding: 0 17px 0 17px
   width: auto
-  @include varprop(color, main-menu-sidebar-font-color)
-  font-family: $body-font-family
+  color: var(--main-menu-sidebar-font-color)
+  font-family: var(--body-font-family)
   font-style: normal
 
   h3
     display: block
     border: none
-    @include varprop(color, main-menu-sidebar-h3-color)
+    color: var(--main-menu-sidebar-h3-color)
     font-weight: normal
-    font-size: $main-menu-sidebar-h3-font-size
+    font-size: var(--main-menu-sidebar-h3-font-size)
     margin: 30px 0 8px 0
     padding: 10px 0 0 0
 
@@ -295,7 +295,7 @@ a.main-menu--parent-node
     margin-top: 0
 
   a, a:link
-    @include varprop(color, main-menu-sidebar-link-color)
+    color: var(--main-menu-sidebar-link-color)
     display: inline
     position: static
     text-decoration: underline
@@ -304,7 +304,7 @@ a.main-menu--parent-node
     text-decoration: underline
 
   label
-    @include varprop(color, main-menu-sidebar-font-color)
+    color: var(--main-menu-sidebar-font-color)
     @include text-shortener
     max-width: 80%
     vertical-align: top
@@ -323,7 +323,7 @@ a.main-menu--parent-node
 .menu-wiki-pages-tree
   height: 100%
   overflow: auto
-  border-top: $main-menu-border-width solid $main-menu-border-color
+  border-top: var(--main-menu-border-width) solid var(--main-menu-border-color)
   padding-top: 7px
   padding-left: 7px
   padding-right: 7px
@@ -331,23 +331,23 @@ a.main-menu--parent-node
   @include styled-scroll-bar
 
 .main-menu--segment-header
-  @include varprop(color, main-menu-fieldset-header-color)
+  color: var(--main-menu-fieldset-header-color)
   text-transform: uppercase
-  padding-left: $hierarchy-span-width
+  padding-left: var(--hierarchy-span-width)
   font-size: 0.7rem
 
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
-    @include varprop(color, main-menu-font-color)
+    color: var(--main-menu-font-color)
   .tree-menu--item
     &.-selected
-      @include varprop(background, main-menu-bg-selected-background)
+      background: var(--main-menu-bg-selected-background)
       .tree-menu--title
-        @include varprop(color, main-menu-selected-font-color)
+        color: var(--main-menu-selected-font-color)
     &:hover
-      @include varprop(background, main-menu-bg-hover-background)
+      background: var(--main-menu-bg-hover-background)
       .tree-menu--title
-        @include varprop(color, main-menu-hover-font-color)
+        color: var(--main-menu-hover-font-color)
         text-decoration: none
 
 // Resizer & toggle styles
@@ -365,11 +365,11 @@ a.main-menu--parent-node
   z-index: 1
   cursor: col-resize
   &:hover
-    @include varprop(border-left-color, main-menu-resizer-color)
+    border-left-color: var(--main-menu-resizer-color)
     i:before
-      @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+      color: var(--main-menu-navigation-toggler-font-hover-color)
   &.show
-    left: $main-menu-folded-width
+    left: var(--main-menu-folded-width)
 
 .resizer-toggle-container
   margin-top: 50vh
@@ -386,7 +386,7 @@ a.main-menu--parent-node
       position: absolute
       right: 0
   &:hover
-    @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+    color: var(--main-menu-navigation-toggler-font-hover-color)
     .main-menu--navigation-toggler
       background-color: var(--main-menu-bg-color)
       &.open:before
@@ -396,7 +396,7 @@ a.main-menu--parent-node
     width: 12px
     &:before
       vertical-align: middle
-      color: $light-gray
+      color: var(--light-gray)
 
 // Badges for menu items such as "EXPERIMENTAL" or "BETA"
 $badge_offset: 4px

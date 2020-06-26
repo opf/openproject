@@ -51,7 +51,7 @@
   height: 40px
   background: $inplace-edit--dark-background
   border: 1px solid $inplace-edit--color--very-dark
-  box-shadow: 2px 2px 4px $inplace-edit--border-color
+  box-shadow: 2px 2px 4px var(--inplace-edit--border-color)
   text-align: center
   // Align controls via flex
   display: flex
@@ -60,7 +60,7 @@
 // Disabled submit styles when not applicable
 .inplace-edit--control--save[disabled] a,
 .inplace-edit--control--send[disabled] a
-  background-color: $inplace-edit--bg-color--disabled
+  background-color: var(--inplace-edit--bg-color--disabled)
   color: $inplace-edit--color--disabled
   cursor: not-allowed
 
@@ -79,7 +79,7 @@
     text-decoration: none
 
     &:hover, &:active
-      border-color: $inplace-edit--border-color
+      border-color: var(--inplace-edit--border-color)
 
   .icon-context:before
     padding: 0

@@ -76,11 +76,11 @@
     text-decoration: none
 
 .wp-relations--icon
-  color: $content-icon-link-color
+  color: var(--content-icon-link-color)
 
 // Toggle description icon color when expanded
 .wp-relations-controls-section.-expanded .wp-relations--description-icon
-  color: $content-icon-link-pressed-color
+  color: var(--content-icon-link-pressed-color)
 
 .wp-relations-create-button
   margin: 0.25rem 0
@@ -110,7 +110,7 @@
     font-style: italic
 
   &:hover
-    border-color: $light-gray
+    border-color: var(--light-gray)
     cursor: text
 
 // Set min-height to read/write identically
@@ -118,7 +118,7 @@
 .wp-relation--description-textarea
   min-height: 60px
   font-size: 0.875rem
-  line-height: $base-line-height
+  line-height: var(--base-line-height)
   padding-top: 10px
 
 .wp-relation--description-wrapper

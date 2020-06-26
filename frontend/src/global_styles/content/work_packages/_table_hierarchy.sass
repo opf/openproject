@@ -3,7 +3,7 @@
 // default: open arrow down
 // collapsed: right arrow
 .wp-table--hierarchy-indicator
-  @include varprop(color, body-font-color)
+  color: var(--body-font-color)
   pointer-events: all
 
   &:hover
@@ -78,4 +78,4 @@ body
     // Align the botched verticality of the hierarchy icons.
     vertical-align: middle
     font-size: 20px
-    @include varprop(color, body-font-color)
+    color: var(--body-font-color)

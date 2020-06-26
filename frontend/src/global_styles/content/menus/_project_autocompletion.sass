@@ -12,10 +12,10 @@
 
 #project-search-container:nth-child(3)
   // Substract header height and the two project menu items ("view all", "create new")
-  max-height: calc(100vh - #{$header-height} - 2 * 42px)
+  max-height: calc(100vh - var(--header-height) - 2 * 42px)
 #project-search-container:nth-child(2)
   // Substract header height and the project menu item ("view all")
-  max-height: calc(100vh - #{$header-height} - 42px)
+  max-height: calc(100vh - var(--header-height) - 42px)
 
 .project-search-results,
 .project-search-results.dropdown
@@ -28,7 +28,7 @@
   // (May not be supported by all browsers yet, but soonish)
   overscroll-behavior: contain
 
-  @include default-font($header-drop-down-projects-search-font-color, 13px)
+  @include default-font(var(--header-drop-down-projects-search-font-color), 13px)
   li
     padding: 0 10px
     font-size: 14px
@@ -44,7 +44,7 @@
     padding: 12px 0
     border-width: 1px 1px 0px 1px
     border-style: solid
-    border-color: $header-drop-down-border-color
+    border-color: var(--header-drop-down-border-color)
 
   // Search input
   input.project-menu-autocomplete--input
@@ -56,7 +56,7 @@
     box-sizing: border-box
     width: calc(100% - 20px)
     height: 2.125rem
-    background: $header-drop-down-projects-search-input-bg-color
+    background: var(--header-drop-down-projects-search-input-bg-color)
 
   // Lens icon on the right
   .project-menu-autocomplete--search-icon
@@ -75,8 +75,8 @@
     width: 398px !important
     padding-top: 0px
     // Borders to complete the menu look
-    border-right: 1px solid $header-drop-down-border-color
-    border-left: 1px solid $header-drop-down-border-color
+    border-right: 1px solid var(--header-drop-down-border-color)
+    border-left: 1px solid var(--header-drop-down-border-color)
     @include styled-scroll-bar
 
   // Cut off result element width
@@ -86,6 +86,6 @@
   // Indent the no results pane
   .project-menu-autocomplete--no-results
     // Mirror border from ui results
-    border: 2px solid $header-drop-down-border-color
+    border: 2px solid var(--header-drop-down-border-color)
     border-top: none
     padding: 12px

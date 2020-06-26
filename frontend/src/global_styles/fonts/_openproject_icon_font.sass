@@ -43,7 +43,7 @@
 
 @mixin icon-rules
   padding: 10px 5px 0 10px
-  @include varprop(color, content-icon-color)
+  color: var(--content-icon-color)
 
 @mixin icon2-rules
   padding: 0 20px 0 7px
@@ -68,7 +68,7 @@
 
 @mixin icon-context-rules
   @include icon-context-padding
-  @include varprop(color, content-icon-color)
+  color: var(--content-icon-color)
 
 @mixin icon-table-rules
   padding: 0
@@ -191,7 +191,7 @@
 
 // used for non-linked color icons
 .icon-no-color
-  @include varprop(color, body-font-color)
+  color: var(--body-font-color)
 
 
 #errorExplanation:before

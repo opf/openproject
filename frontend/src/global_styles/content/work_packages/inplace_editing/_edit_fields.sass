@@ -4,10 +4,10 @@
     .inline-edit--display-field,
     .inline-edit--field
       background: $nm-color-error-background
-      border-color: $nm-color-error-border
+      border-color: var(--content-form-danger-zone-bg-color)
 
       &:hover
-        border-color: lighten($nm-color-error-border, 10%)
+        border-color: lighten(var(--content-form-danger-zone-bg-color), 10%)
 
   form
     width: 100%

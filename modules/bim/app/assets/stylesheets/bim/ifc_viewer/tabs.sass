@@ -1,7 +1,7 @@
 // -------------------------- GENERIC --------------------------
 .ifc-model-viewer--tree-panel
   padding: 0 15px
-  @include varprop(color, main-menu-font-color)
+  color: var(--main-menu-font-color)
 
 // -------------------------- XEOKIT specific rules for TABS --------------------------
 .xeokit-tabs
@@ -18,10 +18,10 @@
 
     .xeokit-tab-btn
       border-bottom: 2px solid
-      @include varprop(border-color, main-menu-font-color)
+      border-color: var(--main-menu-font-color)
 
   .xeokit-form-check
-    @include varprop(color, main-menu-font-color)
+    color: var(--main-menu-font-color)
     @include text-shortener
 
   // As the button and the content are in the same container,
@@ -45,14 +45,14 @@
       margin-bottom: 10px
 
       .xeokit-btn
-        @include varprop(color, main-menu-font-color)
+        color: var(--main-menu-font-color)
         background-color: transparent
         border: 1px solid
-        @include varprop(border-color, main-menu-font-color)
+        border-color: var(--main-menu-font-color)
 
   .xeokit-tab-btn
     display: inline-block
-    @include varprop(color, main-menu-font-color)
+    color: var(--main-menu-font-color)
     font-weight: bold
     padding: 0 5px !important
 
@@ -79,18 +79,18 @@ $pill-padding-left: 8px
         height: 30px
         width: 20px
         // Workaround to hide the actual text of the link and show our icons instead
-        @include varprop(color, main-menu-bg-color)
+        color: var(--main-menu-bg-color)
 
         &:hover,
         &:focus,
         &:active,
         li:hover &
-          @include varprop(background-color, main-menu-bg-color)
-          @include varprop(color, main-menu-bg-color)
+          background-color: var(--main-menu-bg-color)
+          color: var(--main-menu-bg-color)
 
         &:before
           font-family: "openproject-icon-font" !important
-          @include varprop(color, main-menu-font-color)
+          color: var(--main-menu-font-color)
           font-size: 0.7rem
 
         &.plus:before
@@ -99,8 +99,8 @@ $pill-padding-left: 8px
           @include icon-mixin-arrow-down1
 
       .highlighted-node
-        @include varprop(background, main-menu-bg-selected-background)
-        @include varprop(color, main-menu-selected-font-color)
+        background: var(--main-menu-bg-selected-background)
+        color: var(--main-menu-selected-font-color)
         border-radius: 3px
 
       input
@@ -125,7 +125,7 @@ $pill-padding-left: 8px
       vertical-align: middle
 
     span
-      @include varprop(color, main-menu-font-color)
+      color: var(--main-menu-font-color)
       padding-left: 3px
       width: calc(100% - 16px)
       vertical-align: middle

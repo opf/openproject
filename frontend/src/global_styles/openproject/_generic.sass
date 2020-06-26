@@ -41,13 +41,13 @@
 
 // Table borders
 .-table-border-top
-  border-top: 1px solid $table-row-border-color
+  border-top: 1px solid var(--table-row-border-color)
 .-table-border-bottom
-  border-bottom: 1px solid $table-row-border-color
+  border-bottom: 1px solid var(--table-row-border-color)
 .-table-border-left
-  border-left: 1px solid $table-row-border-color
+  border-left: 1px solid var(--table-row-border-color)
 .-table-border-right
-  border-right: 1px solid $table-row-border-color
+  border-right: 1px solid var(--table-row-border-color)
 
 .autoscroll
   overflow-x: auto
@@ -75,7 +75,7 @@
 
 .other-formats
   font-size: 0.9em
-  color: $gray-dark
+  color: var(--gray-dark)
 
   span + span:before
     content: "| "
@@ -118,4 +118,4 @@
   z-index: 0 !important
 
 .-error-font
-  color: $content-form-error-color !important
+  color: var(--content-form-error-color) !important
