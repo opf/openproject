@@ -25,16 +25,6 @@ rm -rf /usr/local/src/bim || true
 mkdir -p /usr/local/src/bim
 cd /usr/local/src/bim
 
-# OpenCOLLADA
-echo "-- Downloading and building OpenCOLLADA --"
-git clone https://github.com/KhronosGroup/OpenCOLLADA.git --depth 1
-mkdir OpenCOLLADA/build
-pushd OpenCOLLADA/build
-cmake ..
-make -j
-make install
-popd
-
 # Install COLLADA2GLTF
 echo "-- Downloading COLLADA2GLTF --"
 wget --quiet https://github.com/KhronosGroup/COLLADA2GLTF/releases/download/v2.1.5/COLLADA2GLTF-v2.1.5-linux.zip
