@@ -39,7 +39,7 @@ The authentication endpoints are at
 
 The following CURL command fetches all projects from the API V3:
 
-`curl --location --request GET 'https://example.com/api/v3/projects' --header 'Authorization: Bearer <your-access-token>'
+`curl --location --request GET 'https://example.com/api/v3/projects' --header 'Authorization: Bearer <your-access-token>'`
 
 ## Using Postman with oauth?
 
