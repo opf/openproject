@@ -397,7 +397,7 @@ de:
     label_sum_for: "Summe für"
     label_subject: "Thema"
     label_this_week: "aktuelle Woche"
-    label_today: "Today"
+    label_today: "heute"
     label_time_entry_plural: "Aufgewendete Zeit"
     label_up: "Nach oben"
     label_user_plural: "Benutzer"
@@ -583,9 +583,6 @@ de:
       select_branch: 'Branch auswählen'
     field_value_enter_prompt: "Einen Wert für '%{field}' eingeben"
     project_menu_details: "Details"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Aufsteigende Sortierung angewendet, '
       sorted_dsc: 'Absteigende Sortierung angewendet, '
