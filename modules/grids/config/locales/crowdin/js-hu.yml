@@ -3,6 +3,7 @@ hu:
     grid:
       add_widget: 'Widget hozzáadása'
       remove: 'Widget eltávolítása'
+      configure: 'Configure widget'
       upsale:
         text: "Néhány kütyü, például a munkacsomag-grafikon-kütyü, csak a"
         link: 'enterprise edition.'
@@ -39,6 +40,7 @@ hu:
           no_results: "Nincsenek alprojektek\n"
         time_entries_current_user:
           title: 'Eltöltött idő rögzítése'
+          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Eltöltött idő (elmúlt 7 nap)'
           no_results: 'Az elmúlt 7 napra nincs bejegyzés.'
