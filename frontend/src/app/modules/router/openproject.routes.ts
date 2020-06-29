@@ -69,6 +69,12 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     url: '/backlogs',
     loadChildren: () => import('../backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
   },
+  {
+    name: 'reporting.**',
+    parent: 'root',
+    url: '/cost_reports',
+    loadChildren: () => import('../reporting/openproject-reporting.module').then(m => m.OpenprojectReportingModule)
+  },
 ];
 
 /**

@@ -115,8 +115,7 @@ module OpenProject::Reporting
       require_dependency 'cost_query/group_by'
     end
 
-    assets %w(reporting/reporting_styles.css
-              reporting/reporting.js)
+    assets %w(reporting/reporting.js)
 
     patches %i[TimelogController CustomFieldsController OpenProject::Configuration]
     patch_with_namespace :BasicData, :RoleSeeder

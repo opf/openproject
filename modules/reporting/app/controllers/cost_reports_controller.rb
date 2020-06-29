@@ -71,6 +71,8 @@ class CostReportsController < ApplicationController
 
   attr_accessor :cost_types, :unit_id, :cost_type
 
+  layout 'angular'
+
   # Checks if custom fields have been updated, added or removed since we
   # last saw them, to rebuild the filters and group bys.
   # Called once per request.

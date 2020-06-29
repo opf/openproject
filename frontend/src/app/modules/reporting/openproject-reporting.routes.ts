@@ -26,23 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
-import {UIRouterModule} from "@uirouter/angular";
-import {BacklogsPageComponent} from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
-import {BACKLOGS_ROUTES, uiRouterBacklogsConfiguration} from "core-app/modules/backlogs/openproject-backlogs.routes";
+import {Ng2StateDeclaration, UIRouter} from "@uirouter/angular";
+import {ReportingPageComponent} from "core-app/modules/reporting/reporting-page/reporting-page.component";
 
-@NgModule({
-  imports: [
-    // Routes for /backlogs
-    UIRouterModule.forChild({
-      states: BACKLOGS_ROUTES,
-      config: uiRouterBacklogsConfiguration
-    }),
-  ],
-  declarations: [
-    BacklogsPageComponent
-  ]
-})
-export class OpenprojectBacklogsModule {
+export const REPORTING_ROUTES:Ng2StateDeclaration[] = [
+  {
+    name: 'reporting',
+    parent: 'root',
+    // The trailing slash is important
+    // cf., https://community.openproject.com/wp/29754
+    url: '/cost_reports/',
+    component: ReportingPageComponent
+  },
+];
+
+export function uiRouterReportingConfiguration(uiRouter:UIRouter) {
+  // Ensure backlogs/ are being redirected correctly
+  // cf., https://community.openproject.com/wp/29754
+  uiRouter.urlService.rules
+    .when(
+      new RegExp("^/projects/(.*)/cost_reports$"),
+      match => `/projects/${match[1]}/cost_reports/`
+    );
 }
-

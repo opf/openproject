@@ -28,21 +28,24 @@
 
 import {NgModule} from '@angular/core';
 import {UIRouterModule} from "@uirouter/angular";
-import {BacklogsPageComponent} from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
-import {BACKLOGS_ROUTES, uiRouterBacklogsConfiguration} from "core-app/modules/backlogs/openproject-backlogs.routes";
+import {
+  REPORTING_ROUTES,
+  uiRouterReportingConfiguration
+} from "core-app/modules/reporting/openproject-reporting.routes";
+import {ReportingPageComponent} from "core-app/modules/reporting/reporting-page/reporting-page.component";
 
 @NgModule({
   imports: [
-    // Routes for /backlogs
+    // Routes for /cost_reports
     UIRouterModule.forChild({
-      states: BACKLOGS_ROUTES,
-      config: uiRouterBacklogsConfiguration
+      states: REPORTING_ROUTES,
+      config: uiRouterReportingConfiguration
     }),
   ],
   declarations: [
-    BacklogsPageComponent
+    ReportingPageComponent
   ]
 })
-export class OpenprojectBacklogsModule {
+export class OpenprojectReportingModule {
 }
 
