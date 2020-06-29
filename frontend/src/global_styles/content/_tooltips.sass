@@ -33,7 +33,6 @@
 $tooltip--background-color: #e3f5ff
 $tooltip--border: none
 $tooltip--height: 22px
-$tooltip--font-color: $body-font-color
 $tooltip--arrow-size: 6px
 $advanced-tooltip--border: 1px solid #a7cbe1
 
@@ -64,14 +63,14 @@ $advanced-tooltip--border: 1px solid #a7cbe1
       transform: translateY(50%)
       margin-bottom: 0
 
-@mixin tooltip--colorize($color: $tooltip--background-color, $textColor:$tooltip--font-color)
+@mixin tooltip--colorize($color: $tooltip--background-color, $textColor:var(--tooltip--font-color))
   @each $position in top, right, bottom, left
     &.tooltip--#{$position}
       &:before
         border-#{$position}-color: $color
       &:after
         background-color: $tooltip--background-color
-        color: $tooltip--font-color
+        color: var(--tooltip--font-color)
 
 [data-tooltip]
   position: relative

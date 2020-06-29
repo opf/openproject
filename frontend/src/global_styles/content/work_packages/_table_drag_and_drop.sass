@@ -2,7 +2,7 @@
 // Drag & Drop styles for the table
 //
 .wp--row.gu-mirror
-  border: 1px solid $table-row-border-color
+  border: 1px solid var(--table-row-border-color)
   border-radius: 5px
   background: white !important
 
@@ -22,8 +22,8 @@ html:not(.-browser-mobile)
     // Hide from viewers, but allow to be focused
     opacity: 0
     display: inline-block
-    height: calc(#{$table-timeline--row-height} - 1px)
-    line-height: calc(#{$table-timeline--row-height} - 1px)
+    height: calc(var(--table-timeline--row-height) - 1px)
+    line-height: calc(var(--table-timeline--row-height) - 1px)
 
 
   .issue:hover .wp-table-context-menu-icon,

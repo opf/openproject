@@ -40,7 +40,7 @@
 
 .wp-table--row,
 #empty-row-notification
-  height: $table-timeline--row-height
+  height: var(--table-timeline--row-height)
 
   // Hide collapsed rows (hierarchies, relations)
   &.-collapsed
@@ -80,7 +80,7 @@
 
 // Remove padding from grouping rows (exceeds allowed width of 41px)
 .wp-table--group-header
-  height: $table-timeline--row-height
+  height: var(--table-timeline--row-height)
   td
     padding: 0 !important
 

@@ -48,7 +48,7 @@ table
   &#time-report
     tbody tr
       font-style: italic
-      color: $body-font-color
+      color: var(--body-font-color)
       &.last-level
         font-style: normal
       &.total
@@ -153,16 +153,16 @@ th.hidden
 
 tr.context-menu-selection,
 tr.-checked
-  background-color: $table-row-highlighting-color !important
+  background-color: var(--table-row-highlighting-color) !important
   &[class*=__hl_background]
-    outline: $table-row-highlighting-outline-color solid 2px
+    outline: var(--table-row-highlighting-outline-color) solid 2px
 
   td
-    border-top: 1px solid $table-row-highlighting-color !important
-    border-bottom: 1px solid $table-row-highlighting-color !important
-    color: $body-font-color !important
+    border-top: 1px solid var(--table-row-highlighting-color) !important
+    border-bottom: 1px solid var(--table-row-highlighting-color) !important
+    color: var(--body-font-color) !important
     a
-      color: $body-font-color !important
+      color: var(--body-font-color) !important
 
 #custom-options-table
   .custom-option-value

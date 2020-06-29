@@ -301,7 +301,7 @@ $acronym-underline: 1px dotted #ddd !default;
   acronym {
     text-transform: uppercase;
     font-size: 90%;
-    color: $body-font-color;
+    color: var(--body-font-color);
     border-bottom: $acronym-underline;
     cursor: help;
   }

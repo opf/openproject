@@ -43,7 +43,7 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
     y: hidden
 
   &.-with-footer
-    padding-bottom: $generic-table--footer-height
+    padding-bottom: var(--generic-table--footer-height)
 
 .generic-table--results-container
   height:       100%
@@ -69,7 +69,7 @@ table.generic-table
   border-collapse: collapse
   width:  100%
   margin: 0
-  font-size: $generic-table--font-size
+  font-size: var(--generic-table--font-size)
 
   col
     &:hover,
@@ -77,13 +77,13 @@ table.generic-table
       background:   #f8f8f8
 
   thead
-    height: $generic-table--header-height
+    height: var(--generic-table--header-height)
 
     tr
       &:hover
         background: none
     th
-      font-size: $generic-table--header-font-size
+      font-size: var(--generic-table--header-font-size)
       text-transform: uppercase
       text-align: left
       line-height: 34px
@@ -97,15 +97,15 @@ table.generic-table
 
       a
         text-decoration: none
-        color: $body-font-color
+        color: var(--body-font-color)
         &:hover, &:active
           text-decoration: none
-          color: $body-font-color
+          color: var(--body-font-color)
 
       .-required:after
         @include default-transition
         content:  '*'
-        color:    $primary-color-dark
+        color:    var(--primary-color-dark)
         padding:  0 0.2rem
 
     .sort
@@ -139,7 +139,7 @@ table.generic-table
 
   tbody
     tr:not(.-no-highlighting)
-      border-bottom: 1px solid $table-row-border-color
+      border-bottom: 1px solid var(--table-row-border-color)
 
     td:not(.-no-ellipsis)
       @include text-shortener
@@ -189,7 +189,7 @@ table.generic-table
       &.info
         a
           text-decoration: none
-          color: $body-font-color
+          color: var(--body-font-color)
 
       &.buttons
         text-align: right
@@ -212,17 +212,17 @@ thead.-sticky th
 
 .generic-table--footer-outer
   padding:      0 6px
-  line-height:  $generic-table--footer-height
+  line-height:  var(--generic-table--footer-height)
   width:        100%
-  height:       $generic-table--footer-height
+  height:       var(--generic-table--footer-height)
 
 .generic-table--header-outer,
 .generic-table--sort-header-outer
   padding:      0 12px 0 6px
-  line-height:  $generic-table--header-height
-  height:  $generic-table--header-height
+  line-height:  var(--generic-table--header-height)
+  height:  var(--generic-table--header-height)
   z-index:      1
-  border-bottom: 1px solid $table-row-border-color
+  border-bottom: 1px solid var(--table-row-border-color)
 
   &:hover,
   &.hover
@@ -230,9 +230,9 @@ thead.-sticky th
 
 .generic-table--empty-header
   padding:       0 6px
-  height:        $generic-table--header-height
-  line-height:   $generic-table--header-height
-  border-bottom: 1px solid $table-row-border-color
+  height:        var(--generic-table--header-height)
+  line-height:   var(--generic-table--header-height)
+  border-bottom: 1px solid var(--table-row-border-color)
   z-index:       1
 
   // In case the table header contains invisible content for screen readers
@@ -262,7 +262,7 @@ thead.-sticky th
     width: 100%
     font-weight: bold
     &.-inactive
-      color: $button--active-font-color
+      color: var(--button--active-font-color)
       
   & > op-icon
     flex: 0 0 0

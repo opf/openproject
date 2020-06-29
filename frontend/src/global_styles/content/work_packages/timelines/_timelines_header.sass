@@ -2,7 +2,7 @@
 // That is why position: sticky in its children won't work
 wp-timeline-header
   display: block
-  height: $generic-table--header-height
+  height: var(--generic-table--header-height)
   width: 100%
   position: sticky
   top: 0
@@ -16,7 +16,7 @@ wp-timeline-header
   top: 0
   left: 0
   line-height: normal
-  border-right: 1px solid $timeline--header-border-color
+  border-right: 1px solid var(--timeline--header-border-color)
   text-align: center
   font-size: 8px
   // Clip overflow text to avoid overlapping or line breaking
@@ -24,21 +24,21 @@ wp-timeline-header
   white-space: nowrap
 
   &.-top-border
-    border-top: 1px solid $timeline--header-border-color
+    border-top: 1px solid var(--timeline--header-border-color)
 
 .wp-timeline--header-day-element
   height: 12px
   padding-top: 1px
-  border-bottom: 1px solid $timeline--header-border-color
+  border-bottom: 1px solid var(--timeline--header-border-color)
 
 .wp-timeline--header-middle-element
-  border-top: 1px solid $timeline--header-border-color
-  border-bottom: 1px solid $timeline--header-border-color
+  border-top: 1px solid var(--timeline--header-border-color)
+  border-bottom: 1px solid var(--timeline--header-border-color)
   padding-top: 5px
   height: 20px
 
 .wp-timeline--header-top-bold-element
-  border-top: 1px solid $timeline--header-border-color
+  border-top: 1px solid var(--timeline--header-border-color)
   font-weight: bold
   font-size: 11px
   height: 15px

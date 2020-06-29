@@ -49,8 +49,8 @@
 .inplace-edit--controls
   width: 80px
   height: 40px
-  background: $inplace-edit--dark-background
-  border: 1px solid $inplace-edit--color--very-dark
+  background: var(--inplace-edit--dark-background)
+  border: 1px solid var(--inplace-edit--color--very-dark)
   box-shadow: 2px 2px 4px var(--inplace-edit--border-color)
   text-align: center
   // Align controls via flex
@@ -61,7 +61,7 @@
 .inplace-edit--control--save[disabled] a,
 .inplace-edit--control--send[disabled] a
   background-color: var(--inplace-edit--bg-color--disabled)
-  color: $inplace-edit--color--disabled
+  color: var(--inplace-edit--color--disabled)
   cursor: not-allowed
 
 // A single save/cancel control
@@ -75,7 +75,7 @@
     line-height: 27px
     border: 1px solid transparent
     display: inline-block
-    color: $body-font-color
+    color: var(--body-font-color)
     text-decoration: none
 
     &:hover, &:active

@@ -27,17 +27,19 @@
   margin-right: 7px
   vertical-align: middle
   &.-not-set
-    border-color: $project-status-gray
-    background-color: adjust-color($project-status-gray, $alpha: -0.7)
+    // Have to use uppercase functions to make sass ignore them :-/
+    // https://github.com/sass/node-sass/issues/2251
+    border-color: RGB(var(--project-status-gray))
+    background-color: RGBA(var(--project-status-gray), 0.3)
   &.-off-track
-    border-color: $project-status-red
-    background-color: adjust-color($project-status-red, $alpha: -0.7)
+    border-color: var(--project-status-red)
+    background-color: RGBA(var(--project-status-gray), 0.3)
   &.-at-risk
-    border-color: $project-status-orange
-    background-color: adjust-color($project-status-orange, $alpha: -0.7)
+    border-color: var(--project-status-orange)
+    background-color: RGBA(var(--project-status-gray), 0.3)
   &.-on-track
-    border-color: $project-status-green
-    background-color: adjust-color($project-status-green, $alpha: -0.7)
+    border-color: var(--project-status-green)
+    background-color: RGBA(var(--project-status-gray), 0.3)
 
   &.-inline
     height: 24px
@@ -59,13 +61,13 @@
   text-transform: uppercase
   font-weight: bold
   &.-not-set
-    color: $project-status-gray
+    color: var(--project-status-gray)
   &.-off-track
-    color: $project-status-red
+    color: var(--project-status-red)
   &.-at-risk
-    color: $project-status-orange
+    color: var(--project-status-orange)
   &.-on-track
-    color: $project-status-green
+    color: var(--project-status-green)
 
 .project-status--pulldown-icon
   font-size: 10px

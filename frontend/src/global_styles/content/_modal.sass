@@ -27,12 +27,7 @@
 //++
 
 $ng-modal-padding: 3em
-$ng-modal-background: $body-background
-$ng-modal-close-color: $light-gray
 $ng-modal-image-height: 135px
-$ng-modal-image-width: $ng-modal-image-height
-$modal-header-height: var(--header-height)
-$modal-footer-height: $modal-header-height
 
 // The portal element of a modal element
 // ( = the outer element should span the entire view )
@@ -59,7 +54,7 @@ $modal-footer-height: $modal-header-height
 // This is placed within --portal
 .op-modal--modal-container
   transition: opacity 0.25s ease
-  background: $ng-modal-background
+  background: var(--body-background)
   position: relative
   padding: 5px $ng-modal-padding / 2
   min-width: 200px
@@ -79,14 +74,14 @@ $modal-footer-height: $modal-header-height
 .op-modal--modal-header
   display: flex
   align-items: center
-  height: $modal-header-height
+  height: var(--header-height)
   padding: 0 45px 0 0
   margin-bottom: 15px
-  border-bottom: 1px solid $light-gray
+  border-bottom: 1px solid var(--light-gray)
 
   *
-    height: $modal-header-height
-    line-height: $modal-header-height
+    height: var(--header-height)
+    line-height: var(--header-height)
 
   h2, h3
     border: none
@@ -96,7 +91,7 @@ $modal-footer-height: $modal-header-height
 .op-modal--modal-body
   margin: 1em 0
   padding: 0 1.5rem
-  max-height: calc(100vh - #{$modal-header-height} - #{$modal-footer-height})
+  max-height: calc(100vh - var(--header-height) - var(--header-height))
   overflow: auto
   @include styled-scroll-bar
 
@@ -178,13 +173,13 @@ ul.export-options
     a
       cursor: pointer
       text-decoration: none
-      color: $body-font-color
+      color: var(--body-font-color)
       font-weight: normal
       overflow-wrap: break-word
       word-wrap: break-word
       &:hover, &:active
         text-decoration: none
-        color: $body-font-color
+        color: var(--body-font-color)
       span.export-label
         display: block
         padding: 10px 0 0 0

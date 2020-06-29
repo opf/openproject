@@ -29,19 +29,18 @@
 div.wiki
   // ------------------- FONT -------------------
 
-  font-size: $wiki-default-font-size
-  $wiki-max-heading-font-size: $wiki-default-font-size * 1.75
+  font-size: var(--wiki-default-font-size)
 
   h1
-    font-size: $wiki-max-heading-font-size
+    font-size: calc(var(--wiki-default-font-size) * 1.75)
   h2
-    font-size: $wiki-max-heading-font-size * 0.8
+    font-size: calc(var(--wiki-default-font-size) * 1.75 * 0.8)
   h3
-    font-size: $wiki-max-heading-font-size * 0.7
+    font-size: calc(var(--wiki-default-font-size) * 1.75 * 0.7)
   h4
-    font-size: $wiki-max-heading-font-size * 0.6
+    font-size: calc(var(--wiki-default-font-size) * 1.75 * 0.6)
   h5
-    font-size: $wiki-max-heading-font-size * 0.5
+    font-size: calc(var(--wiki-default-font-size) * 1.75 * 0.5)
 
   h1, h2, h3, h4, h5
     margin: 1em 0
@@ -79,7 +78,7 @@ div.wiki
     margin-right: 12px
     margin-left: 0
     display: table
-    font-size: $wiki-toc-ul-font-size
+    font-size: var(--wiki-toc-ul-font-size)
 
     .section-nav
       margin-bottom: 0
@@ -113,7 +112,7 @@ div.wiki
 
   fieldset.collapsible legend
     font-weight: bold
-    font-size: $wiki-toc-header-font-size
+    font-size: var(--wiki-toc-header-font-size)
   img
     vertical-align: middle
 
@@ -136,13 +135,13 @@ h1:hover, h2:hover, h3:hover
 .wiki
   p
     margin-bottom: 1em
-    font-size: $wiki_default-font-size
+    font-size: var(--wiki_default-font-size)
 
   .quick_info .label
     background: none
     color: #000
     font-weight: bold
-    font-size: $wiki-default-font-size
+    font-size: var(--wiki-default-font-size)
 
   .wiki-title
     @include text-shortener

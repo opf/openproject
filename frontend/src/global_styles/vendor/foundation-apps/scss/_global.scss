@@ -87,7 +87,7 @@ $foundation-colors: (
   // Default body styles
   body {
     background: $body-background;
-    color: $body-font-color;
+    color: var(--body-font-color);
     padding: 0;
     margin: 0;
     font-family: $body-font-family;

@@ -15,7 +15,7 @@
   position: absolute
   right: 20px
   background: white
-  top: calc(#{$generic-table--header-height} + 10px)
+  top: calc(#{var(--generic-table--header-height)} + 10px)
   border: 1px solid #D7D7D7
   box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.2)
   z-index: 200
@@ -42,8 +42,8 @@
   position: absolute
   width: 100%
   // Position 45px below header
-  top: $generic-table--header-height
-  height: calc(100% - #{$generic-table--header-height})
+  top: var(--generic-table--header-height)
+  height: calc(100% - var(--generic-table--header-height))
   // Disable pointer-events to allow cells to handle them
   pointer-events: none
 
@@ -53,18 +53,18 @@
 
 // Add bottom border to timeline
 .wp-table-timeline--body
-  outline: 1px solid $table-row-border-color
+  outline: 1px solid var(--table-row-border-color)
 
 .wp-timeline-cell
   // Ensure the height of table and timeline rows
-  height: $table-timeline--row-height
+  height: var(--table-timeline--row-height)
   // Vertically center elements
   display: flex
   align-items: center
 
   &:first-child
     // The first table child is 1px larger
-    height: calc(#{$table-timeline--row-height} + 1px)
+    height: calc(var(--table-timeline--row-height) + 1px)
 
   // Need to disable flex behavior on children
   > div
@@ -78,4 +78,4 @@
 
 // Add margin to timeline when inline-create link is showing in table
 .wp-table-timeline--body.-inline-create-mirror
-  margin-bottom: $table-timeline--row-height
+  margin-bottom: var(--table-timeline--row-height)

@@ -10,7 +10,7 @@ a.inplace-editing--trigger-link,
   &:focus,
   &.-focus
     text-decoration: none
-    color: $body-font-color
+    color: var(--body-font-color)
 
     &.-active
       border-color: transparent
@@ -40,7 +40,7 @@ a.inplace-editing--trigger-link,
   // Styles the comment trigger link similar to attachment
   // but without icon and actual link
   a.inplace-editing--trigger-link
-    color: $body-font-color
+    color: var(--body-font-color)
     font-style: italic
 
 // The trigger text left to the edit icon
@@ -60,7 +60,7 @@ a.inplace-editing--trigger-link,
   width: 32px
   background: $gray-light
   border-left: 1px solid var(--inplace-edit--border-color)
-  color: $body-font-color
+  color: var(--body-font-color)
   visibility: hidden
 
   i
