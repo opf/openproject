@@ -31,12 +31,12 @@ RSpec.describe DesignColor, type: :model do
   describe "#get_hexcode" do
     it "returns hexcode if present" do
       primary_color
-      expect(primary_color.get_hexcode).to eq("#3493B3")
+      expect(primary_color.hexcode).to eq("#3493B3")
     end
 
-    it "returns default hexcode if hexcode not present" do
-      expect(described_class.new(variable: "primary-color").get_hexcode)
-        .to eq(default_primary)
+    it "returns nil hexcode if hexcode not present" do
+      expect(described_class.new(variable: "primary-color").hexcode)
+        .to be_Nil
     end
   end
 
