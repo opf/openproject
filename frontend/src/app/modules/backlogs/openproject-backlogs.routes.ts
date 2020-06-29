@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2020 the OpenProject GmbH
 //
@@ -6,7 +6,7 @@
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -24,48 +24,28 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/***** Ajax indicator *****
+import {Ng2StateDeclaration, UIRouter} from "@uirouter/angular";
+import {BacklogsPageComponent} from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
 
-#ajax-indicator
-  position: absolute
-  /* fixed not supported by IE
-  background-color: #eee
-  border: 1px solid #bbb
-  top: 35%
-  left: 40%
-  width: 20%
-  font-weight: bold
-  text-align: center
-  padding: 0.6em
-  z-index: 100
-  opacity: 0.5
+export const BACKLOGS_ROUTES:Ng2StateDeclaration[] = [
+  {
+    name: 'backlogs',
+    parent: 'root',
+    // The trailing slash is important
+    // cf., https://community.openproject.com/wp/29754
+    url: '/backlogs/',
+    component: BacklogsPageComponent
+  },
+];
 
-html > body #ajax-indicator
-  position: fixed
-
-#ajax-indicator span, .ajax-indicator
-  background-position: 0% 40%
-  background-repeat: no-repeat
-  background-image: url('~assets/images/loading.gif')
-  padding-left: 26px
-  vertical-align: bottom
-
-.ajax_appended_information.loading .ajax-indicator
-  padding-left: 22px
-  display: block
-  width: 0
-  margin-left: auto
-  margin-right: auto
-  white-space: nowrap
-
-/***** Ajax indicator *****
-
-// FIXME: find out which values actually apply
-#ajax-indicator
-  position: absolute
-  /* fixed not supported by IE
-  background-color: #d9d9d9
-  border: 1px solid #8f8f8f
-  opacity: 0.7
+export function uiRouterBacklogsConfiguration(uiRouter:UIRouter) {
+  // Ensure backlogs/ are being redirected correctly
+  // cf., https://community.openproject.com/wp/29754
+  uiRouter.urlService.rules
+    .when(
+      new RegExp("^/projects/(.*)/backlogs$"),
+      match => `/projects/${match[1]}/backlogs/`
+    );
+}

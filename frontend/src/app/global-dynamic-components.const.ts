@@ -134,6 +134,10 @@ import {
   TriggerActionsEntryComponent,
   triggerActionsEntryComponentSelector
 } from "core-app/modules/time_entries/edit/trigger-actions-entry.component";
+import {
+  BacklogsPageComponent,
+  backlogsPageComponentSelector
+} from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -175,6 +179,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
+  { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
 ];
 
 

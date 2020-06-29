@@ -54,7 +54,10 @@ require('@uirouter/angular');
 // Jquery UI
 require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position.js');
+require('jquery-ui/ui/disable-selection.js');
+require('jquery-ui/ui/widgets/sortable.js');
 require('jquery-ui/ui/widgets/autocomplete.js');
+require('jquery-ui/ui/widgets/dialog.js');
 require('jquery-ui/ui/widgets/tooltip.js');
 
 require('expose-loader?moment!moment');

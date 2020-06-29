@@ -26,9 +26,8 @@
  * See docs/COPYRIGHT.rdoc for more details.  ++
  */
 
-// Todo for task #33508
-@import "../../../frontend/src/global_styles/openproject/variables"
-@import "../../../frontend/src/global_styles/openproject/functions"
+@import "~global_styles/openproject/variables"
+@import "~global_styles/openproject/functions"
 
 @mixin story-header
   background-color: #FFFFFF
@@ -61,7 +60,7 @@
   line-height: inherit
   white-space: inherit
 
-#rb
+#rb #taskboard
   overflow-x: auto
   #assigned_to_id_options
     display: none
@@ -182,6 +181,7 @@
       display: none
 
     &.saving .indicator
+      background-image: url('~assets/images/loading.gif')
       background-color: #FFFFFF
       background-position: center
       background-repeat: no-repeat
@@ -192,7 +192,6 @@
       left: 36px
       top: 38px
       width: 16px
-      background-image: image-url("loading.gif")
       display: block
 
     &.error .indicator
