@@ -37,8 +37,6 @@ import {Injectable} from "@angular/core";
 
 @Injectable()
 export abstract class WorkPackageViewBaseService<T> {
-  id = Math.random();
-
   /** Internal state to push non-persisted updates */
   protected updatesState = input<T>();
 
