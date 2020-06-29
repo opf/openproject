@@ -89,24 +89,24 @@ ja:
       no_results_content_text: 新しい認証モードを作成
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      この LDAP フォームには、LDAP / Active Directory の設定に関する技術的な知識が必要です。
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">詳細な手順について</a> 
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: LDAP接続の任意の名称
+      host: LDAPのホスト名または IP アドレス
+      login_map: ユーザー固有のログイン情報を識別するために使用されるLDAPの属性キーです。通常は、`uid` または `samAccountName` になります。
+      generic_map: OpenProject`%{attribute}`属性にマップされているLDAPの属性キーです。
+      admin_map_html: "オプション: LDAPの属性キー。 <strong>存在する場合</strong> はOpenProjectユーザーを管理者としてマークします。疑わしい場合は空のままにします。"
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        読み取り専用アクセスに利用するシステムユーザの DN を入力します。
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        例: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: システムユーザーの Bind パスワードを入力してください
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        OpenProjectがユーザーとグループを探すように、サブツリーのベースDNをLDAPに入力します。
+        OpenProject は、このサブツリー内の指定されたユーザー名のみをフィルタリングします。
+        例: ou=users,dc=example,dc=com
       filter_string: |
         Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
         This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
@@ -114,19 +114,17 @@ ja:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
       onthefly_group_sync: |
         If you enable group synchronization for this LDAP connection, users will also be automatically created
         in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: '接続の暗号化'
-    system_account: 'System account'
+    system_account: 'システムアカウント'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject は、LDAP ツリー内のユーザーとグループを検索するために、システムアカウントを介して読み取り専用アクセスを必要とします。
+      次のセクションで、システムユーザのバインド資格情報を指定してください。
+    ldap_details: 'LDAPに関する詳細'
+    user_settings: '属性のマッピング'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
