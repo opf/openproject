@@ -53,7 +53,7 @@
   --h2-font-color: var(--body-font-color);
   --h3-font-size: 1.125rem;
   --h3-font-color: var(--body-font-color);
-  --h4-font-size: calc(#{h3-font-size} * 0.75);
+  --h4-font-size: calc(var(--h3-font-size) * 0.75);
   --h4-font-color: var(--body-font-color);
   --list-side-margin: 40px;
   --list-nested-margin: 30px;
@@ -139,7 +139,7 @@
   --context-menu-hover-font-color: var(--drop-down-hover-font-color);
   --action-menu-bg-color: #FFFFFF;
   --wiki-default-font-size: 1rem;
-  --wiki-toc-header-font-size: calc(#{wiki-default-font-size} * 0.6);
+  --wiki-toc-header-font-size: calc(var(--wiki-default-font-size) * 0.6);
   --wiki-toc-ul-font-size: var(--wiki-default-font-size);
   --journal-attribute-font-size: 11px;
   --repository-entry-filename-margin-left: 24px;
