@@ -35,12 +35,17 @@ module Design
     end
 
     def call
-      set_logo
-      set_colors
-      set_theme
+      CustomStyle.transaction do
+        set_logo
+        set_colors
+        set_theme
 
-      ServiceResult.new success: custom_style.save,
-                        result: custom_style
+        custom_style.save!
+
+        ServiceResult.new success: true, result: custom_style
+      end
+    rescue StandardError => e
+      ServiceResult.new success: false, message: e.message
     end
 
     private
@@ -51,6 +56,11 @@ module Design
 
     def set_colors
       return unless params[:colors]
+
+      # reset all colors if a new theme is set
+      if params[:theme].present?
+        DesignColor.delete_all
+      end
 
       params[:colors].each do |param_variable, param_hexcode|
         if design_color = DesignColor.find_by(variable: param_variable)
