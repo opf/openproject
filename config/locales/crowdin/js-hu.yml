@@ -397,7 +397,7 @@ hu:
     label_sum_for: "Összeg"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
-    label_today: "Today"
+    label_today: "Ma"
     label_time_entry_plural: "Eltöltött idő"
     label_up: "Fel"
     label_user_plural: "Felhasználók"
@@ -583,9 +583,6 @@ hu:
       select_branch: 'Branch kiválasztása'
     field_value_enter_prompt: "Adja meg az értéket a %{field} mezőhöz"
     project_menu_details: "Részletek"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Növekvő sorrend alkalmazása, '
       sorted_dsc: 'Csökkenő rendezés alkalmazva, '

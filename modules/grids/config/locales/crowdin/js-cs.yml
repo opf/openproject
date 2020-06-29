@@ -3,7 +3,6 @@ cs:
     grid:
       add_widget: 'Add widget'
       remove: 'Remove widget'
-      configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -40,7 +39,6 @@ cs:
           no_results: 'No subprojects.'
         time_entries_current_user:
           title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Strávený čas (posledních 7 dní)'
           no_results: 'Žádné záznamy za posledních 7 dní.'

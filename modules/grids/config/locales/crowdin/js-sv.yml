@@ -3,7 +3,6 @@ sv:
     grid:
       add_widget: 'Lägg till widget'
       remove: 'Ta bort widget'
-      configure: 'Configure widget'
       upsale:
         text: "Vissa widgets, som t ex widgeten med graf över arbetspaket är endast tillgängliga i "
         link: 'enterprise Edition.'
@@ -40,7 +39,6 @@ sv:
           no_results: 'Inga delprojekt.'
         time_entries_current_user:
           title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Spenderad tid (senaste 7 dagarna)'
           no_results: 'Inga tidsinlägg för de senaste 7 dagarna.'

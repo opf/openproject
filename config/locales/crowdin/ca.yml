@@ -414,7 +414,6 @@ ca:
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
-        templated: 'Template project'
       projects/status:
         code: 'Estat'
         explanation: 'Status description'
@@ -486,7 +485,6 @@ ca:
         parent_work_package: "Pare"
         priority: "Prioritat"
         progress: "Progrés (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
         subproject: "Subprojecte"
@@ -884,7 +882,6 @@ ca:
       - "Oct"
       - "Nov"
       - "Des"
-    abbr_week: 'Wk'
     day_names:
       - "Diumenge"
       - "Dilluns"
@@ -1947,12 +1944,6 @@ ca:
       warning_one: Els membres del projecte hauran de reubicar els repositoris del projecte.
       warning_two: Els vncles existents al projecte ja no funcionaran.
       title: Canviar l'identificador del projecte
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Esteu segur que voleu arxivar el projecte \"%{name}\"?"
       archived: "Archived"
