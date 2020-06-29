@@ -65,13 +65,10 @@ export abstract class WorkPackageViewBaseService<T> {
    */
   public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
     const initial = this.valueFromQuery(query, results)!;
-    // console.log('WorkPackageViewBaseService initialize: ', this.id, query, results);
     this.pristineState.putValue(initial);
   }
 
   public update(value:T) {
-    console.log('WorkPackageViewBaseService update: ', value);
-
     this.updatesState.putValue(value);
   }
 

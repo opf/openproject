@@ -33,9 +33,10 @@ describe 'BIM Revit Add-in navigation spec',
          with_config: { edition: 'bim' },
          js: true,
          driver: :chrome_headless_revit_addin do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
   let(:user) do
     FactoryBot.create :user,
@@ -59,7 +60,17 @@ describe 'BIM Revit Add-in navigation spec',
     model_page.model_viewer_visible false
   end
 
-  it 'has no viewer options' do
-    model_page.has_no_menu_item_with_text? 'Viewer'
+  it 'shows a toolbar' do
+    model_page.page_shows_a_toolbar true
+  end
+  
+  it 'menu has no viewer options' do
+    model_page.has_no_menu_item_with_text 'Viewer'
+  end
+
+  it 'can switch to the Table view mode' do
+    model_page.switch_view 'Table'
+    expect(page).to have_selector('.work-package-table')
+    wp_table.expect_work_package_listed work_package
   end
 end
