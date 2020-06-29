@@ -1,7 +1,7 @@
 @font-face {
 	font-family: "openproject-icon-font";
-	src: url("assets/fonts/openproject_icon/openproject-icon-font.woff2") format("woff2"),
-       url("assets/fonts/openproject_icon/openproject-icon-font.woff") format("woff");
+	src: url("~assets/fonts/openproject_icon/openproject-icon-font.woff2") format("woff2"),
+       url("~assets/fonts/openproject_icon/openproject-icon-font.woff") format("woff");
 }
 
 @mixin icon-mixin-accessibility {

@@ -156,10 +156,8 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'autoprefixer-rails', '~> 9.7.4'
 gem 'i18n-js', '~> 3.6.0'
 gem 'rails-i18n', '~> 6.0.0'
-gem 'sassc-rails', '~> 2.1.0'
 gem 'sprockets', '~> 3.7.0'
 
 # required by Procfile, for deployment on heroku or packaging with packager.io.
@@ -244,8 +242,6 @@ group :development do
 
   gem 'faker'
   gem 'letter_opener'
-  # Todo for task #33508
-  #gem 'livingstyleguide', '~> 2.1.0'
 
   gem 'spring'
   gem 'spring-commands-rspec'
