@@ -46,9 +46,7 @@ module Design
     private
 
     def set_logo
-      return unless params[:logo]
-
-      custom_style.theme_logo = params[:logo]
+      custom_style.theme_logo = params[:logo].presence
     end
 
     def set_colors
@@ -71,9 +69,7 @@ module Design
     end
 
     def set_theme
-      return unless params[:theme]
-
-      custom_style.theme = params[:theme]
+      custom_style.theme = params[:theme].presence
     end
 
     def custom_style

@@ -123,7 +123,7 @@ class CustomStylesController < ApplicationController
 
   def options_for_theme_select
     options = OpenProject::CustomStyles::ColorThemes.themes.map { |val| val[:theme] }
-    options << [t('admin.custom_styles.color_theme_custom'), '', disabled: true] if @current_theme.empty?
+    options << [t('admin.custom_styles.color_theme_custom'), '', selected: true, disabled: true] unless @current_theme.present?
 
     options
   end

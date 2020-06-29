@@ -46,7 +46,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
 
       <%= styled_button_tag t(:button_save),
-                            data:({ confirm: t('admin.custom_styles.theme_warning') } if @current_theme.empty?) %>
+                            data:({ confirm: t('admin.custom_styles.theme_warning') } unless @current_theme.present?) %>
     </fieldset>
   </section>
 <% end %>
@@ -157,7 +157,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= form_tag update_design_colors_path, method: :post, class: "form" do %>
   <section class="form--section">
-    <fieldset class="form--fieldset -collapsible <%= 'collapsed' unless @current_theme.empty?  %> ">
+    <fieldset class="form--fieldset -collapsible <%= 'collapsed' if @current_theme.present?  %> ">
       <legend class="form--fieldset-legend"><%= I18n.t(:label_advanced_settings) %></legend>
 
       <% DesignColor.setables.each do |design_color|  %>
