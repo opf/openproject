@@ -96,15 +96,15 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
                         switch (key) {
                           // This project controls the view representation of the data through
                           // the wpDisplayRepresentation service that modifies the QuerySpace
-                          // to inform the component about which display mode is active
-                          // (this.querySpace.query.live$).
+                          // to inform the rest of the app about which display mode is currently
+                          // active (this.querySpace.query.live$).
                           // Under the hood it is done by modifying the params of actual route.
-                          // Because of that, it is no possible to call this.state.go and
+                          // Because of that, it is not possible to call this.state.go and
                           // this.wpDisplayRepresentation.setDisplayRepresentation at the same
                           // time, it raises a route error (The transition has been superseded by 
-                          // a different transition...). Is this why we are passing a cards params
-                          // to inform the view about the display representation mode it has to 
-                          // show (cards or list).
+                          // a different transition...). To avoid this error, we are passing
+                          // a cards params to inform the view about the display representation mode
+                          // it has to show (cards or list).
                           case bimListViewIdentifier:
                               this.state.go('bim.partitioned.list', {cards: true});
                             break;
