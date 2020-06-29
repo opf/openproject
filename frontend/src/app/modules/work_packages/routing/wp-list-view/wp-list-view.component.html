@@ -1,14 +1,14 @@
 <div class="result-overlay"
-     *ngIf="(showResultOverlay$ | async) && showListView"></div>
+     *ngIf="(showResultOverlay$ | async) && showTableView"></div>
 
 <!-- TABLE + TIMELINE horizontal split -->
-<wp-table *ngIf="tableInformationLoaded && showListView"
+<wp-table *ngIf="tableInformationLoaded && showTableView"
           [projectIdentifier]="CurrentProject.identifier"
           [configuration]="wpTableConfiguration"
           class="work-packages-split-view--tabletimeline-content"></wp-table>
 
 <!-- GRID representation of the WP -->
-<div *ngIf="!showListView"
+<div *ngIf="!showTableView"
      class="work-packages--card-view-container"
      [ngClass]="{ '-with-resizer': showResizerInCardView() }" >
   <wp-grid [configuration]="wpTableConfiguration"

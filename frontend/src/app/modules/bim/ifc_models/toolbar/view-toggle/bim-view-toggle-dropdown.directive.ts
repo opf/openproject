@@ -78,7 +78,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
     const current = this.bimView.current;
     const viewRoute = this.state.current.data.viewRoute;
     let items = this.viewerBridgeService.shouldShowViewer ?
-                  [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewIdentifier] :
+                  [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewIdentifier, bimTableViewIdentifier] :
                   [bimListViewIdentifier, bimTableViewIdentifier];
 
     this.items = items
@@ -94,19 +94,22 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
                         }
 
                         switch (key) {
+                          // This project controls the view representation of the data through
+                          // the wpDisplayRepresentation service that modifies the QuerySpace
+                          // to inform the component about which display mode is active
+                          // (this.querySpace.query.live$).
+                          // Under the hood it is done by modifying the params of actual route.
+                          // Because of that, it is no possible to call this.state.go and
+                          // this.wpDisplayRepresentation.setDisplayRepresentation at the same
+                          // time, it raises a route error (The transition has been superseded by 
+                          // a different transition...). Is this why we are passing a cards params
+                          // to inform the view about the display representation mode it has to 
+                          // show (cards or list).
                           case bimListViewIdentifier:
-                            console.log('this.state.current: ', this.state.current);
-                            this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayCardRepresentation);
-                            if (this.state.current.name !== 'bim.partitioned.list') {
-                              this.state.go('bim.partitioned.list');
-                            }
+                              this.state.go('bim.partitioned.list', {cards: true});
                             break;
                             case bimTableViewIdentifier:
-                            console.log('this.state.current 2: ', this.state.current);
-                            this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayListRepresentation);
-                            if (this.state.current.name !== 'bim.partitioned.list') {
-                              this.state.go('bim.partitioned.list');
-                            }
+                              this.state.go('bim.partitioned.list', {cards: false});
                             break;
                           case bimViewerViewIdentifier:
                             this.state.go('bim.partitioned.model');
