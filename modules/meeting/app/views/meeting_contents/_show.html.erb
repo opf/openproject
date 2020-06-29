@@ -67,5 +67,3 @@ See docs/COPYRIGHT.rdoc for more details.
   <% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
   <%= list_attachments(resource) %>
 <% end %>
-
-<%= render :partial => 'shared/meeting_header' %>

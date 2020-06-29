@@ -93,7 +93,7 @@ module OpenProject::Bim
 
     class_inflection_override('v2_1' => 'V2_1')
 
-    assets %w(bim/bcf.css bim/logo_openproject_bim_big.png bim/ifc_viewer/generic.css)
+    assets %w(bim/logo_openproject_bim_big.png)
 
     patches %i[WorkPackage Type Journal RootSeeder Project]
 

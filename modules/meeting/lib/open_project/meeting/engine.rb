@@ -82,10 +82,6 @@ module OpenProject::Meeting
       Rails.application.config.assets.precompile += %w(meeting/meeting.css meeting/meeting.js)
     end
 
-    initializer 'meeting.register_hooks' do
-      require 'open_project/meeting/hooks'
-    end
-
     initializer 'meeting.register_latest_project_activity' do
       Project.register_latest_project_activity on: 'Meeting',
                                                attribute: :updated_at
