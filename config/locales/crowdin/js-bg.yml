@@ -584,9 +584,6 @@ bg:
       select_branch: 'Изберете клон'
     field_value_enter_prompt: "Въведете стойност за '%{field}'"
     project_menu_details: "Подробности"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -874,7 +871,6 @@ bg:
       label_delete_page: "Изтриване на текущата страница"
       button_apply: "Приложи"
       button_save: "Запази"
-      button_clear_all: "Clear all"
       button_submit: "Изпрати"
       button_cancel: "Отказ"
       form_submit:

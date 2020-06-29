@@ -30,6 +30,7 @@ import {ResourcesDisplayField} from "./resources-display-field.module";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
+import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 
 export class MultipleUserFieldModule extends ResourcesDisplayField {
   @InjectField() avatarRenderer:UserAvatarRendererService;
@@ -52,13 +53,16 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
    */
   protected renderValues(values:UserResource[], element:HTMLElement) {
     const content = document.createDocumentFragment();
+    const divContainer = document.createElement('div');
+    divContainer.classList.add(cssClassCustomOption);
+    content.appendChild(divContainer);
 
-    this.renderAbridgedValues(element, values);
+    this.renderAbridgedValues(divContainer, values);
 
     if (values.length > 2) {
       const dots = document.createElement('span');
       dots.innerHTML = '... ';
-      content.appendChild(dots);
+      divContainer.appendChild(dots);
 
       const badge = this.optionDiv(values.length.toString(), 'badge', '-secondary');
       content.appendChild(badge);

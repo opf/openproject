@@ -15,10 +15,10 @@ lt:
       file_invalid: "Neteisingas BCF failas"
     x_bcf_issues:
       zero: 'Nėra BCF trūkumų'
-      one: 'One BCF issue'
-      few: '%{count} BCF issues'
-      many: '%{count} BCF issues'
-      other: '%{count} BCF issues'
+      one: 'Vienas BCF trūkumas'
+      few: '%{count} BCF trūkumai'
+      many: '%{count} BCF trūkumų'
+      other: '%{count} BCF trūkumai'
     bcf_xml:
       xml_file: 'BCF XML failas'
       import_title: 'Importuoti'

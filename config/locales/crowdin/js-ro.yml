@@ -583,9 +583,6 @@ ro:
       select_branch: 'Selectare ramură'
     field_value_enter_prompt: "Introduceţi o valoare pentru '%{field}'"
     project_menu_details: "Detalii"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Sortare ascendentă aplicată '
       sorted_dsc: 'Sortare descendentă aplicată '
@@ -873,7 +870,6 @@ ro:
       label_delete_page: "Ştergeți pagina curentă"
       button_apply: "Salvare"
       button_save: "Salvare"
-      button_clear_all: "Clear all"
       button_submit: "Trimitere"
       button_cancel: "Anulare"
       form_submit:
