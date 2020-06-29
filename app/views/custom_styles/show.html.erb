@@ -166,13 +166,15 @@ See docs/COPYRIGHT.rdoc for more details.
           <span class="form--field-container">
             <div class="form--field-affix">
               <%= icon_for_color(OpenStruct.new(variable: design_color.variable,
-                                                hexcode: design_color.get_hexcode),
+                                                hexcode: design_color.hexcode),
                                  data: { target: "#design_colors_" + design_color.variable }) %>
             </div>
             <span class="form--text-field-container">
               <%= styled_text_field_tag "design_colors[]" + design_color.variable,
                                         design_color.hexcode,
-                                        placeholder: DesignColor.defaults[design_color.variable] %>
+                                        class: 'design-color--variable-input',
+                                        data: {  'variable-name': design_color.variable }
+              %>
             </span>
           </span>
           <div class="form--field-instructions">
@@ -188,4 +190,17 @@ See docs/COPYRIGHT.rdoc for more details.
 
     </fieldset>
   </section>
+
+  <%# Fill in the computed css variables in the inputs as their defaults %>
+  <%= nonced_javascript_tag do %>
+    var computedStyle = getComputedStyle(document.documentElement);
+
+    document
+      .querySelectorAll('.design-color--variable-input')
+      .forEach(function(el) {
+      if (!el.value || el.value === '') {
+        el.placeholder = computedStyle.getPropertyValue('--' + el.dataset.variableName).trim();
+      }
+    });
+  <% end %>
 <% end %>
