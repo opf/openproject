@@ -17,7 +17,7 @@
 /// @Foundation.settings
 // Typography
 // We use these to control header font styles
-$header-font-family: $body-font-family !default;
+$header-font-family: var(--body-font-family) !default;
 $header-font-weight: $font-weight-normal !default;
 $header-font-style: $font-weight-normal !default;
 $header-font-color: #222 !default;
@@ -208,12 +208,12 @@ $acronym-underline: 1px dotted #ddd !default;
     }
   }
 
-  h1 { font-size: $h1-font-size - $h1-font-reduction; }
-  h2 { font-size: $h2-font-size - $h2-font-reduction; }
-  h3 { font-size: $h3-font-size - $h3-font-reduction; }
-  h4 { font-size: $h4-font-size - $h4-font-reduction; }
-  h5 { font-size: $h5-font-size - $h5-font-reduction; }
-  h6 { font-size: $h6-font-size - $h6-font-reduction; }
+  h1 { font-size: var(--h1-font-size) - $h1-font-reduction; }
+  h2 { font-size: var(--h2-font-size) - $h2-font-reduction; }
+  h3 { font-size: var(--h3-font-size) - $h3-font-reduction; }
+  h4 { font-size: var(--h4-font-size) - $h4-font-reduction; }
+  h5 { font-size: var(--h5-font-size) - $h5-font-reduction; }
+  h6 { font-size: var(--h6-font-size) - $h6-font-reduction; }
 
   .subheader { @include subheader; }
 
@@ -337,11 +337,11 @@ $acronym-underline: 1px dotted #ddd !default;
 
   @include breakpoint(medium) {
     h1,h2,h3,h4,h5,h6 { line-height: $header-line-height; }
-    h1 { font-size: $h1-font-size; }
-    h2 { font-size: $h2-font-size; }
-    h3 { font-size: $h3-font-size; }
-    h4 { font-size: $h4-font-size; }
-    h5 { font-size: $h5-font-size; }
-    h6 { font-size: $h6-font-size; }
+    h1 { font-size: var(--h1-font-size); }
+    h2 { font-size: var(--h2-font-size); }
+    h3 { font-size: var(--h3-font-size); }
+    h4 { font-size: var(--h4-font-size); }
+    h5 { font-size: var(--h5-font-size); }
+    h6 { font-size: var(--h6-font-size); }
   }
 }

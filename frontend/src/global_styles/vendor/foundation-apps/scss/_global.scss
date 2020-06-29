@@ -86,11 +86,11 @@ $foundation-colors: (
 
   // Default body styles
   body {
-    background: $body-background;
+    background: var(--body-background);
     color: var(--body-font-color);
     padding: 0;
     margin: 0;
-    font-family: $body-font-family;
+    font-family: var(--body-font-family);
     font-weight: $body-font-weight;
     font-style: $body-font-style;
     line-height: 1;
