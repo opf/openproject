@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,20 +27,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 module Bim
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::Bim::BasicData::RoleSeeder,
-        ::Bim::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::Bim::BasicData::CustomStyleSeeder,
-        ::Bim::BasicData::WorkflowSeeder,
-        ::Bim::BasicData::PrioritySeeder,
-        ::Bim::BasicData::SettingSeeder,
-        ::Bim::BasicData::ThemeSeeder
-      ]
+  module BasicData
+    class ThemeSeeder < Seeder
+      def seed_data!
+        theme = OpenProject::CustomStyles::ColorThemes.themes.find { |t| t[:theme] == 'OpenProject BIM' }
+
+        ::Design::UpdateDesignService
+          .new(theme)
+          .call
+      end
     end
   end
 end

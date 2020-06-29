@@ -96,7 +96,7 @@ module OpenProject::CustomStyles
       }
     ].freeze
 
-    def themes
+    def self.themes
       THEMES
     end
   end
