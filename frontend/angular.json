@@ -93,9 +93,12 @@
             "karmaConfig": "./karma.conf.js",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass/"
+              ]
+            },
             "assets": []
           }
         },
