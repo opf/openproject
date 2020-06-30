@@ -26,11 +26,11 @@ import {pluck, distinctUntilChanged, filter} from "rxjs/operators";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BcfListContainerComponent extends WorkPackageListViewComponent implements OnInit {  
+export class BcfListContainerComponent extends WorkPackageListViewComponent implements OnInit {
   @InjectField() bimView:BimViewService;
   @InjectField() ifcModelsService:IfcModelsDataService;
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
-  @InjectField() uIRouterGlobals:UIRouterGlobals
+  @InjectField() uIRouterGlobals:UIRouterGlobals;
 
   public wpTableConfiguration = {
     dragAndDropEnabled: false
@@ -43,9 +43,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     // until we can load the initial query
     this.wpTableColumns
           .onReady()
-          .then(() => {
-            this.wpTableColumns.addColumn('bcfThumbnail', 2);
-          });
+          .then(() => this.wpTableColumns.addColumn('bcfThumbnail', 2));
 
     this.uIRouterGlobals
           .params$!
@@ -64,7 +62,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
             this.cdRef.detectChanges();
           });
   }
-  
+
   protected updateViewRepresentation(query:QueryResource) {
     if (this.wpDisplayRepresentation.current === null) {
       this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayCardRepresentation);

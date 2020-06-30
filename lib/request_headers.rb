@@ -4,7 +4,8 @@ end
 
 class RequestHeaders
   def initialize(app, helper = nil)
-    @app, @helper = app, helper
+    @app = app
+    @helper = helper
   end
 
   def call(env)
@@ -12,8 +13,8 @@ class RequestHeaders
       headers = @helper.headers
 
       if headers.is_a?(Hash)
-        headers.each do |k,v|
-          env["HTTP_#{k.upcase.gsub("-", "_")}"] = v
+        headers.each do |k, v|
+          env["HTTP_#{k.upcase.gsub('-', '_')}"] = v
         end
       end
     end
