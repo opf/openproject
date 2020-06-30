@@ -1062,7 +1062,7 @@ DEPENDENCIES
   openproject-pdf_export!
   openproject-recaptcha!
   openproject-reporting!
-  openproject-token (~> 2.1.2)
+  openproject-token (~> 2.1.1)
   openproject-translations!
   openproject-two_factor_authentication!
   openproject-webhooks!

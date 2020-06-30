@@ -398,7 +398,7 @@ fi:
     label_sum_for: "Summa"
     label_subject: "Aihe"
     label_this_week: "tällä viikolla"
-    label_today: "tänään"
+    label_today: "Today"
     label_time_entry_plural: "Käytetty aika"
     label_up: "Ylös"
     label_user_plural: "Käyttäjät"
@@ -584,6 +584,9 @@ fi:
       select_branch: 'Valitse haara'
     field_value_enter_prompt: "Syötä arvo kenttään \"%{field}\""
     project_menu_details: "Yksityiskohdat"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

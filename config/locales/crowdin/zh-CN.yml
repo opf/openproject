@@ -408,6 +408,7 @@ zh-CN:
         types: "类型"
         versions: "版本"
         work_packages: "工作包"
+        templated: 'Template project'
       projects/status:
         code: '状态'
         explanation: '状态描述'
@@ -479,6 +480,7 @@ zh-CN:
         parent_work_package: "父"
         priority: "优先级"
         progress: "进度 (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "已耗时间"
         spent_time: "已耗时间"
         subproject: "子项目"
@@ -873,6 +875,7 @@ zh-CN:
       - "10月"
       - "11月"
       - "12月"
+    abbr_week: 'Wk'
     day_names:
       - "星期日"
       - "星期一"
@@ -1917,6 +1920,12 @@ zh-CN:
       warning_one: 项目的成员将重新迁移至项目的存储库。
       warning_two: 该项目的现有链接将不再有效。
       title: 更改项目的标识符
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "是否确定想要存档项目 '%{name}'？"
       archived: "已存档"
