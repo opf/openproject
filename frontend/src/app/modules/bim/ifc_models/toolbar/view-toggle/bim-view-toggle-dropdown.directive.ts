@@ -101,7 +101,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
                           // Under the hood it is done by modifying the params of actual route.
                           // Because of that, it is not possible to call this.state.go and
                           // this.wpDisplayRepresentation.setDisplayRepresentation at the same
-                          // time, it raises a route error (The transition has been superseded by 
+                          // time, it raises a route error (The transition has been superseded by
                           // a different transition...). To avoid this error, we are passing
                           // a cards params to inform the view about the display representation mode
                           // it has to show (cards or list).
