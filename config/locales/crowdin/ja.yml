@@ -409,6 +409,7 @@ ja:
         types: "作業項目の型"
         versions: "バージョン"
         work_packages: "作業項目"
+        templated: 'Template project'
       projects/status:
         code: 'ステータス'
         explanation: '状況の説明'
@@ -480,6 +481,7 @@ ja:
         parent_work_package: "親項目"
         priority: "優先度"
         progress: "進行状況 (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
         subproject: "子プロジェクト"
@@ -874,6 +876,7 @@ ja:
       - "10月"
       - "11月"
       - "12月"
+    abbr_week: 'Wk'
     day_names:
       - "日曜日"
       - "月曜日"
@@ -1919,6 +1922,12 @@ ja:
       warning_one: プロジェクトのメンバーは、プロジェクトのリポジトリを再配置する必要があります。
       warning_two: プロジェクトへの既存のリンクは機能しなくなります。
       title: プロジェクトの識別子を変更
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "プロジェクト '%{name}' をアーカイブしてもよろしいですか？"
       archived: "Archived"

@@ -398,7 +398,7 @@ ar:
     label_sum_for: "مجموع ال"
     label_subject: "الموضوع"
     label_this_week: "هذا الأسبوع"
-    label_today: "اليوم"
+    label_today: "Today"
     label_time_entry_plural: "الوقت المستهلك"
     label_up: "الأعلى"
     label_user_plural: "المستخدمين"
@@ -584,6 +584,9 @@ ar:
       select_branch: 'اختر فرع'
     field_value_enter_prompt: "أدخِل قيمة ل '%{field}'"
     project_menu_details: "تفاصيل"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
