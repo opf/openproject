@@ -1,6 +1,6 @@
 @require sassc
 
-@sass ../../../frontend/src/global_styles/openproject.sass
+@sass styleguide.sass
 @title "Living Style Guide for OpenProject"
 
 @style base-font: Lato
@@ -10,18 +10,7 @@
 @default preprocessor: sass
 
 @css
-  .livingstyleguide--header {
-    @include grid-content;
-  }
-
-  .livingstyleguide--footer {
-    @include grid-content;
-  }
-
-  .livingstyleguide--intro {
-    @include grid-content;
-  }
-
+  
   .styleguide-banner {
     height:  280px;
     padding: 200px 0 0;
@@ -75,7 +64,7 @@
   }
 
 @header
-  <header class="livingstyleguide--header">
+  <header class="livingstyleguide--header grid-content">
     <div class="styleguide-banner">
       <h1 class="styleguide-banner--text">Living Style Guide</h1>
     </div>
@@ -92,17 +81,15 @@
     </ul>
   </nav>
 
-  <section class="livingstyleguide--intro">
+  <section class="livingstyleguide--intro grid-content">
     <p>&nbsp;</p>
   </section>
-
-@javascript-before /assets/styleguide.js
 
 @search-box
 
 @footer
-  <footer class="livingstyleguide--footer">
-    Copyright © 2019 OpenProject - All rights reserved.
+  <footer class="livingstyleguide--footer grid-content">
+    Copyright © 2020 OpenProject - All rights reserved.
   </footer>
 
-@import ../../frontend/src/global_styles/**/_*.lsg
+@import ../../../frontend/src/global_styles/**/_*.lsg
