@@ -30,7 +30,6 @@ import {NgModule} from '@angular/core';
 import {UIRouterModule} from "@uirouter/angular";
 import {
   REPORTING_ROUTES,
-  uiRouterReportingConfiguration
 } from "core-app/modules/reporting/openproject-reporting.routes";
 import {ReportingPageComponent} from "core-app/modules/reporting/reporting-page/reporting-page.component";
 
@@ -38,8 +37,7 @@ import {ReportingPageComponent} from "core-app/modules/reporting/reporting-page/
   imports: [
     // Routes for /cost_reports
     UIRouterModule.forChild({
-      states: REPORTING_ROUTES,
-      config: uiRouterReportingConfiguration
+      states: REPORTING_ROUTES
     }),
   ],
   declarations: [

@@ -33,19 +33,7 @@ export const REPORTING_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'reporting',
     parent: 'root',
-    // The trailing slash is important
-    // cf., https://community.openproject.com/wp/29754
-    url: '/cost_reports/',
+    url: '/cost_reports',
     component: ReportingPageComponent
   },
 ];
-
-export function uiRouterReportingConfiguration(uiRouter:UIRouter) {
-  // Ensure backlogs/ are being redirected correctly
-  // cf., https://community.openproject.com/wp/29754
-  uiRouter.urlService.rules
-    .when(
-      new RegExp("^/projects/(.*)/cost_reports$"),
-      match => `/projects/${match[1]}/cost_reports/`
-    );
-}
