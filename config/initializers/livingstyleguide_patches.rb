@@ -36,7 +36,7 @@ if defined?(LivingStyleGuide)
     # Define our own template
     def template_erb
       if @template == :layout
-        File.read(Rails.root.join('app/assets/stylesheets/styleguide.layout.html.erb'))
+        File.read(Rails.root.join('app/views/layouts/styleguide/styleguide.layout.html.erb'))
       else
         super
       end
