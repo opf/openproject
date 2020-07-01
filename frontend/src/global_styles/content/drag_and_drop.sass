@@ -30,15 +30,6 @@
 // As there will hopefully also be a shared style for resizing, and as those two will hopefully also share some styles
 // there is also the 'modifying' grouping, which could serve as the basis for the two.
 
-@mixin modifying--placeholder
-  border: 1px dashed var(--primary-color)
-  pointer-events: none
-  *
-    visibility: hidden
-
-@mixin d_n_d--preview
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1)
-
 // There does not seem to be a way to add a class to the preview element
 // added by cdk drag.
 .cdk-drag-preview

@@ -188,3 +188,12 @@ $scrollbar-size: 10px
       padding-right: 15px
     .work-packages--filters-optional-container
       margin-right: 15px
+
+@mixin modifying--placeholder
+  border: 1px dashed var(--primary-color)
+  pointer-events: none
+  *
+    visibility: hidden
+
+@mixin d_n_d--preview
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1)
