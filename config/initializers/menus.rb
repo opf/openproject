@@ -32,13 +32,13 @@ require 'redmine/menu_manager'
 Redmine::MenuManager.map :top_menu do |menu|
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
-  
   menu.push :projects,
             { controller: '/projects', project_id: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_projects_menu'),
             if: Proc.new {
-              (User.current.logged? || !Setting.login_required?)
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to?(:all_projects, nil, global: true)
             }
   menu.push :work_packages,
             { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
