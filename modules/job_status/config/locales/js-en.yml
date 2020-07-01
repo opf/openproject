@@ -6,6 +6,7 @@ en:
       title: 'Background job status'
       redirect: 'You are being redirected.'
       generic_messages:
+        not_found: 'This job could (no longer) be found.'
         in_queue: 'The job has been queued and will be processed shortly.'
         in_process: 'The job is currently being processed.'
         error: 'The job has failed to complete.'
