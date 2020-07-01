@@ -3,7 +3,6 @@ el:
     grid:
       add_widget: 'Προσθήκη widget'
       remove: 'Αφαίρεση widget'
-      configure: 'Configure widget'
       upsale:
         text: "Ορισμένα γραφικά στοιχεία (widget), όπως το γραφικό στοιχείο πακέτων εργασίας, είναι διαθέσιμα μόνο στην "
         link: 'έκδοση για επιχειρήσεις.'
@@ -40,7 +39,6 @@ el:
           no_results: 'Δεν υπάρχουν υποέργα.'
         time_entries_current_user:
           title: 'Ο δικός μου χρόνος που δαπανήθηκε'
-          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Χρόνος που δαπανήθηκε (τις τελευταίες 7 ημέρες)'
           no_results: 'Δεν υπάρχουν καταχωρήσεις χρόνου για τις τελευταίες 7 ημέρες.'
