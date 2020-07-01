@@ -33,19 +33,7 @@ export const BACKLOGS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'backlogs',
     parent: 'root',
-    // The trailing slash is important
-    // cf., https://community.openproject.com/wp/29754
-    url: '/backlogs/',
+    url: '/backlogs',
     component: BacklogsPageComponent
   },
 ];
-
-export function uiRouterBacklogsConfiguration(uiRouter:UIRouter) {
-  // Ensure backlogs/ are being redirected correctly
-  // cf., https://community.openproject.com/wp/29754
-  uiRouter.urlService.rules
-    .when(
-      new RegExp("^/projects/(.*)/backlogs$"),
-      match => `/projects/${match[1]}/backlogs/`
-    );
-}

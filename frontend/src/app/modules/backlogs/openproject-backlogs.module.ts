@@ -29,14 +29,13 @@
 import {NgModule} from '@angular/core';
 import {UIRouterModule} from "@uirouter/angular";
 import {BacklogsPageComponent} from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
-import {BACKLOGS_ROUTES, uiRouterBacklogsConfiguration} from "core-app/modules/backlogs/openproject-backlogs.routes";
+import {BACKLOGS_ROUTES} from "core-app/modules/backlogs/openproject-backlogs.routes";
 
 @NgModule({
   imports: [
     // Routes for /backlogs
     UIRouterModule.forChild({
-      states: BACKLOGS_ROUTES,
-      config: uiRouterBacklogsConfiguration
+      states: BACKLOGS_ROUTES
     }),
   ],
   declarations: [

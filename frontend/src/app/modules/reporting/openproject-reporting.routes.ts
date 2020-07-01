@@ -36,4 +36,9 @@ export const REPORTING_ROUTES:Ng2StateDeclaration[] = [
     url: '/cost_reports',
     component: ReportingPageComponent
   },
+  {
+    name: 'reporting.show',
+    url: '/:id',
+    component: ReportingPageComponent
+  },
 ];
