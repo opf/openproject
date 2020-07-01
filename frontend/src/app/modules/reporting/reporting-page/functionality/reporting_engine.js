@@ -57,11 +57,11 @@ window.Reporting = (function($) {
     $("#" + options.id).remove();
 
     var flash = $('<div></div>')
-                .attr('id', options.id)
-                .attr('class', options.class)
-                .attr('tabindex', 0)
-                .attr('role', 'alert')
-                .html(string);
+      .attr('id', options.id)
+      .attr('class', options.class)
+      .attr('tabindex', 0)
+      .attr('role', 'alert')
+      .html(string);
 
     $('#content').prepend(flash);
     $('#' + options.id).focus();

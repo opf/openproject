@@ -120,6 +120,7 @@
     "rxjs": "^6.5.4",
     "screenfull": "^4.2.1",
     "shelljs": "^0.8.3",
+    "tablesorter": "^2.31.3",
     "ticky": "^1.0.1",
     "tslib": "^1.10.0",
     "typedjson": "^1.5.1",

@@ -173,7 +173,6 @@ PATH
   remote: modules/reporting
   specs:
     openproject-reporting (1.0.0)
-      jquery-tablesorter (~> 1.27.0)
       openproject-costs
       reporting_engine
 
@@ -559,8 +558,6 @@ GEM
     iso8601 (0.12.1)
     jaro_winkler (1.5.4)
     jmespath (1.4.0)
-    jquery-tablesorter (1.27.1)
-      railties (>= 3.2)
     json (2.3.0)
     json-jwt (1.11.0)
       activesupport (>= 4.2)

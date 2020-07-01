@@ -57,6 +57,12 @@ declare global {
   interface JQuery {
     topShelf:any;
     mark:any;
+    tablesorter:any;
+  }
+
+  interface JQueryStatic {
+    metadata:any;
+    tablesorter:any;
   }
 }
 
