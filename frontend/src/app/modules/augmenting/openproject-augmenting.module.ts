@@ -27,9 +27,6 @@
 // ++
 
 import {NgModule} from '@angular/core';
-import {UIRouterModule} from "@uirouter/angular";
-import {BacklogsPageComponent} from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
-import {BACKLOGS_ROUTES, uiRouterBacklogsConfiguration} from "core-app/modules/backlogs/openproject-backlogs.routes";
 import {ModalWrapperAugmentService} from "core-app/modules/augmenting/services/modal-wrapper.augment.service";
 import {PathScriptAugmentService} from "core-app/modules/augmenting/services/path-script.augment.service";
 

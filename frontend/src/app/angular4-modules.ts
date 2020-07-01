@@ -74,6 +74,7 @@ import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-s
 import {globalDynamicComponents} from "core-app/global-dynamic-components.const";
 import {OpenprojectMembersModule} from "core-app/modules/members/members.module";
 import {OpenprojectEnterpriseModule} from "core-components/enterprise/openproject-enterprise.module";
+import {OpenprojectAugmentingModule} from "core-app/modules/augmenting/openproject-augmenting.module";
 
 @NgModule({
   imports: [
@@ -131,7 +132,10 @@ import {OpenprojectEnterpriseModule} from "core-components/enterprise/openprojec
     OpenprojectMembersModule,
 
     // Angular Forms
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
+    // Augmenting Module
+    OpenprojectAugmentingModule,
   ],
   providers: [
     { provide: States, useValue: new States() },

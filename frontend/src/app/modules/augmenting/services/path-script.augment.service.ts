@@ -27,11 +27,9 @@
 // ++
 
 
-import {Inject, Injectable, Injector} from "@angular/core";
+import {Inject, Injectable} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
-import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {debuglog} from "util";
+import {debugLog} from "core-app/helpers/debug_output";
 
 @Injectable({ providedIn: 'root' })
 export class PathScriptAugmentService {
@@ -51,7 +49,7 @@ export class PathScriptAugmentService {
     const matches = this.documentElement.querySelectorAll<HTMLMetaElement>('meta[name="required_script"]');
     for (let i = 0; i < matches.length; ++i) {
       const name = matches[i].content;
-      debuglog("Loading required script " + name);
+      debugLog("Loading required script " + name);
       import('../dynamic-scripts/' + name);
     }
   }
