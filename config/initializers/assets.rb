@@ -12,7 +12,6 @@ OpenProject::Application.configure do
     project/filters.js
     repository_navigation.js
     repository_settings.js
-    types_checkboxes.js
     vendor/ckeditor/ckeditor.*js
     vendor/enjoyhint.js
   )

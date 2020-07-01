@@ -27,8 +27,6 @@
 //++
 
 //= require lib/jquery.colorcontrast
-//= require lib/jquery.trap
-//= require lib/jquery.is_visible_within
 
 //= require top_menu
 //= require action_menu
@@ -337,17 +335,10 @@ var Administration = (function ($) {
 
 var activateFlash = function(selector) {
   var flashMessages = jQuery(selector);
-
-  // Ignore flash messages of class 'ignored-by-flash-activation' because those
-  // messages are completely handled via JavaScript (see types_checkboxes.js for
-  // details). We wouldn't have to ignore this message if the flash element
-  // would be completely created via JavaScript and not available in the DOM by
-  // default.
+  
   flashMessages.each(function (ix, e) {
     flashMessage = jQuery(e);
-    if (!flashMessage.hasClass('ignored-by-flash-activation')) {
-      flashMessage.show();
-    }
+    flashMessage.show();
   });
 };
 
