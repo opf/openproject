@@ -27,7 +27,6 @@
 #++
 
 FactoryBot.define do
-  factory :delayed_job_status, class: Delayed::Job::Status do
-
+  factory :delayed_job_status, class: ::JobStatus::Status do
   end
 end

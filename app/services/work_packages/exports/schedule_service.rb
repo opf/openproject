@@ -36,16 +36,17 @@ class WorkPackages::Exports::ScheduleService
   end
 
   def call(query:, mime_type:, params: {})
-    export_storage = WorkPackages::Export.create user: user
-    schedule_export(export_storage, mime_type, params, query)
+    export_storage = WorkPackages::Export.create
+    job = schedule_export(export_storage, mime_type, params, query)
 
-    ServiceResult.new success: true, result: export_storage
+    ServiceResult.new success: true, result: job.job_id
   end
 
   private
 
   def schedule_export(export_storage, mime_type, params, query)
     WorkPackages::Exports::ExportJob.perform_later(export: export_storage,
+                                                   user: user,
                                                    mime_type: mime_type,
                                                    options: params,
                                                    query: serialize_query(query),

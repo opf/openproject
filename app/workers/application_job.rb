@@ -29,6 +29,8 @@
 require 'active_job'
 
 class ApplicationJob < ::ActiveJob::Base
+  include ::JobStatus::ApplicationJobWithStatus
+
   around_perform do |_job, block|
     reload_mailer_configuration!
     with_clean_request_store { block.call }
@@ -82,13 +84,5 @@ class ApplicationJob < ::ActiveJob::Base
   # by the background jobs at runtime.
   def reload_mailer_configuration!
     OpenProject::Configuration.reload_mailer_configuration!
-  end
-
-  # Delayed jobs can have a status:
-  # Delayed::Job::Status
-  # which is related to the job via a reference which is an AR model instance.
-  # If no such reference is defined, there is no status stored in the db.
-  def status_reference
-    nil
   end
 end

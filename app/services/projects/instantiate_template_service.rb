@@ -40,8 +40,8 @@ module Projects
             contract_options: { template_project_id: template_id }
     end
 
-    def after_validate(params, call)
-      ::CopyProjectJob.perform_later(
+    def after_validate(params, _)
+      job = ::CopyProjectJob.perform_later(
         user_id: user.id,
         source_project_id: template_id,
         target_project_params: project_params(params),
@@ -51,7 +51,7 @@ module Projects
         send_mails: true
       )
 
-      call
+      ServiceResult.new(success: true, result: job)
     end
 
     # Do not actually try to save the project here

@@ -102,6 +102,8 @@ export class ApiV3Paths {
   // /api/v3/groups
   public readonly groups = new Apiv3GroupsPaths(this.apiV3Base);
 
+  // /api/v3/job_statuses
+  public readonly job_statuses = new SimpleResourceCollection(this.apiV3Base, 'job_statuses');
 
   constructor(readonly appBasePath:string) {
   }

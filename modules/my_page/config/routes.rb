@@ -29,5 +29,5 @@
 #++
 
 OpenProject::Application.routes.draw do
-  get '/my/page', to: 'my_page/angular#no_menu'
+  get '/my/page', to: 'angular#empty_layout'
 end

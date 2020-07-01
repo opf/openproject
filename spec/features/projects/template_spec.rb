@@ -89,7 +89,8 @@ describe 'Project templates', type: :feature, js: true do
       click_on 'Create'
 
       expect(page).to have_content I18n.t('project.template.copying')
-      expect(page).to have_current_path home_path
+      expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue')
+      expect(page).to have_current_path /\/job_statuses\/[\w-]+/
 
       # Email notification should be sent
       perform_enqueued_jobs
@@ -99,6 +100,8 @@ describe 'Project templates', type: :feature, js: true do
         .detect { |mail| mail.subject == 'Created project Foo bar' }
 
       expect(mail).not_to be_nil
+
+      expect(page).to have_current_path '/projects/foo/', wait: 20
 
       project = Project.find_by identifier: 'foo'
       expect(project.name).to eq 'Foo bar'

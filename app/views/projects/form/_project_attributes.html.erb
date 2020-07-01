@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= render partial: "projects/form/attributes/name",
            locals: { form: form } %>
 
-<% if project.new_record? %>
+<% if project.new_record? && !is_copy %>
   <%= render partial: "projects/form/select_template",
              locals: { project: project, form: form } %>
 <% end %>
