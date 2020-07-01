@@ -10,6 +10,10 @@ import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-chan
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {CombinedDateDisplayField} from "core-app/modules/fields/display/field-types/combined-date-display.field";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -22,6 +26,8 @@ export const cellEmptyPlaceholder = '-';
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   @InjectField() displayFieldService:DisplayFieldService;
+  @InjectField() schemaCache:SchemaCacheService;
+  @InjectField() halEditing:HalResourceEditingService;
   @InjectField() I18n:I18nService;
 
   /** We cache the previously used fields to avoid reinitialization */
@@ -43,7 +49,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       return span;
     }
 
-    this.setSpanAttributes(span, field, name, resource);
+    this.setSpanAttributes(span, field, name, resource, change);
 
     return span;
   }
@@ -53,8 +59,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
                           change:ResourceChangeset<T>|null,
                           placeholder?:string):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
-    const schemaName = this.getSchemaName(resource, change, name);
-    const fieldSchema = resource.schema[schemaName];
+    const schema = this.schema(resource, change);
+    const attributeName = this.attributeName(name, schema);
+    const fieldSchema = schema.ofProperty(name);
 
     // If the resource does not have that field, return an empty
     // span (e.g., for the table).
@@ -62,14 +69,14 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       return [null, span];
     }
 
-    const field = this.getField(resource, fieldSchema, schemaName, change);
+    const field = this.getField(resource, fieldSchema, attributeName, change);
     field.render(span, this.getText(field, fieldSchema, placeholder), fieldSchema.options);
 
     const title = field.title;
     if (title) {
       span.setAttribute('title', title);
     }
-    span.setAttribute('aria-label', this.getAriaLabel(field, resource));
+    span.setAttribute('aria-label', this.getAriaLabel(field, schema));
 
     return [field, span];
   }
@@ -104,7 +111,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     // In the single view, start and end date are shown in a combined date field
-    if (this.container === 'single-view' && (name === 'startDate')) {
+    if (this.container === 'single-view' && (name === 'combinedDate')) {
       return new CombinedDateDisplayField(name, context) as DisplayField;
     }
 
@@ -124,7 +131,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
   }
 
-  private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, resource:T):void {
+  private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, resource:T, change:ResourceChangeset<T>|null):void {
     span.classList.add(displayClassName, name);
     span.dataset['fieldName'] = name;
 
@@ -139,7 +146,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       span.classList.add(placeholderClassName);
     }
 
-    if (field.writable) {
+    if (this.schema(resource, change).isAttributeEditable(name)) {
       span.classList.add(editableClassName);
       span.setAttribute('role', 'button');
     } else {
@@ -147,7 +154,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
   }
 
-  private getAriaLabel(field:DisplayField, resource:T):string {
+  private getAriaLabel(field:DisplayField, schema:SchemaResource):string {
     let titleContent;
     let labelContent = this.getLabelContent(field);
 
@@ -163,7 +170,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       titleContent = labelContent;
     }
 
-    if (field.writable && resource.isAttributeEditable(field.name)) {
+    if (field.writable && schema.isAttributeEditable(field.name)) {
       return this.I18n.t('js.inplace.button_edit', {attribute: `${field.displayName} ${titleContent}`});
     } else {
       return `${field.displayName} ${titleContent}`;
@@ -179,23 +186,18 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   /**
-   * Get the schema name from either the changeset, the resource (if available) or
+   * Get the attribute name from either the schema if the mappedName method is implemented or
    * return the attribute itself.
    *
-   * @param resource
-   * @param change
-   * @param name
+   * @param schema
+   * @param attribute
    */
-  private getSchemaName(resource:T, change:ResourceChangeset<T>|null, name:string) {
-    if (change) {
-      return change.getSchemaName(name);
+  private attributeName(attribute:string, schema:SchemaResource) {
+    if (schema.mappedName) {
+      return schema.mappedName(attribute);
+    } else {
+      return attribute;
     }
-
-    if (!!resource.getSchemaName) {
-      return resource.getSchemaName(name);
-    }
-
-    return name;
   }
 
   private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
@@ -204,5 +206,15 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     return cellEmptyPlaceholder;
+  }
+
+  private schema(resource:T, change:ResourceChangeset<T>|null) {
+    if (!!change) {
+      return change.schema;
+    } else if (this.halEditing.typedState(resource).hasValue()) {
+      return this.halEditing.typedState(resource).value!.schema;
+    } else {
+      return this.schemaCache.of(resource) as ISchemaProxy;
+    }
   }
 }

@@ -35,8 +35,12 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
   public abstract setModifiedEntry($event:{savedResource:HalResource, isInital:boolean}):void;
 
+  public get changeset() {
+    return this.locals.changeset;
+  }
+
   public get entry() {
-    return this.locals.entry;
+    return this.changeset.projectedResource;
   }
 
   public get showWorkPackageField() {

@@ -5,6 +5,7 @@ import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cac
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions-entry';
 
@@ -23,6 +24,10 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    HalResourceEditingService,
+    TimeEntryEditService
+  ]
 })
 export class TriggerActionsEntryComponent {
   @InjectField() readonly timeEntryEditService:TimeEntryEditService;

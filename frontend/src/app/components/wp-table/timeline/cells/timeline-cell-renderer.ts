@@ -31,6 +31,7 @@ import Moment = moment.Moment;
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -45,6 +46,8 @@ export type LabelPosition = 'left'|'right'|'farRight';
 export class TimelineCellRenderer {
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
   @InjectField() TimezoneService:TimezoneService;
+  @InjectField() schemaCache:SchemaCacheService;
+
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
   protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
@@ -58,7 +61,8 @@ export class TimelineCellRenderer {
   }
 
   public canMoveDates(wp:WorkPackageResource) {
-    return wp.schema.startDate.writable && wp.schema.dueDate.writable && wp.isAttributeEditable('startDate');
+    const schema = this.schemaCache.of(wp);
+    return schema.startDate.writable && schema.dueDate.writable && schema.isAttributeEditable('startDate');
   }
 
   public isEmpty(wp:WorkPackageResource) {

@@ -76,7 +76,9 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment']);
 
     editFieldService
-      .addSpecificFieldType('WorkPackage', CombinedDateEditFieldComponent, 'date', ['startDate', 'dueDate', 'date'])
+      .addSpecificFieldType('WorkPackage', CombinedDateEditFieldComponent,
+                            'date',
+                            ['combinedDate', 'startDate', 'dueDate', 'date'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage']);
 

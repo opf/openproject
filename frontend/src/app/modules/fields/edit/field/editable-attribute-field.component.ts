@@ -58,6 +58,8 @@ import {ClickPositionMapper} from "core-app/modules/common/set-click-position/se
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
 
 @Component({
   selector: 'editable-attribute-field',
@@ -90,6 +92,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
               protected opContextMenu:OPContextMenuService,
               protected halEditing:HalResourceEditingService,
               protected wpCacheService:WorkPackageCacheService,
+              protected schemaCache:SchemaCacheService,
               // Get parent field group from injector
               protected editForm:EditFormComponent,
               protected NotificationsService:NotificationsService,
@@ -150,8 +153,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   public get isEditable() {
-    const fieldSchema = this.resource.schema[this.fieldName] as IFieldSchema;
-    return this.resource.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
+    return this.schema.isAttributeEditable(this.fieldName);
   }
 
   public activateIfEditable(event:JQuery.TriggeredEvent) {
@@ -213,4 +215,11 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     this.deactivate();
   }
 
+  private get schema() {
+    if (this.halEditing.typedState(this.resource).hasValue()) {
+      return this.halEditing.typedState(this.resource).value!.schema;
+    } else {
+      return this.schemaCache.of(this.resource) as ISchemaProxy;
+    }
+  }
 }

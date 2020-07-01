@@ -46,6 +46,7 @@ import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -63,6 +64,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
               protected querySpace:IsolatedQuerySpace,
               protected authorisationService:AuthorisationService,
               protected halEditing:HalResourceEditingService,
+              protected schemaCache:SchemaCacheService,
               protected workPackageDmService:WorkPackageDmService,
               protected halEvents:HalEventsService) {
     super();
@@ -110,8 +112,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   }
 
   public fromCreateForm(form:FormResource):WorkPackageChangeset {
-    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
-    wp.initializeNewResource(form);
+    let wp = this.initializeNewResource(form);
 
     const change = this.halEditing.edit<WorkPackageResource, WorkPackageChangeset>(wp, form);
 
@@ -139,10 +140,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * @param form Work Package create form
    */
   private copyFrom(form:FormResource) {
-    //let wp = fromCreateForm(form);
-    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
-
-    wp.initializeNewResource(form);
+    let wp = this.initializeNewResource(form);
 
     return this.halEditing.edit(wp, form);
   }
@@ -248,5 +246,41 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       const filter = new WorkPackageFilterValues(this.injector, change, query.filters, except);
       filter.applyDefaultsFromFilters();
     }
+  }
+
+  /**
+   * Assign values from the form for a newly created work package resource.
+   * @param form
+   */
+  private initializeNewResource(form:FormResource) {
+    let payload = form.payload.$plain();
+
+    // maintain the reference to the schema
+    payload['_links']['schema'] = { href: 'new' };
+
+    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', payload);
+
+    wp.$source.id = 'new';
+
+    // Ensure type is set to identify the resource
+    wp._type = 'WorkPackage';
+
+    // Since the ID will change upon saving, keep track of the WP
+    // with the actual creation date
+    wp.__initialized_at = Date.now();
+
+    // Set update link to form
+    wp['update'] = wp.$links.update = form.$links.self;
+    // Use POST /work_packages for saving link
+    wp['updateImmediately'] = wp.$links.updateImmediately = (payload) => {
+      return this.workPackageDmService.createWorkPackage(payload);
+    };
+
+    // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
+    // the editability.
+    // It would be better if the edit field could simply rely on the changeset if it exists.
+    this.schemaCache.update(wp, form.schema);
+
+    return wp;
   }
 }

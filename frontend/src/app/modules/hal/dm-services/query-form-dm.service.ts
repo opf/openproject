@@ -32,10 +32,13 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import * as URI from 'urijs';
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 
 @Injectable()
 export class QueryFormDmService {
   constructor(readonly halResourceService:HalResourceService,
+              protected readonly queryFilters:QueryFiltersService,
               protected pathHelper:PathHelperService) {
   }
 
@@ -91,7 +94,12 @@ export class QueryFormDmService {
 
     return this.halResourceService
       .post<QueryFormResource>(href, payload)
-      .toPromise();
+      .toPromise()
+      .then(form => {
+        this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas);
+
+        return form;
+      });
   }
 
   public buildQueryResource(form:QueryFormResource):QueryResource {

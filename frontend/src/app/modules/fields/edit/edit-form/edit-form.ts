@@ -28,7 +28,6 @@
 
 import {Injector} from '@angular/core';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
@@ -271,11 +270,9 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @param fieldName
    */
   private loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
-    const schemaName = this.change.getSchemaName(fieldName);
-
     return new Promise((resolve, reject) => {
-      this.loadFormAndCheck(schemaName, noWarnings);
-      const fieldSchema:IFieldSchema = this.change.schema[schemaName];
+      this.loadFormAndCheck(fieldName, noWarnings);
+      const fieldSchema:IFieldSchema = this.change.schema.ofProperty(fieldName);
 
       if (!fieldSchema) {
         throw new Error();
@@ -287,18 +284,16 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
   /**
    * Ensure the form gets loaded and we show an error when the field cannot be opened
-   * @param schemaName
+   * @param fieldName
    * @param noWarnings
    */
   private loadFormAndCheck(fieldName:string, noWarnings:boolean = false) {
-    const schemaName = this.change.getSchemaName(fieldName);
-
     // Ensure the form is being loaded if necessary
     this.change
       .getForm()
-      .then((form) => {
+      .then(() => {
         // Look up whether we're actually editable
-        const fieldSchema = form.schema[schemaName];
+        const fieldSchema = this.change.schema.ofProperty(fieldName);
         if (!fieldSchema.writable && !noWarnings) {
           this.halNotification.showEditingBlockedError(fieldSchema.name || fieldName);
           this.closeEditFields([fieldName]);

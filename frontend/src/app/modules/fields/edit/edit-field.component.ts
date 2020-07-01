@@ -67,7 +67,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
               readonly cdRef:ChangeDetectorRef,
               readonly injector:Injector) {
     super();
-    this.schema = this.schema || this.change.schema[this.name];
+    this.schema = this.schema || this.change.schema.ofProperty(this.name);
 
     if (this.change.state) {
       this.change.state
@@ -76,14 +76,14 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
           this.untilDestroyed()
         )
         .subscribe((change) => {
-          const fieldSchema = change.schema[this.name];
+          const fieldSchema = change.schema.ofProperty(this.name);
 
           if (!fieldSchema) {
             return handler.deactivate(false);
           }
 
           this.change = change;
-          this.schema = change.schema[this.name];
+          this.schema = change.schema.ofProperty(this.name);
           this.initialize();
           this.cdRef.markForCheck();
         });
@@ -116,7 +116,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   public get name() {
     // Get the mapped schema name, as this is not always the attribute
     // e.g., startDate in table for milestone => date attribute
-    return this.change.getSchemaName(this.handler.fieldName);
+    return this.change.schema.mappedName(this.handler.fieldName);
   }
 
   public set value(value:any) {

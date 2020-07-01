@@ -37,10 +37,10 @@ export class CombinedDateDisplayField extends DateDisplayField {
   };
 
   public render(element:HTMLElement, displayText:string):void {
-    var startDateElement = this.createDateDisplayField('startDate');
-    var dueDateElement = this.createDateDisplayField('dueDate');
+    let startDateElement = this.createDateDisplayField('startDate');
+    let dueDateElement = this.createDateDisplayField('dueDate');
 
-    var separator = document.createElement('span');
+    let separator = document.createElement('span');
     separator.textContent = ' - ';
 
     element.appendChild(startDateElement);
@@ -49,9 +49,9 @@ export class CombinedDateDisplayField extends DateDisplayField {
   }
 
   private createDateDisplayField(date:'dueDate'|'startDate'):HTMLElement {
-    var dateElement = document.createElement('span');
-    var dateDisplayField = new DateDisplayField(date, this.context);
-    var text = this.resource[date] ?
+    let dateElement = document.createElement('span');
+    let dateDisplayField = new DateDisplayField(date, this.context);
+    let text = this.resource[date] ?
       this.timezoneService.formattedDate(this.resource[date]) :
       this.text.placeholder[date];
 
