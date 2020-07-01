@@ -307,7 +307,7 @@ export class HalResourceService {
   }
 
   /**
-   * Get the hal type for an attributeex
+   * Get the hal type for an attribute
    *
    * @param type
    * @param attribute

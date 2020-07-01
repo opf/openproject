@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,10 +27,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class MyPage::AngularController < ::ApplicationController
+class AngularController < ApplicationController
   before_action :require_login
 
-  def no_menu
-    render layout: 'no_menu'
+  def empty_layout
+    # Frontend will handle rendering
+    # but we will need to render with layout
+    render html: '', layout: 'angular'
   end
 end
