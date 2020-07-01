@@ -63,18 +63,19 @@ module JobStatus
     ##
     # Update the status code for a given job
     def upsert_status(status:, **args)
-      upsert_attributes = args.reverse_merge(
-        status: status,
-        message: nil,
-        payload: nil,
-        reference_id: status_reference&.id,
-        reference_type: status_reference&.class.to_s,
-        user_id: User.current.id,
-        job_id: job_id
-      )
+      upsert_attributes =
 
-      ::JobStatus::Status.upsert upsert_attributes,
-                                 unique_by: :job_id
+      # Can't use upsert, as we only want to insert the user_id once
+      # and not update it repeatedly
+      resource = ::JobStatus::Status.find_or_initialize_by(job_id: job_id)
+
+      if resource.new_record?
+        resource.user_id = User.current.id
+        resource.reference = status_reference
+      end
+
+      new_attributes = args.reverse_merge(status: status, message: nil, payload: nil)
+      resource.update! new_attributes
     end
 
     protected
