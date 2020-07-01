@@ -63,8 +63,6 @@ module JobStatus
     ##
     # Update the status code for a given job
     def upsert_status(status:, **args)
-      upsert_attributes =
-
       # Can't use upsert, as we only want to insert the user_id once
       # and not update it repeatedly
       resource = ::JobStatus::Status.find_or_initialize_by(job_id: job_id)

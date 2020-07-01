@@ -39,6 +39,6 @@ describe 'Job status', type: :feature, js: true do
     visit '/job_statuses/something-that-does-not-exist'
 
     expect(page).to have_selector('.icon-big.icon-help', wait: 10)
-    expect(page).to have_content 'This job could (no longer) be found.'
+    expect(page).to have_content I18n.t('js.job_status.generic_messages.not_found')
   end
 end
