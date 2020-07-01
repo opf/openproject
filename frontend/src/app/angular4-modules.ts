@@ -50,7 +50,6 @@ import {ProjectMenuAutocompleteComponent} from "core-components/projects/project
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.module";
 import {HookService} from "core-app/modules/plugins/hook-service";
-import {ModalWrapperAugmentService} from "core-app/globals/augmenting/modal-wrapper.augment.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {OpenprojectWorkPackagesModule} from 'core-app/modules/work_packages/openproject-work-packages.module';
 import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
@@ -193,15 +192,11 @@ export function initializeServices(injector:Injector) {
   return () => {
     const ExternalQueryConfiguration = injector.get(ExternalQueryConfigurationService);
     const ExternalRelationQueryConfiguration = injector.get(ExternalRelationQueryConfigurationService);
-    const ModalWrapper = injector.get(ModalWrapperAugmentService);
     const PreviewTrigger = injector.get(PreviewTriggerService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
 
     mainMenuNavigationService.register();
-
-    // Setup modal wrapping
-    ModalWrapper.setupListener();
 
     PreviewTrigger.setupListener();
 

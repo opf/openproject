@@ -26,31 +26,31 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+// Loaded dynamically when path matches
 (function ($, undefined) {
   var global_roles = {
-    init: function(){
+    init: function () {
       if (global_roles.script_applicable()) {
         global_roles.toggle_forms_on_click();
         global_roles.activation_and_visibility_based_on_checked($('#global_role'));
       }
     },
 
-    toggle_forms_on_click: function(){
+    toggle_forms_on_click: function () {
       $('#global_role').on("click", global_roles.toggle_forms);
     },
 
-    toggle_forms: function(event){
-      global_roles.activation_and_visibility_based_on_checked(this)
+    toggle_forms: function (event:any) {
+      global_roles.activation_and_visibility_based_on_checked(this);
     },
 
-    activation_and_visibility_based_on_checked: function(element){
-      if($(element).prop("checked")){
+    activation_and_visibility_based_on_checked: function (element:any) {
+      if ($(element).prop("checked")) {
         global_roles.show_global_forms();
         global_roles.hide_member_forms();
         global_roles.enable_global_forms();
         global_roles.disable_member_forms();
-      }
-      else{
+      } else {
         global_roles.show_member_forms();
         global_roles.hide_global_forms();
         global_roles.disable_global_forms();
@@ -58,61 +58,65 @@
       }
     },
 
-    show_global_forms: function(){
+    show_global_forms: function () {
       $('#global_attributes').show();
       $('#global_permissions').show();
     },
 
-    show_member_forms: function(){
+    show_member_forms: function () {
       $('#member_attributes').show();
       $('#member_permissions').show();
     },
 
-    hide_global_forms: function(){
+    hide_global_forms: function () {
       $('#global_attributes').hide();
       $('#global_permissions').hide();
     },
 
-    hide_member_forms: function(){
+    hide_member_forms: function () {
       $('#member_attributes').hide();
       $('#member_permissions').hide();
     },
 
-    enable_global_forms: function(){
+    enable_global_forms: function () {
       $('#global_attributes input, #global_attributes input, #global_permissions input').each(function (ix, el) {
         global_roles.enable_element(el);
       });
     },
 
-    enable_member_forms: function(){
-       $('#member_attributes input, #member_attributes input, #member_permissions input').each(function (ix, el) {
+    enable_member_forms: function () {
+      $('#member_attributes input, #member_attributes input, #member_permissions input').each(function (ix, el) {
         global_roles.enable_element(el);
-       });
+      });
     },
 
-    enable_element: function(element){
+    enable_element: function (element:any) {
       $(element).prop('disabled', false);
     },
 
-    disable_global_forms: function(){
+    disable_global_forms: function () {
       $('#global_attributes input, #global_attributes input, #global_permissions input').each(function (ix, el) {
         global_roles.disable_element(el);
       });
     },
 
-    disable_member_forms: function(){
+    disable_member_forms: function () {
       $('#member_attributes input, #member_attributes input, #member_permissions input').each(function (ix, el) {
         global_roles.disable_element(el);
       });
     },
 
-    disable_element: function(element){
+    disable_element: function (element:any) {
       $(element).prop('disabled', true);
     },
 
-    script_applicable: function() {
-        return $('body.controller-roles.action-new, body.controller-roles.action-create').length === 1;
+    script_applicable: function () {
+      return $('body.controller-roles.action-new, body.controller-roles.action-create').length === 1;
     }
-  }
+  };
   $(document).ready(global_roles.init);
 }(jQuery));
+
+export function test() {
+}
+
