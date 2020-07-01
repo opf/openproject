@@ -1080,7 +1080,7 @@ DEPENDENCIES
   pry-rescue (~> 1.5.0)
   pry-stack_explorer (~> 0.4.9.2)
   puffing-billy (~> 2.3.1)
-  puma (~> 4.3.1)
+  puma (~> 4.3.5)
   rack-attack (~> 6.2.2)
   rack-mini-profiler
   rack-protection (~> 2.0.8)
