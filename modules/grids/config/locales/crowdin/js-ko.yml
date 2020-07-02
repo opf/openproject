@@ -3,7 +3,6 @@ ko:
     grid:
       add_widget: '위젯 추가'
       remove: '위젯 제거'
-      configure: 'Configure widget'
       upsale:
         text: "작업 패키지 그래프 위젯 같은 일부 위젯은 다음에서만 사용 가능합니다: "
         link: 'Enterprise Edition.'
@@ -40,7 +39,6 @@ ko:
           no_results: '하위 프로젝트가 없습니다.'
         time_entries_current_user:
           title: '내 소요 시간'
-          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: '경과 시간(지난 7 일)'
           no_results: '지난 7일간 시간 엔트리가 없습니다.'

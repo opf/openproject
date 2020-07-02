@@ -64,14 +64,20 @@ describe WorkPackagesController, type: :controller do
         allow(service_instance)
           .to receive(:call)
           .with(query: query, mime_type: mime_type.to_sym, params: anything)
-          .and_return(ServiceResult.new(result: export_storage))
+          .and_return(ServiceResult.new(result: 'uuid of the export job'))
       end
 
       it 'redirects to the export' do
         get 'index', params: { format: 'bcf' }
+        expect(response).to redirect_to job_status_path('uuid of the export job')
+      end
 
-        expect(response)
-          .to redirect_to work_packages_export_path(export_storage.id)
+      context 'with json accept' do
+        it 'should fulfill the defined should_receives' do
+          request.headers['Accept'] = 'application/json'
+          get 'index', params: { format: 'bcf' }
+          expect(response.body).to eq({ job_id: 'uuid of the export job' }.to_json)
+        end
       end
     end
   end

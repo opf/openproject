@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,17 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Cron
-  class ClearOldJobStatusJob < CronJob
-    # runs at 4:15 nightly
-    self.cron_expression = '15 4 * * *'
+require 'spec_helper'
 
-    RETENTION_PERIOD = 2.days.freeze
+describe 'Job status', type: :feature, js: true do
+  using_shared_fixtures :admin
 
-    def perform
-      Delayed::Job::Status
-        .where(Delayed::Job::Status.arel_table[:updated_at].lteq(Time.now - RETENTION_PERIOD))
-        .destroy_all
-    end
+  before do
+    login_as admin
+  end
+
+  it 'renders a descriptive error in case of 404' do
+    visit '/job_statuses/something-that-does-not-exist'
+
+    expect(page).to have_selector('.icon-big.icon-help', wait: 10)
+    expect(page).to have_content I18n.t('js.job_status.generic_messages.not_found')
   end
 end

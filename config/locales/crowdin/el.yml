@@ -411,7 +411,6 @@ el:
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
-        templated: 'Template project'
       projects/status:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
@@ -483,7 +482,6 @@ el:
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
@@ -881,7 +879,6 @@ el:
       - "Οκτ"
       - "Νοε"
       - "Δεκ"
-    abbr_week: 'Wk'
     day_names:
       - "Κυριακή"
       - "Δευτέρα"
@@ -1312,7 +1309,7 @@ el:
   label_delete_project: "Διαγραφή έργου"
   label_deleted: "διαγραμμένο"
   label_deleted_custom_field: "(διαγραμμένο προσαρμοσμένο πεδίο)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(διαγραμμένη επιλογή)"
   label_descending: "Φθίνουσα"
   label_details: "Λεπτομέρειες"
   label_development_roadmap: "Χάρτης πορείας ανάπτυξης"
@@ -1330,7 +1327,7 @@ el:
   label_duplicate: "αντιγραφή"
   label_duplicates: "αντίγραφα"
   label_edit: "Επεξεργασία"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Επεξεργασία: %{x}"
   label_enable_multi_select: "Ενεργοποίηση πολλαπλής επιλογής"
   label_enabled_project_custom_fields: 'Ενεργοποίηση προσαρμοσμένων πεδίων'
   label_enabled_project_modules: 'Ενεργοποίηση ενοτήτων'
@@ -1943,12 +1940,6 @@ el:
       warning_one: Τα μέλη του έργου θα πρέπει να μεταφέρουν τα αποθετήρια του έργου.
       warning_two: Οι υπάρχοντες σύνδεσμοι για το έργο δεν λειτουργούν πλέον.
       title: Αλλαγή αναγνωριστικού του έργου
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Είστε σίγουροι ότι θέλετε να αρχειοθετήσετε το έργο %{name};"
       archived: "Αρχειοθετημένο"

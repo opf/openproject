@@ -37,5 +37,6 @@ Delayed::Worker.delay_jobs = true
 # Example ordering, see ApplicationJob.priority_number
 Delayed::Worker.default_priority = ::ApplicationJob.priority_number(:default)
 
-# By default, retry each job 3 times (instead of 25!)
-Delayed::Worker.max_attempts = 3
+# Do not retry jobs from delayed_job
+# instead use 'retry_on' activejob functionality
+Delayed::Worker.max_attempts = 1

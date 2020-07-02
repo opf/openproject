@@ -334,6 +334,7 @@ describe ProjectsController, type: :controller do
 
     describe 'with template project' do
       let!(:template) { FactoryBot.create :template_project, identifier: 'template' }
+      let(:service_result) { double('Job', job_id: 'uuid of the job') }
       let(:service_double) { double('Projects::InstantiateTemplateService') }
       let(:project_params) do
         {
@@ -358,7 +359,7 @@ describe ProjectsController, type: :controller do
         expect(service_double)
           .to receive(:call) do |params|
           expect(params.to_h).to eq(project_params.stringify_keys)
-          ServiceResult.new success: true, result: template
+          ServiceResult.new success: true, result: service_result
         end
 
         post :create,
@@ -367,7 +368,7 @@ describe ProjectsController, type: :controller do
                project: project_params
              }
 
-        expect(response).to be_redirect
+        expect(response).to redirect_to job_status_path('uuid of the job')
       end
     end
   end

@@ -398,7 +398,7 @@ fil:
     label_sum_for: "Halaga para sa"
     label_subject: "Paksa"
     label_this_week: "ngayong semana"
-    label_today: "Today"
+    label_today: "ngayon"
     label_time_entry_plural: "Nauubos na oras"
     label_up: "Up"
     label_user_plural: "Mga gumagamit"
@@ -584,9 +584,6 @@ fil:
       select_branch: 'Pumili ng sangay'
     field_value_enter_prompt: "Ipasok ang halaga para sa %{field}"
     project_menu_details: "Mga detalye"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Pataas na paayos ang inilapat '
       sorted_dsc: 'Pababa na paayosi ang inilapat '

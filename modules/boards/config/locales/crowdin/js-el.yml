@@ -40,8 +40,8 @@ el:
           Δημιουργήστε ένα πίνακα με φιλτραρισμένες λίστες σε ένα μοναδικό χαρακτηριστικό. Η μετακίνηση των πακέτων εργασίας σε άλλες λίστες θα ενημερώσει τα χαρακτηριστικά τους.
         action_type:
           assignee: assignee
-          status: status
-          version: version
+          status: κατάσταση
+          version: έκδοση
         select_attribute: "Χαρακτηριστικό ενέργειας"
       add_list_modal:
         warning:
