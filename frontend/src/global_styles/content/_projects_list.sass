@@ -93,6 +93,16 @@ form.project-filters
   tr.idnt &
     display: initial
 
+
+#projects-list--container
+  display: flex
+  flex-direction: column
+  // Calculate table size by subtracting the space above and below
+  max-height: calc(100vh - #{var(--header-height)} - 70px - 50px)
+
+  .generic-table--container
+    display: contents
+
 #project-table
   tr.basics
     &.-expanded
