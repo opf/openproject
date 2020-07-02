@@ -398,7 +398,7 @@ zh-CN:
     label_sum_for: "总和"
     label_subject: "主题"
     label_this_week: "这一周"
-    label_today: "Today"
+    label_today: "今天"
     label_time_entry_plural: "已耗时间"
     label_up: "向上"
     label_user_plural: "用户"
@@ -584,9 +584,6 @@ zh-CN:
       select_branch: '选择分支'
     field_value_enter_prompt: "为'%{field}'输入值"
     project_menu_details: "详细信息"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '升序排列已应用， '
       sorted_dsc: '降序排列已应用， '

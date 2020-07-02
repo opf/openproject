@@ -398,7 +398,7 @@ it:
     label_sum_for: "Somma per"
     label_subject: "Soggetto"
     label_this_week: "questa settimana"
-    label_today: "Today"
+    label_today: "oggi"
     label_time_entry_plural: "Tempo speso"
     label_up: "Su"
     label_user_plural: "Utenti"
@@ -584,9 +584,6 @@ it:
       select_branch: 'Selezionare ramo'
     field_value_enter_prompt: "Inserisci un valore per '%{field}'"
     project_menu_details: "Dettagli"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
       sorted_dsc: 'Ordinamento decrescente applicato, '

@@ -1,35 +1,36 @@
 #English strings go here
 ru:
-  label_avatar: "Глистовья какашка\n"
-  label_avatar_plural: "Пизда дубам"
-  label_current_avatar: "анальная глистовина"
-  label_choose_avatar: "выбрать дуб из говна"
-  message_avatar_uploaded: "глист успешно убит"
-  error_image_upload: "ашибка дубов"
-  error_image_size: "изображение говно давай другое"
-  button_change_avatar: "сменить глиста"
-  are_you_sure_delete_avatar: "вы хотите удалить глиста?"
-  avatar_deleted: "вы удалили глиста. ЕБАТЬ ТЫ МРАЗЬ СУКА!(((("
-  unable_to_delete_avatar: "ахаха сука хуй тебе"
-  wrong_file_format: "допустимые форматы - хуй, говно, какашка"
+  label_avatar: "Аватар"
+  label_avatar_plural: "Аватары"
+  label_current_avatar: "Текущий аватар"
+  label_choose_avatar: "Выбрать аватар из файла"
+  message_avatar_uploaded: "Аватар успешно изменен."
+  error_image_upload: "Ошибка сохранения изображения."
+  error_image_size: "Изображение слишком большое."
+  button_change_avatar: "Сменить аватар"
+  are_you_sure_delete_avatar: "Вы уверены, что хотите удалить свой аватар?"
+  avatar_deleted: "Аватар успешно удален."
+  unable_to_delete_avatar: "Аватар не может быть удален."
+  wrong_file_format: "Допустимые форматы — jpg, png, gif"
   empty_file_error: "Пожалуйста, загрузите допустимое изображение (jpg, png, gif)"
   avatars:
-    label_avatar: "Глистовья какашка\n"
-    label_gravatar: "хуйня какая то\n"
-    label_current_avatar: 'ладно я заебался переводить'
-    label_local_avatar: 'пока'
+    label_avatar: "Аватар"
+    label_gravatar: 'Граватар'
+    label_current_avatar: 'Текущий аватар'
+    label_local_avatar: 'Пользовательский аватар'
     text_current_avatar: |
-      пошел нахуй-
+      Следующее изображение показывает текущий аватар.
     text_upload_instructions: |
-      хуй да да пизда пошел нахуй я спать
+      Загрузите свой собственный пользовательский аватар 128 на 128 пикселей. Большие файлы будут изменены и обрезаны соответственно.
+      Предпросмотр вашего аватара будет показан перед загрузкой, после того как вы выбрали изображение.
     text_change_gravatar_html: 'Чтобы изменить или добавить Gravatar для вашего адреса электронной почты, перейдите на %{gravatar_url}.'
     text_your_local_avatar: |
       OpenProject позволяет вам загружать свой собственный аватар.
     text_local_avatar_over_gravatar: |
-      Если вы установили, этот пользовательский аватар будет использоваться в прецеденте над граватаром выше.
+      Выбранный аватар будет использоваться в приоритете над Gravatar, представленным выше.
     text_your_current_gravatar: |
-      OpenProject использует зарегистрированные вами граватар, изображение или иконку по уполчанию, если такие существуют.
-      Текущий граватар следующий:
+      OpenProject использует зарегистрированный вами Gravatar, либо изображение/иконку по умолчанию, если таковые существуют.
+      Текущий Gravatar выглядит следующим образом:
     settings:
       enable_gravatars: 'Использовать Gravatar'
       gravatar_default: "Картинка Gravitar по умолчанию"

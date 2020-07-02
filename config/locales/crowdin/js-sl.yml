@@ -397,7 +397,7 @@ sl:
     label_sum_for: "Vsota za"
     label_subject: "Zadeva"
     label_this_week: "ta teden"
-    label_today: "Today"
+    label_today: "Danes"
     label_time_entry_plural: "Porabljen čas"
     label_up: "Navzgor"
     label_user_plural: "Uporabniki"
@@ -583,9 +583,6 @@ sl:
       select_branch: 'Izberite vejo'
     field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
     project_menu_details: "Podrobnosti"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
