@@ -34,6 +34,10 @@ class RbApplicationController < ApplicationController
 
   skip_before_action :verify_authenticity_token, if: -> { Rails.env.test? }
 
+  # Render angular layout to handle CSS loading
+  # from the frontend
+  layout 'angular'
+
   private
 
   # Loads the project to be used by the authorize filter to determine if

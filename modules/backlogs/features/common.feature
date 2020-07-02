@@ -57,16 +57,19 @@ Feature: Common
     And the user "paul" is a "team member"
     And I am already logged in as "paul"
 
+  @javascript
   Scenario: View the master backlog
     Given I am on the overview page of the project
       And I follow "Backlogs"
      Then I should be on the master backlog
 
+  @javascript
   Scenario: View the product backlog
      When I go to the master backlog
-     Then the request should complete successfully
+     Then I should see "Backlogs" within "#content"
 
+  @javascript
   Scenario: View the product backlog without any stories
     Given there are no stories in the project
      When I go to the master backlog
-     Then the request should complete successfully
+     Then I should see "Backlogs" within "#content"

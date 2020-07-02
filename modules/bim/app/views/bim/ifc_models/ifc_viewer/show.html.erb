@@ -31,7 +31,6 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag "bim/ifc_viewer/generic", media: 'all' %>
   <% provision_gon_for_ifc_model(@ifc_models, @shown_model_ids) %>
   <%= include_gon(nonce: content_security_policy_script_nonce) %>
 <% end %>

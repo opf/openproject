@@ -378,7 +378,7 @@ RB.Model = (function ($) {
     },
 
     markSaving: function () {
-      this.$.addClass('saving');
+      this.$.addClass('ajax-indicator');
     },
 
     // Override this method to change the dialog title
@@ -482,7 +482,7 @@ RB.Model = (function ($) {
     },
 
     unmarkSaving: function () {
-      this.$.removeClass('saving');
+      this.$.removeClass('ajax-indicator');
     }
   });
 }(jQuery));

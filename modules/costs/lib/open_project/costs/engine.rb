@@ -352,11 +352,8 @@ module OpenProject::Costs
                }
     end
 
-    assets %w(costs/costs.css)
-
     initializer 'costs.register_hooks' do
       require 'open_project/costs/hooks'
-      require 'open_project/costs/hooks/activity_hook'
       require 'open_project/costs/hooks/work_package_hook'
       require 'open_project/costs/hooks/work_package_action_menu'
       require 'open_project/costs/hooks/work_packages_show_attributes'

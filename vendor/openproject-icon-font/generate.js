@@ -24,4 +24,6 @@ webfontsGenerator({
   if (error) {
     console.log('Failed to build icon font. ', error);
   }
+
+  console.log('Failed to build icon font. ', error);
 });

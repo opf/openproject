@@ -46,7 +46,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
 
       <%= styled_button_tag t(:button_save),
-                            data:({ confirm: t('admin.custom_styles.theme_warning') } if @current_theme.empty?) %>
+                            data:({ confirm: t('admin.custom_styles.theme_warning') } unless @current_theme.present?) %>
     </fieldset>
   </section>
 <% end %>
@@ -157,7 +157,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= form_tag update_design_colors_path, method: :post, class: "form" do %>
   <section class="form--section">
-    <fieldset class="form--fieldset -collapsible <%= 'collapsed' unless @current_theme.empty?  %> ">
+    <fieldset class="form--fieldset -collapsible <%= 'collapsed' if @current_theme.present?  %> ">
       <legend class="form--fieldset-legend"><%= I18n.t(:label_advanced_settings) %></legend>
 
       <% DesignColor.setables.each do |design_color|  %>
@@ -166,13 +166,15 @@ See docs/COPYRIGHT.rdoc for more details.
           <span class="form--field-container">
             <div class="form--field-affix">
               <%= icon_for_color(OpenStruct.new(variable: design_color.variable,
-                                                hexcode: design_color.get_hexcode),
+                                                hexcode: design_color.hexcode),
                                  data: { target: "#design_colors_" + design_color.variable }) %>
             </div>
             <span class="form--text-field-container">
               <%= styled_text_field_tag "design_colors[]" + design_color.variable,
                                         design_color.hexcode,
-                                        placeholder: DesignColor.defaults[design_color.variable] %>
+                                        class: 'design-color--variable-input',
+                                        data: {  'variable-name': design_color.variable }
+              %>
             </span>
           </span>
           <div class="form--field-instructions">
@@ -188,4 +190,17 @@ See docs/COPYRIGHT.rdoc for more details.
 
     </fieldset>
   </section>
+
+  <%# Fill in the computed css variables in the inputs as their defaults %>
+  <%= nonced_javascript_tag do %>
+    var computedStyle = getComputedStyle(document.documentElement);
+
+    document
+      .querySelectorAll('.design-color--variable-input')
+      .forEach(function(el) {
+      if (!el.value || el.value === '') {
+        el.placeholder = computedStyle.getPropertyValue('--' + el.dataset.variableName).trim();
+      }
+    });
+  <% end %>
 <% end %>

@@ -34,7 +34,6 @@ module OpenProject::Documents
 
     register 'openproject-documents',
              author_url: "http://www.openproject.com",
-             global_assets: { css: 'documents/global_rules' },
              bundled: true do
 
       menu :project_menu, :documents,
@@ -75,14 +74,8 @@ module OpenProject::Documents
       mount ::API::V3::Documents::DocumentsAPI
     end
 
-    assets %w(documents/documents.css)
-
     # Add documents to allowed search params
     additional_permitted_attributes search: %i(documents)
-
-    initializer "documents.register_hooks" do
-      require 'open_project/documents/hooks'
-    end
 
     config.to_prepare do
       require_dependency 'document'

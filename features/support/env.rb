@@ -135,7 +135,7 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 # Remove any modal dialog remaining from the scenarios which finish in an unclean state
 Before do |_scenario|
-  page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
+  page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoSuchAlertError
 end
 
 Before do

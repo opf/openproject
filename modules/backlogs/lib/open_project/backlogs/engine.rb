@@ -106,10 +106,7 @@ module OpenProject::Backlogs
     end
 
     assets %w(
-      backlogs/backlogs.css
       backlogs/backlogs.js
-      backlogs/master_backlog.css
-      backlogs/taskboard.css
       backlogs/jquery.flot/excanvas.js
       backlogs/burndown.js
     )

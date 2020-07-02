@@ -46,6 +46,7 @@ feature 'project settings index', type: :feature do
     login_as(user)
   end
 
+  @javascript
   scenario 'see versions listed in semver order' do
     visit settings_versions_project_path(project)
 

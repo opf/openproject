@@ -77,7 +77,6 @@
     "angular-dragula": "^1.2.8",
     "atoa": "^1.0.0",
     "autoprefixer": "^9.6.1",
-    "bourbon": "~6.0.0",
     "browserslist": "^4.9.1",
     "bundle-loader": "^0.5.4",
     "caniuse-lite": "^1.0.30001019",
@@ -133,7 +132,7 @@
   "scripts": {
     "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer -p 9999 ../public/assets/frontend/stats.json",
     "prebuild": "./scripts/link_plugin_placeholder.js",
-    "build": "ng build --prod --named-chunks --source-map",
+    "build": "ng build --prod --named-chunks --source-map --extract-css",
     "preserve": "./scripts/link_plugin_placeholder.js",
     "serve": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --public-host http://localhost:4200",
     "pretest": "./scripts/link_plugin_placeholder.js",

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Injector} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Injector, ViewEncapsulation} from "@angular/core";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {
   PartitionedQuerySpacePageComponent,
@@ -26,8 +26,10 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
-    '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass'
+    '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
+    './styles/generic.sass'
   ],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     QueryParamListenerService,

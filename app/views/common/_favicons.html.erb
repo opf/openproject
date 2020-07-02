@@ -1,3 +1,5 @@
+<% begin %>
+
 <% unless (EnterpriseToken.allows_to?(:define_custom_style) && CustomStyle.try(:current).present? && CustomStyle.current.favicon.present?) %>
   <%= favicon_link_tag OpenProject::CustomStyles::Design.favicon_asset_path %>
 <% end %>
@@ -8,3 +10,9 @@
                                                        type: 'image/png',
                                                        sizes: "120x120" %>
 <% end %>
+
+<% rescue => e
+     binding.pry
+     warn e
+   end
+%>

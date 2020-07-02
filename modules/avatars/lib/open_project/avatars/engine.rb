@@ -24,7 +24,6 @@ module OpenProject::Avatars
 
     register 'openproject-avatars',
              author_url: 'https://www.openproject.com',
-             global_assets: { css: 'avatars/openproject_avatars' },
              settings: {
                default: {
                  enable_gravatars: true,

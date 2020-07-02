@@ -19,9 +19,11 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": [],
+            "assets": [
+              "src/assets"
+            ],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",
@@ -91,9 +93,12 @@
             "karmaConfig": "./karma.conf.js",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass/"
+              ]
+            },
             "assets": []
           }
         },

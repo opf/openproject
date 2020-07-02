@@ -27,8 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render partial: 'shared/costs_header' %>
-
 <% if(@cost_type.id) %>
   <% html_title  t(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
   <% local_assigns[:additional_breadcrumb] = @cost_type.name %>
