@@ -71,15 +71,16 @@ feature 'Top menu items', js: true, selenium: true do
     !let(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
 
     let(:news_item) { I18n.t('label_news_plural') }
+    let(:project_item) { I18n.t('label_projects_menu') }
     let(:time_entries_item) { I18n.t('label_time_sheet_menu') }
     let(:reporting_item) { I18n.t('cost_reports_title') }
 
-    let(:all_items) { [news_item, time_entries_item] }
+    let(:all_items) { [news_item, time_entries_item, project_item] }
 
     context 'as an admin' do
       let(:user) { FactoryBot.create :admin }
       it 'displays all items' do
-        has_menu_items?(reporting_item, news_item)
+        has_menu_items?(reporting_item, news_item, project_item)
       end
 
       it 'visits the news page' do
@@ -89,29 +90,21 @@ feature 'Top menu items', js: true, selenium: true do
     end
 
     context 'as a regular user' do
-      it 'displays news only' do
-        has_menu_items? news_item
+      it 'displays news and projects only' do
+        has_menu_items? news_item, project_item
       end
     end
 
     context 'as a user with permissions', allowed_to: true do
       it 'displays all options' do
-        has_menu_items?(reporting_item, news_item)
-      end
-    end
-
-    context 'as a user without permissions', allowed_to: false do
-      let(:open_menu) { false }
-      it 'displays no options and hides the module menu' do
-        has_menu_items?
-        expect(page).not_to have_link('Modules')
+        has_menu_items?(reporting_item, news_item, project_item)
       end
     end
 
     context 'as an anonymous user' do
       let(:user) { FactoryBot.create :anonymous }
-      it 'displays only news' do
-        has_menu_items? news_item
+      it 'displays only news and projects' do
+        has_menu_items? news_item, project_item
       end
     end
   end
