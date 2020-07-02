@@ -90,7 +90,6 @@ $ng-modal-image-height: 135px
 
 .op-modal--modal-body
   margin: 1em 0
-  padding: 0 1.5rem
   max-height: calc(100vh - var(--header-height) - var(--header-height))
   overflow: auto
   @include styled-scroll-bar
@@ -100,10 +99,13 @@ $ng-modal-image-height: 135px
       margin-bottom: 0px
 
 .op-modal--modal-footer
-  padding: 0 1.5rem
+  margin: 1.5rem 0
 
-  button:last-of-type
-    margin-right: 0
+  button
+    margin-bottom: 0
+
+    &:last-of-type
+      margin-right: 0
 
 .op-modal--modal-close-button
   position: absolute
@@ -119,6 +121,10 @@ $ng-modal-image-height: 135px
 .op-modal--modal-container.-highlight
   padding: 0
 
+  .op-modal--modal-body,
+  .op-modal--modal-footer
+    padding: 0 1.5rem
+
   // Overridden header styles
   .op-modal--modal-header
     padding-left: 1.5rem
@@ -128,9 +134,6 @@ $ng-modal-image-height: 135px
 
     *
       color: var(--header-item-font-color)
-
-  .op-modal--modal-footer
-    margin: 1em 0
 
   .op-modal--modal-close-button
     top: 0
