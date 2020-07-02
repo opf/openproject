@@ -91,6 +91,7 @@ Feature: Product Owner
           | Story B | Sprint 001 |
       And I am already logged in as "mathias"
 
+  @javascript
   Scenario: View the product backlog
      When I go to the master backlog
      Then I should see the product backlog
@@ -98,6 +99,7 @@ Feature: Product Owner
       And I should see 4 sprint backlogs
       And I should see 2 product owner backlogs
 
+  @javascript
   Scenario: Create a new story
      When I go to the master backlog
       And I want to create a story
@@ -107,6 +109,7 @@ Feature: Product Owner
      Then the 1st story in the "Product Backlog" should be "A Whole New Story"
       And all positions should be unique for each version
 
+  @javascript
   Scenario: Update a story
     Given I am on the master backlog
       And I want to edit the story with subject Story 3
@@ -117,6 +120,7 @@ Feature: Product Owner
       And the story should have a type of Epic
       And the story should be at position 3
 
+  @javascript
   Scenario: Close a story
     Given I am on the master backlog
       And I want to edit the story with subject Story 4
@@ -124,16 +128,19 @@ Feature: Product Owner
      When I update the story
      Then the status of the story should be set as closed
 
+  @javascript
   Scenario: Move a story to the top
     Given I am on the master backlog
      When I move the 3rd story to the 1st position
      Then the 1st story in the "Product Backlog" should be "Story 3"
 
+  @javascript
   Scenario: Move a story to the bottom
     Given I am on the master backlog
      When I move the 2nd story to the last position
      Then the 4th story in the "Product Backlog" should be "Story 2"
 
+  @javascript
   Scenario: Move a story down
     Given I am on the master backlog
      When I move the 2nd story to the 3rd position
@@ -141,6 +148,7 @@ Feature: Product Owner
       And the 3rd story in the "Product Backlog" should be "Story 2"
       And the 4th story in the "Product Backlog" should be "Story 4"
 
+  @javascript
   Scenario: Move a story up
     Given I am on the master backlog
      When I move the 4th story to the 2nd position

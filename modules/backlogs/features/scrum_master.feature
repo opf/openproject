@@ -120,6 +120,7 @@ Feature: Scrum Master
         | Subsubtask   | Sprint 005 | Subfeature | Task       |
     And I am already logged in as "markus"
 
+  @javascript
   Scenario: View stories that have a parent ticket
    Given I am on the master backlog
     Then I should see 2 stories in "Sprint 005"
@@ -218,6 +219,7 @@ Feature: Scrum Master
     And the impediment "Bad Company" should signal unsuccessful saving
     And the error alert should show "IDs of blocked work packages must contain the ID of at least one ticket"
 
+  @javascript
   Scenario: Update sprint details
     Given I am on the master backlog
       And I want to edit the sprint named Sprint 001
@@ -228,6 +230,7 @@ Feature: Scrum Master
      Then the request should complete successfully
       And the sprint should be updated accordingly
 
+  @javascript
   Scenario: Update sprint with no name
     Given I am on the master backlog
       And I want to edit the sprint named Sprint 001
@@ -235,6 +238,7 @@ Feature: Scrum Master
      When I update the sprint
      Then the server should return an update error
 
+  @javascript
   Scenario: Move a story from product backlog to sprint backlog
     Given I am on the master backlog
      When I move the story named Story 1 up to the 1st position of the sprint named Sprint 001
@@ -246,6 +250,7 @@ Feature: Scrum Master
       And Story 1 should be in the 2nd position of the sprint named Sprint 001
       And Story 2 should be in the 1st position of the sprint named Sprint 002
 
+  @javascript
   Scenario: Move a story down in a sprint
     Given I am on the master backlog
      When I move the story named Story A below Story B
@@ -253,6 +258,7 @@ Feature: Scrum Master
       And Story A should be in the 2nd position of the sprint named Sprint 001
       And Story B should be the higher item of Story A
 
+  @javascript
   Scenario: View tasks that have subtasks
   Given I am on the taskboard for "Sprint 005"
    Then I should see "Task 10" within "#tasks"
@@ -264,6 +270,7 @@ Feature: Scrum Master
     And I should not see "Subfeature"
     And I should not see "Subsubtask"
 
+  @javascript
   Scenario: Move stories around in the backlog that have a parent ticket
    Given I am on the master backlog
     When I move the story named Story D below Story E
@@ -285,6 +292,7 @@ Feature: Scrum Master
      And I should see "Subfeature" within ".work-package-table--container table"
      And I should see "Subsubtask" within ".work-package-table--container table"
 
+  @javascript
   Scenario: Move a task with subtasks around in the taskboard
    Given I am on the taskboard for "Sprint 005"
     When I move the task named Task 10 below Task 11

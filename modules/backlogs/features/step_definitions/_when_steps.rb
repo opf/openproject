@@ -26,20 +26,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+def perform_post(url, params = {})
+  session = page.get_rack_session
+  driver = Capybara.current_driver
+  begin
+    Capybara.current_driver = :rack_test
+    page.set_rack_session(session)
+    RequestStore[:response] = page.driver.post(url, params)
+  rescue StandardError => e
+    warn "Failed to perform rack request: #{e}"
+    raise e
+  ensure
+    Capybara.current_driver = driver
+    page.set_rack_session(session)
+  end
+end
+
 When /^I create the impediment$/ do
-  page.driver.post backlogs_project_sprint_impediments_url(
+  perform_post backlogs_project_sprint_impediments_url(
     *@impediment_params.values_at('project_id', 'version_id')
   ), @impediment_params.except('author_id', 'author')
 end
 
 When /^I create the story$/ do
-  page.driver.post backlogs_project_sprint_stories_url(
+  perform_post backlogs_project_sprint_stories_url(
     *@story_params.values_at('project_id', 'version_id')
   ), @story_params.except('author_id', 'author')
 end
 
 When /^I create the task$/ do
-  page.driver.post backlogs_project_sprint_tasks_url(
+  perform_post backlogs_project_sprint_tasks_url(
     *@task_params.values_at('project_id', 'version_id')
   ), @task_params.except('author_id', 'author')
 end
@@ -62,7 +78,7 @@ When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subj
   project = Project.find(attributes['project_id'])
   sprint  = prev.version
 
-  page.driver.post polymorphic_url(
+  perform_post polymorphic_url(
     [:backlogs, project, sprint.becomes(Sprint), story]
   ), attributes.merge('_method' => 'put')
 end
@@ -82,7 +98,7 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
                         stories[position - (direction == 'up' ? 2 : 1)].id
                       end
 
-  page.driver.post backlogs_project_sprint_story_url(
+  perform_post backlogs_project_sprint_story_url(
     *attributes.values_at('project_id', 'version_id', 'id')
   ), attributes.merge('_method' => 'put')
 end
@@ -105,7 +121,7 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
 
   @story = Story.find(story.text.to_i)
 
-  page.driver.post backlogs_project_sprint_story_url(
+  perform_post backlogs_project_sprint_story_url(
     @project.id,
     @story.version_id,
     @story.id
@@ -113,25 +129,25 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
 end
 
 When /^I update the impediment$/ do
-  page.driver.post backlogs_project_sprint_impediment_url(
+  perform_post backlogs_project_sprint_impediment_url(
     *@impediment_params.values_at('project_id', 'version_id', 'id')
   ), @impediment_params.merge('_method' => 'put')
 end
 
 When /^I update the sprint$/ do
-  page.driver.post backlogs_project_sprint_url(
+  perform_post backlogs_project_sprint_url(
     *@sprint_params.values_at('project_id', 'id')
   ), @sprint_params.merge('_method' => 'put')
 end
 
 When /^I update the story$/ do
-  page.driver.post backlogs_project_sprint_story_url(
+  perform_post backlogs_project_sprint_story_url(
     *@story_params.values_at('project_id', 'version_id', 'id')
   ), @story_params.merge('_method' => 'put')
 end
 
 When /^I update the task$/ do
-  page.driver.post backlogs_project_sprint_task_url(
+  perform_post backlogs_project_sprint_task_url(
     *@task_params.values_at('project_id', 'version_id', 'id')
   ), @task_params.merge('_method' => 'put')
 end

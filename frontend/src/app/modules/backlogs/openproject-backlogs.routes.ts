@@ -36,4 +36,10 @@ export const BACKLOGS_ROUTES:Ng2StateDeclaration[] = [
     url: '/backlogs',
     component: BacklogsPageComponent
   },
+  {
+    name: 'backlogs_sprint',
+    parent: 'root',
+    url: '/sprints/{sprintId:int}/taskboard',
+    component: BacklogsPageComponent
+  },
 ];
