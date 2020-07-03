@@ -63,7 +63,7 @@ module PasswordHelper
     end
   end
 
-  def render_password_complexity_tooltip
+  def render_password_complexity_hint
     rules = password_rules_description
 
     s = OpenProject::Passwords::Evaluator.min_length_description
