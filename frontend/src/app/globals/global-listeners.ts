@@ -35,6 +35,7 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
 import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable-fieldset";
 import {TopMenu} from "core-app/globals/global-listeners/top-menu";
 import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
+import {listenToSettingChanges} from "core-app/globals/global-listeners/settings";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -124,9 +125,13 @@ import {install_menu_logic} from "core-app/globals/global-listeners/action-menu"
     // Top menu click handling
     new TopMenu(jQuery('#top-menu-items'));
 
+    // Action menu logic
     jQuery('.project-actions, .toolbar-items').each(function (idx:number, menu:HTMLElement) {
       install_menu_logic(jQuery(menu));
     });
+
+    // Legacy settings listener
+    listenToSettingChanges();
   });
 
 }(jQuery));
