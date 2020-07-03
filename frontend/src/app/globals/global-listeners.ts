@@ -37,6 +37,7 @@ import {TopMenu} from "core-app/globals/global-listeners/top-menu";
 import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
 import {listenToSettingChanges} from "core-app/globals/global-listeners/settings";
 import {makeColorPreviews} from "core-app/globals/global-listeners/color-preview";
+import {dangerZoneValidation} from "core-app/globals/global-listeners/danger-zone-validation";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -136,6 +137,9 @@ import {makeColorPreviews} from "core-app/globals/global-listeners/color-preview
 
     // Color patches preview the color
     makeColorPreviews();
+
+    // Danger zone input validation
+    dangerZoneValidation();
   });
 
 }(jQuery));
