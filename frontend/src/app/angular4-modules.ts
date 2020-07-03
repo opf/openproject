@@ -48,6 +48,7 @@ import {OpenprojectPluginsModule} from "core-app/modules/plugins/openproject-plu
 import {ConfirmFormSubmitController} from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import {ProjectMenuAutocompleteComponent} from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {OpenProjectDirectFileUploadService} from './components/api/op-file-upload/op-direct-file-upload.service';
 import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.module";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
@@ -143,6 +144,7 @@ import {RevitAddInSettingsButtonService} from "core-app/modules/bim/revit_add_in
     { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
     PaginationService,
     OpenProjectFileUploadService,
+    OpenProjectDirectFileUploadService,
     // Split view
     CommentService,
     ConfirmDialogService,

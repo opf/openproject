@@ -36,6 +36,11 @@ class Attachments::CleanupUncontaineredJob < ApplicationJob
       .where(container: nil)
       .where(too_old)
       .destroy_all
+
+    Attachment
+      .pending_direct_uploads
+      .where(too_old)
+      .destroy_all # prepared direct uploads that never finished
   end
 
   private

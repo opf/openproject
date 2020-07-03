@@ -32,8 +32,10 @@ import {OpenProjectFileUploadService, UploadFile} from 'core-components/api/op-f
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {HttpErrorResponse} from "@angular/common/http";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { OpenProjectDirectFileUploadService } from 'core-app/components/api/op-file-upload/op-direct-file-upload.service';
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 
@@ -44,8 +46,10 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private NotificationsService:NotificationsService;
     private halNotification:HalResourceNotificationService;
     private opFileUpload:OpenProjectFileUploadService;
+    private opDirectFileUpload:OpenProjectDirectFileUploadService;
     private pathHelper:PathHelperService;
     private apiV3Service:APIV3Service;
+    private config:ConfigurationService;
 
     /**
      * Can be used in the mixed in class to disable
@@ -168,15 +172,29 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     private performUpload(files:UploadFile[]) {
-      let href = '';
+      let href: string = this.directUploadURL || '';
 
-      if (this.isNew || !this.id || !this.attachmentsBackend) {
+      if (href) {
+        return this.opDirectFileUpload.uploadAndMapResponse(href, files);
+      } else if (this.isNew || !this.id || !this.attachmentsBackend) {
         href = this.apiV3Service.attachments.path;
       } else {
         href = this.addAttachment.$link.href;
       }
 
       return this.opFileUpload.uploadAndMapResponse(href, files);
+    }
+
+    private get directUploadURL():string|null {
+      if (this.$links.prepareAttachment) {
+        return this.$links.prepareAttachment.href;
+      }
+
+      if (this.isNew) {
+        return this.config.prepareAttachmentURL
+      } else {
+        return null;
+      }
     }
 
     private updateState() {
@@ -195,7 +213,12 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       if (!this.opFileUpload) {
         this.opFileUpload = this.injector.get(OpenProjectFileUploadService);
       }
-
+      if (!this.opDirectFileUpload) {
+        this.opDirectFileUpload = this.injector.get(OpenProjectDirectFileUploadService);
+      }
+      if (!this.config) {
+        this.config = this.injector.get(ConfigurationService);
+      }
       if (!this.pathHelper) {
         this.pathHelper = this.injector.get(PathHelperService);
       }

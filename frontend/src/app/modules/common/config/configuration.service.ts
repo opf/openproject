@@ -65,6 +65,14 @@ export class ConfigurationService {
     return this.userPreference('timeZone');
   }
 
+  public isDirectUploads() {
+    return !!this.prepareAttachmentURL;
+  }
+
+  public get prepareAttachmentURL() {
+    return _.get(this.configuration, ['prepareAttachment', 'href']);
+  }
+
   public get maximumAttachmentFileSize() {
     return this.systemPreference('maximumAttachmentFileSize');
   }

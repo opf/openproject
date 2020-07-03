@@ -35,9 +35,59 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= f.text_field :title, required: true, container_class: '-wide' %>
   </div>
 <% end %>
+
+<% if OpenProject::Configuration.direct_uploads? %>
+  <% Hash(@form).each do |key, value| %>
+    <input type="hidden" name="<%= key %>" value="<%= value %>" />
+  <% end %>
+<% end %>
+
 <div class="form--field <%= @ifc_model.new_record? ? '-required': '' %>">
-  <%= f.file_field :ifc_attachment %>
+  <% if OpenProject::Configuration.direct_uploads? %>
+    <input class="form--file-field" type="file" name="file" />
+  <% else %>
+    <%= f.file_field :ifc_attachment %>
+  <% end %>
 </div>
+
 <div class="form--field">
   <%= f.check_box 'is_default' %>
 </div>
+
+<% if OpenProject::Configuration.direct_uploads? %>
+
+<%= nonced_javascript_tag do %>
+  jQuery(document).ready(function() {
+    jQuery("input[type=file]").change(function(e){
+      var fileName = e.target.files[0].name;
+
+      jQuery.post(
+        "<%= set_direct_upload_file_name_bcf_project_ifc_models_path %>",
+        {
+          title: fileName,
+          isDefault: jQuery("#bim_ifc_models_ifc_model_is_default").is(":checked") ? 1 : 0
+        }
+      );
+
+      // rebuild form to post to S3 directly
+      if (jQuery("input[name=utf8]").length == 1) {
+        jQuery("input[name=utf8]").remove();
+        jQuery("input[name=authenticity_token]").remove();
+        jQuery("input[name=_method]").remove();
+
+        var url = jQuery("input[name=uri]").val();
+
+        jQuery("form").attr("action", url);
+        jQuery("form").attr("enctype", "multipart/form-data");
+
+        jQuery("input[name=uri]").remove();
+
+        jQuery("form").submit(function() {
+          jQuery("#bim_ifc_models_ifc_model_title").prop("disabled", "disabled");
+        });
+      }
+    });
+  });
+<% end %>
+
+<% end %>

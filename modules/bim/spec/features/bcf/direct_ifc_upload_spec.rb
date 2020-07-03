@@ -26,30 +26,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  scope '', as: 'bcf' do
-    mount ::Bim::Bcf::API::Root => '/api/bcf'
+require 'spec_helper'
 
-    scope 'projects/:project_id', as: 'project' do
-      resources :issues, controller: 'bim/bcf/issues' do
-        get :upload, action: :upload, on: :collection
-        post :prepare_import, action: :prepare_import, on: :collection
-        post :configure_import, action: :configure_import, on: :collection
-        post :import, action: :perform_import, on: :collection
-      end
+describe 'direct IFC upload', type: :feature, js: true, with_direct_uploads: :redirect, with_config: { edition: 'bim' } do
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim] }
+  let(:ifc_fixture) { Rails.root.join('modules/bim/spec/fixtures/files/minimal.ifc') }
 
+  before do
+    login_as user
 
-      # IFC viewer frontend
-      get 'bcf(/*state)', to: 'bim/ifc_models/ifc_viewer#show', as: :frontend
+    allow_any_instance_of(Bim::IfcModels::BaseContract).to receive(:ifc_attachment_is_ifc).and_return true
+  end
 
-      # IFC model management
-      resources :ifc_models, controller: 'bim/ifc_models/ifc_models' do
-        collection do
-          get :defaults
-          get :direct_upload_finished
-          post :set_direct_upload_file_name
-        end
-      end
-    end
+  it 'should work' do
+    visit new_bcf_project_ifc_model_path(project_id: project.identifier)
+
+    page.attach_file("file", ifc_fixture, visible: :all)
+
+    click_on "Create"
+
+    expect(page).to have_content("Upload succeeded")
+
+    expect(Attachment.count).to eq 1
+    expect(Attachment.first[:file]).to eq 'model.ifc'
+
+    expect(Bim::IfcModels::IfcModel.count).to eq 1
+    expect(Bim::IfcModels::IfcModel.first.title).to eq "minimal.ifc"
   end
 end

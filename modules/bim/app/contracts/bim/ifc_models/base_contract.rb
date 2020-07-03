@@ -68,16 +68,20 @@ module Bim
       end
 
       def ifc_attachment_is_ifc
-        return unless model.ifc_attachment&.new_record?
+        return unless model.ifc_attachment&.new_record? || model.ifc_attachment&.pending_direct_upload?
 
-        firstline = File.open(model.ifc_attachment.file.file.path, &:readline)
+        file_path = model.ifc_attachment.file.local_file.path
 
         begin
+          firstline = File.open(file_path, &:readline)
+
           unless firstline.match?(/^ISO-10303-21;/)
             errors.add :base, :invalid_ifc_file
           end
         rescue ArgumentError
           errors.add :base, :invalid_ifc_file
+        ensure
+          FileUtils.rm file_path if File.exists? file_path
         end
       end
 

@@ -39,7 +39,7 @@ module Bim
         super
 
         change_by_system do
-          model.uploader = model.ifc_attachment&.author if model.ifc_attachment&.new_record?
+          model.uploader = model.ifc_attachment&.author if model.ifc_attachment&.new_record? || model.ifc_attachment&.pending_direct_upload?
         end
       end
 
@@ -61,14 +61,22 @@ module Bim
       end
 
       def set_title
-        model.title = model.ifc_attachment&.file&.filename&.gsub(/\.\w+$/, '')
+        model.title ||= model.ifc_attachment&.file&.filename&.gsub(/\.\w+$/, '')
       end
 
       def set_ifc_attachment(ifc_attachment)
         return unless ifc_attachment
 
         model.attachments.each(&:mark_for_destruction)
-        model.attach_files('first' => {'file' => ifc_attachment, 'description' => 'ifc'})
+
+        if ifc_attachment.is_a?(Attachment)
+          ifc_attachment.description = "ifc"
+          ifc_attachment.save! unless ifc_attachment.new_record?
+
+          model.attachments << ifc_attachment
+        else
+          model.attach_files('first' => {'file' => ifc_attachment, 'description' => 'ifc'})
+        end
       end
     end
   end
