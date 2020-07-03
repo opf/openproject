@@ -35,16 +35,17 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
 import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable-fieldset";
 import {TopMenu} from "core-app/globals/global-listeners/top-menu";
 import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
-import {listenToSettingChanges} from "core-app/globals/global-listeners/settings";
 import {makeColorPreviews} from "core-app/globals/global-listeners/color-preview";
 import {dangerZoneValidation} from "core-app/globals/global-listeners/danger-zone-validation";
+import {setupServerResponse} from "core-app/globals/global-listeners/setup-server-response";
+import {listenToSettingChanges} from "core-app/globals/global-listeners/settings";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
  */
-(function($:JQueryStatic) {
+(function ($:JQueryStatic) {
 
-  $(function() {
+  $(function () {
     $(document.documentElement!)
       .on('click', (evt:any) => {
         const target = jQuery(evt.target) as JQuery;
@@ -75,7 +76,7 @@ import {dangerZoneValidation} from "core-app/globals/global-listeners/danger-zon
 
     // Global submitting hook,
     // necessary to avoid a data loss warning on beforeunload
-    $(document).on('submit','form',function(){
+    $(document).on('submit', 'form', function () {
       window.OpenProject.pageIsSubmitted = true;
     });
 
@@ -140,6 +141,9 @@ import {dangerZoneValidation} from "core-app/globals/global-listeners/danger-zon
 
     // Danger zone input validation
     dangerZoneValidation();
+
+    // Bootstrap legacy app code
+    setupServerResponse();
   });
 
 }(jQuery));

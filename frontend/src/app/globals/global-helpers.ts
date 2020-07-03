@@ -26,21 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-jQuery(document).ready(function($) {
-  $('body').on('click keydown touchend', '.close-handler,.notification-box--close', function (e) {
-    if (e.type == 'click' || e.keyCode == 13) {
-      $(this).parent('.flash, .errorExplanation, .notification-box')
-        .not('.persistent-toggle--notification')
-        .remove();
-    }
-  });
+/**
+ * A set of global helpers that were used in the app/assets/javascript namespace
+ * but exposed globally.
+ *
+ * It is used in some `link_to_function` helpers in Rails templates
+ */
+export class GlobalHelpers {
+  public checkAll(selector:any, checked:any) {
+    jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function(this:HTMLInputElement) {
+      this.checked = checked;
+    });
+  }
 
-  autoHideFlashMessage();
-
-});
-
-function autoHideFlashMessage() {
-  setTimeout(function() {
-    jQuery('.flash.autohide-notification').remove();
-  }, 5000);
+  public toggleCheckboxesBySelector(selector:any) {
+    const boxes = jQuery(selector);
+    var all_checked = true;
+    for (let i = 0; i < boxes.length; i++) { if (boxes[i].checked === false) { all_checked = false; } }
+    for (let i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
+  }
 }
