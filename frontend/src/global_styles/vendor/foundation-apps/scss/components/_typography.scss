@@ -269,11 +269,11 @@ $acronym-underline: 1px dotted #ddd !default;
 
   /* Lists */
   ul, ol {
-    margin-left: $list-side-margin;
+    margin-left: var(--list-side-margin);
     li {
       ul,
       ol {
-        margin-left: $list-nested-margin;
+        margin-left: var(--list-nested-margin);
         margin-bottom: 0;
       }
     }
