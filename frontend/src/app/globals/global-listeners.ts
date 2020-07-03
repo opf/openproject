@@ -36,6 +36,7 @@ import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable
 import {TopMenu} from "core-app/globals/global-listeners/top-menu";
 import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
 import {listenToSettingChanges} from "core-app/globals/global-listeners/settings";
+import {makeColorPreviews} from "core-app/globals/global-listeners/color-preview";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -132,6 +133,9 @@ import {listenToSettingChanges} from "core-app/globals/global-listeners/settings
 
     // Legacy settings listener
     listenToSettingChanges();
+
+    // Color patches preview the color
+    makeColorPreviews();
   });
 
 }(jQuery));

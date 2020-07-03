@@ -26,38 +26,43 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-(function ($) {
-  $(function() {
-    $('.color--preview').each(function() {
-      var preview, input, func, target;
+/**
+ * Moved from app/assets/javascripts/colors.js
+ *
+ * Make this a component instead of modifying it the next time
+ * this needs changes
+ */
+export function makeColorPreviews() {
+  jQuery('.color--preview').each(function () {
+    let preview = jQuery(this);
+    let input:any;
+    let func:any;
+    let target = preview.data('target');
 
-      preview = $(this);
-      target  = preview.data('target');
-      if(target) {
-        input = $(target);
-      } else {
-        input = preview.next('input');
+    if (target) {
+      input = jQuery(target);
+    } else {
+      input = preview.next('input');
+    }
+
+    if (input.length === 0) {
+      return;
+    }
+
+    func = function () {
+      var previewColor = '';
+
+      if (input.val() && input.val().length > 0) {
+        previewColor = input.val();
+      } else if (input.attr('placeholder') &&
+        input.attr('placeholder').length > 0) {
+        previewColor = input.attr('placeholder')
       }
 
-      if (input.length === 0) {
-        return;
-      }
+      preview.css('background-color', previewColor);
+    };
 
-      func = function () {
-        var previewColor = '';
-
-        if(input.val() && input.val().length > 0) {
-          previewColor = input.val();
-        } else if (input.attr('placeholder') &&
-                   input.attr('placeholder').length > 0) {
-          previewColor = input.attr('placeholder')
-        }
-
-        preview.css('background-color', previewColor);
-      };
-
-      input.keyup(func).change(func).focus(func);
-      func();
-    });
+    input.keyup(func).change(func).focus(func);
+    func();
   });
-}(jQuery));
+}
