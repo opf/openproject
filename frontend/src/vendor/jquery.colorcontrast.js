@@ -99,4 +99,4 @@ function debug(o){
 		
 	}
 	
-})(this.jQuery);
+})(jQuery);
