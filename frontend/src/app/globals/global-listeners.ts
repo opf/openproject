@@ -32,6 +32,7 @@ import {refreshOnFormChanges} from 'core-app/globals/global-listeners/refresh-on
 import {registerRequestForConfirmation} from "core-app/globals/global-listeners/request-for-confirmation";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
+import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable-fieldset";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -110,6 +111,9 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
     if (deviceService.isMobile) {
       scrollHeaderOnMobile();
     }
+
+    // Legacy scripts from app/assets that are not yet component based
+    setupToggableFieldsets();
   });
 
 }(jQuery));

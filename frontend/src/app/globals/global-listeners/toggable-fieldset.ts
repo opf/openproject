@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-function createFieldsetToggleStateLabel(legend, text) {
+function createFieldsetToggleStateLabel(legend:JQuery, text:string) {
   var labelClass = 'fieldset-toggle-state-label';
   var toggleLabel = legend.find('a span.' + labelClass);
   var legendLink = legend.children('a');
@@ -41,7 +41,7 @@ function createFieldsetToggleStateLabel(legend, text) {
   toggleLabel.text(' ' + text);
 }
 
-function setFieldsetToggleState(fieldset) {
+function setFieldsetToggleState(fieldset:JQuery) {
   var legend = fieldset.children('legend');
 
 
@@ -52,7 +52,7 @@ function setFieldsetToggleState(fieldset) {
   }
 }
 
-function getFieldset(el) {
+function getFieldset(el:HTMLElement) {
   var element = jQuery(el);
 
   if (element.is('legend')) {
@@ -64,17 +64,17 @@ function getFieldset(el) {
   throw "Cannot derive fieldset from element!";
 }
 
-function toggleFieldset(el) {
+function toggleFieldset(el:HTMLElement) {
   var fieldset = getFieldset(el);
   var contentArea = fieldset.find('> div').not('.form--toolbar');
 
   fieldset.toggleClass('collapsed');
-  contentArea.slideToggle('fast', null);
+  contentArea.slideToggle('fast');
 
   setFieldsetToggleState(fieldset);
 }
 
-jQuery(document).ready(function() {
+export function setupToggableFieldsets() {
   const fieldsets = jQuery('fieldset.form--fieldset.-collapsible');
 
   // Toggle on click
@@ -97,4 +97,4 @@ jQuery(document).ready(function() {
 
       setFieldsetToggleState(fieldset);
     });
-});
+}

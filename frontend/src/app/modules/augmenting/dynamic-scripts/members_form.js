@@ -26,6 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+function findFilter() {
+  var filter =  jQuery('.simple-filters--container');
+
+  // Find the filter elements on the page
+  if(filter.length === 0)
+    filter = jQuery('.advanced-filters--container');
+  else if(filter.length === 0)
+    filter = nil;
+
+  return filter;
+}
+
+function hideFilter(filter) {
+  filter.addClass('collapsed');
+}
+
+function showFilter(filter) {
+  filter.removeClass('collapsed');
+}
+
 function toggleMemberFilter() {
   if (window.OpenProject.guardedLocalStorage("showFilter") === "true") {
     window.OpenProject.guardedLocalStorage("showFilter", 'false');
