@@ -162,8 +162,8 @@ export function initializeUiRouterListeners(injector:Injector) {
   let wpBase = document.querySelector(appBaseSelector);
 
   // Uncomment to trace route changes
-  const uiRouter = injector.get(UIRouter);
-  uiRouter.trace.enable();
+  // const uiRouter = injector.get(UIRouter);
+  // uiRouter.trace.enable();
 
   // Apply classes from bodyClasses in each state definition
   // This was defined as onEnter, onExit functions in each state before

@@ -39,6 +39,7 @@ import {makeColorPreviews} from "core-app/globals/global-listeners/color-preview
 import {dangerZoneValidation} from "core-app/globals/global-listeners/danger-zone-validation";
 import {setupServerResponse} from "core-app/globals/global-listeners/setup-server-response";
 import {listenToSettingChanges} from "core-app/globals/global-listeners/settings";
+import {detectOnboardingTour} from "core-app/globals/onboarding/onboarding_tour_trigger";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -117,6 +118,10 @@ import {listenToSettingChanges} from "core-app/globals/global-listeners/settings
     if (deviceService.isMobile) {
       scrollHeaderOnMobile();
     }
+
+    // Detect and trigger the onboarding tour
+    // through a lazy loaded script
+    detectOnboardingTour();
 
     //
     // Legacy scripts from app/assets that are not yet component based

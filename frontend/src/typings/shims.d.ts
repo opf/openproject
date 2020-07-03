@@ -27,6 +27,7 @@ import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
 import {Dragula} from "dragula";
 
 declare module 'dom-autoscroller';
+declare module 'core-vendor/enjoyhint';
 
 declare global {
   const _:typeof TLodash;
@@ -52,6 +53,7 @@ declare global {
     ng2Injector:Injector;
     OpenProject:OpenProject;
     ErrorReporter:ErrorReporter;
+    onboardingTourInstance:any;
   }
 
   interface JQuery {
