@@ -33,6 +33,7 @@ import {registerRequestForConfirmation} from "core-app/globals/global-listeners/
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
 import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable-fieldset";
+import {TopMenu} from "core-app/globals/global-listeners/top-menu";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -112,8 +113,16 @@ import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable
       scrollHeaderOnMobile();
     }
 
+    //
     // Legacy scripts from app/assets that are not yet component based
+    //
+
+    // Toggable fieldsets
     setupToggableFieldsets();
+
+    // Top menu click handling
+    new TopMenu(jQuery('#top-menu-items'));
+
   });
 
 }(jQuery));
