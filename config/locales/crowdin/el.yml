@@ -87,6 +87,10 @@ el:
     index:
       no_results_content_title: Αυτήν τη στιγμή δεν υπάρχουν λειτουργίες ταυτοποίησης.
       no_results_content_text: Δημιουργήστε μια νέα λειτουργία ταυτοποίησης
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Αυτή η φόρμα LDAP απαιτεί τεχνικές γνώσεις για την LDAP / Active Directory εγκατάσταση σας.
@@ -411,6 +415,7 @@ el:
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
+        templated: 'Template project'
       projects/status:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
@@ -482,6 +487,7 @@ el:
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
@@ -879,6 +885,7 @@ el:
       - "Οκτ"
       - "Νοε"
       - "Δεκ"
+    abbr_week: 'Wk'
     day_names:
       - "Κυριακή"
       - "Δευτέρα"
@@ -1114,6 +1121,7 @@ el:
     work_package_edit: 'Το πακέτο εργασίας επεξεργάστηκε'
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
   export:
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1621,6 +1629,7 @@ el:
   label_time_entry_plural: "Χρόνος που δαπανήθηκε"
   label_time_sheet_menu: "Χρονοπρόγραμμα"
   label_time_tracking: "Παρακολούθηση χρόνου"
+  label_projects_menu: "Έργα"
   label_today: "σήμερα"
   label_top_menu: "Επάνω μενού"
   label_topic_plural: "Θέματα"
@@ -1940,6 +1949,12 @@ el:
       warning_one: Τα μέλη του έργου θα πρέπει να μεταφέρουν τα αποθετήρια του έργου.
       warning_two: Οι υπάρχοντες σύνδεσμοι για το έργο δεν λειτουργούν πλέον.
       title: Αλλαγή αναγνωριστικού του έργου
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Είστε σίγουροι ότι θέλετε να αρχειοθετήσετε το έργο %{name};"
       archived: "Αρχειοθετημένο"

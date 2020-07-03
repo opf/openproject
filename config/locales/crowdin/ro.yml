@@ -87,6 +87,10 @@ ro:
     index:
       no_results_content_title: În acest moment nu există moduri de autentificare.
       no_results_content_text: Creare mod de autentificare nou
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -415,6 +419,7 @@ ro:
         types: "Tipuri"
         versions: "Versiuni"
         work_packages: "Pachete de lucru"
+        templated: 'Template project'
       projects/status:
         code: 'Stare'
         explanation: 'Status description'
@@ -486,6 +491,7 @@ ro:
         parent_work_package: "Părinte"
         priority: "Prioritate"
         progress: "Progres (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
         subproject: "Subproiect"
@@ -886,6 +892,7 @@ ro:
       - "oct"
       - "noi"
       - "dec"
+    abbr_week: 'Wk'
     day_names:
       - "Duminică"
       - "Luni"
@@ -1133,6 +1140,7 @@ ro:
     work_package_edit: 'Pachet de lucru editat'
     work_package_note: 'Notă adăugată la pachetul de lucru'
   export:
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1640,6 +1648,7 @@ ro:
   label_time_entry_plural: "Timp consumat"
   label_time_sheet_menu: "Sumar efort"
   label_time_tracking: "Monitorizare efort"
+  label_projects_menu: "Proiecte"
   label_today: "astăzi"
   label_top_menu: "Meniul de sus"
   label_topic_plural: "Subiecte"
@@ -1964,6 +1973,12 @@ ro:
       warning_one: Participanții la proiect vor trebui să mute arhivele proiectului.
       warning_two: Legăturile existente la acest proiect nu vor mai funcționa.
       title: Modificare identificator proiect
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sunteţi sigur că doriţi să arhivaţi proiectul '%{name}'?"
       archived: "Archived"

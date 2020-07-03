@@ -398,7 +398,7 @@ sk:
     label_sum_for: "Súčet pre"
     label_subject: "Predmet"
     label_this_week: "tento týždeň"
-    label_today: "dnes"
+    label_today: "Today"
     label_time_entry_plural: "Strávený čas"
     label_up: "Hore"
     label_user_plural: "Užívatelia"
@@ -584,6 +584,9 @@ sk:
       select_branch: 'Vyberte odbor'
     field_value_enter_prompt: "Zadajte hodnotu pre \"%{field}\""
     project_menu_details: "Podrobnosti"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Použiť vzostupné zoradenie, '
       sorted_dsc: 'Použiť zostupné zoradenie, '
