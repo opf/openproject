@@ -34,6 +34,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
 import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable-fieldset";
 import {TopMenu} from "core-app/globals/global-listeners/top-menu";
+import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -123,6 +124,9 @@ import {TopMenu} from "core-app/globals/global-listeners/top-menu";
     // Top menu click handling
     new TopMenu(jQuery('#top-menu-items'));
 
+    jQuery('.project-actions, .toolbar-items').each(function (idx:number, menu:HTMLElement) {
+      install_menu_logic(jQuery(menu));
+    });
   });
 
 }(jQuery));
