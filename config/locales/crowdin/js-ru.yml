@@ -288,7 +288,7 @@ ru:
     label_and: "и"
     label_ascending: "По возрастанию"
     label_author: "Автор: %{user}"
-    label_avatar: "Глистовья какашка\n"
+    label_avatar: "Аватар"
     label_between: "между"
     label_board: "Доска"
     label_board_locked: "Заперто"

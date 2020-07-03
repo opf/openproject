@@ -358,7 +358,7 @@ el:
         attr_mail: "Χαρακτηριστικό email"
         base_dn: "Base DN"
         host: "Διακομιστής"
-        onthefly: "Automatic user creation"
+        onthefly: "Αυτόματη δημιουργία χρήστη"
         port: "Θύρα"
       changeset:
         repository: "Αποθετήριο"
@@ -1905,7 +1905,7 @@ el:
   permission_manage_project_activities: "Διαχείριση δραστηριοτήτων έργου"
   permission_manage_public_queries: "Διαχείριση δημόσιων προβολών"
   permission_manage_repository: "Διαχείριση αποθετηρίου"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "Διαχείριση των ιεραρχιών πακέτων εργασίας"
   permission_manage_versions: "Διαχείριση εκδόσεων"
   permission_manage_wiki: "Διαχείριση wiki"
   permission_manage_wiki_menu: "Διαχείριση μενού wiki"

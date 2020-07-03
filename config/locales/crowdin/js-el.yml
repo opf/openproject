@@ -882,8 +882,8 @@ el:
         confirm_deletion_children: "Αναγνωρίζω ότι ΌΛΟΙ οι απόγονοι από τα αναφερόμενα πακέτα εργασίας θα αφαιρεθούν αναδρομικά."
         deletes_children: "Όλα τα παιδιά πακέτα εργασίας και οι απόγονοι τους επίσης θα διαγραφούν αναδρομικά."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Επιβεβαίωση διαγραφής καταχώρησης χρόνου"
+        text: "Είστε βέβαιοι ότι θέλετε να διαγράψετε την ακόλουθη καταχώρηση χρόνου"
     notice_no_results_to_display: "Δεν υπάρχουν αποτελέσματα για εμφάνιση."
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
