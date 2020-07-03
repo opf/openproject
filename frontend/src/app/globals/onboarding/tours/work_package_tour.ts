@@ -7,7 +7,7 @@ export function wpOnboardingTourSteps():any[] {
       'showSkip': false,
       'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
       onNext: function () {
-        $(".inline-edit--display-field.id a ")[0].click();
+        jQuery(".inline-edit--display-field.id a ")[0].click();
       }
     },
     {
@@ -21,7 +21,7 @@ export function wpOnboardingTourSteps():any[] {
       'showSkip': false,
       'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
       onNext: function () {
-        $('.work-packages-back-button')[0].click();
+        jQuery('.work-packages-back-button')[0].click();
       }
     },
     {
@@ -40,7 +40,7 @@ export function wpOnboardingTourSteps():any[] {
         });
       },
       onNext: function () {
-        $('#wp-view-toggle-button').click();
+        jQuery('#wp-view-toggle-button').click();
       }
     },
     {
@@ -49,7 +49,7 @@ export function wpOnboardingTourSteps():any[] {
       'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
       'bottom': '-100',
       onNext: function () {
-        $('#wp-view-context-menu .icon-view-timeline')[0].click();
+        jQuery('#wp-view-context-menu .icon-view-timeline')[0].click();
       }
     },
     {
@@ -63,7 +63,7 @@ export function wpOnboardingTourSteps():any[] {
       'showSkip': false,
       'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
       onNext: function () {
-        $('.main-menu--arrow-left-to-project')[0].click();
+        jQuery('.main-menu--arrow-left-to-project')[0].click();
       }
     }
   ];

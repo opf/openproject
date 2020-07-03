@@ -5,13 +5,13 @@ export const onboardingTourStorageKey = 'openProject-onboardingTour';
 export function waitForElement(element:string, container:string, execFunction:Function) {
   // Wait for the element to be ready
   var observer = new MutationObserver(function (mutations, observerInstance) {
-    if ($(element).length) {
+    if (jQuery(element).length) {
       observerInstance.disconnect(); // stop observing
       execFunction();
       return;
     }
   });
-  observer.observe($(container)[0], {
+  observer.observe(jQuery(container)[0], {
     childList: true,
     subtree: true
   });

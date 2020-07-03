@@ -1,7 +1,5 @@
-var EnjoyHint;
-
 (function ($) {
-    EnjoyHint = function (_options) {
+    window.EnjoyHint = function (_options) {
         var $event_element;
         var that = this;
 
@@ -21,7 +19,7 @@ var EnjoyHint;
 
             onNext: function () {
 
-              o}
+            }
         };
 
         var options = $.extend(defaults, _options);

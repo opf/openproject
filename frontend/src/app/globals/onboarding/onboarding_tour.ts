@@ -9,17 +9,27 @@ import {boardTourSteps} from "core-app/globals/onboarding/tours/boards_tour";
 import {menuTourSteps} from "core-app/globals/onboarding/tours/menu_tour";
 import {homescreenOnboardingTourSteps} from "core-app/globals/onboarding/tours/homescreen_tour";
 import {scrumBacklogsTourSteps, scrumTaskBoardTourSteps} from "core-app/globals/onboarding/tours/backlogs_tour";
+import {Injector} from "@angular/core";
 
 require('core-vendor/enjoyhint');
+
+
+declare global {
+  interface Window {
+    EnjoyHint:any;
+  }
+}
+
+
 
 export function start(name:string) {
   switch (name) {
     case 'backlogs':
-      initializeTour('startTaskBoardTour');
+      initializeTour('startMainTourFromBacklogs');
       startTour(scrumBacklogsTourSteps());
       break;
     case 'taskboard':
-      initializeTour('startMainTourFromBacklogs');
+      initializeTour('startTaskBoardTour');
       startTour(scrumTaskBoardTourSteps());
       break;
     case 'homescreen':
@@ -34,7 +44,7 @@ export function start(name:string) {
 }
 
 function initializeTour(storageValue:any, disabledElements?:any, projectSelection?:any) {
-  window.onboardingTourInstance = new (window as any).EnjoyHint({
+  window.onboardingTourInstance = new window.EnjoyHint({
     onStart: function () {
       jQuery('#content-wrapper, #menu-sidebar').addClass('-hidden-overflow');
     },
@@ -65,8 +75,8 @@ function startTour(steps:any) {
 function mainTour() {
   initializeTour('mainTourFinished');
 
-  const boardsDemoDataAvailable = $('meta[name=boards_demo_data_available]').attr('content') === "true";
-  const eeTokenAvailable = !$('body').hasClass('ee-banners-visible');
+  const boardsDemoDataAvailable = jQuery('meta[name=boards_demo_data_available]').attr('content') === "true";
+  const eeTokenAvailable = !jQuery('body').hasClass('ee-banners-visible');
 
   waitForElement('.work-package--results-tbody', '#content', function () {
     let steps:any[];

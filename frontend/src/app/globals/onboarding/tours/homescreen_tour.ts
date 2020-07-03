@@ -28,7 +28,7 @@ export function homescreenOnboardingTourSteps() {
           window.location.href = this.href + '/work_packages/?start_onboarding_tour=true';
         });
         // Disable clicks on other links
-        $('.widget-box.welcome a').addClass('-disabled').bind('click', preventClickHandler);
+        jQuery('.widget-box.welcome a').addClass('-disabled').bind('click', preventClickHandler);
       }
     }
   ];
