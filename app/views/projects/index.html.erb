@@ -27,8 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "project/description_handling.js" %>
-  <%= javascript_include_tag "project/filters.js" %>
+  <meta name="required_script" content="project" />
 <% end %>
 
 <% html_title(t(:label_project_plural)) -%>
