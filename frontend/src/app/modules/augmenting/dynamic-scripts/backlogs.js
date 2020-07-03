@@ -26,20 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-//= require backlogs/jquery.flot/jquery.flot
-//= require backlogs/jquery.flot/excanvas
-//= require backlogs/jquery.jeditable.mini
-//= require backlogs/jquery.cookie
-//= require backlogs/common
-//= require backlogs/master_backlog
-//= require backlogs/backlog
-//= require backlogs/burndown
-//= require backlogs/model
-//= require backlogs/editable_inplace
-//= require backlogs/sprint
-//= require backlogs/work_package
-//= require backlogs/story
-//= require backlogs/task
-//= require backlogs/impediment
-//= require backlogs/taskboard
-//= require backlogs/show_main
+require('core-vendor/jquery.flot/jquery.flot');
+require('core-vendor/jquery.flot/excanvas');
+require('core-vendor/jquery.jeditable.mini');
+require('core-vendor/jquery.cookie');
+
+require('./backlogs/common');
+require('./backlogs/master_backlog');
+require('./backlogs/backlog');
+require('./backlogs/burndown');
+require('./backlogs/model');
+require('./backlogs/editable_inplace');
+require('./backlogs/sprint');
+require('./backlogs/work_package');
+require('./backlogs/story');
+require('./backlogs/task');
+require('./backlogs/impediment');
+require('./backlogs/taskboard');
+require('./backlogs/show_main');

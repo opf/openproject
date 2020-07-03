@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
 -%>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag('meeting/meeting.js') %>
+  <meta name="required_script" content="custom_fields" />
 <% end %>
 
 <div class="meeting_content <%= content_type %>">

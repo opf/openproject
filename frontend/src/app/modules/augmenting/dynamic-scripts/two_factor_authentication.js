@@ -1,4 +1,4 @@
-//= require two_factor_authentication/vendor/qrcode-min
+require('core-vendor/qrcode-min');
 
 jQuery(function ($) {
   $('#submit_otp').submit(function(){

@@ -35,7 +35,8 @@
     "paths": {
       "@ng-select/ng-select": ["../node_modules/@ng-select/ng-select/"],
       "core-app/*": ["./app/*"],
-      "core-components/*": ["./app/components/*"]
+      "core-components/*": ["./app/components/*"],
+      "core-vendor/*": ["./vendor/*"]
     }
   },
   "compileOnSave": false

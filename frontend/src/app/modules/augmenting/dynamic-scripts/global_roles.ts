@@ -116,7 +116,3 @@
   };
   $(document).ready(global_roles.init);
 }(jQuery));
-
-export function test() {
-}
-
