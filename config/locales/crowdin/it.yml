@@ -87,6 +87,10 @@ it:
     index:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
       no_results_content_text: Crea una nuova modalità di autenticazione
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Questo form LDAP richiede una conoscenza tecnica dell'attuale setup LDAP / Active Directory. <br/>
@@ -410,6 +414,7 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
+        templated: 'Template project'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -481,6 +486,7 @@ it:
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"
@@ -878,6 +884,7 @@ it:
       - "Ott"
       - "Nov"
       - "Dic"
+    abbr_week: 'Wk'
     day_names:
       - "Domenica"
       - "Lunedi"
@@ -1113,6 +1120,7 @@ it:
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
   export:
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1620,6 +1628,7 @@ it:
   label_time_entry_plural: "Tempo speso"
   label_time_sheet_menu: "Foglio orario"
   label_time_tracking: "Monitoraggio tempi"
+  label_projects_menu: "Progetti"
   label_today: "oggi"
   label_top_menu: "Top Menu"
   label_topic_plural: "Argomenti"
@@ -1940,6 +1949,12 @@ it:
       warning_one: I membri del progetto dovranno trasferire gli archivi del progetto.
       warning_two: I collegamenti esistenti al progetto non funzioneranno più.
       title: Modifica l'identificatore del progetto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sicuro di voler archiviare il progetto '%{name}'?"
       archived: "Archiviato"

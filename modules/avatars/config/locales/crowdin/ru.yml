@@ -15,7 +15,7 @@ ru:
   empty_file_error: "Пожалуйста, загрузите допустимое изображение (jpg, png, gif)"
   avatars:
     label_avatar: "Аватар"
-    label_gravatar: 'Граватар'
+    label_gravatar: 'Gravatar'
     label_current_avatar: 'Текущий аватар'
     label_local_avatar: 'Пользовательский аватар'
     text_current_avatar: |

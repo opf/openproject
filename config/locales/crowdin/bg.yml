@@ -87,6 +87,10 @@ bg:
     index:
       no_results_content_title: В момента има няма режими на удостоверяване.
       no_results_content_text: Създаване на нов режим на удостоверяване
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -414,6 +418,7 @@ bg:
         types: "Видове"
         versions: "Версии"
         work_packages: "Работен пакет"
+        templated: 'Template project'
       projects/status:
         code: 'Състояние'
         explanation: 'Status description'
@@ -485,6 +490,7 @@ bg:
         parent_work_package: "Горна категория"
         priority: "Приоритет"
         progress: "Прогрес (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Отработено време"
         spent_time: "Отработено време"
         subproject: "Подпроект"
@@ -882,6 +888,7 @@ bg:
       - "окт"
       - "ное"
       - "Декември"
+    abbr_week: 'Wk'
     day_names:
       - "Неделя"
       - "Понеделник"
@@ -1117,6 +1124,7 @@ bg:
     work_package_edit: 'Работният пакет е редактиран'
     work_package_note: 'Добавена бележка за работен пакет'
   export:
+    succeeded: "The export has completed successfully."
     format:
       atom: "Атом"
       csv: "CSV"
@@ -1624,6 +1632,7 @@ bg:
   label_time_entry_plural: "Отработено време"
   label_time_sheet_menu: "Времеви график"
   label_time_tracking: "Проследяване по време"
+  label_projects_menu: "Проекти"
   label_today: "днес"
   label_top_menu: "Главно меню"
   label_topic_plural: "Tеми"
@@ -1944,6 +1953,12 @@ bg:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Наистина ли искате да архивирате на проекта \"%{name}\"?"
       archived: "Archived"
