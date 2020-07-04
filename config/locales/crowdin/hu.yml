@@ -87,10 +87,6 @@ hu:
     index:
       no_results_content_title: Jelenleg nincs autentikációs mód.
       no_results_content_text: Új autentikációs mód létrehozása
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.
@@ -415,7 +411,6 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-        templated: 'Template project'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -487,7 +482,6 @@ hu:
         parent_work_package: "Szülő"
         priority: "Fontosság"
         progress: "Folyamat állapot (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
         subproject: "Alprojekt"
@@ -885,7 +879,6 @@ hu:
       - "Október"
       - "November"
       - "December"
-    abbr_week: 'Wk'
     day_names:
       - "Vasárnap"
       - "Hétfő"
@@ -1121,7 +1114,6 @@ hu:
     work_package_edit: 'A feladatcsoport szerkesztve'
     work_package_note: 'A feladatcsoport jegyzet hozzáadva'
   export:
-    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1629,7 +1621,6 @@ hu:
   label_time_entry_plural: "Eltöltött idő"
   label_time_sheet_menu: "Munkaidő-kimutatás"
   label_time_tracking: "Munkaidő követése"
-  label_projects_menu: "Projektek"
   label_today: "Ma"
   label_top_menu: "Felső menü"
   label_topic_plural: "Témakörök"
@@ -1949,12 +1940,6 @@ hu:
       warning_one: A projekt tagjai áthelyezik a projekt tárolóit.
       warning_two: A projekthez tartozó hivatkozások már nem működnek.
       title: Módosítsa a projekt azonosítóját
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
       archived: "Archiválva"

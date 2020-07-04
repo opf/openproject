@@ -397,7 +397,7 @@ da:
     label_sum_for: "Sum for"
     label_subject: "Emne"
     label_this_week: "denne uge"
-    label_today: "Today"
+    label_today: "i dag"
     label_time_entry_plural: "Anvendt tid"
     label_up: "Up"
     label_user_plural: "Brugere"
@@ -583,9 +583,6 @@ da:
       select_branch: 'Vælg gren'
     field_value_enter_prompt: "Indtast en værdi for '%{field}'"
     project_menu_details: "Detaljer"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
