@@ -43,6 +43,7 @@ module Projects::Copy
       source.queries.non_hidden.includes(:query_menu_item).each do |query|
         new_query = duplicate_query(query)
         duplicate_query_menu_item(query, new_query)
+        duplicate_query_order(query, new_query, work_packages_map) if query.manually_sorted?
       end
     end
 
@@ -56,6 +57,19 @@ module Projects::Copy
       new_query.set_context
 
       new_query
+    end
+
+    def duplicate_query_order(query, new_query, work_packages_map)
+      query.ordered_work_packages.find_each do |ordered_wp|
+        wp_id = work_packages_map[ordered_wp.work_package_id]
+        # Nothing to do if the work package could not be copied for whatever reason
+        next unless wp_id
+
+        copied = ordered_wp.dup
+        copied.query_id = new_query.id
+        copied.work_package_id = wp_id
+        copied.save
+      end
     end
 
     def duplicate_query_menu_item(query, new_query)
