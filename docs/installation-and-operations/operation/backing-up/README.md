@@ -57,12 +57,11 @@ If you are using docker-compose, then the data volumes are managed by Docker and
 If you are using the all-in-one container, then you can simply backup any local volumes that you chose to bind-mount with the `-v` option when launching the container. For instance if you launched the container with:
 
 ```bash
-sudo mkdir -p /var/lib/openproject/{pgdata,logs,static}
+sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
-  -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.6/main \
-  -v /var/lib/openproject/logs:/var/log/supervisor \
-  -v /var/lib/openproject/static:/var/db/openproject \
+  -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
+  -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/community:10
 ```
 
