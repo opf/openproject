@@ -84,7 +84,7 @@ module WorkPackages
 
     attribute :start_date,
               writeable: ->(*) {
-                model.leaf?
+                model.leaf? || model.schedule_manually?
               } do
       if start_before_soonest_start?
         message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
@@ -96,7 +96,7 @@ module WorkPackages
 
     attribute :due_date,
               writeable: ->(*) {
-                model.leaf?
+                model.leaf? || model.schedule_manually?
               }
 
     validates :due_date,

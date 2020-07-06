@@ -84,7 +84,7 @@ describe 'scheduling mode',
   let(:user) { FactoryBot.create :admin }
   let(:work_packages_page) { Pages::SplitWorkPackage.new(wp, project) }
 
-  let(:start_date) { work_packages_page.edit_field(:startDate) }
+  let(:combined_field) { work_packages_page.edit_field(:combinedDate) }
 
   before do
     login_as(user)
@@ -95,14 +95,14 @@ describe 'scheduling mode',
 
   it 'can toggle the scheduling mode through the date modal' do
     expect(wp.schedule_manually).to eq false
-    start_date.activate!
-    start_date.expect_active!
+    combined_field.activate!
+    combined_field.expect_active!
 
-    start_date.expect_scheduling_mode manually: false
-    start_date.toggle_scheduling_mode
-    start_date.expect_scheduling_mode manually: true
+    combined_field.expect_scheduling_mode manually: false
+    combined_field.toggle_scheduling_mode
+    combined_field.expect_scheduling_mode manually: true
 
-    start_date.save!
+    combined_field.save!
     work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
 
     work_package.reload
