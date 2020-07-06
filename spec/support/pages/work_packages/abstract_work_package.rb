@@ -192,7 +192,7 @@ module Pages
       case key
       when /customField(\d+)$/
         work_package_custom_field(key, $1)
-      when :date, :startDate, :dueDate
+      when :date, :startDate, :dueDate, :combinedDate
         DateEditField.new container, key, is_milestone: work_package.milestone?
       when :description
         TextEditorField.new container, key

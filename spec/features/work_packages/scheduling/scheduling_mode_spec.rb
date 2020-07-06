@@ -95,17 +95,20 @@ describe 'scheduling mode',
 
   it 'can toggle the scheduling mode through the date modal' do
     expect(wp.schedule_manually).to eq false
-    combined_field.activate!
+    combined_field.activate!(expect_open: false)
     combined_field.expect_active!
 
+    # Editing the start/due dates of a parent work package is possible if the
+    # work package is manually scheduled
     combined_field.expect_scheduling_mode manually: false
     combined_field.toggle_scheduling_mode
-    combined_field.expect_scheduling_mode manually: true
+    combined_field.update(%w[2016-01-05 2016-01-10])
 
-    combined_field.save!
     work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
 
-    work_package.reload
-    expect(wp.schedule_manually).to eq true
+    wp.reload
+    expect(wp.schedule_manually).to be_truthy
+    expect(wp.start_date).to eql Date.parse('2016-01-05')
+    expect(wp.due_date).to eql Date.parse('2016-01-10')
   end
 end

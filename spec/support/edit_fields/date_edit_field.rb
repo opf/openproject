@@ -21,7 +21,11 @@ class DateEditField < EditField
   end
 
   def input_selector
-    "input[name=#{property_name}]"
+    if property_name == 'combinedDate'
+      "input[name=startDate]"
+    else
+      "input[name=#{property_name}]"
+    end
   end
 
   def property_name
@@ -78,7 +82,7 @@ class DateEditField < EditField
       activate_edition
       within_modal do
         if value.is_a?(Array)
-          value.each {|el| select_value(el)}
+          value.each { |el| select_value(el) }
         else
           select_value value
         end
