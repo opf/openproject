@@ -107,7 +107,7 @@ fi:
       failed_to_delete: 'Failed to delete 2FA device.'
       is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
       not_existing: 'No 2FA device has been registered for your account.'
-      request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      request_2fa: Anna kertakäyttösalasana laitteesta %{device_name}.
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
@@ -155,7 +155,7 @@ fi:
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Matkapuhelin"
   field_otp: "Kerta salasana"
-  notice_account_otp_invalid: "Invalid one-time password."
+  notice_account_otp_invalid: " Virheellinen kertakäyttösalasana."
   notice_account_otp_expired: "The one-time password you entered expired."
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
   notice_account_otp_send_failed: "Your one-time password could not be sent."

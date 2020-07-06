@@ -47,7 +47,7 @@ fi:
   label_money: "Rahallinen arvo"
   label_month_reporting: "Kuukausi (käytetty)"
   label_new_report: "Uusi kustannusraportti"
-  label_open: "avoinna"
+  label_open: "avoin"
   label_operator: "Operaattori"
   label_private_report_plural: "Yksityiset kustannusraportit"
   label_progress_bar_explanation: "Luodaan raporttia..."
