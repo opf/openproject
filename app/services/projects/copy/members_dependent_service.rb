@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,18 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class CopyContract < BaseContract
+module Projects::Copy
+  class MembersDependentService < ::Copy::Dependency
     protected
 
-    def validate_model?
-      false
-    end
+    def perform(params:, state:)
+      # Copy users first, then groups to handle members with inherited and given roles
+      members_to_copy = []
+      members_to_copy += source.memberships.select { |m| m.principal.is_a?(User) }
+      members_to_copy += source.memberships.reject { |m| m.principal.is_a?(User) }
+      members_to_copy.each do |member|
+        new_member = Member.new
+        new_member.send(:assign_attributes, member.attributes.dup.except('id', 'project_id', 'created_on'))
+        # only copy non inherited roles
+        # inherited roles will be added when copying the group membership
+        role_ids = member.member_roles.reject(&:inherited?).map(&:role_id)
+        next if role_ids.empty?
 
-    private
-
-    def validate_user_allowed_to_manage
-      errors.add :base, :error_unauthorized unless user.allowed_to?(:copy_projects, options[:copied_from])
+        new_member.role_ids = role_ids
+        new_member.project = target
+        target.memberships << new_member
+        new_member.save
+      end
     end
   end
 end

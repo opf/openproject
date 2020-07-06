@@ -61,6 +61,7 @@ class ServiceResult
 
   def merge!(other)
     merge_success!(other)
+    merge_errors!(other)
     merge_dependent!(other)
   end
 
@@ -157,6 +158,10 @@ class ServiceResult
 
   def merge_success!(other)
     self.success &&= other.success
+  end
+
+  def merge_errors!(other)
+    self.errors.merge! other.errors
   end
 
   def merge_dependent!(other)

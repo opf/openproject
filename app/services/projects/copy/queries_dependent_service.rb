@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,18 +28,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class CopyContract < BaseContract
+module Projects::Copy
+  class QueriesDependentService < ::Copy::Dependency
     protected
 
-    def validate_model?
-      false
+    def perform(params:, state:)
+      copy_queries(state[:work_packages_map])
     end
 
-    private
+    # Copies queries from +project+
+    # Only includes the queries visible in the wp table view.
+    def copy_queries(work_packages_map)
 
-    def validate_user_allowed_to_manage
-      errors.add :base, :error_unauthorized unless user.allowed_to?(:copy_projects, options[:copied_from])
+      source.queries.non_hidden.includes(:query_menu_item).each do |query|
+        new_query = duplicate_query(query)
+        duplicate_query_menu_item(query, new_query)
+      end
+    end
+
+    def duplicate_query(query)
+      new_query = ::Query.new name: '_'
+      new_query.attributes = query.attributes.dup.except('id', 'project_id', 'sort_criteria')
+      new_query.sort_criteria = query.sort_criteria if query.sort_criteria
+      new_query.set_context
+      new_query.project = target
+      target.queries << new_query
+      new_query.set_context
+
+      new_query
+    end
+
+    def duplicate_query_menu_item(query, new_query)
+      if query.query_menu_item && new_query.persisted?
+        ::MenuItems::QueryMenuItem.create(
+          navigatable_id: new_query.id,
+          name: SecureRandom.uuid,
+          title: query.query_menu_item.title
+        )
+      end
     end
   end
 end

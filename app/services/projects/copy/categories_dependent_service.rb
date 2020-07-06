@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,18 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class CopyContract < BaseContract
+module Projects::Copy
+  class CategoriesDependentService < ::Copy::Dependency
     protected
 
-    def validate_model?
-      false
-    end
-
-    private
-
-    def validate_user_allowed_to_manage
-      errors.add :base, :error_unauthorized unless user.allowed_to?(:copy_projects, options[:copied_from])
+    def perform(params:, state:)
+      source.categories.find_each do |category|
+        new_category = Category.new
+        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
+        target.categories << new_category
+      end
     end
   end
 end

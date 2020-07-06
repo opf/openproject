@@ -47,7 +47,7 @@ module BaseServices
       end
     end
 
-    private
+    protected
 
     def perform(params)
       service_call = before_perform(params)
