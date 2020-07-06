@@ -36,10 +36,6 @@ module OpenProject::TwoFactorAuthentication
                     if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.configurable_by_ui? }
              end
 
-    initializer 'two_factor_authentication.precompile_assets' do |app|
-      app.config.assets.precompile += %w(two_factor_authentication/two_factor_authentication.css two_factor_authentication/two_factor_authentication.js two_factor_authentication/two_factor_authentication.css)
-    end
-
     patches %i[User]
 
     add_tab_entry :user,
