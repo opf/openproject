@@ -23,10 +23,10 @@ fi:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Työpaketti"
+        work_package: "Tehtävä"
         overridden_costs: "Ohitetut kustannukset"
         spent: "Käytetty"
-        spent_on: "Päivä"
+        spent_on: "Päivämäärä"
       cost_object:
         author: "Tekijä"
         available: "Saatavilla"
@@ -39,7 +39,7 @@ fi:
         status: "Tila"
         subject: "Aihe"
         type: "Kustannustyyppi"
-        updated_on: "Päivitetty vimeksi"
+        updated_on: "Päivitetty"
       cost_type:
         unit: "Yksikön nimi"
         unit_plural: "Yksikön nimi monikossa"
@@ -68,7 +68,7 @@ fi:
     errors:
       models:
         work_package:
-          is_not_a_valid_target_for_cost_entries: "Työpaketti #%{id} ei ole kelvollinen uusi kohde kustannuskirjauksille."
+          is_not_a_valid_target_for_cost_entries: "Tehtävä #%{id} ei ole kelvollinen kohde kustannuskirjauksille."
           nullify_is_not_valid_for_cost_entries: "Kustannuksia ei voi kohdistaa projektiin."
   attributes:
     budget: "Suunnitellut kustannukset"
@@ -141,7 +141,7 @@ fi:
   label_group_by_add: "Lisätä ryhmittelykenttä"
   label_hourly_rate: "Tuntihinta"
   label_include_deleted: "Sisällytä poistetut"
-  label_work_package_filter_add: "Lisää työpaketin suodatin"
+  label_work_package_filter_add: "Lisää tehtävien suodatin"
   label_kind: "Tyyppi"
   label_less_or_equal: "<="
   label_log_costs: "Kirjaa työkustannuksia"
@@ -158,7 +158,7 @@ fi:
   label_variable_cost_object: "Muuttuvaan tuntihintaan perustuva"
   label_view_all_cost_objects: "Näytä kaikki budjetit"
   label_yes: "Kyllä"
-  notice_cost_object_conflict: "Työpakettien täytyy olla samasta projektista."
+  notice_cost_object_conflict: "Tehtävien tulee olla samasta projektista."
   notice_no_cost_objects_available: "Budjetteja ei ole saatavilla."
   notice_something_wrong: "Jotain meni pieleen. Yritä uudelleen."
   notice_successful_restore: "Palautus onnistui."
@@ -184,8 +184,8 @@ fi:
   text_cost_object_change_type_confirmation: "Oletko varma? Tämä toiminto tuhoaa tämän budjettityypin tiedot."
   text_destroy_cost_entries_question: "%{cost_entries} on raportoitu projektille, jota olet poistamassa. Mitä haluat tehdä?"
   text_destroy_time_and_cost_entries: "Poista raportoidut tunnit ja kustannukset"
-  text_destroy_time_and_cost_entries_question: "%{hours} h, %{cost_entries} on raportoitu työpaketeille joita olet poistamassa. Mitä haluat tehdä?"
-  text_reassign_time_and_cost_entries: "Raportoitujen tunti- ja kustannuskirjausten siirtäminen työpaketille:"
+  text_destroy_time_and_cost_entries_question: "%{hours} tuntia, %{cost_entries} on raportoitu tehtäville, joita olet poistamassa. Haluatko?"
+  text_reassign_time_and_cost_entries: "Raportoitujen tunti- ja kustannuskirjausten siirto tehtävälle:"
   text_warning_hidden_elements: "Joitain merkintöjä on voitu jättää yhdistämisen ulkopuolelle."
   week: "viikko"
   js:

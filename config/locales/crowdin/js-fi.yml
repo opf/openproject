@@ -42,9 +42,9 @@ fi:
     button_back_to_list_view: "Takaisin listaan"
     button_cancel: "Peruuta"
     button_close: "Sulje"
-    button_change_project: "Change project"
+    button_change_project: "Vaihda projekti"
     button_check_all: "Valitse kaikki"
-    button_configure-form: "Configure form"
+    button_configure-form: "Lomakkeen asetukset"
     button_confirm: "Vahvista"
     button_continue: "Jatka"
     button_copy: "Kopioi"
@@ -63,8 +63,8 @@ fi:
     button_open_details: "Avaa tiedot"
     button_close_details: "Sulje tarkemmat tiedot"
     button_open_fullscreen: "Avaa kokonäyttötila"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Korttinäkymä"
+    button_show_list: "Listanäkymä"
     button_quote: "Siteeraa"
     button_save: "Tallenna"
     button_settings: "Asetukset"
@@ -76,62 +76,62 @@ fi:
       title: 'Kalenteri'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Uusi kortti'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+        inline: 'Korostus:'
+        entire_card_by: 'Kortti'
+      remove_from_list: 'Poista listalta'
     caption_rate_history: "Tuntihinnan historia"
     clipboard:
       browser_error: "Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti manuaalisesti."
       copied_successful: "Onnistuneesti kopioitu leikepöydälle!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
+      type: 'Kaaviotyyppi'
+      axis_criteria: 'Lisää kriteeri'
       modal_title: 'Work package graph configuration'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: 'Viiva'
+        horizontal_bar: 'Vaakasuora pylväs'
+        bar: 'Pylväs'
+        pie: 'Ympyrä'
+        doughnut: 'Rengaskaavio'
+        radar: 'Tutka-kaavio'
+        polar_area: 'Polar-kaavio'
       tabs:
         graph_settings: 'Yleinen'
-        dataset: 'Dataset %{number}'
+        dataset: 'Aineisto %{number}'
       errors:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Käytettävissä olevat sarakkeet"
     description_current_position: "You are here: "
-    description_select_work_package: "Valitse työpaketti #%{id}"
+    description_select_work_package: "Valitse tehtävä #%{id}"
     description_selected_columns: "Valitut sarakkeet"
-    description_subwork_package: "Alipaketti työpaketille #%{id}"
+    description_subwork_package: "Tehtävän #%{id} alitehtävä"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: 'Failed to initialize CKEditor!'
+      preview: 'Esikatselutila'
+      source_code: 'Lähdekoodi'
+      error_saving_failed: 'Tallennus epäonnistui: %{error}'
+      error_initialization_failed: 'Editorin alustus epäonnistui!'
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: 'Lähdekoodi'
+        wysiwyg: 'Muokkaustila'
       macro:
         child_pages:
-          button: 'Links to child pages'
+          button: 'Linkit alasivuihin'
           include_parent: 'Include parent'
           text: '[Placeholder] Links to child pages of'
           page: 'Wiki-sivu'
-          this_page: 'this page'
+          this_page: 'tämä sivu'
           hint: |
             Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
         code_block:
-          button: 'Insert code snippet'
-          title: 'Insert / edit Code snippet'
+          button: 'Lisää lähdekoodi'
+          title: 'Lisää / muokkaa lähdekoodia'
           language: 'Formatting language'
           language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         dropdown:
-          macros: 'Macros'
-          chose_macro: 'Chose macro'
+          macros: 'Makrot'
+          chose_macro: 'Valitse makro'
         toc: 'Table of contents'
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
         wiki_page_include:
@@ -144,11 +144,11 @@ fi:
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
           button: 'Insert create work package button'
-          type: 'Work package type'
-          button_style: 'Use button style'
+          type: 'Tehtävätyyppi'
+          button_style: 'Valitse painiketyyli'
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          without_type: 'Luo tehtävä'
+          with_type: 'Luo tehtävä (tyyppi: %{typename})'
         embedded_table:
           button: 'Embed work package table'
           text: '[Placeholder] Embedded work package table'
@@ -181,7 +181,7 @@ fi:
             label_subscriber: "Tilaaja"
             label_maximum_users: "Maximum active users"
             label_starts_at: "Starts at"
-            label_expires_at: "Vanhenee"
+            label_expires_at: "Vanhentuu"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
             taken_email: Each user can only create one trial.
@@ -277,7 +277,7 @@ fi:
     label_add_column_before: "Add column before"
     label_add_columns: "Lisää sarakkeita"
     label_add_comment: "Lisää kommentti"
-    label_add_comment_title: "Comment and type @ to notify other people"
+    label_add_comment_title: "Lisää kommentti (käytä @ -merkkiä käyttäjätunnusten edessä)"
     label_add_row_after: "Add row after"
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Lisää valitut sarakkeet"
@@ -285,20 +285,20 @@ fi:
     label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "päiviä sitten"
     label_all: "kaikki"
-    label_all_work_packages: "kaikki työpaketit"
+    label_all_work_packages: "kaikki tehtävät"
     label_and: "and"
     label_ascending: "Nouseva"
     label_author: "Tekijä: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Kuva"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Lukittu"
     label_board_plural: "Boards"
     label_board_sticky: "Pysyvä"
-    label_create: "Luo"
-    label_create_work_package: "Luo uusi toimia paketti"
+    label_create: "Uusi"
+    label_create_work_package: "Uusi tehtävä"
     label_created_by: "Luonut"
-    label_date: "Päivä"
+    label_date: "Päivämäärä"
     label_date_with_format: "Kirjoita %{date_attribute} seuraavassa muodossa: %{format}"
     label_deactivate: "Poistaa käytöstä"
     label_descending: "Laskeva"
@@ -321,7 +321,7 @@ fi:
     label_expand: "Laajenna"
     label_expanded: "laajennettu"
     label_expand_all: "Laajenna kaikki"
-    label_expand_project_menu: "Expand project menu"
+    label_expand_project_menu: "Avaa projektivalikko"
     label_export: "Vie"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "Tiedosto"
@@ -333,14 +333,14 @@ fi:
     label_group_plural: "Ryhmät"
     label_hide_attributes: "Näytä vähemmän"
     label_hide_column: "Piilota sarake"
-    label_hide_project_menu: "Collapse project menu"
+    label_hide_project_menu: "Sulje projektivalikko"
     label_in: "tässä"
     label_in_less_than: "pienempi kuin"
     label_in_more_than: "suurempi kuin"
     label_incoming_emails: "Saapuvat sähköpostiviestit"
     label_information_plural: "Tieto"
     label_import: "Import"
-    label_latest_activity: "Latest activity"
+    label_latest_activity: "Viimeisimmät tapahtumat"
     label_last_updated_on: "Viimeisin päivitys"
     label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
@@ -364,65 +364,65 @@ fi:
     label_not_equals: "eri kuin"
     label_on: "päälle"
     label_open_menu: "Avaa valikko"
-    label_open_context_menu: "Open context menu"
-    label_open_work_packages: "avoinna"
+    label_open_context_menu: "Avaa valikko"
+    label_open_work_packages: "avoin"
     label_password: "Salasana"
     label_previous: "Edellinen"
     label_per_page: "Sivulla:"
     label_please_wait: "Odota hetki"
     label_project_plural: "Projektit"
-    label_visibility_settings: "Visibility settings"
+    label_visibility_settings: "Näkyvyysasetukset"
     label_quote_comment: "Lainaa tämä kommentti"
-    label_recent: "Recent"
+    label_recent: "Viimeisin"
     label_reset: "Nollaus"
-    label_remove_column: "Remove column"
+    label_remove_column: "Poista sarake"
     label_remove_columns: "Poista valitut sarakkeet"
-    label_remove_row: "Remove row"
+    label_remove_row: "Poista rivi"
     label_report: "Raportti"
     label_repository_plural: "Tietovarastot"
     label_save_as: "Tallenna nimellä"
     label_select_watcher: "Valitse seuraaja..."
     label_selected_filter_list: "Valitut suodattimet"
     label_show_attributes: "Näytä kaikki määritteet"
-    label_show_in_menu: "Show view in menu"
+    label_show_in_menu: "Näytä näkymä valikossa"
     label_sort_by: "Sort by"
     label_sorted_by: "lajiteltu"
     label_sort_higher: "Siirrä ylös"
     label_sort_lower: "Siirrä alas"
     label_sorting: "Lajittelu"
     label_spent_time: "Käytetty aika"
-    label_star_query: "Favored"
-    label_press_enter_to_save: "Press enter to save."
+    label_star_query: "Suosikit"
+    label_press_enter_to_save: "Tallenna painamalla ENTER"
     label_public_query: "Julkinen"
     label_sum: "Yhteensä"
     label_sum_for: "Summa"
     label_subject: "Aihe"
     label_this_week: "tällä viikolla"
-    label_today: "tänään"
+    label_today: "Today"
     label_time_entry_plural: "Käytetty aika"
     label_up: "Ylös"
     label_user_plural: "Käyttäjät"
-    label_activity_show_only_comments: "Show activities with comments only"
-    label_activity_show_all: "Show all activities"
+    label_activity_show_only_comments: "Näytä vain kommentit"
+    label_activity_show_all: "Näytä kaikki tapahtumat"
     label_total_progress: "%{percent} % eteneminen"
-    label_total_amount: "Total: %{amount}"
-    label_updated_on: "päivitetty vimeksi"
+    label_total_amount: "Yhteensä: %{amount}"
+    label_updated_on: "päivitetty"
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
-    label_work_package: "Työpaketti"
-    label_work_package_plural: "Työpaketit"
+    label_work_package: "Tehtävä"
+    label_work_package_plural: "Tehtävät"
     label_watch: "Seuraa"
-    label_watch_work_package: "Seuraa työpakettia"
+    label_watch_work_package: "Seuraa tehtävää"
     label_watcher_added_successfully: "Seuraaja lisätty!"
     label_watcher_deleted_successfully: "Seuraaja poistettu!"
     label_work_package_details_you_are_here: "Olet %{type} %{subject} %{tab}-välilehdessä."
     label_unwatch: "Älä seuraa"
-    label_unwatch_work_package: "Lopeta työpaketin seuraaminen"
+    label_unwatch_work_package: "Lopeta tehtävän seuraaminen"
     label_uploaded_by: "Lataaja"
-    label_default_queries: "Default views"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "Public views"
-    label_custom_queries: "Private views"
+    label_default_queries: "Oletusnäkymät"
+    label_starred_queries: "Suosikkinäkymät"
+    label_global_queries: "Julkiset näkymät"
+    label_custom_queries: "Yksityiset näkymät"
     label_columns: "Sarakkeet"
     label_attachments: Tiedostot
     label_drop_files: Pudota tiedostoja tähän
@@ -434,24 +434,24 @@ fi:
     label_remove_watcher: "Poista seuraaja %{name}"
     label_remove_all_files: Poista kaikki tiedostot
     label_add_description: "Lisää kuvaus tiedostolle %{file}"
-    label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Lisää tiedostoja työpaketille #%{id}: %{subject}"
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_upload_notification: "Siirretään tiedostoa..."
+    label_work_package_upload_notification: "Lisätään tiedostoja tehtävään #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} lisännyt %{author}"
     label_files_to_upload: "Nämä tiedostot lähetetään:"
     label_rejected_files: "Näitä tiedostoja ei voida lähettää:"
     label_rejected_files_reason: "Näitä tiedostoja ei voi lähettää, koska niiden koko on suurempi kuin %{maximumFilesize}"
     label_wait: "Odota kokoonpanoa..."
     label_upload_counter: "%{done} tiedostoa %{count} tiedostosta valmiina"
-    label_validation_error: "Työpakettia ei voitu tallentaa seuraavien virheiden vuoksi:"
+    label_validation_error: "Tehtävää ei voitu tallentaa seuraavien virheiden takia:"
     label_version_plural: "Versiot"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Tallenna muutokset tarvittaessa"
     help_texts:
       show_modal: 'Show attribute help text entry'
     onboarding:
       buttons:
         skip: 'Ohita'
         next: 'Seuraava'
-        got_it: 'Got it'
+        got_it: 'Selvä'
       steps:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
@@ -487,7 +487,7 @@ fi:
         previous: "Palaa edelliselle sivulle"
     placeholders:
       default: '-'
-      subject: 'Enter subject here'
+      subject: 'Lisää aihe'
       selection: 'Valitse'
       relation_description: 'Painamalla tästä voit lisätä kuvauksen tälle suhteelle'
     project:
@@ -516,12 +516,12 @@ fi:
         settings: "Asetukset"
     time_entry:
       project: 'Projekti'
-      work_package: 'Työpaketti'
+      work_package: 'Tehtävä'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktiviteetti'
+      activity: 'Tapahtumat'
       comment: 'Kommentti'
       duration: 'Kesto'
-      spent_on: 'Päivä'
+      spent_on: 'Päivämäärä'
       hours: 'Tunnit'
       title: 'Kirjaa lokiin aika'
     two_factor_authentication:
@@ -558,10 +558,10 @@ fi:
       remove_parent: "Poista ylätaso"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "Ryhmittele työpaketin tyypin mukaan"
+      group_by_wp_type: "Ryhmittele tehtävät tyypeittäin"
       group_by_relation_type: "Ryhmittele suhteen tyypin mukaan"
       add_parent: "Lisää olemassaoleva ylätaso"
-      add_new_child: "Luo uusi alataso"
+      add_new_child: "Luo uusi aliriippuvuus"
       create_new: "Create new"
       add_existing: "Add existing"
       add_existing_child: "Lisää olemassaoleva alataso"
@@ -577,13 +577,16 @@ fi:
       save: "Tallenna suhde"
       abort: "Keskeytä"
     relations_autocomplete:
-      placeholder: "Type to search"
+      placeholder: "Haku"
       parent_placeholder: "Choose new parent or press escape to cancel."
     repositories:
       select_tag: 'Valitse tunniste'
       select_branch: 'Valitse haara'
     field_value_enter_prompt: "Syötä arvo kenttään \"%{field}\""
     project_menu_details: "Yksityiskohdat"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -597,7 +600,7 @@ fi:
     text_attachment_destroy_confirmation: "Oletko varma, että haluat poistaa liitteen?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
+      gantt_chart: 'Gantt-kaavio'
       labels:
         title: 'Label configuration'
         bar: 'Bar labels'
@@ -683,7 +686,7 @@ fi:
       comment_added: "Kommentin lisääminen onnistui."
       comment_send_failed: "On tapahtunut virhe. Kommenttia ei voitu lähettää."
       comment_updated: "Kommentti päivitettiin onnistuneesti."
-      confirm_edit_cancel: "Oletko varma, että haluat peruuttaa työpaketin muokkaamisen?"
+      confirm_edit_cancel: "Oletko varma, että haluat peruuttaa tehtävän muokkauksen?"
       description_filter: "Suodata"
       description_enter_text: "Enter text"
       description_options_hide: "Piilota valinnat"
@@ -693,24 +696,24 @@ fi:
       label_enable_multi_select: "Ota monivalinta käyttöön"
       label_disable_multi_select: "Poista monivalinta käytöstä"
       label_filter_add: "Lisää suodatin"
-      label_filter_by_text: "Filter by text"
+      label_filter_by_text: "Suodata tekstin perusteella"
       label_options: "Valinnat"
       label_column_multiselect: "Yhdistetty avattava kenttä: Valitse nuolinäppäimillä, vahvista Enter, backspace poistaa"
-      message_error_during_bulk_delete: Työpaketin poistossa tapahtui virhe.
-      message_successful_bulk_delete: Poistetut työpaketit.
-      message_successful_show_in_fullscreen: "Klikkaa tästä avataksesi työpaketin kokonäyttötilaan."
-      message_view_spent_time: "Näytä tähän työpakettiin käytetty aika"
+      message_error_during_bulk_delete: Tehtävän poistossa tapahtui virhe.
+      message_successful_bulk_delete: Poistetut tehtävät.
+      message_successful_show_in_fullscreen: "Klikkaa avataksesi tehtävä kokonäyttöön."
+      message_view_spent_time: "Näytä tehtävään käytetty aika"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      placeholder_filter_by_text: "Aihe, kuvaus, kommentit, ..."
       inline_create:
-        title: 'Napsauttamalla tätä voit lisätä luetteloon uuden työpaketin'
+        title: 'Klikkaa lisätäksesi tehtävä luetteloon'
       create:
-        title: 'Uusi työpaketti'
+        title: 'Uusi tehtävä'
         header: 'Uusi %{type}'
-        header_no_type: 'Uusi työpaketti (tarkempi tyyppi määrittämättä)'
+        header_no_type: 'Uusi tehtävä (tyyppi määrittelemättä)'
         header_with_parent: 'Uusi %{type} (Ylätaso %{parent_type} #%{id})'
-        button: 'Luo'
+        button: 'Uusi'
       copy:
         title: 'Copy work package'
       hierarchy:
@@ -721,23 +724,23 @@ fi:
         children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
         children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
       faulty_query:
-        title: Työpakettia ei voitu ladata.
+        title: Tehtävää ei voitu ladata.
         description: Your view is erroneous and could not be processed.
       no_results:
-        title: Ei työpaketteja näytettäväksi.
+        title: Ei tehtäviä.
         description: Yhtään ei ole luotu tai sitten kaikki on suodatettu pois.
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Yksityiskohdat"
         people: "Henkilöt"
-        estimatesAndTime: "Arviot & Aika"
+        estimatesAndTime: "Arviot ja ajankäyttö"
         other: "Muut"
       properties:
-        assignee: "Vastuuhenkilö"
+        assignee: "Suorittaja"
         author: "Tekijä"
         createdAt: "Luontipäivä"
         description: "Kuvaus"
-        date: "Päivä"
+        date: "Päivämäärä"
         dueDate: "Finish date"
         estimatedTime: "Arvioitu aika"
         spentTime: "Käytetty aika"
@@ -751,15 +754,15 @@ fi:
         subject: "Aihe"
         title: "Otsikko"
         type: "Tyyppi"
-        updatedAt: "Päivitetty vimeksi"
+        updatedAt: "Päivitetty"
         versionName: "Versio"
         version: "Versio"
       default_queries:
-        latest_activity: "Latest activity"
-        created_by_me: "Created by me"
-        assigned_to_me: "Assigned to me"
+        latest_activity: "Viimeisimmät tapahtumat"
+        created_by_me: "Itse luodut"
+        assigned_to_me: "Minulle määritetyt"
         recently_created: "Recently created"
-        all_open: "All open"
+        all_open: "Avoimet"
         summary: "Yhteenveto"
       jump_marks:
         pagination: "Jump to table pagination"
@@ -785,7 +788,7 @@ fi:
         display_sums: "Näytä summat"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
         click_to_edit_query_name: "Click to edit title of this view."
-        rename_query_placeholder: "Name of this view"
+        rename_query_placeholder: "Nämymän nimi"
         star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
@@ -796,7 +799,7 @@ fi:
         text_no_results: "No matching views were found."
       table:
         configure_button: 'Configure work package table'
-        summary: "Taulukko, jossa työpaketit ovat riveinä ja niiden ominaisuudet sarakkeina."
+        summary: "Taulukko jossa tehtävät riveinä ja ominaisuudet sarakkeina."
         text_inline_edit: "Useimmat tämän taulukon soluista ovat nappeja jotka aktivoivat suoran syöttömahdollisuuden kentän arvoon."
         text_sort_hint: "Taulukon otsikon linkkien avulla voit lajitella, ryhmitellä, järjestellä, poistaa ja lisätä taulukon sarakkeita."
         text_select_hint: "Valintalaatikot tulisi avata \"Alt\" tai nuolinäppäimillä."
@@ -836,7 +839,7 @@ fi:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Yleiskatsaus
-        activity: Aktiviteetti
+        activity: Tapahtumat
         relations: Suhteet
         watchers: Seuraajat
         attachments: Liitteet
@@ -846,7 +849,7 @@ fi:
         months: "months"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
+        configure_view: "Määritä näkymä"
         columns: "Sarakkeet..."
         sort_by: "Järjestä..."
         group_by: "Ryhmittele..."
@@ -857,16 +860,16 @@ fi:
         save: "Tallenna"
         save_as: "Tallenna nimellä..."
         export: "Vie..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        visibility_settings: "Näkyvyysasetukset ..."
+        page_settings: "Nimeä näkymä ..."
         delete: "Poista"
       filter: "Suodata"
-      unselected_title: "Työpaketti"
-      search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
+      unselected_title: "Tehtävä"
+      search_query_label: "Hae näkymistä"
+      search_query_title: "Klikkaa hakeaksesi näkymistä"
       placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Rename view"
+      label_settings: "Nimeä näkymä"
       label_name: "Nimi"
       label_delete_page: "Poista nykyinen sivu"
       button_apply: "Ota käyttöön"
@@ -883,8 +886,8 @@ fi:
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "All child work packages and their descendants will also be recursively deleted."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Vahvista"
+        text: "Haluatko varmasti poistaa tämän aikakirjauksen?"
     notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Luonti onnistui."
     notice_successful_delete: "Poisto onnistui."
@@ -929,16 +932,16 @@ fi:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
     global_search:
-      all_projects: "In all projects"
+      all_projects: "Kaikista projekteista"
       search: "Haku"
       close_search: "Close search"
-      current_project: "In this project"
-      current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "Tästä projektista"
+      current_project_and_all_descendants: "Tästä projektista + aliprojekteista"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Kortit'
+      list: 'Taulukko'
       timeline: 'Gantt'

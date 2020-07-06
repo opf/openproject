@@ -23,7 +23,7 @@ fi:
   no_results_title_text: Ei ole tällä hetkellä näytettävää.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: Ei tapahtumia projektissa tällä aikavälillä.
   admin:
     plugins:
       no_results_title_text: Tällä hetkellä ei ole liitännäisiä saatavilla.
@@ -87,6 +87,10 @@ fi:
     index:
       no_results_content_title: Tällä hetkellä ei ole todennustiloja.
       no_results_content_text: Luo uusi todennustila
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -208,8 +212,8 @@ fi:
         no_results_title_text: There are currently no forums for the project.
         no_results_content_text: Create a new forum
       categories:
-        no_results_title_text: Tällä hetkellä ei ole yhtään työpaketin luokkaa.
-        no_results_content_text: Lisää uusi työpaketin luokka
+        no_results_title_text: Tällä hetkellä ei ole yhtään tehtäväluokkaa.
+        no_results_content_text: Lisää uusi tehtäväluokka
       custom_fields:
         no_results_title_text: Tällä hetkellä ei ole mukautettuja kenttiä.
       types:
@@ -257,7 +261,7 @@ fi:
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
     index:
-      no_results_title_text: Ei työpaketin tiloja.
+      no_results_title_text: Ei tehtävien tiloja.
       no_results_content_text: Lisää uusi tila
   types:
     index:
@@ -276,7 +280,7 @@ fi:
         in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
-      no_results_title_text: Tähän versioon ei ole liitetty yhtään työpakettia.
+      no_results_title_text: Tähän versioon ei ole liitetty yhtään tehtävää.
   wiki:
     no_results_title_text: Ei Wiki-sivuja.
     index:
@@ -292,7 +296,7 @@ fi:
       could_not_be_saved: "The following work packages could not be saved:"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
-      unsupported_for_multiple_projects: 'Massasiirto tai -kopiointi ei ole sallittu eri projektien työpaketeille'
+      unsupported_for_multiple_projects: 'Massasiirto tai -kopiointi ei ole sallittu eri projektien tehtäville'
     summary:
       reports:
         category:
@@ -386,7 +390,7 @@ fi:
         value: "Arvo"
       enterprise_token:
         starts_at: "Voimassa alkaen"
-        expires_at: "Vanhenee"
+        expires_at: "Vanhentuu"
         subscriber: "Tilaaja"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
@@ -397,10 +401,10 @@ fi:
         widgets: "Widgets"
       relation:
         delay: "Viive"
-        from: "Työpaketti"
-        to: "Liittyvä työpaketti"
+        from: "Tehtävä"
+        to: "Liittyy tehtävään"
       status:
-        is_closed: "Työpaketti suljettu"
+        is_closed: "Tehtävä suljettu"
         is_readonly: "Work package read-only"
       journal:
         notes: "Muistiinpanot"
@@ -408,12 +412,13 @@ fi:
         roles: "Roolit"
       project:
         identifier: "Tunniste"
-        latest_activity_at: "Viimeisin toiminta"
+        latest_activity_at: "Viimeisin tapahtuma"
         parent: "Aliprojekti"
         queries: "Kyselyt"
         types: "Tyypit"
         versions: "Versiot"
-        work_packages: "Työpaketit"
+        work_packages: "Tehtävät"
+        templated: 'Template project'
       projects/status:
         code: 'Tila'
         explanation: 'Status description'
@@ -433,9 +438,9 @@ fi:
       role:
         assignable: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
       time_entry:
-        activity: "Aktiviteetti"
+        activity: "Tapahtumat"
         hours: "Tunnit"
-        spent_on: "Päivä"
+        spent_on: "Päivämäärä"
         type: "Tyyppi"
       type:
         description: "Default text for description"
@@ -461,7 +466,7 @@ fi:
         impaired: "Helppokäyttötoimintojen tila"
         time_zone: "Aikavyöhyke"
         auto_hide_popups: "Piilota automaattisesti ilmoitukset onnistuneista toiminnoista"
-        warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        warn_on_leaving_unsaved: "Varoita tallentamattomista muutoksista"
       version:
         effective_date: "Finish date"
         sharing: "Jakaminen"
@@ -485,6 +490,7 @@ fi:
         parent_work_package: "Ylätaso"
         priority: "Tärkeys"
         progress: "Edistyminen (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"
         subproject: "Aliprojekti"
@@ -507,7 +513,7 @@ fi:
         before: "on oltava ennen %{date}."
         before_or_equal_to: "on oltava %{date} tai sitä ennen."
         blank: "ei voi olla sisällötön."
-        cant_link_a_work_package_with_a_descendant: "Työpakettia ei voida yhdistää ko. työpaketin alitehtäviin."
+        cant_link_a_work_package_with_a_descendant: "Tehtävää ei voida yhdistää alitehtäviin."
         circular_dependency: "Tämä suhde loisi kehän."
         confirmation: "ei vastaa %{attribute}."
         could_not_be_copied: "kopioiminen ei onnistunut (täysimääräisesti)."
@@ -581,7 +587,7 @@ fi:
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
-              in_use_by_work_packages: "edelleen käytössä työpaketeissa: %{types}"
+              in_use_by_work_packages: "edelleen käytössä tehtävissä: %{types}"
         query:
           attributes:
             project:
@@ -617,7 +623,7 @@ fi:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
-          is_not_a_valid_target_for_time_entries: "Työpaketti #%{id} ei ole kelvollinen uusi kohde aikakirjauksille."
+          is_not_a_valid_target_for_time_entries: "Tehtävä #%{id} ei ole kelvollinen kohde aikakirjauksille."
           attributes:
             due_date:
               not_start_date: "ei ole aloituspäivänä, vaikka välitavoite vaatii sen olevan."
@@ -626,7 +632,7 @@ fi:
               cannot_be_in_another_project: "ei voi olla toisessa projektissa."
               not_a_valid_parent: "ei kelpaa."
             start_date:
-              violates_relationships: "voidaan määrittää vain %{soonest_start} tai myöhempään, jotta ei rikota työpaketin suhteita."
+              violates_relationships: "voidaan määrittää vain %{soonest_start} tai myöhempään, tehtävien riippuvuuksien takia."
             status_id:
               status_transition_invalid: "ei kelpaa, koska siirtymää ei ole määritelty vanhan ja uuden tilan välille nykyisen käyttäjän rooleissa."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
@@ -635,7 +641,7 @@ fi:
             priority_id:
               only_active_priorities_allowed: "täytyy olla aktiivinen."
             category:
-              only_same_project_categories_allowed: "Työpaketin kategorian tulee olla samasta projektista mistä työpaketti."
+              only_same_project_categories_allowed: "Tehtävän kategorian tulee olla samasta projektista."
               does_not_exist: "Määritettyä luokkaa ei ole."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "on oltava > = 0."
@@ -689,7 +695,7 @@ fi:
       custom_field: "Mukautettu kenttä"
       group: "Ryhmä"
       category: "Kategoria"
-      status: "Työpaketin tila"
+      status: "Tehtävän tila"
       member: "Jäsen"
       news: "Uutiset"
       project: "Projekti"
@@ -703,7 +709,7 @@ fi:
       wiki: "Wiki"
       wiki_page: "Wiki-sivu"
       workflow: "Työnkulku"
-      work_package: "Työpaketti"
+      work_package: "Tehtävä"
       'doorkeeper/application': "OAuth application"
   errors:
     header_invalid_fields: "Seuraavissa kentissä oli ongelmia:"
@@ -714,8 +720,8 @@ fi:
   #common attributes of all models
   attributes:
     active: "Aktiivinen"
-    assigned_to: "Vastuuhenkilö"
-    assignee: "Vastuuhenkilö"
+    assigned_to: "Suorittaja"
+    assignee: "Suorittaja"
     attachments: "Liitteet"
     author: "Tekijä"
     base: "Yleinen virhe:"
@@ -729,7 +735,7 @@ fi:
     created_on: "Luontipäivä"
     custom_options: "Mahdolliset arvot"
     custom_values: "Mukautetut kentät"
-    date: "Päivä"
+    date: "Päivämäärä"
     default_columns: "Oletussarakkeet"
     description: "Kuvaus"
     display_sums: "Näytä summat"
@@ -740,21 +746,21 @@ fi:
     group: "Ryhmä"
     groups: "Ryhmät"
     groupname: "Ryhmän nimi"
-    id: "Tunnus"
+    id: "ID"
     is_default: "Oletusarvo"
     is_for_all: "Kaikille projekteille"
     is_public: "Julkinen"
     #kept for backwards compatibility
-    issue: "Työpaketti"
+    issue: "Tehtävä"
     lastname: "Sukunimi"
-    login: "Username"
+    login: "Käyttäjätunnus"
     mail: "Sähköposti"
     name: "Nimi"
     password: "Salasana"
     priority: "Tärkeys"
     project: "Projekti"
     public: "Julkinen"
-    responsible: "Accountable"
+    responsible: "Vastuuhenkilö"
     role: "Rooli"
     roles: "Roolit"
     start_date: "Aloituspäivä"
@@ -763,12 +769,12 @@ fi:
     summary: "Yhteenveto"
     title: "Otsikko"
     type: "Tyyppi"
-    updated_at: "Päivitetty vimeksi"
-    updated_on: "Päivitetty vimeksi"
+    updated_at: "Päivitetty"
+    updated_on: "Päivitetty"
     uploader: "Uploader"
     user: "Käyttäjä"
     version: "Versio"
-    work_package: "Työpaketti"
+    work_package: "Tehtävä"
   button_add: "Lisää"
   button_add_comment: "Lisää kommentti"
   button_add_member: Lisää jäsen
@@ -790,7 +796,7 @@ fi:
   button_continue: "Jatka"
   button_copy: "Kopioi"
   button_copy_and_follow: "Kopioi ja seuraa"
-  button_create: "Luo"
+  button_create: "Uusi"
   button_create_and_continue: "Luo ja jatka"
   button_delete: "Poista"
   button_decline: "Decline"
@@ -882,6 +888,7 @@ fi:
       - "Loka"
       - "Marras"
       - "Joulu"
+    abbr_week: 'Wk'
     day_names:
       - "Sunnuntai"
       - "Maanantai"
@@ -998,11 +1005,11 @@ fi:
   default_priority_immediate: "Valitön"
   default_role_anonymous: "Anonyymi"
   default_role_developer: "Kehittäjä"
-  default_role_project_admin: "Projektin hallinnoija"
+  default_role_project_admin: "Projektin ylläpitäjä"
   default_role_non_member: "Ei jäsen"
-  default_role_reader: "Lukija"
+  default_role_reader: "Lukuoikeus"
   default_role_member: "Jäsen"
-  default_type: "Työpaketti"
+  default_type: "Tehtävä"
   default_type_bug: "Virhe"
   default_type_deliverable: "Suorite"
   default_type_epic: "Epic"
@@ -1113,10 +1120,11 @@ fi:
     reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki-sivu päivitetty'
-    work_package_closed: 'Työpaketti suljettu'
-    work_package_edit: 'Työpakettia muokattu'
-    work_package_note: 'Työpaketin huomio lisätty'
+    work_package_closed: 'Tehtävä suljettu'
+    work_package_edit: 'Tehtävää muokattu'
+    work_package_note: 'Kommentti lisätty tehtävään'
   export:
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1138,7 +1146,7 @@ fi:
   general_csv_encoding: "ISO-8859-15"
   general_csv_separator: ","
   general_first_day_of_week: "1"
-  general_lang_name: "Finnish (Suomi)"
+  general_lang_name: "Suomi"
   general_pdf_encoding: "ISO-8859-15"
   general_text_no: "ei"
   general_text_yes: "kyllä"
@@ -1184,19 +1192,19 @@ fi:
       access_token: "Access token"
       headers:
         action: "Action"
-        expiration: "Expires"
+        expiration: "Vanhentuu"
       indefinite_expiration: "Never"
   label_accessibility: "Helppokäyttötoiminnot"
   label_account: "Käyttäjätili"
   label_active: "Aktiivinen"
   label_activate_user: 'Activate user'
   label_active_in_new_projects: "Active in new projects"
-  label_activity: "Aktiviteetti"
+  label_activity: "Tapahtumat"
   label_add_edit_translations: "Lisää ja muokkaa käännöksiä"
   label_add_another_file: "Lisää uusi tiedosto"
   label_add_columns: "Lisää valitut sarakkeet"
   label_add_note: "Lisää muistiinpano"
-  label_add_related_work_packages: "Lisää tähän liittyvä työpaketti"
+  label_add_related_work_packages: "Lisää tehtävän riippuvuudet"
   label_add_subtask: "Lisätä alitehtävä"
   label_added: "lisätty"
   label_added_time_by: "Lisännyt %{author} %{age} sitten"
@@ -1209,7 +1217,7 @@ fi:
   label_all: "kaikki"
   label_all_time: "koko ajalta"
   label_all_words: "kaikki sanat"
-  label_all_open_wps: "All open"
+  label_all_open_wps: "Avoimet"
   label_always_visible: "Aina näkyvissä"
   label_announcement: "Ilmoitus"
   label_api_access_key: "API avain"
@@ -1218,7 +1226,7 @@ fi:
   label_applied_status: "Käytetty tila"
   label_archive_project: "Arkisto projekti"
   label_ascending: "Nouseva"
-  label_assigned_to_me_work_packages: "Minulle määritetyt työpaketit"
+  label_assigned_to_me_work_packages: "Minulle määritellyt tehtävät"
   label_associated_revisions: "Liittyvät versiot"
   label_attachment_delete: "Poista tiedosto"
   label_attachment_new: "Uusi tiedosto"
@@ -1229,7 +1237,7 @@ fi:
   label_auth_source_new: "Uusi varmennustapa"
   label_auth_source_plural: "Varmennustavat"
   label_authentication: "Varmennus"
-  label_available_project_work_package_categories: 'Saatavilla olevat työpakettiluokat'
+  label_available_project_work_package_categories: 'Olemassa olevat tehtäväluokat'
   label_available_project_work_package_types: 'Available work package types'
   label_available_project_forums: 'Available forums'
   label_available_project_versions: 'Saatavana olevat versiot'
@@ -1246,7 +1254,7 @@ fi:
   label_boolean: "Totuusarvomuuttuja"
   label_branch: "Haara"
   label_browse: "Selaus"
-  label_bulk_edit_selected_work_packages: "Muokkaa useaa työpakettia"
+  label_bulk_edit_selected_work_packages: "Muokkaa valittuja tehtäviä"
   label_bundled: '(Bundled)'
   label_calendar: "Kalenteri"
   label_calendar_show: "Näytä kalenteri"
@@ -1300,7 +1308,7 @@ fi:
   label_custom_field_plural: "Mukautetut kentät"
   label_custom_field_default_type: "Tyhjä tyyppi"
   label_custom_style: "Ulkoasu"
-  label_date: "Päivä"
+  label_date: "Päivämäärä"
   label_date_and_time: "Päivämäärä ja aika"
   label_date_from: "Alkaen"
   label_date_from_to: "Ajalla %{start} - %{end}"
@@ -1344,7 +1352,7 @@ fi:
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Yritysversio"
   label_environment: "Ympäristö"
-  label_estimates_and_time: "Estimates and time"
+  label_estimates_and_time: "Arviot ja ajankäyttö"
   label_equals: "sama kuin"
   label_everywhere: "everywhere"
   label_example: "Esimerkki"
@@ -1368,7 +1376,7 @@ fi:
   label_force_user_language_to_default: "Määritä oletuskieli jos käytössä on kieli joka ei ole sallittu"
   label_form_configuration: "Lomakkeen muokkaus"
   label_gantt: "Gantt"
-  label_gantt_chart: "Gantt chart"
+  label_gantt_chart: "Gantt-kaavio"
   label_general: "Yleinen"
   label_generate_key: "Luo avain"
   label_git_path: "Polku .git hakemistoon"
@@ -1455,7 +1463,7 @@ fi:
   label_months_from: "kuukauden päässä"
   label_more: "Lisää"
   label_more_than_ago: "enemän kuin päivää sitten"
-  label_move_work_package: "Siirrä työpaketti"
+  label_move_work_package: "Siirrä tehtävä"
   label_my_account: "Oma tili"
   label_my_account_data: "Tilini tiedot"
   label_my_projects: "Omat projektit"
@@ -1486,13 +1494,13 @@ fi:
   label_notify_member_plural: "Lähetä tieto päivityksistä sähköpostilla"
   label_on: "päälle"
   label_open_menu: "Avaa valikko"
-  label_open_work_packages: "avoinna"
-  label_open_work_packages_plural: "avoinna"
+  label_open_work_packages: "avoin"
+  label_open_work_packages_plural: "avoin"
   label_openproject_website: "OpenProject website"
   label_optional_description: "Kuvaus"
   label_options: "Valinnat"
   label_other: "Muut"
-  label_overall_activity: "Kokonaishistoria"
+  label_overall_activity: "Kaikki tapahtumat"
   label_overall_spent_time: "Käytetty kokonaisaika"
   label_overview: "Yleiskatsaus"
   label_page_title: "Page title"
@@ -1533,8 +1541,8 @@ fi:
   label_project_new: "Uusi projekti"
   label_project_plural: "Projektit"
   label_project_settings: "Projektin asetukset"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
-  label_project_view_all: "Näytä kaikki projektit"
+  label_projects_storage_information: "%{count} projektia käyttää %{storage} tallennustilaa"
+  label_project_view_all: "Kaikki projektit"
   label_project_show_details: "Show project details"
   label_project_hide_details: "Hide project details"
   label_public_projects: "Julkiset projektit"
@@ -1548,7 +1556,7 @@ fi:
   label_registration_activation_by_email: "tilin aktivointi sähköpostitse"
   label_registration_automatic_activation: "automaattinen tilin aktivointi"
   label_registration_manual_activation: "manuaalinen tilin aktivointi"
-  label_related_work_packages: "Työpaketit jotka liittyvät"
+  label_related_work_packages: "Tehtävän riippuvuudet"
   label_relates: "liittyy"
   label_relates_to: "liittyy"
   label_relation_delete: "Poista suhde"
@@ -1560,7 +1568,7 @@ fi:
   label_report: "Raportti"
   label_report_bug: "Report a bug"
   label_report_plural: "Raportit"
-  label_reported_work_packages: "Raportoidut työpaketit"
+  label_reported_work_packages: "Ilmoitetut tehtävät"
   label_reporting: "Raportoidaan"
   label_reporting_plural: "Raportit"
   label_repository: "Tietovarasto"
@@ -1576,7 +1584,7 @@ fi:
   label_roadmap: "Tiekartta"
   label_roadmap_edit: "Muokkaa tiekarttaa %{name}"
   label_roadmap_due_in: "Määräaika %{value}"
-  label_roadmap_no_work_packages: "Ei työpaketteja tähän versioon"
+  label_roadmap_no_work_packages: "Ei tehtäviä tässä versiossa"
   label_roadmap_overdue: "%{value} myöhässä"
   label_role_and_permissions: "Roolit ja oikeudet"
   label_role_new: "Uusi rooli"
@@ -1624,6 +1632,7 @@ fi:
   label_time_entry_plural: "Käytetty aika"
   label_time_sheet_menu: "Aikaraportti"
   label_time_tracking: "Ajan seuranta"
+  label_projects_menu: "Projektit"
   label_today: "tänään"
   label_top_menu: "Päävalikko"
   label_topic_plural: "Aiheet"
@@ -1631,7 +1640,7 @@ fi:
   label_type_new: "Uusi tyyppi"
   label_type_plural: "Tyypit"
   label_ui: "Käyttöliittymä"
-  label_update_work_package_done_ratios: "Päivitä työpaketin valmiusasteet"
+  label_update_work_package_done_ratios: "Päivitä tehtävien valmiusasteet"
   label_updated_time: "Päivitetty %{value} sitten"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Päivittänyt %{author} %{age} sitten"
@@ -1665,7 +1674,7 @@ fi:
   label_view_all_revisions: "Katso kaikki versiot"
   label_view_diff: "Näytä erot"
   label_view_revisions: "Näytä versiot"
-  label_watched_work_packages: "Seuratut työpaketit"
+  label_watched_work_packages: "Seuratut tehtävät"
   label_what_is_this: "What is this?"
   label_week: "Viikko"
   label_wiki_content_added: "Wiki-sivu lisätty"
@@ -1685,24 +1694,24 @@ fi:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "Aloitussivu"
-  label_work_package: "Työpaketti"
-  label_work_package_added: "Työpaketti lisätty"
+  label_work_package: "Tehtävä"
+  label_work_package_added: "Tehtävä lisätty"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Uusi luokka"
-  label_work_package_category_plural: "Työpakettien luokat"
-  label_work_package_hierarchy: "Työpakettihierarkia"
-  label_work_package_new: "Uusi työpaketti"
-  label_work_package_note_added: "Työpaketin huomio lisätty"
-  label_work_package_edit: "Muokkaa työpakettia %{name}"
-  label_work_package_plural: "Työpaketit"
-  label_work_package_priority_updated: "Työpaketin kiirellisyys päivitetty"
-  label_work_package_status: "Työpaketin tila"
+  label_work_package_category_plural: "Tehtäväluokat"
+  label_work_package_hierarchy: "Tehtävähierarkia"
+  label_work_package_new: "Uusi tehtävä"
+  label_work_package_note_added: "Kommentti lisätty tehtävään"
+  label_work_package_edit: "Muokkaa tehtävää %{name}"
+  label_work_package_plural: "Tehtävät"
+  label_work_package_priority_updated: "Tehtävän prioriteetti muutettu"
+  label_work_package_status: "Tehtävän tila"
   label_work_package_status_new: "Uusi tila"
-  label_work_package_status_plural: "Työpaketin tilat"
+  label_work_package_status_plural: "Tehtävien tilat"
   label_work_package_types: "Work package types"
-  label_work_package_updated: "Työpakettia muokattu"
-  label_work_package_tracking: "Työpaketin seuranta"
-  label_work_package_view_all: "Näytä kaikki työpaketit"
+  label_work_package_updated: "Tehtävä päivitetty"
+  label_work_package_tracking: "Tehtävien seuranta"
+  label_work_package_view_all: "Näytä kaikki tehtävät"
   label_workflow: "Työnkulku"
   label_workflow_plural: "Työnkulut"
   label_workflow_summary: "Yhteenveto"
@@ -1745,7 +1754,7 @@ fi:
       errors:
         no_project_context: 'Calling create_work_package_link macro from outside project context.'
         invalid_type: "No type found with name '%{type}' in project '%{project}'."
-      link_name: 'Uusi työpaketti'
+      link_name: 'Uusi tehtävä'
       link_name_type: 'New %{type_name}'
   mail:
     actions: 'Toiminnot'
@@ -1867,7 +1876,7 @@ fi:
     welcome: "Tervetuloa OpenProjectiin"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Lisää muistiinpanoja"
-  permission_add_work_packages: "Lisää työpaketteja"
+  permission_add_work_packages: "Lisää tehtävä"
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Luo projekti"
   permission_add_subprojects: "Luoda aliprojekteja"
@@ -1879,7 +1888,7 @@ fi:
   permission_commit_access: "Tee pääsyoikeus"
   permission_copy_projects: "Kopioi projekteja"
   permission_delete_work_package_watchers: "Poista seuraajia"
-  permission_delete_work_packages: "Poista työpaketteja"
+  permission_delete_work_packages: "Poista tehtäviä"
   permission_delete_messages: "Poista viestit"
   permission_delete_own_messages: "Poista omia viestejä"
   permission_delete_reportings: "Poista raportoinnit"
@@ -1887,7 +1896,7 @@ fi:
   permission_delete_wiki_pages: "Poista wiki sivuja"
   permission_delete_wiki_pages_attachments: "Poista liitteitä"
   permission_edit_work_package_notes: "Muokkaa muistiinpanoja"
-  permission_edit_work_packages: "Muokkaa työpaketteja"
+  permission_edit_work_packages: "Muokkaa tehtäviä"
   permission_edit_messages: "Muokkaa viestejä"
   permission_edit_own_work_package_notes: "Muokkaa omia muistiinpanoja"
   permission_edit_own_messages: "Muokkaa omia viestejä"
@@ -1897,13 +1906,13 @@ fi:
   permission_edit_time_entries: "Muokkaa aika lokeja"
   permission_edit_timelines: "Muokkaa aikajanoja"
   permission_edit_wiki_pages: "Muokkaa wiki sivuja"
-  permission_export_work_packages: "Vie työpaketteja"
+  permission_export_work_packages: "Vie tehtäviä"
   permission_export_wiki_pages: "Vie wiki-sivuja"
   permission_list_attachments: "Listaa liitteet"
   permission_log_time: "Lokita käytettyä aikaa"
   permission_manage_forums: "Hallinnoi keskustelupalstaa"
   permission_manage_categories: "Hallinnoi tapahtumien luokkia"
-  permission_manage_work_package_relations: "Hallinnoi työpakettien suhteita"
+  permission_manage_work_package_relations: "Hallinnoi tehtävien riippuvuuksia"
   permission_manage_members: "Hallinnoi jäseniä"
   permission_manage_news: "Hallinnoi uutisia"
   permission_manage_project_activities: "Hallinnoi projektin tehtäviä"
@@ -1913,7 +1922,7 @@ fi:
   permission_manage_versions: "Hallinnoi versioita"
   permission_manage_wiki: "Hallinnoi wikiä"
   permission_manage_wiki_menu: "Hallinnoi Wiki-valikkoa"
-  permission_move_work_packages: "Siirrä työpaketteja"
+  permission_move_work_packages: "Siirrä tehtäviä"
   permission_protect_wiki_pages: "Suojaa wiki sivut"
   permission_rename_wiki_pages: "Uudelleennimeä wiki sivuja"
   permission_save_queries: "Save views"
@@ -1944,13 +1953,19 @@ fi:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Projektin nykyiset linkit eivät enää toimi.
       title: Muuta projektin tunnistetta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
       archived: "Archived"
-  project_module_activity: "Aktiviteetti"
+  project_module_activity: "Tapahtumat"
   project_module_forums: "Keskustelupalstat"
   project_module_calendar: "Kalenteri"
-  project_module_work_package_tracking: "Työpaketin seuranta"
+  project_module_work_package_tracking: "Tehtävien seuranta"
   project_module_news: "Uutiset"
   project_module_repository: "Tietovarasto"
   project_module_time_tracking: "Ajan seuranta"
@@ -1962,8 +1977,8 @@ fi:
   #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Active or archived"
-    assigned_to_role: "Vastuuhenkilön rooli"
-    member_of_group: "Vastuuhenkilön ryhmä"
+    assigned_to_role: "Suorittajan rooli"
+    member_of_group: "Suorittajan ryhmä"
     assignee_or_group: "Assignee or belonging group"
     subproject_id: "Aliprojekti"
     name_or_identifier: "Name or identifier"
@@ -2093,24 +2108,24 @@ fi:
   setting_brute_force_block_minutes: "Aika jonka käyttäjä on estettynä"
   setting_cache_formatted_text: "Käytä välimuistia muotoillulle tekstille"
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
-  setting_column_options: "Mukauta työpakettilistan ulkoasua"
+  setting_column_options: "Muokkaa tehtävälistauksen ulkoasua"
   setting_commit_fix_keywords: "Korjaavat hakusanat"
   setting_commit_logs_encoding: "Commit messages encoding"
-  setting_commit_logtime_activity_id: "Aktiviteetti kirjatulle ajalle"
+  setting_commit_logtime_activity_id: "Tapahtuma kirjatulle ajalle"
   setting_commit_logtime_enabled: "Mahdollista ajan kirjaaminen"
   setting_commit_ref_keywords: "Viittaavat hakusanat"
   setting_consent_time: "Consent time"
   setting_consent_info: "Consent information text"
   setting_consent_required: "Consent required"
   setting_consent_decline_mail: "Consent contact mail address"
-  setting_cross_project_work_package_relations: "Salli projektien väliset työpakettien suhteet"
+  setting_cross_project_work_package_relations: "Salli projektien väliset tehtävien riippuvuudet"
   setting_date_format: "Päivän muoto"
   setting_default_language: "Vakiokieli"
   setting_default_notification_option: "Oletusasetus ilmoituksille"
   setting_default_projects_modules: "Oletusmodulit uusille projketeille"
   setting_default_projects_public: "Uudet projektit ovat oletuksena julkisia"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
-  setting_display_subprojects_work_packages: "Oletusarvoisesti näytä aliprojektien työpaketit pääprojektissa"
+  setting_display_subprojects_work_packages: "Oletuksena näytä aliprojektien tehtävät pääprojektissa"
   setting_emails_footer: "Sähköpostin alatunniste"
   setting_emails_header: "Sähköpostit otsikko"
   setting_email_login: "Use email as login"
@@ -2119,16 +2134,16 @@ fi:
   setting_feeds_limit: "Syötteen sisällön raja"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Verkko-osoite"
-  setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Käytä työpaketi edistymisen laskennassa"
-  setting_work_package_done_ratio_field: "Työpaketin kenttä"
-  setting_work_package_done_ratio_status: "Työpaketin tila"
+  setting_invitation_expiration_days: "Sähköpostisi vahvistuslinkki vanhentuu"
+  setting_work_package_done_ratio: "Käytä tehtävien edistymistä laskennassa"
+  setting_work_package_done_ratio_field: "Käytä tehtäväkenttää"
+  setting_work_package_done_ratio_status: "Käytä tehtävän tilaa"
   setting_work_package_done_ratio_disabled: "Ei käytössä (piilota edistyminen)"
   setting_work_package_list_default_columns: "Oletuksena näkyvissä"
   setting_work_package_list_summable_columns: "Yhteenlaskettavissa"
-  setting_work_package_properties: "Työpaketin ominaisuudet"
-  setting_work_package_startdate_is_adddate: "Käytä nykyistä päivää uuden työpaketin aloistuspäivänä"
-  setting_work_packages_export_limit: "Työpakettien viennin enimmäismäärä"
+  setting_work_package_properties: "Tehtävän ominaisuudet"
+  setting_work_package_startdate_is_adddate: "Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä"
+  setting_work_packages_export_limit: "Tehtävien viennin enimmäismäärä"
   setting_journal_aggregation_time_minutes: "Yhdistele aktiviteettiuutiset yhdeksi jos ne tapahtuvat tämän ajan sisään"
   setting_log_requesting_user: "Kirjaa lokiin käyttäjien kirjautumiset, nimet ja sähköpostiosoitteet kaikista pyynnöistä"
   setting_login_required: "Pakollinen kirjautuminen"
@@ -2256,7 +2271,7 @@ fi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Vertailemalla ja korjaus toimia paketit sitoutua viestejä"
   text_journal_added: "%{label} %{value} lisätty"
-  text_journal_aggregation_time_explanation: "Yhdistele aktiviteettiuutiset jos niiden julkaisuajan ero on pienempi kuin syötetty aika. Tämä viivästyttää myös aktiviteettiuutisten sähköposti-ilmoituksia samalla aikamäärällä."
+  text_journal_aggregation_time_explanation: "Yhdistä tapahtumat jos niiden julkaisuajan ero on pienempi kuin syötetty aika. Tämä viivästyttää myös tapahtumien sähköposti-ilmoituksia samalla aikamäärällä."
   text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
@@ -2273,7 +2288,7 @@ fi:
   text_no_roles_defined: Yhtään roolia ei ole määritetty.
   text_no_access_tokens_configurable: "Ei ole olemassa pääsyavaimia joita voisi konfiguroida."
   text_no_configuration_data: "Rooleja, tapahtumien tiloja ja työnkulkua ei vielä olla määritelty.\nOn erittäin suotavaa ladata vakioasetukset. Voit muuttaa sitä latauksen jälkeen."
-  text_no_notes: "Tähän työpakettiin ei ole saatavilla kommentteja."
+  text_no_notes: "Ei kommentteja tässä tehtävässä."
   text_notice_too_many_values_are_inperformant: "Huomautus: Näyttää yli 100 kohteita sivulla voi lisätä sivu kuormitus aika."
   text_notice_security_badge_displayed_html: >
     Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
@@ -2367,7 +2382,7 @@ fi:
         date: "date"
         default: "default"
       column:
-        assigned_to: "Vastuuhenkilö"
+        assigned_to: "Suorittaja"
         type: "Tyyppi"
         due_date: "End date"
         name: "Nimi"
@@ -2400,7 +2415,7 @@ fi:
       outline: "Initial outline expansion"
       parent: "Show subprojects of"
       work_package_filters: "Filter work packages"
-      work_package_responsible: "Show work packages with accountable"
+      work_package_responsible: "Näytä kaikki vastuuhenkilön tehtävät"
       work_package_assignee: "Show work packages with assignee"
       types: "Näytä tyypit"
       status: "Näytä tila"
@@ -2411,7 +2426,7 @@ fi:
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
-      project_responsible: "Show projects with accountable"
+      project_responsible: "Näytä vastuuhenkilön projektit"
       project_status: "Näytä projekti tila"
       timeframe: "Näytä aikataulu"
       timeframe_end: "to"
@@ -2421,7 +2436,7 @@ fi:
     history: "Historia"
     new_color: "New color"
     new_association: "New dependency"
-    new_work_package: "Uusi työpaketti"
+    new_work_package: "Uusi tehtävä"
     new_reporting: "New reporting"
     new_timeline: "Uusi aikajana-raportti"
     no_projects_for_reporting_available: "Ei ole hankkeita joihin raportointi yhdistys voi olla luotu."
@@ -2509,7 +2524,7 @@ fi:
     registered: "registered"
     reset_failed_logins: "Reset failed logins"
     settings:
-      mail_notifications: "Send email notifications"
+      mail_notifications: "Sähköposti-ilmoitukset"
       mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
       mail_self_notified: "Haluan ilmoituksen muutoksista jotka teen itse"
     status_user_and_brute_force: "%{user} and %{brute_force}"
@@ -2519,7 +2534,7 @@ fi:
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "suljettu"
   version_status_locked: "lukittu"
-  version_status_open: "avoinna"
+  version_status_open: "avoin"
   note: Note
   note_password_login_disabled: "Password login has been disabled by %{configuration}."
   warning: Warning
@@ -2555,7 +2570,7 @@ fi:
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _Päivitetty automaattisesti muutoksella joka tapahtui alityöpaketissa %{child}_
+      _Päivitetty automaattisesti alitehtävän %{child} muutoksen seurauksena_
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"

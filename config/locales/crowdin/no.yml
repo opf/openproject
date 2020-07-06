@@ -87,6 +87,10 @@
     index:
       no_results_content_title: Det er ingen autentiseringsmoduser for øyeblikket.
       no_results_content_text: Opprette en ny autentiseringsmodus
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Dette LDAP-skjemaet krever teknisk kunnskap om ditt LDAP / Aktiv Katalog oppsett.
@@ -414,6 +418,7 @@
         types: "Typer"
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivelse'
@@ -485,6 +490,7 @@
         parent_work_package: "Overordnet"
         priority: "Prioritet"
         progress: "Fremgang (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tid brukt"
         spent_time: "Tid brukt"
         subproject: "Underprosjekt"
@@ -882,6 +888,7 @@
       - "Okt"
       - "Nov"
       - "Des"
+    abbr_week: 'Wk'
     day_names:
       - "Søndag"
       - "Mandag"
@@ -1117,6 +1124,7 @@
     work_package_edit: 'Arbeidspakke redigert'
     work_package_note: 'Notat lagt til arbeidspakke'
   export:
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1624,6 +1632,7 @@
   label_time_entry_plural: "Tid brukt"
   label_time_sheet_menu: "Timeliste"
   label_time_tracking: "Tidsstyring"
+  label_projects_menu: "Prosjekter"
   label_today: "i dag"
   label_top_menu: "Toppmeny"
   label_topic_plural: "Emner"
@@ -1944,6 +1953,12 @@
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"

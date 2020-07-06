@@ -87,6 +87,10 @@ cs:
     index:
       no_results_content_title: Nyní neexistují žádné ověřovací režimy.
       no_results_content_text: Vytvořit nový režim ověřování
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -416,6 +420,7 @@ cs:
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
+        templated: 'Template project'
       projects/status:
         code: 'Stav'
         explanation: 'Status description'
@@ -487,6 +492,7 @@ cs:
         parent_work_package: "Rodič"
         priority: "Priorita"
         progress: "Průběh (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Dílčí projekt"
@@ -890,6 +896,7 @@ cs:
       - "Říjen"
       - "Listopad"
       - "Prosinec"
+    abbr_week: 'Wk'
     day_names:
       - "neděle"
       - "pondělí"
@@ -1149,6 +1156,7 @@ cs:
     work_package_edit: 'Pracovní balíček upraven'
     work_package_note: 'Poznámka k pracovnímu balíčku přidána'
   export:
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1656,6 +1664,7 @@ cs:
   label_time_entry_plural: "Strávený čas"
   label_time_sheet_menu: "Pracovní výkaz"
   label_time_tracking: "Sledování času"
+  label_projects_menu: "Projekty"
   label_today: "dnes"
   label_top_menu: "Horní menu"
   label_topic_plural: "Témata"
@@ -1985,6 +1994,12 @@ cs:
       warning_one: Členové projektu budou muset přemístit úložiště projektu.
       warning_two: Existující odkazy na projekt nebudou nadále fungovat.
       title: Změnit identifikátor projektu
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
       archived: "Archived"
