@@ -5,8 +5,6 @@
 // Active issue
 // https://github.com/Microsoft/TypeScript/issues/10178
 
-/// <reference path="../../node_modules/@types/angular-mocks/index.d.ts" />
-/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
 /// <reference path="../../node_modules/@types/jquery/index.d.ts" />
 /// <reference path="../../node_modules/@types/jqueryui/index.d.ts" />
 /// <reference path="../../node_modules/@types/mousetrap/index.d.ts" />
@@ -22,7 +20,6 @@ import {Injector} from '@angular/core';
 import {OpenProject} from 'core-app/globals/openproject';
 import * as TLodash from 'lodash';
 import * as TMoment from 'moment';
-import * as TSinon from 'sinon';
 import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
 import {Dragula} from "dragula";
 
@@ -31,20 +28,9 @@ declare module 'core-vendor/enjoyhint';
 
 declare global {
   const _:typeof TLodash;
-  const sinon:typeof TSinon;
   const moment:typeof TMoment;
-  const bowser:any;
   const I18n:GlobalI18n;
   const dragula:Dragula;
-
-  declare const require:any;
-  declare const describe:any;
-  declare const beforeEach:any;
-  declare const afterEach:any;
-  declare const after:any;
-  declare const before:any;
-  declare const it:(desc:string, callback:(done:() => void) => void) => void;
-
 }
 
 declare global {

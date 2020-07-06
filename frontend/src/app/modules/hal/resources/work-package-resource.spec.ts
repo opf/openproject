@@ -85,7 +85,7 @@ describe('WorkPackage', () => {
         PathHelperService,
         I18nService,
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
-        { provide: WorkPackageNotificationService, useValue: {} },
+        { provide: WorkPackageNotificationService, useValue: {} as any },
         { provide: WorkPackageDmService, useValue: {} },
         { provide: WorkPackageCreateService, useValue: {} },
         { provide: StateService, useValue: {} },

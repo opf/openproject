@@ -80,9 +80,6 @@ See docs/COPYRIGHT.rdoc for more details.
                           media: :all,
                           skip_pipeline: true %>
 
-  <%= javascript_include_tag "locales/#{I18n.locale}" %>
-  <!-- Text formatting specific includes -->
-  <%= text_formatting_js_includes %>
   <!-- project specific tags -->
   <%= call_hook :view_layouts_base_html_head %>
   <!-- page specific tags -->
