@@ -27,11 +27,6 @@
 //++
 (function($) {
   $(function() {
-    // Automatic project identifier generation
-    var projectIdentifierLocked;
-    var projectIdentifierDefault;
-    var projectIdentifierMaxLength;
-
     function generateProjectIdentifier() {
       var identifier = jQuery('#project_name').val(); // project name
       var diacriticsMap = [
@@ -109,5 +104,7 @@
       });
     }
 
+    observeProjectIdentifier();
+    observeProjectName();
   });
 }(jQuery));

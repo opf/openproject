@@ -26,8 +26,8 @@ export function registerTableSorter() {
       .not('.tablesorter')
       .tablesorter({
         sortList: [[0, 0]],
-        textExtraction: function (node:any, table:any, cellIndex:any) {
-          return $(node).attr('raw-data');
+        textExtraction: function (node:HTMLElement, table:any, cellIndex:any) {
+          return node.getAttribute('raw-data');
         }
       });
   });
