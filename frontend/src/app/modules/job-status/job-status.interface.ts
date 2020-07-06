@@ -20,6 +20,7 @@ export interface JobStatusInterface {
    * Additional payload object
    */
   payload?:{
+    title?:string;
     download?:string;
     redirect?:string;
   };

@@ -82,6 +82,12 @@ class CopyProjectJob < ApplicationJob
     true
   end
 
+  protected
+
+  def title
+    I18n.t(:label_copy_project)
+  end
+
   private
 
   def successful_status_update

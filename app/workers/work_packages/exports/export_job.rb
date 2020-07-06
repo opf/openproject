@@ -18,6 +18,12 @@ module WorkPackages
         true
       end
 
+      protected
+
+      def title
+        I18n.t('export.your_work_packages_export')
+      end
+
       private
 
       def export_work_packages(export, mime_type, query, options)
