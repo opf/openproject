@@ -66,3 +66,41 @@ docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
 ```
 
 Then you would need to backup the `/var/lib/openproject` folder (for instance to S3 or FTP server).
+
+### Dumping the database
+
+When using docker-compose you can simply dump the database from the database container.
+
+```
+docker exec -it db_1 pg_dump -U postgres -d openproject -x -O > openproject.sql
+```
+
+This assumes that the database container is called `db_1`. Find out the actual name on your host using `docker ps | postgres`.
+
+#### All-in-one container
+
+If you need a regular dump of the database you can get one using `pg_dump` like this:
+
+```
+docker exec -e PGPASSWORD=openproject -it $OP_CONTAINER_NAME pg_dump -U openproject -h localhost -d openproject -x -O > openproject.sql
+```
+
+Where `$OP_CONTAINER_NAME` is the name of your OpenProject container. If you don't know it you can find it using `docker ps | grep openproject`.
+
+### Importing the dump into a new container
+
+If you are using docker-compose this is what you do after you started everything for the first time using `docker-compose up -d`:
+
+1. Stop the OpenProject container using `docker-compose stop web worker`.
+2. Drop the existing, seeded database using `docker exec -it db_1 psql -U postgres -c 'drop database openproject;`
+3. Recreate the database using `docker exec -it db_1 psql -U postgres -c 'create database openproject;`
+4. Copy the dump onto the container: `docker cp openproject.sql db_1:/`
+5. Source the dump with psql on the container: `docker exec -it db_1 psql -U postgres` followed by `\i openproject.sql`
+6. Delete the dump on the container: `docker exec -it db_1 rm openproject.sql`
+7. Restart the web and worker processes: `docker-compose start web worker`
+
+This assumes that the database container is called `db_1`. Find out the actual name on your host using `docker ps | postgres`.
+
+#### All-in-one container
+
+TBD

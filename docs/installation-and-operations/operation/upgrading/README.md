@@ -68,6 +68,7 @@ docker-compose up -d
 
 Please note that you can override the `TAG` that is used to pull the OpenProject image from the [Docker Hub](https://hub.docker.com/r/openproject/community).
 
+### All-in-one container
 
 When using the all-in-one docker container, you need to perform the following steps:
 
@@ -91,6 +92,33 @@ This time, it will use the new image:
 ```
 docker run -d ... openproject/community:VERSION
 ```
+
+#### I have already started OpenProject without mounted volumes. How do I save my data during an update?
+
+You can extract your data from the existing container and mount it in a new one with the correct configuration.
+
+1. Stop the container to avoid changes to the data. Stopping the container does not delete any data as long as you don't remove the container.
+2. Copy the data to a new directory on the host, e.g. `/var/lib/openproject`, or a mounted network drive, say `/volume1`.
+3. Launch the new container mounting the folders in that directory as described above.
+4. Delete the old container once you confirmed the new one is working correctly.
+
+You can copy the data from the container using `docker cp` like this:
+
+```
+# Find out the container name with `docker ps`, we use `openproject-community1` here.
+# The target folder should be what ever persistent volume you have on the system, e.g. `/volume1`.
+docker cp openproject-community1:/var/openproject/assets /volume1/openproject/assets
+docker cp openproject-community1:/var/openproject/pgdata /volume1/openproject/pgdata
+```
+
+Make sure the folders have the correct owner so the new container can read and write them.
+
+```
+sudo chown -R 102 /volume1/openproject/*
+```
+
+After that it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
+as described in the [installation section](../../installation/docker/#recommended-usage).
 
 ## Upgrade notes for 8.x to 9.x
 
