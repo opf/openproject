@@ -1,6 +1,6 @@
 import {wpOnboardingTourSteps} from "core-app/globals/onboarding/tours/work_package_tour";
 import {
-  demoProjectsLinks,
+  demoProjectsLinks, OnboardingTourNames,
   onboardingTourStorageKey,
   preventClickHandler,
   waitForElement
@@ -22,14 +22,14 @@ declare global {
 
 
 
-export function start(name:string) {
+export function start(name:OnboardingTourNames) {
   switch (name) {
     case 'backlogs':
-      initializeTour('startMainTourFromBacklogs');
+      initializeTour('startTaskBoardTour');
       startTour(scrumBacklogsTourSteps());
       break;
     case 'taskboard':
-      initializeTour('startTaskBoardTour');
+      initializeTour('startMainTourFromBacklogs');
       startTour(scrumTaskBoardTourSteps());
       break;
     case 'homescreen':

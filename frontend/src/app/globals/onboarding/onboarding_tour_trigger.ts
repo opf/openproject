@@ -1,9 +1,7 @@
 // Dynamically loads and triggers the onboarding tour
 // when on the correct spots
-import {demoProjectsLinks, onboardingTourStorageKey} from "core-app/globals/onboarding/helpers";
+import {demoProjectsLinks, OnboardingTourNames, onboardingTourStorageKey} from "core-app/globals/onboarding/helpers";
 import {debugLog} from "core-app/helpers/debug_output";
-
-type tourNames = 'backlogs'|'taskboad'|'homescreen'|'main';
 
 export function detectOnboardingTour() {
   // ------------------------------- Global -------------------------------
@@ -57,12 +55,12 @@ export function detectOnboardingTour() {
 
     // ------------------------------- Tutorial Task Board page -------------------------------
     if (currentTourPart === "startTaskBoardTour") {
-      triggerTour('taskboad');
+      triggerTour('taskboard');
     }
   }
 }
 
-async function triggerTour(name:tourNames) {
+async function triggerTour(name:OnboardingTourNames) {
   debugLog("Loading and triggering onboarding tour " + name);
   const tour = await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour');
   tour.start(name);
