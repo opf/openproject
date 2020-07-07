@@ -126,6 +126,8 @@ class WorkPackages::SetScheduleService
 
     if delta.zero? && min_start_date
       reschedule_to_date(scheduled, min_start_date)
+    elsif !scheduled.start_date
+      schedule_on_missing_dates(scheduled, min_start_date)
     elsif !delta.zero?
       reschedule_by_delta(scheduled, delta, min_start_date)
     end
@@ -149,9 +151,16 @@ class WorkPackages::SetScheduleService
   end
 
   def reschedule_by_delta(scheduled, delta, min_start_date)
-    required_delta = [min_start_date - scheduled.start_date, [delta, 0].min].max
+    required_delta = [min_start_date - (scheduled.start_date || min_start_date), [delta, 0].min].max
 
     scheduled.start_date += required_delta
     scheduled.due_date += required_delta if scheduled.due_date
+  end
+
+  # If the start_date of scheduled is nil at this point something
+  # went wrong before. So we fix it now by setting the date.
+  def schedule_on_missing_dates(scheduled, min_start_date)
+    scheduled.start_date = min_start_date
+    scheduled.due_date = scheduled.start_date + 1 if scheduled.due_date && scheduled.due_date < scheduled.start_date
   end
 end
