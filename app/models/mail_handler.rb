@@ -126,6 +126,16 @@ class MailHandler < ActionMailer::Base
     options[:no_permission_check] = options[:no_permission_check].to_s == '1'
   end
 
+  def reply_to_wp_from_receiver_addresses
+    addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
+    unless addresses.empty?
+      addressMatch = addresses.find { |addr| /\+(\d+)/ =~ addr }
+      unless addressMatch.nil?
+        receive_work_package_reply(addressMatch.match(/\d+/).to_s)
+      end
+    end
+  end
+
   private
 
   MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
@@ -134,6 +144,7 @@ class MailHandler < ActionMailer::Base
 
   def dispatch
     headers = [email.in_reply_to, email.references].flatten.compact
+    addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
     if headers.detect { |h| h.to_s =~ MESSAGE_ID_RE }
       klass = $1
       object_id = $2.to_i
@@ -145,6 +156,8 @@ class MailHandler < ActionMailer::Base
       receive_work_package_reply(m[1].to_i)
     elsif m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE)
       receive_message_reply(m[1].to_i)
+    elsif addresses.any?(/\+(\d+)/) == true
+      reply_to_wp_from_receiver_addresses
     else
       dispatch_to_default
     end
@@ -548,9 +561,26 @@ class MailHandler < ActionMailer::Base
 
   def collect_wp_attributes_from_email_on_update(work_package)
     attributes = issue_attributes_from_keywords(work_package)
-    attributes
+    addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
+    if addresses.any?(/\+(\d+)/) == true
+      unless email.cc.nil?
+        cc_addresses = email.cc.join(', ')
+      else
+        cc_addresses = ''
+      end
+      attributes.merge(
+        'custom_field_values' => custom_field_values_from_keywords(work_package),
+        'journal_notes' => "Subject: #{email.subject.to_s.chomp[0, 255]}
+          To: #{email.to.join(', ')}
+          CC: #{cc_addresses}
+          Date: #{email.date.strftime('%d/%m/%y')}
+          Body:
+          #{cleaned_up_text_body}")
+    else
+      attributes
       .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
              'journal_notes' => cleaned_up_text_body)
+    end
   end
 
   def log(message, level = :info)
