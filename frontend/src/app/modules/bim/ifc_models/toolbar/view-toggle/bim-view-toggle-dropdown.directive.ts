@@ -34,7 +34,7 @@ import {StateService} from "@uirouter/core";
 
 import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 import {
-  bimListViewIdentifier, bimSplitViewIdentifier, bimTableViewIdentifier,
+  bimListViewIdentifier, bimSplitViewListIdentifier, bimSplitViewCardsIdentifier, bimTableViewIdentifier,
   bimViewerViewIdentifier,
   BimViewService
 } from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
@@ -78,7 +78,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
     const current = this.bimView.current;
     const viewRoute = this.state.current.data.viewRoute;
     let items = this.viewerBridgeService.shouldShowViewer ?
-                  [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewIdentifier, bimTableViewIdentifier] :
+                  [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewCardsIdentifier, bimSplitViewListIdentifier, bimTableViewIdentifier] :
                   [bimListViewIdentifier, bimTableViewIdentifier];
 
     this.items = items
@@ -114,8 +114,11 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
                           case bimViewerViewIdentifier:
                             this.state.go('bim.partitioned.model');
                             break;
-                          case bimSplitViewIdentifier:
-                            this.state.go('bim.partitioned.split');
+                          case bimSplitViewCardsIdentifier:
+                            this.state.go('bim.partitioned.split', {cards: true});
+                            break;
+                          case bimSplitViewListIdentifier:
+                            this.state.go('bim.partitioned.split', {cards: false});
                             break;
                         }
 

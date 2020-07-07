@@ -64,10 +64,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'bim.partitioned.list',
-    url: '/list',
-    params: {
-      cards: true,
-    },
+    url: '/list?{cards:bool}',
     data: {
       baseRoute: 'bim.partitioned.list',
       newRoute: 'bim.partitioned.list.new',
@@ -80,7 +77,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'bim.partitioned.split',
-    url: '/split',
+    url: '/split?{cards:bool}',
     data: {
       baseRoute: 'bim.partitioned.split',
       partition: '-split',
