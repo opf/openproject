@@ -1151,6 +1151,7 @@ lt:
     work_package_edit: 'Darbų paketas redaguotas'
     work_package_note: 'Darbų paketo pastaba pridėta'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

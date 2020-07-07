@@ -168,7 +168,7 @@ id:
         trial:
           confirmation: "Confirmation of email address"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Kami mengirimkan surel pada %{date} ke %{email}. Silakan periksa kotak surel Anda dan klik tautan konfirmasi untuk mendapatkan uji coba 14 hari.
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
@@ -887,7 +887,7 @@ id:
         deletes_children: "All child work packages and their descendants will also be recursively deleted."
       destroy_time_entry:
         title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        text: "Apakah Anda ingin menghapus entri waktu berikut?"
     notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Berhasil dibuat."
     notice_successful_delete: "Berhasil dihapus."

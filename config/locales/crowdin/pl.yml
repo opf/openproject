@@ -1152,6 +1152,7 @@ pl:
     work_package_edit: 'Pakiet roboczy edytowany'
     work_package_note: 'Notatka pakietu roboczego dodana'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

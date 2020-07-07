@@ -1155,6 +1155,7 @@ ru:
     work_package_edit: 'Пакет работ отредактирован'
     work_package_note: 'Добавлено примечание к пакету работ'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

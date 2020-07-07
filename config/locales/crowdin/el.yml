@@ -1121,6 +1121,7 @@ el:
     work_package_edit: 'Το πακέτο εργασίας επεξεργάστηκε'
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

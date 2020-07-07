@@ -1124,6 +1124,7 @@ da:
     work_package_edit: 'Arbejdspakke redigeret'
     work_package_note: 'Note tilføjet arbejdspakke'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

@@ -1108,6 +1108,7 @@ zh-TW:
     work_package_edit: '工作項目已編輯'
     work_package_note: '工作項目註記已新增'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

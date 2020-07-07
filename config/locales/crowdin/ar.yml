@@ -1188,6 +1188,7 @@ ar:
     work_package_edit: 'تم تحريرمجموعة العمل'
     work_package_note: 'لم يتم اضافة مجموعة العمل'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "ذرّة"

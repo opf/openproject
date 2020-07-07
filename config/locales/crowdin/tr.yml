@@ -1124,6 +1124,7 @@ tr:
     work_package_edit: 'İş Paketi düzenlendi'
     work_package_note: 'İk Paketi notu eklendi'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

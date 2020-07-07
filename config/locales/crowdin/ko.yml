@@ -1107,6 +1107,7 @@ ko:
     work_package_edit: '작업 패키지 편집됨'
     work_package_note: '작업 패키지 메모 추가됨'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

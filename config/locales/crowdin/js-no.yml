@@ -289,7 +289,7 @@
     label_and: "og"
     label_ascending: "Stigende"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Profilbilde"
     label_between: "mellom"
     label_board: "Board"
     label_board_locked: "Låst"

@@ -1140,6 +1140,7 @@ ro:
     work_package_edit: 'Pachet de lucru editat'
     work_package_note: 'Notă adăugată la pachetul de lucru'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

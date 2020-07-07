@@ -363,7 +363,7 @@ id:
         attr_mail: "Atribut email"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Otomatis membuat pengguna"
         port: "Port"
       changeset:
         repository: "Repositori"
@@ -1107,6 +1107,7 @@ id:
     work_package_edit: 'Paket-Penugasan telah diedit'
     work_package_note: 'Catatan Paket-Penugasan telah ditambah'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

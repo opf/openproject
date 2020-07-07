@@ -1103,6 +1103,7 @@ zh-CN:
     work_package_edit: '编辑工作包'
     work_package_note: '添加工作包注释'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "原子"

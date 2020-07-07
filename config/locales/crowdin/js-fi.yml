@@ -262,12 +262,12 @@ fi:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
+          text_new_features: "Tietoa uusista ominaisuuksista ja tuotepäivityksistä."
           learn_about: "Learn more about the new features"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              Tämä versio sisältää uusia ominaisuuksia ja parannuksia: <br><br> <ul class="%{list_styling_class}"> <li><b>Nopeampi ajan kirjaus</b> tehtäviin.</li> <li><b>Parannetut taulukot</b> jotka mahdollistavat taulukoiden muotoilut editorissa.</li> <li>Tehtävien korttinäkymä sisältää nyt myös projektien nimet.</li> <li>OpenProject on nyt <b>100% käännetty sloveniaksi</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -314,7 +314,7 @@ fi:
     label_committed_at: "%{committed_revision_link} %{date}"
     label_committed_link: "committed revision %{revision_identifier}"
     label_contains: "sisältää"
-    label_created_on: "luontipäivä"
+    label_created_on: "luotu"
     label_edit_comment: "Muokkaa tätä kommenttia"
     label_edit_status: "Edit the status of the work package"
     label_equals: "sama kuin"
@@ -338,7 +338,7 @@ fi:
     label_in_less_than: "pienempi kuin"
     label_in_more_than: "suurempi kuin"
     label_incoming_emails: "Saapuvat sähköpostiviestit"
-    label_information_plural: "Tieto"
+    label_information_plural: "Tietoja"
     label_import: "Import"
     label_latest_activity: "Viimeisimmät tapahtumat"
     label_last_updated_on: "Viimeisin päivitys"
@@ -355,7 +355,7 @@ fi:
     label_more_than_ago: "enemän kuin päivää sitten"
     label_next: "Seuraava"
     label_no_color: "No color"
-    label_no_data: "Ei tietoa näytettäväksi"
+    label_no_data: "Ei tietoja"
     label_no_due_date: "ei päättymispäivää"
     label_no_start_date: "ei aloituspäivää"
     label_no_value: "Ei arvoa"
@@ -385,7 +385,7 @@ fi:
     label_selected_filter_list: "Valitut suodattimet"
     label_show_attributes: "Näytä kaikki määritteet"
     label_show_in_menu: "Näytä näkymä valikossa"
-    label_sort_by: "Sort by"
+    label_sort_by: "Lajitteluperuste"
     label_sorted_by: "lajiteltu"
     label_sort_higher: "Siirrä ylös"
     label_sort_lower: "Siirrä alas"
@@ -425,8 +425,8 @@ fi:
     label_custom_queries: "Yksityiset näkymät"
     label_columns: "Sarakkeet"
     label_attachments: Tiedostot
-    label_drop_files: Pudota tiedostoja tähän
-    label_drop_files_hint: tai valitse lisätäksesi tiedostoja
+    label_drop_files: Raahaa ja pudota tiedostoja tähän
+    label_drop_files_hint: tai klikkaa lisätäksesi tiedostoja
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
     label_add_attachments: "Lisää liitteitä"
     label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
@@ -550,10 +550,10 @@ fi:
       relation_type: "suhdetyyppi"
     relations_hierarchy:
       parent_headline: "Ylätaso"
-      hierarchy_headline: "Hierarchy"
+      hierarchy_headline: "Hierarkia"
       children_headline: "Lapset"
     relation_buttons:
-      set_parent: "Set parent"
+      set_parent: "Aseta ylätehtävä"
       change_parent: "Vaihda pääkohdetta"
       remove_parent: "Poista ylätaso"
       hierarchy_indent: "Indent hierarchy"
@@ -564,8 +564,8 @@ fi:
       add_new_child: "Luo uusi aliriippuvuus"
       create_new: "Create new"
       add_existing: "Add existing"
-      add_existing_child: "Lisää olemassaoleva alataso"
-      remove_child: "Poista alataso"
+      add_existing_child: "Lisää olemassaoleva aliriippuvuus"
+      remove_child: "Poista aliriippuvuus"
       add_new_relation: "Luo uusi suhde"
       add_existing_relation: "Add existing relation"
       update_description: "Määritä tai päivitä tämän suhteen kuvaus"
@@ -614,7 +614,7 @@ fi:
       button_deactivate: 'Hide Gantt chart'
       cancel: Peruuta
       change: "Muuta suunnittelussa"
-      due_date: "Finish date"
+      due_date: "Päättymispäivä"
       empty: "(tyhjä)"
       error: "On tapahtunut virhe."
       errors:
@@ -682,7 +682,7 @@ fi:
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'
-      button_clear: "Tyhjää"
+      button_clear: "Tyhjennä"
       comment_added: "Kommentin lisääminen onnistui."
       comment_send_failed: "On tapahtunut virhe. Kommenttia ei voitu lähettää."
       comment_updated: "Kommentti päivitettiin onnistuneesti."
@@ -732,21 +732,21 @@ fi:
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
       property_groups:
         details: "Yksityiskohdat"
-        people: "Henkilöt"
+        people: "Henkilöresurssit"
         estimatesAndTime: "Arviot ja ajankäyttö"
         other: "Muut"
       properties:
-        assignee: "Suorittaja"
+        assignee: "Työn suorittaja"
         author: "Tekijä"
-        createdAt: "Luontipäivä"
+        createdAt: "Luotu"
         description: "Kuvaus"
         date: "Päivämäärä"
-        dueDate: "Finish date"
-        estimatedTime: "Arvioitu aika"
+        dueDate: "Päättymispäivä"
+        estimatedTime: "Työmääräarvio"
         spentTime: "Käytetty aika"
         category: "Kategoria"
         percentageDone: "Osuus tehnyt"
-        priority: "Tärkeys"
+        priority: "Prioriteetti"
         projectName: "Projekti"
         responsible: "Vastuullinen"
         startDate: "Aloituspäivä"
@@ -761,8 +761,8 @@ fi:
         latest_activity: "Viimeisimmät tapahtumat"
         created_by_me: "Itse luodut"
         assigned_to_me: "Minulle määritetyt"
-        recently_created: "Recently created"
-        all_open: "Avoimet"
+        recently_created: "Äskettäin luodut"
+        all_open: "Avoimet tehtävät"
         summary: "Yhteenveto"
       jump_marks:
         pagination: "Jump to table pagination"
@@ -788,7 +788,7 @@ fi:
         display_sums: "Näytä summat"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
         click_to_edit_query_name: "Click to edit title of this view."
-        rename_query_placeholder: "Nämymän nimi"
+        rename_query_placeholder: "Näkymän nimi"
         star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
@@ -805,32 +805,32 @@ fi:
         text_select_hint: "Valintalaatikot tulisi avata \"Alt\" tai nuolinäppäimillä."
       table_configuration:
         button: 'Configure this work package table'
-        choose_display_mode: 'Display work packages as'
+        choose_display_mode: 'Näytä tehtävät'
         modal_title: 'Work package table configuration'
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
         default: "default"
-        display_settings: 'Display settings'
-        default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
+        display_settings: 'Näyttöasetukset'
+        default_mode: "Listanäkymä"
+        hierarchy_mode: "Hierarkia"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
-        highlighting: 'Highlighting'
+        highlighting: 'Korostus'
         highlighting_mode:
           description: "Highlight with color"
-          none: "No highlighting"
-          inline: 'Highlighted attribute(s)'
+          none: "Ei korostusta"
+          inline: 'Korostetut määritteet'
           inline_all: 'All attributes'
-          entire_row_by: 'Entire row by'
+          entire_row_by: 'Koko rivi'
           status: 'Tila'
-          priority: 'Tärkeys'
+          priority: 'Prioriteetti'
           type: 'Tyyppi'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+          description: 'Valitse tehtävien lajittelutapa'
+          automatic: 'Automaattinen'
+          manually: 'Manuaalinen'
+          warning: 'Automaattinen lajittelutapa korvaa nykyiset asetukset'
+        columns_help_text: "Käytä yläpuolella olevaa kenttää taulunäkymän sarakkeiden valintaan. Voit järjestää sarakkeita raahaamalla niitä."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Täytyy nähdä suhteet toimia paketti lista?'
@@ -880,8 +880,8 @@ fi:
         title: 'Vahvista jatkaaksesi'
         text: 'Oletko varma, että haluat suorittaa tämän toiminnon?'
       destroy_work_package:
-        title: "Confirm deletion of %{label}"
-        text: "Are you sure you want to delete the following %{label} ?"
+        title: "Vahvista poisto: %{label}"
+        text: "Haluatko varmasti poistaa: %{label} ?"
         has_children: "The work package has %{childUnits}:"
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "All child work packages and their descendants will also be recursively deleted."

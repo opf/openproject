@@ -1156,6 +1156,7 @@ cs:
     work_package_edit: 'Pracovní balíček upraven'
     work_package_note: 'Poznámka k pracovnímu balíčku přidána'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"

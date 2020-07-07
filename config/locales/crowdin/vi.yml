@@ -1110,6 +1110,7 @@ vi:
     work_package_edit: 'Đã chỉnh sửa work package'
     work_package_note: 'Đã thêm ghi chú của work package'
   export:
+    your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
