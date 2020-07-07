@@ -61,6 +61,7 @@ module Projects
       target_project_params = params[:target_project_params].with_indifferent_access
 
       cleanup_target_project_params(source, target, target_project_params)
+      cleanup_target_project_attributes(source, target, target_project_params)
 
       # Assign additional params from user
       call = Projects::SetAttributesService
@@ -70,9 +71,17 @@ module Projects
              contract_options: { copied_from: source })
         .call(target_project_params)
 
-      cleanup_target_project_attributes(source, target, target_project_params)
+      # Retain values after the set attributes service
+      retain_attributes(source, target, target_project_params)
 
       call
+    end
+
+    def retain_attributes(source, target, target_project_params)
+      # Ensure we keep the public value of the source project
+      # which might get overridden by the SetAttributesService
+      # unless the user provided a different value
+      target.public = source.public unless target_project_params.key?(:public)
     end
 
     def cleanup_target_project_params(_source, _target, target_project_params)
@@ -82,10 +91,6 @@ module Projects
     end
 
     def cleanup_target_project_attributes(source, target, target_project_params)
-      # Ensure we keep the public value of the source project
-      # which might get overridden by the SetAttributesService
-      target.public = source.public unless target_project_params.key?(:public)
-
       if target.parent
         target.parent = nil unless user.allowed_to?(:add_subprojects, target.parent)
       end
