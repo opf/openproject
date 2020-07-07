@@ -51,7 +51,6 @@ npm-debug.log*
 /backup
 /.project
 /.loadpath
-/app/assets/javascripts/bundles/*.*
 /app/assets/javascripts/editor/*
 /app/assets/javascripts/locales/*.*
 /frontend/src/locales/*.js

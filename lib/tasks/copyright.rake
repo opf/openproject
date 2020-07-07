@@ -75,7 +75,6 @@ namespace :copyright do
   def exluded_paths
     %w(
       app/assets/javascripts/lib/
-      app/assets/javascripts/bundles/
       app/assets/javascripts/locales/
       coverage
       frontend/bower_components
