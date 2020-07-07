@@ -101,11 +101,10 @@
       @include wp-table--placeholder-time-values
 
 // Sums in wp table
-.wp-table--sum-container
-  .split-time-field
-    .-actual-value
-      @include wp-table--time-values
-      @include wp-table--actual-time-values
+.wp-table--sum-container.split-time-field
+  .-actual-value
+    @include wp-table--time-values
+    @include wp-table--actual-time-values
 
 
 // Editable fields cursor

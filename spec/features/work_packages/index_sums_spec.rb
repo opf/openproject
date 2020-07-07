@@ -63,6 +63,7 @@ RSpec.feature 'Work package index sums', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { ::Components::WorkPackages::Columns.new }
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   before do
     login_as(admin)
@@ -90,6 +91,9 @@ RSpec.feature 'Work package index sums', js: true do
 
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
+    # Expect the total sums row
+    expect(page).to have_selector('.wp-table--sums-row', count: 1)
+
     expect(page).to have_selector('.wp-table--sum-container', text: 'Sum')
     expect(page).to have_selector('.wp-table--sum-container', text: '25')
     expect(page).to have_selector('.wp-table--sum-container', text: '12')
@@ -103,5 +107,26 @@ RSpec.feature 'Work package index sums', js: true do
     expect(page).to have_selector('.wp-table--sum-container', text: '35')
     expect(page).to have_selector('.wp-table--sum-container', text: '12')
     expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
+
+    # Enable groups
+    group_by.enable_via_menu 'Status'
+
+    # Expect to have three sums rows no
+    expect(page).to have_selector('.wp-table--sums-row', count: 3)
+
+    # First status row
+    expect(page).to have_selector('.wp-table--sum-container', text: '20 h')
+    expect(page).to have_selector(".wp-table--sum-container.customField#{int_cf.id}", text: '5')
+    expect(page).to have_selector(".wp-table--sum-container.customField#{float_cf.id}", text: '5.5')
+
+    # Second status row
+    expect(page).to have_selector('.wp-table--sum-container', text: '15 h')
+    expect(page).to have_selector(".wp-table--sum-container.customField#{int_cf.id}", text: '7')
+    expect(page).to have_selector(".wp-table--sum-container.customField#{float_cf.id}", text: '7.7')
+
+    # Total sums row is unchanged
+    expect(page).to have_selector('tfoot .wp-table--sum-container', text: '35')
+    expect(page).to have_selector("tfoot .wp-table--sum-container.customField#{int_cf.id}", text: '12')
+    expect(page).to have_selector("tfoot .wp-table--sum-container.customField#{float_cf.id}", text: '13.2')
   end
 end

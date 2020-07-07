@@ -132,7 +132,7 @@ describe 'Work Package table hierarchy parent below', js: true do
       expect(page).to have_selector('.pagination--item.-current', text: '3')
 
       # Expect count to be correct (one additional parent shown)
-      expect(page).to have_selector('.wp-table--row', count: 4)
+      expect(page).to have_selector('.wp--row', count: 4)
 
       # Double order result from regression
       wp_table.expect_work_package_order(grandparent.id, parent.id, child.id, child2.id)
