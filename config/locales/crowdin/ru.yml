@@ -87,10 +87,6 @@ ru:
     index:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
       no_results_content_text: Создать новый способ аутентификации
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.
@@ -419,7 +415,6 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-        templated: 'Template project'
       projects/status:
         code: 'Состояние'
         explanation: 'Описание статуса'
@@ -491,7 +486,6 @@ ru:
         parent_work_package: "Родитель"
         priority: "Приоритет"
         progress: "Прогресс (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
         subproject: "Подпроект"
@@ -895,7 +889,6 @@ ru:
       - "Окт"
       - "Ноя"
       - "Дек"
-    abbr_week: 'Wk'
     day_names:
       - "Воскресенье"
       - "Понедельник"
@@ -1155,7 +1148,6 @@ ru:
     work_package_edit: 'Пакет работ отредактирован'
     work_package_note: 'Добавлено примечание к пакету работ'
   export:
-    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1663,7 +1655,6 @@ ru:
   label_time_entry_plural: "Затраченное время"
   label_time_sheet_menu: "Табель"
   label_time_tracking: "Учет времени"
-  label_projects_menu: "Проекты"
   label_today: "Сегодня"
   label_top_menu: "Верхнее меню"
   label_topic_plural: "Темы"
@@ -1993,12 +1984,6 @@ ru:
       warning_one: Участникам проекта нужно будет переместить репозитории проекта.
       warning_two: Существующие ссылки на проект больше работать не будут.
       title: Измените идентификатор проекта
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Уверены, что хотите архивизировать проект %{name}%?"
       archived: "Архивирован"

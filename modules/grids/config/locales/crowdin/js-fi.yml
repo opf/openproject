@@ -1,9 +1,8 @@
 fi:
   js:
     grid:
-      add_widget: 'Add widget'
+      add_widget: 'Lisää widgetti'
       remove: 'Remove widget'
-      configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -22,7 +21,7 @@ fi:
         news:
           title: 'Uutiset'
           at: 'at'
-          no_results: 'Ei mitään uutta raportoitavaksi.'
+          no_results: 'Ei uutta raportoitavaa.'
         project_description:
           title: 'Projektin kuvaus'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."
@@ -39,10 +38,9 @@ fi:
           title: 'Aliprojektit'
           no_results: 'Ei aliprojekteja.'
         time_entries_current_user:
-          title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
+          title: 'Käyttämäni aika'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
+          title: 'Käytetty aika (viimeiset 7 päivää)'
           no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
           title: "Kaikki tehtävät joista olen vastuussa"

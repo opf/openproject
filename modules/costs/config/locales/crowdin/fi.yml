@@ -32,7 +32,7 @@ fi:
         available: "Saatavilla"
         budget: "Suunniteltu"
         budget_ratio: "Käytetty (suhde)"
-        created_on: "Luontipäivä"
+        created_on: "Luotu"
         description: "Kuvaus"
         fixed_date: "Kiinteä päivämäärä"
         spent: "Käytetty"

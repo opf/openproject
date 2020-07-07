@@ -3,7 +3,6 @@ es:
     grid:
       add_widget: 'Agregar widget'
       remove: 'Quitar widget'
-      configure: 'Configure widget'
       upsale:
         text: "Algunos widgets, como el widget del gráfico de paquetes de trabajo, solo están disponibles en la "
         link: 'edición Enterprise.'
@@ -40,7 +39,6 @@ es:
           no_results: 'No hay subproyectos.'
         time_entries_current_user:
           title: 'Tiempo que he invertido'
-          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Tiempo de gastos (últimos 7 días)'
           no_results: 'Sin entradas temporales en los últimos 7 días.'

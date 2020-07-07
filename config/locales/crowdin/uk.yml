@@ -87,10 +87,6 @@ uk:
     index:
       no_results_content_title: Наразі немає режимів аутентифікації.
       no_results_content_text: Створіть новий режим аутентифікації
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -420,7 +416,6 @@ uk:
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
-        templated: 'Template project'
       projects/status:
         code: 'Статус'
         explanation: 'Status description'
@@ -492,7 +487,6 @@ uk:
         parent_work_package: "Джерело"
         priority: "Пріоритет"
         progress: "Прогрес (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
         subproject: "Підпроект"
@@ -896,7 +890,6 @@ uk:
       - "Жов"
       - "Лис"
       - "Гру"
-    abbr_week: 'Wk'
     day_names:
       - "Неділя"
       - "Понеділок"
@@ -1156,7 +1149,6 @@ uk:
     work_package_edit: 'Робочий пакет оновлений'
     work_package_note: 'Робочий пакет не доданий'
   export:
-    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1664,7 +1656,6 @@ uk:
   label_time_entry_plural: "Трудовитрати"
   label_time_sheet_menu: "Табель обліку робочого часу"
   label_time_tracking: "Відстеження часу"
-  label_projects_menu: "Проекти"
   label_today: "сьогодні"
   label_top_menu: "Верхнє меню"
   label_topic_plural: "Теми"
@@ -1995,12 +1986,6 @@ uk:
       warning_one: Членам проекту доведеться перенести репозиторії проекту.
       warning_two: Існуючі посилання на проект більше не працюватимуть.
       title: Змініть ідентифікатор проекту
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Дійсно архівувати проект %{name} ?"
       archived: "Archived"

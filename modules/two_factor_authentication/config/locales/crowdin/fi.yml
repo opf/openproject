@@ -24,7 +24,7 @@ fi:
     error_no_device: "Tälle käyttäjälle ei löytynyt rekisteröityä 2FA-laitetta, vaikkei sitä tarvita tässä tapauksessa."
     error_no_matching_strategy: "Tälle käyttäjälle ei ole käytettävissä vastaavaa 2FA-strategiaa. Ota yhteyttä hallintoasihteisiisi."
     error_is_enforced_not_active: 'Konfigurointivirhe: Kaksitasoinen todennusta on noudatettu, mutta aktiivisia strategioita ei ole.'
-    error_invalid_backup_code: 'Virheellinen 2FA-varmistuskoodi'
+    error_invalid_backup_code: 'Virheellinen palautuskoodi'
     channel_unavailable: "Toimituskanava %{channel} ei ole käytettävissä."
     no_valid_phone_number: "Mitään voimassa olevaa puhelinnumeroa ei ole."
     label_pwd_confirmation: "Salasana"
@@ -33,7 +33,7 @@ fi:
     label_default_device: "Oletuksena 2FA-laite"
     label_device: "2FA laite"
     label_devices: "2FA laitteet"
-    label_one_time_password: 'Kerta salasana'
+    label_one_time_password: 'Kertakäyttösalasana'
     label_2fa_enabled: 'Kaksitasoinen todennus on aktiivinen'
     label_2fa_disabled: 'Kaksitasoinen todennus ei ole aktiivinen'
     text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
@@ -42,15 +42,15 @@ fi:
     text_2fa_enabled: 'Jokaisen sisäänkirjautumisen yhteydessä sinua pyydetään antamaan OTP-merkki normaaliin 2FA-laitteeseesi.'
     text_2fa_disabled: 'Voit ottaa kaksitasoisen todennuksen käyttöön käyttämällä yllä olevaa painiketta rekisteröidäksesi uuden 2FA-laitteen. Jos sinulla on jo laite, sinun on tehtävä se oletuksena.'
     login:
-      enter_backup_code_title: Syötä varmistuskoodi
+      enter_backup_code_title: Syötä palautuskoodi
       enter_backup_code_text: Syötä voimassa oleva vahvistuskoodi koodiluettelosta, jos sinulla ei ole enää pääsyä rekisteröityihin 2FA laitteisiin.
-      other_device: 'Käytä toista laitetta tai varmistuskoodia'
+      other_device: 'Käytä toista laitetta tai palautuskoodia'
     settings:
       title: 'Kaksivaiheisen tunnistautumisen asetukset'
       current_configuration: 'Current configuration'
       label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      label_enforced: 'Vaadi kaksivaiheinen kirjautuminen'
+      label_remember: 'Muista kaksivaiheinen kirjautuminen'
       text_configuration: |
         Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
       text_configuration_guide: For more information, check the configuration guide.
@@ -63,28 +63,28 @@ fi:
     admin:
       self_edit_path: 'Os haluat lisätä tai muokata omia 2FA-laitteitasi, siirry osoitteeseen %{self_edit_link}'
       self_edit_link_name: 'Kaksitasoinen todentaminen tilisi sivulla'
-      self_edit_forbidden: 'Et voi muokata omia 2FA-laitteitasi tällä polulla. Siirry Oma tili> Kaksi tekijän todennusta sijaan.'
+      self_edit_forbidden: 'Et voi muokata omia 2FA-laitteitasi tällä polulla. Siirry Tiliasetukset> Kaksi tekijän todennusta sijaan.'
       no_devices_for_user: 'Tätä käyttäjää varten ei ole rekisteröity 2FA-laitetta.'
       all_devices_deleted: 'Tämän käyttäjän kaikki 2FA-laitteet on poistettu'
       delete_all_are_you_sure: 'Haluatko varmasti poistaa kaikki tämän käyttäjän 2FA-laitteet?'
       button_delete_all_devices: 'Poista rekisteröidyt 2FA-laitteet'
       button_register_mobile_phone_for_user: 'Rekisteröi matkapuhelin'
       text_2fa_enabled: 'Jokaisen sisäänkirjautumisen yhteydessä tätä käyttäjää pyydetään syöttämään OTP-tunniste hänen oletusarvoisesta 2FA-laitteestaan.'
-      text_2fa_disabled: "Käyttäjä ei asettanut 2FA-laitetta hänen \"Oma tili -sivullaan\""
+      text_2fa_disabled: "Käyttäjä ei asettanut 2FA-laitetta hänen \"Tiliasetukset -sivullaan\""
     upsale:
       title: 'Two-factor authentication is an enterprise feature'
       description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
-      none_found: Tälle tilille ei ole varakoodeja.
-      singular: Varmistuskoodi
+      none_found: Tälle tilille ei ole palautuskoodeja.
+      singular: Palautuskoodi
       plural: Varmistuskoodi
       your_codes: '%{app_name} tilisi %{login}'
       overview_description: |
-        Jos et pysty käyttämään kahta tekijälaitteesi, voit käyttää varmuuskopiokoodia, jotta voit palauttaa tilisi käyttöoikeuden. Luo uusi joukko varakoodeja seuraavalla painikkeella.
+        Jos et pysty käyttämään 2FA-laitettasi, voit käyttää palautuskoodia. Luo palautuskoodit seuraavalla painikkeella.
       generate:
-        title: Luo varmistuskoodeja
+        title: Luo palautuskoodit
         keep_safe_as_password: 'Tärkeä! Käsittele näitä koodeja salasanoina.'
-        keep_safe_warning: 'Joko tallenna ne salasanakehjiisi tai tulosta sivu ja aseta se turvalliseen paikkaan.'
+        keep_safe_warning: 'Joko tallenna ne salasanahallintaasi tai tulosta sivu ja säilytä se turvallisessa paikassa.'
         regenerate_warning: 'Varoitus: Jos olet luonut varmuuskopiokoodit aiemmin, ne mitätöidään ja eivät enää toimi.'
     devices:
       add_new: 'Lisää uusi 2FA-laite'
@@ -154,8 +154,8 @@ fi:
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Matkapuhelin"
-  field_otp: "Kerta salasana"
-  notice_account_otp_invalid: " Virheellinen kertakäyttösalasana."
+  field_otp: "Kertakäyttösalasana"
+  notice_account_otp_invalid: "Virheellinen kertakäyttösalasana."
   notice_account_otp_expired: "The one-time password you entered expired."
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
   notice_account_otp_send_failed: "Your one-time password could not be sent."
