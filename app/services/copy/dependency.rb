@@ -48,7 +48,9 @@ module Copy
       @source = source
       @target = target
       @user = user
-      @result = ServiceResult.new(result: target, success: true)
+      # Create a result with an empty error set
+      # that we can merge! so that not the target.errors object is reused.
+      @result = ServiceResult.new(result: target, success: true, errors: ActiveModel::Errors.new(target))
     end
 
     def call(params:, state:)

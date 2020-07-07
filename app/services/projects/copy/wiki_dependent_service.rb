@@ -41,12 +41,12 @@ module Projects::Copy
       target.wiki = target.build_wiki(source.wiki.attributes.dup.except('id', 'project_id'))
       target.wiki.wiki_menu_items.delete_all
 
-      copy_wiki_pages
-      copy_wiki_menu_items
+      copy_wiki_pages(params)
+      copy_wiki_menu_items(params)
     end
 
     # Copies wiki pages from +project+, requires a wiki to be already set
-    def copy_wiki_pages
+    def copy_wiki_pages(params)
       wiki_pages_map = {}
 
       source.wiki.pages.find_each do |page|
@@ -81,7 +81,7 @@ module Projects::Copy
     end
 
     # Copies wiki_menu_items from +project+, requires a wiki to be already set
-    def copy_wiki_menu_items
+    def copy_wiki_menu_items(params)
       wiki_menu_items_map = {}
 
       source.wiki.wiki_menu_items.each do |item|
