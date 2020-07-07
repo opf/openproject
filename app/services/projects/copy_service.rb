@@ -39,6 +39,7 @@ module Projects
         ::Projects::Copy::CategoriesDependentService,
         ::Projects::Copy::WorkPackagesDependentService,
         ::Projects::Copy::WikiDependentService,
+        ::Projects::Copy::ForumsDependentService,
         ::Projects::Copy::QueriesDependentService
       ]
     end
@@ -56,27 +57,37 @@ module Projects
       target.custom_field_values = source.custom_value_attributes
       target.custom_values = source.custom_values.map(&:dup)
 
-      cleanup_target_project_attributes(target)
-      cleanup_target_project_params(params)
+      # Additional input target params
+      target_project_params = params[:target_project_params].with_indifferent_access
+
+      cleanup_target_project_params(source, target, target_project_params)
 
       # Assign additional params from user
-      Projects::SetAttributesService
+      call = Projects::SetAttributesService
         .new(user: user,
              model: target,
              contract_class: Projects::CopyContract,
              contract_options: { copied_from: source })
-        .call(params[:target_project_params])
+        .call(target_project_params)
+
+      cleanup_target_project_attributes(source, target, target_project_params)
+
+      call
     end
 
-    def cleanup_target_project_params(params)
-      if (parent_id = params[:target_project_params]["parent_id"]) && (parent = Project.find_by(id: parent_id))
-        params[:target_project_params].delete("parent_id") unless user.allowed_to?(:add_subprojects, parent)
+    def cleanup_target_project_params(_source, _target, target_project_params)
+      if (parent_id = target_project_params[:parent_id]) && (parent = Project.find_by(id: parent_id))
+        target_project_params.delete(:parent_id) unless user.allowed_to?(:add_subprojects, parent)
       end
     end
 
-    def cleanup_target_project_attributes(target_project)
-      if target_project.parent
-        target_project.parent = nil unless user.allowed_to?(:add_subprojects, target_project.parent)
+    def cleanup_target_project_attributes(source, target, target_project_params)
+      # Ensure we keep the public value of the source project
+      # which might get overridden by the SetAttributesService
+      target.public = source.public unless target_project_params.key?(:public)
+
+      if target.parent
+        target.parent = nil unless user.allowed_to?(:add_subprojects, target.parent)
       end
     end
 

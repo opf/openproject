@@ -122,7 +122,7 @@ module Projects::Copy
 
     def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
       custom_value_attributes = source_work_package.custom_value_attributes.map do |id, value|
-        if user_cf_ids.include?(id) && !users.detect { |u| u.id.to_s == value }
+        if user_cf_ids.include?(id) && !target.users.detect { |u| u.id.to_s == value }
           [id, nil]
         else
           [id, value]
@@ -143,15 +143,15 @@ module Projects::Copy
     end
 
     def work_package_version(source_work_package)
-      source_work_package.version && versions.detect { |v| v.name == source_work_package.version.name }
+      source_work_package.version && target.versions.detect { |v| v.name == source_work_package.version.name }
     end
 
     def work_package_assigned_to(source_work_package)
-      source_work_package.assigned_to && possible_assignees.detect { |u| u.id == source_work_package.assigned_to_id }
+      source_work_package.assigned_to && target.possible_assignees.detect { |u| u.id == source_work_package.assigned_to_id }
     end
 
     def work_package_responsible(source_work_package)
-      source_work_package.responsible && possible_responsibles.detect { |u| u.id == source_work_package.responsible_id }
+      source_work_package.responsible && target.possible_responsibles.detect { |u| u.id == source_work_package.responsible_id }
     end
   end
 end
