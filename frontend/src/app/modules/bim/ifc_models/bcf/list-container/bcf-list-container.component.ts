@@ -7,7 +7,7 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {bimSplitViewIdentifier, BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
+import {bimSplitViewCardsIdentifier, bimSplitViewListIdentifier, BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {wpDisplayCardRepresentation, wpDisplayListRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
@@ -53,10 +53,10 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
             distinctUntilChanged(),
           )
           .subscribe((cards:boolean) => {
-            if (cards || cards == null) {
-              this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayCardRepresentation);
+            if (cards == null || cards || this.deviceService.isMobile) {
+              this.showTableView = false;
             } else {
-              this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayListRepresentation);
+              this.showTableView = true;
             }
 
             this.cdRef.detectChanges();
@@ -64,18 +64,16 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   }
 
   protected updateViewRepresentation(query:QueryResource) {
-    if (this.wpDisplayRepresentation.current === null) {
-      this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayCardRepresentation);
-    }
-
-    super.updateViewRepresentation(query);
+    // Overwrite the parent method because we are setting the view
+    // above through the cards parameter (showTableView)
   }
 
   protected showResizerInCardView():boolean {
     if (this.noResults && this.ifcModelsService.models.length === 0) {
       return false;
     } else {
-      return this.bimView.currentViewerState() === bimSplitViewIdentifier;
+      return this.bimView.currentViewerState() === bimSplitViewCardsIdentifier ||
+             this.bimView.currentViewerState() === bimSplitViewListIdentifier;
     }
   }
 }

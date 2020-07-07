@@ -36,10 +36,11 @@ import {takeUntil} from "rxjs/operators";
 
 export const bimListViewIdentifier = 'list';
 export const bimTableViewIdentifier = 'table';
-export const bimSplitViewIdentifier = 'split';
+export const bimSplitViewCardsIdentifier = 'splitCards';
+export const bimSplitViewListIdentifier = 'splitList';
 export const bimViewerViewIdentifier = 'viewer';
 
-export type BimViewState = 'list'|'viewer'|'split'|'table';
+export type BimViewState = 'list'|'viewer'|'splitList'|'splitCards'|'table';
 
 @Injectable()
 export class BimViewService implements OnDestroy {
@@ -48,14 +49,16 @@ export class BimViewService implements OnDestroy {
   public text:any = {
     list: this.I18n.t('js.views.card'),
     viewer: this.I18n.t('js.ifc_models.views.viewer'),
-    split: this.I18n.t('js.ifc_models.views.split'),
+    splitList: this.I18n.t('js.ifc_models.views.split'),
+    splitCards: this.I18n.t('js.ifc_models.views.split-cards'),
     table: this.I18n.t('js.views.list'),
   };
 
   public icon:any = {
     list: 'icon-view-card',
     viewer: 'icon-view-model',
-    split: 'icon-view-split2',
+    splitList: 'icon-view-split2',
+    splitCards: 'icon-view-split2',
     table: 'icon-view-list',
   };
 
@@ -81,7 +84,7 @@ export class BimViewService implements OnDestroy {
   }
 
   get current():BimViewState {
-    return this._state.getValueOr(bimSplitViewIdentifier);
+    return this._state.getValueOr(bimSplitViewCardsIdentifier);
   }
 
   public currentViewerState():BimViewState {
@@ -92,7 +95,9 @@ export class BimViewService implements OnDestroy {
     } else if (this.state.includes('bim.**.model')) {
       return bimViewerViewIdentifier;
     } else {
-      return bimSplitViewIdentifier;
+      return this.state.params?.cards || this.state.params?.cards == null ?
+              bimSplitViewCardsIdentifier :
+              bimSplitViewListIdentifier;
     }
   }
 

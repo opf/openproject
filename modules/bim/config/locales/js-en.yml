@@ -18,4 +18,5 @@ en:
         manage: 'Manage models'
       views:
         viewer: 'Viewer'
-        split: 'Viewer and cards'
+        split: 'Viewer and table'
+        split-cards: 'Viewer and cards'
