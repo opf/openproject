@@ -73,6 +73,9 @@ describe 'work package export', type: :feature do
     expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'),
                                  wait: 10
 
+    # Expect title
+    expect(page).to have_selector 'h3', text: I18n.t('export.your_work_packages_export')
+
     begin
       perform_enqueued_jobs
     rescue

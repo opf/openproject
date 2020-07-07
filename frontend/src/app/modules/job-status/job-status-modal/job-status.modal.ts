@@ -50,6 +50,9 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
   /** Public message to show */
   public message:string;
 
+  /** Title to show */
+  public title:string = this.text.title;
+
   /** A link in case the job results in a download */
   public downloadHref:string|null = null;
 
@@ -123,6 +126,7 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
       this.I18n.t(`js.job_status.generic_messages.${status}`, { defaultValue: status });
 
     if (body.payload) {
+      this.title = body.payload.title || this.text.title;
       this.handleRedirect(body.payload?.redirect);
       this.handleDownload(body.payload?.download);
     }

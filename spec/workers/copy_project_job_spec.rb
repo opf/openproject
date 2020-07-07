@@ -181,7 +181,7 @@ describe CopyProjectJob, type: :model do
       expect(copy_job.job_status).to be_present
       expect(copy_job.job_status[:status]).to eq 'failure'
       expect(copy_job.job_status[:message]).to include "Cannot copy project #{source_project.name}"
-      expect(copy_job.job_status[:payload]).to be_nil
+      expect(copy_job.job_status[:payload]).to eq('title' => 'Copy project')
     end
   end
 
@@ -199,7 +199,7 @@ describe CopyProjectJob, type: :model do
   describe 'perform' do
     before do
       login_as(user)
-      expect(User).to receive(:current=).with(user)
+      expect(User).to receive(:current=).with(user).at_least(:once)
     end
 
     describe 'subproject' do

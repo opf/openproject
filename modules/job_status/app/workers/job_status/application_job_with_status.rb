@@ -72,11 +72,33 @@ module JobStatus
         resource.reference = status_reference
       end
 
-      new_attributes = args.reverse_merge(status: status, message: nil, payload: nil)
-      resource.update! new_attributes
+      # Update properties with the language of the user
+      # to ensure things like the title are correct
+      User.execute_as(resource.user) do
+        resource.attributes = build_status_attributes(args.merge(status: status))
+      end
+
+      resource.save!
     end
 
     protected
+
+    ##
+    # Builds the attributes for updating the status
+    def build_status_attributes(attributes)
+      if title
+        attributes[:payload] ||= {}
+        attributes[:payload][:title] = title
+      end
+
+      attributes.reverse_merge(message: nil, payload: nil)
+    end
+
+    ##
+    # Title of the job status, optional
+    def title
+      nil
+    end
 
     ##
     # Crafts a payload for a redirection result
