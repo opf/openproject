@@ -314,6 +314,38 @@ describe Projects::CopyService, 'integration', type: :model do
         end
       end
 
+      describe 'in an ordered query (Feature #31317)' do
+        let!(:query) do
+          FactoryBot.create(:query, user: current_user, project: source, show_hierarchies: false).tap do |q|
+            q.sort_criteria = [[:manual_sorting, 'asc']]
+            q.save!
+          end
+        end
+
+        before do
+          ::OrderedWorkPackage.create(query: query, work_package: work_package, position: 100)
+          ::OrderedWorkPackage.create(query: query, work_package: work_package2, position: 0)
+          ::OrderedWorkPackage.create(query: query, work_package: work_package3, position: 50)
+        end
+
+        let(:only_args) { %w[work_packages queries] }
+
+        it 'copies the query and order' do
+          expect(subject).to be_success
+          expect(project_copy.work_packages.count).to eq(4)
+          expect(project_copy.queries.count).to eq(2)
+
+          manual_query = project_copy.queries.first
+          expect(manual_query).to be_manually_sorted
+
+          expect(query.ordered_work_packages.count).to eq 3
+          original_order = query.ordered_work_packages.map { |ow| ow.work_package.subject }
+          copied_order = manual_query.ordered_work_packages.map { |ow| ow.work_package.subject }
+
+          expect(copied_order).to eq(original_order)
+        end
+      end
+
       describe '#parent' do
         before do
           work_package.parent = work_package2
