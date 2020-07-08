@@ -136,9 +136,14 @@ export class WorkPackageRelationsHierarchyService {
         lockVersion: childWorkPackage.lockVersion
       }).then(wp => {
         if (parentWorkPackage) {
-          this.wpCacheService.require(parentWorkPackage.id!, true);
+          this.wpCacheService.require(parentWorkPackage.id!, true).then((wp) => {
+            this.halEvents.push(wp, {
+            eventType: 'association',
+            relatedWorkPackage: null,
+            relationType: 'child'
+            });
+          });
         }
-
         this.wpCacheService.updateWorkPackage(wp);
       })
         .catch((error) => {

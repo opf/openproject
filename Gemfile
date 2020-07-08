@@ -164,7 +164,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 4.3.1' # used for development and optionally for production
+gem 'puma', '~> 4.3.5' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.8'
 
@@ -175,7 +175,7 @@ gem 'aws-sdk-core', '~> 3.91.0'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.61.0'
 
-gem 'openproject-token', '~> 2.0'
+gem 'openproject-token', '~> 2.1.1'
 
 gem 'plaintext', '~> 0.3.2'
 

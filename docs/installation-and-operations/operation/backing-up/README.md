@@ -57,13 +57,36 @@ If you are using docker-compose, then the data volumes are managed by Docker and
 If you are using the all-in-one container, then you can simply backup any local volumes that you chose to bind-mount with the `-v` option when launching the container. For instance if you launched the container with:
 
 ```bash
-sudo mkdir -p /var/lib/openproject/{pgdata,logs,static}
+sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
-  -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.6/main \
-  -v /var/lib/openproject/logs:/var/log/supervisor \
-  -v /var/lib/openproject/static:/var/db/openproject \
+  -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
+  -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/community:10
 ```
 
 Then you would need to backup the `/var/lib/openproject` folder (for instance to S3 or FTP server).
+
+### Dumping the database
+
+When using docker-compose you can simply dump the database from the database container.
+
+```
+docker exec -it db_1 pg_dump -U postgres -d openproject -x -O > openproject.sql
+```
+
+This assumes that the database container is called `db_1`. Find out the actual name on your host using `docker ps | postgres`.
+
+#### All-in-one container
+
+If you need a regular dump of the database you can get one using `pg_dump` like this:
+
+```
+docker exec -e PGPASSWORD=openproject -it $OP_CONTAINER_NAME pg_dump -U openproject -h localhost -d openproject -x -O > openproject.sql
+```
+
+Where `$OP_CONTAINER_NAME` is the name of your OpenProject container. If you don't know it you can find it using `docker ps | grep openproject`.
+
+### Importing the dump into a new container
+
+Follow the instructions in the [restoring section](../restoring/#restoring-a-dump) to import a dump into a new container.
