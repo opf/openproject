@@ -87,6 +87,10 @@ da:
     index:
       no_results_content_title: Der er i øjeblikket ingen godkendelse.
       no_results_content_text: Opret en ny godkendelse
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -414,6 +418,7 @@ da:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbejdspakker"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivelse'
@@ -485,6 +490,7 @@ da:
         parent_work_package: "Overordnet"
         priority: "Prioritet"
         progress: "Fremskridt (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Anvendt tid"
         spent_time: "Anvendt tid"
         subproject: "Underprojekt"
@@ -882,6 +888,7 @@ da:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Søndag"
       - "Mandag"
@@ -1117,6 +1124,8 @@ da:
     work_package_edit: 'Arbejdspakke redigeret'
     work_package_note: 'Note tilføjet arbejdspakke'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1624,6 +1633,7 @@ da:
   label_time_entry_plural: "Anvendt tid"
   label_time_sheet_menu: "Tidsskema"
   label_time_tracking: "Tidsregistrering"
+  label_projects_menu: "Projekter"
   label_today: "i dag"
   label_top_menu: "Topmenu"
   label_topic_plural: "Emner"
@@ -1944,6 +1954,12 @@ da:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"

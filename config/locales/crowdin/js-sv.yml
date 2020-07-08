@@ -397,7 +397,7 @@ sv:
     label_sum_for: "Summa för"
     label_subject: "Ämne"
     label_this_week: "denna vecka"
-    label_today: "idag"
+    label_today: "Today"
     label_time_entry_plural: "Förbrukad tid"
     label_up: "Upp"
     label_user_plural: "Användare"
@@ -583,6 +583,9 @@ sv:
       select_branch: 'Välj gren'
     field_value_enter_prompt: "Ange ett värde för \"%{field}\""
     project_menu_details: "Detaljer"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Stigande sortering används, '
       sorted_dsc: 'Fallande sortering används, '

@@ -87,6 +87,10 @@ tr:
     index:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
       no_results_content_text: Yeni bir doğrulama modu oluştur
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Bu LDAP formu, LDAP / Active Directory kurulumunuz hakkında teknik bilgi gerektirir.
@@ -414,6 +418,7 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
+        templated: 'Template project'
       projects/status:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
@@ -485,6 +490,7 @@ tr:
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
         subproject: "Alt proje"
@@ -882,6 +888,7 @@ tr:
       - "Eki"
       - "Kas"
       - "Ara"
+    abbr_week: 'Wk'
     day_names:
       - "Pazar"
       - "Pazartesi"
@@ -1117,6 +1124,8 @@ tr:
     work_package_edit: 'İş Paketi düzenlendi'
     work_package_note: 'İk Paketi notu eklendi'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1624,6 +1633,7 @@ tr:
   label_time_entry_plural: "Harcanan zaman"
   label_time_sheet_menu: "Zaman tablosu"
   label_time_tracking: "Zaman takibi"
+  label_projects_menu: "Projeler"
   label_today: "bugün"
   label_top_menu: "Üst Menü"
   label_topic_plural: "Konular"
@@ -1944,6 +1954,12 @@ tr:
       warning_one: Projenin üyeleri, projenin depoları yeniden yerleştirmek zorunda kalacaklardır.
       warning_two: Projeye mevcut bağlantılar artık çalışmayacaktır.
       title: Projenin tanımlayıcısını değiştirme
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
       archived: "Arşivlenen"

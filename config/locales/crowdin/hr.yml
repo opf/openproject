@@ -87,6 +87,10 @@ hr:
     index:
       no_results_content_title: Trenutno ne postoji mehanizam provjere autentičnosti.
       no_results_content_text: Dodaj novi mod provjere autentičnosti
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -415,6 +419,7 @@ hr:
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -486,6 +491,7 @@ hr:
         parent_work_package: "Matični"
         priority: "Prioritet"
         progress: "Napredak (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Utrošeno vrijeme"
         spent_time: "Utrošeno vrijeme"
         subproject: "Potprojekt"
@@ -886,6 +892,7 @@ hr:
       - "List"
       - "Stud"
       - "Pro"
+    abbr_week: 'Wk'
     day_names:
       - "Nedjelja"
       - "Ponedjeljak"
@@ -1133,6 +1140,8 @@ hr:
     work_package_edit: 'Radni paket je uređen'
     work_package_note: 'Bilješka za Radni paket je dodana'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1640,6 +1649,7 @@ hr:
   label_time_entry_plural: "Utrošeno vrijeme"
   label_time_sheet_menu: "Vrijeme angažiranosti"
   label_time_tracking: "Praćenje vremena"
+  label_projects_menu: "Projekti"
   label_today: "danas"
   label_top_menu: "Gornji izbornik"
   label_topic_plural: "Teme"
@@ -1965,6 +1975,12 @@ hr:
       warning_one: Članovi projekta morati će relocirati repozitorije projketa.
       warning_two: Postojeće poveznice na projektu neće više funkcionirati.
       title: Promjeni identifikator projekta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"

@@ -87,6 +87,10 @@ fi:
     index:
       no_results_content_title: Tällä hetkellä ei ole todennustiloja.
       no_results_content_text: Luo uusi todennustila
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -153,9 +157,9 @@ fi:
       add: 'Lisää toiminto'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
-    conditions: 'Olosuhteet'
-    plural: 'Custom actions'
-    new: 'New custom action'
+    conditions: 'Ehdot'
+    plural: 'Mukautetut toiminnot'
+    new: 'Lisää mukautettu toiminto'
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
@@ -411,9 +415,10 @@ fi:
         latest_activity_at: "Viimeisin tapahtuma"
         parent: "Aliprojekti"
         queries: "Kyselyt"
-        types: "Tyypit"
+        types: "Tehtävätyypit"
         versions: "Versiot"
         work_packages: "Tehtävät"
+        templated: 'Template project'
       projects/status:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
@@ -485,6 +490,7 @@ fi:
         parent_work_package: "Ylätaso"
         priority: "Prioriteetti"
         progress: "Valmiusaste (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"
         subproject: "Aliprojekti"
@@ -508,7 +514,7 @@ fi:
         before_or_equal_to: "on oltava %{date} tai sitä ennen."
         blank: "ei voi olla sisällötön."
         cant_link_a_work_package_with_a_descendant: "Tehtävää ei voida yhdistää alitehtäviin."
-        circular_dependency: "Tämä suhde loisi kehän."
+        circular_dependency: "Tämä riippuvuus loisi kehän."
         confirmation: "ei vastaa %{attribute}."
         could_not_be_copied: "kopioiminen ei onnistunut (täysimääräisesti)."
         does_not_exist: "ei ole olemassa."
@@ -882,6 +888,7 @@ fi:
       - "Loka"
       - "Marras"
       - "Joulu"
+    abbr_week: 'Wk'
     day_names:
       - "Sunnuntai"
       - "Maanantai"
@@ -1052,7 +1059,7 @@ fi:
         rename_groups: "Rename attributes groups"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Työajanseurannan aktiviteetit"
   enumeration_work_package_priorities: "Work package priorities"
   enumeration_reported_project_statuses: "Reported project status"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
@@ -1082,7 +1089,7 @@ fi:
   error_pdf_export_too_many_columns: "Liikaa sarakkeita valittuina PDF-vientiin. Pienennä sarakkeiden määrää."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again.'
-  error_work_package_done_ratios_not_updated: "Toimi paketti tehnyt suhdelukuja ei päivitetä."
+  error_work_package_done_ratios_not_updated: "Tehtävän valmiusastetta ei päivitetty."
   error_work_package_not_found_in_project: "Toimia paketti ei löydy tai ei kuulu tähän projektiin"
   error_must_be_project_member: "on oltava projekti jäsen"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1117,6 +1124,8 @@ fi:
     work_package_edit: 'Tehtävää muokattu'
     work_package_note: 'Kommentti lisätty tehtävään'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1334,7 +1343,7 @@ fi:
   label_enable_multi_select: "Vaihda monivalinta"
   label_enabled_project_custom_fields: 'Käytössä olevat mukautetut kentät'
   label_enabled_project_modules: 'Käytössä olevat moduulit'
-  label_enabled_project_activities: 'Käytössä olevat ajanseurannan aktiviteetit'
+  label_enabled_project_activities: 'Käytössä olevat työajanseurannan aktiviteetit'
   label_end_to_end: "lopusta loppuun"
   label_end_to_start: "lopusta alkuun"
   label_enumeration_new: "Uusi arvo"
@@ -1551,8 +1560,8 @@ fi:
   label_related_work_packages: "Tehtävän riippuvuudet"
   label_relates: "liittyy"
   label_relates_to: "liittyy"
-  label_relation_delete: "Poista suhde"
-  label_relation_new: "Uusi suhde"
+  label_relation_delete: "Poista riippuvuus"
+  label_relation_new: "Uusi riippuvuus"
   label_release_notes: "Julkaisutiedot"
   label_remove_columns: "Poista valitut sarakkeet"
   label_renamed: "uudelleennimetty"
@@ -1624,12 +1633,13 @@ fi:
   label_time_entry_plural: "Käytetty aika"
   label_time_sheet_menu: "Aikaraportti"
   label_time_tracking: "Ajan seuranta"
+  label_projects_menu: "Projektit"
   label_today: "tänään"
   label_top_menu: "Päävalikko"
   label_topic_plural: "Aiheet"
   label_total: "Yhteensä"
   label_type_new: "Uusi tyyppi"
-  label_type_plural: "Tyypit"
+  label_type_plural: "Tehtävätyypit"
   label_ui: "Käyttöliittymä"
   label_update_work_package_done_ratios: "Päivitä tehtävien valmiusasteet"
   label_updated_time: "Päivitetty %{value} sitten"
@@ -1640,7 +1650,7 @@ fi:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "Käyttäjä"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Käyttäjät & Oikeudet"
   label_user_named: "User %{name}"
   label_user_activity: "Käyttäjän %{value} historia"
   label_user_anonymous: "Anonyymi"
@@ -1944,6 +1954,12 @@ fi:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Projektin nykyiset linkit eivät enää toimi.
       title: Muuta projektin tunnistetta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
       archived: "Archived"
@@ -2577,7 +2593,7 @@ fi:
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       invalid_json: "Pyyntöä ei voitu jäsentää JSON."
-      invalid_relation: "Suhde on virheellinen."
+      invalid_relation: "Riippuvuus on virheellinen."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
       invalid_user_status_transition: "Nykyisen käyttäjän tilin tila ei salli tätä operaatio."
       missing_content_type: "not specified"

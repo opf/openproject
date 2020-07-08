@@ -87,6 +87,10 @@ sl:
     index:
       no_results_content_title: Trenutno ni načinov overjanja.
       no_results_content_text: Ustvarite nov način preverjanja pristnosti
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ta obrazec LDAP zahteva tehnično znanje o vaši namestitvi LDAP / Active Directory.
@@ -414,6 +418,7 @@ sl:
         types: "Tipi"
         versions: "Verzije"
         work_packages: "zahtevki"
+        templated: 'Template project'
       projects/status:
         code: 'Stanje'
         explanation: 'Opis stanja'
@@ -485,6 +490,7 @@ sl:
         parent_work_package: "Nadrejeni"
         priority: "Prioriteta"
         progress: "Napredek (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"
@@ -888,6 +894,7 @@ sl:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Nedelja"
       - "Ponedeljek"
@@ -1147,6 +1154,8 @@ sl:
     work_package_edit: 'Delovni paket je bil urejen'
     work_package_note: 'Dodana opomba o delovnem paketu'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1654,6 +1663,7 @@ sl:
   label_time_entry_plural: "Porabljen čas"
   label_time_sheet_menu: "Časovni list"
   label_time_tracking: "Sledenje časa"
+  label_projects_menu: "Projekti"
   label_today: "Danes"
   label_top_menu: "Zgornji meni"
   label_topic_plural: "Teme"
@@ -1984,6 +1994,12 @@ sl:
       warning_one: Člani projekta bodo morali preseliti shrambo projekta.
       warning_two: Obstoječe povezave do projekta ne bodo več delovale.
       title: Spremenite identifikator projekta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Ali ste prepričani, da želite arhivirati projekt '% {name}'?"
       archived: "Arhiviran"

@@ -398,7 +398,7 @@ fr:
     label_sum_for: "Somme pour"
     label_subject: "Sujet"
     label_this_week: "cette semaine"
-    label_today: "aujourd'hui"
+    label_today: "Today"
     label_time_entry_plural: "Temps passé"
     label_up: "Haut"
     label_user_plural: "Utilisateurs"
@@ -584,6 +584,9 @@ fr:
       select_branch: 'Sélectionner une branche'
     field_value_enter_prompt: "Saisissez une valeur pour « %{field} »"
     project_menu_details: "Détails"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Tri par ordre croissant appliqué, '
       sorted_dsc: 'Tri par ordre décroissant appliqué, '

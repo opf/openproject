@@ -87,6 +87,10 @@ zh-TW:
     index:
       no_results_content_title: 目前沒有身份驗證模式
       no_results_content_text: 建立新身分驗證模式
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -413,6 +417,7 @@ zh-TW:
         types: "類型"
         versions: "版本"
         work_packages: "工作項目"
+        templated: 'Template project'
       projects/status:
         code: '狀態'
         explanation: '狀態描述'
@@ -484,6 +489,7 @@ zh-TW:
         parent_work_package: "上層目錄："
         priority: "優先等級"
         progress: "進度 (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "耗時"
         spent_time: "耗時"
         subproject: "子專案"
@@ -878,6 +884,7 @@ zh-TW:
       - "十月"
       - "十一月"
       - "十二月"
+    abbr_week: 'Wk'
     day_names:
       - "星期天"
       - "星期一"
@@ -1101,6 +1108,8 @@ zh-TW:
     work_package_edit: '工作項目已編輯'
     work_package_note: '工作項目註記已新增'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1608,6 +1617,7 @@ zh-TW:
   label_time_entry_plural: "耗時"
   label_time_sheet_menu: "時間表"
   label_time_tracking: "時間追蹤"
+  label_projects_menu: "專案"
   label_today: "今天"
   label_top_menu: "頂層選單"
   label_topic_plural: "主題"
@@ -1922,6 +1932,12 @@ zh-TW:
       warning_one: 這個專案的成員將必須搬移專案的版本庫
       warning_two: 專案現有的連結將不再有效
       title: 修改專案的識別
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "是否確定要 archive 專案 '%{name}'？"
       archived: "封存"

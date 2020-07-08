@@ -87,6 +87,10 @@ zh-CN:
     index:
       no_results_content_title: 目前是非身份验证模式。
       no_results_content_text: 创建一个新的身份验证模式
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       此 LDAP 表单需要您具备 LDAP / Active Directory 设置的技术知识。
@@ -408,6 +412,7 @@ zh-CN:
         types: "类型"
         versions: "版本"
         work_packages: "工作包"
+        templated: 'Template project'
       projects/status:
         code: '状态'
         explanation: '状态描述'
@@ -479,6 +484,7 @@ zh-CN:
         parent_work_package: "父"
         priority: "优先级"
         progress: "进度 (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "已耗时间"
         spent_time: "已耗时间"
         subproject: "子项目"
@@ -873,6 +879,7 @@ zh-CN:
       - "10月"
       - "11月"
       - "12月"
+    abbr_week: 'Wk'
     day_names:
       - "星期日"
       - "星期一"
@@ -1096,6 +1103,8 @@ zh-CN:
     work_package_edit: '编辑工作包'
     work_package_note: '添加工作包注释'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "原子"
       csv: "CSV"
@@ -1603,6 +1612,7 @@ zh-CN:
   label_time_entry_plural: "已耗时间"
   label_time_sheet_menu: "时间表"
   label_time_tracking: "时间跟踪"
+  label_projects_menu: "项目"
   label_today: "今天"
   label_top_menu: "顶部的菜单"
   label_topic_plural: "主题"
@@ -1917,6 +1927,12 @@ zh-CN:
       warning_one: 项目的成员将重新迁移至项目的存储库。
       warning_two: 该项目的现有链接将不再有效。
       title: 更改项目的标识符
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "是否确定想要存档项目 '%{name}'？"
       archived: "已存档"

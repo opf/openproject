@@ -3,6 +3,7 @@ fi:
     grid:
       add_widget: 'Lisää widgetti'
       remove: 'Remove widget'
+      configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -39,6 +40,7 @@ fi:
           no_results: 'Ei aliprojekteja.'
         time_entries_current_user:
           title: 'Käyttämäni aika'
+          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Käytetty aika (viimeiset 7 päivää)'
           no_results: 'No time entries for the last 7 days.'
