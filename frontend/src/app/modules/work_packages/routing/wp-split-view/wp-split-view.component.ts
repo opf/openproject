@@ -114,6 +114,12 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   }
 
   public backToList() {
+    setTimeout(() => {
+      console.log('.-checked: ', document.querySelector('.-checked'));
+      document.querySelector('.-checked').scrollIntoView({block: "start", behavior: "smooth"});
+    }, 0);
+    
+    
     this.backRouting.goToBaseState();
   }
 

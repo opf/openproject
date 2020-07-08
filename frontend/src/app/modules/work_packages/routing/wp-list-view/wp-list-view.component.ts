@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, AfterContentChecked, ViewChildren, QueryList} from "@angular/core";
 import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
@@ -44,6 +44,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import { WorkPackageSingleCardComponent } from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
 
 @Component({
   selector: 'wp-list-view',
@@ -57,7 +58,7 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
     CausedUpdatesService
   ]
 })
-export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
+export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit, AfterContentChecked {
 
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -78,6 +79,9 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
     dragAndDropEnabled: true
   };
+
+  @ViewChildren(WorkPackageSingleCardComponent)
+  cards:QueryList<WorkPackageSingleCardComponent[]>;
 
   constructor(readonly I18n:I18nService,
               readonly injector:Injector,
@@ -101,6 +105,13 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       this.updateViewRepresentation(query);
       this.cdRef.detectChanges();
     });
+  }
+
+  ngAfterContentChecked() {
+    setTimeout(() => {
+      console.log('cards 0: ', document.querySelectorAll('.wp-card'));
+      // this.cards.changes.subscribe(cards => console.log('CARDSSSS: ', this.cards));
+    }, 0)    
   }
 
   protected setupInformationLoadedListener() {
