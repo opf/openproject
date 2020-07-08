@@ -58,8 +58,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   ngOnInit():void {
     // Scroll into view this card if it represents the selected WorkPackage
-    // So when the user clicks a WP from a wp-split-view-entry (list of wp) and then
-    // click on the 'back button', the last selected card is visible.
+    // so when the user clicks a WP from a wp-split-view-entry (list of wp) and then
+    // clicks on the 'back button', the last selected card is visible on the list.
     if (this.isSelected(this.workPackage)) {
       this.elementRef.nativeElement.scrollIntoView({block: "start"});
     }
