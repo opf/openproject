@@ -1,7 +1,9 @@
 OpenProject::Application.configure do
   config.after_initialize do
+    next if Rails.env.test?
+
     slow_sql_threshold = OpenProject::Configuration.sql_slow_query_threshold.to_i
-    return if slow_sql_threshold == 0
+    next if slow_sql_threshold == 0
 
     ActiveSupport::Notifications.subscribe("sql.active_record") do |_name, start, finish, _id, data|
       # Skip transaction that may be blocked
