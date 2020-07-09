@@ -110,25 +110,20 @@ export class KeepTabService {
 
   protected isCurrentState(stateName:string):boolean {
     if (stateName === 'show') {
-      let isShowState = this.$state.includes('work-packages.show.*') ||
-                        this.$state.includes('bims.show.*') ||
-                        this.$state.includes('boards.partitioned.show.*');
-      return isShowState;
+      return this.$state.includes('work-packages.show.*');
     }
     if (stateName === 'details') {
-      let isDetailsState = this.$state.includes('bim.partitioned.split.details.*') ||
-                           this.$state.includes('work-packages.partitioned.list.details.*') ||
-                           this.$state.includes('boards.partitioned.show.details.*');
-      return isDetailsState;
+      return this.$state.includes('bim.partitioned.split.details.*') ||
+        this.$state.includes('work-packages.partitioned.list.details.*') ||
+        this.$state.includes('boards.partitioned.show.details.*');
     }
 
     return false;
   }
 
   public updateTabs(stateName?:string) {
-     // Ignore the switch from show#activity to details#activity
+    // Ignore the switch from show#activity to details#activity
     // and show details#overview instead
-
     if (stateName === 'work-packages.show.activity') {
       this.currentTab = 'overview';
       return this.notify();
