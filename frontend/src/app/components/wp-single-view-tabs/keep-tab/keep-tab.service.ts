@@ -30,7 +30,7 @@ import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ReplaySubject} from 'rxjs';
 import {Injectable} from "@angular/core";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class KeepTabService {
   protected currentTab:string = 'overview';
 
