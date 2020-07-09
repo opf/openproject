@@ -36,6 +36,9 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -46,14 +49,18 @@ export class WorkPackageViewAdditionalElementsService {
               readonly notificationService:WorkPackageNotificationService,
               readonly halResourceService:HalResourceService,
               readonly wpCacheService:WorkPackageCacheService,
+              readonly schemaCache:SchemaCacheService,
               readonly wpRelations:WorkPackageRelationsService) {
   }
 
-  public initialize(rows:WorkPackageResource[]) {
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
+    const rows = results.elements;
+
     // Add relations to the stack
     Promise.all([
       this.requireInvolvedRelations(rows.map(el => el.id!)),
-      this.requireHierarchyElements(rows)
+      this.requireHierarchyElements(rows),
+      this.requireSumsSchema(results)
     ]).then((results:string[][]) => {
       this.loadAdditional(_.flatten(results));
     });
@@ -117,5 +124,16 @@ export class WorkPackageViewAdditionalElementsService {
     });
 
     return ids;
+  }
+
+  private requireSumsSchema(results:WorkPackageCollectionResource):Promise<string[]> {
+    if (results.sumsSchema) {
+      return this
+        .schemaCache
+        .require(results.sumsSchema.$href!)
+        .then(() => []);
+    }
+
+    return Promise.resolve([]);
   }
 }

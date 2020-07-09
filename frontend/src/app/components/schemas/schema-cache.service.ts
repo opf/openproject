@@ -25,64 +25,68 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
-import {InputState, State} from 'reactivestates';
+import {InputState, MultiInputState, State} from 'reactivestates';
 import {States} from '../states.service';
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Injectable} from '@angular/core';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {StateCacheService} from "core-components/states/state-cache.service";
 
 @Injectable()
-export class SchemaCacheService {
+export class SchemaCacheService extends StateCacheService<SchemaResource>{
 
   constructor(readonly states:States,
               readonly halResourceService:HalResourceService) {
+    super();
+  }
+
+  public state(id:string|HalResource):State<SchemaResource> {
+    let href:string;
+
+    if (id instanceof HalResource) {
+      href = this.getSchemaHref(id);
+    } else {
+      href = id;
+    }
+
+    return super.state(href);
+  }
+
+  public getSchemaHref(resource:HalResource):string {
+    let href = resource.$links.schema?.href;
+
+    if (!href) {
+      throw new Error(`Resource ${resource} has no schema to load.`);
+    }
+
+    return href;
   }
 
   /**
    * Ensure the given schema identified by its href is currently loaded.
-   * @param href The schema's href.
+   * @param resource The resource with a schema property or a string to the schema href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded(resource:HalResource):Promise<unknown> {
-    const state = this.state(resource);
-
-    if (state.hasValue()) {
-      return Promise.resolve(state.value);
-    } else {
-      return this.load(resource).valuesPromise() as Promise<unknown>;
-    }
-  }
-
-  /**
-   * Get the associated schema state of the work package
-   *  without initializing a new resource.
-   */
-  state(resource:HalResource):InputState<SchemaResource> {
-    const schema = resource.$links.schema;
-
-    if (!schema) {
-      throw `Resource ${resource} has no schema!`;
-    }
-
-    return this.states.schemas.get(schema.href!);
+  ensureLoaded(resource:HalResource):Promise<SchemaResource> {
+    return this.require(this.getSchemaHref(resource));
   }
 
   /**
    * Load the associated schema for the given work package, if needed.
    */
-  load(resource:HalResource, forceUpdate = false):State<SchemaResource> {
-    const state = this.state(resource);
+  load(href:string, forceUpdate = false):Promise<SchemaResource> {
+    return this
+      .halResourceService
+      .get<SchemaResource>(href)
+      .toPromise();
+  }
 
-    if (forceUpdate) {
-      state.clear();
-    }
+  protected loadAll(hrefs:string[]):Promise<unknown|undefined> {
+    return Promise.all(hrefs.map(href => this.load(href)));
+  }
 
-    state.putFromPromiseIfPristine(() => {
-      const schemaResource = this.halResourceService.createLinkedResource(resource, 'schema', resource.$links.schema.$link);
-      return schemaResource.$load() as any;
-    });
-
-    return state;
+  protected get multiState():MultiInputState<SchemaResource> {
+    return this.states.schemas;
   }
 }
