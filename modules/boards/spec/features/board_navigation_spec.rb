@@ -123,7 +123,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
     wp = WorkPackage.last
     expect(wp.subject).to eq 'Task 1'
-    
     # Open the details page with the info icon
     card = board_page.card_for(wp)
     split_view = card.open_details_view
