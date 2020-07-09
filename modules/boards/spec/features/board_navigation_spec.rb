@@ -43,7 +43,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:status) { FactoryBot.create :default_status }
-  
   let(:board_index) { Pages::BoardIndex.new(project) }
   let!(:board_view) { FactoryBot.create :board_grid_with_query, name: 'My board', project: project }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
@@ -65,7 +64,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
     wp = WorkPackage.last
     expect(wp.subject).to eq 'Task 1'
-
     # Double click leads to the full view
     click_target = board_page.find('.wp-card--type')
     page.driver.browser.action.double_click(click_target.native).perform
