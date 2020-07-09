@@ -113,9 +113,7 @@ export class KeepTabService {
       return this.$state.includes('work-packages.show.*');
     }
     if (stateName === 'details') {
-      return this.$state.includes('bim.partitioned.split.details.*') ||
-        this.$state.includes('work-packages.partitioned.list.details.*') ||
-        this.$state.includes('boards.partitioned.show.details.*');
+      return this.$state.includes('**.details.*');
     }
 
     return false;
