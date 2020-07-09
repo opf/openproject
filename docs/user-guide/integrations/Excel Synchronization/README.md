@@ -16,19 +16,19 @@ See how to set up the synchronization between OpenProject work packages and MS E
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ZPK-l-e-lKI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-
 ### Synchronize custom queries (views)
 
 See how to synchronize custom work package queries from OpenProject in MS Excel.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/86X334cg808" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-
 ### Synchronize hierarchies
 
 See how to synchronize work package hierarchies in OpenProject with MS Excel.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/17yqO0uXE5k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 ## Step-by-step guide
 
 ### Setting-up the Excel list
