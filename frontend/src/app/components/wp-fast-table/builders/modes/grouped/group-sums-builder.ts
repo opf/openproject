@@ -6,6 +6,7 @@ import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
+import {groupedRowClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 
 export class GroupSumsBuilder extends SingleRowBuilder {
 
@@ -19,7 +20,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
 
   public buildSumsRow(group:GroupObject) {
     const tr:HTMLTableRowElement = document.createElement('tr');
-    tr.classList.add('wp-table--sums-row', 'wp-table--row');
+    tr.classList.add('wp-table--sums-row', 'wp-table--row', groupedRowClassName(group.index));
 
     this.renderColumns(group.sums, tr);
 

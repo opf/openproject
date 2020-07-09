@@ -128,5 +128,14 @@ RSpec.feature 'Work package index sums', js: true do
     expect(page).to have_selector('tfoot .wp-table--sum-container', text: '35')
     expect(page).to have_selector("tfoot .wp-table--sum-container.customField#{int_cf.id}", text: '12')
     expect(page).to have_selector("tfoot .wp-table--sum-container.customField#{float_cf.id}", text: '13.2')
+
+    # Collapsing groups will also hide the sums row
+    page.find('.expander.icon-minus2', match: :first).click
+    sleep 1
+    page.find('.expander.icon-minus2', match: :first).click
+
+    # Expect to have only the final sums
+    expect(page).to have_selector('tbody .wp-table--sums-row', count: 0)
+    expect(page).to have_selector('tfoot .wp-table--sums-row', count: 1)
   end
 end
