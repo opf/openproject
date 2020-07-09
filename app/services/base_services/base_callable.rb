@@ -33,7 +33,6 @@ module BaseServices
     extend ActiveModel::Callbacks
     define_model_callbacks :call
 
-    include ::Shared::ServiceContext
     include ::WithReversibleState
 
     def call(*args)

@@ -47,14 +47,14 @@ module Shared
     ##
     # Remember that the state was passed to the given service
     def called!(service)
-      _called << service
+      service_chain << service
     end
 
     # Roll back the context on all used services
     def rollback!
       return false if @rolled_back
 
-      _called.reverse_each do |service|
+      service_chain.reverse_each do |service|
         Rails.logger.debug { "[Service state] Rolling back execution of #{service}." }
         service.rollback
       end
@@ -62,8 +62,8 @@ module Shared
     end
 
     # Remembered service calls this context was used against
-    def _called
-      @_called ||= []
+    def service_chain
+      @service_chain ||= []
     end
   end
 end
