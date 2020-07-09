@@ -78,10 +78,6 @@ module OpenProject::Meeting
       mount ::API::V3::Meetings::MeetingContentsAPI
     end
 
-    initializer 'meeting.precompile_assets' do
-      Rails.application.config.assets.precompile += %w(meeting/meeting.css meeting/meeting.js)
-    end
-
     initializer 'meeting.register_latest_project_activity' do
       Project.register_latest_project_activity on: 'Meeting',
                                                attribute: :updated_at

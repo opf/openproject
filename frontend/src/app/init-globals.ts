@@ -30,7 +30,6 @@ import 'hammerjs';
 
 // Global scripts previously part of the application.js
 // Avoid require.context since that crashes angular regularly
-require('./globals/augmenting/modal-wrapper.augment.service');
 require('./globals/dynamic-bootstrapper');
 require('./globals/global-listeners');
 require('./globals/openproject');

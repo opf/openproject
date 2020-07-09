@@ -27,7 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= javascript_include_tag 'backlogs/backlogs.js' %>
+<% content_for :header_tags do %>
+  <meta name="required_script" content="backlogs" />
+<% end %>
 
  <%= nonced_javascript_tag do %>
    <%= render(partial: 'shared/server_variables.js.erb') %>

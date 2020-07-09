@@ -13659,6 +13659,14 @@
       "resolved": "https://registry.npmjs.org/symbol-observable/-/symbol-observable-1.2.0.tgz",
       "integrity": "sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ=="
     },
+    "tablesorter": {
+      "version": "2.31.3",
+      "resolved": "https://registry.npmjs.org/tablesorter/-/tablesorter-2.31.3.tgz",
+      "integrity": "sha512-ueEzeKiMajDcCWnUoT1dOeNEaS1OmPh9+8J0O2Sjp3TTijMygH74EA9QNJiNkLJqULyNU0RhbKY26UMUq9iurA==",
+      "requires": {
+        "jquery": ">=1.2.6"
+      }
+    },
     "tapable": {
       "version": "1.1.3",
       "resolved": "https://registry.npmjs.org/tapable/-/tapable-1.1.3.tgz",

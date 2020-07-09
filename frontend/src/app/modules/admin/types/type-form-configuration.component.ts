@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
 import {TypeBannerService} from 'core-app/modules/admin/types/type-banner.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
@@ -9,6 +9,7 @@ import {ConfirmDialogService} from 'core-components/modals/confirm-dialog/confir
 import {Drake} from 'dragula';
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
 
 export type TypeGroupType = 'attribute'|'query';
 
@@ -37,7 +38,7 @@ export const adminTypeFormConfigurationSelector = 'admin-type-form-configuration
     TypeBannerService,
   ]
 })
-export class TypeFormConfigurationComponent extends UntilDestroyedMixin implements OnInit {
+export class TypeFormConfigurationComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
 
   public text = {
     drag_to_activate: this.I18n.t('js.admin.type_form.drag_to_activate'),
@@ -143,6 +144,11 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
           return this.down && (groups || attributes);
         }
       });
+  }
+
+  ngAfterViewInit() {
+    const menu = jQuery(this.elementRef.nativeElement).find('.toolbar-items');
+    install_menu_logic(menu);
   }
 
   public deactivateAttribute(attribute:TypeFormAttribute) {

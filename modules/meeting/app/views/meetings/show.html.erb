@@ -27,6 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= render partial: 'meetings/meeting_header' %>
+
 <% html_title "#{t(:label_meeting)}: #{@meeting.title}" %>
 <%= toolbar title: t(:label_meeting),
             link_to: link_to(@meeting),

@@ -27,6 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% content_for :header_tags do %>
+  <meta name="required_script" content="forums" />
+<% end %>
+
 <% breadcrumb_paths(
   link_to(t(:label_forum_plural), project_forums_path(@project)),
   link_to(h(@forum.name), project_forum_path(@project, @forum)))

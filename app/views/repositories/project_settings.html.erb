@@ -27,8 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= content_for :header_tags do %>
-  <%= javascript_include_tag('repository_settings') %>
+<% content_for :header_tags do %>
+  <meta name="required_script" content="repository_settings" />
 <% end %>
 
 <%= toolbar title: t(:label_repository) %>

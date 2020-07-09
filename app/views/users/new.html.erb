@@ -27,7 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= javascript_include_tag 'new_user' %>
+<% content_for :header_tags do %>
+  <meta name="required_script" content="new_user" />
+<% end %>
 
 <% html_title l(:label_administration), l("label_user_new") %>
 <% local_assigns[:additional_breadcrumb] = l(:label_user_new) %>

@@ -78,9 +78,11 @@ See docs/COPYRIGHT.rdoc for more details.
                       <div class="generic-table--sort-header">
                         <span>
                           <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
-                          <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                                                                        class: 'no-decoration-on-hover',
-                                                                        title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+                          <%= link_to_function(
+                                icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"),
+                                "OpenProject.helpers.toggleCheckboxesBySelector('input.role-#{role.id}')",
+                                class: 'no-decoration-on-hover',
+                                title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
                         </span>
                       </div>
                     </div>
@@ -92,9 +94,11 @@ See docs/COPYRIGHT.rdoc for more details.
               <% perms_by_module[mod].each do |permission| %>
                 <tr class="permission-<%= permission.name %>">
                   <td>
-                    <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                                                    class: 'no-decoration-on-hover',
-                                                                    title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+                    <%= link_to_function(
+                          icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"),
+                          "OpenProject.helpers.toggleCheckboxesBySelector('.permission-#{permission.name} input')",
+                          class: 'no-decoration-on-hover',
+                          title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
                     <%= l_or_humanize(permission.name, prefix: 'permission_') %>
                   </td>
                   <% @roles.each do |role| %>

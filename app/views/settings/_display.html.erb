@@ -27,6 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% content_for :header_tags do %>
+  <meta name="required_script" content="administration_settings" />
+<% end %>
+
 <%= styled_form_tag(general_settings_path(tab: 'display'), method: :patch) do %>
 
   <section class="form--section">
@@ -56,9 +60,3 @@ See docs/COPYRIGHT.rdoc for more details.
               { controller: '/admin', action: 'force_user_language' },
               method: :post %>
 </div>
-
-<%=
-  content_for(:additional_js_dom_ready) do
-    "Administration.init_language_selection_handling();".html_safe
-  end
-%>

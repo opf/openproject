@@ -120,6 +120,7 @@
     "rxjs": "^6.5.4",
     "screenfull": "^4.2.1",
     "shelljs": "^0.8.3",
+    "tablesorter": "^2.31.3",
     "ticky": "^1.0.1",
     "tslib": "^1.10.0",
     "typedjson": "^1.5.1",
@@ -132,7 +133,7 @@
   "scripts": {
     "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer -p 9999 ../public/assets/frontend/stats.json",
     "prebuild": "./scripts/link_plugin_placeholder.js",
-    "build": "ng build --prod --named-chunks --source-map --extract-css",
+    "build": "node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng build --prod --named-chunks --extract-css --source-map",
     "preserve": "./scripts/link_plugin_placeholder.js",
     "serve": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --public-host http://localhost:4200",
     "pretest": "./scripts/link_plugin_placeholder.js",
