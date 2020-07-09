@@ -19,6 +19,7 @@ FactoryBot.define do
     callback(:after_build) do |board, evaluator| # this is also done after :create
       query = evaluator.query || begin
         Query.new_default(name: 'List 1', is_public: true, project: board.project).tap do |q|
+          q.sort_criteria = [[:manual_sorting, 'asc']]
           q.add_filter(:manual_sort, 'ow', [])
           q.save!
         end
@@ -30,7 +31,7 @@ FactoryBot.define do
                                          end_row: 2,
                                          start_column: 1,
                                          end_column: 1,
-                                         options: { 'query_id' => query.id, "filters"=>[{"manualSort"=>{"operator"=>"ow", "values"=>[]}}]})
+                                         options: { 'queryId' => query.id, "filters"=>[{"manualSort"=>{"operator"=>"ow", "values"=>[]}}]})
     end
   end
 
@@ -48,6 +49,8 @@ FactoryBot.define do
       evaluator.num_queries.times do |i|
 
         query = Query.new_default(name: "List #{i + 1}", is_public: true, project: board.project).tap do |q|
+          q.sort_criteria = [[:manual_sorting, 'asc']]
+          q.add_filter(:manual_sort, 'ow', [])
           q.save!
         end
 
@@ -57,7 +60,7 @@ FactoryBot.define do
                                            end_row: 2,
                                            start_column: 1,
                                            end_column: 1,
-                                           options: { 'query_id' => query.id, "filters"=>[{"manualSort"=>{"operator"=>"ow", "values"=>[]}}]})
+                                           options: { 'queryId' => query.id, "filters"=>[{"manualSort"=>{"operator"=>"ow", "values"=>[]}}]})
       end
     end
   end
