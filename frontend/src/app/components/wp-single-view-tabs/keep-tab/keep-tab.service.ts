@@ -111,12 +111,14 @@ export class KeepTabService {
   protected isCurrentState(stateName:string):boolean {
     if (stateName === 'show') {
       let isShowState = this.$state.includes('work-packages.show.*') ||
-                        this.$state.includes('bims.show.*');
+                        this.$state.includes('bims.show.*') ||
+                        this.$state.includes('boards.partitioned.show.*');
       return isShowState;
     }
     if (stateName === 'details') {
       let isDetailsState = this.$state.includes('bim.partitioned.split.details.*') ||
-                           this.$state.includes('work-packages.partitioned.list.details.*');
+                           this.$state.includes('work-packages.partitioned.list.details.*') ||
+                           this.$state.includes('boards.partitioned.show.details.*');
       return isDetailsState;
     }
 

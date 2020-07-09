@@ -140,18 +140,19 @@ describe 'BIM navigation spec',
         card_view.expect_work_package_not_listed work_package
       end
 
-      it 'after going to the full view with a selected tab, the same tab shoud be opened in full screen view and after going back to details view(see #33747)' do
-      card_view.open_full_screen_by_details(work_package)
+      it 'after going to the full view with a selected tab,
+        the same tab shoud be opened in full screen view and after going back to details view(see #33747)' do
+        card_view.open_full_screen_by_details(work_package)
 
-      details_view.ensure_page_loaded
-      details_view.expect_subject
-      details_view.switch_to_tab tab: 'Relations'
+        details_view.ensure_page_loaded
+        details_view.expect_subject
+        details_view.switch_to_tab tab: 'Relations'
 
-      details_view.switch_to_fullscreen
-      full_view.expect_tab 'Relations'
+        details_view.switch_to_fullscreen
+        full_view.expect_tab 'Relations'
 
-      full_view.go_back
-      details_view.expect_tab 'Relations'
+        full_view.go_back
+        details_view.expect_tab 'Relations'
       end
     end
   end
