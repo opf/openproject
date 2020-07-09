@@ -87,6 +87,10 @@ pt:
     index:
       no_results_content_title: Atualmente, não existem modos de autenticação.
       no_results_content_text: Criar um novo modo de autenticação
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Este formulário LDAP requer conhecimento técnico da sua configuração LDAP / Active Directory.
@@ -412,6 +416,7 @@ pt:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Descrição do estado'
@@ -483,6 +488,7 @@ pt:
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
         subproject: "Subprojeto"
@@ -880,6 +886,7 @@ pt:
       - "Out"
       - "Nov"
       - "Dez"
+    abbr_week: 'Wk'
     day_names:
       - "Domingo"
       - "Segunda"
@@ -1115,6 +1122,8 @@ pt:
     work_package_edit: 'Pacote de Trabalho editado'
     work_package_note: 'Anotação acrescentada ao Pacote de Trabalho'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1622,6 +1631,7 @@ pt:
   label_time_entry_plural: "Tempo gasto"
   label_time_sheet_menu: "Linha de tempo"
   label_time_tracking: "Controle de tempo"
+  label_projects_menu: "Projetos"
   label_today: "hoje"
   label_top_menu: "Menu superior"
   label_topic_plural: "Tópicos"
@@ -1942,6 +1952,12 @@ pt:
       warning_one: Membros do projeto terão que realocar os repositórios do projeto.
       warning_two: Links existentes para o projeto deixarão de funcionar.
       title: Alterar o identificador do projeto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
       archived: "Arquivado"

@@ -398,7 +398,7 @@ ca:
     label_sum_for: "Suma de"
     label_subject: "Assumpte"
     label_this_week: "aquesta setmana"
-    label_today: "avui"
+    label_today: "Today"
     label_time_entry_plural: "Temps invertit"
     label_up: "Amunt"
     label_user_plural: "Usuaris"
@@ -584,6 +584,9 @@ ca:
       select_branch: 'Seleccionar branca'
     field_value_enter_prompt: "Introduïu un valor per a '%{field}'"
     project_menu_details: "Detalls"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ordre ascendent aplicat,'
       sorted_dsc: 'Ordre descendent aplicat,'

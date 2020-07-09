@@ -397,7 +397,7 @@ ro:
     label_sum_for: "Suma pentru"
     label_subject: "Subiect"
     label_this_week: "săptămâna curentă"
-    label_today: "astăzi"
+    label_today: "Today"
     label_time_entry_plural: "Timp consumat"
     label_up: "Sus"
     label_user_plural: "Utilizatori"
@@ -583,6 +583,9 @@ ro:
       select_branch: 'Selectare ramură'
     field_value_enter_prompt: "Introduceţi o valoare pentru '%{field}'"
     project_menu_details: "Detalii"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Sortare ascendentă aplicată '
       sorted_dsc: 'Sortare descendentă aplicată '

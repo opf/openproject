@@ -87,6 +87,10 @@ fi:
     index:
       no_results_content_title: Tällä hetkellä ei ole todennustiloja.
       no_results_content_text: Luo uusi todennustila
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -414,6 +418,7 @@ fi:
         types: "Tehtävätyypit"
         versions: "Versiot"
         work_packages: "Tehtävät"
+        templated: 'Template project'
       projects/status:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
@@ -485,6 +490,7 @@ fi:
         parent_work_package: "Ylätaso"
         priority: "Prioriteetti"
         progress: "Valmiusaste (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"
         subproject: "Aliprojekti"
@@ -882,6 +888,7 @@ fi:
       - "Loka"
       - "Marras"
       - "Joulu"
+    abbr_week: 'Wk'
     day_names:
       - "Sunnuntai"
       - "Maanantai"
@@ -1117,6 +1124,8 @@ fi:
     work_package_edit: 'Tehtävää muokattu'
     work_package_note: 'Kommentti lisätty tehtävään'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1624,6 +1633,7 @@ fi:
   label_time_entry_plural: "Käytetty aika"
   label_time_sheet_menu: "Aikaraportti"
   label_time_tracking: "Ajan seuranta"
+  label_projects_menu: "Projektit"
   label_today: "tänään"
   label_top_menu: "Päävalikko"
   label_topic_plural: "Aiheet"
@@ -1944,6 +1954,12 @@ fi:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Projektin nykyiset linkit eivät enää toimi.
       title: Muuta projektin tunnistetta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
       archived: "Archived"

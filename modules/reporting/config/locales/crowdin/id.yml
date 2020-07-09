@@ -22,8 +22,9 @@
 id:
   button_save_as: "Simpan sebagai..."
   comments: "Komentar"
-  cost_reports_title: "Pelaporan biaya"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Laporan biaya"
+  label_cost_report_plural: "Pelaporan biaya"
   description_drill_down: "Lihat detail"
   description_filter_selection: "Seleksi"
   description_multi_select: "Tampilkan multiselect"
