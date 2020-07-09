@@ -28,16 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
+module Boards
+  class CopyService < ::BaseServices::Copy
+
+    def initialize(user:, source:)
+      super(user: user, source: source, contract_class: ::EmptyContract)
+    end
+
     protected
 
-    def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
-      end
+    def copy_dependencies
+      [
+        ::Boards::Copy::WidgetsDependentService
+      ]
+    end
+
+    def initialize_copy(source, params)
+      new_board = ::Boards::Grid.new
+      new_board.attributes = source.attributes.dup.except(*skipped_attributes)
+      new_board.project = state.project || source.project
+
+      ServiceResult.new(success: new_board.save, result: new_board)
+    end
+
+    def skipped_attributes
+      %w[id created_at updated_at project_id sort_criteria]
     end
   end
 end

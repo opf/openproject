@@ -28,16 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
+module BaseServices
+  class BaseCallable
+    extend ActiveModel::Callbacks
+    define_model_callbacks :call
+
+    include ::Shared::ServiceContext
+    include ::WithReversibleState
+
+    def call(*args)
+      run_callbacks(:call) do
+        perform(*args)
+      end
+    end
+
     protected
 
-    def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
-      end
+    def perform(*args)
+      raise NotImplementedError
     end
   end
 end

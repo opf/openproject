@@ -28,16 +28,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
+module Queries
+  class CopyService < ::BaseServices::Copy
     protected
 
-    def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
-      end
+    def copy_dependencies
+      [
+        ::Queries::Copy::MenuItemDependentService,
+        ::Queries::Copy::OrderedWorkPackagesDependentService
+      ]
+    end
+
+    def initialize_copy(source, params)
+      new_query = ::Query.new name: '_'
+      new_query.attributes = source.attributes.dup.except(*skipped_attributes)
+      new_query.sort_criteria = source.sort_criteria if source.sort_criteria
+      new_query.project = state.project || source.project
+      new_query.set_context
+
+      ServiceResult.new(success: new_query.save, result: new_query)
+    end
+
+    def skipped_attributes
+      %w[id created_at updated_at project_id sort_criteria]
     end
   end
 end

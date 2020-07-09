@@ -34,7 +34,7 @@ module Projects::Copy
 
     protected
 
-    def perform(params:, state:)
+    def copy_dependency(params:)
       # Stores the source work_package id as a key and the copied work package ID as the
       # value.  Used to map the two together for work_package relations.
       work_packages_map = {}
@@ -63,14 +63,14 @@ module Projects::Copy
         next unless new_wp_id
 
         # Attachments
-        unless skip_dependency?(params, :work_package_attachments)
+        unless params[:only].present? && !params[:only].include?(:work_package_attachments)
           copy_attachments(wp.id, new_wp_id, 'WorkPackage')
         end
 
         copy_relations(wp, new_wp_id, work_packages_map)
       end
 
-      state[:work_packages_map] = work_packages_map
+      state.work_package_id_lookup = work_packages_map
     end
 
     def copy_work_package(source_work_package, parent_id, user_cf_ids)

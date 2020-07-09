@@ -31,12 +31,11 @@
 ##
 # Dependent service to be executed under the BaseServices::Copy service
 module Copy
-  class Dependency
+  class Dependency < ::BaseServices::BaseCallable
     attr_reader :source,
                 :target,
                 :user,
                 :result
-
 
     ##
     # Identifier of this dependency to include/exclude
@@ -53,11 +52,17 @@ module Copy
       @result = ServiceResult.new(result: target, success: true, errors: ActiveModel::Errors.new(target))
     end
 
-    def call(params:, state:)
-      return result if skip?(params)
+    protected
 
+    ##
+    # Merge some other model's errors with the result errors
+    def add_error!(model, errors)
+      result.errors.add(:base, "#{model.class.model_name.human} '#{model}': #{errors.full_messages.join(". ")}")
+    end
+
+    def perform(params:)
       begin
-        perform(params: params, state: state)
+        copy_dependency(params: params)
       rescue StandardError => e
         Rails.logger.error { "Failed to copy dependency #{self.class.name}: #{e.message}" }
         result.success = false
@@ -67,31 +72,7 @@ module Copy
       result
     end
 
-
-    protected
-
-    ##
-    # Merge some other model's errors with the result errors
-    def add_error!(model, errors)
-      result.errors.add(:base, "#{model.class.model_name.human} '#{model}': #{errors.full_messages.join(". ")}")
-    end
-
-    ##
-    # Whether this entire dependency should be skipped
-    def skip?(params)
-      skip_dependency?(params, self.class.identifier)
-    end
-
-    ##
-    # Whether to skip the given key.
-    # Useful when copying nested dependencies
-    def skip_dependency?(params, name)
-      return false unless params[:only].present?
-
-      !params[:only].any? { |key| key.to_s == name.to_s }
-    end
-
-    def perform(params:, state:)
+    def copy_dependency(params:)
       raise NotImplementedError
     end
   end

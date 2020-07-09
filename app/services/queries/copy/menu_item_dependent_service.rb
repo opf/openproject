@@ -28,15 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
+module Queries::Copy
+  class MenuItemDependentService < ::Copy::Dependency
     protected
 
     def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
+      duplicate_query_menu_item(source, target)
+    end
+
+    def duplicate_query_menu_item(query, new_query)
+      if query.query_menu_item && new_query.persisted?
+        ::MenuItems::QueryMenuItem.create(
+          navigatable_id: new_query.id,
+          name: SecureRandom.uuid,
+          title: query.query_menu_item.title
+        )
       end
     end
   end

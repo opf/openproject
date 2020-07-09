@@ -32,7 +32,7 @@ module Projects::Copy
   class MembersDependentService < ::Copy::Dependency
     protected
 
-    def perform(params:, state:)
+    def copy_dependency(*)
       # Copy users first, then groups to handle members with inherited and given roles
       members_to_copy = []
       members_to_copy += source.memberships.select { |m| m.principal.is_a?(User) }

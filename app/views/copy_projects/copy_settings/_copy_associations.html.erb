@@ -34,6 +34,9 @@ See docs/COPYRIGHT.rdoc for more details.
              locals: { name: "queries", checked: true, label: l(:label_query_plural),
                           count: project.queries.count } %>
   <%= render partial: "copy_projects/copy_settings/block_checkbox",
+             locals: { name: "boards", checked: true, label: l('boards.label_boards'),
+                       count: ::Boards::Grid.where(project: project).count } %>
+  <%= render partial: "copy_projects/copy_settings/block_checkbox",
              locals: { name: "forums", checked: false, label: l(:label_forum_plural),
                           count: project.forums.count } %>
   <%= render partial: "copy_projects/copy_settings/block_checkbox",

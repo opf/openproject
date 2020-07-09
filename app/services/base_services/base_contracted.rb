@@ -29,7 +29,7 @@
 #++
 
 module BaseServices
-  class BaseContracted
+  class BaseContracted < BaseCallable
     include Contracted
     include Shared::ServiceContext
 
@@ -41,23 +41,19 @@ module BaseServices
       self.contract_options = contract_options
     end
 
-    def call(params = nil)
-      in_context(model, true) do
-        perform(params)
-      end
-    end
-
     protected
 
     def perform(params)
-      service_call = before_perform(params)
+      in_context(model, true) do
+        service_call = before_perform(params)
 
-      service_call = validate_contract(service_call) if service_call.success?
-      service_call = after_validate(params, service_call) if service_call.success?
-      service_call = persist(service_call) if service_call.success?
-      service_call = after_perform(service_call) if service_call.success?
+        service_call = validate_contract(service_call) if service_call.success?
+        service_call = after_validate(params, service_call) if service_call.success?
+        service_call = persist(service_call) if service_call.success?
+        service_call = after_perform(service_call) if service_call.success?
 
-      service_call
+        service_call
+      end
     end
 
     def before_perform(_params)

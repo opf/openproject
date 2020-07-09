@@ -28,15 +28,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
+module Boards::Copy
+  class WidgetsDependentService < ::Copy::Dependency
     protected
 
     def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
+      copy_widgets(source, target, params)
+    end
+
+    def copy_widgets(board, new_board, params)
+      board.widgets.find_each do |widget|
+        unless widget.identifier == 'work_package_query'
+          raise "Expected widget work_package_query, got #{widget.identifier}"
+        end
+
+        new_widget = duplicate_widget(widget, new_board, params)
+
+        if new_widget && !new_widget.save
+          add_error!(new_widget, new_widget.errors)
+        end
+      end
+    end
+
+    def duplicate_widget(widget, new_board, params)
+      new_widget = widget.dup
+      new_widget.grid = new_board
+
+      query = Query.find widget.options['queryId']
+
+      call = ::Queries::CopyService
+        .new(user: user, source: query)
+        .with_state(state)
+        .call(params)
+
+      if call.success?
+        new_widget.options['queryId'] = call.result.id.to_s
+        new_widget
+      else
+        add_error! widget, call.errors
+        nil
       end
     end
   end

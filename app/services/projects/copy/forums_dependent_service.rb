@@ -32,7 +32,7 @@ module Projects::Copy
   class ForumsDependentService < ::Copy::Dependency
     protected
 
-    def perform(params:, state:)
+    def copy_dependency(params:)
       source.forums.find_each do |forum|
         new_forum = Forum.new
         new_forum.attributes = forum.attributes.dup.except('id',

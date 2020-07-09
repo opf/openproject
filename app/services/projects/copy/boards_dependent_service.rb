@@ -29,14 +29,25 @@
 #++
 
 module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
+  class BoardsDependentService < ::Copy::Dependency
     protected
 
-    def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
+    # Copies boards from +project+
+    # Only includes the queries visible in the wp table view.
+    def copy_dependency(params)
+      ::Boards::Grid.where(project: source).find_each do |board|
+        duplicate_board(board, params)
+      end
+    end
+
+    def duplicate_board(board, params)
+      ::Boards::CopyService
+        .new(source: board, user: user)
+        .with_state(state)
+        .call(params.merge)
+        .on_failure do |result|
+
+        add_error! board, result.errors
       end
     end
   end

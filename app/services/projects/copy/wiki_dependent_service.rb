@@ -34,7 +34,7 @@ module Projects::Copy
 
     protected
 
-    def perform(params:, state:)
+    def copy_dependency(params:)
       # Check that the source project has a wiki first
       return if source.wiki.nil?
 

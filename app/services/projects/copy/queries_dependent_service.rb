@@ -32,53 +32,22 @@ module Projects::Copy
   class QueriesDependentService < ::Copy::Dependency
     protected
 
-    def perform(params:, state:)
-      copy_queries(state[:work_packages_map])
-    end
-
     # Copies queries from +project+
     # Only includes the queries visible in the wp table view.
-    def copy_queries(work_packages_map)
-
+    def copy_dependency(params:)
       source.queries.non_hidden.includes(:query_menu_item).each do |query|
-        new_query = duplicate_query(query)
-        duplicate_query_menu_item(query, new_query)
-        duplicate_query_order(query, new_query, work_packages_map) if query.manually_sorted?
+        duplicate_query(query, params)
       end
     end
 
-    def duplicate_query(query)
-      new_query = ::Query.new name: '_'
-      new_query.attributes = query.attributes.dup.except('id', 'project_id', 'sort_criteria')
-      new_query.sort_criteria = query.sort_criteria if query.sort_criteria
-      new_query.set_context
-      new_query.project = target
-      target.queries << new_query
-      new_query.set_context
+    def duplicate_query(query, params)
+      ::Queries::CopyService
+        .new(source: query, user: user)
+        .with_state(state)
+        .call(params.merge)
+        .on_failure do |result|
 
-      new_query
-    end
-
-    def duplicate_query_order(query, new_query, work_packages_map)
-      query.ordered_work_packages.find_each do |ordered_wp|
-        wp_id = work_packages_map[ordered_wp.work_package_id]
-        # Nothing to do if the work package could not be copied for whatever reason
-        next unless wp_id
-
-        copied = ordered_wp.dup
-        copied.query_id = new_query.id
-        copied.work_package_id = wp_id
-        copied.save
-      end
-    end
-
-    def duplicate_query_menu_item(query, new_query)
-      if query.query_menu_item && new_query.persisted?
-        ::MenuItems::QueryMenuItem.create(
-          navigatable_id: new_query.id,
-          name: SecureRandom.uuid,
-          title: query.query_menu_item.title
-        )
+        add_error! query, result.errors
       end
     end
   end

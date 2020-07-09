@@ -34,13 +34,14 @@ module BaseServices
     # BaseContracted needs a `model` attribute
     alias_attribute :model, :source
 
-    def initialize(user:, source:, contract_class: nil, contract_options: { copied_from: source })
+    def initialize(user:, source:, contract_class: nil, contract_options: { copy_source: source })
       @source = source
       super(user: user, contract_class: contract_class, contract_options: contract_options)
     end
 
     def call(params)
       User.execute_as(user) do
+        prepare(params)
         perform(params)
       end
     end
@@ -52,11 +53,10 @@ module BaseServices
       # Return only the unsaved copy
       return call if params[:attributes_only]
 
-      # Allow to keep a state object between services
-      state = {}
-
       copy_dependencies.each do |service_cls|
-        call.merge! call_dependent_service(service_cls, target: call.result, params: params, state: state)
+        next if skip_dependency?(params, service_cls)
+
+        call.merge! call_dependent_service(service_cls, target: call.result, params: params)
       end
 
       call
@@ -65,17 +65,34 @@ module BaseServices
     protected
 
     ##
+    # Should the dependency be skipped for this service run?
+    def skip_dependency?(_params, _dependency_cls)
+      false
+    end
+
+    ##
+    # Sets up a state object that gets
+    # passed around to all service calls from here
+    #
+    # Note that for dependent copy services to be called
+    # this will already be present.
+    def prepare(params)
+      params[:copy_state] ||= {}
+    end
+
+    ##
     # dependent services to copy associations
     def copy_dependencies
-      raise NotImplementedError
+      []
     end
 
     ##
     # Calls a dependent service with the source and copy instance
-    def call_dependent_service(service_cls, target:, params:, state:)
+    def call_dependent_service(service_cls, target:, params:)
       service_cls
-        .new(source: model, target: target, user: user)
-        .call(params: params, state: state)
+        .new(source: source, target: target, user: user)
+        .with_state(state)
+        .call(params: params)
     end
 
     def initialize_copy(source, params)

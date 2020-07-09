@@ -28,15 +28,38 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
-    protected
+module WithReversibleState
+  extend ActiveSupport::Concern
 
-    def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
+  included do
+    attr_reader :state
+    around_call :assign_state
+
+    ##
+    # Reuse or append state to the service
+    def with_state(state = {})
+      @state = ::Shared::ServiceState.build(state)
+      self
+    end
+
+    ##
+    # Access to the shared service state
+    def state
+      @state ||= ::Shared::ServiceState.build
+    end
+
+    ##
+    # Rollback changes made
+    def rollback
+      # Nothing to do by default
+    end
+
+    ##
+    # Assign state to the service result
+    def assign_state
+      yield.tap do |call|
+        state.called!(self)
+        call.state = state
       end
     end
   end

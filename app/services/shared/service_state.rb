@@ -27,17 +27,43 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require "ostruct"
 
-module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
-    protected
+##
+# Service state object to be passed around services
+# for remembering state between service calls (e.g., when copying).
+#
+# Borrows heavily from interactor gem's context class at
+# https://github.com/collectiveidea/interactor
+module Shared
+  class ServiceState < OpenStruct
+    ##
+    # Builds the context object unless
+    # it's already an instance of this context.
+    def self.build(state = {})
+      self === state ? state : new(state)
+    end
 
-    def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
+    ##
+    # Remember that the state was passed to the given service
+    def called!(service)
+      _called << service
+    end
+
+    # Roll back the context on all used services
+    def rollback!
+      return false if @rolled_back
+
+      _called.reverse_each do |service|
+        Rails.logger.debug { "[Service state] Rolling back execution of #{service}." }
+        service.rollback
       end
+      @rolled_back = true
+    end
+
+    # Remembered service calls this context was used against
+    def _called
+      @_called ||= []
     end
   end
 end

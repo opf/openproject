@@ -30,7 +30,24 @@
 
 module Projects
   class CopyService < ::BaseServices::Copy
+
+    ##
+    # In case a rollback is needed,
+    # destroy the copied project again.
+    def rollback
+      state.project&.destroy
+    end
+
     protected
+
+    ##
+    # Whether to skip the given key.
+    # Useful when copying nested dependencies
+    def skip_dependency?(params, dependency_cls)
+      return false unless params[:only].present?
+
+      params[:only].none? { |key| key.to_s == dependency_cls.identifier.to_s }
+    end
 
     def copy_dependencies
       [
@@ -40,7 +57,8 @@ module Projects
         ::Projects::Copy::WorkPackagesDependentService,
         ::Projects::Copy::WikiDependentService,
         ::Projects::Copy::ForumsDependentService,
-        ::Projects::Copy::QueriesDependentService
+        ::Projects::Copy::QueriesDependentService,
+        ::Projects::Copy::BoardsDependentService
       ]
     end
 
@@ -68,11 +86,15 @@ module Projects
         .new(user: user,
              model: target,
              contract_class: Projects::CopyContract,
-             contract_options: { copied_from: source })
+             contract_options: { copy_source: source })
         .call(target_project_params)
 
       # Retain values after the set attributes service
       retain_attributes(source, target, target_project_params)
+
+      # Retain the project in the state for other dependent
+      # copy services to use
+      state.project = target
 
       call
     end

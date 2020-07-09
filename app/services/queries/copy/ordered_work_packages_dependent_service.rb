@@ -28,15 +28,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
+module Queries::Copy
+  class OrderedWorkPackagesDependentService < ::Copy::Dependency
     protected
 
     def copy_dependency(params:)
-      source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
+      return unless source.manually_sorted?
+
+      duplicate_query_order(source, target)
+    end
+
+    def duplicate_query_order(query, new_query)
+      query.ordered_work_packages.find_each do |ordered_wp|
+        wp_id = lookup_work_package_id(ordered_wp.work_package_id)
+        # Nothing to do if the work package could not be copied for whatever reason
+        next unless wp_id
+
+        copied = ordered_wp.dup
+        copied.query_id = new_query.id
+        copied.work_package_id = wp_id
+        copied.save
+      end
+    end
+
+    ##
+    # Tries to lookup the work package id if
+    # we're in a mapped condition (e.g., copying a project)
+    def lookup_work_package_id(id)
+      if state.work_package_id_lookup
+        state.work_package_id_lookup[id]
+      else
+        id
       end
     end
   end
