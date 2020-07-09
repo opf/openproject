@@ -60,7 +60,7 @@ export class BackRoutingService {
         if (preferListOverSplit) {
           this.$state.go(baseRoute, this.$state.params);
         } else {
-          this.$state.go(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
+          this.$state.go(baseRoute + this.keepTab.currentDetailsSubState, this.$state.params);
         }
       } else {
         this.$state.go(this.backRoute.name, this.backRoute.params);
