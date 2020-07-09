@@ -227,7 +227,7 @@ fi:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
-    enumeration_activities: "Historia (ajan seuranta)"
+    enumeration_activities: "Tyypit (työajanseuranta)"
     enumeration_doc_categories: "Tiedostoluokat"
     enumeration_work_package_priorities: "Work package priorities"
     filter:
@@ -511,7 +511,7 @@ fi:
         more_information: "Lisätietoja"
         nevermind: "Nevermind"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Lomakkeen muokkaus"
         projects: "Projektit"
         settings: "Asetukset"
     time_entry:
@@ -535,7 +535,7 @@ fi:
       typeahead_placeholder: Etsi mahdollisia seuraajia
     relation_labels:
       parent: "Ylätaso"
-      children: "Lapset"
+      children: "Aliriippuvuudet"
       relates: "Liittyy"
       duplicates: "Kaksoiskappaleet"
       duplicated: "Päällekkäistä"
@@ -547,11 +547,11 @@ fi:
       partof: "Osa"
       requires: "Edellyttää"
       required: "Edellyttämä"
-      relation_type: "suhdetyyppi"
+      relation_type: "riippuvuuden tyyppi"
     relations_hierarchy:
       parent_headline: "Ylätaso"
       hierarchy_headline: "Hierarkia"
-      children_headline: "Lapset"
+      children_headline: "Aliriippuvuudet"
     relation_buttons:
       set_parent: "Aseta ylätehtävä"
       change_parent: "Vaihda pääkohdetta"
@@ -566,7 +566,7 @@ fi:
       add_existing: "Add existing"
       add_existing_child: "Lisää olemassaoleva aliriippuvuus"
       remove_child: "Poista aliriippuvuus"
-      add_new_relation: "Luo uusi suhde"
+      add_new_relation: "Luo uusi riippuvuus"
       add_existing_relation: "Add existing relation"
       update_description: "Määritä tai päivitä tämän suhteen kuvaus"
       toggle_description: "Toggle relation description"
@@ -574,7 +574,7 @@ fi:
       add_follower: "Add follower"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
-      save: "Tallenna suhde"
+      save: "Tallenna riippuvuus"
       abort: "Keskeytä"
     relations_autocomplete:
       placeholder: "Haku"
@@ -768,7 +768,7 @@ fi:
         label_content: "Paina tästä siirtyäksesi suoraan sisältöön"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Muokkaa klikkaamalla..."
       query:
         column_names: "Sarakkeet"
         group_by: "Ryhmittele tulokset"
@@ -830,14 +830,14 @@ fi:
         columns_help_text: "Käytä yläpuolella olevaa kenttää taulunäkymän sarakkeiden valintaan. Voit järjestää sarakkeita raahaamalla niitä."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
-          relation_columns: 'Täytyy nähdä suhteet toimia paketti lista?'
+          relation_columns: 'Täytyy nähdä riippuvuudet tehtävälistassa?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Yleiskatsaus
         activity: Tapahtumat
-        relations: Suhteet
+        relations: Riippuvuudet
         watchers: Seuraajat
         attachments: Liitteet
       time_relative:
