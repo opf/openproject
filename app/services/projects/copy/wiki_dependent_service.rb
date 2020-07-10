@@ -73,7 +73,7 @@ module Projects::Copy
       end
 
       # Copy attachments
-      unless skip_dependency?(params, :wiki_page_attachments)
+      unless params[:only].present? && !params[:only].include?(:wiki_page_attachments)
         wiki_pages_map.each do |old_page, new_page|
           copy_attachments(old_page.id, new_page.id, new_page.class.name)
         end
