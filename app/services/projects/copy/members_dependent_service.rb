@@ -29,7 +29,7 @@
 #++
 
 module Projects::Copy
-  class MembersDependentService < ::Copy::Dependency
+  class MembersDependentService < Dependency
     protected
 
     def copy_dependency(*)

@@ -29,7 +29,7 @@
 #++
 
 module Projects::Copy
-  class WorkPackagesDependentService < ::Copy::Dependency
+  class WorkPackagesDependentService < Dependency
     include ::Copy::Concerns::CopyAttachments
 
     protected
@@ -63,7 +63,7 @@ module Projects::Copy
         next unless new_wp_id
 
         # Attachments
-        unless params[:only].present? && !params[:only].include?(:work_package_attachments)
+        if should_copy?(params, :work_package_attachments)
           copy_attachments(wp.id, new_wp_id, 'WorkPackage')
         end
 

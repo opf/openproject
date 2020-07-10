@@ -29,7 +29,7 @@
 #++
 
 module Projects::Copy
-  class CategoriesDependentService < ::Copy::Dependency
+  class CategoriesDependentService < Dependency
     protected
 
     def copy_dependency(params:)

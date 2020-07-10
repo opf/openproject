@@ -29,15 +29,16 @@
 #++
 
 module Projects::Copy
-  class VersionsDependentService < Dependency
-    protected
+  class Dependency < ::Copy::Dependency
+    delegate :should_copy?, to: :class
 
-    def copy_dependency(params:)
-      source.versions.each do |version|
-        new_version = Version.new
-        new_version.attributes = version.attributes.dup.except('id', 'project_id', 'created_on', 'updated_at')
-        target.versions << new_version
-      end
+    ##
+    # Check whether this dependency should be copied
+    # as it was selected
+    def self.should_copy?(params, check)
+      return true unless params[:only].present?
+
+      params[:only].any? { |key| key.to_sym == check }
     end
   end
 end

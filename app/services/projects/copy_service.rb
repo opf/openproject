@@ -44,9 +44,7 @@ module Projects
     # Whether to skip the given key.
     # Useful when copying nested dependencies
     def skip_dependency?(params, dependency_cls)
-      return false unless params[:only].present?
-
-      params[:only].none? { |key| key.to_s == dependency_cls.identifier.to_s }
+      !Copy::Dependency.should_copy?(params, dependency_cls.identifier.to_sym)
     end
 
     def copy_dependencies

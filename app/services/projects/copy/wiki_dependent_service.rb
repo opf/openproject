@@ -29,7 +29,7 @@
 #++
 
 module Projects::Copy
-  class WikiDependentService < ::Copy::Dependency
+  class WikiDependentService < Dependency
     include ::Copy::Concerns::CopyAttachments
 
     protected
@@ -73,7 +73,7 @@ module Projects::Copy
       end
 
       # Copy attachments
-      unless params[:only].present? && !params[:only].include?(:wiki_page_attachments)
+      if should_copy?(params, :wiki_page_attachments)
         wiki_pages_map.each do |old_page, new_page|
           copy_attachments(old_page.id, new_page.id, new_page.class.name)
         end

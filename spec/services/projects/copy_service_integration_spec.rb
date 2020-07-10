@@ -316,7 +316,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
       describe 'in an ordered query (Feature #31317)' do
         let!(:query) do
-          FactoryBot.create(:query, user: current_user, project: source, show_hierarchies: false).tap do |q|
+          FactoryBot.create(:query, name: 'Manual query', user: current_user, project: source, show_hierarchies: false).tap do |q|
             q.sort_criteria = [[:manual_sorting, 'asc']]
             q.save!
           end
@@ -335,7 +335,7 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(project_copy.work_packages.count).to eq(4)
           expect(project_copy.queries.count).to eq(2)
 
-          manual_query = project_copy.queries.first
+          manual_query = project_copy.queries.find_by name: 'Manual query'
           expect(manual_query).to be_manually_sorted
 
           expect(query.ordered_work_packages.count).to eq 3

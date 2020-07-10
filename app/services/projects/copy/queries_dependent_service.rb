@@ -29,7 +29,7 @@
 #++
 
 module Projects::Copy
-  class QueriesDependentService < ::Copy::Dependency
+  class QueriesDependentService < Dependency
     protected
 
     # Copies queries from +project+

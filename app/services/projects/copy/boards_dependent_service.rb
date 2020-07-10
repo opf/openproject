@@ -29,7 +29,7 @@
 #++
 
 module Projects::Copy
-  class BoardsDependentService < ::Copy::Dependency
+  class BoardsDependentService < Dependency
     protected
 
     # Copies boards from +project+
