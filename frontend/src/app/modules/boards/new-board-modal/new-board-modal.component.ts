@@ -58,6 +58,7 @@ export class NewBoardModalComponent extends OpModalComponent {
 
     free_board: this.I18n.t('js.boards.board_type.free'),
     free_board_text: this.I18n.t('js.boards.board_type.free_text'),
+    board_type: this.I18n.t('js.boards.board_type.text'),
 
     action_board: this.I18n.t('js.boards.board_type.action'),
     action_board_text: this.I18n.t('js.boards.board_type.action_text'),
