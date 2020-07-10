@@ -87,10 +87,6 @@ ko:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.
       no_results_content_text: 새 사용인증 모드 생성
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.
@@ -416,7 +412,6 @@ ko:
         types: "종류"
         versions: "버전"
         work_packages: "작업 패키지"
-        templated: 'Template project'
       projects/status:
         code: '상태'
         explanation: '상태 설명'
@@ -488,7 +483,6 @@ ko:
         parent_work_package: "부모"
         priority: "우선 순위"
         progress: "진행률 (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
         subproject: "하위 프로젝트"
@@ -883,7 +877,6 @@ ko:
       - "10월"
       - "11월"
       - "12월"
-    abbr_week: 'Wk'
     day_names:
       - "일요일"
       - "월요일"
@@ -1107,8 +1100,6 @@ ko:
     work_package_edit: '작업 패키지 편집됨'
     work_package_note: '작업 패키지 메모 추가됨'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1616,7 +1607,6 @@ ko:
   label_time_entry_plural: "소비한 시간"
   label_time_sheet_menu: "시간 시트"
   label_time_tracking: "시간 추적"
-  label_projects_menu: "프로젝트"
   label_today: "오늘"
   label_top_menu: "상단 메뉴"
   label_topic_plural: "항목"
@@ -1932,12 +1922,6 @@ ko:
       warning_one: 프로젝트 멤버는 프로젝트의 리포지토리를 재배치해야 합니다.
       warning_two: 프로젝트의 기존 링크는 더 이상 작동하지 않습니다.
       title: 프로젝트의 식별자 변경
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
       archived: "보관됨"

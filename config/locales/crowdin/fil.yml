@@ -87,10 +87,6 @@ fil:
     index:
       no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
       no_results_content_text: Gumawa ng bagong authentication mode
-  background_jobs:
-    status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -418,7 +414,6 @@ fil:
         types: "Mga uri"
         versions: "Mga bersyon"
         work_packages: "Ang mga pakete na ginawa"
-        templated: 'Template project'
       projects/status:
         code: 'Estado'
         explanation: 'Status description'
@@ -490,7 +485,6 @@ fil:
         parent_work_package: "Magulang"
         priority: "Ang prayoridad"
         progress: "Isinasagawa (%)"
-        schedule_manually: "Schedule manually"
         spent_hours: "Nauubos na oras"
         spent_time: "Nauubos na oras"
         subproject: "Kahaliling proyekto"
@@ -888,7 +882,6 @@ fil:
       - "Oktubre"
       - "Nobyembre"
       - "Disyembre"
-    abbr_week: 'Wk'
     day_names:
       - "Linggo"
       - "Lunes"
@@ -1124,8 +1117,6 @@ fil:
     work_package_edit: 'Naka-edit ang work package'
     work_package_note: 'Nadagdag ang talaan ng work package'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1633,7 +1624,6 @@ fil:
   label_time_entry_plural: "Nauubos na oras"
   label_time_sheet_menu: "Time sheet"
   label_time_tracking: "Time tracking"
-  label_projects_menu: "Mga proyekto"
   label_today: "ngayon"
   label_top_menu: "Itaas na pagpipilian"
   label_topic_plural: "Mga paksa"
@@ -1954,12 +1944,6 @@ fil:
       warning_one: Ang mga miyembro ng proyekto ay kinakailangang ilipat ang mga repository ng proyekto.
       warning_two: Ang mga umiiral na mga link sa proyekto ay hindi na maaring magamit.
       title: Baguhin ang mga pagkakilanlan ng proyekto
-    template:
-      copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?"
       archived: "Archived"
