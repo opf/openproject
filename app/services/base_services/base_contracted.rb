@@ -43,8 +43,20 @@ module BaseServices
 
     protected
 
-    def perform(params)
-      in_context(model, true) do
+    ##
+    # Reference to a resource that we're servicing
+    attr_accessor :model
+
+    ##
+    # Determine the type of context
+    # this service is running in
+    # e.g., within a resource lock or just executing as the given user
+    def service_context(&block)
+      in_context(model, true, &block)
+    end
+
+    def perform(params = nil)
+      service_context do
         service_call = before_perform(params)
 
         service_call = validate_contract(service_call) if service_call.success?

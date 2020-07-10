@@ -35,15 +35,15 @@ module BaseServices
 
     include ::WithReversibleState
 
-    def call(*args)
+    def call(params = {})
       run_callbacks(:call) do
-        perform(*args)
+        perform(params)
       end
     end
 
     protected
 
-    def perform(*args)
+    def perform(params)
       raise NotImplementedError
     end
   end

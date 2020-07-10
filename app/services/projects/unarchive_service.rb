@@ -32,17 +32,21 @@ module Projects
   class UnarchiveService < ::BaseServices::BaseContracted
     include Contracted
 
-    def initialize(user:, model:, contract_class: Projects::UnarchiveContract)
+    def initialize(user:, project:, contract_class: Projects::UnarchiveContract)
       super(user: user, contract_class: contract_class)
-      self.model = model
+      self.project = project
     end
 
     private
 
-    attr_accessor :model
+    attr_accessor :project
+
+    def model
+      project
+    end
 
     def persist(service_call)
-      activate_project(model)
+      activate_project(project)
 
       service_call
     end

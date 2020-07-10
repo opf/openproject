@@ -30,12 +30,10 @@
 
 module BaseServices
   class Copy < ::BaseServices::BaseContracted
-    attr_reader :source
-    # BaseContracted needs a `model` attribute
-    alias_attribute :model, :source
+    alias_attribute(:source, :model)
 
     def initialize(user:, source:, contract_class: nil, contract_options: { copy_source: source })
-      @source = source
+      self.source = source
       super(user: user, contract_class: contract_class, contract_options: contract_options)
     end
 
@@ -48,7 +46,7 @@ module BaseServices
 
     def after_validate(params, _call)
       # Initialize the target resource to copy into
-      call = initialize_copy(model, params)
+      call = initialize_copy(source, params)
 
       # Return only the unsaved copy
       return call if params[:attributes_only]
