@@ -58,7 +58,7 @@ function initializeTour(storageValue:any, disabledElements?:any, projectSelectio
         jQuery(disabledElements).removeClass('-disabled').unbind('click', preventClickHandler);
       }
       if (projectSelection) {
-        $.each(demoProjectsLinks(), function (i, e) {
+        jQuery.each(demoProjectsLinks(), function (i, e) {
           jQuery(e).off('click');
         });
       }
