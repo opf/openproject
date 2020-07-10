@@ -30,7 +30,7 @@ import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ReplaySubject} from 'rxjs';
 import {Injectable} from "@angular/core";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class KeepTabService {
   protected currentTab:string = 'overview';
 
@@ -112,24 +112,20 @@ export class KeepTabService {
     if (stateName === 'show') {
       return this.$state.includes('work-packages.show.*');
     }
-
     if (stateName === 'details') {
-      return this.$state.includes('work-packages.partitioned.list.details.*');
+      return this.$state.includes('**.details.*');
     }
 
     return false;
   }
 
   public updateTabs(stateName?:string) {
-
     // Ignore the switch from show#activity to details#activity
     // and show details#overview instead
-
     if (stateName === 'work-packages.show.activity') {
       this.currentTab = 'overview';
       return this.notify();
     }
-
     this.updateTab('show');
     this.updateTab('details');
   }

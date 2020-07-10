@@ -43,7 +43,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:status) { FactoryBot.create :default_status }
-
   let(:board_index) { Pages::BoardIndex.new(project) }
   let!(:board_view) { FactoryBot.create :board_grid_with_query, name: 'My board', project: project }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
@@ -65,7 +64,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
     wp = WorkPackage.last
     expect(wp.subject).to eq 'Task 1'
-
     # Double click leads to the full view
     click_target = board_page.find('.wp-card--type')
     page.driver.browser.action.double_click(click_target.native).perform
@@ -112,5 +110,34 @@ describe 'Work Package boards spec', type: :feature, js: true do
     board_page = ::Pages::Board.new board_view
     board_page.expect_query 'List 1', editable: true
     board_page.add_card 'List 1', 'Task 1'
+  end
+
+  it 'navigates from boards to the WP details view then go to full view then go back (see #33747)' do
+    board_index.visit!
+
+    # Add a new WP on the board
+    board_page = board_index.open_board board_view
+    board_page.expect_query 'List 1', editable: true
+    board_page.add_card 'List 1', 'Task 1'
+    board_page.expect_notification message: I18n.t(:notice_successful_create)
+
+    wp = WorkPackage.last
+    expect(wp.subject).to eq 'Task 1'
+    # Open the details page with the info icon
+    card = board_page.card_for(wp)
+    split_view = card.open_details_view
+    split_view.expect_subject
+    split_view.switch_to_tab tab: 'Relations'
+
+    # Go to full view of WP
+    full_view = split_view.switch_to_fullscreen
+    full_view.expect_tab 'Relations'
+
+    # Go back to details view with selected tab
+    full_view.go_back
+    split_view.expect_subject
+
+    expect(page).to have_current_path /details\/#{wp.id}\/relations/
+    split_view.expect_tab 'Relations'
   end
 end
