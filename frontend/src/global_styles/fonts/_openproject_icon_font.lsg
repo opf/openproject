@@ -243,6 +243,7 @@
 <li><span class="icon icon-view-fullscreen"></span>view-fullscreen</li>
 <li><span class="icon icon-view-list"></span>view-list</li>
 <li><span class="icon icon-view-model"></span>view-model</li>
+<li><span class="icon icon-view-split-viewer-table"></span>view-split-viewer-table</li>
 <li><span class="icon icon-view-split"></span>view-split</li>
 <li><span class="icon icon-view-split2"></span>view-split2</li>
 <li><span class="icon icon-view-timeline"></span>view-timeline</li>

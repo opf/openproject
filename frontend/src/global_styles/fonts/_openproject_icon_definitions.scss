@@ -1438,93 +1438,99 @@
 .icon-view-model:before {
 	content: "\f1f0";
 }
-@mixin icon-mixin-view-split {
+@mixin icon-mixin-view-split-viewer-table {
     content: "\f1f1";
 }
-.icon-view-split:before {
+.icon-view-split-viewer-table:before {
 	content: "\f1f1";
 }
-@mixin icon-mixin-view-split2 {
+@mixin icon-mixin-view-split {
     content: "\f1f2";
 }
-.icon-view-split2:before {
+.icon-view-split:before {
 	content: "\f1f2";
 }
-@mixin icon-mixin-view-timeline {
+@mixin icon-mixin-view-split2 {
     content: "\f1f3";
 }
-.icon-view-timeline:before {
+.icon-view-split2:before {
 	content: "\f1f3";
 }
-@mixin icon-mixin-warning {
+@mixin icon-mixin-view-timeline {
     content: "\f1f4";
 }
-.icon-warning:before {
+.icon-view-timeline:before {
 	content: "\f1f4";
 }
-@mixin icon-mixin-watched {
+@mixin icon-mixin-warning {
     content: "\f1f5";
 }
-.icon-watched:before {
+.icon-warning:before {
 	content: "\f1f5";
 }
-@mixin icon-mixin-wiki-edit {
+@mixin icon-mixin-watched {
     content: "\f1f6";
 }
-.icon-wiki-edit:before {
+.icon-watched:before {
 	content: "\f1f6";
 }
-@mixin icon-mixin-wiki {
+@mixin icon-mixin-wiki-edit {
     content: "\f1f7";
 }
-.icon-wiki:before {
+.icon-wiki-edit:before {
 	content: "\f1f7";
 }
-@mixin icon-mixin-wiki2 {
+@mixin icon-mixin-wiki {
     content: "\f1f8";
 }
-.icon-wiki2:before {
+.icon-wiki:before {
 	content: "\f1f8";
 }
-@mixin icon-mixin-work-packages {
+@mixin icon-mixin-wiki2 {
     content: "\f1f9";
 }
-.icon-work-packages:before {
+.icon-wiki2:before {
 	content: "\f1f9";
 }
-@mixin icon-mixin-workflow {
+@mixin icon-mixin-work-packages {
     content: "\f1fa";
 }
-.icon-workflow:before {
+.icon-work-packages:before {
 	content: "\f1fa";
 }
-@mixin icon-mixin-yes {
+@mixin icon-mixin-workflow {
     content: "\f1fb";
 }
-.icon-yes:before {
+.icon-workflow:before {
 	content: "\f1fb";
 }
-@mixin icon-mixin-zen-mode {
+@mixin icon-mixin-yes {
     content: "\f1fc";
 }
-.icon-zen-mode:before {
+.icon-yes:before {
 	content: "\f1fc";
 }
-@mixin icon-mixin-zoom-auto {
+@mixin icon-mixin-zen-mode {
     content: "\f1fd";
 }
-.icon-zoom-auto:before {
+.icon-zen-mode:before {
 	content: "\f1fd";
 }
-@mixin icon-mixin-zoom-in {
+@mixin icon-mixin-zoom-auto {
     content: "\f1fe";
 }
-.icon-zoom-in:before {
+.icon-zoom-auto:before {
 	content: "\f1fe";
 }
-@mixin icon-mixin-zoom-out {
+@mixin icon-mixin-zoom-in {
     content: "\f1ff";
 }
-.icon-zoom-out:before {
+.icon-zoom-in:before {
 	content: "\f1ff";
+}
+@mixin icon-mixin-zoom-out {
+    content: "\f200";
+}
+.icon-zoom-out:before {
+	content: "\f200";
 }
