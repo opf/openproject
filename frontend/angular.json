@@ -14,6 +14,7 @@
           "options": {
             "preserveSymlinks": true,
             "aot": true,
+            "deployUrl": "/assets/frontend/",
             "outputPath": "../public/assets/frontend/",
             "index": "src/index2.html",
             "main": "src/main.ts",
