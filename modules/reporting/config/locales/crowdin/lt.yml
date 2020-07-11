@@ -22,7 +22,7 @@
 lt:
   button_save_as: "Įrašyti ataskaitą kaip..."
   comments: "Komentaras"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Laikas ir išlaidos"
   label_cost_report: "Kaštų ataskaita"
   label_cost_report_plural: "Kaštų ataskaitos"
   description_drill_down: "Rodyti Išsamią informaciją"

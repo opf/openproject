@@ -152,7 +152,7 @@ fi:
       label: 'Muista'
       clear_cookie: 'Click here to remove all remembered 2FA sessions.'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+      dont_ask_again: "Muista kaksivaiheinen tunnistaminen tällä laitteella seuraavat %{days} päivää."
   field_phone: "Matkapuhelin"
   field_otp: "Kertakäyttösalasana"
   notice_account_otp_invalid: "Virheellinen kertakäyttösalasana."

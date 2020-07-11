@@ -263,7 +263,7 @@ fi:
       blocks:
         new_features:
           text_new_features: "Tietoa uusista ominaisuuksista ja tuotepäivityksistä."
-          learn_about: "Learn more about the new features"
+          learn_about: "Lisätietoja uusista ominaisuuksista"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >

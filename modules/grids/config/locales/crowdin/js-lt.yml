@@ -3,7 +3,7 @@ lt:
     grid:
       add_widget: 'Pridėti valdiklį'
       remove: 'Išimti valdiklį'
-      configure: 'Configure widget'
+      configure: 'Valdiklio nustatymai'
       upsale:
         text: "Kai kurie valdikliai, pavyzdžiui darbo paketų grafo valdiklis, galimi tik "
         link: '„Enterprise edition“.'
@@ -40,7 +40,7 @@ lt:
           no_results: 'Nėra su-projektų.'
         time_entries_current_user:
           title: 'Mano sugaištas laikas'
-          displayed_days: 'Days displayed in the widget:'
+          displayed_days: 'Valdiklyje rodomos dienos:'
         time_entries_list:
           title: 'Sugaišta laiko (per paskutines 7 dienas)'
           no_results: 'Nėra laiko įrašų per paskutines 7 dienas.'
