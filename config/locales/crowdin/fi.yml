@@ -1793,7 +1793,7 @@ fi:
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
   notice_account_invalid_credentials: "Virheellinen käyttäjätunnus tai salasana"
-  notice_account_invalid_credentials_or_blocked: "Pätemätön käyttäjä tai salasana tai tili on tukossa koska useita epäonnistunut kirjautuminen yrityksiä. Jos on, niin se vapauttaa automaattisesti lyhyessä ajassa."
+  notice_account_invalid_credentials_or_blocked: "Virheellinen käyttäjä, salasana tai tili on lukittu virheellisten kirjautumisyritysten seurauksena. Lukitus vapautuu automaattisesti hetken kuluttua."
   notice_account_lost_email_sent: "Sinulle on lähetetty sähköposti jossa on ohje kuinka vaihdat salasanasi."
   notice_account_new_password_forced: "Uusi salasana on vaaditaan."
   notice_account_password_expired: "Your password expired after %{days} days. Please set a new one."
