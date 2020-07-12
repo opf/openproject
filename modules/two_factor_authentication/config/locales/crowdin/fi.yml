@@ -18,7 +18,7 @@ fi:
     models:
       two_factor_authentication/device: "2FA laite"
       two_factor_authentication/device/sms: "Kännykkä"
-      two_factor_authentication/device/totp: "Authenticator -sovellus"
+      two_factor_authentication/device/totp: "Kaksivaiheisen kirjautumisen salasanasovellus"
   two_factor_authentication:
     error_2fa_disabled: "2FA-toimitus on poistettu käytöstä."
     error_no_device: "Tälle käyttäjälle ei löytynyt rekisteröityä 2FA-laitetta, vaikkei sitä tarvita tässä tapauksessa."
@@ -87,7 +87,7 @@ fi:
         keep_safe_warning: 'Joko tallenna ne salasanahallintaasi tai tulosta sivu ja säilytä se turvallisessa paikassa.'
         regenerate_warning: 'Varoitus: Jos olet luonut varmuuskopiokoodit aiemmin, ne mitätöidään ja eivät enää toimi.'
     devices:
-      add_new: 'Lisää uusi 2FA-laite'
+      add_new: 'Lisää todennuslaite'
       register: 'Rekisteröi laite'
       confirm_default: 'Vahvista oletuslaitteen muuttaminen'
       confirm_device: 'Vahvista laite'
@@ -101,7 +101,7 @@ fi:
       registration_failed_update: '2FA laitteen rekisteröinti epäonnistui, merkki oli voimassa, mutta laitetta ei voitu päivittää.'
       confirm_send_failed: 'Confirmation of your 2FA device failed.'
       button_complete_registration: 'Complete 2FA registration'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Vahvista laitteen <strong>%{identifier}</strong> rekisteröinti antamalla kertakäyttösalasana."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
       text_identifier: 'You can give the device a custom identifier using this field.'
       failed_to_delete: 'Failed to delete 2FA device.'
@@ -109,21 +109,20 @@ fi:
       not_existing: 'No 2FA device has been registered for your account.'
       request_2fa: Anna kertakäyttösalasana laitteesta %{device_name}.
       totp:
-        title: 'Use your app-based authenticator'
-        provisioning_uri: 'Provisioning URI'
+        title: 'Käytä sovellusta kirjautumisen varmennukseen'
+        provisioning_uri: 'Sovelluksen URI'
         secret_key: 'Salainen avain'
-        time_based: 'Time based'
-        account: 'Account name / Issuer'
+        time_based: 'Aikaperusteinen'
+        account: 'Tilin nimi'
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
           After opening the app, you can scan the following QR code to register the device.
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          Koodin skannaaminen sovelluksella epäonnistuu?
         text_cannot_scan: |
-          If you can't scan the code, you can enter the entry manually using the following details:
+          Jos et voi skannata koodia, voit lisätä tiedot käsin:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Rekisteröi varmennussovellus kaksivaiheisen kirjautumisen todennusvälineeksi kertakäyttösalasanoja varten. Yleisin sovellus tähän tarkoitukseen on esimerkiksi Google Authenticator, jonka voit ladata puhelimeesi sovelluskaupasta.
       sms:
         title: 'Use your mobile phone'
         redacted_identifier: 'Mobile device (%{redacted_number})'
@@ -138,13 +137,13 @@ fi:
     restdt:
       delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
     strategies:
-      totp: 'Authenticator -sovellus'
+      totp: 'Kaksivaiheisen kirjautumisen salasanasovellus'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "A one-time password has been sent to your cell phone."
     label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+      required_to_add_device: 'Tietoturva-asetukset vaativat kaksivaiheisen todennuksen käyttöönoton. Ole hyvä ja rekisteröi laitteesi.'
     remember:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
