@@ -89,8 +89,8 @@ ru:
       no_results_content_text: Создать новый способ аутентификации
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "При выполнении задания возникла ошибка, но выполнение задания продолжается. Ошибка: %{message}"
+      cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.
@@ -419,7 +419,7 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-        templated: 'Template project'
+        templated: 'Проект шаблона'
       projects/status:
         code: 'Состояние'
         explanation: 'Описание статуса'
@@ -491,7 +491,7 @@ ru:
         parent_work_package: "Родитель"
         priority: "Приоритет"
         progress: "Прогресс (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Запланировать вручную"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
         subproject: "Подпроект"
@@ -895,7 +895,7 @@ ru:
       - "Окт"
       - "Ноя"
       - "Дек"
-    abbr_week: 'Wk'
+    abbr_week: 'Нед'
     day_names:
       - "Воскресенье"
       - "Понедельник"
@@ -1155,8 +1155,8 @@ ru:
     work_package_edit: 'Пакет работ отредактирован'
     work_package_note: 'Добавлено примечание к пакету работ'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Экспорт ваших пакетов работ"
+    succeeded: "Экспорт успешно завершен."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1996,10 +1996,10 @@ ru:
       title: Измените идентификатор проекта
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+        Ваш проект создается из проекта выбранного шаблона. Вы будете уведомлены по почте, как только проект будет доступен.
+      use_template: 'Применить шаблон'
+      make_template: 'Установить как шаблон'
+      remove_from_templates: 'Удалить из шаблонов'
     archive:
       are_you_sure: "Уверены, что хотите архивизировать проект %{name}%?"
       archived: "Архивирован"
