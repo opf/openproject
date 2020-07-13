@@ -119,7 +119,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       });
   }
 
-  protected showResizerInCardView():boolean {
+  public showResizerInCardView():boolean {
     return false;
   }
 

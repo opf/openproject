@@ -16,8 +16,8 @@ import {UIRouterGlobals, UIRouter, TransitionService} from '@uirouter/core';
 import {pluck, distinctUntilChanged, filter} from "rxjs/operators";
 
 @Component({
-  templateUrl: '/app/modules/work_packages/routing/wp-list-view/wp-list-view.component.html',
-  styleUrls: ['/app/modules/work_packages/routing/wp-list-view/wp-list-view.component.sass'],
+  templateUrl: '/app/modules/bim/ifc_models/bcf/list-container/bfc-list-container.component.html',
+  styleUrls: ['/app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component.sass'],
   providers: [
     { provide: WorkPackageViewHandlerToken, useValue: BcfCardViewHandlerRegistry },
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
@@ -68,7 +68,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     // above through the cards parameter (showTableView)
   }
 
-  protected showResizerInCardView():boolean {
+  public showResizerInCardView():boolean {
     if (this.noResults && this.ifcModelsService.models.length === 0) {
       return false;
     } else {
