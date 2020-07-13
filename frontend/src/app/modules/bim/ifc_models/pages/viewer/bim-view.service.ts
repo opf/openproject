@@ -50,7 +50,7 @@ export class BimViewService implements OnDestroy {
     list: this.I18n.t('js.views.card'),
     viewer: this.I18n.t('js.ifc_models.views.viewer'),
     splitList: this.I18n.t('js.ifc_models.views.split'),
-    splitCards: this.I18n.t('js.ifc_models.views.split-cards'),
+    splitCards: this.I18n.t('js.ifc_models.views.split_cards'),
     table: this.I18n.t('js.views.list'),
   };
 

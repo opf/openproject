@@ -19,4 +19,4 @@ en:
       views:
         viewer: 'Viewer'
         split: 'Viewer and table'
-        split-cards: 'Viewer and cards'
+        split_cards: 'Viewer and cards'
