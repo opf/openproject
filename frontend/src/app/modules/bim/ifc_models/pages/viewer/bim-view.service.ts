@@ -57,7 +57,7 @@ export class BimViewService implements OnDestroy {
   public icon:any = {
     list: 'icon-view-card',
     viewer: 'icon-view-model',
-    splitList: 'icon-view-split2',
+    splitList: 'icon-view-split-viewer-table',
     splitCards: 'icon-view-split2',
     table: 'icon-view-list',
   };

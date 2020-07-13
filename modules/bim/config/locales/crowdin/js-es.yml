@@ -18,4 +18,3 @@ es:
         manage: 'Administrar modelos'
       views:
         viewer: 'Visor'
-        split: 'Visor y tarjetas'
