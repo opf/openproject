@@ -104,6 +104,22 @@ describe WikiController, type: :controller do
       end
     end
 
+    describe 'show' do
+      let(:get_page) { get :show, params: { project_id: @project, id: 'wiki' } }
+
+      describe 'with an empty wiki and no permission to edit' do
+        let(:view_role) { FactoryBot.create :role, permissions: %w[view_wiki_pages] }
+        let(:user) { FactoryBot.create(:user, member_in_project: @project, member_through_role: view_role) }
+
+        it 'visiting the start page redirects to index' do
+          login_as user
+          get_page
+          expect(response).to redirect_to action: :index
+          expect(flash[:info]).to include I18n.t('wiki.page_not_editable_index')
+        end
+      end
+    end
+
     describe 'edit' do
       it 'will link to a parent page if it was set' do
         get 'edit', params: { project_id: @project, id: 'foobar' }, flash: { _related_wiki_page_id: 1234 }
