@@ -111,7 +111,7 @@ module Type::Attributes
       #  * directly in other envs, e.g. test
       definitions = representable_config.key?(:definitions) ? representable_config[:definitions] : representable_config
 
-      skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
+      skip = %w[_type _dependencies attribute_groups links parent_id parent description schedule_manually]
       definitions.keys
                  .reject { |key| skip.include?(key) || definitions[key][:required] }
                  .map { |key| [key, JSON::parse(definitions[key].to_json)] }.to_h
