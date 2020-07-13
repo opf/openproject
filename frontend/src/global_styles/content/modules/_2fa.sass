@@ -1,0 +1,124 @@
+/*-- copyright
+ * OpenProject Costs Plugin
+ *
+ * Copyright (C) 2009 - 2015 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ */
+
+// Let the qr float next to the manual entry
+.mobile-otp-qr-form
+  display: flex
+  margin: 2rem 0
+
+  .qr-code-element
+    margin-right: 50px
+
+.mobile-otp-qr-manually
+  align-self: center
+
+// Add some padding to QR code
+.qr-code-element
+  padding: 5px
+
+.mobile-otp-new-devices
+  display: flex
+  flex-direction: row
+  width: 75%
+
+.mobile-otp-new-device
+  border: 1px solid #f1f1f1
+  padding: 20px
+  margin-right: 10px
+  flex: 1 0 25%
+
+  // Flex self for alignment of button
+  display: flex
+  flex-direction: column
+
+  h2
+    border-bottom: none
+
+.mobile-otp-new-device--body
+  flex: 1
+
+#login-form input[type=radio]
+  float: left
+
+#resend_otp_container
+  margin-top: 30px
+
+#resend_otp_container input[type=radio]
+  margin-right: 8px
+
+#resend_otp_container label
+  margin-right: 10px
+
+#resend_otp_container .resend-header
+  font-size: 14px
+  font-weight: bold
+  margin-bottom: 10px
+
+#resend_otp_container .radios-wrapper
+  padding-top: 7px
+  float: left
+  border: none
+  overflow: hidden
+  clear: none
+
+
+#resend_otp_container .radios-wrapper label
+  float: left
+  clear: none
+  display: block
+  padding: 2px 1em 0 0
+
+
+#resend_otp_container .radios-wrapper input[type=radio]
+  float: left
+  clear: none
+  margin: 2px 0 15px 2px
+
+// Add some paddings to action links
+.mobile-otp--two-factor-device-row td.buttons
+  form:not(:last-child):after
+    content: ","
+    padding: 0 1px
+
+.mobile-otp--two-factor-device-row.-default
+  .mobile-otp--device-text
+    font-weight: bold
+
+
+// Backup codes display
+.two-factor-authentication--backup-codes
+  // Avoid stretching the columns too much
+  max-width: 500px
+  margin: 2rem 0
+  background: #f8f8f8
+  border: 1px solid #f1f1f1
+  border-radius: 5px
+
+  ul
+    padding: 10px
+    margin: 0
+    column-count: 2
+    column-gap: 50px
+    list-style: none
+    font-family: monospace
+    font-size: 1.3rem
+    font-weight: bold
+  li
+    padding: 5px

@@ -69,8 +69,8 @@ ja:
   permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "BCF v2.1 API へのフルアクセス"
+      bcf_v2_1_text: "アプリケーションは、あなたに代わってアクションを実行するためにOpenProjectのBCF API v2.1への完全な読み取りおよび書き込みアクセスを受け取ります。"
   activerecord:
     models:
       bim/ifc_models/ifc_model: "IFCモデル"
@@ -87,18 +87,18 @@ ja:
               ifc_attachment_missing: "IFCファイルが添付されていません。"
               invalid_ifc_file: "与えられたファイルは有効なIFCファイルではありません。"
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "ビットマップはまだ実装されていないため書き込み可能ではありません。"
+          index_not_integer: "インデックスはIntegerではありません。"
+          invalid_clipping_planes: "clipping_planesは無効です。"
+          invalid_components: "コンポーネントは無効です"
+          invalid_lines: "行が無効です"
+          invalid_orthogonal_camera: "orthogonal_cameraが無効です。"
+          invalid_perspective_camera: "perspective_cameraが無効です。"
+          mismatching_guid: "json_view のガイドがモデルのガイドと一致しません。"
+          no_json: "良い構造化がされているjsonではありません。"
+          snapshot_type_unsupported: "snapshot_type は 'png' または 'jpg' のいずれかにする必要があります。"
+          snapshot_data_blank: "snapshot_data を提供する必要があります。"
+          unsupported_key: "サポートされていない json プロパティが含まれています。"
         bim/bcf/issue:
           uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:

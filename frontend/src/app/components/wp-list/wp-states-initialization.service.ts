@@ -114,7 +114,7 @@ export class WorkPackageStatesInitializationService {
 
     this.wpTableRelationColumns.initialize(query, results);
 
-    this.wpTableAdditionalElements.initialize(results.elements);
+    this.wpTableAdditionalElements.initialize(query, results);
 
     this.wpTableOrder.initialize(query, results);
 

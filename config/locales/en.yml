@@ -100,6 +100,11 @@ en:
       no_results_content_title: There are currently no authentication modes.
       no_results_content_text: Create a new authentication mode
 
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
+
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -1155,6 +1160,8 @@ en:
     work_package_note: 'Work Package note added'
 
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1671,6 +1678,7 @@ en:
   label_time_entry_plural: "Spent time"
   label_time_sheet_menu: "Time sheet"
   label_time_tracking: "Time tracking"
+  label_projects_menu: "Projects"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"

@@ -23,19 +23,5 @@
         </a>
       </li>
     </ul>
-    <div *ngIf="isLoading">
-      <div class="loading-indicator--location"
-           data-indicator-name="modal">
-      </div>
-      <div [textContent]="text.exportPreparing"></div>
-    </div>
-
-    <a #downloadLink
-       id="download-link"
-       [title]="'Export'"
-       class="button"
-       download
-       [attr.href]="downloadHref">
-    </a>
   </div>
 </div>

@@ -210,7 +210,6 @@ import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
     WorkPackageCacheService,
     SchemaCacheService,
 
-    KeepTabService,
     WorkPackageDmService,
 
     WorkPackagesActivityService,

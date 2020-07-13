@@ -59,6 +59,7 @@ export interface GroupObject {
   collapsed?:boolean;
   index:number;
   identifier:string;
+  sums:{[attribute:string]:number|null};
   href:{ href:string }[];
   _links:{
     valueLink:{ href:string }[];

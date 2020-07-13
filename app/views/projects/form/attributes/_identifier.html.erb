@@ -39,11 +39,9 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= form.text_field :identifier, container_class: '-middle'%>
 
     <%= nonced_javascript_tag do %>
-      projectIdentifierMaxLength = <%= id_max_length %>;
-      projectIdentifierDefault = '<%= id %>';
-      projectIdentifierLocked = false;
-      observeProjectIdentifier();
-      observeProjectName();
+      window.projectIdentifierMaxLength = <%= id_max_length %>;
+      window.projectIdentifierDefault = '<%= id %>';
+      window.projectIdentifierLocked = false;
     <% end %>
 
     <div class="form--field-instructions">

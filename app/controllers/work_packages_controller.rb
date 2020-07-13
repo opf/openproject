@@ -83,12 +83,16 @@ class WorkPackagesController < ApplicationController
   protected
 
   def export_list(mime_type)
-    export_storage = WorkPackages::Exports::ScheduleService
+    job_id = WorkPackages::Exports::ScheduleService
                      .new(user: current_user)
                      .call(query: @query, mime_type: mime_type, params: params)
                      .result
 
-    redirect_to work_packages_export_path(export_storage.id)
+    if request.headers['Accept']&.include?('application/json')
+      render json: { job_id: job_id }
+    else
+      redirect_to job_status_path(job_id)
+    end
   end
 
   def export_single(mime_type)

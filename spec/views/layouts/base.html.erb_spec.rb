@@ -200,7 +200,7 @@ describe 'layouts/base', type: :view do
         primary_color
         render
         expect(rendered).to render_template partial: 'custom_styles/_inline_css'
-        expect(rendered).to match /--primary-color:\s*#{primary_color.get_hexcode}/
+        expect(rendered).to match /--primary-color:\s*#{primary_color.hexcode}/
       end
     end
 

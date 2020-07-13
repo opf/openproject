@@ -54,7 +54,7 @@ fi:
   label_meeting_agenda: "Esityslista"
   label_meeting_minutes: "Pöytäkirja"
   label_meeting_close: "Sulje"
-  label_meeting_open: "Avoinna"
+  label_meeting_open: "Avoin"
   label_meeting_agenda_close: "Sulje esityslista aloittaaksesi pöytäkirjan"
   label_meeting_date_time: "Päivämäärä/aika"
   label_meeting_diff: "Erot"

@@ -3,10 +3,10 @@ zh-TW:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP connection'
+        auth_source: 'LDAP 連線'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filter'
-        auth_source: 'LDAP connection'
+        auth_source: 'LDAP 連線'
         group_name_attribute: "Group name attribute"
     models:
       ldap_groups/synchronized_group: 'Synchronized LDAP group'
@@ -43,8 +43,8 @@ zh-TW:
         <br/>
         Groups are synchronized hourly through a cron job.
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
-      no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
+      no_results: '找不到同步的群組。'
+      no_members: '這個群組還沒有同步的成員。'
       plural: 'Synchronized LDAP groups'
       singular: 'Synchronized LDAP group'
       form:

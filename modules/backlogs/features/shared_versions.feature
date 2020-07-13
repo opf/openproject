@@ -72,10 +72,12 @@ Feature: Shared Versions
         | ChildSprint | 2010-03-01 | 2010-03-31     |
     And I am already logged in as "padme"
 
+  @javascript
   Scenario: Inherited Sprints are displayed
     Given I am on the master backlog
     Then I should see "ParentSprint" within "#sprint_backlogs_container .backlog:first-child .sprint .name"
 
+  @javascript
   Scenario: Only stories of current project are displayed
     Given the project "parent" has the following stories in the following sprints:
       | subject        | backlog        |

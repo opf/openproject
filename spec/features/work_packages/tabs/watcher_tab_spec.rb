@@ -6,7 +6,6 @@ describe 'Watcher tab', js: true, selenium: true do
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
-
   let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) {
@@ -119,5 +118,22 @@ describe 'Watcher tab', js: true, selenium: true do
   context 'full screen' do
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
     it_behaves_like 'watchers tab'
+  end
+  
+  context 'when the work package has a watcher' do
+    let(:watchers) { FactoryBot.create(:watcher, watchable: work_package, user: user) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+
+    before do
+      watchers
+      login_as(user)
+      wp_table.visit!
+      wp_table.expect_work_package_listed work_package
+    end 
+    
+    it 'should show the number of watchers [#33685]' do
+      wp_table.open_full_screen_by_doubleclick(work_package)
+      expect(page).to have_selector('.wp-tabs-count',  text: 1)
+    end
   end
 end

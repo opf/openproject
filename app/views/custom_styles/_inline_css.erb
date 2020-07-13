@@ -28,15 +28,20 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <style type="text/css">
-  <% if CustomStyle.current.logo.present? %>
-    #logo .home-link {
-      background-image: url("<%= custom_style_logo_path(digest: CustomStyle.current.digest, filename: CustomStyle.current.logo_identifier) %>");
-    }
-  <% elsif CustomStyle.current.theme_logo %>
-    #logo .home-link {
-      background-image: url("<%= asset_path(CustomStyle.current.theme_logo) %>");
-    }
-  <% end %>
+  <%
+    logo_url =
+      if CustomStyle.current.logo.present?
+        custom_style_logo_path(digest: CustomStyle.current.digest, filename: CustomStyle.current.logo_identifier)
+      elsif CustomStyle.current.theme_logo.present?
+       asset_path(CustomStyle.current.theme_logo)
+      else
+       asset_path("logo_openproject_white_big.png")
+      end
+   %>
+
+  #logo .home-link {
+    background-image: url(<%= logo_url %>);
+  }
 
   :root {
   <%  DesignColor.overwritten.each do |design_color| %>

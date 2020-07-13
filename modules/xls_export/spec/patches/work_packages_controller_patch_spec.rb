@@ -121,7 +121,7 @@ describe WorkPackagesController, type: :controller do
         let(:params) { {} }
         let(:call_action) { get('index', params: params.merge(format: mime_type)) }
         let(:mime_type) { 'xls' }
-        let(:export_storage) { FactoryBot.build_stubbed(:work_packages_export) }
+        let(:export_result) { 'uuid of the job' }
 
         requires_export_permission do
           before do
@@ -134,15 +134,22 @@ describe WorkPackagesController, type: :controller do
 
             allow(service_instance)
               .to receive(:call)
-                    .with(query: query, mime_type: mime_type.to_sym, params: anything)
-                    .and_return(ServiceResult.new(result: export_storage))
+              .with(query: query, mime_type: mime_type.to_sym, params: anything)
+              .and_return(ServiceResult.new(result: export_result))
           end
 
           it 'should fulfill the defined should_receives' do
             call_action
 
-            expect(response)
-              .to redirect_to(work_packages_export_path(export_storage.id))
+            expect(response).to redirect_to job_status_path('uuid of the job')
+          end
+
+          context 'with json accept' do
+            it 'should fulfill the defined should_receives' do
+              request.headers['Accept'] = 'application/json'
+              call_action
+              expect(response.body).to eq({ job_id: 'uuid of the job' }.to_json)
+            end
           end
         end
       end

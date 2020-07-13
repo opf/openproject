@@ -398,7 +398,7 @@ nl:
     label_sum_for: "Som voor"
     label_subject: "Onderwerp"
     label_this_week: "deze week"
-    label_today: "vandaag"
+    label_today: "Today"
     label_time_entry_plural: "Bestede tijd"
     label_up: "Omhoog"
     label_user_plural: "Gebruikers"
@@ -584,6 +584,9 @@ nl:
       select_branch: 'Selecteer pad'
     field_value_enter_prompt: "Breng een waarde in voor veld '%{field}'"
     project_menu_details: "Details"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '

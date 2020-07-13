@@ -132,7 +132,7 @@ describe 'Work Package table hierarchy parent below', js: true do
       expect(page).to have_selector('.pagination--item.-current', text: '3')
 
       # Expect count to be correct (one additional parent shown)
-      expect(page).to have_selector('.wp-table--row', count: 4)
+      expect(page).to have_selector('.wp--row', count: 4)
 
       # Double order result from regression
       wp_table.expect_work_package_order(grandparent.id, parent.id, child.id, child2.id)
@@ -140,6 +140,30 @@ describe 'Work Package table hierarchy parent below', js: true do
       # Enable hierarchy mode, should sort according to spec above
       hierarchy.expect_hierarchy_at(grandparent, parent)
       hierarchy.expect_leaf_at(child, child2)
+    end
+  end
+
+  describe 'An arrow is beside parent name' do
+    let(:child) { FactoryBot.create(:work_package, subject: 'AA Child WP', project: project, parent: parent) }
+    let(:parent) { FactoryBot.create(:work_package, subject: 'ZZ Parent WP', project: project) }
+    let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
+
+    before do
+      child
+    end
+
+    it 'and it should not be shown when children are removed "#33109"' do
+      wp_table.visit!
+      wp_table.expect_work_package_listed(child, parent)
+
+      expect(page).to have_selector('.wp-table--hierarchy-indicator-icon')
+      
+      split_page = wp_table.open_split_view(parent)
+      split_page.visit_tab!("relations")
+      relations.remove_child(child)
+      loading_indicator_saveguard
+      
+      expect(page).to have_no_selector('.wp-table--hierarchy-indicator-icon')
     end
   end
 end

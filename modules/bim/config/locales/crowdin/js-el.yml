@@ -8,7 +8,7 @@ el:
       viewpoint: 'Viewpoint'
       add_viewpoint: 'Προσθήκη viewpoint'
       show_viewpoint: 'Εμφάνιση viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      delete_viewpoint: 'Διαγραφή viewpoint'
     ifc_models:
       empty_warning: "This project does not yet have any IFC models."
       use_this_link_to_manage: "Use this link to upload and manage your IFC models"

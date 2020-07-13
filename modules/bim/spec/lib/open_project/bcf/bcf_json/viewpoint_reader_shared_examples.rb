@@ -51,7 +51,8 @@ shared_examples 'has camera' do |camera_type|
   it 'has a camera object' do
     # camera xyz floats
     expect(subject.dig(camera_type)).to be_kind_of(Hash)
-    expect(subject.dig(camera_type, 'field_of_view')).to be_kind_of(Numeric)
+    expect(subject.dig(camera_type, 'field_of_view')).to be_kind_of(Numeric) if camera_type == 'perspective_camera'
+    expect(subject.dig(camera_type, 'view_to_world_scale')).to be_kind_of(Numeric) if camera_type == 'orthogonal_camera'
 
     %w[camera_view_point camera_direction camera_up_vector].each do |key|
       camera_vp = subject.dig(camera_type, key)

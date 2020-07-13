@@ -1,0 +1,57 @@
+// -------------------------- GENERIC --------------------------
+.ifc-model-viewer--toolbar-container
+  position: absolute
+  width: 100%
+  padding: 0px 6px
+  pointer-events: none
+
+  button
+    pointer-events: all
+    outline: none
+
+  // Use our own icon font instead of including Xeokit's FontAwesome
+  button[class^="fa-"],
+  button[class*=" fa-"]
+    &::before
+      font-family: "openproject-icon-font" !important
+  .fa-home::before
+    @include icon-mixin-home
+  .fa-crop::before
+    @include icon-mixin-zoom-auto
+  .fa-male::before
+    @include icon-mixin-user
+  .fa-info-circle::before
+    @include icon-mixin-info2
+  .fa-cut::before
+    @include icon-mixin-cut
+  .fa-cube::before
+    @include icon-mixin-modules
+  .fa-eraser::before
+    @include icon-mixin-rubber
+  .fa-mouse-pointer::before
+    @include icon-mixin-cursor
+
+
+// -------------------------- XEOKIT specific --------------------------
+// Move toolbar to the right
+.xeokit-toolbar
+  display: flex
+  flex-wrap: wrap
+  justify-content: flex-end
+
+// Hide the counter for the time being until it is propperly implemented.
+.xeokit-section-counter
+  display: none
+
+// -------------------------- MOBILE specific --------------------------
+
+@media only screen and (max-width: 679px)
+  .ifc-model-viewer--toolbar-container
+    padding-right: 15px
+
+  .ifc-model-viewer--focus-warning,
+  .ifc-model-viewer--toolbar-container
+    .fa-male,
+    .fa-cut
+      display: none
+

@@ -38,8 +38,7 @@ cache:
   bundler: true
   directories:
     - public/assets
-    - app/assets/javascripts/bundles
-    - app/assets/javascripts/locales
+    - frontend/src/locales
 
 branches:
   only:

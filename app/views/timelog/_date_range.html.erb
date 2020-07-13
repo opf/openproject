@@ -26,6 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+
+<% content_for :header_tags do %>
+  <meta name="required_script" content="timelog_date_range" />
+<% end %>
+
 <fieldset id="date-range" class="simple-filters--container">
   <legend><%= l(:label_date_range) %></legend>
   <ul class="simple-filters--filters">

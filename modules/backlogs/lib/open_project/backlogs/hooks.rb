@@ -65,12 +65,6 @@ module OpenProject::Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 
-    # TODO: there are hook implementations in here that need to be ported
-    #       to render a partial instead of returning a hand crafted snippet
-
-    render_on :view_work_packages_form_details_bottom,
-              partial: 'hooks/backlogs/view_work_packages_form_details_bottom'
-
     def view_versions_show_bottom(context = {})
       version = context[:version]
       project = version.project

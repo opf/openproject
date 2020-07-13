@@ -69,12 +69,18 @@ describe 'work package export', type: :feature do
     settings_menu.open_and_choose 'Export ...'
     click_on export_type
 
+    # Expect to get a response regarding queuing
+    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'),
+                                 wait: 10
+
+    # Expect title
+    expect(page).to have_selector 'h3', text: I18n.t('export.your_work_packages_export')
+
     begin
       perform_enqueued_jobs
     rescue
       # nothing
     end
-
 
     if wait_for_downloads
       # Wait for the file to download
@@ -190,6 +196,9 @@ describe 'work package export', type: :feature do
 
         export!
 
+        expect(page).to have_selector('.job-status--modal .icon-checkmark', wait: 10)
+        expect(page).to have_content('The export has completed successfully.')
+
         expect(subject).to have_text(wp_1.description)
         expect(subject).to have_text(wp_2.description)
         expect(subject).to have_text(wp_3.description)
@@ -227,10 +236,7 @@ describe 'work package export', type: :feature do
         export!(false)
 
         expect(page)
-          .not_to have_content I18n.t('js.label_export_preparing')
-
-        expect(page)
-          .to have_content I18n.t(:error_pdf_export_too_many_columns)
+          .to have_content(I18n.t(:error_pdf_export_too_many_columns), wait: 10)
       end
     end
   end

@@ -15,7 +15,5 @@ Gem::Specification.new do |s|
   s.add_dependency "reporting_engine"
   s.add_dependency "openproject-costs"
 
-  s.add_dependency 'jquery-tablesorter', '~> 1.27.0'
-
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
 end

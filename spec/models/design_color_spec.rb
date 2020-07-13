@@ -4,13 +4,6 @@ RSpec.describe DesignColor, type: :model do
   let(:default_primary) { ::OpenProject::CustomStyles::Design.variables['primary-color'] }
   let(:primary_color) { FactoryBot.create :"design_color_primary-color" }
 
-  describe "#defaults" do
-    it "returns a hash of default color variables with hex color codes" do
-      expect(described_class.defaults).to be_a(Hash)
-      expect(described_class.defaults["primary-color"]).to eq(default_primary)
-    end
-  end
-
   describe "#setables" do
     it "returns an Array of instances" do
       expect(described_class.setables).to be_a(Array)
@@ -31,12 +24,12 @@ RSpec.describe DesignColor, type: :model do
   describe "#get_hexcode" do
     it "returns hexcode if present" do
       primary_color
-      expect(primary_color.get_hexcode).to eq("#3493B3")
+      expect(primary_color.hexcode).to eq("#3493B3")
     end
 
-    it "returns default hexcode if hexcode not present" do
-      expect(described_class.new(variable: "primary-color").get_hexcode)
-        .to eq(default_primary)
+    it "returns nil hexcode if hexcode not present" do
+      expect(described_class.new(variable: "primary-color").hexcode)
+        .to eq nil
     end
   end
 

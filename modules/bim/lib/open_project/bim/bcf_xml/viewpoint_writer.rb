@@ -112,7 +112,8 @@ module OpenProject::Bim::BcfXml
             to_xml_coords(coords, xml)
           end
         end
-        xml.FieldOfView convert_float(camera['field_of_view'])
+        xml.FieldOfView convert_float(camera['field_of_view']) if type == 'perspective_camera'
+        xml.ViewToWorldScale convert_float(camera['view_to_world_scale']) if type == 'orthogonal_camera'
       end
     end
 

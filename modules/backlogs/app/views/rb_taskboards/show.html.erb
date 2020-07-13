@@ -29,8 +29,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% content_for :header_tags do %>
   <%= render :partial => 'shared/backlogs_header' %>
-  <%= stylesheet_link_tag 'backlogs/taskboard.css' %>
 <% end %>
+
 <% html_title @sprint.name %>
 <%= toolbar title: @sprint.name do %>
   <li class="toolbar-item toolbar-input-group" id="col_width">

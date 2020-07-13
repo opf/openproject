@@ -87,6 +87,10 @@ nl:
     index:
       no_results_content_title: Er zijn momenteel geen verificatie methodes.
       no_results_content_text: Maak een nieuwe authenticatie methode
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -414,6 +418,7 @@ nl:
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -485,6 +490,7 @@ nl:
         parent_work_package: "Bovenliggend werkpakket"
         priority: "Prioriteit"
         progress: "Voortgang (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"
         subproject: "Subproject"
@@ -882,6 +888,7 @@ nl:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Zondag"
       - "Maandag"
@@ -1117,6 +1124,8 @@ nl:
     work_package_edit: 'Werkpakket bewerkt'
     work_package_note: 'Werkpakket notitie toegevoegd'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1624,6 +1633,7 @@ nl:
   label_time_entry_plural: "Bestede tijd"
   label_time_sheet_menu: "Tijdkaart"
   label_time_tracking: "Tijdregistratie"
+  label_projects_menu: "Projecten"
   label_today: "vandaag"
   label_top_menu: "Hoofdmenu"
   label_topic_plural: "Onderwerpen"
@@ -1943,6 +1953,12 @@ nl:
       warning_one: Leden van het project zullen de opslagplaatsen van het project moeten verplaatsen.
       warning_two: Bestaande koppelingen naar het project zullen niet langer werken.
       title: Wijzig het identificatienummer van het project
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Weet u zeker dat u dit project '%{name}' wilt archiveren?"
       archived: "Archived"

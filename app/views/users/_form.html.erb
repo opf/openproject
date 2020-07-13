@@ -29,7 +29,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'user' %>
 
-<%= javascript_include_tag 'admin_users' %>
+<% content_for :header_tags do %>
+  <meta name="required_script" content="admin_users" />
+<% end %>
 
 <!--[form:user]-->
 <section class="form--section">

@@ -64,7 +64,7 @@ zh-TW:
     button_close_details: "關閉詳細檢視"
     button_open_fullscreen: "開啟全螢幕檢視"
     button_show_cards: "顯示卡片檢視"
-    button_show_list: "Show list view"
+    button_show_list: "列表檢視"
     button_quote: "引言"
     button_save: "儲存"
     button_settings: "設定"
@@ -74,7 +74,7 @@ zh-TW:
     button_export-atom: "下載 Atom"
     calendar:
       title: '行事曆'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: '總共有 %{count} 個工作項目，但只有 %{max} 個可以顯示。'
     card:
       add_new: '新增卡片'
       highlighting:
@@ -86,24 +86,24 @@ zh-TW:
       browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
       copied_successful: "成功複製到剪貼簿上!"
     chart:
-      type: 'Chart type'
+      type: '圖表類型'
       axis_criteria: 'Axis criteria'
       modal_title: 'Work package graph configuration'
       types:
-        line: 'Line'
+        line: '折線'
         horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
+        bar: '長條'
+        pie: '圓餅'
+        doughnut: '甜甜圈'
+        radar: '雷達'
         polar_area: 'Polar area'
       tabs:
         graph_settings: '一般'
-        dataset: 'Dataset %{number}'
+        dataset: '資料集 %{number}'
       errors:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "可用欄"
-    description_current_position: "You are here: "
+    description_current_position: "你在這裡："
     description_select_work_package: "選取工作項目 #%{id}"
     description_selected_columns: "所選的欄"
     description_subwork_package: "子工作項目 #%{id}"
@@ -262,7 +262,7 @@ zh-TW:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          learn_about: "Learn more about the new features"
+          learn_about: "瞭解更多新功能的資訊"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
@@ -338,7 +338,7 @@ zh-TW:
     label_in_more_than: "多於"
     label_incoming_emails: "接收到的電子郵件"
     label_information_plural: "資訊"
-    label_import: "Import"
+    label_import: "匯入"
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
     label_learn_more_link: "了解更多"
@@ -372,7 +372,7 @@ zh-TW:
     label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
     label_quote_comment: "引述這個評論"
-    label_recent: "Recent"
+    label_recent: "最近"
     label_reset: "重置"
     label_remove_column: "移除欄"
     label_remove_columns: "移除所選欄"
@@ -397,7 +397,7 @@ zh-TW:
     label_sum_for: "總和"
     label_subject: "主題"
     label_this_week: "本週"
-    label_today: "今天"
+    label_today: "Today"
     label_time_entry_plural: "耗時"
     label_up: "向上"
     label_user_plural: "使用者"
@@ -409,7 +409,7 @@ zh-TW:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "警告"
     label_work_package: "工作項目"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "工作項目"
     label_watch: "監看"
     label_watch_work_package: "關注工作項目"
     label_watcher_added_successfully: "已成功新增關注者！"
@@ -435,7 +435,7 @@ zh-TW:
     label_add_description: "添加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
     label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}"
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "#%{id} 被 %{author} 新增"
     label_files_to_upload: "將上傳這些檔案:"
     label_rejected_files: "不能上傳這些檔案:"
     label_rejected_files_reason: "這些檔案不能上傳，因為它們的大小大於 %{maximumFilesize}"
@@ -583,6 +583,9 @@ zh-TW:
       select_branch: '選擇分支'
     field_value_enter_prompt: "輸入'%{field}'的值"
     project_menu_details: "詳細資料"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '已套用升冪排序， '
       sorted_dsc: '已套用降冪排序， '
@@ -823,8 +826,8 @@ zh-TW:
           type: '類型'
         sorting_mode:
           description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
+          automatic: '自動'
+          manually: '手動'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
@@ -884,7 +887,7 @@ zh-TW:
       destroy_time_entry:
         title: "Confirm deletion of time entry"
         text: "Are you sure you want to delete the following time entry?"
-    notice_no_results_to_display: "No visible results to display."
+    notice_no_results_to_display: "沒有可顯示的相關結果。"
     notice_successful_create: "建立成功"
     notice_successful_delete: "刪除成功"
     notice_successful_update: "更新成功"
@@ -911,7 +914,7 @@ zh-TW:
         messages_on_field: '此欄位無效: %{messages}'
     error_could_not_resolve_version_name: "無法解析版本名稱"
     error_could_not_resolve_user_name: "無法解析使用者名稱"
-    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload: "無法上傳檔案：%{error}"
     error_attachment_upload_permission: "您沒有在此資源上載檔案的許可權。"
     units:
       workPackage:
@@ -920,7 +923,7 @@ zh-TW:
         other: "%{count} 個子工作項目"
       hour:
         zero: "0 h"
-        other: "%{count} h"
+        other: "%{count} 小時"
     zen_mode:
       button_activate: '啟動 zen 模式'
       button_deactivate: '停用 zen 模式'
@@ -935,6 +938,6 @@ zh-TW:
         project_and_subprojects: "和所有的子專案"
         search_for: "搜尋"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: '卡片'
+      list: '表格'
       timeline: '甘特圖'

@@ -3,6 +3,7 @@ uk:
     grid:
       add_widget: 'Додати віджет'
       remove: 'Видалити віджет'
+      configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -39,6 +40,7 @@ uk:
           no_results: 'Немає підпроектів.'
         time_entries_current_user:
           title: 'My spent time'
+          displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Витрачений час (останні 7 днів)'
           no_results: 'Немає записів часу за останні 7 днів.'

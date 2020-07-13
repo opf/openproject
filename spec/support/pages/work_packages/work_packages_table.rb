@@ -97,7 +97,7 @@ module Pages
 
     def expect_work_package_order(*ids)
       retry_block do
-        rows = page.all '.wp-table--row'
+        rows = page.all '.work-package-table .wp--row'
         expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
         found = rows.map { |el| el['data-work-package-id'] }
 

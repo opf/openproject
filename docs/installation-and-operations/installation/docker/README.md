@@ -89,13 +89,15 @@ data will be stored across container restarts, and start the container with
 those directories mounted:
 
 ```bash
-sudo mkdir -p /var/lib/openproject/{pgdata,static}
+sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
-  -v /var/lib/openproject/static:/var/openproject/assets \
+  -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/community:10
 ```
+
+**Note**: Make sure to replace `secret` with a random string. One way to generate one is to run `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo ''` if you are on Linux.
 
 Since we named the container, you can now stop it by running:
 

@@ -87,6 +87,10 @@ lt:
     index:
       no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
       no_results_content_text: Sukurti naują autentifikacijos būdą
+  background_jobs:
+    status:
+      error_requeue: "Vykdant užduotį buvo rasta klaida, tačiau bandoma dar kartą. Klaida buvo: %{message}"
+      cancelled_due_to: "Užduotis buvo nutraukta dėl klaidos: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.
@@ -411,6 +415,7 @@ lt:
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
+        templated: 'Šabloninis projektas'
       projects/status:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
@@ -482,6 +487,7 @@ lt:
         parent_work_package: "Tėvas"
         priority: "Pirmenybė"
         progress: "Progresas (%)"
+        schedule_manually: "Paskirti laiką rankiniu būdu"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
         subproject: "Sub-projektas"
@@ -885,6 +891,7 @@ lt:
       - "Spa"
       - "Lap"
       - "Gruo"
+    abbr_week: 'Sav'
     day_names:
       - "Sekmadienis"
       - "Pirmadienis"
@@ -1144,6 +1151,8 @@ lt:
     work_package_edit: 'Darbų paketas redaguotas'
     work_package_note: 'Darbų paketo pastaba pridėta'
   export:
+    your_work_packages_export: "Jūsų darbo užduočių eksportas"
+    succeeded: "Eksportas baigtas sėkmingai."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1651,6 +1660,7 @@ lt:
   label_time_entry_plural: "Praleista laiko"
   label_time_sheet_menu: "Laiko lentelė"
   label_time_tracking: "Laiko apskaita"
+  label_projects_menu: "Projektai"
   label_today: "šiandien"
   label_top_menu: "Viršutinis meniu"
   label_topic_plural: "Temos"
@@ -1981,6 +1991,12 @@ lt:
       warning_one: Projekto nariai turės perkelti projekto saugyklas.
       warning_two: Esamos nuorodos į projektą nebeveiks.
       title: Pakeisti projekto identifikatorių
+    template:
+      copying: >
+        Jūsų projektas šiuo metu yra kuriamas pagal šabloninį projektą. Kai tik naujasis projektas bus pasiekiamas, jums pranešime el. pašto žinute.
+      use_template: 'Naudoti šabloną'
+      make_template: 'Nustatyti šablonu'
+      remove_from_templates: 'Pašalinti iš šablonų'
     archive:
       are_you_sure: "Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?"
       archived: "Suarchyvuotas"

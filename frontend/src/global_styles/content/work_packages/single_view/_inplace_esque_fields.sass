@@ -1,0 +1,76 @@
+// Add a border at all times to the inplace container
+.inplace-editing--container
+  position: relative
+
+// need to specify the a explicitly as otherwise
+// the default class will win
+a.inplace-editing--trigger-link,
+.inplace-editing--trigger-link,
+  &:hover,
+  &:focus,
+  &.-focus
+    text-decoration: none
+    color: var(--body-font-color)
+
+    &.-active
+      border-color: transparent
+
+    .inplace-editing--container
+      border-color: var(--inplace-edit--border-color)
+
+    .inplace-editing--trigger-icon
+      visibility: visible
+
+// Do not hover trigger-link when element is read-only
+.-read-only
+  .inplace-editing--trigger-link:hover .inplace-editing--container
+    border-color: transparent
+
+// Explicit styles for input-esque trigger appearance
+.work-packages--activity--add-comment,
+.work-package--watchers-lookup
+  .inplace-editing--container
+    border: 1px solid #eee
+
+// Explicit styling for the comment and watcher container
+.work-packages--activity--add-comment,
+.work-package--watchers-lookup
+  margin: 20px 0
+
+  // Styles the comment trigger link similar to attachment
+  // but without icon and actual link
+  a.inplace-editing--trigger-link
+    color: var(--body-font-color)
+    font-style: italic
+
+// The trigger text left to the edit icon
+.inplace-editing--trigger-text
+  width: calc(100% - 42px)
+  padding: 3px
+  line-height: 2
+  display: inline-block
+
+// The edit icon to the right of the trigger text
+.inplace-editing--trigger-icon
+  position: absolute
+  height: 100%
+  top: 0
+  right: 0
+  text-align: center
+  width: 32px
+  background: $gray-light
+  border-left: 1px solid var(--inplace-edit--border-color)
+  color: var(--body-font-color)
+  visibility: hidden
+
+  i
+    position: relative
+    // Position the icon in the middle
+    top: calc(50% - 0.5rem)
+
+  .icon-context:before
+    // HACK: overriding default padding here
+    padding-right: 0
+
+  &:hover
+    text-decoration: none

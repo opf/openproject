@@ -78,5 +78,3 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= link_to_content_update(t(:label_today), page: @page_of_today, anchor: Date.today.strftime("%m-%d-%Y")) %>
   <%= pagination_links_full @meetings, :container => false %>
 </p>
-
-<%= render :partial => 'shared/meeting_header' %>

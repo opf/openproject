@@ -156,18 +156,15 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'autoprefixer-rails', '~> 9.7.4'
-gem 'bourbon', '~> 6.0.0'
 gem 'i18n-js', '~> 3.6.0'
 gem 'rails-i18n', '~> 6.0.0'
-gem 'sassc-rails', '~> 2.1.0'
 gem 'sprockets', '~> 3.7.0'
 
 # required by Procfile, for deployment on heroku or packaging with packager.io.
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 4.3.1' # used for development and optionally for production
+gem 'puma', '~> 4.3.5' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.8'
 
@@ -178,7 +175,7 @@ gem 'aws-sdk-core', '~> 3.91.0'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.61.0'
 
-gem 'openproject-token', '~> 2.0'
+gem 'openproject-token', '~> 2.1.1'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -245,12 +242,15 @@ group :development do
 
   gem 'faker'
   gem 'letter_opener'
-  gem 'livingstyleguide', '~> 2.1.0'
 
   gem 'spring'
   gem 'spring-commands-rspec'
 
   gem 'rubocop'
+
+  # Gems for living styleguide
+  gem 'sassc-rails'
+  gem 'livingstyleguide', '~> 2.1.0'
 end
 
 group :development, :test do

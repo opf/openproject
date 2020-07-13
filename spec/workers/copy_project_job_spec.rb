@@ -76,13 +76,16 @@ describe CopyProjectJob, type: :model do
                         is_required: true,
                         is_for_all: true)
     end
+    let(:job_args) do
+      {
+        user_id: admin.id,
+        source_project_id: source_project.id,
+        target_project_params: params,
+        associations_to_copy: [:work_packages]
+      }
+    end
     let(:copy_job) do
-      CopyProjectJob.new.tap do |job|
-        job.perform user_id: admin.id,
-                    source_project_id: source_project.id,
-                    target_project_params: params,
-                    associations_to_copy: [:work_packages]
-      end
+      CopyProjectJob.new(job_args).tap(&:perform_now)
     end
 
     let(:params) { {name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id]} }
@@ -98,12 +101,14 @@ describe CopyProjectJob, type: :model do
       @errors = copy_job.errors
     end
 
-    it 'copies the project' do
+    it 'copies the project', :aggregate_failures do
       expect(Project.find_by(identifier: params[:identifier])).to eq(@copied_project)
-    end
-
-    it 'sets descriptive validation errors' do
       expect(@errors.first).to eq(expected_error_message)
+
+      # expect to create a status
+      expect(copy_job.job_status).to be_present
+      expect(copy_job.job_status[:status]).to eq 'success'
+      expect(copy_job.job_status[:payload]['redirect']).to eq '/projects/copy'
     end
   end
 
@@ -171,6 +176,12 @@ describe CopyProjectJob, type: :model do
               .and_return maildouble
 
       expect { copy_job }.not_to raise_error
+
+      # expect to create a status
+      expect(copy_job.job_status).to be_present
+      expect(copy_job.job_status[:status]).to eq 'failure'
+      expect(copy_job.job_status[:message]).to include "Cannot copy project #{source_project.name}"
+      expect(copy_job.job_status[:payload]).to eq('title' => 'Copy project')
     end
   end
 
@@ -188,7 +199,7 @@ describe CopyProjectJob, type: :model do
   describe 'perform' do
     before do
       login_as(user)
-      expect(User).to receive(:current=).with(user)
+      expect(User).to receive(:current=).with(user).at_least(:once)
     end
 
     describe 'subproject' do

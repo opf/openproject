@@ -1,9 +1,3 @@
-@font-face {
-	font-family: "openproject-icon-font";
-	src: url(font-path("openproject_icon/openproject-icon-font.woff2")) format("woff2"),
-       url(font-path("openproject_icon/openproject-icon-font.woff")) format("woff");
-}
-
 {{#each codepoints}}
 @mixin icon-mixin-{{@key}} {
     content: "\\{{this}}";

@@ -39,7 +39,8 @@ module Bim
         ::Bim::BasicData::CustomStyleSeeder,
         ::Bim::BasicData::WorkflowSeeder,
         ::Bim::BasicData::PrioritySeeder,
-        ::Bim::BasicData::SettingSeeder
+        ::Bim::BasicData::SettingSeeder,
+        ::Bim::BasicData::ThemeSeeder
       ]
     end
   end

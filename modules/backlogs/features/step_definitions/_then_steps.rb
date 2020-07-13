@@ -108,11 +108,11 @@ Then /^(.+) should be the higher (story|item|task) of (.+)$/ do |higher_subject,
 end
 
 Then /^the request should complete successfully$/ do
-  page.driver.response.status.should == 200
+  RequestStore[:response].status.should == 200
 end
 
 Then /^the request should fail$/ do
-  page.driver.response.status.should == 401
+  RequestStore[:response].status.should == 401
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be "(.+)"$/ do |position, version_name, subject|
@@ -148,7 +148,7 @@ Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, sto
 end
 
 Then /^the server should return an update error$/ do
-  page.driver.response.status.should == 400
+  RequestStore[:response].status.should == 400
 end
 
 Then /^the server should return (\d+) updated (.+)$/ do |count, object_type|

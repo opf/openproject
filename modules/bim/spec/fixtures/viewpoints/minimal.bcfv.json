@@ -16,6 +16,6 @@
       "y": 0.209889,
       "z": 0.951807
     },
-    "field_of_view": 180
+    "view_to_world_scale": 180
   }
 }

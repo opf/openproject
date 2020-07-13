@@ -35,8 +35,6 @@ import {BcfListContainerComponent} from "core-app/modules/bim/ifc_models/bcf/lis
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
-
-
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'bim',

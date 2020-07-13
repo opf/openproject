@@ -41,12 +41,15 @@ whenDebugging(() => {
   (window as any).disableReactiveStatesLogging = () => enableReactiveStatesLogging(false);
 });
 
-
-jQuery(function () {
-  // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
-  platformBrowserDynamic()
-    .bootstrapModule(OpenProjectModule)
-    .then(platformRef => {
-      jQuery('body').addClass('__ng2-bootstrap-has-run');
+// Import the correct locale early on
+import(`./locales/${I18n.locale}.js`)
+  .then(() => {
+    jQuery(function () {
+      // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
+      platformBrowserDynamic()
+        .bootstrapModule(OpenProjectModule)
+        .then(platformRef => {
+          jQuery('body').addClass('__ng2-bootstrap-has-run');
+        });
     });
 });

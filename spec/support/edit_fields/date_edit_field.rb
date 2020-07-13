@@ -89,13 +89,19 @@ class DateEditField < EditField
     end
   end
 
+  def click_today
+    within_modal do
+      find('.form--field-extra-actions a', text: 'Today').click
+    end
+  end
+
   def expect_value(value)
     expect
     expect(input_element.text).to eq(value)
   end
 
   def select_value(value)
-    datepicker.set_date value
+    datepicker.set_date value, true
   end
 
   def save!
@@ -108,10 +114,6 @@ class DateEditField < EditField
 
   def cancel_by_click
     scroll_to_and_click action_button('Cancel')
-  end
-
-  def clear_changes
-    scroll_to_and_click action_button('Clear all')
   end
 
   def action_button(text)

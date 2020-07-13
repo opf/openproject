@@ -18,13 +18,13 @@ fi:
     models:
       two_factor_authentication/device: "2FA laite"
       two_factor_authentication/device/sms: "Kännykkä"
-      two_factor_authentication/device/totp: "Authenticator -sovellus"
+      two_factor_authentication/device/totp: "Kaksivaiheisen kirjautumisen salasanasovellus"
   two_factor_authentication:
     error_2fa_disabled: "2FA-toimitus on poistettu käytöstä."
     error_no_device: "Tälle käyttäjälle ei löytynyt rekisteröityä 2FA-laitetta, vaikkei sitä tarvita tässä tapauksessa."
     error_no_matching_strategy: "Tälle käyttäjälle ei ole käytettävissä vastaavaa 2FA-strategiaa. Ota yhteyttä hallintoasihteisiisi."
     error_is_enforced_not_active: 'Konfigurointivirhe: Kaksitasoinen todennusta on noudatettu, mutta aktiivisia strategioita ei ole.'
-    error_invalid_backup_code: 'Virheellinen 2FA-varmistuskoodi'
+    error_invalid_backup_code: 'Virheellinen palautuskoodi'
     channel_unavailable: "Toimituskanava %{channel} ei ole käytettävissä."
     no_valid_phone_number: "Mitään voimassa olevaa puhelinnumeroa ei ole."
     label_pwd_confirmation: "Salasana"
@@ -33,7 +33,7 @@ fi:
     label_default_device: "Oletuksena 2FA-laite"
     label_device: "2FA laite"
     label_devices: "2FA laitteet"
-    label_one_time_password: 'Kerta salasana'
+    label_one_time_password: 'Kertakäyttösalasana'
     label_2fa_enabled: 'Kaksitasoinen todennus on aktiivinen'
     label_2fa_disabled: 'Kaksitasoinen todennus ei ole aktiivinen'
     text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
@@ -42,15 +42,15 @@ fi:
     text_2fa_enabled: 'Jokaisen sisäänkirjautumisen yhteydessä sinua pyydetään antamaan OTP-merkki normaaliin 2FA-laitteeseesi.'
     text_2fa_disabled: 'Voit ottaa kaksitasoisen todennuksen käyttöön käyttämällä yllä olevaa painiketta rekisteröidäksesi uuden 2FA-laitteen. Jos sinulla on jo laite, sinun on tehtävä se oletuksena.'
     login:
-      enter_backup_code_title: Syötä varmistuskoodi
+      enter_backup_code_title: Syötä palautuskoodi
       enter_backup_code_text: Syötä voimassa oleva vahvistuskoodi koodiluettelosta, jos sinulla ei ole enää pääsyä rekisteröityihin 2FA laitteisiin.
-      other_device: 'Käytä toista laitetta tai varmistuskoodia'
+      other_device: 'Käytä toista laitetta tai palautuskoodia'
     settings:
       title: 'Kaksivaiheisen tunnistautumisen asetukset'
       current_configuration: 'Current configuration'
       label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      label_enforced: 'Vaadi kaksivaiheinen kirjautuminen'
+      label_remember: 'Muista kaksivaiheinen kirjautuminen'
       text_configuration: |
         Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
       text_configuration_guide: For more information, check the configuration guide.
@@ -63,31 +63,31 @@ fi:
     admin:
       self_edit_path: 'Os haluat lisätä tai muokata omia 2FA-laitteitasi, siirry osoitteeseen %{self_edit_link}'
       self_edit_link_name: 'Kaksitasoinen todentaminen tilisi sivulla'
-      self_edit_forbidden: 'Et voi muokata omia 2FA-laitteitasi tällä polulla. Siirry Oma tili> Kaksi tekijän todennusta sijaan.'
+      self_edit_forbidden: 'Et voi muokata omia 2FA-laitteitasi tällä polulla. Siirry Tiliasetukset> Kaksi tekijän todennusta sijaan.'
       no_devices_for_user: 'Tätä käyttäjää varten ei ole rekisteröity 2FA-laitetta.'
       all_devices_deleted: 'Tämän käyttäjän kaikki 2FA-laitteet on poistettu'
       delete_all_are_you_sure: 'Haluatko varmasti poistaa kaikki tämän käyttäjän 2FA-laitteet?'
       button_delete_all_devices: 'Poista rekisteröidyt 2FA-laitteet'
       button_register_mobile_phone_for_user: 'Rekisteröi matkapuhelin'
       text_2fa_enabled: 'Jokaisen sisäänkirjautumisen yhteydessä tätä käyttäjää pyydetään syöttämään OTP-tunniste hänen oletusarvoisesta 2FA-laitteestaan.'
-      text_2fa_disabled: "Käyttäjä ei asettanut 2FA-laitetta hänen \"Oma tili -sivullaan\""
+      text_2fa_disabled: "Käyttäjä ei asettanut 2FA-laitetta hänen \"Tiliasetukset -sivullaan\""
     upsale:
       title: 'Two-factor authentication is an enterprise feature'
       description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
-      none_found: Tälle tilille ei ole varakoodeja.
-      singular: Varmistuskoodi
+      none_found: Tälle tilille ei ole palautuskoodeja.
+      singular: Palautuskoodi
       plural: Varmistuskoodi
       your_codes: '%{app_name} tilisi %{login}'
       overview_description: |
-        Jos et pysty käyttämään kahta tekijälaitteesi, voit käyttää varmuuskopiokoodia, jotta voit palauttaa tilisi käyttöoikeuden. Luo uusi joukko varakoodeja seuraavalla painikkeella.
+        Jos et pysty käyttämään 2FA-laitettasi, voit käyttää palautuskoodia. Luo palautuskoodit seuraavalla painikkeella.
       generate:
-        title: Luo varmistuskoodeja
+        title: Luo palautuskoodit
         keep_safe_as_password: 'Tärkeä! Käsittele näitä koodeja salasanoina.'
-        keep_safe_warning: 'Joko tallenna ne salasanakehjiisi tai tulosta sivu ja aseta se turvalliseen paikkaan.'
+        keep_safe_warning: 'Joko tallenna ne salasanahallintaasi tai tulosta sivu ja säilytä se turvallisessa paikassa.'
         regenerate_warning: 'Varoitus: Jos olet luonut varmuuskopiokoodit aiemmin, ne mitätöidään ja eivät enää toimi.'
     devices:
-      add_new: 'Lisää uusi 2FA-laite'
+      add_new: 'Lisää todennuslaite'
       register: 'Rekisteröi laite'
       confirm_default: 'Vahvista oletuslaitteen muuttaminen'
       confirm_device: 'Vahvista laite'
@@ -101,29 +101,28 @@ fi:
       registration_failed_update: '2FA laitteen rekisteröinti epäonnistui, merkki oli voimassa, mutta laitetta ei voitu päivittää.'
       confirm_send_failed: 'Confirmation of your 2FA device failed.'
       button_complete_registration: 'Complete 2FA registration'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Vahvista laitteen <strong>%{identifier}</strong> rekisteröinti antamalla kertakäyttösalasana."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
       text_identifier: 'You can give the device a custom identifier using this field.'
       failed_to_delete: 'Failed to delete 2FA device.'
       is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
       not_existing: 'No 2FA device has been registered for your account.'
-      request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      request_2fa: Anna kertakäyttösalasana laitteesta %{device_name}.
       totp:
-        title: 'Use your app-based authenticator'
-        provisioning_uri: 'Provisioning URI'
+        title: 'Käytä sovellusta kirjautumisen varmennukseen'
+        provisioning_uri: 'Sovelluksen URI'
         secret_key: 'Salainen avain'
-        time_based: 'Time based'
-        account: 'Account name / Issuer'
+        time_based: 'Aikaperusteinen'
+        account: 'Tilin nimi'
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
           After opening the app, you can scan the following QR code to register the device.
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          Koodin skannaaminen sovelluksella epäonnistuu?
         text_cannot_scan: |
-          If you can't scan the code, you can enter the entry manually using the following details:
+          Jos et voi skannata koodia, voit lisätä tiedot käsin:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Rekisteröi varmennussovellus kaksivaiheisen kirjautumisen todennusvälineeksi kertakäyttösalasanoja varten. Yleisin sovellus tähän tarkoitukseen on esimerkiksi Google Authenticator, jonka voit ladata puhelimeesi sovelluskaupasta.
       sms:
         title: 'Use your mobile phone'
         redacted_identifier: 'Mobile device (%{redacted_number})'
@@ -138,13 +137,13 @@ fi:
     restdt:
       delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
     strategies:
-      totp: 'Authenticator -sovellus'
+      totp: 'Kaksivaiheisen kirjautumisen salasanasovellus'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "A one-time password has been sent to your cell phone."
     label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+      required_to_add_device: 'Tietoturva-asetukset vaativat kaksivaiheisen todennuksen käyttöönoton. Ole hyvä ja rekisteröi laitteesi.'
     remember:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
@@ -152,10 +151,10 @@ fi:
       label: 'Muista'
       clear_cookie: 'Click here to remove all remembered 2FA sessions.'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+      dont_ask_again: "Muista kaksivaiheinen tunnistaminen tällä laitteella seuraavat %{days} päivää."
   field_phone: "Matkapuhelin"
-  field_otp: "Kerta salasana"
-  notice_account_otp_invalid: "Invalid one-time password."
+  field_otp: "Kertakäyttösalasana"
+  notice_account_otp_invalid: "Virheellinen kertakäyttösalasana."
   notice_account_otp_expired: "The one-time password you entered expired."
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
   notice_account_otp_send_failed: "Your one-time password could not be sent."

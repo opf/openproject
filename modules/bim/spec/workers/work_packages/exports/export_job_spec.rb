@@ -32,19 +32,26 @@ require 'spec_helper'
 
 describe WorkPackages::Exports::ExportJob do
   let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
-    FactoryBot.build_stubbed(:work_packages_export, user: user)
+    FactoryBot.build_stubbed(:work_packages_export)
   end
   let(:query) { FactoryBot.build_stubbed(:query) }
 
-  let(:instance) { described_class.new }
-  let(:options) { {} }
+  let(:job) { described_class.new(jobs_args) }
+  let(:jobs_args) do
+    {
+      export: export,
+      mime_type: mime_type,
+      user: user,
+      options: {},
+      query: query,
+      query_attributes: {}
+    }
+  end
+
   subject do
-    instance.perform(export: export,
-                     mime_type: mime_type,
-                     options: options,
-                     query: query,
-                     query_attributes: {})
+    job.tap(&:perform_now)
   end
 
   describe '#perform' do
@@ -74,14 +81,17 @@ describe WorkPackages::Exports::ExportJob do
           .to receive(:perform_after_grace)
 
         expect(service)
-          .to receive(:call)
-          .with(uploaded_file: file, description: '')
+          .to(receive(:call))
+          .and_return attachment
 
         allow(OpenProject::Bim::BcfXml::Exporter)
           .to receive(:list)
           .and_yield(result)
 
-        subject
+        # expect to create a status
+        expect(subject.job_status).to be_present
+        expect(subject.job_status[:status]).to eq 'success'
+        expect(subject.job_status[:payload]['download']).to eq '/api/v3/attachments/1234/content'
       end
     end
   end

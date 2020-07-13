@@ -179,32 +179,32 @@ el:
             label_domain: "Τομέας"
             label_subscriber: "Συνδρομητής"
             label_maximum_users: "Μέγιστοι ενεργοί χρήστες"
-            label_starts_at: "Starts at"
+            label_starts_at: "Αρχίζει στις"
             label_expires_at: "Λήγει στις"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
+            receive_newsletter: Θέλω να λαμβάνω το <a target="_blank" href="%{link}">ενημερωτικό δελτίο</a> του OpenProject.
+            taken_domain: Μπορεί να υπάρχει μόνο μια ενεργή δοκιμαστική συνδρομή ανά τομέα.
+            taken_email: Κάθε χρήστης μπορεί να δημιουργήσει μόνο μία δοκιμαστική συνδρομή.
+          email_not_received: "Δεν λάβατε email? Μπορείτε να ξαναστείλετε το email με τον σύνδεσμο στα δεξιά."
+          try_another_email: "Ή δοκιμάστε με διαφορετική διεύθυνση email."
           next_steps: "Επόμενα βήματα"
           resend_link: "Αποστολή ξανά"
           resend_success: "Το email απεστάλη ξανά. Παρακαλούμε ελέγξτε τα emails σας και πατήστε τον σύνδεσμο επιβεβαίωσης."
           resend_warning: "Δεν ήταν δυνατή η αποστολή email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          session_timeout: "Η συνεδρία σας έληξε. Παρακαλούμε δοκιμάστε να ξαναφορτώσετε τη σελίδα ή να ξαναστείλετε το email."
           status_label: "Κατάσταση:"
           status_confirmed: "επιβεβαιωμένο"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
+          status_waiting: "το email απεστάλη - αναμονή για επιβεβαίωση"
+          test_ee: "Δοκιμάστε την Έκδοση για Επιχειρήσεις για 14 ημέρες δωρεάν "
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
         upsale:
           become_hero: "Γίνετε ήρωας!"
           benefits:
             description: "Ποιά είναι τα οφέλη;"
-            high_security: "Security features"
+            high_security: "Χαρακτηριστικά ασφαλείας"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
+            installation: "Υποστήριξη εγκατάστασης"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "Premium λειτουργίες"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Επαγγελματική υποστήριξη"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -215,8 +215,8 @@ el:
           link_quote: "Λάβετε μια προσφορά"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+          unlimited: "Απεριόριστα"
+          you_contribute: "Και οι προγραμματιστές πρέπει να πληρώσουν τους λογαριασμούς τους. Με την Έκδοση για Επιχειρήσεις, μπορείτε να συνεισφέρετε ουσιαστικά σε αυτή προσπάθεια της Open Source κοινότητας."
     custom_actions:
       date:
         specific: 'σε'
@@ -397,7 +397,7 @@ el:
     label_sum_for: "Άθροισμα του"
     label_subject: "Θέμα"
     label_this_week: "αυτή την εβδομάδα"
-    label_today: "σήμερα"
+    label_today: "Today"
     label_time_entry_plural: "Χρόνος που δαπανήθηκε"
     label_up: "Πάνω"
     label_user_plural: "Χρήστες"
@@ -583,6 +583,9 @@ el:
       select_branch: 'Επιλογή κλάδου'
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     project_menu_details: "Λεπτομέρειες"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Εφαρμόστηκε αύξουσα ταξινόμηση, '
       sorted_dsc: 'Εφαρμόστηκε φθίνουσα ταξινόμηση, '
@@ -882,8 +885,8 @@ el:
         confirm_deletion_children: "Αναγνωρίζω ότι ΌΛΟΙ οι απόγονοι από τα αναφερόμενα πακέτα εργασίας θα αφαιρεθούν αναδρομικά."
         deletes_children: "Όλα τα παιδιά πακέτα εργασίας και οι απόγονοι τους επίσης θα διαγραφούν αναδρομικά."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Επιβεβαίωση διαγραφής καταχώρησης χρόνου"
+        text: "Είστε βέβαιοι ότι θέλετε να διαγράψετε την ακόλουθη καταχώρηση χρόνου"
     notice_no_results_to_display: "Δεν υπάρχουν αποτελέσματα για εμφάνιση."
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."

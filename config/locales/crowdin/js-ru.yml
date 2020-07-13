@@ -583,6 +583,9 @@ ru:
       select_branch: 'Выберите ветвь'
     field_value_enter_prompt: "Введите значение для «%{field}»"
     project_menu_details: "Детали"
+    scheduling:
+      manual: 'Ручное планирование'
+      automatic: 'Автоматическое планирование'
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
       sorted_dsc: 'Применяется сортировка по убыванию, '

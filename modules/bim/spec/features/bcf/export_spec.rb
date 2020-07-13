@@ -79,10 +79,18 @@ describe 'bcf export',
     ::DownloadedFile::clear_downloads
     page.find('.export-bcf-button').click
 
+    # Expect to get a response regarding queuing
+    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'),
+                                 wait: 10
+
     perform_enqueued_jobs
+
     # Wait for the file to download
     ::DownloadedFile.wait_for_download
     ::DownloadedFile.wait_for_download_content
+
+    # Close the modal
+    page.find('.op-modal--modal-close-button').click
 
     # Check the downloaded file
     OpenProject::Bim::BcfXml::Importer.new(

@@ -27,6 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= render :partial => 'custom_fields_header' %>
+
 <% html_title l(:label_administration), "#{l(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
 
 <% local_assigns[:additional_breadcrumb] =  link_to(l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),

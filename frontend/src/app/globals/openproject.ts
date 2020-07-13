@@ -29,6 +29,7 @@
 import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
 import {input, InputState} from 'reactivestates';
 import {take} from 'rxjs/operators';
+import {GlobalHelpers} from "core-app/globals/global-helpers";
 
 /**
  * OpenProject instance methods
@@ -36,6 +37,8 @@ import {take} from 'rxjs/operators';
 export class OpenProject {
 
   public pluginContext:InputState<OpenProjectPluginContext> = input<OpenProjectPluginContext>();
+
+  public helpers = new GlobalHelpers();
 
   /** Globally setable variable whether the page was edited */
   public pageWasEdited:boolean = false;

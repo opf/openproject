@@ -20,12 +20,12 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 pt:
-  error_can_not_be_assigned: O papel não pode ser atribuído a este utilizador
-  global_roles: Papéis Globais
+  error_can_not_be_assigned: O papel não pode ser atribuído a este usuário
+  global_roles: Papéis globais
   label_role_type: Tipo
-  label_member_role: Papel do Projeto
-  label_global_role: Papel Global
-  label_not_changeable: (não mutável)
+  label_member_role: Papel no projeto
+  label_global_role: Papel global
+  label_not_changeable: (não modificável)
   label_no_assignable_role: Nenhum papel global disponível para atribuição
   label_global: Global
   seeders:

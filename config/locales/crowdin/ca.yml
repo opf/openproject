@@ -87,6 +87,10 @@ ca:
     index:
       no_results_content_title: Actualment no hi ha cap mode d'autenticació.
       no_results_content_text: Crear un nou mode d'autenticació
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -414,6 +418,7 @@ ca:
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
+        templated: 'Template project'
       projects/status:
         code: 'Estat'
         explanation: 'Status description'
@@ -485,6 +490,7 @@ ca:
         parent_work_package: "Pare"
         priority: "Prioritat"
         progress: "Progrés (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
         subproject: "Subprojecte"
@@ -882,6 +888,7 @@ ca:
       - "Oct"
       - "Nov"
       - "Des"
+    abbr_week: 'Wk'
     day_names:
       - "Diumenge"
       - "Dilluns"
@@ -1117,6 +1124,8 @@ ca:
     work_package_edit: 'Paquet de treball editat'
     work_package_note: 'Afegida nota al paquet de treball'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1624,6 +1633,7 @@ ca:
   label_time_entry_plural: "Temps invertit"
   label_time_sheet_menu: "Full de temps"
   label_time_tracking: "Seguiment de temps"
+  label_projects_menu: "Projectes"
   label_today: "avui"
   label_top_menu: "Menú superior"
   label_topic_plural: "Temes"
@@ -1944,6 +1954,12 @@ ca:
       warning_one: Els membres del projecte hauran de reubicar els repositoris del projecte.
       warning_two: Els vncles existents al projecte ja no funcionaran.
       title: Canviar l'identificador del projecte
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Esteu segur que voleu arxivar el projecte \"%{name}\"?"
       archived: "Archived"

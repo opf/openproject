@@ -97,16 +97,6 @@ module OpenProject::Reporting
       require 'open_project/reporting/hooks'
     end
 
-    initializer 'reporting.precompile_assets' do
-      Rails.application.config.assets.precompile += %w(
-        reporting_engine/reporting_engine.js
-      )
-
-      # Without this, tablesorter's assets are not found.
-      # This should actually be done by rails itself when one adds the gem to the gemspec.
-      Rails.application.config.assets.paths << Gem.loaded_specs['jquery-tablesorter'].full_gem_path + '/vendor/assets/javascripts'
-    end
-
     config.to_prepare do
       require_dependency 'report/walker'
       require_dependency 'report/transformer'
@@ -114,9 +104,6 @@ module OpenProject::Reporting
       require_dependency 'widget/settings_patch'
       require_dependency 'cost_query/group_by'
     end
-
-    assets %w(reporting/reporting_styles.css
-              reporting/reporting.js)
 
     patches %i[TimelogController CustomFieldsController OpenProject::Configuration]
     patch_with_namespace :BasicData, :RoleSeeder
