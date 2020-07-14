@@ -48,7 +48,6 @@ import {input, InputState} from "reactivestates";
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {WorkPackageTimelineCellsRenderer} from "core-components/wp-table/timeline/cells/wp-timeline-cells-renderer";
 import {States} from "core-components/states.service";
-import {WorkPackagesTableController} from "core-components/wp-table/wp-table.directive";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
@@ -60,6 +59,7 @@ import {HalEventsService} from "core-app/modules/hal/services/hal-events.service
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {combineLatest} from "rxjs";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -95,7 +95,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   constructor(public readonly injector:Injector,
               private elementRef:ElementRef,
               private states:States,
-              public wpTableDirective:WorkPackagesTableController,
+              public wpTableComponent:WorkPackagesTableComponent,
               private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageViewTimelineService,
               private notificationService:WorkPackageNotificationService,
@@ -119,7 +119,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.timelineBody = this.$element.find('.wp-table-timeline--body');
 
     // Register this instance to the table
-    this.wpTableDirective.registerTimeline(this, this.timelineBody[0]);
+    this.wpTableComponent.registerTimeline(this, this.timelineBody[0]);
 
     // Refresh on window resize events
     window.addEventListener('wp-resize.timeline', () => this.refreshRequest.putValue(undefined));
@@ -408,7 +408,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         // did the zoom level changed?
         if (previousZoomLevel !== zoomLevel) {
           this._viewParameters.settings.zoomLevel = zoomLevel;
-          this.wpTableDirective.timeline.scrollLeft = 0;
+          this.wpTableComponent.timeline.scrollLeft = 0;
         }
 
         this.wpTableTimeline.appliedZoomLevel = zoomLevel;

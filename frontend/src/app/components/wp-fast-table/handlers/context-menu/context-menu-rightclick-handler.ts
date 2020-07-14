@@ -7,15 +7,14 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {ContextMenuHandler} from './context-menu-handler';
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {TableEventComponent} from "core-components/wp-fast-table/handlers/table-handler-registry";
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
 
   @InjectField() readonly wpTableSelection:WorkPackageViewSelectionService;
 
-  constructor(public readonly injector:Injector,
-              table:WorkPackageTable) {
-
-    super(injector, table);
+  constructor(public readonly injector:Injector) {
+    super(injector);
   }
 
   public get EVENT() {
@@ -26,12 +25,12 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     return `.${tableRowClassName},.${timelineCellClassName}`;
   }
 
-  public eventScope(table:WorkPackageTable) {
-    return jQuery(table.tableAndTimelineContainer);
+  public eventScope(view:TableEventComponent) {
+    return jQuery(view.workPackageTable.tableAndTimelineContainer);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
-    if (!table.configuration.contextMenuEnabled) {
+  public handleEvent(view:TableEventComponent, evt:JQuery.TriggeredEvent):boolean {
+    if (!view.workPackageTable.configuration.contextMenuEnabled) {
       return false;
     }
     let target = jQuery(evt.target);
@@ -51,13 +50,13 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     const wpId = element.data('workPackageId');
 
     if (wpId) {
-      let [index,] = this.table.findRenderedRow(wpId);
+      let [index,] = view.workPackageTable.findRenderedRow(wpId);
 
       if (!this.wpTableSelection.isSelected(wpId)) {
         this.wpTableSelection.setSelection(wpId, index);
       }
 
-      super.openContextMenu(evt, wpId);
+      this.openContextMenu(view.workPackageTable, evt, wpId);
     }
 
     return false;

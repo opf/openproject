@@ -33,7 +33,10 @@ import {WorkPackageCardViewService} from "core-components/wp-card-view/services/
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
-import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+import {
+  WorkPackageViewHandlerToken,
+  WorkPackageViewOutputs
+} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
@@ -46,7 +49,7 @@ export type CardViewOrientation = 'horizontal'|'vertical';
   templateUrl: './wp-card-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, WorkPackageViewOutputs {
   @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
   @Input() public dragInto:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
@@ -65,6 +68,9 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   @ViewChild('container', { static: true }) public container:ElementRef;
 
   @Output() public onMoved = new EventEmitter<void>();
+  @Output() selectionChanged = new EventEmitter<string[]>();
+  @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
+  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('lockVersion');
   public query:QueryResource;

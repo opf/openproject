@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output} from "@angular/core";
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
@@ -37,6 +37,7 @@ import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
+import {WorkPackageViewOutputs} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 
 @Component({
   selector: 'wp-grid',
@@ -48,6 +49,9 @@ import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-c
                   [showStatusButton]="true"
                   [orientation]="gridOrientation"
                   (onMoved)="switchToManualSorting()"
+                  (selectionChanged)="selectionChanged.emit($event)"
+                  (itemClicked)="itemClicked.emit($event)"
+                  (stateLinkClicked)="stateLinkClicked.emit($event)"
                   [showEmptyResultsBox]="true"
                   [showInfoButton]="true"
                   [shrinkOnMobile]="true">
@@ -65,11 +69,15 @@ import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-c
     WorkPackageCardDragAndDropService
   ]
 })
-export class WorkPackagesGridComponent {
+export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
   @Input() public configuration:WorkPackageTableConfiguration;
   @Input() public showResizer:boolean = false;
   @Input() public resizerClass:string = '';
   @Input() public resizerStorageKey:string = '';
+
+  @Output() selectionChanged = new EventEmitter<string[]>();
+  @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
+  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   public canDragOutOf:() => boolean;
   public dragInto:boolean;

@@ -6,7 +6,7 @@ import {States} from '../../../states.service';
 import {tdClassName} from '../../builders/cell-builder';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {TableEventHandler} from '../table-handler-registry';
+import {TableEventComponent, TableEventHandler} from '../table-handler-registry';
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {displayClassName} from "core-components/wp-edit-form/display-field-renderer";
@@ -21,8 +21,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
   @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
   @InjectField() public wpTableFocus:WorkPackageViewFocusService;
 
-  constructor(public readonly injector:Injector,
-              table:WorkPackageTable) {
+  constructor(public readonly injector:Injector) {
   }
 
   public get EVENT() {
@@ -33,11 +32,11 @@ export class RowDoubleClickHandler implements TableEventHandler {
     return `.${tdClassName}`;
   }
 
-  public eventScope(table:WorkPackageTable) {
-    return jQuery(table.tbody);
+  public eventScope(view:TableEventComponent) {
+    return jQuery(view.workPackageTable.tbody);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
+  public handleEvent(view:TableEventComponent, evt:JQuery.TriggeredEvent) {
     let target = jQuery(evt.target);
 
     // Skip clicks with modifiers
@@ -64,10 +63,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
     // Save the currently focused work package
     this.wpTableFocus.updateFocus(wpId);
 
-    this.$state.go(
-      'work-packages.show',
-      {workPackageId: wpId}
-    );
+    view.itemClicked.emit({ workPackageId: wpId, double: true });
 
     return false;
   }

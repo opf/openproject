@@ -12,6 +12,7 @@ import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resou
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {distinctUntilChanged, map, take, withLatestFrom} from "rxjs/operators";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -35,6 +36,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
   @InjectField() wpTablePagination:WorkPackageViewPaginationService;
   @InjectField() QueryFormDm:QueryFormDmService;
+  @InjectField() keepTab:KeepTabService;
 
   // Cache the form promise
   private formPromise:Promise<QueryFormResource>|undefined;
@@ -167,5 +169,21 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
 
     return promise;
+  }
+
+  handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
+    if (event.double) {
+      this.$state.go(
+        'work-packages.show',
+        { workPackageId: event.workPackageId }
+      );
+    }
+  }
+
+  openStateLink(event:{ workPackageId:string; requestedState:string }) {
+    this.$state.go(
+      (this.keepTab as any)[event.requestedState] || event.requestedState,
+      { workPackageId: event.workPackageId, focus: true }
+    );
   }
 }
