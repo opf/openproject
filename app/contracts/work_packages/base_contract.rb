@@ -136,7 +136,7 @@ module WorkPackages
       ret = super
 
       # If we're in a readonly status and did not move into that status right now
-      # only allow other status transitions
+      # only allow other status transitions. But also prevent that if the associated version is closed.
       if model.readonly_status? && !model.status_id_change
         ret &= %w(status status_id)
       end
