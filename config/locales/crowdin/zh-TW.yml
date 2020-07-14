@@ -282,6 +282,7 @@ zh-TW:
     overview:
       no_results_title_text: 目前沒有工作包分配給此版本。
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: 目前沒有 wiki 頁面
     index:
       no_results_content_text: 新增一個 wiki 頁面

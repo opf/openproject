@@ -282,6 +282,7 @@ cs:
     overview:
       no_results_title_text: Momentálně zde nejsou žádné pracovní balíčky přiřazené k této verzi.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: V současné době neexistují žádné Wiki stránky.
     index:
       no_results_content_text: Přidat novou wiki stránku

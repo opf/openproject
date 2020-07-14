@@ -282,6 +282,7 @@ sk:
     overview:
       no_results_title_text: Momentálne nie sú priradené žiadne pracovné balíky k tejto verzii.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Momentálne neexistujú žiadne stránky wiki.
     index:
       no_results_content_text: Pridať novú stránku wiki
@@ -492,7 +493,7 @@ sk:
         parent_work_package: "Nadradený balíček"
         priority: "Priorita"
         progress: "Stav spracovania (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Plánovať ručne"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Podprojekt"
@@ -1157,7 +1158,7 @@ sk:
     work_package_note: 'Poznámka pracovného balíčka pridaná'
   export:
     your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    succeeded: "Operácia bola úspešne dokončená."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1998,8 +1999,8 @@ sk:
     template:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
+      use_template: 'Použiť šablónu'
+      make_template: 'Použiť ako šablónu'
       remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Naozaj chcete archivovať projekt \"%{name}\"?"

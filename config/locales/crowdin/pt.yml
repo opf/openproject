@@ -280,6 +280,7 @@ pt:
     overview:
       no_results_title_text: Não há pacote de trabalho atribuído a esta versão.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Atualmente, não há páginas wiki.
     index:
       no_results_content_text: Adicionar uma nova página wiki

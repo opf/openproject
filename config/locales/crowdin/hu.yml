@@ -279,6 +279,7 @@ hu:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Jelenleg nincsenek wiki oldalak.
     index:
       no_results_content_text: Új wiki oldal hozzáadása

@@ -277,6 +277,7 @@ lt:
     overview:
       no_results_title_text: Šiuo metu nėra šiai versijai priskirtų darbų paketų.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Nėra wiki puslapių.
     index:
       no_results_content_text: Pridėti naują wiki puslapį

@@ -284,6 +284,7 @@ vi:
     overview:
       no_results_title_text: There are currently no work packages assigned to this version.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
     index:
       no_results_content_text: Add a new wiki page

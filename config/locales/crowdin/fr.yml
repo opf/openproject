@@ -281,6 +281,7 @@ fr:
     overview:
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à cette version.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Il n'y a actuellement aucune page wiki.
     index:
       no_results_content_text: Ajouter une nouvelle page wiki

@@ -282,6 +282,7 @@ fi:
     overview:
       no_results_title_text: Tähän versioon ei ole liitetty yhtään tehtävää.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Ei Wiki-sivuja.
     index:
       no_results_content_text: Lisää uusi wikisivu

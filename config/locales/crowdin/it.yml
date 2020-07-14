@@ -278,6 +278,7 @@ it:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Al momento non vi sono pagine wiki.
     index:
       no_results_content_text: Aggiungi una nuova pagina wiki

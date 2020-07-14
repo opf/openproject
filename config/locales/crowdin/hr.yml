@@ -282,6 +282,7 @@ hr:
     overview:
       no_results_title_text: Trenutno nije dostupan niti jedan radni paket pridružen ovoj verziji.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Trentuno nema wiki stranica.
     index:
       no_results_content_text: Nova wiki stranici

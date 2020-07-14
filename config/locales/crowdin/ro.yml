@@ -282,6 +282,7 @@ ro:
     overview:
       no_results_title_text: În acest moment nu există pachete de lucru alocate acestei versiuni.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: În acest moment nu există pagini wiki.
     index:
       no_results_content_text: Adăugare pagină wiki nouă

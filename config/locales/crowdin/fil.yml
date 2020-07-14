@@ -282,6 +282,7 @@ fil:
     overview:
       no_results_title_text: Sa kasalukuyan ay walang mga work packages na nakatala sa bersyong ito.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Sa kasalukuyan ay walang mga wiki pages.
     index:
       no_results_content_text: Gumawa ng bagong wiki page
