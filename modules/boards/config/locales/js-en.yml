@@ -47,6 +47,7 @@ en:
           assignee: assignee
           status: status
           version: version
+          subproject: Subproject
         select_attribute: "Action attribute"
 
       add_list_modal:

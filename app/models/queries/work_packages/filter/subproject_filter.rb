@@ -76,20 +76,24 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
     "#{Project.table_name}.id IN (%s)" % ids_for_where.join(',')
   end
 
-  private
+  protected
 
   def ids_for_where
-    [project.id] + case operator
-                   when ::Queries::Operators::Equals.symbol
-                     # include the selected subprojects
-                     value_ints
-                   when ::Queries::Operators::All.symbol
-                     visible_subproject_ids
-                   when ::Queries::Operators::NotEquals.symbol
-                     visible_subproject_ids - value_ints
-                   else # None
-                     []
-                   end
+    [project.id] + ids_for_where_subproject
+  end
+
+  def ids_for_where_subproject
+    case operator
+    when ::Queries::Operators::Equals.symbol
+      # include the selected subprojects
+      value_ints
+    when ::Queries::Operators::All.symbol
+      visible_subproject_ids
+    when ::Queries::Operators::NotEquals.symbol
+      visible_subproject_ids - value_ints
+    else # None
+      []
+    end
   end
 
   def visible_subproject_array
