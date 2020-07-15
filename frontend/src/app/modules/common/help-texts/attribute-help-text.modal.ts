@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
@@ -34,7 +34,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 
 @Component({
-  templateUrl: './help-text.modal.html'
+  templateUrl: './help-text.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributeHelpTextModal extends OpModalComponent implements OnInit {
 
