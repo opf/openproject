@@ -21,6 +21,10 @@
          [innerHtml]="helpText.helpText.html">
     </div>
 
+    <attachments [resource]="helpText"
+                 data-allow-uploading="false">
+    </attachments>
+
     <div class="modal--form-actions">
       <a class="help-text--edit-button button"
          *ngIf="helpText.editText"

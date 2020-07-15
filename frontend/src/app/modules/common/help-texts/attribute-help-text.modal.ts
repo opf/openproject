@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
@@ -36,7 +36,7 @@ import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 @Component({
   templateUrl: './help-text.modal.html'
 })
-export class AttributeHelpTextModal extends OpModalComponent {
+export class AttributeHelpTextModal extends OpModalComponent implements OnInit {
 
   /* Close on escape? */
   public closeOnEscape = true;
@@ -56,6 +56,17 @@ export class AttributeHelpTextModal extends OpModalComponent {
               readonly cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef) {
     super(locals, cdRef, elementRef);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+
+    // Load the attachments
+    this
+      .helpText
+      .attachments
+      .$load()
+      .then(() => this.cdRef.detectChanges());
   }
 
   public get helpTextLink() {

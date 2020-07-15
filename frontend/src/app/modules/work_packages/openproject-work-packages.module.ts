@@ -130,7 +130,6 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
@@ -169,6 +168,8 @@ import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routi
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
+import {AttributeHelpTextComponent} from "core-app/modules/common/help-texts/attribute-help-text.component";
+import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribute-help-text.modal";
 
 @NgModule({
   imports: [
@@ -379,6 +380,10 @@ import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButton,
+
+    // Help texts
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
   ],
   exports: [
     WorkPackagesTableController,
@@ -412,7 +417,11 @@ import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
     WorkPackageEditActionsBarComponent,
     WorkPackageSingleViewComponent,
     WorkPackageSplitViewComponent,
-    BackButtonComponent
+    BackButtonComponent,
+
+    // Help texts
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
   ]
 })
 export class OpenprojectWorkPackagesModule {

@@ -77,6 +77,11 @@ describe 'Attribute help texts' do
         expect(modal.modal_container).to have_text 'My attribute help text'
         expect(modal.modal_container).to have_selector('img')
         modal.expect_edit(admin: true)
+
+        # Expect files section to be present
+        expect(modal.modal_container).to have_selector('.form--fieldset-legend', text: 'FILES')
+        expect(modal.modal_container).to have_selector('.work-package--attachments--filename')
+
         modal.close!
 
         # -> edit
