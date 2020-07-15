@@ -344,6 +344,35 @@ describe Projects::CopyService, 'integration', type: :model do
 
           expect(copied_order).to eq(original_order)
         end
+
+        context 'if one work package is a cross project reference' do
+          let(:other_project) { FactoryBot.create :project }
+          before do
+            work_package2.update! project: other_project
+          end
+
+          let(:only_args) { %w[work_packages queries] }
+
+          it 'copies the query and order' do
+            expect(subject).to be_success
+            # Only 3 out of the 4 work packages got copied this time
+            expect(project_copy.work_packages.count).to eq(3)
+            expect(project_copy.queries.count).to eq(2)
+
+            manual_query = project_copy.queries.find_by name: 'Manual query'
+            expect(manual_query).to be_manually_sorted
+
+            expect(query.ordered_work_packages.count).to eq 3
+            original_order = query.ordered_work_packages.map { |ow| ow.work_package.subject }
+            copied_order = manual_query.ordered_work_packages.map { |ow| ow.work_package.subject }
+
+            expect(copied_order).to eq(original_order)
+
+            # Expect reference to the origianl work package
+            referenced = query.ordered_work_packages.detect { |ow| ow.work_package == work_package2 }
+            expect(referenced).to be_present
+          end
+        end
       end
 
       describe '#parent' do
