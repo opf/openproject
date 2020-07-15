@@ -132,9 +132,9 @@ module Projects::Copy
       {
         project: target,
         parent_id: parent_id,
-        version: work_package_version(source_work_package),
-        assigned_to: work_package_assigned_to(source_work_package),
-        responsible: work_package_responsible(source_work_package),
+        version_id: work_package_version_id(source_work_package),
+        assigned_to_id: work_package_assigned_to_id(source_work_package),
+        responsible_id: work_package_responsible_id(source_work_package),
         custom_field_values: custom_value_attributes,
         # We fetch the value from the global registry to persist it in the job which
         # will trigger a delayed job for potentially sending the journal notifications.
@@ -142,16 +142,26 @@ module Projects::Copy
       }
     end
 
-    def work_package_version(source_work_package)
-      source_work_package.version && target.versions.detect { |v| v.name == source_work_package.version.name }
+    def work_package_version_id(source_work_package)
+      return unless source_work_package.version_id
+
+      state.version_id_lookup[source_work_package.version_id]
     end
 
-    def work_package_assigned_to(source_work_package)
-      source_work_package.assigned_to && target.possible_assignees.detect { |u| u.id == source_work_package.assigned_to_id }
+    def work_package_assigned_to_id(source_work_package)
+      assigned_to_id = source_work_package.assigned_to_id
+      return unless assigned_to_id
+
+      @assignees ||= target.possible_assignees.pluck(:id).to_set
+      assigned_to_id if @assignees.include?(assigned_to_id)
     end
 
-    def work_package_responsible(source_work_package)
-      source_work_package.responsible && target.possible_responsibles.detect { |u| u.id == source_work_package.responsible_id }
+    def work_package_responsible_id(source_work_package)
+      responsible_id = source_work_package.responsible_id
+      return unless responsible_id
+
+      @responsible ||= target.possible_responsibles.pluck(:id).to_set
+      responsible_id if @responsible.include?(responsible_id)
     end
   end
 end

@@ -51,10 +51,16 @@ module BaseServices
       # Return only the unsaved copy
       return call if params[:attributes_only]
 
+      # Try to save the result or return its errors
+      copy_instance = call.result
+      unless copy_instance.save
+        return ServiceResult.new(success: false, result: copy_instance, errors: copy_instance.errors)
+      end
+
       copy_dependencies.each do |service_cls|
         next if skip_dependency?(params, service_cls)
 
-        call.merge! call_dependent_service(service_cls, target: call.result, params: params)
+        call.merge! call_dependent_service(service_cls, target: copy_instance, params: params)
       end
 
       call
