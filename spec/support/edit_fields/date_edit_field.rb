@@ -42,6 +42,12 @@ class DateEditField < EditField
     end
   end
 
+  def expect_parent_notification
+    within_modal do
+      expect(page).to have_content(I18n.t('js.work_packages.scheduling.is_parent'))
+    end
+  end
+
   def toggle_scheduling_mode
     within_modal do
       find('.datepicker-modal--scheduling-action').click

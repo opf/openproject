@@ -345,12 +345,12 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     }
 
     _.each(this.changeset.all, (val:ChangeItem, key:string) => {
-      const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
-      if (fieldSchema && !fieldSchema.writable) {
+      if (!this.schema.isAttributeEditable(key)) {
         debugLog(`Trying to write ${key} but is not writable in schema`);
         return;
       }
 
+      const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
       // Override in _links if it is a linked property
       if (fieldSchema && reference._links[key]) {
         plainPayload._links[key] = this.getLinkedValue(val.to, fieldSchema);

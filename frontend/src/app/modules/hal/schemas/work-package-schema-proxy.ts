@@ -83,8 +83,15 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
    * @param property
    */
   public isAttributeEditable(property:string):boolean {
-    return super.isAttributeEditable(property) &&
-      (!this.isReadonly || property === 'status');
+    if (this.isReadonly && property !== 'status') {
+      return false;
+    } else if (['startDate', 'dueDate', 'date'].includes(property) &&
+      this.resource.scheduleManually) {
+      // This is a blatant shortcut but should be adequate.
+      return super.isAttributeEditable('scheduleManually');
+    } else {
+      return super.isAttributeEditable(property);
+    }
   }
 
   public get isMilestone():boolean {

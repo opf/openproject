@@ -864,6 +864,8 @@ en:
           not_found: "There is no such view"
           duplicate_query_title: "Name of this view already exists. Change anyway?"
         text_no_results: "No matching views were found."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."

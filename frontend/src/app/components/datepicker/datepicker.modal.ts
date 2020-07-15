@@ -73,7 +73,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
     placeholder: this.I18n.t('js.placeholders.default'),
-    today: this.I18n.t('js.label_today')
+    today: this.I18n.t('js.label_today'),
+    isParent: this.I18n.t('js.work_packages.scheduling.is_parent')
   };
   public onDataUpdated = new EventEmitter<string>();
 
@@ -115,9 +116,9 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   ngAfterViewInit():void {
-    this.initializeDatepicker();
-    this.datepickerHelper.setDatepickerRestrictions(this.dates, this.datePickerInstance);
-    this.datepickerHelper.setRangeClasses(this.dates);
+    if (this.isSchedulable) {
+      this.showDateSelection();
+    }
 
     this.onDataChange();
   }
@@ -125,6 +126,12 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   changeSchedulingMode() {
     this.scheduleManually = !this.scheduleManually;
     this.cdRef.detectChanges();
+
+    if (this.scheduleManually) {
+      this.showDateSelection();
+    } else {
+      this.removeDateSelection();
+    }
   }
 
   save():void {
@@ -181,7 +188,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   showTodayLink(key:DateKeys):boolean {
-    if (!this.datepickerHelper.isStateOfCurrentActivatedField(key)) {
+    if (!this.datepickerHelper.isStateOfCurrentActivatedField(key) && !this.isSchedulable) {
       return false;
     }
 
@@ -190,6 +197,24 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     } else {
       return this.datepickerHelper.parseDate(new Date()) >= this.datepickerHelper.parseDate(this.dates.start);
     }
+  }
+
+  /**
+   * Retuns whether the user can alter the dates of the work package.
+   * The work package is schedulable if the work package is a not a parent or if manual scheduling is enabled.
+   */
+  get isSchedulable():boolean {
+    return !this.isParent || this.scheduleManually;
+  }
+
+  private showDateSelection() {
+    this.initializeDatepicker();
+    this.datepickerHelper.setDatepickerRestrictions(this.dates, this.datePickerInstance);
+    this.datepickerHelper.setRangeClasses(this.dates);
+  }
+
+  private removeDateSelection() {
+    this.datePickerInstance.destroy();
   }
 
   private initializeDatepicker() {
@@ -330,5 +355,13 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   private initialActivatedField():DateKeys {
     return this.locals.fieldName === 'dueDate' || (this.dates.start && !this.dates.end) ? 'end' : 'start';
+  }
+
+  /**
+   * Determines whether the work package is a parent. It does so
+   * by checking the children links.
+   */
+  private get isParent():boolean {
+    return this.changeset.projectedResource.$links.children.length > 0;
   }
 }

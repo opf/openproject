@@ -86,6 +86,12 @@ describe 'scheduling mode',
 
   let(:combined_field) { work_packages_page.edit_field(:combinedDate) }
 
+  def expect_dates(work_package, start_date, due_date)
+    work_package.reload
+    expect(work_package.start_date).to eql Date.parse(start_date)
+    expect(work_package.due_date).to eql Date.parse(due_date)
+  end
+
   before do
     login_as(user)
 
@@ -101,14 +107,29 @@ describe 'scheduling mode',
     # Editing the start/due dates of a parent work package is possible if the
     # work package is manually scheduled
     combined_field.expect_scheduling_mode manually: false
+    combined_field.expect_parent_notification
     combined_field.toggle_scheduling_mode
     combined_field.update(%w[2016-01-05 2016-01-10])
 
     work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
 
-    wp.reload
+    expect_dates(wp, '2016-01-05', '2016-01-10')
     expect(wp.schedule_manually).to be_truthy
-    expect(wp.start_date).to eql Date.parse('2016-01-05')
-    expect(wp.due_date).to eql Date.parse('2016-01-10')
+
+    # is not moved because it is a child
+    expect_dates(wp_child, '2016-01-01', '2016-01-05')
+
+    # The due date is moved backwards because its child was moved
+    # but the start date remains unchanged as its grandchild stays put.
+    expect_dates(wp_parent, '2016-01-01', '2016-01-10')
+
+    # is moved backwards because of the follows relationship
+    expect_dates(wp_suc, '2016-01-11', '2016-01-15')
+
+    # is moved backwards because it is the parent of the successor
+    expect_dates(wp_suc_parent, '2016-01-11', '2016-01-15')
+
+    # is moved backwards as the whole hierarchy is moved backwards
+    expect_dates(wp_suc_child, '2016-01-11', '2016-01-15')
   end
 end

@@ -48,9 +48,11 @@
                          [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
                          [ngModel]="dates.start"
                          (ngModelChange)="updateDate('start', $event)"
+                         [disabled]="!isSchedulable"
                          (click)="setCurrentActivatedField('start')">
                 </div>
                 <a class="form--field-inline-action"
+                   *ngIf="isSchedulable"
                    [title]="text.clear"
                    (click)="clear('start')">
                   <span class="icon2 icon-small  icon-cancel"></span>
@@ -75,9 +77,11 @@
                          [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
                          [ngModel]="dates.end"
                          (ngModelChange)="updateDate('end', $event)"
+                         [disabled]="!isSchedulable"
                          (click)="setCurrentActivatedField('end')">
                 </div>
                 <a class="form--field-inline-action"
+                   *ngIf="isSchedulable"
                    [title]="text.clear"
                    (click)="clear('end')">
                   <span class="icon2 icon-small icon-cancel"></span>
@@ -108,8 +112,17 @@
         </div>
       </form>
 
-      <input id="flatpickr-input"
-             hidden>
+      <ng-container *ngIf="!isSchedulable">
+        <div class="notification-box -info">
+          <div class="notification-box--content">
+            <p [textContent]="text.isParent"></p>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="isSchedulable">
+        <input id="flatpickr-input"
+               hidden>
+      </ng-container>
 
       <div class="datepicker-modal--actions-container">
         <a (click)="cancel()"
