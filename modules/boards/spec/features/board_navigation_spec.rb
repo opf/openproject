@@ -159,8 +159,8 @@ describe 'Work Package boards spec', type: :feature, js: true do
     split_view.expect_subject
 
     # Go to full view of WP
-    full_view = split_view.switch_to_fullscreen
-    find('#action-show-more-dropdown-menu').click();
+    split_view.switch_to_fullscreen
+    find('#action-show-more-dropdown-menu').click
 
     # Delete the WP
     destroy_modal.expect_listed(wp)
@@ -168,6 +168,6 @@ describe 'Work Package boards spec', type: :feature, js: true do
     click_button(I18n.t('button_delete'))
 
     board_page.expect_empty
-    expect(page).to have_current_path 
+    expect(page).to have_current_path
   end
 end
