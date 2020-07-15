@@ -104,7 +104,7 @@
     "jquery-ujs": "^1.2.2",
     "jquery.caret": "^0.3.1",
     "json5": "^2.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mark.js": "^8.11.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
