@@ -43,10 +43,6 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
 
   validates_inclusion_of :attribute_name, in: ->(*) { available_attributes.keys }
 
-  def attribute_scope
-    'WorkPackage'
-  end
-
   def type_caption
     I18n.t(:label_work_package)
   end
@@ -57,7 +53,8 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
                        .pluck(:id)
                        .map { |id| "custom_field_#{id}" }
 
-    where(attribute_name: visible_cf_names)
-      .or(where.not("attribute_name LIKE 'custom_field_%'"))
+    ::AttributeHelpText
+      .where(attribute_name: visible_cf_names)
+      .or(::AttributeHelpText.where.not("attribute_name LIKE 'custom_field_%'"))
   end
 end

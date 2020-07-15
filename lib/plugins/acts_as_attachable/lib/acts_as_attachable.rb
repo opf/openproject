@@ -66,6 +66,7 @@ module Redmine
             add_on_new_permission: add_on_new_permission(options),
             add_on_persisted_permission: add_on_persisted_permission(options),
             only_user_allowed: only_user_allowed(options),
+            viewable_by_all_users: viewable_by_all_users(options),
             modification_blocked: options[:modification_blocked],
             extract_tsv: attachable_extract_tsv_option(options)
           }
@@ -80,6 +81,7 @@ module Redmine
                           :add_on_persisted_permission,
                           :add_permission,
                           :only_user_allowed,
+                          :viewable_by_all_users,
                           :modification_blocked,
                           :extract_tsv)
         end
@@ -98,6 +100,10 @@ module Redmine
 
         def add_on_persisted_permission(options)
           options[:add_on_persisted_permission] || options[:add_permission] || edit_permission_default
+        end
+
+        def viewable_by_all_users(options)
+          options.fetch(:viewable_by_all_users, false)
         end
 
         def only_user_allowed(options)
@@ -149,6 +155,8 @@ module Redmine
           end
 
           def attachments_visible?(user = User.current)
+            return true if user.logged? && self.class.attachable_options[:viewable_by_all_users]
+
             allowed_to_on_attachment?(user, self.class.attachable_options[:view_permission])
           end
 

@@ -26,57 +26,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AttributeHelpText < ApplicationRecord
-  acts_as_attachable viewable_by_all_users: true
+require 'spec_helper'
 
-  def self.available_types
-    subclasses.map { |child| child.name.demodulize }
-  end
+describe AttributeHelpTexts::BaseContract do
+  let(:model) { FactoryBot.build_stubbed :work_package_help_text }
+  let(:contract) { described_class.new(model, current_user) }
+  subject { contract.validate }
 
-  def self.used_attributes(type)
-    where(type: type)
-      .select(:attribute_name)
-      .distinct
-      .pluck(:attribute_name)
-  end
+  context 'as admin' do
+    let(:current_user) { FactoryBot.build_stubbed :admin }
 
-  def self.all_by_scope
-    all.group_by(&:attribute_scope)
-  end
-
-  def self.visible(user)
-    scope = AttributeHelpText.subclasses[0].visible_condition(user)
-
-    AttributeHelpText.subclasses[1..-1].each do |subclass|
-      scope = scope.or(subclass.visible_condition(user))
+    it 'validates the contract' do
+      expect(subject).to eq true
     end
-
-    scope
   end
 
-  validates_presence_of :help_text
-  validates_uniqueness_of :attribute_name, scope: :type
+  context 'as regular user' do
+    let(:current_user) { FactoryBot.build_stubbed :user }
 
-  def attribute_caption
-    @caption ||= self.class.available_attributes[attribute_name]
-  end
-
-  def attribute_scope
-    self.class.to_s.demodulize
-  end
-
-  def type_caption
-    raise NotImplementedError
-  end
-
-  def self.visible_condition
-    raise NotImplementedError
-  end
-
-  def self.available_attributes
-    raise NotImplementedError
+    it 'returns an error on validation' do
+      expect(subject).to eq false
+      expect(contract.errors.symbols_for(:base))
+        .to match_array [:error_unauthorized]
+    end
   end
 end
-
-require_dependency 'attribute_help_text/work_package'
-require_dependency 'attribute_help_text/project'

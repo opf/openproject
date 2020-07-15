@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,42 +28,23 @@
 
 module API
   module V3
-    module HelpTexts
-      class HelpTextRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
+    module Attachments
+      class AttachmentsByHelpTextAPI < ::API::OpenProjectAPI
+        resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
 
-        self_link path: :help_text,
-                  id_attribute: :id,
-                  title_getter: ->(*) { nil }
+          helpers do
+            def container
+              @help_text
+            end
 
-        link :editText do
-          if current_user.admin? && represented.persisted?
-            {
-              href: edit_attribute_help_text_path(represented.id),
-              type: 'text/html'
-            }
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_help_text(container.id)
+            end
           end
-        end
 
-        property :id
-        property :attribute_name,
-                 as: :attribute,
-                 getter: ->(*) {
-                   ::API::Utilities::PropertyNameConverter.from_ar_name(attribute_name)
-                 }
-        property :attribute_caption
-        property :attribute_scope,
-                 as: :scope
-        property :help_text,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.help_text)
-                 }
-
-        def _type
-          'HelpText'
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create
         end
       end
     end

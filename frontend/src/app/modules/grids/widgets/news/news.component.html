@@ -1,7 +1,9 @@
 <widget-header [name]="widgetName"
                [editable]="isEditable">
 
-  <widget-menu [resource]="resource">
+  <widget-menu
+    slot="menu"
+    [resource]="resource">
   </widget-menu>
 
 </widget-header>
