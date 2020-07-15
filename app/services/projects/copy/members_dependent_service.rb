@@ -38,17 +38,17 @@ module Projects::Copy
       members_to_copy += source.memberships.select { |m| m.principal.is_a?(User) }
       members_to_copy += source.memberships.reject { |m| m.principal.is_a?(User) }
       members_to_copy.each do |member|
-        new_member = Member.new
-        new_member.send(:assign_attributes, member.attributes.dup.except('id', 'project_id', 'created_on'))
         # only copy non inherited roles
         # inherited roles will be added when copying the group membership
         role_ids = member.member_roles.reject(&:inherited?).map(&:role_id)
+
         next if role_ids.empty?
 
-        new_member.role_ids = role_ids
-        new_member.project = target
-        target.memberships << new_member
-        new_member.save
+        attributes = member
+          .attributes.dup.except('id', 'project_id', 'created_on')
+          .merge(role_ids: role_ids)
+
+        target.memberships.create attributes
       end
     end
   end

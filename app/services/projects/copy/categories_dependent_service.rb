@@ -34,9 +34,7 @@ module Projects::Copy
 
     def copy_dependency(params:)
       source.categories.find_each do |category|
-        new_category = Category.new
-        new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
-        target.categories << new_category
+        target.categories.create category.attributes.dup.except('id', 'project_id')
       end
     end
   end

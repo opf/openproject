@@ -34,9 +34,7 @@ module Projects::Copy
 
     def copy_dependency(params:)
       source.versions.each do |version|
-        new_version = Version.new
-        new_version.attributes = version.attributes.dup.except('id', 'project_id', 'created_on', 'updated_at')
-        target.versions << new_version
+        target.version.create version.attributes.dup.except('id', 'project_id', 'created_on', 'updated_at')
       end
     end
   end

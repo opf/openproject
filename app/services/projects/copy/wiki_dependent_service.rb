@@ -54,10 +54,11 @@ module Projects::Copy
         next if page.content.nil?
 
         new_wiki_content = WikiContent.new(page.content.attributes.dup.except('id', 'page_id', 'updated_at'))
-        new_wiki_page = WikiPage.new(page.attributes.dup.except('id', 'wiki_id', 'created_on', 'parent_id'))
-        new_wiki_page.content = new_wiki_content
+        attributes = page
+          .attributes.dup.except('id', 'wiki_id', 'created_on', 'parent_id')
+          .merge(content: new_wiki_content)
 
-        target.wiki.pages << new_wiki_page
+        new_wiki_page = target.wiki.pages.create attributes
         wiki_pages_map[page] = new_wiki_page
       end
 
