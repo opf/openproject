@@ -172,9 +172,8 @@ describe 'Work Package boards spec', type: :feature, js: true do
     # Delete the WP
     destroy_modal.expect_listed(wp)
     destroy_modal.confirm_deletion
-    click_button(I18n.t('button_delete'))
 
     board_page.expect_empty
-    expect(page).to have_current_path
+    board_page.expect_path
   end
 end

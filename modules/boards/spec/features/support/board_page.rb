@@ -53,6 +53,10 @@ module Pages
       !(free? || action_attribute.nil?)
     end
 
+    def expect_path
+      expect(page).to have_current_path /boards\/#{@board.id}/
+    end
+
     def action_attribute
       @board.options['attribute']
     end
@@ -213,7 +217,7 @@ module Pages
     end
 
     def expect_empty
-      expect(page).to have_no_selector('.boards-list--item')
+      expect(page).to have_no_selector('.boards-list--item', wait: 10)
     end
 
     def remove_list(name)
