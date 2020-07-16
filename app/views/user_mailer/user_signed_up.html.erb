@@ -26,5 +26,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<p><%= l(:mail_body_register) %><br />
+<h2 class="emailTitle"><%= l(:mail_body_register_header_title) %> </h2>
+<br />
+
+<p><%= l(:mail_body_register_user, userName: @user) %><br /> <br />
+<%= l(:mail_body_register) %><br />
   <%= link_to @activation_url, @activation_url %></p>
+
+<br />
+<p><%= l(:mail_body_register_youtube_channel) %>
+   <%= link_to OpenProject::Configuration.youtube_channel, OpenProject::Configuration.youtube_channel %>
+   <%= l(:mail_body_register_webinar) %>
+   <%= link_to OpenProject::Static::Links.links[:webinar_videos][:href], OpenProject::Static::Links.links[:webinar_videos][:href] %>
+   <%= l(:mail_body_register_get_started) %>
+   <%= link_to OpenProject::Static::Links.links[:get_started_videos][:href], OpenProject::Static::Links.links[:get_started_videos][:href] %>
+   <%= l(:mail_body_register_first_step) %>
+   <br />
+   <%= l(:mail_body_register_documentation) %>
+   <%= link_to OpenProject::Static::Links.links[:openproject_docs][:href], OpenProject::Static::Links.links[:openproject_docs][:href] %>
+   <%= l(:mail_body_register_contact) %>
+   <%= link_to OpenProject::Static::Links.links[:contact_us][:href], OpenProject::Static::Links.links[:contact_us][:href] %>
+   ).
+</p>
+<br />
+<p>
+<%= l(:mail_body_register_ending) %>
+   <br />
+   <%= l(:mail_body_register_closing) %>
+</p>
