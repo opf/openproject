@@ -40,7 +40,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
   let(:project) { FactoryBot.create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-
+  let(:admin) { FactoryBot.create :admin }
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:status) { FactoryBot.create :default_status }
   let(:board_index) { Pages::BoardIndex.new(project) }
@@ -142,6 +142,12 @@ describe 'Work Package boards spec', type: :feature, js: true do
     split_view.expect_tab 'Relations'
   end
 
+  before do
+    with_enterprise_token :board_view
+    project
+    login_as(admin)
+  end
+
   it 'navigates to boards after deleting WP(see #33756)' do
     board_index.visit!
 
@@ -161,6 +167,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
     # Go to full view of WP
     split_view.switch_to_fullscreen
     find('#action-show-more-dropdown-menu').click
+    click_link(I18n.t('js.button_delete'))
 
     # Delete the WP
     destroy_modal.expect_listed(wp)
