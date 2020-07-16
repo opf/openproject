@@ -20,7 +20,7 @@ module Components
 
       # Counter should not be displayed, if there are no relations or watchers
       def expect_no_counter(tab)
-        expect(tab).to have_no_selector('.wp-tabs-count')
+        expect(tab).to have_no_selector('.wp-tabs-count', wait: 10)
       end
     end
   end
