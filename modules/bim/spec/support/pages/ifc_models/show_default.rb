@@ -45,12 +45,12 @@ module Pages
       end
 
       def finished_loading
-        expect(page).to have_no_selector('.xeokit-busy-modal', visible: true)
+        expect(page).to have_no_selector('.xeokit-busy-modal', visible: true, wait: 10)
       end
 
       def model_viewer_visible(visible)
         selector = '.ifc-model-viewer--model-canvas'
-        expect(page).to (visible ? have_selector(selector) : have_no_selector(selector))
+        expect(page).to (visible ? have_selector(selector, wait: 10) : have_no_selector(selector, wait: 10))
       end
 
       def model_viewer_shows_a_toolbar(visible)
