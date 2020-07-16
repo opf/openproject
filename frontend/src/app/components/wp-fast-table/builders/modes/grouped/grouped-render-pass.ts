@@ -118,18 +118,25 @@ export class GroupedRenderPass extends PlainRenderPass {
    * Enhance a row from the rowBuilder with group information.
    */
   private buildSingleRow(row:WorkPackageTableRow):void {
-    const group = row.group!;
-    const hidden = group.collapsed;
+    const group = row.group;
 
+    if (!group) {
+      console.warn("All rows should have a group, but this one doesn't %O", row);
+    }
+
+    let hidden = false;
     let additionalClasses:string[] = [];
 
     let [tr, _] = this.rowBuilder.buildEmpty(row.object);
-    additionalClasses.push(groupedRowClassName(group.index));
 
-    if (hidden) {
-      additionalClasses.push(collapsedRowClass);
+    if (group) {
+      additionalClasses.push(groupedRowClassName(group.index));
+      hidden = !!group.collapsed;
+
+      if (hidden) {
+        additionalClasses.push(collapsedRowClass);
+      }
     }
-
 
     row.element = tr;
     tr.classList.add(...additionalClasses);
