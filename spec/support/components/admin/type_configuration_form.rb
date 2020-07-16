@@ -58,6 +58,10 @@ module Components
         page.find '#type-form-conf-inactive-group .attributes'
       end
 
+      def expect_empty
+        expect(page).to have_no_selector('#draggable-groups .group-head')
+      end
+
       def find_group(name)
         head = page.find('.group-head', text: name.upcase)
 
@@ -192,6 +196,14 @@ module Components
         input.send_keys(:return)
 
         expect(page).to have_selector('.group-edit-handler', text: to.upcase)
+      end
+
+      def remove_group(name)
+        container = find('.group-head', text: name.upcase)
+
+        container.find('.delete-group').click
+
+        expect(page).to have_no_selector('.group-head', text: name.upcase)
       end
 
       def expect_no_attribute(attribute, group)
