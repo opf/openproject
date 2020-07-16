@@ -67,10 +67,4 @@ describe 'BIM Revit Add-in navigation spec',
   it 'menu has no viewer options' do
     model_page.has_no_menu_item_with_text? 'Viewer'
   end
-
-  it 'can switch to the Table view mode' do
-    model_page.switch_view 'Table'
-    expect(page).to have_selector('.work-package-table')
-    wp_table.expect_work_package_listed work_package
-  end
 end
