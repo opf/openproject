@@ -1,5 +1,6 @@
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {WorkPackageTable} from "../wp-fast-table";
+import {TableEventComponent} from "core-components/wp-fast-table/handlers/table-handler-registry";
 
 
 /**
@@ -16,8 +17,8 @@ export function onClickOrEnter(evt:JQuery.TriggeredEvent, callback:() => void) {
 
 
 export abstract class ClickOrEnterHandler {
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
-    onClickOrEnter(evt, () => this.processEvent(table, evt));
+  public handleEvent(view:TableEventComponent, evt:JQuery.TriggeredEvent) {
+    onClickOrEnter(evt, () => this.processEvent(view.workPackageTable, evt));
   }
 
   protected abstract processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean;

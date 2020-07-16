@@ -41,16 +41,8 @@ export class CardDblClickHandler implements CardEventHandler {
       return true;
     }
 
-    this.handleWorkPackage(wpId);
-
+    card.itemClicked.emit({ workPackageId: wpId, double: true });
     return false;
-  }
-
-  protected handleWorkPackage(wpId:string) {
-    this.$state.go(
-      'work-packages.show',
-      {workPackageId: wpId}
-    );
   }
 }
 

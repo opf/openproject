@@ -55,7 +55,8 @@
                     [cardsRemovable]="board.isFree && canDragOutOf"
                     [showInfoButton]="true"
                     [highlightingMode]="board.highlightingMode"
-                    [showStatusButton]="showCardStatusButton()">
+                    [showStatusButton]="showCardStatusButton()"
+                    (itemClicked)="openFullViewOnDoubleClick($event)" >
 
       </wp-card-view>
     </div>

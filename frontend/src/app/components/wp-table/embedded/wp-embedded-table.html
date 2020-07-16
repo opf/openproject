@@ -17,11 +17,15 @@
     <wp-table *ngIf="!configuration.isCardView"
               [projectIdentifier]="projectIdentifier"
               [configuration]="configuration"
+              (itemClicked)="handleWorkPackageClicked($event)"
+              (stateLinkClicked)="openStateLink($event)"
               class="work-packages-split-view--tabletimeline-content"></wp-table>
 
     <!-- GRID representation of the WP -->
     <div class="work-packages-embedded-view--grid-view" >
       <wp-grid *ngIf="configuration.isCardView"
+               (itemClicked)="handleWorkPackageClicked($event)"
+               (stateLinkClicked)="openStateLink($event)"
                [configuration]="configuration">
       </wp-grid>
     </div>

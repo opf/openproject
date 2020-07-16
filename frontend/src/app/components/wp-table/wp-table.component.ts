@@ -30,17 +30,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, EventEmitter,
   Injector,
   Input,
   NgZone,
-  OnInit,
+  OnInit, Output,
   ViewEncapsulation
 } from '@angular/core';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
+import {TableEventComponent, TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {combineLatest} from 'rxjs';
 import {States} from '../states.service';
@@ -61,6 +61,13 @@ import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
+export interface WorkPackageFocusContext {
+  /** Work package that was focused */
+  workPackageId:string;
+  /** Through what action did the focus happen */
+  through:'row-double-click'|'id-click'|'details-icon';
+}
+
 @Component({
   templateUrl: './wp-table.directive.html',
   styleUrls: ['./wp-table.styles.sass'],
@@ -68,10 +75,14 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-table',
 })
-export class WorkPackagesTableController extends UntilDestroyedMixin implements OnInit {
+export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent {
 
   @Input() projectIdentifier:string;
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
+
+  @Output() selectionChanged = new EventEmitter<string[]>();
+  @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
+  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
 
@@ -210,7 +221,7 @@ export class WorkPackagesTableController extends UntilDestroyedMixin implements 
     );
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
-    new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
+    new TableHandlerRegistry(this.injector).attachTo(this);
 
     // Locate table and timeline elements
     const tableAndTimeline = this.getTableAndTimelineElement();
