@@ -31,6 +31,7 @@ fr:
       error_permission_missing: "La permission pour créer des requêtes publiques est manquante"
       click_to_remove_list: "Cliquez pour supprimer cette liste"
       board_type:
+        text: 'Type de tableau'
         free: 'Tableau de base'
         free_text: >
           Créez un tableau dans lequel vous pouvez créer librement des listes et ordonner vos lots de travaux dans celles-ci. Déplacer des lots de travaux entre les listes ne modifie pas le lot de travaux en lui-même.
