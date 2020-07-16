@@ -37,7 +37,6 @@ import {
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {WorkPackageEmbeddedTableEntryComponent} from 'core-components/wp-table/embedded/wp-embedded-table-entry.component';
-import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
@@ -130,7 +129,6 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
@@ -169,6 +167,9 @@ import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routi
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
+import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
+import {AttributeHelpTextComponent} from "core-app/modules/common/help-texts/attribute-help-text.component";
+import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribute-help-text.modal";
 
 @NgModule({
   imports: [
@@ -257,7 +258,7 @@ import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 
     WorkPackagesGridComponent,
 
-    WorkPackagesTableController,
+    WorkPackagesTableComponent,
     WorkPackagesTableConfigMenu,
     WorkPackageTablePaginationComponent,
 
@@ -379,9 +380,13 @@ import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButton,
+
+    // Help texts
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
   ],
   exports: [
-    WorkPackagesTableController,
+    WorkPackagesTableComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageEmbeddedTableComponent,
     WorkPackageEmbeddedTableEntryComponent,
@@ -412,7 +417,11 @@ import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
     WorkPackageEditActionsBarComponent,
     WorkPackageSingleViewComponent,
     WorkPackageSplitViewComponent,
-    BackButtonComponent
+    BackButtonComponent,
+
+    // Help texts
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
   ]
 })
 export class OpenprojectWorkPackagesModule {

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,20 +25,29 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module Bim
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::Bim::BasicData::RoleSeeder,
-        ::Bim::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::Bim::BasicData::WorkflowSeeder,
-        ::Bim::BasicData::PrioritySeeder,
-        ::Bim::BasicData::SettingSeeder,
-        ::Bim::BasicData::ThemeSeeder
-      ]
+
+require 'spec_helper'
+
+describe AttributeHelpTexts::BaseContract do
+  let(:model) { FactoryBot.build_stubbed :work_package_help_text }
+  let(:contract) { described_class.new(model, current_user) }
+  subject { contract.validate }
+
+  context 'as admin' do
+    let(:current_user) { FactoryBot.build_stubbed :admin }
+
+    it 'validates the contract' do
+      expect(subject).to eq true
+    end
+  end
+
+  context 'as regular user' do
+    let(:current_user) { FactoryBot.build_stubbed :user }
+
+    it 'returns an error on validation' do
+      expect(subject).to eq false
+      expect(contract.errors.symbols_for(:base))
+        .to match_array [:error_unauthorized]
     end
   end
 end

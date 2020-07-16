@@ -40,7 +40,23 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= f.select :attribute_name, selectable_attributes(@attribute_help_text), container_class: '-middle' %>
     <% end %>
   </div>
+
+  <% resource = ::API::V3::HelpTexts::HelpTextRepresenter.new(@attribute_help_text,
+                                                              current_user: current_user,
+                                                              embed_links: true) %>
+
   <div class="form--field -required -visible-overflow">
-    <%= f.text_area :help_text, cols: 100, rows: 20, class: 'wiki-edit', with_text_formatting: true %>
+    <%= f.text_area :help_text,
+                    cols: 100,
+                    rows: 20,
+                    class: 'wiki-edit',
+                    with_text_formatting: true,
+                    resource: resource %>
+    <div class="form--field-instructions">
+      <p>
+        <strong><%= t(:note) %>:</strong>
+        <%= t('attribute_help_texts.note_public') %>
+      </p>
+    </div>
   </div>
 </section>

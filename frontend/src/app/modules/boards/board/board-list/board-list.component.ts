@@ -465,4 +465,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       this.updateQuery(true);
     });
   }
+
+  openFullViewOnDoubleClick(event:{ workPackageId:string, double:boolean }) {
+    if (event.double) {
+      this.state.go(
+        'work-packages.show',
+        { workPackageId: event.workPackageId }
+      );
+    }
+  }
 }

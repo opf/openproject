@@ -1,4 +1,4 @@
-import {Injector} from '@angular/core';
+import {EventEmitter, Injector} from '@angular/core';
 import {WorkPackageTable} from '../wp-fast-table';
 import {EditCellHandler} from './cell/edit-cell-handler';
 import {RelationsCellHandler} from './cell/relations-cell-handler';
@@ -19,40 +19,46 @@ import {TimelineTransformer} from './state/timeline-transformer';
 import {HighlightingTransformer} from "core-components/wp-fast-table/handlers/state/highlighting-transformer";
 import {DragAndDropTransformer} from "core-components/wp-fast-table/handlers/state/drag-and-drop-transformer";
 import {
-  WorkPackageViewEventHandler,
+  WorkPackageViewEventHandler, WorkPackageViewOutputs,
   WorkPackageViewHandlerRegistry
 } from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+import {WorkPackageFocusContext} from "core-components/wp-table/wp-table.component";
 
 type StateTransformers = {
   // noinspection JSUnusedLocalSymbols
   new(injector:Injector, table:WorkPackageTable):any;
 };
 
-export type TableEventHandler = WorkPackageViewEventHandler<WorkPackageTable>;
+export interface TableEventComponent extends WorkPackageViewOutputs {
+  // Reference to the fast table instance
+  workPackageTable:WorkPackageTable;
+}
 
-export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<WorkPackageTable> {
+export type TableEventHandler = WorkPackageViewEventHandler<TableEventComponent>;
 
-  protected eventHandlers:((t:WorkPackageTable) => WorkPackageViewEventHandler<WorkPackageTable>)[] = [
+export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEventComponent> {
+
+  protected eventHandlers:((t:TableEventComponent) => TableEventHandler)[] = [
     // Hierarchy expansion/collapsing
-    t => new HierarchyClickHandler(this.injector, t),
+    () => new HierarchyClickHandler(this.injector),
     // Clicking or pressing Enter on a single cell, editable or not
-    t => new EditCellHandler(this.injector, t),
+    () => new EditCellHandler(this.injector),
     // Clicking on the details view
-    t => new WorkPackageStateLinksHandler(this.injector, t),
+    () => new WorkPackageStateLinksHandler(this.injector),
     // Clicking on the row (not within a cell)
-    t => new RowClickHandler(this.injector, t),
+    () => new RowClickHandler(this.injector),
     // Double Clicking on the cell within the row
-    t => new RowDoubleClickHandler(this.injector, t),
+    () => new RowDoubleClickHandler(this.injector),
     // Clicking on group headers
-    t => new GroupRowHandler(this.injector, t),
+    () => new GroupRowHandler(this.injector),
     // Right clicking on rows
-    t => new ContextMenuRightClickHandler(this.injector, t),
+    () => new ContextMenuRightClickHandler(this.injector),
     // Left clicking on the dropdown icon
-    t => new ContextMenuClickHandler(this.injector, t),
+    () => new ContextMenuClickHandler(this.injector),
     // SHIFT+ALT+F10 on rows
-    t => new ContextMenuKeyboardHandler(this.injector, t),
+    () => new ContextMenuKeyboardHandler(this.injector),
     // Clicking on relations cells
-    t => new RelationsCellHandler(this.injector, t)
+    () => new RelationsCellHandler(this.injector)
   ];
 
   protected readonly stateTransformers:StateTransformers[] = [
@@ -66,9 +72,9 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<WorkPac
     DragAndDropTransformer
   ];
 
-  attachTo(viewRef:WorkPackageTable) {
+  attachTo(viewRef:TableEventComponent) {
     this.stateTransformers.map((cls) => {
-      return new cls(this.injector, viewRef);
+      return new cls(this.injector, viewRef.workPackageTable);
     });
 
     super.attachTo(viewRef);

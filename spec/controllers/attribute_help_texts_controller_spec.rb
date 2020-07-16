@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe AttributeHelpTextsController, type: :controller do
+  let(:user) { FactoryBot.build_stubbed :admin }
   let(:model) { FactoryBot.build :work_package_help_text }
   let(:relation_columns_allowed) { true }
 
@@ -13,8 +14,7 @@ describe AttributeHelpTextsController, type: :controller do
 
   before do
     with_enterprise_token(relation_columns_allowed ? :attribute_help_texts : nil)
-
-    expect(controller).to receive(:require_admin)
+    login_as user
   end
 
   describe '#index' do

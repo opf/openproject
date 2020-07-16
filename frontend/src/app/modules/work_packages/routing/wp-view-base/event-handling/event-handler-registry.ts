@@ -1,4 +1,4 @@
-import {InjectionToken, Injector} from '@angular/core';
+import {EventEmitter, InjectionToken, Injector} from '@angular/core';
 
 export interface WorkPackageViewEventHandler<T> {
   /** Event name to register **/
@@ -14,8 +14,13 @@ export interface WorkPackageViewEventHandler<T> {
   eventScope(view:T):JQuery;
 }
 
-export interface WorkPackageViewHandlerClass<T> {
-  new(injector:Injector):WorkPackageViewEventHandler<any>;
+export interface WorkPackageViewOutputs {
+  // On selection updated
+  selectionChanged:EventEmitter<string[]>;
+  // On row (double) clicked
+  itemClicked:EventEmitter<{ workPackageId:string, double:boolean }>;
+  // On work package link / details icon clicked
+  stateLinkClicked:EventEmitter<{ workPackageId:string, requestedState:string }>;
 }
 
 export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEventHandler<any>>('CardEventHandler');

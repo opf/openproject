@@ -115,6 +115,10 @@ module API
             "#{work_package(id)}/attachments"
           end
 
+          def self.attachments_by_help_text(id)
+            "#{help_text(id)}/attachments"
+          end
+
           def self.attachments_by_wiki_page(id)
             "#{wiki_page(id)}/attachments"
           end

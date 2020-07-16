@@ -71,7 +71,7 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
     this.tabs = this.gonTabs.map((tab:GonTab) => {
       return {
         id: tab.name,
-        name: this.I18n.t('js.' + tab.label),
+        name: this.I18n.t('js.' + tab.label, { defaultValue: tab.label }),
         path: tab.path
       };
     });

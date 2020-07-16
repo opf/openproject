@@ -2,7 +2,12 @@
   [name]="widgetName"
   [editable]="isEditable">
 
+  <attribute-help-text slot="prepend"
+                       attribute="status"
+                       [attributeScope]="'Project'"></attribute-help-text>
+
   <widget-menu
+    slot="menu"
     [resource]="resource">
   </widget-menu>
 </widget-header>

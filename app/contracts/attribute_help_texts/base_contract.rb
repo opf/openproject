@@ -27,20 +27,27 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module Bim
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::Bim::BasicData::RoleSeeder,
-        ::Bim::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::Bim::BasicData::WorkflowSeeder,
-        ::Bim::BasicData::PrioritySeeder,
-        ::Bim::BasicData::SettingSeeder,
-        ::Bim::BasicData::ThemeSeeder
-      ]
+
+module AttributeHelpTexts
+  class BaseContract < ::ModelContract
+    include Attachments::ValidateReplacements
+
+    def validate
+      validate_user_allowed_to_manage
+
+      super
+    end
+
+    def self.model
+      AttributeHelpText
+    end
+
+    attribute :type
+    attribute :attribute_name
+    attribute :help_text
+
+    def validate_user_allowed_to_manage
+      errors.add :base, :error_unauthorized unless user.admin?
     end
   end
 end

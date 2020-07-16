@@ -5,6 +5,8 @@
 <wp-table *ngIf="tableInformationLoaded && showTableView"
           [projectIdentifier]="CurrentProject.identifier"
           [configuration]="wpTableConfiguration"
+          (itemClicked)="handleWorkPackageClicked($event)"
+          (stateLinkClicked)="openStateLink($event)"
           class="work-packages-split-view--tabletimeline-content">
 </wp-table>
 
@@ -14,6 +16,8 @@
      [ngClass]="{ '-with-resizer': showResizerInCardView() }" >
   <wp-grid [configuration]="wpTableConfiguration"
            [showResizer]="showResizerInCardView()"
+           (itemClicked)="handleWorkPackageCardClicked($event)"
+           (stateLinkClicked)="openStateLink($event)"
            resizerClass="work-packages-partitioned-page--content-right"
            resizerStorageKey="openProject-splitViewFlexBasis">
   </wp-grid>

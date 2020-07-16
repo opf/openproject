@@ -49,29 +49,19 @@ export class CardClickHandler implements CardEventHandler {
       return true;
     }
 
-    this.handleWorkPackage(wpId, element, evt);
+    this.handleWorkPackage(card, wpId, element, evt);
 
     return false;
   }
 
 
-  protected handleWorkPackage(wpId:any, element:JQuery, evt:JQuery.TriggeredEvent) {
-    this.setSelection(wpId, element, evt);
+  protected handleWorkPackage(card:WorkPackageCardViewComponent, wpId:any, element:JQuery, evt:JQuery.TriggeredEvent) {
+    this.setSelection(card, wpId, element, evt);
 
-    // open work package on mobile after first click
-    this.openFullViewOnMobile(wpId);
+    card.itemClicked.emit({ workPackageId: wpId, double: false });
   }
 
-  protected openFullViewOnMobile(wpId:string) {
-    if (this.deviceService.isMobile) {
-      this.$state.go(
-        'work-packages.show',
-        {workPackageId: wpId}
-      );
-    }
-  }
-
-  protected setSelection(wpId:string, element:JQuery, evt:JQuery.TriggeredEvent) {
+  protected setSelection(card:WorkPackageCardViewComponent, wpId:string, element:JQuery, evt:JQuery.TriggeredEvent) {
     let classIdentifier = element.data('classIdentifier');
     let index = this.wpCardView.findRenderedCard(classIdentifier);
 
@@ -89,6 +79,8 @@ export class CardClickHandler implements CardEventHandler {
     if (evt.ctrlKey || evt.metaKey) {
       this.wpTableSelection.toggleRow(wpId);
     }
+
+    card.selectionChanged.emit(this.wpTableSelection.getSelectedWorkPackageIds());
 
     // The current card is the last selected work package
     // not matter what other card are (de-)selected below.

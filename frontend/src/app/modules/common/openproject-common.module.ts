@@ -31,8 +31,6 @@ import {Injector, NgModule} from "@angular/core";
 
 import {AuthoringComponent} from 'core-app/modules/common/authoring/authoring.component';
 import {OpDateTimeComponent} from 'core-app/modules/common/date/op-date-time.component';
-import {AttributeHelpTextComponent} from 'core-app/modules/common/help-texts/attribute-help-text.component';
-import {AttributeHelpTextModal} from 'core-app/modules/common/help-texts/attribute-help-text.modal';
 import {OpIcon} from 'core-app/modules/common/icon/op-icon';
 import {NotificationComponent} from 'core-app/modules/common/notifications/notification.component';
 import {NotificationsContainerComponent} from 'core-app/modules/common/notifications/notifications-container.component';
@@ -152,8 +150,6 @@ export function bootstrapModule(injector:Injector) {
     OpIcon,
     AutofocusDirective,
 
-    AttributeHelpTextComponent,
-    AttributeHelpTextModal,
     FocusWithinDirective,
     FocusDirective,
     AuthoringComponent,
@@ -163,9 +159,6 @@ export function bootstrapModule(injector:Injector) {
     NotificationComponent,
     UploadProgressComponent,
     OpDateTimeComponent,
-
-    // Entries for ng1 downgraded components
-    AttributeHelpTextComponent,
 
     // Table highlight
     HighlightColDirective,
@@ -206,8 +199,6 @@ export function bootstrapModule(injector:Injector) {
     OpIcon,
     AutofocusDirective,
 
-    AttributeHelpTextComponent,
-    AttributeHelpTextModal,
     FocusWithinDirective,
     FocusDirective,
     AuthoringComponent,
@@ -220,9 +211,6 @@ export function bootstrapModule(injector:Injector) {
 
     OPContextMenuComponent,
     IconTriggeredContextMenuComponent,
-
-    // Entries for ng1 downgraded components
-    AttributeHelpTextComponent,
 
     // Table highlight
     HighlightColDirective,

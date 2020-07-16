@@ -27,16 +27,9 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module Bim
-  module BasicData
-    class CustomStyleSeeder < Seeder
-      def seed_data!
-        CustomStyle.create data
-      end
 
-      def data
-        { theme: 'OpenProject Dark' }
-      end
-    end
+module AttributeHelpTexts
+  class UpdateService < ::BaseServices::Update
+    include Attachments::ReplaceAttachments
   end
 end

@@ -282,7 +282,7 @@ tr:
     overview:
       no_results_title_text: Bu sürüme atadığım iş paketi bulunmuyor.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: İstenen sayfa mevcut değil (henüz). Tüm wiki sayfalarının dizinine yönlendirildiniz.
     no_results_title_text: Şu anda wiki sayfası bulunmuyor.
     index:
       no_results_content_text: Yeni wiki sayfası Ekle

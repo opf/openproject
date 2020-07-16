@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,20 +25,28 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-module Bim
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::Bim::BasicData::RoleSeeder,
-        ::Bim::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::Bim::BasicData::WorkflowSeeder,
-        ::Bim::BasicData::PrioritySeeder,
-        ::Bim::BasicData::SettingSeeder,
-        ::Bim::BasicData::ThemeSeeder
-      ]
+
+module API
+  module V3
+    module Attachments
+      class AttachmentsByHelpTextAPI < ::API::OpenProjectAPI
+        resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
+
+          helpers do
+            def container
+              @help_text
+            end
+
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_help_text(container.id)
+            end
+          end
+
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create
+        end
+      end
     end
   end
 end
