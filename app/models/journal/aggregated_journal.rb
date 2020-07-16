@@ -63,7 +63,9 @@ class Journal::AggregatedJournal
     # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
     # to see the aggregated journals as if no versions were known after the specified version.
     def aggregated_journals(journable: nil, sql: nil, until_version: nil, includes: [])
-      raw_journals = Journal::Scopes::AggregatedJournal.fetch(journable: journable, sql: sql, until_version: until_version)
+      raw_journals = Journal::Scopes::AggregatedJournal
+        .fetch(journable: journable, sql: sql, until_version: until_version)
+        .order('version ASC')
 
       aggregated_journals = map_to_aggregated_journals(raw_journals)
       preload_associations(journable, aggregated_journals, includes)
