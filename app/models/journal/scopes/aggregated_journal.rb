@@ -41,6 +41,7 @@ module Journal::Scopes
         # having to also use a CASE/COALESCE statement.
         Journal
           .from(select_sql(journals_preselection))
+          .select("DISTINCT *")
       end
 
       private
