@@ -49,6 +49,7 @@ import {WorkPackageIdDisplayField} from "core-app/modules/fields/display/field-t
 import {ProjectStatusDisplayField} from "core-app/modules/fields/display/field-types/project-status-display-field.module";
 import {PlainFormattableDisplayField} from "core-app/modules/fields/display/field-types/plain-formattable-display-field.module";
 import {LinkedWorkPackageDisplayField} from "core-app/modules/fields/display/field-types/linked-work-package-display-field.module";
+import {CombinedDateDisplayField} from "core-app/modules/fields/display/field-types/combined-date-display.field";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
@@ -84,6 +85,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
     displayFieldService
         .addSpecificFieldType('WorkPackage', WorkPackageIdDisplayField, 'id', ['id'])
         .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime'])
+        .addSpecificFieldType('WorkPackage', CombinedDateDisplayField, 'combinedDate', ['combinedDate'])
         .addSpecificFieldType('TimeEntry', PlainFormattableDisplayField, 'comment', ['comment'])
         .addSpecificFieldType('TimeEntry', WorkPackageDisplayField, 'work_package', ['workPackage']);
   };

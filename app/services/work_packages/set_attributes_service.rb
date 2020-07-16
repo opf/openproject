@@ -143,16 +143,15 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
     min_start = new_start_date
 
-    if min_start
-      work_package.due_date = min_start + work_package.duration - 1
-      work_package.start_date = min_start
-    end
+    return unless min_start
+
+    work_package.due_date = new_due_date(min_start)
+    work_package.start_date = min_start
   end
 
   def set_version_to_nil
     if work_package.version &&
-       !(work_package.project &&
-         work_package.project.shared_versions.include?(work_package.version))
+       !work_package.project&.shared_versions.include?(work_package.version)
       work_package.version = nil
     end
   end
@@ -201,15 +200,30 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   def new_start_date
     current_start_date = work_package.start_date || work_package.due_date
 
-    return unless work_package.parent_id_changed? &&
-                  work_package.parent_id &&
-                  current_start_date
+    return unless current_start_date && work_package.schedule_automatically?
 
-    min_start = work_package.parent.soonest_start
+    min_start = new_start_date_from_parent || new_start_date_from_self
 
-    if min_start && (min_start > current_start_date)
+    if min_start && (min_start > current_start_date || work_package.schedule_manually_changed?)
       min_start
     end
+  end
+
+  def new_start_date_from_parent
+    return unless work_package.parent_id_changed? &&
+                  work_package.parent_id
+
+    work_package.parent.soonest_start
+  end
+
+  def new_start_date_from_self
+    return unless work_package.schedule_manually_changed?
+
+    [min_child_date, work_package.soonest_start].compact.max
+  end
+
+  def new_due_date(min_start)
+    min_start + (children_duration || work_package.duration) - 1
   end
 
   def work_package
@@ -218,5 +232,21 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
   def assignable_statuses
     instantiate_contract(work_package, user).assignable_statuses(true)
+  end
+
+  def min_child_date
+    (work_package.children.map(&:start_date) + work_package.children.map(&:due_date)).compact.min
+  end
+
+  def children_duration
+    max = max_child_date
+
+    return unless max
+
+    max - min_child_date + 1
+  end
+
+  def max_child_date
+    (work_package.children.map(&:start_date) + work_package.children.map(&:due_date)).compact.max
   end
 end

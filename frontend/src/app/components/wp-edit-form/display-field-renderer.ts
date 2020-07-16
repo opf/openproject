@@ -110,11 +110,6 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       return new MultipleLinesUserFieldModule(name, context) as DisplayField;
     }
 
-    // In the single view, start and end date are shown in a combined date field
-    if (this.container === 'single-view' && (name === 'combinedDate')) {
-      return new CombinedDateDisplayField(name, context) as DisplayField;
-    }
-
     // We handle progress differently in the timeline
     if (this.container === 'timeline' && name === 'percentageDone') {
       return new ProgressTextDisplayField(name, context);

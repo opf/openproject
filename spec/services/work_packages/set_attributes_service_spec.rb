@@ -633,5 +633,105 @@ describe WorkPackages::SetAttributesService, type: :model do
         end
       end
     end
+
+    context 'when switching back to automatic scheduling' do
+      let(:work_package) do
+        wp = FactoryBot.build_stubbed(:work_package,
+                                      project: project,
+                                      schedule_manually: true,
+                                      start_date: Date.today,
+                                      due_date: Date.today + 5.days)
+        wp.type = FactoryBot.build_stubbed(:type)
+        wp.send(:clear_changes_information)
+
+        allow(wp)
+          .to receive(:soonest_start)
+          .and_return(soonest_start)
+
+        wp
+      end
+      let(:call_attributes) { { schedule_manually: false } }
+      let(:attributes) { {} }
+      let(:soonest_start) { Date.today + 1.day }
+
+      context 'when the soonest start date is later than the current start date' do
+        let(:soonest_start) { Date.today + 3.days }
+
+        it_behaves_like 'service call' do
+          it 'sets the start date to the soonest possible start date' do
+            subject
+
+            expect(work_package.start_date).to eql(Date.today + 3.days)
+            expect(work_package.due_date).to eql(Date.today + 8.days)
+          end
+        end
+      end
+
+      context 'when the soonest start date is before the current start date' do
+        let(:soonest_start) { Date.today - 3.days }
+
+        it_behaves_like 'service call' do
+          it 'sets the start date to the soonest possible start date' do
+            subject
+
+            expect(work_package.start_date).to eql(Date.today)
+            expect(work_package.due_date).to eql(Date.today + 5.days)
+          end
+        end
+      end
+
+      context 'when the soonest start date is nil' do
+        let(:soonest_start) { nil }
+
+        it_behaves_like 'service call' do
+          it 'sets the start date to the soonest possible start date' do
+            subject
+
+            expect(work_package.start_date).to eql(Date.today)
+            expect(work_package.due_date).to eql(Date.today + 5.days)
+          end
+        end
+      end
+
+      context 'when the work package also has a child' do
+        let(:child) do
+          FactoryBot.build_stubbed(:stubbed_work_package,
+                                   start_date: child_start_date,
+                                   due_date: child_due_date)
+        end
+        let(:child_start_date) { Date.today + 2.days }
+        let(:child_due_date) { Date.today + 10.days }
+
+        before do
+          allow(work_package)
+            .to receive(:children)
+            .and_return([child])
+        end
+
+        context 'when the child`s start date is after soonest_start' do
+          it_behaves_like 'service call' do
+            it 'sets the dates to the child dates' do
+              subject
+
+              expect(work_package.start_date).to eql(Date.today + 2.days)
+              expect(work_package.due_date).to eql(Date.today + 10.days)
+            end
+          end
+        end
+
+        context 'when the child`s start date is before soonest_start' do
+          let(:soonest_start) { Date.today + 3.days }
+
+          it_behaves_like 'service call' do
+            it 'sets the dates to soonest date and to the duration of the child' do
+              subject
+
+              expect(work_package.start_date).to eql(Date.today + 3.days)
+              expect(work_package.due_date).to eql(Date.today + 11.days)
+            end
+          end
+        end
+      end
+    end
   end
 end

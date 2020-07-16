@@ -115,7 +115,12 @@
       <ng-container *ngIf="!isSchedulable">
         <div class="notification-box -info">
           <div class="notification-box--content">
-            <p [textContent]="text.isParent"></p>
+            <ng-container *ngIf="isParent">
+              <p [textContent]="text.isParent"></p>
+            </ng-container>
+            <ng-container *ngIf="isSwitchedFromManualToAutomatic && !isParent">
+              <p [textContent]="text.isSwitchedFromManualToAutomatic"></p>
+            </ng-container>
           </div>
         </div>
       </ng-container>

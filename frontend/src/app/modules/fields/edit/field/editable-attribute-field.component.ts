@@ -53,7 +53,6 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";

@@ -74,7 +74,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
-    isParent: this.I18n.t('js.work_packages.scheduling.is_parent')
+    isParent: this.I18n.t('js.work_packages.scheduling.is_parent'),
+    isSwitchedFromManualToAutomatic: this.I18n.t('js.work_packages.scheduling.is_switched_from_manual_to_automatic')
   };
   public onDataUpdated = new EventEmitter<string>();
 
@@ -129,7 +130,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
     if (this.scheduleManually) {
       this.showDateSelection();
-    } else {
+    } else if (this.isParent) {
       this.removeDateSelection();
     }
   }
@@ -200,11 +201,26 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   /**
-   * Retuns whether the user can alter the dates of the work package.
-   * The work package is schedulable if the work package is a not a parent or if manual scheduling is enabled.
+   * Returns whether the user can alter the dates of the work package.
+   * The work package is always schedulable if the work package scheduled manually.
+   * But it might also be altered in automatic scheduling mode if it does not have children and if there was
+   * no switch from manual to automatic scheduling.
+   * The later is necessary as we cannot correctly calculate the resulting dates in the frontend.
    */
   get isSchedulable():boolean {
-    return !this.isParent || this.scheduleManually;
+    return this.scheduleManually || (!this.isParent && !this.isSwitchedFromManualToAutomatic);
+  }
+
+  /**
+   * Determines whether the work package is a parent. It does so
+   * by checking the children links.
+   */
+  get isParent():boolean {
+    return this.changeset.projectedResource.$links.children && this.changeset.projectedResource.$links.children.length > 0;
+  }
+
+  get isSwitchedFromManualToAutomatic():boolean {
+    return !this.scheduleManually && this.changeset.value('scheduleManually');
   }
 
   private showDateSelection() {
@@ -357,11 +373,4 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     return this.locals.fieldName === 'dueDate' || (this.dates.start && !this.dates.end) ? 'end' : 'start';
   }
 
-  /**
-   * Determines whether the work package is a parent. It does so
-   * by checking the children links.
-   */
-  private get isParent():boolean {
-    return this.changeset.projectedResource.$links.children.length > 0;
-  }
 }

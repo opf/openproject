@@ -62,7 +62,7 @@ describe 'scheduling mode',
     end
   end
   let!(:wp_pre) do
-    FactoryBot.create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10').tap do |pre|
+    FactoryBot.create(:work_package, project: project, start_date: '2015-12-15', due_date: '2015-12-31').tap do |pre|
       FactoryBot.create(:follows_relation, from: wp, to: pre)
     end
   end
@@ -101,11 +101,11 @@ describe 'scheduling mode',
 
   it 'can toggle the scheduling mode through the date modal' do
     expect(wp.schedule_manually).to eq false
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
 
     # Editing the start/due dates of a parent work package is possible if the
     # work package is manually scheduled
+    combined_field.activate!(expect_open: false)
+    combined_field.expect_active!
     combined_field.expect_scheduling_mode manually: false
     combined_field.expect_parent_notification
     combined_field.toggle_scheduling_mode
@@ -131,5 +131,98 @@ describe 'scheduling mode',
 
     # is moved backwards as the whole hierarchy is moved backwards
     expect_dates(wp_suc_child, '2016-01-11', '2016-01-15')
+
+    # Switching back to automatic scheduling will lead to the work package
+    # and all work packages that are dependent to be rescheduled again.
+    combined_field.activate!(expect_open: false)
+    combined_field.expect_active!
+    combined_field.expect_scheduling_mode manually: true
+    combined_field.toggle_scheduling_mode
+    combined_field.expect_parent_notification
+    combined_field.save!
+
+    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+
+    # Moved forward again as the child determines the dates again
+    expect_dates(wp, '2016-01-01', '2016-01-05')
+    expect(wp.schedule_manually).to be_falsey
+
+    # Had not been moved in the first place
+    expect_dates(wp_child, '2016-01-01', '2016-01-05')
+
+    # As the child now again takes up the same time interval as the grandchild,
+    # the interval is shortened again.
+    expect_dates(wp_parent, '2016-01-01', '2016-01-05')
+
+    # is moved forward again because of the follows relationship
+    expect_dates(wp_suc, '2016-01-06', '2016-01-10')
+
+    # is moved forward again because its child is also moved forward
+    expect_dates(wp_suc_parent, '2016-01-06', '2016-01-10')
+
+    # is moved forward again because its parent is also moved forward
+    expect_dates(wp_suc_child, '2016-01-06', '2016-01-10')
+
+    # Switching back to manual scheduling but this time forward will lead to the work package
+    # and all work packages that are dependent to be rescheduled again.
+    combined_field.activate!(expect_open: false)
+    combined_field.expect_active!
+    combined_field.expect_scheduling_mode manually: false
+    combined_field.expect_parent_notification
+    combined_field.toggle_scheduling_mode
+    # Increasing the duration while at it
+    combined_field.update(%w[2015-12-20 2015-12-31])
+
+    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+
+    expect_dates(wp, '2015-12-20', '2015-12-31')
+    expect(wp.schedule_manually).to be_truthy
+
+    # is not moved because it is a child
+    expect_dates(wp_child, '2016-01-01', '2016-01-05')
+
+    # The start date is moved forward because its child was moved
+    # but the due date remains unchanged as its grandchild stays put.
+    expect_dates(wp_parent, '2015-12-20', '2016-01-05')
+
+    # is moved forward because of the follows relationship
+    expect_dates(wp_suc, '2016-01-01', '2016-01-05')
+
+    # is moved forward because it is the parent of the successor
+    expect_dates(wp_suc_parent, '2016-01-01', '2016-01-05')
+
+    # is moved forward as the whole hierarchy is moved backwards
+    expect_dates(wp_suc_child, '2016-01-01', '2016-01-05')
+
+    # Switching back to automatic scheduling will lead to the work package
+    # and all work packages that are dependent to be rescheduled again.
+    combined_field.activate!(expect_open: false)
+    combined_field.expect_active!
+    combined_field.expect_scheduling_mode manually: true
+    combined_field.toggle_scheduling_mode
+    combined_field.expect_parent_notification
+    combined_field.save!
+
+    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+
+    # Moved backwards again as the child determines the dates again
+    expect_dates(wp, '2016-01-01', '2016-01-05')
+    expect(wp.schedule_manually).to be_falsey
+
+    # Had not been moved in the first place
+    expect_dates(wp_child, '2016-01-01', '2016-01-05')
+
+    # As the child now again takes up the same time interval as the grandchild,
+    # the interval is shortened again.
+    expect_dates(wp_parent, '2016-01-01', '2016-01-05')
+
+    # is moved backwards again because of the follows relationship
+    expect_dates(wp_suc, '2016-01-06', '2016-01-10')
+
+    # is moved backwards again because its child is also moved forward
+    expect_dates(wp_suc_parent, '2016-01-06', '2016-01-10')
+
+    # is moved backwards again because its parent is also moved forward
+    expect_dates(wp_suc_child, '2016-01-06', '2016-01-10')
   end
 end
