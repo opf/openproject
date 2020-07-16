@@ -36,7 +36,6 @@ module Bim
         ::Bim::BasicData::ActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
-        ::Bim::BasicData::CustomStyleSeeder,
         ::Bim::BasicData::WorkflowSeeder,
         ::Bim::BasicData::PrioritySeeder,
         ::Bim::BasicData::SettingSeeder,
