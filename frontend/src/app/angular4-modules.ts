@@ -75,6 +75,7 @@ import {globalDynamicComponents} from "core-app/global-dynamic-components.const"
 import {OpenprojectMembersModule} from "core-app/modules/members/members.module";
 import {OpenprojectEnterpriseModule} from "core-components/enterprise/openproject-enterprise.module";
 import {OpenprojectAugmentingModule} from "core-app/modules/augmenting/openproject-augmenting.module";
+import {OpenprojectRevitAddinModule} from "core-app/modules/bim/revit_addin/openproject-revit-addin.module";
 
 @NgModule({
   imports: [
@@ -136,6 +137,10 @@ import {OpenprojectAugmentingModule} from "core-app/modules/augmenting/openproje
 
     // Augmenting Module
     OpenprojectAugmentingModule,
+
+    // Import the Revit Addin Module only when the frontend runs in a Revit Addin environment
+    // window.navigator.userAgent.search('Revit') > -1 ? OpenprojectRevitAddinModule : [],
+    true ? OpenprojectRevitAddinModule : [],
   ],
   providers: [
     { provide: States, useValue: new States() },

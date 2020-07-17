@@ -43,6 +43,11 @@ export class RevitBridgeService extends ViewerBridgeService {
     return this._ready$.getValueOr(false);
   }
 
+  public goToSettings():void {
+    console.log("Go To Settings called");
+    this.sendMessageToRevit('GoToSettings', '1', '');
+  }
+
   public getViewpoint$():Observable<BcfViewpointInterface> {
     const trackingId = this.newTrackingId();
 
