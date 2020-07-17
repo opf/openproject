@@ -70,6 +70,5 @@ describe 'BIM Revit Add-in navigation spec',
   it 'can switch to the Table view mode' do
     model_page.switch_view 'Table'
     expect(page).to have_selector('.work-package-table')
-    wp_table.expect_work_package_listed work_package
   end
 end
