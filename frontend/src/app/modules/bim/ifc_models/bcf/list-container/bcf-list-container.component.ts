@@ -17,7 +17,7 @@ import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 @Component({
-  templateUrl: '/app/modules/bim/ifc_models/bcf/list-container/bfc-list-container.component.html',
+  templateUrl: '/app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component.html',
   styleUrls: ['/app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component.sass'],
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
