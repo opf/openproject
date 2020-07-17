@@ -44,7 +44,6 @@ import {HookService} from "core-app/modules/plugins/hook-service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {BcfWpAttributeGroupComponent} from "core-app/modules/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component";
 import {BcfNewWpAttributeGroupComponent} from "core-app/modules/bim/bcf/bcf-wp-attribute-group/bcf-new-wp-attribute-group.component";
-import {OpenprojectRevitAddinModule} from "core-app/modules/bim/revit_addin/openproject-revit-addin.module";
 import {RevitBridgeService} from "core-app/modules/bim/revit_addin/revit-bridge.service";
 
 /**
@@ -65,7 +64,6 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
   imports: [
     OpenprojectCommonModule,
     NgxGalleryModule,
-    OpenprojectRevitAddinModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
