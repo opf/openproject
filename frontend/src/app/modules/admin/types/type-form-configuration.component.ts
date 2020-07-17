@@ -30,6 +30,7 @@ export interface TypeGroup {
 }
 
 export const adminTypeFormConfigurationSelector = 'admin-type-form-configuration';
+export const emptyTypeGroup = '__empty';
 
 @Component({
   selector: adminTypeFormConfigurationSelector,
@@ -125,7 +126,9 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
       });
 
     // Get attribute id
-    this.groups = JSON.parse(this.element.dataset.activeGroups!);
+    this.groups = JSON
+      .parse(this.element.dataset.activeGroups!)
+      .filter((group:TypeGroup) => group?.key !== emptyTypeGroup);
     this.inactives = JSON.parse(this.element.dataset.inactiveAttributes!);
 
     // Setup autoscroll
@@ -222,9 +225,23 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     this.inactives = [...newValue].sort((a, b) => a.translation.localeCompare(b.translation));
   }
 
+  // We maintain an empty group
+  // that gets hidden in the frontend in case the user
+  // decides to remove all groups
+  // This was necessary since the "default" is actually an empty array of groups
+  private get emptyGroup():TypeGroup {
+    return { type: 'attribute', key: emptyTypeGroup, name: 'empty', attributes: [] };
+  }
+
   private updateHiddenFields() {
     const hiddenField = this.form.find('.admin-type-form--hidden-field');
-    hiddenField.val(JSON.stringify(this.groups));
+    if (this.groups.length === 0) {
+      // Ensure we're adding an empty group if deliberately removing
+      // all values.
+      hiddenField.val(JSON.stringify([this.emptyGroup]));
+    } else {
+      hiddenField.val(JSON.stringify(this.groups));
+    }
   }
 }
 
