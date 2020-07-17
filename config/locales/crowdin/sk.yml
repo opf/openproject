@@ -78,6 +78,7 @@ sk:
     is_active: aktuálne zobrazené
     is_inactive: v súčasnosti nie je zobrazené
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'V tomto zobrazení môžete vytvoriť vlastné texty pomoci pre zobrazenie atribútov. Po definovaní môžete tieto texty prezerať kliknutím na ikonu pomoci zobrazenú k príslušným atribútom.'
     label_plural: 'Texty nápovedy atribútu'
     show_preview: 'Ukázať náhľad'

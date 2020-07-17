@@ -78,6 +78,7 @@ vi:
     is_active: Đang hiển thị
     is_inactive: hiện tại không hiển thị
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Tại đây, bạn có thể tạo các văn bản hiển thị hỗ trợ. Khi hoàn thành, các văn bản có thể được hiển thị bằng cách nhấp vào biểu tượng trợ giúp bên cạnh các giá trị.'
     label_plural: 'Thuộc tính văn bản trợ giúp'
     show_preview: 'Văn bản xem trước'

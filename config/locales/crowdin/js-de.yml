@@ -167,7 +167,7 @@ de:
         trial:
           confirmation: "E-Mail-Adresse bestätigen"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Wir haben Ihnen am %{date} eine E-Mail an %{email} gesendet. Bitte überprüfen Sie Ihren Posteingang und klicken Sie auf den Bestätigungslink, um Ihre 14 Tage Testversion zu starten.
           form:
             general_consent: >
               Ich stimme den <a target="_blank" href="%{link_terms}">Nutzungsbedingungen</a> und der <a target="_blank" href="%{link_privacy}">Datenschutzrichtlinie</a> zu.
@@ -397,7 +397,7 @@ de:
     label_sum_for: "Summe für"
     label_subject: "Thema"
     label_this_week: "aktuelle Woche"
-    label_today: "Today"
+    label_today: "Heute"
     label_time_entry_plural: "Aufgewendete Zeit"
     label_up: "Nach oben"
     label_user_plural: "Benutzer"
@@ -584,8 +584,8 @@ de:
     field_value_enter_prompt: "Einen Wert für '%{field}' eingeben"
     project_menu_details: "Details"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Manuelle Planung'
+      automatic: 'Automatische Planung'
     sort:
       sorted_asc: 'Aufsteigende Sortierung angewendet, '
       sorted_dsc: 'Absteigende Sortierung angewendet, '
@@ -885,8 +885,8 @@ de:
         confirm_deletion_children: "Ich bestätige, dass alle untergordneten Elemente der hier aufgeführten Arbeitspakete rekursiv entfernt werden."
         deletes_children: "Alle untergeordneten Arbeitspaketen und deren Nachkommen werden auch rekursiv gelöscht."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Löschen der Zeitbuchung bestätigen"
+        text: "Sind Sie sicher, dass Sie die folgende Zeitbuchung löschen möchten?"
     notice_no_results_to_display: "Keine sichtbaren Ergebnisse anzuzeigen."
     notice_successful_create: "Erfolgreich angelegt."
     notice_successful_delete: "Erfolgreich gelöscht."

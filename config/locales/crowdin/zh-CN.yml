@@ -78,6 +78,7 @@ zh-CN:
     is_active: 当前已显示
     is_inactive: 当前未显示
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: '在此视图中, 您可以为属性视图创建自定义帮助文本。定义后, 可以通过单击属性旁边的帮助图标来显示帮助文本。'
     label_plural: '属性帮助文本'
     show_preview: '预览文本'

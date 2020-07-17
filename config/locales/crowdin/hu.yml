@@ -78,6 +78,7 @@ hu:
     is_active: jelenleg látható
     is_inactive: jelenleg nem látható
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Ebben a nézetben egyedi súgószövegeket hozhat létre az attribútumokhoz. Definiálást követően ezek a szövegek jelennek meg az attribútum Súgó ikonjára kattintást követően.'
     label_plural: 'Attribútum-súgószöveg'
     show_preview: 'Előnézet mutatása'

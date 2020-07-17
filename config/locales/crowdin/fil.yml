@@ -78,6 +78,7 @@ fil:
     is_active: kasalukuyang naka-displey
     is_inactive: kasulukuyang hindi naka-displey
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Sa tanawin na ito, pwede kang makalikha ng custom na tulong na mga teksto para sa mga katangian na tanawin. Kung mabigyan ng kahulugan, ang mga tekstong ito ay pwedeng makita sa pamamagitan ng pagpipindot ng icon na tulong kasunod sa pag-aari na katangian.'
     label_plural: 'Katangiang tulong na mga teksto'
     show_preview: 'Preview na teksto'

@@ -78,6 +78,7 @@ id:
     is_active: currently displayed
     is_inactive: currently not displayed
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Pada tampilan ini, anda dapat membuat teks-teks bantuan yang dikhususkan untuk tampilan atribut-atribut tersebut. Ketika didefinisikan, teks-teks ini dapat ditampilkan dengan mengklik ikon bantuan pada atribut miliknya.'
     label_plural: 'Atribut teks bantuan'
     show_preview: 'Teks pratinjau'
