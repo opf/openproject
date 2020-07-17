@@ -49,7 +49,6 @@ describe 'BIM Revit Add-in navigation spec',
   before do
     login_as(user)
     model_page.visit!
-    model_page.finished_loading
   end
 
   it 'shows "Cards" view by default' do
@@ -58,10 +57,6 @@ describe 'BIM Revit Add-in navigation spec',
 
   it 'shows no viewer' do
     model_page.model_viewer_visible false
-  end
-
-  it 'shows a toolbar' do
-    model_page.page_shows_a_toolbar true
   end
 
   it 'menu has no viewer options' do
