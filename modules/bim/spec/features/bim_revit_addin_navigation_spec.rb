@@ -55,6 +55,10 @@ describe 'BIM Revit Add-in navigation spec',
     model_page.expect_view_toggle_at 'Cards'
   end
 
+  it 'shows a toolbar' do
+    model_page.page_shows_a_toolbar true
+  end
+
   it 'shows no viewer' do
     model_page.model_viewer_visible false
   end
