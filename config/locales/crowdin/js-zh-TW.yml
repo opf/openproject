@@ -397,7 +397,7 @@ zh-TW:
     label_sum_for: "總和"
     label_subject: "主題"
     label_this_week: "本週"
-    label_today: "Today"
+    label_today: "今日"
     label_time_entry_plural: "耗時"
     label_up: "向上"
     label_user_plural: "使用者"
@@ -584,8 +584,8 @@ zh-TW:
     field_value_enter_prompt: "輸入'%{field}'的值"
     project_menu_details: "詳細資料"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: '手動排程'
+      automatic: '自動排程'
     sort:
       sorted_asc: '已套用升冪排序， '
       sorted_dsc: '已套用降冪排序， '
