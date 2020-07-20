@@ -59,7 +59,7 @@ class WorkPackages::CopyService
       copy_watchers(copied.result)
     end
 
-    copied.context = { copied_from: work_package }
+    copied.state.copied_from_work_package_id = work_package&.id
 
     copied
   end

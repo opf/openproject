@@ -28,28 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module Queries::Copy
+  class MenuItemDependentService < ::Copy::Dependency
+    protected
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
+    def copy_dependency(params:)
+      duplicate_query_menu_item(source, target)
     end
 
-    private
-
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+    def duplicate_query_menu_item(query, new_query)
+      if query.query_menu_item && new_query.persisted?
+        ::MenuItems::QueryMenuItem.create(
+          navigatable_id: new_query.id,
+          name: SecureRandom.uuid,
+          title: query.query_menu_item.title
+        )
       end
-
-      service_call
-    end
-
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
     end
   end
 end

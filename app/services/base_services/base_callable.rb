@@ -28,28 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module BaseServices
+  class BaseCallable
+    extend ActiveModel::Callbacks
+    define_model_callbacks :call
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
-    end
+    include ::WithReversibleState
 
-    private
-
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+    def call(params = {})
+      run_callbacks(:call) do
+        perform(params)
       end
-
-      service_call
     end
 
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
+    protected
+
+    def perform(params)
+      raise NotImplementedError
     end
   end
 end

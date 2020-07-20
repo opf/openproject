@@ -28,28 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module Queries
+  class CopyService < ::BaseServices::Copy
+    protected
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
+    def copy_dependencies
+      [
+        ::Queries::Copy::MenuItemDependentService,
+        ::Queries::Copy::OrderedWorkPackagesDependentService
+      ]
     end
 
-    private
+    def initialize_copy(source, params)
+      new_query = ::Query.new source.attributes.dup.except(*skipped_attributes)
+      new_query.sort_criteria = source.sort_criteria if source.sort_criteria
+      new_query.project = state.project || source.project
+      new_query.set_context
 
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
-      end
-
-      service_call
+      ServiceResult.new(success: new_query.save, result: new_query)
     end
 
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
+    def skipped_attributes
+      %w[id created_at updated_at project_id sort_criteria]
     end
   end
 end

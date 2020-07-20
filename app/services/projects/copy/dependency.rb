@@ -28,28 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module Projects::Copy
+  class Dependency < ::Copy::Dependency
+    delegate :should_copy?, to: :class
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
-    end
+    ##
+    # Check whether this dependency should be copied
+    # as it was selected
+    def self.should_copy?(params, check)
+      return true unless params[:only].present?
 
-    private
-
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
-      end
-
-      service_call
-    end
-
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
+      params[:only].any? { |key| key.to_sym == check }
     end
   end
 end

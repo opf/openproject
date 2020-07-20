@@ -28,28 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module Projects::Copy
+  class VersionsDependentService < Dependency
+    protected
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
-    end
-
-    private
-
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+    def copy_dependency(params:)
+      version_id_map = {}
+      source.versions.each do |source_version|
+        version = target.versions.create source_version.attributes.dup.except('id', 'project_id', 'created_on', 'updated_at')
+        version_id_map[source_version.id] = version.id
       end
 
-      service_call
-    end
-
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
+      state.version_id_lookup = version_id_map
     end
   end
 end

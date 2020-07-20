@@ -28,28 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module Projects::Copy
+  class MembersDependentService < Dependency
+    protected
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
-    end
+    def copy_dependency(*)
+      # Copy users first, then groups to handle members with inherited and given roles
+      members_to_copy = []
+      members_to_copy += source.memberships.select { |m| m.principal.is_a?(User) }
+      members_to_copy += source.memberships.reject { |m| m.principal.is_a?(User) }
+      members_to_copy.each do |member|
+        # only copy non inherited roles
+        # inherited roles will be added when copying the group membership
+        role_ids = member.member_roles.reject(&:inherited?).map(&:role_id)
 
-    private
+        next if role_ids.empty?
 
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+        attributes = member
+          .attributes.dup.except('id', 'project_id', 'created_on')
+          .merge(role_ids: role_ids)
+
+        target.memberships.create attributes
       end
-
-      service_call
-    end
-
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
     end
   end
 end

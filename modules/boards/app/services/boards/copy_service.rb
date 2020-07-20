@@ -28,28 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module Boards
+  class CopyService < ::BaseServices::Copy
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
+    def initialize(user:, source:)
+      super(user: user, source: source, contract_class: ::EmptyContract)
     end
 
-    private
+    protected
 
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
-      end
-
-      service_call
+    def copy_dependencies
+      [
+        ::Boards::Copy::WidgetsDependentService
+      ]
     end
 
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
+    def initialize_copy(source, params)
+      new_board = ::Boards::Grid.new
+      new_board.attributes = source.attributes.dup.except(*skipped_attributes)
+      new_board.project = state.project || source.project
+
+      ServiceResult.new(success: new_board.save, result: new_board)
+    end
+
+    def skipped_attributes
+      %w[id created_at updated_at project_id sort_criteria]
     end
   end
 end

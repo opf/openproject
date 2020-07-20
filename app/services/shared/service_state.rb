@@ -27,29 +27,43 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require "ostruct"
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
-
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
+##
+# Service state object to be passed around services
+# for remembering state between service calls (e.g., when copying).
+#
+# Borrows heavily from interactor gem's context class at
+# https://github.com/collectiveidea/interactor
+module Shared
+  class ServiceState < OpenStruct
+    ##
+    # Builds the context object unless
+    # it's already an instance of this context.
+    def self.build(state = {})
+      self === state ? state : new(state)
     end
 
-    private
+    ##
+    # Remember that the state was passed to the given service
+    def called!(service)
+      service_chain << service
+    end
 
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+    # Roll back the context on all used services
+    def rollback!
+      return false if @rolled_back
+
+      service_chain.reverse_each do |service|
+        Rails.logger.debug { "[Service state] Rolling back execution of #{service}." }
+        service.rollback
       end
-
-      service_call
+      @rolled_back = true
     end
 
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
+    # Remembered service calls this context was used against
+    def service_chain
+      @service_chain ||= []
     end
   end
 end

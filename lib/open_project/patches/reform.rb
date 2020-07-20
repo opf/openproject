@@ -31,7 +31,7 @@
 module OpenProject
   module Patches
     module Reform
-      def merge!(errors, prefix)
+      def merge!(errors, prefix = [])
         @store_new_symbols = false
         super(errors, prefix)
         @store_new_symbols = true

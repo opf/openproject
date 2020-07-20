@@ -28,28 +28,39 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module WithReversibleState
+  extend ActiveSupport::Concern
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
+  included do
+    attr_reader :state
+    around_call :assign_state
+
+    ##
+    # Reuse or append state to the service
+    def with_state(state = {})
+      @state = ::Shared::ServiceState.build(state)
+      self
     end
 
-    private
+    ##
+    # Access to the shared service state
+    def state
+      @state ||= ::Shared::ServiceState.build
+    end
 
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+    ##
+    # Rollback changes made
+    def rollback
+      # Nothing to do by default
+    end
+
+    ##
+    # Assign state to the service result
+    def assign_state
+      yield.tap do |call|
+        state.called!(self)
+        call.state = state
       end
-
-      service_call
-    end
-
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
     end
   end
 end

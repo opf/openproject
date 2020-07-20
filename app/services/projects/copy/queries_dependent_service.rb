@@ -28,28 +28,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class ArchiveService < ::BaseServices::BaseContracted
-    include Contracted
+module Projects::Copy
+  class QueriesDependentService < Dependency
+    protected
 
-    def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
-    end
-
-    private
-
-    def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+    # Copies queries from +project+
+    # Only includes the queries visible in the wp table view.
+    def copy_dependency(params:)
+      source.queries.non_hidden.includes(:query_menu_item).each do |query|
+        duplicate_query(query, params)
       end
-
-      service_call
     end
 
-    def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
+    def duplicate_query(query, params)
+      ::Queries::CopyService
+        .new(source: query, user: user)
+        .with_state(state)
+        .call(params.merge)
+        .on_failure do |result|
+
+        add_error! query, result.errors
+      end
     end
   end
 end
