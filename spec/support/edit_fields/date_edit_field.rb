@@ -2,14 +2,17 @@ require_relative './edit_field'
 
 class DateEditField < EditField
   attr_accessor :milestone
+  attr_accessor :is_table
 
   def initialize(context,
                  property_name,
                  selector: nil,
-                 is_milestone: false)
+                 is_milestone: false,
+                 is_table: false)
 
     super(context, property_name, selector: selector)
     self.milestone = is_milestone
+    self.is_table = is_table
   end
 
   def datepicker
@@ -17,7 +20,7 @@ class DateEditField < EditField
   end
 
   def modal_selector
-    "#wp-datepicker-#{property_name}"
+    ".datepicker-modal"
   end
 
   def input_selector

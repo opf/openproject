@@ -152,5 +152,4 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   private get rowContainer() {
     return jQuery(this.table.tableAndTimelineContainer).find(`.${this.classIdentifier}-table`);
   }
-
 }

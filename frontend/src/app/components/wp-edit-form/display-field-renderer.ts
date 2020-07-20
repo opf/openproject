@@ -14,6 +14,7 @@ import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {DateDisplayField} from "core-app/modules/fields/display/field-types/date-display-field.module";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -55,13 +56,13 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   public renderFieldValue(resource:T,
-                          name:string,
+                          requestedAttribute:string,
                           change:ResourceChangeset<T>|null,
                           placeholder?:string):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
     const schema = this.schema(resource, change);
-    const attributeName = this.attributeName(name, schema);
-    const fieldSchema = schema.ofProperty(name);
+    const attributeName = this.attributeName(requestedAttribute, schema);
+    const fieldSchema = schema.ofProperty(attributeName);
 
     // If the resource does not have that field, return an empty
     // span (e.g., for the table).
@@ -83,12 +84,12 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   public getField(resource:T,
                   fieldSchema:IFieldSchema,
-                  name:string,
+                  attributeName:string,
                   change:ResourceChangeset<T>|null):DisplayField {
-    let field = this.fieldCache[name];
+    let field = this.fieldCache[attributeName];
 
     if (!field) {
-      field = this.fieldCache[name] = this.getFieldForCurrentContext(resource, name, fieldSchema);
+      field = this.fieldCache[attributeName] = this.getFieldForCurrentContext(resource, attributeName, fieldSchema);
     }
 
     field.apply(resource, fieldSchema);
@@ -97,25 +98,31 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     return field;
   }
 
-  private getFieldForCurrentContext(resource:T, name:string, fieldSchema:IFieldSchema):DisplayField {
+  private getFieldForCurrentContext(resource:T, attributeName:string, fieldSchema:IFieldSchema):DisplayField {
     const context:DisplayFieldContext = {container: this.container, injector: this.injector, options: this.options};
 
     // We handle multi value fields differently in the single view context
     const isCustomMultiLinesField = ['[]CustomOption'].indexOf(fieldSchema.type) >= 0;
     if (this.container === 'single-view' && isCustomMultiLinesField) {
-      return new MultipleLinesStringObjectsDisplayField(name, context) as DisplayField;
+      return new MultipleLinesStringObjectsDisplayField(attributeName, context) as DisplayField;
     }
     const isUserMultiLinesField = ['[]User'].indexOf(fieldSchema.type) >= 0;
     if (this.container === 'single-view' && isUserMultiLinesField) {
-      return new MultipleLinesUserFieldModule(name, context) as DisplayField;
+      return new MultipleLinesUserFieldModule(attributeName, context) as DisplayField;
     }
 
     // We handle progress differently in the timeline
-    if (this.container === 'timeline' && name === 'percentageDone') {
-      return new ProgressTextDisplayField(name, context);
+    if (this.container === 'timeline' && attributeName === 'percentageDone') {
+      return new ProgressTextDisplayField(attributeName, context);
     }
 
-    return this.displayFieldService.getField(resource, name, fieldSchema, context);
+    // We want to render an combined edit field but the display field must
+    // show the original attribute
+    if (this.container === 'table' && ['startDate', 'dueDate', 'date'].includes(attributeName)) {
+      return new DateDisplayField(attributeName, context);
+    }
+
+    return this.displayFieldService.getField(resource, attributeName, fieldSchema, context);
   }
 
   private getText(field:DisplayField, fieldSchema:IFieldSchema, placeholder?:string):string {
@@ -128,7 +135,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, resource:T, change:ResourceChangeset<T>|null):void {
     span.classList.add(displayClassName, name);
-    span.dataset['fieldName'] = name;
+    span.dataset.fieldName = name;
 
     // Make span tabbable unless it's an id field
     span.setAttribute('tabindex', name === 'id' ? '-1' : '0');

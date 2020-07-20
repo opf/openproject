@@ -276,7 +276,7 @@ module Pages
     def work_package_field(work_package, context, key)
       case key.to_sym
       when :date, :startDate, :dueDate
-        DateEditField.new context, key, is_milestone: work_package.milestone?
+        DateEditField.new context, key, is_milestone: work_package.milestone?, is_table: true
       else
         EditField.new context, key
       end

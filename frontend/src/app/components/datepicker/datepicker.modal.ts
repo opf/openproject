@@ -34,7 +34,7 @@ import {
   ElementRef,
   EventEmitter,
   Inject,
-  Injector,
+  Injector, ViewChild,
   ViewEncapsulation
 } from "@angular/core";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
@@ -63,6 +63,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   @InjectField() halEditing:HalResourceEditingService;
   @InjectField() datepickerHelper:DatePickerModalHelper;
   @InjectField() browserDetector:BrowserDetector;
+
+  @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -234,6 +236,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   private initializeDatepicker() {
+    this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
       '#flatpickr-input',
       this.singleDate ? this.dates.date : [this.dates.start, this.dates.end],
