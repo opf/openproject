@@ -397,7 +397,7 @@ vi:
     label_sum_for: "Tổng cho"
     label_subject: "Chủ đề"
     label_this_week: "tuần này"
-    label_today: "Today"
+    label_today: "hôm nay"
     label_time_entry_plural: "Thời gian"
     label_up: "Lên"
     label_user_plural: "Người dùng"
@@ -583,9 +583,6 @@ vi:
       select_branch: 'Chọn nhánh'
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "Chi tiết"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

@@ -233,6 +233,16 @@ describe WorkPackages::SetScheduleService do
           end
         end
       end
+
+      context 'when the follower has no start date (which should not happen)' do
+        let(:follower1_start_date) { nil }
+
+        it_behaves_like 'reschedules' do
+          let(:expected) do
+            { following_work_package1 => [Date.today + 6.days, Date.today + 7.day] }
+          end
+        end
+      end
     end
 
     context 'moving forward with the follower having some space left' do
@@ -365,6 +375,20 @@ describe WorkPackages::SetScheduleService do
         end
         let(:unchanged) do
           [other_work_package]
+        end
+      end
+    end
+
+    context 'moving backwards with the follower having no start date (which should not happen)' do
+      let(:follower1_start_date) { nil }
+
+      before do
+        work_package.due_date = Date.today - 5.days
+      end
+
+      it_behaves_like 'reschedules' do
+        let(:expected) do
+          { following_work_package1 => [Date.today - 4.days, follower1_due_date] }
         end
       end
     end

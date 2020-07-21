@@ -289,7 +289,7 @@
     label_and: "og"
     label_ascending: "Stigende"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Profilbilde"
     label_between: "mellom"
     label_board: "Board"
     label_board_locked: "Låst"
@@ -398,7 +398,7 @@
     label_sum_for: "Sum for"
     label_subject: "Emne"
     label_this_week: "denne uken"
-    label_today: "Today"
+    label_today: "i dag"
     label_time_entry_plural: "Tid brukt"
     label_up: "Up"
     label_user_plural: "Brukere"
@@ -584,9 +584,6 @@
       select_branch: 'Select branch'
     field_value_enter_prompt: "Angi en verdi for '%{field}'"
     project_menu_details: "Detaljer"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

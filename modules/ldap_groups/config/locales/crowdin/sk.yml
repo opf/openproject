@@ -5,7 +5,7 @@ sk:
         dn: 'DN'
         auth_source: 'LDAP connection'
       ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
+        filter_string: 'Filter LDAP'
         auth_source: 'LDAP connection'
         group_name_attribute: "Group name attribute"
     models:
@@ -14,7 +14,7 @@ sk:
   ldap_groups:
     label_menu_item: 'LDAP group synchronization'
     label_group_key: 'LDAP group filter key'
-    label_synchronize: 'Synchronize'
+    label_synchronize: 'Synchronizovať'
     settings:
       name_attribute: 'LDAP groups name attribute'
       name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'

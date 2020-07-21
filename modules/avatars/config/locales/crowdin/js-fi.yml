@@ -4,12 +4,11 @@ fi:
     label_preview: 'Esikatselu'
     button_update: 'Päivitä'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
-      uploading_avatar: "Uploading your avatar."
+      label_choose_avatar: "Valitse kuva tiedostosta"
+      uploading_avatar: "Kuvaa lisätään."
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
-      error_image_too_large: "Image is too large."
-      wrong_file_format: "Allowed formats are jpg, png, gif"
-      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+        Lisää oma kuvasi, jonka koko on 128x128 pikseliä. Suuremmat kuvat pienennetään ja leikataan sopiviksi. Kuvan esikatselu näytetään kun olet valinnut kuvatiedoston.
+      error_image_too_large: "Kuva on liian iso."
+      wrong_file_format: "Sallitut tiedostomuodot jpg, png, gif"
+      empty_file_error: "Lisää kuva sallitussa tiedostomuodossa (jpg, png, gif)"
 

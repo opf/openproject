@@ -124,6 +124,8 @@ module OpenProject
       'health_checks_jobs_queue_count_threshold' => 50,
       # Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       'health_checks_jobs_never_ran_minutes_ago' => 5,
+      # Maximum number of unprocessed requests in puma's backlog.
+      'health_checks_backlog_threshold' => 20,
 
       'after_login_default_redirect_url' => nil,
       'after_first_login_redirect_url' => nil,

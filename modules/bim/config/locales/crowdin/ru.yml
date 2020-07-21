@@ -103,7 +103,7 @@ ru:
           snapshot_data_blank: "snapshot_data не предоставлены."
           unsupported_key: "Обнаружено неподдерживаемое свойство json."
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "Невозможно импортировать эту задачу BCF, так как уже существует другая с тем же GUID. Может быть, этот запрос BCF уже импортирован в другой проект?"
   ifc_models:
     label_ifc_models: 'Модели IFC'
     label_new_ifc_model: 'Новая модель IFC'

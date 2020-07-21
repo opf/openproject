@@ -31,6 +31,7 @@ es:
       error_permission_missing: "Falta el permiso para crear consultas públicas"
       click_to_remove_list: "Haga clic para quitar esta lista"
       board_type:
+        text: 'Tipo de panel'
         free: 'Panel básico'
         free_text: >
           Cree un panel donde pueda crear libremente listas y ordenar los paquetes de trabajo que contenga. Al mover los paquetes de trabajo entre las listas, no se cambia del paquete de trabajo en sí.

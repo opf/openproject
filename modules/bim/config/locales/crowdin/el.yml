@@ -31,7 +31,7 @@ el:
         num_issues_found: '%{x_bcf_issues} περιέχονται στο αρχείο BCF-XML, οι λεπτομέρειες τους παρατίθενται παρακάτω.'
         button_prepare: 'Προετοιμασία εισαγωγής'
         button_perform_import: 'Επιβεβαιώση εισαγωγής'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Προχωρήστε με εισαγωγή'
         button_back_to_list: 'Επιστροφή στη λίστα'
         no_permission_to_add_members: 'Δεν έχετε επαρκή δικαιώματα για να τους προσθέσετε ως μέλη αυτού του έργου.'
         contact_project_admin: 'Επικοινωνήστε με τον διαχειριστή έργου σας για να τους προσθέσετε ως μέλη και να επανεκκινήσετε την εισαγωγή.'

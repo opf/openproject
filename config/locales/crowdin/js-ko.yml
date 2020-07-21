@@ -398,7 +398,7 @@ ko:
     label_sum_for: "합계 "
     label_subject: "제목"
     label_this_week: "이번 주"
-    label_today: "Today"
+    label_today: "오늘"
     label_time_entry_plural: "소비한 시간"
     label_up: "위"
     label_user_plural: "사용자"
@@ -584,9 +584,6 @@ ko:
       select_branch: '브랜치 선택'
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     project_menu_details: "세부 정보"
-    scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
       sorted_dsc: '내림차순 정렬이 적용됨, '

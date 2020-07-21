@@ -84,7 +84,8 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, params.merge(format: 'atom', from: nil, key: User.current.rss_key)) %>
+  <%= auto_discovery_link_tag(:atom,
+                              { format: 'atom', from: nil, key: User.current.rss_key }) %>
 <% end %>
 
 <% content_for :sidebar do %>
