@@ -148,12 +148,22 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       span.classList.add(placeholderClassName);
     }
 
-    if (this.schema(resource, change).isAttributeEditable(name)) {
+    const schema = this.schema(resource, change);
+    if (this.isAttributeEditable(schema, name)) {
       span.classList.add(editableClassName);
       span.setAttribute('role', 'button');
     } else {
       span.classList.add(readOnlyClassName);
     }
+  }
+
+  private isAttributeEditable(schema:SchemaResource, fieldName:string) {
+    // We need to handle start/due date cases like they were combined dates
+    if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
+      fieldName = 'combinedDate';
+    }
+
+    return schema.isAttributeEditable(fieldName);
   }
 
   private getAriaLabel(field:DisplayField, schema:SchemaResource):string {

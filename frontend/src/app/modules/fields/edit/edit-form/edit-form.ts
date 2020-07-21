@@ -269,7 +269,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * values loaded.
    * @param fieldName
    */
-  private loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
+  protected loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
     return new Promise((resolve, reject) => {
       this.loadFormAndCheck(fieldName, noWarnings);
       const fieldSchema:IFieldSchema = this.change.schema.ofProperty(fieldName);

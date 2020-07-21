@@ -70,12 +70,12 @@ class DateEditField < EditField
   end
 
   def active?
-    page.has_selector?("#{modal_selector} #{input_selector}", wait: 1)
+    page.has_selector?(modal_selector, wait: 1)
   end
 
   def expect_active!
     expect(page)
-      .to have_selector("#{modal_selector} #{input_selector}", wait: 10),
+      .to have_selector(modal_selector, wait: 10),
           "Expected date field '#{property_name}' to be active."
   end
 

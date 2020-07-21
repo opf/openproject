@@ -674,8 +674,8 @@ describe WorkPackages::SetAttributesService, type: :model do
           it 'sets the start date to the soonest possible start date' do
             subject
 
-            expect(work_package.start_date).to eql(Date.today)
-            expect(work_package.due_date).to eql(Date.today + 5.days)
+            expect(work_package.start_date).to eql(soonest_start)
+            expect(work_package.due_date).to eql(Date.today + 2.days)
           end
         end
       end
