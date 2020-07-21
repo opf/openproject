@@ -10,6 +10,7 @@
     <span aria-hidden="true" class="icon icon-save"></span>
   </a>
   <input #editableTitleInput
+         size="1"
          type="text"
          aria-required="true"
          [attr.name]="selectableTitleIdentifier"
@@ -24,6 +25,7 @@
          [disabled]="inFlight"
          [ngClass]="{ '-error': isEmpty, '-changed': showSave }"
          class="editable-toolbar-title--input -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
+  <div class="editable-toolbar-title--input-shim">{{ selectedTitle || text.input_placeholder }}</div>
 </div>
 <h2 *ngIf="!editable"
     [attr.title]="selectedTitle"
