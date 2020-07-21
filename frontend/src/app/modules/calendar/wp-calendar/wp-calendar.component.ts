@@ -20,6 +20,7 @@ import {take} from 'rxjs/operators';
 import {ToolbarInput} from '@fullcalendar/core/types/input-types';
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -53,6 +54,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
               readonly wpListService:WorkPackagesListService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
+              readonly schemaCache:SchemaCacheService,
               readonly titleService:OpTitleService,
               private element:ElementRef,
               readonly i18n:I18nService,
@@ -332,7 +334,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   }
 
   private eventDate(workPackage:WorkPackageResource, type:'start'|'due') {
-    if (workPackage.isMilestone) {
+    if (this.schemaCache.of(workPackage).isMilestone) {
       return workPackage.date;
     } else {
       return workPackage[`${type}Date`];

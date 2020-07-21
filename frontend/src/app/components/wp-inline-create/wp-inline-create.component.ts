@@ -58,6 +58,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -89,7 +90,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   constructor(public readonly injector:Injector,
               protected readonly elementRef:ElementRef,
-              protected readonly FocusHelper:FocusHelperService,
+              protected readonly schemaCache:SchemaCacheService,
               protected readonly I18n:I18nService,
               protected readonly querySpace:IsolatedQuerySpace,
               protected readonly cdRef:ChangeDetectorRef,
@@ -228,7 +229,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
             if (!this.isActive) {
               this.insertRow(wp);
             } else {
-              this.currentWorkPackage!.overriddenSchema = form!.schema;
+              this.schemaCache.update(this.currentWorkPackage!, form!.schema);
               this.refreshRow();
             }
           });

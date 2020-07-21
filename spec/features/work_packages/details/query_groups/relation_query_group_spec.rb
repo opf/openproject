@@ -141,11 +141,11 @@ describe 'Work package with relation query group', js: true, selenium: true do
                           member_in_project: project,
                           member_through_role: role)
       end
-      let!(:project2_member) {
+      let!(:project2_member) do
         member = FactoryBot.build(:member, user: user, project: project2)
         member.roles = [role]
         member.save!
-      }
+      end
 
       it 'can load the query and inline create' do
         full_wp.visit!

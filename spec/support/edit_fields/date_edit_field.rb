@@ -2,14 +2,17 @@ require_relative './edit_field'
 
 class DateEditField < EditField
   attr_accessor :milestone
+  attr_accessor :is_table
 
   def initialize(context,
                  property_name,
                  selector: nil,
-                 is_milestone: false)
+                 is_milestone: false,
+                 is_table: false)
 
     super(context, property_name, selector: selector)
     self.milestone = is_milestone
+    self.is_table = is_table
   end
 
   def datepicker
@@ -17,11 +20,15 @@ class DateEditField < EditField
   end
 
   def modal_selector
-    "#wp-datepicker-#{property_name}"
+    ".datepicker-modal"
   end
 
   def input_selector
-    "input[name=#{property_name}]"
+    if property_name == 'combinedDate'
+      "input[name=startDate]"
+    else
+      "input[name=#{property_name}]"
+    end
   end
 
   def property_name
@@ -35,6 +42,12 @@ class DateEditField < EditField
   def expect_scheduling_mode(manually:)
     within_modal do
       expect(page).to have_field('scheduling', checked: manually)
+    end
+  end
+
+  def expect_parent_notification
+    within_modal do
+      expect(page).to have_content(I18n.t('js.work_packages.scheduling.is_parent'))
     end
   end
 
@@ -57,12 +70,12 @@ class DateEditField < EditField
   end
 
   def active?
-    page.has_selector?("#{modal_selector} #{input_selector}", wait: 1)
+    page.has_selector?(modal_selector, wait: 1)
   end
 
   def expect_active!
     expect(page)
-      .to have_selector("#{modal_selector} #{input_selector}", wait: 10),
+      .to have_selector(modal_selector, wait: 10),
           "Expected date field '#{property_name}' to be active."
   end
 
@@ -78,7 +91,7 @@ class DateEditField < EditField
       activate_edition
       within_modal do
         if value.is_a?(Array)
-          value.each {|el| select_value(el)}
+          value.each { |el| select_value(el) }
         else
           select_value value
         end

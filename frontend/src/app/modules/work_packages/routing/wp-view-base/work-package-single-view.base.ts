@@ -152,8 +152,4 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   public canViewWorkPackageWatchers() {
     return !!(this.workPackage && this.workPackage.watchers);
   }
-
-  public get isEditable() {
-    return this.workPackage.isEditable;
-  }
 }

@@ -26,21 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  SimpleResource,
-  SimpleResourceCollection
-} from 'core-app/modules/common/path-helper/apiv3/path-resources';
-import {Apiv3TimeEntryPaths} from "core-app/modules/common/path-helper/apiv3/time-entries/apiv3-time-entry-paths";
+import {SimpleResource} from 'core-app/modules/common/path-helper/apiv3/path-resources';
 
-export class Apiv3TimeEntriesPaths extends SimpleResourceCollection {
-  constructor(basePath:string) {
-    super(basePath, 'time_entries');
+export class Apiv3QueryFilterInstanceSchemaPaths extends SimpleResource {
+  constructor(basePath:string, filterName:string|number) {
+    super(basePath, filterName);
   }
-
-  public id(timeEntryId:string|number) {
-    return new Apiv3TimeEntryPaths(this.path, timeEntryId);
-  }
-
-  // Static paths
-  public readonly form = new SimpleResource(this.path, 'form');
 }

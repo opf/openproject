@@ -39,10 +39,10 @@ describe 'date inplace editor',
   let(:project) { FactoryBot.create :project_with_types, public: true }
   let(:work_package) { FactoryBot.create :work_package, project: project, start_date: '2016-01-01' }
   let(:user) { FactoryBot.create :admin }
-  let(:work_packages_page) { Pages::FullWorkPackage.new(work_package,project) }
+  let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-  let(:start_date) { work_packages_page.edit_field(:startDate) }
+  let(:start_date) { work_packages_page.edit_field(:combinedDate) }
 
   before do
     login_as(user)

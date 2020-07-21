@@ -28,12 +28,12 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: '[query-filter]',
@@ -61,7 +61,7 @@ export class QueryFilterComponent implements OnInit {
   };
 
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly wpFiltersService:WorkPackageFiltersService,
+              readonly schemaCache:SchemaCacheService,
               readonly I18n:I18nService,
               readonly bannerService:BannersService) {
   }
@@ -86,7 +86,7 @@ export class QueryFilterComponent implements OnInit {
 
   ngOnInit() {
     this.eeShowBanners = this.bannerService.eeShowBanners;
-    this.availableOperators = this.filter.schema.availableOperators;
+    this.availableOperators = this.schemaCache.of(this.filter).availableOperators;
     this.showValuesInput = this.filter.currentSchema!.isValueRequired();
   }
 }

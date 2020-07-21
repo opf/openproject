@@ -32,12 +32,14 @@ import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface {
 
   constructor(readonly injector:Injector,
-              protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
+              protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
+              protected readonly schemaCache:SchemaCacheService) {
     super(injector);
   }
 
@@ -79,8 +81,7 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
   }
 
   public get canAddChild() {
-    const wp = this.referenceTarget;
-    return wp && !wp.isMilestone && wp.changeParent;
+    return this.schema && !this.schema.isMilestone && this.referenceTarget!.changeParent;
   }
 
   /**
@@ -90,4 +91,8 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
     reference: this.I18n.t('js.relation_buttons.add_existing_child'),
     create: this.I18n.t('js.relation_buttons.add_new_child')
   };
+
+  private get schema() {
+    return this.referenceTarget && this.schemaCache.of(this.referenceTarget);
+  }
 }

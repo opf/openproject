@@ -55,6 +55,8 @@ import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
 
 export interface FieldDescriptor {
   name:string;
@@ -139,6 +141,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
               protected halResourceService:HalResourceService,
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
+              protected schemaCache:SchemaCacheService,
               protected hook:HookService,
               protected injector:Injector,
               protected cdRef:ChangeDetectorRef,
@@ -192,11 +195,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     }
 
     if (isNew && !this.currentProject.inProjectContext) {
-      this.projectContext.field = this.getFields(resource, ['project']);
+      this.projectContext.field = this.getFields(change, ['project']);
     }
 
-    const attributeGroups = resource.schema._attributeGroups;
-    this.groupedFields = this.rebuildGroupedFields(resource, attributeGroups);
+    const attributeGroups = this.schema(resource)._attributeGroups;
+    this.groupedFields = this.rebuildGroupedFields(change, attributeGroups);
     this.cdRef.detectChanges();
   }
 
@@ -270,12 +273,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return this.workPackage.isNew && !this.browserDetector.isEdge;
   }
 
-  /**
-   *
-   * @param attributeGroups
-   * @returns {any}
-   */
-  private rebuildGroupedFields(resource:WorkPackageResource, attributeGroups:any) {
+  private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:any) {
     if (!attributeGroups) {
       return [];
     }
@@ -287,7 +285,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
         return {
           name: group.name,
           id: groupId || randomString(16),
-          members: this.getFields(resource, group.attributes),
+          members: this.getFields(change, group.attributes),
           type: group._type,
           isolated: false
         };
@@ -309,21 +307,21 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * Maps the grouped fields into their display fields.
    * May return multiple fields (for the date virtual field).
    */
-  private getFields(resource:WorkPackageResource, fieldNames:string[]):FieldDescriptor[] {
+  private getFields(change:WorkPackageChangeset, fieldNames:string[]):FieldDescriptor[] {
     const descriptors:FieldDescriptor[] = [];
 
     fieldNames.forEach((fieldName:string) => {
       if (fieldName === 'date') {
-        descriptors.push(this.getDateField(resource));
+        descriptors.push(this.getDateField(change));
         return;
       }
 
-      if (!resource.schema[fieldName]) {
+      if (!change.schema.ofProperty(fieldName)) {
         debugLog('Unknown field for current schema', fieldName);
         return;
       }
 
-      const field:DisplayField = this.displayField(resource, fieldName);
+      const field:DisplayField = this.displayField(change, fieldName);
       descriptors.push({
         name: fieldName,
         label: field.label,
@@ -341,18 +339,18 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * 'date' field vs. all other types which should display a
    * combined 'start' and 'due' date field.
    */
-  private getDateField(resource:WorkPackageResource):FieldDescriptor {
+  private getDateField(change:WorkPackageChangeset):FieldDescriptor {
     let object:any = {
       label: this.I18n.t('js.work_packages.properties.date'),
       multiple: false
     };
 
-    if (resource.schema.hasOwnProperty('date')) {
-      object.field = this.displayField(resource, 'date');
+    if (change.schema.ofProperty('date')) {
+      object.field = this.displayField(change, 'date');
       object.name = 'date';
     } else {
-      object.field = this.displayField(resource, 'startDate');
-      object.name = 'startDate';
+      object.field = this.displayField(change, 'combinedDate');
+      object.name = 'combinedDate';
     }
 
     return object;
@@ -367,7 +365,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * @returns {SchemaContext}
    */
   private contextFrom(workPackage:WorkPackageResource):ResourceContextChange {
-    let schema = workPackage.schema;
+    let schema = this.schema(workPackage);
 
     let schemaHref:string|null = null;
     let projectHref:string|null = workPackage.project && workPackage.project.href;
@@ -386,11 +384,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     };
   }
 
-  private displayField(resource:WorkPackageResource, name:string):DisplayField {
+  private displayField(change:WorkPackageChangeset, name:string):DisplayField {
     return this.displayFieldService.getField(
-      resource,
+      change.projectedResource,
       name,
-      resource.schema[name],
+      change.schema.ofProperty(name),
       { container: 'single-view', injector: this.injector, options: {} }
     ) as DisplayField;
   }
@@ -404,6 +402,14 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       return overflowingIdentifier.replace('.__overflowing_', '');
     } else {
       return '';
+    }
+  }
+
+  private schema(resource:WorkPackageResource) {
+    if (this.halEditing.typedState(resource).hasValue()) {
+      return this.halEditing.typedState(this.workPackage).value!.schema;
+    } else {
+      return this.schemaCache.of(resource) as ISchemaProxy;
     }
   }
 }

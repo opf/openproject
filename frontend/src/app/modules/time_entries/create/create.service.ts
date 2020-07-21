@@ -11,6 +11,7 @@ import { HalResourceEditingService } from "core-app/modules/fields/edit/services
 import { Moment } from 'moment';
 import { TimeEntryCreateModal } from "core-app/modules/time_entries/create/create.modal";
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export class TimeEntryCreateService {
@@ -19,6 +20,7 @@ export class TimeEntryCreateService {
     readonly injector:Injector,
     readonly halResource:HalResourceService,
     readonly timeEntryDm:TimeEntryDmService,
+    readonly schemaCache:SchemaCacheService,
     protected halEditing:HalResourceEditingService,
     readonly i18n:I18nService) {
   }
@@ -28,7 +30,7 @@ export class TimeEntryCreateService {
       this
         .createNewTimeEntry(date, wp)
         .then(changeset => {
-          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { entry: changeset.pristineResource, showWorkPackageField: showWorkPackageField });
+          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { changeset: changeset, showWorkPackageField: showWorkPackageField });
 
           modal
             .closingEvent
@@ -40,7 +42,6 @@ export class TimeEntryCreateService {
                 reject();
               }
             });
-
         });
     });
   }
@@ -72,8 +73,7 @@ export class TimeEntryCreateService {
   private initializeNewResource(form:FormResource) {
     let entry = this.halResource.createHalResourceOfType<TimeEntryResource>('TimeEntry', form.payload.$plain());
 
-    entry.$links['schema'] = form.schema;
-    entry.overriddenSchema = form.schema;
+    entry.$links['schema'] = { href: 'new' };
 
     entry['_type'] = 'TimeEntry';
     entry['id'] = 'new';
@@ -87,6 +87,10 @@ export class TimeEntryCreateService {
     };
 
     entry.state.putValue(entry);
+    // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
+    // the editability.
+    // It would be better if the edit field could simply rely on the changeset if it exists.
+    this.schemaCache.update(entry, form.schema);
 
     return entry;
   }

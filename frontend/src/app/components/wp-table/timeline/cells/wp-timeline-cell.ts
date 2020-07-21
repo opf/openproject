@@ -40,6 +40,7 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -70,6 +71,7 @@ export class WorkPackageTimelineCell {
   @InjectField() notificationService:WorkPackageNotificationService;
   @InjectField() states:States;
   @InjectField() loadingIndicator:LoadingIndicatorService;
+  @InjectField() schemaCache:SchemaCacheService;
 
   private wpElement:HTMLDivElement|null = null;
 
@@ -108,7 +110,7 @@ export class WorkPackageTimelineCell {
 
   canConnectRelations():boolean {
     const wp = this.latestRenderInfo.workPackage;
-    if (wp.isMilestone) {
+    if (this.schemaCache.of(wp).isMilestone) {
       return !_.isNil(wp.date);
     }
 
@@ -178,7 +180,7 @@ export class WorkPackageTimelineCell {
   }
 
   private cellRenderer(workPackage:WorkPackageResource):TimelineCellRenderer {
-    if (workPackage.isMilestone) {
+    if (this.schemaCache.of(workPackage).isMilestone) {
       return this.renderers.milestone;
     }
 

@@ -32,25 +32,25 @@ import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 
 @Injectable()
 export class PayloadDmService {
-  public extract<T extends HalResource=HalResource>(resource:T, schema:SchemaResource) {
+  public extract<T extends HalResource = HalResource>(resource:T, schema:SchemaResource) {
     let payload:any = {
       '_links': {}
-    }
+    };
 
-    var nonLinkProperties = [];
+    let nonLinkProperties = [];
 
-    for(var key in schema) {
-      if (schema.hasOwnProperty(key) && schema[key].writable) {
+    for (let key in schema) {
+      if (schema.hasOwnProperty(key) && schema[key] && schema[key].writable) {
         if (resource.$links[key]) {
           if (Array.isArray(resource[key])) {
             payload['_links'][key] = _.map(resource[key], element => {
-              return { href: (element as HalResource).$href }
+              return { href: (element as HalResource).$href };
             });
           } else {
             payload['_links'][key] = {
               href: (resource[key] && resource[key].$href)
-            }
-          };
+            };
+          }
         } else {
           nonLinkProperties.push(key);
         }
@@ -62,7 +62,7 @@ export class PayloadDmService {
         if (Array.isArray(resource[property])) {
           payload[property] = _.map(resource[property], (element:any) => {
             if (element instanceof HalResource) {
-              return this.extract(element, element.currentSchema || element.schema)
+              return this.extract(element, element.currentSchema || element.schema);
             } else {
               return element;
             }
