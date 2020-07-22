@@ -35,7 +35,6 @@ export abstract class BoardActionService {
               protected apiV3Service:APIV3Service) {
   }
 
-
   /**
    * Get the attribute name
    */
@@ -51,7 +50,7 @@ export abstract class BoardActionService {
    * @param query
    * @returns /api/v3/status/:id if a status filter exists
    */
-  getFilterHref(query:QueryResource):string|undefined {
+  getActionValueHrefForColumn(query:QueryResource):string|undefined {
     const filter = _.find(query.filters, filter => filter.id === this.filterName);
     if (filter) {
       const value = filter.values[0] as string|HalResource;
@@ -66,8 +65,8 @@ export abstract class BoardActionService {
    * @param query
    * @returns /api/v3/status/:id if a status filter exists
    */
-  getLoadedFilterValue(query:QueryResource):Promise<HalResource|undefined> {
-    const href = this.getFilterHref(query);
+  getLoadedActionValue(query:QueryResource):Promise<HalResource|undefined> {
+    const href = this.getActionValueHrefForColumn(query);
 
     if (!href) {
       return Promise.resolve(undefined);
@@ -83,14 +82,14 @@ export abstract class BoardActionService {
    *
    * @param newBoard
    */
-  addActionQueries(newBoard:Board):Promise<Board> {
+  addInitialColumnsForAction(newBoard:Board):Promise<Board> {
     return Promise.resolve(newBoard);
   }
 
   /**
    * Add a single action query
    */
-  addActionQuery(board:Board, value:HalResource):Promise<Board> {
+  addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
     let params:any = {
       name: value.name,
     };

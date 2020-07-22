@@ -11,14 +11,14 @@ export class BoardStatusActionService extends BoardActionService {
     return this.I18n.t('js.work_packages.properties.status');
   }
 
-  public addActionQueries(board:Board):Promise<Board> {
+  public addInitialColumnsForAction(board:Board):Promise<Board> {
     return this.withLoadedAvailable()
       .then((results) =>
         Promise.all<unknown>(
           results.map((status:StatusResource) => {
 
             if (status.isDefault) {
-              return this.addActionQuery(board, status);
+              return this.addColumnWithActionAttribute(board, status);
             }
 
             return Promise.resolve(board);

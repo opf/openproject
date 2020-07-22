@@ -336,7 +336,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return;
     }
 
-    const id = this.actionService.getFilterHref(query);
+    const id = this.actionService.getActionValueHrefForColumn(query);
 
     // Test if we loaded the resource already
     if (this.actionResource && id === this.actionResource.href) {
@@ -344,7 +344,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     // Load the resource
-    this.actionService.getLoadedFilterValue(query).then(async resource => {
+    this.actionService.getLoadedActionValue(query).then(async resource => {
       this.actionResource = resource;
       this.headerComponent = this.actionService.headerComponent();
       this.buttonPlaceholder = this.actionService.disabledAddButtonPlaceholder(resource);
