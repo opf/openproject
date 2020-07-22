@@ -136,6 +136,7 @@
            [textContent]="text.cancel">
         </a>
         <a (click)="save()"
+           [attr.disabled]="!this.isSavable || undefined"
            class="datepicker-modal--action"
            [textContent]="text.save">
         </a>

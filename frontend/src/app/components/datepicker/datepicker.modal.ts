@@ -138,14 +138,23 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   save():void {
-    if (this.singleDate) {
-      this.changeset.setValue('date', this.datepickerHelper.mappedDate(this.dates.date));
-    } else {
-      this.changeset.setValue('startDate', this.datepickerHelper.mappedDate(this.dates.start));
-      this.changeset.setValue('dueDate', this.datepickerHelper.mappedDate(this.dates.end));
+    if (!this.isSavable) {
+      return;
     }
 
+    // Apply the changed scheduling mode if any
     this.changeset.setValue('scheduleManually', this.scheduleManually);
+
+    // Apply the dates if they could be changed
+    if (this.isSchedulable) {
+      if (this.singleDate) {
+        this.changeset.setValue('date', this.datepickerHelper.mappedDate(this.dates.date));
+      } else {
+        this.changeset.setValue('startDate', this.datepickerHelper.mappedDate(this.dates.start));
+        this.changeset.setValue('dueDate', this.datepickerHelper.mappedDate(this.dates.end));
+      }
+    }
+
     this.closeMe();
   }
 
@@ -191,7 +200,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   showTodayLink(key:DateKeys):boolean {
-    if (!this.datepickerHelper.isStateOfCurrentActivatedField(key) && !this.isSchedulable) {
+    if (!this.isSchedulable) {
       return false;
     }
 
@@ -211,6 +220,10 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
    */
   get isSchedulable():boolean {
     return this.scheduleManually || (!this.isParent && !this.isSwitchedFromManualToAutomatic);
+  }
+
+  get isSavable():boolean {
+    return this.isSchedulable || this.isSwitchedFromManualToAutomatic;
   }
 
   /**
