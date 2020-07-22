@@ -796,6 +796,9 @@ de:
           not_found: "Diese Ansicht konnte nicht gefunden werden"
           duplicate_query_title: "Eine Ansicht mit diesem Namen existiert bereits. Trotzdem ändern?"
         text_no_results: "Keine übereinstimmenden Ansichten gefunden."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

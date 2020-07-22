@@ -796,6 +796,9 @@ pt:
           not_found: "Esta visão não existe"
           duplicate_query_title: "O nome desta visão já existe. Modificar assim mesmo?"
         text_no_results: "Nenhuma visão correspondente foi encontrada."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Configurar a tabela de pacote de trabalho'
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."

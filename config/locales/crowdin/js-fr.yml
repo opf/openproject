@@ -797,6 +797,9 @@ fr:
           not_found: "Cette vue n'existe pas"
           duplicate_query_title: "Le nom de cette vue existe déjà. Changer quand même ?"
         text_no_results: "Aucune vue correspondante n'a été trouvée."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."

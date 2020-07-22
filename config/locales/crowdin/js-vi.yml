@@ -796,6 +796,9 @@ vi:
           not_found: "Không có trình bày nào đã được tạo ra"
           duplicate_query_title: "Tên trình bày đã có, Bạn có muốn thay đổi không?"
         text_no_results: "Không chuyên mục nào được tìm thấy."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Cấu hình bảng gói công việc'
         summary: "Bảng với hàng work package và cột của các thuộc tính work package."

@@ -796,6 +796,9 @@ zh-TW:
           not_found: "無此查詢"
           duplicate_query_title: "此視圖的名稱已存在。確定改變？"
         text_no_results: "找不到匹配的視圖。"
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: '配置工作包表'
         summary: "由工作項目和工作項目屬性列組成的表格。"

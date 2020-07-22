@@ -797,6 +797,9 @@ es:
           not_found: "No existe la vista"
           duplicate_query_title: "El nombre de la vista ya existe. ¿Quiere cambiarlo de todos modos?"
         text_no_results: "No se encontraron vistas que coincidan."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."

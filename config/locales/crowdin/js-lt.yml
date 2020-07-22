@@ -797,6 +797,9 @@ lt:
           not_found: "Nėra tokio vaizdo"
           duplicate_query_title: "Toks vaizdo vardas jau yra. Vis tiek keisti?"
         text_no_results: "Atitinkančių vaizdų nerasta."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Sukonfigūruokite darbų paketo lentelę'
         summary: "Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų."

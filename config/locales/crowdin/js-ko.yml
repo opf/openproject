@@ -797,6 +797,9 @@ ko:
           not_found: "해당 보기가 없습니다."
           duplicate_query_title: "이 보기의 이름이 이미 존재합니다. 그래도 변경하시겠습니까?"
         text_no_results: "일치하는 보기가 없습니다."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: '작업 패키지 테이블 구성'
         summary: "작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블."

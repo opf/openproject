@@ -796,6 +796,9 @@ ru:
           not_found: "Нет такого представления"
           duplicate_query_title: "Представление с таким именем уже существует. Менять в любом случае?"
         text_no_results: "Подходящие представления не найдены."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Настроить таблицу пакетов работ'
         summary: "Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах."
