@@ -26,19 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiV3Paths} from 'core-app/modules/common/path-helper/apiv3/apiv3-paths';
 import {Injectable} from '@angular/core';
+
+class ApiPaths {
+  constructor(private appBasePath:string) {
+  }
+
+  readonly v3 = {
+    appBasePath: this.appBasePath + '/api/v3'
+  };
+}
 
 @Injectable({ providedIn: 'root' })
 export class PathHelperService {
   public readonly appBasePath:string;
-  public readonly api:{ v3:ApiV3Paths };
+  public readonly api = new ApiPaths(this.appBasePath);
 
   constructor() {
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
-    this.api = {
-      v3: new ApiV3Paths(this.appBasePath)
-    };
   }
 
   public get staticBase() {

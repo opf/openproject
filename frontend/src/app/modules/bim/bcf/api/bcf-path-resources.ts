@@ -1,6 +1,6 @@
-import {SimpleResource, SimpleResourceCollection} from "core-app/modules/common/path-helper/apiv3/path-resources";
 import {Injector} from "@angular/core";
 import {Constructor} from "@angular/cdk/table";
+import {SimpleResource, SimpleResourceCollection} from "core-app/modules/apiv3/paths/path-resources";
 
 export class BcfResourcePath extends SimpleResource {
   constructor(readonly injector:Injector,
