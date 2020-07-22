@@ -34,11 +34,13 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import * as URI from 'urijs';
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class QueryFormDmService {
   constructor(readonly halResourceService:HalResourceService,
               protected readonly queryFilters:QueryFiltersService,
+              protected apiV3Service:APIV3Service,
               protected pathHelper:PathHelperService) {
   }
 
@@ -84,12 +86,12 @@ export class QueryFormDmService {
     if (projectIdentifier) {
       payload._links = payload._links || {};
       payload._links.project = {
-        'href': this.pathHelper.api.v3.projects.id(projectIdentifier).toString()
+        'href': this.apiV3Service.projects.id(projectIdentifier).toString()
       };
 
     }
 
-    let href:string = this.pathHelper.api.v3.queries.optionalId(queryId).form.toString();
+    let href:string = this.apiV3Service.queries.withOptionalId(queryId).form.toString();
     href = URI(href).search(params).toString();
 
     return this.halResourceService

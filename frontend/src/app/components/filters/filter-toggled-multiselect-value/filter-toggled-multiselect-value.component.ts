@@ -49,6 +49,7 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -75,6 +76,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
               readonly halResourceService:HalResourceService,
               readonly halSorting:HalResourceSortingService,
               readonly PathHelper:PathHelperService,
+              readonly apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
   }
@@ -169,7 +171,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
       {
         _links: {
           self: {
-            href: this.PathHelper.api.v3.users.me,
+            href: this.apiV3Service.users.me,
             title: this.I18n.t('js.label_me')
           }
         }

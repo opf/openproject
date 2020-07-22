@@ -27,9 +27,13 @@
 // ++
 
 import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {APIV3WorkPackagePaths} from "core-app/modules/apiv3/endpoints/work_packages/a-p-i-v3-work-package-paths";
+import {Injector} from "@angular/core";
+import {APIV3WorkPackagePaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-paths";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
-export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<APIV3WorkPackagePaths> {
+export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageResource, APIV3WorkPackagePaths> {
   // Base path
   public readonly path:string;
 
@@ -42,4 +46,22 @@ export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<APIV3WorkPac
 
   // /api/v3/(projects/:projectIdentifier)/work_packages/form
   public readonly form = new APIv3ResourcePath(this.injector, this.path, 'form');
+
+  /**
+   * Shortcut to filter work packages by subject or ID
+   * @param term
+   * @param idOnly
+   */
+  public filterBySubjectOrId(term:string, idOnly:boolean = false):APIv3ResourcePath<CollectionResource<WorkPackageResource>> {
+    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+    if (idOnly) {
+      filters.add('id', '=', [term]);
+    } else {
+      filters.add('subjectOrId', '**', [term]);
+    }
+
+    return this.filtered(filters);
+  }
+
 }

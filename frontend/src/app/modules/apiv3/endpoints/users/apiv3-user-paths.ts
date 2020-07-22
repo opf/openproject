@@ -27,8 +27,9 @@
 // ++
 
 import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-export class ApiV3UserPaths extends APIv3ResourcePath {
+export class ApiV3UserPaths extends APIv3ResourcePath<UserResource> {
 
   // /api/v3/users/(:userId)/avatar
   public readonly avatar = new APIv3ResourcePath(this.injector, this.path, 'avatar');

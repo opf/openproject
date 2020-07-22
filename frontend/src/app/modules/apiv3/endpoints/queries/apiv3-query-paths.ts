@@ -27,12 +27,15 @@
 // ++
 
 import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
-export class APIv3QueryPaths extends APIv3ResourcePath {
+export class APIv3QueryPaths extends APIv3ResourcePath<QueryResource> {
 
   // Static paths
-  readonly form = new APIv3ResourcePath(this.injector, this.path, 'form');
+  readonly form = new APIv3ResourcePath<FormResource>(this.injector, this.path, 'form');
 
   // Order path
-  readonly order = new APIv3ResourcePath(this.injector, this.path, 'order');
+  readonly order = new APIv3ResourcePath<HalResource>(this.injector, this.path, 'order');
 }

@@ -34,48 +34,50 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class VersionDmService {
   constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service) {
   }
 
   public createVersion(payload:any):Promise<VersionResource> {
     return this.halResourceService
-      .post<VersionResource>(this.pathHelper.api.v3.versions.path, payload)
+      .post<VersionResource>(this.apiV3Service.versions.path, payload)
       .toPromise();
   }
 
   public emptyCreateForm(payload:any):Promise<HalResource> {
     return this.halResourceService
-      .post<VersionResource>(this.pathHelper.api.v3.versions.form.toString(), payload)
+      .post<VersionResource>(this.apiV3Service.versions.form.toString(), payload)
       .toPromise();
   }
 
 
   public one(id:string|number):Promise<VersionResource> {
     return this.halResourceService
-      .get<VersionResource>(this.pathHelper.api.v3.versions.id(id).toString())
+      .get<VersionResource>(this.apiV3Service.versions.id(id).toString())
       .toPromise();
   }
 
   public list():Promise<CollectionResource<VersionResource>> {
     return this.halResourceService
-      .get<CollectionResource<VersionResource>>(this.pathHelper.api.v3.versions.toString())
+      .get<CollectionResource<VersionResource>>(this.apiV3Service.versions.toString())
       .toPromise();
   }
 
   public listForProject(projectId:string):Promise<CollectionResource<VersionResource>> {
     return this.halResourceService
-      .get<CollectionResource<VersionResource>>(this.pathHelper.api.v3.projects.id(projectId).versions.toString())
+      .get<CollectionResource<VersionResource>>(this.apiV3Service.projects.id(projectId).versions.toString())
       .toPromise();
   }
 
   public canCreateVersionInProject(id:string):Promise<boolean> {
     return this.halResourceService
       .get<CollectionResource<ProjectResource>>(
-        this.pathHelper.api.v3.versions.availableProjects.toString(),
+        this.apiV3Service.versions.availableProjects.toString(),
         { filters: buildApiV3Filter('id', '=', [id]).toJson() }
       )
       .toPromise()
@@ -86,14 +88,14 @@ export class VersionDmService {
 
   public listProjectsAvailableForVersions():Promise<CollectionResource<ProjectResource>> {
     return this.halResourceService
-      .get<CollectionResource<ProjectResource>>(this.pathHelper.api.v3.versions.availableProjects.toString())
+      .get<CollectionResource<ProjectResource>>(this.apiV3Service.versions.availableProjects.toString())
       .toPromise();
   }
 
   public patch(resource:VersionResource, payload:Object):Promise<VersionResource> {
     return this.halResourceService
       .patch<VersionResource>(
-        this.pathHelper.api.v3.versions.id(resource.id!).toString(),
+        this.apiV3Service.versions.id(resource.id!).toString(),
         payload)
       .toPromise();
   }

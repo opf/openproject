@@ -30,16 +30,20 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {Injectable} from '@angular/core';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class RootDmService {
   constructor(protected halResourceService:HalResourceService,
+              protected apiV3Service:APIV3Service,
               protected pathHelper:PathHelperService) {
   }
 
   public load():Promise<RootResource> {
-    return this.halResourceService
-      .get<RootResource>(this.pathHelper.api.v3.root.toString())
+    return this
+      .apiV3Service
+      .root
+      .get()
       .toPromise();
   }
 }

@@ -6,6 +6,7 @@ import {multiInput, MultiInputState, StatesGroup} from 'reactivestates';
 import {StateCacheService} from '../states/state-cache.service';
 import {Injectable} from "@angular/core";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 
@@ -28,6 +29,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   /*@ngInject*/
   constructor(private relationsDm:RelationsDmService,
               private PathHelper:PathHelperService,
+              private apiV3Service:APIV3Service,
               private halResource:HalResourceService) {
     super();
     this.relationStates = new RelationStateGroup();
@@ -123,13 +125,13 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
                            relatedWpId:string) {
     const params = {
       _links: {
-        from: {href: this.PathHelper.api.v3.work_packages.id(fromId).toString() },
-        to: {href: this.PathHelper.api.v3.work_packages.id(relatedWpId).toString() }
+        from: {href: this.apiV3Service.work_packages.id(fromId).toString() },
+        to: {href: this.apiV3Service.work_packages.id(relatedWpId).toString() }
       },
       type: relationType
     };
 
-    const path = this.PathHelper.api.v3.work_packages.id(fromId).relations.toString();
+    const path = this.apiV3Service.work_packages.id(fromId).relations.toString();
     return this.halResource
       .post<RelationResource>(path, params)
       .toPromise()

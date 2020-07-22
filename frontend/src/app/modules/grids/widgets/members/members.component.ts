@@ -8,6 +8,7 @@ import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.inter
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
 import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 const DISPLAYED_MEMBERS_LIMIT = 100;
 
@@ -29,6 +30,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   public membersAddable:boolean = false;
 
   constructor(readonly pathHelper:PathHelperService,
+              readonly apiV3Service:APIV3Service,
               readonly i18n:I18nService,
               protected readonly injector:Injector,
               readonly membershipDm:MembershipDmService,
@@ -96,7 +98,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   }
 
   public isGroup(principal:UserResource) {
-    return this.pathHelper.api.v3.groups.id(principal.id!).toString() === principal.href;
+    return this.apiV3Service.groups.id(principal.id!).toString() === principal.href;
   }
 
   private partitionEntriesByRole(memberships:MembershipResource[]) {

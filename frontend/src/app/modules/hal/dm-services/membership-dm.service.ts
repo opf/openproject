@@ -40,14 +40,14 @@ export class MembershipDmService extends AbstractDmService<MembershipResource> {
   }
 
   protected listUrl() {
-    return this.pathHelper.api.v3.memberships.toString();
+    return this.apiV3Service.memberships.toString();
   }
 
   protected oneUrl(id:number|string) {
-    return this.pathHelper.api.v3.memberships.id(id).toString();
+    return this.apiV3Service.memberships.id(id).toString();
   }
 
   protected availableProjectsUrl() {
-    return this.pathHelper.api.v3.memberships.available_projects.toString();
+    return this.apiV3Service.memberships.available_projects.toString();
   }
 }

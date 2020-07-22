@@ -34,6 +34,7 @@ import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
@@ -47,6 +48,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
               readonly currentProject:CurrentProjectService,
               readonly cdRef:ChangeDetectorRef,
               readonly pathHelper:PathHelperService,
+              readonly apiV3Service:APIV3Service,
               readonly versionDm:VersionDmService,
               readonly halNotification:HalResourceNotificationService) {
     super(I18n, cdRef, currentProject, pathHelper);
@@ -94,7 +96,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
     payload['name'] = name;
     payload['_links'] = {
       definingProject: {
-        href: this.pathHelper.api.v3.projects.id(this.currentProject.id!).path
+        href: this.apiV3Service.projects.id(this.currentProject.id!).path
       }
     };
 

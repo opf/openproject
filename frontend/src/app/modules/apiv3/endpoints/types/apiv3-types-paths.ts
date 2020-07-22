@@ -28,8 +28,9 @@
 
 import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Injector} from "@angular/core";
+import {TypeResource} from "core-app/modules/hal/resources/type-resource";
 
-export class APIv3TypesPaths extends APIv3ResourceCollection<APIv3ResourcePath> {
+export class APIv3TypesPaths extends APIv3ResourceCollection<TypeResource, APIv3ResourcePath<TypeResource>> {
   constructor(readonly injector:Injector,
               protected basePath:string) {
     super(injector, basePath, 'types');

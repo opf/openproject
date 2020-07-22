@@ -5,7 +5,7 @@ import {SimpleResource, SimpleResourceCollection} from "core-app/modules/apiv3/p
 export class BcfResourcePath extends SimpleResource {
   constructor(readonly injector:Injector,
               basePath:string,
-              id:string|number) {
+              readonly id:string|number) {
     super(basePath, id);
   }
 }

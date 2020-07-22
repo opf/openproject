@@ -32,18 +32,23 @@ import {RelationResource} from 'core-app/modules/hal/resources/relation-resource
 import {buildApiV3Filter} from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class RelationsDmService {
 
   constructor(private halResourceService:HalResourceService,
+              private apiV3Service:APIV3Service,
               private pathHelper:PathHelperService) {
 
   }
 
   public load(workPackageId:string):Promise<RelationResource[]> {
-    return this.halResourceService.get<CollectionResource<RelationResource>>(
-      this.pathHelper.api.v3.work_packages.id(workPackageId).relations, {})
+    return this
+      .apiV3Service
+      .work_packages.id(workPackageId)
+      .relations
+      .get()
       .toPromise()
       .then((collection:CollectionResource<RelationResource>) => collection.elements);
   }
@@ -55,11 +60,11 @@ export class RelationsDmService {
       return Promise.resolve([]);
     }
 
-    return this.halResourceService.get<CollectionResource<RelationResource>>(
-      this.pathHelper.api.v3.relations.toPath(),
-      {
-        filters: buildApiV3Filter('involved', '=', validIds).toJson()
-      })
+    return this
+      .apiV3Service
+      .relations
+      .filtered(buildApiV3Filter('involved', '=', validIds))
+      .get()
       .toPromise()
       .then((collection:CollectionResource<RelationResource>) => collection.elements);
   }

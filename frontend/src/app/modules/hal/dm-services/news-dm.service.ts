@@ -33,10 +33,10 @@ import {NewsResource} from "core-app/modules/hal/resources/news-resource";
 @Injectable()
 export class NewsDmService extends AbstractDmService<NewsResource> {
   protected listUrl() {
-    return this.pathHelper.api.v3.news.toString();
+    return this.apiV3Service.news.toString();
   }
 
   protected oneUrl(id:number|string) {
-    return this.pathHelper.api.v3.news.id(id).toString();
+    return this.apiV3Service.news.id(id).toString();
   }
 }

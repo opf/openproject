@@ -29,14 +29,14 @@
 import {Injectable} from '@angular/core';
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {Apiv3ProjectsPaths} from "core-app/modules/common/path-helper/apiv3/projects/apiv3-projects-paths";
 import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
+import {APIv3ProjectsPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-projects-paths";
 
 @Injectable()
 export class ProjectDmService extends AbstractDmService<ProjectResource> {
   public schema():Promise<SchemaResource> {
     return this.halResourceService
-      .get<SchemaResource>(this.projectsPath.schema)
+      .get<SchemaResource>(this.projectsPath.schema.path)
       .toPromise();
   }
 
@@ -48,7 +48,7 @@ export class ProjectDmService extends AbstractDmService<ProjectResource> {
     return this.projectsPath.id(id).toString();
   }
 
-  private get projectsPath():Apiv3ProjectsPaths {
-    return this.pathHelper.api.v3.projects;
+  private get projectsPath():APIv3ProjectsPaths {
+    return this.apiV3Service.projects;
   }
 }

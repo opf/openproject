@@ -31,24 +31,29 @@ import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class StatusDmService {
   constructor(protected halResourceService:HalResourceService,
+              protected apiV3Service:APIV3Service,
               protected pathHelper:PathHelperService) {
   }
 
   public one(id:string|number):Promise<StatusResource> {
-    return this.halResourceService
-      .get<StatusResource>(this.pathHelper.api.v3.statuses.id(id).toString())
+    return this
+      .apiV3Service
+      .statuses
+      .id(id)
+      .get()
       .toPromise();
   }
 
   public list():Promise<CollectionResource<StatusResource>> {
-    return this.halResourceService
-      .get<CollectionResource<StatusResource>>(this.pathHelper.api.v3.statuses.toString())
+    return this
+      .apiV3Service
+      .statuses
+      .get()
       .toPromise();
   }
-
-
 }

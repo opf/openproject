@@ -29,12 +29,14 @@
 import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HttpClient} from "@angular/common/http";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export type QueryOrder = { [wpId:string]:number };
 
 @Injectable()
 export class QueryOrderDmService {
   constructor(protected http:HttpClient,
+              protected apiV3Service:APIV3Service,
               protected pathHelper:PathHelperService) {
   }
 
@@ -66,6 +68,6 @@ export class QueryOrderDmService {
   }
 
   protected orderPath(id:string) {
-    return this.pathHelper.api.v3.queries.id(id).order.toString();
+    return this.apiV3Service.queries.id(id).order.toString();
   }
 }

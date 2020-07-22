@@ -28,18 +28,21 @@
 
 import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Injector} from "@angular/core";
-import {Apiiv3QueryPaths} from "core-app/modules/apiv3/endpoints/queries/a-p-iv3-query-paths";
+import {VersionResource} from "core-app/modules/hal/resources/version-resource";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
-export class APIv3VersionPaths extends APIv3ResourceCollection<APIv3ResourcePath> {
+export class APIv3VersionPaths extends APIv3ResourceCollection<VersionResource, APIv3ResourcePath<VersionResource>> {
   constructor(readonly injector:Injector,
               protected basePath:string) {
-    super(injector, basePath, 'versions', Apiiv3QueryPaths);
+    super(injector, basePath, 'versions');
   }
 
   // Base path
   public readonly path:string;
   // /api/v3/versions/form
-  public readonly form = new APIv3ResourcePath(this.injector, this.path, 'form');
+  public readonly form = new APIv3ResourcePath<FormResource>(this.injector, this.path, 'form');
 
-  public readonly availableProjects = new APIv3ResourcePath(this.injector, this.path, 'available_projects');
+  public readonly availableProjects = new APIv3ResourcePath<CollectionResource<ProjectResource>>(this.injector, this.path, 'available_projects');
 }

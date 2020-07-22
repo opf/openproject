@@ -19,6 +19,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class BoardAssigneeActionService implements BoardActionService {
@@ -31,6 +32,7 @@ export class BoardAssigneeActionService implements BoardActionService {
               protected I18n:I18nService,
               protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
+              protected apiv3Service:APIV3Service,
               protected currentProject:CurrentProjectService,
               readonly injector:Injector) {
   }
@@ -149,8 +151,12 @@ export class BoardAssigneeActionService implements BoardActionService {
   private getAssignees():Promise<HalResource[]> {
     const projectIdentifier = this.currentProject.identifier!;
     this.assignees.putFromPromiseIfPristine(() =>
-      this.halResourceService
-        .get(this.pathHelper.api.v3.projects.id(projectIdentifier).available_assignees)
+      this
+        .apiv3Service
+        .projects
+        .id(projectIdentifier)
+        .available_assignees
+        .get()
         .toPromise()
         .then((collection:CollectionResource<UserResource>) => collection.elements)
     );

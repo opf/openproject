@@ -35,21 +35,23 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service,
               protected payloadDm:PayloadDmService) {
-    super(halResourceService, pathHelper);
+    super(halResourceService, pathHelper, apiV3Service);
   }
 
   protected listUrl() {
-    return this.pathHelper.api.v3.time_entries.toString();
+    return this.apiV3Service.time_entries.toString();
   }
 
   protected oneUrl(id:number|string) {
-    return this.pathHelper.api.v3.time_entries.id(id).toString();
+    return this.apiV3Service.time_entries.id(id).toString();
   }
 
   public update(resource:TimeEntryResource, schema:SchemaResource|null = null) {
@@ -61,23 +63,23 @@ export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {
   public updateForm(resource:TimeEntryResource, schema:SchemaResource|null = null) {
     let payload = this.extractPayload(resource, schema);
 
-    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.time_entries.id(resource.idFromLink).form.toString(),
+    return this.halResourceService.post<FormResource>(this.apiV3Service.time_entries.id(resource.idFromLink).form.toString(),
       payload).toPromise();
   }
 
   public createForm(payload:{}) {
-    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.time_entries.form.toString(), payload).toPromise();
+    return this.halResourceService.post<FormResource>(this.apiV3Service.time_entries.form.toString(), payload).toPromise();
   }
 
   public create(payload:{}):Promise<TimeEntryResource> {
     return this.halResourceService
-      .post<TimeEntryResource>(this.pathHelper.api.v3.time_entries.path, payload)
+      .post<TimeEntryResource>(this.apiV3Service.time_entries.path, payload)
       .toPromise();
   }
 
   public delete(resource:TimeEntryResource) {
     return this.halResourceService
-      .delete<TimeEntryResource>(this.pathHelper.api.v3.time_entries.id(resource.idFromLink).toString())
+      .delete<TimeEntryResource>(this.apiV3Service.time_entries.id(resource.idFromLink).toString())
       .toPromise();
   }
 

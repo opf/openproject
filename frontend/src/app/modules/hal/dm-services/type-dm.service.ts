@@ -33,16 +33,18 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {States} from 'core-app/components/states.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class TypeDmService {
   constructor(protected halResourceService:HalResourceService,
               protected states:States,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service) {
   }
 
   public loadAll(projectIdentifier:string|undefined):Promise<TypeResource[]> {
-    const typeUrl = this.pathHelper.api.v3.withOptionalProject(projectIdentifier).types.toString();
+    const typeUrl = this.apiV3Service.withOptionalProject(projectIdentifier).types.toString();
 
     return this.halResourceService
       .get<CollectionResource<TypeResource>>(typeUrl)
@@ -52,11 +54,5 @@ export class TypeDmService {
         _.each(result.elements, (type) => this.states.types.get(type.href!).putValue(type));
         return result.elements;
       });
-  }
-
-  public load():Promise<RootResource> {
-    return this.halResourceService
-      .get<RootResource>(this.pathHelper.api.v3.root.toString())
-      .toPromise();
   }
 }

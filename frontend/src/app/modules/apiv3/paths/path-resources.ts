@@ -17,7 +17,16 @@ export class SimpleResourceCollection<T = SimpleResource> {
     return new (this.resource || SimpleResource)(this.path, id) as T;
   }
 
-  public optionalId(id?:string|number):this|T {
+  /**
+   * Returns either the collection itself, or the resource
+   * located by the ID when present.
+   *
+   * TypeScript will reduce available endpoints to anything available
+   * in this collection AND the resource.
+   *
+   * @param id
+   */
+  public withOptionalId(id?:string|number):this|T {
     if (_.isNil(id)) {
       return this;
     } else {
@@ -32,10 +41,6 @@ export class SimpleResourceCollection<T = SimpleResource> {
   public toPath():string {
     return this.path;
   }
-
-  public filtered(filters:ApiV3FilterBuilder) {
-    return this.toString() + '/?' + filters.toParams();
-  }
 }
 
 /**
@@ -44,8 +49,8 @@ export class SimpleResourceCollection<T = SimpleResource> {
 export class SimpleResource {
   public readonly path:string;
 
-  constructor(protected basePath:string, readonly id:string|number) {
-    this.path = `${this.basePath}/${id}`;
+  constructor(protected basePath:string, readonly segment:string|number) {
+    this.path = `${this.basePath}/${segment}`;
   }
 
   public toString() {

@@ -47,6 +47,7 @@ import {InputState} from "reactivestates";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -131,6 +132,7 @@ export class WorkPackageBaseResource extends HalResource {
   @InjectField() NotificationsService:NotificationsService;
   @InjectField() workPackageNotificationService:WorkPackageNotificationService;
   @InjectField() pathHelper:PathHelperService;
+  @InjectField() apiV3Service:APIV3Service;
   @InjectField() opFileUpload:OpenProjectFileUploadService;
 
   readonly attachmentsBackend = true;
@@ -170,7 +172,7 @@ export class WorkPackageBaseResource extends HalResource {
 
   public previewPath() {
     if (!this.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(this.id!).path;
+      return this.apiV3Service.work_packages.id(this.id!).path;
     } else {
       return super.previewPath();
     }
@@ -184,7 +186,7 @@ export class WorkPackageBaseResource extends HalResource {
     let href = '';
 
     if (this.isNew) {
-      href = this.pathHelper.api.v3.attachments.path;
+      href = this.apiV3Service.attachments.path;
     } else {
       href = this.attachments.$href!;
     }

@@ -41,6 +41,7 @@ import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.inter
 import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
 import {HttpClient} from "@angular/common/http";
 import * as URI from 'urijs';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface PaginationObject {
   pageSize:number;
@@ -52,11 +53,13 @@ export class QueryDmService extends AbstractDmService<QueryResource> {
   constructor(protected halResourceService:HalResourceService,
               protected http:HttpClient,
               protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service,
               protected UrlParamsHelper:UrlParamsHelperService,
               protected QueryFilters:QueryFiltersService,
               protected PayloadDm:PayloadDmService) {
     super(halResourceService,
-      pathHelper);
+      pathHelper,
+      apiV3Service);
   }
 
   /**
@@ -69,9 +72,9 @@ export class QueryDmService extends AbstractDmService<QueryResource> {
     let path:string;
 
     if (queryId) {
-      path = this.pathHelper.api.v3.queries.id(queryId).toString();
+      path = this.apiV3Service.queries.id(queryId).toString();
     } else {
-      path = this.pathHelper.api.v3.withOptionalProject(projectIdentifier).queries.default.toString();
+      path = this.apiV3Service.withOptionalProject(projectIdentifier).queries.default.toString();
     }
 
     return this.halResourceService
@@ -87,7 +90,7 @@ export class QueryDmService extends AbstractDmService<QueryResource> {
   }
 
   public reload(query:QueryResource, pagination:PaginationObject):Promise<QueryResource> {
-    let path = this.pathHelper.api.v3.queries.id(query.id!).toString();
+    let path = this.apiV3Service.queries.id(query.id!).toString();
 
     return this.halResourceService
       .get<QueryResource>(path, pagination)
@@ -124,7 +127,7 @@ export class QueryDmService extends AbstractDmService<QueryResource> {
     ];
 
     return this.halResourceService
-      .get<WorkPackageCollectionResource>(this.pathHelper.api.v3.work_packages.toString(), { filters: JSON.stringify(filters) })
+      .get<WorkPackageCollectionResource>(this.apiV3Service.work_packages.toString(), { filters: JSON.stringify(filters) })
       .toPromise();
   }
 
@@ -134,14 +137,14 @@ export class QueryDmService extends AbstractDmService<QueryResource> {
   }
 
   public patch(id:string, payload:{ [key:string]:unknown }):Observable<QueryResource> {
-    let path:string = this.pathHelper.api.v3.queries.id(id).toString();
+    let path:string = this.apiV3Service.queries.id(id).toString();
     return this.halResourceService
       .patch<QueryResource>(path, payload);
   }
 
   public create(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
     const payload:any = this.extractPayload(query, form);
-    let path:string = this.pathHelper.api.v3.queries.toString();
+    let path:string = this.apiV3Service.queries.toString();
 
     return this.halResourceService
       .post<QueryResource>(path, payload)
@@ -182,10 +185,10 @@ export class QueryDmService extends AbstractDmService<QueryResource> {
   }
 
   protected listUrl():string {
-    return this.pathHelper.api.v3.queries.toString();
+    return this.apiV3Service.queries.toString();
   }
 
   protected oneUrl(id:number|string):string {
-    return this.pathHelper.api.v3.queries.id(id).toString();
+    return this.apiV3Service.queries.id(id).toString();
   }
 }

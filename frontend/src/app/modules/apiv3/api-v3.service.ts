@@ -33,12 +33,16 @@ import {Apiv3GridsPaths} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid
 import {Apiv3TimeEntriesPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
 import {Apiv3MembershipsPaths} from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-paths";
 import {APIv3VersionPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-version-paths";
-import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/a-p-i-v3-work-packages-paths";
 import {Apiv3UsersPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-users-paths";
 import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
 import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
 import {APIv3ProjectsPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-projects-paths";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {APIv3ProjectPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
+import {RootResource} from "core-app/modules/hal/resources/root-resource";
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -48,6 +52,9 @@ export class APIV3Service {
   // /api/v3/configuration
   public readonly configuration = this.apiV3SingularEndpoint('configuration');
 
+  // /api/v3/documents
+  public readonly documents = this.apiV3CollectionEndpoint('documents');
+
   // /api/v3/grids
   public readonly grids = this.apiV3CustomEndpoint(Apiv3GridsPaths);
 
@@ -55,10 +62,10 @@ export class APIV3Service {
   public readonly groups = this.apiV3CollectionEndpoint('groups');
 
   // /api/v3/root
-  public readonly root = this.apiV3SingularEndpoint('root');
+  public readonly root = this.apiV3SingularEndpoint<RootResource>('root');
 
   // /api/v3/statuses
-  public readonly statuses = this.apiV3CollectionEndpoint('statuses');
+  public readonly statuses = this.apiV3CollectionEndpoint<StatusResource, APIv3ResourcePath<StatusResource>>('statuses');
 
   // /api/v3/relations
   public readonly relations = this.apiV3CollectionEndpoint('relations');
@@ -97,21 +104,38 @@ export class APIV3Service {
   public readonly help_texts = this.apiV3CollectionEndpoint('help_texts');
 
   // /api/v3/job_statuses
-  public readonly job_statuses = this.apiV3CollectionEndpoint( 'job_statuses');
+  public readonly job_statuses = this.apiV3CollectionEndpoint('job_statuses');
 
   constructor(protected readonly injector:Injector,
               protected readonly pathHelper:PathHelperService) {
   }
 
-  private apiV3CollectionEndpoint(segment:string, resource?:Constructor<APIv3ResourcePath>) {
-   return new APIv3ResourceCollection(this.injector, this.pathHelper.api.v3.appBasePath, segment, resource);
+  /**
+   * Returns the part of the API that exists both
+   *  - WITHIN a project scope /api/v3/projects/*
+   *  - GLOBALLY /api/v3/*
+   *
+   *  The available API endpoints are being restricted automatically by typescript.
+   *
+   * @param projectIdentifier
+   */
+  public withOptionalProject(projectIdentifier:string|number|null|undefined):APIv3ProjectPaths|this {
+    if (_.isNil(projectIdentifier)) {
+      return this;
+    } else {
+      return this.projects.id(projectIdentifier);
+    }
+  }
+
+  private apiV3CollectionEndpoint<V extends HalResource, T extends APIv3ResourcePath<V>>(segment:string, resource?:Constructor<T>) {
+    return new APIv3ResourceCollection<V, T>(this.injector, this.pathHelper.api.v3.appBasePath, segment, resource);
   }
 
   private apiV3CustomEndpoint<T>(cls:Constructor<T>):T {
     return new cls(this.injector, this.pathHelper.api.v3.appBasePath);
   }
 
-  private apiV3SingularEndpoint(segment:string) {
-    return new APIv3ResourcePath(this.injector, this.pathHelper.api.v3.appBasePath, segment);
+  private apiV3SingularEndpoint<T extends HalResource = HalResource>(segment:string) {
+    return new APIv3ResourcePath<T>(this.injector, this.pathHelper.api.v3.appBasePath, segment);
   }
 }

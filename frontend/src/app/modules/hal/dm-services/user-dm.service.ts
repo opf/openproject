@@ -30,18 +30,20 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class UserDmService {
   constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service) {
   }
 
   public load(id:number|string):Promise<UserResource> {
-    const path = this.pathHelper.api.v3.users.id(id).toString();
-
-    return this.halResourceService
-      .get<UserResource>(path)
+    return this
+      .apiV3Service
+      .users.id(id)
+      .get()
       .toPromise();
   }
 }

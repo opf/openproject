@@ -34,6 +34,7 @@ import {Injectable} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
@@ -42,6 +43,7 @@ export class WorkPackageRelationsHierarchyService {
               protected halEvents:HalEventsService,
               protected notificationService:WorkPackageNotificationService,
               protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service,
               protected wpCacheService:WorkPackageCacheService) {
 
   }
@@ -54,7 +56,7 @@ export class WorkPackageRelationsHierarchyService {
     if (parentId) {
       payload['_links'] = {
         parent: {
-          href: this.pathHelper.api.v3.work_packages.id(parentId).toString()
+          href: this.apiV3Service.work_packages.id(parentId).path
         }
       };
     } else {

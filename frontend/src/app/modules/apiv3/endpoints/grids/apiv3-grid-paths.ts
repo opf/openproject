@@ -27,8 +27,10 @@
 // ++
 
 import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
-export class Apiv3GridPaths extends APIv3ResourcePath {
+export class Apiv3GridPaths extends APIv3ResourcePath<GridResource> {
   // Static paths
-  readonly form = this.subResource('form');
+  readonly form = this.subResource<FormResource>('form');
 }

@@ -46,6 +46,7 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 import * as URI from 'urijs';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
@@ -80,6 +81,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
               protected readonly wpTableFilters:WorkPackageViewFiltersService,
               protected readonly wpCacheService:WorkPackageCacheService,
               protected readonly pathHelper:PathHelperService,
+              protected readonly apiV3Service:APIV3Service,
               protected readonly cdRef:ChangeDetectorRef,
               protected readonly RootDm:RootDmService) {
     super();
@@ -126,7 +128,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
         if (this.stateParams['parent_id']) {
           changeset.setValue(
             'parent',
-            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path }
+            { href: this.apiV3Service.work_packages.id(this.stateParams['parent_id']).path }
           );
         }
 

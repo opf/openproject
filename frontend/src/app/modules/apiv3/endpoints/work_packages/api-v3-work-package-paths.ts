@@ -27,22 +27,23 @@
 // ++
 
 import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
-export class APIV3WorkPackagePaths extends APIv3ResourcePath {
+export class APIV3WorkPackagePaths extends APIv3ResourcePath<WorkPackageResource> {
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
-  public readonly relations = this.path + '/relations';
+  public readonly relations = this.subResource('relations');
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/revisions
-  public readonly revisions = this.path + '/revisions';
+  public readonly revisions = this.subResource('revisions');
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/activities
-  public readonly activities = this.path + '/activities';
+  public readonly activities = this.subResource('activities');
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_watchers
-  public readonly available_watchers = this.path + '/available_watchers';
+  public readonly available_watchers = this.subResource('available_watchers');
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_projects
-  public readonly available_projects = this.path + '/available_projects';
+  public readonly available_projects = this.subResource('available_projects');
 
 }

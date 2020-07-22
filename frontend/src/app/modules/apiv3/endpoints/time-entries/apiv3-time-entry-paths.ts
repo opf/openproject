@@ -27,8 +27,10 @@
 // ++
 
 import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
-export class Apiv3TimeEntryPaths extends APIv3ResourcePath {
+export class Apiv3TimeEntryPaths extends APIv3ResourcePath<TimeEntryResource> {
   // Static paths
-  readonly form = new APIv3ResourcePath(this.injector, this.path, 'form');
+  readonly form = new APIv3ResourcePath<FormResource>(this.injector, this.path, 'form');
 }

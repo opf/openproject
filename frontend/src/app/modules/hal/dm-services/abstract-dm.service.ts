@@ -33,12 +33,14 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Injectable} from '@angular/core';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 // This only needs to be Injectable for the tests to work
 @Injectable()
 export abstract class AbstractDmService<T extends HalResource> implements DmServiceInterface {
   constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service) {
   }
 
   public list(params:DmListParameter|null):Promise<CollectionResource<T>> {

@@ -9,6 +9,7 @@ import {of, forkJoin, Observable} from 'rxjs';
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {BcfTopicResource} from "core-app/modules/bim/bcf/api/topics/bcf-topic.resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 
 @Injectable()

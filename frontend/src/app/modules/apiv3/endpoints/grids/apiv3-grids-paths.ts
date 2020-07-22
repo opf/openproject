@@ -30,8 +30,9 @@ import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3
 import {Injector} from "@angular/core";
 import {Constructor} from "@angular/cdk/table";
 import {Apiv3GridPaths} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-paths";
+import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 
-export class Apiv3GridsPaths extends APIv3ResourceCollection<Apiv3GridPaths> {
+export class Apiv3GridsPaths extends APIv3ResourceCollection<GridResource, Apiv3GridPaths> {
   constructor(readonly injector:Injector,
               protected basePath:string,
               protected resource?:Constructor<Apiv3GridPaths>) {

@@ -30,10 +30,10 @@ import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
 import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
 import {APIv3VersionPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-version-paths";
-import {Apiv3QueryFilterInstanceSchemaPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-query-filter-instance-schema-paths";
 import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
-export class APIv3ProjectPaths extends APIv3ResourcePath {
+export class APIv3ProjectPaths extends APIv3ResourcePath<ProjectResource> {
 
   // /api/v3/projects/:project_id/available_assignees
   public readonly available_assignees = this.subResource('available_assignees');
@@ -45,9 +45,4 @@ export class APIv3ProjectPaths extends APIv3ResourcePath {
   public readonly work_packages = new APIV3WorkPackagesPaths(this.injector, this.path);
 
   public readonly versions = new APIv3VersionPaths(this.injector, this.path);
-
-  // /api/v3/queries/filter_instance_schemas/:id
-  public filterInstanceSchema(id:string|number):Apiv3QueryFilterInstanceSchemaPaths {
-    return new Apiv3QueryFilterInstanceSchemaPaths(`${this.path}/filter_instance_schemas`, id);
-  }
 }

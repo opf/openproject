@@ -34,11 +34,13 @@ import {Injectable} from "@angular/core";
 import {States} from "core-components/states.service";
 import {buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageDmService {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service,
               protected states:States) {
   }
 
@@ -50,7 +52,7 @@ export class WorkPackageDmService {
    * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
    */
   public loadWorkPackageById(id:string, force = false) {
-    const url = this.pathHelper.api.v3.work_packages.id(id).toString();
+    const url = this.apiV3Service.work_packages.id(id).toString();
 
     return this.halResourceService.get<WorkPackageResource>(url).toPromise();
   }
@@ -64,7 +66,7 @@ export class WorkPackageDmService {
    */
   public loadWorkPackagesCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this.halResourceService.getAllPaginated(
-      this.pathHelper.api.v3.work_packages.toString(),
+      this.apiV3Service.work_packages.toString(),
       ids.length,
       {
         filters: buildApiV3Filter('id', '=', ids).toJson(),
@@ -93,7 +95,7 @@ export class WorkPackageDmService {
    */
   public typedCreateForm(typeId:number, projectIdentifier:string|undefined|null):Promise<FormResource> {
 
-    const typeUrl = this.pathHelper.api.v3.types.id(typeId).toString();
+    const typeUrl = this.apiV3Service.types.id(typeId).toString();
     const request = { _links: { type: { href: typeUrl } } };
 
     return this.halResourceService
@@ -109,15 +111,15 @@ export class WorkPackageDmService {
    */
   public createWorkPackage(payload:any):Promise<WorkPackageResource> {
     return this.halResourceService
-      .post<WorkPackageResource>(this.pathHelper.api.v3.work_packages.path, payload)
+      .post<WorkPackageResource>(this.apiV3Service.work_packages.path, payload)
       .toPromise();
   }
 
   private workPackagesFormPath(projectIdentifier:string|null|undefined):string {
     if (projectIdentifier) {
-      return this.pathHelper.api.v3.projects.id(projectIdentifier).work_packages.form.toString();
+      return this.apiV3Service.projects.id(projectIdentifier).work_packages.form.toString();
     } else {
-      return this.pathHelper.api.v3.work_packages.form.toString();
+      return this.apiV3Service.work_packages.form.toString();
     }
   }
 }

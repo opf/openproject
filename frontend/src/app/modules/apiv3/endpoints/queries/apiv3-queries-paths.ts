@@ -29,15 +29,21 @@
 import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Injector} from "@angular/core";
 import {APIv3QueryPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-paths";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
-export class APIv3QueriesPaths extends APIv3ResourceCollection<APIv3QueryPaths> {
+export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, APIv3QueryPaths> {
   constructor(readonly injector:Injector,
               protected basePath:string) {
     super(injector, basePath, 'queries', APIv3QueryPaths);
   }
 
   // Static paths
+  // /api/v3/queries/form
   readonly form = new APIv3ResourcePath(this.injector, this.path, 'form');
 
+  // /api/v3/queries/default
   readonly default = new APIv3ResourcePath(this.injector, this.path, 'default');
+
+  // /api/v3/queries/filter_instance_schemas/:id
+  filterInstanceSchemas = new APIv3ResourceCollection(this.injector, this.path, 'filter_instance_schemas');
 }

@@ -38,6 +38,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -74,7 +75,8 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
                      readonly loadingIndicator:LoadingIndicatorService,
                      readonly wpCacheService:WorkPackageCacheService,
                      readonly cdRef:ChangeDetectorRef,
-                     readonly pathHelper:PathHelperService) {
+                     readonly pathHelper:PathHelperService,
+                     readonly apiV3Service:APIV3Service) {
     super();
   }
 
@@ -92,7 +94,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
         this.loadCurrentWatchers();
       });
 
-    this.availableWatchersPath = this.pathHelper.api.v3.work_packages.id(this.workPackageId).available_watchers;
+    this.availableWatchersPath = this.apiV3Service.work_packages.id(this.workPackageId).available_watchers.path;
   }
 
   public loadCurrentWatchers() {

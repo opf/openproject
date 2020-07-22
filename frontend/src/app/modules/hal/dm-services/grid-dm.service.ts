@@ -35,41 +35,44 @@ import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.serv
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class GridDmService extends AbstractDmService<GridResource> {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service,
               protected payloadDm:PayloadDmService) {
     super(halResourceService,
-          pathHelper);
+          pathHelper,
+          apiV3Service);
   }
 
   public createForm(resource:GridResource|null|any = null, schema:SchemaResource|null = null) {
     let payload = this.extractPayload(resource, schema);
 
-    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.form().toString(),
+    return this.halResourceService.post<FormResource>(this.apiV3Service.grids.form.path,
                                                       payload).toPromise();
   }
 
   public create(resource:GridResource, schema:SchemaResource|null = null):Promise<GridResource> {
     let payload = this.extractPayload(resource, schema);
 
-    return this.halResourceService.post<GridResource>(this.pathHelper.api.v3.grids.path,
+    return this.halResourceService.post<GridResource>(this.apiV3Service.grids.path,
                                                       payload).toPromise();
   }
 
   public update(resource:GridResource, schema:SchemaResource|null = null):Promise<GridResource> {
     let payload = this.extractPayload(resource, schema);
 
-    return this.halResourceService.patch<GridResource>(this.pathHelper.api.v3.grids.id(resource.id!).toString(),
+    return this.halResourceService.patch<GridResource>(this.apiV3Service.grids.id(resource.id!).toString(),
                                                        payload).toPromise();
   }
 
   public updateForm(resource:GridResource, schema:SchemaResource|null = null) {
     let payload = this.extractPayload(resource, schema);
 
-    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.grids.id(resource.idFromLink).form.toString(),
+    return this.halResourceService.post<FormResource>(this.apiV3Service.grids.id(resource.idFromLink).form.toString(),
                                                       payload).toPromise();
   }
 
@@ -102,10 +105,10 @@ export class GridDmService extends AbstractDmService<GridResource> {
   }
 
   protected listUrl() {
-    return this.pathHelper.api.v3.grids.toString();
+    return this.apiV3Service.grids.toString();
   }
 
   protected oneUrl(id:number|string) {
-    return this.pathHelper.api.v3.grids.id(id).toString();
+    return this.apiV3Service.grids.id(id).toString();
   }
 }

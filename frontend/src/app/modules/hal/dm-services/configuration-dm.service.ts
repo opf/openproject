@@ -32,11 +32,13 @@ import {ConfigurationResource} from 'core-app/modules/hal/resources/configuratio
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {shareReplay} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class ConfigurationDmService {
   constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              protected apiV3Service:APIV3Service) {
   }
 
   private $configuration:Observable<ConfigurationResource>;
@@ -47,7 +49,7 @@ export class ConfigurationDmService {
     }
 
     return this.$configuration = this.halResourceService
-      .get<ConfigurationResource>(this.pathHelper.api.v3.configuration.toString())
+      .get<ConfigurationResource>(this.apiV3Service.configuration.toString())
       .pipe(
         shareReplay()
       );

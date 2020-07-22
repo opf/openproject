@@ -28,13 +28,16 @@
 
 import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Injector} from "@angular/core";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
-export class Apiv3MembershipsPaths extends APIv3ResourceCollection<APIv3ResourcePath> {
+export class Apiv3MembershipsPaths extends APIv3ResourceCollection<HalResource, APIv3ResourcePath> {
   constructor(readonly injector:Injector,
               protected basePath:string) {
     super(injector, basePath, 'memberships');
   }
 
   // /api/v3/memberships/available_projects
-  readonly available_projects = this.subResource('available_projects');
+  readonly available_projects = this.subResource<CollectionResource<ProjectResource>>('available_projects');
 }

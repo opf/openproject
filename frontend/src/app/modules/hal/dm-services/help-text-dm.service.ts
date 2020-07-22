@@ -31,22 +31,24 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {Injectable} from '@angular/core';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class HelpTextDmService {
   constructor(protected halResourceService:HalResourceService,
+              protected apiV3Service:APIV3Service,
               protected pathHelper:PathHelperService) {
   }
 
   public loadAll():Promise<CollectionResource<HelpTextResource>> {
     return this.halResourceService
-      .get<CollectionResource<HelpTextResource>>(this.pathHelper.api.v3.help_texts.toString())
+      .get<CollectionResource<HelpTextResource>>(this.apiV3Service.help_texts.toString())
       .toPromise();
   }
 
   public load(helpTextId:string):Promise<HelpTextResource> {
     return this.halResourceService
-      .get<HelpTextResource>(this.pathHelper.api.v3.help_texts.id(helpTextId).toString())
+      .get<HelpTextResource>(this.apiV3Service.help_texts.id(helpTextId).toString())
       .toPromise();
   }
 }
