@@ -7,14 +7,14 @@ import { TimeEntryEditModal } from './edit.modal';
 import { take } from 'rxjs/operators';
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class TimeEntryEditService {
 
   constructor(readonly opModalService:OpModalService,
               readonly injector:Injector,
-              readonly timeEntryDm:TimeEntryDmService,
+              readonly apiV3Service:APIV3Service,
               readonly halResource:HalResourceService,
               protected halEditing:HalResourceEditingService,
               readonly i18n:I18nService) {
@@ -46,7 +46,14 @@ export class TimeEntryEditService {
   }
 
   public createChangeset(entry:TimeEntryResource) {
-    return this.timeEntryDm.updateForm(entry).then(form => {
+    return this
+      .apiV3Service
+      .time_entries
+      .id(entry)
+      .form
+      .post(entry)
+      .toPromise()
+      .then(form => {
       return this.halEditing.edit<TimeEntryResource, ResourceChangeset<TimeEntryResource>>(entry, form);
     });
   }

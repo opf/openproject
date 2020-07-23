@@ -32,8 +32,20 @@ import {Apiv3TimeEntryPaths} from "core-app/modules/apiv3/endpoints/time-entries
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import {Observable} from "rxjs";
+import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
+import {MultiInputState} from "reactivestates";
+import {
+  Apiv3ListParameters,
+  Apiv3ListResourceInterface
+} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
-export class Apiv3TimeEntriesPaths extends APIv3ResourceCollection<TimeEntryResource, Apiv3TimeEntryPaths> {
+export class Apiv3TimeEntriesPaths
+  extends CachableAPIV3Collection<TimeEntryResource, Apiv3TimeEntryPaths>
+  implements Apiv3ListResourceInterface<TimeEntryResource> {
   constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
     super(apiRoot, basePath, 'time_entries', Apiv3TimeEntryPaths);
@@ -41,4 +53,66 @@ export class Apiv3TimeEntriesPaths extends APIv3ResourceCollection<TimeEntryReso
 
   // Static paths
   public readonly form = this.subResource('form', APIv3FormResource);
+
+  /**
+   * Load a list of time entries with a given list parameter filter
+   * @param params
+   */
+  public list(params?:Apiv3ListParameters):Observable<CollectionResource<TimeEntryResource>> {
+    return this
+      .halResourceService
+      .get<CollectionResource<TimeEntryResource>>(this.path + this.listParamsString(params))
+      .pipe(
+        this.cacheResponse()
+      );
+  }
+
+  /**
+   * Create a time entry resource from the given payload
+   * @param payload
+   */
+  public post(payload:Object):Observable<TimeEntryResource> {
+    return this
+      .halResourceService
+      .post<TimeEntryResource>(this.path, payload)
+      .pipe(
+        this.cacheResponse()
+      );
+  }
+
+  protected listParamsString(params?:DmListParameter):string {
+    let queryProps = [];
+
+    if (params && params.sortBy) {
+      queryProps.push(`sortBy=${JSON.stringify(params.sortBy)}`);
+    }
+
+    // 0 should not be treated as false
+    if (params && params.pageSize !== undefined) {
+      queryProps.push(`pageSize=${params.pageSize}`);
+    }
+
+    if (params && params.filters) {
+      let filters = new ApiV3FilterBuilder();
+
+      params.filters.forEach((filterParam) => {
+        filters.add(...filterParam);
+      });
+
+      queryProps.push(filters.toParams());
+    }
+
+    let queryPropsString = '';
+
+    if (queryProps.length) {
+      queryPropsString = `?${queryProps.join('&')}`;
+    }
+
+    return queryPropsString;
+  }
+
+  protected cacheState():MultiInputState<TimeEntryResource> {
+    return this.states.timeEntries;
+  }
+
 }

@@ -39,7 +39,6 @@ import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.
 import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
-import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
 import {NewsDmService} from './dm-services/news-dm.service';
 import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
@@ -65,7 +64,6 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
     QueryDmService,
     QueryFormDmService,
     RelationsDmService,
-    TimeEntryDmService,
     HalResourceNotificationService
   ]
 })

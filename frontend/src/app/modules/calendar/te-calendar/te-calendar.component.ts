@@ -24,12 +24,10 @@ import {Duration, EventApi, EventInput, View} from '@fullcalendar/core';
 import {EventSourceError} from '@fullcalendar/core/structs/event-source';
 import {ToolbarInput} from '@fullcalendar/core/types/input-types';
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 import interactionPlugin from '@fullcalendar/interaction';
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
@@ -37,6 +35,7 @@ import {TimeEntryCreateService} from "core-app/modules/time_entries/create/creat
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {HalResourceNotificationService} from 'core-app/modules/hal/services/hal-resource-notification.service';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -117,7 +116,7 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
   };
 
   constructor(readonly states:States,
-              readonly timeEntryDm:TimeEntryDmService,
+              readonly apiV3Service:APIV3Service,
               readonly $state:StateService,
               private element:ElementRef,
               readonly i18n:I18nService,
@@ -128,7 +127,6 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
               private timezone:TimezoneService,
               private timeEntryEdit:TimeEntryEditService,
               private timeEntryCreate:TimeEntryCreateService,
-              private timeEntryCache:TimeEntryCacheService,
               private colors:ColorsService,
               private browserDetector:BrowserDetector) {
   }
@@ -172,12 +170,12 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
       this.memoizedTimeEntries.start.getTime() !== start.getTime() ||
       this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
       let promise = this
-        .timeEntryDm
+        .apiV3Service
+        .time_entries
         .list({ filters: this.dmFilters(start, end), pageSize: 500 })
+        .toPromise()
         .then(collection => {
           this.memoizedCreateAllowed = !!collection.createTimeEntry;
-
-          collection.elements.forEach(timeEntry => this.timeEntryCache.updateValue(timeEntry.id!, timeEntry));
 
           return collection;
         });
@@ -387,16 +385,19 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
     // on the day before by fullcalendar.
     entry.spentOn = moment(event.event.end!).format('YYYY-MM-DD');
 
+
     this
-      .timeEntryDm
-      .update(entry, entry.schema)
-      .then(event => {
-        this.updateEventSet(event, 'update');
-      })
-      .catch((e) => {
-        this.notifications.handleRawError(e);
-        event.revert();
-      });
+      .apiV3Service
+      .time_entries
+      .id(entry)
+      .patch(entry, entry.schema)
+      .subscribe(
+        event => this.updateEventSet(event, 'update'),
+        e => {
+          this.notifications.handleRawError(e);
+          event.revert();
+        }
+      );
   }
 
   public addEventToday() {
@@ -431,7 +432,12 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
           collection.elements.splice(foundIndex, 1);
           break;
         case 'create':
-          this.timeEntryCache.updateValue(event.id!, event);
+          this
+            .apiV3Service
+            .time_entries
+            .cache
+            .updateFor(event);
+
           collection.elements.push(event);
           break;
       }

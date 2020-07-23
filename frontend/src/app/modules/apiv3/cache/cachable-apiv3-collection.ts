@@ -26,31 +26,34 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {States} from "core-components/states.service";
 import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {Observable} from "rxjs";
 import {MultiInputState} from "reactivestates";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {tap} from "rxjs/operators";
 
-export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
-  extends APIv3GettableResource<T> {
+export const stateIdForAll = '__all_state';
+
+export abstract class CachableAPIV3Collection<T extends HalResource = HalResource, V extends APIv3GettableResource<T> = APIv3GettableResource<T>>
+  extends APIv3ResourceCollection<T, V> {
   @InjectField() states:States;
 
   readonly cache = this.createCache();
 
   /**
-   * Require the value to be loaded either when forced or the value is stale
+   * Requires the collection to be loaded either when forced or the value is stale
    * according to the cache interval specified for this service.
    *
    * Returns an observable to the values stream of the state.
    *
    * @param force Load the value anyway.
    */
-  public require(force:boolean = false):Observable<T> {
-    const id = this.id.toString();
+  public requireAll(force:boolean = false):Observable<T> {
+    const id = stateIdForAll;
 
     // Refresh when stale or being forced
     if (this.cache.stale(id) || force) {
@@ -70,7 +73,7 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
    * Accesses or modifies the global store for this resource.
    */
   get():Observable<T> {
-    return this.require(false);
+    return this.requireAll(false);
   }
 
   /**
@@ -80,7 +83,7 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
    * Accesses or modifies the global store for this resource.
    */
   getFresh():Observable<T> {
-    return this.require(true);
+    return this.requireAll(true);
   }
 
   /**
@@ -93,6 +96,25 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
   }
 
   /**
+   * Inserts a collection or single response to cache as an rxjs tap function
+   */
+  protected cacheResponse<R>():(source:Observable<R>) => Observable<R> {
+    return (source$) => {
+      return source$.pipe(
+        tap(
+          (response:R) => {
+            if (response instanceof CollectionResource) {
+              response.elements.forEach(this.touch.bind(this));
+            } else if (response instanceof HalResource) {
+              this.touch(response as any);
+            }
+          }
+        )
+      );
+    };
+  }
+
+  /**
    * Update a single resource
    */
   protected touch(resource:T):void {
@@ -100,22 +122,17 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
   }
 
   /**
-   * Inserts a collection response to cache as an rxjs tap function
-   */
-  protected cacheResponse():(source:Observable<T>) => Observable<T> {
-    return (source$:Observable<T>) => {
-      return source$.pipe(
-        tap(
-          (resource:T) => this.touch(resource)
-        )
-      );
-    };
-  }
-
-  /**
    * Returns the cache state to be used for the cached resource
    */
   protected abstract cacheState():MultiInputState<T>;
+
+  /**
+   * Provide an optional loadAll handler that loads the entire
+   * collection to be put into cache
+   */
+  protected loadAll():(() => Observable<T[]>)|undefined {
+    return undefined;
+  }
 
   /**
    * Creates the cache state instance
