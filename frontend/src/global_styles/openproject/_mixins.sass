@@ -133,13 +133,14 @@ $scrollbar-size: 10px
     visibility: hidden
 
 @mixin two-column-layout
-  column-count: 2
-  column-gap: 3rem
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(45%, 1fr))
+  grid-gap: 0 3rem
   
   @supports (column-span: all)
         // Let some elements still span both columns
         .attributes-key-value.-span-all-columns
-          column-span: all
+          grid-column: -1/1
           .attributes-key-value--key
             flex-basis: calc(22.5% - (4rem / 6))
           .attributes-key-value--value-container
