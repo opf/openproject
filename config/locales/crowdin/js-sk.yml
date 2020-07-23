@@ -797,6 +797,9 @@ sk:
           not_found: "Toto zobrazenie sa nepodarilo nájsť"
           duplicate_query_title: "Zobrazenie s týmto názvom už existuje. Napriek tomu zmeniť?"
         text_no_results: "Neboli nájdené žiadne zodpovedajúce zobrazenia."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Konfigurovať tabuľku pracovného balíčka'
         summary: "Tabuľka s riadkami pracovného balíka a so stĺpcami pracovného balíka atribútov."

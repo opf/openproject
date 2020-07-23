@@ -37,6 +37,8 @@ import {WorkPackageCacheService} from "core-components/work-packages/work-packag
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {concatAll} from "rxjs/operators";
 import {combineLatest} from "rxjs";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {ISchemaProxy, SchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
 
 @Component({
   selector: 'wp-status-button',
@@ -56,6 +58,7 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpCacheService:WorkPackageCacheService,
+              readonly schemaCache:SchemaCacheService,
               readonly halEditing:HalResourceEditingService) {
     super();
   }
@@ -79,9 +82,9 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
   }
 
   public get buttonTitle() {
-    if (this.workPackage.isReadonly) {
+    if (this.schema.isReadonly) {
       return this.text.workPackageReadOnly;
-    } else if (this.workPackage.isEditable && !this.allowed) {
+    } else if (this.schema.isEditable && !this.allowed) {
       return this.text.workPackageStatusBlocked;
     } else {
       return '';
@@ -100,7 +103,19 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
     return this.workPackage.status;
   }
 
+  public get isReadonly() {
+    return this.schema.isReadonly;
+  }
+
   public get allowed() {
-    return this.workPackage.isAttributeEditable('status');
+    return this.schema.isAttributeEditable('status');
+  }
+
+  private get schema() {
+    if (this.halEditing.typedState(this.workPackage).hasValue()) {
+      return this.halEditing.typedState(this.workPackage).value!.schema;
+    } else {
+      return this.schemaCache.of(this.workPackage) as ISchemaProxy;
+    }
   }
 }

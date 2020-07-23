@@ -797,6 +797,9 @@ it:
           not_found: "La vista non esiste"
           duplicate_query_title: "Il nome di questa vista è già esistente. Cambiarlo comunque?"
         text_no_results: "Nessuna vista corrispondente trovata."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Configura la tabella della macro-attività'
         summary: "Tabella con righe di macro-attività e colonne dei loro attributi."

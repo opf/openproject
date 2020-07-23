@@ -78,6 +78,7 @@ ru:
     is_active: теперь отображается
     is_inactive: теперь не отображается
   attribute_help_texts:
+    note_public: 'Любой текст и изображения, которые вы добавляете в это поле, видны всем авторизованным пользователям!'
     text_overview: 'В этом представлении можно создать пользовательскую текстовую справку для атрибутов представления. При ее наличии, она будет показана по клику по значку справки возле атрибута.'
     label_plural: 'Атрибут текстов справки'
     show_preview: 'Предпросмотр текста'
@@ -281,7 +282,7 @@ ru:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
     no_results_title_text: На данный момент wiki-страницы отсутствуют.
     index:
       no_results_content_text: Добавить новую wiki-страницу
@@ -1803,7 +1804,16 @@ ru:
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
-  mail_body_register: "Для активации учетной записи щёлкните по следующей ссылке:"
+  mail_body_register: "Добро пожаловать в OpenProject. Пожалуйста, активируйте свой аккаунт, нажав на эту ссылку:"
+  mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
+  mail_body_register_user: "Уважаемый, %{name},"
+  mail_body_register_links_html: |
+    Пожалуйста, не стесняйтесь просматривать наш Youtube канал (%{youtube_link}), где мы предоставляем вебинары (%{webinar_link})
+    и видео "Начать работу" (%{get_started_link}), чтобы сделать ваши первые шаги в OpenProject максимально простыми.
+    <br />
+    Если у вас есть какие-либо вопросы, обратитесь к нашей документации (%{documentation_link}) или свяжитесь с нами (%{contact_us_link}).
+  mail_body_register_closing: "Ваша команда OpenProject"
+  mail_body_register_ending: "Оставайтесь на связи! С уважением,"
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть представлены в следующие  %{days}:"
   mail_body_group_reminder: "Срок выполнения комплексов работ (%{count}), назначенных группе \"%{group}\", истекает в следующие %{days} дн.:"
   mail_body_wiki_content_added: "%{author} добавил wiki-страницу '«%{id}»'."

@@ -60,14 +60,14 @@ describe 'Show the date of a Work Package', type: :feature, js: true do
 
     it 'should be highlighted only if the WP status is open (#33457)' do
       # Highlighted with an open status
-      expect(page).to have_selector('.inline-edit--display-field.startDate .__hl_date_overdue')
+      expect(page).to have_selector('.inline-edit--display-field.combinedDate .__hl_date_overdue')
 
       # Change status to closed
       status_field = WorkPackageStatusField.new(page)
       status_field.update(closed_status.name)
 
       # Not highlighted with a closed status
-      expect(page).not_to have_selector('.inline-edit--display-field.startDate .__hl_date_overdue')
+      expect(page).not_to have_selector('.inline-edit--display-field.combinedDate .__hl_date_overdue')
     end
   end
 end

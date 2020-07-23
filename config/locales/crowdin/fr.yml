@@ -78,6 +78,7 @@ fr:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Dans cette vue, vous pouvez créer des textes d’aide personnalisés pour l''affichage des attributs. Lorsqu''ils sont définis, ces textes peuvent être affichés en cliquant sur l’icône d’aide à côté de l''attribut correspondant.'
     label_plural: 'Attribut d’aide de texte'
     show_preview: 'Texte d’aperçu'
@@ -1763,7 +1764,16 @@ fr:
   mail_body_account_information: "Informations sur votre compte"
   mail_body_account_information_external: "Vous pouvez utiliser votre compte %{value} pour vous connecter."
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
-  mail_body_register: "Pour activer votre compte, cliquez sur le lien suivant:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} lot(s) de travaux qui vous sont assignés arrivent à échéance dans les %{days} prochains jours:"
   mail_body_group_reminder: "%{count} lot(s) de travaux assigné(s) au groupe \"%{group}\" arrive(nt) à échéance dans %{days} jours :"
   mail_body_wiki_content_added: "La page wiki '%{id}' a été ajouté par %{author}."

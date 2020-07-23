@@ -796,6 +796,9 @@ el:
           not_found: "Δεν υπάρχει τέτοια προβολή"
           duplicate_query_title: "Το όνομα αυτής της προβολής υπάρχει ήδη. Αλλαγή παρόλα αυτά;"
         text_no_results: "Δεν βρέθηκαν προβολές που να ταιριάζουν."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Διαμόρφωση του πίνακα πακέτων εργασίας'
         summary: "Πίνακας με γραμμές από πακέτα εργασίας και στήλες από χαρακτηριστικά πακέτων εργασίας."

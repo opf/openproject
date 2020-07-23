@@ -78,6 +78,7 @@ tr:
     is_active: şu an görüntüleniyor
     is_inactive: şu an görüntülenmiyor
   attribute_help_texts:
+    note_public: 'Bu alana eklediğiniz herhangi bir metin ve resim, oturum açmış tüm kullanıcılar tarafından herkes tarafından görülebilir!'
     text_overview: 'Bu görünümde, öznitelikleri görünüm için özel yardım metinler oluşturabilirsiniz. Tanımladığınızda, bu metinler, aidiyet öznitelik yanındaki Yardım simgesini tıklayarak gösterilebilir.'
     label_plural: 'Öznitelik yardım metinleri'
     show_preview: 'Önizleme metni'
@@ -1764,7 +1765,16 @@ tr:
   mail_body_account_information: "Hesap bilgilerinizi giriniz"
   mail_body_account_information_external: "Giriş yapmak için %{value} hesabınızı kullanabilirsiniz."
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
-  mail_body_register: "Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı tıklayın:"
+  mail_body_register: "OpenProject'e hoş geldiniz. Lütfen bu bağlantıyı tıklayarak hesabınızı etkinleştirin:"
+  mail_body_register_header_title: "Proje üyesi davet e-postası"
+  mail_body_register_user: "Sevgili %{name},"
+  mail_body_register_links_html: |
+    Lütfen bir web semineri (%{youtube_link}) sağladığımız youtube kanalımıza (%{webinar_link}) göz atabilirsiniz.
+    ve OpenProject'teki ilk adımlarınızı olabildiğince kolay hale getirmek için "Başlayın" videoları (%{get_started_link})
+    <br />
+    Başka sorunuz varsa dokümantasyonumuza (%{documentation_link}) bakın veya bize ulaşın  (%{contact_us_link}).
+  mail_body_register_closing: "OpenProject ekibiniz"
+  mail_body_register_ending: "Bağlı kalın! Saygılarımla,"
   mail_body_reminder: "Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days} gün içinde ödemesi gerekiyor:"
   mail_body_group_reminder: "\"%{group}\" grubuna atanan %{count} çalışma paketi / paketleri sonraki %{days}  gününden kaynaklanmaktadır:"
   mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."

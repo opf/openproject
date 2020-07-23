@@ -47,7 +47,10 @@ class CopyProjectsController < ApplicationController
   end
 
   def copy_project
-    @copy_project = Project.copy_attributes(@project)
+    @copy_project = Projects::CopyService
+      .new(user: current_user, source: @project)
+      .call(target_project_params: {}, attributes_only: true)
+      .result
 
     if @copy_project
       project_copy(@copy_project, EmptyContract)

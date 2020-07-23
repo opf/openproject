@@ -797,6 +797,9 @@ uk:
           not_found: "Такого погляду немає"
           duplicate_query_title: "Ім'я цього перегляду вже існує. Змінити все одно?"
         text_no_results: "Не знайдено відповідних переглядів."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Налаштуйте таблицю робочих пакетів'
         summary: "Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт."

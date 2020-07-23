@@ -796,6 +796,9 @@ sv:
           not_found: "Det finns ingen sådan vy"
           duplicate_query_title: "Namnet på denna vy finns redan. Ändra ändå?"
         text_no_results: "Inga matchande vyer hittades."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Konfigurera arbetspakets-tabell'
         summary: "Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut."

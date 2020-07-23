@@ -39,8 +39,6 @@ module Projects
 
     private
 
-    attr_accessor :model
-
     def persist(service_call)
       archive_project(model) and model.children.each do |child|
         archive_project(child)

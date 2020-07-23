@@ -796,6 +796,9 @@ hu:
           not_found: "Nincs ilyen nézet"
           duplicate_query_title: "Name of this view already exists. Change anyway?"
         text_no_results: "Nem található egyező nézet"
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Feladatcsoport táblázat beállítása'
         summary: "Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok."

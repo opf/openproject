@@ -128,7 +128,7 @@ describe 'edit work package', js: true do
   it 'allows updating and seeing the results' do
     wp_page.update_attributes subject: 'a new subject',
                               type: type2.name,
-                              startDate: ['2013-03-04', '2013-03-20'],
+                              combinedDate: ['2013-03-04', '2013-03-20'],
                               responsible: manager.name,
                               assignee: manager.name,
                               estimatedTime: '5',
@@ -142,7 +142,7 @@ describe 'edit work package', js: true do
     wp_page.expect_attributes type: type2.name.upcase,
                               responsible: manager.name,
                               assignee: manager.name,
-                              startDate: '03/04/2013 - 03/20/2013',
+                              combinedDate: '03/04/2013 - 03/20/2013',
                               estimatedTime: '5',
                               percentageDone: '30%',
                               subject: 'a new subject',

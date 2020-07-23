@@ -78,6 +78,7 @@ lt:
     is_active: šiuo metu rodoma
     is_inactive: šiuo metu nerodoma
   attribute_help_texts:
+    note_public: 'Bet koks tekstas ir piešinukai, kuriuos jūs pridedate prie šio lauko, yra viešai matomas visiems prisijungusiems vartotojams!'
     text_overview: 'Šioje peržiūroje Jūs galite kurti pritaikytus pagalbos tekstus atributams. Kai nustatyti, šie tekstai gali būti rodomi paspaudžiant pagalbos piktogramą šalia atitinkamo atributo.'
     label_plural: 'Atributų pagalbos tekstai'
     show_preview: 'Peržiūrėti tekstą'
@@ -1799,7 +1800,16 @@ lt:
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
-  mail_body_register: "Norėdami aktyvuoti paskyrą, spauskite nuorodą:"
+  mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
+  mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
+  mail_body_register_user: "Brangus %{name}, "
+  mail_body_register_links_html: |
+    Galite panaršyti mūsų youtube kanale (%{youtube_link}), kur pateikiame webinarą (%{webinar_link})
+    ir „Pradėkime“ video (%{get_started_link}) tam, kad jūsų pirmieji žingsniai OpenProject būtų kaip įmanoma lengvesni.
+    <br />
+    Jei turėsite papildomų klausimų, peržiūrėkite mūsų dokumentaciją (%{documentation_link}) arba susisiekite su mumis (%{contact_us_link}).
+  mail_body_register_closing: "Jūsų OpenProject komanda"
+  mail_body_register_ending: "Likit prisijungę! Su geriausiais linkėjimais,"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"
   mail_body_group_reminder: "%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:"
   mail_body_wiki_content_added: "%{author} pridėjo '%{id}' wiki puslapį."
@@ -2170,7 +2180,7 @@ lt:
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
-  setting_host_name: "Šeimininko vardas"
+  setting_host_name: "Serverio vardas"
   setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
   setting_work_package_done_ratio: "Skaičiuoti darbų paketo atlikimo santykį su"
   setting_work_package_done_ratio_field: "Naudoti darbų paketo laukelį"

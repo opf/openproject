@@ -796,6 +796,9 @@ sl:
           not_found: "Ta pogled ne obstaja"
           duplicate_query_title: "Ime tega pogleda že obstaja. Se vseeno spremeni?"
         text_no_results: "Ujemanj ni bilo najdenih."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Uredi tabelo delovnega paketa'
         summary: "Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.\n"

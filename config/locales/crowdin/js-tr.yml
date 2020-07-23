@@ -797,6 +797,9 @@ tr:
           not_found: "Böyle bir görünüm bulunmamakta"
           duplicate_query_title: "Bu isimde bir görünüm var. Yinede devam edilsin mi?"
         text_no_results: "Eşleşen görünüm bulunamadı."
+      scheduling:
+        is_parent: "Bu çalışma paketinin tarihleri otomatik olarak çocuklarından çıkarılır. Tarihleri ayarlamak için 'Manuel zamanlama'yı etkinleştirin."
+        is_switched_from_manual_to_automatic: "Bu çalışma paketinin tarihlerinin, diğer çalışma paketleriyle olan ilişkiler nedeniyle manuelden otomatik zamanlamaya geçtikten sonra yeniden hesaplanması gerekebilir."
       table:
         configure_button: 'İş paketi tablosunu kopyala'
         summary: "İş paketi satır tabloları ve iş paketi nitelik sütunları."

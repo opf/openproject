@@ -797,6 +797,9 @@ cs:
           not_found: "Takový pohled není"
           duplicate_query_title: "Název tohoto zobrazení již existuje. Chcete přesto změnit?"
         text_no_results: "Nebyly nalezeny žádné odpovídající zobrazení."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Konfigurovat tabulku pracovních balíčků'
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."

@@ -135,7 +135,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     this.closeEditFields('all', reset);
 
     if (reset) {
-      this.halEditing.reset(this.change)
+      this.halEditing.reset(this.change);
     }
   }
 

@@ -10,6 +10,7 @@ import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-r
 import {QueryOperatorResource} from "core-app/modules/hal/resources/query-operator-resource";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   templateUrl: './wp-table-configuration-relation-selector.html',
@@ -56,7 +57,8 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
   constructor(readonly injector:Injector,
               readonly I18n:I18nService,
               readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly ConfigurationService:ConfigurationService) {
+              readonly ConfigurationService:ConfigurationService,
+              readonly schemaCache:SchemaCacheService) {
   }
 
   ngOnInit() {
@@ -106,7 +108,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
   }
 
   private getOperatorForId(filter:QueryFilterResource, id:string):QueryOperatorResource {
-    return _.find(filter.schema.availableOperators, { 'id': id}) as QueryOperatorResource;
+    return _.find(this.schemaCache.of(filter).availableOperators, { 'id': id}) as QueryOperatorResource;
   }
 
   public compareRelationFilters(f1:undefined|QueryFilterResource, f2:undefined|QueryFilterResource):boolean {

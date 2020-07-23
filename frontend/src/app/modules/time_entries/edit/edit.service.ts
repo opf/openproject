@@ -6,34 +6,48 @@ import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-res
 import { TimeEntryEditModal } from './edit.modal';
 import { take } from 'rxjs/operators';
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 
 @Injectable()
 export class TimeEntryEditService {
 
   constructor(readonly opModalService:OpModalService,
               readonly injector:Injector,
+              readonly timeEntryDm:TimeEntryDmService,
               readonly halResource:HalResourceService,
+              protected halEditing:HalResourceEditingService,
               readonly i18n:I18nService) {
   }
 
   public edit(entry:TimeEntryResource) {
     return new Promise<{entry:TimeEntryResource, action:'update'|'destroy'}>((resolve, reject) => {
-      const modal = this.opModalService.show(TimeEntryEditModal, this.injector, { entry: entry });
+      this
+        .createChangeset(entry)
+        .then(changeset => {
+          const modal = this.opModalService.show(TimeEntryEditModal, this.injector, { changeset: changeset });
 
-      modal
-        .closingEvent
-        .pipe(take(1))
-        .subscribe(() => {
-          if (modal.destroyedEntry) {
-            modal.destroyedEntry.delete().then(() => {
-              resolve({entry: modal.destroyedEntry, action: 'destroy'});
+          modal
+            .closingEvent
+            .pipe(take(1))
+            .subscribe(() => {
+              if (modal.destroyedEntry) {
+                modal.destroyedEntry.delete().then(() => {
+                  resolve({entry: modal.destroyedEntry, action: 'destroy'});
+                });
+              } else if (modal.modifiedEntry) {
+                resolve({ entry: modal.modifiedEntry, action: 'update' });
+              } else {
+                reject();
+              }
             });
-          } else if (modal.modifiedEntry) {
-            resolve({ entry: modal.modifiedEntry, action: 'update' });
-          } else {
-            reject();
-          }
         });
+    });
+  }
+
+  public createChangeset(entry:TimeEntryResource) {
+    return this.timeEntryDm.updateForm(entry).then(form => {
+      return this.halEditing.edit<TimeEntryResource, ResourceChangeset<TimeEntryResource>>(entry, form);
     });
   }
 }

@@ -797,6 +797,9 @@ pl:
           not_found: "Nie ma takiego widoku"
           duplicate_query_title: "Nazwa tego widoku już istnieje. Zmienić mimo to?"
         text_no_results: "Nie znaleziono żadnych pasujących widoków."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

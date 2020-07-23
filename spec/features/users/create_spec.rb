@@ -43,7 +43,7 @@ describe 'create users', type: :feature, selenium: true do
       perform_enqueued_jobs
       ActionMailer::Base.deliveries.last
     end
-    let(:mail_body) { mail.body.parts.first.to_s }
+    let(:mail_body) { mail.body.parts.first.body.to_s }
     let(:token) { mail_body.scan(/token=(.*)$/).first.first }
 
     it 'creates the user' do

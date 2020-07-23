@@ -27,13 +27,8 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class ProjectResource extends HalResource {
-  @InjectField() private schemaCacheService:SchemaCacheService;
-
   public get state() {
     return this.states.projects.get(this.id!) as any;
   }
@@ -44,22 +39,6 @@ export class ProjectResource extends HalResource {
     }
 
     return 'constrained';
-  }
-
-  /**
-   * Get the schema of the project
-   * ensure that it's loaded
-   *
-   * TODO this is duplicating the WorkPackageResource#schema getter
-   */
-  public get schema():SchemaResource {
-    const state = this.schemaCacheService.state(this as any);
-
-    if (!state.hasValue()) {
-      throw `Accessing schema of ${this.id} without it being loaded.`;
-    }
-
-    return state.value!;
   }
 
   /**

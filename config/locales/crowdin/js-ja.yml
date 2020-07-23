@@ -800,6 +800,9 @@ ja:
           not_found: "そのようなビューはありません"
           duplicate_query_title: "このビューの名前は既に存在します。 とにかく変更しますか？"
         text_no_results: "一致するビューは見つかりませんでした。"
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'ワークパッケージテーブルを設定する'
         summary: "作業項目の行と、作業項目の属性の列から成る表。"

@@ -797,6 +797,9 @@ lt:
           not_found: "Nėra tokio vaizdo"
           duplicate_query_title: "Toks vaizdo vardas jau yra. Vis tiek keisti?"
         text_no_results: "Atitinkančių vaizdų nerasta."
+      scheduling:
+        is_parent: "Šio darbų paketo datos yra automatiškai nustatomos pagal jo vaikų datas. Norėdami nustatyti kitokias datas įjunkite „Rankinį tvarkaraščio parinkimą“"
+        is_switched_from_manual_to_automatic: "Po perjungimo iš rankinio į automatinį tvarkaraščio parinkimą šio darbų paketo datas gali reikėti perskaičiuoti, nes yra sąryšių su kitais darbų paketais."
       table:
         configure_button: 'Sukonfigūruokite darbų paketo lentelę'
         summary: "Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų."

@@ -78,6 +78,7 @@ ko:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: '이 보기에서 특성 보기에 대한 사용자 지정 도움말 텍스트를 작성할 수 있습니다. 이 텍스트를 정의하면 속하는 특성 옆에 있는 도움말 아이콘을 클릭하여 표시할 수 있습니다.'
     label_plural: '특성 도움말 텍스트'
     show_preview: '미리 보기 텍스트'
@@ -1743,7 +1744,16 @@ ko:
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
-  mail_body_register: "계정을 활성화하려면 링크를 클릭하세요."
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "사용자에게 할당된 %{count} 작업 패키지가 다음 %{days}일 후 만료됩니다."
   mail_body_group_reminder: "\"%{group}\" 그룹에 할당된 %{count}개 작업 패키지가 향후 %{days}일 후 만료됩니다."
   mail_body_wiki_content_added: "%{author}이(가) '%{id}' 위키 페이지를 추가했습니다."

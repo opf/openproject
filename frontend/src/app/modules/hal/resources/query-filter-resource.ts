@@ -35,7 +35,6 @@ export interface QueryFilterResourceEmbedded {
 
 export class QueryFilterResource extends HalResource {
   public $embedded:QueryFilterResourceEmbedded;
-  public schema:QueryFilterInstanceSchemaResource;
   public values:any[];
 
   public get id():string {
