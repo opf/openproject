@@ -66,7 +66,6 @@ module SettingsHelper
     end
   end
 
-
   def setting_select(setting, choices, options = {})
     if blank_text = options.delete(:blank)
       choices = [[blank_text.is_a?(Symbol) ? I18n.t(blank_text) : blank_text, '']] + choices

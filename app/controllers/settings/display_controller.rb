@@ -31,6 +31,9 @@ class Settings::DisplayController < SettingsController
   menu_item :settings_display
 
   def show
+    @options = {}
+    @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
+
     render template: 'settings/_display'
   end
 end

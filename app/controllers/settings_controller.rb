@@ -45,9 +45,6 @@ class SettingsController < ApplicationController
   end
 
   def show
-    @options = {}
-    @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
-
     @guessed_host = request.host_with_port.dup
 
     @custom_style = CustomStyle.current || CustomStyle.new

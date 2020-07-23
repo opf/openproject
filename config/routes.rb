@@ -394,11 +394,11 @@ OpenProject::Application.routes.draw do
     resource :mail_notifications, only: %i[show update]
   end
 
+  get "settings", controller: "settings/general", action: 'show', as: "settings"
   resource :settings, only: %i(update show) do
     SettingsHelper.system_settings_tabs.each do |tab|
-      get "settings/#{tab[:name]}", controller: "settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
+      get "#{tab[:name]}", controller: "settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
     end
-    get "settings", controller: "settings/general", action: 'show', as: "settings"
 
     # We should fix this crappy routing (split up and rename controller methods)
     collection do
