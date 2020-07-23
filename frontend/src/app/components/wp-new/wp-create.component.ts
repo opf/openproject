@@ -145,7 +145,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
       })
       .catch((error:any) => {
         if (error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
-          this.RootDm.load().then((root:RootResource) => {
+          this.apiV3Service.root.get().subscribe((root:RootResource) => {
             if (!root.user) {
               // Not logged in
               let url = URI(this.pathHelper.loginPath());
