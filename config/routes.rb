@@ -394,7 +394,12 @@ OpenProject::Application.routes.draw do
     resource :mail_notifications, only: %i[show update]
   end
 
-  resource :settings, as: :general_settings, only: %i(update show) do
+  resource :settings, only: %i(update show) do
+    SettingsHelper.system_settings_tabs.each do |tab|
+      get "settings/#{tab[:name]}", controller: "settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
+    end
+    get "settings", controller: "settings/general", action: 'show', as: "settings"
+
     # We should fix this crappy routing (split up and rename controller methods)
     collection do
       match 'plugin/:id', action: 'plugin', via: %i[get post]
@@ -403,7 +408,7 @@ OpenProject::Application.routes.draw do
 
   resource :workflows, only: %i[edit update show] do
     member do
-      # We should fix this crappy routing (split up and rename controller methods)
+      # We should fix this crappy routing (split upΩand rename controller methods)
       match 'copy', action: 'copy', via: %i[get post]
     end
   end

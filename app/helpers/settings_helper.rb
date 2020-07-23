@@ -30,36 +30,42 @@
 require 'securerandom'
 
 module SettingsHelper
+  extend self
   include OpenProject::FormTagHelper
 
-  def administration_settings_tabs
+  def system_settings_tabs
     [
       {
         name: 'general',
-        partial: 'settings/general',
-        path: general_settings_path,
+        action: { controller: '/settings/general', action: 'show' },
         label: :label_general
       },
       {
         name: 'display',
-        partial: 'settings/display',
-        path: general_settings_path(tab: :display),
+        action: { controller: '/settings/display', action: 'show' },
         label: :label_display
       },
       {
         name: 'projects',
-        partial: 'settings/projects',
-        path: general_settings_path(tab: :projects),
+        action: { controller: '/settings/projects', action: 'show' },
         label: :label_project_plural
       },
       {
         name: 'repositories',
-        partial: 'settings/repositories',
-        path: general_settings_path(tab: :repositories),
+        action: { controller: '/settings/repositories', action: 'show' },
         label: :label_repository_plural
       }
     ]
   end
+
+  def general_settings_path(opts = {})
+    if opts[:tab]
+      url_for controller: "settings/#{opts[:tab]}", action: 'show', only_path: true
+    else
+      url_for controller: "settings/general", action: 'show', only_path: true
+    end
+  end
+
 
   def setting_select(setting, choices, options = {})
     if blank_text = options.delete(:blank)
