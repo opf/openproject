@@ -27,7 +27,6 @@
 // ++
 
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
-import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
@@ -49,7 +48,6 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
               readonly cdRef:ChangeDetectorRef,
               readonly pathHelper:PathHelperService,
               readonly apiV3Service:APIV3Service,
-              readonly versionDm:VersionDmService,
               readonly halNotification:HalResourceNotificationService) {
     super(I18n, cdRef, currentProject, pathHelper);
   }
@@ -75,20 +73,26 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       return Promise.resolve(false);
     }
 
-    return this.versionDm
-      .canCreateVersionInProject(this.currentProject.id!)
+    return this
+      .apiV3Service
+      .versions
+      .available_projects
+      .exists(this.currentProject.id!)
+      .toPromise()
       .catch(() => false);
   }
 
   protected createNewVersion(name:string) {
-    this.versionDm.createVersion(this.getVersionPayload(name))
-      .then((version) => {
-        this.onCreate.emit(version);
-      })
-      .catch(error => {
-        this.closeSelect();
-        this.halNotification.handleRawError(error);
-      });
+    this
+      .apiV3Service
+      .versions
+      .post(this.getVersionPayload(name))
+      .subscribe(
+        version => this.onCreate.emit(version),
+        error => {
+          this.closeSelect();
+          this.halNotification.handleRawError(error);
+        });
   }
 
   private getVersionPayload(name:string) {

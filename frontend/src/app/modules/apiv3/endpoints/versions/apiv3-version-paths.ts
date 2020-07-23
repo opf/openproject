@@ -25,30 +25,34 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
-import {MultiInputState} from "reactivestates";
-import {Injectable} from '@angular/core';
-import {StateCacheService} from 'core-components/states/state-cache.service';
-import {States} from 'core-components/states.service';
+
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
+import {Observable} from "rxjs";
+import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import {MultiInputState} from "reactivestates";
+import {tap} from "rxjs/operators";
 
-@Injectable({ providedIn: 'root' })
-export class VersionCacheService extends StateCacheService<VersionResource>  {
+export class APIv3VersionPaths extends CachableAPIV3Resource<VersionResource> {
 
-  constructor(readonly states:States,
-              readonly versionDm:VersionDmService) {
-    super();
+  /**
+   * Update a version resource with the given payload
+   *
+   * @param resource
+   * @param payload
+   */
+  public patch(payload:Object):Observable<VersionResource> {
+    return this
+      .halResourceService
+      .patch<VersionResource>(
+        this.path,
+        payload
+      )
+      .pipe(
+        tap(version => this.touch(version))
+      );
   }
 
-  protected load(id:number|string):Promise<VersionResource> {
-    return this.versionDm.one(id);
-  }
-
-  protected loadAll(ids:string[]):Promise<unknown> {
-    return this.versionDm.list();
-  }
-
-  protected get multiState():MultiInputState<VersionResource> {
+  protected cacheState():MultiInputState<VersionResource> {
     return this.states.versions;
   }
 }

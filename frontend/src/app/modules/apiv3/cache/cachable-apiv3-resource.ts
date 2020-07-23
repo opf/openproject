@@ -69,6 +69,15 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
   }
 
   /**
+   * touch the cache for the given resource
+   */
+  protected touch(resource:T):void {
+    this
+      .cache
+      .updateFor(resource);
+  }
+
+  /**
    * Returns the cache state to be used for the cached resource
    */
   protected abstract cacheState():MultiInputState<T>;

@@ -56,9 +56,16 @@ export class APIv3ResourceCollection<V extends HalResource, T extends APIv3Getta
   /**
    * Returns an instance of T for the given singular resource ID.
    *
-   * @param id
+   * @param id Identifier of the resource, may be a string or number, or a HalResource with id property.
    */
-  public id(id:string|number):T {
+  public id(input:string|number|HalResource):T {
+    let id:string;
+    if (input instanceof HalResource) {
+      id = input.id!;
+    } else {
+      id = input.toString();
+    }
+
     return new (this.resource || APIv3GettableResource)(this.apiRoot, this.path, id, this) as T;
   }
 

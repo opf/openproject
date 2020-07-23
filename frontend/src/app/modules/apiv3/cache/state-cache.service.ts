@@ -107,6 +107,20 @@ export class StateCacheService<T extends HalResource = HalResource> {
   }
 
   /**
+   * Update the value due to application changes.
+   *
+   * @param id The value's identifier.
+   * @param val<T> The value.
+   */
+  public updateFor(resource:T) {
+    this
+      .multiState
+      .get(resource.id!)
+      .putValue(resource);
+  }
+
+
+  /**
    * Observe the value of the given id
    */
   public observe(id:string):Observable<T> {
