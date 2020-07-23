@@ -26,12 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
+import {MultiInputState} from "reactivestates";
+import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
 
-export class ApiV3UserPaths extends APIv3ResourcePath<UserResource> {
+export class APIv3UserPaths extends CachableAPIV3Resource<UserResource> {
 
-  // /api/v3/users/(:userId)/avatar
-  public readonly avatar = new APIv3ResourcePath(this.injector, this.path, 'avatar');
+  readonly avatar = this.subResource('avatar');
 
+  protected cacheState():MultiInputState<UserResource> {
+    return this.states.users;
+  }
 }

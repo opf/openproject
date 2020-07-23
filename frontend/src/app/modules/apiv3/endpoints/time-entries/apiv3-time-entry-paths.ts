@@ -29,8 +29,20 @@
 import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import {TimeEntryCacheService} from "core-app/modules/apiv3/endpoints/time-entries/time-entry-cache.service";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {MultiInputState} from "reactivestates";
 
-export class Apiv3TimeEntryPaths extends APIv3ResourcePath<TimeEntryResource> {
+export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource> {
   // Static paths
   readonly form = new APIv3ResourcePath<FormResource>(this.injector, this.path, 'form');
+
+  protected cacheState():MultiInputState<TimeEntryResource> {
+    return this.states.timeEntries;
+  }
+
+  protected createCache():StateCacheService<TimeEntryResource> {
+    return new TimeEntryCacheService(this.injector, this.cacheStateParameters());
+  }
 }

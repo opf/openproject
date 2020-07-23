@@ -25,31 +25,14 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
+
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {MultiInputState} from "reactivestates";
-import {Injectable} from '@angular/core';
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {StateCacheService} from 'core-components/states/state-cache.service';
-import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
-import {States} from 'core-components/states.service';
+import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
 
-@Injectable({ providedIn: 'root' })
-export class UserCacheService extends StateCacheService<UserResource>  {
+export class APIv3StatusPaths extends CachableAPIV3Resource<StatusResource> {
 
-  constructor(readonly states:States,
-              readonly userDmService:UserDmService) {
-    super();
-  }
-
-  protected load(id:number|string):Promise<UserResource> {
-    return this.userDmService.load(id);
-  }
-
-  protected loadAll(ids:string[]):Promise<undefined> {
-    const promises = ids.map(id => this.load(id));
-    return Promise.all(promises).then(() => undefined);
-  }
-
-  protected get multiState():MultiInputState<UserResource> {
-    return this.states.users;
+  protected cacheState():MultiInputState<StatusResource> {
+    return this.states.statuses;
   }
 }

@@ -35,7 +35,6 @@ import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeWhile} from 'rxjs/operators';
-import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
@@ -82,8 +81,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
               protected readonly wpCacheService:WorkPackageCacheService,
               protected readonly pathHelper:PathHelperService,
               protected readonly apiV3Service:APIV3Service,
-              protected readonly cdRef:ChangeDetectorRef,
-              protected readonly RootDm:RootDmService) {
+              protected readonly cdRef:ChangeDetectorRef) {
     super();
   }
 

@@ -49,7 +49,7 @@ export class SimpleResourceCollection<T = SimpleResource> {
 export class SimpleResource {
   public readonly path:string;
 
-  constructor(protected basePath:string, readonly segment:string|number) {
+  constructor(readonly basePath:string, readonly segment:string|number) {
     this.path = `${this.basePath}/${segment}`;
   }
 

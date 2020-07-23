@@ -31,7 +31,6 @@ import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module'
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Injector} from '@angular/core';
 import {States} from 'core-components/states.service';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
@@ -74,7 +73,6 @@ describe('WorkPackage', () => {
       providers: [
         HalResourceService,
         States,
-        TypeDmService,
         WorkPackageCacheService,
         TimezoneService,
         WorkPackagesActivityService,

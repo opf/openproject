@@ -5,7 +5,6 @@ import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TimezoneService } from 'core-app/components/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { States } from 'core-app/components/states.service';
-import { UserDmService } from 'core-app/modules/hal/dm-services/user-dm.service';
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { HttpClientModule } from "@angular/common/http";
 import { By } from '@angular/platform-browser';
@@ -51,7 +50,6 @@ describe('shows news', () => {
         TimezoneService,
         { provide: ConfigurationService, useValue: configurationServiceStub },
         States,
-        UserDmService,
         { provide: NewsDmService, useValue: newsDmServiceStub },
         HalResourceService,
       ],

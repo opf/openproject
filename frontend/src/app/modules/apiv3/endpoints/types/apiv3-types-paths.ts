@@ -29,10 +29,11 @@
 import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Injector} from "@angular/core";
 import {TypeResource} from "core-app/modules/hal/resources/type-resource";
+import {APIv3TypePaths} from "core-app/modules/apiv3/endpoints/types/apiv3-type-paths";
 
 export class APIv3TypesPaths extends APIv3ResourceCollection<TypeResource, APIv3ResourcePath<TypeResource>> {
   constructor(readonly injector:Injector,
               protected basePath:string) {
-    super(injector, basePath, 'types');
+    super(injector, basePath, 'types', APIv3TypePaths);
   }
 }

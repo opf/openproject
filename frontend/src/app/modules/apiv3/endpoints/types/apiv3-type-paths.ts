@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2020 the OpenProject GmbH
 //
@@ -24,36 +24,16 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Injectable} from '@angular/core';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {MultiInputState} from "reactivestates";
+import {TypeResource} from "core-app/modules/hal/resources/type-resource";
+import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
 
-@Injectable()
-export class StatusDmService {
-  constructor(protected halResourceService:HalResourceService,
-              protected apiV3Service:APIV3Service,
-              protected pathHelper:PathHelperService) {
-  }
+export class APIv3TypePaths extends CachableAPIV3Resource<TypeResource> {
 
-  public one(id:string|number):Promise<StatusResource> {
-    return this
-      .apiV3Service
-      .statuses
-      .id(id)
-      .get()
-      .toPromise();
-  }
-
-  public list():Promise<CollectionResource<StatusResource>> {
-    return this
-      .apiV3Service
-      .statuses
-      .get()
-      .toPromise();
+  protected cacheState():MultiInputState<TypeResource> {
+    return this.states.types;
   }
 }

@@ -36,16 +36,12 @@ import {PayloadDmService} from 'core-app/modules/hal/dm-services/payload-dm.serv
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
-import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
-import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
 import {NewsDmService} from './dm-services/news-dm.service';
-import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
 import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
@@ -72,11 +68,7 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
     QueryOrderDmService,
     QueryFormDmService,
     RelationsDmService,
-    RootDmService,
     TimeEntryDmService,
-    TypeDmService,
-    UserDmService,
-    StatusDmService,
     VersionDmService,
     HalResourceNotificationService
   ]

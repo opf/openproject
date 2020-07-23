@@ -27,14 +27,14 @@
 // ++
 
 import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {ApiV3UserPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-user-paths";
+import {APIv3UserPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-user-paths";
 import {Injector} from "@angular/core";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, ApiV3UserPaths> {
+export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
   constructor(readonly injector:Injector,
               protected basePath:string) {
-    super(injector, basePath, 'users', ApiV3UserPaths);
+    super(injector, basePath, 'users', APIv3UserPaths);
   }
 
   // Static paths

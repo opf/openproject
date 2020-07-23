@@ -42,7 +42,7 @@ import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_pack
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {APIv3ProjectPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
 import {RootResource} from "core-app/modules/hal/resources/root-resource";
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {APIv3StatusesPaths} from "core-app/modules/apiv3/endpoints/statuses/apiv3-statuses-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -65,7 +65,7 @@ export class APIV3Service {
   public readonly root = this.apiV3SingularEndpoint<RootResource>('root');
 
   // /api/v3/statuses
-  public readonly statuses = this.apiV3CollectionEndpoint<StatusResource, APIv3ResourcePath<StatusResource>>('statuses');
+  public readonly statuses = this.apiV3CustomEndpoint(APIv3StatusesPaths);
 
   // /api/v3/relations
   public readonly relations = this.apiV3CollectionEndpoint('relations');

@@ -42,12 +42,12 @@ import {
   Input,
   OnInit
 } from "@angular/core";
-import {UserCacheService} from "core-components/user/user-cache.service";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'user-activity',
@@ -91,7 +91,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
               readonly commentService:CommentService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly ConfigurationService:ConfigurationService,
-              readonly userCacheService:UserCacheService,
+              readonly apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
     super(elementRef, injector);
@@ -116,9 +116,12 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
       this.details.push(detail.html);
     });
 
-    this.userCacheService
-      .require(this.activity.user.idFromLink)
-      .then((user:UserResource) => {
+    this
+      .apiV3Service
+      .users
+      .id(this.activity.author.idFromLink)
+      .get()
+      .subscribe((user:UserResource) => {
         this.user = user;
         this.userId = user.id!;
         this.userName = user.name;

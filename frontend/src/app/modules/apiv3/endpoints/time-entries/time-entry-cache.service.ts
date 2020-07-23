@@ -1,6 +1,6 @@
-//-- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// -- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,27 +23,28 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
-//++
+// See doc/COPYRIGHT.rdoc for more details.
+// ++
 
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Injectable} from '@angular/core';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {StateCacheParameters, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {States} from "core-components/states.service";
+import {Injector} from "@angular/core";
 
-@Injectable()
-export class UserDmService {
-  constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService,
-              protected apiV3Service:APIV3Service) {
+export class TimeEntryCacheService extends StateCacheService<TimeEntryResource> {
+  @InjectField() readonly states:States;
+  @InjectField() readonly schemaCache:SchemaCacheService;
+
+  constructor(readonly injector:Injector,
+              args:StateCacheParameters<TimeEntryResource>) {
+    super(args);
   }
 
-  public load(id:number|string):Promise<UserResource> {
-    return this
-      .apiV3Service
-      .users.id(id)
-      .get()
-      .toPromise();
+  updateValue(id:string, val:TimeEntryResource) {
+    this.schemaCache.ensureLoaded(val).then(() => {
+      super.updateValue(id, val);
+    });
   }
 }

@@ -25,30 +25,35 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
-import {MultiInputState} from "reactivestates";
-import {Injectable} from '@angular/core';
-import {StateCacheService} from 'core-components/states/state-cache.service';
-import {States} from 'core-components/states.service';
-import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
+
+import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {Injector} from "@angular/core";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {APIv3StatusPaths} from "core-app/modules/apiv3/endpoints/statuses/apiv3-status-paths";
+import {Observable} from "rxjs";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {tap} from "rxjs/operators";
 
-@Injectable({ providedIn: 'root' })
-export class StatusCacheService extends StateCacheService<StatusResource>  {
-
-  constructor(readonly states:States,
-              readonly statusDm:StatusDmService) {
-    super();
+export class APIv3StatusesPaths extends APIv3ResourceCollection<StatusResource, APIv3StatusPaths> {
+  constructor(readonly injector:Injector,
+              protected basePath:string) {
+    super(injector, basePath, 'statuses', APIv3StatusPaths);
   }
 
-  protected load(id:number|string):Promise<StatusResource> {
-    return this.statusDm.one(id);
+  /**
+   * Perform a request to the HalResourceService with the current path
+   */
+  public get():Observable<CollectionResource<StatusResource>> {
+    return this
+      .halResourceService
+      .get<CollectionResource<StatusResource>>(this.path)
+      .pipe(
+        tap(collection => {
+          collection.elements.forEach((resource, id) => {
+            this.id(resource.id!).cache.updateValue(resource.id!, resource);
+          });
+        })
+      );
   }
 
-  protected loadAll(ids:string[]):Promise<unknown> {
-    return this.statusDm.list();
-  }
-
-  protected get multiState():MultiInputState<StatusResource> {
-    return this.states.statuses;
-  }
 }

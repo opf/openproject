@@ -26,23 +26,31 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
 import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
 import {APIv3VersionPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-version-paths";
 import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import {MultiInputState} from "reactivestates";
 
-export class APIv3ProjectPaths extends APIv3ResourcePath<ProjectResource> {
-
+export class APIv3ProjectPaths extends CachableAPIV3Resource<ProjectResource> {
   // /api/v3/projects/:project_id/available_assignees
   public readonly available_assignees = this.subResource('available_assignees');
 
+  // /api/v3/projects/:project_id/queries
   public readonly queries = new APIv3QueriesPaths(this.injector, this.path);
 
+  // /api/v3/projects/:project_id/types
   public readonly types = new APIv3TypesPaths(this.injector, this.path);
 
+  // /api/v3/projects/:project_id/work_packages
   public readonly work_packages = new APIV3WorkPackagesPaths(this.injector, this.path);
 
+  // /api/v3/projects/:project_id/versions
   public readonly versions = new APIv3VersionPaths(this.injector, this.path);
+
+  protected cacheState():MultiInputState<ProjectResource> {
+    return this.states.projects;
+  }
 }
