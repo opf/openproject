@@ -78,6 +78,7 @@ zh-TW:
     is_active: 當前已顯示
     is_inactive: 當前未顯示
   attribute_help_texts:
+    note_public: '登入使用者將看到本欄位所有文字和圖片'
     text_overview: '在此頁面，你可以替屬性頁面建立自訂說明文字。當建立完成後，這些文字在點擊相關屬性旁的求助圖示時顯示。'
     label_plural: '屬性說明文字'
     show_preview: '預覽文字'
@@ -87,6 +88,10 @@ zh-TW:
     index:
       no_results_content_title: 目前沒有身份驗證模式
       no_results_content_text: 建立新身分驗證模式
+  background_jobs:
+    status:
+      error_requeue: "作業出現錯誤但重試中.錯誤訊息%{message}"
+      cancelled_due_to: "作業因錯誤取消: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -278,6 +283,7 @@ zh-TW:
     overview:
       no_results_title_text: 目前沒有工作包分配給此版本。
   wiki:
+    page_not_editable_index: 本頁不存在,重新導至wiki目錄頁。
     no_results_title_text: 目前沒有 wiki 頁面
     index:
       no_results_content_text: 新增一個 wiki 頁面
@@ -413,6 +419,7 @@ zh-TW:
         types: "類型"
         versions: "版本"
         work_packages: "工作項目"
+        templated: '範本專案'
       projects/status:
         code: '狀態'
         explanation: '狀態描述'
@@ -484,6 +491,7 @@ zh-TW:
         parent_work_package: "上層目錄："
         priority: "優先等級"
         progress: "進度 (%)"
+        schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
         subproject: "子專案"
@@ -878,6 +886,7 @@ zh-TW:
       - "十月"
       - "十一月"
       - "十二月"
+    abbr_week: '週'
     day_names:
       - "星期天"
       - "星期一"
@@ -1101,6 +1110,8 @@ zh-TW:
     work_package_edit: '工作項目已編輯'
     work_package_note: '工作項目註記已新增'
   export:
+    your_work_packages_export: "輸出工作列表"
+    succeeded: "輸出完成"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1608,6 +1619,7 @@ zh-TW:
   label_time_entry_plural: "耗時"
   label_time_sheet_menu: "時間表"
   label_time_tracking: "時間追蹤"
+  label_projects_menu: "專案"
   label_today: "今天"
   label_top_menu: "頂層選單"
   label_topic_plural: "主題"
@@ -1733,7 +1745,16 @@ zh-TW:
   mail_body_account_information: "您的帳號資訊"
   mail_body_account_information_external: "您可以使用您的帳號 %{value} 登錄。"
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
-  mail_body_register: "點擊底下的連結來啟用您的帳號:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} 個指派給您的工作項目將在 %{days} 天後到期"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "Wiki 頁面 '%{id}' 已經被 %{author} 增加"
@@ -1922,6 +1943,12 @@ zh-TW:
       warning_one: 這個專案的成員將必須搬移專案的版本庫
       warning_two: 專案現有的連結將不再有效
       title: 修改專案的識別
+    template:
+      copying: >
+        依照專案範本創立專案中.完成後會以電郵通知。
+      use_template: '使用範本'
+      make_template: '設為範本'
+      remove_from_templates: '從範本中移除'
     archive:
       are_you_sure: "是否確定要 archive 專案 '%{name}'？"
       archived: "封存"

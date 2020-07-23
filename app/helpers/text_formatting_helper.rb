@@ -31,7 +31,6 @@
 module TextFormattingHelper
   extend Forwardable
   def_delegators :current_formatting_helper,
-                 :text_formatting_js_includes,
                  :wikitoolbar_for
 
   def preview_context(object, project = nil)

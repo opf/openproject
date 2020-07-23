@@ -78,6 +78,7 @@ lt:
     is_active: šiuo metu rodoma
     is_inactive: šiuo metu nerodoma
   attribute_help_texts:
+    note_public: 'Bet koks tekstas ir piešinukai, kuriuos jūs pridedate prie šio lauko, yra viešai matomas visiems prisijungusiems vartotojams!'
     text_overview: 'Šioje peržiūroje Jūs galite kurti pritaikytus pagalbos tekstus atributams. Kai nustatyti, šie tekstai gali būti rodomi paspaudžiant pagalbos piktogramą šalia atitinkamo atributo.'
     label_plural: 'Atributų pagalbos tekstai'
     show_preview: 'Peržiūrėti tekstą'
@@ -87,6 +88,10 @@ lt:
     index:
       no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
       no_results_content_text: Sukurti naują autentifikacijos būdą
+  background_jobs:
+    status:
+      error_requeue: "Vykdant užduotį buvo rasta klaida, tačiau bandoma dar kartą. Klaida buvo: %{message}"
+      cancelled_due_to: "Užduotis buvo nutraukta dėl klaidos: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.
@@ -273,6 +278,7 @@ lt:
     overview:
       no_results_title_text: Šiuo metu nėra šiai versijai priskirtų darbų paketų.
   wiki:
+    page_not_editable_index: Prašomas puslapis (dar) neegzistuoja. Vietoje to jus nukreipėme į visų wiki puslapių sąrašą.
     no_results_title_text: Nėra wiki puslapių.
     index:
       no_results_content_text: Pridėti naują wiki puslapį
@@ -411,6 +417,7 @@ lt:
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
+        templated: 'Šabloninis projektas'
       projects/status:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
@@ -482,6 +489,7 @@ lt:
         parent_work_package: "Tėvas"
         priority: "Pirmenybė"
         progress: "Progresas (%)"
+        schedule_manually: "Paskirti laiką rankiniu būdu"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
         subproject: "Sub-projektas"
@@ -885,6 +893,7 @@ lt:
       - "Spa"
       - "Lap"
       - "Gruo"
+    abbr_week: 'Sav'
     day_names:
       - "Sekmadienis"
       - "Pirmadienis"
@@ -1144,6 +1153,8 @@ lt:
     work_package_edit: 'Darbų paketas redaguotas'
     work_package_note: 'Darbų paketo pastaba pridėta'
   export:
+    your_work_packages_export: "Jūsų darbo užduočių eksportas"
+    succeeded: "Eksportas baigtas sėkmingai."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1651,6 +1662,7 @@ lt:
   label_time_entry_plural: "Praleista laiko"
   label_time_sheet_menu: "Laiko lentelė"
   label_time_tracking: "Laiko apskaita"
+  label_projects_menu: "Projektai"
   label_today: "šiandien"
   label_top_menu: "Viršutinis meniu"
   label_topic_plural: "Temos"
@@ -1788,7 +1800,16 @@ lt:
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
-  mail_body_register: "Norėdami aktyvuoti paskyrą, spauskite nuorodą:"
+  mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
+  mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
+  mail_body_register_user: "Brangus %{name}, "
+  mail_body_register_links_html: |
+    Galite panaršyti mūsų youtube kanale (%{youtube_link}), kur pateikiame webinarą (%{webinar_link})
+    ir „Pradėkime“ video (%{get_started_link}) tam, kad jūsų pirmieji žingsniai OpenProject būtų kaip įmanoma lengvesni.
+    <br />
+    Jei turėsite papildomų klausimų, peržiūrėkite mūsų dokumentaciją (%{documentation_link}) arba susisiekite su mumis (%{contact_us_link}).
+  mail_body_register_closing: "Jūsų OpenProject komanda"
+  mail_body_register_ending: "Likit prisijungę! Su geriausiais linkėjimais,"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"
   mail_body_group_reminder: "%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:"
   mail_body_wiki_content_added: "%{author} pridėjo '%{id}' wiki puslapį."
@@ -1981,6 +2002,12 @@ lt:
       warning_one: Projekto nariai turės perkelti projekto saugyklas.
       warning_two: Esamos nuorodos į projektą nebeveiks.
       title: Pakeisti projekto identifikatorių
+    template:
+      copying: >
+        Jūsų projektas šiuo metu yra kuriamas pagal šabloninį projektą. Kai tik naujasis projektas bus pasiekiamas, jums pranešime el. pašto žinute.
+      use_template: 'Naudoti šabloną'
+      make_template: 'Nustatyti šablonu'
+      remove_from_templates: 'Pašalinti iš šablonų'
     archive:
       are_you_sure: "Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?"
       archived: "Suarchyvuotas"
@@ -2153,7 +2180,7 @@ lt:
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
-  setting_host_name: "Šeimininko vardas"
+  setting_host_name: "Serverio vardas"
   setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
   setting_work_package_done_ratio: "Skaičiuoti darbų paketo atlikimo santykį su"
   setting_work_package_done_ratio_field: "Naudoti darbų paketo laukelį"

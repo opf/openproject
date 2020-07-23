@@ -36,6 +36,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export class HalResourceNotificationService {
@@ -45,6 +46,7 @@ export class HalResourceNotificationService {
   @InjectField() protected halResourceService:HalResourceService;
   @InjectField() protected NotificationsService:NotificationsService;
   @InjectField() protected loadingIndicator:LoadingIndicatorService;
+  @InjectField() protected schemaCache:SchemaCacheService;
 
   constructor(public injector:Injector) {
   }
@@ -167,8 +169,9 @@ export class HalResourceNotificationService {
 
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
-      let attributeName = resource.schema[errorResource.details.attribute].name;
-      let attributeType = resource.schema[errorResource.details.attribute].type.toLowerCase();
+      let schema = this.schemaCache.of(resource).ofProperty(errorResource.details.attribute);
+      let attributeName = schema.name;
+      let attributeType = schema.type.toLowerCase();
       let i18nString = 'js.hal.error.format.' + attributeType;
 
       if (this.I18n.lookup(i18nString) === undefined) {

@@ -78,6 +78,7 @@ hu:
     is_active: jelenleg látható
     is_inactive: jelenleg nem látható
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Ebben a nézetben egyedi súgószövegeket hozhat létre az attribútumokhoz. Definiálást követően ezek a szövegek jelennek meg az attribútum Súgó ikonjára kattintást követően.'
     label_plural: 'Attribútum-súgószöveg'
     show_preview: 'Előnézet mutatása'
@@ -87,6 +88,10 @@ hu:
     index:
       no_results_content_title: Jelenleg nincs autentikációs mód.
       no_results_content_text: Új autentikációs mód létrehozása
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.
@@ -275,6 +280,7 @@ hu:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Jelenleg nincsenek wiki oldalak.
     index:
       no_results_content_text: Új wiki oldal hozzáadása
@@ -411,6 +417,7 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
+        templated: 'Template project'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -482,6 +489,7 @@ hu:
         parent_work_package: "Szülő"
         priority: "Fontosság"
         progress: "Folyamat állapot (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
         subproject: "Alprojekt"
@@ -879,6 +887,7 @@ hu:
       - "Október"
       - "November"
       - "December"
+    abbr_week: 'Wk'
     day_names:
       - "Vasárnap"
       - "Hétfő"
@@ -1114,6 +1123,8 @@ hu:
     work_package_edit: 'A feladatcsoport szerkesztve'
     work_package_note: 'A feladatcsoport jegyzet hozzáadva'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1621,6 +1632,7 @@ hu:
   label_time_entry_plural: "Eltöltött idő"
   label_time_sheet_menu: "Munkaidő-kimutatás"
   label_time_tracking: "Munkaidő követése"
+  label_projects_menu: "Projektek"
   label_today: "Ma"
   label_top_menu: "Felső menü"
   label_topic_plural: "Témakörök"
@@ -1750,7 +1762,16 @@ hu:
   mail_body_account_information: "A fiókod adatai"
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
-  mail_body_register: "A fiók aktiválásához kattintson az alábbi linkre:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"
   mail_body_group_reminder: "A \"%{group}\" csoporthoz rendelt %{count} feladat határidős az elkövetkező %{days} napban:"
   mail_body_wiki_content_added: "A '%{id}' wiki oldal hozzáadva %{author} által."
@@ -1940,6 +1961,12 @@ hu:
       warning_one: A projekt tagjai áthelyezik a projekt tárolóit.
       warning_two: A projekthez tartozó hivatkozások már nem működnek.
       title: Módosítsa a projekt azonosítóját
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
       archived: "Archiválva"

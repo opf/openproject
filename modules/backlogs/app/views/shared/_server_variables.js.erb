@@ -27,6 +27,11 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+if (window.RB === null || window.RB === undefined) {
+  window.RB = {};
+}
+
+
 RB.constants = {
   project_id: <%= @project.id %>,
   sprint_id: <%= @sprint ? @sprint.id : "null" %>

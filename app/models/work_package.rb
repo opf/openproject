@@ -39,6 +39,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::TypedDagDefaults
   include WorkPackage::CustomActioned
   include WorkPackage::Hooks
+  include ::Scopes::Scoped
 
   include OpenProject::Journal::AttachmentHelper
 
@@ -112,6 +113,8 @@ class WorkPackage < ApplicationRecord
   scope :with_author, ->(author) {
     where(author_id: author.id)
   }
+
+  scope_classes WorkPackages::Scopes::ForScheduling
 
   acts_as_watchable
 
@@ -576,26 +579,6 @@ class WorkPackage < ApplicationRecord
                         .select(:to_id)
                         .where(from_id: work_package.id)
     "#{table_name}.id IN (#{relation_subquery.to_sql}) OR #{table_name}.id = #{work_package.id}"
-  end
-
-  def self.hierarchy_tree_following(work_packages)
-    following = Relation
-                .where(to: work_packages)
-                .hierarchy_or_follows
-
-    following_from_hierarchy = Relation
-                               .hierarchy
-                               .where(from_id: following.select(:from_id))
-                               .select("to_id common_id")
-
-    following_from_self = following.select("from_id common_id")
-
-    # Using a union here for performance.
-    # Using or would yield the same results and be less complicated
-    # but it will require two orders of magnitude more time.
-    sub_query = [following_from_hierarchy, following_from_self].map(&:to_sql).join(" UNION ")
-
-    where("id IN (SELECT common_id FROM (#{sub_query}) following_relations)")
   end
 
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields

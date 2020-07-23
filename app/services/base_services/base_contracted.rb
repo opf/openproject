@@ -29,7 +29,7 @@
 #++
 
 module BaseServices
-  class BaseContracted
+  class BaseContracted < BaseCallable
     include Contracted
     include Shared::ServiceContext
 
@@ -41,23 +41,31 @@ module BaseServices
       self.contract_options = contract_options
     end
 
-    def call(params = nil)
-      in_context(model, true) do
-        perform(params)
-      end
+    protected
+
+    ##
+    # Reference to a resource that we're servicing
+    attr_accessor :model
+
+    ##
+    # Determine the type of context
+    # this service is running in
+    # e.g., within a resource lock or just executing as the given user
+    def service_context(&block)
+      in_context(model, true, &block)
     end
 
-    private
+    def perform(params = nil)
+      service_context do
+        service_call = before_perform(params)
 
-    def perform(params)
-      service_call = before_perform(params)
+        service_call = validate_contract(service_call) if service_call.success?
+        service_call = after_validate(params, service_call) if service_call.success?
+        service_call = persist(service_call) if service_call.success?
+        service_call = after_perform(service_call) if service_call.success?
 
-      service_call = validate_contract(service_call) if service_call.success?
-      service_call = after_validate(params, service_call) if service_call.success?
-      service_call = persist(service_call) if service_call.success?
-      service_call = after_perform(service_call) if service_call.success?
-
-      service_call
+        service_call
+      end
     end
 
     def before_perform(_params)

@@ -78,6 +78,7 @@
     is_active: vises nå
     is_inactive: vises ikke
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -87,6 +88,10 @@
     index:
       no_results_content_title: Det er ingen autentiseringsmoduser for øyeblikket.
       no_results_content_text: Opprette en ny autentiseringsmodus
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Dette LDAP-skjemaet krever teknisk kunnskap om ditt LDAP / Aktiv Katalog oppsett.
@@ -278,6 +283,7 @@
     overview:
       no_results_title_text: There are currently no work packages assigned to this version.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
     index:
       no_results_content_text: Add a new wiki page
@@ -414,6 +420,7 @@
         types: "Typer"
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivelse'
@@ -485,6 +492,7 @@
         parent_work_package: "Overordnet"
         priority: "Prioritet"
         progress: "Fremgang (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tid brukt"
         spent_time: "Tid brukt"
         subproject: "Underprosjekt"
@@ -882,6 +890,7 @@
       - "Okt"
       - "Nov"
       - "Des"
+    abbr_week: 'Wk'
     day_names:
       - "Søndag"
       - "Mandag"
@@ -1117,6 +1126,8 @@
     work_package_edit: 'Arbeidspakke redigert'
     work_package_note: 'Notat lagt til arbeidspakke'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1624,6 +1635,7 @@
   label_time_entry_plural: "Tid brukt"
   label_time_sheet_menu: "Timeliste"
   label_time_tracking: "Tidsstyring"
+  label_projects_menu: "Prosjekter"
   label_today: "i dag"
   label_top_menu: "Toppmeny"
   label_topic_plural: "Emner"
@@ -1753,7 +1765,16 @@
   mail_body_account_information: "Din kontoinformasjon"
   mail_body_account_information_external: "Du kan bruke din %{value}-konto for innlogging."
   mail_body_lost_password: "Trykk på følgende lenke for å endre passordet ditt:"
-  mail_body_register: "Trykk på følgende lenke for å aktivere kontoen din:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} arbeidspakke(r) som er tildelt deg forfaller de neste %{days} dager:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "Wiki-siden '%{id}' er opprettet av %{author}."
@@ -1944,6 +1965,12 @@
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"

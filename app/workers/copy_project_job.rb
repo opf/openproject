@@ -112,21 +112,18 @@ class CopyProjectJob < ApplicationJob
   end
 
   def source_project
-    @project ||= Project.find source_project_id
+    @source_project ||= Project.find source_project_id
   end
 
   def create_project_copy
     errors = []
 
     ProjectMailer.with_deliveries(send_mails) do
-      service_call = copy_project_attributes
+      service_call = copy_project
       target_project = service_call.result
+      errors = service_call.errors.full_messages
 
-      if service_call.success? && target_project.save
-        errors = copy_project_associations(target_project)
-      else
-        service_call.errors.merge!(target_project.errors, nil)
-        errors = service_call.errors.full_messages
+      unless service_call.success? && target_project.save
         target_project = nil
         logger.error("Copying project fails with validation errors: #{errors.join("\n")}")
       end
@@ -145,61 +142,21 @@ class CopyProjectJob < ApplicationJob
     end
   end
 
+  def copy_project
+    ::Projects::CopyService
+      .new(source: source_project, user: user)
+      .call(copy_project_params)
+  end
+
+  def copy_project_params
+    params = { target_project_params: target_project_params }
+    params[:only] = associations_to_copy if associations_to_copy.present?
+
+    params
+  end
+
   def logger
     Rails.logger
-  end
-
-  def copy_project_attributes
-    target_project = Project.copy_attributes(source_project)
-
-    cleanup_target_project_attributes(target_project)
-    cleanup_target_project_params
-
-    Projects::SetAttributesService
-      .new(user: user,
-           model: target_project,
-           contract_class: Projects::CopyContract,
-           contract_options: { copied_from: source_project })
-      .call(target_project_params)
-  end
-
-  def cleanup_target_project_params
-    if (parent_id = target_project_params["parent_id"]) && (parent = Project.find_by(id: parent_id))
-      target_project_params.delete("parent_id") unless user.allowed_to?(:add_subprojects, parent)
-    end
-  end
-
-  def cleanup_target_project_attributes(target_project)
-    if target_project.parent
-      target_project.parent = nil unless user.allowed_to?(:add_subprojects, target_project.parent)
-    end
-  end
-
-  def copy_project_associations(target_project)
-    target_project.copy_associations(source_project, only: associations_to_copy)
-    errors = []
-
-    # Project was created
-    # But some objects might not have been copied due to validation failures
-    error_objects = project_errors(target_project)
-    error_objects.each do |error_object|
-      error_prefix = error_prefix_for(error_object)
-
-      error_object.full_messages.flatten.each do |error|
-        errors << error_prefix + error
-      end
-    end
-
-    errors
-  end
-
-  def project_errors(project)
-    (project.compiled_errors.flatten + [project.errors]).flatten
-  end
-
-  def error_prefix_for(error_object)
-    base = error_object.instance_variable_get(:@base)
-    base.is_a?(Project) ? '' : "#{base.class.model_name.human} '#{base}': "
   end
 
   def url_helpers

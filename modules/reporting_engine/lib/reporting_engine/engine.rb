@@ -34,10 +34,6 @@ module ReportingEngine
 
     config.eager_load_paths += Dir["#{config.root}/lib/"]
 
-    initializer 'reportingengine.precompile_assets' do
-      Rails.application.config.assets.precompile += %w(reporting_engine.js)
-    end
-
     config.to_prepare do
       require 'reporting_engine/patches'
       require 'reporting_engine/patches/big_decimal_patch'

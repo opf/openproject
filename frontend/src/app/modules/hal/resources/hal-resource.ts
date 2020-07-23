@@ -158,19 +158,6 @@ export class HalResource {
   }
 
   /**
-   * Return whether the resource is editable with the user's permission
-   * on the given resource package attribute.
-   * In order to be editable, there needs to be an update link on the resource and the schema for
-   * the attribute needs to indicate the writability.
-   *
-   * @param property
-   */
-  public isAttributeEditable(property:string):boolean {
-    const fieldSchema = this.schema[property];
-    return this.$links.update && fieldSchema && fieldSchema.writable;
-  }
-
-  /**
    * Retain the internal tracking identifier from the given other work package.
    * This is due to us needing to identify a work package beyond its actual ID,
    * because that changes upon saving.

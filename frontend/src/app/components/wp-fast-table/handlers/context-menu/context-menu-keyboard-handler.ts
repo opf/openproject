@@ -2,12 +2,12 @@ import {Injector} from '@angular/core';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ContextMenuHandler} from './context-menu-handler';
+import {TableEventComponent} from "core-components/wp-fast-table/handlers/table-handler-registry";
 
 export class ContextMenuKeyboardHandler extends ContextMenuHandler {
 
-  constructor(public readonly injector:Injector,
-              table:WorkPackageTable) {
-    super(injector, table);
+  constructor(public readonly injector:Injector) {
+    super(injector);
   }
 
   public get EVENT() {
@@ -18,8 +18,8 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     return this.rowSelector;
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
-    if (!table.configuration.contextMenuEnabled) {
+  public handleEvent(component:TableEventComponent, evt:JQuery.TriggeredEvent):boolean {
+    if (!component.workPackageTable.configuration.contextMenuEnabled) {
       return false;
     }
 
@@ -39,7 +39,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     // Set position args to open at element
     let position = { my: 'left top', at: 'left bottom', of: target };
 
-    super.openContextMenu(evt, wpId, position);
+    super.openContextMenu(component.workPackageTable, evt, wpId, position);
 
     return false;
   }

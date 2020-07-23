@@ -41,5 +41,6 @@ export class Apiv3TimeEntriesPaths extends SimpleResourceCollection {
     return new Apiv3TimeEntryPaths(this.path, timeEntryId);
   }
 
+  // Static paths
   public readonly form = new SimpleResource(this.path, 'form');
 }

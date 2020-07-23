@@ -398,7 +398,7 @@ nl:
     label_sum_for: "Som voor"
     label_subject: "Onderwerp"
     label_this_week: "deze week"
-    label_today: "vandaag"
+    label_today: "Today"
     label_time_entry_plural: "Bestede tijd"
     label_up: "Omhoog"
     label_user_plural: "Gebruikers"
@@ -584,6 +584,9 @@ nl:
       select_branch: 'Selecteer pad'
     field_value_enter_prompt: "Breng een waarde in voor veld '%{field}'"
     project_menu_details: "Details"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '
@@ -794,6 +797,9 @@ nl:
           not_found: "Deze weergave bestaat niet"
           duplicate_query_title: "Naam van deze weergave bestaat al. Toch wijzigen?"
         text_no_results: "Geen overeenkomende weergaven werden gevonden."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Configureer werkpakkettabel'
         summary: "Tabel met rijen van werkpakket en kolommen werk pakket kenmerken."

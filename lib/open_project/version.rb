@@ -32,9 +32,9 @@ require 'open3'
 
 module OpenProject
   module VERSION #:nodoc:
-    MAJOR = 10
-    MINOR = 6
-    PATCH = 5
+    MAJOR = 11
+    MINOR = 0
+    PATCH = 0
     TINY  = PATCH # Redmine compat
 
     class << self

@@ -34,6 +34,7 @@ describe 'Attribute help texts' do
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
   let(:editor) { Components::WysiwygEditor.new }
+  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
 
   let(:relation_columns_allowed) { true }
 
@@ -57,13 +58,31 @@ describe 'Attribute help texts' do
         # -> create
         select 'Status', from: 'attribute_help_text_attribute_name'
         editor.set_markdown('My attribute help text')
+
+        # Add an image
+        # adding an image
+        editor.drag_attachment image_fixture, 'Image uploaded on creation'
+        expect(page).to have_selector('attachment-list-item', text: 'image.png')
         click_button 'Save'
 
         # Should now show on index for editing
         expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
         expect(instance.attribute_scope).to eq 'WorkPackage'
         expect(instance.attribute_name).to eq 'status'
-        expect(instance.help_text).to eq 'My attribute help text'
+        expect(instance.help_text).to include 'My attribute help text'
+        expect(instance.help_text).to match /\/api\/v3\/attachments\/\d+\/content/
+
+        # Open help text modal
+        modal.open!
+        expect(modal.modal_container).to have_text 'My attribute help text'
+        expect(modal.modal_container).to have_selector('img')
+        modal.expect_edit(admin: true)
+
+        # Expect files section to be present
+        expect(modal.modal_container).to have_selector('.form--fieldset-legend', text: 'FILES')
+        expect(modal.modal_container).to have_selector('.work-package--attachments--filename')
+
+        modal.close!
 
         # -> edit
         page.find('.attribute-help-text--entry td a', text: 'Status').click

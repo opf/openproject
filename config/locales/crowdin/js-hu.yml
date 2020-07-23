@@ -397,7 +397,7 @@ hu:
     label_sum_for: "Összeg"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
-    label_today: "Ma"
+    label_today: "Today"
     label_time_entry_plural: "Eltöltött idő"
     label_up: "Fel"
     label_user_plural: "Felhasználók"
@@ -583,6 +583,9 @@ hu:
       select_branch: 'Branch kiválasztása'
     field_value_enter_prompt: "Adja meg az értéket a %{field} mezőhöz"
     project_menu_details: "Részletek"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Növekvő sorrend alkalmazása, '
       sorted_dsc: 'Csökkenő rendezés alkalmazva, '
@@ -793,6 +796,9 @@ hu:
           not_found: "Nincs ilyen nézet"
           duplicate_query_title: "Name of this view already exists. Change anyway?"
         text_no_results: "Nem található egyező nézet"
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Feladatcsoport táblázat beállítása'
         summary: "Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok."

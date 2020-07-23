@@ -41,7 +41,7 @@ export class WorkPackageFormAttributeGroupComponent {
   @Input() public group:GroupDescriptor;
 
   constructor(readonly I18n:I18nService,
-              public wpeditForm:EditFormComponent,
+              public wpEditForm:EditFormComponent,
               protected injector:Injector) {
   }
 
@@ -55,6 +55,14 @@ export class WorkPackageFormAttributeGroupComponent {
    */
   public shouldHideField(descriptor:FieldDescriptor) {
     const field = descriptor.field || descriptor.fields![0];
-    return this.wpeditForm.editMode && !field.writable;
+    return this.wpEditForm.editMode && !field.writable;
+  }
+
+  public fieldName(name:string) {
+    if (name === 'startDate') {
+      return 'combinedDate';
+    } else {
+      return name;
+    }
   }
 }

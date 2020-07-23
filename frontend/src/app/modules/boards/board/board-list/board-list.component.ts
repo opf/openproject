@@ -56,6 +56,7 @@ import {BoardListCrossSelectionService} from "core-app/modules/boards/board/boar
 import {debounceTime, filter, map} from "rxjs/operators";
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {ChangeItem} from "core-app/modules/fields/changeset/changeset";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -133,7 +134,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               readonly state:StateService,
               readonly cdRef:ChangeDetectorRef,
               readonly transitions:TransitionService,
-              readonly boardCache:BoardCacheService,
               readonly boardFilters:BoardFiltersService,
               readonly notifications:NotificationsService,
               readonly querySpace:IsolatedQuerySpace,
@@ -149,6 +149,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               readonly halEditing:HalResourceEditingService,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly wpCacheService:WorkPackageCacheService,
+              readonly schemaCache:SchemaCacheService,
               readonly boardService:BoardService,
               readonly boardActionRegistry:BoardActionsRegistryService,
               readonly causedUpdates:CausedUpdatesService) {
@@ -242,8 +243,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public canMove(workPackage:WorkPackageResource) {
     if (this.board.isAction) {
-      const fieldSchema = workPackage.schema[this.board.actionAttribute!] as IFieldSchema;
-      return this.canDragOutOf && fieldSchema.writable;
+      return this.canDragOutOf && this.schema(workPackage).isAttributeEditable(this.board.actionAttribute!);
     } else {
       return this.canDragOutOf;
     }
@@ -256,10 +256,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   public get canManage() {
     return this.boardService.canManage(this.board);
   }
-
-  //public get canDelete() {
-  //    return this.canManage && !!this.query.delete;
-  //}
 
   public get canRename() {
     return this.canManage &&
@@ -464,5 +460,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       ).subscribe((event) => {
       this.updateQuery(true);
     });
+  }
+
+  openFullViewOnDoubleClick(event:{ workPackageId:string, double:boolean }) {
+    if (event.double) {
+      this.state.go(
+        'work-packages.show',
+        { workPackageId: event.workPackageId }
+      );
+    }
+  }
+  private schema(workPackage:WorkPackageResource) {
+    return this.schemaCache.of(workPackage);
   }
 }

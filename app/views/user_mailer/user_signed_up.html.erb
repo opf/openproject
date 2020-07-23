@@ -26,5 +26,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<p><%= l(:mail_body_register) %><br />
-  <%= link_to @activation_url, @activation_url %></p>
+<h2 class="emailTitle"><%= t(:mail_body_register_header_title) %> </h2>
+<br />
+
+<p><%= t(:mail_body_register_user, name: @user.name) %>
+   <br />
+   <%= t(:mail_body_register) %>
+   <br />
+   <%= link_to @activation_url, @activation_url %>
+</p>
+
+<br />
+<p>
+   <%= t(:mail_body_register_links_html,
+               webinar_link: link_to('Webinar Link', OpenProject::Static::Links.links[:webinar_videos][:href]),
+               youtube_link: link_to('Youtube Link', OpenProject::Configuration.youtube_channel),
+               get_started_link: link_to('Get Started Videos Link', OpenProject::Static::Links.links[:get_started_videos][:href]),
+               documentation_link: link_to('Documentation Link', OpenProject::Static::Links.links[:openproject_docs][:href]),
+               contact_us_link: link_to('Contact us Link', OpenProject::Static::Links.links[:contact_us][:href])
+               )
+   %>
+</p>
+
+<p>
+   <br />
+   <%= t(:mail_body_register_ending) %>
+   <br />
+   <%= t(:mail_body_register_closing) %>
+</p>

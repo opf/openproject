@@ -327,7 +327,8 @@ describe UserMailer, type: :mailer do
 
     mail = UserMailer.user_signed_up(token)
     assert mail.deliver_now
-    assert mail.body.encoded.include?("https://redmine.foo/account/activate?token=#{token.value}")
+    assert mail.body.parts[0].body.include?("https://redmine.foo/account/activate?token=#{token.value}")
+    assert mail.body.parts[1].body.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
   context 'with locale settings',

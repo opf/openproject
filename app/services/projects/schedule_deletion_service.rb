@@ -34,8 +34,6 @@
 #
 module Projects
   class ScheduleDeletionService < ::BaseServices::BaseContracted
-    attr_accessor :model
-
     def initialize(user:, model:, contract_class: ::Projects::DeleteContract)
       super(user: user, contract_class: contract_class)
       self.model = model

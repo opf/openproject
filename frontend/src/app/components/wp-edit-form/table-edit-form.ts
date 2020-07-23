@@ -134,6 +134,20 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       .trigger('focus');
   }
 
+  /**
+   * Load the resource form to get the current field schema with all
+   * values loaded.
+   * @param fieldName
+   */
+  protected loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
+    // We need to handle start/due date cases like they were combined dates
+    if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
+      fieldName = 'combinedDate';
+    }
+
+    return super.loadFieldSchema(fieldName, noWarnings);
+  }
+
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
   private waitForContainer(fieldName:string):Promise<HTMLElement> {
@@ -152,5 +166,4 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   private get rowContainer() {
     return jQuery(this.table.tableAndTimelineContainer).find(`.${this.classIdentifier}-table`);
   }
-
 }

@@ -398,7 +398,7 @@ cs:
     label_sum_for: "Součet pro"
     label_subject: "Předmět"
     label_this_week: "tento týden"
-    label_today: "dnes"
+    label_today: "Today"
     label_time_entry_plural: "Strávený čas"
     label_up: "Nahoru"
     label_user_plural: "Uživatelé"
@@ -584,6 +584,9 @@ cs:
       select_branch: 'Vybrat větev'
     field_value_enter_prompt: "Zadejte hodnotu pro '%{field}'"
     project_menu_details: "Podrobnosti"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Použito vzestupné řazení, '
       sorted_dsc: 'Použité sestupně '
@@ -794,6 +797,9 @@ cs:
           not_found: "Takový pohled není"
           duplicate_query_title: "Název tohoto zobrazení již existuje. Chcete přesto změnit?"
         text_no_results: "Nebyly nalezeny žádné odpovídající zobrazení."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Konfigurovat tabulku pracovních balíčků'
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."

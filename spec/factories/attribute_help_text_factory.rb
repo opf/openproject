@@ -4,4 +4,10 @@ FactoryBot.define do
     help_text { 'Attribute help text' }
     attribute_name { 'status' }
   end
+
+  factory :project_help_text, class: AttributeHelpText::Project do
+    type { 'AttributeHelpText::Project' }
+    help_text { 'Attribute help text' }
+    attribute_name { 'status' }
+  end
 end

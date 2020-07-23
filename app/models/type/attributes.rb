@@ -111,10 +111,18 @@ module Type::Attributes
       #  * directly in other envs, e.g. test
       definitions = representable_config.key?(:definitions) ? representable_config[:definitions] : representable_config
 
-      skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
       definitions.keys
-                 .reject { |key| skip.include?(key) || definitions[key][:required] }
+                 .reject { |key| skipped_attribute?(key, definitions[key]) }
                  .map { |key| [key, JSON::parse(definitions[key].to_json)] }.to_h
+    end
+
+    def skipped_attribute?(key, definition)
+      # We always want to include the priority even if its required
+      return false if key == 'priority'
+
+
+      skip = %w[_type _dependencies attribute_groups links parent_id parent description schedule_manually]
+      skip.include?(key) || definition[:required]
     end
 
     def merge_date_for_form_attributes(attributes)

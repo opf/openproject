@@ -13,6 +13,7 @@
   ],
   "include": [
     "**/*.d.ts",
-    "app/globals/**/*.ts"
+    "app/globals/**/*.ts",
+    "app/modules/augmenting/dynamic-scripts/*.ts"
   ]
 }

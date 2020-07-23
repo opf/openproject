@@ -36,8 +36,10 @@ import {SchemaDependencyResource} from 'core-app/modules/hal/resources/schema-de
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 
 export interface QueryFilterInstanceSchemaResourceLinks {
+  self:HalLink;
   filter:QueryFilterResource;
 }
 
@@ -84,7 +86,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
         schema: this.$source._links.self,
         operator: operator.$source._links.self
       }
-    }
+    };
 
     if (this.definesAllowedValues()) {
       source._links['values'] = [];
@@ -92,11 +94,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
       source['values'] = [];
     }
 
-    let newFilter = new QueryFilterInstanceResource(this.injector, source, true, this.halInitializer, 'QueryFilterInstance');
-
-    newFilter.schema = this;
-
-    return newFilter;
+    return new QueryFilterInstanceResource(this.injector, source, true, this.halInitializer, 'QueryFilterInstance');
   }
 
   public isValueRequired():boolean {

@@ -398,7 +398,7 @@ zh-CN:
     label_sum_for: "总和"
     label_subject: "主题"
     label_this_week: "这一周"
-    label_today: "今天"
+    label_today: "Today"
     label_time_entry_plural: "已耗时间"
     label_up: "向上"
     label_user_plural: "用户"
@@ -584,6 +584,9 @@ zh-CN:
       select_branch: '选择分支'
     field_value_enter_prompt: "为'%{field}'输入值"
     project_menu_details: "详细信息"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '升序排列已应用， '
       sorted_dsc: '降序排列已应用， '
@@ -794,6 +797,9 @@ zh-CN:
           not_found: "无此视图"
           duplicate_query_title: "此视图的名称已存在。仍要更改？"
         text_no_results: "未找到匹配的视图。"
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: '配置工作包表'
         summary: "行为工作包且列为工作包属性的表格。"

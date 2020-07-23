@@ -32,7 +32,6 @@ class Project < ApplicationRecord
   extend Pagination::Model
   extend FriendlyId
 
-  include Projects::Copy
   include Projects::Storage
   include Projects::Activity
   include ::Scopes::Scoped

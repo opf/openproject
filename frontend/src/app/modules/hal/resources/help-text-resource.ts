@@ -28,8 +28,9 @@
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CallableHalLink} from 'core-app/modules/hal/hal-link/hal-link';
+import {Attachable} from "core-app/modules/hal/resources/mixins/attachable-mixin";
 
-export class HelpTextResource extends HalResource {
+export class HelpTextBaseResource extends HalResource {
 
   public id:string;
   public attribute:string;
@@ -38,6 +39,8 @@ export class HelpTextResource extends HalResource {
   public helpText:api.v3.Formattable;
 }
 
-export interface HelpTextResource {
+export const HelpTextResource = Attachable(HelpTextBaseResource);
+
+export interface HelpTextResource extends HelpTextBaseResource {
   editText?:CallableHalLink;
 }

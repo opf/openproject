@@ -87,10 +87,10 @@ describe('HalResource', () => {
 
       getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === '/api/hello') {
-          return of(halResourceService.createHalResource(source));
+          return of(halResourceService.createHalResource(source)) as any;
         }
         else {
-          return false;
+          return false as any;
         }
       });
     });
@@ -380,9 +380,9 @@ describe('HalResource', () => {
     it('should have a callable self link', () => {
       spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === 'unicorn/69') {
-          return of(halResourceService.createHalResource({}));
+          return of(halResourceService.createHalResource({})) as any;
         } else {
-          return null;
+          return null as any;
         }
       });
 
@@ -392,9 +392,9 @@ describe('HalResource', () => {
     it('should have a callable beaver', () => {
       spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === 'justin/420') {
-          return of(halResourceService.createHalResource({}));
+          return of(halResourceService.createHalResource({})) as any;
         } else {
-          return null;
+          return null as any;
         }
       });
 
@@ -728,10 +728,10 @@ describe('HalResource', () => {
 
             getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
               if (verb === 'get' && path === '/api/property') {
-                return of(result);
+                return of(result) as any;
               }
               else {
-                return false;
+                return false as any;
               }
             });
 

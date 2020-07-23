@@ -76,6 +76,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::SubjectOrIdFilter
   register.filter Query, filters_module::ManualSortFilter
   register.filter Query, filters_module::RelatableFilter
+  register.filter Query, filters_module::MilestoneFilter
 
   columns_module = Queries::WorkPackages::Columns
 

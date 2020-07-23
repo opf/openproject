@@ -26,6 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<% content_for :header_tags do %>
+  <meta name="required_script" content="members_form" />
+<% end %>
+
 <% html_title t(:label_member_plural) -%>
 
 <% any_members = @members.any? %>
@@ -54,8 +58,6 @@ See docs/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 <% end %>
-
-<%= javascript_include_tag "members_form.js" %>
 
 <%= error_messages_for 'member' %>
 

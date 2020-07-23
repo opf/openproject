@@ -397,7 +397,7 @@ zh-TW:
     label_sum_for: "總和"
     label_subject: "主題"
     label_this_week: "本週"
-    label_today: "今天"
+    label_today: "今日"
     label_time_entry_plural: "耗時"
     label_up: "向上"
     label_user_plural: "使用者"
@@ -583,6 +583,9 @@ zh-TW:
       select_branch: '選擇分支'
     field_value_enter_prompt: "輸入'%{field}'的值"
     project_menu_details: "詳細資料"
+    scheduling:
+      manual: '手動排程'
+      automatic: '自動排程'
     sort:
       sorted_asc: '已套用升冪排序， '
       sorted_dsc: '已套用降冪排序， '
@@ -793,6 +796,9 @@ zh-TW:
           not_found: "無此查詢"
           duplicate_query_title: "此視圖的名稱已存在。確定改變？"
         text_no_results: "找不到匹配的視圖。"
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: '配置工作包表'
         summary: "由工作項目和工作項目屬性列組成的表格。"

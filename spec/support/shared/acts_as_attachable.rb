@@ -153,4 +153,18 @@ shared_examples_for 'acts_as_attachable included' do
       end
     end
   end
+
+  describe '#attachments_visible' do
+    let!(:attachment1) { FactoryBot.create(:attachment, container: model_instance, author: current_user) }
+
+    it 'allows access to a logged user when viewable_by_all_users is set' do
+      if model_instance.class.attachable_options[:viewable_by_all_users]
+        expect(model_instance.attachments_visible?(other_user)).to eq true
+        expect(attachment1.visible?(no_permission_user)).to eq true
+      else
+        expect(model_instance.attachments_visible?(other_user)).to eq false
+        expect(attachment1.visible?(other_user)).to eq false
+      end
+    end
+  end
 end

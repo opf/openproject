@@ -56,13 +56,6 @@ See docs/COPYRIGHT.rdoc for more details.
                                         disabled: !Setting.sys_api_enabled?,
                                         label: :setting_mail_handler_api_key,
                                         container_class: '-middle' %>
-      <span class="form--field-extra-actions">
-        <%= link_to_function t(:label_generate_key),
-                             %{ if (!jQuery('#settings_sys_api_key').prop('disabled')) {
-                                  jQuery('#settings_sys_api_key').val(randomKey(20))
-                                }
-                             } %>
-      </span>
     </div>
     <%
     available_scms = OpenProject::SCM::Manager.registered

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Directive, ElementRef, Injector} from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, Injector, Input} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
@@ -39,21 +39,28 @@ import {QueryColumn} from "core-components/wp-query/query-column";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
 import {combineLatest} from "rxjs";
+import {GroupSumsBuilder} from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
+import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Directive({
   selector: '[wpTableSumsRow]'
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
 
+  @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
+
   private text:{ sum:string };
 
   private $element:JQuery;
+
+  private groupSumsBuilder:GroupSumsBuilder;
 
   constructor(readonly injector:Injector,
               readonly elementRef:ElementRef,
               readonly querySpace:IsolatedQuerySpace,
               readonly states:States,
-              readonly displayFieldService:DisplayFieldService,
+              readonly schemaCache:SchemaCacheService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly wpTableSums:WorkPackageViewSumService,
               readonly I18n:I18nService) {
@@ -76,7 +83,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
       )
       .subscribe(([columns, sum, resource]) => {
         if (sum && resource.sumsSchema) {
-          resource.sumsSchema.$load().then((schema:SchemaResource) => {
+          this.schemaCache.require(resource.sumsSchema.$href!).then((schema:SchemaResource) => {
             this.refresh(columns, resource, schema);
           });
         } else {
@@ -95,52 +102,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
-    // build
-    columns.forEach((column, i:number) => {
-      const td = document.createElement('td');
-      td.classList.add('wp-table--sum-container');
-      const div = this.renderContent(resource.totalSums!, column.id, schema[column.id]);
-
-      if (i === 0) {
-        this.appendFirstLabel(div);
-        // colspan 2 for the d&d column
-        td.setAttribute('colspan', '2');
-      }
-
-      td.appendChild(div);
-      this.$element.append(td);
-    });
-
-    // Append last empty td
-    this.$element.append(`<td><div class="generic-table--footer-outer"></div></td>`);
-  }
-
-  private renderContent(sums:any, name:string, fieldSchema:IFieldSchema) {
-    const div = document.createElement('div');
-
-    // The field schema for this element may be undefined
-    // because it is not summable.
-    if (!fieldSchema) {
-      return div;
-    }
-
-    const field = this.displayFieldService.getField(
-      sums,
-      name,
-      fieldSchema,
-      { injector: this.injector, container: 'table', options: {} }
-      );
-
-    if (!field.isEmpty()) {
-      field.render(div, field.valueString);
-    }
-
-    return div;
-  }
-
-  private appendFirstLabel(div:HTMLElement) {
-    const span = document.createElement('span');
-    span.textContent = `${this.text.sum}`;
-    jQuery(div).prepend(span);
+    this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
+    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.elementRef.nativeElement);
   }
 }

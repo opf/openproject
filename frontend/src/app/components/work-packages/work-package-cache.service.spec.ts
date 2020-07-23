@@ -85,10 +85,10 @@ describe('WorkPackageCacheService', () => {
     workPackageDmService = TestBed.get(WorkPackageDmService);
 
     // sinon.stub(WorkPackageDmService, 'loadWorkPackageById').returns(Promise.resolve(true));
-    spyOn(workPackageDmService, 'loadWorkPackageById').and.returnValue(Promise.resolve(true));
+    spyOn(workPackageDmService, 'loadWorkPackageById').and.returnValue(Promise.resolve(true as any));
 
     // sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
-    spyOn(schemaCacheService, 'ensureLoaded').and.returnValue(Promise.resolve(true));
+    spyOn(schemaCacheService, 'ensureLoaded').and.returnValue(Promise.resolve(true as any));
 
 
     const workPackage1 = new WorkPackageResource(

@@ -95,7 +95,7 @@ describe WorkPackages::BaseContract do
     end
   end
 
-  shared_examples 'a parent unwritable property' do |attribute|
+  shared_examples 'a parent unwritable property' do |attribute, schedule_sensitive: false|
     before do
       allow(work_package).to receive(:changed).and_return(changed_values.map(&:to_s))
     end
@@ -123,7 +123,11 @@ describe WorkPackages::BaseContract do
     end
 
     context 'is a parent' do
+      let(:schedule_manually) { false }
+
       before do
+        work_package.schedule_manually = schedule_manually
+
         allow(work_package)
           .to receive(:leaf?)
           .and_return(false)
@@ -141,6 +145,18 @@ describe WorkPackages::BaseContract do
 
         it('is invalid (read only)') do
           expect(contract.errors.symbols_for(attribute)).to match_array([:error_readonly])
+        end
+      end
+
+      if schedule_sensitive
+        context 'is scheduled manually' do
+          let(:schedule_manually) { true }
+
+          context 'has changed' do
+            let(:changed_values) { [attribute] }
+
+            it('is valid') { expect(contract.errors).to be_empty }
+          end
         end
       end
     end
@@ -393,11 +409,14 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'start date' do
-    it_behaves_like 'a parent unwritable property', :start_date
+    it_behaves_like 'a parent unwritable property', :start_date, schedule_sensitive: true
     it_behaves_like 'a date attribute', :start_date
 
     context 'before soonest start date of parent' do
+      let(:schedule_manually) { false }
+
       before do
+        work_package.schedule_manually = schedule_manually
         work_package.parent = FactoryBot.build_stubbed(:work_package)
         allow(work_package)
           .to receive(:soonest_start)
@@ -406,20 +425,33 @@ describe WorkPackages::BaseContract do
         work_package.start_date = Date.today + 2.days
       end
 
-      it 'notes the error' do
-        contract.validate
+      context 'scheduled automatically' do
+        it 'notes the error' do
+          contract.validate
 
-        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
-                         soonest_start: Date.today + 4.days)
+          message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
+                           soonest_start: Date.today + 4.days)
 
-        expect(contract.errors[:start_date])
-          .to match_array [message]
+          expect(contract.errors[:start_date])
+            .to match_array [message]
+        end
+      end
+
+      context 'scheduled manually' do
+        let(:schedule_manually) { true }
+
+        it 'is valid' do
+          contract.validate
+
+          expect(contract.errors[:start_date])
+            .to be_empty
+        end
       end
     end
   end
 
   describe 'finish date' do
-    it_behaves_like 'a parent unwritable property', :due_date
+    it_behaves_like 'a parent unwritable property', :due_date, schedule_sensitive: true
     it_behaves_like 'a date attribute', :due_date
 
     it 'returns an error when trying to set it before the start date' do

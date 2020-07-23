@@ -403,6 +403,28 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
       end
     end
 
+    context 'if providing no roles' do
+      let(:body) do
+        {
+          project: {
+            href: api_v3_paths.project(project.id)
+          },
+          principal: {
+            href: principal_path
+          },
+          roles: []
+        }.to_json
+      end
+
+      it 'responds with 422 and explains the error' do
+        expect(last_response.status).to eq(422)
+
+        expect(last_response.body)
+          .to be_json_eql("Roles need to be assigned.".to_json)
+          .at_path('message')
+      end
+    end
+
     context 'if lacking the manage permissions' do
       let(:permissions) { [:view_members] }
 

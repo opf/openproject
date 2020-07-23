@@ -2,7 +2,7 @@ import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
 import {GroupedRowsBuilder} from '../../builders/modes/grouped/grouped-rows-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {TableEventHandler} from '../table-handler-registry';
+import {TableEventComponent, TableEventHandler} from '../table-handler-registry';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
@@ -12,10 +12,7 @@ export class GroupRowHandler implements TableEventHandler {
   // Injections
   @InjectField() public querySpace:IsolatedQuerySpace;
 
-  private builder:GroupedRowsBuilder;
-
-  constructor(public readonly injector:Injector, table:WorkPackageTable) {
-    this.builder = new GroupedRowsBuilder(injector, table);
+  constructor(public readonly injector:Injector) {
   }
 
   public get EVENT() {
@@ -26,11 +23,11 @@ export class GroupRowHandler implements TableEventHandler {
     return `.${rowGroupClassName} .expander`;
   }
 
-  public eventScope(table:WorkPackageTable) {
-    return jQuery(table.tbody);
+  public eventScope(view:TableEventComponent) {
+    return jQuery(view.workPackageTable.tbody);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
+  public handleEvent(view:TableEventComponent, evt:JQuery.TriggeredEvent) {
     evt.preventDefault();
     evt.stopPropagation();
 
@@ -42,9 +39,10 @@ export class GroupRowHandler implements TableEventHandler {
     this.collapsedState.putValue(state);
 
     // Refresh groups
-    var t0 = performance.now();
-    this.builder.refreshExpansionState();
-    var t1 = performance.now();
+    const builder = new GroupedRowsBuilder(this.injector, view.workPackageTable);
+    const t0 = performance.now();
+    builder.refreshExpansionState();
+    const t1 = performance.now();
     debugLog('Group redraw took ' + (t1 - t0) + ' milliseconds.');
   }
 

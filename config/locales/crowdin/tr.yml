@@ -78,6 +78,7 @@ tr:
     is_active: şu an görüntüleniyor
     is_inactive: şu an görüntülenmiyor
   attribute_help_texts:
+    note_public: 'Bu alana eklediğiniz herhangi bir metin ve resim, oturum açmış tüm kullanıcılar tarafından herkes tarafından görülebilir!'
     text_overview: 'Bu görünümde, öznitelikleri görünüm için özel yardım metinler oluşturabilirsiniz. Tanımladığınızda, bu metinler, aidiyet öznitelik yanındaki Yardım simgesini tıklayarak gösterilebilir.'
     label_plural: 'Öznitelik yardım metinleri'
     show_preview: 'Önizleme metni'
@@ -87,6 +88,10 @@ tr:
     index:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
       no_results_content_text: Yeni bir doğrulama modu oluştur
+  background_jobs:
+    status:
+      error_requeue: "İş bir hatayla karşılaştı ancak yeniden deniyor. Hata: %{message}"
+      cancelled_due_to: "İş, hata nedeniyle iptal edildi: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Bu LDAP formu, LDAP / Active Directory kurulumunuz hakkında teknik bilgi gerektirir.
@@ -278,6 +283,7 @@ tr:
     overview:
       no_results_title_text: Bu sürüme atadığım iş paketi bulunmuyor.
   wiki:
+    page_not_editable_index: İstenen sayfa mevcut değil (henüz). Tüm wiki sayfalarının dizinine yönlendirildiniz.
     no_results_title_text: Şu anda wiki sayfası bulunmuyor.
     index:
       no_results_content_text: Yeni wiki sayfası Ekle
@@ -414,6 +420,7 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
+        templated: 'Şablon projesi'
       projects/status:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
@@ -485,6 +492,7 @@ tr:
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
+        schedule_manually: "Manuel planlama"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
         subproject: "Alt proje"
@@ -882,6 +890,7 @@ tr:
       - "Eki"
       - "Kas"
       - "Ara"
+    abbr_week: 'Hatfa'
     day_names:
       - "Pazar"
       - "Pazartesi"
@@ -1117,6 +1126,8 @@ tr:
     work_package_edit: 'İş Paketi düzenlendi'
     work_package_note: 'İk Paketi notu eklendi'
   export:
+    your_work_packages_export: "İş paketleri dışa aktarma"
+    succeeded: "Dışa aktarma başarıyla tamamlandı."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1624,6 +1635,7 @@ tr:
   label_time_entry_plural: "Harcanan zaman"
   label_time_sheet_menu: "Zaman tablosu"
   label_time_tracking: "Zaman takibi"
+  label_projects_menu: "Projeler"
   label_today: "bugün"
   label_top_menu: "Üst Menü"
   label_topic_plural: "Konular"
@@ -1753,7 +1765,16 @@ tr:
   mail_body_account_information: "Hesap bilgilerinizi giriniz"
   mail_body_account_information_external: "Giriş yapmak için %{value} hesabınızı kullanabilirsiniz."
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
-  mail_body_register: "Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı tıklayın:"
+  mail_body_register: "OpenProject'e hoş geldiniz. Lütfen bu bağlantıyı tıklayarak hesabınızı etkinleştirin:"
+  mail_body_register_header_title: "Proje üyesi davet e-postası"
+  mail_body_register_user: "Sevgili %{name},"
+  mail_body_register_links_html: |
+    Lütfen bir web semineri (%{youtube_link}) sağladığımız youtube kanalımıza (%{webinar_link}) göz atabilirsiniz.
+    ve OpenProject'teki ilk adımlarınızı olabildiğince kolay hale getirmek için "Başlayın" videoları (%{get_started_link})
+    <br />
+    Başka sorunuz varsa dokümantasyonumuza (%{documentation_link}) bakın veya bize ulaşın  (%{contact_us_link}).
+  mail_body_register_closing: "OpenProject ekibiniz"
+  mail_body_register_ending: "Bağlı kalın! Saygılarımla,"
   mail_body_reminder: "Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days} gün içinde ödemesi gerekiyor:"
   mail_body_group_reminder: "\"%{group}\" grubuna atanan %{count} çalışma paketi / paketleri sonraki %{days}  gününden kaynaklanmaktadır:"
   mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
@@ -1944,6 +1965,12 @@ tr:
       warning_one: Projenin üyeleri, projenin depoları yeniden yerleştirmek zorunda kalacaklardır.
       warning_two: Projeye mevcut bağlantılar artık çalışmayacaktır.
       title: Projenin tanımlayıcısını değiştirme
+    template:
+      copying: >
+        Projeniz seçilen şablon projesinden oluşturuluyor. Proje hazır olur olmaz posta ile bilgilendirileceksiniz.
+      use_template: 'Şablon kullan'
+      make_template: 'Şablon olarak ayarla'
+      remove_from_templates: 'Şablonlardan kaldır'
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
       archived: "Arşivlenen"

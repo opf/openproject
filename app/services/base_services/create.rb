@@ -30,13 +30,11 @@
 
 module BaseServices
   class Create < Write
-    def call(params = nil)
-      in_user_context(true) do
-        perform(params)
-      end
-    end
+    protected
 
-    private
+    def service_context(&block)
+      in_user_context(true, &block)
+    end
 
     def instance(_params)
       instance_class.new

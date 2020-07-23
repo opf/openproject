@@ -399,7 +399,7 @@ ja:
     label_sum_for: "合計"
     label_subject: "題名"
     label_this_week: "今週"
-    label_today: "今日"
+    label_today: "Today"
     label_time_entry_plural: "作業時間の記録"
     label_up: "アップ"
     label_user_plural: "ユーザ"
@@ -587,6 +587,9 @@ ja:
       select_branch: '分岐を選択する'
     field_value_enter_prompt: "'%{field}'の値を入力"
     project_menu_details: "詳細"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
       sorted_dsc: '降順の並べ替えを適用しました。 '
@@ -797,6 +800,9 @@ ja:
           not_found: "そのようなビューはありません"
           duplicate_query_title: "このビューの名前は既に存在します。 とにかく変更しますか？"
         text_no_results: "一致するビューは見つかりませんでした。"
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'ワークパッケージテーブルを設定する'
         summary: "作業項目の行と、作業項目の属性の列から成る表。"

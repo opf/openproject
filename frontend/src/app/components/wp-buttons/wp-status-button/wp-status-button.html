@@ -9,7 +9,7 @@
           wpStatusDropdown
           [wpStatusDropdown-workPackage]="workPackage">
 
-    <span *ngIf="workPackage.isReadonly"
+    <span *ngIf="isReadonly"
           class="button--text">
       <op-icon icon-classes="button--icon icon-locked"></op-icon>
     </span>

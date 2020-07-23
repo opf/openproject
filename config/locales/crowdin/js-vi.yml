@@ -397,7 +397,7 @@ vi:
     label_sum_for: "Tổng cho"
     label_subject: "Chủ đề"
     label_this_week: "tuần này"
-    label_today: "hôm nay"
+    label_today: "Today"
     label_time_entry_plural: "Thời gian"
     label_up: "Lên"
     label_user_plural: "Người dùng"
@@ -583,6 +583,9 @@ vi:
       select_branch: 'Chọn nhánh'
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "Chi tiết"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -793,6 +796,9 @@ vi:
           not_found: "Không có trình bày nào đã được tạo ra"
           duplicate_query_title: "Tên trình bày đã có, Bạn có muốn thay đổi không?"
         text_no_results: "Không chuyên mục nào được tìm thấy."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Cấu hình bảng gói công việc'
         summary: "Bảng với hàng work package và cột của các thuộc tính work package."

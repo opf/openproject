@@ -37,10 +37,6 @@ module OpenProject::TextFormatting::Formats
         @view_context = view_context
       end
 
-      def text_formatting_js_includes
-        helpers.javascript_include_tag 'vendor/ckeditor/ckeditor.js'
-      end
-
       def wikitoolbar_for(field_id, **context)
         # Hide the original textarea
         view_context.content_for(:additional_js_dom_ready) do

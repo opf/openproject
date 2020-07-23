@@ -78,6 +78,7 @@ vi:
     is_active: Đang hiển thị
     is_inactive: hiện tại không hiển thị
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Tại đây, bạn có thể tạo các văn bản hiển thị hỗ trợ. Khi hoàn thành, các văn bản có thể được hiển thị bằng cách nhấp vào biểu tượng trợ giúp bên cạnh các giá trị.'
     label_plural: 'Thuộc tính văn bản trợ giúp'
     show_preview: 'Văn bản xem trước'
@@ -87,6 +88,10 @@ vi:
     index:
       no_results_content_title: Không có hiện tại không có chế độ xác thực.
       no_results_content_text: Tạo một chế độ xác thực mới
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Biểu mẫu LDAP này yêu cầu kiến thức kỹ thuật về thiết lập LDAP / Active Directory của bạn.
@@ -280,6 +285,7 @@ vi:
     overview:
       no_results_title_text: There are currently no work packages assigned to this version.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
     index:
       no_results_content_text: Add a new wiki page
@@ -415,6 +421,7 @@ vi:
         types: "Các loại"
         versions: "Các phiên bản"
         work_packages: "Work Packages"
+        templated: 'Template project'
       projects/status:
         code: 'Trạng thái'
         explanation: 'Mô tả trạng thái'
@@ -486,6 +493,7 @@ vi:
         parent_work_package: "Cha"
         priority: "Độ ưu tiên"
         progress: "Progress (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Thời gian"
         spent_time: "Thời gian"
         subproject: "Dự án con"
@@ -880,6 +888,7 @@ vi:
       - "Thg 10"
       - "Thg 11"
       - "Thg 12"
+    abbr_week: 'Wk'
     day_names:
       - "Chủ Nhật"
       - "Thứ hai"
@@ -1103,6 +1112,8 @@ vi:
     work_package_edit: 'Đã chỉnh sửa work package'
     work_package_note: 'Đã thêm ghi chú của work package'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1610,6 +1621,7 @@ vi:
   label_time_entry_plural: "Thời gian"
   label_time_sheet_menu: "Phiếu giờ"
   label_time_tracking: "Theo dõi thời gian"
+  label_projects_menu: "Các dự án"
   label_today: "hôm nay"
   label_top_menu: "Trình đơn trên cùng"
   label_topic_plural: "Các chủ đề"
@@ -1735,7 +1747,16 @@ vi:
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_lost_password: "To change your password, click on the following link:"
-  mail_body_register: "To activate your account, click on the following link:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
   mail_body_group_reminder: "%{count}  gói công việc được gán cho nhóm \"%{group}\" là do %{days} ngày tiếp theo:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
@@ -1925,6 +1946,12 @@ vi:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?"
       archived: "Archived"

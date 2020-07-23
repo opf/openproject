@@ -51,6 +51,8 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {StateService} from "@uirouter/core";
+import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 @Component({
   selector: 'wp-list-view',
@@ -91,6 +93,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
 
   constructor(readonly I18n:I18nService,
               readonly injector:Injector,
+              readonly $state:StateService,
+              readonly keepTab:KeepTabService,
               readonly querySpace:IsolatedQuerySpace,
               readonly wpViewFilters:WorkPackageViewFiltersService,
               readonly deviceService:DeviceService,
@@ -143,5 +147,37 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   protected updateViewRepresentation(query:QueryResource) {
     this.showListView = !(this.deviceService.isMobile ||
       this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
+  }
+
+  handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
+    if (event.double) {
+      this.openInFullView(event.workPackageId);
+    }
+  }
+
+  openStateLink(event:{ workPackageId:string; requestedState:string }) {
+    this.$state.go(
+      (this.keepTab as any)[event.requestedState] || event.requestedState,
+      { workPackageId: event.workPackageId, focus: true }
+    );
+  }
+
+  /**
+   * Special handling for clicking on cards.
+   * If we are on mobile, a click on the card should directly open the full view
+   */
+  handleWorkPackageCardClicked(event:{ workPackageId:string; double:boolean }) {
+    if (this.deviceService.isMobile) {
+      this.openInFullView(event.workPackageId);
+    } else {
+      this.handleWorkPackageClicked(event);
+    }
+  }
+
+  private openInFullView(workPackageId:string) {
+    this.$state.go(
+      'work-packages.show',
+      { workPackageId: workPackageId }
+    );
   }
 }

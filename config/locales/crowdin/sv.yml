@@ -78,6 +78,7 @@ sv:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'I den här vyn kan du skapa anpassade hjälptexter för attributvyn. När den är definierad kan dessa texter visas genom att klicka på hjälpikonen bredvid dess tillhörande attribut.'
     label_plural: 'Hjälptexter för attribut'
     show_preview: 'Förhandsgranska text'
@@ -87,6 +88,10 @@ sv:
     index:
       no_results_content_title: Det finns för närvarande inga autentiseringslägen.
       no_results_content_text: Skapa ett nytt autentiseringsläge
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
@@ -277,6 +282,7 @@ sv:
     overview:
       no_results_title_text: Det finns för närvarande inga arbetspaket tilldelade till denna version.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Det finns för närvarande inga wiki-sidor.
     index:
       no_results_content_text: Lägg till en ny wiki-sida
@@ -413,6 +419,7 @@ sv:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivning'
@@ -484,6 +491,7 @@ sv:
         parent_work_package: "Överordnad"
         priority: "Prioritet"
         progress: "Progress (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"
@@ -881,6 +889,7 @@ sv:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Söndag"
       - "Måndag"
@@ -1116,6 +1125,8 @@ sv:
     work_package_edit: 'Arbetspaket redigerades'
     work_package_note: 'Anteckning lades till arbetspaketet'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1623,6 +1634,7 @@ sv:
   label_time_entry_plural: "Förbrukad tid"
   label_time_sheet_menu: "Tidrapport"
   label_time_tracking: "Tidredovisning"
+  label_projects_menu: "Projekt"
   label_today: "idag"
   label_top_menu: "Huvudmeny"
   label_topic_plural: "Ämnen"
@@ -1752,7 +1764,16 @@ sv:
   mail_body_account_information: "Din kontoinformation"
   mail_body_account_information_external: "Du kan använda ditt %{value} konto för att logga in."
   mail_body_lost_password: "För att ändra ditt lösenord, klicka på följande länk:"
-  mail_body_register: "För att aktivera ditt konto, klicka på följande länk:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} arbetspaket som är tilldelade till dig förfaller de närmaste %{days} dagarna:"
   mail_body_group_reminder: "%{count} arbetspaket som är tilldelade till gruppen \"%{group}\" ska vara klara inom de närmaste %{days} dagarna:"
   mail_body_wiki_content_added: "Wiki-sidan '%{id}' har lagts till av %{author}."
@@ -1943,6 +1964,12 @@ sv:
       warning_one: Projektets medlemmar kommer att vara tvungna att flytta projektetdatabaserna.
       warning_two: Befintliga länkar till projektet kommer inte att fungera längre.
       title: Ändra projektets identifierare
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Är du säker på att du vill arkivera projektet '%{name}'?"
       archived: "Arkiverad"

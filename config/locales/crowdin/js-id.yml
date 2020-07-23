@@ -398,7 +398,7 @@ id:
     label_sum_for: "Jumlah"
     label_subject: "Perihal"
     label_this_week: "minggu ini"
-    label_today: "hari ini"
+    label_today: "Today"
     label_time_entry_plural: "Durasi"
     label_up: "Naik"
     label_user_plural: "User"
@@ -584,6 +584,9 @@ id:
       select_branch: 'Pilih cabang'
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
     project_menu_details: "Detil"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Urutan menaik diterapkan, '
       sorted_dsc: 'Urutan menurun diterapkan, '
@@ -794,6 +797,9 @@ id:
           not_found: "There is no such view"
           duplicate_query_title: "Name of this view already exists. Change anyway?"
         text_no_results: "No matching views were found."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."

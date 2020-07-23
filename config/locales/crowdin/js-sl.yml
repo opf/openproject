@@ -397,7 +397,7 @@ sl:
     label_sum_for: "Vsota za"
     label_subject: "Zadeva"
     label_this_week: "ta teden"
-    label_today: "Danes"
+    label_today: "Today"
     label_time_entry_plural: "Porabljen čas"
     label_up: "Navzgor"
     label_user_plural: "Uporabniki"
@@ -583,6 +583,9 @@ sl:
       select_branch: 'Izberite vejo'
     field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
     project_menu_details: "Podrobnosti"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
@@ -793,6 +796,9 @@ sl:
           not_found: "Ta pogled ne obstaja"
           duplicate_query_title: "Ime tega pogleda že obstaja. Se vseeno spremeni?"
         text_no_results: "Ujemanj ni bilo najdenih."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Uredi tabelo delovnega paketa'
         summary: "Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.\n"

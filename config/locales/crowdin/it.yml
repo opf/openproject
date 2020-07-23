@@ -78,6 +78,7 @@ it:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'In questa vista, puoi creare testi guida personalizzati per la visualizzazione degli attributi. Quando definiti, questi testi possono essere visualizzati facendo clic sull''icona guida accanto all''attributo relativo.'
     label_plural: 'Testi guida degli attributi'
     show_preview: 'Anteprima testo'
@@ -87,6 +88,10 @@ it:
     index:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
       no_results_content_text: Crea una nuova modalità di autenticazione
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Questo form LDAP richiede una conoscenza tecnica dell'attuale setup LDAP / Active Directory. <br/>
@@ -274,6 +279,7 @@ it:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Al momento non vi sono pagine wiki.
     index:
       no_results_content_text: Aggiungi una nuova pagina wiki
@@ -410,6 +416,7 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
+        templated: 'Template project'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -481,6 +488,7 @@ it:
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"
@@ -878,6 +886,7 @@ it:
       - "Ott"
       - "Nov"
       - "Dic"
+    abbr_week: 'Wk'
     day_names:
       - "Domenica"
       - "Lunedi"
@@ -1113,6 +1122,8 @@ it:
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1620,6 +1631,7 @@ it:
   label_time_entry_plural: "Tempo speso"
   label_time_sheet_menu: "Foglio orario"
   label_time_tracking: "Monitoraggio tempi"
+  label_projects_menu: "Progetti"
   label_today: "oggi"
   label_top_menu: "Top Menu"
   label_topic_plural: "Argomenti"
@@ -1749,7 +1761,16 @@ it:
   mail_body_account_information: "Informazioni sul tuo account"
   mail_body_account_information_external: "Puoi usare il tuo %{value} account per accedere."
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
-  mail_body_register: "Per attivare il tuo account, clicca sul seguente link:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} macro-attività a te assegnata/e scadono nei prossimi %{days} giorni:"
   mail_body_group_reminder: "%{count} macro-attività assegnata/e al gruppo \"%{group}\" scadono nei prossimi %{days} giorni:"
   mail_body_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta da %{author}."
@@ -1940,6 +1961,12 @@ it:
       warning_one: I membri del progetto dovranno trasferire gli archivi del progetto.
       warning_two: I collegamenti esistenti al progetto non funzioneranno più.
       title: Modifica l'identificatore del progetto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sicuro di voler archiviare il progetto '%{name}'?"
       archived: "Archiviato"

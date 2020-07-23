@@ -54,9 +54,5 @@ module OpenProject::Webhooks
     initializer 'webhooks.subscribe_to_notifications' do
       ::OpenProject::Webhooks::EventResources.subscribe!
     end
-
-    initializer 'webhooks.precompile_assets' do |app|
-      app.config.assets.precompile += %w(webhooks/webhooks.js)
-    end
   end
 end

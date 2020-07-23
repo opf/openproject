@@ -253,7 +253,7 @@ module API
                                              title: priority.name
                                            }
                                          },
-                                         required: false,
+                                         required: true,
                                          has_default: true
 
           def attribute_groups

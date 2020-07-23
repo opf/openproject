@@ -160,6 +160,7 @@ class UserMailer < BaseMailer
   def user_signed_up(token)
     return unless token.user
 
+    @user = token.user
     @token = token
     @activation_url = url_for(controller: '/account',
                               action:     :activate,

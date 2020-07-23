@@ -78,6 +78,7 @@ ja:
     is_active: 現在表示されています
     is_inactive: 現在表示されていません
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'このビューは、属性表示のカスタム ヘルプ テキストを作成できます。定義すると、このテキストはその属性の横にあるヘルプ アイコンをクリックして表示できます。'
     label_plural: '属性のヘルプ テキスト'
     show_preview: 'テキストをプレビュー'
@@ -87,6 +88,10 @@ ja:
     index:
       no_results_content_title: 現在認証モードはありません。
       no_results_content_text: 新しい認証モードを作成
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       この LDAP フォームには、LDAP / Active Directory の設定に関する技術的な知識が必要です。
@@ -274,6 +279,7 @@ ja:
     overview:
       no_results_title_text: このバージョンに割り当てられている作業項目はありません。
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: 現在、Wikiページはありません。
     index:
       no_results_content_text: 新しいWikiページを追加
@@ -409,6 +415,7 @@ ja:
         types: "作業項目の型"
         versions: "バージョン"
         work_packages: "作業項目"
+        templated: 'Template project'
       projects/status:
         code: 'ステータス'
         explanation: '状況の説明'
@@ -480,6 +487,7 @@ ja:
         parent_work_package: "親項目"
         priority: "優先度"
         progress: "進行状況 (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
         subproject: "子プロジェクト"
@@ -874,6 +882,7 @@ ja:
       - "10月"
       - "11月"
       - "12月"
+    abbr_week: 'Wk'
     day_names:
       - "日曜日"
       - "月曜日"
@@ -1097,6 +1106,8 @@ ja:
     work_package_edit: '仕事項目が編集されました。'
     work_package_note: '仕事項目の注記が追加されました。'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1604,6 +1615,7 @@ ja:
   label_time_entry_plural: "作業時間の記録"
   label_time_sheet_menu: "タイムシート"
   label_time_tracking: "作業時間の記録"
+  label_projects_menu: "プロジェクト"
   label_today: "今日"
   label_top_menu: "トップメニュー"
   label_topic_plural: "トピック"
@@ -1729,7 +1741,16 @@ ja:
   mail_body_account_information: "アカウント情報"
   mail_body_account_information_external: "%{value} アカウントを使ってログインできます。"
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
-  mail_body_register: "アカウント登録を完了するには、以下のリンクをクリックしてください:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "担当している%{count}件の作業項目が%{days}日内に予定日になっています："
   mail_body_group_reminder: "グループ \"%{group}\" に割り当てられた%{count}件の作業項目が%{days}日内に期限が到来します："
   mail_body_wiki_content_added: "%{author}によってWikiページ'%{id}'が追加されました。"
@@ -1919,6 +1940,12 @@ ja:
       warning_one: プロジェクトのメンバーは、プロジェクトのリポジトリを再配置する必要があります。
       warning_two: プロジェクトへの既存のリンクは機能しなくなります。
       title: プロジェクトの識別子を変更
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "プロジェクト '%{name}' をアーカイブしてもよろしいですか？"
       archived: "Archived"

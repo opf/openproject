@@ -79,8 +79,8 @@ describe 'Query selection', type: :feature do
 
     it 'shows the saved filters', js: true do
       filters.open
-      filters.expect_filter_by 'Assignee', 'is',  ['me']
-      filters.expect_filter_by 'Progress (%)', '>=',  ['10'], 'percentageDone'
+      filters.expect_filter_by 'Assignee', 'is', ['me']
+      filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
     end
 
     it 'shows filter count within toggle button', js: true do

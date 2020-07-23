@@ -6,6 +6,9 @@ import {input, InputState} from "reactivestates";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {debugLog} from "core-app/helpers/debug_output";
 import {take} from "rxjs/operators";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { Injector } from '@angular/core';
+import {SchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
@@ -19,7 +22,7 @@ export const PROXY_IDENTIFIER = '__is_changeset_proxy';
  * Provides access to:
  *  - The projected resource with all changes applied as properties
  */
-export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } = HalResource> {
+export class ResourceChangeset<T extends HalResource = HalResource> {
   /** Maintain a single change set while editing */
   protected changeset = new Changeset();
 
@@ -35,13 +38,21 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   /** Keep a reference to the original resource */
   protected _pristineResource:T;
 
-  /** The projected resource, which will proxy values from the change set */
+  /** The projected resource, which will proxy values from the changeset */
   public projectedResource:T;
+
+  /** The cache to all the schemas. Used to maintain the schema of the projectedResource which does not stem from a form.
+   * The schema of the form is kept inside the changeset.
+   * */
+  protected schemaCache:SchemaCacheService;
 
   constructor(pristineResource:T,
               public readonly state?:InputState<ResourceChangeset<T>>,
               loadedForm:FormResource|null = null) {
     this.updatePristineResource(pristineResource);
+
+    this.schemaCache = (pristineResource.injector as Injector).get(SchemaCacheService);
+
     if (loadedForm) {
       this.form$.putValue(loadedForm);
     }
@@ -92,14 +103,6 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
 
   public get pristineResource():T {
     return this._pristineResource;
-  }
-
-  public getSchemaName(attribute:string):string {
-    if (this.projectedResource.getSchemaName) {
-      return this.projectedResource.getSchemaName(attribute);
-    } else {
-      return attribute;
-    }
   }
 
   /**
@@ -199,7 +202,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    * @param key
    */
   public isWritable(key:string):boolean {
-    const fieldSchema = this.schema[key] as IFieldSchema|null;
+    const fieldSchema = this.schema.ofProperty(key) as IFieldSchema|null;
     return !!(fieldSchema && fieldSchema.writable);
   }
 
@@ -220,14 +223,9 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
 
   /**
    * Proxy getters to base or changeset.
-   * Special case for schema , which is overridden.
    * @param key
    */
   private proxyGet(key:string) {
-    if (key === 'schema') {
-      return this.schema;
-    }
-
     if (key === '__is_proxy') {
       return true;
     }
@@ -310,7 +308,11 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    * and contains available values.
    */
   public get schema():SchemaResource {
-    return this.form$.getValueOr(this.pristineResource).schema;
+    if (this.form$.hasValue()) {
+      return SchemaProxy.create(this.form$.value!.schema, this.projectedResource);
+    } else {
+      return this.schemaCache.of(this.pristineResource);
+    }
   }
 
   /**
@@ -343,14 +345,14 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
     }
 
     _.each(this.changeset.all, (val:ChangeItem, key:string) => {
-      const fieldSchema:IFieldSchema|undefined = this.schema[key];
-      if (!(typeof (fieldSchema) === 'object' && fieldSchema.writable)) {
+      if (!this.schema.isAttributeEditable(key)) {
         debugLog(`Trying to write ${key} but is not writable in schema`);
         return;
       }
 
+      const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
       // Override in _links if it is a linked property
-      if (reference._links[key]) {
+      if (fieldSchema && reference._links[key]) {
         plainPayload._links[key] = this.getLinkedValue(val.to, fieldSchema);
       } else {
         plainPayload[key] = val.to;
@@ -441,8 +443,8 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    */
   protected setNewDefaults(form:FormResource) {
     _.each(form.payload, (val:unknown, key:string) => {
-      const fieldSchema:IFieldSchema|undefined = this.schema[key];
-      if (!(typeof (fieldSchema) === 'object' && fieldSchema.writable)) {
+      const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
+      if (!fieldSchema?.writable) {
         return;
       }
 

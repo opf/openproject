@@ -397,7 +397,7 @@ da:
     label_sum_for: "Sum for"
     label_subject: "Emne"
     label_this_week: "denne uge"
-    label_today: "i dag"
+    label_today: "Today"
     label_time_entry_plural: "Anvendt tid"
     label_up: "Up"
     label_user_plural: "Brugere"
@@ -583,6 +583,9 @@ da:
       select_branch: 'Vælg gren'
     field_value_enter_prompt: "Indtast en værdi for '%{field}'"
     project_menu_details: "Detaljer"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -793,6 +796,9 @@ da:
           not_found: "There is no such view"
           duplicate_query_title: "Name of this view already exists. Change anyway?"
         text_no_results: "No matching views were found."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."

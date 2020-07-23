@@ -78,6 +78,7 @@ cs:
     is_active: aktuálně zobrazené
     is_inactive: v současné době nejsou zobrazeny
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'V tomto zobrazení můžete vytvořit vlastní nápovědné texty pro zobrazení atributů. Pokud je definováno, mohou být tyto texty zobrazeny klepnutím na ikonu nápovědy vedle jejího atributu.'
     label_plural: 'Texty nápovědy atributu'
     show_preview: 'Náhled textu'
@@ -87,6 +88,10 @@ cs:
     index:
       no_results_content_title: Nyní neexistují žádné ověřovací režimy.
       no_results_content_text: Vytvořit nový režim ověřování
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -278,6 +283,7 @@ cs:
     overview:
       no_results_title_text: Momentálně zde nejsou žádné pracovní balíčky přiřazené k této verzi.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: V současné době neexistují žádné Wiki stránky.
     index:
       no_results_content_text: Přidat novou wiki stránku
@@ -416,6 +422,7 @@ cs:
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
+        templated: 'Template project'
       projects/status:
         code: 'Stav'
         explanation: 'Status description'
@@ -487,6 +494,7 @@ cs:
         parent_work_package: "Rodič"
         priority: "Priorita"
         progress: "Průběh (%)"
+        schedule_manually: "Schedule manually"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Dílčí projekt"
@@ -890,6 +898,7 @@ cs:
       - "Říjen"
       - "Listopad"
       - "Prosinec"
+    abbr_week: 'Wk'
     day_names:
       - "neděle"
       - "pondělí"
@@ -1149,6 +1158,8 @@ cs:
     work_package_edit: 'Pracovní balíček upraven'
     work_package_note: 'Poznámka k pracovnímu balíčku přidána'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1656,6 +1667,7 @@ cs:
   label_time_entry_plural: "Strávený čas"
   label_time_sheet_menu: "Pracovní výkaz"
   label_time_tracking: "Sledování času"
+  label_projects_menu: "Projekty"
   label_today: "dnes"
   label_top_menu: "Horní menu"
   label_topic_plural: "Témata"
@@ -1793,7 +1805,16 @@ cs:
   mail_body_account_information: "Informace o vašem účtu"
   mail_body_account_information_external: "Můžete použít váš %{value} účet pro přihlášení."
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
-  mail_body_register: "Pro aktivaci vašeho účtu klikněte na následující odkaz:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} pracovních balíčků, které máte přiřazeny, mají termín během následujících %{days} dnů:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "Wiki stránka '%{id}' byla přidána uživatelem %{author}."
@@ -1985,6 +2006,12 @@ cs:
       warning_one: Členové projektu budou muset přemístit úložiště projektu.
       warning_two: Existující odkazy na projekt nebudou nadále fungovat.
       title: Změnit identifikátor projektu
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
       archived: "Archived"

@@ -34,6 +34,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: 'filter-integer-value',
@@ -44,7 +45,8 @@ export class FilterIntegerValueComponent extends UntilDestroyedMixin {
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
-  constructor(readonly I18n:I18nService) {
+  constructor(readonly I18n:I18nService,
+              readonly schemaCache:SchemaCacheService) {
     super();
   }
 
@@ -63,7 +65,7 @@ export class FilterIntegerValueComponent extends UntilDestroyedMixin {
   }
 
   public get unit() {
-    switch ((this.filter.schema.filter.allowedValues as QueryFilterResource[])[0].id) {
+    switch ((this.schema.filter.allowedValues as QueryFilterResource[])[0].id) {
       case 'startDate':
       case 'dueDate':
       case 'updatedAt':
@@ -72,5 +74,9 @@ export class FilterIntegerValueComponent extends UntilDestroyedMixin {
       default:
         return '';
     }
+  }
+
+  private get schema() {
+    return this.schemaCache.of(this.filter);
   }
 }

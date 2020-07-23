@@ -35,7 +35,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <h3><%= l(:label_history) %></h3>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag('meeting/meeting.js') %>
+  <meta name="required_script" content="meeting" />
 <% end %>
 
 <%= form_tag({:action => "diff"}, :method => :get) do %>

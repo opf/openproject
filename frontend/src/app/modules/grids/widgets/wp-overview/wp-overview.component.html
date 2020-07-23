@@ -3,7 +3,8 @@
     (onRenamed)="renameWidget($event)">
 
   <widget-menu
-      [resource]="resource">
+    slot="menu"
+    [resource]="resource">
   </widget-menu>
 </widget-header>
 

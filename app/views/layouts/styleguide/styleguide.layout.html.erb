@@ -21,17 +21,63 @@
         background-color: white;
       }
 
+      .styleguide-nav--menu-items {
+        margin: 0;
+        background: var(--primary-color);
+        flex-wrap: wrap;
+      }
+
+      .styleguide-nav li {
+        padding: 0.5rem 1rem;
+        flex: 1;
+        text-align: center;
+      }
+
+      .styleguide-nav li:hover {
+        background: var(--header-item-bg-hover-color);
+      }
+
+      .styleguide-nav a {
+        color: var(--header-item-font-color);
+      }
+
+      .styleguide-nav a:hover {
+        color: var(--header-item-font-hover-color);
+        text-decoration: none;
+      }
+
+      .lsg-headline {
+        margin-top: 3rem
+      }
+
+      .lsg-headline:first-child {
+        margin: 0;
+      }
+
+      .lsg-sub-headline {
+        margin-top: 2rem;
+      }
+
+      .lsg-code-block {
+        margin: 1rem 0;
+        border: 1px solid var(--toolbar-item--border-color);
+      }
+
       .lsg-code {
-        display: block;
-        margin: 10px 0;
+        display: inline-block;
+        min-width: 100%;
+        padding: 1rem;
+        border: none;
       }
 
       .styleguide-banner {
-        height: 280px;
         padding: 200px 0 0;
         background: url('/assets/styleguide/logo_openproject.png');
         background-position: top center;
         background-repeat: no-repeat;
+        background-size: contain;
+        max-width: 700px;
+        margin: 1rem auto 3rem auto;
       }
 
       .styleguide-banner--text {
@@ -76,6 +122,22 @@
       .icon-list span.icon {
         display: block;
         font-size: 30px;
+      }
+
+      /* Tablet screen size */
+      @media only screen and (max-width: 1210px) {
+        body {
+          max-width: unset;
+          margin: 0 1rem;
+          transition: all 0.4s;
+        }
+      }
+
+      /* Mobile screen size */
+      @media only screen and (max-width: 679px) {
+        .styleguide-banner {
+          padding: 25% 0 0;
+        }
       }
     </style>
   </head>
