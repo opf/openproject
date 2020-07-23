@@ -27,18 +27,18 @@
 // ++
 
 
-import {Injector} from "@angular/core";
-import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Apiv3TimeEntryPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entry-paths";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 
 export class Apiv3TimeEntriesPaths extends APIv3ResourceCollection<TimeEntryResource, Apiv3TimeEntryPaths> {
-  constructor(readonly injector:Injector,
+  constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
-    super(injector, basePath, 'time_entries', Apiv3TimeEntryPaths);
+    super(apiRoot, basePath, 'time_entries', Apiv3TimeEntryPaths);
   }
 
   // Static paths
-  public readonly form = new APIv3ResourcePath<FormResource>(this.injector, this.path, 'form');
+  public readonly form = this.subResource('form', APIv3FormResource);
 }

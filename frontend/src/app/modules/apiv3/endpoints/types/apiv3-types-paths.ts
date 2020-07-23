@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {Injector} from "@angular/core";
+import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {TypeResource} from "core-app/modules/hal/resources/type-resource";
 import {APIv3TypePaths} from "core-app/modules/apiv3/endpoints/types/apiv3-type-paths";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
-export class APIv3TypesPaths extends APIv3ResourceCollection<TypeResource, APIv3ResourcePath<TypeResource>> {
-  constructor(readonly injector:Injector,
+export class APIv3TypesPaths extends APIv3ResourceCollection<TypeResource, APIv3TypePaths> {
+  constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
-    super(injector, basePath, 'types', APIv3TypePaths);
+    super(apiRoot, basePath, 'types', APIv3TypePaths);
   }
 }

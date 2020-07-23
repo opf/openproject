@@ -35,7 +35,7 @@ import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Injectable} from '@angular/core';
 import {debugLog} from "core-app/helpers/debug_output";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 function getWorkPackageId(id:string|null):string {
   return (id || 'new').toString();
@@ -47,7 +47,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
   /*@ngInject*/
   constructor(private states:States,
               private schemaCacheService:SchemaCacheService,
-              private workPackageDmService:WorkPackageDmService) {
+              private apiV3Service:APIV3Service) {
     super();
   }
 
@@ -115,8 +115,10 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
 
   protected loadAll(ids:string[]) {
     return new Promise<undefined>((resolve, reject) => {
-      this.workPackageDmService
-        .loadWorkPackagesCollectionsFor(_.uniq(ids))
+      this
+        .apiV3Service
+        .work_packages
+        .loadCollectionsFor(_.uniq(ids))
         .then((pagedResults:WorkPackageCollectionResource[]) => {
           _.each(pagedResults, (results) => {
             if (results.schemas) {
@@ -142,7 +144,12 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
         reject(error);
       };
 
-      this.workPackageDmService.loadWorkPackageById(id, true)
+      this
+        .apiV3Service
+        .work_packages
+        .id(id)
+        .get()
+        .toPromise()
         .then((workPackage:WorkPackageResource) => {
           this.schemaCacheService.ensureLoaded(workPackage).then(() => {
             this.multiState.get(id).putValue(workPackage);

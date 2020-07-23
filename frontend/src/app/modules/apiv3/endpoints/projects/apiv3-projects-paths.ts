@@ -28,13 +28,13 @@
 
 import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {APIv3ProjectPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
-import {Injector} from "@angular/core";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class APIv3ProjectsPaths extends APIv3ResourceCollection<ProjectResource, APIv3ProjectPaths> {
-  constructor(readonly injector:Injector,
+  constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
-    super(injector, basePath, 'projects', APIv3ProjectPaths);
+    super(apiRoot, basePath, 'projects', APIv3ProjectPaths);
   }
 
   // /api/v3/projects/schema

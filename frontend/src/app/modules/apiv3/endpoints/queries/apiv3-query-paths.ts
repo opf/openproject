@@ -26,16 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {APIv3GettableResource, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 
-export class APIv3QueryPaths extends APIv3ResourcePath<QueryResource> {
+export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
 
   // Static paths
-  readonly form = new APIv3ResourcePath<FormResource>(this.injector, this.path, 'form');
+  readonly form = this.subResource('form', APIv3FormResource);
 
   // Order path
-  readonly order = new APIv3ResourcePath<HalResource>(this.injector, this.path, 'order');
+  readonly order = this.subResource('order');
 }

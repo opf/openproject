@@ -143,7 +143,6 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
@@ -210,8 +209,6 @@ import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribu
     WorkPackageRelationsService,
     WorkPackageCacheService,
     SchemaCacheService,
-
-    WorkPackageDmService,
 
     WorkPackagesActivityService,
     WorkPackageRelationsService,

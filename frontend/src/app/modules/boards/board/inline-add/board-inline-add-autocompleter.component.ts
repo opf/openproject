@@ -155,7 +155,6 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
       .withOptionalProject(this.CurrentProject.id)
       .work_packages
       .filtered(filters)
-      .get()
       .pipe(
         map(collection => collection.elements),
         catchError((error:unknown) => {

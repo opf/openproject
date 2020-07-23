@@ -41,7 +41,6 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InputState} from "reactivestates";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
@@ -127,7 +126,6 @@ export class WorkPackageBaseResource extends HalResource {
   @InjectField() I18n:I18nService;
   @InjectField() tates:States;
   @InjectField() wpActivity:WorkPackagesActivityService;
-  @InjectField() workPackageDmService:WorkPackageDmService;
   @InjectField() wpCacheService:WorkPackageCacheService;
   @InjectField() NotificationsService:NotificationsService;
   @InjectField() workPackageNotificationService:WorkPackageNotificationService;

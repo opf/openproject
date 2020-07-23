@@ -26,23 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {Injector} from "@angular/core";
+import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 
-export class APIv3VersionPaths extends APIv3ResourceCollection<VersionResource, APIv3ResourcePath<VersionResource>> {
-  constructor(readonly injector:Injector,
+export class APIv3VersionsPaths extends APIv3ResourceCollection<VersionResource, APIv3GettableResource<VersionResource>> {
+  constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
-    super(injector, basePath, 'versions');
+    super(apiRoot, basePath, 'versions');
   }
 
   // Base path
   public readonly path:string;
   // /api/v3/versions/form
-  public readonly form = new APIv3ResourcePath<FormResource>(this.injector, this.path, 'form');
+  public readonly form = this.subResource('form', APIv3FormResource);
 
-  public readonly availableProjects = new APIv3ResourcePath<CollectionResource<ProjectResource>>(this.injector, this.path, 'available_projects');
+  public readonly available_projects = this.subResource('available_projects');
 }

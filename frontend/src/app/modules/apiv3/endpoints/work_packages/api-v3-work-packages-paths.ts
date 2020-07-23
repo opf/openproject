@@ -26,33 +26,55 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {
+  APIv3GettableResource,
+  APIv3ResourceCollection,
+  APIv3ResourcePath
+} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Injector} from "@angular/core";
 import {APIV3WorkPackagePaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-paths";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3FilterBuilder, buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import {Observable} from "rxjs";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import {APIv3WorkPackageForm} from "core-app/modules/apiv3/endpoints/work_packages/apiv3-work-package-form";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageResource, APIV3WorkPackagePaths> {
   // Base path
   public readonly path:string;
 
-  constructor(readonly injector:Injector,
+  constructor(readonly apiRoot:APIV3Service,
               protected basePath:string) {
-    super(injector, basePath, 'work_packages', APIV3WorkPackagePaths);
+    super(apiRoot, basePath, 'work_packages', APIV3WorkPackagePaths);
   }
 
   // Static paths
 
   // /api/v3/(projects/:projectIdentifier)/work_packages/form
-  public readonly form = new APIv3ResourcePath(this.injector, this.path, 'form');
+  public readonly form:APIv3WorkPackageForm = this.subResource('form', APIv3WorkPackageForm);
+
+  /**
+   * Create a work package from a form payload
+   *
+   * @param payload
+   * @return {Promise<WorkPackageResource>}
+   */
+  public post(payload:Object):Observable<WorkPackageResource> {
+    return this
+      .halResourceService
+      .post<WorkPackageResource>(this.path, payload);
+  }
 
   /**
    * Shortcut to filter work packages by subject or ID
    * @param term
    * @param idOnly
    */
-  public filterBySubjectOrId(term:string, idOnly:boolean = false):APIv3ResourcePath<CollectionResource<WorkPackageResource>> {
+  public filterBySubjectOrId(term:string, idOnly:boolean = false):Observable<CollectionResource<WorkPackageResource>> {
     let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
     if (idOnly) {
@@ -62,6 +84,25 @@ export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageR
     }
 
     return this.filtered(filters);
+  }
+
+  /**
+   * Loads the work packages collection for the given work package IDs.
+   * Returns a WP Collection with schemas and results embedded.
+   *
+   * @param ids
+   * @return {WorkPackageCollectionResource[]}
+   */
+  public loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
+    return this
+      .halResourceService
+      .getAllPaginated<WorkPackageCollectionResource[]>(
+      this.path,
+      ids.length,
+      {
+        filters: buildApiV3Filter('id', '=', ids).toJson(),
+      }
+    );
   }
 
 }

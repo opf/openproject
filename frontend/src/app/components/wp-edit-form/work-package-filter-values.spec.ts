@@ -47,7 +47,6 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {UIRouterModule} from "@uirouter/angular";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {HookService} from "core-app/modules/plugins/hook-service";

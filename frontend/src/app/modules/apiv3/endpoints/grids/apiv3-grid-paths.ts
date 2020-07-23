@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 
-export class Apiv3GridPaths extends APIv3ResourcePath<GridResource> {
+export class Apiv3GridPaths extends APIv3GettableResource<GridResource> {
   // Static paths
-  readonly form = this.subResource<FormResource>('form');
+  readonly form = this.subResource('form', APIv3FormResource);
 }

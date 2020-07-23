@@ -6,18 +6,32 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Observable} from "rxjs";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class APIv3ResourcePath<T extends HalResource = HalResource> extends SimpleResource {
+  readonly injector = this.apiRoot.injector;
   @InjectField() halResourceService:HalResourceService;
 
-  constructor(readonly injector:Injector,
+  constructor(protected apiRoot:APIV3Service,
               readonly basePath:string,
               readonly id:string|number,
               protected parent?:APIv3ResourcePath|APIv3ResourceCollection<any, any>) {
     super(basePath, id);
   }
 
+
+  /**
+   * Build a singular resource from the current segment
+   *
+   * @param segment Additional segment to add to the current path
+   */
+  protected subResource<R = APIv3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
+    return new cls(this.apiRoot, this.path, segment, this);
+  }
+}
+
+
+export class APIv3GettableResource<T extends HalResource = HalResource> extends APIv3ResourcePath<T> {
   /**
    * Perform a request to the HalResourceService with the current path
    */
@@ -26,21 +40,13 @@ export class APIv3ResourcePath<T extends HalResource = HalResource> extends Simp
       .halResourceService
       .get<T>(this.path);
   }
-
-  /**
-   * Build a singular resource from the current segment
-   *
-   * @param segment Additional segment to add to the current path
-   */
-  protected subResource<V extends HalResource = HalResource>(segment:string):APIv3ResourcePath<V> {
-    return new APIv3ResourcePath<V>(this.injector, this.path, segment, this);
-  }
 }
 
-export class APIv3ResourceCollection<V extends HalResource, T extends APIv3ResourcePath<V>> extends SimpleResourceCollection {
+export class APIv3ResourceCollection<V extends HalResource, T extends APIv3GettableResource<V>> extends SimpleResourceCollection {
+  readonly injector = this.apiRoot.injector;
   @InjectField() halResourceService:HalResourceService;
 
-  constructor(readonly injector:Injector,
+  constructor(protected apiRoot:APIV3Service,
               protected basePath:string,
               segment:string,
               protected resource?:Constructor<T>) {
@@ -53,7 +59,7 @@ export class APIv3ResourceCollection<V extends HalResource, T extends APIv3Resou
    * @param id
    */
   public id(id:string|number):T {
-    return new (this.resource || APIv3ResourcePath)(this.injector, this.path, id, this) as T;
+    return new (this.resource || APIv3GettableResource)(this.apiRoot, this.path, id, this) as T;
   }
 
 
@@ -83,8 +89,8 @@ export class APIv3ResourceCollection<V extends HalResource, T extends APIv3Resou
    * Returns a new resource with the path extended with a URL query
    * to match the filters.
    */
-  public filtered<R extends HalResource = V>(filters:ApiV3FilterBuilder):APIv3ResourcePath<R> {
-    return this.subResource<R>('/?' + filters.toParams());
+  public filtered<R extends HalResource = V>(filters:ApiV3FilterBuilder):Observable<R> {
+    return this.subResource<R>('/?' + filters.toParams()).get();
   }
 
   /**
@@ -92,7 +98,7 @@ export class APIv3ResourceCollection<V extends HalResource, T extends APIv3Resou
    *
    * @param segment Additional segment to add to the current path
    */
-  protected subResource<R extends HalResource = V>(segment:string):APIv3ResourcePath<R> {
-    return new APIv3ResourcePath<R>(this.injector, this.path, segment);
+  protected subResource<R = APIv3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
+    return new cls(this.apiRoot, this.path, segment);
   }
 }

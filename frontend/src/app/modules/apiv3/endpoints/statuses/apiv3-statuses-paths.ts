@@ -33,11 +33,12 @@ import {APIv3StatusPaths} from "core-app/modules/apiv3/endpoints/statuses/apiv3-
 import {Observable} from "rxjs";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {tap} from "rxjs/operators";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class APIv3StatusesPaths extends APIv3ResourceCollection<StatusResource, APIv3StatusPaths> {
-  constructor(readonly injector:Injector,
+  constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
-    super(injector, basePath, 'statuses', APIv3StatusPaths);
+    super(apiRoot, basePath, 'statuses', APIv3StatusPaths);
   }
 
   /**

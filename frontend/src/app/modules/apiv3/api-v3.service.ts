@@ -27,12 +27,11 @@
 // ++
 
 import {Injectable, Injector} from "@angular/core";
-import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Constructor} from "@angular/cdk/table";
 import {Apiv3GridsPaths} from "core-app/modules/apiv3/endpoints/grids/apiv3-grids-paths";
 import {Apiv3TimeEntriesPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
 import {Apiv3MembershipsPaths} from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-paths";
-import {APIv3VersionPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-version-paths";
 import {Apiv3UsersPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-users-paths";
 import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
 import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
@@ -43,6 +42,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {APIv3ProjectPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
 import {RootResource} from "core-app/modules/hal/resources/root-resource";
 import {APIv3StatusesPaths} from "core-app/modules/apiv3/endpoints/statuses/apiv3-statuses-paths";
+import {APIv3VersionsPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-versions-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -86,7 +86,7 @@ export class APIV3Service {
   public readonly types = this.apiV3CustomEndpoint(APIv3TypesPaths);
 
   // /api/v3/versions
-  public readonly versions = this.apiV3CustomEndpoint(APIv3VersionPaths);
+  public readonly versions = this.apiV3CustomEndpoint(APIv3VersionsPaths);
 
   // /api/v3/work_packages
   public readonly work_packages = this.apiV3CustomEndpoint(APIV3WorkPackagesPaths);
@@ -106,8 +106,8 @@ export class APIV3Service {
   // /api/v3/job_statuses
   public readonly job_statuses = this.apiV3CollectionEndpoint('job_statuses');
 
-  constructor(protected readonly injector:Injector,
-              protected readonly pathHelper:PathHelperService) {
+  constructor(readonly injector:Injector,
+              readonly pathHelper:PathHelperService) {
   }
 
   /**
@@ -127,15 +127,15 @@ export class APIV3Service {
     }
   }
 
-  private apiV3CollectionEndpoint<V extends HalResource, T extends APIv3ResourcePath<V>>(segment:string, resource?:Constructor<T>) {
-    return new APIv3ResourceCollection<V, T>(this.injector, this.pathHelper.api.v3.appBasePath, segment, resource);
+  private apiV3CollectionEndpoint<V extends HalResource, T extends APIv3GettableResource<V>>(segment:string, resource?:Constructor<T>) {
+    return new APIv3ResourceCollection<V, T>(this, this.pathHelper.api.v3.appBasePath, segment, resource);
   }
 
   private apiV3CustomEndpoint<T>(cls:Constructor<T>):T {
-    return new cls(this.injector, this.pathHelper.api.v3.appBasePath);
+    return new cls(this, this.pathHelper.api.v3.appBasePath);
   }
 
-  private apiV3SingularEndpoint<T extends HalResource = HalResource>(segment:string) {
-    return new APIv3ResourcePath<T>(this.injector, this.pathHelper.api.v3.appBasePath, segment);
+  private apiV3SingularEndpoint<T extends HalResource = HalResource>(segment:string):APIv3GettableResource<T> {
+    return new APIv3GettableResource<T>(this, this.pathHelper.api.v3.appBasePath, segment);
   }
 }

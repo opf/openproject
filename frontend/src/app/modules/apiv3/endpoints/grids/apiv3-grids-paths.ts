@@ -31,12 +31,13 @@ import {Injector} from "@angular/core";
 import {Constructor} from "@angular/cdk/table";
 import {Apiv3GridPaths} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-paths";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class Apiv3GridsPaths extends APIv3ResourceCollection<GridResource, Apiv3GridPaths> {
-  constructor(readonly injector:Injector,
+  constructor(protected apiRoot:APIV3Service,
               protected basePath:string,
               protected resource?:Constructor<Apiv3GridPaths>) {
-    super(injector, basePath, 'grids', Apiv3GridPaths);
+    super(apiRoot, basePath, 'grids', Apiv3GridPaths);
   }
 
   readonly form = this.subResource('form');

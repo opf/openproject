@@ -77,7 +77,7 @@ export class VersionDmService {
   public canCreateVersionInProject(id:string):Promise<boolean> {
     return this.halResourceService
       .get<CollectionResource<ProjectResource>>(
-        this.apiV3Service.versions.availableProjects.toString(),
+        this.apiV3Service.versions.available_projects.toString(),
         { filters: buildApiV3Filter('id', '=', [id]).toJson() }
       )
       .toPromise()
@@ -88,7 +88,7 @@ export class VersionDmService {
 
   public listProjectsAvailableForVersions():Promise<CollectionResource<ProjectResource>> {
     return this.halResourceService
-      .get<CollectionResource<ProjectResource>>(this.apiV3Service.versions.availableProjects.toString())
+      .get<CollectionResource<ProjectResource>>(this.apiV3Service.versions.available_projects.toString())
       .toPromise();
   }
 

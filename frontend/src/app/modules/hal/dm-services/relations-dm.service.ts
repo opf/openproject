@@ -64,7 +64,6 @@ export class RelationsDmService {
       .apiV3Service
       .relations
       .filtered(buildApiV3Filter('involved', '=', validIds))
-      .get()
       .toPromise()
       .then((collection:CollectionResource<RelationResource>) => collection.elements);
   }

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {APIv3GettableResource, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {States} from "core-components/states.service";
 import {StateCacheParameters, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
@@ -35,7 +35,7 @@ import {MultiInputState} from "reactivestates";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
-  extends APIv3ResourcePath<T> {
+  extends APIv3GettableResource<T> {
   @InjectField() states:States;
 
   readonly cache = this.createCache();

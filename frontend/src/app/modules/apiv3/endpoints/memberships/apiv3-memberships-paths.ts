@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {Injector} from "@angular/core";
+import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
-export class Apiv3MembershipsPaths extends APIv3ResourceCollection<HalResource, APIv3ResourcePath> {
-  constructor(readonly injector:Injector,
+export class Apiv3MembershipsPaths extends APIv3ResourceCollection<HalResource, APIv3GettableResource> {
+  constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
-    super(injector, basePath, 'memberships');
+    super(apiRoot, basePath, 'memberships');
   }
 
   // /api/v3/memberships/available_projects

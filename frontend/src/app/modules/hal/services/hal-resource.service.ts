@@ -133,14 +133,14 @@ export class HalResourceService {
     // Current offset page
     let page = 1;
     // Accumulated results
-    const allResults:CollectionResource[] = [];
+    const allResults:T = [] as any;
     // If possible, request all at once.
     params.pageSize = expected;
 
     while (retrieved < expected) {
       params.offset = page;
 
-      const promise = this.request<CollectionResource>('get', href, this.toEprops(params), headers).toPromise();
+      const promise = this.request('get', href, this.toEprops(params), headers).toPromise();
       const results = await promise;
 
       if (results.count === 0) {

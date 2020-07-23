@@ -41,7 +41,6 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {take, takeWhile} from 'rxjs/operators';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
@@ -50,7 +49,6 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 describe('WorkPackageCacheService', () => {
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
-  let workPackageDmService:WorkPackageDmService;
   let schemaCacheService:SchemaCacheService;
   let dummyWorkPackages:WorkPackageResource[] = [];
 
@@ -66,7 +64,6 @@ describe('WorkPackageCacheService', () => {
         WorkPackagesActivityService,
         WorkPackageCacheService,
         SchemaCacheService,
-        WorkPackageDmService,
         {provide: ConfigurationService, useValue: {}},
         {provide: PathHelperService, useValue: {}},
         {provide: I18nService, useValue: {t: (...args:any[]) => 'translation'}},
@@ -82,10 +79,6 @@ describe('WorkPackageCacheService', () => {
     injector = TestBed.get(Injector);
     wpCacheService = TestBed.get(WorkPackageCacheService);
     schemaCacheService = TestBed.get(SchemaCacheService);
-    workPackageDmService = TestBed.get(WorkPackageDmService);
-
-    // sinon.stub(WorkPackageDmService, 'loadWorkPackageById').returns(Promise.resolve(true));
-    spyOn(workPackageDmService, 'loadWorkPackageById').and.returnValue(Promise.resolve(true as any));
 
     // sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
     spyOn(schemaCacheService, 'ensureLoaded').and.returnValue(Promise.resolve(true as any));
