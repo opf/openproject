@@ -42,7 +42,6 @@ import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
 import {NewsDmService} from './dm-services/news-dm.service';
-import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
 import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
@@ -64,7 +63,6 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
     PayloadDmService,
     ProjectDmService,
     QueryDmService,
-    QueryOrderDmService,
     QueryFormDmService,
     RelationsDmService,
     TimeEntryDmService,

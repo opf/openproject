@@ -26,11 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3GettableResource, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import {APIV3QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
 
@@ -38,5 +37,5 @@ export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
   readonly form = this.subResource('form', APIv3FormResource);
 
   // Order path
-  readonly order = this.subResource('order');
+  readonly order = new APIV3QueryOrder(this.injector, this.path, 'order');
 }

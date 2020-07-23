@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2020 the OpenProject GmbH
 //
@@ -24,35 +24,37 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {Injectable} from '@angular/core';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {Injector} from "@angular/core";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {HttpClient} from "@angular/common/http";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {SimpleResource} from "core-app/modules/apiv3/paths/path-resources";
 
 export type QueryOrder = { [wpId:string]:number };
 
-@Injectable()
-export class QueryOrderDmService {
-  constructor(protected http:HttpClient,
-              protected apiV3Service:APIV3Service,
-              protected pathHelper:PathHelperService) {
+export class APIV3QueryOrder extends SimpleResource {
+  @InjectField() http:HttpClient;
+
+  constructor(readonly injector:Injector,
+              readonly basePath:string,
+              readonly id:string|number) {
+    super(basePath, id);
   }
 
-  public get(id:string):Promise<QueryOrder> {
+  public get():Promise<QueryOrder> {
     return this.http
       .get<QueryOrder>(
-        this.orderPath(id)
+        this.path
       )
       .toPromise()
       .then(result => result || {});
   }
 
-  public update(id:string, delta:QueryOrder):Promise<string> {
+  public update(delta:QueryOrder):Promise<string> {
     return this.http
       .patch(
-        this.orderPath(id),
+        this.path,
         { delta: delta },
         { withCredentials: true }
       )
@@ -61,13 +63,9 @@ export class QueryOrderDmService {
   }
 
   public delete(id:string, ...wpIds:string[]) {
-    let delta:QueryOrder = {}
+    let delta:QueryOrder = {};
     wpIds.forEach(id => delta[id] = -1);
 
-    return this.update(id, delta);
-  }
-
-  protected orderPath(id:string) {
-    return this.apiV3Service.queries.id(id).order.toString();
+    return this.update(delta);
   }
 }
