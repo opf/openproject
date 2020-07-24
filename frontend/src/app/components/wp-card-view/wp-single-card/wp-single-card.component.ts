@@ -5,8 +5,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output,
-  ElementRef
+  Output
 } from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {checkedClassName, uiStateLinkClass} from "core-components/wp-fast-table/builders/ui-state-link-builder";
@@ -53,19 +52,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
               readonly wpTableSelection:WorkPackageViewSelectionService,
               readonly wpTableFocus:WorkPackageViewFocusService,
               readonly cardView:WorkPackageCardViewService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+              readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
   ngOnInit():void {
-    // Scroll into view this card if it represents the selected WorkPackage
-    // so when the user clicks a WP from a wp-split-view-entry (list of wp) and then
-    // clicks on the 'back button', the last selected card is visible on the list.
-    if (this.isSelected(this.workPackage)) {
-      this.elementRef.nativeElement.scrollIntoView({block: "start"});
-    }
-
     // Update selection state
     this.wpTableSelection.live$()
       .pipe(
