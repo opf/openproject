@@ -1,5 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {RevitBridgeService} from "core-app/modules/bim/revit_addin/revit-bridge.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 /*
  * This service conditionally creates two settings buttons (on the user menu and on
@@ -7,10 +8,17 @@ import {RevitBridgeService} from "core-app/modules/bim/revit_addin/revit-bridge.
  */
 @Injectable()
 export class RevitAddinSettingsButtonService {
-  constructor(readonly injector:Injector) {
+  private readonly labelText:string;
+  private readonly groupLabelText:string;
+
+  constructor(readonly injector:Injector,
+              readonly i18n:I18nService) {
     const onRevitAddinEnvironment = window.navigator.userAgent.search('Revit') > -1;
 
     if (onRevitAddinEnvironment) {
+      this.labelText = i18n.t('js.revit.revit_addin_settings');
+      this.groupLabelText = i18n.t('js.revit.revit_addin');
+
       this.addUserMenuItem();
       this.addLoginMenuItem();
     }
@@ -21,10 +29,10 @@ export class RevitAddinSettingsButtonService {
 
     if (userMenu) {
       const menuItem:HTMLElement = document.createElement('li');
-      menuItem.dataset.name = 'Revit Addin settings';
+      menuItem.dataset.name = this.labelText;
       menuItem.innerHTML = `
-        <a class="revit-addin-settings-menu-item ellipsis" title="Revit Addin settings" href="#">
-          <span class="menu-item--title ellipsis ">Revit Addin settings</span>
+        <a class="revit-addin-settings-menu-item ellipsis" title="${this.labelText}" href="#">
+          <span class="menu-item--title ellipsis ">${this.labelText}</span>
         </a>
       `;
 
@@ -38,17 +46,18 @@ export class RevitAddinSettingsButtonService {
 
     if (loginModal) {
       const loginMenuItem:HTMLElement = document.createElement('div');
-      loginMenuItem.dataset.name = 'Revit Addin settings';
+
+      loginMenuItem.dataset.name = this.labelText;
       loginMenuItem.innerHTML = `
         <div class="login-auth-providers">
           <h3 class="login-auth-providers-title">
             <span>
-             Revit Addin
+              ${this.groupLabelText}
             </span>
            </h3>
           <div class="login-auth-provider-list revit-addin-button">
             <div class="auth-provider auth-provider-developer button">
-              <span class="auth-provider-name">Go to Revit Addin settings</span>
+              <span class="auth-provider-name">${this.labelText}</span>
             </div>
           </div>
         </div>
