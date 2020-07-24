@@ -26,7 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit} from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Injector,
+  OnInit,
+  ElementRef,
+  NgZone
+} from "@angular/core";
 import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
@@ -93,7 +101,9 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
               readonly deviceService:DeviceService,
               readonly CurrentProject:CurrentProjectService,
               readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
-              readonly cdRef:ChangeDetectorRef) {
+              readonly cdRef:ChangeDetectorRef,
+              readonly elementRef:ElementRef,
+              private ngZone:NgZone) {
     super();
   }
 
@@ -109,6 +119,24 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       this.noResults = query.results.total === 0;
       this.cdRef.detectChanges();
     });
+
+    // Scroll into view the card/row that represents the last selected WorkPackage
+    // so when the user opens a WP detail page on a split-view and then clicks on
+    // the 'back button', the last selected card is visible on this list.
+    // ngAfterViewInit doesn't find the .-checked elements on components
+    // that inherit from this class (BcfListContainerComponent) so
+    // opting for a timeout 'runOutsideAngular' to avoid running change
+    // detection on the entire app
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        const selectedElement = this.elementRef.nativeElement.querySelector('.wp-table--row.-checked') ||
+                                this.elementRef.nativeElement.querySelector('.wp-card.-checked');
+
+        if (selectedElement) {
+          selectedElement.scrollIntoView({block: "start"});
+        }
+      }, 0);
+    });
   }
 
   protected setupInformationLoadedListener() {
@@ -123,7 +151,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       });
   }
 
-  protected showResizerInCardView():boolean {
+  public showResizerInCardView():boolean {
     return false;
   }
 
