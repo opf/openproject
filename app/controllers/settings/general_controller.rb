@@ -28,6 +28,8 @@
 #++
 
 class Settings::GeneralController < SettingsController
+  include AdminSettingsUpdater
+
   menu_item :settings_general
 
   def show

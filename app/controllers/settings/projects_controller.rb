@@ -28,6 +28,8 @@
 #++
 
 class Settings::ProjectsController < SettingsController
+  include AdminSettingsUpdater
+
   menu_item :settings_projects
 
   def show

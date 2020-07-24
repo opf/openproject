@@ -28,6 +28,8 @@
 #++
 
 class Settings::DisplayController < SettingsController
+  include AdminSettingsUpdater
+
   menu_item :settings_display
 
   def show

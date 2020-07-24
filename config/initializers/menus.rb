@@ -217,7 +217,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-enumerations'
 
   menu.push :settings,
-            { controller: '/settings', action: 'show' },
+            { controller: '/settings/general', action: 'show' },
             caption: :label_system_settings,
             icon: 'icon2 icon-settings2'
 

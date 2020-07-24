@@ -45,9 +45,7 @@ class SettingsController < ApplicationController
   end
 
   def show
-    @guessed_host = request.host_with_port.dup
-
-    @custom_style = CustomStyle.current || CustomStyle.new
+    redirect_to general_settings_path
   end
 
   def plugin

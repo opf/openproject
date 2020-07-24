@@ -28,6 +28,8 @@
 #++
 
 class Settings::RepositoriesController < SettingsController
+  include AdminSettingsUpdater
+
   menu_item :settings_repositories
 
   def show
