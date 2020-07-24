@@ -38,4 +38,8 @@ class Settings::DisplayController < SettingsController
 
     render template: 'settings/_display'
   end
+
+  def default_breadcrumb
+    t(:label_display)
+  end
 end

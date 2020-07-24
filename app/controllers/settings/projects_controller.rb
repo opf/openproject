@@ -35,4 +35,8 @@ class Settings::ProjectsController < SettingsController
   def show
     render template: 'settings/_projects'
   end
+
+  def default_breadcrumb
+    t(:label_project_plural)
+  end
 end

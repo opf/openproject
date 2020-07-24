@@ -62,15 +62,6 @@ class SettingsController < ApplicationController
     render_404
   end
 
-  def default_breadcrumb
-    if params[:action] == "plugin"
-      plugin = Redmine::Plugin.find(params[:id])
-      plugin.name
-    else
-      t(:label_system_settings)
-    end
-  end
-
   def show_local_breadcrumb
     true
   end

@@ -35,4 +35,8 @@ class Settings::RepositoriesController < SettingsController
   def show
     render template: 'settings/_repositories'
   end
+
+  def default_breadcrumb
+    t(:label_repository_plural)
+  end
 end

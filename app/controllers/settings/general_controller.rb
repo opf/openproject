@@ -35,4 +35,8 @@ class Settings::GeneralController < SettingsController
   def show
     render template: 'settings/_general'
   end
+
+  def default_breadcrumb
+    t(:label_general)
+  end
 end
