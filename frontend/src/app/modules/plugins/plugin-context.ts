@@ -7,7 +7,6 @@ import {ExternalQueryConfigurationService} from "core-components/wp-table/extern
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PasswordConfirmationModal} from "../../components/modals/request-for-confirmation/password-confirmation.modal";
 import {OpModalService} from "../../components/op-modals/op-modal.service";
-import {HelpTextDmService} from "../hal/dm-services/help-text-dm.service";
 import {AttributeHelpTextsService} from "../common/help-texts/attribute-help-text.service";
 import {AttributeHelpTextModal} from "../common/help-texts/attribute-help-text.modal";
 import {DynamicContentModal} from "../../components/modals/modal-wrapper/dynamic-content.modal";
@@ -49,7 +48,6 @@ export class OpenProjectPluginContext {
     notifications: this.injector.get<NotificationsService>(NotificationsService),
     opModalService: this.injector.get<OpModalService>(OpModalService),
     opFileUpload: this.injector.get<OpenProjectFileUploadService>(OpenProjectFileUploadService),
-    helpTextDm: this.injector.get<HelpTextDmService>(HelpTextDmService),
     attributeHelpTexts: this.injector.get<AttributeHelpTextsService>(AttributeHelpTextsService),
     displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),
     editField: this.injector.get<EditFieldService>(EditFieldService),

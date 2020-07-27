@@ -28,15 +28,15 @@
 
 import {input} from 'reactivestates';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
-import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
 import {Injectable} from '@angular/core';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable({ providedIn: 'root' })
 export class AttributeHelpTextsService {
   private helpTexts = input<HelpTextResource[]>();
 
-  constructor(private helpTextDm:HelpTextDmService) {
+  constructor(private apiV3Service:APIV3Service) {
   }
 
   /**
@@ -46,17 +46,41 @@ export class AttributeHelpTextsService {
    * @param scope
    */
   public require(attribute:string, scope:string):Promise<HelpTextResource|undefined> {
-      this.helpTexts.putFromPromiseIfPristine(() =>
-        this.helpTextDm
-          .loadAll()
-          .then((resources:CollectionResource<HelpTextResource>) => resources.elements)
-      );
+      this.load();
 
       return new Promise<HelpTextResource|undefined>((resolve, reject) => {
         this.helpTexts
           .valuesPromise()
           .then(() => resolve(this.find(attribute, scope)));
        });
+  }
+
+  /**
+   * Search for a given attribute help text
+   *
+   */
+  public requireById(id:string):Promise<HelpTextResource|undefined> {
+    this.load();
+
+    return new Promise<HelpTextResource|undefined>((resolve, reject) => {
+      this.helpTexts
+        .valuesPromise()
+        .then(() => {
+          const value = this.helpTexts.getValueOr([]);
+          return _.find(value, element => element.id.toString() === id);
+        });
+    });
+  }
+
+  private load():void {
+    this.helpTexts.putFromPromiseIfPristine(() =>
+      this.apiV3Service
+        .help_texts
+        .get()
+        .toPromise()
+        .then((resources:CollectionResource<HelpTextResource>) => resources.elements)
+    );
+
   }
 
   private find(attribute:string, scope:string):HelpTextResource|undefined {

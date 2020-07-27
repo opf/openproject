@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2020 the OpenProject GmbH
 //
@@ -24,31 +24,28 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {Injectable} from '@angular/core';
+import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Observable} from "rxjs";
+import {HelpTextResource} from "core-app/modules/hal/resources/help-text-resource";
 
-@Injectable()
-export class HelpTextDmService {
-  constructor(protected halResourceService:HalResourceService,
-              protected apiV3Service:APIV3Service,
-              protected pathHelper:PathHelperService) {
+export class Apiv3HelpTextsPaths
+  extends APIv3ResourceCollection<HelpTextResource, APIv3GettableResource<HelpTextResource>> {
+  constructor(protected apiRoot:APIV3Service,
+              protected basePath:string) {
+    super(apiRoot, basePath, 'help_texts');
   }
 
-  public loadAll():Promise<CollectionResource<HelpTextResource>> {
-    return this.halResourceService
-      .get<CollectionResource<HelpTextResource>>(this.apiV3Service.help_texts.toString())
-      .toPromise();
-  }
-
-  public load(helpTextId:string):Promise<HelpTextResource> {
-    return this.halResourceService
-      .get<HelpTextResource>(this.apiV3Service.help_texts.id(helpTextId).toString())
-      .toPromise();
+  /**
+   * Load a list of membership entries with a given list parameter filter
+   * @param params
+   */
+  public get():Observable<CollectionResource<HelpTextResource>> {
+    return this
+      .halResourceService
+      .get<CollectionResource<HelpTextResource>>(this.path);
   }
 }

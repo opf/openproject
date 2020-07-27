@@ -45,6 +45,7 @@ import {APIv3StatusesPaths} from "core-app/modules/apiv3/endpoints/statuses/apiv
 import {APIv3VersionsPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-versions-paths";
 import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
 import {Apiv3NewsPaths} from "core-app/modules/apiv3/endpoints/news/apiv3-news-paths";
+import {Apiv3HelpTextsPaths} from "core-app/modules/apiv3/endpoints/help_texts/apiv3-help-texts-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -103,7 +104,7 @@ export class APIV3Service {
   public readonly users = this.apiV3CustomEndpoint(Apiv3UsersPaths);
 
   // /api/v3/help_texts
-  public readonly help_texts = this.apiV3CollectionEndpoint('help_texts');
+  public readonly help_texts = this.apiV3CustomEndpoint(Apiv3HelpTextsPaths);
 
   // /api/v3/job_statuses
   public readonly job_statuses = this.apiV3CollectionEndpoint('job_statuses');
