@@ -43,23 +43,43 @@ describe 'BIM Revit Add-in navigation spec',
                       member_through_role: role
   end
 
-  let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
+  context "logged in on model page" do
+    let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
 
-  before do
-    login_as(user)
-    model_page.visit!
-    model_page.finished_loading
+    before do
+      login_as(user)
+      model_page.visit!
+      model_page.finished_loading
+    end
+
+    it 'shows "Cards" view by default' do
+      model_page.expect_view_toggle_at 'Cards'
+    end
+
+    it 'shows no viewer' do
+      model_page.model_viewer_visible false
+    end
+
+    it 'has no viewer options' do
+      model_page.has_no_menu_item_with_text? 'Viewer'
+    end
+
+    it 'the user menu has an option to go to the addin settings' do
+      within '.top-menu-items-right' do
+        page.find("a[title='#{user.name}']").click
+
+        expect(page).to have_selector('li', text: I18n.t('js.revit.revit_addin_settings'))
+      end
+    end
   end
 
-  it 'shows "Cards" view by default' do
-    model_page.expect_view_toggle_at 'Cards'
-  end
+  context "signed out" do
+    it 'the user menu has an option to go to the addin settings' do
+      visit home_path
+      1
+      click_link I18n.t(:label_login)
 
-  it 'shows no viewer' do
-    model_page.model_viewer_visible false
-  end
-
-  it 'has no viewer options' do
-    model_page.has_no_menu_item_with_text? 'Viewer'
+      expect(page).to have_text(I18n.t('js.revit.revit_addin_settings'))
+    end
   end
 end
