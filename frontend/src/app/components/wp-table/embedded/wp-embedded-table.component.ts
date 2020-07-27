@@ -9,10 +9,10 @@ import {WpTableConfigurationModalComponent} from 'core-components/wp-table/confi
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {distinctUntilChanged, map, take, withLatestFrom} from "rxjs/operators";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -31,11 +31,11 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
   @InjectField() QueryDm:QueryDmService;
+  @InjectField() apiv3Service:APIV3Service;
   @InjectField() opModalService:OpModalService;
   @InjectField() tableActionsService:OpTableActionsService;
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
   @InjectField() wpTablePagination:WorkPackageViewPaginationService;
-  @InjectField() QueryFormDm:QueryFormDmService;
   @InjectField() keepTab:KeepTabService;
 
   // Cache the form promise
@@ -113,13 +113,18 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       return this.formPromise;
     }
 
-    return this.formPromise = this.QueryFormDm
-      .load(query)
-      .then((form:QueryFormResource) => {
-        this.wpStatesInitialization.updateStatesFromForm(query, form);
-        return form;
-      })
-      .catch(() => this.formPromise = undefined);
+    return this.formPromise =
+      this
+        .apiv3Service
+        .queries
+        .form
+        .load(query)
+        .toPromise()
+        .then(([form, _]) => {
+          this.wpStatesInitialization.updateStatesFromForm(query, form);
+          return form;
+        })
+        .catch(() => this.formPromise = undefined);
   }
 
   public loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource> {

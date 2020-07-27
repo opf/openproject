@@ -28,11 +28,12 @@
 
 import {APIv3GettableResource, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
 
 export class APIV3WorkPackagePaths extends APIv3GettableResource<WorkPackageResource> {
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
-  public readonly relations = this.subResource('relations');
+  public readonly relations = this.subResource('relations', Apiv3RelationsPaths);
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/revisions
   public readonly revisions = this.subResource('revisions');

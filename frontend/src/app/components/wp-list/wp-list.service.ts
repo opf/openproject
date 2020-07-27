@@ -37,7 +37,6 @@ import {AuthorisationService} from 'core-app/modules/common/model-auth/model-aut
 import {StateService} from '@uirouter/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
@@ -48,6 +47,7 @@ import {catchError, mergeMap, share, switchMap, take} from "rxjs/operators";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {PaginationService} from "core-components/table-pagination/pagination-service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -91,7 +91,7 @@ export class WorkPackagesListService {
               protected authorisationService:AuthorisationService,
               protected $state:StateService,
               protected QueryDm:QueryDmService,
-              protected QueryFormDm:QueryFormDmService,
+              protected apiV3Service:APIV3Service,
               protected states:States,
               protected querySpace:IsolatedQuerySpace,
               protected pagination:PaginationService,
@@ -210,11 +210,17 @@ export class WorkPackagesListService {
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
-    return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
-      this.wpStatesInitialization.updateStatesFromForm(query, form);
+    return this
+      .apiV3Service
+      .queries
+      .form
+      .load(query)
+      .toPromise()
+      .then(([form, _]) => {
+        this.wpStatesInitialization.updateStatesFromForm(query, form);
 
-      return form;
-    });
+        return form;
+      });
   }
 
   /**
@@ -334,8 +340,13 @@ export class WorkPackagesListService {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
-      this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
-        .then(form => {
+      this
+        .apiV3Service
+        .queries
+        .form
+        .loadWithParams(queryProps, queryId, projectIdentifier)
+        .toPromise()
+        .then(([form, _]) => {
           this.QueryDm.findDefault({ pageSize: 0 }, projectIdentifier)
             .then((query:QueryResource) => {
               this.wpListInvalidQueryService.restoreQuery(query, form);

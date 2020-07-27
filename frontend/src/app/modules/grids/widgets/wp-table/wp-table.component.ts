@@ -5,12 +5,12 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
 import {Observable} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {StateService} from '@uirouter/core';
 import {skip} from 'rxjs/operators';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'widget-wp-table',
@@ -37,7 +37,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
               protected readonly state:StateService,
               protected readonly queryDm:QueryDmService,
               protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly queryFormDm:QueryFormDmService) {
+              protected readonly apiV3Service:APIV3Service) {
     super(i18n, injector);
   }
 
@@ -82,8 +82,12 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
     if (this.queryForm) {
       this.saveQuery(query);
     } else {
-      this.queryFormDm.load(query).then((form) => {
-        this.queryForm = form;
+      this
+        .apiV3Service
+        .queries
+        .form
+        .load(query)
+        .subscribe(([form, query]) => {
         this.saveQuery(query);
       });
     }
@@ -108,16 +112,18 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
     let initializationProps = this.resource.options.queryProps;
     let queryProps = Object.assign({ pageSize: 0 }, initializationProps);
 
-    return this.queryFormDm
+    return this
+      .apiV3Service
+      .queries
+      .form
       .loadWithParams(
         queryProps,
         undefined,
         projectIdentifier,
         this.queryCreationParams()
       )
-      .then(form => {
-        const query = this.queryFormDm.buildQueryResource(form);
-
+      .toPromise()
+      .then(([form, query]) => {
         return this.queryDm.create(query, form).then((query) => {
           delete this.resource.options.queryProps;
 

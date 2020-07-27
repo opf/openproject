@@ -5,7 +5,6 @@ import {TabInterface} from "core-components/wp-table/configuration-modal/tab-por
 import {Injectable} from '@angular/core';
 import {WpGraphConfigurationFiltersTab} from "core-app/modules/work-package-graphs/configuration-modal/tabs/filters-tab.component";
 import {ChartType} from 'chart.js';
-import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {
@@ -14,6 +13,7 @@ import {
 } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WpGraphConfigurationService {
@@ -23,7 +23,7 @@ export class WpGraphConfigurationService {
   private _formsPromise:Promise<void[]>|null;
 
   constructor(readonly I18n:I18nService,
-              readonly queryFormDm:QueryFormDmService,
+              readonly apiv3Service:APIV3Service,
               protected readonly queryDm:QueryDmService,
               readonly notificationService:WorkPackageNotificationService,
               readonly currentProject:CurrentProjectService) {
@@ -75,16 +75,18 @@ export class WpGraphConfigurationService {
   }
 
   private createInitial():Promise<QueryResource> {
-    return this.queryFormDm
+    return this
+      .apiv3Service
+      .queries
+      .form
       .loadWithParams(
         {pageSize: 0},
         undefined,
         this.currentProject.identifier,
         WpGraphConfiguration.queryCreationParams(this.I18n, !!this.currentProject.identifier)
       )
-      .then(form => {
-        const query = this.queryFormDm.buildQueryResource(form);
-
+      .toPromise()
+      .then(([form, query]) => {
         return this.queryDm.create(query, form);
       });
   }
@@ -162,9 +164,13 @@ export class WpGraphConfigurationService {
   public loadForms() {
     if (!this._formsPromise) {
       let formPromises = this.configuration.queries.map((query) => {
-        return this.queryFormDm
+        return this
+          .apiv3Service
+          .queries
+          .form
           .load(query)
-          .then((form:QueryFormResource) => {
+          .toPromise()
+          .then(([form, _]) => {
             this._forms[query.id as string] = form;
           })
           .catch((error) => this.notificationService.handleRawError(error));

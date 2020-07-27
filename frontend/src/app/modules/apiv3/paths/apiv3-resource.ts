@@ -70,7 +70,7 @@ export class APIv3ResourceCollection<V extends HalResource, T extends APIv3Getta
   }
 
 
-  public withOptionalId(id?:string|number):this|T {
+  public withOptionalId(id?:string|number|null):this|T {
     if (_.isNil(id)) {
       return this;
     } else {

@@ -30,6 +30,7 @@ import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/a
 import {APIv3QueryPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-paths";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Apiv3QueryForm} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-form";
 
 export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, APIv3QueryPaths> {
   constructor(protected apiRoot:APIV3Service,
@@ -39,7 +40,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
 
   // Static paths
   // /api/v3/queries/form
-  readonly form = this.subResource('form');
+  readonly form = this.subResource('form', Apiv3QueryForm);
 
   // /api/v3/queries/default
   readonly default = this.subResource<APIv3GettableResource<QueryResource>>('default');

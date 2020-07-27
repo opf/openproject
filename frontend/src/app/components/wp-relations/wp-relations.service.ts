@@ -1,4 +1,3 @@
-import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -26,9 +25,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
   private relationStates:RelationStateGroup;
 
-  /*@ngInject*/
-  constructor(private relationsDm:RelationsDmService,
-              private PathHelper:PathHelperService,
+  constructor(private PathHelper:PathHelperService,
               private apiV3Service:APIV3Service,
               private halResource:HalResourceService) {
     super();
@@ -45,10 +42,15 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    */
   protected load(id:string):Promise<RelationsStateValue> {
     return new Promise<RelationsStateValue>((resolve, reject) => {
-      this.relationsDm
-        .load(id)
-        .then(elements => {
-          this.updateRelationsStateTo(id, elements);
+      this
+        .apiV3Service
+        .work_packages
+        .id(id)
+        .relations
+        .get()
+        .toPromise()
+        .then(collection => {
+          this.updateRelationsStateTo(id, collection.elements);
           resolve(this.state(id).value!);
         })
         .catch(reject);
@@ -57,8 +59,11 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
   protected loadAll(ids:string[]) {
     return new Promise<undefined>((resolve, reject) => {
-      this.relationsDm
+      this
+        .apiV3Service
+        .relations
         .loadInvolved(ids)
+        .toPromise()
         .then((elements:RelationResource[]) => {
           this.clearSome(...ids);
           this.accumulateRelationsFromInvolved(ids, elements);

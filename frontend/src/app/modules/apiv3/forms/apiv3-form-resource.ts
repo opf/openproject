@@ -7,17 +7,17 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
 
-export class APIv3FormResource extends APIv3ResourcePath<FormResource> {
+export class APIv3FormResource<T extends FormResource = FormResource> extends APIv3ResourcePath<T> {
   @InjectField() private payloadDm:PayloadDmService;
 
   /**
    * POST to the form resource identified by this path
    * @param request The request payload
    */
-  public post(request:Object, schema:SchemaResource|null = null):Observable<FormResource> {
+  public post(request:Object, schema:SchemaResource|null = null):Observable<T> {
     return this
       .halResourceService
-      .post<FormResource>(this.path, this.extractPayload(request, schema));
+      .post<T>(this.path, this.extractPayload(request, schema));
   }
 
   /**

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2020 the OpenProject GmbH
 //
@@ -24,31 +24,25 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Injectable} from '@angular/core';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import * as URI from 'urijs';
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
+import {Observable} from "rxjs";
+import * as URI from "urijs";
+import {map, tap} from "rxjs/operators";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
-@Injectable()
-export class QueryFormDmService {
-  constructor(readonly halResourceService:HalResourceService,
-              protected readonly queryFilters:QueryFiltersService,
-              protected apiV3Service:APIV3Service,
-              protected pathHelper:PathHelperService) {
-  }
+export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
+  @InjectField() private queryFilters:QueryFiltersService;
 
   /**
    * Load the query form for the given existing (or new) query resource
    * @param query
    */
-  public load(query:QueryResource):Promise<QueryFormResource> {
+  public load(query:QueryResource):Observable<[QueryFormResource, QueryResource]> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
@@ -64,7 +58,12 @@ export class QueryFormDmService {
       };
     }
 
-    return query.$links.update(payload);
+    let path = this.apiRoot.queries.withOptionalId(query.id).form.path;
+    return this.halResourceService
+      .post<QueryFormResource>(path, payload)
+      .pipe(
+        map(form => [form, this.buildQueryResource(form)])
+      );
   }
 
   /**
@@ -75,7 +74,7 @@ export class QueryFormDmService {
    * @param projectIdentifier
    * @param payload
    */
-  public loadWithParams(params:{[key:string]:unknown}, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Promise<QueryFormResource> {
+  public loadWithParams(params:{[key:string]:unknown}, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Observable<[QueryFormResource, QueryResource]> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
@@ -86,25 +85,22 @@ export class QueryFormDmService {
     if (projectIdentifier) {
       payload._links = payload._links || {};
       payload._links.project = {
-        'href': this.apiV3Service.projects.id(projectIdentifier).toString()
+        'href': this.apiRoot.projects.id(projectIdentifier).toString()
       };
 
     }
 
-    let href:string = this.apiV3Service.queries.withOptionalId(queryId).form.toString();
-    href = URI(href).search(params).toString();
-
+    let path = this.apiRoot.queries.withOptionalId(queryId).form.path;
+    const href = URI(path).search(params).toString();
     return this.halResourceService
       .post<QueryFormResource>(href, payload)
-      .toPromise()
-      .then(form => {
-        this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas);
-
-        return form;
-      });
+      .pipe(
+        tap(form => this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas)),
+        map(form => [form, this.buildQueryResource(form)])
+      );
   }
 
-  public buildQueryResource(form:QueryFormResource):QueryResource {
+  protected buildQueryResource(form:QueryFormResource):QueryResource {
     return this.halResourceService.createHalResourceOfType<QueryResource>('Query', form.payload);
   }
 }

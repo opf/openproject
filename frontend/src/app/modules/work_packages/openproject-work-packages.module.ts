@@ -129,7 +129,6 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
@@ -214,7 +213,6 @@ import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribu
     WorkPackageRelationsService,
     WorkPackageWatchersService,
 
-    QueryFormDmService,
     HalEventsService,
   ],
   declarations: [
