@@ -32,8 +32,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {take} from 'rxjs/operators';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-relations-hierarchy',
@@ -52,7 +52,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
   public childrenQueryProps:any;
 
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected wpCacheService:WorkPackageCacheService,
+              protected apiV3Service:APIV3Service,
               protected PathHelper:PathHelperService,
               readonly I18n:I18nService) {
     super();
@@ -74,27 +74,32 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
       showHierarchies: false
     };
 
-    this.wpCacheService.loadWorkPackage(this.workPackage.id!).values$()
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackage)
+      .requireAndStream()
       .pipe(
         this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
 
-        let toLoad:string[] = [];
         let parentId = this.workPackage.parent?.id?.toString();
 
         if (parentId) {
-          toLoad.push(parentId.toString());
-
-          this.wpCacheService
-            .require(parentId)
-            .then((parent:WorkPackageResource) => {
+          this
+            .apiV3Service
+            .work_packages
+            .id(parentId)
+            .get()
+            .pipe(
+              take(1)
+            )
+            .subscribe((parent:WorkPackageResource) => {
               this.workPackage.parent = parent;
             });
         }
-
-        this.wpCacheService.requireAll(toLoad);
       });
   }
 }

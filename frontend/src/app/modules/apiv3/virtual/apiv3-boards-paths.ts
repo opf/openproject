@@ -66,7 +66,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
         tap(collection => this.authorisationService.initModelAuth('boards', collection.$links)),
         map(collection =>
           collection.elements.map(grid => {
-            let board = new Board(grid)
+            let board = new Board(grid);
             board.sortWidgets();
             this.touch(board);
 

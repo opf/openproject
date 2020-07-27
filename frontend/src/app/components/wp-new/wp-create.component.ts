@@ -32,7 +32,6 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeWhile} from 'rxjs/operators';
 import {OpTitleService} from 'core-components/html/op-title.service';
@@ -78,7 +77,6 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
               protected readonly wpCreate:WorkPackageCreateService,
               protected readonly wpViewFocus:WorkPackageViewFocusService,
               protected readonly wpTableFilters:WorkPackageViewFiltersService,
-              protected readonly wpCacheService:WorkPackageCacheService,
               protected readonly pathHelper:PathHelperService,
               protected readonly apiV3Service:APIV3Service,
               protected readonly cdRef:ChangeDetectorRef) {
@@ -132,8 +130,11 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
         // Load the parent simply to display the type name :-/
         if (this.stateParams['parent_id']) {
-          this.wpCacheService.loadWorkPackage(this.stateParams['parent_id'])
-            .values$()
+          this
+            .apiV3Service
+            .work_packages
+            .id(this.stateParams['parent_id'])
+            .get()
             .pipe(
               this.untilDestroyed()
             )

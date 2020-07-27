@@ -27,7 +27,6 @@
 // ++
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../states.service';
-import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
@@ -41,6 +40,7 @@ import {HalEventsService} from "core-app/modules/hal/services/hal-events.service
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -65,7 +65,6 @@ export class WorkPackageCellLabels {
 }
 
 export class WorkPackageTimelineCell {
-  @InjectField() wpCacheService:WorkPackageCacheService;
   @InjectField() halEditing:HalResourceEditingService;
   @InjectField() halEvents:HalEventsService;
   @InjectField() notificationService:WorkPackageNotificationService;
@@ -164,7 +163,6 @@ export class WorkPackageTimelineCell {
         this.injector,
         () => this.latestRenderInfo,
         this.workPackageTimeline,
-        this.wpCacheService,
         this.halEditing,
         this.halEvents,
         this.notificationService,

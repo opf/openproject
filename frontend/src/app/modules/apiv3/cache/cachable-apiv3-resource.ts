@@ -33,7 +33,7 @@ import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache
 import {Observable} from "rxjs";
 import {MultiInputState} from "reactivestates";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {tap} from "rxjs/operators";
+import {publish, take, tap} from "rxjs/operators";
 
 export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
   extends APIv3GettableResource<T> {
@@ -76,22 +76,37 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
 
 
   /**
-   * Returns a (potentially cached) observable
+   * Returns a (potentially cached) observable.
+   *
+   * Only observes one value.
    *
    * Accesses or modifies the global store for this resource.
    */
   get():Observable<T> {
-    return this.requireAndStream(false);
+    return this
+      .requireAndStream(false)
+      .pipe(
+        take(1)
+      );
   }
 
   /**
    * Returns a freshly loaded value but ensuring the value
    * is also updated in the cache.
    *
+   * Only observes one value.
+   *
    * Accesses or modifies the global store for this resource.
    */
-  getFresh():Observable<T> {
-    return this.requireAndStream(true);
+  refresh():Observable<T> {
+    return this
+      .requireAndStream(true)
+      .pipe(
+        take(1),
+        // Use publish to ensure the item is refreshed
+        // even if observable was cold.
+        publish()
+      );
   }
 
   /**

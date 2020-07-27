@@ -32,8 +32,11 @@ import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/ap
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {Observable} from "rxjs";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 
-export class APIV3WorkPackagePaths extends APIv3GettableResource<WorkPackageResource> {
+export class APIV3WorkPackagePaths extends CachableAPIV3Resource<WorkPackageResource> {
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
   public readonly relations = this.subResource('relations', Apiv3RelationsPaths);
@@ -49,4 +52,8 @@ export class APIV3WorkPackagePaths extends APIv3GettableResource<WorkPackageReso
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_projects
   public readonly available_projects = this.subResource('available_projects');
+
+  protected createCache():StateCacheService<WorkPackageResource> {
+    return (this.parent as APIV3WorkPackagesPaths).cache;
+  }
 }

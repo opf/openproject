@@ -34,7 +34,6 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
@@ -146,7 +145,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               readonly injector:Injector,
               readonly halEditing:HalResourceEditingService,
               readonly loadingIndicator:LoadingIndicatorService,
-              readonly wpCacheService:WorkPackageCacheService,
               readonly schemaCache:SchemaCacheService,
               readonly boardService:BoardService,
               readonly boardActionRegistry:BoardActionsRegistryService,
@@ -389,7 +387,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     if (changeset.isEmpty()) {
       // Ensure work package and its schema is loaded
-      return this.wpCacheService.updateWorkPackage(workPackage);
+      return this.apiv3Service.work_packages.cache.updateWorkPackage(workPackage);
     } else {
       // Save changes to the work package, which reloads it as well
       return this.halEditing.save(changeset);

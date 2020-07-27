@@ -27,7 +27,6 @@
 // ++
 
 import {Injectable, Injector} from '@angular/core';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Observable, Subject} from 'rxjs';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -61,7 +60,6 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   constructor(protected injector:Injector,
               protected hooks:HookService,
               protected apiV3Service:APIV3Service,
-              protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
               protected querySpace:IsolatedQuerySpace,
               protected authorisationService:AuthorisationService,
@@ -196,14 +194,22 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return changePromise.then((change:WorkPackageChangeset) => {
       this.authorisationService.initModelAuth('work_package', change.pristineResource);
       this.halEditing.updateValue(newWorkPackageHref, change);
-      this.wpCacheService.updateWorkPackage(change.pristineResource);
+      this
+        .apiV3Service
+        .work_packages
+        .cache
+        .updateWorkPackage(change.pristineResource, true);
 
       return change;
     });
   }
 
   protected reset() {
-    this.wpCacheService.clearSome('new');
+    this
+      .apiV3Service
+      .work_packages
+      .cache
+      .clearSome('new');
     this.form = undefined;
   }
 

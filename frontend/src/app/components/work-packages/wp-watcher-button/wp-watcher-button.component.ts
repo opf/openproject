@@ -27,11 +27,11 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCacheService} from '../work-package-cache.service';
 import {Component, Input, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-watcher-button',
@@ -50,13 +50,16 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
 
   constructor(readonly I18n:I18nService,
               readonly wpWatchersService:WorkPackageWatchersService,
-              readonly wpCacheService:WorkPackageCacheService) {
+              readonly apiV3Service:APIV3Service) {
     super();
   }
 
   ngOnInit() {
-    this.wpCacheService.loadWorkPackage(this.workPackage.id!)
-      .values$()
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackage)
+      .requireAndStream()
       .pipe(
         this.untilDestroyed()
       )
@@ -79,7 +82,11 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
 
     toggleLink(toggleLink.$link.payload).then(() => {
       this.wpWatchersService.clear(this.workPackage.id!);
-      this.wpCacheService.loadWorkPackage(this.workPackage.id!, true);
+      this
+        .apiV3Service
+        .work_packages
+        .id(this.workPackage)
+        .refresh();
     });
   }
 

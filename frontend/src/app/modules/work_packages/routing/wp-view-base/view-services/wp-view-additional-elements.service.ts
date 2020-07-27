@@ -33,12 +33,12 @@ import {WorkPackageViewHierarchiesService} from './wp-view-hierarchy.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -48,7 +48,7 @@ export class WorkPackageViewAdditionalElementsService {
               readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly notificationService:WorkPackageNotificationService,
               readonly halResourceService:HalResourceService,
-              readonly wpCacheService:WorkPackageCacheService,
+              readonly apiV3Service:APIV3Service,
               readonly schemaCache:SchemaCacheService,
               readonly wpRelations:WorkPackageRelationsService) {
   }
@@ -67,7 +67,10 @@ export class WorkPackageViewAdditionalElementsService {
   }
 
   private loadAdditional(wpIds:string[]) {
-    this.wpCacheService.requireAll(wpIds)
+    this
+      .apiV3Service
+      .work_packages
+      .requireAll(wpIds)
       .then(() => {
         this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       })

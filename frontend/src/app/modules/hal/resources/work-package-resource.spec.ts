@@ -36,7 +36,6 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';

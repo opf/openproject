@@ -35,70 +35,21 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {tap} from "rxjs/operators";
 
-export const stateIdForAll = '__all_state';
-
-export abstract class CachableAPIV3Collection<T extends HasId = HalResource, V extends APIv3GettableResource<T> = APIv3GettableResource<T>>
+export abstract class CachableAPIV3Collection<
+  T extends HasId = HalResource,
+  V extends APIv3GettableResource<T> = APIv3GettableResource<T>,
+  X extends StateCacheService<T> = StateCacheService<T>
+  >
   extends APIv3ResourceCollection<T, V> {
   @InjectField() states:States;
 
-  readonly cache = this.createCache();
-
-  /**
-   * Requires the collection to be loaded either when forced or the value is stale
-   * according to the cache interval specified for this service.
-   *
-   * Returns an observable to the values stream of the state.
-   *
-   * @param force Load the value anyway.
-   */
-  public requireAll(force:boolean = false):Observable<T> {
-    const id = stateIdForAll;
-
-    // Refresh when stale or being forced
-    if (this.cache.stale(id) || force) {
-      this.cache.clearAndLoad(
-        id,
-        this.load()
-      );
-    }
-
-    return this.cache.state(id).values$();
-  }
+  readonly cache:X = this.createCache();
 
   /**
    * Observe all value changes of the cache
    */
   public observeAll():Observable<T[]> {
     return this.cache.observeAll();
-  }
-
-
-  /**
-   * Returns a (potentially cached) observable
-   *
-   * Accesses or modifies the global store for this resource.
-   */
-  get():Observable<T> {
-    return this.requireAll(false);
-  }
-
-  /**
-   * Returns a freshly loaded value but ensuring the value
-   * is also updated in the cache.
-   *
-   * Accesses or modifies the global store for this resource.
-   */
-  getFresh():Observable<T> {
-    return this.requireAll(true);
-  }
-
-  /**
-   * Perform a request to the HalResourceService with the current path
-   */
-  protected load():Observable<T> {
-    return this
-      .halResourceService
-      .get(this.path) as any;
   }
 
   /**
@@ -130,5 +81,5 @@ export abstract class CachableAPIV3Collection<T extends HasId = HalResource, V e
   /**
    * Creates the cache state instance
    */
-  protected abstract createCache():StateCacheService<T>;
+  protected abstract createCache():X;
 }

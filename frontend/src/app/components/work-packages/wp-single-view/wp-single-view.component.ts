@@ -44,7 +44,6 @@ import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageCacheService} from '../work-package-cache.service';
 import {DisplayFieldService} from 'core-app/modules/fields/display/display-field.service';
 import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -57,6 +56,7 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -140,7 +140,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
               protected halEditing:HalResourceEditingService,
               protected halResourceService:HalResourceService,
               protected displayFieldService:DisplayFieldService,
-              protected wpCacheService:WorkPackageCacheService,
               protected schemaCache:SchemaCacheService,
               protected hook:HookService,
               protected injector:Injector,

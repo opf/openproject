@@ -26,8 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {States} from 'core-components/states.service';
 import {
   displayClassName,
@@ -86,11 +84,9 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   constructor(protected states:States,
               protected injector:Injector,
               protected elementRef:ElementRef,
-              protected halNotification:HalResourceNotificationService,
               protected ConfigurationService:ConfigurationService,
               protected opContextMenu:OPContextMenuService,
               protected halEditing:HalResourceEditingService,
-              protected wpCacheService:WorkPackageCacheService,
               protected schemaCache:SchemaCacheService,
               // Get parent field group from injector
               protected editForm:EditFormComponent,

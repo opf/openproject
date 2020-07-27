@@ -33,7 +33,6 @@ import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routin
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {States} from "core-components/states.service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
@@ -42,10 +41,10 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {catchError, subscribeOn} from "rxjs/operators";
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
-  @InjectField() wpCacheService:WorkPackageCacheService;
   @InjectField() states:States;
   @InjectField() I18n:I18nService;
   @InjectField() keepTab:KeepTabService;
@@ -79,20 +78,21 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    */
   protected observeWorkPackage() {
     /** Require the work package once to ensure we're displaying errors */
-    this.wpCacheService.require(this.workPackageId)
-      .catch((error) => this.notificationService.handleRawError(error));
-
-    /** Stream updates of the work package */
-    this.wpCacheService.state(this.workPackageId)
-      .values$()
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackageId)
+      .requireAndStream()
       .pipe(
         this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
-        this.workPackage = wp;
-        this.init();
-        this.cdRef.detectChanges();
-      });
+          this.workPackage = wp;
+          this.init();
+          this.cdRef.detectChanges();
+        },
+        (error) => this.notificationService.handleRawError(error)
+      );
   }
 
   /**

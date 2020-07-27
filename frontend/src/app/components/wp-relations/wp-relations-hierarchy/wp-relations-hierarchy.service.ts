@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../states.service';
 import {StateService} from '@uirouter/core';
@@ -43,8 +42,7 @@ export class WorkPackageRelationsHierarchyService {
               protected halEvents:HalEventsService,
               protected notificationService:WorkPackageNotificationService,
               protected pathHelper:PathHelperService,
-              protected apiV3Service:APIV3Service,
-              protected wpCacheService:WorkPackageCacheService) {
+              protected apiV3Service:APIV3Service) {
 
   }
 
@@ -70,7 +68,11 @@ export class WorkPackageRelationsHierarchyService {
     return workPackage
       .changeParent(payload)
       .then((wp:WorkPackageResource) => {
-        this.wpCacheService.updateWorkPackage(wp);
+        this
+          .apiV3Service
+          .work_packages
+          .cache
+          .updateWorkPackage(wp);
         this.notificationService.showSave(wp);
         this.halEvents.push(workPackage, {
           eventType: 'association',
@@ -91,12 +93,22 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public addExistingChildWp(workPackage:WorkPackageResource, childWpId:string):Promise<WorkPackageResource> {
-    return this.wpCacheService
-      .require(childWpId)
+    return this
+      .apiV3Service
+      .work_packages
+      .id(childWpId)
+      .get()
+      .toPromise()
       .then((wpToBecomeChild:WorkPackageResource|undefined) => {
         return this.changeParent(wpToBecomeChild!, workPackage.id!)
           .then(wp => {
-            this.wpCacheService.loadWorkPackage(workPackage.id!, true);
+            // Reload work package
+            this
+              .apiV3Service
+              .work_packages
+              .id(workPackage)
+              .refresh();
+
             this.halEvents.push(workPackage, {
               eventType: 'association',
               relatedWorkPackage: wpToBecomeChild!.id!,
@@ -138,15 +150,26 @@ export class WorkPackageRelationsHierarchyService {
         lockVersion: childWorkPackage.lockVersion
       }).then(wp => {
         if (parentWorkPackage) {
-          this.wpCacheService.require(parentWorkPackage.id!, true).then((wp) => {
-            this.halEvents.push(wp, {
-            eventType: 'association',
-            relatedWorkPackage: null,
-            relationType: 'child'
+          this
+            .apiV3Service
+            .work_packages
+            .id(parentWorkPackage)
+            .refresh()
+            .toPromise()
+            .then((wp) => {
+              this.halEvents.push(wp, {
+              eventType: 'association',
+              relatedWorkPackage: null,
+              relationType: 'child'
             });
           });
         }
-        this.wpCacheService.updateWorkPackage(wp);
+
+        this
+          .apiV3Service
+          .work_packages
+          .cache
+          .updateWorkPackage(wp);
       })
         .catch((error) => {
           this.notificationService.handleRawError(error, childWorkPackage);

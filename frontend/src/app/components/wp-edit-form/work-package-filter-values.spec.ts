@@ -30,7 +30,6 @@ import {TestBed} from "@angular/core/testing";
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {Injector} from "@angular/core";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";

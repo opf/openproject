@@ -6,15 +6,15 @@ import {
   hierarchyGroupClass,
   hierarchyRootClass
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {relationRowClass} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class HierarchyDragActionService extends TableDragActionService {
 
   @InjectField() private wpTableHierarchies:WorkPackageViewHierarchiesService;
   @InjectField() private relationHierarchyService:WorkPackageRelationsHierarchyService;
-  @InjectField() private wpCacheService:WorkPackageCacheService;
+  @InjectField() private apiV3Service:APIV3Service;
 
   public get applies() {
     return this.wpTableHierarchies.isEnabled;
@@ -91,7 +91,12 @@ export class HierarchyDragActionService extends TableDragActionService {
   }
 
   private loadParentOfWP(wpId:string):Promise<string|null> {
-    return this.wpCacheService.require(wpId)
+    return this
+      .apiV3Service
+      .work_packages
+      .id(wpId)
+      .get()
+      .toPromise()
       .then((wp:WorkPackageResource) => {
         return Promise.resolve(wp.parent?.id || null);
       });

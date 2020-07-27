@@ -26,24 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  APIv3GettableResource,
-  APIv3ResourceCollection,
-  APIv3ResourcePath
-} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {Injector} from "@angular/core";
 import {APIV3WorkPackagePaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-paths";
 import {ApiV3FilterBuilder, buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {Observable} from "rxjs";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 import {APIv3WorkPackageForm} from "core-app/modules/apiv3/endpoints/work_packages/apiv3-work-package-form";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {WorkPackageCache} from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
 
-export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageResource, APIV3WorkPackagePaths> {
+export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageResource, APIV3WorkPackagePaths, WorkPackageCache> {
   // Base path
   public readonly path:string;
 
@@ -58,6 +54,34 @@ export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageR
   public readonly form:APIv3WorkPackageForm = this.subResource('form', APIv3WorkPackageForm);
 
   /**
+   *
+   * Load a collection of work packages and put them all into cache
+   *
+   * @param ids
+   */
+  public requireAll(ids:string[]):Promise<unknown> {
+    return new Promise<undefined>((resolve, reject) => {
+      this
+        .loadCollectionsFor(_.uniq(ids))
+        .then((pagedResults:WorkPackageCollectionResource[]) => {
+          _.each(pagedResults, (results) => {
+            if (results.schemas) {
+              _.each(results.schemas.elements, (schema:SchemaResource) => {
+                this.states.schemas.get(schema.href as string).putValue(schema);
+              });
+            }
+
+            if (results.elements) {
+              this.cache.updateWorkPackageList(results.elements);
+            }
+
+            resolve(undefined);
+          });
+        }, reject);
+    });
+  }
+
+  /**
    * Create a work package from a form payload
    *
    * @param payload
@@ -66,7 +90,10 @@ export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageR
   public post(payload:Object):Observable<WorkPackageResource> {
     return this
       .halResourceService
-      .post<WorkPackageResource>(this.path, payload);
+      .post<WorkPackageResource>(this.path, payload)
+      .pipe(
+        this.cacheResponse()
+      );
   }
 
   /**
@@ -96,7 +123,11 @@ export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageR
       .add('id', '=', ids.filter((n:String|null) => n)) // no null values
       .add('updatedAt', '<>d', [timestamp, '']);
 
-    return this.filtered(filters);
+    return this
+      .filtered<WorkPackageCollectionResource>(filters)
+      .pipe(
+        this.cacheResponse()
+      );
   }
 
   /**
@@ -106,7 +137,7 @@ export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageR
    * @param ids
    * @return {WorkPackageCollectionResource[]}
    */
-  public loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
+  protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
       .getAllPaginated<WorkPackageCollectionResource[]>(
@@ -118,4 +149,7 @@ export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageR
     );
   }
 
+  protected createCache():WorkPackageCache {
+    return new WorkPackageCache(this.injector, this.states.workPackages);
+  }
 }

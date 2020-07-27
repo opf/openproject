@@ -28,7 +28,6 @@
 
 import {Injector} from '@angular/core';
 import * as moment from 'moment';
-import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
@@ -56,7 +55,6 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 injector:Injector,
                                                 getRenderInfo:() => RenderInfo,
                                                 workPackageTimeline:WorkPackageTimelineTableController,
-                                                wpCacheService:WorkPackageCacheService,
                                                 halEditing:HalResourceEditingService,
                                                 halEvents:HalEventsService,
                                                 notificationService:WorkPackageNotificationService,
@@ -258,8 +256,6 @@ export function registerWorkPackageMouseHandler(this:void,
           .filterUpdatedSince(ids, updatedAt)
           .toPromise()
           .then(workPackageCollection => {
-            wpCacheService.updateWorkPackageList(workPackageCollection.elements);
-
             halEvents.push(result.resource, { eventType: 'updated' });
             return querySpace.timelineRendered.pipe(take(1)).toPromise();
           });

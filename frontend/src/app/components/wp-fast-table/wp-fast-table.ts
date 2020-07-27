@@ -5,7 +5,6 @@ import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 import {States} from '../states.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
 import {GroupedRowsBuilder} from './builders/modes/grouped/grouped-rows-builder';
 import {HierarchyRowsBuilder} from './builders/modes/hierarchy/hierarchy-rows-builder';
@@ -18,11 +17,12 @@ import {WorkPackageTableRow} from './wp-table.interfaces';
 import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class WorkPackageTable {
 
   @InjectField() querySpace:IsolatedQuerySpace;
-  @InjectField() wpCacheService:WorkPackageCacheService;
+  @InjectField() apiV3Service:APIV3Service;
   @InjectField() states:States;
   @InjectField() I18n:I18nService;
 
@@ -77,7 +77,7 @@ export class WorkPackageTable {
       let wpId = wp.id!;
 
       // Ensure we get the latest version
-      wp = this.wpCacheService.current(wpId, wp)!;
+      wp = this.apiV3Service.work_packages.cache.current(wpId, wp)!;
 
       this.originalRowIndex[wpId] = <WorkPackageTableRow>{ object: wp, workPackageId: wpId, position: i };
       return wpId;

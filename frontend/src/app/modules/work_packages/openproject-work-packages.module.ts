@@ -125,7 +125,6 @@ import {ExternalRelationQueryConfigurationComponent} from "core-components/wp-ta
 import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
@@ -193,7 +192,6 @@ import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribu
     ExternalRelationQueryConfigurationService,
 
     // Global work package states / services
-    WorkPackageCacheService,
     SchemaCacheService,
 
     // Global query/table state services
@@ -206,7 +204,6 @@ import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribu
     // Provide a separate service for creation events of WP Inline create
     // This can be hierarchically injected to provide isolated events on an embedded table
     WorkPackageRelationsService,
-    WorkPackageCacheService,
     SchemaCacheService,
 
     WorkPackagesActivityService,

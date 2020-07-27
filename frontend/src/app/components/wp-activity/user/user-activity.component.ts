@@ -27,7 +27,6 @@
 //++
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -89,7 +88,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
               readonly PathHelper:PathHelperService,
               readonly wpLinkedActivities:WorkPackagesActivityService,
               readonly commentService:CommentService,
-              readonly wpCacheService:WorkPackageCacheService,
               readonly ConfigurationService:ConfigurationService,
               readonly apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
@@ -173,7 +171,11 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
         this.activity = newActivity;
         this.updateCommentText();
         this.wpLinkedActivities.require(this.workPackage, true);
-        this.wpCacheService.updateWorkPackage(this.workPackage);
+        this
+          .apiV3Service
+          .work_packages
+          .cache
+          .updateWorkPackage(this.workPackage);
       })
       .finally(() => {
         this.deactivate(true); this.inFlight = false;

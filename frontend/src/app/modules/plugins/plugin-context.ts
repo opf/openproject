@@ -12,7 +12,6 @@ import {AttributeHelpTextModal} from "../common/help-texts/attribute-help-text.m
 import {DynamicContentModal} from "../../components/modals/modal-wrapper/dynamic-content.modal";
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
@@ -51,7 +50,6 @@ export class OpenProjectPluginContext {
     attributeHelpTexts: this.injector.get<AttributeHelpTextsService>(AttributeHelpTextsService),
     displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),
     editField: this.injector.get<EditFieldService>(EditFieldService),
-    wpCache: this.injector.get<WorkPackageCacheService>(WorkPackageCacheService),
     macros: this.injector.get<EditorMacrosService>(EditorMacrosService),
     htmlSanitizeService: this.injector.get<HTMLSanitizeService>(HTMLSanitizeService),
     ckEditorPreview: this.injector.get<CKEditorPreviewService>(CKEditorPreviewService),

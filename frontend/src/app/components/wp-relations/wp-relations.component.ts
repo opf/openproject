@@ -33,11 +33,11 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
 import {Observable, zip} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 
 @Component({
@@ -63,7 +63,7 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   constructor(private I18n:I18nService,
               private wpRelations:WorkPackageRelationsService,
               private cdRef:ChangeDetectorRef,
-              private wpCacheService:WorkPackageCacheService) {
+              private apiV3Service:APIV3Service) {
     super();
   }
 
@@ -81,7 +81,11 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
     this.wpRelations.require(this.workPackage.id!);
 
     // Listen for changes to this WP.
-    this.wpCacheService.loadWorkPackage(this.workPackage.id!).values$()
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackage)
+      .requireAndStream()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
@@ -91,9 +95,13 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   }
 
   private getRelatedWorkPackages(workPackageIds:string[]):Observable<WorkPackageResource[]> {
-    let observablesToGetZipped:Observable<WorkPackageResource>[] = workPackageIds.map(wpId => {
-      return this.wpCacheService.loadWorkPackage(wpId).values$();
-    });
+    let observablesToGetZipped:Observable<WorkPackageResource>[] = workPackageIds.map(wpId =>
+      this
+        .apiV3Service
+        .work_packages
+        .id(wpId)
+        .get()
+    );
 
     return zip(...observablesToGetZipped);
   }

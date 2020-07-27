@@ -37,7 +37,6 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {OpenProjectFileUploadService} from 'core-components/api/op-file-upload/op-file-upload.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {States} from 'core-components/states.service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {take, takeWhile} from 'rxjs/operators';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
@@ -46,7 +45,7 @@ import {TimezoneService} from "core-components/datetime/timezone.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
-describe('WorkPackageCacheService', () => {
+describe('WorkPackageCache', () => {
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
   let schemaCacheService:SchemaCacheService;
