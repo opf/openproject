@@ -71,7 +71,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     super();
 
     this.halEditing
-      .comittedChanges
+      .committedChanges
       .pipe(
         this.untilDestroyed(),
         filter(commit => commit.resource._type === 'WorkPackage' && commit.wasNew)

@@ -16,11 +16,13 @@ import {StateService} from "@uirouter/core";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {FormsCacheService} from "core-components/forms/forms-cache.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable()
 export class BoardVersionActionService implements BoardActionService {
+
+  private writable$:Promise<boolean>;
 
   constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
@@ -28,7 +30,6 @@ export class BoardVersionActionService implements BoardActionService {
               protected currentProject:CurrentProjectService,
               protected halNotification:HalResourceNotificationService,
               protected state:StateService,
-              protected formCache:FormsCacheService,
               protected pathHelper:PathHelperService) {
   }
 
@@ -77,9 +78,12 @@ export class BoardVersionActionService implements BoardActionService {
       return Promise.resolve(false);
     }
 
-    return this.formCache
-      .require(formLink)
-      .then((form:FormResource) => form.schema.version.writable);
+    if (!this.writable$) {
+      this.writable$ = query.results.createWorkPackage()
+        .then((form:FormResource) => form.schema.version.writable);
+    }
+
+    return this.writable$;
   }
 
   public addActionQueries(board:Board):Promise<Board> {
