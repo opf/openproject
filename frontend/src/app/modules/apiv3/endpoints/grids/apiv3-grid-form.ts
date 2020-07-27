@@ -26,28 +26,48 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
-import {Observable} from "rxjs";
-import {Apiv3GridForm} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-form";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
-export class Apiv3GridPaths extends APIv3GettableResource<GridResource> {
-  // Static paths
-  readonly form = this.subResource('form', Apiv3GridForm);
+export class Apiv3GridForm extends APIv3FormResource<FormResource<GridResource>> {
 
   /**
-   * Update a grid resource or payload
+   * We need to override the grid widget extraction
+   * to pass the correct payload to the API.
+   *
    * @param resource
    * @param schema
    */
-  public patch(resource:GridResource|Object, schema:SchemaResource|null = null):Observable<GridResource> {
-    let payload = this.form.extractPayload(resource, schema);
+  public static extractPayload(resource:GridResource, schema:SchemaResource|null = null):Object {
+    if (resource && schema) {
+      let payload = HalPayloadHelper.extractPayloadFromSchema(resource, schema);
 
-    return this
-      .halResourceService
-      .patch<GridResource>(this.path, payload);
+      // The widget only states the type of the widget resource but does not explain
+      // the widget itself. We therefore have to do that by hand.
+      if (payload.widgets) {
+        payload.widgets = resource.widgets.map((widget) => {
+          return {
+            id: widget.id,
+            startRow: widget.startRow,
+            endRow: widget.endRow,
+            startColumn: widget.startColumn,
+            endColumn: widget.endColumn,
+            identifier: widget.identifier,
+            options: widget.options
+          };
+        });
+      }
+
+      return payload;
+    } else if (!(resource instanceof HalResource)) {
+      return resource;
+    } else {
+      return {};
+    }
   }
+
 }

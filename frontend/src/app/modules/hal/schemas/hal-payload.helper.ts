@@ -32,6 +32,23 @@ import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 export class HalPayloadHelper {
 
   /**
+   * Extract payload from the given request with schema.
+   * This will ensure we will only write writable attributes and so on.
+   *
+   * @param resource
+   * @param schema
+   */
+  static extractPayload<T extends HalResource = HalResource>(resource:T|Object|null, schema:SchemaResource|null = null):Object {
+    if (resource instanceof HalResource && schema) {
+      return this.extractPayloadFromSchema(resource, schema);
+    } else if (resource && !(resource instanceof HalResource)) {
+      return resource;
+    } else {
+      return {};
+    }
+  }
+
+  /**
    * Extract writable payload from a HAL resource class to be used for API calls.
    *
    * The schema contains writable information about attributes, which is what this method

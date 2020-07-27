@@ -9,7 +9,8 @@ import {BoardCacheService} from "core-app/modules/boards/board/board-cache.servi
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
 export interface CreateBoardParams {
   type:BoardType;
@@ -27,7 +28,7 @@ export class BoardService {
   private text = {
     unnamed_board: this.I18n.t('js.boards.label_unnamed_board'),
     action_board: (attr:string) => this.I18n.t('js.boards.board_type.action_by_attribute',
-      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr )}),
+      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr) }),
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 
@@ -71,14 +72,17 @@ export class BoardService {
   /**
    * Save the changes to the board
    */
-  public save(board:Board) {
+  public save(board:Board):Observable<Board> {
     this.reorderWidgets(board);
-    return this.boardDm.save(board)
-      .then(board => {
-        board.sortWidgets();
-        this.boardCache.update(board);
-        return board;
-      });
+    return this.boardDm
+      .save(board)
+      .pipe(
+        map(board => {
+          board.sortWidgets();
+          this.boardCache.update(board);
+          return board;
+        })
+      );
   }
 
   /**
@@ -86,7 +90,7 @@ export class BoardService {
    * @param name
    */
   public async create(params:CreateBoardParams):Promise<Board> {
-    const board = await this.boardDm.create(params.type, this.boardName(params), params.attribute);
+    const board = await this.boardDm.create(params.type, this.boardName(params), params.attribute).toPromise();
 
     if (params.type === 'free') {
       await this.boardsList.addFreeQuery(board, { name: this.text.unnamed_list });
@@ -94,7 +98,7 @@ export class BoardService {
       await this.boardActions.get(params.attribute!).addActionQueries(board);
     }
 
-    await this.save(board);
+    await this.save(board).toPromise();
 
     return board;
   }

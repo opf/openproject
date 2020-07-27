@@ -27,7 +27,11 @@
 // ++
 
 import {Injectable, Injector} from "@angular/core";
-import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {
+  APIv3GettableResource,
+  APIv3ResourceCollection,
+  APIv3ResourcePath
+} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Constructor} from "@angular/cdk/table";
 import {Apiv3GridsPaths} from "core-app/modules/apiv3/endpoints/grids/apiv3-grids-paths";
 import {Apiv3TimeEntriesPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
@@ -47,6 +51,9 @@ import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/ap
 import {Apiv3NewsPaths} from "core-app/modules/apiv3/endpoints/news/apiv3-news-paths";
 import {Apiv3HelpTextsPaths} from "core-app/modules/apiv3/endpoints/help_texts/apiv3-help-texts-paths";
 import {Apiv3ConfigurationPath} from "core-app/modules/apiv3/endpoints/configuration/apiv3-configuration-path";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import * as ts from "typescript/lib/tsserverlibrary";
+import Project = ts.server.Project;
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {

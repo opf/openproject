@@ -47,7 +47,7 @@ import {HalEventsService} from "core-app/modules/hal/services/hal-events.service
   selector: 'wp-children-query',
   templateUrl: '../wp-relation-query.html',
   providers: [
-    { provide: WorkPackageInlineCreateService, useClass: WpChildrenInlineCreateService }
+    { provide: WorkPackageInlineCreateService, useClass: WpChildrenInlineCreateService },
   ]
 })
 export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryBase implements OnInit {

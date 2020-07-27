@@ -31,7 +31,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {initializeHalResourceConfig} from 'core-app/modules/hal/services/hal-resource.config';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
-import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {CommonModule} from "@angular/common";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
@@ -45,7 +44,6 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
     { provide: ErrorHandler, useClass: HalAwareErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true },
-    GridDmService,
     HalResourceNotificationService
   ]
 })

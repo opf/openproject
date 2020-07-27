@@ -2,17 +2,19 @@ import {Injectable} from "@angular/core";
 import {from, Observable} from "rxjs";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {map, tap} from "rxjs/operators";
+import {map, switchMap, tap} from "rxjs/operators";
 import {Board, BoardType} from "core-app/modules/boards/board/board";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 
 @Injectable({ providedIn: 'root' })
 export class BoardDmService {
 
-  constructor(protected GridDm:GridDmService,
+  constructor(protected apiV3Service:APIV3Service,
               protected PathHelper:PathHelperService,
               protected authorisationService:AuthorisationService,
               protected CurrentProject:CurrentProjectService,
@@ -24,12 +26,13 @@ export class BoardDmService {
    *
    * @param projectIdentifier
    */
-  public allInScope(projectIdentifier:string|null = this.CurrentProject.identifier) {
+  public allInScope(projectIdentifier:string|null = this.CurrentProject.identifier):Observable<Board[]> {
     const path = this.boardPath(projectIdentifier);
 
-    return from(
-      this.GridDm.list({ filters: [['scope', '=', [path]]] })
-    )
+    return this
+      .apiV3Service
+      .grids
+      .list({ filters: [['scope', '=', [path]]] })
       .pipe(
         tap(collection => this.authorisationService.initModelAuth('boards', collection.$links)),
         map(collection => collection.elements.map(grid => new Board(grid)))
@@ -40,7 +43,11 @@ export class BoardDmService {
    * Load one board based on ID
    */
   public one(id:number):Observable<Board> {
-    return from(this.GridDm.one(id))
+    return this
+      .apiV3Service
+      .grids
+      .id(id)
+      .get()
       .pipe(
         map(grid => new Board(grid))
       );
@@ -49,18 +56,33 @@ export class BoardDmService {
   /**
    * Save the changes to the board
    */
-  public save(board:Board) {
-    return this.fetchSchema(board)
-      .then(schema => this.GridDm.update(board.grid, schema))
-      .then(grid => {
-        board.grid = grid;
-        return board;
-      });
+  public save(board:Board):Observable<Board> {
+    return this
+      .fetchSchema(board)
+      .pipe(
+        switchMap((schema:SchemaResource) => this
+          .apiV3Service
+          .grids
+          .id(board.grid)
+          .patch(board.grid, schema)
+        ),
+        map(grid => {
+          board.grid = grid;
+          return board;
+        })
+      );
   }
 
-  private fetchSchema(board:Board) {
-    return this.GridDm.updateForm(board.grid)
-      .then((form) => form.schema);
+  private fetchSchema(board:Board):Observable<SchemaResource> {
+    return this
+      .apiV3Service
+      .grids
+      .id(board.grid)
+      .form
+      .post({})
+      .pipe(
+        map(form => form.schema)
+      );
   }
 
   /**
@@ -77,9 +99,12 @@ export class BoardDmService {
    * @param type
    * @param name
    */
-  public async create(type:BoardType, name:string, actionAttribute?:string):Promise<Board> {
-    return this.createGrid(type, name, actionAttribute)
-      .then(grid => new Board(grid));
+  public create(type:BoardType, name:string, actionAttribute?:string):Observable<Board> {
+    return this
+      .createGrid(type, name, actionAttribute)
+      .pipe(
+        map(grid => new Board(grid))
+      );
   }
 
   public delete(board:Board):Promise<unknown> {
@@ -91,7 +116,7 @@ export class BoardDmService {
   }
 
 
-  private createGrid(type:BoardType, name:string, actionAttribute?:string):Promise<GridResource> {
+  private createGrid(type:BoardType, name:string, actionAttribute?:string):Observable<GridResource> {
     const path = this.boardPath();
     let payload:any = _.set({ name: name }, '_links.scope.href', path);
     payload.options = {
@@ -102,12 +127,19 @@ export class BoardDmService {
       payload.options.attribute = actionAttribute;
     }
 
-    return this.GridDm
-      .createForm(payload)
-      .then((form) => {
-        let resource = this.halResourceService.createHalResource<GridResource>(form.payload.$source);
-        return this.GridDm.create(resource, form.schema);
-      });
+    return this
+      .apiV3Service
+      .grids
+      .form
+      .post(payload)
+      .pipe(
+        switchMap((form) => {
+          return this
+            .apiV3Service
+            .grids
+            .post(form.payload.$source);
+        })
+      );
   }
 
 }

@@ -32,6 +32,15 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {Observable} from "rxjs";
 import {HelpTextResource} from "core-app/modules/hal/resources/help-text-resource";
 
+/**
+ *
+ * /api
+ *
+ *
+ *
+ *
+ */
+
 export class Apiv3HelpTextsPaths
   extends APIv3ResourceCollection<HelpTextResource, APIv3GettableResource<HelpTextResource>> {
   constructor(protected apiRoot:APIV3Service,

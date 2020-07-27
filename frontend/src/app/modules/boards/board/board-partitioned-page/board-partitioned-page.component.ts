@@ -18,7 +18,7 @@ import {BoardsMenuButtonComponent} from "core-app/modules/boards/board/toolbar-m
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
 import {from} from "rxjs";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {take} from "rxjs/operators";
+import {finalize, take} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
@@ -104,18 +104,11 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   boardSaver = new RequestSwitchmap(
     (board:Board) => {
       this.toolbarDisabled = true;
-      const promise = this.Boards
+      return this.Boards
         .save(board)
-        .then(board => {
-          this.toolbarDisabled = false;
-          return board;
-        })
-        .catch((error) => {
-          this.toolbarDisabled = false;
-          throw error;
-        });
-
-      return from(promise);
+        .pipe(
+          finalize(() => this.toolbarDisabled = false)
+        );
     }
   );
 
@@ -169,7 +162,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
       const toState = transition.to();
       const params = transition.params('to');
 
-      this.showToolbarSaveButton = !!params.query_props
+      this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
       this.cdRef.detectChanges();
     });

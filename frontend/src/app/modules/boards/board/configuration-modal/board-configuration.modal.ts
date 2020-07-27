@@ -104,7 +104,7 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
     const board = this.locals.board as Board;
     this.boardService
       .save(board)
-      .then(board => {
+      .subscribe(board => {
         this.boardCache.update(board);
         this.service.close();
       });

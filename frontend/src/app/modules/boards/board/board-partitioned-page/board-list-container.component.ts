@@ -125,7 +125,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     if (board.isFree) {
       return this.BoardList
         .addFreeQuery(board, { name: this.text.unnamed_list })
-        .then(board => this.Boards.save(board))
+        .then(board => this.Boards.save(board).toPromise())
         .then(saved => {
           this.BoardCache.update(saved);
         })
