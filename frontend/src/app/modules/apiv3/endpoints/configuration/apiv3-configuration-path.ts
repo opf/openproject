@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2020 the OpenProject GmbH
 //
@@ -24,32 +24,25 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {Injectable} from '@angular/core';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {ConfigurationResource} from 'core-app/modules/hal/resources/configuration-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {shareReplay} from "rxjs/operators";
+import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {GridResource} from "core-app/modules/hal/resources/grid-resource";
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import {ConfigurationResource} from "core-app/modules/hal/resources/configuration-resource";
 import {Observable} from "rxjs";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {shareReplay} from "rxjs/operators";
 
-@Injectable()
-export class ConfigurationDmService {
-  constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService,
-              protected apiV3Service:APIV3Service) {
-  }
-
+export class Apiv3ConfigurationPath extends APIv3GettableResource<ConfigurationResource> {
   private $configuration:Observable<ConfigurationResource>;
 
-  public load():Observable<ConfigurationResource> {
+  public get():Observable<ConfigurationResource> {
     if (this.$configuration) {
       return this.$configuration;
     }
 
     return this.$configuration = this.halResourceService
-      .get<ConfigurationResource>(this.apiV3Service.configuration.toString())
+      .get<ConfigurationResource>(this.path)
       .pipe(
         shareReplay()
       );

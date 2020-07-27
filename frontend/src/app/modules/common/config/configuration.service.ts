@@ -28,9 +28,9 @@
 
 import {Injectable} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {ConfigurationDmService} from "core-app/modules/hal/dm-services/configuration-dm.service";
 import {ConfigurationResource} from "core-app/modules/hal/resources/configuration-resource";
 import * as moment from "moment";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
@@ -41,7 +41,7 @@ export class ConfigurationService {
   public initialized:Promise<Boolean>;
 
   public constructor(readonly I18n:I18nService,
-                     readonly configurationDm:ConfigurationDmService) {
+                     readonly apiV3Service:APIV3Service) {
     this.initialized = this.loadConfiguration().then(() => true).catch(() => false);
   }
 
@@ -57,11 +57,11 @@ export class ConfigurationService {
     return this.userPreference('autoHidePopups');
   }
 
-  public isTimezoneSet()  {
+  public isTimezoneSet() {
     return !!this.timezone();
   }
 
-  public timezone()  {
+  public timezone() {
     return this.userPreference('timeZone');
   }
 
@@ -73,27 +73,27 @@ export class ConfigurationService {
     return this.systemPreference('perPageOptions');
   }
 
-  public dateFormatPresent()  {
+  public dateFormatPresent() {
     return !!this.systemPreference('dateFormat');
   }
 
-  public dateFormat()  {
+  public dateFormat() {
     return this.systemPreference('dateFormat');
   }
 
-  public timeFormatPresent()  {
+  public timeFormatPresent() {
     return !!this.systemPreference('timeFormat');
   }
 
-  public timeFormat()  {
+  public timeFormat() {
     return this.systemPreference('timeFormat');
   }
 
-  public startOfWeekPresent()  {
+  public startOfWeekPresent() {
     return !!this.systemPreference('startOfWeek');
   }
 
-  public startOfWeek()  {
+  public startOfWeek() {
     if (this.startOfWeekPresent()) {
       return this.systemPreference('startOfWeek');
     } else {
@@ -102,9 +102,14 @@ export class ConfigurationService {
   }
 
   private loadConfiguration() {
-    return this.configurationDm.load().toPromise().then((configuration) => {
-      this.configuration = configuration;
-    });
+    return this
+      .apiV3Service
+      .configuration
+      .get()
+      .toPromise()
+      .then((configuration) => {
+        this.configuration = configuration;
+      });
   }
 
   private userPreference(pref:string) {

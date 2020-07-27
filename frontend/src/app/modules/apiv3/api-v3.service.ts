@@ -46,6 +46,7 @@ import {APIv3VersionsPaths} from "core-app/modules/apiv3/endpoints/versions/apiv
 import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
 import {Apiv3NewsPaths} from "core-app/modules/apiv3/endpoints/news/apiv3-news-paths";
 import {Apiv3HelpTextsPaths} from "core-app/modules/apiv3/endpoints/help_texts/apiv3-help-texts-paths";
+import {Apiv3ConfigurationPath} from "core-app/modules/apiv3/endpoints/configuration/apiv3-configuration-path";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -53,7 +54,7 @@ export class APIV3Service {
   public readonly attachments = this.apiV3CollectionEndpoint('attachments');
 
   // /api/v3/configuration
-  public readonly configuration = this.apiV3SingularEndpoint('configuration');
+  public readonly configuration = this.apiV3CustomEndpoint(Apiv3ConfigurationPath);
 
   // /api/v3/documents
   public readonly documents = this.apiV3CollectionEndpoint('documents');
