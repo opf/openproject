@@ -27,20 +27,18 @@
 // ++
 
 
-import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {Apiv3TimeEntryPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entry-paths";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 import {Observable} from "rxjs";
-import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
 import {MultiInputState} from "reactivestates";
 import {
   Apiv3ListParameters,
-  Apiv3ListResourceInterface, listParamsString
+  Apiv3ListResourceInterface,
+  listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 export class Apiv3TimeEntriesPaths

@@ -5,8 +5,8 @@ import { PathHelperService } from "core-app/modules/common/path-helper/path-help
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { NewsResource } from "core-app/modules/hal/resources/news-resource";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { DmListParameter } from "core-app/modules/hal/dm-services/dm.service.interface";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Apiv3ListParameters} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 @Component({
   templateUrl: './news.component.html',
@@ -86,7 +86,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   private get newsDmParams() {
-    let params:DmListParameter = {
+    let params:Apiv3ListParameters = {
       sortBy: [['created_at', 'desc']],
       pageSize: 3
     };

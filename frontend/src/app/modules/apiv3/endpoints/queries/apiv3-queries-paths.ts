@@ -35,7 +35,6 @@ import {Observable} from "rxjs";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 import {Apiv3ListParameters, listParamsString} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
@@ -142,7 +141,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
    * @param projectIdentifier
    */
   public filterNonHidden(projectIdentifier?:string|null):Observable<CollectionResource<QueryResource>> {
-    let listParams:DmListParameter = {
+    let listParams:Apiv3ListParameters = {
       filters: [['hidden', '=', ['f']]]
     };
 

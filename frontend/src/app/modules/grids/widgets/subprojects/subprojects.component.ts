@@ -5,9 +5,9 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Apiv3ListParameters} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 @Component({
   templateUrl: './subprojects.component.html',
@@ -59,7 +59,7 @@ export class WidgetSubprojectsComponent extends AbstractWidgetComponent implemen
     return this.projects && !this.projects.length;
   }
 
-  private get projectListParams():DmListParameter {
+  private get projectListParams():Apiv3ListParameters {
     return { sortBy: [['name', 'asc']],
              filters: [['parent_id', '=', [this.currentProject.id!]]] };
   }

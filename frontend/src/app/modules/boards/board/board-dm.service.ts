@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {from, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -8,7 +8,6 @@ import {map, switchMap, tap} from "rxjs/operators";
 import {Board, BoardType} from "core-app/modules/boards/board/board";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 
 @Injectable({ providedIn: 'root' })

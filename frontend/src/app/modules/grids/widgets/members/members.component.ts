@@ -4,10 +4,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Apiv3ListParameters} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 const DISPLAYED_MEMBERS_LIMIT = 100;
 
@@ -120,7 +120,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   }
 
   private get listMembersParams() {
-    let params:DmListParameter = { sortBy: [['created_on', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
+    let params:Apiv3ListParameters = { sortBy: [['created_on', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
 
     if (this.currentProject.id) {
       params['filters'] = [['project_id', '=', [this.currentProject.id]]];
@@ -132,7 +132,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   private get listAvailableProjectsParams() {
     // It would make sense to set the pageSize but the backend for projects
     // returns an upaginated list which does not support that.
-    let params:DmListParameter = {};
+    let params:Apiv3ListParameters = {};
 
     if (this.currentProject.id) {
       params['filters'] = [['id', '=', [this.currentProject.id]]];

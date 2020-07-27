@@ -29,7 +29,6 @@
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {Observable} from "rxjs";
-import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 
 export interface Apiv3ListParameters {
   filters?:[string, FilterOperator, string[]][];
@@ -41,7 +40,7 @@ export interface Apiv3ListResourceInterface<T> {
   list(params:Apiv3ListParameters):Observable<CollectionResource<T>>;
 }
 
-export function listParamsString(params?:DmListParameter):string {
+export function listParamsString(params?:Apiv3ListParameters):string {
   let queryProps = [];
 
   if (params && params.sortBy) {
