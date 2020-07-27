@@ -41,6 +41,7 @@ import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-api
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {MultiInputState} from "reactivestates";
 import {APIv3BoardPath} from "core-app/modules/apiv3/virtual/apiv3-board-path";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardPath> {
 
@@ -103,12 +104,13 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
    *
    * @param projectIdentifier The current project identifier
    */
-  public boardPath(projectIdentifier:string|null = this.CurrentProject.identifier) {
+  public boardPath(projectIdentifier:string|null = null) {
     return this.PathHelper.projectBoardsPath(projectIdentifier);
   }
 
-  protected cacheState():MultiInputState<Board> {
-    return this.states.forType('boards');
+  protected createCache():StateCacheService<Board> {
+    let state = this.states.forType<Board>('boards');
+    return new StateCacheService<Board>(state);
   }
 
   private createGrid(type:BoardType, name:string, actionAttribute?:string):Observable<GridResource> {

@@ -124,14 +124,7 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
   }
 
   /**
-   * Returns the cache state to be used for the cached resource
-   */
-  protected abstract cacheState():MultiInputState<T>;
-
-  /**
    * Creates the cache state instance
    */
-  protected createCache():StateCacheService<T> {
-    return new StateCacheService(this.cacheState());
-  }
+  protected abstract createCache():StateCacheService<T>;
 }

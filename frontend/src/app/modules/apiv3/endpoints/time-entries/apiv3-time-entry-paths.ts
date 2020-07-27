@@ -33,7 +33,6 @@ import {MultiInputState} from "reactivestates";
 import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
 import {Apiv3TimeEntriesPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
@@ -70,10 +69,6 @@ export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource
       .pipe(
         tap(() => this.cache.clearSome(this.id.toString()))
       );
-  }
-
-  protected cacheState():MultiInputState<TimeEntryResource> {
-    return this.states.timeEntries;
   }
 
   protected createCache():StateCacheService<TimeEntryResource> {

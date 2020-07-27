@@ -40,6 +40,8 @@ import {
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import {TimeEntryCacheService} from "core-app/modules/apiv3/endpoints/time-entries/time-entry-cache.service";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class Apiv3TimeEntriesPaths
   extends CachableAPIV3Collection<TimeEntryResource, Apiv3TimeEntryPaths>
@@ -78,8 +80,7 @@ export class Apiv3TimeEntriesPaths
       );
   }
 
-  protected cacheState():MultiInputState<TimeEntryResource> {
-    return this.states.timeEntries;
+  protected createCache():StateCacheService<TimeEntryResource> {
+    return new TimeEntryCacheService(this.injector, this.states.timeEntries);
   }
-
 }

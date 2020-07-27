@@ -32,12 +32,13 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {
   Apiv3ListParameters,
-  Apiv3ListResourceInterface, listParamsString
+  Apiv3ListResourceInterface,
+  listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 import {Observable} from "rxjs";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
-import {MultiInputState} from "reactivestates";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class APIv3ProjectsPaths
   extends CachableAPIV3Collection<ProjectResource, APIv3ProjectPaths>
@@ -64,8 +65,7 @@ export class APIv3ProjectsPaths
       );
   }
 
-  protected cacheState():MultiInputState<ProjectResource> {
-    return this.states.projects;
+  protected createCache():StateCacheService<ProjectResource> {
+    return new StateCacheService<ProjectResource>(this.states.projects);
   }
-
 }

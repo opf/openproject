@@ -99,8 +99,4 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
   protected createCache():StateCacheService<Board> {
     return (this.parent as Apiv3BoardsPaths).cache;
   }
-
-  protected cacheState():MultiInputState<Board> {
-    return this.states.forType('boards');
-  }
 }

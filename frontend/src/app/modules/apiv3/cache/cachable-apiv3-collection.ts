@@ -31,7 +31,6 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {States} from "core-components/states.service";
 import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {Observable} from "rxjs";
-import {MultiInputState} from "reactivestates";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {tap} from "rxjs/operators";
@@ -129,22 +128,7 @@ export abstract class CachableAPIV3Collection<T extends HasId = HalResource, V e
   }
 
   /**
-   * Returns the cache state to be used for the cached resource
-   */
-  protected abstract cacheState():MultiInputState<T>;
-
-  /**
-   * Provide an optional loadAll handler that loads the entire
-   * collection to be put into cache
-   */
-  protected loadAll():(() => Observable<T[]>)|undefined {
-    return undefined;
-  }
-
-  /**
    * Creates the cache state instance
    */
-  protected createCache():StateCacheService<T> {
-    return new StateCacheService(this.cacheState());
-  }
+  protected abstract createCache():StateCacheService<T>;
 }

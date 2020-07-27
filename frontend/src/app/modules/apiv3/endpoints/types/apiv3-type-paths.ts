@@ -29,10 +29,12 @@
 import {MultiInputState} from "reactivestates";
 import {TypeResource} from "core-app/modules/hal/resources/type-resource";
 import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class APIv3TypePaths extends CachableAPIV3Resource<TypeResource> {
 
-  protected cacheState():MultiInputState<TypeResource> {
-    return this.states.types;
+  protected createCache():StateCacheService<TypeResource> {
+    return new StateCacheService<TypeResource>(this.states.types);
   }
 }
