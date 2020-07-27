@@ -14,40 +14,26 @@
 
     <div class="ngdialog-body op-modal--modal-body">
       <section class="new-board--section">
-        <h3 [textContent]="text.free_board"></h3>
-        <p [textContent]="text.free_board_text"></p>
+        <div class="menu-blocks--container">
+          <button class="menu-block"
+            (accessibleClick)="createFree()"
+            data-toggle="tooltip"
+            [disabled]="inFlight"
+            title={{text.free_board_text}}>
+            <i class="menu-block--icon icon3 icon-boards" aria-hidden="true"></i>
+            <span class="menu-block--title"> {{text.free_board}} </span>
+          </button>
 
-        <button class="button"
-                [disabled]="inFlight"
-                (accessibleClick)="createFree()">
-          <op-icon icon-classes="icon4 icon-add"></op-icon>
-          <span [textContent]="text.free_board"></span>
-        </button>
-      </section>
-      <section class="new-board--section">
-        <h3 [textContent]="text.action_board"></h3>
-        <p [textContent]="text.action_board_text"></p>
-
-        <div class="form--field">
-          <div class="form--field-container">
-            <div class="form--select-container -slim">
-              <label class="form--label" for="new_board_action_select" [textContent]="text.select_attribute"></label>
-              <select #actionAttributeSelect
-                      name="new_board_action_select"
-                      id="new_board_action_select"
-                      class="new-board--action-select">
-                <option *ngFor="let item of available" [value]="item.attribute" [textContent]="item.text"></option>
-              </select>
-            </div>
-          </div>
+          <button class="menu-block"
+            data-toggle="tooltip"
+            title={{toolTipTitle(item.attribute)}} *ngFor="let item of available" 
+            (accessibleClick)="createAction(item.attribute)">
+            <i class="menu-block--icon icon3 icon-boards" aria-hidden="true"></i>
+            <span class="menu-block--title">
+              {{text.action_board +' (' + item.text +')'}}
+            </span>
+          </button>
         </div>
-
-        <button class="button"
-                [disabled]="inFlight"
-                (accessibleClick)="createAction()">
-          <op-icon icon-classes="icon4 icon-add"></op-icon>
-          <span [textContent]="text.action_board"></span>
-        </button>
       </section>
     </div>
   </div>

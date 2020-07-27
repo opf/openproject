@@ -40,7 +40,8 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Component({
-  templateUrl: './new-board-modal.html'
+  templateUrl: './new-board-modal.html',
+  styleUrls: ['./new-board-modal.component.sass']
 })
 export class NewBoardModalComponent extends OpModalComponent {
   @ViewChild('actionAttributeSelect', { static: true }) actionAttributeSelect:ElementRef;
@@ -83,8 +84,8 @@ export class NewBoardModalComponent extends OpModalComponent {
     this.create({ type: 'free' });
   }
 
-  createAction() {
-    this.create({ type: 'action', attribute: this.actionAttributeSelect.nativeElement.value! });
+  createAction(attribute:string) {
+    this.create({ type: 'action', attribute: attribute! });
   }
 
   private create(params:{ type:BoardType, attribute?:string }) {
@@ -102,6 +103,11 @@ export class NewBoardModalComponent extends OpModalComponent {
         this.inFlight = false;
         this.halNotification.handleRawError(error);
       });
+  }
+  public toolTipTitle(attribute:string):string {
+    var action_board_text = this.I18n.t('js.boards.board_type.action_text',
+     { attribute: this.I18n.t('js.boards.board_type.action_type.' + attribute )});
+    return action_board_text;
   }
 }
 
