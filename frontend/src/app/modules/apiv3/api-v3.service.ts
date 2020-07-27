@@ -44,6 +44,7 @@ import {RootResource} from "core-app/modules/hal/resources/root-resource";
 import {APIv3StatusesPaths} from "core-app/modules/apiv3/endpoints/statuses/apiv3-statuses-paths";
 import {APIv3VersionsPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-versions-paths";
 import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
+import {Apiv3NewsPaths} from "core-app/modules/apiv3/endpoints/news/apiv3-news-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -81,7 +82,7 @@ export class APIV3Service {
   public readonly memberships = this.apiV3CustomEndpoint(Apiv3MembershipsPaths);
 
   // /api/v3/news
-  public readonly news = this.apiV3CollectionEndpoint('news');
+  public readonly news = this.apiV3CustomEndpoint(Apiv3NewsPaths);
 
   // /api/v3/types
   public readonly types = this.apiV3CustomEndpoint(APIv3TypesPaths);

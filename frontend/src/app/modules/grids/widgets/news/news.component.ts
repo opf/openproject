@@ -4,9 +4,9 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { NewsResource } from "core-app/modules/hal/resources/news-resource";
-import { NewsDmService } from "core-app/modules/hal/dm-services/news-dm.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { DmListParameter } from "core-app/modules/hal/dm-services/dm.service.interface";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './news.component.html',
@@ -29,17 +29,19 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     readonly i18n:I18nService,
     protected readonly injector:Injector,
     readonly timezone:TimezoneService,
-    readonly newsDm:NewsDmService,
     readonly currentProject:CurrentProjectService,
+    readonly apiV3Service:APIV3Service,
     readonly cdr:ChangeDetectorRef
   ) {
     super(i18n, injector);
   }
 
   ngOnInit() {
-    this.newsDm
+    this
+      .apiV3Service
+      .news
       .list(this.newsDmParams)
-      .then(collection => this.setupNews(collection.elements));
+      .subscribe(collection => this.setupNews(collection.elements));
   }
 
   public setupNews(news:any[]) {
