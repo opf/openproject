@@ -37,14 +37,16 @@ import {AuthorisationService} from 'core-app/modules/common/model-auth/model-aut
 import {StateService} from '@uirouter/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {from, Observable, of} from 'rxjs';
 import {input} from "reactivestates";
 import {catchError, mergeMap, share, switchMap, take} from "rxjs/operators";
-import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+import {
+  PaginationUpdateObject,
+  WorkPackageViewPaginationService
+} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {PaginationService} from "core-components/table-pagination/pagination-service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
@@ -90,7 +92,6 @@ export class WorkPackagesListService {
               protected UrlParamsHelper:UrlParamsHelperService,
               protected authorisationService:AuthorisationService,
               protected $state:StateService,
-              protected QueryDm:QueryDmService,
               protected apiV3Service:APIV3Service,
               protected states:States,
               protected querySpace:IsolatedQuerySpace,
@@ -111,7 +112,10 @@ export class WorkPackagesListService {
   private streamQueryRequest(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
     const decodedProps = this.getCurrentQueryProps(queryParams);
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
-    const stream = this.QueryDm.stream(queryData, queryParams.query_id, projectIdentifier);
+    const stream = this
+      .apiV3Service
+      .queries
+      .find(queryData, queryParams.query_id, projectIdentifier);
 
     return stream.pipe(
       catchError((error) => {
@@ -178,9 +182,15 @@ export class WorkPackagesListService {
   /**
    * Update the list from an existing query object.
    */
-  public loadResultsList(query:QueryResource, additionalParams:PaginationObject):Promise<WorkPackageCollectionResource> {
-    return this.QueryDm
-      .loadResults(query, additionalParams)
+  public loadResultsList(query:QueryResource, additionalParams:Object):Promise<WorkPackageCollectionResource> {
+    const params = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additionalParams);
+
+    return this
+      .apiV3Service
+      .queries
+      .id(query)
+      .parameterised(params)
+      .toPromise()
       .then((loadedQuery) => {
 
         this.wpStatesInitialization.updateQuerySpace(loadedQuery, loadedQuery.results);
@@ -232,7 +242,11 @@ export class WorkPackagesListService {
 
     query.name = name;
 
-    let promise = this.QueryDm.create(query, form);
+    let promise = this
+      .apiV3Service
+      .queries
+      .post(query, form)
+      .toPromise();
 
     promise
       .then(query => {
@@ -255,7 +269,12 @@ export class WorkPackagesListService {
   public delete() {
     let query = this.currentQuery;
 
-    let promise = this.QueryDm.delete(query);
+    let promise = this
+      .apiV3Service
+      .queries
+      .id(query)
+      .delete()
+      .toPromise();
 
     promise
       .then(() => {
@@ -280,7 +299,12 @@ export class WorkPackagesListService {
 
     let form = this.querySpace.queryForm.value!;
 
-    let promise = this.QueryDm.update(query, form).toPromise();
+    let promise = this
+      .apiV3Service
+      .queries
+      .id(query)
+      .patch(query, form)
+      .toPromise();
 
     promise
       .then(() => {
@@ -297,7 +321,10 @@ export class WorkPackagesListService {
   }
 
   public toggleStarred(query:QueryResource):Promise<any> {
-    let promise = this.QueryDm.toggleStarred(query);
+    let promise = this
+      .apiV3Service
+      .queries
+      .toggleStarred(query);
 
     promise.then((query:QueryResource) => {
       this.querySpace.query.putValue(query);
@@ -347,7 +374,11 @@ export class WorkPackagesListService {
         .loadWithParams(queryProps, queryId, projectIdentifier)
         .toPromise()
         .then(([form, _]) => {
-          this.QueryDm.findDefault({ pageSize: 0 }, projectIdentifier)
+          this
+            .apiV3Service
+            .queries
+            .find({ pageSize: 0}, undefined, projectIdentifier)
+            .toPromise()
             .then((query:QueryResource) => {
               this.wpListInvalidQueryService.restoreQuery(query, form);
 

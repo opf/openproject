@@ -40,7 +40,7 @@ import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-api
 import {MultiInputState} from "reactivestates";
 import {
   Apiv3ListParameters,
-  Apiv3ListResourceInterface
+  Apiv3ListResourceInterface, listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 export class Apiv3TimeEntriesPaths
@@ -61,7 +61,7 @@ export class Apiv3TimeEntriesPaths
   public list(params?:Apiv3ListParameters):Observable<CollectionResource<TimeEntryResource>> {
     return this
       .halResourceService
-      .get<CollectionResource<TimeEntryResource>>(this.path + this.listParamsString(params))
+      .get<CollectionResource<TimeEntryResource>>(this.path + listParamsString(params))
       .pipe(
         this.cacheResponse()
       );
@@ -78,37 +78,6 @@ export class Apiv3TimeEntriesPaths
       .pipe(
         this.cacheResponse()
       );
-  }
-
-  protected listParamsString(params?:DmListParameter):string {
-    let queryProps = [];
-
-    if (params && params.sortBy) {
-      queryProps.push(`sortBy=${JSON.stringify(params.sortBy)}`);
-    }
-
-    // 0 should not be treated as false
-    if (params && params.pageSize !== undefined) {
-      queryProps.push(`pageSize=${params.pageSize}`);
-    }
-
-    if (params && params.filters) {
-      let filters = new ApiV3FilterBuilder();
-
-      params.filters.forEach((filterParam) => {
-        filters.add(...filterParam);
-      });
-
-      queryProps.push(filters.toParams());
-    }
-
-    let queryPropsString = '';
-
-    if (queryProps.length) {
-      queryPropsString = `?${queryProps.join('&')}`;
-    }
-
-    return queryPropsString;
   }
 
   protected cacheState():MultiInputState<TimeEntryResource> {

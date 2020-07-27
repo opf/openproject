@@ -33,7 +33,6 @@ import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operat
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;
@@ -43,12 +42,13 @@ export class QueryFilterInstanceResource extends HalResource {
 
   @InjectField(SchemaCacheService) schemaCache:SchemaCacheService;
   @InjectField(PathHelperService) pathHelper:PathHelperService;
-  @InjectField() apiV3Service:APIV3Service;
 
   public $initialize(source:any) {
     super.$initialize(source);
 
-    this.$links['schema'] = { href: this.apiV3Service.queries.filterInstanceSchemas.id(this.filter.idFromLink).path };
+    this.$links['schema'] = {
+      href: this.pathHelper.api.v3.appBasePath + '/queries/filter_instance_schemas/' + this.filter.idFromLink
+    };
   }
 
   public get id():string {

@@ -6,10 +6,9 @@ import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-c
 import {Observable} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {StateService} from '@uirouter/core';
-import {skip} from 'rxjs/operators';
+import {finalize, skip} from 'rxjs/operators';
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
@@ -35,7 +34,6 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
               protected readonly injector:Injector,
               protected urlParamsHelper:UrlParamsHelperService,
               protected readonly state:StateService,
-              protected readonly queryDm:QueryDmService,
               protected readonly querySpace:IsolatedQuerySpace,
               protected readonly apiV3Service:APIV3Service) {
     super(i18n, injector);
@@ -97,14 +95,13 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
     this.inFlight = true;
 
     this
-      .queryDm
-      .update(query, this.queryForm)
-      .toPromise()
-      .then((query) => {
-        this.inFlight = false;
-        return query;
-      })
-      .catch(() => this.inFlight = false);
+      .apiV3Service
+      .queries
+      .id(query)
+      .patch(query, this.queryForm)
+      .pipe(
+        finalize(() => this.inFlight  = false)
+      );
   }
 
   private createInitial():Promise<QueryResource> {
@@ -124,7 +121,12 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
       )
       .toPromise()
       .then(([form, query]) => {
-        return this.queryDm.create(query, form).then((query) => {
+        return this
+          .apiV3Service
+          .queries
+          .post(query, form)
+          .toPromise()
+          .then((query) => {
           delete this.resource.options.queryProps;
 
           return query;

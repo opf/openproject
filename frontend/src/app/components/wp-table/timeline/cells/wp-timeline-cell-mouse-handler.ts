@@ -34,7 +34,6 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {WorkPackageCellLabels} from './wp-timeline-cell';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
@@ -45,6 +44,7 @@ import Moment = moment.Moment;
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {take} from "rxjs/operators";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -69,7 +69,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
   const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
-  let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
+  let mouseDownStartDay:number|null = null; // also flag to signal active drag'n'drop
   renderInfo.change = halEditing.changeFor(renderInfo.workPackage) as WorkPackageChangeset;
 
   let dateStates:any;
@@ -242,7 +242,7 @@ export function registerWorkPackageMouseHandler(this:void,
   }
 
   function saveWorkPackage(change:WorkPackageChangeset) {
-    const queryDm:QueryDmService = injector.get(QueryDmService);
+    const apiv3Service:APIV3Service = injector.get(APIV3Service);
     const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
     // Remember the time before saving the work package to know which work packages to update
@@ -253,12 +253,16 @@ export function registerWorkPackageMouseHandler(this:void,
       .then((result) => {
         notificationService.showSave(result.resource);
         const ids = _.map(querySpace.tableRendered.value!, row => row.workPackageId);
-        return queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
-          wpCacheService.updateWorkPackageList(workPackageCollection.elements);
+        return apiv3Service
+          .work_packages
+          .filterUpdatedSince(ids, updatedAt)
+          .toPromise()
+          .then(workPackageCollection => {
+            wpCacheService.updateWorkPackageList(workPackageCollection.elements);
 
-          halEvents.push(result.resource, { eventType: 'updated' });
-          return querySpace.timelineRendered.pipe(take(1)).toPromise();
-        });
+            halEvents.push(result.resource, { eventType: 'updated' });
+            return querySpace.timelineRendered.pipe(take(1)).toPromise();
+          });
       })
       .catch((error) => {
         notificationService.handleRawError(error, renderInfo.workPackage);

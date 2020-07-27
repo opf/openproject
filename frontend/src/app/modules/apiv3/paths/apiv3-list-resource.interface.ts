@@ -27,8 +27,9 @@
 //++
 
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {Observable} from "rxjs";
+import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 
 export interface Apiv3ListParameters {
   filters?:[string, FilterOperator, string[]][];
@@ -38,4 +39,35 @@ export interface Apiv3ListParameters {
 
 export interface Apiv3ListResourceInterface<T> {
   list(params:Apiv3ListParameters):Observable<CollectionResource<T>>;
+}
+
+export function listParamsString(params?:DmListParameter):string {
+  let queryProps = [];
+
+  if (params && params.sortBy) {
+    queryProps.push(`sortBy=${JSON.stringify(params.sortBy)}`);
+  }
+
+  // 0 should not be treated as false
+  if (params && params.pageSize !== undefined) {
+    queryProps.push(`pageSize=${params.pageSize}`);
+  }
+
+  if (params && params.filters) {
+    let filters = new ApiV3FilterBuilder();
+
+    params.filters.forEach((filterParam) => {
+      filters.add(...filterParam);
+    });
+
+    queryProps.push(filters.toParams());
+  }
+
+  let queryPropsString = '';
+
+  if (queryProps.length) {
+    queryPropsString = `?${queryProps.join('&')}`;
+  }
+
+  return queryPropsString;
 }

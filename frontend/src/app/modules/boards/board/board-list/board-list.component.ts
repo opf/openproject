@@ -11,7 +11,6 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {
   LoadingIndicatorService,
   withLoadingIndicator
@@ -57,6 +56,7 @@ import {debounceTime, filter, map} from "rxjs/operators";
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {ChangeItem} from "core-app/modules/fields/changeset/changeset";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -129,7 +129,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public buttonPlaceholder:DisabledButtonPlaceholder|undefined;
 
-  constructor(readonly QueryDm:QueryDmService,
+  constructor(readonly apiv3Service:APIV3Service,
               readonly I18n:I18nService,
               readonly state:StateService,
               readonly cdRef:ChangeDetectorRef,
@@ -278,22 +278,29 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return;
     }
 
-    this.QueryDm
-      .delete(query)
-      .then(() => this.onRemove.emit());
+    this
+      .apiv3Service
+      .queries
+      .id(query)
+      .delete()
+      .subscribe(() => this.onRemove.emit());
   }
 
   public renameQuery(query:QueryResource, value:string) {
     this.inFlight = true;
     this.query.name = value;
-    this.QueryDm
-      .patch(this.query.id!, { name: value })
-      .toPromise()
-      .then(() => {
-        this.inFlight = false;
-        this.notifications.addSuccess(this.text.updateSuccessful);
-      })
-      .catch(() => this.inFlight = false);
+    this
+      .apiv3Service
+      .queries
+      .id(this.query)
+      .patch({ name: value })
+      .subscribe(
+        () => {
+          this.inFlight = false;
+          this.notifications.addSuccess(this.text.updateSuccessful);
+        },
+        (_error) => this.inFlight = false,
+      );
   }
 
   private boardListActionColorClass(value?:HalResource):string {
@@ -396,7 +403,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private loadQuery(visibly = true) {
-    let observable = this.QueryDm.stream(this.columnsQueryProps, this.queryId);
+    let observable = this
+      .apiv3Service
+      .queries
+      .find(this.columnsQueryProps, this.queryId);
 
     // Spread arguments on pipe does not work:
     // https://github.com/ReactiveX/rxjs/issues/3989

@@ -87,6 +87,19 @@ export class APIV3WorkPackagesPaths extends APIv3ResourceCollection<WorkPackageR
   }
 
   /**
+   * Returns work packages within the ids array to be updated since <timestamp>
+   * @param ids work package IDs to filter for
+   * @param timestamp The timestamp to clip at
+   */
+  public filterUpdatedSince(ids:(string|null)[], timestamp:unknown):Observable<WorkPackageCollectionResource> {
+    let filters = new ApiV3FilterBuilder()
+      .add('id', '=', ids.filter((n:String|null) => n)) // no null values
+      .add('updatedAt', '<>d', [timestamp, '']);
+
+    return this.filtered(filters);
+  }
+
+  /**
    * Loads the work packages collection for the given work package IDs.
    * Returns a WP Collection with schemas and results embedded.
    *

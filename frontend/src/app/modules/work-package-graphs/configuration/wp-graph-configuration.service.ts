@@ -6,7 +6,6 @@ import {Injectable} from '@angular/core';
 import {WpGraphConfigurationFiltersTab} from "core-app/modules/work-package-graphs/configuration-modal/tabs/filters-tab.component";
 import {ChartType} from 'chart.js';
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {
   WpGraphConfiguration,
   WpGraphQueryParams
@@ -24,7 +23,6 @@ export class WpGraphConfigurationService {
 
   constructor(readonly I18n:I18nService,
               readonly apiv3Service:APIV3Service,
-              protected readonly queryDm:QueryDmService,
               readonly notificationService:WorkPackageNotificationService,
               readonly currentProject:CurrentProjectService) {
   }
@@ -87,7 +85,11 @@ export class WpGraphConfigurationService {
       )
       .toPromise()
       .then(([form, query]) => {
-        return this.queryDm.create(query, form);
+        return this
+          .apiv3Service
+          .queries
+          .post(query, form)
+          .toPromise();
       });
   }
 
@@ -100,12 +102,15 @@ export class WpGraphConfigurationService {
   }
 
   private loadQuery(params:WpGraphQueryParams) {
-    return this.queryDm
+    return this
+      .apiv3Service
+      .queries
       .find(
         Object.assign({pageSize: 0}, params.props),
         params.id,
         this.currentProject.identifier,
       )
+      .toPromise()
       .then(query => {
         if (params.name) {
           query.name = params.name;
@@ -118,8 +123,10 @@ export class WpGraphConfigurationService {
     return this.formFor(query)
       .then(form => {
         return this
-          .queryDm
-          .update(query, form)
+          .apiv3Service
+          .queries
+          .id(query)
+          .patch(query, form)
           .toPromise();
       });
   }

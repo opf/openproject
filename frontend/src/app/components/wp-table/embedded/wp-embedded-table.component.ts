@@ -4,7 +4,6 @@ import {WorkPackageViewPaginationService} from 'core-app/modules/work_packages/r
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
@@ -30,7 +29,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   /** Inform about loaded query */
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
-  @InjectField() QueryDm:QueryDmService;
   @InjectField() apiv3Service:APIV3Service;
   @InjectField() opModalService:OpModalService;
   @InjectField() tableActionsService:OpTableActionsService;
@@ -67,9 +65,16 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         this.untilDestroyed(),
         withLatestFrom(this.querySpace.query.values$())
       ).subscribe(([_, query]) => {
-      this.loadingIndicator = this.QueryDm
-        .loadResults(query, this.wpTablePagination.paginationObject)
-        .then((query) => this.initializeStates(query));
+        const pagination = this.wpTablePagination.paginationObject;
+        const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
+
+      this.loadingIndicator =
+        this.
+          apiv3Service
+          .queries
+          .parameterised(params)
+          .toPromise()
+          .then((query) => this.initializeStates(query));
     });
   }
 
@@ -150,12 +155,15 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
 
     this.error = null;
-    const promise = this.QueryDm
+    const promise = this
+      .apiv3Service
+      .queries
       .find(
         this.queryProps,
         this.queryId,
         this.queryProjectScope
       )
+      .toPromise()
       .then((query:QueryResource) => {
         this.initializeStates(query);
         this.onQueryLoaded.emit(query);

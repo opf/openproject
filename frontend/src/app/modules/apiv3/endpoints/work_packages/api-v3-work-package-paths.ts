@@ -29,6 +29,9 @@
 import {APIv3GettableResource, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import {Observable} from "rxjs";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class APIV3WorkPackagePaths extends APIv3GettableResource<WorkPackageResource> {
 
@@ -46,5 +49,4 @@ export class APIV3WorkPackagePaths extends APIv3GettableResource<WorkPackageReso
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_projects
   public readonly available_projects = this.subResource('available_projects');
-
 }

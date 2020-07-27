@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {Board} from "core-app/modules/boards/board/board";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
@@ -18,7 +17,6 @@ export class BoardListsService {
 
   constructor(private readonly CurrentProject:CurrentProjectService,
               private readonly pathHelper:PathHelperService,
-              private readonly QueryDm:QueryDmService,
               private readonly apiV3Service:APIV3Service,
               private readonly halResourceService:HalResourceService,
               private readonly notifications:NotificationsService,
@@ -47,7 +45,11 @@ export class BoardListsService {
         // When the permission to create public queries is missing, throw an error.
         // Otherwise private queries would be created.
         if (form.schema['public'].writable) {
-          return this.QueryDm.create(query, form);
+          return this
+            .apiV3Service
+            .queries
+            .post(query, form)
+            .toPromise();
         } else {
           throw new Error(this.I18n.t('js.boards.error_permission_missing'));
         }
