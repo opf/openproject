@@ -49,7 +49,7 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
    *
    * @param force Load the value anyway.
    */
-  public require(force:boolean = false):Observable<T> {
+  public requireAndStream(force:boolean = false):Observable<T> {
     const id = this.id.toString();
 
     // Refresh when stale or being forced
@@ -70,7 +70,7 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
    * Accesses or modifies the global store for this resource.
    */
   get():Observable<T> {
-    return this.require(false);
+    return this.requireAndStream(false);
   }
 
   /**
@@ -80,7 +80,7 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
    * Accesses or modifies the global store for this resource.
    */
   getFresh():Observable<T> {
-    return this.require(true);
+    return this.requireAndStream(true);
   }
 
   /**

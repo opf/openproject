@@ -37,14 +37,13 @@ import {
 } from '@angular/core';
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {ProjectCacheService} from "core-components/projects/project-cache.service";
 import {Observable} from "rxjs";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './project-status.component.html',
@@ -65,15 +64,19 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
-              protected readonly projectDm:ProjectDmService,
-              protected readonly projectCache:ProjectCacheService,
+              protected readonly apiV3Service:APIV3Service,
               protected readonly currentProject:CurrentProjectService,
               protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
   ngOnInit() {
-    this.project$ = this.projectCache.requireAndStream(this.currentProject.id!);
+    this.project$ = this
+      .apiV3Service
+      .projects
+      .id(this.currentProject.id!)
+      .get();
+
     this.cdRef.detectChanges();
   }
 

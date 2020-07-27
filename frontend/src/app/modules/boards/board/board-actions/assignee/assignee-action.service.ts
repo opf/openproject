@@ -17,7 +17,6 @@ import {input} from "reactivestates";
 import {take} from "rxjs/operators";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
@@ -27,7 +26,6 @@ export class BoardAssigneeActionService implements BoardActionService {
 
   private assignees = input<HalResource[]>();
 
-  @InjectField() public projectDmService:ProjectDmService;
 
   constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
@@ -134,8 +132,12 @@ export class BoardAssigneeActionService implements BoardActionService {
   public warningTextWhenNoOptionsAvailable() {
     let text = this.I18n.t('js.boards.add_list_modal.warning.assignee');
 
-    return this.projectDmService
-      .one(parseInt(this.currentProject.id!))
+    return this
+      .apiV3Service
+      .projects
+      .id(this.currentProject.id!)
+      .get()
+      .toPromise()
       .then((project:ProjectResource) => {
         if (project.memberships) {
           text = text.concat(

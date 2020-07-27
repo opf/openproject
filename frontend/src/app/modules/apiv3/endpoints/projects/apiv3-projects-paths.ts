@@ -26,17 +26,46 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {APIv3ProjectPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {
+  Apiv3ListParameters,
+  Apiv3ListResourceInterface, listParamsString
+} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import {Observable} from "rxjs";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
+import {MultiInputState} from "reactivestates";
 
-export class APIv3ProjectsPaths extends APIv3ResourceCollection<ProjectResource, APIv3ProjectPaths> {
+export class APIv3ProjectsPaths
+  extends CachableAPIV3Collection<ProjectResource, APIv3ProjectPaths>
+  implements Apiv3ListResourceInterface<ProjectResource> {
   constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
     super(apiRoot, basePath, 'projects', APIv3ProjectPaths);
   }
 
   // /api/v3/projects/schema
-  public readonly schema = this.subResource('schema');
+  public readonly schema = this.subResource<SchemaResource>('schema');
+
+  /**
+   * Load a list of project with a given list parameter filter
+   *
+   * @param params
+   */
+  public list(params?:Apiv3ListParameters):Observable<CollectionResource<ProjectResource>> {
+    return this
+      .halResourceService
+      .get<CollectionResource<ProjectResource>>(this.path + listParamsString(params))
+      .pipe(
+        this.cacheResponse()
+      );
+  }
+
+  protected cacheState():MultiInputState<ProjectResource> {
+    return this.states.projects;
+  }
+
 }
