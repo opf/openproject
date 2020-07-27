@@ -31,18 +31,17 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
 
 @Injectable()
 export class GridDmService extends AbstractDmService<GridResource> {
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
-              protected apiV3Service:APIV3Service,
-              protected payloadDm:PayloadDmService) {
+              protected apiV3Service:APIV3Service) {
     super(halResourceService,
           pathHelper,
           apiV3Service);
@@ -78,7 +77,7 @@ export class GridDmService extends AbstractDmService<GridResource> {
 
   public extractPayload(resource:GridResource|null = null, schema:SchemaResource|null = null) {
     if (resource && schema) {
-      let payload = this.payloadDm.extract(resource, schema);
+      let payload = HalPayloadHelper.extractPayloadFromSchema(resource, schema);
 
       // The widget only states the type of the widget resource but does not explain
       // the widget itself. We therefore have to do that by hand.

@@ -26,13 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 
-@Injectable()
-export class PayloadDmService {
-  public extract<T extends HalResource = HalResource>(resource:T, schema:SchemaResource) {
+export class HalPayloadHelper {
+
+  /**
+   * Extract writable payload from a HAL resource class to be used for API calls.
+   *
+   * The schema contains writable information about attributes, which is what this method
+   * iterates in order to build the HAL-compatible object.
+   *
+   * @param resource A HalResource to extract payload from
+   * @param schema The associated schema to determine writable state of attributes
+   */
+  static extractPayloadFromSchema<T extends HalResource = HalResource>(resource:T, schema:SchemaResource) {
     let payload:any = {
       '_links': {}
     };
@@ -62,7 +70,7 @@ export class PayloadDmService {
         if (Array.isArray(resource[property])) {
           payload[property] = _.map(resource[property], (element:any) => {
             if (element instanceof HalResource) {
-              return this.extract(element, element.currentSchema || element.schema);
+              return this.extractPayloadFromSchema(element, element.currentSchema || element.schema);
             } else {
               return element;
             }

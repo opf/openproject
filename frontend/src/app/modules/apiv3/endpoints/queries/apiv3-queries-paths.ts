@@ -34,15 +34,13 @@ import {Apiv3QueryForm} from "core-app/modules/apiv3/endpoints/queries/apiv3-que
 import {Observable} from "rxjs";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 import {Apiv3ListParameters, listParamsString} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
+import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
 
 export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, APIv3QueryPaths> {
-  @InjectField() private payloadDm:PayloadDmService;
   @InjectField() private queryFilters:QueryFiltersService;
 
   constructor(protected apiRoot:APIV3Service,
@@ -115,7 +113,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
     if (payload instanceof QueryResource && form) {
       // Extracting requires having the filter schemas loaded as the dependencies
       this.queryFilters.mapSchemasIntoFilters(payload, form);
-      payload = this.payloadDm.extract(payload, form.schema);
+      payload = HalPayloadHelper.extractPayloadFromSchema(payload, form.schema);
     }
 
     return this

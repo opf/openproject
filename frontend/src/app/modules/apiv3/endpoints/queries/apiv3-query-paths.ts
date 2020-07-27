@@ -33,12 +33,11 @@ import {Apiv3QueryForm} from "core-app/modules/apiv3/endpoints/queries/apiv3-que
 import {Observable} from "rxjs";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {PaginationObject} from "core-components/table-pagination/pagination-service";
+import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
 
 export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
-  @InjectField() private payloadDm:PayloadDmService;
   @InjectField() private queryFilters:QueryFiltersService;
 
   // Static paths
@@ -65,7 +64,7 @@ export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
     if (payload instanceof QueryResource && form) {
       // Extracting requires having the filter schemas loaded as the dependencies
       this.queryFilters.mapSchemasIntoFilters(payload, form);
-      payload = this.payloadDm.extract(payload, form.schema);
+      payload = HalPayloadHelper.extractPayloadFromSchema(payload, form.schema);
     }
 
     return this
