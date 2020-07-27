@@ -31,13 +31,33 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Apiv3AvailableProjectsPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-available-projects-paths";
+import {
+  Apiv3ListParameters,
+  Apiv3ListResourceInterface, listParamsString
+} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import {Observable} from "rxjs";
+import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
 
-export class Apiv3MembershipsPaths extends APIv3ResourceCollection<HalResource, APIv3GettableResource> {
+export class Apiv3MembershipsPaths
+  extends APIv3ResourceCollection<MembershipResource, APIv3GettableResource<MembershipResource>>
+  implements Apiv3ListResourceInterface<MembershipResource> {
   constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
     super(apiRoot, basePath, 'memberships');
   }
 
+  /**
+   * Load a list of membership entries with a given list parameter filter
+   * @param params
+   */
+  public list(params?:Apiv3ListParameters):Observable<CollectionResource<MembershipResource>> {
+    return this
+      .halResourceService
+      .get<CollectionResource<MembershipResource>>(this.path + listParamsString(params));
+  }
+
+
   // /api/v3/memberships/available_projects
-  readonly available_projects = this.subResource<CollectionResource<ProjectResource>>('available_projects');
+  readonly available_projects = this.subResource('available_projects', Apiv3AvailableProjectsPaths);
 }

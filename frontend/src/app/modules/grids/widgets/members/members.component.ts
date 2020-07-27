@@ -6,7 +6,6 @@ import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
-import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
@@ -33,16 +32,17 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
               readonly apiV3Service:APIV3Service,
               readonly i18n:I18nService,
               protected readonly injector:Injector,
-              readonly membershipDm:MembershipDmService,
               readonly currentProject:CurrentProjectService,
               readonly cdr:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
   ngOnInit() {
-    this.membershipDm
+    this
+      .apiV3Service
+      .memberships
       .list(this.listMembersParams)
-      .then(collection => {
+      .subscribe(collection => {
         this.partitionEntriesByRole(collection.elements);
         this.sortUsersByName();
         this.totalMembers = collection.total;
@@ -51,14 +51,12 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
         this.cdr.detectChanges();
       });
 
-    this.membershipDm
-      .listAvailableProjects(this.listAvailableProjectsParams)
-      .then(collection => {
+    this.apiV3Service
+      .memberships
+      .available_projects
+      .list(this.listAvailableProjectsParams)
+      .subscribe(collection => {
         this.membersAddable = collection.total > 0;
-      })
-      .catch(() => {
-        // nothing bad, the user is just not allowed to add members to the project
-
       });
   }
 

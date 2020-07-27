@@ -35,8 +35,6 @@ import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.s
 import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {CommonModule} from "@angular/common";
-import {NewsDmService} from './dm-services/news-dm.service';
-import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
 
@@ -52,8 +50,6 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
     ConfigurationDmService,
     GridDmService,
     HelpTextDmService,
-    MembershipDmService,
-    NewsDmService,
     HalResourceNotificationService
   ]
 })

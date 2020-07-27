@@ -32,8 +32,24 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {buildApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
+import {
+  Apiv3ListParameters,
+  Apiv3ListResourceInterface, listParamsString
+} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
-export class Apiv3AvailableProjectsPaths extends APIv3GettableResource<CollectionResource<ProjectResource>> {
+export class Apiv3AvailableProjectsPaths
+  extends APIv3GettableResource<CollectionResource<ProjectResource>>
+  implements Apiv3ListResourceInterface<ProjectResource> {
+
+  /**
+   * Load a list of available projects with a given list parameter filter
+   * @param params
+   */
+  public list(params?:Apiv3ListParameters):Observable<CollectionResource<ProjectResource>> {
+    return this
+      .halResourceService
+      .get<CollectionResource<ProjectResource>>(this.path + listParamsString(params));
+  }
 
   /**
    * Performs a request against the available_projects endpoint
