@@ -1,4 +1,3 @@
-import {Injector} from "@angular/core";
 import {Constructor} from "@angular/cdk/table";
 import {SimpleResource, SimpleResourceCollection} from "core-app/modules/apiv3/paths/path-resources";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
@@ -8,7 +7,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Observable} from "rxjs";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
-export class APIv3ResourcePath<T extends HalResource = HalResource> extends SimpleResource {
+export class APIv3ResourcePath<T = HalResource> extends SimpleResource {
   readonly injector = this.apiRoot.injector;
   @InjectField() halResourceService:HalResourceService;
 
@@ -25,24 +24,24 @@ export class APIv3ResourcePath<T extends HalResource = HalResource> extends Simp
    *
    * @param segment Additional segment to add to the current path
    */
-  protected subResource<R = APIv3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
+  protected subResource<R = APIv3GettableResource>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
     return new cls(this.apiRoot, this.path, segment, this);
   }
 }
 
 
-export class APIv3GettableResource<T extends HalResource = HalResource> extends APIv3ResourcePath<T> {
+export class APIv3GettableResource<T = HalResource> extends APIv3ResourcePath<T> {
   /**
    * Perform a request to the HalResourceService with the current path
    */
   public get():Observable<T> {
     return this
       .halResourceService
-      .get<T>(this.path);
+      .get(this.path) as any;
   }
 }
 
-export class APIv3ResourceCollection<V extends HalResource, T extends APIv3GettableResource<V>> extends SimpleResourceCollection {
+export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> extends SimpleResourceCollection {
   readonly injector = this.apiRoot.injector;
   @InjectField() halResourceService:HalResourceService;
 
@@ -58,7 +57,7 @@ export class APIv3ResourceCollection<V extends HalResource, T extends APIv3Getta
    *
    * @param id Identifier of the resource, may be a string or number, or a HalResource with id property.
    */
-  public id(input:string|number|HalResource):T {
+  public id(input:string|number|{ id:string|null }):T {
     let id:string;
     if (input instanceof HalResource) {
       id = input.id!;
@@ -96,8 +95,9 @@ export class APIv3ResourceCollection<V extends HalResource, T extends APIv3Getta
    * Returns a new resource with the path extended with a URL query
    * to match the filters.
    */
-  public filtered<R extends HalResource = V>(filters:ApiV3FilterBuilder):Observable<R> {
-    return this.subResource<R>('/?' + filters.toParams()).get();
+  public filtered<R = V>(filters:ApiV3FilterBuilder):Observable<R> {
+    let sub = this.subResource<APIv3GettableResource<R>>('/?' + filters.toParams()) as APIv3GettableResource<R>;
+    return sub.get();
   }
 
   /**

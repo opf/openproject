@@ -31,7 +31,11 @@ import {Observable} from "rxjs";
 import {auditTime, map, startWith} from "rxjs/operators";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
-export class StateCacheService<T extends HalResource = HalResource> {
+export interface HasId {
+  id:string|null;
+}
+
+export class StateCacheService<T extends HasId = HalResource> {
   protected cacheDurationInMs:number;
   protected load?:(id:string) => Observable<T>;
   protected loadAll?:() => Observable<T[]>;

@@ -23,7 +23,6 @@ import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {BoardConfigurationService} from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 
 
 @Component({
@@ -53,7 +52,6 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService,
               readonly boardService:BoardService,
-              readonly boardCache:BoardCacheService,
               readonly boardConfigurationService:BoardConfigurationService,
               readonly injector:Injector,
               readonly appRef:ApplicationRef,
@@ -105,7 +103,6 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
     this.boardService
       .save(board)
       .subscribe(board => {
-        this.boardCache.update(board);
         this.service.close();
       });
 

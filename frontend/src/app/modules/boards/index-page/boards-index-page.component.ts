@@ -3,7 +3,6 @@ import {Observable} from "rxjs";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
@@ -15,6 +14,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {boardTeaserVideoURL} from "core-app/modules/boards/board-constants.const";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './boards-index-page.component.html',
@@ -44,12 +44,15 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
 
   public canAdd = false;
 
-  public boards$:Observable<Board[]> = this.boardCache.observeAll();
+  public boards$:Observable<Board[]> = this
+    .apiV3Service
+    .boards
+    .observeAll();
 
   teaserVideoURL = this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
 
   constructor(private readonly boardService:BoardService,
-              private readonly boardCache:BoardCacheService,
+              private readonly apiV3Service:APIV3Service,
               private readonly I18n:I18nService,
               private readonly notifications:NotificationsService,
               private readonly opModalService:OpModalService,
@@ -86,7 +89,6 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     this.boardService
       .delete(board)
       .then(() => {
-        this.boardCache.clearSome(board.id!);
         this.notifications.addSuccess(this.text.deleteSuccessful);
       })
       .catch((error) => this.notifications.addError("Deletion failed: " + error));

@@ -54,6 +54,7 @@ import {Apiv3ConfigurationPath} from "core-app/modules/apiv3/endpoints/configura
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import * as ts from "typescript/lib/tsserverlibrary";
 import Project = ts.server.Project;
+import {Apiv3BoardsPaths} from "core-app/modules/apiv3/virtual/apiv3-boards-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -116,6 +117,9 @@ export class APIV3Service {
 
   // /api/v3/job_statuses
   public readonly job_statuses = this.apiV3CollectionEndpoint('job_statuses');
+
+  // VIRTUAL boards are /api/v3/grids + a scope filter
+  public readonly boards = this.apiV3CustomEndpoint(Apiv3BoardsPaths);
 
   constructor(readonly injector:Injector,
               readonly pathHelper:PathHelperService) {

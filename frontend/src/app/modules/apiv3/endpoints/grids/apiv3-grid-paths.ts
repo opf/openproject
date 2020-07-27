@@ -28,9 +28,7 @@
 
 import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
 import {Observable} from "rxjs";
 import {Apiv3GridForm} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-form";
 
@@ -49,5 +47,14 @@ export class Apiv3GridPaths extends APIv3GettableResource<GridResource> {
     return this
       .halResourceService
       .patch<GridResource>(this.path, payload);
+  }
+
+  /**
+   * Delete a grid resource
+   */
+  public delete():Observable<unknown> {
+    return this
+      .halResourceService
+      .delete(this.path);
   }
 }

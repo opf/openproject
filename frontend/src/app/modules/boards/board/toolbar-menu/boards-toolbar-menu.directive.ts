@@ -36,7 +36,6 @@ import {BoardConfigurationModal} from "core-app/modules/boards/board/configurati
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {StateService} from "@uirouter/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {triggerEditingEvent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 
 @Directive({
@@ -53,7 +52,6 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
               readonly opContextMenu:OPContextMenuService,
               readonly opModalService:OpModalService,
               readonly boardService:BoardService,
-              readonly BoardCache:BoardCacheService,
               readonly Notifications:NotificationsService,
               readonly State:StateService,
               readonly injector:Injector,
@@ -109,7 +107,6 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
             this.boardService
               .delete(this.board)
               .then(() => {
-                this.BoardCache.clearSome(this.board.id!);
                 this.State.go('^', { flash_message: { type: 'success', message: this.text.deleteSuccessful } });
               });
           }

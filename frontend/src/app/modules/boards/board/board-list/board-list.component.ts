@@ -20,7 +20,6 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Board} from "core-app/modules/boards/board/board";
@@ -40,7 +39,6 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {debugLog} from "core-app/helpers/debug_output";

@@ -9,14 +9,12 @@ import {BoardFilterComponent} from "core-app/modules/boards/board/board-filter/b
 import {Board} from "core-app/modules/boards/board/board";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {BoardsMenuButtonComponent} from "core-app/modules/boards/board/toolbar-menu/boards-menu-button.component";
 import {RequestSwitchmap} from "core-app/helpers/rxjs/request-switchmap";
-import {from} from "rxjs";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 import {finalize, take} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -25,6 +23,7 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {BoardFiltersService} from "core-app/modules/boards/board/board-filter/board-filters.service";
 import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -59,7 +58,11 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   };
 
   /** Board observable */
-  board$ = this.BoardCache.observe(this.state.params.board_id.toString());
+  board$ = this
+    .apiV3Service
+    .boards
+    .id(this.state.params.board_id.toString())
+    .observe();
 
   /** Whether this is a new board just created */
   isNew:boolean = !!this.state.params.isNew;
@@ -138,7 +141,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
               readonly notifications:NotificationsService,
               readonly halNotification:HalResourceNotificationService,
               readonly injector:Injector,
-              readonly BoardCache:BoardCacheService,
+              readonly apiV3Service:APIV3Service,
               readonly boardFilters:BoardFiltersService,
               readonly Boards:BoardService) {
     super();
@@ -152,7 +155,6 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
       .observe(componentDestroyed(this))
       .subscribe(
         (board:Board) => {
-          this.BoardCache.update(board);
           this.notifications.addSuccess(this.text.updateSuccessful);
         },
         (error:unknown) => this.halNotification.handleRawError(error)

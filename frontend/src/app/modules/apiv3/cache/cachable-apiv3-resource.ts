@@ -29,13 +29,13 @@
 import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {States} from "core-components/states.service";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {Observable} from "rxjs";
 import {MultiInputState} from "reactivestates";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {tap} from "rxjs/operators";
 
-export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
+export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
   extends APIv3GettableResource<T> {
   @InjectField() states:States;
 
@@ -65,6 +65,17 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
 
 
   /**
+   * Observe the values of this resource,
+   * but do not request it actively.
+   */
+  public observe():Observable<T> {
+    return this
+      .cache
+      .observe(this.id.toString());
+  }
+
+
+  /**
    * Returns a (potentially cached) observable
    *
    * Accesses or modifies the global store for this resource.
@@ -89,7 +100,7 @@ export abstract class CachableAPIV3Resource<T extends HalResource = HalResource>
   protected load():Observable<T> {
     return this
       .halResourceService
-      .get<T>(this.path);
+      .get(this.path) as any;
   }
 
   /**

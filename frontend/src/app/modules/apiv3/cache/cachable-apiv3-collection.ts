@@ -29,7 +29,7 @@
 import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {States} from "core-components/states.service";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {Observable} from "rxjs";
 import {MultiInputState} from "reactivestates";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -38,7 +38,7 @@ import {tap} from "rxjs/operators";
 
 export const stateIdForAll = '__all_state';
 
-export abstract class CachableAPIV3Collection<T extends HalResource = HalResource, V extends APIv3GettableResource<T> = APIv3GettableResource<T>>
+export abstract class CachableAPIV3Collection<T extends HasId = HalResource, V extends APIv3GettableResource<T> = APIv3GettableResource<T>>
   extends APIv3ResourceCollection<T, V> {
   @InjectField() states:States;
 
@@ -64,6 +64,13 @@ export abstract class CachableAPIV3Collection<T extends HalResource = HalResourc
     }
 
     return this.cache.state(id).values$();
+  }
+
+  /**
+   * Observe all value changes of the cache
+   */
+  public observeAll():Observable<T[]> {
+    return this.cache.observeAll();
   }
 
 
@@ -92,7 +99,7 @@ export abstract class CachableAPIV3Collection<T extends HalResource = HalResourc
   protected load():Observable<T> {
     return this
       .halResourceService
-      .get<T>(this.path);
+      .get(this.path) as any;
   }
 
   /**
