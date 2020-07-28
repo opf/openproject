@@ -1,5 +1,4 @@
 import {Injectable, Injector} from '@angular/core';
-import {RevitBridgeService} from "core-app/modules/bim/revit_addin/revit-bridge.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 /*
@@ -7,17 +6,17 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
  * the login menu) that give access to the Revit Plugin settings.
  */
 @Injectable()
-export class RevitAddinSettingsButtonService {
+export class RevitAddInSettingsButtonService {
   private readonly labelText:string;
   private readonly groupLabelText:string;
 
   constructor(readonly injector:Injector,
               readonly i18n:I18nService) {
-    const onRevitAddinEnvironment = window.navigator.userAgent.search('Revit') > -1;
+    const onRevitAddInEnvironment = window.navigator.userAgent.search('Revit') > -1;
 
-    if (onRevitAddinEnvironment) {
-      this.labelText = i18n.t('js.revit.revit_addin_settings');
-      this.groupLabelText = i18n.t('js.revit.revit_addin');
+    if (onRevitAddInEnvironment) {
+      this.labelText = i18n.t('js.revit.revit_add_in_settings');
+      this.groupLabelText = i18n.t('js.revit.revit_add_in');
 
       this.addUserMenuItem();
       this.addLoginMenuItem();
@@ -55,7 +54,7 @@ export class RevitAddinSettingsButtonService {
               ${this.groupLabelText}
             </span>
            </h3>
-          <div class="login-auth-provider-list revit-addin-button">
+          <div class="login-auth-provider-list revit-add-in-button">
             <div class="auth-provider auth-provider-developer button">
               <span class="auth-provider-name">${this.labelText}</span>
             </div>
@@ -64,7 +63,7 @@ export class RevitAddinSettingsButtonService {
       `;
       loginModal.appendChild(loginMenuItem);
 
-      const settingsButton = loginModal.querySelector('.revit-addin-button');
+      const settingsButton = loginModal.querySelector('.revit-add-in-button');
 
       settingsButton!.addEventListener('click', () => this.goToSettings());
     }

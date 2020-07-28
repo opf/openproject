@@ -2,13 +2,20 @@
      *ngIf="(showResultOverlay$ | async) && showTableView"></div>
 
 <!-- TABLE + TIMELINE horizontal split -->
-<wp-table *ngIf="tableInformationLoaded && showTableView"
-          [projectIdentifier]="CurrentProject.identifier"
-          [configuration]="wpTableConfiguration"
-          (itemClicked)="handleWorkPackageClicked($event)"
-          (stateLinkClicked)="openStateLink($event)"
-          class="work-packages-split-view--tabletimeline-content">
-</wp-table>
+<div class="work-packages-split-view--tabletimeline-container"
+     [ngClass]="{ '-with-resizer': showResizerInCardView() }"
+     *ngIf="tableInformationLoaded && showTableView">
+  <wp-resizer elementClass="work-packages-partitioned-page--content-right"
+              localStorageKey="openProject-splitViewFlexBasis">
+  </wp-resizer>
+
+  <wp-table [projectIdentifier]="CurrentProject.identifier"
+            [configuration]="wpTableConfiguration"
+            (itemClicked)="handleWorkPackageClicked($event)"
+            (stateLinkClicked)="openStateLink($event)"
+            class="work-packages-split-view--tabletimeline-content">
+  </wp-table>
+</div>
 
 <!-- GRID representation of the WP -->
 <div *ngIf="!showTableView"

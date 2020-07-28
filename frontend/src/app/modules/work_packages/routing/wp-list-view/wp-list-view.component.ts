@@ -76,7 +76,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   };
 
   /** Switch between list and card view */
-  showListView:boolean = true;
+  showTableView:boolean = true;
 
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
@@ -156,7 +156,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   }
 
   protected updateViewRepresentation(query:QueryResource) {
-    this.showListView = !(this.deviceService.isMobile ||
+    this.showTableView = !(this.deviceService.isMobile ||
       this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
   }
 
