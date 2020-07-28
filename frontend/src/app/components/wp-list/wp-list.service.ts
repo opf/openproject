@@ -188,7 +188,7 @@ export class WorkPackagesListService {
     return this
       .apiV3Service
       .queries
-      .id(query)
+      .withOptionalId(query.id)
       .parameterised(params)
       .toPromise()
       .then((loadedQuery) => {
