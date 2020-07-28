@@ -13,13 +13,6 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Install BIM specifics
-echo "-- Installing dependencies --"
-apt-get update -qq && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  curl wget unzip git cmake gcc g++ libboost-all-dev libicu-dev \
-  libpcre3-dev libxml2-dev \
-  liboce-foundation-dev liboce-modeling-dev liboce-ocaf-dev liboce-visualization-dev liboce-ocaf-lite-dev
-
 echo "-- (Re-)creating /usr/local/src/bim base folder --"
 rm -rf /usr/local/src/bim || true
 mkdir -p /usr/local/src/bim
