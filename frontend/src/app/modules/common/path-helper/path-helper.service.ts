@@ -39,12 +39,8 @@ class ApiPaths {
 
 @Injectable({ providedIn: 'root' })
 export class PathHelperService {
-  public readonly appBasePath:string;
+  public readonly appBasePath = window.appBasePath ? window.appBasePath : '';
   public readonly api = new ApiPaths(this.appBasePath);
-
-  constructor() {
-    this.appBasePath = window.appBasePath ? window.appBasePath : '';
-  }
 
   public get staticBase() {
     return this.appBasePath;

@@ -49,7 +49,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
               protected basePath:string,
               segment:string,
               protected resource?:Constructor<T>) {
-    super(basePath, segment);
+    super(basePath, segment, resource);
   }
 
   /**
