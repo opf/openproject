@@ -30,14 +30,15 @@ import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {States} from "core-components/states.service";
 import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {Observable} from "rxjs";
-import {MultiInputState} from "reactivestates";
+import {from, Observable, of} from "rxjs";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {publish, take, tap} from "rxjs/operators";
+import {mapTo, publish, switchMap, take, tap} from "rxjs/operators";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
   extends APIv3GettableResource<T> {
   @InjectField() states:States;
+  @InjectField() schemaCache:SchemaCacheService;
 
   readonly cache = this.createCache();
 
@@ -115,7 +116,17 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
   protected load():Observable<T> {
     return this
       .halResourceService
-      .get(this.path) as any;
+      .get(this.path)
+      .pipe(
+        switchMap((resource) => {
+          if (resource.$links.schema) {
+            return from(this.schemaCache.ensureLoaded(resource))
+              .pipe(mapTo(resource));
+          } else {
+            return of(resource);
+          }
+        })
+      ) as any; // T does not extend HalResource for virtual endpoints such as board, thus we need to cast here
   }
 
   /**

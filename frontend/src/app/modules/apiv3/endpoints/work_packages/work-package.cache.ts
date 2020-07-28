@@ -43,15 +43,18 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
     super(state);
   }
 
+  updateValue(id:string, val:WorkPackageResource):Promise<WorkPackageResource> {
+    return this.schemaCacheService.ensureLoaded(val).then(() => {
+      this.putValue(id, val);
+      return val;
+    });
+  }
+
   updateWorkPackage(wp:WorkPackageResource, immediate:boolean = false):Promise<WorkPackageResource> {
     if (immediate || wp.isNew) {
-      this.updateFor(wp);
-      return Promise.resolve(wp);
+      return super.updateValue(wp.id!, wp);
     } else {
-      return this.schemaCacheService.ensureLoaded(wp).then(() => {
-        this.updateFor(wp);
-        return wp;
-      });
+      return this.updateValue(wp.id!, wp);
     }
   }
 

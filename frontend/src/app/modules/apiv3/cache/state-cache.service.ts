@@ -37,8 +37,6 @@ export interface HasId {
 
 export class StateCacheService<T extends HasId = HalResource> {
   protected cacheDurationInMs:number;
-  protected load?:(id:string) => Observable<T>;
-  protected loadAll?:() => Observable<T[]>;
   protected multiState:MultiInputState<T>;
 
   constructor(state:MultiInputState<T>, holdValuesForSeconds:number = 3600) {
@@ -81,22 +79,21 @@ export class StateCacheService<T extends HasId = HalResource> {
    *
    * @param id The value's identifier.
    * @param val<T> The value.
+   *
+   * @return a promise of the value when it was inserted into cache
    */
-  public updateValue(id:string, val:T) {
-    this.multiState.get(id).putValue(val);
+  public updateValue(id:string, val:T):Promise<T> {
+    this.putValue(id, val);
+    return Promise.resolve(val);
   }
 
   /**
    * Update the value due to application changes.
    *
-   * @param id The value's identifier.
-   * @param val<T> The value.
+   * @param resource<T> The value.
    */
-  public updateFor(resource:T) {
-    this
-      .multiState
-      .get(resource.id!)
-      .putValue(resource);
+  public updateFor(resource:T):Promise<T> {
+    return this.updateValue(resource.id!, resource);
   }
 
 
@@ -144,11 +141,9 @@ export class StateCacheService<T extends HasId = HalResource> {
     ids.forEach(id => this.multiState.get(id).clear());
   }
 
-
-
   /**
    * Returns whether the state
-   * @param state
+   * @param id ID of the state
    * @return {boolean}
    */
   public stale(id:string):boolean {
@@ -160,6 +155,16 @@ export class StateCacheService<T extends HasId = HalResource> {
     }
 
     return state.isPristine() || state.isValueOlderThan(this.cacheDurationInMs);
+  }
+
+  /**
+   * Actually insert the value in the state right now.
+   *
+   * @param id
+   * @param val
+   */
+  protected putValue(id:string, val:T) {
+    this.multiState.get(id).putValue(val);
   }
 }
 

@@ -117,7 +117,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this
       .apiV3Service
       .users
-      .id(this.activity.author.idFromLink)
+      .id(this.activity.user.idFromLink)
       .get()
       .subscribe((user:UserResource) => {
         this.user = user;

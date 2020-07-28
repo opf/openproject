@@ -39,6 +39,7 @@ import {Observable} from "rxjs";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
 import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {ProjectCache} from "core-app/modules/apiv3/endpoints/projects/project.cache";
 
 export class APIv3ProjectsPaths
   extends CachableAPIV3Collection<ProjectResource, APIv3ProjectPaths>
@@ -66,6 +67,6 @@ export class APIv3ProjectsPaths
   }
 
   protected createCache():StateCacheService<ProjectResource> {
-    return new StateCacheService<ProjectResource>(this.states.projects);
+    return new ProjectCache(this.injector, this.states.projects);
   }
 }

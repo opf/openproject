@@ -49,8 +49,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
   @InjectField() private PathHelper:PathHelperService;
 
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string,
-              protected resource?:Constructor<APIv3BoardPath>) {
+              protected basePath:string) {
     super(apiRoot, basePath, 'grids', APIv3BoardPath);
   }
 

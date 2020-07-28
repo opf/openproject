@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,31 +23,31 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
+import {MultiInputState} from 'reactivestates';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {Injectable, Injector} from '@angular/core';
+import {debugLog} from "core-app/helpers/debug_output";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {States} from "core-components/states.service";
-import {Injector} from "@angular/core";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {MultiInputState} from "reactivestates";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
-export class TimeEntryCacheService extends StateCacheService<TimeEntryResource> {
-  @InjectField() readonly states:States;
-  @InjectField() readonly schemaCache:SchemaCacheService;
+@Injectable()
+export class ProjectCache extends StateCacheService<ProjectResource> {
+  @InjectField() private schemaCacheService:SchemaCacheService;
 
-  constructor(readonly injector:Injector, state:MultiInputState<TimeEntryResource>) {
+  constructor(readonly injector:Injector,
+              state:MultiInputState<ProjectResource>) {
     super(state);
   }
 
-  updateValue(id:string, val:TimeEntryResource):Promise<TimeEntryResource> {
-    return this.schemaCache
-      .ensureLoaded(val)
-      .then(() => {
-        this.putValue(id, val);
-        return val;
-      });
+  updateValue(id:string, val:ProjectResource):Promise<ProjectResource> {
+    return this.schemaCacheService.ensureLoaded(val).then(() => {
+      this.putValue(id, val);
+      return val;
+    });
   }
 }
