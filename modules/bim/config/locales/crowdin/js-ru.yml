@@ -19,3 +19,7 @@ ru:
       views:
         viewer: 'Просмотрщик'
         split: 'Просмотрщик и карты'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

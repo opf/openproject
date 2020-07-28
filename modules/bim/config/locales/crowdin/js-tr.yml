@@ -19,3 +19,7 @@ tr:
       views:
         viewer: 'Görüntüleyici'
         split: 'Görüntüleyici ve kartlar'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+
