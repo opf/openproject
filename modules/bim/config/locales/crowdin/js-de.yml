@@ -19,3 +19,7 @@ de:
       views:
         viewer: 'Viewer'
         split: 'Viewer und Karten'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

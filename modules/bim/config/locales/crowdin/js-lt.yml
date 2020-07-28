@@ -19,3 +19,7 @@ lt:
       views:
         viewer: 'Peržiūros priemonės'
         split: 'Peržiūros priemonės ir kortelės'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

@@ -19,3 +19,7 @@ ko:
       views:
         viewer: '뷰어'
         split: '뷰어 및 카드'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

@@ -19,3 +19,7 @@ el:
       views:
         viewer: 'Θεατής'
         split: 'Θεατής και κάρτες'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

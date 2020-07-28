@@ -19,3 +19,7 @@ vi:
       views:
         viewer: 'Trình xem'
         split: 'Trình xem và thẻ'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

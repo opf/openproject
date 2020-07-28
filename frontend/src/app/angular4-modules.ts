@@ -75,6 +75,7 @@ import {globalDynamicComponents} from "core-app/global-dynamic-components.const"
 import {OpenprojectMembersModule} from "core-app/modules/members/members.module";
 import {OpenprojectEnterpriseModule} from "core-components/enterprise/openproject-enterprise.module";
 import {OpenprojectAugmentingModule} from "core-app/modules/augmenting/openproject-augmenting.module";
+import {RevitAddinSettingsButtonService} from "core-app/modules/bim/revit_addin/revit-addin-settings-button.service";
 
 @NgModule({
   imports: [
@@ -145,6 +146,7 @@ import {OpenprojectAugmentingModule} from "core-app/modules/augmenting/openproje
     // Split view
     CommentService,
     ConfirmDialogService,
+    RevitAddinSettingsButtonService,
   ],
   declarations: [
     OpContextMenuTrigger,
@@ -199,6 +201,8 @@ export function initializeServices(injector:Injector) {
     const PreviewTrigger = injector.get(PreviewTriggerService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
+    // Conditionally add the Revit Addin settings button
+    injector.get(RevitAddinSettingsButtonService);
 
     mainMenuNavigationService.register();
 

@@ -19,3 +19,7 @@ ro:
       views:
         viewer: 'Viewer'
         split: 'Viewer and cards'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

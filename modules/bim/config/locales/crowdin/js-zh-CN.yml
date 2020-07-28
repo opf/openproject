@@ -19,3 +19,7 @@ zh-CN:
       views:
         viewer: '查看器'
         split: '查看器和卡片'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

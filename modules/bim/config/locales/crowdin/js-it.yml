@@ -19,3 +19,7 @@ it:
       views:
         viewer: 'Visualizzatore'
         split: 'Visualizzatore e schede'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

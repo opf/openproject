@@ -19,3 +19,7 @@ pl:
       views:
         viewer: 'Przeglądarka'
         split: 'Przeglądarka i karty'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+

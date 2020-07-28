@@ -18,3 +18,6 @@ es:
         manage: 'Administrar modelos'
       views:
         viewer: 'Visor'
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"

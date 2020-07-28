@@ -19,3 +19,7 @@ sl:
       views:
         viewer: 'Preglednik'
         split: 'Preglednik in kartice '
+    revit:
+      revit_addin: "Revit Addin"
+      revit_addin_settings: "Revit Addin settings"
+
