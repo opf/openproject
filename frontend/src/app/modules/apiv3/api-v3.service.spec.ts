@@ -26,10 +26,28 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {PathHelperService} from './path-helper.service';
+import {async, TestBed} from "@angular/core/testing";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {States} from "core-components/states.service";
 
-describe('PathHelper', function() {
-  var PathHelper:PathHelperService = new PathHelperService();
+describe('APIv3Service', function() {
+  let service:APIV3Service;
+
+  beforeEach(async(() => {
+    // noinspection JSIgnoredPromiseFromCall
+    TestBed.configureTestingModule({
+      providers: [
+        States,
+        PathHelperService,
+        APIV3Service
+      ]
+    })
+      .compileComponents()
+      .then(() => {
+        service = TestBed.inject(APIV3Service);
+      });
+  }));
 
   function encodeParams(object:any) {
     return new URLSearchParams(object).toString();
@@ -39,23 +57,7 @@ describe('PathHelper', function() {
     var projectIdentifier = 'majora';
 
     it('should provide the project\'s path', function() {
-      expect(PathHelper.api.v3.projects.id(projectIdentifier).path).toEqual('/api/v3/projects/majora');
-    });
-
-    it('should provide a path to the project\'s mentionable principals', function() {
-      var projectId = '1';
-      var term = 'Maria';
-
-      let params = {
-        filters: '[{"status":{"operator":"!","values":["3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]',
-        sortBy: '[["name","asc"]]',
-        offset: '1',
-        pageSize: '10'
-      };
-
-      expect(
-        PathHelper.api.v3.principals(projectId, term)
-      ).toEqual('/api/v3/principals?' +  encodeParams(params));
+      expect(service.projects.id(projectIdentifier).path).toEqual('/api/v3/projects/majora');
     });
 
     it('should provide a path to work package query on subject or ID ', function() {
@@ -67,7 +69,7 @@ describe('PathHelper', function() {
       };
 
       expect(
-        PathHelper.api.v3.wpBySubjectOrId("bogus")
+        service.work_packages.filterBySubjectOrId("bogus").path
       ).toEqual('/api/v3/work_packages?' +  encodeParams(params));
 
       params = {
@@ -77,7 +79,7 @@ describe('PathHelper', function() {
         pageSize: '10'
       };
       expect(
-        PathHelper.api.v3.wpBySubjectOrId("1234", true)
+        service.work_packages.filterBySubjectOrId("1234", true).path
       ).toEqual('/api/v3/work_packages?' +  encodeParams(params));
     });
   });

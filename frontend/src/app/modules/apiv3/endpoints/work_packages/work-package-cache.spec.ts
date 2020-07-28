@@ -39,15 +39,16 @@ import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {States} from 'core-components/states.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {take, takeWhile} from 'rxjs/operators';
-import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackageCache} from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
 
 describe('WorkPackageCache', () => {
   let injector:Injector;
-  let wpCacheService:WorkPackageCacheService;
+  let states:States;
+  let workPackageCache:WorkPackageCache;
   let schemaCacheService:SchemaCacheService;
   let dummyWorkPackages:WorkPackageResource[] = [];
 
@@ -61,13 +62,11 @@ describe('WorkPackageCache', () => {
         HalResourceService,
         TimezoneService,
         WorkPackagesActivityService,
-        WorkPackageCacheService,
         SchemaCacheService,
+        PathHelperService,
         {provide: ConfigurationService, useValue: {}},
-        {provide: PathHelperService, useValue: {}},
         {provide: I18nService, useValue: {t: (...args:any[]) => 'translation'}},
         {provide: WorkPackageResource, useValue: {}},
-        {provide: WorkPackageCreateService, useValue: {}},
         {provide: NotificationsService, useValue: {}},
         {provide: HalResourceNotificationService, useValue: {handleRawError: () => false}},
         {provide: WorkPackageNotificationService, useValue: {}},
@@ -75,9 +74,10 @@ describe('WorkPackageCache', () => {
       ]
     });
 
-    injector = TestBed.get(Injector);
-    wpCacheService = TestBed.get(WorkPackageCacheService);
-    schemaCacheService = TestBed.get(SchemaCacheService);
+    injector = TestBed.inject(Injector);
+    states = TestBed.inject(States);
+    schemaCacheService = TestBed.inject(SchemaCacheService);
+    workPackageCache = new WorkPackageCache(injector, states.workPackages);
 
     // sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
     spyOn(schemaCacheService, 'ensureLoaded').and.returnValue(Promise.resolve(true as any));
@@ -100,7 +100,7 @@ describe('WorkPackageCache', () => {
   });
 
   it('returns a work package after the list has been initialized', function (done:any) {
-    wpCacheService.loadWorkPackage('1').values$()
+    workPackageCache.state('1').values$()
       .pipe(
         take(1)
       )
@@ -109,13 +109,13 @@ describe('WorkPackageCache', () => {
         done();
       });
 
-    wpCacheService.updateWorkPackageList(dummyWorkPackages);
+    workPackageCache.updateWorkPackageList(dummyWorkPackages);
   });
 
   it('should return/stream a work package every time it gets updated', (done:any) => {
     let count = 0;
 
-    wpCacheService.loadWorkPackage('1').values$()
+    workPackageCache.state('1').values$()
       .pipe(
         takeWhile((wp) => count < 2)
       )
@@ -128,9 +128,9 @@ describe('WorkPackageCache', () => {
         }
       });
 
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]], false);
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]], false);
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]], false);
+    workPackageCache.updateWorkPackageList([dummyWorkPackages[0]], false);
+    workPackageCache.updateWorkPackageList([dummyWorkPackages[0]], false);
+    workPackageCache.updateWorkPackageList([dummyWorkPackages[0]], false);
   });
 
 });

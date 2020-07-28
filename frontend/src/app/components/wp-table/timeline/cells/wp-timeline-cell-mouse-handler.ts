@@ -254,8 +254,9 @@ export function registerWorkPackageMouseHandler(this:void,
         return apiv3Service
           .work_packages
           .filterUpdatedSince(ids, updatedAt)
+          .get()
           .toPromise()
-          .then(workPackageCollection => {
+          .then(() => {
             halEvents.push(result.resource, { eventType: 'updated' });
             return querySpace.timelineRendered.pipe(take(1)).toPromise();
           });

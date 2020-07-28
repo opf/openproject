@@ -50,7 +50,8 @@ export class SimpleResource {
   public readonly path:string;
 
   constructor(readonly basePath:string, readonly segment:string|number) {
-    this.path = `${this.basePath}/${segment}`;
+    let separator = segment.toString().startsWith('?') ? '' : '/';
+    this.path = `${this.basePath}${separator}${segment}`;
   }
 
   public toString() {

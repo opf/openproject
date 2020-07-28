@@ -84,13 +84,11 @@ describe('WorkPackageFilterValues', () => {
         HookService,
         OpenProjectFileUploadService,
         LoadingIndicatorService,
-        WorkPackageDmService,
         HalResourceService,
         NotificationsService,
         HalResourceNotificationService,
         SchemaCacheService,
         WorkPackageNotificationService,
-        WorkPackageCacheService,
         WorkPackageCreateService,
         HalResourceEditingService,
         WorkPackagesActivityService,
@@ -169,7 +167,7 @@ describe('WorkPackageFilterValues', () => {
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value('type').href).toEqual('/api/v3/types/2');
       }));
-    })
+    });
 
   });
 });

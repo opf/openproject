@@ -267,7 +267,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
     let hashFreeQuery = this.queryWithoutHash(query);
 
-    return this.fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
+    return this
+      .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
+      .get()
       .pipe(
         map((collection) => {
           return this.searchResultsToOptions(collection.elements, hashFreeQuery);

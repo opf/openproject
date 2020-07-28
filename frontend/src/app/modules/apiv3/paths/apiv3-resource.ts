@@ -94,10 +94,12 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
   /**
    * Returns a new resource with the path extended with a URL query
    * to match the filters.
+   *
+   * @param filters filter object to filter with
+   * @param params additional URL params to append
    */
-  public filtered<R = V>(filters:ApiV3FilterBuilder):Observable<R> {
-    let sub = this.subResource<APIv3GettableResource<R>>('/?' + filters.toParams()) as APIv3GettableResource<R>;
-    return sub.get();
+  public filtered<R = APIv3GettableResource<V>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
+    return this.subResource<R>('?' + filters.toParams(params), resourceClass) as R;
   }
 
   /**

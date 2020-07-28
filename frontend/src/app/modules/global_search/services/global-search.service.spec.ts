@@ -33,6 +33,8 @@ import {GlobalSearchService} from "core-app/modules/global_search/services/globa
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {async, TestBed} from "@angular/core/testing";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {States} from "core-components/states.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 describe('Global search service', function() {
   let service:GlobalSearchService;
@@ -45,6 +47,8 @@ describe('Global search service', function() {
       providers: [
         I18nService,
         PathHelperService,
+        States,
+        APIV3Service,
         CurrentProjectService,
         GlobalSearchService,
       ]

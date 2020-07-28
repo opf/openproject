@@ -46,11 +46,11 @@ import {WorkPackageCreateService} from 'core-app/components/wp-new/wp-create.ser
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
   let injector:Injector;
-  let wpCacheService:WorkPackageCacheService;
   let notificationsService:NotificationsService;
   let halResourceNotification:HalResourceNotificationService;
 
@@ -71,7 +71,6 @@ describe('WorkPackage', () => {
       providers: [
         HalResourceService,
         States,
-        WorkPackageCacheService,
         TimezoneService,
         WorkPackagesActivityService,
         NotificationsService,
@@ -80,6 +79,7 @@ describe('WorkPackage', () => {
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
+        APIV3Service,
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
         { provide: WorkPackageNotificationService, useValue: {} as any },
         { provide: WorkPackageCreateService, useValue: {} },
@@ -91,7 +91,6 @@ describe('WorkPackage', () => {
       .then(() => {
         halResourceService = TestBed.get(HalResourceService);
         injector = TestBed.get(Injector);
-        wpCacheService = injector.get(WorkPackageCacheService);
         notificationsService = injector.get(NotificationsService);
         halResourceNotification = injector.get(HalResourceNotificationService);
 

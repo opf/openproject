@@ -36,6 +36,8 @@ import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations
 import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import SpyObj = jasmine.SpyObj;
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {of} from "rxjs";
 
 describe('WorkPackageViewIndentation service', function () {
   let service:WorkPackageViewHierarchyIdentationService;
@@ -50,10 +52,14 @@ describe('WorkPackageViewIndentation service', function () {
     }
   }
 
-  class WorkPackageCacheServiceStub {
-    require(wpId:string) {
-      return Promise.resolve(states.workPackages.get(wpId).value);
-    }
+  class Apiv3serviceStub {
+    work_packages = {
+      id: (wpId:string) => {
+        return {
+          get: () => of(states.workPackages.get(wpId).value)
+        };
+      }
+    };
   }
 
   beforeEach(async(() => {
@@ -69,9 +75,8 @@ describe('WorkPackageViewIndentation service', function () {
       providers: [
         States,
         IsolatedQuerySpace,
-        WorkPackageCacheService,
         { provide: WorkPackageViewDisplayRepresentationService, useValue: { isList: true } },
-        { provide: WorkPackageCacheService, useClass: WorkPackageCacheServiceStub },
+        { provide: APIV3Service, useClass: Apiv3serviceStub },
         { provide: WorkPackageViewHierarchiesService, useClass: HierarchyServiceStub },
         { provide: WorkPackageRelationsHierarchyService, useValue: parentServiceSpy },
         WorkPackageViewHierarchyIdentationService

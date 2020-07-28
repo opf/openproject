@@ -63,6 +63,7 @@ export class Apiv3RelationsPaths extends APIv3ResourceCollection<RelationResourc
 
     return this
       .filtered(buildApiV3Filter('involved', '=', validIds))
+      .get()
       .pipe(
         map(collection => collection.elements)
       );

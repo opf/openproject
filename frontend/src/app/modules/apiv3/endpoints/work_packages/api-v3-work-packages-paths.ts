@@ -38,6 +38,8 @@ import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-api
 import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {WorkPackageCache} from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
+import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {ApiV3WorkPackageCachedSubresource} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource";
 
 export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageResource, APIV3WorkPackagePaths, WorkPackageCache> {
   // Base path
@@ -101,7 +103,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    * @param term
    * @param idOnly
    */
-  public filterBySubjectOrId(term:string, idOnly:boolean = false):Observable<CollectionResource<WorkPackageResource>> {
+  public filterBySubjectOrId(term:string, idOnly:boolean = false):ApiV3WorkPackageCachedSubresource {
     let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
     if (idOnly) {
@@ -110,7 +112,13 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       filters.add('subjectOrId', '**', [term]);
     }
 
-    return this.filtered(filters);
+    let params = {
+      sortBy: '[["updatedAt","desc"]]',
+      offset: '1',
+      pageSize: '10'
+    };
+
+    return this.filtered(filters, params, ApiV3WorkPackageCachedSubresource);
   }
 
   /**
@@ -118,16 +126,18 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    * @param ids work package IDs to filter for
    * @param timestamp The timestamp to clip at
    */
-  public filterUpdatedSince(ids:(string|null)[], timestamp:unknown):Observable<WorkPackageCollectionResource> {
+  public filterUpdatedSince(ids:(string|null)[], timestamp:unknown):ApiV3WorkPackageCachedSubresource {
     let filters = new ApiV3FilterBuilder()
       .add('id', '=', ids.filter((n:String|null) => n)) // no null values
       .add('updatedAt', '<>d', [timestamp, '']);
 
+    let params = {
+      offset: '1',
+      pageSize: '10'
+    };
+
     return this
-      .filtered<WorkPackageCollectionResource>(filters)
-      .pipe(
-        this.cacheResponse()
-      );
+      .filtered(filters, params, ApiV3WorkPackageCachedSubresource);
   }
 
   /**
