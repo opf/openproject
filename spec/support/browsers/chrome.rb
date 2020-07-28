@@ -81,7 +81,7 @@ register_chrome_headless 'en', name: :headless_chrome_billy do |options, capabil
 end
 
 # Register Revit add in
-register_chrome_headless 'en', name: :chrome_headless_revit_addin do |options, capabilities|
+register_chrome_headless 'en', name: :chrome_headless_revit_add_in do |options, capabilities|
   options.add_argument("--user-agent='foo bar Revit'")
 end
 

@@ -32,7 +32,7 @@ describe 'BIM Revit Add-in navigation spec',
          type: :feature,
          with_config: { edition: 'bim' },
          js: true,
-         driver: :chrome_headless_revit_addin do
+         driver: :chrome_headless_revit_add_in do
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
@@ -72,27 +72,27 @@ describe 'BIM Revit Add-in navigation spec',
       model_page.has_no_menu_item_with_text? 'Viewer'
     end
 
-    it 'the user menu has an option to go to the addin settings' do
+    it 'can switch to the Table view mode' do
+      model_page.switch_view 'Table'
+      expect(page).to have_selector('.work-package-table')
+    end
+
+    it 'the user menu has an option to go to the add-in settings' do
       within '.top-menu-items-right' do
         page.find("a[title='#{user.name}']").click
 
-        expect(page).to have_selector('li', text: I18n.t('js.revit.revit_addin_settings'))
+        expect(page).to have_selector('li', text: I18n.t('js.revit.revit_add_in_settings'))
       end
     end
   end
 
   context "signed out" do
-    it 'the user menu has an option to go to the addin settings' do
+    it 'the user menu has an option to go to the add-in settings' do
       visit home_path
-      1
+
       click_link I18n.t(:label_login)
 
-      expect(page).to have_text(I18n.t('js.revit.revit_addin_settings'))
+      expect(page).to have_text(I18n.t('js.revit.revit_add_in_settings'))
     end
-  end
-
-  it 'can switch to the Table view mode' do
-    model_page.switch_view 'Table'
-    expect(page).to have_selector('.work-package-table')
   end
 end
