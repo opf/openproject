@@ -15,6 +15,7 @@ import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-v
 import {States} from "core-components/states.service";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
   templateUrl: '/app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component.html',
@@ -31,7 +32,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   @InjectField() ifcModelsService:IfcModelsDataService;
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
   @InjectField() uIRouterGlobals:UIRouterGlobals;
-  @InjectField() viewer:IFCViewerService;
+  @InjectField() viewer:ViewerBridgeService;
   @InjectField() states:States;
   @InjectField() bcfApi:BcfApiService;
 
