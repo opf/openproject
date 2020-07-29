@@ -92,7 +92,8 @@ export class TimeEntryCreateService {
       return this
         .apiV3Service
         .time_entries
-        .post(payload);
+        .post(payload)
+        .toPromise();
     };
 
     entry.state.putValue(entry);
