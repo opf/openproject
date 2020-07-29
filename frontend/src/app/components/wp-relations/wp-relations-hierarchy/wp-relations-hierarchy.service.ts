@@ -155,7 +155,6 @@ export class WorkPackageRelationsHierarchyService {
             .work_packages
             .id(parentWorkPackage)
             .refresh()
-            .toPromise()
             .then((wp) => {
               this.halEvents.push(wp, {
               eventType: 'association',

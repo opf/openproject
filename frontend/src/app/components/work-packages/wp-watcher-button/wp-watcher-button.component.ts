@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
@@ -35,7 +35,8 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-watcher-button',
-  templateUrl: './wp-watcher-button.html'
+  templateUrl: './wp-watcher-button.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin implements OnInit {
   @Input('workPackage') public workPackage:WorkPackageResource;
@@ -50,7 +51,8 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
 
   constructor(readonly I18n:I18nService,
               readonly wpWatchersService:WorkPackageWatchersService,
-              readonly apiV3Service:APIV3Service) {
+              readonly apiV3Service:APIV3Service,
+              readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -66,6 +68,7 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
         this.setWatchStatus();
+        this.cdRef.detectChanges();
       });
   }
 

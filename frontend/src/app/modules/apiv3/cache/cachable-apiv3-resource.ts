@@ -99,15 +99,15 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
    *
    * Accesses or modifies the global store for this resource.
    */
-  refresh():Observable<T> {
+  refresh():Promise<T> {
     return this
       .requireAndStream(true)
       .pipe(
         take(1),
-        // Use publish to ensure the item is refreshed
-        // even if observable was cold.
-        publish()
-      );
+      )
+      // Use a promise to ensure this fires
+      // even if caller isn't subscribing.
+      .toPromise()
   }
 
   /**
