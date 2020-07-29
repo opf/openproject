@@ -108,6 +108,6 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    * @param segment Additional segment to add to the current path
    */
   protected subResource<R = APIv3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
-    return new cls(this.apiRoot, this.path, segment);
+    return new cls(this.apiRoot, this.path, segment, this);
   }
 }

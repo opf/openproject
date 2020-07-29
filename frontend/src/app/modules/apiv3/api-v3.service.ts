@@ -74,7 +74,7 @@ export class APIV3Service {
   public readonly groups = this.apiV3CollectionEndpoint('groups');
 
   // /api/v3/root
-  public readonly root = this.apiV3SingularEndpoint<RootResource>('root');
+  public readonly root = this.apiV3SingularEndpoint<RootResource>('');
 
   // /api/v3/statuses
   public readonly statuses = this.apiV3CustomEndpoint(APIv3StatusesPaths);
