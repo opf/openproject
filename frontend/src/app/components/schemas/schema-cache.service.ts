@@ -31,16 +31,17 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Injectable} from '@angular/core';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {StateCacheService} from "core-components/states/state-cache.service";
 import {ISchemaProxy, SchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
 import {WorkPackageSchemaProxy} from "core-app/modules/hal/schemas/work-package-schema-proxy";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {
 
   constructor(readonly states:States,
               readonly halResourceService:HalResourceService) {
-    super();
+    super(states.schemas);
   }
 
   public state(id:string|HalResource):State<SchemaResource> {
@@ -83,18 +84,42 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @param resource The resource with a schema property or a string to the schema href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded(resource:HalResource):Promise<SchemaResource> {
-    return this.require(this.getSchemaHref(resource));
+  ensureLoaded(resource:HalResource|string):Promise<SchemaResource> {
+    let href = resource instanceof HalResource ? this.getSchemaHref(resource) : resource;
+
+    return this
+      .requireAndStream(href)
+      .toPromise();
+  }
+
+  /**
+   * Require the value to be loaded either when forced or the value is stale
+   * according to the cache interval specified for this service.
+   *
+   * Returns an observable to the values stream of the state.
+   *
+   * @param id The state to require
+   * @param force Load the value anyway.
+   */
+  public requireAndStream(href:string, force:boolean = false):Observable<SchemaResource> {
+    // Refresh when stale or being forced
+    if (this.stale(href) || force) {
+      this.clearAndLoad(
+        href,
+        this.load(href)
+      );
+    }
+
+    return this.state(href).values$();
   }
 
   /**
    * Load the associated schema for the given work package, if needed.
    */
-  load(href:string, forceUpdate = false):Promise<SchemaResource> {
+  protected load(href:string):Observable<SchemaResource> {
     return this
       .halResourceService
-      .get<SchemaResource>(href)
-      .toPromise();
+      .get<SchemaResource>(href);
   }
 
   protected loadAll(hrefs:string[]):Promise<unknown|undefined> {

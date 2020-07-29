@@ -83,7 +83,9 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
       )
       .subscribe(([columns, sum, resource]) => {
         if (sum && resource.sumsSchema) {
-          this.schemaCache.require(resource.sumsSchema.$href!).then((schema:SchemaResource) => {
+          this.schemaCache
+            .ensureLoaded(resource.sumsSchema.$href!)
+            .then((schema:SchemaResource) => {
             this.refresh(columns, resource, schema);
           });
         } else {

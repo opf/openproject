@@ -35,7 +35,7 @@ export interface HasId {
   id:string|null;
 }
 
-export class StateCacheService<T extends HasId = HalResource> {
+export class StateCacheService<T> {
   protected cacheDurationInMs:number;
   protected multiState:MultiInputState<T>;
 
@@ -92,8 +92,8 @@ export class StateCacheService<T extends HasId = HalResource> {
    *
    * @param resource<T> The value.
    */
-  public updateFor(resource:T):Promise<T> {
-    return this.updateValue(resource.id!, resource);
+  public updateFor(resource:HasId):Promise<T> {
+    return this.updateValue(resource.id!, resource as any);
   }
 
 

@@ -2,10 +2,13 @@ import {RelationResource} from 'core-app/modules/hal/resources/relation-resource
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {multiInput, MultiInputState, StatesGroup} from 'reactivestates';
-import {StateCacheService} from '../states/state-cache.service';
 import {Injectable} from "@angular/core";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {Observable} from "rxjs";
+import {tap} from "rxjs/operators";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 
@@ -23,41 +26,68 @@ export class RelationStateGroup extends StatesGroup {
 @Injectable()
 export class WorkPackageRelationsService extends StateCacheService<RelationsStateValue> {
 
-  private relationStates:RelationStateGroup;
-
   constructor(private PathHelper:PathHelperService,
               private apiV3Service:APIV3Service,
               private halResource:HalResourceService) {
-    super();
-    this.relationStates = new RelationStateGroup();
+    super(new RelationStateGroup().relations);
   }
 
-  protected get multiState() {
-    return this.relationStates.relations;
+  /**
+   * Require the value to be loaded either when forced or the value is stale
+   * according to the cache interval specified for this service.
+   *
+   * Returns a single promise to one loaded value
+   *
+   * @param id The state to require
+   * @param force Load the value anyway.
+   */
+  public require(id:string, force:boolean = false):Promise<RelationsStateValue> {
+    return this
+      .requireAndStream(id, force)
+      .toPromise();
+  }
+
+  /**
+   * Require the value to be loaded either when forced or the value is stale
+   * according to the cache interval specified for this service.
+   *
+   * Returns an observable to the values stream of the state.
+   *
+   * @param id The state to require
+   * @param force Load the value anyway.
+   */
+  public requireAndStream(id:string, force:boolean = false):Observable<RelationsStateValue> {
+    // Refresh when stale or being forced
+    if (this.stale(id) || force) {
+      this.clearAndLoad(
+        id,
+        this.load(id)
+      );
+    }
+
+    return this.state(id).values$();
   }
 
   /**
    * Load a set of work package ids into the states, regardless of them being loaded
    * @param workPackageIds
    */
-  protected load(id:string):Promise<RelationsStateValue> {
-    return new Promise<RelationsStateValue>((resolve, reject) => {
-      this
-        .apiV3Service
-        .work_packages
-        .id(id)
-        .relations
-        .get()
-        .toPromise()
-        .then(collection => {
+  protected load(id:string):Observable<RelationsStateValue> {
+    return this
+      .apiV3Service
+      .work_packages
+      .id(id)
+      .relations
+      .get()
+      .pipe(
+        tap((collection:CollectionResource<RelationResource>) => {
           this.updateRelationsStateTo(id, collection.elements);
-          resolve(this.state(id).value!);
+          return this.state(id).value!;
         })
-        .catch(reject);
-    });
+      );
   }
 
-  protected loadAll(ids:string[]) {
+  public requireAll(ids:string[]):Promise<void> {
     return new Promise<undefined>((resolve, reject) => {
       this
         .apiV3Service
@@ -108,8 +138,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   public updateRelationType(from:WorkPackageResource, to:WorkPackageResource, relation:RelationResource, type:string) {
     const params = {
       _links: {
-        from: {href: from.href},
-        to: {href: to.href}
+        from: { href: from.href },
+        to: { href: to.href }
       },
       type: type
     };
@@ -117,7 +147,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return this.updateRelation(relation, params);
   }
 
-  public updateRelation(relation:RelationResource, params:{[key:string]:any}) {
+  public updateRelation(relation:RelationResource, params:{ [key:string]:any }) {
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResource) => {
         this.insertIntoStates(savedRelation);
@@ -130,8 +160,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
                            relatedWpId:string) {
     const params = {
       _links: {
-        from: {href: this.apiV3Service.work_packages.id(fromId).toString() },
-        to: {href: this.apiV3Service.work_packages.id(relatedWpId).toString() }
+        from: { href: this.apiV3Service.work_packages.id(fromId).toString() },
+        to: { href: this.apiV3Service.work_packages.id(relatedWpId).toString() }
       },
       type: relationType
     };
@@ -141,9 +171,9 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       .post<RelationResource>(path, params)
       .toPromise()
       .then((relation:RelationResource) => {
-      this.insertIntoStates(relation);
-      return relation;
-    });
+        this.insertIntoStates(relation);
+        return relation;
+      });
   }
 
   /**

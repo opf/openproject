@@ -90,7 +90,7 @@ export class WorkPackageViewAdditionalElementsService {
       return Promise.resolve([]);
     }
     return this.wpRelations
-      .requireAll(rows, true)
+      .requireAll(rows)
       .then(() => {
         const ids = this.getInvolvedWorkPackages(rows.map(id => {
           return this.wpRelations.state(id).value!;
@@ -133,7 +133,7 @@ export class WorkPackageViewAdditionalElementsService {
     if (results.sumsSchema) {
       return this
         .schemaCache
-        .require(results.sumsSchema.$href!)
+        .ensureLoaded(results.sumsSchema.$href!)
         .then(() => []);
     }
 
