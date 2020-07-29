@@ -8,7 +8,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {StateService} from '@uirouter/core';
-import {finalize, skip} from 'rxjs/operators';
+import {finalize, publish, skip} from 'rxjs/operators';
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
@@ -78,20 +78,21 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
 
   private ensureFormAndSaveQuery(query:QueryResource) {
     if (this.queryForm) {
-      this.saveQuery(query);
+      this.saveQuery(query, this.queryForm);
     } else {
       this
         .apiV3Service
         .queries
         .form
         .load(query)
-        .subscribe(([form, query]) => {
-        this.saveQuery(query);
-      });
+        .subscribe(([form, _]) => {
+          this.queryForm = form;
+          this.saveQuery(query, form);
+        });
     }
   }
 
-  private saveQuery(query:QueryResource) {
+  private saveQuery(query:QueryResource, form:QueryFormResource) {
     this.inFlight = true;
 
     this
@@ -99,8 +100,9 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
       .queries
       .id(query)
       .patch(query, this.queryForm)
-      .pipe(
-        finalize(() => this.inFlight  = false)
+      .subscribe(
+        () => this.inFlight = false,
+        () => this.inFlight = false,
       );
   }
 
@@ -127,10 +129,10 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
           .post(query, form)
           .toPromise()
           .then((query) => {
-          delete this.resource.options.queryProps;
+            delete this.resource.options.queryProps;
 
-          return query;
-        });
+            return query;
+          });
       });
   }
 
