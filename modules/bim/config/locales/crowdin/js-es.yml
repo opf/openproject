@@ -18,6 +18,8 @@ es:
         manage: 'Administrar modelos'
       views:
         viewer: 'Visor'
+        split: 'Visor y tarjetas'
     revit:
       revit_addin: "Revit Addin"
       revit_addin_settings: "Revit Addin settings"
+
