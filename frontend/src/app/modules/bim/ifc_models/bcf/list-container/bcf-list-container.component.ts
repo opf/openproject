@@ -86,10 +86,10 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints) {
       this.viewer.showViewpoint(wp, 0);
     }
-
+    console.log('splitViewRoute(this.$state): ', splitViewRoute(this.$state), this.$state.current.data.baseRoute + 'details.overview');
     if (event.double) {
       this.$state.go(
-        splitViewRoute(this.$state),
+        'bim.partitioned.show',
         { workPackageId: event.workPackageId }
       );
     }

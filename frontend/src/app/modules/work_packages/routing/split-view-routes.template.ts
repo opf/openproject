@@ -34,6 +34,7 @@ import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-sp
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {ComponentType} from "@angular/cdk/overlay";
 import {WorkPackageCopySplitViewComponent} from "core-components/wp-copy/wp-copy-split-view.component";
+import {EmptyComponent} from "core-app/modules/bim/ifc_models/empty/empty-component";
 
 /**
  * Return a set of routes for a split view mounted under the given base route,
@@ -57,7 +58,15 @@ import {WorkPackageCopySplitViewComponent} from "core-components/wp-copy/wp-copy
 export function makeSplitViewRoutes(baseRoute:string,
                                     menuItemClass:string|undefined,
                                     showComponent:ComponentType<any>,
-                                    newComponent:ComponentType<any> = WorkPackageNewSplitViewComponent):Ng2StateDeclaration[] {
+                                    newComponent:ComponentType<any> = WorkPackageNewSplitViewComponent,
+                                    makeFullWidth?:boolean):Ng2StateDeclaration[] {
+  // makeFullWidth configuration
+  const views = makeFullWidth ?
+                  {'content-right@^.^': { component: showComponent }} :
+                  {'content-left@^.^': { component: showComponent }};
+  const partition = makeFullWidth ? '-left-only' : '-split';
+
+
   return [
     {
       name: baseRoute + '.details',
@@ -69,14 +78,13 @@ export function makeSplitViewRoutes(baseRoute:string,
         menuItem: menuItemClass,
         // Remember the base route so we can route back to it anywhere
         baseRoute: baseRoute,
-        partition: '-split',
         newRoute: baseRoute + '.new',
+        partition,
       },
-      views: {
-        // Retarget and by that override the grandparent views
-        // https://ui-router.github.io/guide/views#relative-parent-state
-        'content-right@^.^': { component: showComponent }
-      }
+      // Retarget and by that override the grandparent views
+      // https://ui-router.github.io/guide/views#relative-parent-state
+      // @ts-ignore
+      views,
     },
     {
       name: baseRoute + '.details.overview',
