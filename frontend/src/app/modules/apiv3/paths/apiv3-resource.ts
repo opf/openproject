@@ -59,10 +59,10 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    */
   public id(input:string|number|{ id:string|null }):T {
     let id:string;
-    if (input instanceof HalResource) {
-      id = input.id!;
-    } else {
+    if (typeof input === 'string' || typeof input === 'number') {
       id = input.toString();
+    } else {
+      id = input.id!;
     }
 
     return new (this.resource || APIv3GettableResource)(this.apiRoot, this.path, id, this) as T;

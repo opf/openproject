@@ -47,7 +47,7 @@ export class QueryFilterInstanceResource extends HalResource {
     super.$initialize(source);
 
     this.$links['schema'] = {
-      href: this.pathHelper.api.v3.appBasePath + '/queries/filter_instance_schemas/' + this.filter.idFromLink
+      href: this.pathHelper.api.v3.apiV3Base + '/queries/filter_instance_schemas/' + this.filter.idFromLink
     };
   }
 

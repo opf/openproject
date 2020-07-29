@@ -77,8 +77,9 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
               this.cache.updateWorkPackageList(results.elements);
             }
 
-            resolve(undefined);
           });
+
+          resolve(undefined);
         }, reject);
     });
   }

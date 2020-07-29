@@ -121,7 +121,7 @@ export class EnterpriseTrialService {
     // extract token from resend link
     let trialKey = resendlink.split('/')[6];
     return this.http.post(
-      this.pathHelper.api.v3.appBasePath + '/admin/enterprise/save_trial_key',
+      this.pathHelper.api.v3.apiV3Base + '/admin/enterprise/save_trial_key',
       { trial_key: trialKey },
       { withCredentials: true }
     )
@@ -134,7 +134,7 @@ export class EnterpriseTrialService {
   // save received token in controller
   private saveToken(token:string) {
     return this.http.post(
-      this.pathHelper.api.v3.appBasePath + '/admin/enterprise',
+      this.pathHelper.api.v3.apiV3Base + '/admin/enterprise',
       { enterprise_token: { encoded_token: token } },
       { withCredentials: true }
     )
@@ -152,7 +152,7 @@ export class EnterpriseTrialService {
         // Without this deletion, we run into an endless loop of an confirmed mail, but no saved token.
         this.http
           .delete(
-          this.pathHelper.api.v3.appBasePath + '/admin/enterprise/delete_trial_key',
+          this.pathHelper.api.v3.apiV3Base + '/admin/enterprise/delete_trial_key',
         { withCredentials: true }
           )
           .toPromise();

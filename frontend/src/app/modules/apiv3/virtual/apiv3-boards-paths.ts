@@ -89,10 +89,12 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
    * Create a new board
    * @param type
    * @param name
+   * @param projectIdentifier
    */
-  public create(type:BoardType, name:string, actionAttribute?:string):Observable<Board> {
+  public create(type:BoardType, name:string, projectIdentifier:string, actionAttribute?:string):Observable<Board> {
+    const scope = this.boardPath(projectIdentifier);
     return this
-      .createGrid(type, name, actionAttribute)
+      .createGrid(type, name, scope, actionAttribute)
       .pipe(
         map(grid => new Board(grid))
       );
@@ -103,7 +105,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
    *
    * @param projectIdentifier The current project identifier
    */
-  public boardPath(projectIdentifier:string|null = null) {
+  public boardPath(projectIdentifier:string) {
     return this.PathHelper.projectBoardsPath(projectIdentifier);
   }
 
@@ -112,9 +114,8 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
     return new StateCacheService<Board>(state);
   }
 
-  private createGrid(type:BoardType, name:string, actionAttribute?:string):Observable<GridResource> {
-    const path = this.boardPath();
-    let payload:any = _.set({ name: name }, '_links.scope.href', path);
+  private createGrid(type:BoardType, name:string, scope:string, actionAttribute?:string):Observable<GridResource> {
+    let payload:any = _.set({ name: name }, '_links.scope.href', scope);
     payload.options = {
       type: type,
     };

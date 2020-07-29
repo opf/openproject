@@ -143,14 +143,14 @@ export class APIV3Service {
   }
 
   private apiV3CollectionEndpoint<V extends HalResource, T extends APIv3GettableResource<V>>(segment:string, resource?:Constructor<T>) {
-    return new APIv3ResourceCollection<V, T>(this, this.pathHelper.api.v3.appBasePath, segment, resource);
+    return new APIv3ResourceCollection<V, T>(this, this.pathHelper.api.v3.apiV3Base, segment, resource);
   }
 
   private apiV3CustomEndpoint<T>(cls:Constructor<T>):T {
-    return new cls(this, this.pathHelper.api.v3.appBasePath);
+    return new cls(this, this.pathHelper.api.v3.apiV3Base);
   }
 
   private apiV3SingularEndpoint<T extends HalResource = HalResource>(segment:string):APIv3GettableResource<T> {
-    return new APIv3GettableResource<T>(this, this.pathHelper.api.v3.appBasePath, segment);
+    return new APIv3GettableResource<T>(this, this.pathHelper.api.v3.apiV3Base, segment);
   }
 }

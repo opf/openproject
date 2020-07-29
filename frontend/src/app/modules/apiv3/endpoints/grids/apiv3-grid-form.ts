@@ -26,14 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 
-export class Apiv3GridForm extends APIv3FormResource<FormResource<GridResource>> {
+export class Apiv3GridForm extends APIv3FormResource {
 
   /**
    * We need to override the grid widget extraction
@@ -42,14 +41,15 @@ export class Apiv3GridForm extends APIv3FormResource<FormResource<GridResource>>
    * @param resource
    * @param schema
    */
-  public static extractPayload(resource:GridResource, schema:SchemaResource|null = null):Object {
-    if (resource && schema) {
-      let payload = HalPayloadHelper.extractPayloadFromSchema(resource, schema);
+  public static extractPayload(resource:HalResource|Object, schema:SchemaResource|null = null):Object {
+    if (resource instanceof HalResource && schema) {
+      let grid = resource as HalResource;
+      let payload = HalPayloadHelper.extractPayloadFromSchema(grid, schema);
 
       // The widget only states the type of the widget resource but does not explain
       // the widget itself. We therefore have to do that by hand.
       if (payload.widgets) {
-        payload.widgets = resource.widgets.map((widget) => {
+        payload.widgets = grid.widgets.map((widget:GridWidgetResource) => {
           return {
             id: widget.id,
             startRow: widget.startRow,
@@ -63,11 +63,19 @@ export class Apiv3GridForm extends APIv3FormResource<FormResource<GridResource>>
       }
 
       return payload;
-    } else if (!(resource instanceof HalResource)) {
-      return resource;
-    } else {
-      return {};
     }
+
+    return resource || {};
+  }
+
+  /**
+   * Extract payload for the form from the request and optional schema.
+   *
+   * @param request
+   * @param schema
+   */
+  public extractPayload(request:HalResource|Object, schema:SchemaResource|null = null) {
+    return Apiv3GridForm.extractPayload(request, schema);
   }
 
 }

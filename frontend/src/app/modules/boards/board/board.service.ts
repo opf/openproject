@@ -84,7 +84,7 @@ export class BoardService {
     const board = await this
       .apiV3Service
       .boards
-      .create(params.type, this.boardName(params), params.attribute).toPromise();
+      .create(params.type, this.boardName(params), this.CurrentProject.identifier!, params.attribute).toPromise();
 
     if (params.type === 'free') {
       await this.boardsList.addFreeQuery(board, { name: this.text.unnamed_list });
