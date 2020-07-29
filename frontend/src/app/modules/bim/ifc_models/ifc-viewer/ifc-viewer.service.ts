@@ -33,7 +33,7 @@ export interface BCFLoadOptions {
 
 @Injectable()
 export class IFCViewerService extends ViewerBridgeService {
-  public shouldShowViewer = true;
+  public shouldShowViewer = false;
   private _viewer:any;
   private $loaded = new Subject<void>();
 

@@ -59,76 +59,75 @@ export function makeSplitViewRoutes(baseRoute:string,
                                     menuItemClass:string|undefined,
                                     showComponent:ComponentType<any>,
                                     newComponent:ComponentType<any> = WorkPackageNewSplitViewComponent,
-                                    makeFullWidth?:boolean):Ng2StateDeclaration[] {
+                                    makeFullWidth?:boolean,
+                                    routeName = baseRoute):Ng2StateDeclaration[] {
   // makeFullWidth configuration
-  const views = makeFullWidth ?
-                  {'content-right@^.^': { component: showComponent }} :
-                  {'content-left@^.^': { component: showComponent }};
+  const views:any = makeFullWidth ?
+                  {'content-left@^.^': { component: showComponent }} :
+                  {'content-right@^.^': { component: showComponent }};
   const partition = makeFullWidth ? '-left-only' : '-split';
-
 
   return [
     {
-      name: baseRoute + '.details',
-      url: '/details/{workPackageId:[0-9]+}',
-      redirectTo: baseRoute + '.details.overview',
+      name: routeName + '.details',
+      url: '/details/{workPackageId:[0-9]+}?{cards:bool}',
+      redirectTo: routeName + '.details.overview',
       reloadOnSearch: false,
       data: {
         bodyClasses: 'router--work-packages-partitioned-split-view-details',
         menuItem: menuItemClass,
         // Remember the base route so we can route back to it anywhere
         baseRoute: baseRoute,
-        newRoute: baseRoute + '.new',
+        newRoute: routeName + '.new',
         partition,
       },
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state
-      // @ts-ignore
       views,
     },
     {
-      name: baseRoute + '.details.overview',
-      url: '/overview',
+      name: routeName + '.details.overview',
+      url: '/overview?{cards:bool}',
       component: WorkPackageOverviewTabComponent,
       data: {
         baseRoute: baseRoute,
         menuItem: menuItemClass,
-        parent: baseRoute + '.details'
+        parent: routeName + '.details'
       }
     },
     {
-      name: baseRoute + '.details.activity',
+      name: routeName + '.details.activity',
       url: '/activity',
       component: WorkPackageActivityTabComponent,
       data: {
         baseRoute: baseRoute,
         menuItem: menuItemClass,
-        parent: baseRoute + '.details'
+        parent: routeName + '.details'
       }
     },
     {
-      name: baseRoute + '.details.relations',
+      name: routeName + '.details.relations',
       url: '/relations',
       component: WorkPackageRelationsTabComponent,
       data: {
         baseRoute: baseRoute,
         menuItem: menuItemClass,
-        parent: baseRoute + '.details'
+        parent: routeName + '.details'
       }
     },
     {
-      name: baseRoute + '.details.watchers',
+      name: routeName + '.details.watchers',
       url: '/watchers',
       component: WorkPackageWatchersTabComponent,
       data: {
         baseRoute: baseRoute,
         menuItem: menuItemClass,
-        parent: baseRoute + '.details'
+        parent: routeName + '.details'
       }
     },
     // Split create route
     {
-      name: baseRoute + '.new',
+      name: routeName + '.new',
       url: '/create_new?{type:[0-9]+}&{parent_id:[0-9]+}',
       reloadOnSearch: false,
       data: {
@@ -147,7 +146,7 @@ export function makeSplitViewRoutes(baseRoute:string,
     },
     // Split copy route
     {
-      name: baseRoute + '.copy',
+      name: routeName + '.copy',
       url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
       views: {
         'content-right@^.^': { component: WorkPackageCopySplitViewComponent }

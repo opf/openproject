@@ -113,7 +113,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'bim.partitioned.show',
-    url: '/show/{workPackageId:[0-9]+}',
+    url: '/show/{workPackageId:[0-9]+}?{cards:bool}',
     data: {
       baseRoute: 'bim.partitioned.list',
       partition: '-left-only'
@@ -123,11 +123,12 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   },
   // BCF single view for list
   ...makeSplitViewRoutes(
-    'bim.partitioned.show',
+    'bim.partitioned.list',
     undefined,
     WorkPackageSplitViewComponent,
     undefined,
-    true
+    true,
+    'bim.partitioned.show',
   ),
   // BCF single view for list
   ...makeSplitViewRoutes(

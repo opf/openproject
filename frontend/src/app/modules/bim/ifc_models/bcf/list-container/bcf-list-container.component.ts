@@ -56,6 +56,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
             distinctUntilChanged(),
           )
           .subscribe((cards:boolean) => {
+            console.log('PPparams$ change', cards)
             if (cards == null || cards || this.deviceService.isMobile) {
               this.showTableView = false;
             } else {
@@ -84,12 +85,12 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     // Open the viewpoint if any
     const wp = this.states.workPackages.get(event.workPackageId).value;
     if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints) {
-      this.viewer.showViewpoint(wp, 0);
+      // this.viewer.showViewpoint(wp, 0);
     }
-    console.log('splitViewRoute(this.$state): ', splitViewRoute(this.$state), this.$state.current.data.baseRoute + 'details.overview');
+    console.log('splitViewRoute(this.$state): ', this.$state.params, splitViewRoute(this.$state), this.$state.current.data.baseRoute + 'details.overview');
     if (event.double) {
       this.$state.go(
-        'bim.partitioned.show',
+        'bim.partitioned.show', // splitViewRoute(this.$state),
         { workPackageId: event.workPackageId }
       );
     }

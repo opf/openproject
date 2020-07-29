@@ -88,12 +88,17 @@ export class BimViewService implements OnDestroy {
   }
 
   public currentViewerState():BimViewState {
+    console.log('currentViewerState: ', this.state.current.name, this.state.params?.cards,  this.state.includes('bim.partitioned.show'));
     if (this.state.includes('bim.partitioned.list')) {
       return this.state.params?.cards ?
               bimListViewIdentifier :
               bimTableViewIdentifier;
     } else if (this.state.includes('bim.**.model')) {
       return bimViewerViewIdentifier;
+    } else if (this.state.includes('bim.partitioned.show')) {
+      return this.state.params?.cards ?
+              bimListViewIdentifier :
+              bimTableViewIdentifier;
     } else {
       return this.state.params?.cards || this.state.params?.cards == null ?
               bimSplitViewCardsIdentifier :

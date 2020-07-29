@@ -63,6 +63,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
   }
 
   protected open(evt:JQuery.TriggeredEvent) {
+    console.log('open', evt);
     this.buildItems();
     this.opContextMenu.show(this, evt);
   }
@@ -77,6 +78,8 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
   private buildItems() {
     const current = this.bimView.current;
     const viewRoute = this.state.current.data.viewRoute;
+    console.log('buildItems: ', current, viewRoute);
+
     let items = this.viewerBridgeService.shouldShowViewer ?
                   [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewCardsIdentifier, bimSplitViewListIdentifier, bimTableViewIdentifier] :
                   [bimListViewIdentifier, bimTableViewIdentifier];
