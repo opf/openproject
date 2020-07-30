@@ -97,7 +97,7 @@ export class OpenprojectBcfModule {
   // The static property prevents running the function
   // multiple times. This happens e.g. when the module is included
   // into a plugin's module.
-  public static bootstrap(injector:Injector) {
+  public static bootstrap(injector:Injector):void {
     if (this.bootstrapCalled) {
       return;
     }

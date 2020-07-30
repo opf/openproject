@@ -14,10 +14,9 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {OpTitleService} from "core-components/html/op-title.service";
 import dayGridPlugin from '@fullcalendar/daygrid';
-import {EventApi, EventInput} from '@fullcalendar/core';
-import {EventSourceError} from '@fullcalendar/core/structs/event-source';
+import {CalendarOptions, EventApi, EventInput} from '@fullcalendar/core';
 import {take} from 'rxjs/operators';
-import {ToolbarInput} from '@fullcalendar/core/types/input-types';
+import {ToolbarInput} from '@fullcalendar/common';
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
@@ -25,7 +24,6 @@ import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 interface CalendarViewEvent {
   el:HTMLElement;
   event:EventApi;
-  jsEvent:MouseEvent;
 }
 
 @Component({
@@ -41,12 +39,24 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   public tooManyResultsText:string|null;
 
-  public calendarPlugins = [dayGridPlugin];
-  public calendarHeight:Function;
-  public calendarEvents:Function;
-  public calendarHeader:ToolbarInput|boolean;
-
   private alreadyLoaded = false;
+
+  calendarOptions:CalendarOptions = {
+    editable: false,
+    locale: this.i18n.locale,
+    fixedWeekCount: false,
+    height: undefined,
+    initialView: (() => {
+      if (this.static) {
+        return 'dayGridWeek';
+      } else {
+        return undefined;
+      }
+    })(),
+    firstDay: this.configuration.startOfWeek(),
+    events: this.calendarEventsFunction.bind(this),
+    plugins: [dayGridPlugin],
+  };
 
   constructor(readonly states:States,
               readonly $state:StateService,
@@ -69,15 +79,15 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     this.querySpace.stopAllSubscriptions.next();
 
     this.setupWorkPackagesListener();
-
-    this.initializeCalendar();
   }
 
   ngAfterViewInit() {
+    this.initializeCalendar();
+
     // The full-calendar component's outputs do not seem to work
     // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
     // Therefore, setting the outputs via the underlying API
-    this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => {
+    this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
       this.addTooltip(event);
     });
     this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
@@ -87,7 +97,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
                                 successCallback:(events:EventInput[]) => void,
-                                failureCallback:(error:EventSourceError) => void):void|PromiseLike<EventInput[]> {
+                                failureCallback:(error:any) => void):void|PromiseLike<EventInput[]> {
     if (this.alreadyLoaded) {
       this.alreadyLoaded = false;
       let events = this.updateResults(this.querySpace.results.value!);
@@ -106,9 +116,11 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   }
 
   private initializeCalendar() {
-    this.calendarEvents = this.calendarEventsFunction.bind(this);
-    this.setCalendarHeight();
-    this.setCalendarHeader();
+    this.calendarOptions = {
+      ...this.calendarOptions,
+      height: this.calendarHeight(),
+      headerToolbar: this.buildHeader()
+    };
   }
 
   public updateTimeframe(fetchInfo:{ start:Date, end:Date, timeZone:string }) {
@@ -170,66 +182,33 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       { workPackageId: workPackage.id },
       { inherit: false });
   }
-
-  public get calendarEditable() {
-    return false;
-  }
-
-  public get calendarEventLimit() {
-    return false;
-  }
-
-  public get calendarLocale() {
-    return this.i18n.locale;
-  }
-
-  public get calendarFixedWeekCount() {
-    return false;
-  }
-
-  public get calendarDefaultView() {
-    if (this.static) {
-      return 'dayGridWeek';
-    } else {
-      return null;
-    }
-  }
-
-  public get calendarFirstDay() {
-    return this.configuration.startOfWeek();
-  }
-
   private get calendarElement() {
     return jQuery(this.element.nativeElement).find('.fc-view-container');
   }
 
-  private setCalendarHeight() {
+  private calendarHeight():number {
     if (this.static) {
-      this.calendarHeight = () => {
-        let heightElement = jQuery(this.element.nativeElement);
+      let heightElement = jQuery(this.element.nativeElement);
 
-        while (!heightElement.height() && heightElement.parent()) {
-          heightElement = heightElement.parent();
-        }
+      while (!heightElement.height() && heightElement.parent()) {
+        heightElement = heightElement.parent();
+      }
 
-        let topOfCalendar = jQuery(this.element.nativeElement).position().top;
-        let topOfHeightElement = heightElement.position().top;
+      let topOfCalendar = jQuery(this.element.nativeElement).position().top;
+      let topOfHeightElement = heightElement.position().top;
 
-        return heightElement.height()! - (topOfCalendar - topOfHeightElement);
-      };
+      return heightElement.height()! - (topOfCalendar - topOfHeightElement);
     } else {
-      this.calendarHeight = () => {
-        // -12 for the bottom padding
-        return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
-      };
+      // -12 for the bottom padding
+      return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
     }
   }
 
-  public setCalendarHeader() {
+  public buildHeader() {
     if (this.static) {
-      this.calendarHeader = false;
+      return false;
     } else {
-      this.calendarHeader = {
+      return {
         right: 'dayGridMonth,dayGridWeek',
         center: 'title',
         left: 'prev,next today'

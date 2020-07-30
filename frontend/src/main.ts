@@ -24,7 +24,7 @@ __webpack_public_path__ = window.appBasePath + ASSET_BASE_PATH;
 window.ErrorReporter = new SentryReporter();
 
 require('core-app/init-vendors');
-require('./app/init-globals');
+require('core-app/init-globals');
 
 const meta = jQuery('meta[name=openproject_initializer]');
 I18n.locale = meta.data('defaultLocale');
