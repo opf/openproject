@@ -88,7 +88,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     }
 
     if (event.double) {
-      this.goToWpDetailState(event.workPackageId, this.$state.params.cards, true);
+      this.goToWpDetailState(event.workPackageId, this.$state.params.cards);
     }
   }
 
@@ -103,7 +103,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     this.goToWpDetailState(event.workPackageId, this.$state.params.cards, true);
   }
 
-  goToWpDetailState(workPackageId:string, cards:boolean, focus:boolean) {
+  goToWpDetailState(workPackageId:string, cards:boolean, focus?:boolean) {
     // Show the split view when there is a viewer (browser)
     // Show only wp details when there is no viewer, plugin environment (ie: Revit)
     const stateToGo = this.viewer.shouldShowViewer ?
@@ -113,7 +113,6 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     // it when going to 'bim.partitioned.show'
     const params = { workPackageId, cards, ...focus && {focus} };
 
-    // Otherwise, always open all links in the details view
     this.$state.go(stateToGo, params);
   }
 }
