@@ -70,7 +70,9 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   ngOnInit() {
     this.canAddRelation = !!this.workPackage.addRelation;
 
-    this.wpRelations.state(this.workPackage.id!).values$()
+    this.wpRelations
+      .state(this.workPackage.id!)
+      .values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )

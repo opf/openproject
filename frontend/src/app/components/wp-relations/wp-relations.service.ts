@@ -7,7 +7,7 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
+import {map, take, tap} from "rxjs/operators";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
@@ -80,10 +80,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       .relations
       .get()
       .pipe(
-        tap((collection:CollectionResource<RelationResource>) => {
-          this.updateRelationsStateTo(id, collection.elements);
-          return this.state(id).value!;
-        })
+        map(collection => this.relationsStateValue(id, collection.elements))
       );
   }
 
@@ -209,17 +206,14 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   /**
-   * Given a set of complete relations for this work packge, fill
-   * the associated relations state
+   * Given a set of complete relations for this work packge,
+   * returns the RelationsStateValue
    *
    * @param wpId The wpId the relations belong to
    * @param relations The relation resource array.
    */
-  private updateRelationsStateTo(wpId:string, relations:RelationResource[]) {
-    const state = this.multiState.get(wpId);
-    const relationsToInsert = _.keyBy(relations, r => r.id!);
-
-    state.putValue(relationsToInsert, 'Overriding relations state.');
+  private relationsStateValue(wpId:string, relations:RelationResource[]):RelationsStateValue {
+    return _.keyBy(relations, r => r.id!);
   }
 
   /**
@@ -230,9 +224,11 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * We need to group relevant relations for work packages based on their to/from filter.
    */
   private accumulateRelationsFromInvolved(involved:string[], relations:RelationResource[]) {
-    involved.forEach(id => {
-      const relevant = relations.filter(r => r.isInvolved(id));
-      this.updateRelationsStateTo(id, relevant);
+    involved.forEach(wpId => {
+      const relevant = relations.filter(r => r.isInvolved(wpId));
+      const value = this.relationsStateValue(wpId, relevant);
+
+      this.updateValue(wpId, value);
     });
 
   }
