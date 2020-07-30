@@ -35,6 +35,7 @@ import {ISchemaProxy, SchemaProxy} from "core-app/modules/hal/schemas/schema-pro
 import {WorkPackageSchemaProxy} from "core-app/modules/hal/schemas/work-package-schema-proxy";
 import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {Observable} from "rxjs";
+import {take} from "rxjs/operators";
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {
@@ -89,6 +90,9 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
 
     return this
       .requireAndStream(href)
+      .pipe(
+        take(1)
+      )
       .toPromise();
   }
 
@@ -119,7 +123,10 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   protected load(href:string):Observable<SchemaResource> {
     return this
       .halResourceService
-      .get<SchemaResource>(href);
+      .get<SchemaResource>(href)
+      .pipe(
+        take(1)
+      );
   }
 
   protected loadAll(hrefs:string[]):Promise<unknown|undefined> {

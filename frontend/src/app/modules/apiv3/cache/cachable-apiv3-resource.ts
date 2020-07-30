@@ -107,7 +107,7 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
       )
       // Use a promise to ensure this fires
       // even if caller isn't subscribing.
-      .toPromise()
+      .toPromise();
   }
 
   /**
@@ -120,8 +120,12 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
       .pipe(
         switchMap((resource) => {
           if (resource.$links.schema) {
-            return from(this.schemaCache.ensureLoaded(resource))
-              .pipe(mapTo(resource));
+            return this.schemaCache
+              .requireAndStream(resource.$links.schema.href)
+              .pipe(
+                take(1),
+                mapTo(resource),
+              );
           } else {
             return of(resource);
           }
