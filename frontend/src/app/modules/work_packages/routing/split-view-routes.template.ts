@@ -34,7 +34,6 @@ import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-sp
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {ComponentType} from "@angular/cdk/overlay";
 import {WorkPackageCopySplitViewComponent} from "core-components/wp-copy/wp-copy-split-view.component";
-import {EmptyComponent} from "core-app/modules/bim/ifc_models/empty/empty-component";
 
 /**
  * Return a set of routes for a split view mounted under the given base route,
