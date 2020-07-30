@@ -99,7 +99,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
       And the task "Task 0815" should have "Sprint 001" as its target version
 
   @javascript
-  Scenario: Stale Object Error when creating task via the taskboard without 'Remaining Hours' after having created a task with 'Remaining Hours' after having created a task without 'Remaining Hours' (bug 9057)
+  Scenario: Stale Object Error when creating task via the taskboard without 'Remaining hours' after having created a task with 'Remaining hours' after having created a task without 'Remaining Hours' (bug 9057)
     Given I am on the taskboard for "Sprint 001"
      When I click to add a new task for story "Story A"
       And I fill in "Task1" for "subject"
