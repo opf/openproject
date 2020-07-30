@@ -18,8 +18,8 @@ it:
         manage: 'Gestire i modelli'
       views:
         viewer: 'Visualizzatore'
-        split: 'Visualizzatore e schede'
+        split: 'Viewer and table'
+        split_cards: 'Visualizzatore e schede'
     revit:
-      revit_addin: "Revit Addin"
-      revit_addin_settings: "Revit Addin settings"
-
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

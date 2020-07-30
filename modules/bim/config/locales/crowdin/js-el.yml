@@ -18,8 +18,8 @@ el:
         manage: 'Διαχείριση μοντέλων'
       views:
         viewer: 'Θεατής'
-        split: 'Θεατής και κάρτες'
+        split: 'Viewer and table'
+        split_cards: 'Θεατής και κάρτες'
     revit:
-      revit_addin: "Revit Addin"
-      revit_addin_settings: "Revit Addin settings"
-
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

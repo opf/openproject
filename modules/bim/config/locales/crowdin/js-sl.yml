@@ -18,8 +18,8 @@ sl:
         manage: 'Upravljaj modele'
       views:
         viewer: 'Preglednik'
-        split: 'Preglednik in kartice '
+        split: 'Viewer and table'
+        split_cards: 'Preglednik in kartice '
     revit:
-      revit_addin: "Revit Addin"
-      revit_addin_settings: "Revit Addin settings"
-
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

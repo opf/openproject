@@ -18,8 +18,8 @@ de:
         manage: 'Modelle verwalten'
       views:
         viewer: 'Viewer'
-        split: 'Viewer und Karten'
+        split: 'Viewer and table'
+        split_cards: 'Viewer und Karten'
     revit:
-      revit_addin: "Revit Addin"
-      revit_addin_settings: "Revit Addin settings"
-
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"
