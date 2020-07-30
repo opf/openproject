@@ -22,7 +22,9 @@ import * as TLodash from 'lodash';
 import * as TMoment from 'moment';
 import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
 import {Dragula} from "dragula";
+import {Screenfull} from "screenfull";
 
+declare module 'observable-array';
 declare module 'dom-autoscroller';
 declare module 'core-vendor/enjoyhint';
 
@@ -40,6 +42,7 @@ declare global {
     OpenProject:OpenProject;
     ErrorReporter:ErrorReporter;
     onboardingTourInstance:any;
+    screenfull:Screenfull;
   }
 
   interface JQuery {
