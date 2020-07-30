@@ -50,6 +50,8 @@ import {
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {PaginationService} from "core-components/table-pagination/pagination-service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
+import {APIv3QueryPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-paths";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -185,11 +187,15 @@ export class WorkPackagesListService {
   public loadResultsList(query:QueryResource, additionalParams:Object, projectIdentifier?:string):Promise<WorkPackageCollectionResource> {
     const params = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additionalParams);
 
-    return this
-      .apiV3Service
-      .withOptionalProject(projectIdentifier)
-      .queries
-      .withOptionalId(query.id)
+    let path:APIv3QueriesPaths|APIv3QueryPaths;
+
+    if (query.id) {
+      path = this.apiV3Service.queries.id(query.id);
+    } else {
+      path = this.apiV3Service.withOptionalProject(projectIdentifier).queries;
+    }
+
+    return path
       .parameterised(params)
       .toPromise()
       .then((loadedQuery) => {
