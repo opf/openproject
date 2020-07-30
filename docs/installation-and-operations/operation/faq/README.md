@@ -20,6 +20,9 @@ user = User.find_by! login: 'admin'
 # Ensure the user is set to active
 user.activate
 
+# Reset any failed login attempts
+user.failed_login_count = 0
+
 # Update the password
 user.password = user.password_confirmation = "YOUR NEW SAFE PASSWORD 1234!"
 
