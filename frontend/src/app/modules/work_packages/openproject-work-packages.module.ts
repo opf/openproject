@@ -204,7 +204,6 @@ import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribu
     // Provide a separate service for creation events of WP Inline create
     // This can be hierarchically injected to provide isolated events on an embedded table
     WorkPackageRelationsService,
-    SchemaCacheService,
 
     WorkPackagesActivityService,
     WorkPackageRelationsService,
