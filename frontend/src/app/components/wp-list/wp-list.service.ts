@@ -182,11 +182,12 @@ export class WorkPackagesListService {
   /**
    * Update the list from an existing query object.
    */
-  public loadResultsList(query:QueryResource, additionalParams:Object):Promise<WorkPackageCollectionResource> {
+  public loadResultsList(query:QueryResource, additionalParams:Object, projectIdentifier?:string):Promise<WorkPackageCollectionResource> {
     const params = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additionalParams);
 
     return this
       .apiV3Service
+      .withOptionalProject(projectIdentifier)
       .queries
       .withOptionalId(query.id)
       .parameterised(params)
@@ -203,11 +204,11 @@ export class WorkPackagesListService {
    * Reload the list of work packages for the current query keeping the
    * pagination options.
    */
-  public reloadCurrentResultsList():Promise<WorkPackageCollectionResource> {
+  public reloadCurrentResultsList(projectIdentifier?:string):Promise<WorkPackageCollectionResource> {
     let pagination = this.getPaginationInfo();
     let query = this.currentQuery;
 
-    return this.loadResultsList(query, pagination);
+    return this.loadResultsList(query, pagination, projectIdentifier);
   }
 
   /**

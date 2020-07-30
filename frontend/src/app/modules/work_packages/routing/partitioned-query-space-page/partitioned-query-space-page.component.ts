@@ -238,7 +238,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     if (firstPage) {
       promise = this.loadFirstPage();
     } else {
-      promise = this.wpListService.reloadCurrentResultsList();
+      promise = this.wpListService.reloadCurrentResultsList(this.projectIdentifier);
     }
 
     if (visibly) {
