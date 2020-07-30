@@ -81,7 +81,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     {
       component: BimManageIfcModelsButtonComponent,
       show: () => {
-        // Hide 'Manage models' on plugin environment (ie: Revit)
+        // Hide 'Manage models' toolbar button on plugin environment (ie: Revit)
         return this.viewerBridgeService.shouldShowViewer &&
                this.ifcData.allowed('manage_ifc_models');
       }
