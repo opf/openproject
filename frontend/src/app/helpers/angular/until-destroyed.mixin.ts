@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
  *
  * Use for rxjs with .pipe(this.untilDestroyed)
  */
+// TODO: Add Angular decorator.
 export class UntilDestroyedMixin extends OnDestroyMixin implements OnDestroy {
   public componentDestroyed = false;
 

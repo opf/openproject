@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Injector, OnInit} from "@angular/core";
+import { ChangeDetectorRef, Injector, OnInit, Directive } from "@angular/core";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
@@ -10,6 +10,7 @@ import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.serv
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
+@Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
     activity: this.i18n.t('js.time_entry.activity'),
