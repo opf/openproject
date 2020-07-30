@@ -3,7 +3,7 @@ import {OpenprojectHalModuleHelpers} from 'core-app/modules/hal/helpers/lazy-acc
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 
-const ObservableArray:any = require('observable-array');
+import * as ObservableArray from 'observable-array';
 
 interface HalSource {
   _links:any;
