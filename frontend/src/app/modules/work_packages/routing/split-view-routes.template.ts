@@ -70,7 +70,7 @@ export function makeSplitViewRoutes(baseRoute:string,
   return [
     {
       name: routeName + '.details',
-      url: '/details/{workPackageId:[0-9]+}?{cards:bool}',
+      url: '/details/{workPackageId:[0-9]+}',
       redirectTo: routeName + '.details.overview',
       reloadOnSearch: false,
       data: {
@@ -87,7 +87,7 @@ export function makeSplitViewRoutes(baseRoute:string,
     },
     {
       name: routeName + '.details.overview',
-      url: '/overview?{cards:bool}',
+      url: '/overview',
       component: WorkPackageOverviewTabComponent,
       data: {
         baseRoute: baseRoute,

@@ -56,7 +56,6 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
             distinctUntilChanged(),
           )
           .subscribe((cards:boolean) => {
-            console.log('PPparams$ change', cards)
             if (cards == null || cards || this.deviceService.isMobile) {
               this.showTableView = false;
             } else {
@@ -85,14 +84,11 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     // Open the viewpoint if any
     const wp = this.states.workPackages.get(event.workPackageId).value;
     if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints) {
-      // this.viewer.showViewpoint(wp, 0);
+      this.viewer.showViewpoint(wp, 0);
     }
-    console.log('splitViewRoute(this.$state): ', this.$state.params, splitViewRoute(this.$state), this.$state.current.data.baseRoute + 'details.overview');
+
     if (event.double) {
-      this.$state.go(
-        'bim.partitioned.show', // splitViewRoute(this.$state),
-        { workPackageId: event.workPackageId }
-      );
+      this.goToWpDetailState(event.workPackageId, this.$state.params.cards, true);
     }
   }
 
@@ -104,10 +100,20 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
       return;
     }
 
+    this.goToWpDetailState(event.workPackageId, this.$state.params.cards, true);
+  }
+
+  goToWpDetailState(workPackageId:string, cards:boolean, focus:boolean) {
+    // Show the split view when there is a viewer (browser)
+    // Show only wp details when there is no viewer, plugin environment (ie: Revit)
+    const stateToGo = this.viewer.shouldShowViewer ?
+                        splitViewRoute(this.$state) :
+                        'bim.partitioned.show';
+    // Passing the card param to the new state because the router doesn't keep
+    // it when going to 'bim.partitioned.show'
+    const params = { workPackageId, cards, ...focus && {focus} };
+
     // Otherwise, always open all links in the details view
-    this.$state.go(
-      splitViewRoute(this.$state),
-      { workPackageId: event.workPackageId, focus: true }
-    );
+    this.$state.go(stateToGo, params);
   }
 }
