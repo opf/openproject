@@ -28,7 +28,7 @@
 
 import {MultiInputState, State} from 'reactivestates';
 import {Observable} from "rxjs";
-import {auditTime, map, startWith, take} from "rxjs/operators";
+import {auditTime, map, share, startWith, take} from "rxjs/operators";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export interface HasId {
@@ -41,7 +41,7 @@ export class StateCacheService<T> {
 
   constructor(state:MultiInputState<T>, holdValuesForSeconds:number = 3600) {
     this.multiState = state;
-    this.cacheDurationInMs = holdValuesForSeconds;
+    this.cacheDurationInMs = holdValuesForSeconds * 1000;
   }
 
   public state(id:string):State<T> {
@@ -67,17 +67,18 @@ export class StateCacheService<T> {
    * Sets a promise to the state
    */
   public clearAndLoad(id:string, loader:Observable<T>):Observable<T> {
+    const observable =
+      loader
+        .pipe(
+          take(1),
+          share()
+        );
+
     this
       .multiState.get(id)
-      .clearAndPutFromPromise(
-        loader
-          .pipe(
-            take(1)
-          )
-          .toPromise()
-      );
+      .clearAndPutFromPromise(observable.toPromise());
 
-    return loader;
+    return observable;
   }
 
   /**

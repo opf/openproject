@@ -44,6 +44,9 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   public require(id:string, force:boolean = false):Promise<RelationsStateValue> {
     return this
       .requireAndStream(id, force)
+      .pipe(
+        take(1)
+      )
       .toPromise();
   }
 
