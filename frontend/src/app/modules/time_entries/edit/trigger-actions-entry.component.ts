@@ -87,7 +87,7 @@ export class TriggerActionsEntryComponent {
       .apiv3Service
       .time_entries
       .id(timeEntryId)
-      .requireAndStream()
+      .get()
       .toPromise();
   }
 }
