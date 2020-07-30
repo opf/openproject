@@ -30,9 +30,9 @@ import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {States} from "core-components/states.service";
 import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {from, Observable, of} from "rxjs";
+import {concat, from, merge, Observable, of} from "rxjs";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {mapTo, publish, switchMap, take, tap} from "rxjs/operators";
+import {mapTo, publish, share, switchMap, take, tap} from "rxjs/operators";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
@@ -55,9 +55,24 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
 
     // Refresh when stale or being forced
     if (this.cache.stale(id) || force) {
+      const observable = this
+        .load()
+        .pipe(
+          take(1),
+          share()
+        );
+
       this.cache.clearAndLoad(
         id,
-        this.load()
+        observable
+      );
+
+      // Return concat of the loading observable
+      // for error handling and the like,
+      // but then continue with the streamed cache
+      return merge<T>(
+        observable,
+        this.cache.state(id).values$()
       );
     }
 
