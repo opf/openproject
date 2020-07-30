@@ -79,7 +79,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
           return;
         }
 
-        this.multiState.get(workPackageId).putValue(wp);
+        state.putValue(wp);
       });
     }
   }

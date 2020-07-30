@@ -126,10 +126,6 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
     return Promise.all(hrefs.map(href => this.load(href)));
   }
 
-  protected get multiState():MultiInputState<SchemaResource> {
-    return this.states.schemas;
-  }
-
   /**
    * Places the schema in the schema state of the resource.
    * @param resource The resource for which the schema is to be updated
