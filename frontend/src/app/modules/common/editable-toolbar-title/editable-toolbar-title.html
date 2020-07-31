@@ -25,8 +25,10 @@
          [disabled]="inFlight"
          [ngClass]="{ '-error': isEmpty, '-changed': showSave }"
          class="editable-toolbar-title--input -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
-  <!-- This is not an angular component, rather it is a custom element so the specificity of the css stays low -->
-  <input-shim class="editable-toolbar-title--input editable-toolbar-title--input-shim toolbar--editable-toolbar">{{ selectedTitle || text.input_placeholder }}</input-shim>
+  <!-- This is not an angular component, rather it is a custom element so the specificity of the css stays low.
+       The &nbsp;&nbsp; is for making sure that the shim is always a bit larger than the input. Sometimes the ellipsis
+       would kick in to early otherwise. -->
+  <input-shim class="editable-toolbar-title--input editable-toolbar-title--input-shim toolbar--editable-toolbar">{{ selectedTitle || text.input_placeholder }}{{ selectedTitle ? '&nbsp;&nbsp;' : ''}}</input-shim>
 </div>
 <h2 *ngIf="!editable"
     [attr.title]="selectedTitle"
