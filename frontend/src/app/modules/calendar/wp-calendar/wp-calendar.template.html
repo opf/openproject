@@ -3,6 +3,7 @@
      [attr.data-indicator-name]="'table'"
      style="position: relative">
     <full-calendar #ucCalendar
+                   *ngIf="calendarOptions"
                    [options]="calendarOptions">
     </full-calendar>
     <div

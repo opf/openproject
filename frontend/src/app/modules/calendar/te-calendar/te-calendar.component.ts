@@ -332,7 +332,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('.fc-view-container');
+    return jQuery(this.element.nativeElement).find('full-calendar');
   }
 
   private dispatchEventClick(event:CalendarViewEvent) {
@@ -476,7 +476,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     let formattedDuration = this.timezone.formattedDuration(event.event.extendedProps.entry.hours);
 
     jQuery(event.el)
-      .find('.fc-title')
+      .find('.fc-event-title')
       .prepend(`<div class="fc-duration">${formattedDuration}</div>`);
   }
 

@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, SecurityContext, ViewChild} from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  SecurityContext,
+  ViewChild
+} from "@angular/core";
 import {FullCalendarComponent} from '@fullcalendar/angular';
 import {States} from "core-components/states.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -31,8 +40,27 @@ interface CalendarViewEvent {
   styleUrls: ['./wp-calendar.sass'],
   selector: 'wp-calendar',
 })
-export class WorkPackagesCalendarController extends UntilDestroyedMixin implements OnInit, AfterViewInit {
-  @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
+export class WorkPackagesCalendarController extends UntilDestroyedMixin implements OnInit {
+  private ucCalendar:FullCalendarComponent;
+  @ViewChild(FullCalendarComponent)
+    set container(v:FullCalendarComponent|undefined) {
+      // ViewChild reference may be undefined initially
+      // due to ngIf
+      if (v !== undefined) {
+        this.ucCalendar = v;
+
+        // The full-calendar component's outputs do not seem to work
+        // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
+        // Therefore, setting the outputs via the underlying API
+        this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
+          this.addTooltip(event);
+        });
+        this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
+          this.toWPFullView(event);
+        });
+      }
+    }
+
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
   static MAX_DISPLAYED = 100;
@@ -41,22 +69,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   private alreadyLoaded = false;
 
-  calendarOptions:CalendarOptions = {
-    editable: false,
-    locale: this.i18n.locale,
-    fixedWeekCount: false,
-    height: undefined,
-    initialView: (() => {
-      if (this.static) {
-        return 'dayGridWeek';
-      } else {
-        return undefined;
-      }
-    })(),
-    firstDay: this.configuration.startOfWeek(),
-    events: this.calendarEventsFunction.bind(this),
-    plugins: [dayGridPlugin],
-  };
+  calendarOptions:CalendarOptions|undefined;
 
   constructor(readonly states:States,
               readonly $state:StateService,
@@ -79,20 +92,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     this.querySpace.stopAllSubscriptions.next();
 
     this.setupWorkPackagesListener();
-  }
-
-  ngAfterViewInit() {
     this.initializeCalendar();
-
-    // The full-calendar component's outputs do not seem to work
-    // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
-    // Therefore, setting the outputs via the underlying API
-    this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
-      this.addTooltip(event);
-    });
-    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
-      this.toWPFullView(event);
-    });
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
@@ -117,7 +117,19 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   private initializeCalendar() {
     this.calendarOptions = {
-      ...this.calendarOptions,
+      editable: false,
+      locale: this.i18n.locale,
+      fixedWeekCount: false,
+      firstDay: this.configuration.startOfWeek(),
+      events: this.calendarEventsFunction.bind(this),
+      plugins: [dayGridPlugin],
+      initialView: (() => {
+        if (this.static) {
+          return 'dayGridWeek';
+        } else {
+          return undefined;
+        }
+      })(),
       height: this.calendarHeight(),
       headerToolbar: this.buildHeader()
     };
@@ -183,7 +195,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       { inherit: false });
   }
   private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('.fc-view-container');
+    return jQuery(this.element.nativeElement).find('full-calendar');
   }
 
   private calendarHeight():number {
