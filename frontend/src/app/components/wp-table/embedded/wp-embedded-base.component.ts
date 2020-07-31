@@ -85,13 +85,12 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
 
     const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
-    const promise = this
-      .apiV3Service
-      .queries
-      .id(query)
-      .parameterised(params)
-      .toPromise()
-      .then((query) => this.wpStatesInitialization.updateQuerySpace(query, query.results));
+    const promise =
+      this
+        .wpListService
+        .loadQueryFromExisting(query, params, this.queryProjectScope)
+        .toPromise()
+        .then((query) => this.wpStatesInitialization.updateQuerySpace(query, query.results));
 
     if (visible) {
       this.loadingIndicator = promise;

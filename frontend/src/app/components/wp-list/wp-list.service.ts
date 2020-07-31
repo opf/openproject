@@ -182,9 +182,14 @@ export class WorkPackagesListService {
   }
 
   /**
-   * Update the list from an existing query object.
+   * Update the query from an existing (probably unsaved) query.
+   *
+   * Will choose the correct path:
+   * - If the query is unsaved, use `/api/v3(/projects/:identifier)/queries/default`
+   * - If the query is saved, use `/api/v3/queries/:id`
+   *
    */
-  public loadResultsList(query:QueryResource, additionalParams:Object, projectIdentifier?:string):Promise<WorkPackageCollectionResource> {
+  public loadQueryFromExisting(query:QueryResource, additionalParams:Object, projectIdentifier?:string):Observable<QueryResource> {
     const params = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additionalParams);
 
     let path:APIv3QueriesPaths|APIv3QueryPaths;
@@ -195,26 +200,7 @@ export class WorkPackagesListService {
       path = this.apiV3Service.withOptionalProject(projectIdentifier).queries;
     }
 
-    return path
-      .parameterised(params)
-      .toPromise()
-      .then((loadedQuery) => {
-
-        this.wpStatesInitialization.updateQuerySpace(loadedQuery, loadedQuery.results);
-        this.wpStatesInitialization.updateChecksum(loadedQuery, loadedQuery.results);
-        return query.results;
-      });
-  }
-
-  /**
-   * Reload the list of work packages for the current query keeping the
-   * pagination options.
-   */
-  public reloadCurrentResultsList(projectIdentifier?:string):Promise<WorkPackageCollectionResource> {
-    let pagination = this.getPaginationInfo();
-    let query = this.currentQuery;
-
-    return this.loadResultsList(query, pagination, projectIdentifier);
+    return path.parameterised(params);
   }
 
   /**
@@ -344,7 +330,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  private getPaginationInfo() {
+  public getPaginationInfo() {
     return this.wpTablePagination.paginationObject;
   }
 

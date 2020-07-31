@@ -69,10 +69,9 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
 
       this.loadingIndicator =
-        this.
-          apiv3Service
-          .queries
-          .parameterised(params)
+        this
+          .wpListService
+          .loadQueryFromExisting(query, params, this.queryProjectScope)
           .toPromise()
           .then((query) => this.initializeStates(query));
     });
@@ -98,6 +97,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
 
     super.initializeStates(query);
 
+
     this.querySpace
       .initialized
       .values$()
@@ -121,6 +121,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     return this.formPromise =
       this
         .apiv3Service
+        .withOptionalProject(this.projectIdentifier)
         .queries
         .form
         .load(query)
