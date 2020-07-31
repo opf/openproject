@@ -36,6 +36,7 @@ import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resour
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {take} from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
 export class AttributeHelpTextsService {
@@ -67,14 +68,17 @@ export class AttributeHelpTextsService {
   public requireById(id:string):Promise<HelpTextResource|undefined> {
     this.load();
 
-    return new Promise<HelpTextResource|undefined>((resolve, reject) => {
-      this.helpTexts
-        .valuesPromise()
-        .then(() => {
-          const value = this.helpTexts.getValueOr([]);
-          return _.find(value, element => element.id.toString() === id);
-        });
-    });
+    return this
+      .helpTexts
+      .values$()
+      .pipe(
+        take(1)
+      )
+      .toPromise()
+      .then(() => {
+        const value = this.helpTexts.getValueOr([]);
+        return _.find(value, element => element.id.toString() === id);
+      });
   }
 
   private load():void {
