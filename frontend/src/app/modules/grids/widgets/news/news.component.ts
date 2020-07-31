@@ -4,9 +4,9 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { NewsResource } from "core-app/modules/hal/resources/news-resource";
-import { NewsDmService } from "core-app/modules/hal/dm-services/news-dm.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { DmListParameter } from "core-app/modules/hal/dm-services/dm.service.interface";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Apiv3ListParameters} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 @Component({
   templateUrl: './news.component.html',
@@ -29,17 +29,19 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     readonly i18n:I18nService,
     protected readonly injector:Injector,
     readonly timezone:TimezoneService,
-    readonly newsDm:NewsDmService,
     readonly currentProject:CurrentProjectService,
+    readonly apiV3Service:APIV3Service,
     readonly cdr:ChangeDetectorRef
   ) {
     super(i18n, injector);
   }
 
   ngOnInit() {
-    this.newsDm
+    this
+      .apiV3Service
+      .news
       .list(this.newsDmParams)
-      .then(collection => this.setupNews(collection.elements));
+      .subscribe(collection => this.setupNews(collection.elements));
   }
 
   public setupNews(news:any[]) {
@@ -84,7 +86,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   private get newsDmParams() {
-    let params:DmListParameter = {
+    let params:Apiv3ListParameters = {
       sortBy: [['created_at', 'desc']],
       pageSize: 3
     };

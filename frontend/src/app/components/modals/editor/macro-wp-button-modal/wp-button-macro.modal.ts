@@ -40,7 +40,8 @@ import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TypeResource} from "core-app/modules/hal/resources/type-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
 
 @Component({
   templateUrl: './wp-button-macro.modal.html'
@@ -75,7 +76,7 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               protected currentProject:CurrentProjectService,
-              readonly workPackageDmService:WorkPackageDmService,
+              protected apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
 
@@ -84,9 +85,13 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
     this.classes = this.locals.classes;
     this.buttonStyle = this.classes === 'button';
 
-    this.workPackageDmService
-      .emptyCreateForm({}, this.currentProject.identifier)
-      .then((form:any) => {
+    this
+      .apiV3Service
+      .withOptionalProject(this.currentProject.identifier)
+      .work_packages
+      .form
+      .post({})
+      .subscribe((form:FormResource) => {
         this.availableTypes = form.schema.type.allowedValues;
       });
   }

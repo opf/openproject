@@ -30,7 +30,6 @@ import {TestBed} from "@angular/core/testing";
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {Injector} from "@angular/core";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
@@ -47,7 +46,6 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {UIRouterModule} from "@uirouter/angular";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {HookService} from "core-app/modules/plugins/hook-service";
@@ -55,7 +53,6 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {ConfigurationDmService} from "core-app/modules/hal/dm-services/configuration-dm.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 describe('WorkPackageFilterValues', () => {
@@ -83,18 +80,15 @@ describe('WorkPackageFilterValues', () => {
         TimezoneService,
         PathHelperService,
         ConfigurationService,
-        ConfigurationDmService,
         CurrentUserService,
         HookService,
         OpenProjectFileUploadService,
         LoadingIndicatorService,
-        WorkPackageDmService,
         HalResourceService,
         NotificationsService,
         HalResourceNotificationService,
         SchemaCacheService,
         WorkPackageNotificationService,
-        WorkPackageCacheService,
         WorkPackageCreateService,
         HalResourceEditingService,
         WorkPackagesActivityService,
@@ -173,7 +167,7 @@ describe('WorkPackageFilterValues', () => {
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value('type').href).toEqual('/api/v3/types/2');
       }));
-    })
+    });
 
   });
 });

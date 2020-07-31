@@ -28,12 +28,14 @@
 
 import {Injectable} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable({ providedIn: 'root' })
 export class CurrentProjectService {
   private current:{ id:string, identifier:string, name:string };
 
-  constructor(private PathHelper:PathHelperService) {
+  constructor(private PathHelper:PathHelperService,
+              private apiV3Service:APIV3Service) {
     this.detect();
   }
 
@@ -51,7 +53,7 @@ export class CurrentProjectService {
 
   public get apiv3Path():string|null {
     if (this.current) {
-      return this.PathHelper.api.v3.projects.id(this.current.id).toString();
+      return this.apiV3Service.projects.id(this.current.id).toString();
     }
 
     return null;

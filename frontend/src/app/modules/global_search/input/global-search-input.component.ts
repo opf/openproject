@@ -53,6 +53,7 @@ import {map, tap, take, filter} from "rxjs/internal/operators";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -115,6 +116,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
+              readonly apiV3Service:APIV3Service,
               readonly PathHelperService:PathHelperService,
               readonly halResourceService:HalResourceService,
               readonly globalSearchService:GlobalSearchService,
@@ -265,7 +267,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
     let hashFreeQuery = this.queryWithoutHash(query);
 
-    return this.fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
+    return this
+      .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
+      .get()
       .pipe(
         map((collection) => {
           return this.searchResultsToOptions(collection.elements, hashFreeQuery);
@@ -283,11 +287,10 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   private fetchSearchResults(query:string, idOnly:boolean) {
-    let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
-
-    return this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(href);
-
+    return this
+      .apiV3Service
+      .work_packages
+      .filterBySubjectOrId(query, idOnly);
   }
 
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {

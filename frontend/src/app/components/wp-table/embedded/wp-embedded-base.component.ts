@@ -6,13 +6,13 @@ import {
   WorkPackageTableConfigurationObject
 } from 'core-components/wp-table/wp-table-configuration';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
@@ -27,7 +27,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   protected initialized:boolean = false;
 
-  @InjectField() QueryDm:QueryDmService;
+  @InjectField() apiV3Service:APIV3Service;
   @InjectField() querySpace:IsolatedQuerySpace;
   @InjectField() I18n:I18nService;
   @InjectField() urlParamsHelper:UrlParamsHelperService;
@@ -84,8 +84,13 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
       pagination.offset = 1;
     }
 
-    const promise = this.QueryDm.loadResults(query, pagination)
-      .then((query) => this.wpStatesInitialization.updateQuerySpace(query, query.results));
+    const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
+    const promise =
+      this
+        .wpListService
+        .loadQueryFromExisting(query, params, this.queryProjectScope)
+        .toPromise()
+        .then((query) => this.wpStatesInitialization.updateQuerySpace(query, query.results));
 
     if (visible) {
       this.loadingIndicator = promise;

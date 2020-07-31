@@ -37,6 +37,7 @@ import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/help
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
@@ -52,7 +53,7 @@ export class UserAutocompleterComponent implements OnInit {
   @Input() public clearAfterSelection:boolean = false;
 
   // Load all users as default
-  @Input() public url:string = this.pathHelper.api.v3.users.path;
+  @Input() public url:string = this.apiV3Service.users.path;
   @Input() public allowEmpty:boolean = false;
   @Input() public appendTo:string = '';
   @Input() public multiple:boolean = false;
@@ -75,6 +76,7 @@ export class UserAutocompleterComponent implements OnInit {
               protected I18n:I18nService,
               protected halNotification:HalResourceNotificationService,
               readonly pathHelper:PathHelperService,
+              readonly apiV3Service:APIV3Service,
               readonly injector:Injector) {
   }
 

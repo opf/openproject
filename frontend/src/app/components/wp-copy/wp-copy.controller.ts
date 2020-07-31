@@ -64,8 +64,11 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
   protected createdWorkPackage() {
     this.copiedWorkPackageId = this.stateParams.copiedFromWorkPackageId;
     return new Promise<WorkPackageChangeset>((resolve, reject) => {
-      this.wpCacheService.loadWorkPackage(this.copiedWorkPackageId)
-        .values$()
+      this
+        .apiV3Service
+        .work_packages
+        .id(this.copiedWorkPackageId)
+        .get()
         .pipe(
           take(1)
         )
@@ -87,7 +90,12 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
       .then((copyChangeset:WorkPackageChangeset) => {
         this.__initialized_at = copyChangeset.pristineResource.__initialized_at;
 
-        this.wpCacheService.updateWorkPackage(copyChangeset.pristineResource);
+        this
+          .apiV3Service
+          .work_packages
+          .cache
+          .updateWorkPackage(copyChangeset.pristineResource, true);
+
         this.halEditing.updateValue('new', copyChangeset);
 
         return copyChangeset;

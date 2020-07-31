@@ -4,10 +4,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
-import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Apiv3ListParameters} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 const DISPLAYED_MEMBERS_LIMIT = 100;
 
@@ -29,18 +29,20 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   public membersAddable:boolean = false;
 
   constructor(readonly pathHelper:PathHelperService,
+              readonly apiV3Service:APIV3Service,
               readonly i18n:I18nService,
               protected readonly injector:Injector,
-              readonly membershipDm:MembershipDmService,
               readonly currentProject:CurrentProjectService,
               readonly cdr:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
   ngOnInit() {
-    this.membershipDm
+    this
+      .apiV3Service
+      .memberships
       .list(this.listMembersParams)
-      .then(collection => {
+      .subscribe(collection => {
         this.partitionEntriesByRole(collection.elements);
         this.sortUsersByName();
         this.totalMembers = collection.total;
@@ -49,14 +51,12 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
         this.cdr.detectChanges();
       });
 
-    this.membershipDm
-      .listAvailableProjects(this.listAvailableProjectsParams)
-      .then(collection => {
+    this.apiV3Service
+      .memberships
+      .available_projects
+      .list(this.listAvailableProjectsParams)
+      .subscribe(collection => {
         this.membersAddable = collection.total > 0;
-      })
-      .catch(() => {
-        // nothing bad, the user is just not allowed to add members to the project
-
       });
   }
 
@@ -96,7 +96,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   }
 
   public isGroup(principal:UserResource) {
-    return this.pathHelper.api.v3.groups.id(principal.id!).toString() === principal.href;
+    return this.apiV3Service.groups.id(principal.id!).toString() === principal.href;
   }
 
   private partitionEntriesByRole(memberships:MembershipResource[]) {
@@ -120,7 +120,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   }
 
   private get listMembersParams() {
-    let params:DmListParameter = { sortBy: [['created_on', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
+    let params:Apiv3ListParameters = { sortBy: [['created_on', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
 
     if (this.currentProject.id) {
       params['filters'] = [['project_id', '=', [this.currentProject.id]]];
@@ -132,7 +132,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   private get listAvailableProjectsParams() {
     // It would make sense to set the pageSize but the backend for projects
     // returns an upaginated list which does not support that.
-    let params:DmListParameter = {};
+    let params:Apiv3ListParameters = {};
 
     if (this.currentProject.id) {
       params['filters'] = [['id', '=', [this.currentProject.id]]];

@@ -125,11 +125,9 @@ import {ExternalRelationQueryConfigurationComponent} from "core-components/wp-ta
 import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
@@ -143,7 +141,6 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
@@ -195,7 +192,6 @@ import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribu
     ExternalRelationQueryConfigurationService,
 
     // Global work package states / services
-    WorkPackageCacheService,
     SchemaCacheService,
 
     // Global query/table state services
@@ -208,16 +204,11 @@ import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribu
     // Provide a separate service for creation events of WP Inline create
     // This can be hierarchically injected to provide isolated events on an embedded table
     WorkPackageRelationsService,
-    WorkPackageCacheService,
-    SchemaCacheService,
-
-    WorkPackageDmService,
 
     WorkPackagesActivityService,
     WorkPackageRelationsService,
     WorkPackageWatchersService,
 
-    QueryFormDmService,
     HalEventsService,
   ],
   declarations: [

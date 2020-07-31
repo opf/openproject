@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {Board} from "core-app/modules/boards/board/board";
-import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
@@ -10,15 +9,14 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
-import {StatusCacheService} from "core-components/statuses/status-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class BoardStatusActionService implements BoardActionService {
 
   constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
-              protected statusCache:StatusCacheService,
-              protected statusDm:StatusDmService) {
+              protected apiV3Service:APIV3Service) {
   }
 
   public get localizedName() {
@@ -50,7 +48,11 @@ export class BoardStatusActionService implements BoardActionService {
 
     if (href) {
       const id = HalResource.idFromLink(href);
-      return this.statusCache.require(id);
+      return this
+        .apiV3Service
+        .statuses.id(id)
+        .get()
+        .toPromise();
     } else {
       return Promise.resolve(undefined);
     }
@@ -131,8 +133,11 @@ export class BoardStatusActionService implements BoardActionService {
   }
 
   private getStatuses():Promise<StatusResource[]> {
-    return this.statusDm
-      .list()
+    return this
+      .apiV3Service
+      .statuses
+      .get()
+      .toPromise()
       .then(collection => collection.elements);
   }
 

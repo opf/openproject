@@ -29,9 +29,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UIRouterGlobals} from '@uirouter/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCacheService} from '../work-package-cache.service';
 import {randomString} from "core-app/helpers/random-string";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-subject',
@@ -43,14 +43,17 @@ export class WorkPackageSubjectComponent extends UntilDestroyedMixin implements 
   public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
 
   constructor(protected uiRouterGlobals:UIRouterGlobals,
-              protected wpCacheService:WorkPackageCacheService) {
+              protected apiV3Service:APIV3Service) {
     super();
   }
 
   ngOnInit() {
     if (!this.workPackage) {
-      this.wpCacheService.loadWorkPackage(this.uiRouterGlobals.params['workPackageId'])
-        .values$()
+      this
+        .apiV3Service
+        .work_packages
+        .id(this.uiRouterGlobals.params['workPackageId'])
+        .requireAndStream()
         .pipe(
           this.untilDestroyed()
         )

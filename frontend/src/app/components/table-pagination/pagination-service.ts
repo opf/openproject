@@ -41,6 +41,12 @@ export interface IPaginationOptions {
   optionsTruncationSize:number;
 }
 
+export interface PaginationObject {
+  pageSize:number;
+  offset:number;
+}
+
+
 @Injectable()
 export class PaginationService {
   private paginationOptions:IPaginationOptions;

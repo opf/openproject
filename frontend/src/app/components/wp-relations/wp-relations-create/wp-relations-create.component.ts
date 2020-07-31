@@ -1,6 +1,5 @@
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {Component, Input} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -30,8 +29,7 @@ export class WorkPackageRelationsCreateComponent {
   constructor(readonly I18n:I18nService,
               protected wpRelations:WorkPackageRelationsService,
               protected notificationService:WorkPackageNotificationService,
-              protected halEvents:HalEventsService,
-              protected wpCacheService:WorkPackageCacheService) {
+              protected halEvents:HalEventsService) {
   }
 
 

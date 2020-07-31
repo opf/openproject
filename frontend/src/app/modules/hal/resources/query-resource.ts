@@ -34,7 +34,7 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {QueryOrder} from "core-app/modules/hal/dm-services/query-order-dm.service";
+import {QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 export interface QueryResourceEmbedded {
   results:WorkPackageCollectionResource;

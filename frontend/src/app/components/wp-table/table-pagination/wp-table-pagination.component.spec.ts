@@ -42,7 +42,6 @@ import {OpenProject} from "core-app/globals/openproject";
 import {OpIcon} from "core-app/modules/common/icon/op-icon";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {ConfigurationDmService} from "core-app/modules/hal/dm-services/configuration-dm.service";
 
 function setupMocks(paginationService:PaginationService) {
   const options:IPaginationOptions = {
@@ -91,7 +90,6 @@ describe('wpTablePagination Directive', () => {
         WorkPackageViewPaginationService,
         HalResourceService,
         ConfigurationService,
-        ConfigurationDmService,
         IsolatedQuerySpace,
         I18nService
       ]

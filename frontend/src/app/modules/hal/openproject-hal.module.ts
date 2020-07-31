@@ -30,25 +30,8 @@ import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {initializeHalResourceConfig} from 'core-app/modules/hal/services/hal-resource.config';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
-import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
-import {PayloadDmService} from 'core-app/modules/hal/dm-services/payload-dm.service';
-import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
-import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
-import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
-import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
-import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
-import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
-import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
-import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
-import {NewsDmService} from './dm-services/news-dm.service';
-import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
-import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
-import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
-import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
 
@@ -61,23 +44,6 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
     { provide: ErrorHandler, useClass: HalAwareErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true },
-    ConfigurationDmService,
-    GridDmService,
-    HelpTextDmService,
-    MembershipDmService,
-    NewsDmService,
-    PayloadDmService,
-    ProjectDmService,
-    QueryDmService,
-    QueryOrderDmService,
-    QueryFormDmService,
-    RelationsDmService,
-    RootDmService,
-    TimeEntryDmService,
-    TypeDmService,
-    UserDmService,
-    StatusDmService,
-    VersionDmService,
     HalResourceNotificationService
   ]
 })

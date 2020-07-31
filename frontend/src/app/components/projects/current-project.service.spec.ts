@@ -35,8 +35,16 @@ describe('currentProject service', function() {
   let element:JQuery;
   let currentProject:CurrentProjectService;
 
+  let apiV3Stub:any = {
+    projects: {
+      id: (id:string) => {
+        return { toString: () => '/api/v3/projects/' + id };
+      }
+    }
+  };
+
   beforeEach(() => {
-    currentProject = new CurrentProjectService(new PathHelperService());
+    currentProject = new CurrentProjectService(new PathHelperService(), apiV3Stub);
   });
 
   describe('with no meta present', () => {

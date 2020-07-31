@@ -7,7 +7,6 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
@@ -15,22 +14,22 @@ import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {StateService} from "@uirouter/core";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {VersionCacheService} from "core-components/versions/version-cache.service";
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {FormsCacheService} from "core-components/forms/forms-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable()
 export class BoardVersionActionService implements BoardActionService {
 
+  private writable$:Promise<boolean>;
+
   constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
-              protected versionDm:VersionDmService,
-              protected versionCache:VersionCacheService,
+              protected apiv3Service:APIV3Service,
               protected currentProject:CurrentProjectService,
               protected halNotification:HalResourceNotificationService,
               protected state:StateService,
-              protected formCache:FormsCacheService,
               protected pathHelper:PathHelperService) {
   }
 
@@ -63,7 +62,10 @@ export class BoardVersionActionService implements BoardActionService {
 
     if (href) {
       const id = HalResource.idFromLink(href);
-      return this.versionCache.require(id);
+      return this
+        .apiv3Service
+        .versions.id(id)
+        .get().toPromise();
     } else {
       return Promise.resolve(undefined);
     }
@@ -76,9 +78,12 @@ export class BoardVersionActionService implements BoardActionService {
       return Promise.resolve(false);
     }
 
-    return this.formCache
-      .require(formLink)
-      .then((form:FormResource) => form.schema.version.writable);
+    if (!this.writable$) {
+      this.writable$ = query.results.createWorkPackage()
+        .then((form:FormResource) => form.schema.version.writable);
+    }
+
+    return this.writable$;
   }
 
   public addActionQueries(board:Board):Promise<Board> {
@@ -175,19 +180,27 @@ export class BoardVersionActionService implements BoardActionService {
       return Promise.resolve([]);
     }
 
-    return this.versionDm
-      .listForProject(this.currentProject.id)
+    return this
+      .apiv3Service
+      .projects
+      .id(this.currentProject.id!)
+      .versions
+      .get()
+      .toPromise()
       .then(collection => collection.elements);
   }
 
   private patchVersionStatus(version:VersionResource, newStatus:'open'|'closed'|'locked') {
-    this.versionDm
-      .patch(version, { status: newStatus })
-      .then((version) => {
-        this.versionCache.updateValue(version.id!, version);
+    this.apiv3Service
+      .versions
+      .id(version)
+      .patch({ status: newStatus })
+      .subscribe(
+        version => {
         this.state.go('.', {}, { reload: true });
-      })
-      .catch(error => this.halNotification.handleRawError(error));
+        },
+        error => this.halNotification.handleRawError(error)
+      );
   }
 
   private buildItemsForVersion(version:VersionResource):OpContextMenuItem[] {

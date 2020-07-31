@@ -34,7 +34,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardType} from "core-app/modules/boards/board/board";
 import {StateService} from "@uirouter/core";
 import {BoardService} from "core-app/modules/boards/board/board.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
@@ -71,7 +70,6 @@ export class NewBoardModalComponent extends OpModalComponent {
               readonly state:StateService,
               readonly boardService:BoardService,
               readonly boardActions:BoardActionsRegistryService,
-              readonly boardCache:BoardCacheService,
               readonly halNotification:HalResourceNotificationService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly I18n:I18nService) {
@@ -95,7 +93,6 @@ export class NewBoardModalComponent extends OpModalComponent {
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
-        this.boardCache.update(board);
         this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
       .catch((error:unknown) => {
