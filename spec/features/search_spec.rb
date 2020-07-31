@@ -87,8 +87,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
   def expect_range(a, b)
     (a..b).each do |n|
-      expect(page.body).to include("No. #{n} WP")
-      expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
+      expect(page).to have_content("No. #{n} WP")
+      expect(page).to have_selector("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
     end
   end
 
