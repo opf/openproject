@@ -24,7 +24,7 @@ el:
     attributes:
       work_package:
         position: "Θέση"
-        remaining_hours: "Υπολειπόμενες Ώρες"
+        remaining_hours: "Υπολειπόμενες ώρες"
         remaining_time: "Υπολειπόμενες ώρες"
         story_points: "Πόντοι Ιστορίας"
         backlogs_work_package_type: "Τύπος backlog"

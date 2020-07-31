@@ -24,7 +24,7 @@ tr:
     attributes:
       work_package:
         position: "Konum"
-        remaining_hours: "Kalan Saatler"
+        remaining_hours: "Kalan saat"
         remaining_time: "Kalan saat"
         story_points: "Hikaye Puanları"
         backlogs_work_package_type: "Bekleme listesi türü"
