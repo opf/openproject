@@ -246,14 +246,15 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
 
     if (visibly) {
-      this.loadingIndicator = promise.then((loadedQuery:QueryResource) => {
-        this.wpStatesInitialization.updateQuerySpace(loadedQuery, loadedQuery.results);
-        this.wpStatesInitialization.updateChecksum(loadedQuery, loadedQuery.results);
+      return this.loadingIndicator = promise.then((loadedQuery:QueryResource) => {
+        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
         return this.additionalLoadingTime();
       });
     }
 
-    return promise;
+    return promise.then((loadedQuery:QueryResource) => {
+      this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+    });
   }
 
   protected loadFirstPage():Promise<QueryResource> {
