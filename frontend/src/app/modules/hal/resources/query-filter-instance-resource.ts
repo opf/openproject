@@ -74,7 +74,11 @@ export class QueryFilterInstanceResource extends HalResource {
     let key = this.operator.href!.toString();
 
     if (this.memoizedCurrentSchemas[key] === undefined) {
-      this.memoizedCurrentSchemas[key] = this.schemaCache.of(this).resultingSchema(this.operator);
+      try {
+        this.memoizedCurrentSchemas[key] = this.schemaCache.of(this).resultingSchema(this.operator);
+      } catch(e) {
+        console.error("Failed to access filter schema" + e);
+      }
     }
 
     return this.memoizedCurrentSchemas[key];

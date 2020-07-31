@@ -62,6 +62,7 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     return this.halResourceService
       .post<QueryFormResource>(path, payload)
       .pipe(
+        tap(form => this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas)),
         map(form => [form, this.buildQueryResource(form)])
       );
   }
