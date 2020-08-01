@@ -78,7 +78,7 @@ de:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Diesem Feld hinzugefügten Texte und Bilder sind öffentlich für alle angemeldeten Benutzer sichtbar!'
     text_overview: 'In dieser Ansicht können Sie benutzerdefinierte Hilfe-Texte für Attribute definieren. Für Attribute mit hinterlegtem Text können diese über ein kleines Hilfe-Icon neben dem Attribut angezeigt werden.'
     label_plural: 'Hilfe-Texte für Attribute'
     show_preview: 'Vorschau des Hilfe-Textes'
@@ -1760,7 +1760,7 @@ de:
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Willkommen bei OpenProject. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
