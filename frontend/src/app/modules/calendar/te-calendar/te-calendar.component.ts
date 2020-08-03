@@ -331,10 +331,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
   }
 
-  private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('full-calendar');
-  }
-
   private dispatchEventClick(event:CalendarViewEvent) {
     if (event.event.extendedProps.entry) {
       this.editEvent(event.event.extendedProps.entry);

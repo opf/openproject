@@ -195,7 +195,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       { inherit: false });
   }
   private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('full-calendar');
+    return jQuery(this.element.nativeElement).find('.wp-calendar--container');
   }
 
   private calendarHeight():number {
