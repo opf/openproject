@@ -25,12 +25,12 @@ export class BoardSubprojectActionService extends BoardActionService {
     return SubprojectBoardHeaderComponent;
   }
 
-  // TODO need permission for user on subproject
   canMove(workPackage:WorkPackageResource):boolean {
-    return true;
+    // We can only move the work package
+    // if the `move` (move between projects) is allowed.
+    return !!workPackage.move;
   }
 
-  // TODO assign subproject to changeset
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
     const href = this.getActionValueHrefForColumn(query);
     changeset.setValue('project', { href: href });
@@ -42,7 +42,7 @@ export class BoardSubprojectActionService extends BoardActionService {
       this
         .apiV3Service
         .projects
-        .filtered(buildApiV3Filter('ancestor', '=', currentProjectId))
+        .filtered(buildApiV3Filter('ancestor', '=', [currentProjectId]))
         .get()
         .toPromise()
         .then((collection:CollectionResource<UserResource>) => collection.elements)
