@@ -111,7 +111,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
                         'bim.partitioned.show';
     // Passing the card param to the new state because the router doesn't keep
     // it when going to 'bim.partitioned.show'
-    const params = { workPackageId, cards, ...focus && {focus} };
+    const params = { workPackageId, cards, focus };
 
     this.$state.go(stateToGo, params);
   }
