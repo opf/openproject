@@ -43,7 +43,8 @@ export class WorkPackageFilterValues {
 
       // Avoid empty values
       if (value) {
-        this.setValueFor(filter.id, value);
+        let attributeName = this.mapFilterToAttribute(filter);
+        this.setValueFor(attributeName, value);
       }
     });
   }
@@ -94,5 +95,22 @@ export class WorkPackageFilterValues {
     }
 
     return false;
+  }
+
+  /**
+   * Some filter ids need to be mapped to a different attribute name
+   * in order to be processed correctly.
+   *
+   * @param filter The filter to map
+   * @returns An attribute name string to set
+   * @private
+   */
+  private mapFilterToAttribute(filter:any):string {
+    if (filter.id === 'onlySubproject') {
+      return 'project';
+    }
+
+    // Default to returning the filter id
+    return filter.id;
   }
 }
