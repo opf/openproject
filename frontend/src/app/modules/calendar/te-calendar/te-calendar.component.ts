@@ -33,6 +33,7 @@ import {ColorsService} from "core-app/modules/common/colors/colors.service";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {HalResourceNotificationService} from 'core-app/modules/hal/services/hal-resource-notification.service';
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -131,6 +132,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
               private timezone:TimezoneService,
               private timeEntryEdit:TimeEntryEditService,
               private timeEntryCreate:TimeEntryCreateService,
+              private schemaCache:SchemaCacheService,
               private colors:ColorsService,
               private browserDetector:BrowserDetector) {
   }
@@ -359,19 +361,23 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     // on the day before by fullcalendar.
     entry.spentOn = moment(event.event.end!).format('YYYY-MM-DD');
 
-
     this
-      .apiV3Service
-      .time_entries
-      .id(entry)
-      .patch(entry, entry.schema)
-      .subscribe(
-        event => this.updateEventSet(event, 'update'),
-        e => {
-          this.notifications.handleRawError(e);
-          event.revert();
-        }
-      );
+      .schemaCache
+      .ensureLoaded(entry)
+      .then(schema => {
+        this
+          .apiV3Service
+          .time_entries
+          .id(entry)
+          .patch(entry, schema)
+          .subscribe(
+            event => this.updateEventSet(event, 'update'),
+            e => {
+              this.notifications.handleRawError(e);
+              event.revert();
+            }
+          );
+      });
   }
 
   public addEventToday() {
