@@ -35,6 +35,7 @@ en:
       click_to_remove_list: "Click to remove this list"
       board_type:
         free: 'Basic board'
+        select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Create a board in which you can freely create lists and order your work packages within.
           Moving work packages between lists do not change the work package itself.

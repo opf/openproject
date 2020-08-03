@@ -63,6 +63,7 @@ export class NewBoardModalComponent extends OpModalComponent {
     action_board: this.I18n.t('js.boards.board_type.action'),
     action_board_text: this.I18n.t('js.boards.board_type.action_text'),
     select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
+    select_board_type: this.I18n.t('js.boards.board_type.select_board_type'),
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
@@ -109,5 +110,10 @@ export class NewBoardModalComponent extends OpModalComponent {
      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attribute )});
     return action_board_text;
   }
+  public addIcon(attribute:string) {
+    return {'icon-user': attribute === 'assignee',
+            'icon-workflow': attribute === 'status',
+            'icon-getting-started': attribute === 'version'
+    };
+  }
 }
-
