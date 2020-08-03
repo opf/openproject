@@ -22,23 +22,40 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module JournalFormatter
-  class Attribute < Base
-    private
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
-    def format_details(key, values)
-      label = label(key)
+describe OpenProject::JournalFormatter::ScheduleManually do
+  let(:klass) { described_class }
+  let(:id) { 1 }
+  let(:journal) do
+    OpenStruct.new(id: id, journable: WorkPackage.new)
+  end
+  let(:instance) { klass.new(journal) }
+  let(:key) { 'schedule_manually' }
 
-      old_value, value = *format_values(values)
+  describe '#render' do
+    describe 'with the first value being true, and the second false' do
+      let(:expected) do
+        I18n.t(:text_journal_label_value,
+               label: "<strong>Manual scheduling</strong>",
+               value: 'deactivated')
+      end
 
-      [label, old_value, value]
+      it { expect(instance.render(key, [true, false])).to eq(expected) }
     end
 
-    def format_values(values)
-      values.map { |v| v.try(:to_s) }
+    describe 'with the first value being false, and the second true' do
+      let(:expected) do
+        I18n.t(:text_journal_label_value,
+               label: "<strong>Manual scheduling</strong>",
+               value: 'activated')
+      end
+
+      it { expect(instance.render(key, [false, true])).to eq(expected) }
     end
   end
 end
