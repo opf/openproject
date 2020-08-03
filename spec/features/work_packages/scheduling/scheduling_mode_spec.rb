@@ -113,6 +113,9 @@ describe 'scheduling mode',
 
     work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
 
+    # Changing the scheduling mode is journalized
+    work_packages_page.expect_activity_message("Manual scheduling activated")
+
     expect_dates(wp, '2016-01-05', '2016-01-10')
     expect(wp.schedule_manually).to be_truthy
 

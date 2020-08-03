@@ -69,9 +69,14 @@ describe WorkPackage, type: :model do
           .to match_array [nil, work_package.project_id]
       end
 
-      it 'notes the description to project' do
+      it 'notes the description' do
         expect(Journal.first.details[:description])
           .to match_array [nil, work_package.description]
+      end
+
+      it 'notes the scheduling mode' do
+        expect(Journal.first.details[:schedule_manually])
+          .to match_array [nil, false]
       end
 
       it 'has the timestamp of the work package update time for created_at' do
@@ -173,6 +178,7 @@ describe WorkPackage, type: :model do
         work_package.assigned_to = User.current
         work_package.responsible = User.current
         work_package.parent = parent_work_package
+        work_package.schedule_manually = true
 
         work_package.save!
       end
@@ -183,7 +189,7 @@ describe WorkPackage, type: :model do
         it 'contains all changes' do
           %i(subject description type_id status_id priority_id
              start_date due_date estimated_hours assigned_to_id
-             responsible_id parent_id).each do |a|
+             responsible_id parent_id schedule_manually).each do |a|
             expect(subject).to have_key(a.to_s), "Missing change for #{a}"
           end
         end
@@ -213,6 +219,22 @@ describe WorkPackage, type: :model do
 
           context 'new value' do
             let(:expected_value) { 'changed' }
+
+            it_behaves_like 'new value'
+          end
+        end
+
+        context 'schedule_manually' do
+          let(:property) { 'schedule_manually' }
+
+          context 'old_value' do
+            let(:expected_value) { false }
+
+            it_behaves_like 'old value'
+          end
+
+          context 'new value' do
+            let(:expected_value) { true }
 
             it_behaves_like 'new value'
           end

@@ -22,23 +22,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module JournalFormatter
-  class Attribute < Base
-    private
+class OpenProject::JournalFormatter::ScheduleManually < JournalFormatter::Base
+  def render(key, values, options = { no_html: false })
+    label_text = options[:no_html] ? label(key) : content_tag('strong', label(key))
+    activated_text = values.last ? I18n.t('scheduling.activated') : I18n.t('scheduling.deactivated')
 
-    def format_details(key, values)
-      label = label(key)
-
-      old_value, value = *format_values(values)
-
-      [label, old_value, value]
-    end
-
-    def format_values(values)
-      values.map { |v| v.try(:to_s) }
-    end
+    I18n.t(:text_journal_label_value, label: label_text, value: activated_text)
   end
 end
