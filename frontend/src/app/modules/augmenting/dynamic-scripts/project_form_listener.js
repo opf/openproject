@@ -104,7 +104,20 @@
       });
     }
 
+    function observeTemplateChanges() {
+      jQuery('#project-select-template').on('change', function() {
+        let templateSelected = $(this).val() !== '';
+        let settings = $('#advanced-settings');
+
+        settings
+          .toggle(!templateSelected)
+          .find('input:not(#project_identifier), select, textarea')
+          .prop('disabled', templateSelected);
+      });
+    }
+
     observeProjectIdentifier();
     observeProjectName();
+    observeTemplateChanges();
   });
 }(jQuery));

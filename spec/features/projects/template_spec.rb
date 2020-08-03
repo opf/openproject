@@ -77,13 +77,12 @@ describe 'Project templates', type: :feature, js: true do
       visit new_project_path
 
       fill_in 'project[name]', with: 'Foo bar'
-      select 'My template', from: 'Use template'
-      click_on 'Advanced settings'
-      fill_in 'project[identifier]', with: 'foo'
 
-      # Fill status
-      select 'On track', from: 'Status'
-      status_description.click_and_type_slowly 'Status is OKAYDOKEY'
+      expect(page).to have_selector('#advanced-settings', visible: true, text: 'ADVANCED SETTINGS')
+
+      # Choosing template hides advanced settings
+      select 'My template', from: 'project-select-template'
+      expect(page).to have_no_selector('#advanced-settings', visible: true, text: 'ADVANCED SETTINGS')
 
       sleep 1
       click_on 'Create'
@@ -101,15 +100,13 @@ describe 'Project templates', type: :feature, js: true do
 
       expect(mail).not_to be_nil
 
-      expect(page).to have_current_path '/projects/foo/', wait: 20
+      expect(page).to have_current_path '/projects/foo-bar/', wait: 20
 
-      project = Project.find_by identifier: 'foo'
+      project = Project.find_by identifier: 'foo-bar'
       expect(project.name).to eq 'Foo bar'
       expect(project).not_to be_templated
       expect(project.users.first).to eq current_user
       expect(project.enabled_module_names.sort).to eq(template.enabled_module_names.sort)
-      expect(project.status.code).to eq 'on_track'
-      expect(project.status.explanation).to eq 'Status is OKAYDOKEY'
 
       wp_source = template.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])
       wp_target = project.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])
