@@ -305,6 +305,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), 'h').format(),
       classNames: DAY_SUM_CLASS_NAME,
       rendering: 'background' as 'background',
+      startEditable: false,
       sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) })
     };
   }
@@ -445,7 +446,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
   private appendSum(event:CalendarViewEvent) {
     if (event.event.extendedProps.sum) {
-      event.el.append(event.event.extendedProps.sum);
+      event.el.innerHTML = event.event.extendedProps.sum;
     }
   }
 
@@ -469,7 +470,13 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private prependDuration(event:CalendarViewEvent) {
-    let formattedDuration = this.timezone.formattedDuration(event.event.extendedProps.entry.hours);
+    let timeEntry = event.event.extendedProps.entry;
+
+    if (this.timezone.toHours(timeEntry.hours) < 0.5) {
+      return;
+    }
+
+    let formattedDuration = this.timezone.formattedDuration(timeEntry.hours);
 
     jQuery(event.el)
       .find('.fc-event-title')
