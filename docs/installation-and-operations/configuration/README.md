@@ -113,7 +113,14 @@ You can override this behavior by setting `gravatar_fallback_image` to a differe
 
 For supported values, please see https://en.gravatar.com/site/implement/images/
 
-### attachments storage
+
+### Attachments storage
+
+You can modify the folder that attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get ATTACHMENTS_STORAGE_PATH`.
+
+To update the path, use `openproject config:set ATTACHMENTS_STORAGE_PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user.
+
+### attachment storage type
 
 *default: file*
 
