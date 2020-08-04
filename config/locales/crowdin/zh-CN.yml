@@ -486,7 +486,7 @@ zh-CN:
         parent_work_package: "父"
         priority: "优先级"
         progress: "进度 (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "已耗时间"
         spent_time: "已耗时间"
         subproject: "子项目"
@@ -2068,6 +2068,9 @@ zh-CN:
     url: "版本的 URL"
     warnings:
       cannot_annotate: "此文件不能进行注释。"
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "搜索"
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
@@ -2263,6 +2266,7 @@ zh-CN:
   text_journal_deleted_with_diff: "%{label} 已删除 (%{link})"
   text_journal_set_to: "%{label} 设置为 %{value}"
   text_journal_set_with_diff: "%{label} 设置 (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "最新的注释是: %{note}"
   text_length_between: "长度介于 %{min} 和 %{max} 个字符。"
   text_line_separated: "允许有多个值 （每行一个值）。"

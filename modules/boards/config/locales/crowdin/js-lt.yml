@@ -31,6 +31,7 @@ lt:
       error_permission_missing: "Trūksta teisių kurti viešas užklausas"
       click_to_remove_list: "Spustelėkite sąrašo ištrynimui"
       board_type:
+        text: 'Lentos tipas'
         free: 'Paprasta lenta'
         free_text: >
           Sukurkite lentą, kurioje galėsite laisvai kurti sąrašus, o juose rikiuoti darbų paketus. Darbo paketo perkėlimas tarp sąrašų visiškai nekeis darbo paketo.

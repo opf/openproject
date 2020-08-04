@@ -496,7 +496,7 @@ ar:
         parent_work_package: "الجذر"
         priority: "الأولوية"
         progress: "التقدم (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "الوقت المستهلك"
         spent_time: "الوقت المستهلك"
         subproject: "مشروع فرعي"
@@ -2179,6 +2179,9 @@ ar:
     url: "عنوان URL للمستودع"
     warnings:
       cannot_annotate: "هذا الملف لا يمكن أن يشرح."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "بحث..."
   setting_email_delivery_method: "طريقة تسليم البريد الإلكتروني"
   setting_sendmail_location: "موقع إرسال بريد إلكتروني قابل للتنفيذ"
@@ -2374,6 +2377,7 @@ ar:
   text_journal_deleted_with_diff: "%{label} تم حذفه (%{link})"
   text_journal_set_to: "%{label} تعيين إلى %{value}"
   text_journal_set_with_diff: "%{label} تم تعيينه إلى (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "التعليق الأخير هو: %{note}"
   text_length_between: "الطول بين %{min} و %{max} محارف."
   text_line_separated: "القيم المتعددة المسموح بها (سطر واحد لكل قيمة)."

@@ -31,6 +31,7 @@ hu:
       error_permission_missing: "Nincs jogosultság a publikus lekérdezés létrehozásához"
       click_to_remove_list: "Kattints a lista eltávolításához"
       board_type:
+        text: 'Tábla típus'
         free: 'Alap tábla'
         free_text: >
           Hozzon létre egy táblát, amelyben szabadon létrehozhat listákat, és megrendelheti a munkacsomagokat. A munkacsomagok listák közötti mozgatása nem változtatja meg a munkacsomagot.

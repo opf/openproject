@@ -31,6 +31,7 @@ ko:
       error_permission_missing: "공용 쿼리를 만들 수 있는 권한이 없습니다"
       click_to_remove_list: "이 목록을 제거하려면 클릭"
       board_type:
+        text: '보드 유형'
         free: '기본 보드'
         free_text: >
           자유롭게 목록을 만들고 작업 패키지를 주문할 수 있는 보드를 생성하십시오. 목록 간에 작업 패키지를 이동해도 작업 패키지 자체는 변경되지 않습니다.

@@ -489,7 +489,7 @@ el:
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
@@ -2093,6 +2093,9 @@ el:
     url: "URL σε αποθετήριο"
     warnings:
       cannot_annotate: "Αυτό το αρχείο δεν μπορεί να σχολιαστεί."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Αναζήτηση ..."
   setting_email_delivery_method: "Μέθοδος αποστολής email"
   setting_sendmail_location: "Τοποθεσία του εκτελέσιμου sendmail"
@@ -2289,6 +2292,7 @@ el:
   text_journal_deleted_with_diff: "Το %{label} διαγράφηκε (%{link})"
   text_journal_set_to: "Το %{label} ορίστηκε σε %{value}"
   text_journal_set_with_diff: "Το %{label} ορίστηκε (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Το πιο πρόσφατο σχόλιο είναι: %{note}"
   text_length_between: "Μήκος μεταξύ %{min} και %{max} χαρακτήρων."
   text_line_separated: "Επιτρέπονται πολλαπλές τιμές (μία γραμμή για κάθε τιμή)."

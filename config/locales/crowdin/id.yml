@@ -490,7 +490,7 @@ id:
         parent_work_package: "Induk"
         priority: "Prioritas"
         progress: "Progress (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Durasi"
         spent_time: "Durasi"
         subproject: "Sub-Project"
@@ -2073,6 +2073,9 @@ id:
     url: "URL repositori"
     warnings:
       cannot_annotate: "This file cannot be annotated."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Mencari ..."
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
@@ -2268,6 +2271,7 @@ id:
   text_journal_deleted_with_diff: "%{label} telah dihapus menjadi (%{link})"
   text_journal_set_to: "%{label} diset menjadi %{value}"
   text_journal_set_with_diff: "set %{label} (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "The latest comment is: %{note}"
   text_length_between: "Panjang antara %{min} dan %{max} karakter."
   text_line_separated: "Jika ada beberapa nilai, satu baris untuk tiap nilai."

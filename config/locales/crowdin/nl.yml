@@ -492,7 +492,7 @@ nl:
         parent_work_package: "Bovenliggend werkpakket"
         priority: "Prioriteit"
         progress: "Voortgang (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"
         subproject: "Subproject"
@@ -2096,6 +2096,9 @@ nl:
     url: "URL van de repository"
     warnings:
       cannot_annotate: "Dit bestand kan niet geannoteerd worden."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Zoeken ..."
   setting_email_delivery_method: "Kies verzendmethode"
   setting_sendmail_location: "Locatie van het uitvoerbare sendmail"
@@ -2291,6 +2294,7 @@ nl:
   text_journal_deleted_with_diff: "%{label} verwijderd (%{link})"
   text_journal_set_to: "%{label} ingesteld op %{value}"
   text_journal_set_with_diff: "%{label} ingesteld (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "De laatste opmerking is: %{note}"
   text_length_between: "Lengte tussen %{min} en %{max} karakters."
   text_line_separated: "Meerdere waarden toegestaan (één regel voor elke waarde)."

@@ -31,6 +31,7 @@ sl:
       error_permission_missing: "Ni dovoljenja za izdelavo javnih poizvedb"
       click_to_remove_list: "Kliknite za izbris seznama"
       board_type:
+        text: 'Vrsta table'
         free: 'Osnovna tabela'
         free_text: >
           Ustvarite tablo, v kateri lahko prosto ustvarite sezname in naročite svoje delovne pakete. Premikanje delovnih paketov med seznami ne spremeni samega delovnega paketa.

@@ -489,7 +489,7 @@ lt:
         parent_work_package: "Tėvas"
         priority: "Pirmenybė"
         progress: "Progresas (%)"
-        schedule_manually: "Paskirti laiką rankiniu būdu"
+        schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
         subproject: "Sub-projektas"
@@ -2132,6 +2132,9 @@ lt:
     url: "URL į repozitoriją"
     warnings:
       cannot_annotate: "Šis failas negali turėti pastabų."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Paieška..."
   setting_email_delivery_method: "El. pašto pristatymo metodas"
   setting_sendmail_location: "Sendmail vykdomojo failo lokacija"
@@ -2327,6 +2330,7 @@ lt:
   text_journal_deleted_with_diff: "%{label} ištrintas (%{link})"
   text_journal_set_to: "%{label} nustatytas į %{value}"
   text_journal_set_with_diff: "%{label} pasikeitė (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Paskutinis komentaras: %{note}"
   text_length_between: "Ilgis tarp %{min} ir %{max} simbolių."
   text_line_separated: "Galimos kelios reikšmės (viena eilutė vienai reikšmei)."

@@ -493,7 +493,7 @@ vi:
         parent_work_package: "Cha"
         priority: "Độ ưu tiên"
         progress: "Progress (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Thời gian"
         spent_time: "Thời gian"
         subproject: "Dự án con"
@@ -2078,6 +2078,9 @@ vi:
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
   setting_email_delivery_method: "Cách gửi email"
   setting_sendmail_location: "Vị trí của tệp thực thi sendmail (đường dẫn)"
@@ -2273,6 +2276,7 @@ vi:
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "The latest comment is: %{note}"
   text_length_between: "Length between %{min} and %{max} characters."
   text_line_separated: "Multiple values allowed (one line for each value)."

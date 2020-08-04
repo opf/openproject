@@ -494,7 +494,7 @@ uk:
         parent_work_package: "Джерело"
         priority: "Пріоритет"
         progress: "Прогрес (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
         subproject: "Підпроект"
@@ -2139,6 +2139,9 @@ uk:
     url: "URL-адреса до сховища "
     warnings:
       cannot_annotate: "Цей файл не може бути анотований."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Пошук ..."
   setting_email_delivery_method: "Спосіб доставки електронної пошти"
   setting_sendmail_location: "Розташування виконуваного файлу sendmail"
@@ -2334,6 +2337,7 @@ uk:
   text_journal_deleted_with_diff: "%{label} видалено (%{link})"
   text_journal_set_to: "Параметр %{label} змінився на %{value}"
   text_journal_set_with_diff: "%{label} встановлено (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Останній коментар: %{note}"
   text_length_between: "Довжина між %{min} і %{max} символів."
   text_line_separated: "Дозволено кілька значень (по одному значенню в рядок)."

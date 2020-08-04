@@ -31,6 +31,7 @@ zh-CN:
       error_permission_missing: "缺少创建公共查询的权限"
       click_to_remove_list: "点击以移除此列表"
       board_type:
+        text: '面板类型'
         free: '基本面板'
         free_text: >
           创建一个可在其中自由创建列表和订购工作包的面板。在列表之间移动工作包不会更改工作包本身。
