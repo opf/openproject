@@ -30,8 +30,10 @@ import {AbstractWorkPackageButtonComponent} from '../wp-buttons.module';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
-const screenfull:any = require('screenfull/dist/screenfull.js');
+import * as sfimport from "screenfull";
+import {Screenfull} from "screenfull";
 
+const screenfull:Screenfull = sfimport as any;
 export const zenModeComponentSelector = 'zen-mode-toggle-button';
 
 @Component({
@@ -56,6 +58,7 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
     this.activateLabel = I18n.t('js.zen_mode.button_activate');
     this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
     let self = this;
+
 
     if (screenfull.enabled) {
       screenfull.onchange(function() {

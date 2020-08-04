@@ -42,18 +42,17 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {Observable, of} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {map, tap, take, filter} from "rxjs/internal/operators";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {filter, map, take, tap} from "rxjs/operators";
+import {APIV3Service} from "../../apiv3/api-v3.service";
 
 export const globalSearchSelector = 'global-search-input';
 

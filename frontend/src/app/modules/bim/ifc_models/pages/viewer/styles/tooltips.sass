@@ -3,7 +3,11 @@
 .xeokit-toolbar [data-tippy-content]
   @extend .tooltip--bottom
   &:after
-    @extend [data-tooltip]:after
+    position: absolute
+    visibility: hidden
+    z-index: 99999
+    box-sizing: content-box
+    transform: translate3d(0, 0, 0)
     content: attr(data-tippy-content)
     opacity: 1
     left: 0

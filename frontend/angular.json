@@ -12,6 +12,23 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "core-app/init-vendors",
+              "core-app/init-globals",
+              "dom-plane",
+              "pako",
+              "moment-timezone",
+              "observable-array",
+              "dragula",
+              "jquery",
+              "contra/emitter",
+              "crossvent",
+              "chart.js",
+              "create-point-cb",
+              "core-vendor/enjoyhint",
+              "tablesorter",
+              "chartjs-plugin-datalabels"
+            ],
             "preserveSymlinks": true,
             "aot": true,
             "deployUrl": "/assets/frontend/",
@@ -29,7 +46,7 @@
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",
               "node_modules/jquery-ui/themes/base/dialog.css",
-              "node_modules/@fullcalendar/core/main.css",
+              "node_modules/@fullcalendar/common/main.css",
               "node_modules/@fullcalendar/daygrid/main.css",
               "node_modules/@fullcalendar/timegrid/main.css",
               "node_modules/flatpickr/dist/flatpickr.min.css"
@@ -116,38 +133,13 @@
           }
         }
       }
-    },
-    "OpenProject-e2e": {
-      "root": "",
-      "sourceRoot": "",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "OpenProject:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
     }
   },
   "defaultProject": "OpenProject",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "css"
+      "style": "css"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

@@ -78,4 +78,5 @@ require('urijs/src/URITemplate');
 require("expose-loader?I18n!core-vendor/i18n");
 
 // Localization for fullcalendar
-require("@fullcalendar/core/locales-all.min");
+require("@fullcalendar/core/locales-all");
+

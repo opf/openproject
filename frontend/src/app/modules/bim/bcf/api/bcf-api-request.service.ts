@@ -2,7 +2,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {Injector} from "@angular/core";
 import {TypedJSON} from "typedjson";
 import {Constructor} from "@angular/cdk/table";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {
   HTTPClientHeaders,
   HTTPClientOptions,
@@ -11,7 +11,6 @@ import {
 } from "core-app/modules/hal/http/http.interfaces";
 import {URLParamsEncoder} from "core-app/modules/hal/services/url-params-encoder";
 import {catchError, map} from "rxjs/operators";
-import {throwError} from "rxjs/internal/observable/throwError";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class BcfApiRequestService<T> {

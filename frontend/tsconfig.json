@@ -1,43 +1,17 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-  "compilerOptions": {
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "outDir": "./dist/out-tsc",
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "noEmitOnError": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    // Increase strictness
-    // Enable strict once "use strict" errors can be resolved
-    // "strict": true;
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
-//    "strictFunctionTypes": true,
-    // Causes lots of errors in linked angularjs properties
-//    "strictPropertyInitialization": false,
-    "noFallthroughCasesInSwitch": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true,
-    "baseUrl": "./src/",
-    "typeRoots": [
-      "node_modules/@types",
-      "src/types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "paths": {
-      "@ng-select/ng-select": ["../node_modules/@ng-select/ng-select/"],
-      "core-app/*": ["./app/*"],
-      "core-components/*": ["./app/components/*"],
-      "core-vendor/*": ["./vendor/*"]
+  "files": [],
+  "references": [
+    {
+      "path": "./src/tsconfig.app.json"
+    },
+    {
+      "path": "./src/tsconfig.spec.json"
     }
-  },
-  "compileOnSave": false
+  ]
 }

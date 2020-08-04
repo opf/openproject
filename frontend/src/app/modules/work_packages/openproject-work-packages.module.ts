@@ -425,7 +425,7 @@ export class OpenprojectWorkPackagesModule {
   // The static property prevents running the function
   // multiple times. This happens e.g. when the module is included
   // into a plugin's module.
-  public static bootstrapAttributeGroups(injector:Injector) {
+  public static bootstrapAttributeGroups(injector:Injector):void {
     if (this.bootstrapAttributeGroupsCalled) {
       return;
     }
