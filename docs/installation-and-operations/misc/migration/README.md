@@ -19,6 +19,10 @@ This guide should leave you with a set of archives that you should manually move
 
 The following steps outline the migration process to the OpenProject package (possibly, a newer version).
 
+## Stop OpenProject on old server
+
+To stop the servers from being accessed on the old installation, stop the service with `service openproject stop` or `systemctl stop openproject` depending on your distribution.
+
 ## Install new package
 
 Follow the first step (**Installation**) of our packaged installation guides at https://www.openproject.org/download-and-installation/.
@@ -54,7 +58,7 @@ openproject config:get DATABASE_URL
 #=> e.g.: postgres://dbusername:dbpassword@dbhost:dbport/dbname
 ```
 
-First the dump has to be extracted (unzipped) and then restored. The command used should look very similar to this:
+First the dump has to be extracted (unzipped) and then restored. The command used should look very similar to the following. The `--clean` option is used to drop any database object within `<dbname>` so ensure this is the correct database you want to restore, as you will lose all data within it!
 
 ```
 # Restore the PostgreSQL dump
