@@ -99,6 +99,10 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       );
   }
 
+  filtered<R = APIv3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:{ [p:string]:string } = {}):R {
+    return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as any;
+  }
+
   /**
    * Shortcut to filter work packages by subject or ID
    * @param term
@@ -119,7 +123,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       pageSize: '10'
     };
 
-    return this.filtered(filters, params, ApiV3WorkPackageCachedSubresource);
+    return this.filtered(filters, params);
   }
 
   /**
@@ -137,8 +141,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       pageSize: '10'
     };
 
-    return this
-      .filtered(filters, params, ApiV3WorkPackageCachedSubresource);
+    return this.filtered(filters, params);
   }
 
   /**

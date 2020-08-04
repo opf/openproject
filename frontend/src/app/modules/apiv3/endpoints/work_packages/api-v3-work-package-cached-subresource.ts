@@ -38,12 +38,12 @@ import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.servic
 import {tap} from "rxjs/operators";
 import {WorkPackageCache} from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
 
-export class ApiV3WorkPackageCachedSubresource extends APIv3ResourcePath<WorkPackageCollectionResource> {
+export class ApiV3WorkPackageCachedSubresource extends APIv3GettableResource<WorkPackageCollectionResource> {
 
-  public get() {
+  public get():Observable<WorkPackageCollectionResource> {
     return this
       .halResourceService
-      .get(this.path)
+      .get<WorkPackageCollectionResource>(this.path)
       .pipe(
         tap(collection => this.cache.updateWorkPackageList(collection.elements))
       );
