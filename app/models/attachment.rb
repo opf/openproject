@@ -100,7 +100,7 @@ class Attachment < ApplicationRecord
 
   # images are sent inline
   def inlineable?
-    is_plain_text? || is_image?
+    is_plain_text? || is_image? || is_pdf?
   end
 
   def is_plain_text?
