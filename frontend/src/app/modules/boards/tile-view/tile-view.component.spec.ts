@@ -3,7 +3,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TileViewComponent } from './tile-view.component';
 
-fdescribe('shows tiles', () => {
+describe('shows tiles', () => {
   let app:TileViewComponent;
   let fixture:ComponentFixture<TileViewComponent>;
   let element:DebugElement;
