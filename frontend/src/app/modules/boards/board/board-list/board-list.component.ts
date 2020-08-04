@@ -148,7 +148,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               readonly schemaCache:SchemaCacheService,
               readonly boardService:BoardService,
               readonly boardActionRegistry:BoardActionsRegistryService,
-              readonly causedUpdates:CausedUpdatesService) {
+              readonly causedUpdates:CausedUpdatesService,
+              readonly $state:StateService) {
     super(I18n, injector);
   }
 
@@ -476,6 +477,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       );
     }
   }
+
+  openStateLink(event:{ workPackageId:string; requestedState:string }) {
+    const params = { workPackageId: event.workPackageId };
+
+    this.$state.go(event.requestedState, params);
+  }
+
   private schema(workPackage:WorkPackageResource) {
     return this.schemaCache.of(workPackage);
   }
