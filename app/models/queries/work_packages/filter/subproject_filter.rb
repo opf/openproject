@@ -36,10 +36,8 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
     end
   end
 
-  def available_operators
-    all_and_none = [::Queries::Operators::All, ::Queries::Operators::None]
-
-    all_and_none + (super - all_and_none)
+  def default_operator
+    ::Queries::Operators::All
   end
 
   def available?
