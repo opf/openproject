@@ -28,19 +28,19 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'cost eager loading', type: :model do
+describe ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eager loading', type: :model do
   let(:project) do
     work_package.project
   end
   let(:role) do
     FactoryBot.create(:role,
-                      permissions: [:view_work_packages,
-                                    :view_cost_entries,
-                                    :view_cost_rates,
-                                    :view_time_entries,
-                                    :log_time,
-                                    :log_costs,
-                                    :view_hourly_rates])
+                      permissions: %i[view_work_packages
+                                      view_cost_entries
+                                      view_cost_rates
+                                      view_time_entries
+                                      log_time
+                                      log_costs
+                                      view_hourly_rates])
   end
   let(:user) do
     FactoryBot.create(:user,
@@ -92,18 +92,11 @@ describe WorkPackage, 'cost eager loading', type: :model do
 
   context "combining core's and cost's eager loading" do
     let(:scope) do
-      scope = WorkPackage
-              .include_spent_hours(user)
-              .select('work_packages.*')
-              .where(id: [work_package.id])
-
-      OpenProject::Costs::Patches::WorkPackageEagerLoadingPatch.join_costs(scope)
+      API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap([work_package.id], user)
     end
 
     before do
-      allow(User)
-        .to receive(:current)
-        .and_return(user)
+      login_as(user)
 
       user_rates
       project.reload
@@ -113,8 +106,6 @@ describe WorkPackage, 'cost eager loading', type: :model do
       time_entry1
       time_entry2
     end
-
-    subject { scope.first }
 
     it 'correctly calculates spent time' do
       expect(scope.to_a.first.hours).to eql time_entry1.hours + time_entry2.hours

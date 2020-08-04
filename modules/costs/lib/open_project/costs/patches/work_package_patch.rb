@@ -47,7 +47,7 @@ module OpenProject::Costs::Patches
           association = journable.class.reflect_on_association(field.to_sym)
           if association
             record = association.class_name.constantize.find_by_id(value.to_i)
-            record.subject if record
+            record&.subject
           end
         end
 
@@ -111,11 +111,11 @@ module OpenProject::Costs::Patches
 
     module InstanceMethods
       def costs_enabled?
-        project && project.costs_enabled?
+        project&.costs_enabled?
       end
 
       def cost_reporting_enabled?
-        project && project.cost_reporting_enabled?
+        project&.cost_reporting_enabled?
       end
 
       def validate_cost_object
@@ -149,9 +149,7 @@ module OpenProject::Costs::Patches
       # Wraps the association to get the Cost Object subject.  Needed for the
       # Query and filtering
       def cost_object_subject
-        unless cost_object.nil?
-          return cost_object.subject
-        end
+        cost_object&.subject
       end
 
       def update_costs!

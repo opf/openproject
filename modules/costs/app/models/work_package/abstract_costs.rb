@@ -91,7 +91,7 @@ class WorkPackage
     ##
     # Narrows down the query to only include costs visible to the user.
     #
-    # @param [ActiveRecord::QueryMethods] Some query.
+    # @param [ActiveRecord::QueryMethods] scope Some query.
     # @return [ActiveRecord::QueryMethods] The filtered query.
     def filter_authorized(scope)
       scope # allow all
@@ -108,11 +108,13 @@ class WorkPackage
     def sum_subselect(base_scope)
       base_scope
         .dup
+        .left_join_self_and_descendants(user)
         .except(:select)
         .select("#{costs_sum} AS #{costs_sum_alias}")
         .select(wp_table[:id])
         .arel
-        .outer_join(ce_table).on(ce_table_join_condition)
+        .outer_join(ce_table)
+        .on(ce_table_join_condition)
         .group(wp_table[:id])
     end
 
@@ -121,6 +123,8 @@ class WorkPackage
     end
 
     def wp_table_descendants
+      # Relies on a table called descendants to exist in the scope
+      # which is provided by left_join_self_and_descendants
       wp_table.alias 'descendants'
     end
 
@@ -132,8 +136,6 @@ class WorkPackage
       authorization_scope = filter_authorized costs_model.all
       authorization_where = authorization_scope.arel.ast.cores.last.wheres.last
 
-      # relies on the scope having the wp descendants joined at least
-      # when #to_sql is called.
       ce_table[:work_package_id].eq(wp_table_descendants[:id]).and(authorization_where)
     end
 

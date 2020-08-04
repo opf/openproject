@@ -28,37 +28,52 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# This patch is needed for eager loading spent hours for a bunch of work
-# packages. The WorkPackage.include_spent_hours(user) method adds an additional
-# attribute to the result set. As such 'virtual' attributes are not added to
-# the model on instantiation (see: https://github.com/rails/rails/issues/15185)
-# this patch has been added which is based on
-# https://github.com/rails/rails/issues/15185#issuecomment-142230234
+class WorkPackages::Scopes::IncludeSpentTime
+  class << self
+    def fetch(user, work_package = nil)
+      query = join_time_entries(user)
 
-module OpenProject::Patches
-  module ActiveRecordJoinPartPatch
-    def instantiate(row, aliases)
-      if base_klass == WorkPackage && row.has_key?('hours')
-        aliases_with_hours = aliases + [
-          ActiveRecord::Associations::JoinDependency::Aliases::Column.new('hours', 'hours')
-        ]
+      scope = WorkPackage
+              .left_join_self_and_descendants(user, work_package)
+              .joins(query.join_sources)
+              .group(:id)
+              .select('SUM(time_entries.hours) AS hours')
 
-        super(row, aliases_with_hours)
+      if work_package
+        scope.where(id: work_package.id)
       else
-        super(row, aliases)
+        scope
       end
     end
-  end
-end
 
-require 'active_record'
+    protected
 
-module ActiveRecord
-  module Associations
-    class JoinDependency
-      JoinBase && class JoinPart
-                    prepend OpenProject::Patches::ActiveRecordJoinPartPatch
-                  end
+    def join_time_entries(user)
+      join_condition = time_entries_table[:work_package_id]
+                       .eq(wp_descendants[:id])
+                       .and(allowed_to_view_time_entries(user))
+
+      wp_table
+        .outer_join(time_entries_table)
+        .on(join_condition)
+    end
+
+    def allowed_to_view_time_entries(user)
+      time_entries_table[:id].in(TimeEntry.visible(user).select(:id).arel)
+    end
+
+    def wp_table
+      @wp_table ||= WorkPackage.arel_table
+    end
+
+    def wp_descendants
+      # Relies on a table called descendants to exist in the scope
+      # which is provided by left_join_self_and_descendants
+      @wp_descendants ||= wp_table.alias('descendants')
+    end
+
+    def time_entries_table
+      @time_entries_table ||= TimeEntry.arel_table
     end
   end
 end
