@@ -51,6 +51,7 @@ import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board
 import {BoardListContainerComponent} from "core-app/modules/boards/board/board-partitioned-page/board-list-container.component";
 import {BoardsMenuButtonComponent} from "core-app/modules/boards/board/toolbar-menu/boards-menu-button.component";
 import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
+import {SubprojectBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/subproject/subproject-board-header.component";
 
 @NgModule({
   imports: [
@@ -86,6 +87,7 @@ import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-
     BoardFilterComponent,
     VersionBoardHeaderComponent,
     AssigneeBoardHeaderComponent,
+    SubprojectBoardHeaderComponent,
   ]
 })
 export class OpenprojectBoardsModule {

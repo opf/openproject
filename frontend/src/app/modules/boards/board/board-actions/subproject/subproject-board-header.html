@@ -1,0 +1,10 @@
+<div class="subproject-board-header" *ngIf="resource">
+  <h2 class="editable-toolbar-title--fixed">
+    <small [textContent]="text.project"></small>
+    <br/>
+    <a [href]="pathHelper.projectPath(resource.idFromLink)"
+       [textContent]="resource.name"
+       target="_blank">
+    </a>
+  </h2>
+</div>

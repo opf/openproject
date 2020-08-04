@@ -238,11 +238,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public canMove(workPackage:WorkPackageResource) {
-    if (this.board.isAction) {
-      return this.canDragOutOf && this.schema(workPackage).isAttributeEditable(this.board.actionAttribute!);
-    } else {
-      return this.canDragOutOf;
-    }
+    return this.canDragOutOf && (!this.actionService || this.actionService.canMove(workPackage));
   }
 
   public get canReference() {
@@ -336,7 +332,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return;
     }
 
-    const id = this.actionService.getFilterHref(query);
+    let actionService = this.actionService!;
+    const id = actionService.getActionValueHrefForColumn(query);
 
     // Test if we loaded the resource already
     if (this.actionResource && id === this.actionResource.href) {
@@ -344,14 +341,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     // Load the resource
-    this.actionService.getLoadedFilterValue(query).then(async resource => {
+    actionService.getLoadedActionValue(query).then(async resource => {
       this.actionResource = resource;
-      this.headerComponent = this.actionService.headerComponent();
-      this.buttonPlaceholder = this.actionService.disabledAddButtonPlaceholder(resource);
+      this.headerComponent = actionService.headerComponent();
+      this.buttonPlaceholder = actionService.disabledAddButtonPlaceholder(resource);
       this.actionResourceClass = this.boardListActionColorClass(resource);
-      this.canDragInto = this.actionService.dragIntoAllowed(query, resource);
+      this.canDragInto = actionService.dragIntoAllowed(query, resource);
 
-      const canWriteAttribute = await this.actionService.canAddToQuery(query);
+      const canWriteAttribute = await actionService.canAddToQuery(query);
       this.showAddButton = this.canDragInto && this.wpInlineCreate.canAdd && canWriteAttribute;
       this.cdRef.detectChanges();
     });
@@ -360,8 +357,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /**
    * Return the linked action service
    */
-  private get actionService():BoardActionService {
-    return this.boardActionRegistry.get(this.board.actionAttribute!);
+  private get actionService():BoardActionService|undefined {
+    if (this.board.actionAttribute) {
+      return this.boardActionRegistry.get(this.board.actionAttribute);
+    }
+
+    return undefined;
   }
 
   /**
@@ -373,17 +374,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     let query = this.querySpace.query.value!;
     const changeset = this.halEditing.changeFor(workPackage) as WorkPackageChangeset;
 
-    // Ensure attribute remains writable in the form
-    const actionAttribute = this.board.actionAttribute;
-    if (actionAttribute && !changeset.isWritable(actionAttribute)) {
-      throw this.I18n.t(
-        'js.boards.error_attribute_not_writable',
-        { attribute: changeset.humanName(actionAttribute) }
-      );
-    }
-
-    const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
-    filter.applyDefaultsFromFilters();
+    // Assign to the action attribute if this is an action board
+    this.actionService?.assignToWorkPackage(changeset, query);
 
     if (changeset.isEmpty()) {
       // Ensure work package and its schema is loaded
@@ -413,7 +405,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     observable
       .subscribe(
         query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
-        error => this.loadingError = this.halNotification.retrieveErrorMessage(error)
+        error => {
+          this.loadingError = this.halNotification.retrieveErrorMessage(error);
+          this.cdRef.detectChanges();
+        }
       );
   }
 

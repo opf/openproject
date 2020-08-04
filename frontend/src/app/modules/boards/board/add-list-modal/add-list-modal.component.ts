@@ -136,7 +136,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   create() {
     this.inFlight = true;
     this.actionService
-      .addActionQuery(this.board, this.selectedAttribute!)
+      .addColumnWithActionAttribute(this.board, this.selectedAttribute!)
       .then(board => this.boardService.save(board).toPromise())
       .then((board) => {
         this.inFlight = false;
@@ -147,6 +147,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   onNewActionCreated(newValue:HalResource) {
+    this.actionService.cache.clear("New attribute added.");
     this.selectedAttribute = newValue;
     this.create();
   }

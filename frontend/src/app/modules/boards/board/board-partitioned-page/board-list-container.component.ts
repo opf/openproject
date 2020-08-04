@@ -20,6 +20,7 @@ import {AddListModalComponent} from "core-app/modules/boards/board/add-list-moda
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
 import {filter} from "rxjs/operators";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
@@ -74,6 +75,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
               readonly halNotification:HalResourceNotificationService,
               readonly boardComponent:BoardPartitionedPageComponent,
               readonly BoardList:BoardListsService,
+              readonly boardActionRegistry:BoardActionsRegistryService,
               readonly opModalService:OpModalService,
               readonly injector:Injector,
               readonly apiV3Service:APIV3Service,
@@ -196,11 +198,13 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   private getActionFiltersFromWidget(board:Board):string[] {
     return board.grid.widgets
       .map(widget => {
+        const service = this.boardActionRegistry.get(board.actionAttribute!);
+        const filterName = service.filterName;
         const options:BoardWidgetOption = widget.options as any;
-        const filter = _.find(options.filters, (filter) => !!filter[board.actionAttribute!]);
+        const filter = _.find(options.filters, (filter) => !!filter[filterName]);
 
         if (filter) {
-          return filter[board.actionAttribute!].values[0];
+          return filter[filterName].values[0];
         }
       })
       .filter(value => !!value);
