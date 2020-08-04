@@ -447,9 +447,64 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'derivedStartDate' do
+      let(:is_milestone) { false }
+
+      before do
+        allow(schema)
+          .to receive(:milestone?)
+          .and_return(is_milestone)
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'derivedStartDate' }
+        let(:type) { 'Date' }
+        let(:name) { I18n.t('attributes.derived_start_date') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+
+      context 'when the work package is a milestone' do
+        let(:is_milestone) { true }
+
+        it 'has no date attribute' do
+          is_expected.to_not have_json_path('derivedStartDate')
+        end
+      end
+    end
+
+    describe 'derivedDueDate' do
+      let(:is_milestone) { false }
+
+      before do
+        allow(schema)
+          .to receive(:milestone?)
+          .and_return(is_milestone)
+      end
+
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'derivedDueDate' }
+        let(:type) { 'Date' }
+        let(:name) { I18n.t('attributes.derived_due_date') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+
+      context 'when the work package is a milestone' do
+        let(:is_milestone) { true }
+
+        it 'has no date attribute' do
+          is_expected.to_not have_json_path('derivedDueDate')
+        end
+      end
+    end
+
     describe 'estimatedTime' do
       before do
-        allow(schema).to receive(:writable?).with(:estimated_time).and_return true
+        allow(schema)
+          .to receive(:writable?)
+          .with(:estimated_time)
+          .and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -462,7 +517,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'not writable' do
         before do
-          allow(schema).to receive(:writable?).with(:estimated_time).and_return false
+          allow(schema)
+            .to receive(:writable?)
+            .with(:estimated_time)
+            .and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -472,6 +530,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:required) { false }
           let(:writable) { false }
         end
+      end
+    end
+
+    describe 'derivedDstimatedTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'derivedEstimatedTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('attributes.derived_estimated_time') }
+        let(:required) { false }
+        let(:writable) { false }
       end
     end
 

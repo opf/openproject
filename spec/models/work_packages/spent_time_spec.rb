@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage::SpentTime, type: :model do
+describe WorkPackage, 'spent_time', type: :model do
   let(:project) do
     work_package.project
   end
@@ -156,7 +156,7 @@ describe WorkPackage::SpentTime, type: :model do
   end
 
   context 'for a work package that had spent time eager loaded' do
-    subject { WorkPackage.include_spent_hours(user).where(id: work_package.id).first.spent_hours }
+    subject { WorkPackage.include_spent_time(user).where(id: work_package.id).first.spent_hours }
 
     it_behaves_like 'spent hours'
   end

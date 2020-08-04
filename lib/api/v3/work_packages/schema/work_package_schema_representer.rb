@@ -134,6 +134,16 @@ module API
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
 
+          schema :derived_start_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+
+          schema :derived_due_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+
           schema :date,
                  type: 'Date',
                  required: false,
@@ -143,10 +153,14 @@ module API
                  type: 'Duration',
                  required: false
 
+          schema :derived_estimated_time,
+                 type: 'Duration',
+                 required: false
+
           schema :spent_time,
                  type: 'Duration',
                  required: false,
-                 show_if: ->(*) { represented.project && represented.project.module_enabled?('time_tracking') }
+                 show_if: ->(*) { represented.project&.module_enabled?('time_tracking') }
 
           schema :percentage_done,
                  type: 'Integer',

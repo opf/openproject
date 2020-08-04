@@ -364,6 +364,18 @@ module API
                         !represented.milestone?
                       }
 
+        date_property :derived_start_date,
+                      skip_render: ->(represented:, **) {
+                        represented.milestone?
+                      },
+                      uncacheable: true
+
+        date_property :derived_due_date,
+                      skip_render: ->(represented:, **) {
+                        represented.milestone?
+                      },
+                      uncacheable: true
+
         property :estimated_time,
                  exec_context: :decorator,
                  getter: ->(*) do

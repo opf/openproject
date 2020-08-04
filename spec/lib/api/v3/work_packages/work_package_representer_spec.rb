@@ -48,6 +48,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:estimated_hours) { nil }
   let(:derived_estimated_hours) { nil }
   let(:spent_hours) { 0 }
+  let(:derived_start_date) { Date.today - 4.days }
+  let(:derived_due_date) { Date.today - 5.days }
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
                              schedule_manually: schedule_manually,
@@ -70,6 +72,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       allow(wp)
         .to receive(:spent_hours)
         .and_return(spent_hours)
+
+      allow(wp)
+        .to receive(:derived_start_date)
+        .and_return(derived_start_date)
+
+      allow(wp)
+        .to receive(:derived_due_date)
+        .and_return(derived_due_date)
     end
   end
   let(:all_permissions) do
@@ -217,6 +227,58 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'with a milestone type' do
           it 'has no date' do
             is_expected.to_not have_json_path('date')
+          end
+        end
+      end
+
+      describe 'derivedStartDate' do
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { derived_start_date }
+          let(:json_path) { 'derivedStartDate' }
+        end
+
+        context 'no derived start date' do
+          let(:derived_start_date) { nil }
+
+          it 'renders as null' do
+            is_expected
+              .to be_json_eql(nil.to_json)
+              .at_path('derivedStartDate')
+          end
+        end
+
+        context 'when the work package has a milestone type' do
+          let(:type_milestone) { true }
+
+          it 'has no derivedStartDate' do
+            is_expected
+              .to_not have_json_path('derivedStartDate')
+          end
+        end
+      end
+
+      describe 'derivedDueDate' do
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { derived_due_date }
+          let(:json_path) { 'derivedDueDate' }
+        end
+
+        context 'no derived due date' do
+          let(:derived_due_date) { nil }
+
+          it 'renders as null' do
+            is_expected
+              .to be_json_eql(nil.to_json)
+                    .at_path('derivedDueDate')
+          end
+        end
+
+        context 'when the work package has a milestone type' do
+          let(:type_milestone) { true }
+
+          it 'has no derivedDueDate' do
+            is_expected
+              .to_not have_json_path('derivedDueDate')
           end
         end
       end
