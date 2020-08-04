@@ -7,7 +7,6 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
@@ -21,6 +20,8 @@ import {AddListModalComponent} from "core-app/modules/boards/board/add-list-moda
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
 import {filter} from "rxjs/operators";
+import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './board-list-container.component.html',
@@ -74,9 +75,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
               readonly halNotification:HalResourceNotificationService,
               readonly boardComponent:BoardPartitionedPageComponent,
               readonly BoardList:BoardListsService,
+              readonly boardActionRegistry:BoardActionsRegistryService,
               readonly opModalService:OpModalService,
               readonly injector:Injector,
-              readonly BoardCache:BoardCacheService,
+              readonly apiV3Service:APIV3Service,
               readonly Boards:BoardService,
               readonly Banner:BannersService,
               readonly boardListCrossSelectionService:BoardListCrossSelectionService,
@@ -88,7 +90,12 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   ngOnInit():void {
     const id:string = this.state.params.board_id.toString();
 
-    this.board$ = this.BoardCache.observe(id);
+    this.board$ = this
+      .apiV3Service
+      .boards
+      .id(id)
+      .requireAndStream();
+
     this.Boards.currentBoard$.next(id);
 
     this.board$
@@ -125,10 +132,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     if (board.isFree) {
       return this.BoardList
         .addFreeQuery(board, { name: this.text.unnamed_list })
-        .then(board => this.Boards.save(board))
-        .then(saved => {
-          this.BoardCache.update(saved);
-        })
+        .then(board => this.Boards.save(board).toPromise())
         .catch(error => this.showError(error));
     } else {
       const active = this.getActionFiltersFromWidget(board);
@@ -194,11 +198,13 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   private getActionFiltersFromWidget(board:Board):string[] {
     return board.grid.widgets
       .map(widget => {
+        const service = this.boardActionRegistry.get(board.actionAttribute!);
+        const filterName = service.filterName;
         const options:BoardWidgetOption = widget.options as any;
-        const filter = _.find(options.filters, (filter) => !!filter[board.actionAttribute!]);
+        const filter = _.find(options.filters, (filter) => !!filter[filterName]);
 
         if (filter) {
-          return filter[board.actionAttribute!].values[0];
+          return filter[filterName].values[0];
         }
       })
       .filter(value => !!value);

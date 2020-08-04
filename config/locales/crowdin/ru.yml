@@ -78,7 +78,7 @@ ru:
     is_active: теперь отображается
     is_inactive: теперь не отображается
   attribute_help_texts:
-    note_public: 'Любой текст и изображения, которые вы добавляете в это поле, видны всем авторизованным пользователям!'
+    note_public: 'Любой текст и изображения, которые вы добавляете в это поле, видны всем аутентифицированным пользователям!'
     text_overview: 'В этом представлении можно создать пользовательскую текстовую справку для атрибутов представления. При ее наличии, она будет показана по клику по значку справки возле атрибута.'
     label_plural: 'Атрибут текстов справки'
     show_preview: 'Предпросмотр текста'
@@ -90,7 +90,7 @@ ru:
       no_results_content_text: Создать новый способ аутентификации
   background_jobs:
     status:
-      error_requeue: "При выполнении задания возникла ошибка, но выполнение задания продолжается. Ошибка: %{message}"
+      error_requeue: "Осуществляется повторный запуск задания, т.к. предыдущий завершился с ошибкой: %{message}"
       cancelled_due_to: "Задание было отменено из-за ошибки: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
@@ -493,7 +493,7 @@ ru:
         parent_work_package: "Родитель"
         priority: "Приоритет"
         progress: "Прогресс (%)"
-        schedule_manually: "Запланировать вручную"
+        schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
         subproject: "Подпроект"
@@ -2135,6 +2135,9 @@ ru:
     url: "URL репозитория"
     warnings:
       cannot_annotate: "Этот файл не может быть прокомментирован."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Поиск ..."
   setting_email_delivery_method: "Метод доставки электронной почты"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
@@ -2330,6 +2333,7 @@ ru:
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Последний комментарий: %{note}"
   text_length_between: "Количество символов между %{min} и %{max} ."
   text_line_separated: "Допускается  несколько значений (одна строка для каждого значения)."

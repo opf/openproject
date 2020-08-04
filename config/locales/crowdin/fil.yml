@@ -492,7 +492,7 @@ fil:
         parent_work_package: "Magulang"
         priority: "Ang prayoridad"
         progress: "Isinasagawa (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Nauubos na oras"
         spent_time: "Nauubos na oras"
         subproject: "Kahaliling proyekto"
@@ -2095,6 +2095,9 @@ fil:
     url: "URL sa repositoryo"
     warnings:
       cannot_annotate: "Ang file na ito ay hindi naka-annotate."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Hanapin ..."
   setting_email_delivery_method: "Pamaraan ng paghahatid ng email"
   setting_sendmail_location: "Lokasyon ng sendmail na pagpapatupad"
@@ -2290,6 +2293,7 @@ fil:
   text_journal_deleted_with_diff: "%{label} binura (%{link})"
   text_journal_set_to: "%{label} itinakda sa %{value}"
   text_journal_set_with_diff: "%{label} itinakda (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Ang pinakabagong komento ay: %{note}"
   text_length_between: "Taas pagitan ng %{min} at %{max} na mga karakter."
   text_line_separated: "Maramihang halaga ang pinahintulutan (isang linya para sa bawat halaga)."

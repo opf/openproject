@@ -18,4 +18,8 @@ lt:
         manage: 'Valdyti modelius'
       views:
         viewer: 'Peržiūros priemonės'
-        split: 'Peržiūros priemonės ir kortelės'
+        split: 'Peržiūros priemonės ir lentelė'
+        split_cards: 'Peržiūros priemonės ir kortelės'
+    revit:
+      revit_add_in: "Revit priedas"
+      revit_add_in_settings: "Revit priedo nustatymai"

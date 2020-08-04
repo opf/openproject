@@ -35,10 +35,12 @@ import {takeUntil} from "rxjs/operators";
 
 
 export const bimListViewIdentifier = 'list';
+export const bimTableViewIdentifier = 'table';
+export const bimSplitViewCardsIdentifier = 'splitCards';
+export const bimSplitViewListIdentifier = 'splitList';
 export const bimViewerViewIdentifier = 'viewer';
-export const bimSplitViewIdentifier = 'split';
 
-export type BimViewState = 'list'|'viewer'|'split';
+export type BimViewState = 'list'|'viewer'|'splitList'|'splitCards'|'table';
 
 @Injectable()
 export class BimViewService implements OnDestroy {
@@ -47,13 +49,17 @@ export class BimViewService implements OnDestroy {
   public text:any = {
     list: this.I18n.t('js.views.card'),
     viewer: this.I18n.t('js.ifc_models.views.viewer'),
-    split: this.I18n.t('js.ifc_models.views.split')
+    splitList: this.I18n.t('js.ifc_models.views.split'),
+    splitCards: this.I18n.t('js.ifc_models.views.split_cards'),
+    table: this.I18n.t('js.views.list'),
   };
 
   public icon:any = {
     list: 'icon-view-card',
     viewer: 'icon-view-model',
-    split: 'icon-view-split2'
+    splitList: 'icon-view-split-viewer-table',
+    splitCards: 'icon-view-split2',
+    table: 'icon-view-list',
   };
 
   private transitionFn:Function;
@@ -78,16 +84,24 @@ export class BimViewService implements OnDestroy {
   }
 
   get current():BimViewState {
-    return this._state.getValueOr(bimSplitViewIdentifier);
+    return this._state.getValueOr(bimSplitViewCardsIdentifier);
   }
 
   public currentViewerState():BimViewState {
     if (this.state.includes('bim.partitioned.list')) {
-      return bimListViewIdentifier;
+      return this.state.params?.cards ?
+              bimListViewIdentifier :
+              bimTableViewIdentifier;
     } else if (this.state.includes('bim.**.model')) {
       return bimViewerViewIdentifier;
+    } else if (this.state.includes('bim.partitioned.show')) {
+      return this.state.params?.cards || this.state.params?.cards == null ?
+              bimListViewIdentifier :
+              bimTableViewIdentifier;
     } else {
-      return bimSplitViewIdentifier;
+      return this.state.params?.cards || this.state.params?.cards == null ?
+              bimSplitViewCardsIdentifier :
+              bimSplitViewListIdentifier;
     }
   }
 

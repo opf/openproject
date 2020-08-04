@@ -34,7 +34,9 @@
     $('[data-selected-page].tree-menu--container').each(function(_i:number, tree:HTMLElement) {
       let selectedPage = $(tree).data('selected-page');
       if (selectedPage) {
-        $('[slug=' + selectedPage + ']', tree).toggleClass('-selected', true);
+       let selected = $('[slug=' + selectedPage + ']', tree);
+       selected.toggleClass('-selected', true);
+       selected[0].scrollIntoView();
       }
     });
 

@@ -33,7 +33,7 @@ import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './wp-preview.modal.html',
@@ -51,7 +51,7 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
               @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly i18n:I18nService,
-              readonly wpCacheService:WorkPackageCacheService,
+              readonly apiV3Service:APIV3Service,
               readonly opModalService:OpModalService) {
     super(locals, cdRef, elementRef);
   }
@@ -61,8 +61,12 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
     const workPackageLink = this.locals.workPackageLink;
     const workPackageId = HalResource.idFromLink(workPackageLink);
 
-    this.wpCacheService.require(workPackageId)
-      .then((workPackage:WorkPackageResource) => {
+    this
+      .apiV3Service
+      .work_packages
+      .id(workPackageId)
+      .requireAndStream()
+      .subscribe((workPackage:WorkPackageResource) => {
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
 

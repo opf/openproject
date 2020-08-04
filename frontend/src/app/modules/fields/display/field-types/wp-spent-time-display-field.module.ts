@@ -28,12 +28,12 @@
 
 import { DurationDisplayField } from './duration-display-field.module';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
-import { ProjectCacheService } from "core-components/projects/project-cache.service";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/modules/time_entries/create/create.service';
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
@@ -42,8 +42,8 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   };
 
   @InjectField() PathHelper:PathHelperService;
-  @InjectField() projectCacheService:ProjectCacheService;
   @InjectField() timeEntryCreateService:TimeEntryCreateService;
+  @InjectField() apiV3Service:APIV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {
@@ -57,9 +57,12 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
     if (this.resource.project) {
       const wpID = this.resource.id.toString();
-      this.projectCacheService
-        .require(this.resource.project.idFromLink)
-        .then((project:ProjectResource) => {
+      this
+        .apiV3Service
+        .projects
+        .id(this.resource.project)
+        .get()
+        .subscribe((project:ProjectResource) => {
           const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
             .search({ work_package_id: wpID })
             .toString();

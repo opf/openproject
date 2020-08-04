@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryOrder} from "core-app/modules/hal/dm-services/query-order-dm.service";
 import {
   DEFAULT_ORDER,
   MAX_ORDER,
   ReorderDeltaBuilder
 } from "core-app/modules/common/drag-and-drop/reorder-delta-builder";
+import {QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 describe('ReorderDeltaBuilder', () => {
   const work_packages:string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];

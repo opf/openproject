@@ -24,7 +24,7 @@
     attributes:
       work_package:
         position: "Plassering"
-        remaining_hours: "Remaining Hours"
+        remaining_hours: "Remaining hours"
         remaining_time: "Remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"

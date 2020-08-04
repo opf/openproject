@@ -493,7 +493,7 @@ ro:
         parent_work_package: "Părinte"
         priority: "Prioritate"
         progress: "Progres (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
         subproject: "Subproiect"
@@ -2117,6 +2117,9 @@ ro:
     url: "Adresa URL a repo-ului"
     warnings:
       cannot_annotate: "Acest fișier nu poate fi adnotat."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
   setting_email_delivery_method: "Metoda de livrare e-mail"
   setting_sendmail_location: "Locația executabilului \"sendmail\""
@@ -2312,6 +2315,7 @@ ro:
   text_journal_deleted_with_diff: "%{label} șters (%{link})"
   text_journal_set_to: "%{label} setat la %{value}"
   text_journal_set_with_diff: "%{label} setat (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Ultimul comentariu este: %{note}"
   text_length_between: "Lungime între %{min} şi %{max} de caractere."
   text_line_separated: "Sunt permise valori multiple (un rând pentru fiecare valoare)."

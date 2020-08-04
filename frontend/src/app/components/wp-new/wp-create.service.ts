@@ -27,7 +27,6 @@
 // ++
 
 import {Injectable, Injector} from '@angular/core';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Observable, Subject} from 'rxjs';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -41,12 +40,13 @@ import {
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {filter} from "rxjs/operators";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Form} from "@angular/forms";
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -59,18 +59,17 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
   constructor(protected injector:Injector,
               protected hooks:HookService,
-              protected wpCacheService:WorkPackageCacheService,
+              protected apiV3Service:APIV3Service,
               protected halResourceService:HalResourceService,
               protected querySpace:IsolatedQuerySpace,
               protected authorisationService:AuthorisationService,
               protected halEditing:HalResourceEditingService,
               protected schemaCache:SchemaCacheService,
-              protected workPackageDmService:WorkPackageDmService,
               protected halEvents:HalEventsService) {
     super();
 
     this.halEditing
-      .comittedChanges
+      .committedChanges
       .pipe(
         this.untilDestroyed(),
         filter(commit => commit.resource._type === 'WorkPackage' && commit.wasNew)
@@ -99,14 +98,21 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 
-  public createNewWorkPackage(projectIdentifier:string|undefined|null) {
+  public createNewWorkPackage(projectIdentifier:string|undefined|null):Promise<WorkPackageChangeset> {
     return this.getEmptyForm(projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
   }
 
-  public createNewTypedWorkPackage(projectIdentifier:string|undefined|null, type:number) {
-    return this.workPackageDmService.typedCreateForm(type, projectIdentifier).then(form => {
+  public createNewTypedWorkPackage(projectIdentifier:string|undefined|null, type:number):Promise<WorkPackageChangeset> {
+    return this
+      .apiV3Service
+      .withOptionalProject(projectIdentifier)
+      .work_packages
+      .form
+      .forType(type)
+      .toPromise()
+      .then((form:FormResource) => {
       return this.fromCreateForm(form);
     });
   }
@@ -128,7 +134,13 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     // Ideally we would make an empty request before to get the create schema (cannot use the update schema of the source changeset)
     // to get all the writable attributes and only send those.
     // But as this would require an additional request, we don't.
-    return this.workPackageDmService.emptyCreateForm(request).then(form => {
+    return this
+      .apiV3Service
+      .work_packages
+      .form
+      .post(request)
+      .toPromise()
+      .then((form:FormResource) => {
       let changeset = this.fromCreateForm(form);
 
       return changeset;
@@ -148,10 +160,16 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
   public getEmptyForm(projectIdentifier:string|null|undefined):Promise<FormResource> {
     if (!this.form) {
-      this.form = this.workPackageDmService.emptyCreateForm({}, projectIdentifier);
+      this.form = this
+        .apiV3Service
+        .withOptionalProject(projectIdentifier)
+        .work_packages
+        .form
+        .post({})
+        .toPromise();
     }
 
-    return this.form;
+    return this.form as Promise<FormResource>;
   }
 
   public cancelCreation() {
@@ -176,14 +194,22 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return changePromise.then((change:WorkPackageChangeset) => {
       this.authorisationService.initModelAuth('work_package', change.pristineResource);
       this.halEditing.updateValue(newWorkPackageHref, change);
-      this.wpCacheService.updateWorkPackage(change.pristineResource);
+      this
+        .apiV3Service
+        .work_packages
+        .cache
+        .updateWorkPackage(change.pristineResource, true);
 
       return change;
     });
   }
 
   protected reset() {
-    this.wpCacheService.clearSome('new');
+    this
+      .apiV3Service
+      .work_packages
+      .cache
+      .clearSome('new');
     this.form = undefined;
   }
 
@@ -273,7 +299,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     wp['update'] = wp.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
     wp['updateImmediately'] = wp.$links.updateImmediately = (payload) => {
-      return this.workPackageDmService.createWorkPackage(payload);
+      return this.apiV3Service.work_packages.post(payload).toPromise();
     };
 
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine

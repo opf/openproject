@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface UserLike {
   name:string;
@@ -11,6 +12,7 @@ export interface UserLike {
 export class UserAvatarRendererService {
 
   constructor(private pathHelper:PathHelperService,
+              private apiV3Service:APIV3Service,
               private colors:ColorsService) {
 
   }
@@ -72,7 +74,7 @@ export class UserAvatarRendererService {
     const image = new Image();
     image.className = classes;
     image.classList.add('avatar--fallback');
-    image.src = this.pathHelper.api.v3.users.id(user.id).avatar.toString();
+    image.src = this.apiV3Service.users.id(user.id).avatar.toString();
     image.title = user.name;
     image.alt = user.name;
     image.onload = function () {

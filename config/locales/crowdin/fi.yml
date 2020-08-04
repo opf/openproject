@@ -492,7 +492,7 @@ fi:
         parent_work_package: "Ylätaso"
         priority: "Prioriteetti"
         progress: "Valmiusaste (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"
         subproject: "Aliprojekti"
@@ -2097,6 +2097,9 @@ fi:
     url: "URL to repository"
     warnings:
       cannot_annotate: "Tätä tiedostoa ei voi selityksineen."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Etsi..."
   setting_email_delivery_method: "Sähköpostiviestien toimitustapa"
   setting_sendmail_location: "Location of the sendmail executable"
@@ -2292,6 +2295,7 @@ fi:
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} muutettu %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Viimeisin kommentti on: %{note}"
   text_length_between: "Pituus välillä %{min} ja %{max} merkkiä."
   text_line_separated: "Useat arvot sallittu (yksi rivi kullekin)."

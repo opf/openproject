@@ -6,7 +6,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryFormComponent} from "core-app/modules/time_entries/form/form.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
-import { WorkPackageCacheService } from 'core-app/components/work-packages/work-package-cache.service';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Directive()
 export abstract class TimeEntryBaseModal extends OpModalComponent {
@@ -23,7 +23,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   public closeOnEscape = false;
   public closeOnOutsideClick = false;
 
-  @InjectField() workPackageCacheService:WorkPackageCacheService;
+  @InjectField() apiV3Service:APIV3Service;
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
@@ -52,7 +52,11 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
       .then(() => {
         // reload workPackage
         if (this.entry.workPackage) {
-          this.workPackageCacheService.require(this.entry.workPackage.id, true);
+          this
+            .apiV3Service
+            .work_packages
+            .id(this.entry.workPackage)
+            .refresh();
         }
         this.service.close();
       });

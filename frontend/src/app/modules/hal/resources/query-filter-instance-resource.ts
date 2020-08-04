@@ -46,7 +46,9 @@ export class QueryFilterInstanceResource extends HalResource {
   public $initialize(source:any) {
     super.$initialize(source);
 
-    this.$links['schema'] = { href: this.pathHelper.api.v3.queries.filterInstanceSchema(this.filter.idFromLink).path };
+    this.$links['schema'] = {
+      href: this.pathHelper.api.v3.apiV3Base + '/queries/filter_instance_schemas/' + this.filter.idFromLink
+    };
   }
 
   public get id():string {
@@ -72,7 +74,11 @@ export class QueryFilterInstanceResource extends HalResource {
     let key = this.operator.href!.toString();
 
     if (this.memoizedCurrentSchemas[key] === undefined) {
-      this.memoizedCurrentSchemas[key] = this.schemaCache.of(this).resultingSchema(this.operator);
+      try {
+        this.memoizedCurrentSchemas[key] = this.schemaCache.of(this).resultingSchema(this.operator);
+      } catch(e) {
+        console.error("Failed to access filter schema" + e);
+      }
     }
 
     return this.memoizedCurrentSchemas[key];

@@ -489,7 +489,7 @@ hu:
         parent_work_package: "Szülő"
         priority: "Fontosság"
         progress: "Folyamat állapot (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
         subproject: "Alprojekt"
@@ -2093,6 +2093,9 @@ hu:
     url: "Tároló URL-címe"
     warnings:
       cannot_annotate: "Ez a fájl nem annotálható."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Keresés ..."
   setting_email_delivery_method: "E-mail küldés módja"
   setting_sendmail_location: "A sendmail program elérési útja"
@@ -2288,6 +2291,7 @@ hu:
   text_journal_deleted_with_diff: "%{label} törölt (%{link})"
   text_journal_set_to: "%{label} beállított %{value}"
   text_journal_set_with_diff: "%{label} beállított (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Az utolsó megjegyzés: %{note}"
   text_length_between: "%{min} és %{max} karakter közötti hosszúságú."
   text_line_separated: "A többszörös érték adás megengedett (minden érték külön sorban)."

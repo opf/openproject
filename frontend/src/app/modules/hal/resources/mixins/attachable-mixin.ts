@@ -33,6 +33,7 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {HttpErrorResponse} from "@angular/common/http";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 
@@ -44,6 +45,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private halNotification:HalResourceNotificationService;
     private opFileUpload:OpenProjectFileUploadService;
     private pathHelper:PathHelperService;
+    private apiV3Service:APIV3Service;
 
     /**
      * Can be used in the mixed in class to disable
@@ -169,7 +171,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       let href = '';
 
       if (this.isNew || !this.id || !this.attachmentsBackend) {
-        href = this.pathHelper.api.v3.attachments.path;
+        href = this.apiV3Service.attachments.path;
       } else {
         href = this.addAttachment.$link.href;
       }
@@ -196,6 +198,10 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
       if (!this.pathHelper) {
         this.pathHelper = this.injector.get(PathHelperService);
+      }
+
+      if (!this.apiV3Service) {
+        this.apiV3Service = this.injector.get(APIV3Service);
       }
 
       super.$initialize(source);

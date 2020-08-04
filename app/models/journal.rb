@@ -37,6 +37,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
+  register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
 
   # Make sure each journaled model instance only has unique version ids
   validates_uniqueness_of :version, scope: [:journable_id, :journable_type]

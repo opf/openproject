@@ -1,6 +1,8 @@
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {input} from "reactivestates";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class BoardFiltersService {
   /**
    * We need to remember the current filter, that may either come

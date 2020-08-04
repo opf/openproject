@@ -37,13 +37,12 @@ import {
 } from '@angular/core';
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ProjectDmService} from "core-app/modules/hal/dm-services/project-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {ProjectCacheService} from "core-components/projects/project-cache.service";
 import {Observable} from "rxjs";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './project-details.component.html',
@@ -60,8 +59,7 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
 
   constructor(protected readonly i18n:I18nService,
               protected readonly injector:Injector,
-              protected readonly projectDm:ProjectDmService,
-              protected readonly projectCache:ProjectCacheService,
+              protected readonly apiV3Service:APIV3Service,
               protected readonly currentProject:CurrentProjectService,
               protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);
@@ -69,7 +67,11 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
 
   ngOnInit() {
     this.loadAndRender();
-    this.project$ = this.projectCache.requireAndStream(this.currentProject.id!);
+    this.project$ = this
+      .apiV3Service
+      .projects
+      .id(this.currentProject.id!)
+      .requireAndStream();
   }
 
   public get isEditable() {
@@ -86,7 +88,12 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
   }
 
   private loadProjectSchema() {
-    return this.projectDm.schema();
+    return this
+      .apiV3Service
+      .projects
+      .schema
+      .get()
+      .toPromise();
   }
 
   private setCustomFields(schema:SchemaResource) {

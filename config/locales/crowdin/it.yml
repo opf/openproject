@@ -488,7 +488,7 @@ it:
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"
@@ -2093,6 +2093,9 @@ it:
     url: "URL all'archivio"
     warnings:
       cannot_annotate: "Questo file non può essere annotato."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Ricerca..."
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
@@ -2288,6 +2291,7 @@ it:
   text_journal_deleted_with_diff: "%{label} cancellato (%{link})"
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: "insieme di %{label} (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "L'ultimo commento è: %{note}"
   text_length_between: "Lunghezza compresa tra %{min} e %{max} caratteri."
   text_line_separated: "Valori multipli consentiti (una linea per ogni valore)."

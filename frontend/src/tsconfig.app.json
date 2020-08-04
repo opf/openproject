@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
@@ -13,7 +13,6 @@
   ],
   "include": [
     "**/*.d.ts",
-    "app/globals/**/*.ts",
     "app/modules/augmenting/dynamic-scripts/*.ts"
   ]
 }

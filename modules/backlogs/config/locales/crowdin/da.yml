@@ -24,7 +24,7 @@ da:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Tilbageværende timer"
+        remaining_hours: "Remaining hours"
         remaining_time: "Remaining hours"
         story_points: "Historiepunkter"
         backlogs_work_package_type: "Backlog-type"

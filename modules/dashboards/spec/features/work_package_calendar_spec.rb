@@ -127,19 +127,19 @@ describe 'Work package calendar widget on dashboard',
 
     within(calendar_widget.area) do
       expect(page)
-        .to have_selector('.fc-event-container', text: spanning_work_package.subject)
+        .to have_selector('.fc-event-title', text: spanning_work_package.subject)
 
       expect(page)
-        .to have_selector('.fc-event-container', text: starting_work_package.subject)
+        .to have_selector('.fc-event-title', text: starting_work_package.subject)
 
       expect(page)
-        .to have_selector('.fc-event-container', text: ending_work_package.subject)
+        .to have_selector('.fc-event-title', text: ending_work_package.subject)
 
       expect(page)
-        .to have_no_selector('.fc-event-container', text: outdated_work_package.subject)
+        .to have_no_selector('.fc-event-title', text: outdated_work_package.subject)
 
       expect(page)
-        .to have_no_selector('.fc-event-container', text: other_project_work_package.subject)
+        .to have_no_selector('.fc-event-title', text: other_project_work_package.subject)
     end
   end
 end

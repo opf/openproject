@@ -37,16 +37,15 @@ import {
   UploadFile
 } from 'core-components/api/op-file-upload/op-file-upload.service';
 import {States} from 'core-components/states.service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InputState} from "reactivestates";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -124,10 +123,9 @@ export class WorkPackageBaseResource extends HalResource {
   public attachments:AttachmentCollectionResource;
 
   @InjectField() I18n:I18nService;
-  @InjectField() tates:States;
+  @InjectField() states:States;
   @InjectField() wpActivity:WorkPackagesActivityService;
-  @InjectField() workPackageDmService:WorkPackageDmService;
-  @InjectField() wpCacheService:WorkPackageCacheService;
+  @InjectField() apiV3Service:APIV3Service;
   @InjectField() NotificationsService:NotificationsService;
   @InjectField() workPackageNotificationService:WorkPackageNotificationService;
   @InjectField() pathHelper:PathHelperService;
@@ -170,7 +168,7 @@ export class WorkPackageBaseResource extends HalResource {
 
   public previewPath() {
     if (!this.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(this.id!).path;
+      return this.apiV3Service.work_packages.id(this.id!).path;
     } else {
       return super.previewPath();
     }
@@ -184,7 +182,7 @@ export class WorkPackageBaseResource extends HalResource {
     let href = '';
 
     if (this.isNew) {
-      href = this.pathHelper.api.v3.attachments.path;
+      href = this.apiV3Service.attachments.path;
     } else {
       href = this.attachments.$href!;
     }
@@ -255,10 +253,10 @@ export class WorkPackageBaseResource extends HalResource {
 
     // If there is a parent, its view has to be updated as well
     if (newValue.parent) {
-      this.wpCacheService.require(newValue.parent.id!, true);
+      this.apiV3Service.work_packages.id(newValue.parent).refresh();
     }
 
-    return this.wpCacheService.updateWorkPackage(newValue as any);
+    return this.apiV3Service.work_packages.cache.updateWorkPackage(newValue as any);
   }
 }
 

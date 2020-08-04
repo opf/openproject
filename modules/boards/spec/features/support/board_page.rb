@@ -149,6 +149,13 @@ module Pages
       end
     end
 
+    def expect_movable(list_name, card_title, movable: true)
+      within_list(list_name) do
+        expect(page).to have_selector('.wp-card', text: card_title)
+        expect(page).to have_conditional_selector(movable, '.wp-card.-draggable', text: card_title)
+      end
+    end
+
     def move_card(index, from:, to:)
       source = page.all("#{list_selector(from)} .wp-card")[index]
       target = page.find list_selector(to)

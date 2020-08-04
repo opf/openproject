@@ -18,4 +18,8 @@ tr:
         manage: 'Modelleri yönetin'
       views:
         viewer: 'Görüntüleyici'
-        split: 'Görüntüleyici ve kartlar'
+        split: 'Görüntüleyici ve tablolar'
+        split_cards: 'Görüntüleyici ve kartlar'
+    revit:
+      revit_add_in: "Revit Eklentisi"
+      revit_add_in_settings: "Revit eklenti ayarlarını geri al"

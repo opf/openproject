@@ -13,6 +13,7 @@ import {
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {JobStatusEnum, JobStatusInterface} from "core-app/modules/job-status/job-status.interface";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 
 @Component({
@@ -63,6 +64,7 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
               readonly I18n:I18nService,
               readonly elementRef:ElementRef,
               readonly pathHelper:PathHelperService,
+              readonly apiV3Service:APIV3Service,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly notifications:NotificationsService,
               readonly httpClient:HttpClient) {
@@ -173,6 +175,6 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
   }
 
   private get jobUrl():string {
-    return this.pathHelper.api.v3.job_statuses.id(this.jobId).toString();
+    return this.apiV3Service.job_statuses.id(this.jobId).toString();
   }
 }

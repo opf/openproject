@@ -113,8 +113,6 @@ As with the textile formatting syntax, you can link to other resources within Op
     wiki page with separate link name: [[Wiki page|The text of the link]]
     wiki page in the Sandbox project: [[Sandbox:Wiki page]]
     work package with ID12: #12
-    work package with ID 12 with subject and dates: ##12
-    work package with ID 12 with subject, assignee, description, and dates: ###12
     version by ID or name: version#3, version:"Release 1.0.0"
     project by ID/name: project#12 , project:"My project name"
     attachment by filename: attachment:filename.zip

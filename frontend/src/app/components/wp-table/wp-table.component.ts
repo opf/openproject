@@ -174,6 +174,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.untilDestroyed()
     ).subscribe(([results, groupBy, columns, timelines, sort]) => {
       this.query = this.querySpace.query.value!;
+
       this.results = results;
 
       this.groupBy = groupBy;

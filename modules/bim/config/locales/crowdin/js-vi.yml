@@ -18,4 +18,8 @@ vi:
         manage: 'Quản lý mô hình'
       views:
         viewer: 'Trình xem'
-        split: 'Trình xem và thẻ'
+        split: 'Viewer and table'
+        split_cards: 'Trình xem và thẻ'
+    revit:
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

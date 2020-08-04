@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit} from "@angular/core";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
-import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 
 export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions-entry';
 
@@ -31,8 +31,7 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
 })
 export class TriggerActionsEntryComponent {
   @InjectField() readonly timeEntryEditService:TimeEntryEditService;
-  @InjectField() readonly timeEntryCache:TimeEntryCacheService;
-  @InjectField() readonly timeEntryDmService:TimeEntryDmService;
+  @InjectField() readonly apiv3Service:APIV3Service;
   @InjectField() readonly notificationsService:NotificationsService;
   @InjectField() readonly elementRef:ElementRef;
   @InjectField() readonly i18n:I18nService;
@@ -69,21 +68,26 @@ export class TriggerActionsEntryComponent {
 
     this.loadEntry()
       .then(entry => {
-        this.timeEntryDmService
-          .delete(entry)
-          .then(() => {
-            window.location.reload();
-          })
-          .catch((error) => {
-            this.notificationsService.addError(error || this.text.error);
-          });
+        this
+          .apiv3Service
+          .time_entries
+          .id(entry)
+          .delete()
+          .subscribe(
+            () => window.location.reload(),
+            error => this.notificationsService.addError(error || this.text.error)
+          );
       });
   }
 
-  protected loadEntry() {
+  protected loadEntry():Promise<TimeEntryResource> {
     let timeEntryId = this.elementRef.nativeElement.dataset['entry'];
 
-    return this.timeEntryCache
-      .require(timeEntryId);
+    return this
+      .apiv3Service
+      .time_entries
+      .id(timeEntryId)
+      .get()
+      .toPromise();
   }
 }

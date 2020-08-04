@@ -2,12 +2,12 @@ import {Component, OnInit} from "@angular/core";
 import {Observable} from "rxjs";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 import {map} from "rxjs/operators";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export const boardsMenuSelector = 'boards-menu';
 
@@ -23,22 +23,26 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
 
   selectedBoardId:string;
 
-  public boards$:Observable<Board[]> = this.boardCache.observeAll().pipe(
-    map((boards:Board[]) => {
-      return boards.sort(function (a, b) {
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      });
-    })
-  );
+  public boards$:Observable<Board[]> = this
+    .apiV3Service
+    .boards
+    .observeAll()
+    .pipe(
+      map((boards:Board[]) => {
+        return boards.sort(function (a, b) {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+      })
+    );
 
   constructor(private readonly boardService:BoardService,
-              private readonly boardCache:BoardCacheService,
+              private readonly apiV3Service:APIV3Service,
               private readonly currentProject:CurrentProjectService,
               private readonly mainMenuService:MainMenuNavigationService) {
     super();

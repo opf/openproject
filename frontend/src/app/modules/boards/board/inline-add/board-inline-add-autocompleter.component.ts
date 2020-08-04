@@ -51,6 +51,7 @@ import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'board-inline-add-autocompleter',
@@ -87,6 +88,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
+              private readonly apiV3Service:APIV3Service,
               private readonly urlParamsHelper:UrlParamsHelperService,
               private readonly notificationService:WorkPackageNotificationService,
               private readonly CurrentProject:CurrentProjectService,
@@ -132,7 +134,6 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
       return of([]);
     }
 
-    const path = this.pathHelper.api.v3.withOptionalProject(this.CurrentProject.id).work_packages;
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     const results = this.querySpace.results.value;
 
@@ -149,8 +150,12 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
       filters.merge(currentFilters, 'subprojectId');
     }
 
-    return this.halResourceService
-      .get<WorkPackageCollectionResource>(path.filtered(filters))
+    return this
+      .apiV3Service
+      .withOptionalProject(this.CurrentProject.id)
+      .work_packages
+      .filtered(filters)
+      .get()
       .pipe(
         map(collection => collection.elements),
         catchError((error:unknown) => {

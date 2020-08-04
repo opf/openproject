@@ -492,7 +492,7 @@ da:
         parent_work_package: "Overordnet"
         priority: "Prioritet"
         progress: "Fremskridt (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Anvendt tid"
         spent_time: "Anvendt tid"
         subproject: "Underprojekt"
@@ -2095,6 +2095,9 @@ da:
     url: "URL til repositorie"
     warnings:
       cannot_annotate: "Denne fil kan ikke kommenteres."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Søg ..."
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
@@ -2290,6 +2293,7 @@ da:
   text_journal_deleted_with_diff: "%{label} slettet (%{link})"
   text_journal_set_to: "%{label} sat til %{value}"
   text_journal_set_with_diff: "%{label} sat (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Den seneste kommentar er: %{note}"
   text_length_between: "Længde mellem %{min} og %{max} tegn."
   text_line_separated: "Flere værdier tilladt (én linje for hver værdi)."

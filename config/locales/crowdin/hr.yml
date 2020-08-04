@@ -493,7 +493,7 @@ hr:
         parent_work_package: "Matični"
         priority: "Prioritet"
         progress: "Napredak (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Utrošeno vrijeme"
         spent_time: "Utrošeno vrijeme"
         subproject: "Potprojekt"
@@ -2118,6 +2118,9 @@ hr:
     url: "URL na repozitorij"
     warnings:
       cannot_annotate: "Ovu datoteka ne može biti zabilježena."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Traži ..."
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
@@ -2313,6 +2316,7 @@ hr:
   text_journal_deleted_with_diff: "%{label} izbrisan (%{link})"
   text_journal_set_to: "%{label} postavljen na %{value}"
   text_journal_set_with_diff: "%{label} postavljen (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Zadnji komentar je: %{note}"
   text_length_between: "Duljina između %{min} i %{max} znakova."
   text_line_separated: "Multiple values allowed (one line for each value)."

@@ -38,7 +38,7 @@ export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateServ
   }
 
   public setEnabled(active:boolean = true) {
-    const state = { collapsed: {}, ...this.current, isVisible: active, last: null };
+    const state = { ...this.current, isVisible: active, last: null };
     this.update(state);
   }
 

@@ -18,4 +18,8 @@ ru:
         manage: 'Управление моделями'
       views:
         viewer: 'Просмотрщик'
-        split: 'Просмотрщик и карты'
+        split: 'Viewer and table'
+        split_cards: 'Просмотрщик и карты'
+    revit:
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

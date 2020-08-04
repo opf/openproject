@@ -492,7 +492,7 @@ sl:
         parent_work_package: "Nadrejeni"
         priority: "Prioriteta"
         progress: "Napredek (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"
@@ -2136,6 +2136,9 @@ sl:
     url: "Pot do shrambe"
     warnings:
       cannot_annotate: "Te datoteke ni mogoče opomniti."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Iskanje..."
   setting_email_delivery_method: "Način dostave po e-pošti"
   setting_sendmail_location: "Lokacija izvršljive pošte"
@@ -2331,6 +2334,7 @@ sl:
   text_journal_deleted_with_diff: "%{label} izbrisan (%{link})"
   text_journal_set_to: "%{label} nastavljeno na %{value}"
   text_journal_set_with_diff: "%{label} nastavljen (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Zadnji komentar je: %{note}"
   text_length_between: "Dolžina med %{min} in %{max} znakov."
   text_line_separated: "Dovoljenih več vrednosti (ena vrstica za vsako vrednost)."

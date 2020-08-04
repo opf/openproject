@@ -76,7 +76,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   };
 
   /** Switch between list and card view */
-  showListView:boolean = true;
+  showTableView:boolean = true;
 
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
@@ -129,11 +129,17 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     // detection on the entire app
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        const selectedElement = this.elementRef.nativeElement.querySelector('.wp-table--row.-checked') ||
-                                this.elementRef.nativeElement.querySelector('.wp-card.-checked');
+        const selectedRow = this.elementRef.nativeElement.querySelector('.wp-table--row.-checked');
+        const selectedCard = this.elementRef.nativeElement.querySelector('.wp-card.-checked');
 
-        if (selectedElement) {
-          selectedElement.scrollIntoView({block: "start"});
+        // The header of the table hides the scrolledIntoView element
+        // so we scrollIntoView the previous element, if any
+        if (selectedRow && selectedRow.previousSibling) {
+          selectedRow.previousSibling.scrollIntoView({block: "start"});
+        }
+
+        if (selectedCard) {
+          selectedCard.scrollIntoView({block: "start"});
         }
       }, 0);
     });
@@ -156,7 +162,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   }
 
   protected updateViewRepresentation(query:QueryResource) {
-    this.showListView = !(this.deviceService.isMobile ||
+    this.showTableView = !(this.deviceService.isMobile ||
       this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
   }
 

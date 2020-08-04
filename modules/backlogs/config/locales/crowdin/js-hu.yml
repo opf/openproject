@@ -24,4 +24,4 @@ hu:
     work_packages:
       properties:
         storyPoints: "Story pontok"
-        remainingTime: "Hátralévő óra"
+        remainingTime: "Fennmaradó órák"

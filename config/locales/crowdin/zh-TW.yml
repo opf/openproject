@@ -2075,6 +2075,9 @@ zh-TW:
     url: "版本庫的 URL"
     warnings:
       cannot_annotate: "這個檔案無法註釋"
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "搜尋 ..."
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_sendmail_location: "Sendmail 的執行位置"
@@ -2270,6 +2273,7 @@ zh-TW:
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_set_with_diff: "%{label} 設定 (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "最新的評論是: %{note}"
   text_length_between: "長度須介於 %{min} 至 %{max} 個字元"
   text_line_separated: "允許多個值 (每行一個值)。"

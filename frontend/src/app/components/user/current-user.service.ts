@@ -38,6 +38,10 @@ export class CurrentUserService {
     return this.userMeta.data('id');
   }
 
+  public get href() {
+    return `/api/v3/users/${this.userId}`;
+  }
+
   public get name() {
     return this.userMeta.data('name');
   }

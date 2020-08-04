@@ -52,7 +52,7 @@ import {BoardListContainerComponent} from "core-app/modules/boards/board/board-p
 import {BoardsMenuButtonComponent} from "core-app/modules/boards/board/toolbar-menu/boards-menu-button.component";
 import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
 import { TileViewComponent } from './tile-view/tile-view.component';
-
+import {SubprojectBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/subproject/subproject-board-header.component";
 
 @NgModule({
   imports: [
@@ -89,6 +89,7 @@ import { TileViewComponent } from './tile-view/tile-view.component';
     VersionBoardHeaderComponent,
     AssigneeBoardHeaderComponent,
     TileViewComponent,
+    SubprojectBoardHeaderComponent
   ]
 })
 export class OpenprojectBoardsModule {
