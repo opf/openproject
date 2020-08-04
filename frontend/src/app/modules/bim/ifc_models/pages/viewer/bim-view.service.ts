@@ -94,6 +94,10 @@ export class BimViewService implements OnDestroy {
               bimTableViewIdentifier;
     } else if (this.state.includes('bim.**.model')) {
       return bimViewerViewIdentifier;
+    } else if (this.state.includes('bim.partitioned.show')) {
+      return this.state.params?.cards || this.state.params?.cards == null ?
+              bimListViewIdentifier :
+              bimTableViewIdentifier;
     } else {
       return this.state.params?.cards || this.state.params?.cards == null ?
               bimSplitViewCardsIdentifier :

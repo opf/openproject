@@ -111,6 +111,25 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: IFCViewerComponent }
     }
   },
+  {
+    name: 'bim.partitioned.show',
+    url: '/show/{workPackageId:[0-9]+}?{cards:bool}',
+    data: {
+      baseRoute: 'bim.partitioned.list',
+      partition: '-left-only'
+    },
+    reloadOnSearch: false,
+    redirectTo: 'bim.partitioned.show.details',
+  },
+  // BCF single view for list
+  ...makeSplitViewRoutes(
+    'bim.partitioned.list',
+    undefined,
+    WorkPackageSplitViewComponent,
+    undefined,
+    true,
+    'bim.partitioned.show',
+  ),
   // BCF single view for list
   ...makeSplitViewRoutes(
     'bim.partitioned.list',

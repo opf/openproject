@@ -88,10 +88,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     }
 
     if (event.double) {
-      this.$state.go(
-        splitViewRoute(this.$state),
-        { workPackageId: event.workPackageId }
-      );
+      this.goToWpDetailState(event.workPackageId, this.$state.params.cards);
     }
   }
 
@@ -103,10 +100,19 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
       return;
     }
 
-    // Otherwise, always open all links in the details view
-    this.$state.go(
-      splitViewRoute(this.$state),
-      { workPackageId: event.workPackageId, focus: true }
-    );
+    this.goToWpDetailState(event.workPackageId, this.$state.params.cards, true);
+  }
+
+  goToWpDetailState(workPackageId:string, cards:boolean, focus?:boolean) {
+    // Show the split view when there is a viewer (browser)
+    // Show only wp details when there is no viewer, plugin environment (ie: Revit)
+    const stateToGo = this.viewer.shouldShowViewer ?
+                        splitViewRoute(this.$state) :
+                        'bim.partitioned.show';
+    // Passing the card param to the new state because the router doesn't keep
+    // it when going to 'bim.partitioned.show'
+    const params = { workPackageId, cards, focus };
+
+    this.$state.go(stateToGo, params);
   }
 }

@@ -76,7 +76,6 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
 
   private buildItems() {
     const current = this.bimView.current;
-    const viewRoute = this.state.current.data.viewRoute;
     let items = this.viewerBridgeService.shouldShowViewer ?
                   [bimViewerViewIdentifier, bimListViewIdentifier, bimSplitViewCardsIdentifier, bimSplitViewListIdentifier, bimTableViewIdentifier] :
                   [bimListViewIdentifier, bimTableViewIdentifier];
