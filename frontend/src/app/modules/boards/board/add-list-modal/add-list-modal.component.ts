@@ -147,6 +147,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   onNewActionCreated(newValue:HalResource) {
+    this.actionService.cache.clear("New attribute added.");
     this.selectedAttribute = newValue;
     this.create();
   }

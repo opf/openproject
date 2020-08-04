@@ -238,11 +238,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public canMove(workPackage:WorkPackageResource) {
-    if (this.board.isAction) {
-      return this.canDragOutOf && this.actionService.canMove(workPackage);
-    } else {
-      return this.canDragOutOf;
-    }
+    return this.canDragOutOf && (!this.actionService || this.actionService.canMove(workPackage));
   }
 
   public get canReference() {
@@ -336,7 +332,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return;
     }
 
-    const id = this.actionService.getActionValueHrefForColumn(query);
+    let actionService = this.actionService!;
+    const id = actionService.getActionValueHrefForColumn(query);
 
     // Test if we loaded the resource already
     if (this.actionResource && id === this.actionResource.href) {
@@ -344,14 +341,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     // Load the resource
-    this.actionService.getLoadedActionValue(query).then(async resource => {
+    actionService.getLoadedActionValue(query).then(async resource => {
       this.actionResource = resource;
-      this.headerComponent = this.actionService.headerComponent();
-      this.buttonPlaceholder = this.actionService.disabledAddButtonPlaceholder(resource);
+      this.headerComponent = actionService.headerComponent();
+      this.buttonPlaceholder = actionService.disabledAddButtonPlaceholder(resource);
       this.actionResourceClass = this.boardListActionColorClass(resource);
-      this.canDragInto = this.actionService.dragIntoAllowed(query, resource);
+      this.canDragInto = actionService.dragIntoAllowed(query, resource);
 
-      const canWriteAttribute = await this.actionService.canAddToQuery(query);
+      const canWriteAttribute = await actionService.canAddToQuery(query);
       this.showAddButton = this.canDragInto && this.wpInlineCreate.canAdd && canWriteAttribute;
       this.cdRef.detectChanges();
     });
@@ -360,8 +357,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /**
    * Return the linked action service
    */
-  private get actionService():BoardActionService {
-    return this.boardActionRegistry.get(this.board.actionAttribute!);
+  private get actionService():BoardActionService|undefined {
+    if (this.board.actionAttribute) {
+      return this.boardActionRegistry.get(this.board.actionAttribute);
+    }
+
+    return undefined;
   }
 
   /**

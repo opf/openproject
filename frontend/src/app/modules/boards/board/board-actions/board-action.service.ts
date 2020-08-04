@@ -19,12 +19,13 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export abstract class BoardActionService {
 
   // Cache the available values for the duration of the board
-  protected cache = input<HalResource[]>();
+  readonly cache = input<HalResource[]>();
 
   constructor(readonly injector:Injector,
               protected boardListsService:BoardListsService,
@@ -32,7 +33,8 @@ export abstract class BoardActionService {
               protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
               protected currentProject:CurrentProjectService,
-              protected apiV3Service:APIV3Service) {
+              protected apiV3Service:APIV3Service,
+              protected schemaCache:SchemaCacheService) {
   }
 
   /**
@@ -180,7 +182,8 @@ export abstract class BoardActionService {
    * Determine whether the given work package can be moved
    */
   canMove(workPackage:WorkPackageResource):boolean {
-    const fieldSchema = workPackage.schema[this.filterName] as IFieldSchema;
+    const schema = this.schemaCache.of(workPackage);
+    const fieldSchema = schema[this.filterName] as IFieldSchema;
     return fieldSchema?.writable;
   }
 
