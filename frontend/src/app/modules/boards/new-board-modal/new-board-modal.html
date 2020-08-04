@@ -15,34 +15,11 @@
     <div class="ngdialog-body op-modal--modal-body">
       <p [textContent]="text.select_board_type"></p>
       <section class="new-board--section">
-        <div class="menu-blocks--container">
-          <div class="menu-block">
-            <div class="row menu-block-item">
-              <button class="button" [disabled]="inFlight" (accessibleClick)="createFree()">
-                <op-icon icon-classes="icon-add"></op-icon>
-              </button>
-              <i class="menu-block--icon icon3 icon-boards" aria-hidden="true"></i>
-              <span> {{text.free_board}} </span>
-            </div>
-            <p [textContent]="text.free_board_text"></p>
-          </div>
-
-          <div class="menu-block"
-            *ngFor="let item of available">
-            <div class="row menu-block-item">
-              <button class="button" [disabled]="inFlight" (accessibleClick)="createAction(item.attribute)">
-                <op-icon icon-classes="icon-add"></op-icon>
-              </button>
-              <i class="menu-block--icon icon3" [ngClass]="addIcon(item.attribute)" aria-hidden="true"></i>
-              <span class="menu-block--title">
-                {{text.action_board +' (' + item.text +')'}}
-              </span>
-             
-            </div>
-            <p [textContent]="toolTipTitle(item.attribute)"></p>
-            
-          </div>
-        </div>
+        <tile-view
+        [tiles]="available"
+        [disable]="inFlight"
+        (create)="createBoard($event)">
+        </tile-view>
       </section>
     </div>
   </div>

@@ -38,10 +38,11 @@ import {BoardCacheService} from "core-app/modules/boards/board/board-cache.servi
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import { ITileViewEntry } from '../tile-view/tile-view.component';
+
 
 @Component({
   templateUrl: './new-board-modal.html',
-  styleUrls: ['./new-board-modal.component.sass']
 })
 export class NewBoardModalComponent extends OpModalComponent {
   @ViewChild('actionAttributeSelect', { static: true }) actionAttributeSelect:ElementRef;
@@ -79,13 +80,29 @@ export class NewBoardModalComponent extends OpModalComponent {
               readonly I18n:I18nService) {
 
     super(locals, cdRef, elementRef);
+    this.initiateTiles();
   }
 
-  createFree() {
+  public createBoard(attribute:string) {
+    if (attribute === 'basic') {
+    this.createFree();
+    }
+    else {
+      this.createAction(attribute);
+    }
+  }
+  private initiateTiles() {
+    this.available.unshift({attribute:'basic', text:'Basic',
+    icon:'icon-boards', description:this.text.free_board_text});
+    this.addIcon(this.available);
+    this.addDescription(this.available);
+    this.addText(this.available);
+  }
+  private createFree() {
     this.create({ type: 'free' });
   }
 
-  createAction(attribute:string) {
+  private createAction(attribute:string) {
     this.create({ type: 'action', attribute: attribute! });
   }
 
@@ -105,15 +122,37 @@ export class NewBoardModalComponent extends OpModalComponent {
         this.halNotification.handleRawError(error);
       });
   }
-  public toolTipTitle(attribute:string):string {
-    var action_board_text = this.I18n.t('js.boards.board_type.action_text',
-     { attribute: this.I18n.t('js.boards.board_type.action_type.' + attribute )});
-    return action_board_text;
+  private addDescription(tiles:ITileViewEntry[]) {
+    tiles.forEach(element => {
+      if (element.attribute !== 'basic') {
+      element.description = this.I18n.t('js.boards.board_type.action_text',
+      { attribute: this.I18n.t('js.boards.board_type.action_type.' + element.attribute )}); }
+    });
   }
-  public addIcon(attribute:string) {
-    return {'icon-user': attribute === 'assignee',
-            'icon-workflow': attribute === 'status',
-            'icon-getting-started': attribute === 'version'
-    };
+  private addIcon(tiles:ITileViewEntry[]) {
+    tiles.forEach(element => {
+      if (element.attribute === 'assignee') {
+        element.icon = 'icon-user';
+      }
+      if (element.attribute === 'status') {
+        element.icon = 'icon-workflow';
+      }
+      if (element.attribute === 'version') {
+        element.icon = 'icon-getting-started';
+      }
+      if (element.attribute === 'basic') {
+        element.icon = 'icon-boards';
+      }
+    });
+  }
+  private addText(tiles:ITileViewEntry[]) {
+    tiles.forEach(element => {
+      if (element.attribute === 'basic') {
+        element.text = this.text.free_board;
+      }
+      else {
+        element.text = this.text.action_board + ' (' + element.text + ')';
+      }
+    });
   }
 }
