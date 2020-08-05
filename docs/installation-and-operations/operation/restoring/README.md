@@ -80,15 +80,6 @@ This is necessary since the backups of OpenProject does not clean statements to 
 pg_restore --clean --if-exists --dbname $(openproject config:get DATABASE_URL) postgresql-dump-20200804094017.pgdump
 ```
 
-Example:
-
-```bash
-$ openproject config:get DATABASE_URL
-postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject
-
-$ pg_restore -h 127.0.0.1 -p 45432 -U openproject -d openproject postgresql-dump-20191119210038.pgdump
-```
-
 ### Restart the OpenProject processes
 
 Finally, restart all your processes as follows:
