@@ -113,9 +113,9 @@ module API
       #   { /* more filters if needed */}
       # ]
       def filters_from_params(params)
-        return unless params[:filters]
+        filters = params[:filters] || params[:filter]
+        return unless filters
 
-        filters = params[:filters]
         filters = JSON.parse filters if filters.is_a? String
 
         filters.map do |filter|
