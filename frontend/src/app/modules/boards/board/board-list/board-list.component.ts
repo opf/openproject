@@ -334,7 +334,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     let actionService = this.actionService!;
-    const id = actionService.getActionValueHrefForColumn(query);
+    const id = actionService.getActionValueId(query);
 
     // Test if we loaded the resource already
     if (this.actionResource && id === this.actionResource.href) {

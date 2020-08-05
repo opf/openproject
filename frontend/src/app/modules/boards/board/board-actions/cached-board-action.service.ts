@@ -29,7 +29,7 @@ export abstract class CachedBoardActionService extends BoardActionService {
       );
   }
 
-  protected require(idOrHref:string):Promise<HalResource> {
+  protected require(id:string):Promise<HalResource> {
     this
       .cache
       .putFromPromiseIfPristine(() => this.loadUncached());
@@ -39,7 +39,7 @@ export abstract class CachedBoardActionService extends BoardActionService {
       .values$()
       .toPromise()
       .then(results => {
-        return results.find(resource => resource.id === idOrHref || resource.href === idOrHref)!;
+        return results.find(resource => resource.id === id)!;
       });
   }
 

@@ -62,13 +62,13 @@ export abstract class BoardActionService {
   /**
    * Returns the current filter value ID if any
    * @param query
-   * @returns /api/v3/status/:id if a status filter exists
+   * @returns The id of the resource
    */
-  getActionValueHrefForColumn(query:QueryResource):string|undefined {
+  getActionValueId(query:QueryResource):string|undefined {
     const filter = _.find(query.filters, filter => filter.id === this.filterName);
     if (filter) {
       const value = filter.values[0] as string|HalResource;
-      return (value instanceof HalResource) ? value.href! : value;
+      return (value instanceof HalResource) ? value.id! : value;
     }
 
     return;
@@ -77,17 +77,16 @@ export abstract class BoardActionService {
   /**
    * Returns the current filter value if any
    * @param query
-   * @returns /api/v3/status/:id if a status filter exists
+   * @returns The loaded action reosurce
    */
   getLoadedActionValue(query:QueryResource):Promise<HalResource|undefined> {
-    const href = this.getActionValueHrefForColumn(query);
+    const id = this.getActionValueId(query);
 
-    if (!href) {
+    if (!id) {
       return Promise.resolve(undefined);
     }
 
-    return this
-      .require(href);
+    return this.require(id);
   }
 
   /**
@@ -121,7 +120,7 @@ export abstract class BoardActionService {
    * Get available values from the active queries
    *
    * @param board The board we're looking at
-   * @param active The active set of values (hrefs or plain values)
+   * @param active The active set of values (resources or plain values)
    * @param matching values matching the given name
    */
   loadAvailable(board:Board, active:Set<string>, matching:string):Observable<HalResource[]> {
@@ -218,10 +217,10 @@ export abstract class BoardActionService {
   /**
    * Require the given resource to be loaded.
    *
-   * @param href
+   * @param id
    * @protected
    */
-  protected abstract require(href:string):Promise<HalResource>;
+  protected abstract require(id:string):Promise<HalResource>;
 
   /**
    * Load values optionally matching the given name

@@ -39,7 +39,7 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
   }
 
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
-    const href = this.getActionValueHrefForColumn(query);
+    const href = this.getActionValueId(query);
     changeset.setValue('project', { href: href });
   }
 
