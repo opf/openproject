@@ -1,14 +1,15 @@
 import {Injectable} from "@angular/core";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {take} from "rxjs/operators";
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
-export class BoardAssigneeActionService extends BoardActionService {
+export class BoardAssigneeActionService extends CachedBoardActionService {
   filterName = 'assignee';
 
   text = this.I18n.t('js.boards.board_type.action_by_attribute',
@@ -49,7 +50,7 @@ export class BoardAssigneeActionService extends BoardActionService {
       });
   }
 
-  protected loadAvailable():Promise<HalResource[]> {
+  protected loadUncached():Promise<HalResource[]> {
     return this
       .apiV3Service
       .projects

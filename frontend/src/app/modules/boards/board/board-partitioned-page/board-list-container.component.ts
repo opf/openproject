@@ -204,7 +204,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         const filter = _.find(options.filters, (filter) => !!filter[filterName]);
 
         if (filter) {
-          return filter[filterName].values[0];
+          return filter[filterName].values[0] as any;
         }
       })
       .filter(value => !!value);

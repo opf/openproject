@@ -3,7 +3,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {
   catchError,
   debounceTime,
-  distinctUntilChanged,
+  distinctUntilChanged, filter,
   switchMap,
   takeUntil,
   tap
@@ -47,6 +47,7 @@ export class DebouncedRequestSwitchmap<T, R = HalResource> {
     this.output$ = concat(
       of([]),
       this.input$.pipe(
+        filter(val => val !== undefined && val !== null),
         distinctUntilChanged(),
         debounceTime(debounceMs),
         tap((val:T) => {

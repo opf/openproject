@@ -12,20 +12,17 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injectable, Injector} from "@angular/core";
-import {take} from "rxjs/operators";
-import {input} from "reactivestates";
+import {map} from "rxjs/operators";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {Observable} from "rxjs";
 
 @Injectable()
 export abstract class BoardActionService {
-
-  // Cache the available values for the duration of the board
-  readonly cache = input<HalResource[]>();
 
   constructor(readonly injector:Injector,
               protected boardListsService:BoardListsService,
@@ -90,8 +87,7 @@ export abstract class BoardActionService {
     }
 
     return this
-      .withLoadedAvailable()
-      .then(collection => collection.find(resource => resource.href === href));
+      .require(href);
   }
 
   /**
@@ -126,12 +122,13 @@ export abstract class BoardActionService {
    *
    * @param board The board we're looking at
    * @param active The active set of values (hrefs or plain values)
+   * @param matching values matching the given name
    */
-  getAvailableValues(board:Board, active:Set<string>):Promise<HalResource[]> {
+  loadAvailable(board:Board, active:Set<string>, matching:string):Observable<HalResource[]> {
     return this
-      .withLoadedAvailable()
-      .then(results =>
-        results.filter(item => !active.has(item.id!))
+      .loadValues(matching)
+      .pipe(
+        map(items => items.filter(item => !active.has(item.id!)))
       );
   }
 
@@ -218,17 +215,20 @@ export abstract class BoardActionService {
     filter.applyDefaultsFromFilters();
   }
 
-  protected withLoadedAvailable():Promise<HalResource[]> {
-    this.cache.putFromPromiseIfPristine(() => this.loadAvailable());
-
-    return this.cache
-      .values$()
-      .pipe(take(1))
-      .toPromise();
-  }
+  /**
+   * Require the given resource to be loaded.
+   *
+   * @param href
+   * @protected
+   */
+  protected abstract require(href:string):Promise<HalResource>;
 
   /**
-   * Load the available values for this action attribute
+   * Load values optionally matching the given name
+   *
+   * @param matching
+   * @protected
    */
-  protected abstract loadAvailable():Promise<HalResource[]>;
+  protected abstract loadValues(matching?:string):Observable<HalResource[]>;
 }
+

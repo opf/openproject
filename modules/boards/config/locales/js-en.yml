@@ -50,6 +50,7 @@ en:
           status: status
           version: version
           subproject: subproject
+          subtasks: children
         select_attribute: "Action attribute"
 
       add_list_modal:

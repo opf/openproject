@@ -2,9 +2,10 @@ import {Injectable} from "@angular/core";
 import {Board} from "core-app/modules/boards/board/board";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
+import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
 
 @Injectable()
-export class BoardStatusActionService extends BoardActionService {
+export class BoardStatusActionService extends CachedBoardActionService {
   filterName = 'status';
 
   text = this.I18n.t('js.boards.board_type.action_by_attribute',
@@ -20,7 +21,9 @@ export class BoardStatusActionService extends BoardActionService {
   }
 
   public addInitialColumnsForAction(board:Board):Promise<Board> {
-    return this.withLoadedAvailable()
+    return this
+      .loadValues()
+      .toPromise()
       .then((results) =>
         Promise.all<unknown>(
           results.map((status:StatusResource) => {
@@ -40,7 +43,7 @@ export class BoardStatusActionService extends BoardActionService {
     return Promise.resolve(this.I18n.t('js.boards.add_list_modal.warning.status'));
   }
 
-  protected loadAvailable():Promise<StatusResource[]> {
+  protected loadUncached():Promise<StatusResource[]> {
     return this
       .apiV3Service
       .statuses
@@ -48,5 +51,4 @@ export class BoardStatusActionService extends BoardActionService {
       .toPromise()
       .then(collection => collection.elements);
   }
-
 }
