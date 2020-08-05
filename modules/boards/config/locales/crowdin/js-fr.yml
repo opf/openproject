@@ -43,6 +43,7 @@ fr:
           assignee: responsable
           status: état
           version: version
+          subproject: Sous-projet
         select_attribute: "Attribut d'action"
       add_list_modal:
         warning:

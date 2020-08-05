@@ -1992,7 +1992,8 @@
     assigned_to_role: "Deltakers rolle"
     member_of_group: "Deltakers gruppe"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Underprosjekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'at %{identifier}'

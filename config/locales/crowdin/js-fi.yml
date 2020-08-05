@@ -752,6 +752,7 @@ fi:
         startDate: "Aloituspäivä"
         status: "Tila"
         subject: "Aihe"
+        subproject: "Aliprojekti"
         title: "Otsikko"
         type: "Tyyppi"
         updatedAt: "Päivitetty"

@@ -751,6 +751,7 @@ sv:
         startDate: "Startdatum"
         status: "Status"
         subject: "Ämne"
+        subproject: "Delprojekt"
         title: "Titel"
         type: "Typ"
         updatedAt: "Uppdaterat den"

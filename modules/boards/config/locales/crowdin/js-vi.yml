@@ -43,6 +43,7 @@ vi:
           assignee: Người được giao
           status: Trạng thái
           version: Phiên bản
+          subproject: Dự án con
         select_attribute: "Action attribute"
       add_list_modal:
         warning:

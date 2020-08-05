@@ -2013,7 +2013,8 @@ hr:
     assigned_to_role: "Rola opunomoćenog korisnika"
     member_of_group: "Grupa opunomoćenog korisnika"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Potprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Ime ili identifikator"
   repositories:
     at_identifier: 'pri %{identifier}'

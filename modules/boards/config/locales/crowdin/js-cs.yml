@@ -43,6 +43,7 @@ cs:
           assignee: assignee
           status: status
           version: version
+          subproject: Dílčí projekt
         select_attribute: "Atribut akce"
       add_list_modal:
         warning:

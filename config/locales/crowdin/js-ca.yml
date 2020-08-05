@@ -752,6 +752,7 @@ ca:
         startDate: "Data d'inici"
         status: "Estat"
         subject: "Assumpte"
+        subproject: "Subprojecte"
         title: "Títol"
         type: "Tipus"
         updatedAt: "Actualitzat el"

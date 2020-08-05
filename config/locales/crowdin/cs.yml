@@ -2033,7 +2033,8 @@ cs:
     assigned_to_role: "Řešitelova role"
     member_of_group: "Řešitelova skupina"
     assignee_or_group: "Přiřazený nebo patřící skupině"
-    subproject_id: "Dílčí projekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Jméno nebo identifikátor"
   repositories:
     at_identifier: 'v %{identifier}'

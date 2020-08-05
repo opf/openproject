@@ -752,6 +752,7 @@ pl:
         startDate: "Data rozpoczęcia"
         status: "Status"
         subject: "Temat"
+        subproject: "Podprojekt"
         title: "Tytuł"
         type: "Typ"
         updatedAt: "Aktualizacja"

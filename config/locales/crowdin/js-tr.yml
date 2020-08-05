@@ -752,6 +752,7 @@ tr:
         startDate: "Başlangıç tarihi"
         status: "Durum"
         subject: "Konu"
+        subproject: "Alt proje"
         title: "Başlık"
         type: "Tür"
         updatedAt: "Güncelleme tarihi"

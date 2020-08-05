@@ -2032,7 +2032,8 @@ ru:
     assigned_to_role: "Роль назначенного"
     member_of_group: "Группа назначенного"
     assignee_or_group: "Назначенец или его группа"
-    subproject_id: "Подпроект"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Имя или идентификатор"
   repositories:
     at_identifier: 'в %{identifier}'

@@ -2076,7 +2076,8 @@ ar:
     assigned_to_role: "دور الموكل إليه"
     member_of_group: "مجموعة الموكل إليه"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "مشروع فرعي"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'في %{identifier}'

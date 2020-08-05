@@ -43,6 +43,7 @@ sv:
           assignee: assignee
           status: status
           version: version
+          subproject: Delprojekt
         select_attribute: "Åtgärdsattribut"
       add_list_modal:
         warning:

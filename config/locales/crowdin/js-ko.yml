@@ -752,6 +752,7 @@ ko:
         startDate: "시작 날짜"
         status: "상태"
         subject: "제목"
+        subproject: "하위 프로젝트"
         title: "제목"
         type: "타입"
         updatedAt: "업데이트 날짜"

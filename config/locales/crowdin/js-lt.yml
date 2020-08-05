@@ -752,6 +752,7 @@ lt:
         startDate: "Pradžios data"
         status: "Būsena"
         subject: "Tema"
+        subproject: "Sub-projektas"
         title: "Pavadinimas"
         type: "Tipas"
         updatedAt: "Atnaujinta"

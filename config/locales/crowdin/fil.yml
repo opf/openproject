@@ -1992,7 +1992,8 @@ fil:
     assigned_to_role: "Naitalagang tungkulin"
     member_of_group: "Itinalagang grupo"
     assignee_or_group: "Nakatakda o pag-aari ng grupo"
-    subproject_id: "Kahaliling proyekto"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Pangalan o pagkakakilanlan"
   repositories:
     at_identifier: 'sa %{identifier}'

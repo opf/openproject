@@ -752,6 +752,7 @@ ar:
         startDate: "تاريخ البدء"
         status: "الحالة"
         subject: "الموضوع"
+        subproject: "مشروع فرعي"
         title: "العنوان"
         type: "النّوع"
         updatedAt: "تم التحديث بتاريخ"

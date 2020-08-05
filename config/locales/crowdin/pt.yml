@@ -1990,7 +1990,8 @@ pt:
     assigned_to_role: "Atribuído ao papel"
     member_of_group: "Atribuído ao grupo"
     assignee_or_group: "Responsável ou grupo"
-    subproject_id: "Subprojeto"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Nome ou identificador"
   repositories:
     at_identifier: 'em %{identifier}'

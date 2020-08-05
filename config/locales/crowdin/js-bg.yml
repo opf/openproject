@@ -752,6 +752,7 @@ bg:
         startDate: "Начална дата"
         status: "Състояние"
         subject: "Заглавие"
+        subproject: "Подпроект"
         title: "Заглавие"
         type: "Тип"
         updatedAt: "Актуализиран на"

@@ -752,6 +752,7 @@ es:
         startDate: "Fecha de inicio"
         status: "Estado"
         subject: "Asunto"
+        subproject: "Subproyecto"
         title: "Título"
         type: "Tipo"
         updatedAt: "Actualizada el"

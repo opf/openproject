@@ -2034,7 +2034,8 @@ uk:
     assigned_to_role: "Роль виконавця"
     member_of_group: "Група виконавця"
     assignee_or_group: "Правонаступник або приналежність до групи"
-    subproject_id: "Підпроект"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Ім'я або ідентифікатор"
   repositories:
     at_identifier: 'на %{identifier}'

@@ -1965,7 +1965,8 @@ zh-CN:
     assigned_to_role: "指定人角色"
     member_of_group: "指定人用户组"
     assignee_or_group: "受让人或所属组"
-    subproject_id: "子项目"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "名称或标识符"
   repositories:
     at_identifier: '在 %{identifier}'

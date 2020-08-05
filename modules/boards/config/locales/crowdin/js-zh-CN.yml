@@ -43,6 +43,7 @@ zh-CN:
           assignee: 指派人
           status: 状态
           version: 版本
+          subproject: 子项目
         select_attribute: "操作属性"
       add_list_modal:
         warning:

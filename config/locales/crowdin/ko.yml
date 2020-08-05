@@ -1970,7 +1970,8 @@ ko:
     assigned_to_role: "담당자의 역할"
     member_of_group: "담당자의 그룹"
     assignee_or_group: "담당자 또는 소속 그룹"
-    subproject_id: "하위 프로젝트"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "이름 또는 식별자"
   repositories:
     at_identifier: '- %{identifier}'

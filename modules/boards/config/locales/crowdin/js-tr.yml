@@ -43,6 +43,7 @@ tr:
           assignee: vekil
           status: durum
           version: Sürüm
+          subproject: Alt proje
         select_attribute: "Eylem özelliği"
       add_list_modal:
         warning:

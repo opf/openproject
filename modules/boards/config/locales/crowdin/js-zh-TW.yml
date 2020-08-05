@@ -43,6 +43,7 @@ zh-TW:
           assignee: assignee
           status: status
           version: version
+          subproject: 子專案
         select_attribute: "Action attribute"
       add_list_modal:
         warning:

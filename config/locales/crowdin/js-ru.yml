@@ -751,6 +751,7 @@ ru:
         startDate: "Дата начала"
         status: "Состояние"
         subject: "Тема"
+        subproject: "Подпроект"
         title: "Заголовок"
         type: "Тип"
         updatedAt: "Обновлено"

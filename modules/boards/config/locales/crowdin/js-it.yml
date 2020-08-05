@@ -43,6 +43,7 @@ it:
           assignee: assegnatario
           status: stato
           version: versione
+          subproject: Sottoprogetto
         select_attribute: "Attributo azione"
       add_list_modal:
         warning:

@@ -755,6 +755,7 @@ ja:
         startDate: "開始日"
         status: "ステータス"
         subject: "題名"
+        subproject: "子プロジェクト"
         title: "タイトル"
         type: "種別"
         updatedAt: "更新日時"

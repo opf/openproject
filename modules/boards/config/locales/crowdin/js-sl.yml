@@ -43,6 +43,7 @@ sl:
           assignee: Pooblaščenec
           status: Stanje
           version: različica
+          subproject: Podprojekt
         select_attribute: "Atributi opravil"
       add_list_modal:
         warning:

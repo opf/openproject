@@ -43,6 +43,7 @@ lt:
           assignee: paskirtas
           status: būsena
           version: versija
+          subproject: Sub-projektas
         select_attribute: "Veiksmo atributas"
       add_list_modal:
         warning:

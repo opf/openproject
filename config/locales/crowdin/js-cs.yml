@@ -752,6 +752,7 @@ cs:
         startDate: "Datum zahájení"
         status: "Stav"
         subject: "Předmět"
+        subproject: "Dílčí projekt"
         title: "Název"
         type: "Typ"
         updatedAt: "Aktualizováno"

@@ -43,6 +43,7 @@ ko:
           assignee: 담당자
           status: 상태
           version: 버전
+          subproject: 하위 프로젝트
         select_attribute: "작업 특성"
       add_list_modal:
         warning:

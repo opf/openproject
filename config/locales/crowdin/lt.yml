@@ -2029,7 +2029,8 @@ lt:
     assigned_to_role: "Priskirtojo asmens rolė"
     member_of_group: "Priskirtojo asmens grupė"
     assignee_or_group: "Paskirtas ar priklausanti grupė"
-    subproject_id: "Sub-projektas"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Pavadinimas arba identifikatorius"
   repositories:
     at_identifier: '%{identifier}'
@@ -2133,8 +2134,8 @@ lt:
     warnings:
       cannot_annotate: "Šis failas negali turėti pastabų."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'aktyvuotas'
+    deactivated: 'deaktyvuotas'
   search_input_placeholder: "Paieška..."
   setting_email_delivery_method: "El. pašto pristatymo metodas"
   setting_sendmail_location: "Sendmail vykdomojo failo lokacija"
