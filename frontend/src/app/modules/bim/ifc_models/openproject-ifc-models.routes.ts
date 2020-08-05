@@ -34,6 +34,7 @@ import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-
 import {BcfListContainerComponent} from "core-app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {WorkPackageNewFullViewComponent} from "core-components/wp-new/wp-new-full-view.component";
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -110,6 +111,17 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       'content-right': { component: EmptyComponent },
       'content-left': { component: IFCViewerComponent }
     }
+  },
+  {
+    name: 'bim.partitioned.new',
+    url: '/new?type&parent_id',
+    reloadOnSearch: false,
+    data: {
+      baseRoute: 'bim.partitioned.list',
+      allowMovingInEditMode: true,
+      partition: '-left-only',
+    },
+    views: {'content-left': { component:WorkPackageNewFullViewComponent }}
   },
   {
     name: 'bim.partitioned.show',

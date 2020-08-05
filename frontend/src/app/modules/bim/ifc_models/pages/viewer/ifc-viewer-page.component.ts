@@ -22,6 +22,7 @@ import {BehaviorSubject} from "rxjs";
 import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
 import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -44,7 +45,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     areYouSure: this.I18n.t('js.text_are_you_sure')
   };
 
-  newRoute$ = new BehaviorSubject<string>(this.state.current.data.newRoute);
+  newRoute$ = new BehaviorSubject<string | undefined>(undefined);
   transitionUnsubscribeFn:Function;
 
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
@@ -83,17 +84,27 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     }
   ];
 
+  get newRoute () {
+    // Open new work packages in full view when there
+    // is no viewer (ie: Revit)
+    return this.viewerBridgeService.shouldShowViewer ?
+      this.state.current.data.newRoute :
+      'bim.partitioned.new';
+  }
+
   constructor(readonly ifcData:IfcModelsDataService,
               readonly state:StateService,
               readonly bimView:BimViewService,
               readonly transition:TransitionService,
               readonly gon:GonService,
-              readonly injector:Injector) {
+              readonly injector:Injector,
+              readonly viewerBridgeService:ViewerBridgeService) {
     super(injector);
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.newRoute$.next(this.newRoute);
 
     this
       .bimView
@@ -104,7 +115,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
     // Keep the new route up to date depending on where we move to
     this.transitionUnsubscribeFn = this.transition.onSuccess({}, () => {
-      this.newRoute$.next(this.state.current.data.newRoute);
+      this.newRoute$.next(this.newRoute);
     });
   }
 
