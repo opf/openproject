@@ -20,7 +20,8 @@
                     [draggable]="this.canDragOutOf(wp)"
                     [orientation]="orientation"
                     [shrinkOnMobile]="shrinkOnMobile"
-                    (onRemove)="removeCard(wp)">
+                    (onRemove)="removeCard(wp)"
+                    (stateLinkClicked)="stateLinkClicked.emit($event)">
     </wp-single-card>
 
     <hr *ngIf="shrinkOnMobile"

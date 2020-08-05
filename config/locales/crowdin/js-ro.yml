@@ -751,6 +751,7 @@ ro:
         startDate: "Data de început"
         status: "Stare"
         subject: "Subiect"
+        subproject: "Subproiect"
         title: "Titlu"
         type: "Tip"
         updatedAt: "Actualizat pe"

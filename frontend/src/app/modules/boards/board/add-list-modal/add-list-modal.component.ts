@@ -34,7 +34,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {StateService} from "@uirouter/core";
 import {BoardService} from "core-app/modules/boards/board/board.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -103,7 +102,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
               readonly boardActions:BoardActionsRegistryService,
               readonly state:StateService,
               readonly boardService:BoardService,
-              readonly boardCache:BoardCacheService,
               readonly I18n:I18nService) {
 
     super(locals, cdRef, elementRef);
@@ -138,18 +136,18 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   create() {
     this.inFlight = true;
     this.actionService
-      .addActionQuery(this.board, this.selectedAttribute!)
-      .then(board => this.boardService.save(board))
+      .addColumnWithActionAttribute(this.board, this.selectedAttribute!)
+      .then(board => this.boardService.save(board).toPromise())
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
-        this.boardCache.update(board);
         this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
       .catch(() => this.inFlight = false);
   }
 
   onNewActionCreated(newValue:HalResource) {
+    this.actionService.cache.clear("New attribute added.");
     this.selectedAttribute = newValue;
     this.create();
   }

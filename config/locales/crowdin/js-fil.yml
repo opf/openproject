@@ -752,6 +752,7 @@ fil:
         startDate: "Petsa ng pagsimula"
         status: "Estado"
         subject: "Paksa"
+        subproject: "Kahaliling proyekto"
         title: "Pamagat"
         type: "Uri"
         updatedAt: "Naka-update sa"

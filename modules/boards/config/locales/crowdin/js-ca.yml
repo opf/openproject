@@ -31,6 +31,7 @@ ca:
       error_permission_missing: "No disposa de permisos per crear consultes públiques"
       click_to_remove_list: "Click to remove this list"
       board_type:
+        text: 'Taulell tipus'
         free: 'Basic board'
         free_text: >
           Create a board in which you can freely create lists and order your work packages within. Moving work packages between lists do not change the work package itself.
@@ -42,6 +43,7 @@ ca:
           assignee: assignee
           status: status
           version: version
+          subproject: Subprojecte
         select_attribute: "Action attribute"
       add_list_modal:
         warning:

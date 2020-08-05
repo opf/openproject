@@ -492,7 +492,7 @@ ca:
         parent_work_package: "Pare"
         priority: "Prioritat"
         progress: "Progrés (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
         subproject: "Subprojecte"
@@ -1992,7 +1992,8 @@ ca:
     assigned_to_role: "Rol de l'assignat"
     member_of_group: "Grup de l'assignat"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Subprojecte"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'a %{identifier}'
@@ -2095,6 +2096,9 @@ ca:
     url: "URL del repositori"
     warnings:
       cannot_annotate: "No es poden fer notes d'aquest fitxer."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
   setting_email_delivery_method: "Mètode de lliurament del correu electrònic"
   setting_sendmail_location: "Localització de l'executable de sendmail"
@@ -2290,6 +2294,7 @@ ca:
   text_journal_deleted_with_diff: "%{label} suprimit (%{link})"
   text_journal_set_to: "%{label} s'ha establert a %{value}"
   text_journal_set_with_diff: "%{label} canviat (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "L'últim comentari és: %{note}"
   text_length_between: "Longitud entre %{min} i %{max} caràcters."
   text_line_separated: "Es permeten diversos valors (una línia per cada valor)."

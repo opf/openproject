@@ -752,6 +752,7 @@ uk:
         startDate: "Початок"
         status: "Статус"
         subject: "Тема"
+        subproject: "Підпроект"
         title: "Назва"
         type: "Тип"
         updatedAt: "Оновлене"

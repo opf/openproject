@@ -29,6 +29,11 @@ See docs/COPYRIGHT.rdoc for more details.
 <html>
   <head>
     <style>
+      :root {
+        color-scheme: light dark;
+        supported-color-schemes: light dark;
+      }
+
       body {
         font-family: Verdana, sans-serif;
         font-size: 0.8em;
@@ -38,8 +43,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
       @media (prefers-color-scheme: dark) {
         body {
-          color: #CCC;
-          background: #222222;
+          color: #CCC !important;
+          background: #222222 !important;
         }
       }
       

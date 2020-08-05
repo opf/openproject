@@ -13,14 +13,13 @@ import {NgxGalleryComponent, NgxGalleryOptions} from '@kolkov/ngx-gallery';
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {BcfAuthorizationService} from "core-app/modules/bim/bcf/api/bcf-authorization.service";
 import {ViewpointsService} from "core-app/modules/bim/bcf/helper/viewpoints.service";
 import {BcfViewpointItem} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface";
-
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 
 @Component({
@@ -108,12 +107,12 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   createAllowed:boolean = false;
   // Currently, this is static. Need observable if this changes over time
   viewerVisible = this.viewerBridge.viewerVisible();
-  projectId: string;
+  projectId:string;
 
   constructor(readonly state:StateService,
               readonly bcfAuthorization:BcfAuthorizationService,
               readonly viewerBridge:ViewerBridgeService,
-              readonly wpCache:WorkPackageCacheService,
+              readonly apiV3Service:APIV3Service,
               readonly wpCreate:WorkPackageCreateService,
               readonly notifications:NotificationsService,
               readonly cdRef:ChangeDetectorRef,
@@ -128,26 +127,29 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   protected observeChanges() {
-    this.wpCache
-          .observe(this.workPackage.id!)
-          .pipe(this.untilDestroyed())
-          .subscribe(async wp => {
-            this.workPackage = wp;
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackage)
+      .requireAndStream()
+      .pipe(this.untilDestroyed())
+      .subscribe(async wp => {
+        this.workPackage = wp;
 
-            if (!this.projectId) {
-              await this.initialize(this.workPackage);
-            }
+        if (!this.projectId) {
+          await this.initialize(this.workPackage);
+        }
 
-            if (wp.bcfViewpoints) {
-              this.refreshViewpoints(wp.bcfViewpoints);
-            }
-          });
+        if (wp.bcfViewpoints) {
+          this.refreshViewpoints(wp.bcfViewpoints);
+        }
+      });
   }
 
   async initialize(workPackage:WorkPackageResource) {
     this.projectId = workPackage.project.idFromLink;
     this.viewAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'project_actions', 'viewTopic');
-    this.createAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'topic_actions', 'createViewpoint'); 
+    this.createAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'topic_actions', 'createViewpoint');
 
     this.loadViewpointFromRoute(workPackage);
     this.cdRef.detectChanges();
@@ -169,20 +171,20 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     }
 
     this.viewpointsService
-          .deleteViewPoint$(workPackage, index) 
-          .subscribe(data => {
-            this.notifications.addSuccess(this.text.notice_successful_delete);
-            this.gallery.preview.close();
-          });
+      .deleteViewPoint$(workPackage, index)
+      .subscribe(data => {
+        this.notifications.addSuccess(this.text.notice_successful_delete);
+        this.gallery.preview.close();
+      });
   }
 
   public saveViewpoint(workPackage:WorkPackageResource) {
     this.viewpointsService
-          .saveViewpoint$(workPackage) 
-          .subscribe(viewpoint => {
-            this.notifications.addSuccess(this.text.notice_successful_create);
-            this.showIndex = this.viewpoints.length;
-          });
+      .saveViewpoint$(workPackage)
+      .subscribe(viewpoint => {
+        this.notifications.addSuccess(this.text.notice_successful_create);
+        this.showIndex = this.viewpoints.length;
+      });
   }
 
   protected loadViewpointFromRoute(workPackage:WorkPackageResource) {
@@ -206,7 +208,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     return [
       {
         icon: 'icon-view-model',
-        onClick: (evt: any, index: number) => this.showViewpoint(this.workPackage, index),
+        onClick: (evt:any, index:number) => this.showViewpoint(this.workPackage, index),
         titleText: this.text.show_viewpoint
       },
       {

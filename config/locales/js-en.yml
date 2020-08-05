@@ -818,6 +818,7 @@ en:
         startDate: "Start date"
         status: "Status"
         subject: "Subject"
+        subproject: "Subproject"
         title: "Title"
         type: "Type"
         updatedAt: "Updated on"

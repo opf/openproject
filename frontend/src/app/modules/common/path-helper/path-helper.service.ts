@@ -26,20 +26,70 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiV3Paths} from 'core-app/modules/common/path-helper/apiv3/apiv3-paths';
 import {Injectable} from '@angular/core';
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+
+class Apiv3Paths {
+  readonly apiV3Base:string;
+
+  constructor(basePath:string) {
+    this.apiV3Base = basePath + '/api/v3';
+  }
+
+  /**
+   * Preview markup path
+   *
+   * Primarily used from ckeditor
+   * https://github.com/opf/commonmark-ckeditor-build/
+   *
+   * @param context
+   */
+  public previewMarkup(context:string) {
+    let base = this.apiV3Base + '/render/markdown';
+
+    if (context) {
+      return base + `?context=${context}`;
+    } else {
+      return base;
+    }
+  }
+
+  /**
+   * Principals autocompleter path
+   *
+   * Primarily used from ckeditor
+   * https://github.com/opf/commonmark-ckeditor-build/
+   *
+   */
+  public principals(projectId:string|number, term:string|null) {
+    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+    // Only real and activated users:
+    filters.add('status', '!', ['3']);
+    // that are members of that project:
+    filters.add('member', '=', [projectId.toString()]);
+    // That are users:
+    filters.add('type', '=', ['User', 'Group']);
+    // That are not the current user:
+    filters.add('id', '!', ['me']);
+
+    if (term && term.length > 0) {
+      // Containing the that substring:
+      filters.add('name', '~', [term]);
+    }
+
+    return this.apiV3Base +
+      '/principals?' +
+      filters.toParams({ sortBy: '[["name","asc"]]', offset: '1', pageSize: '10' });
+  }
+
+}
 
 @Injectable({ providedIn: 'root' })
 export class PathHelperService {
-  public readonly appBasePath:string;
-  public readonly api:{ v3:ApiV3Paths };
-
-  constructor() {
-    this.appBasePath = window.appBasePath ? window.appBasePath : '';
-    this.api = {
-      v3: new ApiV3Paths(this.appBasePath)
-    };
-  }
+  public readonly appBasePath = window.appBasePath ? window.appBasePath : '';
+  public readonly api = {
+    v3: new Apiv3Paths(this.appBasePath)
+  };
 
   public get staticBase() {
     return this.appBasePath;

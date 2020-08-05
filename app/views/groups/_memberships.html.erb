@@ -67,7 +67,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <% @group.memberships.each do |membership| %>
                 <% next if membership.new_record? %>
                   <tr id="member-<%= membership.id %>" class="class">
-                    <td class="project"><%=h membership.project %></td>
+                    <td class="project"><%= link_to membership.project.name, project_members_path(membership.project) %></td>
                     <td class="roles">
                       <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
                       <%= labelled_tabular_form_for(:membership,

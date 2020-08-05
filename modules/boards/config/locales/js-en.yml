@@ -34,6 +34,7 @@ en:
       error_permission_missing: "The permission to create public queries is missing"
       click_to_remove_list: "Click to remove this list"
       board_type:
+        text: 'Board type'
         free: 'Basic board'
         free_text: >
           Create a board in which you can freely create lists and order your work packages within.
@@ -47,6 +48,7 @@ en:
           assignee: assignee
           status: status
           version: version
+          subproject: Subproject
         select_attribute: "Action attribute"
 
       add_list_modal:

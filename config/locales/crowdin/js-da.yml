@@ -751,6 +751,7 @@ da:
         startDate: "Start dato"
         status: "Status"
         subject: "Emne"
+        subproject: "Underprojekt"
         title: "Titel"
         type: "Type"
         updatedAt: "Opdateret den"

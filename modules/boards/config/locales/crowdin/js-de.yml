@@ -31,6 +31,7 @@ de:
       error_permission_missing: "Die Berechtigung zur Erstellung öffentlicher Abfragen fehlt"
       click_to_remove_list: "Klicken, um diese Liste zu entfernen"
       board_type:
+        text: 'Board-Typ'
         free: 'Einfaches Board'
         free_text: >
           Erstellen Sie ein Board, in dem Sie frei Listen erstellen und Ihre Arbeitspakete darin anordnen können. Verschieben von Arbeitspakete zwischen Listen hat keine Auswirkung auf das Arbeitspaket selbst.
@@ -42,6 +43,7 @@ de:
           assignee: Zugewiesen an
           status: Status
           version: Version
+          subproject: Unterprojekt
         select_attribute: "Aktionsattribut"
       add_list_modal:
         warning:

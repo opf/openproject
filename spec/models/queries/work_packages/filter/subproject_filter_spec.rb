@@ -126,11 +126,10 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
       end
     end
 
-    describe '#available_operators' do
-      it 'is the same as for every list_optional but the `all` operator comes first' do
-        expect(instance.available_operators)
-          .to eql([::Queries::Operators::All, ::Queries::Operators::None,
-                   ::Queries::Operators::Equals, ::Queries::Operators::NotEquals])
+    describe '#default_operator' do
+      it 'is the `all` operator' do
+        expect(instance.default_operator)
+          .to eql(::Queries::Operators::All)
       end
     end
 

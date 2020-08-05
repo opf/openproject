@@ -37,7 +37,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   @Input() public orientation:CardViewOrientation = 'vertical';
   @Input() public shrinkOnMobile:boolean = false;
 
-  @Output() public onRemove = new EventEmitter<WorkPackageResource>();
+  @Output() onRemove = new EventEmitter<WorkPackageResource>();
+  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   public uiStateLinkClass:string = uiStateLinkClass;
 
@@ -71,14 +72,13 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return this.cardView.classIdentifier(wp);
   }
 
-  public openSplitScreen(wp:WorkPackageResource) {
-    let classIdentifier = this.classIdentifier(wp);
+  public emitStateLinkClicked(wp:WorkPackageResource, detail?:boolean) {
+    const classIdentifier = this.classIdentifier(wp);
+    const stateToEmit = detail ? splitViewRoute(this.$state) : 'work-packages.show';
+
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.wpTableFocus.updateFocus(wp.id!);
-    this.$state.go(
-      splitViewRoute(this.$state),
-      { workPackageId: wp.id! }
-    );
+    this.stateLinkClicked.emit({ workPackageId:wp.id!, requestedState: stateToEmit });
   }
 
   public cardClasses() {

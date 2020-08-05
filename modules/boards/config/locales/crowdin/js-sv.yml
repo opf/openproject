@@ -31,6 +31,7 @@ sv:
       error_permission_missing: "Behörigheten att skapa offentliga frågor saknas"
       click_to_remove_list: "Klicka för att ta bort denna lista"
       board_type:
+        text: 'Typ av tavla'
         free: 'Grundläggande tavla'
         free_text: >
           Skapa en tavla där du fritt kan skapa listor och beställa dina arbetspaket inuti. Flyttar arbetspaket mellan listorna ändrar inte själva arbetspaketet.
@@ -42,6 +43,7 @@ sv:
           assignee: assignee
           status: status
           version: version
+          subproject: Delprojekt
         select_attribute: "Åtgärdsattribut"
       add_list_modal:
         warning:

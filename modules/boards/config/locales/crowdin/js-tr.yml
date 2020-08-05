@@ -31,6 +31,7 @@ tr:
       error_permission_missing: "Genel sorgu oluşturma izni eksik"
       click_to_remove_list: "Bu listeyi kaldırmak için tıklayın"
       board_type:
+        text: 'Yazı tahtası tipi'
         free: 'Temel kurulu'
         free_text: >
           Serbestçe listeler oluşturabileceğiniz ve çalışma paketlerinizi içinde sipariş edebileceğiniz bir tahta oluşturun. İş paketlerini listeler arasında taşımak, iş paketini değiştirmez.
@@ -42,6 +43,7 @@ tr:
           assignee: vekil
           status: durum
           version: Sürüm
+          subproject: Alt proje
         select_attribute: "Eylem özelliği"
       add_list_modal:
         warning:

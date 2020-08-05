@@ -494,7 +494,7 @@ sk:
         parent_work_package: "Nadradený balíček"
         priority: "Priorita"
         progress: "Stav spracovania (%)"
-        schedule_manually: "Plánovať ručne"
+        schedule_manually: "Manuálne plánovanie"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Podprojekt"
@@ -2033,7 +2033,8 @@ sk:
     assigned_to_role: "Priradená rola"
     member_of_group: "Skupina priradeného používateľa"
     assignee_or_group: "Priradené používateľovi alebo jeho skupine"
-    subproject_id: "Podprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Meno alebo identifikátor"
   repositories:
     at_identifier: 'na %{identifier}'
@@ -2138,6 +2139,9 @@ sk:
     url: "URL úložiska"
     warnings:
       cannot_annotate: "Tento súbor nie je možné komentovať."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Hľadať..."
   setting_email_delivery_method: "Spôsob doručenia e-mailu"
   setting_sendmail_location: "Umiestnenie sendmail spustiteľného programu"
@@ -2333,6 +2337,7 @@ sk:
   text_journal_deleted_with_diff: "%{label} odstránený (%{link})"
   text_journal_set_to: "%{label} nastavený na %{value}"
   text_journal_set_with_diff: "%{label} nastavený (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Posledný komentár je: %{note}"
   text_length_between: "Dĺžka medzi %{min} až %{max} znakov."
   text_line_separated: "Je povolené zadať viaceré hodnoty (každú hodnotu na samostatný riadok)."

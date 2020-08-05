@@ -492,7 +492,7 @@ tr:
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
-        schedule_manually: "Manuel planlama"
+        schedule_manually: "Manuel zamanlamayı etkinleştir"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
         subproject: "Alt proje"
@@ -1992,7 +1992,8 @@ tr:
     assigned_to_role: "Görev alanının rolü"
     member_of_group: "Atama grubunun grubu"
     assignee_or_group: "Atanan veya ait olunan grup"
-    subproject_id: "Alt proje"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "İsim veya tanımlayıcı"
   repositories:
     at_identifier: 'at% {tanıtıcı} %{identifier}'
@@ -2097,6 +2098,9 @@ tr:
     url: "Depo URL'si"
     warnings:
       cannot_annotate: "Bu dosyaya açıklama yapılamaz."
+  scheduling:
+    activated: 'etkinleştirmek'
+    deactivated: 'devre dışı bırakmak'
   search_input_placeholder: "Ara ..."
   setting_email_delivery_method: "E-posta teslim yöntemi"
   setting_sendmail_location: "Çalıştırılabilir sendmail aracının yolu"
@@ -2292,6 +2296,7 @@ tr:
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
+  text_journal_label_value: "%{value} %{label} eklendi"
   text_latest_note: "En yeni yorum:% {note} %{note}"
   text_length_between: "%{min} ve %{max} karakter arası uzunluk."
   text_line_separated: "Birden fazla değer kullanılabilir (her değer için bir satır)."

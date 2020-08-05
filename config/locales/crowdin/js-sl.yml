@@ -751,6 +751,7 @@ sl:
         startDate: "Datum začetka"
         status: "Stanje"
         subject: "Zadeva"
+        subproject: "Podprojekt"
         title: "Naslov"
         type: "Vrsta"
         updatedAt: "Posodobljeno"

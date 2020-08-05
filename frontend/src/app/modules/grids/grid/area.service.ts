@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {GridWidgetArea} from "app/modules/grids/areas/grid-widget-area";
 import {GridArea} from "core-app/modules/grids/areas/grid-area";
 import {GridGap} from "core-app/modules/grids/areas/grid-gap";
-import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
@@ -10,6 +9,9 @@ import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import { BehaviorSubject } from 'rxjs';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Apiv3GridForm} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-form";
+import {map} from "rxjs/operators";
 
 @Injectable()
 export class GridAreaService {
@@ -27,7 +29,7 @@ export class GridAreaService {
   public $mousedOverArea = new BehaviorSubject(this.mousedOverArea);
   public helpMode = false;
 
-  constructor (private gridDm:GridDmService,
+  constructor (private apiV3Service:APIV3Service,
                private notification:NotificationsService,
                private i18n:I18nService) { }
 
@@ -102,7 +104,7 @@ export class GridAreaService {
   }
 
   public saveWidgetChangeset(changeset:WidgetChangeset) {
-    let payload = this.gridDm.extractPayload(this.resource, this.schema);
+    let payload:any = Apiv3GridForm.extractPayload(this.resource, this.schema);
 
     let payloadWidget = payload.widgets.find((w:any) => w.id === changeset.pristineResource.id);
     Object.assign(payloadWidget, changeset.changes);
@@ -143,9 +145,11 @@ export class GridAreaService {
 
   private saveGrid(resource:GridWidgetResource|any, schema?:SchemaResource) {
     this
-      .gridDm
-      .update(resource, schema)
-      .then(updatedGrid => {
+      .apiV3Service
+      .grids
+      .id(resource)
+      .patch(resource, schema)
+      .subscribe(updatedGrid => {
         this.assignAreasWidget(updatedGrid);
         this.notification.addSuccess(this.i18n.t('js.notice_successful_update'));
       });
@@ -369,10 +373,13 @@ export class GridAreaService {
   }
 
   private fetchSchema() {
-    this.gridDm.updateForm(this.resource)
-      .then((form) => {
-        this.schema = form.schema;
-      });
+    this
+      .apiV3Service
+      .grids
+      .id(this.resource)
+      .form
+      .post({})
+      .subscribe(form => this.schema = form.schema);
   }
 
   public removeWidget(removedWidget:GridWidgetResource) {

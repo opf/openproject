@@ -494,7 +494,7 @@ cs:
         parent_work_package: "Rodič"
         priority: "Priorita"
         progress: "Průběh (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Dílčí projekt"
@@ -2033,7 +2033,8 @@ cs:
     assigned_to_role: "Řešitelova role"
     member_of_group: "Řešitelova skupina"
     assignee_or_group: "Přiřazený nebo patřící skupině"
-    subproject_id: "Dílčí projekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Jméno nebo identifikátor"
   repositories:
     at_identifier: 'v %{identifier}'
@@ -2138,6 +2139,9 @@ cs:
     url: "URL do repozitáře"
     warnings:
       cannot_annotate: "Tento soubor nelze přiřadit poznámce."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Hledat ..."
   setting_email_delivery_method: "Způsob zasílání emailu"
   setting_sendmail_location: "Umístění spustitelného souboru sendmail"
@@ -2333,6 +2337,7 @@ cs:
   text_journal_deleted_with_diff: "%{label} smazán (%{link})"
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Poslední komentář je: %{note}"
   text_length_between: "Délka mezi %{min} a %{max} znaky."
   text_line_separated: "Více hodnot povoleno (jeden řádek pro každou hodnotu)."

@@ -36,18 +36,19 @@ import {States} from "core-components/states.service";
 import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-resource";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {MAX_ORDER, ReorderDeltaBuilder} from "core-app/modules/common/drag-and-drop/reorder-delta-builder";
-import {QueryOrder, QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
 import {take} from "rxjs/operators";
 import {InputState} from "reactivestates";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
 
   constructor(protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly queryOrderDm:QueryOrderDmService,
+              protected readonly apiV3Service:APIV3Service,
               protected readonly states:States,
               protected readonly causedUpdates:CausedUpdatesService,
               protected readonly wpTableSortBy:WorkPackageViewSortByService,
@@ -143,7 +144,12 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
     // Push the update if the query is saved
     if (this.currentQuery.persisted) {
-      const updatedAt = await this.queryOrderDm.update(this.currentQuery.id!, delta);
+      const updatedAt = await this
+        .apiV3Service
+        .queries.id(this.currentQuery)
+        .order
+        .update(delta);
+
       this.currentQuery.updatedAt = updatedAt;
 
       // Remember that we caused this update
@@ -171,7 +177,11 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
       // Load the current order from backend
       this.positions.putFromPromiseIfPristine(
-        () => this.queryOrderDm.get(this.currentQuery.id!)
+        () => this
+        .apiV3Service
+        .queries.id(this.currentQuery)
+        .order
+        .get()
       );
     } else if (this.positions.isPristine()) {
       // Insert an empty fallback in case we have no data yet

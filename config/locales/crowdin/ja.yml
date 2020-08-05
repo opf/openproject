@@ -487,7 +487,7 @@ ja:
         parent_work_package: "親項目"
         priority: "優先度"
         progress: "進行状況 (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
         subproject: "子プロジェクト"
@@ -1967,7 +1967,8 @@ ja:
     assigned_to_role: "担当者のロール"
     member_of_group: "担当者のグループ"
     assignee_or_group: "割り当てまたは所属するグループ"
-    subproject_id: "子プロジェクト"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "名前または ID"
   repositories:
     at_identifier: '%{identifier} で'
@@ -2072,6 +2073,9 @@ ja:
     url: "リポジトリの URL"
     warnings:
       cannot_annotate: "このファイルに注釈を付けることはできません。"
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "検索…"
   setting_email_delivery_method: "メールの配信方法"
   setting_sendmail_location: "Sendmail の実行可能ファイルの場所"
@@ -2267,6 +2271,7 @@ ja:
   text_journal_deleted_with_diff: "%{label}を削除（%{link}）"
   text_journal_set_to: "%{label}を%{value}に設定"
   text_journal_set_with_diff: "%{label}を設定（%{link}）"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "最新のコメント: %{note}"
   text_length_between: "長さは%{min}から%{max}文字までです。"
   text_line_separated: "(1行ごとに書くことで)複数の値を設定できます。"

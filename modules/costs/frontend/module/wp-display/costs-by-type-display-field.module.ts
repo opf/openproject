@@ -28,8 +28,9 @@
 
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 interface ICostsByType {
     costObjectId:string;
@@ -44,11 +45,10 @@ interface ICostsByType {
 
 export class CostsByTypeDisplayField extends DisplayField {
 
-    public wpCacheService:any;
+    @InjectField() apiV3Service:APIV3Service;
 
     public apply(resource:any, schema:IFieldSchema) {
         super.apply(resource, schema);
-        this.wpCacheService = this.injector.get(WorkPackageCacheService);
         this.loadIfNecessary();
     }
 
@@ -57,7 +57,11 @@ export class CostsByTypeDisplayField extends DisplayField {
             this.value.$load().then(() => {
 
                 if (this.resource.$source._type === 'WorkPackage') {
-                    this.wpCacheService.touch(this.resource.id!);
+                  this
+                    .apiV3Service
+                    .work_packages
+                    .cache
+                    .touch(this.resource.id!);
                 }
             });
         }

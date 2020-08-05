@@ -34,9 +34,9 @@ import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {ChangeMap} from "core-app/modules/fields/changeset/changeset";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {StateCacheService} from "core-components/states/state-cache.service";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';
@@ -93,15 +93,12 @@ export interface ResourceChangesetClass {
 export class HalResourceEditingService extends StateCacheService<ResourceChangeset> {
 
   /** Committed / saved changes to work packages observable */
-  public comittedChanges = new Subject<ResourceChangesetCommit>();
-
-  /** State group of changes to wrap */
-  private stateGroup = new ChangesetStates();
+  public committedChanges = new Subject<ResourceChangesetCommit>();
 
   constructor(protected readonly injector:Injector,
               protected readonly halEvents:HalEventsService,
               protected readonly hook:HookService) {
-    super();
+    super(new ChangesetStates().changesets);
   }
 
   public async save<V extends HalResource, T extends ResourceChangeset<V>>(change:T):Promise<ResourceChangesetCommit<V>> {
@@ -124,7 +121,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
    */
   private complete<V extends HalResource, T extends ResourceChangeset<V>>(change:T, saved:V):ResourceChangesetCommit<V> {
     const commit = new ResourceChangesetCommit<V>(change, saved);
-    this.comittedChanges.next(commit);
+    this.committedChanges.next(commit);
     this.reset(change);
 
     const eventType = commit.wasNew ? 'created' : 'updated';
@@ -177,8 +174,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
 
   /**
    * Start or continue editing the work package with a given edit context
-   * @param {resource} Hal resource to edit
-   * @param {form:FormResource} Initialize with an existing form
+   * @param fallback Fallback resource to use
    * @return {ResourceChangeset} Change object to work on
    */
   public changeFor<V extends HalResource, T extends ResourceChangeset<V>>(fallback:V):T {
@@ -243,24 +239,12 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     this.multiState.get(resource.href!).clear();
   }
 
-  protected load(href:string):Promise<ResourceChangeset> {
-    return Promise.reject('Loading not applicable for changesets.') as any;
-  }
-
   protected onSaved(saved:HalResource):Promise<unknown> {
     if (saved.state) {
       return saved.push(saved);
     }
 
     return Promise.resolve();
-  }
-
-  protected loadAll(hrefs:string[]) {
-    return Promise.all(hrefs.map(href => this.load(href))) as any;
-  }
-
-  protected get multiState():MultiInputState<ResourceChangeset> {
-    return this.stateGroup.changesets;
   }
 }
 

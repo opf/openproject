@@ -28,7 +28,6 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {WorkPackageCacheService} from '../work-package-cache.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {CommentService} from "core-components/wp-activity/comment-service";
@@ -51,6 +50,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'work-package-comment',
@@ -81,7 +81,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
               protected wpLinkedActivities:WorkPackagesActivityService,
               protected ConfigurationService:ConfigurationService,
               protected loadingIndicator:LoadingIndicatorService,
-              protected wpCacheService:WorkPackageCacheService,
+              protected apiV3Service:APIV3Service,
               protected workPackageNotificationService:WorkPackageNotificationService,
               protected NotificationsService:NotificationsService,
               protected cdRef:ChangeDetectorRef,
@@ -151,7 +151,11 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
         this.wpLinkedActivities.require(this.workPackage, true);
-        this.wpCacheService.updateWorkPackage(this.workPackage);
+        this
+          .apiV3Service
+          .work_packages
+          .cache
+          .updateWorkPackage(this.workPackage);
         this.inFlight = false;
         this.deactivate(true);
       })

@@ -78,7 +78,7 @@ de:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Diesem Feld hinzugefügten Texte und Bilder sind öffentlich für alle angemeldeten Benutzer sichtbar!'
     text_overview: 'In dieser Ansicht können Sie benutzerdefinierte Hilfe-Texte für Attribute definieren. Für Attribute mit hinterlegtem Text können diese über ein kleines Hilfe-Icon neben dem Attribut angezeigt werden.'
     label_plural: 'Hilfe-Texte für Attribute'
     show_preview: 'Vorschau des Hilfe-Textes'
@@ -487,7 +487,7 @@ de:
         parent_work_package: "Übergeordnetes Arbeitspaket"
         priority: "Priorität"
         progress: "Fortschritt (%)"
-        schedule_manually: "Manuell planen"
+        schedule_manually: "Manuelle Planung"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
         subproject: "Unterprojekt"
@@ -1760,7 +1760,7 @@ de:
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Willkommen bei OpenProject. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -1987,7 +1987,8 @@ de:
     assigned_to_role: "Rolle der zugewiesenen Person"
     member_of_group: "Gruppe der zugewiesenen Person"
     assignee_or_group: "Zugewiesen an Nutzer oder dessen Gruppe"
-    subproject_id: "Unterprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name oder Kennung"
   repositories:
     at_identifier: 'auf %{identifier}'
@@ -2092,6 +2093,9 @@ de:
     url: "URL zum Projektarchiv"
     warnings:
       cannot_annotate: "Diese Datei kann nicht kommentiert werden."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Suchen ..."
   setting_email_delivery_method: "E-Mail Zustellungsoption"
   setting_sendmail_location: "Systempfad zu sendmail"
@@ -2287,6 +2291,7 @@ de:
   text_journal_deleted_with_diff: "%{label} wurde gelöscht (%{link})"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_set_with_diff: "%{label} gesetzt (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Der letzte Kommentar ist: %{note}"
   text_length_between: "Länge zwischen %{min} und %{max} Zeichen."
   text_line_separated: "Mehrere Werte sind erlaubt (eine Zeile pro Wert)."

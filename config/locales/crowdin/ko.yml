@@ -490,7 +490,7 @@ ko:
         parent_work_package: "부모"
         priority: "우선 순위"
         progress: "진행률 (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
         subproject: "하위 프로젝트"
@@ -1970,7 +1970,8 @@ ko:
     assigned_to_role: "담당자의 역할"
     member_of_group: "담당자의 그룹"
     assignee_or_group: "담당자 또는 소속 그룹"
-    subproject_id: "하위 프로젝트"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "이름 또는 식별자"
   repositories:
     at_identifier: '- %{identifier}'
@@ -2073,6 +2074,9 @@ ko:
     url: "리포지토리의 URL"
     warnings:
       cannot_annotate: "이 파일에는 주석을 지정할 수 없습니다."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "검색..."
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
@@ -2268,6 +2272,7 @@ ko:
   text_journal_deleted_with_diff: "%{label} 삭제됨(%{link})"
   text_journal_set_to: "%{label}이(가) %{value}(으)로 설정됨"
   text_journal_set_with_diff: "%{label} 설정됨(%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "최신 코멘트: %{note}"
   text_length_between: "%{min} ~ %{max}자 사이의 길이"
   text_line_separated: "여러 값이 허용됩니다(각 값에 대해 한 줄)."

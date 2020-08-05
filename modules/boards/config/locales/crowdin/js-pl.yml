@@ -31,6 +31,7 @@ pl:
       error_permission_missing: "Brakuje uprawnienia do tworzenia zapytań publicznych"
       click_to_remove_list: "Kliknij, aby usunąć tę listę"
       board_type:
+        text: 'Typ tablicy'
         free: 'Tablica podstawowa'
         free_text: >
           Utwórz tablicę, na której możesz dowolnie tworzyć listy i zlecać pakiety robocze. Przenoszenie pakietów roboczych pomiędzy listami nie zmienia samego pakietu roboczego.
@@ -42,6 +43,7 @@ pl:
           assignee: przypisana osoba
           status: status
           version: wersja
+          subproject: Podprojekt
         select_attribute: "Atrybut działania"
       add_list_modal:
         warning:

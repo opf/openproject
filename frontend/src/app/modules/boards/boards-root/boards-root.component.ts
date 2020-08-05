@@ -5,6 +5,7 @@ import {BoardStatusActionService} from "core-app/modules/boards/board/board-acti
 import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version/version-action.service";
 import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 import {BoardAssigneeActionService} from "core-app/modules/boards/board/board-actions/assignee/assignee-action.service";
+import {BoardSubprojectActionService} from "core-app/modules/boards/board/board-actions/subproject/subproject-action.service";
 
 @Component({
   selector: 'boards-entry',
@@ -14,6 +15,7 @@ import {BoardAssigneeActionService} from "core-app/modules/boards/board/board-ac
     BoardStatusActionService,
     BoardVersionActionService,
     BoardAssigneeActionService,
+    BoardSubprojectActionService,
     QueryUpdatedService,
   ]
 })
@@ -26,9 +28,11 @@ export class BoardsRootComponent {
     const statusAction = injector.get(BoardStatusActionService);
     const versionAction = injector.get(BoardVersionActionService);
     const assigneeAction = injector.get(BoardAssigneeActionService);
+    const subprojectAction = injector.get(BoardSubprojectActionService);
 
     registry.add('status', statusAction);
     registry.add('assignee', assigneeAction);
     registry.add('version', versionAction);
+    registry.add('subproject', subprojectAction);
   }
 }

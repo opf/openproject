@@ -325,4 +325,8 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   private get currentFilterResources():QueryFilterResource[] {
     return this.rawFilters.map((filter:QueryFilterInstanceResource) => filter.filter);
   }
+
+  isAvailable(el:QueryFilterInstanceResource):boolean {
+    return !!this.availableFilters.find(available => available.id === el.id);
+  }
 }

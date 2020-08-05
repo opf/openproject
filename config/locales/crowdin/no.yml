@@ -492,7 +492,7 @@
         parent_work_package: "Overordnet"
         priority: "Prioritet"
         progress: "Fremgang (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Tid brukt"
         spent_time: "Tid brukt"
         subproject: "Underprosjekt"
@@ -1992,7 +1992,8 @@
     assigned_to_role: "Deltakers rolle"
     member_of_group: "Deltakers gruppe"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Underprosjekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'at %{identifier}'
@@ -2097,6 +2098,9 @@
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Søk..."
   setting_email_delivery_method: "Leveringsmetode for e-post"
   setting_sendmail_location: "Plasseringen av sendmail kjørbar"
@@ -2292,6 +2296,7 @@
   text_journal_deleted_with_diff: "%{label} slettet (%{link})"
   text_journal_set_to: "%{label} satt til %{value}"
   text_journal_set_with_diff: "%{label} angitt (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "The latest comment is: %{note}"
   text_length_between: "Lengde mellom %{min} og %{max} tegn."
   text_line_separated: "Flere verdier tillatt (en verdi pr. linje)."

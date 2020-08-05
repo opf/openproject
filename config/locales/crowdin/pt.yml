@@ -490,7 +490,7 @@ pt:
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
         subproject: "Subprojeto"
@@ -1990,7 +1990,8 @@ pt:
     assigned_to_role: "Atribuído ao papel"
     member_of_group: "Atribuído ao grupo"
     assignee_or_group: "Responsável ou grupo"
-    subproject_id: "Subprojeto"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Nome ou identificador"
   repositories:
     at_identifier: 'em %{identifier}'
@@ -2095,6 +2096,9 @@ pt:
     url: "URL para repositório"
     warnings:
       cannot_annotate: "Este arquivo não pode ser anotado."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Pesquisar..."
   setting_email_delivery_method: "Método de entrega de e-mail"
   setting_sendmail_location: "Localização do executável do sendmail"
@@ -2290,6 +2294,7 @@ pt:
   text_journal_deleted_with_diff: "%{label} excluído (%{link})"
   text_journal_set_to: "%{label} definido como %{value}"
   text_journal_set_with_diff: "%{label} definido (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "O comentário mais recente é: %{note}"
   text_length_between: "Tamanho entre %{min} e %{max} caracteres."
   text_line_separated: "Vários valores permitidos (uma linha para cada valor)."

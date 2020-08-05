@@ -30,7 +30,6 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {States} from '../states.service';
 import {StateService, TransitionService} from '@uirouter/core';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -42,6 +41,7 @@ import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export type QueryCategory = 'starred'|'public'|'private'|'default';
 
@@ -107,7 +107,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
   constructor(readonly ref:ChangeDetectorRef,
               readonly element:ElementRef,
-              readonly QueryDm:QueryDmService,
+              readonly apiV3Service:APIV3Service,
               readonly $state:StateService,
               readonly $transitions:TransitionService,
               readonly I18n:I18nService,
@@ -219,8 +219,11 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   }
 
   private loadQueries() {
-    return this.loadingPromise = this.QueryDm
-      .listNonHidden(this.CurrentProject.identifier)
+    return this.loadingPromise = this
+      .apiV3Service
+      .queries
+      .filterNonHidden(this.CurrentProject.identifier)
+      .toPromise()
       .then(collection => {
 
         // Update the complete collection

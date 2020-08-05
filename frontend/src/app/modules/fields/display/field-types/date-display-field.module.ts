@@ -30,11 +30,11 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/highlightable-display-field.module";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {StatusCacheService} from "core-components/statuses/status-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class DateDisplayField extends HighlightableDisplayField {
   @InjectField() timezoneService:TimezoneService;
-  @InjectField() statusCache:StatusCacheService;
+  @InjectField() apiV3Service:APIV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);
@@ -52,7 +52,13 @@ export class DateDisplayField extends HighlightableDisplayField {
     if (this.shouldHighlight && this.canOverdue) {
       const diff = this.timezoneService.daysFromToday(this.value);
 
-      this.statusCache.require(this.resource.status.id).then((status) => {
+      this
+        .apiV3Service
+        .statuses
+        .id(this.resource.status.id)
+        .get()
+        .toPromise()
+        .then((status) => {
         if (!status.isClosed) {
           element.classList.add(Highlighting.overdueDate(diff));
         }

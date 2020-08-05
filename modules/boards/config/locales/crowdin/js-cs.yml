@@ -31,6 +31,7 @@ cs:
       error_permission_missing: "Chybí oprávnění k vytvoření veřejných dotazů"
       click_to_remove_list: "Kliknutím odstraníte tento seznam"
       board_type:
+        text: 'Typ tabule'
         free: 'Základní tabule'
         free_text: >
           Vytvořte tabuli, ve které můžete volně vytvářet seznamy a objednat své pracovní balíčky. Přesouvání pracovních balíčků mezi seznamy nemění samotný pracovní balíček.
@@ -42,6 +43,7 @@ cs:
           assignee: assignee
           status: status
           version: version
+          subproject: Dílčí projekt
         select_attribute: "Atribut akce"
       add_list_modal:
         warning:

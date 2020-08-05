@@ -751,6 +751,7 @@ hu:
         startDate: "Indulási dátum"
         status: "Állapot"
         subject: "Tárgy"
+        subproject: "Alprojekt"
         title: "Cím"
         type: "Típus"
         updatedAt: "Frissítve"

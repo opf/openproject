@@ -490,7 +490,7 @@ pl:
         parent_work_package: "Rodzic"
         priority: "Priorytet"
         progress: "Postęp (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
         subproject: "Podprojekt"
@@ -2029,7 +2029,8 @@ pl:
     assigned_to_role: "Przypisany do roli"
     member_of_group: "Przypisany do grupy"
     assignee_or_group: "Przypisana osoba lub przynależna grupa"
-    subproject_id: "Podprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Nazwa lub identyfikator"
   repositories:
     at_identifier: 'w %{identifier}'
@@ -2132,6 +2133,9 @@ pl:
     url: "Adres URL do repozytorium"
     warnings:
       cannot_annotate: "Ten plik nie może być odnotowany."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Wyszukaj ..."
   setting_email_delivery_method: "Metoda dostarczenia maila"
   setting_sendmail_location: "Lokalizacja pliku wykonywalnego sendmail"
@@ -2327,6 +2331,7 @@ pl:
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Ostatni komentarz: %{note}"
   text_length_between: "Length between %{min} and %{max} characters."
   text_line_separated: "Wiele wartości dopuszczalne (jeden wiersz dla każdej wartości)."

@@ -96,6 +96,7 @@ describe 'BIM Revit Add-in navigation spec',
 
     it 'shows workpackage details page in full view on Table display mode' do
       model_page.switch_view 'Table'
+
       row_element = page.first('.wp-table--row')
 
       row_element.hover

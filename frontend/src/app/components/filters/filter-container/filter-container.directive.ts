@@ -79,7 +79,8 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
   }
 
   public replaceIfComplete(filters:QueryFilterInstanceResource[]) {
-    this.wpTableFilters.replaceIfComplete(filters);
-    this.filtersChanged.emit(this.filters);
+    let available = filters.filter(el => this.wpTableFilters.isAvailable(el));
+    this.wpTableFilters.replaceIfComplete(available);
+    this.filtersChanged.emit(available);
   }
 }

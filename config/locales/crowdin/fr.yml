@@ -491,7 +491,7 @@ fr:
         parent_work_package: "Parent"
         priority: "Priorité"
         progress: "Progrès (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
         subproject: "Sous-projet"
@@ -1991,7 +1991,8 @@ fr:
     assigned_to_role: "Rôle du Destinataire"
     member_of_group: "Groupe du Destinataire"
     assignee_or_group: "Cessionnaire ou groupe d’appartenance"
-    subproject_id: "Sous-projet"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Nom ou identifiant"
   repositories:
     at_identifier: '%{identifier}'
@@ -2096,6 +2097,9 @@ fr:
     url: "URL du dépôt"
     warnings:
       cannot_annotate: "Ce fichier ne peut pas être annoté."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Rechercher…"
   setting_email_delivery_method: "Méthode de livraison d'e-mail"
   setting_sendmail_location: "Emplacement de l’exécutable sendmail"
@@ -2291,6 +2295,7 @@ fr:
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_set_with_diff: "%{label} mis (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Le dernier commentaire est : %{note}"
   text_length_between: "Longueur entre %{min} et %{max} caractères."
   text_line_separated: "Valeurs multiples autorisées (une ligne par valeur)."

@@ -24,7 +24,7 @@ hu:
     attributes:
       work_package:
         position: "Pozició"
-        remaining_hours: "Hátralévő óra"
+        remaining_hours: "Fennmaradó órák"
         remaining_time: "Fennmaradó órák"
         story_points: "Story pontok"
         backlogs_work_package_type: "Backlog típus"

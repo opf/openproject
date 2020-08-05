@@ -31,7 +31,6 @@ import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -49,6 +48,8 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {CurrentUserService} from "core-components/user/current-user.service";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -71,10 +72,11 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
-  constructor(readonly RootDm:RootDmService,
-              readonly halResourceService:HalResourceService,
+  constructor(readonly halResourceService:HalResourceService,
               readonly halSorting:HalResourceSortingService,
               readonly PathHelper:PathHelperService,
+              readonly apiV3Service:APIV3Service,
+              readonly currentUser:CurrentUserService,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
   }
@@ -145,7 +147,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     // copy will have it's name altered to 'me' and will then be
     // prepended to the list.
     if (this.isUserResource) {
-      loadingPromises.push(this.RootDm.load());
+      loadingPromises.push(this.apiV3Service.root.get().toPromise());
     }
 
     Promise.all(loadingPromises)
@@ -169,7 +171,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
       {
         _links: {
           self: {
-            href: this.PathHelper.api.v3.users.me,
+            href: this.apiV3Service.users.me,
             title: this.I18n.t('js.label_me')
           }
         }

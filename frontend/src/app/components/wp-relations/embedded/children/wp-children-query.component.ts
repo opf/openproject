@@ -37,17 +37,17 @@ import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
 import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {filter} from "rxjs/operators";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-children-query',
   templateUrl: '../wp-relation-query.html',
   providers: [
-    { provide: WorkPackageInlineCreateService, useClass: WpChildrenInlineCreateService }
+    { provide: WorkPackageInlineCreateService, useClass: WpChildrenInlineCreateService },
   ]
 })
 export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryBase implements OnInit {
@@ -73,7 +73,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
               protected PathHelper:PathHelperService,
               protected wpInlineCreate:WorkPackageInlineCreateService,
               protected halEvents:HalEventsService,
-              protected wpCacheService:WorkPackageCacheService,
+              protected apiV3Service:APIV3Service,
               protected queryUrlParamsHelper:UrlParamsHelperService,
               readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
@@ -100,8 +100,11 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
       });
 
     // Refresh table when work package is refreshed
-    this.wpCacheService
-      .observe(this.workPackage.id!)
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackage)
+      .observe()
       .pipe(
         filter(() => this.embeddedTable && this.embeddedTable.isInitialized),
         this.untilDestroyed()

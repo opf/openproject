@@ -543,7 +543,7 @@ en:
         parent_work_package: "Parent"
         priority: "Priority"
         progress: "Progress (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
@@ -2056,7 +2056,8 @@ en:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Subproject"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
 
   repositories:
@@ -2164,6 +2165,10 @@ en:
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
+
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
 
   search_input_placeholder: "Search ..."
 
@@ -2377,6 +2382,7 @@ en:
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "The latest comment is: %{note}"
   text_length_between: "Length between %{min} and %{max} characters."
   text_line_separated: "Multiple values allowed (one line for each value)."

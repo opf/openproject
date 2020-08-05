@@ -31,6 +31,7 @@ uk:
       error_permission_missing: "Немає дозволу на створення загальнодоступних запитів"
       click_to_remove_list: "Натисніть, щоб видалити список"
       board_type:
+        text: 'Тип дошки'
         free: 'Базова дошка'
         free_text: >
           Створіть дошку для якої ви можете вільно створювати списки і впорядковувати свої робочі пакети. Переміщення робочих пакетів між списками не змінює робочий пакет.
@@ -42,6 +43,7 @@ uk:
           assignee: assignee
           status: status
           version: version
+          subproject: Підпроект
         select_attribute: "Action attribute"
       add_list_modal:
         warning:

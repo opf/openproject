@@ -752,6 +752,7 @@ nl:
         startDate: "Startdatum"
         status: "Status"
         subject: "Onderwerp"
+        subproject: "Subproject"
         title: "Titel"
         type: "Type"
         updatedAt: "Bijgewerkt op"

@@ -65,26 +65,19 @@ Note: in this section, the `<dbusername>`, `<dbhost>` and `<dbname>` variables t
 the values that are contained in the `DATABASE_URL` setting of your
 installation.
 
-First, get the necessary details about your database:
+First, ensure the connection details about your database is the one you want to restore
 
 ```bash
 openproject config:get DATABASE_URL
 #=> e.g.: postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<dbname>
 ```
 
-Then, to restore the PostgreSQL dump please use the `pg_restore` command utility:
+Then, to restore the PostgreSQL dump please use the `pg_restore` command utility. **WARNING:** The command `--clean --if-exists` is used and it will drop objects in the database and you will lose all changes in this database! Double-check that the database URL above is the database you want to restore to. 
+
+This is necessary since the backups of OpenProject does not clean statements to remove existing options and will lead to duplicate index errors when trying to restore to an existing database. The alternative is to drop/recreate the database manually, if you have the permissions to do so.
 
 ```bash
-pg_restore -h <dbhost> -p <dbport> -U <dbusername> -d <dbname> postgresql-dump-20191119210038.pgdump
-```
-
-Example:
-
-```bash
-$ openproject config:get DATABASE_URL
-postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject
-
-$ pg_restore -h 127.0.0.1 -p 45432 -U openproject -d openproject postgresql-dump-20191119210038.pgdump
+pg_restore --clean --if-exists --dbname $(openproject config:get DATABASE_URL) postgresql-dump-20200804094017.pgdump
 ```
 
 ### Restart the OpenProject processes

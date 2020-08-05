@@ -492,7 +492,7 @@ fi:
         parent_work_package: "Ylätaso"
         priority: "Prioriteetti"
         progress: "Valmiusaste (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"
         subproject: "Aliprojekti"
@@ -1992,7 +1992,8 @@ fi:
     assigned_to_role: "Työn suorittajan rooli"
     member_of_group: "Työn suorittajan ryhmä"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Aliprojekti"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'klo %{identifier}'
@@ -2097,6 +2098,9 @@ fi:
     url: "URL to repository"
     warnings:
       cannot_annotate: "Tätä tiedostoa ei voi selityksineen."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Etsi..."
   setting_email_delivery_method: "Sähköpostiviestien toimitustapa"
   setting_sendmail_location: "Location of the sendmail executable"
@@ -2292,6 +2296,7 @@ fi:
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} muutettu %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Viimeisin kommentti on: %{note}"
   text_length_between: "Pituus välillä %{min} ja %{max} merkkiä."
   text_line_separated: "Useat arvot sallittu (yksi rivi kullekin)."

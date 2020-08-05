@@ -751,6 +751,7 @@ vi:
         startDate: "Ngày bắt đầu"
         status: "Trạng thái"
         subject: "Chủ đề"
+        subproject: "Dự án con"
         title: "Tiêu đề"
         type: "Kiểu"
         updatedAt: "Được cập nhật vào lúc"

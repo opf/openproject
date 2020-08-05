@@ -751,6 +751,7 @@ el:
         startDate: "Ημερομηνία έναρξης"
         status: "Κατάσταση"
         subject: "Θέμα"
+        subproject: "Υποέργο"
         title: "Τίτλος"
         type: "Τύπος"
         updatedAt: "Τροποποιήθηκε"

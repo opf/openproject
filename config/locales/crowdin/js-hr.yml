@@ -752,6 +752,7 @@ hr:
         startDate: "Datum Početka"
         status: "Status"
         subject: "Predmet"
+        subproject: "Potprojekt"
         title: "Naziv"
         type: "Tip"
         updatedAt: "Ažurirano"

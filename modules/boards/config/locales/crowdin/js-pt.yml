@@ -31,6 +31,7 @@ pt:
       error_permission_missing: "A permissão para criar consultas públicas está faltando"
       click_to_remove_list: "Clique para remover esta lista"
       board_type:
+        text: 'Tipo de quadro'
         free: 'Quadro básico'
         free_text: >
           Crie um quadro no qual você pode criar livremente listas e ordenar seus pacotes de trabalho dentro. Mover pacotes de trabalho entre listas não altera o pacote de trabalho em si.
@@ -42,6 +43,7 @@ pt:
           assignee: responsável
           status: estado
           version: versão
+          subproject: Subprojeto
         select_attribute: "Atributo de ação"
       add_list_modal:
         warning:

@@ -14,9 +14,9 @@ import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export class DragAndDropTransformer {
 
@@ -27,7 +27,7 @@ export class DragAndDropTransformer {
   @InjectField() private readonly wpTableSortBy:WorkPackageViewSortByService;
   @InjectField() private readonly wpTableOrder:WorkPackageViewOrderService;
   @InjectField() private readonly browserDetector:BrowserDetector;
-  @InjectField() private readonly wpCacheService:WorkPackageCacheService;
+  @InjectField() private readonly apiV3Service:APIV3Service;
   @InjectField() private readonly wpListService:WorkPackagesListService;
   @InjectField() private readonly dragActionRegistry:TableDragActionsRegistryService;
   @InjectField(DragAndDropService, null) private readonly dragService:DragAndDropService|null;
@@ -72,7 +72,7 @@ export class DragAndDropTransformer {
         const rowIndex = this.findRowIndex(el);
 
         try {
-          const workPackage = await this.wpCacheService.require(wpId);
+          const workPackage = await this.apiV3Service.work_packages.id(wpId).get().toPromise();
           const newOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
           await this.actionService.handleDrop(workPackage, el);
           this.updateRenderedOrder(newOrder);
@@ -97,7 +97,7 @@ export class DragAndDropTransformer {
       },
       onAdded: async (el:HTMLElement) => {
         const wpId:string = el.dataset.workPackageId!;
-        const workPackage = await this.wpCacheService.require(wpId);
+        const workPackage = await this.apiV3Service.work_packages.id(wpId).get().toPromise();
         const rowIndex = this.findRowIndex(el);
 
         return this.actionService
@@ -114,7 +114,7 @@ export class DragAndDropTransformer {
       onCloned: async (clone:HTMLElement, original:HTMLElement) => {
         // Replace clone with one TD of the subject
         const wpId:string = original.dataset.workPackageId!;
-        const workPackage = await this.wpCacheService.require(wpId);
+        const workPackage = await this.apiV3Service.work_packages.id(wpId).get().toPromise();
 
         const colspan = clone.children.length;
         const td = document.createElement('td');
@@ -144,7 +144,11 @@ export class DragAndDropTransformer {
   private async updateRenderedOrder(order:string[]) {
     order = _.uniq(order);
 
-    const mappedOrder = await Promise.all(order.map(id => this.wpCacheService.require(id)));
+    const mappedOrder = await Promise.all(
+      order.map(
+        wpId => this.apiV3Service.work_packages.id(wpId).get().toPromise()
+      )
+    );
 
     /** Re-render the table */
     this.table.initialSetup(mappedOrder);

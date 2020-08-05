@@ -31,6 +31,7 @@ ja:
       error_permission_missing: "公開クエリを作成するアクセス許可が見つかりません。"
       click_to_remove_list: "クリックしてこのリストを削除"
       board_type:
+        text: 'ボードの形式'
         free: '基本ボード'
         free_text: >
           自由にリストを作成し、その中で作業項目を注文できるボードを作成してください。 リスト間で作業項目を移動しても、作業項目自体は変更されません。
@@ -42,6 +43,7 @@ ja:
           assignee: assignee
           status: status
           version: version
+          subproject: 子プロジェクト
         select_attribute: "アクション属性"
       add_list_modal:
         warning:

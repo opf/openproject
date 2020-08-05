@@ -489,7 +489,7 @@ es:
         parent_work_package: "Padre"
         priority: "Prioridad"
         progress: "Progreso (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Tiempo empleado"
         spent_time: "Tiempo empleado"
         subproject: "Subproyecto"
@@ -1989,7 +1989,8 @@ es:
     assigned_to_role: "Asignación de roles"
     member_of_group: "Asignación de grupo"
     assignee_or_group: "Grupo al que pertenece o al que está asignado"
-    subproject_id: "Subproyecto"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Nombre o identificador"
   repositories:
     at_identifier: 'en %{identifier}'
@@ -2094,6 +2095,9 @@ es:
     url: "URL al repositorio"
     warnings:
       cannot_annotate: "No se pueden realizar notas sobre este fichero."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Buscar..."
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
@@ -2289,6 +2293,7 @@ es:
   text_journal_deleted_with_diff: "%{label} eliminado (%{link})"
   text_journal_set_to: "%{label} establecido al %{value}"
   text_journal_set_with_diff: "%{label} fijado (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "El último comentario es: %{note}"
   text_length_between: "Longitud entre %{min} y %{max} caracteres."
   text_line_separated: "Múltiples valores permitidos (una línea para cada valor)."

@@ -491,7 +491,7 @@ sv:
         parent_work_package: "Överordnad"
         priority: "Prioritet"
         progress: "Progress (%)"
-        schedule_manually: "Schedule manually"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"
@@ -1991,7 +1991,8 @@ sv:
     assigned_to_role: "Tilldelades roll"
     member_of_group: "Den tilldelades grupp"
     assignee_or_group: "Tilldelad eller tillhörandegrupp"
-    subproject_id: "Delprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Namn eller identifierare"
   repositories:
     at_identifier: 'på %{identifier}'
@@ -2094,6 +2095,9 @@ sv:
     url: "URL till arkiv"
     warnings:
       cannot_annotate: "Den här filen kan inte kommenteras."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Sök ..."
   setting_email_delivery_method: "Leveransmetod för e-post"
   setting_sendmail_location: "Sökväg till sendmail"
@@ -2289,6 +2293,7 @@ sv:
   text_journal_deleted_with_diff: "%{label} raderad (%{link})"
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Den senaste kommentaren är: %{note}"
   text_length_between: "Längd mellan %{min} och %{max} tecken."
   text_line_separated: "Flera värden tillåtna (en rad för varje värde)."

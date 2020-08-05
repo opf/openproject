@@ -11,7 +11,6 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {
   LoadingIndicatorService,
   withLoadingIndicator
@@ -21,7 +20,6 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Board} from "core-app/modules/boards/board/board";
@@ -36,12 +34,10 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {debugLog} from "core-app/helpers/debug_output";
@@ -57,6 +53,7 @@ import {debounceTime, filter, map} from "rxjs/operators";
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {ChangeItem} from "core-app/modules/fields/changeset/changeset";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -129,7 +126,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public buttonPlaceholder:DisabledButtonPlaceholder|undefined;
 
-  constructor(readonly QueryDm:QueryDmService,
+  constructor(readonly apiv3Service:APIV3Service,
               readonly I18n:I18nService,
               readonly state:StateService,
               readonly cdRef:ChangeDetectorRef,
@@ -148,11 +145,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               readonly injector:Injector,
               readonly halEditing:HalResourceEditingService,
               readonly loadingIndicator:LoadingIndicatorService,
-              readonly wpCacheService:WorkPackageCacheService,
               readonly schemaCache:SchemaCacheService,
               readonly boardService:BoardService,
               readonly boardActionRegistry:BoardActionsRegistryService,
-              readonly causedUpdates:CausedUpdatesService) {
+              readonly causedUpdates:CausedUpdatesService,
+              readonly $state:StateService) {
     super(I18n, injector);
   }
 
@@ -242,11 +239,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public canMove(workPackage:WorkPackageResource) {
-    if (this.board.isAction) {
-      return this.canDragOutOf && this.schema(workPackage).isAttributeEditable(this.board.actionAttribute!);
-    } else {
-      return this.canDragOutOf;
-    }
+    return this.canDragOutOf && (!this.actionService || this.actionService.canMove(workPackage));
   }
 
   public get canReference() {
@@ -278,22 +271,29 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return;
     }
 
-    this.QueryDm
-      .delete(query)
-      .then(() => this.onRemove.emit());
+    this
+      .apiv3Service
+      .queries
+      .id(query)
+      .delete()
+      .subscribe(() => this.onRemove.emit());
   }
 
   public renameQuery(query:QueryResource, value:string) {
     this.inFlight = true;
     this.query.name = value;
-    this.QueryDm
-      .patch(this.query.id!, { name: value })
-      .toPromise()
-      .then(() => {
-        this.inFlight = false;
-        this.notifications.addSuccess(this.text.updateSuccessful);
-      })
-      .catch(() => this.inFlight = false);
+    this
+      .apiv3Service
+      .queries
+      .id(this.query)
+      .patch({ name: value })
+      .subscribe(
+        () => {
+          this.inFlight = false;
+          this.notifications.addSuccess(this.text.updateSuccessful);
+        },
+        (_error) => this.inFlight = false,
+      );
   }
 
   private boardListActionColorClass(value?:HalResource):string {
@@ -333,7 +333,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return;
     }
 
-    const id = this.actionService.getFilterHref(query);
+    let actionService = this.actionService!;
+    const id = actionService.getActionValueHrefForColumn(query);
 
     // Test if we loaded the resource already
     if (this.actionResource && id === this.actionResource.href) {
@@ -341,14 +342,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     // Load the resource
-    this.actionService.getLoadedFilterValue(query).then(async resource => {
+    actionService.getLoadedActionValue(query).then(async resource => {
       this.actionResource = resource;
-      this.headerComponent = this.actionService.headerComponent();
-      this.buttonPlaceholder = this.actionService.disabledAddButtonPlaceholder(resource);
+      this.headerComponent = actionService.headerComponent();
+      this.buttonPlaceholder = actionService.disabledAddButtonPlaceholder(resource);
       this.actionResourceClass = this.boardListActionColorClass(resource);
-      this.canDragInto = this.actionService.dragIntoAllowed(query, resource);
+      this.canDragInto = actionService.dragIntoAllowed(query, resource);
 
-      const canWriteAttribute = await this.actionService.canAddToQuery(query);
+      const canWriteAttribute = await actionService.canAddToQuery(query);
       this.showAddButton = this.canDragInto && this.wpInlineCreate.canAdd && canWriteAttribute;
       this.cdRef.detectChanges();
     });
@@ -357,8 +358,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /**
    * Return the linked action service
    */
-  private get actionService():BoardActionService {
-    return this.boardActionRegistry.get(this.board.actionAttribute!);
+  private get actionService():BoardActionService|undefined {
+    if (this.board.actionAttribute) {
+      return this.boardActionRegistry.get(this.board.actionAttribute);
+    }
+
+    return undefined;
   }
 
   /**
@@ -370,21 +375,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     let query = this.querySpace.query.value!;
     const changeset = this.halEditing.changeFor(workPackage) as WorkPackageChangeset;
 
-    // Ensure attribute remains writable in the form
-    const actionAttribute = this.board.actionAttribute;
-    if (actionAttribute && !changeset.isWritable(actionAttribute)) {
-      throw this.I18n.t(
-        'js.boards.error_attribute_not_writable',
-        { attribute: changeset.humanName(actionAttribute) }
-      );
-    }
-
-    const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
-    filter.applyDefaultsFromFilters();
+    // Assign to the action attribute if this is an action board
+    this.actionService?.assignToWorkPackage(changeset, query);
 
     if (changeset.isEmpty()) {
       // Ensure work package and its schema is loaded
-      return this.wpCacheService.updateWorkPackage(workPackage);
+      return this.apiv3Service.work_packages.cache.updateWorkPackage(workPackage);
     } else {
       // Save changes to the work package, which reloads it as well
       return this.halEditing.save(changeset);
@@ -396,7 +392,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private loadQuery(visibly = true) {
-    let observable = this.QueryDm.stream(this.columnsQueryProps, this.queryId);
+    let observable = this
+      .apiv3Service
+      .queries
+      .find(this.columnsQueryProps, this.queryId);
 
     // Spread arguments on pipe does not work:
     // https://github.com/ReactiveX/rxjs/issues/3989
@@ -407,7 +406,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     observable
       .subscribe(
         query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
-        error => this.loadingError = this.halNotification.retrieveErrorMessage(error)
+        error => {
+          this.loadingError = this.halNotification.retrieveErrorMessage(error);
+          this.cdRef.detectChanges();
+        }
       );
   }
 
@@ -470,6 +472,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       );
     }
   }
+
+  openStateLink(event:{ workPackageId:string; requestedState:string }) {
+    const params = { workPackageId: event.workPackageId };
+
+    this.$state.go(event.requestedState, params);
+  }
+
   private schema(workPackage:WorkPackageResource) {
     return this.schemaCache.of(workPackage);
   }

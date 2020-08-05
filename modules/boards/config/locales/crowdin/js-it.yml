@@ -31,6 +31,7 @@ it:
       error_permission_missing: "Manca l'autorizzazione per creare query pubbliche"
       click_to_remove_list: "Clicca per rimuovere questa lista"
       board_type:
+        text: 'Tipo scheda'
         free: 'Tabella base'
         free_text: >
           Crea una scheda in cui puoi creare liberamente liste e ordinare le tue macro-attività all'interno. Spostare le macro-attività tra le liste non cambia le macro-attività.
@@ -42,6 +43,7 @@ it:
           assignee: assegnatario
           status: stato
           version: versione
+          subproject: Sottoprogetto
         select_attribute: "Attributo azione"
       add_list_modal:
         warning:
