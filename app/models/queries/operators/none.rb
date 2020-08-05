@@ -34,7 +34,7 @@ module Queries::Operators
     require_value false
 
     def self.sql_for_field(_values, db_table, db_field)
-      "#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field}=0"
+      "#{db_table}.#{db_field} IS NULL"
     end
   end
 end
