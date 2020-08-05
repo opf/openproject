@@ -56,7 +56,8 @@
                     [showInfoButton]="true"
                     [highlightingMode]="board.highlightingMode"
                     [showStatusButton]="showCardStatusButton()"
-                    (itemClicked)="openFullViewOnDoubleClick($event)" >
+                    (itemClicked)="openFullViewOnDoubleClick($event)"
+                    (stateLinkClicked)="openStateLink($event)">
 
       </wp-card-view>
     </div>

@@ -88,19 +88,12 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     }
 
     if (event.double) {
-      this.goToWpDetailState(event.workPackageId, this.$state.params.cards);
+      this.goToWpDetailState(event.workPackageId, this.uIRouterGlobals.params.cards);
     }
   }
 
   openStateLink(event:{ workPackageId:string; requestedState:string }) {
-    // In case we're in a regular list without view,
-    // reuse the default list behavior
-    if (this.bimView.current === bimListViewIdentifier) {
-      super.openStateLink(event);
-      return;
-    }
-
-    this.goToWpDetailState(event.workPackageId, this.$state.params.cards, true);
+    this.goToWpDetailState(event.workPackageId, this.uIRouterGlobals.params.cards, true);
   }
 
   goToWpDetailState(workPackageId:string, cards:boolean, focus?:boolean) {
