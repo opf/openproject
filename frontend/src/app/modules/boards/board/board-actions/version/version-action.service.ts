@@ -20,6 +20,14 @@ export class BoardVersionActionService extends BoardActionService {
 
   filterName = 'version';
 
+  text = this.I18n.t('js.boards.board_type.action_by_attribute',
+  { attribute: this.I18n.t('js.boards.board_type.action_type.version')});
+
+  description = this.I18n.t('js.boards.board_type.action_text',
+  { attribute: this.I18n.t('js.boards.board_type.action_type.version')});
+
+  icon = 'icon-getting-started';
+
   private writable$:Promise<boolean>;
 
   public get localizedName() {

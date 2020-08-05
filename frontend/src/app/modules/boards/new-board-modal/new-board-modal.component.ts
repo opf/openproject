@@ -76,7 +76,8 @@ export class NewBoardModalComponent extends OpModalComponent {
               readonly boardActions:BoardActionsRegistryService,
               readonly halNotification:HalResourceNotificationService,
               readonly loadingIndicatorService:LoadingIndicatorService,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly boardActionRegistry:BoardActionsRegistryService) {
 
     super(locals, cdRef, elementRef);
     this.initiateTiles();
@@ -91,7 +92,7 @@ export class NewBoardModalComponent extends OpModalComponent {
     }
   }
   private initiateTiles() {
-    this.available.unshift({attribute:'basic', text:'Basic',
+    this.available.unshift({attribute:'basic', text:this.text.free_board,
     icon:'icon-boards', description:this.text.free_board_text});
     this.addIcon(this.available);
     this.addDescription(this.available);
@@ -123,33 +124,23 @@ export class NewBoardModalComponent extends OpModalComponent {
   private addDescription(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
-      element.description = this.I18n.t('js.boards.board_type.action_text',
-      { attribute: this.I18n.t('js.boards.board_type.action_type.' + element.attribute )}); }
+        const service = this.boardActionRegistry.get(element.attribute!);
+        element.description = service.description; }
     });
   }
   private addIcon(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
-      if (element.attribute === 'assignee') {
-        element.icon = 'icon-user';
-      }
-      if (element.attribute === 'status') {
-        element.icon = 'icon-workflow';
-      }
-      if (element.attribute === 'version') {
-        element.icon = 'icon-getting-started';
-      }
-      if (element.attribute === 'basic') {
-        element.icon = 'icon-boards';
+      if (element.attribute !== 'basic') {
+        const service = this.boardActionRegistry.get(element.attribute!);
+        element.icon = service.icon;
       }
     });
   }
   private addText(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
-      if (element.attribute === 'basic') {
-        element.text = this.text.free_board;
-      }
-      else {
-        element.text = this.text.action_board + ' (' + element.text + ')';
+      if (element.attribute !== 'basic') {
+        const service = this.boardActionRegistry.get(element.attribute!);
+        element.text = service.text;
       }
     });
   }
