@@ -97,6 +97,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public referenceOutputs = {
     onCreate: (value:HalResource) => this.onNewActionCreated(value),
+    onOpen: () => this.requests.input$.next(''),
     onChange: (value:HalResource) => this.onModelChange(value),
     onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField()
   };
