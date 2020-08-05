@@ -1,5 +1,5 @@
 <div class="tile-blocks--container">
-    <button class="tile-block button" 
+    <div class="tile-block button" 
           [disabled]="disabled()" 
           (accessibleClick)="created(tile.attribute)"
           *ngFor="let tile of tiles">
@@ -8,7 +8,7 @@
         <i class="tile-block--icon icon3" [ngClass]="tile.icon" aria-hidden="true"></i>
         <span>{{ tile.text }}</span>
       </div>
-      
+
       <p [textContent]="tile.description"></p>
-    </button>
+    </div>
 </div>
