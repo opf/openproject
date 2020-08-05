@@ -1,0 +1,14 @@
+<div class="subtask-board-header" *ngIf="resource">
+  <h2 class="editable-toolbar-title--fixed">
+    <small [textContent]="text.workPackage"></small>
+    <br/>
+    <span class="work-package-type"
+          [ngClass]="typeHighlightingClass"
+          [textContent]="resource.type.name">
+    </span>
+    <a [href]="pathHelper.workPackagePath(resource.idFromLink)"
+       [textContent]="resource.subjectWithId()"
+       target="_blank">
+    </a>
+  </h2>
+</div>

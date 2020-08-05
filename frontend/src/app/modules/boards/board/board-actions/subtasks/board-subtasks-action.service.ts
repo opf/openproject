@@ -7,6 +7,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {ApiV3FilterBuilder, buildApiV3Filter, FalseValue} from "core-components/api/api-v3/api-v3-filter-builder";
+import {SubtasksBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/subtasks/subtasks-board-header.component";
 
 @Injectable()
 export class BoardSubtasksActionService extends BoardActionService {
@@ -16,6 +17,10 @@ export class BoardSubtasksActionService extends BoardActionService {
     return this.I18n.t('js.boards.board_type.action_type.subtasks');
   }
 
+  public headerComponent() {
+    return SubtasksBoardHeaderComponent;
+  }
+
   public canMove(workPackage:WorkPackageResource):boolean {
     return !!workPackage.changeParent;
   }
@@ -23,6 +28,7 @@ export class BoardSubtasksActionService extends BoardActionService {
   protected loadValues(matching?:string):Observable<HalResource[]> {
     let filters = new ApiV3FilterBuilder();
     filters.add('is_milestone', '=', false);
+    filters.add('project', '=', [this.currentProject.id]);
 
     if (matching) {
       filters.add('subjectOrId', '**', [matching]);
