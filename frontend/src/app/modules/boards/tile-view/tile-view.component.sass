@@ -6,32 +6,27 @@
   grid-row-gap: 10px
   min-width: 500px
   margin: 5px
-  text-align: left !important
-  
-  .tile-block
-    border-radius: 3px
-    display: grid
-    grid-template: 95px 1fr / 1fr
-    grid-row-gap: 5px
-    justify-items: left
-    background: #f8f8f8
 
-    &:hover
-      outline: 1px solid grey
-      text-decoration: none
+.tile-block
+  border-radius: 3px
+  display: grid
+  grid-template: 95px 1fr / 1fr
+  grid-row-gap: 5px
+  justify-items: left
+  background: #f8f8f8
 
-  .tile-block--icon
-    font-size: 50px
-    align-self: end
-    &:before
-      padding-left: 10px
+  &:hover
+    outline: 1px solid grey
+    text-decoration: none
+
+.tile-block--icon
+  font-size: 50px
 
 .tile-block-header
-  padding-top: 20px
-  position: relative
-  right: 40
-  color: darkslategray
-  display: inline-block
+  padding-left: 10px
+  color: var(--primary-color-dark)
+  display: flex
+  align-items: center
 
 .tile-block p
   text-align: left 
