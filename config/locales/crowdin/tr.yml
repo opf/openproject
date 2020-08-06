@@ -1992,8 +1992,8 @@ tr:
     assigned_to_role: "Görev alanının rolü"
     member_of_group: "Atama grubunun grubu"
     assignee_or_group: "Atanan veya ait olunan grup"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Alt Proje Dahil"
+    only_subproject_id: "Sadece alt proje"
     name_or_identifier: "İsim veya tanımlayıcı"
   repositories:
     at_identifier: 'at% {tanıtıcı} %{identifier}'

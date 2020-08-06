@@ -2029,8 +2029,8 @@ lt:
     assigned_to_role: "Priskirtojo asmens rolė"
     member_of_group: "Priskirtojo asmens grupė"
     assignee_or_group: "Paskirtas ar priklausanti grupė"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Įtraukti sub-projektus"
+    only_subproject_id: "Tik sub-projektai"
     name_or_identifier: "Pavadinimas arba identifikatorius"
   repositories:
     at_identifier: '%{identifier}'
