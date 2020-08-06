@@ -15,6 +15,14 @@ import {SubprojectBoardHeaderComponent} from "core-app/modules/boards/board/boar
 export class BoardSubprojectActionService extends BoardActionService {
   filterName = 'onlySubproject';
 
+  text = this.I18n.t('js.boards.board_type.action_by_attribute',
+  { attribute: this.I18n.t('js.boards.board_type.action_type.subproject')}) ;
+
+  description = this.I18n.t('js.boards.board_type.action_text',
+  { attribute: this.I18n.t('js.boards.board_type.action_type.subproject')});
+
+  icon = 'icon-projects';
+
   private subprojects = input<HalResource[]>();
 
   get localizedName() {

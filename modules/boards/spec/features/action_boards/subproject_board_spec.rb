@@ -119,7 +119,7 @@ describe 'Subproject action board', type: :feature, js: true do
       board_page.expect_movable 'Child 1', 'Foo', movable: true
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (Subproject)'
+        expect(board.name).to eq 'Action board (subproject)'
         queries = board.contained_queries
         expect(queries.count).to eq(1)
 

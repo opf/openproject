@@ -37,9 +37,11 @@ import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import { ITileViewEntry } from '../tile-view/tile-view.component';
+
 
 @Component({
-  templateUrl: './new-board-modal.html'
+  templateUrl: './new-board-modal.html',
 })
 export class NewBoardModalComponent extends OpModalComponent {
   @ViewChild('actionAttributeSelect', { static: true }) actionAttributeSelect:ElementRef;
@@ -62,6 +64,7 @@ export class NewBoardModalComponent extends OpModalComponent {
     action_board: this.I18n.t('js.boards.board_type.action'),
     action_board_text: this.I18n.t('js.boards.board_type.action_text'),
     select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
+    select_board_type: this.I18n.t('js.boards.board_type.select_board_type'),
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
@@ -73,17 +76,34 @@ export class NewBoardModalComponent extends OpModalComponent {
               readonly boardActions:BoardActionsRegistryService,
               readonly halNotification:HalResourceNotificationService,
               readonly loadingIndicatorService:LoadingIndicatorService,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly boardActionRegistry:BoardActionsRegistryService) {
 
     super(locals, cdRef, elementRef);
+    this.initiateTiles();
   }
 
-  createFree() {
+  public createBoard(attribute:string) {
+    if (attribute === 'basic') {
+    this.createFree();
+    }
+    else {
+      this.createAction(attribute);
+    }
+  }
+  private initiateTiles() {
+    this.available.unshift({attribute:'basic', text:this.text.free_board,
+    icon:'icon-boards', description:this.text.free_board_text});
+    this.addIcon(this.available);
+    this.addDescription(this.available);
+    this.addText(this.available);
+  }
+  private createFree() {
     this.create({ type: 'free' });
   }
 
-  createAction() {
-    this.create({ type: 'action', attribute: this.actionAttributeSelect.nativeElement.value! });
+  private createAction(attribute:string) {
+    this.create({ type: 'action', attribute: attribute! });
   }
 
   private create(params:{ type:BoardType, attribute?:string }) {
@@ -101,5 +121,27 @@ export class NewBoardModalComponent extends OpModalComponent {
         this.halNotification.handleRawError(error);
       });
   }
+  private addDescription(tiles:ITileViewEntry[]) {
+    tiles.forEach(element => {
+      if (element.attribute !== 'basic') {
+        const service = this.boardActionRegistry.get(element.attribute!);
+        element.description = service.description; }
+    });
+  }
+  private addIcon(tiles:ITileViewEntry[]) {
+    tiles.forEach(element => {
+      if (element.attribute !== 'basic') {
+        const service = this.boardActionRegistry.get(element.attribute!);
+        element.icon = service.icon;
+      }
+    });
+  }
+  private addText(tiles:ITileViewEntry[]) {
+    tiles.forEach(element => {
+      if (element.attribute !== 'basic') {
+        const service = this.boardActionRegistry.get(element.attribute!);
+        element.text = service.text;
+      }
+    });
+  }
 }
-

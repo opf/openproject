@@ -7,6 +7,14 @@ import {BoardActionService} from "core-app/modules/boards/board/board-actions/bo
 export class BoardStatusActionService extends BoardActionService {
   filterName = 'status';
 
+  text = this.I18n.t('js.boards.board_type.action_by_attribute',
+  { attribute: this.I18n.t('js.boards.board_type.action_type.status')});
+
+  description = this.I18n.t('js.boards.board_type.action_text',
+  { attribute: this.I18n.t('js.boards.board_type.action_type.status')});
+
+  icon = 'icon-workflow';
+
   public get localizedName() {
     return this.I18n.t('js.work_packages.properties.status');
   }

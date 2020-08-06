@@ -11,6 +11,14 @@ import {take} from "rxjs/operators";
 export class BoardAssigneeActionService extends BoardActionService {
   filterName = 'assignee';
 
+  text = this.I18n.t('js.boards.board_type.action_by_attribute',
+  { attribute: this.I18n.t('js.boards.board_type.action_type.assignee')});
+
+  description = this.I18n.t('js.boards.board_type.action_text',
+  { attribute: this.I18n.t('js.boards.board_type.action_type.assignee')});
+
+  icon = 'icon-user';
+
   public get localizedName() {
     return this.I18n.t('js.work_packages.properties.assignee');
   }

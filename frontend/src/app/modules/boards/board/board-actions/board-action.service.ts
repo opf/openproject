@@ -48,6 +48,21 @@ export abstract class BoardActionService {
   filterName:string;
 
   /**
+   * The icon used in tile
+   */
+  icon:string;
+
+  /**
+   * The description used in tile
+   */
+  description:string;
+
+    /**
+   * The text used in tile header
+   */
+  text:string;
+
+  /**
    * Returns the current filter value ID if any
    * @param query
    * @returns /api/v3/status/:id if a status filter exists
