@@ -64,14 +64,19 @@ export abstract class BoardActionService {
    * @param query
    * @returns The id of the resource
    */
-  getActionValueId(query:QueryResource):string|undefined {
+  getActionValueId(query:QueryResource, getHref = false):string|undefined {
     const filter = _.find(query.filters, filter => filter.id === this.filterName);
-    if (filter) {
-      const value = filter.values[0] as string|HalResource;
-      return (value instanceof HalResource) ? value.id! : value;
+    if (!filter) {
+      return;
     }
 
-    return;
+    const value = filter.values[0] as string|HalResource;
+
+    if (value instanceof HalResource) {
+      return getHref ? value.href! : value.id!;
+    }
+
+    return value;
   }
 
   /**

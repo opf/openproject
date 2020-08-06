@@ -22,8 +22,6 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   icon = 'icon-projects';
 
-  private subprojects = input<HalResource[]>();
-
   get localizedName() {
     return this.I18n.t('js.work_packages.properties.subproject');
   }
@@ -39,7 +37,7 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
   }
 
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
-    const href = this.getActionValueId(query);
+    const href = this.getActionValueId(query, true);
     changeset.setValue('project', { href: href });
   }
 

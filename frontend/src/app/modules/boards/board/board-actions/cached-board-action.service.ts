@@ -7,7 +7,7 @@ import {filter, map, take} from "rxjs/operators";
 
 @Injectable()
 export abstract class CachedBoardActionService extends BoardActionService {
-  protected cache = input<HalResource[]>([]);
+  protected cache = input<HalResource[]>();
 
   protected loadValues(matching?:string):Observable<HalResource[]> {
     this
@@ -37,6 +37,9 @@ export abstract class CachedBoardActionService extends BoardActionService {
     return this
       .cache
       .values$()
+      .pipe(
+        take(1)
+      )
       .toPromise()
       .then(results => {
         return results.find(resource => resource.id === id)!;

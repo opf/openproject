@@ -1,10 +1,8 @@
 import {Injectable} from "@angular/core";
-import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
