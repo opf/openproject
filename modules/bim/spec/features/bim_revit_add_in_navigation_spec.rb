@@ -37,6 +37,7 @@ describe 'BIM Revit Add-in navigation spec',
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages]) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:full_create) { ::Pages::FullWorkPackageCreate.new }
 
   let(:user) do
     FactoryBot.create :user,
@@ -87,9 +88,9 @@ describe 'BIM Revit Add-in navigation spec',
 
     it 'opens new work package form in full view' do
       find('.add-work-package', wait: 10).click
-      binding.pry
-      find('.menu-item', text: 'Task', wait: 10).click
+      find('.menu-item', text: 'NONE', wait: 10).click
 
+      full_create.edit_field(:subject).expect_active!
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
   end
