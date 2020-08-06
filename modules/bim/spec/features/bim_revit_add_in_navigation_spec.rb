@@ -35,7 +35,7 @@ describe 'BIM Revit Add-in navigation spec',
          driver: :chrome_headless_revit_add_in do
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages]) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
   let(:user) do
@@ -83,6 +83,14 @@ describe 'BIM Revit Add-in navigation spec',
 
         expect(page).to have_selector('li', text: I18n.t('js.revit.revit_add_in_settings'))
       end
+    end
+
+    it 'opens new work package form in full view' do
+      find('.add-work-package', wait: 10).click
+      binding.pry
+      find('.menu-item', text: 'Task', wait: 10).click
+
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
   end
 
