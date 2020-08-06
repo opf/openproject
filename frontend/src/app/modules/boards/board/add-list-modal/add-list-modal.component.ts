@@ -51,7 +51,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
     (searchTerm:string) => this.actionService.loadAvailable(this.board, this.active, searchTerm),
-    errorNotificationHandler(this.halNotification)
+    errorNotificationHandler(this.halNotification),
+    true
   );
 
   public showClose:boolean;
