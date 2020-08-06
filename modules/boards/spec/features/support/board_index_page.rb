@@ -60,7 +60,7 @@ module Pages
       page.find('.toolbar-item a', text: 'Board').click
 
       if action == nil
-        find('.tile-block', text: 'Basic board').click
+        find('.tile-block', text: 'Basic Board').click
       else
         find('.tile-block', text: action.to_s).click
       end
