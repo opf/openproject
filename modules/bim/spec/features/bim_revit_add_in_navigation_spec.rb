@@ -96,11 +96,8 @@ describe 'BIM Revit Add-in navigation spec',
 
     it 'shows workpackage details page in full view on Table display mode' do
       model_page.switch_view 'Table'
-
-      row_element = page.first('.wp-table--row')
-
-      row_element.hover
-      row_element.find('.wp-table--details-link').click
+      wp_table.expect_work_package_listed work_package
+      wp_table.open_split_view work_package
 
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
