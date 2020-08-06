@@ -88,7 +88,6 @@ class CostReportsController < ApplicationController
     respond_to do |format|
       format.html {
         session[report_engine.name.underscore.to_sym].try(:delete, :name)
-        render action: 'index', layout: layout_non_or_no_menu
       }
     end unless performed?
   end
