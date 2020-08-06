@@ -31,7 +31,8 @@ we're using.
 ## Create a free SSL certificate using let's encrypt
 
 You can get an SSL certificate for free via Let's Encrypt.
-This requires your OpenProject server to be reachable using a domain name (e.g. openproject.mydomain.com), with port 443 or 80 open.
+
+This requires your OpenProject server to be reachable using a domain name (e.g. openproject.mydomain.com), with port 443 or 80 open. If you don't have anything running on port 80 or 443, we recommend that you first configure OpenProject without SSL support, and only then execute the steps outline below.
 
 Here is how to do it using [certbot](https://github.com/certbot/certbot):
 
