@@ -3,7 +3,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {
   catchError,
   debounceTime,
-  distinctUntilChanged, filter,
+  distinctUntilChanged, filter, share, shareReplay,
   switchMap,
   takeUntil,
   tap
@@ -67,7 +67,8 @@ export class DebouncedRequestSwitchmap<T, R = HalResource> {
                 this.lastResult = results;
               })
             )
-        )
+        ),
+        shareReplay(1)
       )
     );
   }

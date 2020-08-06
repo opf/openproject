@@ -14,12 +14,19 @@
     </div>
 
     <div class="ngdialog-body op-modal--modal-body">
+      <div *ngIf="showWarning && warningText"
+           class="notification-box -warning">
+        <div class="notification-box--content">
+          <p [innerHTML]="warningText"></p>
+        </div>
+      </div>
+
         <div class="form--field">
           <div class="form--field-container">
             <div class="form--select-container">
               <label class="form--label" [textContent]="actionService.localizedName"></label>
               <ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
-                           [ndcDynamicInputs]="{ availableValues: requests.output$ | async,
+                           [ndcDynamicInputs]="{ availableValues: availableValues,
                                                  typeahead: requests.input$,
                                                  appendTo: 'body',
                                                  model: '',
@@ -30,13 +37,6 @@
             </div>
           </div>
         </div>
-
-      <div *ngIf="!requests.hasResults && warningText"
-           class="notification-box -warning">
-        <div class="notification-box--content">
-          <p [innerHTML]="warningText"></p>
-        </div>
-      </div>
 
     </div>
     <div class="op-modal--modal-footer">

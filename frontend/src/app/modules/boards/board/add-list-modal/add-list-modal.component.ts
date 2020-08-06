@@ -102,6 +102,12 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField()
   };
 
+  /** The loaded available values */
+  availableValues:any;
+
+  /** Whether the no results warning is displayed */
+  showWarning:boolean = false;
+
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
@@ -126,6 +132,25 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .then((text) => {
         this.warningText = text;
       });
+
+    this
+      .requests
+      .output$
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe((values:unknown[]) => {
+        this.availableValues = values;
+
+        if (values.length === 0) {
+          this.showWarning = true;
+        }
+
+        this.cdRef.detectChanges();
+      });
+
+    // Request an empty value to load warning early on
+    this.requests.input$.next('');
   }
 
   onModelChange(element:HalResource) {
