@@ -50,6 +50,7 @@ module Projects
       send_update_notification
       update_wp_versions_on_parent_change
       persist_status
+      handle_archiving
 
       service_call
     end
@@ -80,6 +81,22 @@ module Projects
 
     def persist_status
       model.status.save if model.status.changed?
+    end
+
+    def handle_archiving
+      return unless model.saved_change_to_active?
+
+      if model.active?
+        # was unarchived
+        Projects::UnarchiveService
+          .new(user: user, model: model)
+          .call
+      else
+        # as archived
+        Projects::ArchiveService
+          .new(user: user, model: model)
+          .call
+      end
     end
   end
 end
