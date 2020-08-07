@@ -142,11 +142,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       )
       .subscribe((values:unknown[]) => {
         this.availableValues = values;
-
-        if (values.length === 0) {
-          this.showWarning = true;
-        }
-
+        this.showWarning = this.requests.lastRequestedValue !== undefined && (values.length === 0);
         this.cdRef.detectChanges();
       });
 
