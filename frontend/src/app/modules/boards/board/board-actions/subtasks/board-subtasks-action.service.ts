@@ -13,6 +13,13 @@ import {SubtasksBoardHeaderComponent} from "core-app/modules/boards/board/board-
 export class BoardSubtasksActionService extends BoardActionService {
   filterName = 'parent';
 
+  text = this.I18n.t('js.boards.board_type.action_by_attribute',
+    { attribute: this.I18n.t('js.boards.board_type.action_type.subtasks')}) ;
+
+  description = this.I18n.t('js.boards.board_type.action_text_subtasks');
+
+  icon = 'icon-hierarchy';
+
   public get localizedName() {
     return this.I18n.t('js.boards.board_type.action_type.subtasks');
   }
