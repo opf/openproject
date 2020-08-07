@@ -32,6 +32,7 @@ import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-c
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Injectable()
 export class QuerySpaceService {
@@ -108,5 +109,6 @@ export class QuerySpaceService {
     private timeEntryCreateService:TimeEntryCreateService,
     private tableDragActionsRegistryService:TableDragActionsRegistryService,
     private opTableActionsService:OpTableActionsService,
+    readonly query:IsolatedQuerySpace,
   ) {}
 }
