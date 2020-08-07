@@ -6,9 +6,9 @@ RUN /tmp/build-pgloader && rm /tmp/build-pgloader
 FROM ruby:2.6-stretch
 MAINTAINER operations@openproject.com
 
-# Allow platform-specific additions (e.g. cloud)
+# Allow platform-specific additions. Valid values are: on-premise,cloud
 ARG PLATFORM=on-premise
-# Use OAuth token from read-only openprojectdeploy user to fetch private gems
+# Use OAuth token in case private gems need to be fetched
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -29,7 +29,8 @@ ENV RAILS_ENV=production
 ENV RAILS_CACHE_STORE=memcache
 ENV RAILS_GROUPS="production docker opf_plugins"
 ENV OPENPROJECT_INSTALLATION__TYPE=docker
-ENV OPENPROJECT_EDITION=standard
+# Valid values are: default,bim
+ENV OPENPROJECT_EDITION=default
 ENV NEW_RELIC_AGENT_ENABLED=false
 ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
 # Set a default key base, ensure to provide a secure value in production environments!

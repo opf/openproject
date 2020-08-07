@@ -4,7 +4,7 @@ set -e
 echo " ---> PREINSTALL"
 
 display_error() {
-	echo " !--> ERROR when preinstall:"
+	echo " !--> ERROR on preinstall:"
 	tail -n 200 /tmp/dockerize.log
 	exit 1
 }
