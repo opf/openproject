@@ -33,8 +33,10 @@ module API
       identifier 'NotFound'
       code 404
 
-      def initialize(*)
-        super I18n.t('api_v3.errors.code_404')
+      def initialize(*args)
+        opts = args.last.is_a?(Hash) ? args.last : {}
+
+        super opts[:message] || I18n.t('api_v3.errors.code_404')
       end
     end
   end

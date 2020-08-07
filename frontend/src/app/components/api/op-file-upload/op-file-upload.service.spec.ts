@@ -27,6 +27,7 @@
 //++
 
 import {OpenProjectFileUploadService, UploadFile, UploadResult} from './op-file-upload.service';
+import {OpenProjectDirectFileUploadService} from "core-components/api/op-file-upload/op-direct-file-upload.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {getTestBed, TestBed} from "@angular/core/testing";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
@@ -45,6 +46,7 @@ describe('opFileUpload service', () => {
         {provide: States, useValue: new States()},
         I18nService,
         OpenProjectFileUploadService,
+        OpenProjectDirectFileUploadService,
         HalResourceService
       ]
     });

@@ -72,6 +72,22 @@ Due to flaky test results on Travis (`No output has been received in the last 10
 
 Firefox tests through Selenium are run with Chrome as `--headless` by default. To override this and watch the Chrome instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
 
+##### Troubleshooting
+
+```
+Failure/Error: raise ActionController::RoutingError, "No route matches [#{env['REQUEST_METHOD']}] #{env['PATH_INFO'].inspect}"
+
+     ActionController::RoutingError:
+       No route matches [GET] "/javascripts/locales/en.js"
+```
+
+If you get an error like this when running feature specs it means your assets have not been built.
+You can fix this either by accessing a page locally (if the rails server is running) once or by precompiling the assets like this:
+
+```
+bundle exec rake assets:precompile
+```
+
 ### Cucumber
 
 **Note:** *We do not write new cucumber features. The current plan is to move away from

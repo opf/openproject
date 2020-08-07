@@ -251,6 +251,31 @@ class Attachment < ApplicationRecord
     end
   end
 
+  def self.pending_direct_uploads
+    where(digest: "", downloads: -1)
+  end
+
+  def self.create_pending_direct_upload(file_name:, author:, container: nil, content_type: nil, file_size: 0)
+    a = create(
+      container: container,
+      author: author,
+      content_type: content_type || "application/octet-stream",
+      filesize: file_size,
+      digest: "",
+      downloads: -1
+    )
+
+    # We need to use update_column because `file` is an uploader which expects a File (not a string)
+    # to upload usually. But in this case the data has already been uploaded and we just point to it.
+    a.update_column :file, file_name
+
+    a.reload
+  end
+
+  def pending_direct_upload?
+    digest == "" && downloads == -1
+  end
+
   private
 
   def schedule_cleanup_uncontainered_job

@@ -169,6 +169,7 @@ gem 'puma', '~> 4.3.5' # used for development and optionally for production
 gem 'nokogiri', '~> 1.10.8'
 
 gem 'carrierwave', '~> 1.3.1'
+gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.91.0'

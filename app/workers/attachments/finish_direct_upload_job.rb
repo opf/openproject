@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,30 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  scope '', as: 'bcf' do
-    mount ::Bim::Bcf::API::Root => '/api/bcf'
+class Attachments::FinishDirectUploadJob < ApplicationJob
+  queue_with_priority :high
 
-    scope 'projects/:project_id', as: 'project' do
-      resources :issues, controller: 'bim/bcf/issues' do
-        get :upload, action: :upload, on: :collection
-        post :prepare_import, action: :prepare_import, on: :collection
-        post :configure_import, action: :configure_import, on: :collection
-        post :import, action: :perform_import, on: :collection
-      end
+  def perform(attachment_id)
+    attachment = Attachment.pending_direct_uploads.where(id: attachment_id).first
+    local_file = attachment && attachment.file.local_file
 
+    if local_file.nil?
+      return Rails.logger.error("File for attachment #{attachment_id} was not uploaded.")
+    end
 
-      # IFC viewer frontend
-      get 'bcf(/*state)', to: 'bim/ifc_models/ifc_viewer#show', as: :frontend
+    begin
+      attachment.downloads = 0
+      attachment.set_file_size local_file unless attachment.filesize && attachment.filesize > 0
+      attachment.set_content_type local_file unless attachment.content_type.present?
+      attachment.set_digest local_file unless attachment.digest.present?
 
-      # IFC model management
-      resources :ifc_models, controller: 'bim/ifc_models/ifc_models' do
-        collection do
-          get :defaults
-          get :direct_upload_finished
-          post :set_direct_upload_file_name
-        end
-      end
+      attachment.save! if attachment.changed?
+    ensure
+      File.unlink(local_file.path) if File.exist?(local_file.path)
     end
   end
 end
