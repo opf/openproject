@@ -167,6 +167,7 @@ import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 import {AttributeHelpTextComponent} from "core-app/modules/common/help-texts/attribute-help-text.component";
 import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribute-help-text.modal";
+import {QuerySpaceModule} from "core-app/modules/query-space/query-space.module";
 
 @NgModule({
   imports: [
@@ -182,6 +183,8 @@ import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribu
     OpenprojectBcfModule,
 
     OpenprojectProjectsModule,
+
+    QuerySpaceModule,
   ],
   providers: [
     // Notification service

@@ -33,6 +33,7 @@ import {TimeEntryCreateService} from "core-app/modules/time_entries/create/creat
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 
 @Component({
   selector: 'query-space',
@@ -56,7 +57,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
     WorkPackageViewDisplayRepresentationService,
     WorkPackageViewOrderService,
     WorkPackageViewHierarchyIdentationService,
-    // Work packages service
+    // Work packages services
     WorkPackageService,
     WorkPackageRelationsHierarchyService,
     WorkPackageFiltersService,
@@ -79,6 +80,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
     TableDragActionsRegistryService,
     OpTableActionsService,
     IsolatedQuerySpace,
+    CausedUpdatesService,
   ],
 })
 export class QuerySpaceComponent implements OnInit {
