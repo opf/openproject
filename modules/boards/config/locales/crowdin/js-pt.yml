@@ -33,17 +33,18 @@ pt:
       board_type:
         text: 'Tipo de quadro'
         free: 'Quadro básico'
+        select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Crie um quadro no qual você pode criar livremente listas e ordenar seus pacotes de trabalho dentro. Mover pacotes de trabalho entre listas não altera o pacote de trabalho em si.
         action: 'Quadro de ação'
         action_by_attribute: 'Quadro de ação (%{attribute})'
         action_text: >
-          Crie um quadro com listas filtradas em um único atributo. Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
+          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
         action_type:
           assignee: responsável
           status: estado
           version: versão
-          subproject: Subprojeto
+          subproject: subproject
         select_attribute: "Atributo de ação"
       add_list_modal:
         warning:

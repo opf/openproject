@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,37 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# This patch is needed for eager loading spent hours for a bunch of work
-# packages. The WorkPackage.include_spent_hours(user) method adds an additional
-# attribute to the result set. As such 'virtual' attributes are not added to
-# the model on instantiation (see: https://github.com/rails/rails/issues/15185)
-# this patch has been added which is based on
-# https://github.com/rails/rails/issues/15185#issuecomment-142230234
-
-module OpenProject::Patches
-  module ActiveRecordJoinPartPatch
-    def instantiate(row, aliases)
-      if base_klass == WorkPackage && row.has_key?('hours')
-        aliases_with_hours = aliases + [
-          ActiveRecord::Associations::JoinDependency::Aliases::Column.new('hours', 'hours')
-        ]
-
-        super(row, aliases_with_hours)
-      else
-        super(row, aliases)
+module Projects
+  module Archiver
+    def validate_admin_only
+      unless user.admin?
+        errors.add :base, :error_unauthorized
       end
     end
-  end
-end
 
-require 'active_record'
+    # Check that there is no wp of a non descendant project that is assigned
+    # to one of the project or descendant versions
+    def validate_no_foreign_wp_references
+      version_ids = model.rolled_up_versions.select(:id)
 
-module ActiveRecord
-  module Associations
-    class JoinDependency
-      JoinBase && class JoinPart
-                    prepend OpenProject::Patches::ActiveRecordJoinPartPatch
-                  end
+      exists = WorkPackage
+                 .where.not(project_id: model.self_and_descendants.select(:id))
+                 .where(version_id: version_ids)
+                 .exists?
+
+      errors.add :base, :foreign_wps_reference_version if exists
+    end
+
+    def validate_all_ancestors_active
+      if model.ancestors.any?(&:archived?)
+        errors.add :base, :archived_ancestor
+      end
     end
   end
 end

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,21 +28,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class UnarchiveContract < ModelContract
-    include Projects::Archiver
+class WorkPackages::Scopes::IncludeDerivedDates
+  attr_accessor :user,
+                :work_package
 
-    def validate
-      validate_admin_only
-      validate_all_ancestors_active
-
-      super
+  class << self
+    def fetch
+      WorkPackage
+        .left_joins(:descendants)
+        .select(*select_statement)
+        .group(:id)
     end
 
-    protected
+    private
 
-    def validate_model?
-      false
+    def select_statement
+      ["LEAST(MIN(#{descendants_alias}.start_date), MIN(#{descendants_alias}.due_date)) AS derived_start_date",
+       "GREATEST(MAX(#{descendants_alias}.start_date), MAX(#{descendants_alias}.due_date)) AS derived_due_date"]
+    end
+
+    def descendants_alias
+      'descendants_work_packages'
     end
   end
 end

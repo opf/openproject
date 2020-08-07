@@ -379,8 +379,6 @@ module OpenProject::Costs
 
       API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [:cost_object]
 
-      require 'open_project/costs/patches/work_package_eager_loading_patch'
-      API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.prepend OpenProject::Costs::Patches::WorkPackageEagerLoadingPatch
       ##
       # Add a new group
       cost_attributes = %i(cost_object costs_by_type labor_costs material_costs overall_costs)

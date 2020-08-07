@@ -33,17 +33,18 @@ lt:
       board_type:
         text: 'Lentos tipas'
         free: 'Paprasta lenta'
+        select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Sukurkite lentą, kurioje galėsite laisvai kurti sąrašus, o juose rikiuoti darbų paketus. Darbo paketo perkėlimas tarp sąrašų visiškai nekeis darbo paketo.
         action: 'Veiksmų lenta'
         action_by_attribute: 'Veiksmų lenta (%{attribute})'
         action_text: >
-          Sukurkite lentą, su filtruotais sąrašais pagal vieną atributą. Perkeliant darbo paketą tarp sąrašų bus keičiamas naudojamas atributas.
+          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
         action_type:
           assignee: paskirtas
           status: būsena
           version: versija
-          subproject: Sub-projektas
+          subproject: subproject
         select_attribute: "Veiksmo atributas"
       add_list_modal:
         warning:

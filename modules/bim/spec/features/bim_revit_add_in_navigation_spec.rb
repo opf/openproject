@@ -84,6 +84,25 @@ describe 'BIM Revit Add-in navigation spec',
         expect(page).to have_selector('li', text: I18n.t('js.revit.revit_add_in_settings'))
       end
     end
+
+    it 'shows workpackage details page in full view on Cards display mode' do
+      card_element = page.find('.wp-card')
+
+      card_element.hover
+      card_element.find('.wp-card--details-button').click
+
+      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+    end
+
+    it 'shows workpackage details page in full view on Table display mode' do
+      model_page.switch_view 'Table'
+      wp_table.expect_work_package_listed work_package
+      wp_table.open_split_view work_package
+
+      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+    end
   end
 
   context "signed out" do
