@@ -33,17 +33,18 @@ it:
       board_type:
         text: 'Tipo scheda'
         free: 'Tabella base'
+        select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Crea una scheda in cui puoi creare liberamente liste e ordinare le tue macro-attività all'interno. Spostare le macro-attività tra le liste non cambia le macro-attività.
         action: 'Scheda azione'
         action_by_attribute: 'Scheda d''azione (%{attribute})'
         action_text: >
-          Crea una scheda con elenchi filtrati su un singolo attributo. Spostare le macro-attività in altre liste aggiornerà il loro attributo.
+          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
         action_type:
           assignee: assegnatario
           status: stato
           version: versione
-          subproject: Sottoprogetto
+          subproject: subproject
         select_attribute: "Attributo azione"
       add_list_modal:
         warning:

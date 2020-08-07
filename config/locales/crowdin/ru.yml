@@ -2032,8 +2032,8 @@ ru:
     assigned_to_role: "Роль назначенного"
     member_of_group: "Группа назначенного"
     assignee_or_group: "Назначенец или его группа"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Включая подпроект"
+    only_subproject_id: "Только подпроект"
     name_or_identifier: "Имя или идентификатор"
   repositories:
     at_identifier: 'в %{identifier}'
@@ -2137,8 +2137,8 @@ ru:
     warnings:
       cannot_annotate: "Этот файл не может быть прокомментирован."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'активирован'
+    deactivated: 'деактивирован'
   search_input_placeholder: "Поиск ..."
   setting_email_delivery_method: "Метод доставки электронной почты"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
