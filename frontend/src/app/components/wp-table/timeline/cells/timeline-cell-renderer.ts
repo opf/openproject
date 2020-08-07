@@ -205,8 +205,6 @@ export class TimelineCellRenderer {
   public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
     const change = renderInfo.change;
     const bar = element.querySelector(`.${timelineBackgroundElementClass}`) as HTMLElement;
-
-    const viewParams = renderInfo.viewParams;
     let start = moment(change.projectedResource.startDate);
     let due = moment(change.projectedResource.dueDate);
 
@@ -229,19 +227,7 @@ export class TimelineCellRenderer {
       bar.style.backgroundImage = `linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%)`;
     }
 
-    // offset left
-    const offsetStart = start.diff(viewParams.dateDisplayStart, 'days');
-    element.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
-
-    // duration
-    const duration = due.diff(start, 'days') + 1;
-    element.style.width = calculatePositionValueForDayCount(viewParams, duration);
-
-    // ensure minimum width
-    if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
-      const minWidth = _.max([renderInfo.viewParams.pixelPerDay, 2]);
-      element.style.minWidth = minWidth + 'px';
-    }
+    this.setElementPositionAndSize(element, renderInfo, start, due);
 
     // Update labels if any
     if (labels) {
@@ -385,14 +371,34 @@ export class TimelineCellRenderer {
     }
   }
 
+  setElementPositionAndSize(element:HTMLElement, renderInfo:RenderInfo, start:moment.Moment, due:moment.Moment) {
+    const viewParams = renderInfo.viewParams;
+    // offset left
+    const offsetStart = start.diff(viewParams.dateDisplayStart, 'days');
+    element.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
+
+    // duration
+    const duration = due.diff(start, 'days') + 1;
+    element.style.width = calculatePositionValueForDayCount(viewParams, duration);
+
+    // ensure minimum width
+    if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
+      const minWidth = _.max([renderInfo.viewParams.pixelPerDay, 2]);
+      element.style.minWidth = minWidth + 'px';
+    }
+  }
+
   /**
    * Changes the presentation of the work package.
    *
    * Known cases:
    * 1. Display a clamp if this work package is a parent element
+   * 2. Display the children's duration bar if this work package is a
+   *    parent element
    */
   checkForSpecialDisplaySituations(renderInfo:RenderInfo, bar:HTMLElement) {
     const wp = renderInfo.workPackage;
+    const row = bar.parentElement!.parentElement!;
     let selectionMode = renderInfo.viewParams.activeSelectionMode;
 
     // Cannot edit the work package if it has children
@@ -409,6 +415,30 @@ export class TimelineCellRenderer {
       bar.style.borderWidth = '2px';
       bar.style.borderBottom = 'none';
       bar.style.background = 'none';
+    }
+
+    // Display the children's duration bar
+    if (wp.derivedStartDate && wp.derivedDueDate) {
+      let derivedStartDate = moment(wp.derivedStartDate);
+      let derivedDueDate = moment(wp.derivedDueDate);
+      let startDate = moment(renderInfo.change.projectedResource.startDate);
+      let dueDate = moment(renderInfo.change.projectedResource.dueDate);
+      let previousChildrenDurationBar = row.querySelector('.children-duration-bar');
+      const childrenDurationBar = document.createElement('div');
+
+      childrenDurationBar.classList.add('children-duration-bar');
+
+      if (derivedStartDate.isBefore(startDate) || derivedDueDate.isAfter(dueDate)) {
+        childrenDurationBar.classList.add('-duration-overflow');
+      }
+
+      this.setElementPositionAndSize(childrenDurationBar, renderInfo, derivedStartDate, derivedDueDate);
+
+      if (previousChildrenDurationBar) {
+        previousChildrenDurationBar.remove();
+      }
+
+      row!.appendChild(childrenDurationBar);
     }
   }
 
