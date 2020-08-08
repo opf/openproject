@@ -33,18 +33,18 @@ tr:
       board_type:
         text: 'Yazı tahtası tipi'
         free: 'Temel kurulu'
-        select_board_type: 'Please choose the type of board you need.'
+        select_board_type: 'Lütfen ihtiyacınız olan kart tipini seçin.'
         free_text: >
           Serbestçe listeler oluşturabileceğiniz ve çalışma paketlerinizi içinde sipariş edebileceğiniz bir tahta oluşturun. İş paketlerini listeler arasında taşımak, iş paketini değiştirmez.
         action: 'Eylem kurulu'
         action_by_attribute: 'Eylem kurulu (%{attribute})'
         action_text: >
-          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          %{attribute} özniteliğinde filtrelenmiş listeleri olan bir pano oluşturun. Çalışma paketlerini diğer listelere taşımak özniteliklerini güncelleştirir.
         action_type:
           assignee: vekil
           status: durum
           version: Sürüm
-          subproject: subproject
+          subproject: Alt proje
         select_attribute: "Eylem özelliği"
       add_list_modal:
         warning:

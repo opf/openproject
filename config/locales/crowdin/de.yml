@@ -115,7 +115,7 @@ de:
       filter_string: |
         Fügen Sie einen optionalen RFC4515 Filter hinzu, um die zu findenden Benutzer im LDAP weiter einschränken zu können. Dieser Fillter wird für die Authentifizierung und Gruppensynchronisierung verwendet.
       filter_string_concat: |
-        OpenProject filtert immer nach dem Login-Attribut des Benutzers filtern, um einen LDAP-Eintrag zu identifizieren. Wenn Sie hier einen Filter angeben, wird
+        OpenProject filtert immer nach dem Login-Attribut des Benutzers, um einen LDAP-Eintrag zu identifizieren. Wenn Sie hier einen Filter angeben, wird
         mit einem 'UND' verbunden. Standardmäßig wird ein Catch-All-Filter (objectClass=*) verwendet.
       onthefly_register: |
         Wenn Sie dieses Häkchen setzen, erstellt OpenProject automatisch neue Benutzer aus ihren zugehörigen LDAP-Einträgen, wenn sie sich zuerst mit OpenProject anmelden.
@@ -735,6 +735,9 @@ de:
     date: "Datum"
     default_columns: "Standard-Spalten"
     description: "Beschreibung"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Summen anzeigen"
     due_date: "Endtermin"
     estimated_hours: "Geschätzter Aufwand"
