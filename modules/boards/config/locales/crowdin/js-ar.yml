@@ -2,36 +2,36 @@
 ar:
   js:
     boards:
-      label_unnamed_board: 'Unnamed board'
-      label_unnamed_list: 'Unnamed list'
-      label_board_type: 'Board type'
+      label_unnamed_board: 'لوحة غير مسماة'
+      label_unnamed_list: 'قائمة غير مسماة'
+      label_board_type: 'نوع اللوحة'
       upsale:
-        teaser_text: 'Improve your agile project management with this flexible Boards view. Create as many boards as you like for anything you would like to keep track of.'
-        upgrade_to_ee_text: 'Boards is an Enterprise feature. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
-        personal_demo: 'Get a personal demo'
+        teaser_text: 'قم بتحسين إدارة مشروعك الرائع مع عرض المجالس المرنة هذا. قم بإنشاء أكبر عدد من اللوحات التي تريدها لأي شيء ترغب في متابعته.'
+        upgrade_to_ee_text: 'الجلسات هي ميزة المؤسسة. الرجاء الترقية إلى خطة مدفوعة.'
+        upgrade: 'الترقية الآن'
+        personal_demo: 'الحصول على عرض تجريبي'
       lists:
-        delete: 'Delete list'
+        delete: 'حذف القائمة'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
+        is_locked: 'الإصدار مقفل. لا يمكن إضافة أي عناصر إلى هذا الإصدار.'
+        is_closed: 'الإصدار مقفل. لا يمكن إضافة أي عناصر إلى هذا الإصدار.'
+        close_version: 'النسخة الأساسية'
+        open_version: 'إصدار جديد'
         lock_version: 'Lock version'
         unlock_version: 'Unlock version'
         edit_version: 'Edit version'
-        show_version: 'Show version'
+        show_version: 'إظهار الإصدار'
         locked: 'مقفل'
         closed: 'مغلق'
-      new_board: 'New board'
-      add_list: 'Add list'
-      add_card: 'Add card'
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
-      click_to_remove_list: "Click to remove this list"
+      new_board: 'لوحة جديدة'
+      add_list: 'إنشاء قائمة'
+      add_card: 'إضافة بطاقة'
+      error_attribute_not_writable: "لا يمكن نقل حزمة العمل، %{attribute} غير قابل للكتابة."
+      error_loading_the_list: "خطأ في تحميل القائمة: %{error_message}"
+      error_permission_missing: "إذن إنشاء استفسارات عامة مفقود"
+      click_to_remove_list: "انقر لإزالة هذه القائمة"
       board_type:
-        text: 'Board type'
+        text: 'نوع اللوحة'
         free: 'Basic board'
         free_text: >
           Create a board in which you can freely create lists and order your work packages within. Moving work packages between lists do not change the work package itself.
