@@ -45,13 +45,13 @@ ar:
         work_package:
           attributes:
             version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "يجب أن يكون نفس نسخة القصة الأصلية."
             parent_id:
               parent_child_relationship_across_projects: "هو غير صالح لأن مجموعة العمل '%{work_package_name}' هي مهمة عمل متراكم غير منجز ولذلك لا يمكن أن يكون أحد الأصول خارج المشروع الحالي."
   backlogs:
     add_new_story: "قصة جديدة"
     any: "أي"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "إعدادات السجلات المتراكمة"
     burndown_graph: "الرسم البياني لتقدم العمل"
     card_paper_size: "حجم الورق لطباعة البطاقة"
     chart_options: "خيارات الرسم البياني"
@@ -102,8 +102,8 @@ ar:
   backlogs_velocity_missing: "لا يمكن احتساب السرعة في هذا المشروع"
   backlogs_velocity_varies: "السرعة تتفاوت بشكل ملحوظ على السباقات"
   backlogs_wiki_template: "نموذج لصفحة ويكي wiki الخاصة بالسباق"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "لا توجد إصدارات محددة لاستخدامها في  قائمة الأعمال"
+  backlogs_empty_action_text: "للبدء مع قائمة الأعمال ، قم بإنشاء إصدار جديد و تعيينه إلى عمود  قائمة الأعمال."
   button_edit_wiki: "عدّل صفحة ويكي wiki"
   error_intro_plural: "تم مصادفة الأخطاء التالية:"
   error_intro_singular: "تمت مصادفة الخطأ التالي:"
