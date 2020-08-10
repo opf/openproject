@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,35 +28,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+require Rails.root.to_s + '/db/migrate/migration_utils/module_renamer'
+require Rails.root.to_s + '/db/migrate/migration_utils/setting_renamer'
 
-module API
-  module V3
-    module CostEntries
-      class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize_any([:view_cost_entries, :view_own_cost_entries],
-                        projects: @work_package.project)
-          @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
-        end
+class RenameTimeAndCostModule < ActiveRecord::Migration[6.0]
+  def up
+    module_renamer.add_to_enabled('costs', %w[time_tracking costs_module reporting_module])
+    module_renamer.remove_from_enabled(%w[time_tracking costs_module reporting_module])
+    module_renamer.add_to_default('costs', %w[time_tracking costs_module reporting_module])
+    setting_renamer.rename('plugin_openproject_costs', 'plugin_costs')
+  end
 
-        resources :cost_entries do
-          get do
-            path = api_v3_paths.cost_entries_by_work_package(@work_package.id)
-            cost_entries = @cost_helper.cost_entries
-            CostEntryCollectionRepresenter.new(cost_entries,
-                                               cost_entries.count,
-                                               path,
-                                               current_user: current_user)
-          end
-        end
+  def down
+    # We do not know if all three where actually enabled but having them enabled will keep the functionality
+    module_renamer.add_to_enabled('time_tracking', 'costs')
+    module_renamer.add_to_enabled('costs_module', 'costs')
+    module_renamer.add_to_enabled('reporting_module', 'costs')
 
-        resources :summarized_costs_by_type do
-          get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
-          end
-        end
-      end
-    end
+    module_renamer.remove_from_enabled('costs')
+    module_renamer.add_to_default(%w[costs_module time_tracking reporting_module], 'costs')
+    setting_renamer.rename('plugin_costs', 'plugin_openproject_costs')
+  end
+
+  def module_renamer
+    Migration::MigrationUtils::ModuleRenamer
+  end
+
+  def setting_renamer
+    Migration::MigrationUtils::SettingRenamer
   end
 end

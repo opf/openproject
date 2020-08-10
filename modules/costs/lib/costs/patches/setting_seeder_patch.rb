@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,35 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+module Costs::Patches::SettingSeederPatch
+  def self.included(base) # :nodoc:
+    base.prepend InstanceMethods
+  end
 
-module API
-  module V3
-    module CostEntries
-      class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize_any([:view_cost_entries, :view_own_cost_entries],
-                        projects: @work_package.project)
-          @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
-        end
+  module InstanceMethods
+    def data
+      original_data = super
 
-        resources :cost_entries do
-          get do
-            path = api_v3_paths.cost_entries_by_work_package(@work_package.id)
-            cost_entries = @cost_helper.cost_entries
-            CostEntryCollectionRepresenter.new(cost_entries,
-                                               cost_entries.count,
-                                               path,
-                                               current_user: current_user)
-          end
-        end
-
-        resources :summarized_costs_by_type do
-          get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
-          end
-        end
+      unless original_data['default_projects_modules'].include? 'costs_module'
+        original_data['default_projects_modules'] << 'costs_module'
       end
+
+      original_data
     end
   end
 end

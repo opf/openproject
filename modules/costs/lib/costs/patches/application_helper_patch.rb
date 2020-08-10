@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,34 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
-
-module API
-  module V3
-    module CostEntries
-      class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize_any([:view_cost_entries, :view_own_cost_entries],
-                        projects: @work_package.project)
-          @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
-        end
-
-        resources :cost_entries do
-          get do
-            path = api_v3_paths.cost_entries_by_work_package(@work_package.id)
-            cost_entries = @cost_helper.cost_entries
-            CostEntryCollectionRepresenter.new(cost_entries,
-                                               cost_entries.count,
-                                               path,
-                                               current_user: current_user)
+module Costs::Patches::ApplicationHelperPatch
+  def self.included(base) # :nodoc:
+    # Same as typing in the class
+    base.class_eval do
+      def link_to_cost_object(cost_object, options = {})
+        title = nil
+        subject = nil
+        if options[:subject] == false
+          subject = "#{t(:label_cost_object)} ##{cost_object.id}"
+          title = truncate(cost_object.subject, length: 60)
+        else
+          subject = cost_object.subject
+          if options[:truncate]
+            subject = truncate(subject, length: options[:truncate])
           end
         end
-
-        resources :summarized_costs_by_type do
-          get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
-          end
-        end
+        s = link_to subject, cost_object_path(cost_object), class: cost_object.css_classes, title: title
+        s = "#{h cost_object.project} - " + s if options[:project]
+        s
       end
     end
   end

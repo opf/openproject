@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,35 +26,56 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+module Costs
+  class WorkPackageFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    def allowed_values
+      cost_objects
+        .pluck(:subject, :id)
+    end
 
-module API
-  module V3
-    module CostEntries
-      class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize_any([:view_cost_entries, :view_own_cost_entries],
-                        projects: @work_package.project)
-          @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
-        end
+    def available?
+      project &&
+        project.module_enabled?(:costs_module)
+    end
 
-        resources :cost_entries do
-          get do
-            path = api_v3_paths.cost_entries_by_work_package(@work_package.id)
-            cost_entries = @cost_helper.cost_entries
-            CostEntryCollectionRepresenter.new(cost_entries,
-                                               cost_entries.count,
-                                               path,
-                                               current_user: current_user)
-          end
-        end
+    def self.key
+      :cost_object_id
+    end
 
-        resources :summarized_costs_by_type do
-          get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
-          end
-        end
-      end
+    def order
+      14
+    end
+
+    def type
+      :list_optional
+    end
+
+    def dependency_class
+      '::API::V3::Queries::Schemas::CostObjectFilterDependencyRepresenter'
+    end
+
+    def ar_object_filter?
+      true
+    end
+
+    def value_objects
+      available_cost_objects = cost_objects.index_by(&:id)
+
+      values
+        .map { |cost_object_id| available_cost_objects[cost_object_id.to_i] }
+        .compact
+    end
+
+    def human_name
+      WorkPackage.human_attribute_name(:cost_object)
+    end
+
+    private
+
+    def cost_objects
+      CostObject
+        .where(project_id: project)
+        .order(Arel.sql('subject ASC'))
     end
   end
 end

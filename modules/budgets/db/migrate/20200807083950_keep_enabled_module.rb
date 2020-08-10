@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,35 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+require Rails.root.to_s + '/db/migrate/migration_utils/module_renamer'
 
-module API
-  module V3
-    module CostEntries
-      class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize_any([:view_cost_entries, :view_own_cost_entries],
-                        projects: @work_package.project)
-          @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
-        end
+class KeepEnabledModule < ActiveRecord::Migration[6.0]
+  def up
+    module_renamer.add_to_enabled('budgets', %w[costs_module])
+    module_renamer.add_to_default('budgets', %w[costs_module])
+  end
 
-        resources :cost_entries do
-          get do
-            path = api_v3_paths.cost_entries_by_work_package(@work_package.id)
-            cost_entries = @cost_helper.cost_entries
-            CostEntryCollectionRepresenter.new(cost_entries,
-                                               cost_entries.count,
-                                               path,
-                                               current_user: current_user)
-          end
-        end
+  def down
+    module_renamer.remove_from_enabled('budgets')
+    module_renamer.remove_from_default('budgets')
+  end
 
-        resources :summarized_costs_by_type do
-          get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
-          end
-        end
-      end
-    end
+  private
+
+  def module_renamer
+    Migration::MigrationUtils::ModuleRenamer
   end
 end

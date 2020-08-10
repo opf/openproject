@@ -37,7 +37,7 @@ class Rate < ApplicationRecord
   after_create :rate_created
 
   belongs_to :user
-  include ::OpenProject::Costs::DeletedUserFallback
+  include ::Costs::DeletedUserFallback
   belongs_to :project
 
   include ActiveModel::ForbiddenAttributesProtection

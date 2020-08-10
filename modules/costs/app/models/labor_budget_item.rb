@@ -31,7 +31,7 @@ class LaborBudgetItem < ApplicationRecord
   belongs_to :user
   belongs_to :principal, foreign_key: 'user_id'
 
-  include ::OpenProject::Costs::DeletedUserFallback
+  include ::Costs::DeletedUserFallback
 
   validates_length_of :comments, maximum: 255, allow_nil: true
   validates_presence_of :user

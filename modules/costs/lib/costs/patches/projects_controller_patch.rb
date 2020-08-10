@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,34 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+module Costs::Patches::ProjectsControllerPatch
+  def self.included(base) # :nodoc:
+    base.send(:include, InstanceMethods)
 
-module API
-  module V3
-    module CostEntries
-      class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize_any([:view_cost_entries, :view_own_cost_entries],
-                        projects: @work_package.project)
-          @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
-        end
+    base.class_eval do
+      before_action :own_total_hours, only: [:show]
+    end
+  end
 
-        resources :cost_entries do
-          get do
-            path = api_v3_paths.cost_entries_by_work_package(@work_package.id)
-            cost_entries = @cost_helper.cost_entries
-            CostEntryCollectionRepresenter.new(cost_entries,
-                                               cost_entries.count,
-                                               path,
-                                               current_user: current_user)
-          end
-        end
-
-        resources :summarized_costs_by_type do
-          get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
-          end
-        end
+  module InstanceMethods
+    def own_total_hours
+      if User.current.allowed_to?(:view_own_time_entries, @project)
+        cond = @project.project_condition(Setting.display_subprojects_work_packages?)
+        @total_hours = TimeEntry.visible.includes(:project).where(cond).sum(:hours).to_f
       end
     end
   end

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,35 +26,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+module Costs::Patches::ProjectPatch
+  def self.included(base) # :nodoc:
+    base.extend(ClassMethods)
+    base.include(InstanceMethods)
 
-module API
-  module V3
-    module CostEntries
-      class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
-        after_validation do
-          authorize_any([:view_cost_entries, :view_own_cost_entries],
-                        projects: @work_package.project)
-          @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
-        end
+    base.class_eval do
+      has_many :cost_objects, dependent: :destroy
+      has_many :rates, class_name: 'HourlyRate'
 
-        resources :cost_entries do
-          get do
-            path = api_v3_paths.cost_entries_by_work_package(@work_package.id)
-            cost_entries = @cost_helper.cost_entries
-            CostEntryCollectionRepresenter.new(cost_entries,
-                                               cost_entries.count,
-                                               path,
-                                               current_user: current_user)
-          end
-        end
+      has_many :member_groups, -> {
+        includes(:principal)
+          .where("#{Principal.table_name}.type='Group'")
+      }, class_name: 'Member'
+      has_many :groups, through: :member_groups, source: :principal
+    end
+  end
 
-        resources :summarized_costs_by_type do
-          get do
-            WorkPackageCostsByTypeRepresenter.new(@work_package, current_user: current_user)
-          end
-        end
-      end
+  module ClassMethods
+  end
+
+  module InstanceMethods
+    def costs_enabled?
+      module_enabled?(:costs_module)
+    end
+
+    def cost_reporting_enabled?
+      costs_enabled? && module_enabled?(:reporting_module)
     end
   end
 end

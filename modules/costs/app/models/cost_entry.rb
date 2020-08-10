@@ -30,7 +30,7 @@ class CostEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
-  include ::OpenProject::Costs::DeletedUserFallback
+  include ::Costs::DeletedUserFallback
   belongs_to :cost_type
   belongs_to :cost_object
   belongs_to :rate, class_name: 'CostRate'
