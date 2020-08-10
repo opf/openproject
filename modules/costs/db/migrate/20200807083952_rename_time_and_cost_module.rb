@@ -36,7 +36,7 @@ class RenameTimeAndCostModule < ActiveRecord::Migration[6.0]
     module_renamer.add_to_enabled('costs', %w[time_tracking costs_module reporting_module])
     module_renamer.remove_from_enabled(%w[time_tracking costs_module reporting_module])
     module_renamer.add_to_default('costs', %w[time_tracking costs_module reporting_module])
-    setting_renamer.rename('plugin_openproject_costs', 'plugin_costs')
+    setting_renamer.rename('plugin_costs', 'plugin_costs')
   end
 
   def down
@@ -47,7 +47,7 @@ class RenameTimeAndCostModule < ActiveRecord::Migration[6.0]
 
     module_renamer.remove_from_enabled('costs')
     module_renamer.add_to_default(%w[costs_module time_tracking reporting_module], 'costs')
-    setting_renamer.rename('plugin_costs', 'plugin_openproject_costs')
+    setting_renamer.rename('plugin_costs', 'plugin_costs')
   end
 
   def module_renamer

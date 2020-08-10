@@ -179,7 +179,7 @@ tr:
   permission_view_own_cost_entries: "Kendi rezervasyonu maliyetleri görüntüleyin"
   permission_view_own_hourly_rate: "Kendi saatlik ücreti görüntüleyin"
   permission_view_own_time_entries: "Kendi harcanan zamanı görüntüleyin"
-  project_module_costs_module: "Bütçeler"
+  project_module_costs: "Bütçeler"
   text_assign_time_and_cost_entries_to_project: "Raporlanan saatleri ve maliyetleri projeye tahsis edin"
   text_cost_object_change_type_confirmation: "Emin misiniz? Bu işlem, belirli bütçe türünün bilgisini yok edecektir."
   text_destroy_cost_entries_question: "%{cost_entries} silmek üzere olduğunuz iş paketleri hakkında rapor edildi. Ne yapmak istiyorsun ?"

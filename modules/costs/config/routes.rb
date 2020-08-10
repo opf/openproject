@@ -30,11 +30,6 @@ OpenProject::Application.routes.draw do
   scope 'projects/:project_id', as: 'projects' do
     resources :cost_entries, controller: 'costlog', only: [:new, :create]
 
-    resources :cost_objects, only: [:new, :create, :index] do
-      match :update_labor_budget_item, on: :collection, via: %i[get post]
-      match :update_material_budget_item, on: :collection, via: %i[get post]
-    end
-
     resources :hourly_rates, only: [:show, :edit, :update] do
       post :set_rate, on: :member
     end
@@ -45,10 +40,6 @@ OpenProject::Application.routes.draw do
   end
 
   resources :cost_entries, controller: 'costlog', only: [:edit, :update, :destroy]
-
-  resources :cost_objects, only: [:show, :update, :destroy, :edit] do
-    get :copy, on: :member
-  end
 
   resources :cost_types, only: [:index, :new, :edit, :update, :create, :destroy] do
     member do

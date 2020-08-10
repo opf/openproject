@@ -201,7 +201,7 @@ class CostObjectsController < ApplicationController
 
     response = {
       "#{@element_id}_unit_name" => h(@unit),
-      "#{@element_id}_currency" => Setting.plugin_openproject_costs['costs_currency']
+      "#{@element_id}_currency" => Setting.plugin_costs['costs_currency']
     }
     if current_user.allowed_to?(:view_cost_rates, @project)
       response["#{@element_id}_costs"] = number_to_currency(@costs)
@@ -228,7 +228,7 @@ class CostObjectsController < ApplicationController
 
     response = {
       "#{@element_id}_unit_name" => h(@unit),
-      "#{@element_id}_currency" => Setting.plugin_openproject_costs['costs_currency']
+      "#{@element_id}_currency" => Setting.plugin_costs['costs_currency']
     }
     if current_user.allowed_to?(:view_hourly_rates, @project)
       response["#{@element_id}_costs"] = number_to_currency(@costs)

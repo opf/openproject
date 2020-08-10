@@ -179,7 +179,7 @@ fi:
   permission_view_own_cost_entries: "Omien kustannuskirjausten tarkasteleminen"
   permission_view_own_hourly_rate: "Oman tuntinnan tarkasteleminen"
   permission_view_own_time_entries: "Oman aikakirjauksen tarkistelu"
-  project_module_costs_module: "Budjetit"
+  project_module_costs: "Budjetit"
   text_assign_time_and_cost_entries_to_project: "Raportoitujen tunti- ja kustannuskirjausten liittäminen projektiin"
   text_cost_object_change_type_confirmation: "Oletko varma? Tämä toiminto tuhoaa tämän budjettityypin tiedot."
   text_destroy_cost_entries_question: "%{cost_entries} on raportoitu projektille, jota olet poistamassa. Mitä haluat tehdä?"

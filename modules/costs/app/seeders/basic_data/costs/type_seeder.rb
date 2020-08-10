@@ -1,6 +1,7 @@
 module BasicData
   module Costs
     module TypeSeeder
+      # TODO: split up between costs and budgets
       def coded_visibility_table
         super.merge costs_visibility_table
       end

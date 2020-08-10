@@ -48,7 +48,7 @@ module Costs::Patches::ProjectPatch
 
   module InstanceMethods
     def costs_enabled?
-      module_enabled?(:costs_module)
+      module_enabled?(:costs)
     end
 
     def cost_reporting_enabled?

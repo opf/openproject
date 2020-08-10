@@ -178,7 +178,7 @@ ja:
   permission_view_own_cost_entries: "自分が予約したコストの表示"
   permission_view_own_hourly_rate: "自分の時給の表示"
   permission_view_own_time_entries: "自分の使用済み時間の表示"
-  project_module_costs_module: "予算"
+  project_module_costs: "予算"
   text_assign_time_and_cost_entries_to_project: "報告された時間とコストをプロジェクトに割り当てる"
   text_cost_object_change_type_confirmation: "本当に良いですか？この操作により、特定の予算タイプの情報が破棄されます。"
   text_destroy_cost_entries_question: "削除しようとしている作業項目が%{cost_entries} 件報告されました。どうしますか？"

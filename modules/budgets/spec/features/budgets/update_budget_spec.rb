@@ -29,7 +29,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
 describe 'updating a budget', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project_with_types, enabled_module_names: %i[costs_module] }
+  let(:project) { FactoryBot.create :project_with_types, enabled_module_names: %i[budgets costs] }
   let(:user) { FactoryBot.create :admin }
   let(:budget) { FactoryBot.create :cost_object, author: user, project: project }
 
@@ -211,7 +211,7 @@ describe 'updating a budget', type: :feature, js: true do
       context 'with a reversed currency format' do
         before do
           allow(Setting)
-            .to receive(:plugin_openproject_costs)
+            .to receive(:plugin_costs)
             .and_return({costs_currency_format: '%u %n', costs_currency: 'USD'}.with_indifferent_access)
         end
 
@@ -288,7 +288,7 @@ describe 'updating a budget', type: :feature, js: true do
 
         before do
           allow(Setting)
-            .to receive(:plugin_openproject_costs)
+            .to receive(:plugin_costs)
             .and_return({costs_currency_format: '%u %n', costs_currency: 'USD'}.with_indifferent_access)
         end
 

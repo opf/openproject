@@ -32,7 +32,7 @@ describe ::API::V3::Queries::Schemas::CostObjectFilterDependencyRepresenter, cle
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:filter) { Costs::WorkPackageFilter.create!(context: project) }
+  let(:filter) { Queries::WorkPackages::Filter::CostObjectFilter.create!(context: project) }
   let(:form_embedded) { false }
 
   let(:instance) do

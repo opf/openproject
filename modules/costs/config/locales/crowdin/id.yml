@@ -178,7 +178,7 @@ id:
   permission_view_own_cost_entries: "Tampilkan booked biaya sendiri"
   permission_view_own_hourly_rate: "Tampilkan rate per-jam diri sendiri"
   permission_view_own_time_entries: "Tampilan jumlah waktu diri sendiri"
-  project_module_costs_module: "Budget"
+  project_module_costs: "Budget"
   text_assign_time_and_cost_entries_to_project: "Masukkan laporan per-jam dan laporan biaya ke proyek"
   text_cost_object_change_type_confirmation: "Operasi ini akan menghapus informasi pada tipe budget tertentu. Anda yakin?"
   text_destroy_cost_entries_question: "%{cost_entries} digunakan pada work package yang akan dihapus. Keputusan anda?"

@@ -181,7 +181,7 @@ lt:
   permission_view_own_cost_entries: "Peržiūrėti savo įrašytus kaštus"
   permission_view_own_hourly_rate: "Peržiūrėti savo valandinį koeficientą"
   permission_view_own_time_entries: "Peržiūrėti savo sugaištą laiką"
-  project_module_costs_module: "Biudžetai"
+  project_module_costs: "Biudžetai"
   text_assign_time_and_cost_entries_to_project: "Priskirti praleistas valandas ir kaštus projektui"
   text_cost_object_change_type_confirmation: "Ar Jūs tikrai to norite? Ši operacija sunaikins visą informaciją, susijusią su specifiniu biudžeto tipu."
   text_destroy_cost_entries_question: "%{cost_entries} buvo pranešta Jūsų ketinamiems ištrinti darbų paketams. Ką Jūs norite daryti?"

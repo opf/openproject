@@ -181,7 +181,7 @@ sl:
   permission_view_own_cost_entries: "Oglejte si lastne rezervirane stroške"
   permission_view_own_hourly_rate: "Oglejte si lastno urno postavko"
   permission_view_own_time_entries: "Oglejte si svoj porabljen čas"
-  project_module_costs_module: "Proračun"
+  project_module_costs: "Proračun"
   text_assign_time_and_cost_entries_to_project: "Projektu dodelite prijavljene ure in stroške"
   text_cost_object_change_type_confirmation: "Ali si prepričan? Ta operacija bo uničila podatke o določeni vrsti proračuna."
   text_destroy_cost_entries_question: "%{cost_entries} so bili prijavljeni v delovnih paketih, ki jih boste izbrisali. Kaj želiš narediti ?"

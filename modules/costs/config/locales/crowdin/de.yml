@@ -179,7 +179,7 @@ de:
   permission_view_own_cost_entries: "Eigene gebuchte Kosten ansehen"
   permission_view_own_hourly_rate: "Eigene Stundensätze ansehen"
   permission_view_own_time_entries: "Eigene gebuchte Aufwände ansehen"
-  project_module_costs_module: "Budgets"
+  project_module_costs: "Budgets"
   text_assign_time_and_cost_entries_to_project: "Gebuchte Aufwände dem Projekt zuweisen"
   text_cost_object_change_type_confirmation: "Sind Sie sicher? Diese Operation wird einige Informationen des aktuellen Budgets löschen."
   text_destroy_cost_entries_question: "Es wurden bereits %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?"

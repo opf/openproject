@@ -179,7 +179,7 @@ fr:
   permission_view_own_cost_entries: "Afficher coûts propres réservés"
   permission_view_own_hourly_rate: "Voir son propre tarif horaire"
   permission_view_own_time_entries: "Voir son propre temps passé"
-  project_module_costs_module: "Budgets"
+  project_module_costs: "Budgets"
   text_assign_time_and_cost_entries_to_project: "Assigner les heures et coûts consignés au projet"
   text_cost_object_change_type_confirmation: "Êtes-vous sûr ? Cette opération détruira les informations spécifiques au type de budget."
   text_destroy_cost_entries_question: "%{cost_entries} ont été consignés sur les lots de travaux que vous êtes sur le point de supprimer. Que voulez-vous faire ?"

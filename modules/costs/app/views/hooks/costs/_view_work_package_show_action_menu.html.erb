@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if @project && @project.module_enabled?(:costs_module) %>
+<% if @project && @project.module_enabled?(:costs) %>
   <hr />
   <%= li_unless_nil(link_to_if_authorized t(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => work_package}, :class => 'icon-context icon-projects') %>
 <% end %>

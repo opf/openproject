@@ -179,7 +179,7 @@ el:
   permission_view_own_cost_entries: "Εμφάνιση του δικού μου κλεισμένου κόστους"
   permission_view_own_hourly_rate: "Εμφάνιση των δικών μου ωριαίων αμοιβών"
   permission_view_own_time_entries: "Προβολή του δικού μου χρόνου που δαπανήθηκε"
-  project_module_costs_module: "Προϋπολογισμοί"
+  project_module_costs: "Προϋπολογισμοί"
   text_assign_time_and_cost_entries_to_project: "Ανάθεση αναφερόμενων ωρών και κόστους στο έργο"
   text_cost_object_change_type_confirmation: "Είστε βέβαιοι; Αυτή η διαδικασία θα καταστρέψει πληροφορίες για το συγκεκριμένο τύπο προϋπολογισμού."
   text_destroy_cost_entries_question: "%{cost_entries} αναφέρθηκαν στα πακέτα εργασίας που πρόκειται να διαγράψετε. Τι θέλετε να κάνετε;"

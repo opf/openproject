@@ -178,7 +178,7 @@ zh-CN:
   permission_view_own_cost_entries: "查看自己记录的成本"
   permission_view_own_hourly_rate: "查看自己的小时费率"
   permission_view_own_time_entries: "查看自己的耗时"
-  project_module_costs_module: "预算"
+  project_module_costs: "预算"
   text_assign_time_and_cost_entries_to_project: "将已上报的小时数和成本提交到项目中"
   text_cost_object_change_type_confirmation: "是否确定？此操作将破坏具体预算类型的信息。"
   text_destroy_cost_entries_question: "您要删除的工作包已经上报了 %{cost_entries}。您想进行哪种操作？"

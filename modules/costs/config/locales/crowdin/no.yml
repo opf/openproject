@@ -179,7 +179,7 @@
   permission_view_own_cost_entries: "View own booked costs"
   permission_view_own_hourly_rate: "View own hourly rate"
   permission_view_own_time_entries: "View own spent time"
-  project_module_costs_module: "Budgets"
+  project_module_costs: "Budgets"
   text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
   text_cost_object_change_type_confirmation: "Are you sure? This operation will destroy information of the specific budget type."
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"

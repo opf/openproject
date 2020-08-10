@@ -179,7 +179,7 @@ it:
   permission_view_own_cost_entries: "Visualizza i propri costi prenotati"
   permission_view_own_hourly_rate: "Visualizza propria tariffa oraria"
   permission_view_own_time_entries: "Visualizzare il proprio tempo trascorso"
-  project_module_costs_module: "Bilanci"
+  project_module_costs: "Bilanci"
   text_assign_time_and_cost_entries_to_project: "Assegna orari e costi segnalati al progetto"
   text_cost_object_change_type_confirmation: "Sei sicuro? Questa operazione distruggerà le informazioni del tipo budget specificato."
   text_destroy_cost_entries_question: "%{cost_entries} sono stati segnalati per la macro-attività (work package) che si sta per eliminare. Che cosa vuoi fare?"

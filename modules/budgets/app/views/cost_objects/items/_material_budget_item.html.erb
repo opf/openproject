@@ -84,7 +84,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <% end %>
 
       <% cost_value = material_budget_item.budget || material_budget_item.calculated_costs(@cost_object.fixed_date) %>
-      <%= cost_form.hidden_field :currency, index: id_or_index, value: Setting.plugin_openproject_costs['costs_currency'] %>
+      <%= cost_form.hidden_field :currency, index: id_or_index, value: Setting.plugin_costs['costs_currency'] %>
       <%= cost_form.hidden_field :cost_value, index: id_or_index, value: unitless_currency_number(cost_value) %>
 
       <cost-unit-subform obj-id="<%= id_prefix %>"

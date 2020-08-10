@@ -180,7 +180,7 @@ hr:
   permission_view_own_cost_entries: "Pogledaj vlastite zabilježene troškove"
   permission_view_own_hourly_rate: "Prikaži vlastite satnice"
   permission_view_own_time_entries: "Pogledaj vlastito utrošeno vrijeme"
-  project_module_costs_module: "Proračuni"
+  project_module_costs: "Proračuni"
   text_assign_time_and_cost_entries_to_project: "Dodijeli prijavljene satnice i troškove na projektu"
   text_cost_object_change_type_confirmation: "Da li ste sigurni? Ova operacija će uništiti informacije o specifičnim tipovima proračuna."
   text_destroy_cost_entries_question: "%{cost_entries} su prikazani na radnim paketima koje želite izbrisati. Što zapravo želite napraviti?"

@@ -60,48 +60,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     login_as(current_user)
   end
 
-  shared_examples_for 'has a collection of allowed values' do
-    let(:embedded) { true }
-
-    before do
-      allow(schema).to receive(:assignable_values).and_return(nil)
-    end
-
-    context 'when no values are allowed' do
-      before do
-        allow(schema).to receive(:assignable_values).with(factory, anything).and_return([])
-      end
-
-      it_behaves_like 'links to and embeds allowed values directly' do
-        let(:path) { json_path }
-        let(:hrefs) { [] }
-      end
-    end
-
-    context 'when values are allowed' do
-      let(:values) { FactoryBot.build_stubbed_list(factory, 3) }
-
-      before do
-        allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)
-      end
-
-      it_behaves_like 'links to and embeds allowed values directly' do
-        let(:path) { json_path }
-        let(:hrefs) { values.map { |value| "/api/v3/#{href_path}/#{value.id}" } }
-      end
-    end
-
-    context 'when not embedded' do
-      before do
-        allow(schema).to receive(:assignable_values).with(factory, anything).and_return(nil)
-      end
-
-      it_behaves_like 'does not link to allowed values' do
-        let(:path) { json_path }
-      end
-    end
-  end
-
   describe 'overallCosts' do
     context 'has the permissions' do
       before do
@@ -211,32 +169,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it { is_expected.not_to have_json_path('costsByType') }
-    end
-  end
-
-  describe 'budget' do
-    it_behaves_like 'has basic schema properties' do
-      let(:path) { 'costObject' }
-      let(:type) { 'Budget' }
-      let(:name) { I18n.t('attributes.cost_object') }
-      let(:required) { false }
-      let(:writable) { true }
-    end
-
-    it_behaves_like 'has a collection of allowed values' do
-      let(:json_path) { 'costObject' }
-      let(:href_path) { 'budgets' }
-      let(:factory) { :cost_object }
-    end
-
-    context 'costs disabled' do
-      before do
-        allow(schema.project).to receive(:costs_enabled?).and_return(false)
-      end
-
-      it 'has no schema for budget' do
-        is_expected.not_to have_json_path('costObject')
-      end
     end
   end
 end

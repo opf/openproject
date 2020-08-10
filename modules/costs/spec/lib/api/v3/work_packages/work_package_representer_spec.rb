@@ -34,9 +34,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:project) { FactoryBot.create(:project) }
   let(:role) do
     FactoryBot.create(:role, permissions: [:view_time_entries,
-                                            :view_cost_entries,
-                                            :view_cost_rates,
-                                            :view_work_packages])
+                                           :view_cost_entries,
+                                           :view_cost_rates,
+                                           :view_work_packages])
   end
   let(:user) do
     FactoryBot.create(:user,
@@ -44,7 +44,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                       member_through_role: role)
   end
 
-  let(:cost_object) { FactoryBot.create(:cost_object, project: project) }
   let(:cost_entry_1) do
     FactoryBot.create(:cost_entry,
                       work_package: work_package,
@@ -66,8 +65,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:work_package) do
     FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      cost_object: cost_object)
+                      project_id: project.id)
   end
   let(:representer) do
     described_class.new(work_package,
@@ -94,25 +92,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.not_to have_json_path('spentHours') }
 
       it { is_expected.to have_json_path('overallCosts') }
-
-      describe 'budget' do
-        before do
-          allow(representer)
-            .to receive(:cost_object_visible?)
-            .and_return(true)
-        end
-
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'costObject' }
-          let(:href) { "/api/v3/budgets/#{cost_object.id}" }
-          let(:title) { cost_object.subject }
-        end
-
-        it 'has the budget embedded' do
-          is_expected.to be_json_eql(cost_object.subject.to_json)
-            .at_path('_embedded/costObject/subject')
-        end
-      end
 
       it_behaves_like 'has an untitled link' do
         let(:link) { 'costsByType' }
@@ -161,7 +140,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'only view_own_time_entries permission' do
           let(:own_time_entries_role) do
             FactoryBot.create(:role, permissions: [:view_own_time_entries,
-                                                    :view_work_packages])
+                                                   :view_work_packages])
           end
 
           let(:user2) do
@@ -229,12 +208,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           before do
             allow(user)
               .to receive(:allowed_to?)
-              .with(:view_own_time_entries, cost_object.project)
+              .with(:view_own_time_entries, work_package.project)
               .and_return true
 
             allow(user)
               .to receive(:allowed_to?)
-              .with(:view_own_hourly_rate, cost_object.project)
+              .with(:view_own_hourly_rate, work_package.project)
               .and_return true
           end
 
@@ -281,7 +260,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           before do
             allow(user)
               .to receive(:allowed_to?)
-              .with(:view_cost_entries, cost_object.project)
+              .with(:view_cost_entries, work_package.project)
               .and_return true
 
             allow(user)
@@ -333,12 +312,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           before do
             allow(user)
               .to receive(:allowed_to?)
-              .with(:view_own_time_entries, cost_object.project)
+              .with(:view_own_time_entries, work_package.project)
               .and_return true
 
             allow(user)
               .to receive(:allowed_to?)
-              .with(:view_own_hourly_rate, cost_object.project)
+              .with(:view_own_hourly_rate, work_package.project)
               .and_return true
           end
 
@@ -369,7 +348,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           before do
             allow(user)
               .to receive(:allowed_to?)
-              .with(:view_cost_entries, cost_object.project)
+              .with(:view_cost_entries, work_package.project)
               .and_return true
 
             allow(user)
@@ -404,7 +383,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it 'exists if user has view_time_entries permission' do
         allow(user).to receive(:allowed_to?).and_return false
         allow(user).to receive(:allowed_to?).with(:view_time_entries,
-                                                  cost_object.project)
+                                                  work_package.project)
           .and_return true
 
         is_expected.to have_json_path('_links/timeEntries/href')
@@ -413,7 +392,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it 'has spentTime link when user only has view_own_time_entries permission' do
         allow(user).to receive(:allowed_to?).and_return false
         allow(user).to receive(:allowed_to?).with(:view_own_time_entries,
-                                                  cost_object.project)
+                                                  work_package.project)
           .and_return true
 
         is_expected.to have_json_path('_links/timeEntries/href')
@@ -432,22 +411,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.not_to have_json_path('spentHours') }
 
       describe 'embedded' do
-        it { is_expected.not_to have_json_path('_embedded/costObject') }
-
         it { is_expected.not_to have_json_path('_embedded/summarizedCostEntries') }
       end
     end
 
     describe '_links' do
       it { is_expected.not_to have_json_path('_links/log_costs') }
-    end
-  end
-
-  describe '.to_eager_load' do
-    it 'includes the cost objects' do
-      expect(described_class.to_eager_load.any? do |el|
-        el == :cost_object
-      end).to be_truthy
     end
   end
 end

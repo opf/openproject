@@ -179,7 +179,7 @@ bg:
   permission_view_own_cost_entries: "Вижте собствените резервирани разходи"
   permission_view_own_hourly_rate: "Вижте собствената почасова ставка"
   permission_view_own_time_entries: "Вижте собственото си отработено време"
-  project_module_costs_module: "Бюджети"
+  project_module_costs: "Бюджети"
   text_assign_time_and_cost_entries_to_project: "Присвойте отчетени часове и разходи на проекта"
   text_cost_object_change_type_confirmation: "Сигурен ли си? Тази операция ще унищожи информация за конкретния тип бюджет."
   text_destroy_cost_entries_question: "%{cost_entries} бяха отчетени в работните пакети, които ще изтриете. Какво искаш да правиш?"

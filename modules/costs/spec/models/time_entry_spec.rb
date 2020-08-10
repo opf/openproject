@@ -255,7 +255,7 @@ describe TimeEntry, type: :model do
 
     describe '#costs_visible_by?' do
       before do
-        project.enabled_module_names = project.enabled_module_names << 'costs_module'
+        project.enabled_module_names = project.enabled_module_names << 'costs'
       end
 
       describe "WHEN the time_entry is assigned to the user

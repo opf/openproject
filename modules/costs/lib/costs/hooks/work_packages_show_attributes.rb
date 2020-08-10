@@ -36,7 +36,7 @@ module Costs::Hooks
       @project = context[:project]
       attributes = context[:attributes]
 
-      return unless @project.module_enabled? :costs_module
+      return unless @project.module_enabled? :costs
 
       attributes << cost_work_package_attributes
       attributes.flatten!

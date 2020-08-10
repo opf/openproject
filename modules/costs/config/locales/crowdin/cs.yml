@@ -181,7 +181,7 @@ cs:
   permission_view_own_cost_entries: "Zobrazit vlastní rezervované náklady"
   permission_view_own_hourly_rate: "Zobrazit vlastní hodinovou sazbu"
   permission_view_own_time_entries: "Zobrazit vlastní strávený čas"
-  project_module_costs_module: "Rozpočty"
+  project_module_costs: "Rozpočty"
   text_assign_time_and_cost_entries_to_project: "Přiřadit nahlášené hodiny a náklady projektu"
   text_cost_object_change_type_confirmation: "Jste si jisti? Tato operace zničí informace o konkrétním typu rozpočtu."
   text_destroy_cost_entries_question: "%{cost_entries} byl nahlášen k pracovním balíčkům, které se chystáte odstranit. Co chcete udělat?"

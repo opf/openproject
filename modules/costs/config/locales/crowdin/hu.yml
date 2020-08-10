@@ -179,7 +179,7 @@ hu:
   permission_view_own_cost_entries: "Saját részre könyvelt költségek"
   permission_view_own_hourly_rate: "Saját óradíj megtekintése"
   permission_view_own_time_entries: "Az eltöltött idő megtekintése"
-  project_module_costs_module: "Költségvetések"
+  project_module_costs: "Költségvetések"
   text_assign_time_and_cost_entries_to_project: "Idők és költségek projekthez rendelése"
   text_cost_object_change_type_confirmation: "Biztos vagy benne? Ez a művelet törölni fogja a büdzsé típushoz rendelt információkat."
   text_destroy_cost_entries_question: "A work package-hez rögzített %{cost_entries} törlése. Mit szeretnél tenni?"

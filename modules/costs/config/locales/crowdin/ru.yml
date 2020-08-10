@@ -181,7 +181,7 @@ ru:
   permission_view_own_cost_entries: "Просмотр своих зарегистрированных расходов"
   permission_view_own_hourly_rate: "Просмотр своей почасовой ставки"
   permission_view_own_time_entries: "Просмотр своего отработанного времени"
-  project_module_costs_module: "Бюджеты"
+  project_module_costs: "Бюджеты"
   text_assign_time_and_cost_entries_to_project: "Связать сообщенные часы и расходы с проектом"
   text_cost_object_change_type_confirmation: "Уверены? Эта операция уничтожит информацию о типе бюджета."
   text_destroy_cost_entries_question: "%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?"

@@ -133,7 +133,7 @@ module Costs
 
       def costs_enabled?
         if @costs_enabled.nil?
-          @costs_enabled = project.present? && project.module_enabled?(:costs_module)
+          @costs_enabled = project.present? && project.module_enabled?(:costs)
         end
 
         @costs_enabled
@@ -187,7 +187,7 @@ module Costs
       end
 
       def costs_enabled?
-        project.present? && project.module_enabled?(:costs_module)
+        project.present? && project.module_enabled?(:costs)
       end
 
       def allow_view?

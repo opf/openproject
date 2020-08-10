@@ -181,7 +181,7 @@ pl:
   permission_view_own_cost_entries: "Zobacz samodzielnie zarejestrowane koszty"
   permission_view_own_hourly_rate: "Zobacz własne stawki godzinowe"
   permission_view_own_time_entries: "Zobacz swój poświęcony czas"
-  project_module_costs_module: "Budżetowanie"
+  project_module_costs: "Budżetowanie"
   text_assign_time_and_cost_entries_to_project: "Przypisz zgłoszone godziny i koszty do projektu"
   text_cost_object_change_type_confirmation: "Jesteś pewny? Ta operacja zniszczy informacje o określonym typie budżetu."
   text_destroy_cost_entries_question: "%{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"

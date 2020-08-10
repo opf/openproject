@@ -178,7 +178,7 @@ ko:
   permission_view_own_cost_entries: "고유한 예약된 비용 보기"
   permission_view_own_hourly_rate: "고유한 시간당 요금 보기"
   permission_view_own_time_entries: "고유한 소비 시간 보기"
-  project_module_costs_module: "예산"
+  project_module_costs: "예산"
   text_assign_time_and_cost_entries_to_project: "보고된 시간 및 비용을 프로젝트에 할당"
   text_cost_object_change_type_confirmation: "계속하시겠습니까? 이 작업은 특정 예산 유형의 정보를 손상시킵니다."
   text_destroy_cost_entries_question: "%{cost_entries}은(는) 삭제하려는 작업 패키지에서 보고되었습니다. 어떻게 하시겠습니까?"

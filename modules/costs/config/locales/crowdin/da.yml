@@ -179,7 +179,7 @@ da:
   permission_view_own_cost_entries: "Se egen reservationsomkostninger"
   permission_view_own_hourly_rate: "Se egen timestaser"
   permission_view_own_time_entries: "Se eget tidsforbrug"
-  project_module_costs_module: "Budgetter"
+  project_module_costs: "Budgetter"
   text_assign_time_and_cost_entries_to_project: "Tildel indberettede timer og omkostninger til projektet"
   text_cost_object_change_type_confirmation: "Sikker? Denne handling vil ødelægge data for den specifikke budgettype."
   text_destroy_cost_entries_question: "%{cost_entries} blev indberettet for de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"

@@ -181,7 +181,7 @@ sk:
   permission_view_own_cost_entries: "Zobraziť zaúčtované vlastné náklady"
   permission_view_own_hourly_rate: "Zobraziť vlastnú hodinovú sadzbu"
   permission_view_own_time_entries: "Zobraziť vlastný strávený čas"
-  project_module_costs_module: "Rozpočty"
+  project_module_costs: "Rozpočty"
   text_assign_time_and_cost_entries_to_project: "Priradiť výkaz hodín a náklady k projektu"
   text_cost_object_change_type_confirmation: "Ste si istý? Táto operácia odstráni niektoré informácie o aktuálnom rozpočte."
   text_destroy_cost_entries_question: "%{cost_entries} boli hlásené na pracovných balíčkoch, ktoré chcete vymazať. Čo chcete robiť?"

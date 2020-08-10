@@ -26,16 +26,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Costs
-  class WorkPackageFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+module Queries::WorkPackages::Filter
+  class CostObjectFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     def allowed_values
       cost_objects
         .pluck(:subject, :id)
     end
 
     def available?
-      project &&
-        project.module_enabled?(:costs_module)
+      project&.module_enabled?(:budgets)
     end
 
     def self.key

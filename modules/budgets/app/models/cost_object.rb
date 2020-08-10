@@ -28,6 +28,8 @@
 
 # A CostObject is an item that is created as part of the project.  These items
 # contain a collection of work packages.
+
+# TODO: rename to budget and remove type (requires migration)
 class CostObject < ApplicationRecord
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   belongs_to :project

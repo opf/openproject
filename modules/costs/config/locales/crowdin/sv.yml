@@ -179,7 +179,7 @@ sv:
   permission_view_own_cost_entries: "Visa egna bokade kostnader"
   permission_view_own_hourly_rate: "Visa egna timpriser"
   permission_view_own_time_entries: "Visa egen spenderad tid"
-  project_module_costs_module: "Budgetar"
+  project_module_costs: "Budgetar"
   text_assign_time_and_cost_entries_to_project: "Tilldela rapporterade timmar och kostnader till projektet"
   text_cost_object_change_type_confirmation: "Är du säker? Denna operation kommer att förstöra information av den specifika budgettypen."
   text_destroy_cost_entries_question: "%{cost_entries} rapporterades på de arbetspaket som du håller på och tar bort. Vad vill du göra?"

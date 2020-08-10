@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if @project && @project.module_enabled?(:costs_module) %>
+<% if @project && @project.module_enabled?(:costs) %>
   <div class="form--field">
     <%= styled_label_tag :cost_object_id, CostObject.model_name.human %>
     <%= styled_select_tag('cost_object_id', (@target_project == @project ? content_tag('option', t(:label_no_change_option), :value => '') : "") +

@@ -183,7 +183,7 @@ describe LaborBudgetItem, type: :model do
 
   describe '#costs_visible_by?' do
     before do
-      project.enabled_module_names = project.enabled_module_names << 'costs_module'
+      project.enabled_module_names = project.enabled_module_names << 'costs'
     end
 
     describe "WHEN the item is assigned to the user

@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if @project && @project.module_enabled?(:costs_module) %>
+<% if @project && @project.module_enabled?(:costs) %>
   <div class="form--field">
     <label class="form--label" for='cost_object_id'><%= CostObject.model_name.human %></label>
     <div class="form--field-container">

@@ -37,9 +37,9 @@ describe 'Filter by budget', js: true do
 
   let(:member) do
     FactoryBot.create(:member,
-                       user: user,
-                       project: project,
-                       roles: [FactoryBot.create(:role)])
+                      user: user,
+                      project: project,
+                      roles: [FactoryBot.create(:role)])
   end
   let(:status) do
     FactoryBot.create(:status)
@@ -51,13 +51,13 @@ describe 'Filter by budget', js: true do
 
   let(:work_package_with_budget) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       cost_object: budget)
+                      project: project,
+                      cost_object: budget)
   end
 
   let(:work_package_without_budget) do
     FactoryBot.create(:work_package,
-                       project: project)
+                      project: project)
   end
 
   before do
