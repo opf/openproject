@@ -265,11 +265,13 @@ class Attachment < ApplicationRecord
       downloads: -1
     )
 
-    # We need to use update_column because `file` is an uploader which expects a File (not a string)
+    # We need to do it like this because `file` is an uploader which expects a File (not a string)
     # to upload usually. But in this case the data has already been uploaded and we just point to it.
-    a.update_column :file, file_name
+    a[:file] = file_name
 
-    a.reload
+    a.reload unless a.new_record?
+
+    a
   end
 
   def pending_direct_upload?
