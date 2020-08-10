@@ -256,10 +256,10 @@ class Attachment < ApplicationRecord
   end
 
   def self.create_pending_direct_upload(file_name:, author:, container: nil, content_type: nil, file_size: 0)
-    a = create(
+    a = new(
       container: container,
       author: author,
-      content_type: content_type || "application/octet-stream",
+      content_type: content_type.presence || "application/octet-stream",
       filesize: file_size,
       digest: "",
       downloads: -1
@@ -269,7 +269,7 @@ class Attachment < ApplicationRecord
     # to upload usually. But in this case the data has already been uploaded and we just point to it.
     a[:file] = file_name
 
-    a.reload unless a.new_record?
+    a.save!
 
     a
   end

@@ -77,7 +77,9 @@ module API
               )
             end
 
-            create_attachment metadata
+            with_handled_create_errors do
+              create_attachment metadata
+            end
           end
 
           def create_attachment(metadata)
