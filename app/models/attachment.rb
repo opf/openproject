@@ -270,6 +270,7 @@ class Attachment < ApplicationRecord
     a[:file] = file_name
 
     a.save!
+    a.reload # necessary so that the fog file uploader path is correct
 
     a
   end
