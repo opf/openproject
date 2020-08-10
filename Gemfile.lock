@@ -570,7 +570,8 @@ GEM
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     kgio (2.11.3)
-    kramdown (2.1.0)
+    kramdown (2.3.0)
+      rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     ladle (1.0.1)
