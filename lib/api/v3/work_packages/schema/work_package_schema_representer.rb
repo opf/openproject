@@ -160,7 +160,7 @@ module API
           schema :spent_time,
                  type: 'Duration',
                  required: false,
-                 show_if: ->(*) { represented.project&.module_enabled?('time_tracking') }
+                 show_if: ->(*) { represented.project&.module_enabled?('costs') }
 
           schema :percentage_done,
                  type: 'Integer',

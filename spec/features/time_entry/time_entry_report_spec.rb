@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'time entry report', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w(time_tracking)) }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: %w(costs)) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_time_entries]) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let!(:project_time_entry) {

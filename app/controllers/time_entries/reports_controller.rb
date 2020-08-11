@@ -180,8 +180,6 @@ class TimeEntries::ReportsController < ApplicationController
     sql = ''
     sql << " LEFT JOIN #{WorkPackage.table_name} ON #{TimeEntry.table_name}.work_package_id = #{WorkPackage.table_name}.id"
     sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
-    # TODO: rename hook
-    call_hook(:controller_timelog_time_report_joins, sql: sql)
     sql
   end
 

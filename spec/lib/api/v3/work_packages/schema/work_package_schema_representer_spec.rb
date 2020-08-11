@@ -548,7 +548,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'spentTime' do
-      context 'with \'time_tracking\' enabled' do
+      context 'with \'costs\' enabled' do
         before do
           allow(project)
             .to receive(:module_enabled?)
@@ -564,11 +564,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'with \'time_tracking\' disabled' do
+      context 'with \'costs\' disabled' do
         before do
           allow(project)
             .to receive(:module_enabled?) do |name|
-            name != 'time_tracking'
+            name != 'costs'
           end
         end
 

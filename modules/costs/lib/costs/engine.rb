@@ -42,8 +42,30 @@ module Costs
                partial: 'settings/costs',
                menu_item: :costs_setting
              },
-             name: 'OpenProject Costs' do
+             name: 'Costs' do
       project_module :costs do
+        permission :view_time_entries,
+                   timelog: %i[index show],
+                   time_entry_reports: [:report]
+
+        permission :log_time,
+                   { timelog: %i[new create edit update] },
+                   require: :loggedin
+
+        permission :edit_time_entries,
+                   { timelog: %i[new create edit update destroy] },
+                   require: :member
+
+        permission :view_own_time_entries,
+                   timelog: %i[index report]
+
+        permission :edit_own_time_entries,
+                   { timelog: %i[new create edit update destroy] },
+                   require: :loggedin
+
+        permission :manage_project_activities,
+                   { 'projects/time_entry_activities': %i[update] },
+                   require: :member
         permission :view_own_hourly_rate, {}
         permission :view_hourly_rates, {}
 
@@ -273,10 +295,9 @@ module Costs
     config.to_prepare do
       Costs::Patches::MembersPatch.mixin!
 
-      # TODO: shear off budget and place it in budgets
       ##
       # Add a new group
-      cost_attributes = %i(budget costs_by_type labor_costs material_costs overall_costs)
+      cost_attributes = %i(costs_by_type labor_costs material_costs overall_costs)
       ::Type.add_default_group(:costs, :label_cost_plural)
       ::Type.add_default_mapping(:costs, *cost_attributes)
 

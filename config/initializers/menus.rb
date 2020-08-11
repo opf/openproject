@@ -369,13 +369,6 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   # Wiki menu items are added by WikiMenuItemHelper
 
-  menu.push :time_entries,
-            { controller: '/timelog', action: 'index' },
-            param: :project_id,
-            if: -> (project) { User.current.allowed_to?(:view_time_entries, project) },
-            caption: :label_time_sheet_menu,
-            icon: 'icon2 icon-cost-reports'
-
   menu.push :members,
             { controller: '/members', action: 'index' },
             param: :project_id,

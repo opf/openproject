@@ -40,7 +40,7 @@ module OpenProject::Reporting
       edit_actions = [:create, :update, :rename, :destroy]
 
       #register reporting_module including permissions
-      project_module :reporting_module do
+      project_module :costs do
         permission :save_cost_reports, { cost_reports: edit_actions }
         permission :save_private_cost_reports, { cost_reports: edit_actions }
       end
@@ -75,21 +75,13 @@ module OpenProject::Reporting
            }
 
       menu :project_menu,
-           :cost_reports,
+           :costs,
            { controller: '/cost_reports', action: 'index' },
            param: :project_id,
-           after: :time_entries,
+           after: :news,
            caption: :cost_reports_title,
-           if: Proc.new { |project| project.module_enabled?(:reporting_module) },
+           if: Proc.new { |project| project.module_enabled?(:costs) },
            icon: 'icon2 icon-cost-reports'
-
-      # Cost reports should remove the default time entries menu item
-      hide_menu_item :project_menu,
-                     :time_entries,
-                     hide_if: -> (project) { project.module_enabled?(:reporting_module) }
-
-      hide_menu_item :top_menu,
-                     :time_sheet
     end
 
     initializer "reporting.register_hooks" do

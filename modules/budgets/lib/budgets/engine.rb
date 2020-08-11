@@ -15,7 +15,8 @@ module Budgets
            :budgets,
            { controller: '/budgets', action: 'index' },
            param: :project_id,
-           after: :news,
+           if: ->(project) { project.module_enabled?(:budgets) },
+           after: :costs,
            caption: :budgets_title,
            icon: 'icon2 icon-budget'
     end
