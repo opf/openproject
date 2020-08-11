@@ -38,6 +38,23 @@ module BudgetsHelper
     User.current.allowed_to?(:edit_budgets, @project)
   end
 
+  def link_to_budget(budget, options = {})
+    title = nil
+    subject = nil
+    if options[:subject] == false
+      subject = "#{t(:label_budget)} ##{budget.id}"
+      title = truncate(budget.subject, length: 60)
+    else
+      subject = budget.subject
+      if options[:truncate]
+        subject = truncate(subject, length: options[:truncate])
+      end
+    end
+    s = link_to subject, budget_path(budget), class: budget.css_classes, title: title
+    s = "#{h budget.project} - " + s if options[:project]
+    s
+  end
+
   def budgets_to_csv(budgets)
     CSV.generate(col_sep: t(:general_csv_separator)) do |csv|
       # csv header fields

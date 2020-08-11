@@ -75,7 +75,7 @@ module Costs
            caption: :label_cost_type_plural
     end
 
-    patches %i[Project User TimeEntry PermittedParams ProjectsController ApplicationHelper]
+    patches %i[Project User TimeEntry PermittedParams ProjectsController]
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter

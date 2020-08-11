@@ -49,25 +49,19 @@ module Budgets
 
     initializer 'budgets.register_hooks' do
       # TODO: avoid hooks as this is part of the core now
-      require 'costs/hooks/work_package_hook'
+      require 'budgets/hooks/work_package_hook'
     end
 
     config.to_prepare do
       # loading the class so that acts_as_journalized gets registered
       #Budget
 
-      # TODO: check default groups on types
-      ##
-      # Add a new group
-      #cost_attributes = %i(budget)
+      # Add to the budget to the costs group
+      ::Type.add_default_mapping(:costs, :budget)
 
-      #constraint = ->(_type, project: nil) {
-      #  project.nil? || project.costs_enabled?
-      #}
-
-      #cost_attributes.each do |attribute|
-      #  ::Type.add_constraint attribute, constraint
-      #end
+      ::Type.add_constraint :budget, ->(_type, project: nil) {
+        project.nil? || project.enabled_module?(:budgets)
+      }
 
       Queries::Register.filter Query, Queries::WorkPackages::Filter::BudgetFilter
     end
