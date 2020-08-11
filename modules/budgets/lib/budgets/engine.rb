@@ -15,7 +15,7 @@ module Budgets
            :budgets,
            { controller: '/budgets', action: 'index' },
            param: :project_id,
-           before: :settings,
+           after: :news,
            caption: :budgets_title,
            icon: 'icon2 icon-budget'
     end
@@ -53,9 +53,6 @@ module Budgets
     end
 
     config.to_prepare do
-      # loading the class so that acts_as_journalized gets registered
-      #Budget
-
       # Add to the budget to the costs group
       ::Type.add_default_mapping(:costs, :budget)
 
