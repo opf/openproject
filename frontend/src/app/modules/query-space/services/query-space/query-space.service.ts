@@ -33,9 +33,17 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {filter, withLatestFrom} from "rxjs/operators";
+import {WorkPackageQueryStateService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
+import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 
 @Injectable()
-export class QuerySpaceService {
+export class QuerySpaceService extends UntilDestroyedMixin {
+  queryId?:string;
   view = {
     relationColumns: this.relationColumns,
     pagination: this.pagination,
@@ -54,7 +62,6 @@ export class QuerySpaceService {
     order: this.order,
     hierarchyIndentation: this.hierarchyIndentation,
   };
-
   workPackages = {
     service: this.service,
     relationsHierarchy: this.relationsHierarchy,
@@ -110,5 +117,178 @@ export class QuerySpaceService {
     private tableDragActionsRegistryService:TableDragActionsRegistryService,
     private opTableActionsService:OpTableActionsService,
     readonly query:IsolatedQuerySpace,
-  ) {}
+    private wpTablePagination:WorkPackageViewPaginationService,
+    private currentProject:CurrentProjectService,
+    private halEvents:HalEventsService,
+    private queryParamListener:QueryParamListenerService,
+  ) {
+    super();
+  }
+
+  initialize(queryId?:string) {
+    // TODO: Implement refresh when the component has queryId (nested querySpace?)
+    this.queryId = queryId;
+
+    // Load first page onInit
+    this.refresh(true);
+
+    // Listen to changes on the query state objects
+    this.setupQueryObservers();
+
+    // Listen for refresh changes
+    this.setupRefreshObserver();
+
+    if (!this.queryId) {
+      // Load query on URL transitions
+      this.queryParamListener
+        .observe$
+        .pipe(
+          this.untilDestroyed()
+        )
+        .subscribe(() => this.refresh(true));
+    }
+  }
+
+  refresh(firstPage:boolean):Promise<unknown> {
+    firstPage = firstPage != null ?
+      firstPage :
+      !this.query.initialized.hasValue();
+    const query = this.query.query.value;
+    let promise:Promise<unknown>;
+
+    if (firstPage || !query) {
+      // TODO: Is this query ever true?
+      if (query) {
+        promise = this.workPackages.list.reloadQuery(query, this.projectIdentifier).toPromise();
+      } else {
+        promise = this.workPackages.list.loadCurrentQueryFromParams(this.projectIdentifier);
+      }
+    } else {
+      let pagination = this.workPackages.list.getPaginationInfo();
+
+      promise = this.workPackages
+                  .list
+                  .loadQueryFromExisting(query, pagination, this.projectIdentifier)
+                  .toPromise();
+    }
+
+    return promise.then((loadedQuery:QueryResource) => {
+      this.workPackages.statesInitialization.initialize(loadedQuery, loadedQuery.results);
+    });
+  }
+
+  private setupQueryObservers() {
+    this.wpTablePagination
+      .updates$()
+      .pipe(
+        this.untilDestroyed(),
+        withLatestFrom(this.query.query.values$())
+      ).subscribe(([pagination, query]) => {
+      if (this.workPackages.listChecksum.isQueryOutdated(query, pagination)) {
+        this.workPackages.listChecksum.update(query, pagination);
+        this.refresh(true);
+      }
+    });
+
+    this.setupChangeObserver(this.view.filters, true);
+    this.setupChangeObserver(this.view.groupBy);
+    this.setupChangeObserver(this.view.sortBy);
+    this.setupChangeObserver(this.view.sum);
+    this.setupChangeObserver(this.view.timeline);
+    this.setupChangeObserver(this.view.hierarchies);
+    this.setupChangeObserver(this.view.columns);
+    this.setupChangeObserver(this.view.highlighting);
+    this.setupChangeObserver(this.view.order);
+    this.setupChangeObserver(this.view.displayRepresentation);
+  }
+
+  /**
+   * Listen to changes in the given service and reload the query / results if
+   * the service requests that.
+   *
+   * @param service Work package query state service to listento
+   * @param firstPage If the service requests a change, load the first page
+   */
+  protected setupChangeObserver(service:WorkPackageQueryStateService<unknown>, firstPage:boolean = false) {
+    const queryState = this.query.query;
+
+    service
+      .updates$()
+      .pipe(
+        this.untilDestroyed(),
+        filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
+      )
+      .subscribe(() => {
+        const newQuery = queryState.value!;
+        const triggerUpdate = service.applyToQuery(newQuery);
+        this.query.query.putValue(newQuery);
+
+        // Update the current checksum
+        this.workPackages
+          .listChecksum
+          .updateIfDifferent(newQuery, this.wpTablePagination.current)
+          .then(() => {
+            // Update the page, if the change requires it
+            if (triggerUpdate) {
+              this.refresh(true);
+            }
+          });
+      });
+  }
+
+  public get projectIdentifier() {
+    return this.currentProject.identifier || undefined;
+  }
+
+  /**
+   * Setup the listener for members of the table to request a refresh of the entire table
+   * through the refresh service.
+   */
+  protected setupRefreshObserver() {
+    this.halEvents
+      .aggregated$('WorkPackage')
+      .pipe(
+        this.untilDestroyed(),
+        filter((events:HalEvent[]) => this.filterRefreshEvents(events))
+      )
+      .subscribe((events:HalEvent[]) => {
+        this.refresh(false);
+      });
+  }
+
+  /**
+   * Filter the given work package events for something interesting
+   * @param events HalEvent[]
+   *
+   * @return {boolean} whether any of these events should trigger the view reloading
+   */
+  protected filterRefreshEvents(events:HalEvent[]):boolean {
+    let rendered = new Set(this.query.renderedWorkPackageIds.getValueOr([]));
+
+    for (let i = 0; i < events.length; i++) {
+      const item = events[i];
+      if (rendered.has(item.id) || item.eventType === 'created') {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // TODO: Implement this method
+  /**
+   * Set the loading indicator for this set instance
+   * @param promise
+   */
+  // protected abstract set loadingIndicator(promise:Promise<unknown>);
+  // From partitionedQuerySpace
+  /*protected set loadingIndicator(promise:Promise<unknown>) {
+    this.loadingIndicatorService.table.promise = promise;
+  }
+  if (visibly) {
+      return this.loadingIndicator = promise.then((loadedQuery:QueryResource) => {
+        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+        return this.additionalLoadingTime();
+      });
+    }*/
 }

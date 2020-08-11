@@ -1,8 +1,14 @@
-import {ChangeDetectionStrategy, Component, Injector, ViewEncapsulation} from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  OnDestroy,
+  ViewEncapsulation
+} from "@angular/core";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {
-  PartitionedQuerySpacePageComponent,
-  ToolbarButtonComponentDefinition
+  DynamicComponentDefinition,
+  ToolbarButtonComponentDefinition, ViewPartitionState
 } from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
@@ -22,6 +28,15 @@ import {BehaviorSubject} from "rxjs";
 import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
 import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {Ng2StateDeclaration} from "@uirouter/angular";
+import {take} from "rxjs/operators";
+import {QuerySpaceService} from "core-app/modules/query-space/services/query-space/query-space.service";
+import {WorkPackageStaticQueriesService} from "core-components/wp-query-select/wp-static-queries.service";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {OpTitleService} from "core-components/html/op-title.service";
+import {WorkPackageFilterContainerComponent} from "core-components/filters/filter-container/filter-container.directive";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -35,8 +50,7 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
     QueryParamListenerService,
   ]
 })
-export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
-
+export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDestroy {
   text = {
     title: this.I18n.t('js.ifc_models.models.default'),
     delete: this.I18n.t('js.button_delete'),
@@ -44,7 +58,10 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     areYouSure: this.I18n.t('js.text_are_you_sure')
   };
 
+  filterAllowed:boolean;
+
   newRoute$ = new BehaviorSubject<string>(this.state.current.data.newRoute);
+
   transitionUnsubscribeFn:Function;
 
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
@@ -83,18 +100,46 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     }
   ];
 
+  // Copied from PartitionedQuerySpacePageComponent (before this component was extending it)
+  /** Do we currently have query props ? */
+  showToolbarSaveButton:boolean;
+  /** Determine when query is initially loaded */
+  showToolbar = false;
+  /** Listener callbacks */
+  unRegisterTitleListener:Function;
+  removeTransitionSubscription:Function;
+  /** We need to pass the correct partition state to the view to manage the grid */
+  currentPartition:ViewPartitionState = '-split';
+  /** Current query title to render */
+  selectedTitle?:string;
+  /** Whether the title can be edited */
+  titleEditingEnabled:boolean;
+  /** Whether we're saving the query */
+  toolbarDisabled:boolean;
+  /** Which filter container component to mount */
+  filterContainerDefinition:DynamicComponentDefinition = {
+    component: WorkPackageFilterContainerComponent
+  };
+
   constructor(readonly ifcData:IfcModelsDataService,
               readonly state:StateService,
               readonly bimView:BimViewService,
               readonly transition:TransitionService,
               readonly gon:GonService,
-              readonly injector:Injector) {
-    super(injector);
+              readonly injector:Injector,
+              readonly I18n:I18nService,
+              readonly $state:StateService,
+              readonly $transitions:TransitionService,
+              readonly querySpaceService:QuerySpaceService,
+              readonly wpStaticQueries:WorkPackageStaticQueriesService,
+              readonly authorisationService:AuthorisationService,
+              readonly titleService:OpTitleService,
+) {
+    // super(injector);
+    super();
   }
 
   ngOnInit() {
-    super.ngOnInit();
-
     this
       .bimView
       .observeUntil(componentDestroyed(this))
@@ -105,6 +150,31 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     // Keep the new route up to date depending on where we move to
     this.transitionUnsubscribeFn = this.transition.onSuccess({}, () => {
       this.newRoute$.next(this.state.current.data.newRoute);
+    });
+
+    // Copied from PartitionedQuerySpacePageComponent (before this component was extending it)
+    this.showToolbarSaveButton = !!this.$state.params.query_props;
+    this.setPartition(this.$state.current);
+    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
+      const params = transition.params('to');
+      const toState = transition.to();
+      this.showToolbarSaveButton = !!params.query_props;
+      this.setPartition(toState);
+    });
+
+    // Mark tableInformationLoaded when initially loading done
+    this.setupInformationLoadedListener();
+
+    // Update title on entering this state
+    this.unRegisterTitleListener = this.$transitions.onSuccess({}, () => {
+      this.updateTitle(this.querySpaceService.query.query.value);
+    });
+
+    this.querySpaceService.query.query.values$().pipe(
+      this.untilDestroyed()
+    ).subscribe((query) => {
+      // Update the title whenever the query changes
+      this.updateTitle(query);
     });
   }
 
@@ -118,7 +188,22 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
    */
   updateTitle(query?:QueryResource) {
     if (this.bimView.current === bimListViewIdentifier) {
-      super.updateTitle(query);
+      // Copied from PartitionedQuerySpacePageComponent (before this component was extending it)
+      // Too early for loaded query
+      if (!query) {
+        return;
+      }
+
+      if (query.persisted) {
+        this.selectedTitle = query.name;
+      } else {
+        this.selectedTitle = this.wpStaticQueries.getStaticName(query);
+      }
+
+      this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
+
+      // Update the title if we're in the list state alone
+      this.titleService.setFirstPart(this.selectedTitle);
     } else if (this.ifcData.isSingleModel()) {
       this.selectedTitle = this.ifcData.models[0].name;
     } else {
@@ -127,5 +212,53 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
     // For now, disable any editing
     this.titleEditingEnabled = false;
+  }
+
+  // vvv Copied from PartitionedQuerySpacePageComponent (before this component was extending it) vvv
+  ngOnDestroy():void {
+    this.unRegisterTitleListener();
+    this.removeTransitionSubscription();
+    this.transitionUnsubscribeFn();
+  }
+
+  /**
+   * We need to set the current partition to the grid to ensure
+   * either side gets expanded to full width if we're not in '-split' mode.
+   *
+   * @param state The current or entering state
+   */
+  protected setPartition(state:Ng2StateDeclaration) {
+    this.currentPartition = (state.data && state.data.partition) ? state.data.partition : '-split';
+  }
+
+  protected setupInformationLoadedListener() {
+    this
+      .querySpaceService
+      .query
+      .initialized
+      .values$()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.showToolbar = true;
+      });
+  }
+
+  public changeChangesFromTitle(val:string) {
+    let query = this.querySpaceService.query.query.value;
+
+    if (query && query.persisted) {
+      this.toolbarDisabled = true;
+      query!.name = val;
+
+      this.querySpaceService.workPackages.list
+        .save(query)
+        .then(() => this.toolbarDisabled = false)
+        .catch(() => this.toolbarDisabled = false);
+    } else {
+      this.querySpaceService.workPackages.list
+        .create(query!, val)
+        .then(() => this.toolbarDisabled = false)
+        .catch(() => this.toolbarDisabled = false);
+    }
   }
 }

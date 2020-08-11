@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
@@ -34,12 +34,15 @@ import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import {QuerySpaceService} from "core-app/modules/query-space/services/query-space/query-space.service";
+import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 
 @Component({
   selector: 'query-space',
   templateUrl: './query-space.component.html',
   styleUrls: ['./query-space.component.css'],
   providers: [
+    QuerySpaceService,
     // View services
     WorkPackageViewRelationColumnsService,
     WorkPackageViewPaginationService,
@@ -81,11 +84,18 @@ import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates
     OpTableActionsService,
     IsolatedQuerySpace,
     CausedUpdatesService,
+    QueryParamListenerService,
   ],
 })
 export class QuerySpaceComponent implements OnInit {
+  @Input()
+  queryId:string;
 
-  constructor(){}
+  constructor(
+    readonly querySpaceService:QuerySpaceService,
+  ) {}
 
-  ngOnInit():void{}
+  ngOnInit():void {
+    this.querySpaceService.initialize(this.queryId);
+  }
 }
