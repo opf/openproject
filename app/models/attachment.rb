@@ -256,7 +256,7 @@ class Attachment < ApplicationRecord
   end
 
   def self.create_pending_direct_upload(file_name:, author:, container: nil, content_type: nil, file_size: 0)
-    a = new(
+    a = create(
       container: container,
       author: author,
       content_type: content_type.presence || "application/octet-stream",
