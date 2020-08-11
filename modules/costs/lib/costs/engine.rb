@@ -272,7 +272,6 @@ module Costs
 
     config.to_prepare do
       Costs::Patches::MembersPatch.mixin!
-      Costs::Patches::WorkPackagePatch.mixin!
 
       # TODO: shear off budget and place it in budgets
       ##

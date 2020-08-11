@@ -41,6 +41,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Hooks
   include WorkPackages::DerivedDates
   include WorkPackages::SpentTime
+  include WorkPackages::Costs
   include ::Scopes::Scoped
 
   include OpenProject::Journal::AttachmentHelper

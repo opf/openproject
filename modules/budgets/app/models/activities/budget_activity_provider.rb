@@ -27,7 +27,7 @@
 #++
 
 class Activities::BudgetActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'budget',
+  activity_provider_for type: 'budgets',
                         permission: :view_budgets
 
   def event_query_projection
