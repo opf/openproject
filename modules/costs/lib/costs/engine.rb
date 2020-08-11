@@ -272,8 +272,6 @@ module Costs
 
     initializer 'costs.register_hooks' do
       require 'costs/hooks/work_package_hook'
-      require 'costs/hooks/work_package_action_menu'
-      require 'costs/hooks/work_packages_show_attributes'
     end
 
     config.to_prepare do

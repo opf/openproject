@@ -27,11 +27,6 @@
 #++
 
 class Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
-  # Renders a select tag with all the Cost Objects for the bulk edit page
-  render_on :view_work_packages_bulk_edit_details_bottom, partial: 'hooks/costs/view_work_packages_bulk_edit_details_bottom'
-
-  render_on :view_work_packages_move_bottom, partial: 'hooks/costs/view_work_packages_move_bottom'
-
   # Updates the cost object after a move
   #
   # Context:
@@ -73,28 +68,6 @@ class Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
       context[:work_package].budget = Budget.find(context[:params][:budget_id])
     end
 
-    ''
-  end
-
-  # Cost Object changes for the journal use the Cost Object subject
-  # instead of the id
-  #
-  # Context:
-  # * :detail => Detail about the journal change
-  #
-  def helper_work_packages_show_detail_after_setting(context = {})
-    # FIXME: Overwritting the caller is bad juju
-    if (context[:detail].prop_key == 'budget_id')
-      if context[:detail].value.to_i.to_s == context[:detail].value.to_s
-        d = Budget.find_by_id(context[:detail].value)
-        context[:detail].value = d.subject unless d.nil? || d.subject.nil?
-      end
-
-      if context[:detail].old_value.to_i.to_s == context[:detail].old_value.to_s
-        d = Budget.find_by_id(context[:detail].old_value)
-        context[:detail].old_value = d.subject unless d.nil? || d.subject.nil?
-      end
-    end
     ''
   end
 end
