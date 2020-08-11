@@ -51,9 +51,9 @@ module Costs::Hooks
 
       attributes_helper = Costs::AttributesHelper.new(@work_package)
 
-      attributes << work_package_show_table_row(:cost_object) {
-        @work_package.cost_object ?
-          link_to_cost_object(@work_package.cost_object) :
+      attributes << work_package_show_table_row(:budget) {
+        @work_package.budget ?
+          link_to_budget(@work_package.budget) :
           empty_element_tag
       }
 

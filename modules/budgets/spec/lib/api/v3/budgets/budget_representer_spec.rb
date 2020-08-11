@@ -39,11 +39,11 @@ describe ::API::V3::Budgets::BudgetRepresenter do
                      updated_on: Date.today)
   end
   let(:budget) do
-    FactoryBot.create(:cost_object,
+    FactoryBot.create(:budget,
                       author: user,
                       project: project,
-                      created_on: 1.day.ago,
-                      updated_on: Date.today)
+                      created_at: 1.day.ago,
+                      updated_at: Date.today)
   end
 
   let(:representer) { described_class.new(budget, current_user: user) }
@@ -68,7 +68,7 @@ describe ::API::V3::Budgets::BudgetRepresenter do
       let(:link) { :addAttachment }
       let(:href) { api_v3_paths.attachments_by_budget budget.id }
       let(:method) { :post }
-      let(:permission) { :edit_cost_objects }
+      let(:permission) { :edit_budgets }
     end
 
     it 'indicates its type' do

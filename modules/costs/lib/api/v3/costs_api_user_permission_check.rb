@@ -20,10 +20,6 @@ module API::V3::CostsApiUserPermissionCheck
     user_has_time_entry_permissions?
   end
 
-  def cost_object_visible?
-    user_has_cost_object_permissions?
-  end
-
   # overriding core's method to also factor in :view_own_time_entries
   def view_time_entries_allowed?
     user_has_time_entry_permissions?
@@ -48,9 +44,5 @@ module API::V3::CostsApiUserPermissionCheck
   def user_has_cost_entry_permissions?
     current_user_allowed_to(:view_own_cost_entries, context: represented.project) ||
       current_user_allowed_to(:view_cost_entries, context: represented.project)
-  end
-
-  def user_has_cost_object_permissions?
-    current_user_allowed_to(:view_cost_objects, context: represented.project)
   end
 end

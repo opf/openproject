@@ -31,7 +31,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 describe 'updating a budget', type: :feature, js: true do
   let(:project) { FactoryBot.create :project_with_types, enabled_module_names: %i[budgets costs] }
   let(:user) { FactoryBot.create :admin }
-  let(:budget) { FactoryBot.create :cost_object, author: user, project: project }
+  let(:budget) { FactoryBot.create :budget, author: user, project: project }
 
   before do
     login_as(user)
@@ -81,14 +81,14 @@ describe 'updating a budget', type: :feature, js: true do
       FactoryBot.create :material_budget_item,
                         units: 3,
                         cost_type: cost_type,
-                        cost_object: budget
+                        budget: budget
     end
 
     let(:labor_budget_item) do
       FactoryBot.create :labor_budget_item,
                         hours: 5,
                         user: user,
-                        cost_object: budget
+                        budget: budget
     end
 
     let(:budget_page) { Pages::EditBudget.new budget.id }
@@ -145,8 +145,8 @@ describe 'updating a budget', type: :feature, js: true do
         FactoryBot.create :material_budget_item,
                           units: 3,
                           cost_type: cost_type2,
-                          cost_object: budget,
-                          budget: 1000.0
+                          budget: budget,
+                          amount: 1000.0
       end
 
       it 'retains the overridden budget when opening, but not editing (Regression #32822)' do
@@ -160,7 +160,7 @@ describe 'updating a budget', type: :feature, js: true do
 
         # Open first item
         budget_page.open_edit_planned_costs! material_budget_item.id, type: :material
-        expect(page).to have_field("cost_object_existing_material_budget_item_attributes_#{material_budget_item.id}_costs_edit")
+        expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_costs_edit")
 
         click_on 'OK'
         expect(budget_page).to have_content("Erfolgreich aktualisiert.")
@@ -175,7 +175,7 @@ describe 'updating a budget', type: :feature, js: true do
       let!(:material_budget_item_2) do
         FactoryBot.create :material_budget_item, units: 5,
                           cost_type: cost_type,
-                          cost_object: budget
+                          budget: budget
       end
 
       it 'keeps previous planned material costs (Regression test #27692)' do
@@ -200,11 +200,11 @@ describe 'updating a budget', type: :feature, js: true do
         material_budget_item_2.reload
 
         # Expect budget == costs
-        expect(material_budget_item.budget).to eq(123.0)
-        expect(material_budget_item.overridden_budget?).to be_truthy
+        expect(material_budget_item.amount).to eq(123.0)
+        expect(material_budget_item.overridden_costs?).to be_truthy
         expect(material_budget_item.costs).to eq(123.0)
-        expect(material_budget_item_2.budget).to eq(543.0)
-        expect(material_budget_item_2.overridden_budget?).to be_truthy
+        expect(material_budget_item_2.amount).to eq(543.0)
+        expect(material_budget_item_2.overridden_costs?).to be_truthy
         expect(material_budget_item_2.costs).to eq(543.0)
       end
 
@@ -237,11 +237,11 @@ describe 'updating a budget', type: :feature, js: true do
           material_budget_item_2.reload
 
           # Expect budget == costs
-          expect(material_budget_item.budget).to eq(123.0)
-          expect(material_budget_item.overridden_budget?).to be_truthy
+          expect(material_budget_item.amount).to eq(123.0)
+          expect(material_budget_item.overridden_costs?).to be_truthy
           expect(material_budget_item.costs).to eq(123.0)
-          expect(material_budget_item_2.budget).to eq(543.0)
-          expect(material_budget_item_2.overridden_budget?).to be_truthy
+          expect(material_budget_item_2.amount).to eq(543.0)
+          expect(material_budget_item_2.overridden_costs?).to be_truthy
           expect(material_budget_item_2.costs).to eq(543.0)
         end
       end
@@ -251,7 +251,7 @@ describe 'updating a budget', type: :feature, js: true do
       let!(:labor_budget_item_2) do
         FactoryBot.create :labor_budget_item, hours: 5,
                           user: user,
-                          cost_object: budget
+                          budget: budget
       end
 
       it 'keeps previous planned labor costs (Regression test #27692)' do
@@ -276,11 +276,11 @@ describe 'updating a budget', type: :feature, js: true do
         labor_budget_item_2.reload
 
         # Expect budget == costs
-        expect(labor_budget_item.budget).to eq(456.0)
-        expect(labor_budget_item.overridden_budget?).to be_truthy
+        expect(labor_budget_item.amount).to eq(456.0)
+        expect(labor_budget_item.overridden_costs?).to be_truthy
         expect(labor_budget_item.costs).to eq(456.0)
-        expect(labor_budget_item_2.budget).to eq(987.0)
-        expect(labor_budget_item_2.overridden_budget?).to be_truthy
+        expect(labor_budget_item_2.amount).to eq(987.0)
+        expect(labor_budget_item_2.overridden_costs?).to be_truthy
         expect(labor_budget_item_2.costs).to eq(987.0)
       end
 
@@ -314,11 +314,11 @@ describe 'updating a budget', type: :feature, js: true do
           labor_budget_item_2.reload
 
           # Expect budget == costs
-          expect(labor_budget_item.budget).to eq(456.0)
-          expect(labor_budget_item.overridden_budget?).to be_truthy
+          expect(labor_budget_item.amount).to eq(456.0)
+          expect(labor_budget_item.overridden_costs?).to be_truthy
           expect(labor_budget_item.costs).to eq(456.0)
-          expect(labor_budget_item_2.budget).to eq(987.0)
-          expect(labor_budget_item_2.overridden_budget?).to be_truthy
+          expect(labor_budget_item_2.amount).to eq(987.0)
+          expect(labor_budget_item_2.overridden_costs?).to be_truthy
           expect(labor_budget_item_2.costs).to eq(987.0)
         end
       end
@@ -329,7 +329,7 @@ describe 'updating a budget', type: :feature, js: true do
 
       click_on 'Update'
 
-      page.find("#cost_object_existing_labor_budget_item_attributes_#{labor_budget_item.id} a.delete-budget-item").click
+      page.find("#budget_existing_labor_budget_item_attributes_#{labor_budget_item.id} a.delete-budget-item").click
       click_on 'Submit'
 
       expect(budget_page.labor_costs_at(1)).not_to have_content '125.00 EUR'

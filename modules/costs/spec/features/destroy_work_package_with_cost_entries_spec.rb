@@ -46,9 +46,9 @@ describe 'Only see your own rates', type: :feature, js: true do
     type
   }
   let(:budget) do
-    FactoryBot.create(:cost_object, project: project)
+    FactoryBot.create(:budget, project: project)
   end
-  let(:other_work_package) {FactoryBot.create :work_package, project: project, cost_object: budget }
+  let(:other_work_package) {FactoryBot.create :work_package, project: project, budget: budget }
   let(:cost_entry) { FactoryBot.create :cost_entry, work_package: work_package,
                                                      project: project,
                                                      units: 2.00,

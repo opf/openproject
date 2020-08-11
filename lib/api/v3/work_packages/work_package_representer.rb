@@ -493,6 +493,13 @@ module API
                               represented.parent = new_parent
                             end
 
+        associated_resource :budget,
+                            as: :budget,
+                            v3_path: :budget,
+                            link_title_attribute: :subject,
+                            representer: ::API::V3::Budgets::BudgetRepresenter,
+                            skip_render: ->(*) { !view_budgets_allowed? }
+
         resources :customActions,
                   uncacheable_link: true,
                   link: ->(*) {
@@ -588,7 +595,8 @@ module API
         self.to_eager_load = %i[parent
                                 type
                                 watchers
-                                attachments]
+                                attachments
+                                budget]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
@@ -607,6 +615,10 @@ module API
 
         def view_time_entries_allowed?
           current_user_allowed_to(:view_time_entries, context: represented.project)
+        end
+
+        def view_budgets_allowed?
+          current_user_allowed_to(:view_budgets, context: represented.project)
         end
 
         def load_complete_model(model)

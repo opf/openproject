@@ -59,7 +59,7 @@ module Pages
     end
 
     def open_edit_planned_costs!(id, type:)
-      row_id = "#cost_object_existing_#{type}_budget_item_attributes_#{id}"
+      row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
 
       page.within row_id do
         find('.costs--edit-planned-costs-btn').click
@@ -69,8 +69,8 @@ module Pages
     def edit_planned_costs!(id, costs:, type: )
       open_edit_planned_costs!(id, type: type)
 
-      row_id = "#cost_object_existing_#{type}_budget_item_attributes_#{id}"
-      editor_name = "cost_object_existing_#{type}_budget_item_attributes_#{id}_costs_edit"
+      row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
+      editor_name = "budget_existing_#{type}_budget_item_attributes_#{id}_costs_edit"
 
       page.within row_id do
         fill_in editor_name, with: costs
@@ -157,13 +157,13 @@ module Pages
     ##
     # @param type [String] Either 'new' or 'existing'
     def unit_cost_attr_id(type)
-      "cost_object_#{type}_material_budget_item_attributes"
+      "budget_#{type}_material_budget_item_attributes"
     end
 
     ##
     # @param type [String] Either 'new' or 'existing'
     def labor_cost_attr_id(type)
-      "cost_object_#{type}_labor_budget_item_attributes"
+      "budget_#{type}_labor_budget_item_attributes"
     end
 
     def unit_rows

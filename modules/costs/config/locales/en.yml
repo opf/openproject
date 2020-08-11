@@ -126,7 +126,6 @@ en:
   label_user: "User"
   label_until: "until"
   label_valid_from: "Valid from"
-  label_variable_cost_object: "Variable rate based budget"
   label_yes: "Yes"
 
   notice_something_wrong: "Something went wrong. Please try again."

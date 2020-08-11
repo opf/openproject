@@ -33,14 +33,14 @@ module Pages
   class EditBudget < Page
     include ::Pages::BudgetForm
 
-    attr_reader :cost_object_id # cost_object == budget
+    attr_reader :budget_id # budget == budget
 
-    def initialize(cost_object_id)
-      @cost_object_id = cost_object_id
+    def initialize(budget_id)
+      @budget_id = budget_id
     end
 
     def path
-      "/cost_objects/#{cost_object_id}"
+      "/budgets/#{budget_id}"
     end
   end
 end

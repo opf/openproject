@@ -34,7 +34,7 @@ module API
         resources :budgets do
           after_validation do
             authorize_any([:view_work_packages, :view_budgets], projects: @project)
-            @budgets = @project.cost_objects
+            @budgets = @project.budgets
           end
 
           get do

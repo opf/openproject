@@ -39,14 +39,14 @@ module Costs::Patches::PermittedParamsPatch
                                          :spent_on)
     end
 
-    def cost_object
-      params.require(:cost_object).permit(:subject,
-                                          :description,
-                                          :fixed_date,
-                                          { new_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget] },
-                                          { new_labor_budget_item_attributes: [:hours, :user_id, :comments, :budget] },
-                                          { existing_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget] },
-                                          existing_labor_budget_item_attributes: [:hours, :user_id, :comments, :budget])
+    def budget
+      params.require(:budget).permit(:subject,
+                                     :description,
+                                     :fixed_date,
+                                     { new_material_budget_item_attributes: [:units, :cost_type_id, :comments, :amount] },
+                                     { new_labor_budget_item_attributes: [:hours, :user_id, :comments, :amount] },
+                                     { existing_material_budget_item_attributes: [:units, :cost_type_id, :comments, :amount] },
+                                     existing_labor_budget_item_attributes: [:hours, :user_id, :comments, :amount])
     end
 
     def cost_type

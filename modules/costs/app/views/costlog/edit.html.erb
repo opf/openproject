@@ -38,7 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
             :post :
             :put %>
 
-<remote-field-updater data-url="<%= url_for(controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
+<remote-field-updater data-url="<%= url_for(controller: :budgets, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
                       data-mode="json">
 </remote-field-updater>
 <%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>

@@ -26,15 +26,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostQuery::Filter::CostObjectId < Report::Filter::Base
+class CostQuery::Filter::BudgetId < Report::Filter::Base
   join_table Project
   applies_for :label_work_package_attributes
 
   def self.label
-    CostObject.model_name.human
+    Budget.model_name.human
   end
 
   def self.available_values(*)
-    [[l(:caption_labor), -1]] + CostObject.order(Arel.sql('name')).pluck(:name, :id)
+    [[l(:caption_labor), -1]] + Budget.order(Arel.sql('name')).pluck(:name, :id)
   end
 end

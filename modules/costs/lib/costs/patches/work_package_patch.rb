@@ -35,11 +35,11 @@ module Costs::Patches
       ::WorkPackage.singleton_class.prepend ClassMethods
 
       ::WorkPackage.class_eval do
-        belongs_to :cost_object, inverse_of: :work_packages
+        belongs_to :budget, inverse_of: :work_packages
         has_many :cost_entries, dependent: :delete_all
 
         # disabled for now, implements part of ticket blocking
-        validate :validate_cost_object
+        validate :validate_budget
 
         after_update :move_cost_entries
 
@@ -51,7 +51,7 @@ module Costs::Patches
           end
         end
 
-        register_on_journal_formatter(:cost_association, 'cost_object_id')
+        register_on_journal_formatter(:cost_association, 'budget_id')
 
         associated_to_ask_before_destruction CostEntry,
                                              ->(work_packages) { CostEntry.on_work_packages(work_packages).count > 0 },
@@ -118,10 +118,10 @@ module Costs::Patches
         project&.cost_reporting_enabled?
       end
 
-      def validate_cost_object
-        if cost_object_id_changed?
-          unless cost_object_id.blank? || project.cost_object_ids.include?(cost_object_id)
-            errors.add :cost_object, :inclusion
+      def validate_budget
+        if budget_id_changed?
+          unless budget_id.blank? || project.budget_ids.include?(budget_id)
+            errors.add :budget, :inclusion
           end
         end
       end
@@ -148,8 +148,8 @@ module Costs::Patches
 
       # Wraps the association to get the Cost Object subject.  Needed for the
       # Query and filtering
-      def cost_object_subject
-        cost_object&.subject
+      def budget_subject
+        budget&.subject
       end
 
       def update_costs!

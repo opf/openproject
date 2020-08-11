@@ -37,7 +37,7 @@ describe 'adding a new budget', type: :feature, js: true do
   end
 
   it 'shows link to create a new budget' do
-    visit projects_cost_objects_path(project)
+    visit projects_budgets_path(project)
 
     click_on("Add budget")
 
@@ -57,16 +57,16 @@ describe 'adding a new budget', type: :feature, js: true do
 
 
     it 'can switch between them' do
-      visit projects_cost_objects_path(project)
+      visit projects_budgets_path(project)
 
       click_on("Add budget")
       expect(page).to have_content "New budget"
 
       fill_in 'Subject', with: 'My subject'
-      fill_in 'cost_object_new_material_budget_item_attributes_0_units', with: 15
+      fill_in 'budget_new_material_budget_item_attributes_0_units', with: 15
 
       # change cost type
-      select 'Foobar', from: 'cost_object_new_material_budget_item_attributes_0_cost_type_id'
+      select 'Foobar', from: 'budget_new_material_budget_item_attributes_0_cost_type_id'
 
       click_on "Create"
 
@@ -79,7 +79,7 @@ describe 'adding a new budget', type: :feature, js: true do
   end
 
   it 'create the budget' do
-    visit new_projects_cost_object_path(project)
+    visit new_projects_budget_path(project)
 
     fill_in("Subject", with: 'My subject')
 

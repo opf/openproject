@@ -93,8 +93,8 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe '#cost_object' do
-    let(:attribute) { :cost_object }
+  describe '#budget' do
+    let(:attribute) { :budget }
 
     context 'subject' do
       let(:hash) { { 'subject' => 'subject_test' } }
@@ -254,8 +254,8 @@ describe PermittedParams, type: :model do
     let(:attribute) { :update_work_package }
     let(:hash_key) { :work_package }
 
-    context 'cost_object_id' do
-      let(:hash) { { 'cost_object_id' => '1' } }
+    context 'budget_id' do
+      let(:hash) { { 'budget_id' => '1' } }
 
       it_behaves_like 'allows params'
     end

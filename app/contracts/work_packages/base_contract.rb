@@ -59,7 +59,8 @@ module WorkPackages
               }
 
     attribute :estimated_hours
-    attribute :derived_estimated_hours, writeable: false
+    attribute :derived_estimated_hours,
+              writeable: false
 
     attribute :parent_id,
               permission: :manage_subtasks
@@ -98,6 +99,8 @@ module WorkPackages
               writeable: ->(*) {
                 model.leaf? || model.schedule_manually?
               }
+
+    attribute :budget
 
     validates :due_date,
               date: { after_or_equal_to: :start_date,
@@ -181,6 +184,10 @@ module WorkPackages
 
     def assignable_versions
       model.try(:assignable_versions) if model.project
+    end
+
+    def assignable_budgets
+      model.project.budgets if model.project
     end
 
     private

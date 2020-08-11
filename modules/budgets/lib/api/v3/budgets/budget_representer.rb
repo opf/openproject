@@ -40,7 +40,7 @@ module API
         link :staticPath do
           next if represented.new_record?
           {
-            href: cost_object_path(represented.id)
+            href: budget_path(represented.id)
           }
         end
 

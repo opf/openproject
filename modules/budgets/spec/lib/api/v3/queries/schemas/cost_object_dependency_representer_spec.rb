@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::CostObjectFilterDependencyRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:filter) { Queries::WorkPackages::Filter::CostObjectFilter.create!(context: project) }
+  let(:filter) { Queries::WorkPackages::Filter::BudgetFilter.create!(context: project) }
   let(:form_embedded) { false }
 
   let(:instance) do

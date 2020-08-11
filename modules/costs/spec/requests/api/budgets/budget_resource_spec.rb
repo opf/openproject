@@ -42,7 +42,7 @@ describe 'API v3 Budget resource' do
   end
   subject(:response) { last_response }
 
-  let!(:budget) { FactoryBot.create(:cost_object, project: project) }
+  let!(:budget) { FactoryBot.create(:budget, project: project) }
 
   describe 'budgets/:id' do
     let(:get_path) { api_v3_paths.budget budget.id }

@@ -270,6 +270,20 @@ module API
                                          required: true,
                                          has_default: true
 
+          schema_with_allowed_collection :budget,
+                                         type: 'Budget',
+                                         required: false,
+                                         value_representer: ::API::V3::Budgets::BudgetRepresenter,
+                                         link_factory: ->(budget) {
+                                           {
+                                             href: api_v3_paths.budget(budget.id),
+                                             title: budget.subject
+                                           }
+                                         },
+                                         show_if: ->(*) {
+                                           represented.project&.module_enabled?(:budgets)
+                                         }
+
           def attribute_groups
             (represented.type&.attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)

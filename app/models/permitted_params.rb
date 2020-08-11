@@ -523,6 +523,7 @@ class PermittedParams
           :due_date,
           :estimated_hours,
           :version_id,
+          :budget_id,
           :parent_id,
           :priority_id,
           :responsible_id,

@@ -63,8 +63,8 @@ module Costs
         permission :edit_cost_entries, { costlog: %i[edit update destroy] },
                    require: :member
 
-        permission :view_cost_entries, { cost_objects: %i[index show], costlog: [:index] }
-        permission :view_own_cost_entries, { cost_objects: %i[index show], costlog: [:index] }
+        permission :view_cost_entries, { budgets: %i[index show], costlog: [:index] }
+        permission :view_own_cost_entries, { budgets: %i[index show], costlog: [:index] }
       end
 
       # Menu extensions
@@ -76,13 +76,9 @@ module Costs
     end
 
     patches %i[Project User TimeEntry PermittedParams ProjectsController ApplicationHelper]
-    patch_with_namespace :WorkPackages, :BaseContract
-    patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
-
-    add_api_attribute on: :work_package, ar_name: :cost_object_id
 
     add_api_path :cost_entry do |id|
       "#{root}/cost_entries/#{id}"
@@ -284,14 +280,10 @@ module Costs
       Costs::Patches::MembersPatch.mixin!
       Costs::Patches::WorkPackagePatch.mixin!
 
-      # TODO: this recreates the original behaviour
-      # however, it might not be desirable to allow assigning of cost_object regardless of the permissions
-      PermittedParams.permit(:new_work_package, :cost_object_id)
-
-      # TODO: shear off cost_object and place it in budgets
+      # TODO: shear off budget and place it in budgets
       ##
       # Add a new group
-      cost_attributes = %i(cost_object costs_by_type labor_costs material_costs overall_costs)
+      cost_attributes = %i(budget costs_by_type labor_costs material_costs overall_costs)
       ::Type.add_default_group(:costs, :label_cost_plural)
       ::Type.add_default_mapping(:costs, *cost_attributes)
 

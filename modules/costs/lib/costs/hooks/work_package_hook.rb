@@ -42,16 +42,16 @@ class Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   def controller_work_packages_move_before_save(context = {})
     # FIXME: In case of copy==true, this will break stuff if the original work_package is saved
 
-    cost_object_id = context[:params] && context[:params][:cost_object_id]
-    case cost_object_id
+    budget_id = context[:params] && context[:params][:budget_id]
+    case budget_id
     when '' # a.k.a "(No change)"
       # cost objects HAVE to be changed if move is performed across project boundaries
       # as the are project specific
-      context[:work_package].cost_object_id = nil unless (context[:work_package].project == context[:target_project])
+      context[:work_package].budget_id = nil unless (context[:work_package].project == context[:target_project])
     when 'none'
-      context[:work_package].cost_object_id = nil
+      context[:work_package].budget_id = nil
     else
-      context[:work_package].cost_object_id = cost_object_id
+      context[:work_package].budget_id = budget_id
     end
   end
 
@@ -64,13 +64,13 @@ class Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   def controller_work_packages_bulk_edit_before_save(context = {})
     case true
 
-    when context[:params][:cost_object_id].blank?
+    when context[:params][:budget_id].blank?
       # Do nothing
-    when context[:params][:cost_object_id] == 'none'
-      # Unassign cost_object
-      context[:work_package].cost_object = nil
+    when context[:params][:budget_id] == 'none'
+      # Unassign budget
+      context[:work_package].budget = nil
     else
-      context[:work_package].cost_object = CostObject.find(context[:params][:cost_object_id])
+      context[:work_package].budget = Budget.find(context[:params][:budget_id])
     end
 
     ''
@@ -84,14 +84,14 @@ class Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   #
   def helper_work_packages_show_detail_after_setting(context = {})
     # FIXME: Overwritting the caller is bad juju
-    if (context[:detail].prop_key == 'cost_object_id')
+    if (context[:detail].prop_key == 'budget_id')
       if context[:detail].value.to_i.to_s == context[:detail].value.to_s
-        d = CostObject.find_by_id(context[:detail].value)
+        d = Budget.find_by_id(context[:detail].value)
         context[:detail].value = d.subject unless d.nil? || d.subject.nil?
       end
 
       if context[:detail].old_value.to_i.to_s == context[:detail].old_value.to_s
-        d = CostObject.find_by_id(context[:detail].old_value)
+        d = Budget.find_by_id(context[:detail].old_value)
         context[:detail].old_value = d.subject unless d.nil? || d.subject.nil?
       end
     end

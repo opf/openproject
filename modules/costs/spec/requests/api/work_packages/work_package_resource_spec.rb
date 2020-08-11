@@ -42,7 +42,7 @@ describe 'API v3 Work package resource', type: :request do
     FactoryBot.create(:project, identifier: 'test_project', public: false)
   end
   let(:role) do
-    FactoryBot.create(:role, permissions: [:view_work_packages, :edit_work_packages, :view_cost_objects])
+    FactoryBot.create(:role, permissions: [:view_work_packages, :edit_work_packages, :view_budgets])
   end
   let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
@@ -68,7 +68,7 @@ describe 'API v3 Work package resource', type: :request do
 
     context 'user with needed permissions' do
       context 'budget' do
-        let(:target_budget) { FactoryBot.create(:cost_object, project: project) }
+        let(:target_budget) { FactoryBot.create(:budget, project: project) }
         let(:budget_link) { api_v3_paths.budget target_budget.id }
         let(:budget_parameter) { { _links: { costObject: { href: budget_link } } } }
         let(:params) { valid_params.merge(budget_parameter) }
@@ -87,7 +87,7 @@ describe 'API v3 Work package resource', type: :request do
         end
 
         context 'not valid' do
-          let(:target_budget) { FactoryBot.create(:cost_object) }
+          let(:target_budget) { FactoryBot.create(:budget) }
 
           include_context 'patch request'
 

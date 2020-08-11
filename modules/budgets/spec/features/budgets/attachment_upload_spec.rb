@@ -35,8 +35,8 @@ describe 'Upload attachment to budget', js: true do
   let(:user) do
     FactoryBot.create :user,
                       member_in_project: project,
-                      member_with_permissions: %i[view_cost_objects
-                                                  edit_cost_objects]
+                      member_with_permissions: %i[view_budgets
+                                                  edit_budgets]
   end
   let(:project) { FactoryBot.create(:project) }
   let(:attachments) { ::Components::Attachments.new }
@@ -48,7 +48,7 @@ describe 'Upload attachment to budget', js: true do
   end
 
   it 'can upload an image to new and existing budgets via drag & drop' do
-    visit projects_cost_objects_path(project)
+    visit projects_budgets_path(project)
 
     within '.toolbar-items' do
       click_on "Budget"

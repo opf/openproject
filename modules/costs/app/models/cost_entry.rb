@@ -32,7 +32,7 @@ class CostEntry < ApplicationRecord
   belongs_to :user
   include ::Costs::DeletedUserFallback
   belongs_to :cost_type
-  belongs_to :cost_object
+  belongs_to :budget
   belongs_to :rate, class_name: 'CostRate'
 
   include ActiveModel::ForbiddenAttributesProtection

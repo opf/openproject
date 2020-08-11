@@ -293,7 +293,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :admin_costs,
             { controller: '/settings', action: 'plugin', id: :openproject_costs },
-            caption:    :label_cost_object_plural,
+            caption:    :label_budget_plural,
             icon: 'icon2 icon-budget'
 
   menu.push :costs_setting,

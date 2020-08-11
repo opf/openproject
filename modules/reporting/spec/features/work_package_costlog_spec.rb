@@ -9,10 +9,10 @@ describe 'Cost report showing my own times', type: :feature, js: true do
   let(:permissions) { %i[view_work_packages view_own_cost_entries] }
 
   let(:budget) do
-    FactoryBot.create(:cost_object, project: project)
+    FactoryBot.create(:budget, project: project)
   end
   let(:cost_type) { FactoryBot.create(:cost_type, name: 'Foobar', unit: 'Foobar', unit_plural: 'Foobars') }
-  let(:work_package) { FactoryBot.create :work_package, project: project, cost_object: budget }
+  let(:work_package) { FactoryBot.create :work_package, project: project, budget: budget }
   let(:wp_page) { Pages::FullWorkPackage.new work_package, project }
 
   let(:cost_entry) do

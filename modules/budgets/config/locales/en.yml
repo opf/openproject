@@ -30,7 +30,7 @@
 en:
   activerecord:
     attributes:
-      cost_object:
+      budget:
         author: "Author"
         available: "Available"
         budget: "Planned"
@@ -44,19 +44,19 @@ en:
         type: "Cost type"
         updated_on: "Updated on"
       work_package:
-        cost_object_subject: "Budget title"
-      variable_cost_object:
+        budget_subject: "Budget title"
+      budget:
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
     models:
-      cost_object: "Budget"
+      budget: "Budget"
       material_budget_item: "Unit"
   attributes:
     budget: "Planned costs"
-    cost_object: "Budget"
+    budget: "Budget"
 
   button_add_budget_item: "Add planned costs"
-  button_add_cost_object: "Add budget"
+  button_add_budget: "Add budget"
   button_add_cost_type: "Add cost type"
   button_cancel_edit_budget: "Cancel editing budget"
   button_cancel_edit_costs: "Cancel editing costs"
@@ -64,27 +64,26 @@ en:
   caption_labor: "Labor"
   caption_labor_costs: "Actual labor costs"
   caption_material_costs: "Actual unit costs"
-  cost_objects_title: "Budgets"
+  budgets_title: "Budgets"
 
   events:
-    cost_object: "Budget edited"
+    budget: "Budget edited"
 
   help_click_to_edit: "Click here to edit."
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Enter a value here to override the default rate."
 
-  label_cost_object_new: "New budget"
-  label_cost_object_plural: "Budgets"
+  label_budget: "Budget"
+  label_budget_new: "New budget"
+  label_budget_plural: "Budgets"
   label_cost_type_specific: "Budget #%{id}: %{name}"
   label_deliverable: "Budget"
-  label_view_all_cost_objects: "View all budgets"
+  label_view_all_budgets: "View all budgets"
   label_yes: "Yes"
 
-  notice_cost_object_conflict: "WorkPackages must be of the same project."
-  notice_no_cost_objects_available: "No budgets available."
+  notice_budget_conflict: "WorkPackages must be of the same project."
+  notice_no_budgets_available: "No budgets available."
 
-  permission_edit_cost_objects: "Edit budgets"
-  permission_view_cost_objects: "View budgets"
+  permission_edit_budgets: "Edit budgets"
+  permission_view_budgets: "View budgets"
   project_module_costs: "Budgets"
-
-  text_cost_object_change_type_confirmation: "Are you sure? This operation will destroy information of the specific budget type."

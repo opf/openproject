@@ -22,7 +22,7 @@ module Costs
         :view_cost_rates,
         :log_own_costs,
         :edit_own_cost_entries,
-        :view_cost_objects,
+        :view_budgets,
         :view_own_cost_entries
       ]
     end

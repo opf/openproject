@@ -50,6 +50,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:spent_hours) { 0 }
   let(:derived_start_date) { Date.today - 4.days }
   let(:derived_due_date) { Date.today - 5.days }
+  let(:budget) { FactoryBot.build_stubbed(:budget, project: project) }
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
                              schedule_manually: schedule_manually,
@@ -64,6 +65,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                              responsible: responsible,
                              estimated_hours: estimated_hours,
                              derived_estimated_hours: derived_estimated_hours,
+                             budget: budget,
                              status: status) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
@@ -585,6 +587,36 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it 'has the priority embedded' do
           is_expected.to be_json_eql('Priority'.to_json).at_path('_embedded/priority/_type')
           is_expected.to be_json_eql(priority.name.to_json).at_path('_embedded/priority/name')
+        end
+      end
+
+      describe 'budget' do
+        context 'with the user having the view_budgets permission' do
+          let(:permissions) { [:view_budgets] }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'budget' }
+            let(:href) { "/api/v3/budgets/#{budget.id}" }
+            let(:title) { budget.subject }
+          end
+
+          it 'has the budget embedded' do
+            is_expected
+              .to be_json_eql(budget.subject.to_json)
+              .at_path('_embedded/budget/subject')
+          end
+        end
+
+        context 'with the user lacking the view_budgets permission' do
+          it 'has no link to the budget' do
+            is_expected
+              .not_to have_json_path('_links/budget')
+          end
+
+          it 'has no budget embedded' do
+            is_expected
+              .not_to have_json_path('_embedded/budget')
+          end
         end
       end
 

@@ -26,11 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostQuery::GroupBy::CostObjectId < Report::GroupBy::Base
+class CostQuery::GroupBy::BudgetId < Report::GroupBy::Base
   join_table WorkPackage
   applies_for :label_work_package_attributes
 
   def self.label
-    CostObject.model_name.human
+    Budget.model_name.human
   end
 end

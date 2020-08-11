@@ -55,7 +55,7 @@ describe API::V3::CostsApiUserPermissionCheck do
   let(:view_cost_rates) { false }
   let(:view_own_cost_entries) { false }
   let(:view_cost_entries) { false }
-  let(:view_cost_objects) { false }
+  let(:view_budgets) { false }
 
   before do
     [:view_time_entries,
@@ -65,7 +65,7 @@ describe API::V3::CostsApiUserPermissionCheck do
      :view_cost_rates,
      :view_own_cost_entries,
      :view_cost_entries,
-     :view_cost_objects].each do |permission|
+     :view_budgets].each do |permission|
 
       allow(subject)
         .to receive(:current_user_allowed_to)
@@ -255,30 +255,6 @@ describe API::V3::CostsApiUserPermissionCheck do
 
       context 'has view_own_time_entries' do
         let(:view_own_time_entries) { true }
-
-        it_behaves_like 'is visible'
-      end
-    end
-
-    context :cost_object_visible? do
-      shared_examples_for 'not visible' do
-        it 'is not visible' do
-          is_expected.to_not be_cost_object_visible
-        end
-      end
-
-      shared_examples_for 'is visible' do
-        it 'is not visible' do
-          is_expected.to be_cost_object_visible
-        end
-      end
-
-      context 'lacks permissions' do
-        it_behaves_like 'not visible'
-      end
-
-      context 'has view_costs_entries' do
-        let(:view_cost_objects) { true }
 
         it_behaves_like 'is visible'
       end

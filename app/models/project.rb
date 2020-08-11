@@ -138,6 +138,7 @@ class Project < ApplicationRecord
      join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
      association_foreign_key: 'custom_field_id'
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
+  has_many :budgets, dependent: :destroy
 
   acts_as_nested_set order_column: :name, dependent: :destroy
 

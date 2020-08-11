@@ -40,7 +40,7 @@ module Pages
     end
 
     def path
-      "/projects/#{project_identifier}/cost_objects/new"
+      "/projects/#{project_identifier}/budgets/new"
     end
   end
 end

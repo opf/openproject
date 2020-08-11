@@ -61,7 +61,7 @@ module Costs
     class_attribute :currency_columns
 
     self.currency_columns = {
-      cost_object: {},
+      budget: {},
       material_costs: {
         summable: ->(work_packages) {
           WorkPackage::MaterialCosts

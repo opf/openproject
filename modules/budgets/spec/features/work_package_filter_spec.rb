@@ -46,13 +46,13 @@ describe 'Filter by budget', js: true do
   end
 
   let(:budget) do
-    FactoryBot.create(:cost_object, project: project)
+    FactoryBot.create(:budget, project: project)
   end
 
   let(:work_package_with_budget) do
     FactoryBot.create(:work_package,
                       project: project,
-                      cost_object: budget)
+                      budget: budget)
   end
 
   let(:work_package_without_budget) do
@@ -75,7 +75,7 @@ describe 'Filter by budget', js: true do
 
     filters.expect_filter_count 1
     filters.open
-    filters.add_filter_by('Budget', 'is', budget.name, 'costObject')
+    filters.add_filter_by('Budget', 'is', budget.name)
 
     wp_table.expect_work_package_listed work_package_with_budget
     wp_table.ensure_work_package_not_listed! work_package_without_budget
@@ -84,7 +84,7 @@ describe 'Filter by budget', js: true do
 
     wp_table.expect_and_dismiss_notification message: 'Successful creation.'
 
-    filters.remove_filter 'costObject'
+    filters.remove_filter 'budget'
 
     wp_table.expect_work_package_listed work_package_with_budget, work_package_without_budget
 
@@ -97,6 +97,6 @@ describe 'Filter by budget', js: true do
 
     filters.open
 
-    filters.expect_filter_by('Budget', 'is', budget.name, 'costObject')
+    filters.expect_filter_by('Budget', 'is', budget.name)
   end
 end

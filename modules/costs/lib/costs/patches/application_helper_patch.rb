@@ -30,20 +30,20 @@ module Costs::Patches::ApplicationHelperPatch
   def self.included(base) # :nodoc:
     # Same as typing in the class
     base.class_eval do
-      def link_to_cost_object(cost_object, options = {})
+      def link_to_budget(budget, options = {})
         title = nil
         subject = nil
         if options[:subject] == false
-          subject = "#{t(:label_cost_object)} ##{cost_object.id}"
-          title = truncate(cost_object.subject, length: 60)
+          subject = "#{t(:label_budget)} ##{budget.id}"
+          title = truncate(budget.subject, length: 60)
         else
-          subject = cost_object.subject
+          subject = budget.subject
           if options[:truncate]
             subject = truncate(subject, length: options[:truncate])
           end
         end
-        s = link_to subject, cost_object_path(cost_object), class: cost_object.css_classes, title: title
-        s = "#{h cost_object.project} - " + s if options[:project]
+        s = link_to subject, budget_path(budget), class: budget.css_classes, title: title
+        s = "#{h budget.project} - " + s if options[:project]
         s
       end
     end

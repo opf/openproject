@@ -53,7 +53,7 @@ module API
                  },
                  setter: ->(*) {}
 
-        property :cost_object_id,
+        property :budget_id,
                  exec_context: :decorator,
                  getter: ->(*) {
                    @cost_type.id
@@ -65,7 +65,7 @@ module API
 
         link :staticPath do
           {
-              href: cost_object_path(@cost_type.id)
+              href: budget_path(@cost_type.id)
           }
         end
 

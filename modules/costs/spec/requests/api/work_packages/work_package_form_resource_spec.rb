@@ -43,7 +43,7 @@ describe 'API v3 Work package form resource', type: :request do
                        member_through_role: role)
   end
 
-  let(:permissions) { [:view_work_packages, :edit_work_packages, :view_cost_objects] }
+  let(:permissions) { [:view_work_packages, :edit_work_packages, :view_budgets] }
 
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_form work_package.id }
@@ -101,8 +101,8 @@ describe 'API v3 Work package form resource', type: :request do
             describe 'budget' do
               let(:path) { '_embedded/payload/_links/costObject/href' }
               let(:links_path) { '_embedded/schema/costObject/_links' }
-              let(:target_budget) { FactoryBot.create(:cost_object, project: project) }
-              let(:other_budget) { FactoryBot.create(:cost_object, project: project) }
+              let(:target_budget) { FactoryBot.create(:budget, project: project) }
+              let(:other_budget) { FactoryBot.create(:budget, project: project) }
               let(:budget_link) { api_v3_paths.budget target_budget.id }
               let(:budget_parameter) { { _links: { costObject: { href: budget_link } } } }
               let(:params) { valid_params.merge(budget_parameter) }
@@ -115,7 +115,7 @@ describe 'API v3 Work package form resource', type: :request do
                 include_context 'post request'
 
                 it 'should list the budgets' do
-                  budgets = project.cost_objects
+                  budgets = project.budgets
 
                   budgets.each_with_index do |budget, index|
                     expect(subject.body).to be_json_eql(api_v3_paths.budget(budget.id).to_json)
@@ -135,7 +135,7 @@ describe 'API v3 Work package form resource', type: :request do
               end
 
               context 'invalid budget' do
-                let(:target_budget) { FactoryBot.create(:cost_object) }
+                let(:target_budget) { FactoryBot.create(:budget) }
 
                 include_context 'post request'
 
