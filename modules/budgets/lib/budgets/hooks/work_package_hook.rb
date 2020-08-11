@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Costs::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
+class Budgets::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
   # Updates the cost object after a move
   #
   # Context:

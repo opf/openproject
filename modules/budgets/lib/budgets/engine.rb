@@ -22,13 +22,6 @@ module Budgets
 
     activity_provider :budgets, class_name: 'Activities::BudgetActivityProvider', default: false
 
-    #patches %i[Project User TimeEntry PermittedParams ProjectsController ApplicationHelper]
-    #patch_with_namespace :WorkPackages, :BaseContract
-    #patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
-    #patch_with_namespace :BasicData, :RoleSeeder
-    #patch_with_namespace :BasicData, :SettingSeeder
-    #patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
-
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
     end
@@ -52,6 +45,11 @@ module Budgets
     initializer 'budgets.register_latest_project_activity' do
       Project.register_latest_project_activity on: 'Budget',
                                                attribute: :updated_at
+    end
+
+    initializer 'budgets.register_hooks' do
+      # TODO: avoid hooks as this is part of the core now
+      require 'costs/hooks/work_package_hook'
     end
 
     config.to_prepare do

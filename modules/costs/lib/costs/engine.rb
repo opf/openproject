@@ -270,10 +270,6 @@ module Costs
                }
     end
 
-    initializer 'costs.register_hooks' do
-      require 'costs/hooks/work_package_hook'
-    end
-
     config.to_prepare do
       Costs::Patches::MembersPatch.mixin!
       Costs::Patches::WorkPackagePatch.mixin!
