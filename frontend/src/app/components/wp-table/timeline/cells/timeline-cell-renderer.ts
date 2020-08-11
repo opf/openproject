@@ -415,30 +415,30 @@ export class TimelineCellRenderer {
       bar.style.borderWidth = '2px';
       bar.style.borderBottom = 'none';
       bar.style.background = 'none';
-    }
 
-    // Display the children's duration bar
-    if (wp.derivedStartDate && wp.derivedDueDate) {
-      let derivedStartDate = moment(wp.derivedStartDate);
-      let derivedDueDate = moment(wp.derivedDueDate);
-      let startDate = moment(renderInfo.change.projectedResource.startDate);
-      let dueDate = moment(renderInfo.change.projectedResource.dueDate);
-      let previousChildrenDurationBar = row.querySelector('.children-duration-bar');
-      const childrenDurationBar = document.createElement('div');
+      // Display the children's duration bar
+      if (wp.derivedStartDate && wp.derivedDueDate) {
+        let derivedStartDate = moment(wp.derivedStartDate);
+        let derivedDueDate = moment(wp.derivedDueDate);
+        let startDate = moment(renderInfo.change.projectedResource.startDate);
+        let dueDate = moment(renderInfo.change.projectedResource.dueDate);
+        let previousChildrenDurationBar = row.querySelector('.children-duration-bar');
+        const childrenDurationBar = document.createElement('div');
 
-      childrenDurationBar.classList.add('children-duration-bar');
+        childrenDurationBar.classList.add('children-duration-bar');
 
-      if (derivedStartDate.isBefore(startDate) || derivedDueDate.isAfter(dueDate)) {
-        childrenDurationBar.classList.add('-duration-overflow');
+        if (derivedStartDate.isBefore(startDate) || derivedDueDate.isAfter(dueDate)) {
+          childrenDurationBar.classList.add('-duration-overflow');
+        }
+
+        this.setElementPositionAndSize(childrenDurationBar, renderInfo, derivedStartDate, derivedDueDate);
+
+        if (previousChildrenDurationBar) {
+          previousChildrenDurationBar.remove();
+        }
+
+        row!.appendChild(childrenDurationBar);
       }
-
-      this.setElementPositionAndSize(childrenDurationBar, renderInfo, derivedStartDate, derivedDueDate);
-
-      if (previousChildrenDurationBar) {
-        previousChildrenDurationBar.remove();
-      }
-
-      row!.appendChild(childrenDurationBar);
     }
   }
 
