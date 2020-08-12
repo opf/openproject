@@ -89,7 +89,10 @@ module ReportingHelper
   def budget_link(budget_id)
     co = Budget.find(budget_id)
     if User.current.allowed_to?(:view_budgets, co.project)
-      link_to_budget(co)
+      link_to budget.subject,
+              budget_path(budget),
+              class: budget.css_classes,
+              title: budget.subject
     else
       co.subject
     end

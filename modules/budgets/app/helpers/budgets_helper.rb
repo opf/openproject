@@ -29,30 +29,12 @@
 require 'csv'
 
 module BudgetsHelper
-  include ApplicationHelper
   include ActionView::Helpers::NumberHelper
 
   # Check if the current user is allowed to manage the budget.  Based on Role
   # permissions.
   def allowed_management?
     User.current.allowed_to?(:edit_budgets, @project)
-  end
-
-  def link_to_budget(budget, options = {})
-    title = nil
-    subject = nil
-    if options[:subject] == false
-      subject = "#{t(:label_budget)} ##{budget.id}"
-      title = truncate(budget.subject, length: 60)
-    else
-      subject = budget.subject
-      if options[:truncate]
-        subject = truncate(subject, length: options[:truncate])
-      end
-    end
-    s = link_to subject, budget_path(budget), class: budget.css_classes, title: title
-    s = "#{h budget.project} - " + s if options[:project]
-    s
   end
 
   def budgets_to_csv(budgets)
@@ -71,22 +53,22 @@ module BudgetsHelper
         Budget.human_attribute_name(:updated_at),
         Budget.human_attribute_name(:description)
       ]
-
       csv << headers.map { |c| begin; c.to_s.encode('UTF-8'); rescue; c.to_s; end }
       # csv lines
       budgets.each do |budget|
-        fields = [budget.id,
-                  budget.project.name,
-                  budget.subject,
-                  budget.author.name,
-                  format_date(budget.fixed_date),
-                  number_to_currency(budget.material_budget),
-                  number_to_currency(budget.labor_budget),
-                  number_to_currency(budget.spent),
-                  format_time(budget.created_at),
-                  format_time(budget.updated_at),
-                  budget.description
-                 ]
+        fields = [
+          budget.id,
+          budget.project.name,
+          budget.subject,
+          budget.author.name,
+          format_date(budget.fixed_date),
+          number_to_currency(budget.material_budget),
+          number_to_currency(budget.labor_budget),
+          number_to_currency(budget.spent),
+          format_time(budget.created_at),
+          format_time(budget.updated_at),
+          budget.description
+        ]
         csv << fields.map { |c| begin; c.to_s.encode('UTF-8'); rescue; c.to_s; end }
       end
     end
