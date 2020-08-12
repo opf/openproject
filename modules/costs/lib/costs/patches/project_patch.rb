@@ -49,9 +49,5 @@ module Costs::Patches::ProjectPatch
     def costs_enabled?
       module_enabled?(:costs)
     end
-
-    def cost_reporting_enabled?
-      costs_enabled? && module_enabled?(:costs)
-    end
   end
 end

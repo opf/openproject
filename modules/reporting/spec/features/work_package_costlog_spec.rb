@@ -26,7 +26,6 @@ describe 'Cost report showing my own times', type: :feature, js: true do
                      comments: 'foobar')
   end
 
-
   before do
     login_as user
     cost_entry.save!

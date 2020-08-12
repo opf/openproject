@@ -36,6 +36,7 @@ interface ICostsByType {
     costObjectId:string;
     costType:{
         name:string;
+        id:string;
     };
     staticPath:{
         href:string;
@@ -100,7 +101,7 @@ export class CostsByTypeDisplayField extends DisplayField {
     const showCosts = this.resource.showCosts;
     const link = document.createElement('a') as HTMLAnchorElement;
 
-    link.href = showCosts.href + '?cost_type_id=' + val.costObjectId;
+    link.href = showCosts.href + '?cost_type_id=' + val.costType.id;
     link.setAttribute('target', '_blank');
     link.textContent = val.spentUnits + ' ' + val.costType.name;
     element.appendChild(link);
