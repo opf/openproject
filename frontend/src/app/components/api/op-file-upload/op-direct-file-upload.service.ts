@@ -141,11 +141,6 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
         });
 
         return { url: res._links.addAttachment.href, form: form, response: res };
-      })
-      .catch((err) => {
-        console.log(err);
-
-        return new FormData();
       });
 
     return result;
