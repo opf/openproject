@@ -114,7 +114,7 @@ export class CostsByTypeDisplayField extends DisplayField {
   private renderCostAsText(val:ICostsByType, element:HTMLElement, i:number) {
     const span = document.createElement('span');
     span.textContent = val.spentUnits + ' ' + val.costType.name;
-
+    element.appendChild(span);
     this.addSeparator(element, i);
   }
 

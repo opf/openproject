@@ -47,10 +47,6 @@ module WorkPackages::Costs
       project&.costs_enabled?
     end
 
-    def cost_reporting_enabled?
-      project&.cost_reporting_enabled?
-    end
-
     def validate_budget
       if budget_id_changed?
         unless budget_id.blank? || project.budget_ids.include?(budget_id)

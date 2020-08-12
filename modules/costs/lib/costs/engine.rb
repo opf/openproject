@@ -151,7 +151,7 @@ module Costs
              current_user_allowed_to(:view_cost_entries, context: represented.project) ||
                current_user_allowed_to(:view_own_cost_entries, context: represented.project)
            } do
-        next unless represented.cost_reporting_enabled? && represented.persisted?
+        next unless represented.persisted? && represented.project.cost_reporting_enabled?
 
         {
             href: work_packages_cost_entries_path(represented),
