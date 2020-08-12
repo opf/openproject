@@ -76,19 +76,11 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_path(event)
-    if event['work_package_id'].present?
-      url_helpers.project_time_entries_path(event['project_id'])
-    else
-      url_helpers.work_package_time_entries_path(event['work_package_id'])
-    end
+    event_location(event)
   end
 
   def event_url(event)
-    if event['work_package_id'].present?
-      url_helpers.project_time_entries_url(event['project_id'])
-    else
-      url_helpers.work_package_time_entries_url(event['work_package_id'])
-    end
+    event_location(event, only_path: false)
   end
 
   def types_table
@@ -101,5 +93,23 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
 
   def work_packages_table
     @work_packages_table ||= WorkPackage.arel_table
+  end
+
+  def event_location(event, only_path: true)
+    filter_params = if event['work_package_id'].present?
+                      work_package_id_filter(event['work_package_id'])
+                    else
+                      project_id_filter(event['project_id'])
+                    end
+
+    url_helpers.cost_reports_url(event['project_id'], only_path: only_path, **filter_params)
+  end
+
+  def project_id_filter(project_id)
+    { 'fields[]': 'ProjectId', 'operators[ProjectId]': '=', 'values[ProjectId]': project_id, set_filter: 1 }
+  end
+
+  def work_package_id_filter(work_package_id)
+    { 'fields[]': 'WorkPackageId', 'operators[WorkPackageId]': '=', 'values[WorkPackageId]': work_package_id, set_filter: 1 }
   end
 end
