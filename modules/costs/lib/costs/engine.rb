@@ -102,6 +102,12 @@ module Costs
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 
+    add_tab_entry :user,
+                  name: 'rates',
+                  partial: 'users/rates',
+                  path: ->(params) { tab_edit_user_path(params[:user], tab: :rates) },
+                  label: :caption_rate_history
+
     add_api_path :cost_entry do |id|
       "#{root}/cost_entries/#{id}"
     end
