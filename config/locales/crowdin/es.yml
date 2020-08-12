@@ -89,11 +89,11 @@ es:
       no_results_content_text: Crear un nuevo modo de autenticación
   ldap_auth_sources:
     technical_warning_html: |
-      Este formulario LDAP requiere conocimientos técnicos de su configuración de LDAP / activiar directorio <br/>
+      Este formulario LDAP requiere conocimientos técnicos para la configuración de su  LDAP / Directorio Activo <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Visite nuestra documentación para obtener instrucciones detalladas.
     attribute_texts:
       name: Nombre arbitrario de la conexión LDAP
-      host: Nombre del anfitrion LDAP o dirección IP
+      host: Nombre del host LDAP o dirección IP
       login_map: La clave de atributo en LDAP que se utiliza para identificar el inicio de sesión único del usuario. Por lo general, esto será `uid` o`samAccountName`.
       generic_map: La clave de atributo en LDAP que está asignada al proyecto abierto `%{attribute}` atributo
       admin_map_html: "Opcional: la clave de atributo en LDAP que <strong> si esta presente </strong> marca al usuario del proyecto abierto como administrador. Deje en blanco cuando tenga dudas."
@@ -1906,7 +1906,7 @@ es:
   permission_manage_project_activities: "Gestionar actividades del proyecto"
   permission_manage_public_queries: "Administrar vistas públicas"
   permission_manage_repository: "Gestionar repositorio"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "Administrar jerarquías de paquetes de trabajo"
   permission_manage_versions: "Administrar versiones"
   permission_manage_wiki: "Administrar wiki"
   permission_manage_wiki_menu: "Administrar menú wiki"

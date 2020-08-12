@@ -168,7 +168,7 @@ es:
         trial:
           confirmation: "Confirmación de dirección de correo electrónico"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Le hemos enviado un correo electrónico a %{email} el %{date}. Por favor, compruebe su bandeja de entrada y haga clic en el enlace de confirmación que le hemos enviado para comenzar con su prueba gratuita de 14 días.
           form:
             general_consent: >
               Estoy de acuerdo con los <a target="_blank" href="%{link_terms}">Términos del servicio</a> y la <a target="_blank" href="%{link_privacy}">Política de privacidad</a>.
@@ -883,8 +883,8 @@ es:
         confirm_deletion_children: "Reconozco que TODOS los descendientes de los paquetes de trabajo enumerados se eliminarán recursivamente."
         deletes_children: "También se eliminarán de forma recursiva todos los paquetes de trabajo secundarios y sus descendientes."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Confirmar la eliminación de la entrada de tiempo"
+        text: "¿Realmente quiere eliminar la siguiente entrada de tiempo?"
     notice_no_results_to_display: "No se pueden mostrar resultados visibles."
     notice_successful_create: "Creación exitosa."
     notice_successful_delete: "Eliminado con éxito."
