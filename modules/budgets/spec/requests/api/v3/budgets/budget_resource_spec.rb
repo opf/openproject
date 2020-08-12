@@ -33,12 +33,11 @@ describe 'API v3 Budget resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:project) { FactoryBot.create(:project, public: false) }
   let(:current_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_with_permissions: [:view_work_packages] )
   end
   subject(:response) { last_response }
 
