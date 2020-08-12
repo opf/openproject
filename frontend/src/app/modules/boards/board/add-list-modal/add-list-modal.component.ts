@@ -39,11 +39,22 @@ import {BoardActionService} from "core-app/modules/boards/board/board-actions/bo
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {of} from "rxjs";
+import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
+import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Component({
   templateUrl: './add-list-modal.html'
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
+  /** Keep a switchmap for search term and loading state */
+  public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
+    (searchTerm:string) => this.actionService.loadAvailable(this.board, this.active, searchTerm),
+    errorNotificationHandler(this.halNotification),
+    true
+  );
+
   public showClose:boolean;
 
   public confirmed = false;
@@ -57,9 +68,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** Action service used by the board */
   public actionService:BoardActionService;
 
-  /** Remaining available values */
-  public availableValues:HalResource[] = [];
-
   /** The selected attribute */
   public selectedAttribute:HalResource|undefined;
 
@@ -70,8 +78,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   /* Do not close on outside click (because the select option are appended to the body */
   public closeOnOutsideClick = false;
-
-  public valuesAvailable:boolean = true;
 
   public warningText:string|undefined;
 
@@ -92,14 +98,22 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public referenceOutputs = {
     onCreate: (value:HalResource) => this.onNewActionCreated(value),
+    onOpen: () => this.requests.input$.next(''),
     onChange: (value:HalResource) => this.onModelChange(value),
     onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField()
   };
+
+  /** The loaded available values */
+  availableValues:any;
+
+  /** Whether the no results warning is displayed */
+  showWarning:boolean = false;
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly boardActions:BoardActionsRegistryService,
+              readonly halNotification:HalResourceNotificationService,
               readonly state:StateService,
               readonly boardService:BoardService,
               readonly I18n:I18nService) {
@@ -115,18 +129,25 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
 
     this.actionService
-      .getAvailableValues(this.board, this.active)
-      .then(available => {
-        this.availableValues = available;
-        if (this.availableValues.length === 0) {
-          this.actionService
-            .warningTextWhenNoOptionsAvailable()
-            .then((text) => {
-              this.warningText = text;
-              this.valuesAvailable = false;
-            });
-        }
+      .warningTextWhenNoOptionsAvailable()
+      .then((text) => {
+        this.warningText = text;
       });
+
+    this
+      .requests
+      .output$
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe((values:unknown[]) => {
+        this.availableValues = values;
+        this.showWarning = this.requests.lastRequestedValue !== undefined && (values.length === 0);
+        this.cdRef.detectChanges();
+      });
+
+    // Request an empty value to load warning early on
+    this.requests.input$.next('');
   }
 
   onModelChange(element:HalResource) {
@@ -147,7 +168,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   onNewActionCreated(newValue:HalResource) {
-    this.actionService.cache.clear("New attribute added.");
     this.selectedAttribute = newValue;
     this.create();
   }

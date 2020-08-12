@@ -447,6 +447,7 @@ en:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
     label_work_package: "Work package"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Work packages"
     label_watch: "Watch"
     label_watch_work_package: "Watch work package"

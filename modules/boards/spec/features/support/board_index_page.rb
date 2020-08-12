@@ -62,7 +62,7 @@ module Pages
       if action == nil
         find('.tile-block', text: 'Basic Board').click
       else
-        find('.tile-block', text: action.to_s).click
+        find('.tile-block', text: "Action Board (#{action.to_s})").click
       end
 
       if expect_empty
