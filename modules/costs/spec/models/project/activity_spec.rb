@@ -56,17 +56,17 @@ describe Projects::Activity, type: :model do
 
   describe '.with_latest_activity' do
     it 'is the latest budget update' do
-      budget.update_attribute(:updated_on, initial_time - 10.seconds)
-      budget2.update_attribute(:updated_on, initial_time - 20.seconds)
+      budget.update_attribute(:updated_at, initial_time - 10.seconds)
+      budget2.update_attribute(:updated_at, initial_time - 20.seconds)
       budget.reload
       budget2.reload
 
-      expect(latest_activity).to eql budget.updated_on
+      expect(latest_activity).to eql budget.updated_at
     end
 
     it 'takes the time stamp of the latest activity across models' do
       work_package.update_attribute(:updated_at, initial_time - 10.seconds)
-      budget.update_attribute(:updated_on, initial_time - 20.seconds)
+      budget.update_attribute(:updated_at, initial_time - 20.seconds)
 
       work_package.reload
       budget.reload
@@ -77,13 +77,13 @@ describe Projects::Activity, type: :model do
 
       expect(latest_activity).to eql work_package.updated_at
 
-      work_package.update_attribute(:updated_at, budget.updated_on - 10.seconds)
+      work_package.update_attribute(:updated_at, budget.updated_at - 10.seconds)
 
       # Order:
       # budget
       # work_package
 
-      expect(latest_activity).to eql budget.updated_on
+      expect(latest_activity).to eql budget.updated_at
     end
   end
 end
