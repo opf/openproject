@@ -42,7 +42,7 @@ module Costs
                partial: 'settings/costs',
                menu_item: :costs_setting
              },
-             name: 'Costs' do
+             name: :project_module_costs do
       project_module :costs do
         permission :view_time_entries,
                    timelog: %i[index show],
