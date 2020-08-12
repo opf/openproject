@@ -111,7 +111,7 @@ class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
   def rename_in_queries(old, new)
     execute <<~SQL
       UPDATE queries
-      SET filters = REGEXP_REPLACE(filters, ' #{old}_id:', ' #{new}_id:')
+      SET filters = REGEXP_REPLACE(filters, '#{old}_id:', '#{new}_id:')
       WHERE filters LIKE '%#{old}_id%'
     SQL
 
@@ -131,6 +131,12 @@ class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
       UPDATE queries
       SET group_by = REGEXP_REPLACE(group_by, '#{old}', '#{new}')
       WHERE group_by LIKE '%#{old}%'
+    SQL
+
+    execute <<~SQL
+      UPDATE queries
+      SET timeline_labels = REGEXP_REPLACE(timeline_labels, '#{old.camelize(:lower)}', '#{new.camelize(:lower)}')
+      WHERE timeline_labels LIKE '%#{old.camelize(:lower)}%'
     SQL
   end
 
