@@ -85,8 +85,7 @@ module API
           next if represented.new_record?
 
           {
-            href: new_work_package_time_entry_path(represented),
-            type: 'text/html',
+            href: api_v3_paths.time_entries,
             title: "Log time on #{represented.subject}"
           }
         end
@@ -286,9 +285,10 @@ module API
              cache_if: -> { view_time_entries_allowed? } do
           next if represented.new_record?
 
+          filters = [{ work_package_id: { operator: "=", values: [represented.id.to_s] } }]
+
           {
-            href: work_package_time_entries_path(represented.id),
-            type: 'text/html',
+            href: api_v3_paths.path_for(:time_entries, filters: filters),
             title: 'Time entries'
           }
         end

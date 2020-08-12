@@ -70,7 +70,6 @@ en:
 
   button_add_rate: "Add rate"
   button_log_costs: "Log unit costs"
-  button_log_time: "Log time"
 
   caption_booked_on_project: "Booked on project"
   caption_default: "Default"

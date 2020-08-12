@@ -31,4 +31,30 @@
 require 'spec_helper'
 
 describe TimeEntry, type: :model do
+  describe '#hours' do
+    formats = { '2' => 2.0,
+                '21.1' => 21.1,
+                '2,1' => 2.1,
+                '1,5h' => 1.5,
+                '7:12' => 7.2,
+                '10h' => 10.0,
+                '10 h' => 10.0,
+                '45m' => 0.75,
+                '45 m' => 0.75,
+                '3h15' => 3.25,
+                '3h 15' => 3.25,
+                '3 h 15' => 3.25,
+                '3 h 15m' => 3.25,
+                '3 h 15 m' => 3.25,
+                '3 hours' => 3.0,
+                '12min' => 0.2 }
+
+    formats.each do |from, to|
+      it "formats '#{from}'" do
+        t = TimeEntry.new(hours: from)
+        expect(t.hours)
+          .to eql to
+      end
+    end
+  end
 end

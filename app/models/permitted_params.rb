@@ -235,14 +235,6 @@ class PermittedParams
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
-  def timelog
-    params.permit(:period,
-                  :period_type,
-                  :from,
-                  :to,
-                  criterias: [])
-  end
-
   def search
     params.permit(*self.class.permitted_attributes[:search])
   end
@@ -291,14 +283,6 @@ class PermittedParams
     end
 
     whitelist.merge(custom_field_values(:project))
-  end
-
-  def time_entry
-    permitted_params = params.fetch(:time_entry, {}).permit(
-      :hours, :comments, :work_package_id, :activity_id, :spent_on
-    )
-
-    permitted_params.merge(custom_field_values(:time_entry, required: false))
   end
 
   def news
@@ -538,15 +522,6 @@ class PermittedParams
                args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
               { watcher_user_ids: [] }
-            end
-          end,
-          Proc.new do |args|
-            # avoid costly allowed_to? if the param is not there at all
-            if args[:params]['work_package'] &&
-               args[:params]['work_package'].has_key?('time_entry') &&
-               args[:current_user].allowed_to?(:log_time, args[:project])
-
-              { time_entry: %i[hours activity_id comments] }
             end
           end,
           # attributes unique to :new_work_package

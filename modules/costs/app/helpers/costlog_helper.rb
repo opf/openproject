@@ -27,8 +27,6 @@
 #++
 
 module CostlogHelper
-  include TimelogHelper
-
   def cost_types_collection_for_select_options(selected_type = nil)
     cost_types = CostType.active.sort
 

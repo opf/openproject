@@ -201,9 +201,6 @@ en:
   concatenation:
     single: 'or'
 
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
-
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -873,7 +870,6 @@ en:
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
-  button_log_time: "Log time"
   button_login: "Sign in"
   button_move: "Move"
   button_move_and_follow: "Move and follow"
@@ -1061,8 +1057,6 @@ en:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Enter start date"
-  description_date_range_interval: "Choose range by selecting start and end date"
-  description_date_range_list: "Choose range from list"
   description_date_to: "Enter end date"
   description_enter_number: "Enter number"
   description_enter_text: "Enter text"
@@ -1363,7 +1357,6 @@ en:
   label_date_and_time: "Date and time"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
-  label_date_range: "Date range"
   label_date_to: "To"
   label_day_plural: "days"
   label_default: "Default"
@@ -1908,7 +1901,6 @@ en:
   notice_successful_delete: "Successful deletion."
   notice_successful_update: "Successful update."
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
-  notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"

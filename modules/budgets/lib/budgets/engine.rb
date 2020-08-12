@@ -58,7 +58,7 @@ module Budgets
       ::Type.add_default_mapping(:costs, :budget)
 
       ::Type.add_constraint :budget, ->(_type, project: nil) {
-        project.nil? || project.enabled_module?(:budgets)
+        project.nil? || project.module_enabled?(:budgets)
       }
 
       Queries::Register.filter Query, Queries::WorkPackages::Filter::BudgetFilter

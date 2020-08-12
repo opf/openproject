@@ -97,7 +97,7 @@ module OpenProject::Reporting
       require_dependency 'cost_query/group_by'
     end
 
-    patches %i[TimelogController CustomFieldsController OpenProject::Configuration]
+    patches %i[CustomFieldsController OpenProject::Configuration]
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
   end

@@ -81,16 +81,4 @@ class TimeEntry < ApplicationRecord
   def editable_by?(usr)
     (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
   end
-
-  def self.earliest_date_for_project(project = nil)
-    scope = TimeEntry.visible(User.current)
-    scope = scope.where(project_id: project.hierarchy.map(&:id)) if project
-    scope.includes(:project).minimum(:spent_on)
-  end
-
-  def self.latest_date_for_project(project = nil)
-    scope = TimeEntry.visible(User.current)
-    scope = scope.where(project_id: project.hierarchy.map(&:id)) if project
-    scope.includes(:project).maximum(:spent_on)
-  end
 end

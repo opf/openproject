@@ -800,17 +800,23 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      context 'when the user has the permission to view time entries' do
-        it 'should have a link to add child' do
-          expect(subject).to have_json_path('_links/timeEntries/href')
+      context 'timeEntries' do
+        context 'when the user has the permission to view time entries' do
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'timeEntries' }
+            let(:href) do
+              api_v3_paths.path_for(:time_entries, filters: [{ work_package_id: { operator: "=", values: [work_package.id.to_s] } }])
+            end
+            let(:title) { 'Time entries' }
+          end
         end
-      end
 
-      context 'when the user does not have the permission to view time entries' do
-        let(:permissions) { all_permissions - [:view_time_entries] }
+        context 'when the user does not have the permission to view time entries' do
+          let(:permissions) { all_permissions - [:view_time_entries] }
 
-        it 'should not have a link to timeEntries' do
-          expect(subject).not_to have_json_path('_links/timeEntries/href')
+          it 'should not have a link to timeEntries' do
+            expect(subject).not_to have_json_path('_links/timeEntries/href')
+          end
         end
       end
 
@@ -935,6 +941,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it_behaves_like 'action link' do
           let(:action) { 'logTime' }
           let(:permission) { :log_time }
+          let(:href) { api_v3_paths.time_entries }
         end
       end
 

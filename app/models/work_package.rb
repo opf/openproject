@@ -550,14 +550,6 @@ class WorkPackage < ApplicationRecord
       .select("#{table_name}.*, COALESCE(max_depth.depth, 0)")
   end
 
-  def self.self_and_descendants_of_condition(work_package)
-    relation_subquery = Relation
-                        .with_type_columns_not(hierarchy: nil)
-                        .select(:to_id)
-                        .where(from_id: work_package.id)
-    "#{table_name}.id IN (#{relation_subquery.to_sql}) OR #{table_name}.id = #{work_package.id}"
-  end
-
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
   def self.available_custom_fields(work_package)
     WorkPackage::AvailableCustomFields.for(work_package.project, work_package.type)
