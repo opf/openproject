@@ -160,9 +160,13 @@ module Costs
         next unless represented.persisted? && represented.project.costs_enabled?
 
         {
-            href: work_packages_cost_entries_path(represented),
-            type: 'text/html',
-            title: "Show cost entries"
+          href: cost_reports_path(represented.project_id,
+                                  'fields[]': 'WorkPackageId',
+                                  'operators[WorkPackageId]': '=',
+                                  'values[WorkPackageId]': represented.id,
+                                  set_filter: 1),
+          type: 'text/html',
+          title: "Show cost entries"
         }
       end
 

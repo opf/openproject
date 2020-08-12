@@ -27,18 +27,15 @@
 #++
 
 class BudgetsController < ApplicationController
-  before_action :find_budget, only: [:show, :edit, :update, :copy]
+  before_action :find_budget, only: %i[show edit update copy]
   before_action :find_budgets, only: :destroy
-  before_action :find_project, only: [
-      :new, :create,
-      :update_material_budget_item, :update_labor_budget_item
-  ]
+  before_action :find_project, only: %i[new create update_material_budget_item update_labor_budget_item]
   before_action :find_optional_project, only: :index
 
   before_action :authorize_global, only: :index
   before_action :authorize, except: [
       # unrestricted actions
-      :index,
+    :index,
       :update_material_budget_item, :update_labor_budget_item
   ]
 
@@ -61,9 +58,10 @@ class BudgetsController < ApplicationController
       format.csv { limit = Setting.work_packages_export_limit.to_i }
     end
 
-    sort_columns = { 'id' => "#{Budget.table_name}.id",
-                     'subject' => "#{Budget.table_name}.subject",
-                     'fixed_date' => "#{Budget.table_name}.fixed_date"
+    sort_columns = {
+      'id' => "#{Budget.table_name}.id",
+      'subject' => "#{Budget.table_name}.subject",
+      'fixed_date' => "#{Budget.table_name}.fixed_date"
     }
 
     sort_init 'id', 'desc'
