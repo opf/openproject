@@ -118,8 +118,6 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
         this.resource = resource;
         this.render();
       });
-
-    this.calcRows();
   }
 
   // Open the field when its closed and relay drag & drop events to it.
@@ -147,8 +145,6 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     if (focus) {
       setTimeout(() => this.$element.find(`.${displayClassName}`).focus(), 20);
     }
-
-    this.calcRows();
   }
 
   public get isEditable() {
@@ -219,21 +215,6 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       return this.halEditing.typedState(this.resource).value!.schema;
     } else {
       return this.schemaCache.of(this.resource) as ISchemaProxy;
-    }
-  }
-
-  /**
-   * Calculate the number of rows each edit field should span
-   * to create more of a 'masonry' layout look without large gaps
-   */
-  public calcRows() {
-    const rowHeight = 38;
-    let elem = jQuery(this.displayContainer.nativeElement);
-    let elemHeight = elem.height();
-
-    if (elemHeight !== undefined && elemHeight > rowHeight) {
-      let rowspan = Math.ceil(elemHeight / rowHeight);
-      elem.closest('.attributes-key-value').css('grid-row', 'span ' + rowspan);
     }
   }
 }
