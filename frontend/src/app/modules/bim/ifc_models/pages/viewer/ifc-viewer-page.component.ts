@@ -39,7 +39,7 @@ import {OpTitleService} from "core-components/html/op-title.service";
 import {WorkPackageFilterContainerComponent} from "core-components/filters/filter-container/filter-container.directive";
 
 @Component({
-  templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: './ifc-viewer-page.component.html',
   styleUrls: [
     '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
     './styles/generic.sass'
@@ -120,6 +120,8 @@ export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDes
   filterContainerDefinition:DynamicComponentDefinition = {
     component: WorkPackageFilterContainerComponent
   };
+  /** Go back to boards using back-button */
+  backButtonCallback = () => this.state.go('bim');
 
   constructor(readonly ifcData:IfcModelsDataService,
               readonly state:StateService,
@@ -176,6 +178,16 @@ export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDes
       // Update the title whenever the query changes
       this.updateTitle(query);
     });
+  }
+
+  updateTitleName(val:string) {
+    this.toolbarDisabled = true;
+    const query = this.querySpaceService.query.query.value!;
+    query.name = val;
+
+    this.querySpaceService.workPackages.list.save(query)
+      .then(() => this.toolbarDisabled = false)
+      .catch(() => this.toolbarDisabled = false);
   }
 
   /**
