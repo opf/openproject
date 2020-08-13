@@ -71,7 +71,7 @@ class Budget < ApplicationRecord
 
   def initialize(attributes = nil)
     super
-    self.author = User.current if self.new_record?
+    self.author = User.current if new_record?
   end
 
   def copy_from(arg)
@@ -93,6 +93,7 @@ class Budget < ApplicationRecord
   # Amount of the budget spent.  Expressed as as a percentage whole number
   def budget_ratio
     return 0.0 if budget.nil? || budget == 0.0
+
     ((spent / budget) * 100).round
   end
 

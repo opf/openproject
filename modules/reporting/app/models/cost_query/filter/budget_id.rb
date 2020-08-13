@@ -27,7 +27,7 @@
 #++
 
 class CostQuery::Filter::BudgetId < Report::Filter::Base
-  join_table Project
+  join_table WorkPackage
   applies_for :label_work_package_attributes
 
   def self.label
@@ -35,6 +35,11 @@ class CostQuery::Filter::BudgetId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    [[l(:caption_labor), -1]] + Budget.order(Arel.sql('name')).pluck(:name, :id)
+    Budget
+      .visible(User.current)
+      .includes(:project)
+      .pluck(:'projects.name', :subject, :id)
+      .map { |a| ["#{a[0]} - #{a[1]} ", a[2]] }
+      .sort_by { |a| a.first.downcase }
   end
 end
