@@ -186,7 +186,7 @@ class BudgetsController < ApplicationController
     end
 
     response = {
-      "#{@element_id}_unit_name" => h(@unit),
+      "#{@element_id}_unit_name" => ActionController::Base.helpers.sanitize(@unit),
       "#{@element_id}_currency" => Setting.plugin_costs['costs_currency']
     }
     if current_user.allowed_to?(:view_cost_rates, @project)
@@ -213,7 +213,7 @@ class BudgetsController < ApplicationController
     end
 
     response = {
-      "#{@element_id}_unit_name" => h(@unit),
+      "#{@element_id}_unit_name" => ActionController::Base.helpers.sanitize(@unit),
       "#{@element_id}_currency" => Setting.plugin_costs['costs_currency']
     }
     if current_user.allowed_to?(:view_hourly_rates, @project)
