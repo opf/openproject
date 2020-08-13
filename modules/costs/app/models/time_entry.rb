@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,6 +35,7 @@ class TimeEntry < ApplicationRecord
   belongs_to :work_package
   belongs_to :user
   belongs_to :activity, class_name: 'TimeEntryActivity', foreign_key: 'activity_id'
+  belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: 'Rate'
 
   acts_as_customizable
 
@@ -45,6 +47,12 @@ class TimeEntry < ApplicationRecord
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
+  extend ::TimeEntry::TimeEntryScopes
+  include Entry::Costs
+
+  # TODO: move into service
+  before_save :update_costs
+
   def self.visible(*args)
     # TODO: check whether the visibility should also be influenced by the work
     # package the time entry is assigned to.  Currently a work package can
@@ -53,6 +61,21 @@ class TimeEntry < ApplicationRecord
     # user lacks the view_work_packages permission in the moved to project.
     joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_time_entries))
+  end
+
+  def self.update_all(updates, conditions = nil, options = {})
+    # instead of a update_all, perform an individual update during work_package#move
+    # to trigger the update of the costs based on new rates
+    if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = ([\d]+)$/
+      project_id = $1
+      time_entries = TimeEntry.where(conditions)
+      time_entries.each do |entry|
+        entry.project_id = project_id
+        entry.save!
+      end
+    else
+      super
+    end
   end
 
   def hours=(h)
@@ -74,5 +97,25 @@ class TimeEntry < ApplicationRecord
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
     (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
+  end
+
+  def current_rate
+    user.rate_at(spent_on, project_id)
+  end
+
+  def visible_by?(usr)
+    usr.allowed_to?(:view_time_entries, project) ||
+      (user_id == usr.id && usr.allowed_to?(:view_own_time_entries, project))
+  end
+
+  def costs_visible_by?(usr)
+    usr.allowed_to?(:view_hourly_rates, project) ||
+      (user_id == usr.id && usr.allowed_to?(:view_own_hourly_rate, project))
+  end
+
+  private
+
+  def cost_attribute
+    hours
   end
 end

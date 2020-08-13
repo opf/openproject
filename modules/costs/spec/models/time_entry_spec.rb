@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,22 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe TimeEntry, type: :model do
-  include Cost::PluginSpecHelper
   let(:project) { FactoryBot.create(:project_with_types, public: false) }
   let(:project2) { FactoryBot.create(:project_with_types, public: false) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package, project: project,
-                                      type: project.types.first,
-                                      author: user)
-  }
-  let(:work_package2) {
+                      type: project.types.first,
+                      author: user)
+  end
+  let(:work_package2) do
     FactoryBot.create(:work_package, project: project2,
-                                      type: project2.types.first,
-                                      author: user2)
-  }
+                      type: project2.types.first,
+                      author: user2)
+  end
   let(:user) { FactoryBot.create(:user) }
   let(:user2) { FactoryBot.create(:user) }
   let(:date) { Date.today }
@@ -54,23 +55,59 @@ describe TimeEntry, type: :model do
   let!(:default_hourly_five) { FactoryBot.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
   let(:hours) { 5.0 }
   let(:time_entry) do
-    FactoryBot.create(:time_entry, project: project,
-                                    work_package: work_package,
-                                    spent_on: date,
-                                    hours: hours,
-                                    user: user,
-                                    rate: hourly_one,
-                                    comments: 'lorem')
+    FactoryBot.create(:time_entry,
+                      project: project,
+                      work_package: work_package,
+                      spent_on: date,
+                      hours: hours,
+                      user: user,
+                      rate: hourly_one,
+                      comments: 'lorem')
   end
 
   let(:time_entry2) do
-    FactoryBot.create(:time_entry, project: project,
-                                    work_package: work_package,
-                                    spent_on: date,
-                                    hours: hours,
-                                    user: user,
-                                    rate: hourly_one,
-                                    comments: 'lorem')
+    FactoryBot.create(:time_entry,
+                      project: project,
+                      work_package: work_package,
+                      spent_on: date,
+                      hours: hours,
+                      user: user,
+                      rate: hourly_one,
+                      comments: 'lorem')
+  end
+
+  def is_member(project, user, permissions)
+    FactoryBot.create(:member,
+                      project: project,
+                      user: user,
+                      roles: [FactoryBot.create(:role, permissions: permissions)])
+  end
+
+  describe '#hours' do
+    formats = { '2' => 2.0,
+                '21.1' => 21.1,
+                '2,1' => 2.1,
+                '1,5h' => 1.5,
+                '7:12' => 7.2,
+                '10h' => 10.0,
+                '10 h' => 10.0,
+                '45m' => 0.75,
+                '45 m' => 0.75,
+                '3h15' => 3.25,
+                '3h 15' => 3.25,
+                '3 h 15' => 3.25,
+                '3 h 15m' => 3.25,
+                '3 h 15 m' => 3.25,
+                '3 hours' => 3.0,
+                '12min' => 0.2 }
+
+    formats.each do |from, to|
+      it "formats '#{from}'" do
+        t = TimeEntry.new(hours: from)
+        expect(t.hours)
+          .to eql to
+      end
+    end
   end
 
   it 'should always prefer overridden_costs' do
@@ -326,7 +363,7 @@ describe TimeEntry, type: :model do
     end
 
     context 'when having the view_own_time_entries permission ' +
-      'and being the owner of the time entry' do
+              'and being the owner of the time entry' do
       before do
         is_member(project, user, [:view_own_time_entries])
 
@@ -339,7 +376,7 @@ describe TimeEntry, type: :model do
     end
 
     context 'when having the view_own_time_entries permission ' +
-      'and not being the owner of the time entry' do
+              'and not being the owner of the time entry' do
       before do
         is_member(project, user, [:view_own_time_entries])
 

@@ -28,33 +28,42 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Entry::Costs
+  extend ActiveSupport::Concern
 
-describe TimeEntry, type: :model do
-  describe '#hours' do
-    formats = { '2' => 2.0,
-                '21.1' => 21.1,
-                '2,1' => 2.1,
-                '1,5h' => 1.5,
-                '7:12' => 7.2,
-                '10h' => 10.0,
-                '10 h' => 10.0,
-                '45m' => 0.75,
-                '45 m' => 0.75,
-                '3h15' => 3.25,
-                '3h 15' => 3.25,
-                '3 h 15' => 3.25,
-                '3 h 15m' => 3.25,
-                '3 h 15 m' => 3.25,
-                '3 hours' => 3.0,
-                '12min' => 0.2 }
+  included do
+    def real_costs
+      # This methods returns the actual assigned costs of the entry
+      overridden_costs || costs || calculated_costs
+    end
 
-    formats.each do |from, to|
-      it "formats '#{from}'" do
-        t = TimeEntry.new(hours: from)
-        expect(t.hours)
-          .to eql to
+    def calculated_costs(rate_attr = nil)
+      rate_attr ||= current_rate
+      cost_attribute * rate_attr.rate
+    rescue
+      0.0
+    end
+
+    def update_costs(rate_attr = nil)
+      rate_attr ||= current_rate
+      if rate_attr.nil?
+        self.costs = 0.0
+        self.rate = nil
+        return
       end
+
+      self.costs = calculated_costs(rate_attr)
+      self.rate = rate_attr
+    end
+
+    def update_costs!(rate_attr = nil)
+      update_costs(rate_attr)
+
+      save!
+    end
+
+    def cost_attribute
+      raise NotImplementedError
     end
   end
 end

@@ -94,7 +94,9 @@ module Costs
            caption: :label_cost_type_plural
     end
 
-    patches %i[Project User TimeEntry PermittedParams ProjectsController]
+    activity_provider :time_entries, class_name: 'Activities::TimeEntryActivityProvider', default: false
+
+    patches %i[Project User PermittedParams ProjectsController]
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
@@ -297,6 +299,11 @@ module Costs
                if: ->(*) {
                  ::Setting.work_package_list_summable_columns.include?('material_costs')
                }
+    end
+
+    initializer 'costs.register_latest_project_activity' do
+      Project.register_latest_project_activity on: 'TimeEntry',
+                                               attribute: :updated_on
     end
 
     config.to_prepare do
