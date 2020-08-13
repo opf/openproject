@@ -39,31 +39,31 @@
           </div>
           <ng-template #workPackageItemTemplate>
             <div tabindex="-1" class="global-search--option" (click)="redirectToWp(item.id, $event)" style="line-height: 1">
+              <div class="global-search--option-wrapper">
+                <user-avatar 
+                [user]="item.author"
+                data-class-list="avatar global-search-author-avatar hidden-for-mobile">
+                </user-avatar>
 
-              <user-avatar 
-              [user]="item.author"
-              data-class-list="avatar global-search-author-avatar hidden-for-mobile">
-              </user-avatar>
-
-              <span class="global-search--wp-subject"> 
-              {{item.subject}} 
-              </span>
-
-              <div class="global-search--wp-content">
-                <span [textContent]="item.project" 
-                class="global-search--wp-project">
+                <span class="global-search--wp-subject"> 
+                {{item.subject}} 
                 </span>
 
-                <a class="global-search--wp-id"
-                  [ngClass]="uiStateLinkClass">
-                #{{item.id}}
-                </a>
+                <div class="global-search--wp-content">
+                  <span [textContent]="item.project" 
+                  class="global-search--wp-project">
+                  </span>
 
-                <span [textContent]="item.status"
-                  class="global-search--wp-status">
-                </span>
+                  <a class="global-search--wp-id"
+                    [ngClass]="uiStateLinkClass">
+                  #{{item.id}}
+                  </a>
+
+                  <span [textContent]="item.status"
+                    class="global-search--wp-status">
+                  </span>
+                </div>
               </div>
-              
             </div>
         </ng-template>
       </ng-template>
