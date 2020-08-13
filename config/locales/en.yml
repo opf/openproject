@@ -1503,7 +1503,6 @@ en:
   label_modified: "modified"
   label_module_plural: "Modules"
   label_modules: "Modules"
-  label_month: "Month"
   label_months_from: "months from"
   label_more: "More"
   label_more_than_ago: "more than days ago"
@@ -1773,7 +1772,6 @@ en:
     one: "1 project"
     other: "%{count} projects"
     zero: "no projects"
-  label_year: "Year"
   label_yesterday: "yesterday"
 
   auth_source:

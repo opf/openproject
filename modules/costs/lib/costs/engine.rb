@@ -44,23 +44,20 @@ module Costs
              },
              name: :project_module_costs do
       project_module :costs do
-        permission :view_time_entries,
-                   timelog: %i[index show],
-                   time_entry_reports: [:report]
+        permission :view_time_entries, {}
 
         permission :log_time,
-                   { timelog: %i[new create edit update] },
+                   {},
                    require: :loggedin
 
         permission :edit_time_entries,
-                   { timelog: %i[new create edit update destroy] },
+                   {},
                    require: :member
 
-        permission :view_own_time_entries,
-                   timelog: %i[index report]
+        permission :view_own_time_entries, {}
 
         permission :edit_own_time_entries,
-                   { timelog: %i[new create edit update destroy] },
+                   {},
                    require: :loggedin
 
         permission :manage_project_activities,
