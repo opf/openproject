@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -40,7 +41,7 @@ module WorkPackages::Costs
     after_update :move_cost_entries
 
     associated_to_ask_before_destruction CostEntry,
-                                         ->(work_packages) { CostEntry.on_work_packages(work_packages).count > 0 },
+                                         ->(work_packages) { CostEntry.on_work_packages(work_packages).count.positive? },
                                          method(:cleanup_cost_entries_before_destruction_of)
 
     def costs_enabled?
@@ -81,14 +82,9 @@ module WorkPackages::Costs
       budget&.subject
     end
 
-    def update_costs!
-      # This methods ist referenced from some migrations but does nothing
-      # anymore.
-    end
-
     def move_cost_entries
       return unless saved_change_to_project_id?
-      # TODO: This only works with the global cost_rates
+
       CostEntry
         .where(work_package_id: id)
         .update_all(project_id: project_id)

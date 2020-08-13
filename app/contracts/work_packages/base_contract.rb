@@ -187,7 +187,7 @@ module WorkPackages
     end
 
     def assignable_budgets
-      model.project.budgets if model.project
+      model.project&.budgets
     end
 
     private

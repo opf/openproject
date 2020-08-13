@@ -55,6 +55,7 @@ class ModelContract < Reform::Contract
 
     def attribute_alias(db, outside)
       raise "Cannot define the alias to #{db} to be the same: #{outside}" if db == outside
+
       attribute_aliases[db] = outside
     end
 

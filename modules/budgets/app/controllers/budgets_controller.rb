@@ -35,8 +35,9 @@ class BudgetsController < ApplicationController
   before_action :authorize_global, only: :index
   before_action :authorize, except: [
       # unrestricted actions
-    :index,
-      :update_material_budget_item, :update_labor_budget_item
+      :index,
+      :update_material_budget_item,
+      :update_labor_budget_item
   ]
 
   helper :sort
@@ -52,12 +53,6 @@ class BudgetsController < ApplicationController
   include PaginationHelper
 
   def index
-    respond_to do |format|
-      format.html do
-      end
-      format.csv { limit = Setting.work_packages_export_limit.to_i }
-    end
-
     sort_columns = {
       'id' => "#{Budget.table_name}.id",
       'subject' => "#{Budget.table_name}.subject",
@@ -113,7 +108,6 @@ class BudgetsController < ApplicationController
 
   def create
     @budget = Budget.new
-
     @budget.project_id = @project.id
 
     # fixed_date must be set before material_budget_items and labor_budget_items
@@ -128,8 +122,7 @@ class BudgetsController < ApplicationController
 
     if @budget.save
       flash[:notice] = t(:notice_successful_create)
-      redirect_to(params[:continue] ? { action: 'new' } :
-                      { action: 'show', id: @budget })
+      redirect_to(params[:continue] ? { action: 'new' } : { action: 'show', id: @budget })
     else
       render action: 'new', layout: !request.xhr?
     end
@@ -185,18 +178,9 @@ class BudgetsController < ApplicationController
       @unit = cost_type.try(:unit_plural) || ''
     end
 
-    response = {
-      "#{@element_id}_unit_name" => ActionController::Base.helpers.sanitize(@unit),
-      "#{@element_id}_currency" => Setting.plugin_costs['costs_currency']
-    }
-    if current_user.allowed_to?(:view_cost_rates, @project)
-      response["#{@element_id}_costs"] = number_to_currency(@costs)
-      response["#{@element_id}_cost_value"] = @costs
-    end
-
     respond_to do |format|
       format.json do
-        render json: response
+        render json: render_item_as_json(@element_id, @costs, @unit, @project, :view_cost_rates)
       end
     end
   end
@@ -212,18 +196,9 @@ class BudgetsController < ApplicationController
       @costs = 0.0
     end
 
-    response = {
-      "#{@element_id}_unit_name" => ActionController::Base.helpers.sanitize(@unit),
-      "#{@element_id}_currency" => Setting.plugin_costs['costs_currency']
-    }
-    if current_user.allowed_to?(:view_hourly_rates, @project)
-      response["#{@element_id}_costs"] = number_to_currency(@costs)
-      response["#{@element_id}_cost_value"] = @costs
-    end
-
     respond_to do |format|
       format.json do
-        render json: response
+        render json: render_item_as_json(@element_id, @costs, @unit, @project, :view_hourly_rates)
       end
     end
   end
@@ -243,6 +218,7 @@ class BudgetsController < ApplicationController
 
     @budgets = Budget.where(id: params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @budgets.empty?
+
     projects = @budgets.map(&:project).compact.uniq
     if projects.size == 1
       @project = projects.first
@@ -264,5 +240,19 @@ class BudgetsController < ApplicationController
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def render_item_as_json(element_id, costs, unit, project, permission)
+    response = {
+      "#{element_id}_unit_name" => ActionController::Base.helpers.sanitize(unit),
+      "#{element_id}_currency" => Setting.plugin_costs['costs_currency']
+    }
+
+    if current_user.allowed_to?(permission, project)
+      response["#{element_id}_costs"] = number_to_currency(costs)
+      response["#{element_id}_cost_value"] = costs
+    end
+
+    response
   end
 end

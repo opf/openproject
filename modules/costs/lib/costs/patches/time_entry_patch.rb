@@ -86,7 +86,8 @@ module Costs::Patches::TimeEntryPatch
 
     def update_costs!(rate_attr = nil)
       update_costs(rate_attr)
-      self.save!
+
+      save!
     end
 
     def current_rate
