@@ -12,9 +12,10 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
 
 @Injectable()
-export class BoardVersionActionService extends BoardActionService {
+export class BoardVersionActionService extends CachedBoardActionService {
   @InjectField() state:StateService;
   @InjectField() halNotification:HalResourceNotificationService;
 
@@ -50,7 +51,9 @@ export class BoardVersionActionService extends BoardActionService {
   }
 
   public addInitialColumnsForAction(board:Board):Promise<Board> {
-    return this.withLoadedAvailable()
+    return this
+      .loadValues()
+      .toPromise()
       .then((results) => {
         return Promise.all<unknown>(
           results.map((version:VersionResource) => {
@@ -105,7 +108,7 @@ export class BoardVersionActionService extends BoardActionService {
     return value instanceof VersionResource && value.isOpen();
   }
 
-  protected loadAvailable():Promise<VersionResource[]> {
+  protected loadUncached():Promise<HalResource[]> {
     if (this.currentProject.id === null) {
       return Promise.resolve([]);
     }

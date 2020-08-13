@@ -38,9 +38,6 @@ class Sprint < Version
   scope :order_by_date, -> {
     reorder(Arel.sql("start_date ASC NULLS LAST, effective_date ASC NULLS LAST"))
   }
-  scope :order_by_name, -> {
-    order Arel.sql("#{Version.table_name}.name ASC")
-  }
 
   scope :apply_to, lambda { |project|
     where("#{Version.table_name}.project_id = #{project.id}" +

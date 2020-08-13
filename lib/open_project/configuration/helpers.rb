@@ -41,6 +41,20 @@ module OpenProject
         (self['attachments_storage'] || 'file').to_sym
       end
 
+      ##
+      # We only allow direct uploads to S3 as we are using the carrierwave_direct
+      # gem which only supports S3 for the time being.
+      def direct_uploads
+        return false unless remote_storage?
+        return false unless remote_storage_aws?
+
+        self['direct_uploads']
+      end
+
+      def direct_uploads?
+        direct_uploads
+      end
+
       # Augur connect host
       def enterprise_trial_creation_host
         if Rails.env.production?
@@ -52,6 +66,20 @@ module OpenProject
 
       def file_storage?
         attachments_storage == :file
+      end
+
+      def remote_storage?
+        attachments_storage == :fog
+      end
+
+      def remote_storage_aws?
+        fog_credentials[:provider] == "AWS"
+      end
+
+      def remote_storage_host
+        if remote_storage_aws?
+          "#{fog_directory}.s3.amazonaws.com"
+        end
       end
 
       def attachments_storage_path

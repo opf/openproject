@@ -33,18 +33,18 @@ ru:
       board_type:
         text: 'Тип доски'
         free: 'Базовая доска'
-        select_board_type: 'Please choose the type of board you need.'
+        select_board_type: 'Пожалуйста, выберите требуемый вам тип доски.'
         free_text: >
           Создайте доску, в которой вы можете свободно создавать списки и заказать пакеты работ внутри. Перемещение пакетов работ между списками не изменяет сам пакет работ.
         action: 'Доска действий'
         action_by_attribute: 'Доска действий (%{attribute})'
         action_text: >
-          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Создать доску с отфильтрованными по атрибуту %{attribute} списками. Перемещение рабочих пакетов в другие списки обновит их атрибут.
         action_type:
           assignee: правопреемник
           status: статус
           version: версия
-          subproject: subproject
+          subproject: подпроект
         select_attribute: "Атрибут действия"
       add_list_modal:
         warning:

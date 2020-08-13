@@ -12,20 +12,17 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injectable, Injector} from "@angular/core";
-import {take} from "rxjs/operators";
-import {input} from "reactivestates";
+import {map} from "rxjs/operators";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {Observable} from "rxjs";
 
 @Injectable()
 export abstract class BoardActionService {
-
-  // Cache the available values for the duration of the board
-  readonly cache = input<HalResource[]>();
 
   constructor(readonly injector:Injector,
               protected boardListsService:BoardListsService,
@@ -65,33 +62,36 @@ export abstract class BoardActionService {
   /**
    * Returns the current filter value ID if any
    * @param query
-   * @returns /api/v3/status/:id if a status filter exists
+   * @returns The id of the resource
    */
-  getActionValueHrefForColumn(query:QueryResource):string|undefined {
+  getActionValueId(query:QueryResource, getHref = false):string|undefined {
     const filter = _.find(query.filters, filter => filter.id === this.filterName);
-    if (filter) {
-      const value = filter.values[0] as string|HalResource;
-      return (value instanceof HalResource) ? value.href! : value;
+    if (!filter) {
+      return;
     }
 
-    return;
+    const value = filter.values[0] as string|HalResource;
+
+    if (value instanceof HalResource) {
+      return getHref ? value.href! : value.id!;
+    }
+
+    return value;
   }
 
   /**
    * Returns the current filter value if any
    * @param query
-   * @returns /api/v3/status/:id if a status filter exists
+   * @returns The loaded action reosurce
    */
   getLoadedActionValue(query:QueryResource):Promise<HalResource|undefined> {
-    const href = this.getActionValueHrefForColumn(query);
+    const id = this.getActionValueId(query);
 
-    if (!href) {
+    if (!id) {
       return Promise.resolve(undefined);
     }
 
-    return this
-      .withLoadedAvailable()
-      .then(collection => collection.find(resource => resource.href === href));
+    return this.require(id);
   }
 
   /**
@@ -125,13 +125,14 @@ export abstract class BoardActionService {
    * Get available values from the active queries
    *
    * @param board The board we're looking at
-   * @param active The active set of values (hrefs or plain values)
+   * @param active The active set of values (resources or plain values)
+   * @param matching values matching the given name
    */
-  getAvailableValues(board:Board, active:Set<string>):Promise<HalResource[]> {
+  loadAvailable(board:Board, active:Set<string>, matching:string):Observable<HalResource[]> {
     return this
-      .withLoadedAvailable()
-      .then(results =>
-        results.filter(item => !active.has(item.id!))
+      .loadValues(matching)
+      .pipe(
+        map(items => items.filter(item => !active.has(item.id!)))
       );
   }
 
@@ -218,17 +219,20 @@ export abstract class BoardActionService {
     filter.applyDefaultsFromFilters();
   }
 
-  protected withLoadedAvailable():Promise<HalResource[]> {
-    this.cache.putFromPromiseIfPristine(() => this.loadAvailable());
-
-    return this.cache
-      .values$()
-      .pipe(take(1))
-      .toPromise();
-  }
+  /**
+   * Require the given resource to be loaded.
+   *
+   * @param id
+   * @protected
+   */
+  protected abstract require(id:string):Promise<HalResource>;
 
   /**
-   * Load the available values for this action attribute
+   * Load values optionally matching the given name
+   *
+   * @param matching
+   * @protected
    */
-  protected abstract loadAvailable():Promise<HalResource[]>;
+  protected abstract loadValues(matching?:string):Observable<HalResource[]>;
 }
+

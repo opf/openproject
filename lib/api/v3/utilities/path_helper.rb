@@ -123,6 +123,17 @@ module API
             "#{wiki_page(id)}/attachments"
           end
 
+          def self.prepare_new_attachment_upload
+            "#{root}/attachments/prepare"
+          end
+
+          index :attachment_upload
+          show :attachment_upload
+
+          def self.attachment_uploaded(attachment_id)
+            "#{root}/attachments/#{attachment_id}/uploaded"
+          end
+
           def self.available_assignees(project_id)
             "#{project(project_id)}/available_assignees"
           end

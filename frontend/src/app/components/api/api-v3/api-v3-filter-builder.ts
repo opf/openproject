@@ -27,10 +27,12 @@
 //++
 
 export type FilterOperator = '='|'!*'|'!'|'~'|'o'|'>t-'|'<>d'|'**'|'ow' ;
+export const FalseValue = ['f'];
+export const TrueValue = ['t'];
 
 export interface ApiV3FilterValue {
   operator:FilterOperator;
-  values:any;
+  values:unknown[];
 }
 
 export interface ApiV3Filter {
@@ -43,7 +45,15 @@ export class ApiV3FilterBuilder {
 
   private filterMap:ApiV3FilterObject = {};
 
-  public add(name:string, operator:FilterOperator, values:any):this {
+  public add(name:string, operator:FilterOperator, values:unknown[]|boolean):this {
+    if (values === true) {
+      values = TrueValue;
+    }
+
+    if (values === false) {
+      values = FalseValue;
+    }
+
     this.filterMap[name] = {
       operator: operator,
       values: values

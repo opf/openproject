@@ -45,6 +45,10 @@ module API
 
           get &API::V3::Attachments::AttachmentsByContainerAPI.read
           post &API::V3::Attachments::AttachmentsByContainerAPI.create([:edit_messages])
+
+          namespace :prepare do
+            post &API::V3::Attachments::AttachmentsByContainerAPI.prepare([:edit_messages])
+          end
         end
       end
     end

@@ -38,6 +38,7 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
 * [`attachments_storage`](#attachments-storage) (default: file)
+* [`direct_uploads`](#direct-uploads) (default: true)
 * [`hidden_menu_items`](#hidden-menu-items) (default: {})
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
@@ -171,6 +172,21 @@ Note that you have to configure the respective storage (i.e. fog) beforehand as 
 In the case of fog you only have to configure everything under `fog`, however. Don't change `attachments_storage`
 to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
 for the migration.
+
+### direct uploads
+
+*default: true*
+
+When using fog attachments uploaded in the frontend will be posted directly
+to the cloud rather than going through the OpenProject servers. This allows large attachments to be uploaded
+without the need to increase the `client_max_body_size` for the proxy in front of OpenProject.
+Also it prevents web processes from being blocked through long uploads.
+
+If, for what ever reason, this is undesirable, you can disable this option.
+In that case attachments will be posted as usual to the OpenProject server which then uploads the file
+to the remote storage in an extra step.
+
+**Note**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured.
 
 ### Overriding the help link
 

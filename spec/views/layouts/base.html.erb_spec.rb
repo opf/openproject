@@ -267,4 +267,17 @@ describe 'layouts/base', type: :view do
       end
     end
   end
+
+  describe 'openproject_initializer meta tag' do
+    let(:current_user) { anonymous }
+    let(:base) { 'meta[name=openproject_initializer]' }
+
+    before do
+      render
+    end
+
+    it 'has the meta tag' do
+      expect(rendered).to have_selector(base, visible: false)
+    end
+  end
 end
