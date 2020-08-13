@@ -30,6 +30,7 @@ require 'csv'
 
 module BudgetsHelper
   include ActionView::Helpers::NumberHelper
+  include Redmine::I18n
 
   # Check if the current user is allowed to manage the budget.  Based on Role
   # permissions.
