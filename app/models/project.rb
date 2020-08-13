@@ -147,10 +147,6 @@ class Project < ApplicationRecord
                      date_column: "#{table_name}.created_at",
                      project_key: 'id',
                      permission: nil
-  acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
-                url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
-                author: nil,
-                datetime: :created_at
 
   validates :name,
             presence: true,
