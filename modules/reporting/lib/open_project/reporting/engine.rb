@@ -53,12 +53,6 @@ module OpenProject::Reporting
         OpenProject::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
       end
 
-      # register additional permissions for the work package costlog controller
-      OpenProject::AccessControl.permission(:view_time_entries).actions << "work_package_costlog/index"
-      OpenProject::AccessControl.permission(:view_own_time_entries).actions << "work_package_costlog/index"
-      OpenProject::AccessControl.permission(:view_cost_entries).actions << "work_package_costlog/index"
-      OpenProject::AccessControl.permission(:view_own_cost_entries).actions << "work_package_costlog/index"
-
       #menu extensions
       menu :top_menu,
            :cost_reports_global,
