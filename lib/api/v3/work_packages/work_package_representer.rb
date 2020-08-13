@@ -411,16 +411,6 @@ module API
 
         date_time_property :updated_at
 
-        property :watchers,
-                 embedded: true,
-                 exec_context: :decorator,
-                 uncacheable: true,
-                 if: ->(*) {
-                   current_user_allowed_to(:view_work_package_watchers,
-                                           context: represented.project) &&
-                     embed_links
-                 }
-
         property :relations,
                  embedded: true,
                  exec_context: :decorator,
@@ -523,16 +513,6 @@ module API
           represented.define_all_custom_field_accessors
 
           super
-        end
-
-        def watchers
-          # TODO/LEGACY: why do we need to ensure a specific order here?
-          watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          self_link = api_v3_paths.work_package_watchers(represented.id)
-
-          Users::UserCollectionRepresenter.new(watchers,
-                                               self_link,
-                                               current_user: current_user)
         end
 
         def current_user_watcher?

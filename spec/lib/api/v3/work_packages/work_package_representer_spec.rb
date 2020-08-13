@@ -717,10 +717,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:link) { 'watchers' }
             let(:href) { api_v3_paths.work_package_watchers work_package.id }
           end
-
-          it 'embeds the watchers as collection' do
-            is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/watchers/_type')
-          end
         end
 
         context 'when the user is not allowed to see watchers' do
