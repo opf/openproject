@@ -410,6 +410,7 @@ ca:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Alerta"
     label_work_package: "Paquet de treball"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Paquets de treball"
     label_watch: "Observa"
     label_watch_work_package: "Seguir paquet de treball"

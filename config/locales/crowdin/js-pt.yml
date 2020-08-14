@@ -409,6 +409,7 @@ pt:
     label_value_derived_from_children: "(valor derivado de crianças)"
     label_warning: "Aviso"
     label_work_package: "Pacote de trabalho"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pacotes de trabalho"
     label_watch: "Observar"
     label_watch_work_package: "Observar pacote de trabalho"

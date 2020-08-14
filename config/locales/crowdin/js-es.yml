@@ -410,6 +410,7 @@ es:
     label_value_derived_from_children: "(valor derivado del elemento secundario)"
     label_warning: "Alerta"
     label_work_package: "Paquete de trabajo"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Paquetes de trabajo"
     label_watch: "Controlar"
     label_watch_work_package: "Ver paquetes de trabajo"

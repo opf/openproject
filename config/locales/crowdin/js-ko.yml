@@ -410,6 +410,7 @@ ko:
     label_value_derived_from_children: "(자식에서 파생된 값)"
     label_warning: "경고"
     label_work_package: "작업 패키지"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "작업 패키지"
     label_watch: "주시"
     label_watch_work_package: "작업 패키지 주시"

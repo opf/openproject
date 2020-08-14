@@ -410,6 +410,7 @@ pl:
     label_value_derived_from_children: "(wartość wyprowadzana z elementów podrzędnych)"
     label_warning: "Ostrzeżenie"
     label_work_package: "Zadanie"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pakiety robocze"
     label_watch: "Obserwuj"
     label_watch_work_package: "Obserwuj zadanie"

@@ -409,6 +409,7 @@ el:
     label_value_derived_from_children: "(αξία που προέρχεται από παιδιά)"
     label_warning: "Προειδοποίηση"
     label_work_package: "Εργασία"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Πακέτα εργασίας"
     label_watch: "Παρακολουθήστε"
     label_watch_work_package: "Παρακολούθηση πακέτου εργασίας"

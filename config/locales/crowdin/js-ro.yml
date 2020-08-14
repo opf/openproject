@@ -409,6 +409,7 @@ ro:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Avertizare"
     label_work_package: "Pachet de lucru"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pachete de lucru"
     label_watch: "Monitorizare"
     label_watch_work_package: "Urmăriți pachetul de lucru"

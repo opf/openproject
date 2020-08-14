@@ -409,6 +409,7 @@ sl:
     label_value_derived_from_children: "(vrednost izpeljana iz podrejenih)"
     label_warning: "Opozorilo"
     label_work_package: "Zahtevek"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Delovni paketi"
     label_watch: "Glej"
     label_watch_work_package: "Spremljaj delovni paket"

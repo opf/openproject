@@ -410,6 +410,7 @@ cs:
     label_value_derived_from_children: "(hodnota odvozená od dětí)"
     label_warning: "Varování"
     label_work_package: "Pracovní balíček"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pracovní balíčky"
     label_watch: "Sledovat"
     label_watch_work_package: "Sledovat pracovní balíček"

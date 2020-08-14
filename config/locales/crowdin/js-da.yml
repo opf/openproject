@@ -409,6 +409,7 @@ da:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Advarsel"
     label_work_package: "Arbejdspakke"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Arbejdspakker"
     label_watch: "Før tilsyn"
     label_watch_work_package: "Før tilsyn med arbejdspakke"

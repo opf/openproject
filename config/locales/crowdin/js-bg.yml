@@ -410,6 +410,7 @@ bg:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Предупреждение"
     label_work_package: "Работен пакет"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Работни пакети"
     label_watch: "Наблюдавай"
     label_watch_work_package: "Наблюдавай работния пакет"

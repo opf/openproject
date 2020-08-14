@@ -409,6 +409,7 @@ de:
     label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
     label_warning: "Warnung"
     label_work_package: "Arbeitspaket"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Arbeitspakete"
     label_watch: "Beobachten"
     label_watch_work_package: "Arbeitspaket beobachten"

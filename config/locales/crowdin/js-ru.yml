@@ -409,6 +409,7 @@ ru:
     label_value_derived_from_children: "(значение, полученное от потомков)"
     label_warning: "Предупреждение"
     label_work_package: "Пакет работ"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Комплекс работ"
     label_watch: "Просмотреть"
     label_watch_work_package: "Наблюдать за пакетом работ"

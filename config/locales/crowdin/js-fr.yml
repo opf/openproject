@@ -410,6 +410,7 @@ fr:
     label_value_derived_from_children: "(valeur dérivée des enfants)"
     label_warning: "Attention"
     label_work_package: "Lot de travaux"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Lots de Travaux"
     label_watch: "Suivre"
     label_watch_work_package: "Suivre le lot de travaux"

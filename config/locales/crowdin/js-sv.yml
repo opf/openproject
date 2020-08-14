@@ -409,6 +409,7 @@ sv:
     label_value_derived_from_children: "(värde härrör från barn)"
     label_warning: "Varning"
     label_work_package: "Arbetspaket"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Arbetspaketen"
     label_watch: "Bevaka"
     label_watch_work_package: "Bevaka arbetspaket"

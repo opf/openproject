@@ -410,6 +410,7 @@ uk:
     label_value_derived_from_children: "(значення, отримане від дітей)"
     label_warning: "Попередження"
     label_work_package: "Пакет робіт"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Пакет робіт"
     label_watch: "Спостерігати"
     label_watch_work_package: "Спостерігати за робочим пакетом"

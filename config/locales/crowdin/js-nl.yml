@@ -410,6 +410,7 @@ nl:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Waarschuwing"
     label_work_package: "Werkpakket"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Werkpakketten"
     label_watch: "Volgen"
     label_watch_work_package: "Bekijk werkpakket"

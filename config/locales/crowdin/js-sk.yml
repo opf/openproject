@@ -410,6 +410,7 @@ sk:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Upozornenie"
     label_work_package: "Pracovný balíček"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pracovné balíčky"
     label_watch: "Začať pozorovať"
     label_watch_work_package: "Sleduj pracovný balíček"
