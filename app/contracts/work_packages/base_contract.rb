@@ -80,11 +80,13 @@ module WorkPackages
                               model.project.possible_responsible_members
     end
 
+    attribute :schedule_manually
+
     attribute :start_date,
               writeable: ->(*) {
-                model.leaf?
+                model.leaf? || model.schedule_manually?
               } do
-      if start_before_soonest_start?
+      if !model.schedule_manually? && start_before_soonest_start?
         message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
                          soonest_start: model.soonest_start)
 
@@ -94,7 +96,7 @@ module WorkPackages
 
     attribute :due_date,
               writeable: ->(*) {
-                model.leaf?
+                model.leaf? || model.schedule_manually?
               }
 
     validates :due_date,
@@ -134,7 +136,7 @@ module WorkPackages
       ret = super
 
       # If we're in a readonly status and did not move into that status right now
-      # only allow other status transitions
+      # only allow other status transitions. But also prevent that if the associated version is closed.
       if model.readonly_status? && !model.status_id_change
         ret &= %w(status status_id)
       end

@@ -37,7 +37,6 @@ import {
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {WorkPackageEmbeddedTableEntryComponent} from 'core-components/wp-table/embedded/wp-embedded-table-entry.component';
-import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
@@ -126,12 +125,9 @@ import {ExternalRelationQueryConfigurationComponent} from "core-components/wp-ta
 import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/embedded/children/wp-children-query.component";
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
@@ -145,7 +141,6 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
@@ -168,6 +163,10 @@ import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
+import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
+import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
+import {AttributeHelpTextComponent} from "core-app/modules/common/help-texts/attribute-help-text.component";
+import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribute-help-text.modal";
 
 @NgModule({
   imports: [
@@ -193,7 +192,6 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
     ExternalRelationQueryConfigurationService,
 
     // Global work package states / services
-    WorkPackageCacheService,
     SchemaCacheService,
 
     // Global query/table state services
@@ -206,17 +204,11 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
     // Provide a separate service for creation events of WP Inline create
     // This can be hierarchically injected to provide isolated events on an embedded table
     WorkPackageRelationsService,
-    WorkPackageCacheService,
-    SchemaCacheService,
-
-    KeepTabService,
-    WorkPackageDmService,
 
     WorkPackagesActivityService,
     WorkPackageRelationsService,
     WorkPackageWatchersService,
 
-    QueryFormDmService,
     HalEventsService,
   ],
   declarations: [
@@ -257,7 +249,7 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
 
     WorkPackagesGridComponent,
 
-    WorkPackagesTableController,
+    WorkPackagesTableComponent,
     WorkPackagesTableConfigMenu,
     WorkPackageTablePaginationComponent,
 
@@ -363,6 +355,7 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
     QuerySharingModal,
     SaveQueryModal,
     WpDestroyModal,
+    DatePickerModal,
 
     // CustomActions
     WpCustomActionComponent,
@@ -378,9 +371,13 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButton,
+
+    // Help texts
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
   ],
   exports: [
-    WorkPackagesTableController,
+    WorkPackagesTableComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageEmbeddedTableComponent,
     WorkPackageEmbeddedTableEntryComponent,
@@ -411,7 +408,11 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
     WorkPackageEditActionsBarComponent,
     WorkPackageSingleViewComponent,
     WorkPackageSplitViewComponent,
-    BackButtonComponent
+    BackButtonComponent,
+
+    // Help texts
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
   ]
 })
 export class OpenprojectWorkPackagesModule {
@@ -424,7 +425,7 @@ export class OpenprojectWorkPackagesModule {
   // The static property prevents running the function
   // multiple times. This happens e.g. when the module is included
   // into a plugin's module.
-  public static bootstrapAttributeGroups(injector:Injector) {
+  public static bootstrapAttributeGroups(injector:Injector):void {
     if (this.bootstrapAttributeGroupsCalled) {
       return;
     }

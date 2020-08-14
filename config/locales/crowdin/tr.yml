@@ -78,6 +78,7 @@ tr:
     is_active: şu an görüntüleniyor
     is_inactive: şu an görüntülenmiyor
   attribute_help_texts:
+    note_public: 'Bu alana eklediğiniz herhangi bir metin ve resim, oturum açmış tüm kullanıcılar tarafından herkes tarafından görülebilir!'
     text_overview: 'Bu görünümde, öznitelikleri görünüm için özel yardım metinler oluşturabilirsiniz. Tanımladığınızda, bu metinler, aidiyet öznitelik yanındaki Yardım simgesini tıklayarak gösterilebilir.'
     label_plural: 'Öznitelik yardım metinleri'
     show_preview: 'Önizleme metni'
@@ -87,6 +88,10 @@ tr:
     index:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
       no_results_content_text: Yeni bir doğrulama modu oluştur
+  background_jobs:
+    status:
+      error_requeue: "İş bir hatayla karşılaştı ancak yeniden deniyor. Hata: %{message}"
+      cancelled_due_to: "İş, hata nedeniyle iptal edildi: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Bu LDAP formu, LDAP / Active Directory kurulumunuz hakkında teknik bilgi gerektirir.
@@ -108,18 +113,18 @@ tr:
         OpenProject yalnızca bu alt ağaçta belirtilen kullanıcı adlarını filtreleyecektir.
         Örnek: ou = kullanıcılar, dc = örnek, dc = com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        LDAP'de filtrelenen kullanıcılar için döndürülen sonuçlara uygulamak üzere isteğe bağlı bir RFC4515 filtresi ekleyin.
+        Bu, OpenProject tarafından kimlik doğrulama ve grup senkronizasyonu için bulunan kullanıcı kümesini kısıtlamak için kullanılabilir.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject her zaman kullanıcının kaydı tanımlaması için sağlanan oturum açma özniteliğine filtre uygular. Burada bir filtre sağlarsanız,
+        bir AND ile birleştirilecektir. Varsayılan olarak filtre olarak bir tümünü yakala (objectClass = *) kullanılır.
       onthefly_register: |
         Bu kutuyu işaretlerseniz, OpenProject otomatik olarak LDAP girişlerinden yeni kullanıcılar oluşturur
         OpenProject ile ilk kimlik doğrulaması yaptıklarında.
         Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        Bu LDAP bağlantısı için grup senkronizasyonunu etkinleştirirseniz, kullanıcılar da otomatik olarak oluşturulur
+        senkronize gruplar için OpenProject'te. Bu olmadan, gruplara yalnızca OpenProject'teki mevcut hesaplar eklenir.
     connection_encryption: 'Bağlantı şifreleme'
     system_account: 'Sistem hesabı'
     system_account_legend: |
@@ -233,8 +238,8 @@ tr:
       no_results_content_text: Haber öğesi ekle
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'Bu kullanıcı şu anda aşağıdaki grupların bir üyesidir:'
+      no_results_title_text: Bu kullanıcı şu anda hiçbir gruba üye değil.
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
   prioritiies:
@@ -278,6 +283,7 @@ tr:
     overview:
       no_results_title_text: Bu sürüme atadığım iş paketi bulunmuyor.
   wiki:
+    page_not_editable_index: İstenen sayfa mevcut değil (henüz). Tüm wiki sayfalarının dizinine yönlendirildiniz.
     no_results_title_text: Şu anda wiki sayfası bulunmuyor.
     index:
       no_results_content_text: Yeni wiki sayfası Ekle
@@ -361,7 +367,7 @@ tr:
         attr_mail: "E-posta özniteliği"
         base_dn: "Temel DN"
         host: "Sunucu"
-        onthefly: "Automatic user creation"
+        onthefly: "Otomatik kullanıcı oluşturma"
         port: "Port"
       changeset:
         repository: "Depo"
@@ -414,6 +420,7 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
+        templated: 'Şablon projesi'
       projects/status:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
@@ -485,6 +492,7 @@ tr:
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
+        schedule_manually: "Manuel zamanlamayı etkinleştir"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
         subproject: "Alt proje"
@@ -732,6 +740,9 @@ tr:
     date: "Tarih"
     default_columns: "Varsayılan sütunlar"
     description: "Açıklama"
+    derived_due_date: "Türetilmiş bitiş tarihi"
+    derived_estimated_time: "Türetilmiş tahmini süre"
+    derived_start_date: "Türetilmiş başlangıç tarihi"
     display_sums: "Toplamları görüntüle"
     due_date: "Bitiş tarihi"
     estimated_hours: "Tahmini süre"
@@ -882,6 +893,7 @@ tr:
       - "Eki"
       - "Kas"
       - "Ara"
+    abbr_week: 'Hatfa'
     day_names:
       - "Pazar"
       - "Pazartesi"
@@ -1071,6 +1083,7 @@ tr:
   error_cookie_missing: 'OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi için, tarayıcınızda çerezlere izin verildiğine emin olun.'
   error_custom_option_not_found: "Seçenek yok."
   error_enterprise_activation_user_limit: "Hesabınız etkinleştirilemedi (kullanıcı limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun."
+  error_enterprise_token_invalid_domain: "Enterprise Edition etkin değil. Kurumsal simgenizin etki alanı (%{actual}) sistemin ana makine adıyla (%{expected}) eşleşmiyor."
   error_failed_to_delete_entry: 'Girdi silinemedi.'
   error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Seçili değeri geçersiz."
@@ -1116,6 +1129,8 @@ tr:
     work_package_edit: 'İş Paketi düzenlendi'
     work_package_note: 'İk Paketi notu eklendi'
   export:
+    your_work_packages_export: "İş paketleri dışa aktarma"
+    succeeded: "Dışa aktarma başarıyla tamamlandı."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1311,6 +1326,7 @@ tr:
   label_delete_project: "Projeyi sil"
   label_deleted: "silindi"
   label_deleted_custom_field: "(özel alan silindi)"
+  label_deleted_custom_option: "(silinen seçenek)"
   label_descending: "Azalan"
   label_details: "Detaylar"
   label_development_roadmap: "Geliştirme yol haritası"
@@ -1328,7 +1344,7 @@ tr:
   label_duplicate: "kopya"
   label_duplicates: "çoğaltır"
   label_edit: "Düzenle"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Düzenle: %{x}"
   label_enable_multi_select: "Çoklu seçimi etkinleştir"
   label_enabled_project_custom_fields: 'Etkin özel alanlar'
   label_enabled_project_modules: 'Aktif modüller'
@@ -1622,6 +1638,7 @@ tr:
   label_time_entry_plural: "Harcanan zaman"
   label_time_sheet_menu: "Zaman tablosu"
   label_time_tracking: "Zaman takibi"
+  label_projects_menu: "Projeler"
   label_today: "bugün"
   label_top_menu: "Üst Menü"
   label_topic_plural: "Konular"
@@ -1751,7 +1768,16 @@ tr:
   mail_body_account_information: "Hesap bilgilerinizi giriniz"
   mail_body_account_information_external: "Giriş yapmak için %{value} hesabınızı kullanabilirsiniz."
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
-  mail_body_register: "Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı tıklayın:"
+  mail_body_register: "OpenProject'e hoş geldiniz. Lütfen bu bağlantıyı tıklayarak hesabınızı etkinleştirin:"
+  mail_body_register_header_title: "Proje üyesi davet e-postası"
+  mail_body_register_user: "Sevgili %{name},"
+  mail_body_register_links_html: |
+    Lütfen bir web semineri (%{youtube_link}) sağladığımız youtube kanalımıza (%{webinar_link}) göz atabilirsiniz.
+    ve OpenProject'teki ilk adımlarınızı olabildiğince kolay hale getirmek için "Başlayın" videoları (%{get_started_link})
+    <br />
+    Başka sorunuz varsa dokümantasyonumuza (%{documentation_link}) bakın veya bize ulaşın  (%{contact_us_link}).
+  mail_body_register_closing: "OpenProject ekibiniz"
+  mail_body_register_ending: "Bağlı kalın! Saygılarımla,"
   mail_body_reminder: "Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days} gün içinde ödemesi gerekiyor:"
   mail_body_group_reminder: "\"%{group}\" grubuna atanan %{count} çalışma paketi / paketleri sonraki %{days}  gününden kaynaklanmaktadır:"
   mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
@@ -1907,7 +1933,7 @@ tr:
   permission_manage_project_activities: "Proje aktivitilerini yönet"
   permission_manage_public_queries: "Herkese açık görünümleri yönetmek"
   permission_manage_repository: "Depo yönetimi"
-  permission_manage_subtasks: "Alt görevleri yönet"
+  permission_manage_subtasks: "İş paketi kategorilerini yönet"
   permission_manage_versions: "Sürümleri yönetmek"
   permission_manage_wiki: "Wiki'yi yönet"
   permission_manage_wiki_menu: "Wiki menüsünü yönet"
@@ -1942,6 +1968,12 @@ tr:
       warning_one: Projenin üyeleri, projenin depoları yeniden yerleştirmek zorunda kalacaklardır.
       warning_two: Projeye mevcut bağlantılar artık çalışmayacaktır.
       title: Projenin tanımlayıcısını değiştirme
+    template:
+      copying: >
+        Projeniz seçilen şablon projesinden oluşturuluyor. Proje hazır olur olmaz posta ile bilgilendirileceksiniz.
+      use_template: 'Şablon kullan'
+      make_template: 'Şablon olarak ayarla'
+      remove_from_templates: 'Şablonlardan kaldır'
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
       archived: "Arşivlenen"
@@ -1963,7 +1995,8 @@ tr:
     assigned_to_role: "Görev alanının rolü"
     member_of_group: "Atama grubunun grubu"
     assignee_or_group: "Atanan veya ait olunan grup"
-    subproject_id: "Alt proje"
+    subproject_id: "Alt Proje Dahil"
+    only_subproject_id: "Sadece alt proje"
     name_or_identifier: "İsim veya tanımlayıcı"
   repositories:
     at_identifier: 'at% {tanıtıcı} %{identifier}'
@@ -2068,6 +2101,9 @@ tr:
     url: "Depo URL'si"
     warnings:
       cannot_annotate: "Bu dosyaya açıklama yapılamaz."
+  scheduling:
+    activated: 'etkinleştirmek'
+    deactivated: 'devre dışı bırakmak'
   search_input_placeholder: "Ara ..."
   setting_email_delivery_method: "E-posta teslim yöntemi"
   setting_sendmail_location: "Çalıştırılabilir sendmail aracının yolu"
@@ -2263,6 +2299,7 @@ tr:
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
+  text_journal_label_value: "%{value} %{label} eklendi"
   text_latest_note: "En yeni yorum:% {note} %{note}"
   text_length_between: "%{min} ve %{max} karakter arası uzunluk."
   text_line_separated: "Birden fazla değer kullanılabilir (her değer için bir satır)."

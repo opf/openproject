@@ -81,10 +81,10 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
 
       it 'responds with correct Content-Disposition' do
         expect(subject.header["Content-Disposition"])
-          .to match(/attachment; filename="OpenProject_Work_packages_\d\d\d\d-\d\d-\d\d.bcfzip"/)
+          .to match(/attachment; filename="OpenProject_Work_packages_\d\d\d\d-\d\d-\d\d.bcf"/)
       end
 
-      it 'responds with a correct .bcfzip file in the body ' do
+      it 'responds with a correct .bcf file in the body ' do
         expect(zip_has_file?(subject.body, 'bcf.version')).to be_truthy
         expect(zip_has_file?(subject.body, "#{bcf_issue.uuid}/markup.bcf")).to be_truthy
       end
@@ -112,7 +112,7 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
         get path
       end
 
-      it 'excludes the work package from the .bcfzip file' do
+      it 'excludes the work package from the .bcf file' do
         expect(zip_has_file?(subject.body, "#{bcf_issue.uuid}/markup.bcf")).to be_falsey
       end
     end
@@ -148,6 +148,16 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
 
       it "returns a status 404" do
         expect(subject.status).to eql(404)
+        expect(project.work_packages.count).to eql(1)
+      end
+    end
+
+    context "with unsupported BCF version (2.0)" do
+      let(:filename) { 'bcf_2_0_dummy.bcf' }
+
+      it "returns a status 415" do
+        expect(subject.status).to eql(415)
+        expect(subject.body).to match /BCF version is not supported/
         expect(project.work_packages.count).to eql(1)
       end
     end

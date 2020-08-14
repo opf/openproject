@@ -13,27 +13,10 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Install BIM specifics
-echo "-- Installing dependencies --"
-apt-get update -qq && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  curl wget unzip git cmake gcc g++ libboost-all-dev libicu-dev \
-  libpcre3-dev libxml2-dev \
-  liboce-foundation-dev liboce-modeling-dev liboce-ocaf-dev liboce-visualization-dev liboce-ocaf-lite-dev
-
 echo "-- (Re-)creating /usr/local/src/bim base folder --"
 rm -rf /usr/local/src/bim || true
 mkdir -p /usr/local/src/bim
 cd /usr/local/src/bim
-
-# OpenCOLLADA
-echo "-- Downloading and building OpenCOLLADA --"
-git clone https://github.com/KhronosGroup/OpenCOLLADA.git --depth 1
-mkdir OpenCOLLADA/build
-pushd OpenCOLLADA/build
-cmake ..
-make -j
-make install
-popd
 
 # Install COLLADA2GLTF
 echo "-- Downloading COLLADA2GLTF --"
@@ -51,7 +34,7 @@ rm -rf IfcConvert-v0.6.0-9bcd932-linux64.zip
 
 echo "-- Downloading and building xeokit-metadata --"
 
-wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/0.0.5/xeokit-metadata-linux-x64.tar.gz
+wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.0/xeokit-metadata-linux-x64.tar.gz
 tar -zxvf xeokit-metadata-linux-x64.tar.gz
 chmod +x xeokit-metadata-linux-x64/xeokit-metadata
 cp -r xeokit-metadata-linux-x64/ /usr/lib/xeokit-metadata
@@ -75,5 +58,10 @@ echo "DONE - BUT! You still need to:
 
 2. install your distribution's version of .NET core:
 
-   Select distribution and follow steps at
-   https://dotnet.microsoft.com/download/linux-package-manager/ubuntu18-04/runtime-2.2.0"
+   Ubuntu:
+   - With snap simply install the '.NET Runtime 3.1 (LTS)'
+   - Add the DOTNET_ROOR environment variable to your .bashrc:
+     export DOTNET_ROOT=/snap/dotnet-runtime-31/current
+
+   Other OSes, check out and install runtime 3.1:
+   https://dotnet.microsoft.com/download"

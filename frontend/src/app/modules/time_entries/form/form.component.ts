@@ -13,10 +13,10 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditFormComponent} from 'core-app/modules/fields/edit/edit-form/edit-form.component';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 
 @Component({
   templateUrl: './form.component.html',
@@ -25,7 +25,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @Input() entry:TimeEntryResource;
+  @Input() changeset:ResourceChangeset<TimeEntryResource>;
   @Input() showWorkPackageField:boolean = true;
 
   @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
@@ -54,7 +54,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
 
   ngOnInit() {
     this.halEditing
-      .temporaryEditResource(this.entry)
+      .temporaryEditResource(this.changeset.projectedResource)
       .values$()
       .pipe(
         this.untilDestroyed()
@@ -66,8 +66,12 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
         }
       });
 
-    this.setCustomFields(this.entry.schema);
+    this.setCustomFields();
     this.cdRef.detectChanges();
+  }
+
+  public get entry() {
+    return this.changeset.projectedResource;
   }
 
   public signalModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }) {
@@ -75,7 +79,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
   }
 
   public save() {
-    return this.editForm.save();
+    return this.editForm.submit();
   }
 
   public get inEditMode() {
@@ -90,15 +94,19 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
     if (field === 'workPackage') {
       return true;
     } else {
-      return this.entry.schema[field].required;
+      return this.schema.ofProperty(field).required;
     }
   }
 
-  private setCustomFields(schema:SchemaResource) {
-    Object.entries(schema).forEach(([key, keySchema]) => {
+  private setCustomFields() {
+    Object.entries(this.schema).forEach(([key, keySchema]) => {
       if (key.match(/customField\d+/)) {
         this.customFields.push({ key: key, label: keySchema.name });
       }
     });
+  }
+
+  private get schema() {
+    return this.changeset.schema;
   }
 }

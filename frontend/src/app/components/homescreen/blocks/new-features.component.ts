@@ -82,7 +82,7 @@ export class HomescreenNewFeaturesBlockComponent {
   }
 
   private translated(key:string):string {
-    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key, { bcf_api_link: BcfRestApi});
+    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key, { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi});
   }
 
   private i18nBase:string = 'js.homescreen.blocks.new_features.';

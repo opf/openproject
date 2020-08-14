@@ -3,7 +3,9 @@ export interface BcfViewpointInterface {
   guid:string;
   components:unknown;
   bitmaps:unknown[];
+  snapshot:{ snapshot_type:string, snapshot_data:string };
   orthogonal_camera?:unknown;
   perspective_camera?:unknown;
-  snapshot:{ snapshot_type:string, snapshot_data:string };
+  clipping_planes?:unknown[];
+  lines?:unknown[];  
 }

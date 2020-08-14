@@ -78,6 +78,7 @@ sv:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'I den här vyn kan du skapa anpassade hjälptexter för attributvyn. När den är definierad kan dessa texter visas genom att klicka på hjälpikonen bredvid dess tillhörande attribut.'
     label_plural: 'Hjälptexter för attribut'
     show_preview: 'Förhandsgranska text'
@@ -87,6 +88,10 @@ sv:
     index:
       no_results_content_title: Det finns för närvarande inga autentiseringslägen.
       no_results_content_text: Skapa ett nytt autentiseringsläge
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
@@ -277,6 +282,7 @@ sv:
     overview:
       no_results_title_text: Det finns för närvarande inga arbetspaket tilldelade till denna version.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Det finns för närvarande inga wiki-sidor.
     index:
       no_results_content_text: Lägg till en ny wiki-sida
@@ -413,6 +419,7 @@ sv:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivning'
@@ -484,6 +491,7 @@ sv:
         parent_work_package: "Överordnad"
         priority: "Prioritet"
         progress: "Progress (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"
@@ -731,6 +739,9 @@ sv:
     date: "Datum"
     default_columns: "Standardkolumnerna"
     description: "Beskrivning"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Visa summor"
     due_date: "Slutdatum"
     estimated_hours: "Beräknad tid"
@@ -881,6 +892,7 @@ sv:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Söndag"
       - "Måndag"
@@ -1070,6 +1082,7 @@ sv:
   error_cookie_missing: 'OpenProject cookie saknas. Vänligen kontrollera att cookies är aktiverade, eftersom detta program inte fungerar korrekt annars.'
   error_custom_option_not_found: "Alternativet finns inte."
   error_enterprise_activation_user_limit: "Ditt konto kunde inte aktiveras (begränsning för antal användare har uppnåtts). Kontakta administratören för att få tillgång."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Det gick inte ta bort denna post.'
   error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ogiltigt valt värde."
@@ -1115,6 +1128,8 @@ sv:
     work_package_edit: 'Arbetspaket redigerades'
     work_package_note: 'Anteckning lades till arbetspaketet'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1310,6 +1325,7 @@ sv:
   label_delete_project: "Ta bort projekt"
   label_deleted: "raderad"
   label_deleted_custom_field: "(raderat anpassat fält)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Fallande"
   label_details: "Detaljer"
   label_development_roadmap: "Utvecklingsplan"
@@ -1621,6 +1637,7 @@ sv:
   label_time_entry_plural: "Förbrukad tid"
   label_time_sheet_menu: "Tidrapport"
   label_time_tracking: "Tidredovisning"
+  label_projects_menu: "Projekt"
   label_today: "idag"
   label_top_menu: "Huvudmeny"
   label_topic_plural: "Ämnen"
@@ -1750,7 +1767,16 @@ sv:
   mail_body_account_information: "Din kontoinformation"
   mail_body_account_information_external: "Du kan använda ditt %{value} konto för att logga in."
   mail_body_lost_password: "För att ändra ditt lösenord, klicka på följande länk:"
-  mail_body_register: "För att aktivera ditt konto, klicka på följande länk:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} arbetspaket som är tilldelade till dig förfaller de närmaste %{days} dagarna:"
   mail_body_group_reminder: "%{count} arbetspaket som är tilldelade till gruppen \"%{group}\" ska vara klara inom de närmaste %{days} dagarna:"
   mail_body_wiki_content_added: "Wiki-sidan '%{id}' har lagts till av %{author}."
@@ -1906,7 +1932,7 @@ sv:
   permission_manage_project_activities: "Hantera projektaktivitet"
   permission_manage_public_queries: "Hantera offentliga vyer"
   permission_manage_repository: "Hantera versionsarkiv"
-  permission_manage_subtasks: "Hantera underaktiviteter"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Hantera versioner"
   permission_manage_wiki: "Hantera wiki"
   permission_manage_wiki_menu: "Hantera wiki-menyn"
@@ -1941,6 +1967,12 @@ sv:
       warning_one: Projektets medlemmar kommer att vara tvungna att flytta projektetdatabaserna.
       warning_two: Befintliga länkar till projektet kommer inte att fungera längre.
       title: Ändra projektets identifierare
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Är du säker på att du vill arkivera projektet '%{name}'?"
       archived: "Arkiverad"
@@ -1962,7 +1994,8 @@ sv:
     assigned_to_role: "Tilldelades roll"
     member_of_group: "Den tilldelades grupp"
     assignee_or_group: "Tilldelad eller tillhörandegrupp"
-    subproject_id: "Delprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Namn eller identifierare"
   repositories:
     at_identifier: 'på %{identifier}'
@@ -2065,6 +2098,9 @@ sv:
     url: "URL till arkiv"
     warnings:
       cannot_annotate: "Den här filen kan inte kommenteras."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Sök ..."
   setting_email_delivery_method: "Leveransmetod för e-post"
   setting_sendmail_location: "Sökväg till sendmail"
@@ -2260,6 +2296,7 @@ sv:
   text_journal_deleted_with_diff: "%{label} raderad (%{link})"
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Den senaste kommentaren är: %{note}"
   text_length_between: "Längd mellan %{min} och %{max} tecken."
   text_line_separated: "Flera värden tillåtna (en rad för varje värde)."

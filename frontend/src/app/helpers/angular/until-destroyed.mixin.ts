@@ -1,5 +1,5 @@
 import {OnDestroyMixin, untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {OnDestroy} from "@angular/core";
+import {Directive, OnDestroy} from "@angular/core";
 import {Observable} from "rxjs";
 
 /**
@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
  *
  * Use for rxjs with .pipe(this.untilDestroyed)
  */
+@Directive()
 export class UntilDestroyedMixin extends OnDestroyMixin implements OnDestroy {
   public componentDestroyed = false;
 

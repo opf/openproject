@@ -29,7 +29,6 @@
 import {Injector} from '@angular/core';
 import {async, TestBed} from '@angular/core/testing';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
@@ -57,7 +56,6 @@ describe('HalResource', () => {
       providers: [
         HalResourceService,
         States,
-        TypeDmService,
         I18nService,
       ]
     })
@@ -87,10 +85,10 @@ describe('HalResource', () => {
 
       getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === '/api/hello') {
-          return of(halResourceService.createHalResource(source));
+          return of(halResourceService.createHalResource(source)) as any;
         }
         else {
-          return false;
+          return false as any;
         }
       });
     });
@@ -380,9 +378,9 @@ describe('HalResource', () => {
     it('should have a callable self link', () => {
       spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === 'unicorn/69') {
-          return of(halResourceService.createHalResource({}));
+          return of(halResourceService.createHalResource({})) as any;
         } else {
-          return null;
+          return null as any;
         }
       });
 
@@ -392,9 +390,9 @@ describe('HalResource', () => {
     it('should have a callable beaver', () => {
       spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === 'justin/420') {
-          return of(halResourceService.createHalResource({}));
+          return of(halResourceService.createHalResource({})) as any;
         } else {
-          return null;
+          return null as any;
         }
       });
 
@@ -728,10 +726,10 @@ describe('HalResource', () => {
 
             getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
               if (verb === 'get' && path === '/api/property') {
-                return of(result);
+                return of(result) as any;
               }
               else {
-                return false;
+                return false as any;
               }
             });
 

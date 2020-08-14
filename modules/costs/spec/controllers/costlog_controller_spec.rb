@@ -666,7 +666,7 @@ describe CostlogController, type: :controller do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        params['cost_entry']['cost_type_id'] = '1'
+        params['cost_entry']['cost_type_id'] = '1234123512'
       end
 
       it_should_behave_like 'invalid update'

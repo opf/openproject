@@ -10,7 +10,7 @@ import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-r
 import {WorkPackageViewHighlight} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-highlight";
 
 @Injectable()
-export class WorkPackageViewHighlightingService extends WorkPackageQueryStateService<WorkPackageViewHighlight>{
+export class WorkPackageViewHighlightingService extends WorkPackageQueryStateService<WorkPackageViewHighlight> {
   public constructor(readonly states:States,
                      readonly Banners:BannersService,
                      readonly querySpace:IsolatedQuerySpace) {

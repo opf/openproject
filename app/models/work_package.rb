@@ -39,6 +39,9 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::TypedDagDefaults
   include WorkPackage::CustomActioned
   include WorkPackage::Hooks
+  include WorkPackages::DerivedDates
+  include WorkPackages::SpentTime
+  include ::Scopes::Scoped
 
   include OpenProject::Journal::AttachmentHelper
 
@@ -112,6 +115,11 @@ class WorkPackage < ApplicationRecord
   scope :with_author, ->(author) {
     where(author_id: author.id)
   }
+
+  scope_classes WorkPackages::Scopes::ForScheduling,
+                WorkPackages::Scopes::IncludeSpentTime,
+                WorkPackages::Scopes::IncludeDerivedDates,
+                WorkPackages::Scopes::LeftJoinSelfAndDescendants
 
   acts_as_watchable
 
@@ -379,40 +387,10 @@ class WorkPackage < ApplicationRecord
   end
 
   # check if user is allowed to edit WorkPackage Journals.
-  # see Redmine::Acts::Journalized::Permissions#journal_editable_by
-  def editable_by?(user)
-    project = self.project
+  # see Acts::Journalized::Permissions#journal_editable_by
+  def journal_editable_by?(journal, user)
     user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
-      user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?)
-  end
-
-  # Adds the 'virtual' attribute 'hours' to the result set.  Using the
-  # patch in config/initializers/eager_load_with_hours, the value is
-  # returned as the #hours attribute on each work package.
-  def self.include_spent_hours(user)
-    WorkPackage::SpentTime
-      .new(user)
-      .scope
-      .select('SUM(time_entries.hours) AS hours')
-  end
-
-  # Returns the total number of hours spent on this work package and its descendants.
-  # The result can be a subset of the actual spent time in cases where the user's permissions
-  # are limited, i.e. he lacks the view_time_entries and/or view_work_packages permission.
-  #
-  # Example:
-  #   spent_hours => 0.0
-  #   spent_hours => 50.2
-  #
-  #   The value can stem from either eager loading the value via
-  #   WorkPackage.include_spent_hours in which case the work package has an
-  #   #hours attribute or it is loaded on calling the method.
-  def spent_hours(user = User.current)
-    if respond_to?(:hours)
-      hours.to_f
-    else
-      compute_spent_hours(user)
-    end || 0.0
+      user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id
   end
 
   # Returns a scope for the projects
@@ -573,30 +551,10 @@ class WorkPackage < ApplicationRecord
 
   def self.self_and_descendants_of_condition(work_package)
     relation_subquery = Relation
-                        .with_type_columns_not(hierarchy: 0)
+                        .with_type_columns_not(hierarchy: nil)
                         .select(:to_id)
                         .where(from_id: work_package.id)
     "#{table_name}.id IN (#{relation_subquery.to_sql}) OR #{table_name}.id = #{work_package.id}"
-  end
-
-  def self.hierarchy_tree_following(work_packages)
-    following = Relation
-                .where(to: work_packages)
-                .hierarchy_or_follows
-
-    following_from_hierarchy = Relation
-                               .hierarchy
-                               .where(from_id: following.select(:from_id))
-                               .select("to_id common_id")
-
-    following_from_self = following.select("from_id common_id")
-
-    # Using a union here for performance.
-    # Using or would yield the same results and be less complicated
-    # but it will require two orders of magnitude more time.
-    sub_query = [following_from_hierarchy, following_from_self].map(&:to_sql).join(" UNION ")
-
-    where("id IN (SELECT common_id FROM (#{sub_query}) following_relations)")
   end
 
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
@@ -694,8 +652,8 @@ class WorkPackage < ApplicationRecord
   def override_last_journal_notes_and_user_of!(other_work_package)
     journal = other_work_package.journals.last
     # Same user and notes
-    journal.user = current_journal.user
-    journal.notes = current_journal.notes
+    journal.user = last_journal.user
+    journal.notes = last_journal.notes
 
     journal.save
   end
@@ -736,15 +694,6 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect { |a| !a.valid? }
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
-  end
-
-  def compute_spent_hours(user)
-    WorkPackage::SpentTime
-      .new(user, self)
-      .scope
-      .where(id: id)
-      .pluck(Arel.sql('SUM(hours)'))
-      .first
   end
 
   def attribute_users

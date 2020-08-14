@@ -342,6 +342,7 @@ OpenProject::Application.routes.draw do
       resource :enterprise, only: %i[show create destroy]
       scope controller: 'enterprises' do
         post 'enterprise/save_trial_key' => 'enterprises#save_trial_key'
+        delete 'enterprise/delete_trial_key' => 'enterprises#delete_trial_key'
       end
     end
     resources :enumerations
@@ -409,9 +410,6 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', via: %i[get post]
-    resources :exports, only: [:show] do
-      get 'status', action: :status, on: :member
-    end
     resources :calendar, controller: 'calendars', only: [:index]
     resource :bulk, controller: 'bulk', only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and

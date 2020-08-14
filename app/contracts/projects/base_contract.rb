@@ -32,6 +32,7 @@ module Projects
   class BaseContract < ::ModelContract
     include AssignableValuesContract
     include AssignableCustomFieldValues
+    include Projects::Archiver
 
     attribute :name
     attribute :identifier
@@ -39,12 +40,16 @@ module Projects
     attribute :public
     attribute :active do
       validate_active_present
+      validate_changing_active
     end
     attribute :parent do
       validate_parent_assignable
     end
     attribute :status do
       validate_status_code_included
+    end
+    attribute :templated do
+      validate_templated_set_by_admin
     end
 
     def validate
@@ -93,12 +98,20 @@ module Projects
 
     def validate_user_allowed_to_manage
       with_unchanged_id do
-        errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+        with_active_assumed do
+          errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+        end
       end
     end
 
     def validate_status_code_included
       errors.add :status, :inclusion if model.status&.code && !Projects::Status.codes.keys.include?(model.status.code.to_s)
+    end
+
+    def validate_templated_set_by_admin
+      if model.templated_changed? && !user.admin?
+        errors.add :templated, :error_unauthorized
+      end
     end
 
     def manage_permission
@@ -112,6 +125,28 @@ module Projects
       yield
     ensure
       model.id = project_id
+    end
+
+    def with_active_assumed
+      active = model.active
+      model.active = true
+
+      yield
+    ensure
+      model.active = active
+    end
+
+    def validate_changing_active
+      return unless model.active_changed?
+
+      validate_admin_only
+
+      if model.active?
+        # switched to active -> unarchiving
+        validate_all_ancestors_active
+      else
+        validate_no_foreign_wp_references
+      end
     end
   end
 end

@@ -35,7 +35,7 @@ module OpenProject::Meeting
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-meeting',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.com',
              bundled: true do
       project_module :meetings do
         permission :view_meetings, meetings: [:index, :show], meeting_agendas: [:history, :show, :diff], meeting_minutes: [:history, :show, :diff]
@@ -76,14 +76,6 @@ module OpenProject::Meeting
 
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Meetings::MeetingContentsAPI
-    end
-
-    initializer 'meeting.precompile_assets' do
-      Rails.application.config.assets.precompile += %w(meeting/meeting.css meeting/meeting.js)
-    end
-
-    initializer 'meeting.register_hooks' do
-      require 'open_project/meeting/hooks'
     end
 
     initializer 'meeting.register_latest_project_activity' do

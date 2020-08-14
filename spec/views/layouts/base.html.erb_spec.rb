@@ -200,7 +200,7 @@ describe 'layouts/base', type: :view do
         primary_color
         render
         expect(rendered).to render_template partial: 'custom_styles/_inline_css'
-        expect(rendered).to match /--primary-color:\s*#{primary_color.get_hexcode}/
+        expect(rendered).to match /--primary-color:\s*#{primary_color.hexcode}/
       end
     end
 
@@ -265,6 +265,19 @@ describe 'layouts/base', type: :view do
       it 'has no current_user metatag' do
         expect(rendered).not_to have_selector('meta[name=current_user]', visible: false)
       end
+    end
+  end
+
+  describe 'openproject_initializer meta tag' do
+    let(:current_user) { anonymous }
+    let(:base) { 'meta[name=openproject_initializer]' }
+
+    before do
+      render
+    end
+
+    it 'has the meta tag' do
+      expect(rendered).to have_selector(base, visible: false)
     end
   end
 end

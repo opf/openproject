@@ -19,13 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 tr:
   activerecord:
     attributes:
       work_package:
         position: "Konum"
-        remaining_hours: "Kalan Saatler"
+        remaining_hours: "Kalan saat"
         remaining_time: "Kalan saat"
         story_points: "Hikaye Puanları"
         backlogs_work_package_type: "Bekleme listesi türü"

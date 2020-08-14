@@ -74,6 +74,8 @@ class WorkPackages::SetScheduleService
   # are first all loaded, and then sorted by their need to be scheduled before one another:
   # - predecessors are scheduled before their successors
   # - children/descendants are scheduled before their parents/ancestors
+  # Manually scheduled work packages are not encountered at this point as they are filtered out when fetching the
+  # work packages eligible for rescheduling.
   def schedule_following
     altered = []
 
@@ -116,16 +118,13 @@ class WorkPackages::SetScheduleService
   #    ancestors limits moving it. Then it is moved to the earliest date possible. This limitation is propagated transtitively
   #    to all following work packages.
   def reschedule_by_follows(scheduled, dependency)
-    delta = if dependency.follows_moved.first
-              date_rescheduling_delta(dependency.follows_moved.first.to)
-            else
-              0
-            end
-
+    delta = follows_delta(dependency)
     min_start_date = dependency.max_date_of_followed
 
     if delta.zero? && min_start_date
       reschedule_to_date(scheduled, min_start_date)
+    elsif !scheduled.start_date
+      schedule_on_missing_dates(scheduled, min_start_date)
     elsif !delta.zero?
       reschedule_by_delta(scheduled, delta, min_start_date)
     end
@@ -149,9 +148,24 @@ class WorkPackages::SetScheduleService
   end
 
   def reschedule_by_delta(scheduled, delta, min_start_date)
-    required_delta = [min_start_date - scheduled.start_date, [delta, 0].min].max
+    required_delta = [min_start_date - (scheduled.start_date || min_start_date), [delta, 0].min].max
 
     scheduled.start_date += required_delta
     scheduled.due_date += required_delta if scheduled.due_date
+  end
+
+  # If the start_date of scheduled is nil at this point something
+  # went wrong before. So we fix it now by setting the date.
+  def schedule_on_missing_dates(scheduled, min_start_date)
+    scheduled.start_date = min_start_date
+    scheduled.due_date = scheduled.start_date + 1 if scheduled.due_date && scheduled.due_date < scheduled.start_date
+  end
+
+  def follows_delta(dependency)
+    if dependency.follows_moved.first
+      date_rescheduling_delta(dependency.follows_moved.first.to)
+    else
+      0
+    end
   end
 end

@@ -28,10 +28,12 @@
 
 import {Injectable} from '@angular/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {InputState} from 'reactivestates';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {WorkPackageViewBaseService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 
 export interface WPFocusState {
   workPackageId:string;
@@ -39,13 +41,11 @@ export interface WPFocusState {
 }
 
 @Injectable()
-export class WorkPackageViewFocusService {
-
-  public state:InputState<WPFocusState>;
+export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFocusState> {
 
   constructor(public querySpace:IsolatedQuerySpace,
               public wpTableSelection:WorkPackageViewSelectionService) {
-    this.state = querySpace.focusedWorkPackage;
+    super(querySpace);
   }
 
   public isFocused(workPackageId:string) {
@@ -53,17 +53,17 @@ export class WorkPackageViewFocusService {
   }
 
   public ifShouldFocus(callback:(workPackageId:string) => void) {
-    const value = this.state.value;
+    const value = this.current;
 
     if (value && value.focusAfterRender) {
       callback(value.workPackageId);
       value.focusAfterRender = false;
-      this.state.putValue(value, 'Setting focus to false after callback.');
+      this.update(value);
     }
   }
 
-  public get focusedWorkPackage():string | null {
-    const value = this.state.value;
+  public get focusedWorkPackage():string|null {
+    const value = this.current;
 
     if (value) {
       return value.workPackageId;
@@ -78,12 +78,8 @@ export class WorkPackageViewFocusService {
     return null;
   }
 
-  public clear() {
-    this.state.clear();
-  }
-
   public whenChanged():Observable<string> {
-    return this.state.values$()
+    return this.live$()
       .pipe(
         map((val:WPFocusState) => val.workPackageId),
         distinctUntilChanged()
@@ -95,6 +91,10 @@ export class WorkPackageViewFocusService {
     if (this.wpTableSelection.isEmpty) {
       this.wpTableSelection.setRowState(workPackageId, true);
     }
-    this.state.putValue({workPackageId: workPackageId, focusAfterRender: setFocusAfterRender});
+    this.update({ workPackageId: workPackageId, focusAfterRender: setFocusAfterRender });
+  }
+
+  valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):WPFocusState|undefined {
+    return undefined;
   }
 }

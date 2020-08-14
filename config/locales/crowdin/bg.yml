@@ -78,6 +78,7 @@ bg:
     is_active: в момента е показан
     is_inactive: в момента не се показват
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -87,6 +88,10 @@ bg:
     index:
       no_results_content_title: В момента има няма режими на удостоверяване.
       no_results_content_text: Създаване на нов режим на удостоверяване
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -278,6 +283,7 @@ bg:
     overview:
       no_results_title_text: В момента има няма работни пакети, присвоен на тази версия.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Няма в момента wiki страници.
     index:
       no_results_content_text: Добавяне на нова wiki страница
@@ -414,6 +420,7 @@ bg:
         types: "Видове"
         versions: "Версии"
         work_packages: "Работен пакет"
+        templated: 'Template project'
       projects/status:
         code: 'Състояние'
         explanation: 'Status description'
@@ -485,6 +492,7 @@ bg:
         parent_work_package: "Горна категория"
         priority: "Приоритет"
         progress: "Прогрес (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Отработено време"
         spent_time: "Отработено време"
         subproject: "Подпроект"
@@ -732,6 +740,9 @@ bg:
     date: "Дата"
     default_columns: "Колони по подразбиране"
     description: "Описание"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Показване на суми"
     due_date: "Finish date"
     estimated_hours: "Очаквано време"
@@ -882,6 +893,7 @@ bg:
       - "окт"
       - "ное"
       - "Декември"
+    abbr_week: 'Wk'
     day_names:
       - "Неделя"
       - "Понеделник"
@@ -1071,6 +1083,7 @@ bg:
   error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies са активирани, тъй като това приложение не функционира правилно без тях.'
   error_custom_option_not_found: "Опцията не съществува."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
@@ -1116,6 +1129,8 @@ bg:
     work_package_edit: 'Работният пакет е редактиран'
     work_package_note: 'Добавена бележка за работен пакет'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Атом"
       csv: "CSV"
@@ -1311,6 +1326,7 @@ bg:
   label_delete_project: "Изтриване на проект"
   label_deleted: "изтрит"
   label_deleted_custom_field: "(изтрито потребителско поле)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Низходящо"
   label_details: "Подробности"
   label_development_roadmap: "Развитие на пътната карта"
@@ -1622,6 +1638,7 @@ bg:
   label_time_entry_plural: "Отработено време"
   label_time_sheet_menu: "Времеви график"
   label_time_tracking: "Проследяване по време"
+  label_projects_menu: "Проекти"
   label_today: "днес"
   label_top_menu: "Главно меню"
   label_topic_plural: "Tеми"
@@ -1751,7 +1768,16 @@ bg:
   mail_body_account_information: "Информация за Вашия акаунт"
   mail_body_account_information_external: "Можете да използвате Вашия %{value} профил за да се впишете."
   mail_body_lost_password: "За да промените паролата си, използвайте следния линк:"
-  mail_body_register: "За да активирате профила си използвайте следния линк:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
@@ -1907,7 +1933,7 @@ bg:
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Manage repository"
-  permission_manage_subtasks: "Manage subtasks"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
   permission_manage_wiki_menu: "Manage wiki menu"
@@ -1942,6 +1968,12 @@ bg:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Наистина ли искате да архивирате на проекта \"%{name}\"?"
       archived: "Archived"
@@ -1963,7 +1995,8 @@ bg:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Подпроект"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'at %{identifier}'
@@ -2068,6 +2101,9 @@ bg:
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Търсене ..."
   setting_email_delivery_method: "Метод за доставка на имейл"
   setting_sendmail_location: "Местоположение на sendmail програма"
@@ -2263,6 +2299,7 @@ bg:
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "The latest comment is: %{note}"
   text_length_between: "Length between %{min} and %{max} characters."
   text_line_separated: "Multiple values allowed (one line for each value)."

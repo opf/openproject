@@ -1,7 +1,6 @@
-import {ChangeDetectorRef, Injector, OnInit} from "@angular/core";
+import { ChangeDetectorRef, Injector, OnInit, Directive } from "@angular/core";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -9,8 +8,9 @@ import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confir
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
+@Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
     activity: this.i18n.t('js.time_entry.activity'),
@@ -20,8 +20,8 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     edit: this.i18n.t('js.button_edit'),
     delete: this.i18n.t('js.button_delete'),
     confirmDelete: {
-      text: this.i18n.t('js.text_are_you_sure'),
-      title: this.i18n.t('js.modals.form_submit.title')
+      text: this.i18n.t('js.modals.destroy_time_entry.text'),
+      title: this.i18n.t('js.modals.destroy_time_entry.title')
     },
     noResults: this.i18n.t('js.grid.widgets.time_entries_list.no_results'),
   };
@@ -30,10 +30,9 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   public rows:{ date:string, sum?:string, entry?:TimeEntryResource}[] = [];
 
   @InjectField() public readonly timeEntryEditService:TimeEntryEditService;
-  @InjectField() public readonly timeEntryCache:TimeEntryCacheService;
+  @InjectField() public readonly apiV3Service:APIV3Service;
 
-  constructor(readonly timeEntryDm:TimeEntryDmService,
-              readonly injector:Injector,
+  constructor(readonly injector:Injector,
               readonly timezone:TimezoneService,
               readonly i18n:I18nService,
               readonly pathHelper:PathHelperService,
@@ -43,8 +42,11 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   ngOnInit() {
-    this.timeEntryDm.list({ filters: this.dmFilters(), pageSize: 500 })
-      .then((collection) => {
+    this
+      .apiV3Service
+      .time_entries
+      .list({ filters: this.dmFilters(), pageSize: 500 })
+      .subscribe((collection) => {
         this.buildEntries(collection.elements);
         this.entriesLoaded = true;
 
@@ -97,7 +99,12 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public editTimeEntry(entry:TimeEntryResource) {
-    this.timeEntryCache.require(entry.id!).then((loadedEntry) => {
+    this
+      .apiV3Service
+      .time_entries
+      .id(entry.id!)
+      .get()
+      .subscribe((loadedEntry) => {
       this.timeEntryEditService
         .edit(loadedEntry)
         .then((changedEntry) => {
@@ -115,12 +122,18 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   public deleteIfConfirmed(event:Event, entry:TimeEntryResource) {
     event.preventDefault();
-
     this.confirmDialog.confirm({
       text: this.text.confirmDelete,
       closeByEscape: true,
       showClose: true,
-      closeByDocument: true
+      closeByDocument: true,
+      passedData:[
+        '#' + entry.workPackage?.idFromLink + ' ' + entry.workPackage?.name,
+        this.i18n.t(
+          'js.units.hour',
+          { count: this.timezone.toHours(entry.hours) }) + ' (' + entry.activity?.name + ')'
+      ],
+      dangerHighlighting: true
     }).then(() => {
       entry.delete().then(() => {
         let newEntries = this.entries.filter((anEntry) => {

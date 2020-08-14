@@ -30,7 +30,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <html xmlns="http://www.w3.org/1999/xhtml"
       lang="<%= I18n.locale.to_s %>"
       xml:lang="<%= I18n.locale.to_s %>"
-      ng-csp="no-unsafe-eval"
       class="<%= 'in_modal' unless show_decoration %>">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -38,7 +37,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= output_title_and_meta_tags %>
   <%= csrf_meta_tags %>
   <%= render 'common/favicons' %>
-  <%= stylesheet_link_tag 'openproject', media: "all" %>
 </head>
 <body>
   <div id="wrapper">

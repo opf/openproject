@@ -1,5 +1,7 @@
 /// <reference path="../tests/typings/tests.d.ts" />
-
+// Explicitly add UiRouterRx typings (in order to use params$ type)
+// https://github.com/ui-router/angular/issues/166
+/// <reference path="../node_modules/@uirouter/rx/lib/core.augment.d.ts" />
 /* SystemJS module definition */
 declare var module:NodeModule;
 declare module 'dom-plane' {

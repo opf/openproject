@@ -123,6 +123,12 @@ module Components
         end
       end
 
+      def expect_filter_order(name, values, selector = nil)
+        id = selector || name.downcase
+
+        expect(page.all("#values-#{id} .ng-value-label").map(&:text)).to eq(values)
+      end
+
       def remove_filter(field)
         find("#filter_#{field} .advanced-filters--remove-filter-icon").click
       end

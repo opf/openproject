@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {UploadFile, UploadHttpEvent, UploadInProgress} from "core-components/api/op-file-upload/op-file-upload.service";
 import {HttpErrorResponse, HttpEventType, HttpProgressEvent} from "@angular/common/http";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -38,7 +38,8 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   template: `
     <li>
       <span class="filename" [textContent]="fileName"></span>
-      <progress [hidden]="completed" max="100" [value]="value">{{value}}%</progress>
+      <progress max="100" value="0" #progressBar></progress>
+      <p #progressPercentage>0%</p>
       <span class="upload-completed" *ngIf="completed || error">
       <op-icon icon-classes="icon-close" *ngIf="error"></op-icon>
       <op-icon icon-classes="icon-checkmark" *ngIf="completed"></op-icon>
@@ -51,10 +52,23 @@ export class UploadProgressComponent extends UntilDestroyedMixin implements OnIn
   @Output() public onError = new EventEmitter<HttpErrorResponse>();
   @Output() public onSuccess = new EventEmitter<undefined>();
 
+  @ViewChild('progressBar')
+  progressBar:ElementRef;
+  @ViewChild('progressPercentage')
+  progressPercentage:ElementRef;
+
   public file:UploadFile;
-  public value:number = 0;
   public error:boolean = false;
   public completed = false;
+
+  set value(value:number) {
+    this.progressBar.nativeElement.value = value;
+    this.progressPercentage.nativeElement.innerText = `${value}%`;
+
+    if (value === 100) {
+      this.progressBar.nativeElement.style.display = 'none';
+    }
+  }
 
   constructor(protected readonly I18n:I18nService) {
     super();

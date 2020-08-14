@@ -57,25 +57,15 @@ class Journal::AggregatedJournal
       raw ? Journal::AggregatedJournal.new(raw) : nil
     end
 
-    # Returns the aggregated journal that contains the vanilla/pure journal with the specified id.
-    def with_notes_id(notes_id)
-      # We need to limit the journal aggregation as soon as possible for performance reasons.
-      # Therefore we have to provide the notes_id to the aggregation on top of it being used
-      # in the where clause to pick the desired AggregatedJournal.
-      raw_journal = Journal::Scopes::AggregatedJournal.fetch
-                    .where(id: notes_id)
-                    .first
-
-      raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
-    end
-
     ##
     # The +journable+ parameter allows to filter for aggregated journals of a given journable.
     #
     # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
     # to see the aggregated journals as if no versions were known after the specified version.
     def aggregated_journals(journable: nil, sql: nil, until_version: nil, includes: [])
-      raw_journals = Journal::Scopes::AggregatedJournal.fetch(journable: journable, sql: sql, until_version: until_version)
+      raw_journals = Journal::Scopes::AggregatedJournal
+        .fetch(journable: journable, sql: sql, until_version: until_version)
+        .order('version ASC')
 
       aggregated_journals = map_to_aggregated_journals(raw_journals)
       preload_associations(journable, aggregated_journals, includes)
@@ -174,7 +164,7 @@ class Journal::AggregatedJournal
 
   include JournalChanges
   include JournalFormatter
-  include Redmine::Acts::Journalized::FormatHooks
+  include ::Acts::Journalized::FormatHooks
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
@@ -204,7 +194,6 @@ class Journal::AggregatedJournal
            :notes_version,
            :project,
            :data,
-           :data=,
            to: :journal
 
   # Initializes a new AggregatedJournal. Allows to explicitly set a predecessor, if it is already
@@ -222,11 +211,15 @@ class Journal::AggregatedJournal
 
   # returns an instance of this class that is reloaded from the database
   def reloaded
-    self.class.with_notes_id(notes_id)
+    self.class.containing_journal(journal)
   end
 
   def user
     @user ||= User.find(user_id)
+  end
+
+  def data=(data)
+    @data = data
   end
 
   def predecessor

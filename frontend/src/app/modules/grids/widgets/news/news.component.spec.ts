@@ -1,14 +1,14 @@
-import { NewsDmService } from "core-app/modules/hal/dm-services/news-dm.service";
 import { ComponentFixture, fakeAsync, TestBed, tick, async } from '@angular/core/testing';
 import { WidgetNewsComponent } from './news.component';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TimezoneService } from 'core-app/components/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { States } from 'core-app/components/states.service';
-import { UserDmService } from 'core-app/modules/hal/dm-services/user-dm.service';
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { HttpClientModule } from "@angular/common/http";
 import { By } from '@angular/platform-browser';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {of} from "rxjs";
 
 describe('shows news', () => {
   let app:WidgetNewsComponent;
@@ -32,9 +32,11 @@ describe('shows news', () => {
     updatedAt: '2020-03-26T10:42:14Z',
   };
 
-  let newsDmServiceStub = {
-    list: (_params:any) => {
-      return Promise.resolve({ elements: [newsStub] });
+  let apiv3ServiceStub = {
+    news: {
+      list: (_params:any) => {
+        return of({ elements: [newsStub] });
+      }
     }
   };
 
@@ -51,8 +53,7 @@ describe('shows news', () => {
         TimezoneService,
         { provide: ConfigurationService, useValue: configurationServiceStub },
         States,
-        UserDmService,
-        { provide: NewsDmService, useValue: newsDmServiceStub },
+        { provide: APIV3Service, useValue: apiv3ServiceStub },
         HalResourceService,
       ],
       imports: [HttpClientModule],

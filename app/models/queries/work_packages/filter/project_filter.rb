@@ -58,9 +58,11 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   end
 
   def value_objects
-    value_ints = values.map(&:to_i)
+    available_projects = visible_projects.index_by(&:id)
 
-    visible_projects.select { |p| value_ints.include?(p.id) }
+    values
+      .map { |project_id| available_projects[project_id.to_i] }
+      .compact
   end
 
   private

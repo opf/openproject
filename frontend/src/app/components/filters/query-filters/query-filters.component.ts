@@ -132,7 +132,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   }
 
   private updateFilterFocus(index:number) {
-    var activeFilterCount = this.currentFilterLength();
+    let activeFilterCount = this.currentFilterLength();
 
     if (activeFilterCount === 0) {
       this.focusElementIndex = ADD_FILTER_SELECT_INDEX;

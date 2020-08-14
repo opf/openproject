@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
 import {TypeBannerService} from 'core-app/modules/admin/types/type-banner.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
@@ -9,6 +9,7 @@ import {ConfirmDialogService} from 'core-components/modals/confirm-dialog/confir
 import {Drake} from 'dragula';
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
 
 export type TypeGroupType = 'attribute'|'query';
 
@@ -29,6 +30,7 @@ export interface TypeGroup {
 }
 
 export const adminTypeFormConfigurationSelector = 'admin-type-form-configuration';
+export const emptyTypeGroup = '__empty';
 
 @Component({
   selector: adminTypeFormConfigurationSelector,
@@ -37,7 +39,7 @@ export const adminTypeFormConfigurationSelector = 'admin-type-form-configuration
     TypeBannerService,
   ]
 })
-export class TypeFormConfigurationComponent extends UntilDestroyedMixin implements OnInit {
+export class TypeFormConfigurationComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
 
   public text = {
     drag_to_activate: this.I18n.t('js.admin.type_form.drag_to_activate'),
@@ -124,7 +126,9 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
       });
 
     // Get attribute id
-    this.groups = JSON.parse(this.element.dataset.activeGroups!);
+    this.groups = JSON
+      .parse(this.element.dataset.activeGroups!)
+      .filter((group:TypeGroup) => group?.key !== emptyTypeGroup);
     this.inactives = JSON.parse(this.element.dataset.inactiveAttributes!);
 
     // Setup autoscroll
@@ -143,6 +147,11 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
           return this.down && (groups || attributes);
         }
       });
+  }
+
+  ngAfterViewInit() {
+    const menu = jQuery(this.elementRef.nativeElement).find('.toolbar-items');
+    install_menu_logic(menu);
   }
 
   public deactivateAttribute(attribute:TypeFormAttribute) {
@@ -216,9 +225,23 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     this.inactives = [...newValue].sort((a, b) => a.translation.localeCompare(b.translation));
   }
 
+  // We maintain an empty group
+  // that gets hidden in the frontend in case the user
+  // decides to remove all groups
+  // This was necessary since the "default" is actually an empty array of groups
+  private get emptyGroup():TypeGroup {
+    return { type: 'attribute', key: emptyTypeGroup, name: 'empty', attributes: [] };
+  }
+
   private updateHiddenFields() {
     const hiddenField = this.form.find('.admin-type-form--hidden-field');
-    hiddenField.val(JSON.stringify(this.groups));
+    if (this.groups.length === 0) {
+      // Ensure we're adding an empty group if deliberately removing
+      // all values.
+      hiddenField.val(JSON.stringify([this.emptyGroup]));
+    } else {
+      hiddenField.val(JSON.stringify(this.groups));
+    }
   }
 }
 

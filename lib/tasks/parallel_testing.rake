@@ -57,6 +57,21 @@ namespace :parallel do
     group_options
   end
 
+  ##
+  # Returns all spec folder paths
+  # of the core, modules and plugins
+  def all_spec_paths
+    spec_folders = ['spec'] + Plugins::LoadPathHelper.spec_load_paths
+    spec_folders.join(' ')
+  end
+
+  ##
+  # Returns all spec folder paths
+  # of the core, modules and plugins
+  def plugin_spec_paths
+    Plugins::LoadPathHelper.spec_load_paths.join(' ')
+  end
+
   def run_specs(parsed_options, folders, pattern = '', additional_options: nil)
     check_for_pending_migrations
 
@@ -103,12 +118,10 @@ namespace :parallel do
 
     desc 'Run plugin specs in parallel'
     task specs: [:environment] do
-      spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
-
       ParallelParser.with_args(ARGV) do |options|
         ARGV.each { |a| task(a.to_sym) {} }
 
-        run_specs options, spec_folders
+        run_specs options, plugin_spec_paths
       end
     end
 
@@ -116,12 +129,10 @@ namespace :parallel do
     task units: [:environment] do
       pattern = "--pattern 'spec/(?!features\/)'"
 
-      spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
-
       ParallelParser.with_args(ARGV) do |options|
         ARGV.each { |a| task(a.to_sym) {} }
 
-        run_specs options, spec_folders, pattern
+        run_specs options, plugin_spec_paths, pattern
       end
     end
 
@@ -129,12 +140,10 @@ namespace :parallel do
     task features: [:environment] do
       pattern = "--pattern 'spec\/features'"
 
-      spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
-
       ParallelParser.with_args(ARGV) do |options|
         ARGV.each { |a| task(a.to_sym) {} }
 
-        run_specs options, spec_folders, pattern
+        run_specs options, plugin_spec_paths, pattern
       end
     end
 
@@ -164,29 +173,29 @@ namespace :parallel do
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
 
-      run_specs options, 'spec'
+      run_specs options, all_spec_paths
     end
   end
 
   desc 'Run feature specs in parallel'
   task features: [:environment] do
-    pattern = "--pattern '^spec\/features\/'"
+    pattern = "--pattern 'spec\/features\/'"
 
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
 
-      run_specs options, 'spec', pattern
+      run_specs options, all_spec_paths, pattern
     end
   end
 
   desc 'Run unit specs in parallel'
   task units: [:environment] do
-    pattern = "--pattern '^spec/(?!features\/)'"
+    pattern = "--pattern 'spec/(?!features\/)'"
 
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
 
-      run_specs options, 'spec', pattern
+      run_specs options, all_spec_paths, pattern
     end
   end
 end

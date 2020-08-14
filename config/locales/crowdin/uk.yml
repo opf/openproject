@@ -78,6 +78,7 @@ uk:
     is_active: наразі відображається
     is_inactive: наразі не відображається
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'У цьому поданні можна створювати спеціальні тексти довідки для перегляду атрибутів. Коли вони визначені, ці тексти можна показувати, натиснувши піктограму довідки поруч з її атрибутом.'
     label_plural: 'Тексти довідки атрибутів'
     show_preview: 'Попередній перегляд тексту'
@@ -87,6 +88,10 @@ uk:
     index:
       no_results_content_title: Наразі немає режимів аутентифікації.
       no_results_content_text: Створіть новий режим аутентифікації
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -278,6 +283,7 @@ uk:
     overview:
       no_results_title_text: Наразі для цієї версії не призначено робочих пакетів.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Наразі немає wiki-сторінок.
     index:
       no_results_content_text: Додати нову wiki-сторінку
@@ -416,6 +422,7 @@ uk:
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
+        templated: 'Template project'
       projects/status:
         code: 'Статус'
         explanation: 'Status description'
@@ -487,6 +494,7 @@ uk:
         parent_work_package: "Джерело"
         priority: "Пріоритет"
         progress: "Прогрес (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
         subproject: "Підпроект"
@@ -740,6 +748,9 @@ uk:
     date: "Дата"
     default_columns: "Типові колонки"
     description: "Опис"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Відображати суми"
     due_date: "Дата закінчення"
     estimated_hours: "Час (приблизно)"
@@ -890,6 +901,7 @@ uk:
       - "Жов"
       - "Лис"
       - "Гру"
+    abbr_week: 'Wk'
     day_names:
       - "Неділя"
       - "Понеділок"
@@ -1103,6 +1115,7 @@ uk:
   error_cookie_missing: 'Файл cookie OpenProject відсутній. Переконайтеся, що файли cookie увімкнено, оскільки ця програма не буде функціонувати належним чином.'
   error_custom_option_not_found: "Варіант не існує."
   error_enterprise_activation_user_limit: "Ваш обліковий запис не можна активувати (досягнуто обмеження користувача). Щоб отримати доступ, зверніться до свого адміністратора."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Не вдалося видалити цей запис.'
   error_in_dependent: "Помилка спроби змінити залежний об'єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Недійсне вибране значення."
@@ -1148,6 +1161,8 @@ uk:
     work_package_edit: 'Робочий пакет оновлений'
     work_package_note: 'Робочий пакет не доданий'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1343,6 +1358,7 @@ uk:
   label_delete_project: "Видалити проект"
   label_deleted: "вилучено "
   label_deleted_custom_field: "(видалено спеціальне поле)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "За спаданням"
   label_details: "Детальніше"
   label_development_roadmap: "Розробка дорожньої карти"
@@ -1654,6 +1670,7 @@ uk:
   label_time_entry_plural: "Трудовитрати"
   label_time_sheet_menu: "Табель обліку робочого часу"
   label_time_tracking: "Відстеження часу"
+  label_projects_menu: "Проекти"
   label_today: "сьогодні"
   label_top_menu: "Верхнє меню"
   label_topic_plural: "Теми"
@@ -1791,7 +1808,16 @@ uk:
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
   mail_body_lost_password: "Щоб змінити пароль, натисніть на посилання:"
-  mail_body_register: "Для активації облікового запису, перейдіть за наступним посиланням:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} призначених на Вас робочих пакетів на наступні %{days} днів:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "%{author} додав(ла) wiki-сторінку %{id}."
@@ -1949,7 +1975,7 @@ uk:
   permission_manage_project_activities: "Управління проектною діяльністю"
   permission_manage_public_queries: "Керуйте переглядами громадськості"
   permission_manage_repository: "Управління сховищем"
-  permission_manage_subtasks: "Управління підзадачами"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Управління версіями"
   permission_manage_wiki: "Управління wiki"
   permission_manage_wiki_menu: "Керування wiki-меню"
@@ -1984,6 +2010,12 @@ uk:
       warning_one: Членам проекту доведеться перенести репозиторії проекту.
       warning_two: Існуючі посилання на проект більше не працюватимуть.
       title: Змініть ідентифікатор проекту
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Дійсно архівувати проект %{name} ?"
       archived: "Archived"
@@ -2005,7 +2037,8 @@ uk:
     assigned_to_role: "Роль виконавця"
     member_of_group: "Група виконавця"
     assignee_or_group: "Правонаступник або приналежність до групи"
-    subproject_id: "Підпроект"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Ім'я або ідентифікатор"
   repositories:
     at_identifier: 'на %{identifier}'
@@ -2110,6 +2143,9 @@ uk:
     url: "URL-адреса до сховища "
     warnings:
       cannot_annotate: "Цей файл не може бути анотований."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Пошук ..."
   setting_email_delivery_method: "Спосіб доставки електронної пошти"
   setting_sendmail_location: "Розташування виконуваного файлу sendmail"
@@ -2305,6 +2341,7 @@ uk:
   text_journal_deleted_with_diff: "%{label} видалено (%{link})"
   text_journal_set_to: "Параметр %{label} змінився на %{value}"
   text_journal_set_with_diff: "%{label} встановлено (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Останній коментар: %{note}"
   text_length_between: "Довжина між %{min} і %{max} символів."
   text_line_separated: "Дозволено кілька значень (по одному значенню в рядок)."

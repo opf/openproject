@@ -22,6 +22,7 @@ vi:
       export: 'Xuất'
       import_update_comment: '(Cập nhật từ file BCF)'
       import_failed: 'Không thể nhập file BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Đã nhập %{count} vấn đề'
       import_canceled: 'Nhập BCF-XML bị hủy.'
       type_not_active: "Loại vấn đề không được kích hoạt cho dự án này."
@@ -65,6 +66,7 @@ vi:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Xem các vấn đề trong BCF"
   permission_manage_bcf: "Nhập và quản lý các vấn đề trong BCF"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Truy cập đầy đủ vào API BCF v2.1"
@@ -97,6 +99,8 @@ vi:
           snapshot_type_unsupported: "snapshot_type cần phải là 'png' hoặc 'jpg'."
           snapshot_data_blank: "snapshot_data không được để trống."
           unsupported_key: "Một thuộc tính json không được hỗ trợ được bao gồm."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'Mô hình IFC'
     label_new_ifc_model: 'Mô hình IFC mới'

@@ -109,7 +109,7 @@ sl:
     description_subwork_package: "Podrejen delovni paket #%{id}"
     editor:
       preview: 'Preklopi način predogleda'
-      source_code: 'Toggle Markdown source mode'
+      source_code: 'Preklopite vhodni način označevanja'
       error_saving_failed: 'Shranjevanje dokumenta ni uspelo zaradi napake: %{error}'
       error_initialization_failed: 'Napaka pri inicializaciji CKEditorja'
       mode:
@@ -166,7 +166,8 @@ sl:
       enterprise:
         trial:
           confirmation: "Potrdite e-poštni naslov"
-          confirmation_info: "Poslali smo vam e-pošto. Prosimo preglejte vašo pošto in kliknite potrditveno povezavo za začetek vašega 14 dnevnega preizkusa."
+          confirmation_info: >
+            Poslali smo vam e-sporočilo na %{date} na %{email}. Preverite sporočilo »Prejeto« in kliknite povezavo za potrditev, da začnete preizkus v 14 dneh.
           form:
             general_consent: >
               Strinjam se z  <a target="_blank" href="%{link_terms}">terms of service</a> in <a target="_blank" href="%{link_privacy}">privacy policy</a>.
@@ -263,13 +264,13 @@ sl:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              Izdaja vsebuje različne nove funkcije in izboljšave: <br> <br> <ul> <li> <b> Delovna deska za prejemnike </b>: ustvarite akcijske plošče, ki bodo samodejno posodobile prejemnika pri premikanju kart po seznamih. </ li> <li> Razvrstite različice po imenu, ne po datumih, kar olajša izbiro različice s seznama. </li> <li> <b> Odstranite 24-urno omejitev </b> za sledenje času. </ li> <li> Pokaži povzetek novic o pripomočku za pregled projekta. </li> <li> Različni popravki napak in <b> izboljšave uporabnosti </b>. </li> </ul>
+              Izdaja vsebuje različne nove funkcije in izboljšave: <br> <br> <ul class ="%{list_styling_class}"> <li> <b> Hitrejše beleženje časa </b> na delovnih paketih s podrobnosti ali pogleda seznama. </li> <li> <b> Izboljšano oblikovanje tabel </b> za boljšo konfiguracijo tabel v urejevalniku besedil, npr za širino, barvo, poravnavo ali oblazinjenje celice. </li> <li> Pregled kartice za delovne pakete zdaj vsebuje tudi ime projekta. </li> <li> OpenProject je <b> 100% preveden v slovenščino </b>. Zabavaj se! </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 zdaj podpira <b> BIM Collaboration Format (BCF) </b> - odprto problemski sledilni standard za modele BIM. <br> <br> <ul> <li> Preprosto ustvarjanje in <b> urejanje BIM težav < / b> kot so spopadi, zahteve in vprašanja v interaktivnem 3D-IFC modelu in <b>  ga delite s projektno skupino. </b> </li> <li> Integracija OpenProject s svojo najljubšo programsko opremo BIM s pomočjo zmogljive <a target = "_ blank" href = "% {bcf_api_link}"> BCF REST API. </a> </li> <li> Uvoz in izvoz datotek XML BCF. </li> </ul>
+              OpenProject 10.5 zdaj podpira <b> BIM Format sodelovanja (BCF) </b> - standard za sledenje odprtih vprašanj za modele BIM.<br><br> <ul class="%{list_styling_class}"> <li>Preprosto ustvarite in <b> upravljajte težave BIM </b>, kot so spopadi, zahteve in vprašanja v interaktivnem 3D-IFC modelu in ga <b> dajte v skupno rabo s projektno skupino. </b> </li> <li> Integracija OpenProject z vašo najljubšo programsko opremo BIM z uporabo zmogljive <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Uvozite in izvozite BCF XML datoteke.</li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -396,7 +397,7 @@ sl:
     label_sum_for: "Vsota za"
     label_subject: "Zadeva"
     label_this_week: "ta teden"
-    label_today: "Danes"
+    label_today: "Today"
     label_time_entry_plural: "Porabljen čas"
     label_up: "Navzgor"
     label_user_plural: "Uporabniki"
@@ -461,16 +462,16 @@ sl:
           overview: "Upravljajte svoje delo v <b>Backlogs</b> pogledu. <br> Na desni strani imate Produktne zaostanke ali zaostanke Napak, na levi imate ustrezne šprinte. Tukaj lahko ustvarite <b>epe, zgodbe uporabnikov in napake</b>, določite prednost preko drag'n'drop in jih dodajte v šprint."
           task_board_arrow: 'Za prikaz vaše <b>Tabela nalog</b>, odprite šprint spustni meni...'
           task_board_select: '... in izberite <b>Tabela nalog</b> zapis.'
-          task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
+          task_board: "Plošča<b>opravil</b> predstavlja napredek tega šprinta. Z ikono + zraven uporabniške zgodbe dodajte nove naloge ali ovire. Preko povleka 'stanje lahko posodobite stanje."
         boards:
           overview: 'Organiziraj svoje delo z intuitivnim <b>Board</b> pogledom.'
-          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
+          lists: 'V enem pogledu plošče lahko ustvarite več seznamov (stolpcev), npr. ustvarite tablo KANBAN.'
           add: 'Klik na + bo <b>dodal novo kartico</b> na seznam v vaš Board.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          drag: 'Povlecite in spustite svoje kartice znotraj seznama, če ga želite ponovno naročiti, ali na drug seznam. Z dvojnim klikom se odpre pogled s podrobnostmi.'
         wp:
           toggler: "Zdaj pa poglejmo <b>Delovni paket</b> del, ki vam da bolj podroben pregled vašega dela. "
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
+          list: "To je <b> Delovni paket </b> seznam s pomembnimi deli v vašem projektu, kot so naloge, funkcije, mejniki, napake in drugo. <br> Delovni paket lahko ustvarite ali uredite neposredno na tem seznamu. Če si želite ogledati njegove podrobnosti, lahko dvakrat kliknete na vrstico.\n"
+          full_view: 'V <b>Podrobnostih delovnega paketa </b> najdete vse ustrezne informacije, na primer opis, stanje in prednostno nalogo, dejavnosti, odvisnosti ali komentarje.'
           back_button: 'S puščico lahko navigirate nazaj na seznam delovnih paketov. '
           create_button: 'Gumb <b>Ustvari</b> bo dodal nov delovni paket vašemu projektu. '
           timeline_button: 'Omogočite lahko <b>Gantogram</b> da ustvarite časovnico za vaš projekt.'
@@ -582,6 +583,9 @@ sl:
       select_branch: 'Izberite vejo'
     field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
     project_menu_details: "Podrobnosti"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
@@ -604,7 +608,7 @@ sl:
         farRight: 'Čisto desno'
         showNone: '-- Brez labele --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
+          Izberite atribute, ki jih želite ves čas prikazati na ustreznih mestih Gantograma. Upoštevajte, da se ob premikanju elementa namesto teh atributov prikažejo njegove datumske nalepke.
       button_activate: 'Prikaži gantogram'
       button_deactivate: 'Skrij gantogram'
       cancel: Prekliči
@@ -637,7 +641,7 @@ sl:
       start_date: "Datum začetka"
       tooManyProjects: "Več kot %{count} projektov. Prosimo uporabite boljši filter!"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Za ustvarjanje razmerja kliknite kateri koli poudarjen delovni paket. Če želite preklicati, pritisnite escape.'
       zoom:
         in: "Povečaj"
         out: "Pomanjšaj"
@@ -649,18 +653,18 @@ sl:
         years: "let"
         slider: "Drsnik za povečevanje"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Izberite začetno stopnjo povečave, ki naj bo prikazana, ko samodejno povečanje ni na voljo.
     tl_toolbar:
       zooms: "Stopnja povečave"
       outlines: "Stopnja hierarhije"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Podjetniška verzija edina funkcija'
     wiki_formatting:
       strong: "Močno"
       italic: "Nagnjeno"
       underline: "Podčrtaj"
       deleted: "Izbrisano"
-      code: "Inline Code"
+      code: "Vgrajena koda\n"
       heading1: "Naslov 1"
       heading2: "Naslov 2"
       heading3: "Naslov 3"
@@ -693,13 +697,13 @@ sl:
       label_filter_add: "Dodaj filter"
       label_filter_by_text: "Filtreraj po besedilu"
       label_options: "Možnosti"
-      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
+      label_column_multiselect: "Kombinirano spustno polje: Izberite s puščicami, izbiro potrdite s tipko enter, izbrišite s tipko izbriši."
       message_error_during_bulk_delete: Med brisanjem delovnih paketov se je zgodila napaka. 
       message_successful_bulk_delete: Delovni paketi so uspešno izbrisani. 
       message_successful_show_in_fullscreen: "Za celozaslonski pogled delovnih paketov, kliknite tukaj. "
       message_view_spent_time: "Prikaži porabljen čas za ta delovni paket"
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Stanja delovnega paketa ni mogoče napisati zaradi zaprtega stanja in dodeljene zaprte različice."
       placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
       inline_create:
         title: 'Za dodajanje novega delovnega paketa kliknite tukaj'
@@ -714,13 +718,13 @@ sl:
       hierarchy:
         show: "Prikaži hiearhijo"
         hide: "Skrij hierarhijo"
-        toggle_button: 'Click to toggle hierarchy mode.'
-        leaf: 'Work package leaf at level %{level}.'
-        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
-        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
+        toggle_button: "Kliknite, če želite preklopiti hierarhični način.\n"
+        leaf: "List delovnega paketa na ravni %{level}.\n"
+        children_collapsed: 'Hierarhijska raven %{level}, se je sesula. Kliknite, če želite prikazati filtrirane ukaze.'
+        children_expanded: 'Hierarhijska raven %{level}, se je razširila. Kliknite, če želite prikazati filtrirane ukaze.'
       faulty_query:
         title: Delavnega paketa ni bilo mogoče naložiti. 
-        description: Your view is erroneous and could not be processed.
+        description: "Vaš pogled je napačen in ga ni mogoče obdelati.\n"
       no_results:
         title: Nobenega delovnega paketa za prikaz.
         description: Ali noben ni bil ustvarjen ali pa so bili vsi delovni paketi filtrirani stran.
@@ -747,6 +751,7 @@ sl:
         startDate: "Datum začetka"
         status: "Stanje"
         subject: "Zadeva"
+        subproject: "Podprojekt"
         title: "Naslov"
         type: "Vrsta"
         updatedAt: "Posodobljeno"
@@ -760,8 +765,8 @@ sl:
         all_open: "Vse odprto"
         summary: "Povzetek"
       jump_marks:
-        pagination: "Jump to table pagination"
-        label_pagination: "Click here to skip over the work packages table and go to pagination"
+        pagination: "Pojdi na stran s tabelo"
+        label_pagination: "Kliknite tukaj, da preskočite tabelo delovnih paketov in pojdite na stran"
         content: "Skoči na vsebino"
         label_content: "Kliknite tukaj za preskok menija na vsebino"
       placeholders:
@@ -771,7 +776,7 @@ sl:
         column_names: "Stolpci"
         group_by: "Rezultati grupirani po"
         group: "Razvrsti po"
-        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
+        group_by_disabled_by_hierarchy: "Skupina je onemogočena, ker je aktiven hierarhijski način."
         hierarchy_disabled_by_group_by: "Hirarhični pogled je onemogočen zaradi grupiranja po %{column}."
         sort_ascending: "Sortiraj naraščajoče"
         sort_descending: "Razvrsti padajoče"
@@ -784,32 +789,35 @@ sl:
         confirm_edit_cancel: "Ali ste prepričani, da želite preklicati urejanje tega pogleda? Naslov bo spremenjen nazaj v prejšnjega."
         click_to_edit_query_name: "Kliknite za urejanje naslova tega pogleda."
         rename_query_placeholder: "Ime tega pogleda"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Ta pogled označite kot najljubši in dodajte v stransko vrstico shranjenih pogledov na levi strani."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Objavite ta pogled in drugim uporabnikom omogočite dostop do vašega pogleda. Uporabniki z dovoljenjem »Upravljanje javnih pogledov« lahko spremenijo ali odstranijo javno poizvedbo. To v tem pogledu ne vpliva na vidnost rezultatov delovnega paketa in uporabniki lahko glede na svoja dovoljenja vidijo različne rezultate.
         errors:
-          unretrievable_query: "Unable to retrieve view from URL"
+          unretrievable_query: "Ogleda ni mogoče pridobiti iz URL-ja\n"
           not_found: "Ta pogled ne obstaja"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
+          duplicate_query_title: "Ime tega pogleda že obstaja. Se vseeno spremeni?"
         text_no_results: "Ujemanj ni bilo najdenih."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Uredi tabelo delovnega paketa'
-        summary: "Table with rows of work package and columns of work package attributes."
-        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
-        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
-        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+        summary: "Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.\n"
+        text_inline_edit: "Večina celic te tabele predstavlja gumbe, ki aktivirajo funkcionalnost urejanja v atributu."
+        text_sort_hint: "S povezavami v glavah tabel lahko sortirate, razvrstite, preuredite, odstranite in dodate stolpce tabel."
+        text_select_hint: "Izbrana polja je treba odpreti s tipko ALT in puščicami."
       table_configuration:
-        button: 'Configure this work package table'
+        button: 'Uredi tabelo delovnega paketa'
         choose_display_mode: 'Prikaži delovni paket kot'
         modal_title: 'Urejanje tabele delovnega paketa'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "Ta zavihek konfiguracije ni na voljo za vdelani pogled, ki ga urejate."
         default: "Privzeto"
         display_settings: 'Prikaži nastavitve'
-        default_mode: "Flat list"
+        default_mode: "Raven seznam\n"
         hierarchy_mode: "Hierarhija"
-        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
-        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
-        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        hierarchy_hint: "Vsi rezultati filtrirane tabele bodo dopolnjeni s svojimi predniki. Hierarhijo je mogoče razširiti in strniti."
+        display_sums_hint: "Prikažite vsote vseh atributov, ki seštevajo v vrstici pod rezultati tabele."
+        show_timeline_hint: "Pokažite interaktivni gantogram na desni strani. Njegovo širino lahko spremenite tako, da povlečete delilnik med tabelo in gantogramom.\n"
         highlighting: 'Poudarjanje'
         highlighting_mode:
           description: "Poudarjanje z barvo"
@@ -878,8 +886,11 @@ sl:
         title: "Potrdite izbris %{label}"
         text: "Ali ste prepričani, da želite izbrisati naslednje %{label} ?"
         has_children: "Ta delavni paket ima %{childUnits}:"
-        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
-        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+        confirm_deletion_children: "Zavedam se, da bodo VSI potomci naštetih delovnih paketov rekurzivno odstranjeni."
+        deletes_children: "Vsi delovni paketi in njihovi potomci bodo tudi rekurzivno izbrisani."
+      destroy_time_entry:
+        title: "Potrdite brisanje časovnega vnosa"
+        text: "Ali ste prepričani, da želite izbrisati naslednji časovni vnos?"
     notice_no_results_to_display: "Ni vidnih rezultatov za prikaz."
     notice_successful_create: "Ustvarjanje uspelo."
     notice_successful_delete: "Uspešen izbris."
@@ -916,10 +927,10 @@ sl:
         few: "Delovni paketi"
         other: "Delovni paketi"
       child_work_packages:
-        one: "one child work package"
-        two: "%{count} work package children"
-        few: "%{count} work package children"
-        other: "%{count} work package children"
+        one: "en podrejeni delovni paket"
+        two: "%{count} podrejena delovna paketa"
+        few: "%{count} podrejenih delovnih paketov"
+        other: "%{count} podrejeni delovni paketi"
       hour:
         zero: "0 ur"
         one: "%{count} ura"

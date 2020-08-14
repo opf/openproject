@@ -20,7 +20,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Activate the Gantt chart](#activate-the-gantt-chart)        | How to activate the Gantt chart in OpenProject?              |
 | [Create a new element](#create-a-new-element-in-the-gantt-chart) | How to add a new item to the Gantt chart?                    |
 | [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display relations in the Gantt chart.             |
-| [Gantt chart configuration](#gantt-chart-cconfiguration)     | How to configure the view of your Gantt chart, e.g. add labels? |
+| [Gantt chart configuration](#gantt-chart-configuration)     | How to configure the view of your Gantt chart, e.g. add labels? |
 | [Synchronize data from OpenProject to Excel](#synchronize-data-from-openproject-to-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                       | How to zoom in and out and activate the Zen mode?            |
 
@@ -63,6 +63,8 @@ To add a dependency make right mouse click on an element in the Gantt chart.
 In the menu, choose **Add predecessor** or **Add follower**.
 
 Select the item which you want to create the dependency with. The precede and follow relation is marked with a small blue line in the Gantt chart.
+
+OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/projects/openproject/work_packages/26448/activity)for an update.
 
 ![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
 

@@ -242,6 +242,15 @@ module API
             form_embedded: form_embedded)
       end
 
+      def self.representable_definitions
+        representable_config = self.representable_attrs
+
+        # For reasons beyond me, Representable::Config contains the definitions
+        #  * nested in [:definitions] in some envs, e.g. development
+        #  * directly in other envs, e.g. test
+        representable_config.try(:definitions) || representable_config
+      end
+
       def initialize(represented,
                      self_link = nil,
                      current_user:,

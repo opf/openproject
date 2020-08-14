@@ -80,7 +80,8 @@ describe Bim::Bcf::Viewpoints::CreateService, type: :model do
       .to receive(:new)
       .with(user: user,
             model: created_viewpoint,
-            contract_class: contract_class)
+            contract_class: contract_class,
+            contract_options: {})
       .and_return(service)
 
     allow(service)

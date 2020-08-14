@@ -53,8 +53,11 @@
                     [dragInto]="canDragInto"
                     [workPackageAddedHandler]="workPackageAddedHandler"
                     [cardsRemovable]="board.isFree && canDragOutOf"
+                    [showInfoButton]="true"
                     [highlightingMode]="board.highlightingMode"
-                    [showStatusButton]="showCardStatusButton()">
+                    [showStatusButton]="showCardStatusButton()"
+                    (itemClicked)="openFullViewOnDoubleClick($event)"
+                    (stateLinkClicked)="openStateLink($event)">
 
       </wp-card-view>
     </div>

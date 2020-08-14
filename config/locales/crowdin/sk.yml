@@ -78,6 +78,7 @@ sk:
     is_active: aktuálne zobrazené
     is_inactive: v súčasnosti nie je zobrazené
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'V tomto zobrazení môžete vytvoriť vlastné texty pomoci pre zobrazenie atribútov. Po definovaní môžete tieto texty prezerať kliknutím na ikonu pomoci zobrazenú k príslušným atribútom.'
     label_plural: 'Texty nápovedy atribútu'
     show_preview: 'Ukázať náhľad'
@@ -87,6 +88,10 @@ sk:
     index:
       no_results_content_title: Momentálne nie sú žiadne metódy overovania identity.
       no_results_content_text: Vytvoriť novú metódu overovania identity
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -278,6 +283,7 @@ sk:
     overview:
       no_results_title_text: Momentálne nie sú priradené žiadne pracovné balíky k tejto verzii.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Momentálne neexistujú žiadne stránky wiki.
     index:
       no_results_content_text: Pridať novú stránku wiki
@@ -416,6 +422,7 @@ sk:
         types: "Typy"
         versions: "Verzie"
         work_packages: "Pracovné balíčky"
+        templated: 'Template project'
       projects/status:
         code: 'Stav'
         explanation: 'Status description'
@@ -487,6 +494,7 @@ sk:
         parent_work_package: "Nadradený balíček"
         priority: "Priorita"
         progress: "Stav spracovania (%)"
+        schedule_manually: "Manuálne plánovanie"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Podprojekt"
@@ -740,6 +748,9 @@ sk:
     date: "Dátum"
     default_columns: "Predvolené stĺpce"
     description: "Popis"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Zobraziť súčty"
     due_date: "Dátum dokončenia"
     estimated_hours: "Predpokladaný čas"
@@ -890,6 +901,7 @@ sk:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Nedeľa"
       - "Pondelok"
@@ -1103,6 +1115,7 @@ sk:
   error_cookie_missing: 'Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať.'
   error_custom_option_not_found: "Nastavenie neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nemôže byť aktivovaný (dosiahnutý limit počtu užívateľov). Prosím kontaktujte vášho správcu pre získanie prístupu."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Vybratá neplatná hodnota."
@@ -1148,6 +1161,8 @@ sk:
     work_package_edit: 'Pracovný balíček upravený'
     work_package_note: 'Poznámka pracovného balíčka pridaná'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "Operácia bola úspešne dokončená."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1343,6 +1358,7 @@ sk:
   label_delete_project: "Vymazať projekt"
   label_deleted: "odstránené"
   label_deleted_custom_field: "(odstrániť vlastné pole)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Zostupne"
   label_details: "Podrobnosti"
   label_development_roadmap: "Plán vývoja"
@@ -1654,6 +1670,7 @@ sk:
   label_time_entry_plural: "Strávený čas"
   label_time_sheet_menu: "Časový výkaz"
   label_time_tracking: "Sledovanie času"
+  label_projects_menu: "Projekty"
   label_today: "dnes"
   label_top_menu: "Horné menu"
   label_topic_plural: "Témy"
@@ -1791,7 +1808,16 @@ sk:
   mail_body_account_information: "Informácie o vašom účte"
   mail_body_account_information_external: "Môžete sa prihlásiť pomocou vášho účtu %{value}."
   mail_body_lost_password: "Na zmenu hesla kliknite na nasledujúci odkaz:"
-  mail_body_register: "Ak si želáte aktivovať váš účet, kliknite na nasledujúci odkaz:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} pracovné balíčky (balíček), ktoré sú priradené vám a finišujú v najbližších %{days} dňoch:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "Používateľ %{author} pridal wikistránku '%{id}'."
@@ -1948,7 +1974,7 @@ sk:
   permission_manage_project_activities: "Správa aktivít projektu"
   permission_manage_public_queries: "Spravovať verejné zobrazenia"
   permission_manage_repository: "Spravovať repozitár"
-  permission_manage_subtasks: "Spravovať podúlohy"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Spravovať verzie"
   permission_manage_wiki: "Spravovať Wiki"
   permission_manage_wiki_menu: "Správa wiki menu"
@@ -1983,6 +2009,12 @@ sk:
       warning_one: Členovia projektu musia presunúť projektové archívy projektu.
       warning_two: Existujúce prepojenia na projekt už nebudú fungovať.
       title: Zmeniť identifikátor projektu
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Použiť šablónu'
+      make_template: 'Použiť ako šablónu'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Naozaj chcete archivovať projekt \"%{name}\"?"
       archived: "Archived"
@@ -2004,7 +2036,8 @@ sk:
     assigned_to_role: "Priradená rola"
     member_of_group: "Skupina priradeného používateľa"
     assignee_or_group: "Priradené používateľovi alebo jeho skupine"
-    subproject_id: "Podprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Meno alebo identifikátor"
   repositories:
     at_identifier: 'na %{identifier}'
@@ -2109,6 +2142,9 @@ sk:
     url: "URL úložiska"
     warnings:
       cannot_annotate: "Tento súbor nie je možné komentovať."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Hľadať..."
   setting_email_delivery_method: "Spôsob doručenia e-mailu"
   setting_sendmail_location: "Umiestnenie sendmail spustiteľného programu"
@@ -2304,6 +2340,7 @@ sk:
   text_journal_deleted_with_diff: "%{label} odstránený (%{link})"
   text_journal_set_to: "%{label} nastavený na %{value}"
   text_journal_set_with_diff: "%{label} nastavený (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Posledný komentár je: %{note}"
   text_length_between: "Dĺžka medzi %{min} až %{max} znakov."
   text_line_separated: "Je povolené zadať viaceré hodnoty (každú hodnotu na samostatný riadok)."

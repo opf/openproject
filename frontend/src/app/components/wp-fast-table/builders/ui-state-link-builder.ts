@@ -4,6 +4,9 @@ import {StateService} from '@uirouter/core';
 export const uiStateLinkClass = '__ui-state-link';
 export const checkedClassName = '-checked';
 
+export const currentDetailsState = 'currentDetailsState';
+export const currentShowState = 'currentShowState';
+
 export class UiStateLinkBuilder {
 
   constructor(public readonly $state:StateService,
@@ -11,11 +14,11 @@ export class UiStateLinkBuilder {
   }
 
   public linkToDetails(workPackageId:string, title:string, content:string) {
-    return this.build(workPackageId, 'currentDetailsState', title, content);
+    return this.build(workPackageId, currentDetailsState, title, content);
   }
 
   public linkToShow(workPackageId:string, title:string, content:string) {
-    return this.build(workPackageId, 'currentShowState', title, content);
+    return this.build(workPackageId, currentShowState, title, content);
   }
 
   private build(workPackageId:string, state:string, title:string, content:string) {

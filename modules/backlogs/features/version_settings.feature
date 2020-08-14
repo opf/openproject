@@ -55,6 +55,7 @@ Feature: Version Settings
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
     And I am already logged in as "padme"
 
+  @javascript
   Scenario: Creating a new version
     When I go to the versions/new page of the project called "ecookbook"
      And I fill in "version_name" with "Sprint X"
@@ -63,6 +64,7 @@ Feature: Version Settings
      And I should see "Successful creation." within "div.notice"
      And I should see "Sprint X"
 
+  @javascript
   Scenario: One can select whether versions are displayed left or right (left is default) in the backlogs page
     When I go to the edit page of the version called "Sprint 001"
 
@@ -74,6 +76,7 @@ Feature: Version Settings
 
     Then I should be on the settings/versions page of the project called "ecookbook"
 
+  @javascript
   Scenario: Inherited versions can also be configured to be displayed left, right or not at all
     Given there is 1 project with:
         | name  | parent  |
@@ -98,6 +101,7 @@ Feature: Version Settings
 
     Then I should be on the settings/versions page of the project called "ecookbook"
 
+  @javascript
   Scenario: Setting "Column in backlog" to the different settings
     When I go to the edit page of the version called "Sprint 001"
     And I select "right" from "Column in backlog"
@@ -130,11 +134,13 @@ Feature: Version Settings
     And I should not see "Sprint 003" within "#owner_backlogs_container"
     And I should not see "Sprint 003" within "#sprint_backlogs_container"
 
+  @javascript
   Scenario: There should be a version start date field
     When I go to the edit page of the version called "Sprint 001"
     Then the editable attributes of the version should be the following:
       | Start date | 2010-01-01 |
 
+  @javascript
   Scenario: former sprint_start_date and start_date are the same
     When I go to the edit page of the version called "Sprint 001"
     And I fill in "2010-01-20" for "version_start_date"

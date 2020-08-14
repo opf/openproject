@@ -26,65 +26,87 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ConfigurationService} from '../../common/config/configuration.service';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
+import flatpickr from "flatpickr";
+import {Instance} from "flatpickr/dist/types/instance";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import DateOption = flatpickr.Options.DateOption;
 
 export class DatePicker {
-  public datepickerFormat = 'yy-mm-dd';
+  private datepickerFormat = 'Y-m-d';
 
-  private datepickerCont: JQuery = jQuery(this.datepickerElem);
-  private datepickerInstance:any = null;
+  private datepickerCont:JQuery = jQuery(this.datepickerElemIdentifier);
+  public datepickerInstance:Instance;
 
-  constructor(readonly ConfigurationService:ConfigurationService,
-              readonly timezoneService:TimezoneService,
-              private datepickerElem:JQuery,
+  constructor(private datepickerElemIdentifier:string,
               private date:any,
-              private options:any) {
+              private options:any,
+              private datepickerTarget?:HTMLElement,
+              private configurationService?:ConfigurationService) {
     this.initialize(options);
   }
 
   private initialize(options:any) {
-    const firstDayOfWeek = this.ConfigurationService.startOfWeekPresent() ?
-      this.ConfigurationService.startOfWeek() : (jQuery.datepicker as any)._defaults.firstDay;
+    const I18n = new I18nService();
+    const firstDayOfWeek =
+      this.configurationService?.startOfWeekPresent() ? this.configurationService.startOfWeek() : 1;
 
-    var mergedOptions = _.extend({}, options, {
-      firstDay: firstDayOfWeek,
-      showWeeks: true,
-      changeMonth: true,
-      changeYear: true,
-      closeText: I18n.t('js.button_confirm'),
+    const mergedOptions = _.extend({}, options, {
+      weekNumbers: true,
       dateFormat: this.datepickerFormat,
-      defaultDate: this.timezoneService.formattedISODate(this.date),
-      showButtonPanel: true
+      defaultDate: this.date,
+      locale: {
+        weekdays: {
+          shorthand: I18n.t('date.abbr_day_names'),
+          longhand: I18n.t('date.day_names'),
+        },
+        months: {
+          shorthand: (I18n.t('date.abbr_month_names') as any).slice(1),
+          longhand: (I18n.t('date.month_names') as any).slice(1),
+        },
+        firstDayOfWeek: firstDayOfWeek,
+        weekAbbreviation: I18n.t('date.abbr_week')
+      },
     });
 
-    this.datepickerInstance = this.datepickerCont.datepicker(mergedOptions);
+    var datePickerInstances:Instance|Instance[];
+    if (this.datepickerTarget) {
+      datePickerInstances = flatpickr(this.datepickerTarget as Node, mergedOptions);
+    } else {
+      datePickerInstances = flatpickr(this.datepickerElemIdentifier, mergedOptions);
+    }
 
-    // Disable autocomplete to avoid overlay
-    this.datepickerCont.attr('autocomplete', 'off');
+    this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
   }
 
   public clear() {
-    this.datepickerInstance.datepicker('setDate', null);
+    this.datepickerInstance.clear();
   }
 
   public destroy() {
     this.hide();
-    this.datepickerInstance.datepicker('destroy');
+    this.datepickerInstance.destroy();
   }
 
   public hide() {
-    this.datepickerInstance.datepicker('hide');
+    if (this.isOpen) {
+      this.datepickerInstance.close();
+    }
+
     this.datepickerCont.scrollParent().off('scroll');
   }
 
   public show() {
-    this.datepickerInstance.datepicker('show');
+    this.datepickerInstance.open();
     this.hideDuringScroll();
   }
 
-  public reshow() {
-    this.datepickerInstance.datepicker('show');
+  public setDates(dates:DateOption|DateOption[]) {
+    this.datepickerInstance.setDate(dates);
+  }
+
+  public get isOpen():boolean {
+    return this.datepickerInstance.isOpen;
   }
 
   private hideDuringScroll() {
@@ -92,14 +114,14 @@ export class DatePicker {
     let scrollParent = this.datepickerCont.scrollParent();
 
     scrollParent.scroll(() => {
-      this.datepickerInstance.datepicker('hide');
+      this.datepickerInstance.close();
       if (reshowTimeout) {
         clearTimeout(reshowTimeout);
       }
 
       reshowTimeout = setTimeout(() => {
         if (this.visibleAndActive()) {
-          this.datepickerInstance.datepicker('show');
+          this.datepickerInstance.open();
         }
       }, 50);
     });
@@ -111,8 +133,8 @@ export class DatePicker {
     try {
       return document.elementFromPoint(input.offset()!.left, input.offset()!.top) === input[0] &&
         document.activeElement === input[0];
-    } catch(e) {
-      console.error("Failed to test visibleAndActive " + e)
+    } catch (e) {
+      console.error("Failed to test visibleAndActive " + e);
       return false;
     }
   };

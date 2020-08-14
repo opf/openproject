@@ -15,7 +15,7 @@ ru:
   empty_file_error: "Пожалуйста, загрузите допустимое изображение (jpg, png, gif)"
   avatars:
     label_avatar: "Аватар"
-    label_gravatar: 'Граватар'
+    label_gravatar: 'Gravatar'
     label_current_avatar: 'Текущий аватар'
     label_local_avatar: 'Пользовательский аватар'
     text_current_avatar: |
@@ -27,10 +27,10 @@ ru:
     text_your_local_avatar: |
       OpenProject позволяет вам загружать свой собственный аватар.
     text_local_avatar_over_gravatar: |
-      Если вы установили, этот пользовательский аватар будет использоваться в прецеденте над граватаром выше.
+      Выбранный аватар будет использоваться в приоритете над Gravatar, представленным выше.
     text_your_current_gravatar: |
-      OpenProject использует зарегистрированные вами граватар, изображение или иконку по уполчанию, если такие существуют.
-      Текущий граватар следующий:
+      OpenProject использует зарегистрированный вами Gravatar, либо изображение/иконку по умолчанию, если таковые существуют.
+      Текущий Gravatar выглядит следующим образом:
     settings:
       enable_gravatars: 'Использовать Gravatar'
       gravatar_default: "Картинка Gravitar по умолчанию"

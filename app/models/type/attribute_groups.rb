@@ -233,7 +233,7 @@ module Type::AttributeGroups
           .map { |k| ::Type::QueryGroup.query_attribute_id(k) }
           .compact
 
-    Query.destroy(ids)
+    Query.where(id: ids).destroy_all
   end
 
   def remove_attribute_groups_queries

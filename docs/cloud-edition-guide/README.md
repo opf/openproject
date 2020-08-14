@@ -24,7 +24,8 @@ Welcome to the OpenProject **Cloud edition guide**.
 | [Sign in](./sign-in/)                                        | Sing in to your OpenProject Cloud Edition.                   |
 | [View payment history or download invoices](./invoices-and-billing-history) | How to see your payment history and download invoices?       |
 | [Upgrade, downgrade or cancel subscription](./manage-subscription/#update-existing-subscriptions) | How to upgrade your plan, downgrade or cancel your subscription for the Cloud Edition? |
-| Manage your subscription                                     | How to change billing address, add or edit Credit Card details? |
+| [Manage your subscription](./manage-subscription) | How to change billing address, add or edit Credit Card details? |
+| [Backups](./backups) | How do backups work in the cloud? |
 
 The OpenProject Cloud Edition contains all OpenProject Community features plus the additional OpenProject premium features, as well as professional support.
 
@@ -34,11 +35,10 @@ You will get a detailed feature comparison [here](https://www.openproject.org/pr
 
 
 
-## Frequently asked questions - FAQ 
+## Frequently asked questions - FAQ
 
 
-
-### **Can I import my** **OpenProject** **community instance into my cloud environment?**
+### Can I import my OpenProject community instance into my cloud environment?
 
 Yes, we provide an upload possibility of your data to move from a Community installation to the Cloud Edition.
 To import your community instance into our cloud environment, please send us the following files:
@@ -50,29 +50,16 @@ Before uploading the attachments securely to us using the [following form](https
 The form generates a direct upload to our secure S3 environment from which the import takes place.
 
 
-### Is there an advantage of the annual over the monthly** **OpenProject** **plan?**
-
-We offer two months of the cloud edition for free if you choose an annual plan.
-
-
-
-### Where geographically is the** **OpenProject** **cloud data stored?**
+### Where geographically is the OpenProject cloud data stored?
 
 The OpenProject Cloud Environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy. Employed facilities are compliant with the ISO 27001 and 27018 standards. OpenProject Cloud Environment is continuously backing up user data with data at rest being fully encrypted with AES-256. Each individual's instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. You can find more information [here](https://www.openproject.org/gdpr-compliance/).
 
 
-### Is there a size limit for uploading documents to the** **OpenProject** **cloud edition?**
+### Does OpenProject comply with GDPR?
 
-There is no limit in OpenProject in terms of the number of files that you can upload and work with in OpenProject. There is only a restriction in terms of the maximum file size: A file can have a size up to 256 MB. 
-
-
-
-### My OpenProject cloud trial expired – can I still access my data?**
-
-Due to data privacy reasons we automatically delete OpenProject trial environments a couple of weeks after they have expired.If your OpenProject Trial is not accessible through the known URL, it has likely been deleted.You can easily create a new OpenProject trial environment from https://start.openproject.com/. Simply enter your organization name (you can use the same name as before) and click on "Start Free Trial".In order to avoid that your data is getting deleted, please select a plan during your trial duration or shortly after your OpenProject trial environment has expired. 
+The protection of personal data is for OpenProject more than just a legal requirement. We are highly committed to data security and privacy. We are a company based in Berlin, the European Union, and the awareness and importance for data security and privacy actions have always been a major topic for us. OpenProject complies with GDPR and we handle our customer’s data with care. Get more detailed information [here](https://www.openproject.org/gdpr-compliance/).
 
 
+### How can I export the documents loaded on OpenProject?
 
-### Can we pay the** **OpenProject** **cloud edition by transfer?**
-
-Yes, for customers in the EU it is possible to pay by bank transfer (as well as by credit card).To do this, you can sign into your OpenProject environment and select the "Buy now" button from the top menu. You are then directed to the payment page, where you can select the number of users you want to work with and your country. Then you can check the option to pay by invoice and fill out the billing information. You will then receive an invoice from us. 
+Currently, there is unfortunately no option to export all the documents in OpenProject. We could manually export the entire database (including the attachments) for you. Due to the manual effort, we would however need to charge a service fee for this. Please contact sales@openproject.com.

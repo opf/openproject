@@ -46,10 +46,6 @@ class DesignColor < ApplicationRecord
   validates_format_of :hexcode, with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? }
 
   class << self
-    def defaults
-      OpenProject::CustomStyles::Design.resolved_variables
-    end
-
     def setables
       overwritten_values = self.overwritten
       OpenProject::CustomStyles::Design.customizable_variables.map do |varname|
@@ -62,14 +58,9 @@ class DesignColor < ApplicationRecord
       overridable = OpenProject::CustomStyles::Design.customizable_variables
 
       all.to_a.select do |color|
-        overridable.include?(color.variable) && self.defaults[color] != color.get_hexcode
+        overridable.include?(color.variable) && color.hexcode.present?
       end
     end
-  end
-
-  # shortcut to get the color's value
-  def get_hexcode
-    hexcode.presence || self.class.defaults[variable]
   end
 
   protected

@@ -1,0 +1,13 @@
+// You can add global styles to this file, and also import other style files
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+// Variables
+@import "global_styles/openproject/_variables.scss";
+// Foundation variables
+@import "global_styles/openproject/_settings.scss";
+
+//  Dependencies
+@import "global_styles/vendor/foundation-apps/scss/foundation.scss";
+
+// Core styles
+@import "global_styles/openproject.sass";

@@ -32,7 +32,13 @@ require 'redmine/menu_manager'
 Redmine::MenuManager.map :top_menu do |menu|
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
-
+  menu.push :projects,
+            { controller: '/projects', project_id: nil, action: 'index' },
+            context: :modules,
+            caption: I18n.t('label_projects_menu'),
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?)
+            }
   menu.push :work_packages,
             { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
             context: :modules,
@@ -41,7 +47,6 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
             }
-
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
@@ -202,7 +207,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
-            parent: :admin_work_packages,
+            icon: 'icon2 icon-help2',
             if: Proc.new {
               EnterpriseToken.allows_to?(:attribute_help_texts)
             }

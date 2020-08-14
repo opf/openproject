@@ -6,6 +6,33 @@ sidebar_navigation:
 
 # Frequently asked questions - FAQ
 
+## I lost access to my admin account, how to I reset my password?
+
+You can reset your admin account through the Rails console.
+[Please see this separate page on how to start the console](https://docs.openproject.org/installation-and-operations/operation/control/).
+
+Assuming you have started the rails console, perform these steps:
+
+```ruby
+# Find the admin user
+user = User.find_by! login: 'admin'
+
+# Ensure the user is set to active
+user.activate
+
+# Reset any failed login attempts
+user.failed_login_count = 0
+
+# Update the password
+user.password = user.password_confirmation = "YOUR NEW SAFE PASSWORD 1234!"
+
+# Save the resource, observe if any errors are returned here
+user.save!
+```
+
+Afterwards, you can navigate to your OpenProject instance and login with `admin` and your chosen password again.
+
+
 ## How to migrate from Bitnami to the official OpenProject installation packages?
 
 Please follow the following steps:

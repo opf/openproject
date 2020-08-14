@@ -97,7 +97,7 @@ module Pages
 
     def expect_work_package_order(*ids)
       retry_block do
-        rows = page.all '.wp-table--row'
+        rows = page.all '.work-package-table .wp--row'
         expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
         found = rows.map { |el| el['data-work-package-id'] }
 
@@ -236,7 +236,7 @@ module Pages
           row(work_package)
         end
 
-      ::EditField.new(context, attribute)
+      work_package_field(work_package, context, attribute)
     end
 
     def click_setting_item(label)
@@ -271,6 +271,15 @@ module Pages
 
     def container
       page
+    end
+
+    def work_package_field(work_package, context, key)
+      case key.to_sym
+      when :date, :startDate, :dueDate
+        DateEditField.new context, key, is_milestone: work_package.milestone?, is_table: true
+      else
+        EditField.new context, key
+      end
     end
 
     private

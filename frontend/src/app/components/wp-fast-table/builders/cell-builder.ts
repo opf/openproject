@@ -5,10 +5,14 @@ import {
 } from '../../wp-edit-form/display-field-renderer';
 import {Injector} from '@angular/core';
 import {QueryColumn} from "core-components/wp-query/query-column";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
 
 export class CellBuilder {
+
+  @InjectField(SchemaCacheService) schemaCache:SchemaCacheService;
 
   public fieldRenderer = new DisplayFieldRenderer(this.injector, 'table');
 
@@ -24,7 +28,7 @@ export class CellBuilder {
       td.classList.add('-max');
     }
 
-    const schema = workPackage.schema[attribute];
+    const schema = this.schemaCache.of(workPackage).ofProperty(attribute);
     if (schema && schema.type === 'User') {
       td.classList.add('-contains-avatar');
     }

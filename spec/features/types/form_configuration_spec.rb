@@ -86,6 +86,40 @@ describe 'form configuration', type: :feature, js: true do
         form.expect_attribute(key: :assignee)
       end
 
+      it 'can remove all groups to be left with an invisible one (Regression #33592)' do
+        form.remove_group 'Details'
+        form.remove_group 'Estimates and Time'
+        form.remove_group 'People'
+        form.remove_group 'Costs'
+
+        # Save configuration
+        form.save_changes
+        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+        form.expect_empty
+
+        # Test the actual type backend
+        type.reload
+        expect(type.attribute_groups.count).to eq 1
+        expect(type.attribute_groups.first.key).to eq :__empty
+        expect(type.attribute_groups.first.attributes).to be_empty
+
+        # Visit work package with that type
+        wp_page.visit!
+        wp_page.ensure_page_loaded
+
+        wp_page.expect_hidden_field(:version)
+        wp_page.expect_hidden_field(:assignee)
+        wp_page.expect_hidden_field(:responsible)
+        wp_page.expect_hidden_field(:priority)
+        wp_page.expect_hidden_field(:date)
+        wp_page.expect_hidden_field(:category)
+        wp_page.expect_hidden_field(:done_ratio)
+
+        groups = page.all('.attributes-group--header-text').map(&:text)
+        expect(groups).to eq %w[DESCRIPTION FILES]
+      end
+
       it 'allows modification of the form configuration' do
         #
         # Test default set of groups

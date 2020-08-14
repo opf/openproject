@@ -3,16 +3,8 @@
      [attr.data-indicator-name]="'table'"
      style="position: relative">
     <full-calendar #ucCalendar
-                   [editable]="calendarEditable"
-                   [eventLimit]="calendarEventLimit"
-                   [locale]="calendarLocale"
-                   [fixedWeekCount]="calendarFixedWeekCount"
-                   [height]="calendarHeight"
-                   [header]="calendarHeader"
-                   [defaultView]="calendarDefaultView"
-                   [firstDay]="calendarFirstDay"
-                   [events]="calendarEvents"
-                   [plugins]="calendarPlugins">
+                   *ngIf="calendarOptions"
+                   [options]="calendarOptions">
     </full-calendar>
     <div
         *ngIf="static"

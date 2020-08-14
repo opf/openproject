@@ -1,8 +1,15 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject, Injector} from '@angular/core';
 import {XeokitServer} from "core-app/modules/bim/ifc_models/xeokit/xeokit-server";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import {Observable, Subject} from "rxjs";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {ViewpointsService} from "core-app/modules/bim/bcf/helper/viewpoints.service";
+import {of} from 'rxjs';
+
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -26,9 +33,17 @@ export interface BCFLoadOptions {
 
 @Injectable()
 export class IFCViewerService extends ViewerBridgeService {
+  public shouldShowViewer = true;
   private _viewer:any;
-
   private $loaded = new Subject<void>();
+
+  @InjectField() pathHelper:PathHelperService;
+  @InjectField() bcfApi:BcfApiService;
+  @InjectField() viewpointsService:ViewpointsService;
+
+  constructor(readonly injector:Injector){
+    super(injector);
+  }
 
   public newViewer(elements:XeokitElements, projects:any[]) {
     import('@xeokit/xeokit-bim-viewer/dist/main').then((XeokitViewerModule:any) => {
@@ -70,17 +85,34 @@ export class IFCViewerService extends ViewerBridgeService {
     this.viewer.setKeyboardEnabled(val);
   }
 
-  public getViewpoint():Promise<BcfViewpointInterface> {
+  public getViewpoint$():Observable<BcfViewpointInterface> {
     const viewpoint = this.viewer.saveBCFViewpoint({ spacesVisible: true });
 
     // The backend rejects viewpoints with bitmaps
     delete viewpoint.bitmaps;
 
-    return Promise.resolve(viewpoint);
+    return of(viewpoint);
   }
 
-  public showViewpoint(viewpoint:BcfViewpointInterface) {
-    this.viewer.loadBCFViewpoint(viewpoint, {});
+  public showViewpoint(workPackage:WorkPackageResource, index:number) {
+    // Avoid reload the app when there is a place to show the viewer
+    // ('bim.partitioned.split')
+    if (this.routeWithViewer) {
+      if (this.viewer) {
+        this.viewpointsService
+              .getViewPoint$(workPackage, index)
+              .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, {}));
+      }
+    } else {
+      // Reload the whole app to get the correct menus and GON data
+      // and redirect to a route with a place to show viewer
+      // ('bim.partitioned.split')
+      window.location.href = this.pathHelper.bimDetailsPath(
+        workPackage.project.idFromLink,
+        workPackage.id!,
+        index
+      );
+    }
   }
 
   public viewerVisible():boolean {

@@ -1,0 +1,138 @@
+
+// Wrapper for inline text editor
+.op-ckeditor-element
+  min-height: 50px
+
+  &.ck-editor__editable_inline
+    padding-left: 2px !important
+
+// Wrapper for full text element
+ckeditor-augmented-textarea .op-ckeditor--wrapper
+  margin-bottom: 2rem
+
+// Ensure same border and min-height for preview
+.ck-content,
+.ck-editor__preview
+  border: 1px solid var(--ck-color-base-border)
+  min-height: 100px
+  padding: 10px
+
+// Specific overrides for ck contenteditable
+.ck-content
+
+  // Code block
+  pre
+    margin: 10px 0
+
+    code
+      display: block
+
+  // Override central position of figure
+  figure.table,
+  figure.image
+    margin: 1em 0
+
+  figure.table
+    // Ensure we break apart words in table cells that
+    // are restricted in width (OP#33524)
+    td[style*=";width:"],
+    td[style^="width:"],
+    th[style*=";width:"],
+    th[style^="width:"]
+      word-break: break-all
+
+.ck .ck-widget.op-ckeditor--code-block
+  // Display content as pre
+  white-space: pre-wrap
+  padding: 10px 5px 0 5px
+  border: 1px dashed #eee
+  background: #f1f1f1
+  cursor: pointer
+
+  .op-ckeditor--code-block-language
+    text-align: right
+    font-style: italic
+    font-size: 0.8rem
+    padding: 5px 0
+
+.op-macro-list-button
+  > .ck.ck-button
+    text-align: left
+
+.ckeditor-type-balloon
+  margin-left: 25px
+
+.ck.ck-block-toolbar-button
+  transform: translateX( -15px )
+  z-index: 1000 !important
+
+
+// Override fixed position of toolbar
+// Otherwise the toolbar will 'disappear' behind the topmenu
+.ck.ck-sticky-panel__placeholder
+  height: 0 !important
+
+.ck.ck-sticky-panel__content
+  position: unset !important
+
+// Mentions autocomplete
+.ck-list__item .mention-list-item
+  display: block
+  max-width: 400px
+  @include text-shortener
+
+// Document editor styles
+.document-editor
+  /* This element is a flex container for easier rendering. */
+  display: flex
+  flex-flow: column nowrap
+
+  .document-editor__toolbar
+    position: sticky
+    top: 0px
+    z-index: 1
+
+    // Adjust top offset to match if globally
+    // scrolling (content-wrapper)
+    .ckeditor--content-scrollable &,
+    .form--field.-visible-overflow &
+      top: -10px
+
+  .ck.ck-toolbar.ck-rounded-corners
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+
+  .document-editor__editable-container
+    overflow-y: auto
+    border: 1px solid var(--ck-color-base-border)
+    border-top: none
+    border-radius: var(--ck-border-radius)
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+
+    .document-editor__editable
+      .-large-height &
+        min-height: 250px
+
+// todolist override global label style
+label.todo-list__label
+  margin-bottom: 0
+  display: initial
+  font-size: initial
+  float: left
+  width: 0
+
+  > input
+    margin-top: 0
+
+// todolist list-style
+.ck-editor__editable .todo-list
+  margin-bottom: 0
+  li
+    list-style: none
+    word-break: break-word
+
+.ck-editor__editable[dir="rtl"]
+  ol, ul
+    margin-left: 0
+    margin-right: 40px

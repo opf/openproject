@@ -44,6 +44,7 @@ import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/fiel
 import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
 import {WorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/wp-autocompleter.component";
 import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
+import {CombinedDateEditFieldComponent} from "core-app/modules/fields/edit/field-types/combined-date-edit-field.component";
 
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
@@ -75,6 +76,9 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment']);
 
     editFieldService
+      .addSpecificFieldType('WorkPackage', CombinedDateEditFieldComponent,
+                            'date',
+                            ['combinedDate', 'startDate', 'dueDate', 'date'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage']);
 

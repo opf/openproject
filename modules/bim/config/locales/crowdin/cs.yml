@@ -25,6 +25,7 @@ cs:
       export: 'Export'
       import_update_comment: '(Aktualizováno v importu BCF)'
       import_failed: 'Nelze importovat soubor BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Importováno %{count} problémů s BCF'
       import_canceled: 'Import BCF-XML byl zrušen.'
       type_not_active: "Typ problému není pro tento projekt aktivován."
@@ -68,6 +69,7 @@ cs:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Zobrazit problémy s BCF"
   permission_manage_bcf: "Importovat a spravovat problémy s BCF."
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"
@@ -100,6 +102,8 @@ cs:
           snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
           snapshot_data_blank: "snapshot_data needs to be provided."
           unsupported_key: "An unsupported json property is included."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC models'
     label_new_ifc_model: 'New IFC model'

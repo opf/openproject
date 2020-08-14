@@ -1,0 +1,162 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+$advanced-filters--label-size: 20%
+$advanced-filters--operator-size: 20%
+$advanced-filters--values-size: 25%
+$advanced-filters--values-and-operator-size: 45%
+$advanced-filters--close-icon-size: 50px
+$advanced-filters--grid-gap: 10px
+
+.advanced-filters--container
+  @extend %filters--container
+  padding: 1rem
+  max-height: 50vh
+  overflow-y: auto
+  position: relative
+  margin: 0 0 10px 0
+
+  &.collapsed
+    display: none
+
+  .advanced-filters--close
+    position: absolute
+    top: 0.75rem
+    right: 0.75rem
+    width: 1rem
+    z-index: 2
+
+.advanced-filters--filters
+  list-style-type: none
+  margin: 20px 0 0 0
+
+  > .advanced-filters--filter
+    display: grid
+    // Filters will not span the whole width,
+    // but have an orientation to the left side
+    grid-template-columns: $advanced-filters--label-size $advanced-filters--operator-size $advanced-filters--values-size $advanced-filters--close-icon-size
+    grid-gap: $advanced-filters--grid-gap
+    align-items: center
+    margin-bottom: 10px
+
+    &.--without-operator
+      grid-template-columns: $advanced-filters--label-size $advanced-filters--values-and-operator-size $advanced-filters--close-icon-size
+
+  .advanced-filters--filter-name,
+  .advanced-filters--add-filter-label
+    @include text-shortener
+    margin: auto 0
+
+  .advanced-filters--filter-value,
+  .advanced-filters--filter-operator
+    .advanced-filters--select,
+    .advanced-filters--number-field
+      @include form--input-field-mixin--small
+      @include form--input-field-mixin--narrow
+      flex: 0 0 auto
+
+.advanced-filters--add-filter
+  display: grid
+  grid-template-columns: $advanced-filters--label-size $advanced-filters--values-and-operator-size $advanced-filters--close-icon-size
+  grid-gap: $advanced-filters--grid-gap
+
+// The type="text" is required to be more specific
+.advanced-filters--text-field[type="text"],
+.advanced-filters--date-field[type="text"]
+  @extend .form--text-field
+
+  &:required
+    box-shadow: none
+
+.advanced-filters--select
+  @extend .form--select
+
+.advanced-filters--affix
+  @extend .form--field-affix
+  @include form--field-affix-mixin--transparent
+  font-size: 0.9rem
+
+.advanced-filters--tooltip-trigger[data-tooltip]
+  @extend .advanced-filters--affix, .tooltip--right
+
+.advanced-filters--remove-filter
+  text-align: right
+
+  a
+    display: block
+
+    &:hover
+      text-decoration: none
+
+.advanced-filters--remove-filter-icon
+  @extend .icon-close, .icon4
+
+.advanced-filters--add-filter-label-icon
+  @extend .icon-add, .icon4
+
+.advanced-filters--add-filter-info
+  @include grid-content()
+  @include grid-visible-overflow
+
+.advanced-filters--spacer
+  border-top: 1px solid $filters--border-color
+  height: 1px
+  margin: 0.75rem 0
+
+.advanced-filters--spacer,
+.advanced-filters--filter
+  &.hidden
+    display: none !important
+
+.work-packages-embedded-view--container .advanced-filters--container
+  margin: 0 0 1rem 0
+
+@include breakpoint(680px down)
+  .advanced-filters--filters
+    .advanced-filters--filter
+      grid-gap: 0 10px
+
+    .advanced-filters--filter-name,
+    .advanced-filters--add-filter-label,
+    .advanced-filters--add-filter-value
+      // Span over entire width
+      grid-column: 1 / -1
+
+    .advanced-filters--remove-filter
+      // Align at the end of the container
+      grid-column: -1
+
+    .advanced-filters--filter-operator,
+    .advanced-filters--filter-value
+      grid-column: span 2
+      order: 2
+
+      .advanced-filters--text-field,
+      .advanced-filters--select,
+      .advanced-filters--number-field
+        width: 100%

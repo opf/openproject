@@ -78,6 +78,7 @@ hr:
     is_active: trenutno prikazani
     is_inactive: trenutno nije prikazano
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -87,6 +88,10 @@ hr:
     index:
       no_results_content_title: Trenutno ne postoji mehanizam provjere autentičnosti.
       no_results_content_text: Dodaj novi mod provjere autentičnosti
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -278,6 +283,7 @@ hr:
     overview:
       no_results_title_text: Trenutno nije dostupan niti jedan radni paket pridružen ovoj verziji.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Trentuno nema wiki stranica.
     index:
       no_results_content_text: Nova wiki stranici
@@ -415,6 +421,7 @@ hr:
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
+        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -486,6 +493,7 @@ hr:
         parent_work_package: "Matični"
         priority: "Prioritet"
         progress: "Napredak (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Utrošeno vrijeme"
         spent_time: "Utrošeno vrijeme"
         subproject: "Potprojekt"
@@ -736,6 +744,9 @@ hr:
     date: "Datum"
     default_columns: "Zadani stupci"
     description: "Opis"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Prikaži iznose"
     due_date: "Finish date"
     estimated_hours: "Predviđeno vrijeme"
@@ -886,6 +897,7 @@ hr:
       - "List"
       - "Stud"
       - "Pro"
+    abbr_week: 'Wk'
     day_names:
       - "Nedjelja"
       - "Ponedjeljak"
@@ -1087,6 +1099,7 @@ hr:
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Opcija ne postoji."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
@@ -1132,6 +1145,8 @@ hr:
     work_package_edit: 'Radni paket je uređen'
     work_package_note: 'Bilješka za Radni paket je dodana'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1327,6 +1342,7 @@ hr:
   label_delete_project: "Delete project"
   label_deleted: "izbrisano"
   label_deleted_custom_field: "(izbrisano prilagođeno polje)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Silazno"
   label_details: "Pojedinosti"
   label_development_roadmap: "Razvojni plan"
@@ -1638,6 +1654,7 @@ hr:
   label_time_entry_plural: "Utrošeno vrijeme"
   label_time_sheet_menu: "Vrijeme angažiranosti"
   label_time_tracking: "Praćenje vremena"
+  label_projects_menu: "Projekti"
   label_today: "danas"
   label_top_menu: "Gornji izbornik"
   label_topic_plural: "Teme"
@@ -1771,7 +1788,16 @@ hr:
   mail_body_account_information: "Informacije o vašem korisničkom računu"
   mail_body_account_information_external: "Možete koristiti vaš %{value} korisnički račun za pristup sustavu."
   mail_body_lost_password: "Da bi ste promijenili lozinku, molimo vas odaberite sljedeću poveznicu:"
-  mail_body_register: "Da bi ste aktivirali vaš korisnički račun, molim vas odaberite sljedeću poveznicu:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} radni paket(i) koji je dodijeljeni vama, ima krajnji rok u sljedećih %{days} dana:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "'%{id}' wiki stranicu je dodao korisnik %{author}."
@@ -1928,7 +1954,7 @@ hr:
   permission_manage_project_activities: "Upravljanje aktivnosima projekta"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Upravljanje repozitorijem"
-  permission_manage_subtasks: "Upravljanje podzadacima"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Upravljanje verzijama"
   permission_manage_wiki: "Uredi wiki"
   permission_manage_wiki_menu: "Upravljanje wiki izbornikom"
@@ -1963,6 +1989,12 @@ hr:
       warning_one: Članovi projekta morati će relocirati repozitorije projketa.
       warning_two: Postojeće poveznice na projektu neće više funkcionirati.
       title: Promjeni identifikator projekta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"
@@ -1984,7 +2016,8 @@ hr:
     assigned_to_role: "Rola opunomoćenog korisnika"
     member_of_group: "Grupa opunomoćenog korisnika"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Potprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Ime ili identifikator"
   repositories:
     at_identifier: 'pri %{identifier}'
@@ -2089,6 +2122,9 @@ hr:
     url: "URL na repozitorij"
     warnings:
       cannot_annotate: "Ovu datoteka ne može biti zabilježena."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Traži ..."
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
@@ -2284,6 +2320,7 @@ hr:
   text_journal_deleted_with_diff: "%{label} izbrisan (%{link})"
   text_journal_set_to: "%{label} postavljen na %{value}"
   text_journal_set_with_diff: "%{label} postavljen (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Zadnji komentar je: %{note}"
   text_length_between: "Duljina između %{min} i %{max} znakova."
   text_line_separated: "Multiple values allowed (one line for each value)."

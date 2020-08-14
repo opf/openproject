@@ -35,6 +35,7 @@ interface BackRouteOptions {
   name:string;
   params:{};
   parent:string;
+  baseRoute:string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -50,16 +51,16 @@ export class BackRoutingService {
   public goBack(preferListOverSplit:boolean = false) {
     // Default: back to list
     // When coming from a deep link or a create form
-    const baseRoute = this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
+    const baseRoute = this.backRoute?.baseRoute || this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
 
     if (!this.backRoute || this.backRoute.name.includes('new')) {
       this.$state.go(baseRoute, this.$state.params);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
         if (preferListOverSplit) {
-          this.$state.go(baseRoute, this.$state.params);
+          this.$state.go(baseRoute, this.backRoute.params);
         } else {
-          this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
+          this.$state.go(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
         }
       } else {
         this.$state.go(this.backRoute.name, this.backRoute.params);
@@ -82,7 +83,10 @@ export class BackRoutingService {
       toState.data &&
       fromState.data.parent !== toState.data.parent) {
       const paramsFromCopy = { ...transition.params('from') };
-      this.backRoute = { name: fromState.name, params: paramsFromCopy, parent: fromState.data.parent };
+      this.backRoute = { name: fromState.name,
+                         params: paramsFromCopy,
+                         parent: fromState.data.parent,
+                         baseRoute: fromState.data.baseRoute };
     }
   }
 

@@ -23,6 +23,7 @@ it:
       export: 'Esporta'
       import_update_comment: '(Aggiornato nell''importazione BCF)'
       import_failed: 'Impossibile importare il file BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Lettura del file BCF non riuscita: la versione BCF non è supportata. Assicurati che la versione sia almeno %{minimal_version} o superiore.'
       import_successful: 'Problemi BCF %{count} importati'
       import_canceled: 'Importazione BCF-XML annullata.'
       type_not_active: "Il tipo di problema non è attivato per questo progetto."
@@ -66,6 +67,7 @@ it:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Mostra problemi BCF"
   permission_manage_bcf: "Importa e gestisci problemi BCF"
+  permission_delete_bcf: "Elimina i problemi BCF"
   oauth:
     scopes:
       bcf_v2_1: "Accesso completo alle API BCF v2.1"
@@ -98,6 +100,8 @@ it:
           snapshot_type_unsupported: "snapshot_type deve avere estensione 'png' o 'jpg'."
           snapshot_data_blank: "snapshot_data deve essere fornito."
           unsupported_key: "È stata inclusa una proprietà json non valida."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'Modelli IFC'
     label_new_ifc_model: 'Nuovo modello IFC'

@@ -1,0 +1,90 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+.attributes-key-value
+  display: flex
+  flex-wrap: wrap
+  font-size: 0.875rem
+
+.attributes-key-value--key
+  @extend .form--label
+  display: flex
+  flex: 1 0 35%
+  max-width: 35%
+  margin-bottom: 0.1875rem
+  padding: 0.375rem 0
+  font-weight: bold
+  // Ensure that the text is shortened while the help icon will be displayed
+  > wp-replacement-label
+    @include text-shortener
+    flex: 0 1 auto
+
+.attributes-key-value--value-container
+  display: flex
+  flex: 1 0 65%
+  max-width: 65%
+  margin-bottom: 0.1875rem
+  align-self: center
+
+  p
+    font-size: $form-label-fontsize
+    word-wrap: break-word
+
+  &.not-editable
+    padding: 6px
+
+.attributes-key-value--value
+  @include grid-visible-overflow
+
+// Alternative implementation to the one above.
+// It's main advantage is that it can act on the whole of the key/value-pairs.
+// It can e.g. determine the width of the widest label and by that align all key value pairs equally.
+
+.attributes-map
+  display: grid
+  grid-template-columns: 1fr 2fr
+  grid-auto-rows: auto
+  grid-gap: 1rem
+
+  &.-minimal-keys
+    grid-template-columns: max-content 2fr
+
+.attributes-map--key
+  @include text-shortener
+  font-weight: bold
+  line-height: 27px
+
+  &.-required:after
+    @extend %required-star
+
+  .attributes-map.-minimal-keys &
+    max-width: 200px
+
+.attributes-map--value
+  zoom: 1
+  @include text-shortener(false)

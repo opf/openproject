@@ -19,7 +19,6 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 ko:
   description_drill_down: "세부 정보 표시"
   label_click_to_edit: "편집하려면 클릭하세요."

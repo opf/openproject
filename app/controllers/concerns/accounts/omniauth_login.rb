@@ -81,14 +81,8 @@ module Accounts::OmniauthLogin
     return user unless user.nil?
 
     if Setting.oauth_allow_remapping_of_existing_users?
-      # Allow to map existing users with an Omniauth source if the login
-      # already exists, and no existing auth source or omniauth provider is
-      # linked
-      user = User.find_by(
-        login: user_attributes[:login],
-        identity_url: nil,
-        auth_source_id: nil
-      )
+      # Allow to map existing users with an Omniauth source if the login already exists
+      user = User.find_by(login: user_attributes[:login])
     end
 
     if user.nil?
@@ -202,8 +196,14 @@ module Accounts::OmniauthLogin
     end
   end
 
+  ##
+  # Allow strategies to map a value for uid instead
+  # of always taking the global UID.
+  # For SAML, the global UID may change with every session
+  # (in case of transient nameIds)
   def identity_url_from_omniauth(auth)
-    "#{auth[:provider]}:#{auth[:uid]}"
+    identifier = auth[:info][:uid] || auth[:uid]
+    "#{auth[:provider]}:#{identifier}"
   end
 
   # if the omni auth registration happened too long ago,

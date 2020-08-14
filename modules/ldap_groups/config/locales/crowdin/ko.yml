@@ -5,31 +5,31 @@ ko:
         dn: 'DN'
         auth_source: 'LDAP 연결'
       ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
+        filter_string: 'LDAP 필터'
         auth_source: 'LDAP 연결'
-        group_name_attribute: "Group name attribute"
+        group_name_attribute: "그룹 이름 특성"
     models:
       ldap_groups/synchronized_group: '동기화된 LDAP 그룹'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_filter: 'LDAP 그룹 동기화 필터'
   ldap_groups:
     label_menu_item: 'LDAP 그룹 동기화'
     label_group_key: 'LDAP 그룹 필터 키'
-    label_synchronize: 'Synchronize'
+    label_synchronize: '동기화'
     settings:
-      name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+      name_attribute: 'LDAP 그룹 이름 특성'
+      name_attribute_text: '필터에 의해 생성될 때 OpenProject 그룹 명명에 사용되는 LDAP 특성입니다.'
     synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
+      add_new: '동기화된 LDAP 필터 추가'
+      singular: 'LDAP 그룹 동기화 필터'
+      plural: 'LDAP 그룹 동기화 필터'
       destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
-        verification: "Enter the filter name %{name} to verify the deletion."
+        title: '동기화된 필터 %{name} 제거'
+        confirmation: "계속하는 경우, 동기화된 필터 %{name} 및 이를 통해 생성된 모든 그룹 %{groups_count}개가 제거됩니다."
+        removed_groups: "경고: 이렇게 하면 OpenProject에서 다음 그룹이 제거되고 모든 프로젝트에서 이것이 제거됩니다."
+        verification: "삭제를 확인하려면 필터 이름 %{name}(을)를 입력하세요."
       form:
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+        group_name_attribute_text: 'OpenProject 그룹 이름 설정에 사용된 LDAP 그룹의 특성을 입력하세요.'
+        filter_string_text: 'OpenProject와 동기화하려면 해당 LDAP에서 그룹을 반환하는 RFC4515 LDAP 필터를 입력하세요.'
     synchronized_groups:
       add_new: '동기화된 LDAP 그룹 추가'
       destroy:
@@ -48,7 +48,7 @@ ko:
       plural: '동기화된 LDAP 그룹'
       singular: '동기화된 LDAP 그룹'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
-        dn_text: 'Enter the full DN of the group in LDAP'
+        auth_source_text: '사용해야 하는 LDAP 연결을 선택하세요.'
+        dn_text: 'LDAP에서 그룹의 전체 DN 입력'
         group_text: 'LDAP 그룹의 멤버가 동기화되는 기존 OpenProject 그룹 선택'
 

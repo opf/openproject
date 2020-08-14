@@ -18,7 +18,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-
+import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 @Component({
   selector: 'wp-single-card',
@@ -36,7 +37,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   @Input() public orientation:CardViewOrientation = 'vertical';
   @Input() public shrinkOnMobile:boolean = false;
 
-  @Output() public onRemove = new EventEmitter<WorkPackageResource>();
+  @Output() onRemove = new EventEmitter<WorkPackageResource>();
+  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   public uiStateLinkClass:string = uiStateLinkClass;
 
@@ -49,6 +51,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
               readonly I18n:I18nService,
               readonly $state:StateService,
               readonly wpTableSelection:WorkPackageViewSelectionService,
+              readonly wpTableFocus:WorkPackageViewFocusService,
               readonly cardView:WorkPackageCardViewService,
               readonly cdRef:ChangeDetectorRef) {
     super();
@@ -56,7 +59,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   ngOnInit():void {
     // Update selection state
-    this.wpTableSelection.selection$()
+    this.wpTableSelection.live$()
       .pipe(
         this.untilDestroyed()
       )
@@ -69,13 +72,13 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return this.cardView.classIdentifier(wp);
   }
 
-  public openSplitScreen(wp:WorkPackageResource) {
-    let classIdentifier = this.classIdentifier(wp);
+  public emitStateLinkClicked(wp:WorkPackageResource, detail?:boolean) {
+    const classIdentifier = this.classIdentifier(wp);
+    const stateToEmit = detail ? splitViewRoute(this.$state) : 'work-packages.show';
+
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
-    this.$state.go(
-      '.details',
-      { workPackageId: wp.id! }
-    );
+    this.wpTableFocus.updateFocus(wp.id!);
+    this.stateLinkClicked.emit({ workPackageId:wp.id!, requestedState: stateToEmit });
   }
 
   public cardClasses() {

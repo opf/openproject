@@ -30,7 +30,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <html xmlns="http://www.w3.org/1999/xhtml"
       lang="<%= I18n.locale.to_s %>"
       xml:lang="<%= I18n.locale.to_s %>"
-      ng-csp="no-unsafe-eval"
       class="<%= 'in_modal' unless show_decoration %>">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -72,7 +71,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= call_hook :view_layouts_base_html_meta %>
 
   <%= render 'common/favicons' %>
-  <%= stylesheet_link_tag 'openproject', media: "all" %>
 
   <%# Include CLI assets (development) or prod build assets %>
   <%= include_frontend_assets %>
@@ -82,12 +80,6 @@ See docs/COPYRIGHT.rdoc for more details.
                           media: :all,
                           skip_pipeline: true %>
 
-  <%= javascript_include_tag 'application' %>
-  <%= javascript_include_tag "locales/#{I18n.locale}" %>
-  <!-- Text formatting specific includes -->
-  <%= text_formatting_js_includes %>
-  <!-- Onboarding specific includes -->
-  <%= javascript_include_tag 'vendor/enjoyhint.js'%>
   <!-- project specific tags -->
   <%= call_hook :view_layouts_base_html_head %>
   <!-- page specific tags -->

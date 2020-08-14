@@ -19,14 +19,13 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 pt:
-  description_drill_down: "Mostrar detalhes"
+  description_drill_down: "Exibir detalhes"
   label_click_to_edit: "Clique para editar."
   label_columns: "Colunas"
-  label_count: "Quantidade"
+  label_count: "Contar"
   label_filter: "Filtro"
-  label_filter_add: "Adicionar Filtro"
+  label_filter_add: "Adicionar filtro"
   label_filter_plural: "Filtros"
   label_greater: ">"
   label_group_by: "Agrupar por"
@@ -35,17 +34,17 @@ pt:
   label_less: "<"
   label_no: "Não"
   label_none: "(sem dados)"
-  label_progress_bar_explanation: "A gerar relatório..."
-  label_really_delete_question: "Tem a certeza que quer apagar este relatório?"
+  label_progress_bar_explanation: "Gerando relatório..."
+  label_really_delete_question: "Tem certeza que deseja excluir este relatório?"
   label_report: "Relatório"
   label_rows: "Linhas"
-  label_saving: "A guardar..."
+  label_saving: "Salvando ..."
   label_sum: "Soma"
   label_yes: "Sim"
-  load_query_question: "O relatório terá %{size} células da tabela e pode levar algum tempo a processar. Quer tentar processá-lo?"
+  load_query_question: "Relatório terá %{size} células da tabela e pode levar algum tempo para processar. Você ainda quer tentar processá-lo?"
   units: "Unidades"
   validation_failure_date: "não é uma data válida"
-  validation_failure_integer: "não é um número inteiro válido"
+  validation_failure_integer: "não é um valor inteiro válido"
   reporting:
     group_by:
       selected_columns: "Colunas selecionadas"

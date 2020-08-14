@@ -1,10 +1,11 @@
 # Group Time Entries
 
 ## Actions
-| Link                | Description                                                          | Condition                                                                                           |
-|:-------------------:| -------------------------------------------------------------------- | ----------------------------------------------------------------                                    |
-| updateImmediately   | Directly perform edits on this time entry                            | **Permission**: 'edit time entries' or 'edit own time entries if the time entry belongs to the user |
-| delete              | Delete this time entry                                               | **Permission**: 'edit time entries' or 'edit own time entries if the time entry belongs to the user |
+| Link                | Description                                                                | Condition                                                                                           |
+|:-------------------:| -------------------------------------------------------------------------- | ----------------------------------------------------------------                                    |
+| updateImmediately   | Directly perform edits on this time entry                                  | **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user |
+| update              | Form endpoint that aids in preparing and performing edits on a TimeEntry   | **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user |
+| delete              | Delete this time entry                                                     | **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user |
 
 ## Linked Properties
 | Link          | Description                                                                                                                             | Type                | Constraints           | Supported operations | Condition                                 |

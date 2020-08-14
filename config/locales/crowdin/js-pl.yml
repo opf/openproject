@@ -167,7 +167,8 @@ pl:
       enterprise:
         trial:
           confirmation: "Potwierdzenie adresu e-mail"
-          confirmation_info: "Wysłaliśmy Ci wiadomość e-mail. Sprawdź swoje wiadomości e-mail i kliknij link potwierdzenia, aby rozpocząć 14-dniowy okres próbny."
+          confirmation_info: >
+            Wysłaliśmy Ci wiadomość e-mail %{date} na adres %{email}. Sprawdź swoją skrzynkę odbiorczą i kliknij link potwierdzający, aby rozpocząć 14-dniowy okres próbny.
           form:
             general_consent: >
               Przyjmuję <a target="_blank" href="%{link_terms}">warunki umowy</a> i <a target="_blank" href="%{link_privacy}">politykę prywatności</a>.
@@ -264,13 +265,13 @@ pl:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
+              Wersja zawiera różne nowe funkcje i ulepszenia: <br><br> <ul class="%{list_styling_class}"> <li><b>Szybsze rejestrowanie czasu pracy</b> na pakietach roboczych z widoku szczegółów lub listy.</li> <li><b>Ulepszone formatowanie tabel</b> w celu lepszej konfiguracji tabel w edytorze tekstu, np. szerokości, koloru, wyrównania lub wypełnienia komórki.</li> <li>Widok kart pakietów roboczych zawiera teraz również nazwę projektu.</li> <li>OpenProject jest teraz w <b>100% przetłumaczony na język słoweński</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 obsługuje teraz <b>BIM Collaboration Format (BCF)</b> – standard śledzenia otwartych problemów dla modeli BIM.<br><br> <ul> <li>Z łatwością twórz i <b>zarządzaj problemami BIM</b>, takimi jak kolizje, żądania i pytania w interaktywnym modelu 3D IFC i <b>udostępniaj je zespołowi projektowemu.</b></li> <li>Zintegruj OpenProject z ulubionym oprogramowaniem BIM za pomocą wszechstronnego <a target="_blank" href="%{bcf_api_link}">interfejsu API BCF REST.</a></li> <li>Importuj i eksportuj pliki BCF w formacie XML.</li> </ul>
+              OpenProject 10.5 obsługuje teraz <b>BIM Collaboration Format (BCF)</b> – standard śledzenia otwartych problemów dla modeli BIM.<br><br> <ul class="%{list_styling_class}"> <li>Z łatwością twórz i <b>zarządzaj problemami BIM</b>, takimi jak kolizje, żądania i pytania w interaktywnym modelu 3D IFC i <b>udostępniaj je zespołowi projektowemu.</b></li> <li>Zintegruj OpenProject z ulubionym oprogramowaniem BIM za pomocą wszechstronnego <a target="_blank" href="%{bcf_api_link}">interfejsu API BCF REST.</a></li> <li>Importuj i eksportuj pliki BCF w formacie XML.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -281,7 +282,7 @@ pl:
     label_add_row_before: "Dodaj wiersz przed"
     label_add_selected_columns: "Dodaj wybrane kolumny"
     label_added_by: "dodał"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Dodany przez <a href=%{authorLink}>%{author}</a> o %{age}"
     label_ago: "dni temu"
     label_all: "wszystkie"
     label_all_work_packages: "wszystkie pakiety pracy"
@@ -397,7 +398,7 @@ pl:
     label_sum_for: "Suma dla"
     label_subject: "Temat"
     label_this_week: "ten tydzień"
-    label_today: "dzisiaj"
+    label_today: "Today"
     label_time_entry_plural: "Czas pracy"
     label_up: "W górę"
     label_user_plural: "Użytkownicy"
@@ -583,6 +584,9 @@ pl:
       select_branch: 'Wybierz gałąź'
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
     project_menu_details: "Szczegóły"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '
@@ -748,6 +752,7 @@ pl:
         startDate: "Data rozpoczęcia"
         status: "Status"
         subject: "Temat"
+        subproject: "Podprojekt"
         title: "Tytuł"
         type: "Typ"
         updatedAt: "Aktualizacja"
@@ -793,6 +798,9 @@ pl:
           not_found: "Nie ma takiego widoku"
           duplicate_query_title: "Nazwa tego widoku już istnieje. Zmienić mimo to?"
         text_no_results: "Nie znaleziono żadnych pasujących widoków."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."
@@ -881,6 +889,9 @@ pl:
         has_children: "Pakiet roboczy zawiera %{childUnits}:"
         confirm_deletion_children: "Potwierdzam, że WSZYSTKIE elementy potomne pakietów roboczych z listy będą rekurencyjnie usuwane."
         deletes_children: "Wszystkie pakiety podrzędne i ich elementy potomne również będą rekursywnie usuwane."
+      destroy_time_entry:
+        title: "Potwierdź usunięcie wpisu"
+        text: "Na pewno chcesz skasować?"
     notice_no_results_to_display: "Brak widocznych wyników do wyświetlenia."
     notice_successful_create: "Tworzenie zakończone sukcesem."
     notice_successful_delete: "Usuwanie zakończone sukcesem."

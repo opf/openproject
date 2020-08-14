@@ -72,12 +72,13 @@ el:
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
       start_trial: 'Έναρξη δωρεάν δοκιμαστικής περιόδου'
       book_now: 'Κάντε κράτηση τώρα'
-      get_quote: 'Get a quote'
+      get_quote: 'Λάβετε μια προσφορά'
   announcements:
     show_until: Εμφάνιση μέχρι
     is_active: εμφανίζεται αυτή τη στιγμή
     is_inactive: δεν εμφανίζεται αυτή τη στιγμή
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Σε αυτήν την προβολή, μπορείτε να δημιουργήσετε προσαρμοσμένα κείμενα βοήθειας για προβολή χαρακτηριστικών. Όταν οριστεί, αυτά τα κείμενα μπορούν να προβληθούν κάνοντας κλικ στο παρακάτω εικονίδιο.'
     label_plural: 'Κείμενα βοήθειας χαρακτηριστικών'
     show_preview: 'Προεπισκόπηση κειμένου'
@@ -87,6 +88,10 @@ el:
     index:
       no_results_content_title: Αυτήν τη στιγμή δεν υπάρχουν λειτουργίες ταυτοποίησης.
       no_results_content_text: Δημιουργήστε μια νέα λειτουργία ταυτοποίησης
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Αυτή η φόρμα LDAP απαιτεί τεχνικές γνώσεις για την LDAP / Active Directory εγκατάσταση σας.
@@ -275,6 +280,7 @@ el:
     overview:
       no_results_title_text: Προς το παρόν δεν έχουν ανατεθεί πακέτα εργασίας σε αυτήν την έκδοση.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Προς το παρόν δεν υπάρχουν σελίδες wiki.
     index:
       no_results_content_text: Προσθέστε μια νέα σελίδα wiki
@@ -358,7 +364,7 @@ el:
         attr_mail: "Χαρακτηριστικό email"
         base_dn: "Base DN"
         host: "Διακομιστής"
-        onthefly: "Automatic user creation"
+        onthefly: "Αυτόματη δημιουργία χρήστη"
         port: "Θύρα"
       changeset:
         repository: "Αποθετήριο"
@@ -411,6 +417,7 @@ el:
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
+        templated: 'Template project'
       projects/status:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
@@ -482,6 +489,7 @@ el:
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
@@ -729,6 +737,9 @@ el:
     date: "Ημερομηνία"
     default_columns: "Προεπιλεγμένες στήλες"
     description: "Περιγραφή"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Εμφάνιση Αθροισμάτων"
     due_date: "Ημερομηνία λήξης"
     estimated_hours: "Εκτιμώμενος χρόνος"
@@ -879,6 +890,7 @@ el:
       - "Οκτ"
       - "Νοε"
       - "Δεκ"
+    abbr_week: 'Wk'
     day_names:
       - "Κυριακή"
       - "Δευτέρα"
@@ -1068,6 +1080,7 @@ el:
   error_cookie_missing: 'Τα cookie του OpenProject λείπουν. Παρακαλούμε σιγουρευτείτε ότι τα cookies είναι ενεργοποιημένα, καθώς αυτή η εφαρμογή δεν θα μπορεί να λειτουργήσει σωστά χωρίς αυτά.'
   error_custom_option_not_found: "Η επιλογή δεν υπάρχει."
   error_enterprise_activation_user_limit: "Ο λογαριασμός σας δεν ήταν δυνατό να ενεργοποιηθεί (επετεύχθη το όριο χρηστών). Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας για να αποκτήσετε πρόσβαση."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
@@ -1113,6 +1126,8 @@ el:
     work_package_edit: 'Το πακέτο εργασίας επεξεργάστηκε'
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1308,6 +1323,7 @@ el:
   label_delete_project: "Διαγραφή έργου"
   label_deleted: "διαγραμμένο"
   label_deleted_custom_field: "(διαγραμμένο προσαρμοσμένο πεδίο)"
+  label_deleted_custom_option: "(διαγραμμένη επιλογή)"
   label_descending: "Φθίνουσα"
   label_details: "Λεπτομέρειες"
   label_development_roadmap: "Χάρτης πορείας ανάπτυξης"
@@ -1325,7 +1341,7 @@ el:
   label_duplicate: "αντιγραφή"
   label_duplicates: "αντίγραφα"
   label_edit: "Επεξεργασία"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Επεξεργασία: %{x}"
   label_enable_multi_select: "Ενεργοποίηση πολλαπλής επιλογής"
   label_enabled_project_custom_fields: 'Ενεργοποίηση προσαρμοσμένων πεδίων'
   label_enabled_project_modules: 'Ενεργοποίηση ενοτήτων'
@@ -1619,6 +1635,7 @@ el:
   label_time_entry_plural: "Χρόνος που δαπανήθηκε"
   label_time_sheet_menu: "Χρονοπρόγραμμα"
   label_time_tracking: "Παρακολούθηση χρόνου"
+  label_projects_menu: "Έργα"
   label_today: "σήμερα"
   label_top_menu: "Επάνω μενού"
   label_topic_plural: "Θέματα"
@@ -1748,7 +1765,16 @@ el:
   mail_body_account_information: "Πληροφορίες του λογαριασμού σας"
   mail_body_account_information_external: "Μπορείτε να χρησιμοποιήσετε τον λογαριασμό %{value} για να συνδεθείτε."
   mail_body_lost_password: "Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:"
-  mail_body_register: "Για να ενεργοποιήσετε το λογαριασμό σας, επιλέξτε τον ακόλουθο σύνδεσμο:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} πακέτο(τα) εργασίας που έχουν ανατεθεί σε εσάς έχουν προθεσμία στις επόμενες %{days} ημέρες:"
   mail_body_group_reminder: "%{count} πακέτα εργασίας που έχουν ανατεθεί στην ομάδα \"%{group}\" έχουν προθεσμία στις επόμενες %{days} ημέρες:"
   mail_body_wiki_content_added: "Η σελίδα wiki '%{id}' προστέθηκε από τον %{author}."
@@ -1903,7 +1929,7 @@ el:
   permission_manage_project_activities: "Διαχείριση δραστηριοτήτων έργου"
   permission_manage_public_queries: "Διαχείριση δημόσιων προβολών"
   permission_manage_repository: "Διαχείριση αποθετηρίου"
-  permission_manage_subtasks: "Διαχείριση υποεργασιών"
+  permission_manage_subtasks: "Διαχείριση των ιεραρχιών πακέτων εργασίας"
   permission_manage_versions: "Διαχείριση εκδόσεων"
   permission_manage_wiki: "Διαχείριση wiki"
   permission_manage_wiki_menu: "Διαχείριση μενού wiki"
@@ -1938,6 +1964,12 @@ el:
       warning_one: Τα μέλη του έργου θα πρέπει να μεταφέρουν τα αποθετήρια του έργου.
       warning_two: Οι υπάρχοντες σύνδεσμοι για το έργο δεν λειτουργούν πλέον.
       title: Αλλαγή αναγνωριστικού του έργου
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Είστε σίγουροι ότι θέλετε να αρχειοθετήσετε το έργο %{name};"
       archived: "Αρχειοθετημένο"
@@ -1959,7 +1991,8 @@ el:
     assigned_to_role: "Ρόλος ανάθεσης"
     member_of_group: "Ομάδα ανάθεσης"
     assignee_or_group: "Ανάθεση σε ή ανήκει σε ομάδα"
-    subproject_id: "Υποέργο"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:
     at_identifier: 'στο %{identifier}'
@@ -2064,6 +2097,9 @@ el:
     url: "URL σε αποθετήριο"
     warnings:
       cannot_annotate: "Αυτό το αρχείο δεν μπορεί να σχολιαστεί."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Αναζήτηση ..."
   setting_email_delivery_method: "Μέθοδος αποστολής email"
   setting_sendmail_location: "Τοποθεσία του εκτελέσιμου sendmail"
@@ -2260,6 +2296,7 @@ el:
   text_journal_deleted_with_diff: "Το %{label} διαγράφηκε (%{link})"
   text_journal_set_to: "Το %{label} ορίστηκε σε %{value}"
   text_journal_set_with_diff: "Το %{label} ορίστηκε (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Το πιο πρόσφατο σχόλιο είναι: %{note}"
   text_length_between: "Μήκος μεταξύ %{min} και %{max} χαρακτήρων."
   text_line_separated: "Επιτρέπονται πολλαπλές τιμές (μία γραμμή για κάθε τιμή)."

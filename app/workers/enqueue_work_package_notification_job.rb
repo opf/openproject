@@ -49,6 +49,15 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
     # sending the notification. Our job here is done.
     return unless journal
 
+    # Send the notification on behalf of the predecessor in case it could not send it on its own
+    notify_for_wp_predecessor(journal)
+
+    notify_for_journal(journal)
+  end
+
+  private
+
+  def notify_for_journal(journal)
     # Do not deliver notifications if a follow-up journal will already have sent a notification
     # on behalf of this job.
     return if Journal::AggregatedJournal.hides_notifications?(journal.successor, journal)
@@ -56,7 +65,12 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
     notify_journal_complete(journal, @send_mails)
   end
 
-  private
+  def notify_for_wp_predecessor(aggregated)
+    return unless Journal::AggregatedJournal.hides_notifications?(aggregated, aggregated.predecessor)
+
+    aggregated_predecessor = find_aggregated_journal_for(aggregated.predecessor)
+    notify_journal_complete(aggregated_predecessor, @send_mails)
+  end
 
   def raw_journal
     @raw_journal ||= Journal.find_by(id: @journal_id)

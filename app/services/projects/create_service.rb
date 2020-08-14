@@ -33,6 +33,11 @@ module Projects
     def after_perform(attributes_call)
       attributes_call.result.add_member!(user, Role.in_new_project) unless user.admin?
 
+      OpenProject::Notifications.send(
+        OpenProject::Events::PROJECT_CREATED,
+        project: attributes_call.result
+      )
+
       super
     end
   end

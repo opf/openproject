@@ -47,10 +47,10 @@ describe ApplicationJob do
       end)
 
       RequestStore[:test_value] = 'my value'
-      expect { job.perform }.not_to change { RequestStore[:test_value] }
+      expect { job.perform_now }.not_to change { RequestStore[:test_value] }
 
       RequestStore[:test_value] = 'my value2'
-      expect { job.perform }.not_to change { RequestStore[:test_value] }
+      expect { job.perform_now }.not_to change { RequestStore[:test_value] }
 
       expect(RequestStore[:test_value]).to eq 'my value2'
     end

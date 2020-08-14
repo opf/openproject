@@ -100,7 +100,7 @@ class Attachment < ApplicationRecord
 
   # images are sent inline
   def inlineable?
-    is_plain_text? || is_image?
+    is_plain_text? || is_image? || is_pdf?
   end
 
   def is_plain_text?
@@ -249,6 +249,34 @@ class Attachment < ApplicationRecord
     rescue NameError
       false
     end
+  end
+
+  def self.pending_direct_uploads
+    where(digest: "", downloads: -1)
+  end
+
+  def self.create_pending_direct_upload(file_name:, author:, container: nil, content_type: nil, file_size: 0)
+    a = create(
+      container: container,
+      author: author,
+      content_type: content_type.presence || "application/octet-stream",
+      filesize: file_size,
+      digest: "",
+      downloads: -1
+    )
+
+    # We need to do it like this because `file` is an uploader which expects a File (not a string)
+    # to upload usually. But in this case the data has already been uploaded and we just point to it.
+    a[:file] = file_name
+
+    a.save!
+    a.reload # necessary so that the fog file uploader path is correct
+
+    a
+  end
+
+  def pending_direct_upload?
+    digest == "" && downloads == -1
   end
 
   private

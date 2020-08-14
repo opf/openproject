@@ -78,6 +78,7 @@ it:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'In questa vista, puoi creare testi guida personalizzati per la visualizzazione degli attributi. Quando definiti, questi testi possono essere visualizzati facendo clic sull''icona guida accanto all''attributo relativo.'
     label_plural: 'Testi guida degli attributi'
     show_preview: 'Anteprima testo'
@@ -87,6 +88,10 @@ it:
     index:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
       no_results_content_text: Crea una nuova modalità di autenticazione
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Questo form LDAP richiede una conoscenza tecnica dell'attuale setup LDAP / Active Directory. <br/>
@@ -107,17 +112,17 @@ it:
         OpenProject scansionerà solo il ramo fornito.
         Esempio: ou=utenti,dc=esempio,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Aggiungi un filtro RFC4515 opzionale da applicare ai risultati restituiti per gli utenti filtrati in LDAP.
+        Questa funzionalità può essere usata per limitare l'insieme di utenti che vengono trovati da OpenProject per l'autenticazione e la sincronizzazione di gruppo.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject filtrerà sempre tramite l'attributo di login fornito dall'utente al fine di identificare il record. Inserendo un filtro qui,
+        sarà concatenato con una AND. Come impostazione predefinita, verrà usato un jolly (objectClass=*) come filtro.
       onthefly_register: |
         Se selezioni questa spunta, OpenProject creerà automaticamente nuovi utenti dai loro record LDAP quando effettueranno la prima autenticazione con OpenProject.
         Lasciare vuota questa spunta se si vuole garantire ai soli account presenti su OpenProject di autenticarsi tramite LDAP!
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        Se abiliti la sincronizzazione di gruppo per questa connessione LDAP, gli utenti verranno creati automaticamente
+        in OpenProject per i gruppi sincronizzati. Senza di essa, solo gli account esistenti in OpenProject saranno aggiunti ai gruppi.
     connection_encryption: 'Crittografia connessione'
     system_account: 'Account di sistema'
     system_account_legend: |
@@ -230,8 +235,8 @@ it:
       no_results_content_text: Aggiungi una notizia
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'Questo utente è attualmente membro dei seguenti gruppi:'
+      no_results_title_text: Questo utente al momento non è un membro di alcun gruppo.
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
   prioritiies:
@@ -274,6 +279,7 @@ it:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Al momento non vi sono pagine wiki.
     index:
       no_results_content_text: Aggiungi una nuova pagina wiki
@@ -357,7 +363,7 @@ it:
         attr_mail: "Attributo email"
         base_dn: "Nome Dominio (DN) base"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Creazione automatica degli utenti"
         port: "Porta"
       changeset:
         repository: "Archivio"
@@ -410,6 +416,7 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
+        templated: 'Template project'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -481,6 +488,7 @@ it:
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"
@@ -728,6 +736,9 @@ it:
     date: "Data"
     default_columns: "Colonne predefinite"
     description: "Descrizione"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Visualizza somme"
     due_date: "Data di fine"
     estimated_hours: "Tempo stimato"
@@ -878,6 +889,7 @@ it:
       - "Ott"
       - "Nov"
       - "Dic"
+    abbr_week: 'Wk'
     day_names:
       - "Domenica"
       - "Lunedi"
@@ -1067,6 +1079,7 @@ it:
   error_cookie_missing: 'Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza.'
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
+  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valore selezionato non valido."
@@ -1112,6 +1125,8 @@ it:
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1307,6 +1322,7 @@ it:
   label_delete_project: "Elimina progetto"
   label_deleted: "cancellato"
   label_deleted_custom_field: "(campo personalizzato eliminato)"
+  label_deleted_custom_option: "(opzione eliminata)"
   label_descending: "Decrescente"
   label_details: "Dettagli"
   label_development_roadmap: "Tabella di marcia di sviluppo"
@@ -1324,7 +1340,7 @@ it:
   label_duplicate: "duplica"
   label_duplicates: "duplica"
   label_edit: "Modifica"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Modifica: %{x}"
   label_enable_multi_select: "Attiva/disattiva multiselezione"
   label_enabled_project_custom_fields: 'Campi personalizzati abilitati'
   label_enabled_project_modules: 'Moduli abilitati'
@@ -1618,6 +1634,7 @@ it:
   label_time_entry_plural: "Tempo speso"
   label_time_sheet_menu: "Foglio orario"
   label_time_tracking: "Monitoraggio tempi"
+  label_projects_menu: "Progetti"
   label_today: "oggi"
   label_top_menu: "Top Menu"
   label_topic_plural: "Argomenti"
@@ -1747,7 +1764,16 @@ it:
   mail_body_account_information: "Informazioni sul tuo account"
   mail_body_account_information_external: "Puoi usare il tuo %{value} account per accedere."
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
-  mail_body_register: "Per attivare il tuo account, clicca sul seguente link:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} macro-attività a te assegnata/e scadono nei prossimi %{days} giorni:"
   mail_body_group_reminder: "%{count} macro-attività assegnata/e al gruppo \"%{group}\" scadono nei prossimi %{days} giorni:"
   mail_body_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta da %{author}."
@@ -1903,7 +1929,7 @@ it:
   permission_manage_project_activities: "Gestire le attività del progetto"
   permission_manage_public_queries: "Gestisci viste pubbliche"
   permission_manage_repository: "Gestire gli archivi"
-  permission_manage_subtasks: "Gestire sotto-attività"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Gestire le versioni"
   permission_manage_wiki: "Gestire le pagine wiki"
   permission_manage_wiki_menu: "Gestire i menu wiki"
@@ -1938,6 +1964,12 @@ it:
       warning_one: I membri del progetto dovranno trasferire gli archivi del progetto.
       warning_two: I collegamenti esistenti al progetto non funzioneranno più.
       title: Modifica l'identificatore del progetto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sicuro di voler archiviare il progetto '%{name}'?"
       archived: "Archiviato"
@@ -1959,7 +1991,8 @@ it:
     assigned_to_role: "Ruolo dell'incaricato"
     member_of_group: "Gruppo dell'incaricato"
     assignee_or_group: "Assegnatario o gruppo di appartenenza"
-    subproject_id: "Sottoprogetto"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Nome o identificativo"
   repositories:
     at_identifier: 'presso %{identifier}'
@@ -2064,6 +2097,9 @@ it:
     url: "URL all'archivio"
     warnings:
       cannot_annotate: "Questo file non può essere annotato."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Ricerca..."
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
@@ -2259,6 +2295,7 @@ it:
   text_journal_deleted_with_diff: "%{label} cancellato (%{link})"
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: "insieme di %{label} (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "L'ultimo commento è: %{note}"
   text_length_between: "Lunghezza compresa tra %{min} e %{max} caratteri."
   text_line_separated: "Valori multipli consentiti (una linea per ogni valore)."

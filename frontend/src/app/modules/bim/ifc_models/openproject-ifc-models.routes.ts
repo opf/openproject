@@ -33,7 +33,7 @@ import {EmptyComponent} from "core-app/modules/bim/ifc_models/empty/empty-compon
 import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
 import {BcfListContainerComponent} from "core-app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
-
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -42,7 +42,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     url: '/bcf?query_props&models&viewpoint',
     abstract: true,
     component: WorkPackagesBaseComponent,
-    redirectTo: 'bim.partitioned.split',
+    redirectTo: 'bim.partitioned',
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
       query_props: { type: 'opQueryString', dynamic: true },
@@ -54,12 +54,22 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     name: 'bim.partitioned',
     url: '',
     component: IFCViewerPageComponent,
-    redirectTo: 'bim.partitioned.split',
+    redirectTo: (transition) => {
+      const viewerBridgeService = transition.injector().get(ViewerBridgeService);
+
+      return viewerBridgeService.shouldShowViewer ?
+              'bim.partitioned.split' :
+              'bim.partitioned.list';
+    },
   },
   {
     name: 'bim.partitioned.list',
-    url: '/list',
+    url: '/list?{cards:bool}',
+    params: {
+      cards: true
+    },
     data: {
+      baseRoute: 'bim.partitioned.list',
       newRoute: 'bim.partitioned.list.new',
       partition: '-left-only'
     },
@@ -70,8 +80,12 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'bim.partitioned.split',
-    url: '/split',
+    url: '/split?{cards:bool}',
+    params: {
+      cards: true
+    },
     data: {
+      baseRoute: 'bim.partitioned.split',
       partition: '-split',
       newRoute: 'bim.partitioned.split.new',
       bodyClasses: 'router--work-packages-partitioned-split-view'
@@ -97,6 +111,25 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: IFCViewerComponent }
     }
   },
+  {
+    name: 'bim.partitioned.show',
+    url: '/show/{workPackageId:[0-9]+}?{cards:bool}',
+    data: {
+      baseRoute: 'bim.partitioned.list',
+      partition: '-left-only'
+    },
+    reloadOnSearch: false,
+    redirectTo: 'bim.partitioned.show.details',
+  },
+  // BCF single view for list
+  ...makeSplitViewRoutes(
+    'bim.partitioned.list',
+    undefined,
+    WorkPackageSplitViewComponent,
+    undefined,
+    true,
+    'bim.partitioned.show',
+  ),
   // BCF single view for list
   ...makeSplitViewRoutes(
     'bim.partitioned.list',

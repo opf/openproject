@@ -4,12 +4,11 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Board, BoardType} from "core-app/modules/boards/board/board";
-import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {GonService} from "core-app/modules/common/gon/gon.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface CreateBoardParams {
   type:BoardType;
@@ -20,21 +19,21 @@ export interface CreateBoardParams {
 @Injectable({ providedIn: 'root' })
 export class BoardService {
 
+  public currentBoard$:BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
+
   private loadAllPromise:Promise<Board[]>|undefined;
 
   private text = {
     unnamed_board: this.I18n.t('js.boards.label_unnamed_board'),
     action_board: (attr:string) => this.I18n.t('js.boards.board_type.action_by_attribute',
-      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr )}),
+      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr) }),
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 
-  constructor(protected boardDm:BoardDmService,
+  constructor(protected apiV3Service:APIV3Service,
               protected PathHelper:PathHelperService,
-              protected Gon:GonService,
               protected CurrentProject:CurrentProjectService,
               protected halResourceService:HalResourceService,
-              protected boardCache:BoardCacheService,
               protected boardActions:BoardActionsRegistryService,
               protected I18n:I18nService,
               protected boardsList:BoardListsService) {
@@ -50,13 +49,11 @@ export class BoardService {
       return this.loadAllPromise;
     }
 
-    return this.loadAllPromise = this.boardDm
-      .allInScope()
-      .toPromise()
-      .then((boards) => {
-        boards.forEach(b => this.buildOrderAndUpdate(b));
-        return boards;
-      });
+    return this.loadAllPromise = this
+      .apiV3Service
+      .boards
+      .allInScope(projectIdentifier!)
+      .toPromise();
   }
 
   /**
@@ -70,14 +67,13 @@ export class BoardService {
   /**
    * Save the changes to the board
    */
-  public save(board:Board) {
+  public save(board:Board):Observable<Board> {
     this.reorderWidgets(board);
-    return this.boardDm.save(board)
-      .then(board => {
-        board.sortWidgets();
-        this.boardCache.update(board);
-        return board;
-      });
+    return this
+      .apiV3Service
+      .boards
+      .id(board)
+      .save(board);
   }
 
   /**
@@ -85,23 +81,29 @@ export class BoardService {
    * @param name
    */
   public async create(params:CreateBoardParams):Promise<Board> {
-    const board = await this.boardDm.create(params.type, this.boardName(params), params.attribute);
+    const board = await this
+      .apiV3Service
+      .boards
+      .create(params.type, this.boardName(params), this.CurrentProject.identifier!, params.attribute).toPromise();
 
     if (params.type === 'free') {
       await this.boardsList.addFreeQuery(board, { name: this.text.unnamed_list });
     } else {
-      await this.boardActions.get(params.attribute!).addActionQueries(board);
+      await this.boardActions.get(params.attribute!).addInitialColumnsForAction(board);
     }
 
-    await this.save(board);
+    await this.save(board).toPromise();
 
     return board;
   }
 
-  public delete(board:Board):Promise<void> {
-    return this.boardDm
-      .delete(board)
-      .then(() => this.boardCache.clearSome(board.id!));
+  public delete(board:Board):Promise<unknown> {
+    return this
+      .apiV3Service
+      .boards
+      .id(board)
+      .delete()
+      .toPromise();
   }
 
   /**
@@ -130,13 +132,5 @@ export class BoardService {
       el.endColumn = index + 2;
       return el;
     });
-  }
-
-  /**
-   * Put the board widgets in correct order and update cache
-   */
-  private buildOrderAndUpdate(board:Board) {
-    board.sortWidgets();
-    this.boardCache.update(board);
   }
 }

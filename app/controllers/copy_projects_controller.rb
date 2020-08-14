@@ -36,10 +36,10 @@ class CopyProjectsController < ApplicationController
     call = project_copy(@copy_project)
 
     if call.success?
-      enqueue_copy_job
+      job = enqueue_copy_job
 
       copy_started_notice
-      redirect_to origin
+      redirect_to job_status_path job.job_id
     else
       @errors = call.errors
       render action: copy_action
@@ -47,7 +47,10 @@ class CopyProjectsController < ApplicationController
   end
 
   def copy_project
-    @copy_project = Project.copy_attributes(@project)
+    @copy_project = Projects::CopyService
+      .new(user: current_user, source: @project)
+      .call(target_project_params: {}, attributes_only: true)
+      .result
 
     if @copy_project
       project_copy(@copy_project, EmptyContract)

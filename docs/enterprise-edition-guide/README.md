@@ -25,8 +25,7 @@ The Enterprise Edition builds on top of the free Community Edition. An upgrade i
 ## Frequently asked questions - FAQ 
 
 
-
-### How can I upgrade to the OpenProject Enterprise Edition?**
+### How can I upgrade to the OpenProject Enterprise Edition?
 
 The Enterprise Edition is an upgrade of the self-hosted Community Edition. When you are already using the Community Edition, you can purchase an Enterprise Edition license to upgrade your OpenProject environment to the Enterprise Edition. To do this, follow these steps:
 
@@ -35,10 +34,11 @@ The Enterprise Edition is an upgrade of the self-hosted Community Edition. When 
 3. Follow the steps to purchase the Enterprise Edition license.You will then receive an Enterprise Edition license key by email which you can use to upgrade your Community Edition to the Enterprise Edition.If you prefer to test the Enterprise Edition before purchasing, you can request a 14 day trial license from https://www.openproject.org/enterprise-edition/. Simply click on "Get free trial license" to receive a 14 day trial license. After 14 days it will automatically downgraded to the community edition. 
 
 
-
-### Is it possible to buy and upgrade to enterprise version on a community edition already installed?**
+### Is it possible to buy and upgrade to enterprise version on a community edition already installed?
 
 Yes, you can upgrade your existing OpenProject Community Edition to the Enterprise Edition. You can then continue to use the same data as before but also use the premium features. When you purchase the Enterprise Edition, you receive an Enterprise Edition license. You can use this license to upgrade your Community Edition.
+To upgrade your Community installation, navigate to your system -> Administration -> Enterprise Edition. Here, you can simply click the green Start free trial button. You can then trial the Enterprise Edition 14 days for free before booking. If you like the premium features and want to continue, you can easily book the Enterprise version via the Enterprise Edition menu in the Administration. Find more information [here](https://www.openproject.org/enterprise-edition-upgrade-test-free/).
+
 
 ### Do you have a reseller program for OpenProject?
 

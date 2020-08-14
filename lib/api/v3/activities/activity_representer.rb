@@ -107,11 +107,7 @@ module API
         private
 
         def current_user_allowed_to_edit?
-          (current_user_allowed_to(:edit_own_work_package_notes,
-                                   context: represented.journable.project) &&
-            represented.editable_by?(current_user)) ||
-            current_user_allowed_to(:edit_work_package_notes,
-                                    context: represented.journable.project)
+          represented.editable_by?(current_user)
         end
 
         def render_details(journal, no_html: false)

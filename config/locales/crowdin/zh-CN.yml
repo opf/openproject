@@ -78,6 +78,7 @@ zh-CN:
     is_active: 当前已显示
     is_inactive: 当前未显示
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: '在此视图中, 您可以为属性视图创建自定义帮助文本。定义后, 可以通过单击属性旁边的帮助图标来显示帮助文本。'
     label_plural: '属性帮助文本'
     show_preview: '预览文本'
@@ -87,6 +88,10 @@ zh-CN:
     index:
       no_results_content_title: 目前是非身份验证模式。
       no_results_content_text: 创建一个新的身份验证模式
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       此 LDAP 表单需要您具备 LDAP / Active Directory 设置的技术知识。
@@ -108,17 +113,15 @@ zh-CN:
         OpenProject 将仅在此子树中筛选提供的用户名。
         示例：ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        添加一个可选的 RFC4515 筛选器以应用于为 LDAP 中的筛选用户返回的结果。
+        这可以用于限制 OpenProject 为身份验证和组同步找到的用户集。
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject 将始终筛选用户提供的登录属性来识别记录。如果您在这里提供筛选器，它将与 AND 串联。默认情况下，将使用“全部捕获”(objectClass=*) 作为筛选器。
       onthefly_register: |
         如果选中此框，OpenProject 将在新用户首次向 OpenProject 验证身份时从其 LDAP 条目创建这些用户。
         不选中此框则会仅允许 OpenProject 中的现有帐户通过 LDAP 验证身份！
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        如果您为此 LDAP 连接启用组同步，还会在 OpenProject 中为同步的组自动创建用户。如果不启用，只有 OpenProject 中的现有帐户会被添加到组中。
     connection_encryption: '连接加密'
     system_account: '系统帐户'
     system_account_legend: |
@@ -231,8 +234,8 @@ zh-CN:
       no_results_content_text: 添加新闻项
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: '此用户当前是以下组的成员：'
+      no_results_title_text: 此用户当前不是任何组的成员。
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
   prioritiies:
@@ -275,6 +278,7 @@ zh-CN:
     overview:
       no_results_title_text: 目前没有工作包分配给此版本。
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: 目前没有 wiki 页面。
     index:
       no_results_content_text: 添加一个新的 wiki 页面
@@ -357,7 +361,7 @@ zh-CN:
         attr_mail: "电子邮件属性"
         base_dn: "基本 DN"
         host: "主机"
-        onthefly: "Automatic user creation"
+        onthefly: "自动创建用户"
         port: "端口"
       changeset:
         repository: "代码库"
@@ -410,6 +414,7 @@ zh-CN:
         types: "类型"
         versions: "版本"
         work_packages: "工作包"
+        templated: 'Template project'
       projects/status:
         code: '状态'
         explanation: '状态描述'
@@ -481,6 +486,7 @@ zh-CN:
         parent_work_package: "父"
         priority: "优先级"
         progress: "进度 (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "已耗时间"
         spent_time: "已耗时间"
         subproject: "子项目"
@@ -725,6 +731,9 @@ zh-CN:
     date: "日期"
     default_columns: "默认的列"
     description: "描述"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "显示汇总"
     due_date: "完成日期"
     estimated_hours: "估计的时间"
@@ -875,6 +884,7 @@ zh-CN:
       - "10月"
       - "11月"
       - "12月"
+    abbr_week: 'Wk'
     day_names:
       - "星期日"
       - "星期一"
@@ -1052,6 +1062,7 @@ zh-CN:
   error_cookie_missing: 'OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。'
   error_custom_option_not_found: "选项不存在。"
   error_enterprise_activation_user_limit: "无法激活您的帐户 (已达到用户限制)。请与管理员联系以获取访问权限。"
+  error_enterprise_token_invalid_domain: "企业版未激活。您的企业版令牌的域 (%{actual}) 与系统的主机名不匹配 (%{expected})。"
   error_failed_to_delete_entry: '无法删除此条目。'
   error_in_dependent: "尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}"
   error_invalid_selected_value: "选中的值无效。"
@@ -1097,6 +1108,8 @@ zh-CN:
     work_package_edit: '编辑工作包'
     work_package_note: '添加工作包注释'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "原子"
       csv: "CSV"
@@ -1292,6 +1305,7 @@ zh-CN:
   label_delete_project: "删除项目"
   label_deleted: "已删除"
   label_deleted_custom_field: "（删除自定义字段）"
+  label_deleted_custom_option: "（删除的选项）"
   label_descending: "降序"
   label_details: "详细信息"
   label_development_roadmap: "发展蓝图"
@@ -1309,7 +1323,7 @@ zh-CN:
   label_duplicate: "重复"
   label_duplicates: "复制"
   label_edit: "编辑"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "编辑：%{x}"
   label_enable_multi_select: "切换多选"
   label_enabled_project_custom_fields: '启用自定义字段'
   label_enabled_project_modules: '启用的模块'
@@ -1603,6 +1617,7 @@ zh-CN:
   label_time_entry_plural: "已耗时间"
   label_time_sheet_menu: "时间表"
   label_time_tracking: "时间跟踪"
+  label_projects_menu: "项目"
   label_today: "今天"
   label_top_menu: "顶部的菜单"
   label_topic_plural: "主题"
@@ -1728,7 +1743,16 @@ zh-CN:
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
   mail_body_lost_password: "若要更改你的密码，请单击下面的链接："
-  mail_body_register: "若要激活您的帐户，请单击下面的链接："
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
   mail_body_group_reminder: "%{count} 个分配给组“%{group}”的工作包将在 %{days} 天后到期："
   mail_body_wiki_content_added: "'%{id}' wiki页面已经由%{author} 添加。"
@@ -1882,7 +1906,7 @@ zh-CN:
   permission_manage_project_activities: "管理项目活动"
   permission_manage_public_queries: "管理公共查询"
   permission_manage_repository: "管理代码库"
-  permission_manage_subtasks: "管理子任务"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "管理版本"
   permission_manage_wiki: "管理 wiki"
   permission_manage_wiki_menu: "管理 wiki 菜单"
@@ -1917,6 +1941,12 @@ zh-CN:
       warning_one: 项目的成员将重新迁移至项目的存储库。
       warning_two: 该项目的现有链接将不再有效。
       title: 更改项目的标识符
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "是否确定想要存档项目 '%{name}'？"
       archived: "已存档"
@@ -1938,7 +1968,8 @@ zh-CN:
     assigned_to_role: "指定人角色"
     member_of_group: "指定人用户组"
     assignee_or_group: "受让人或所属组"
-    subproject_id: "子项目"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "名称或标识符"
   repositories:
     at_identifier: '在 %{identifier}'
@@ -2041,6 +2072,9 @@ zh-CN:
     url: "版本的 URL"
     warnings:
       cannot_annotate: "此文件不能进行注释。"
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "搜索"
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
@@ -2236,6 +2270,7 @@ zh-CN:
   text_journal_deleted_with_diff: "%{label} 已删除 (%{link})"
   text_journal_set_to: "%{label} 设置为 %{value}"
   text_journal_set_with_diff: "%{label} 设置 (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "最新的注释是: %{note}"
   text_length_between: "长度介于 %{min} 和 %{max} 个字符。"
   text_line_separated: "允许有多个值 （每行一个值）。"

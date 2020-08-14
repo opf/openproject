@@ -32,10 +32,8 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeWhile} from 'rxjs/operators';
-import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
@@ -45,10 +43,12 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import * as URI from 'urijs';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
-  public successState:string = this.$state.current.data.baseRoute + '.details';
+  public successState:string = splitViewRoute(this.$state);
   public cancelState:string = this.$state.current.data.baseRoute;
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
@@ -77,10 +77,9 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
               protected readonly wpCreate:WorkPackageCreateService,
               protected readonly wpViewFocus:WorkPackageViewFocusService,
               protected readonly wpTableFilters:WorkPackageViewFiltersService,
-              protected readonly wpCacheService:WorkPackageCacheService,
               protected readonly pathHelper:PathHelperService,
-              protected readonly cdRef:ChangeDetectorRef,
-              protected readonly RootDm:RootDmService) {
+              protected readonly apiV3Service:APIV3Service,
+              protected readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -92,7 +91,6 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
   public ngOnDestroy() {
     super.ngOnDestroy();
-    this.editForm.destroy();
   }
 
   public switchToFullscreen() {
@@ -102,7 +100,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
     let { savedResource, isInitial } = params;
 
-    this.editForm?.stop();
+    this.editForm?.cancel(false);
 
     if (this.successState) {
       this.$state.go(this.successState, { workPackageId: savedResource.id })
@@ -124,15 +122,19 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
         this.setTitle();
 
         if (this.stateParams['parent_id']) {
-          this.newWorkPackage.parent = {
-            href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path
-          };
+          changeset.setValue(
+            'parent',
+            { href: this.apiV3Service.work_packages.id(this.stateParams['parent_id']).path }
+          );
         }
 
         // Load the parent simply to display the type name :-/
         if (this.stateParams['parent_id']) {
-          this.wpCacheService.loadWorkPackage(this.stateParams['parent_id'])
-            .values$()
+          this
+            .apiV3Service
+            .work_packages
+            .id(this.stateParams['parent_id'])
+            .get()
             .pipe(
               this.untilDestroyed()
             )
@@ -144,7 +146,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
       })
       .catch((error:any) => {
         if (error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
-          this.RootDm.load().then((root:RootResource) => {
+          this.apiV3Service.root.get().subscribe((root:RootResource) => {
             if (!root.user) {
               // Not logged in
               let url = URI(this.pathHelper.loginPath());

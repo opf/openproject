@@ -5,12 +5,13 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-resource';
 import { take } from 'rxjs/operators';
 import { FormResource } from "core-app/modules/hal/resources/form-resource";
-import { TimeEntryDmService } from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { Moment } from 'moment';
 import { TimeEntryCreateModal } from "core-app/modules/time_entries/create/create.modal";
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class TimeEntryCreateService {
@@ -18,7 +19,8 @@ export class TimeEntryCreateService {
   constructor(readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly halResource:HalResourceService,
-    readonly timeEntryDm:TimeEntryDmService,
+    readonly apiV3Service:APIV3Service,
+    readonly schemaCache:SchemaCacheService,
     protected halEditing:HalResourceEditingService,
     readonly i18n:I18nService) {
   }
@@ -28,7 +30,7 @@ export class TimeEntryCreateService {
       this
         .createNewTimeEntry(date, wp)
         .then(changeset => {
-          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { entry: changeset.pristineResource, showWorkPackageField: showWorkPackageField });
+          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { changeset: changeset, showWorkPackageField: showWorkPackageField });
 
           modal
             .closingEvent
@@ -40,7 +42,6 @@ export class TimeEntryCreateService {
                 reject();
               }
             });
-
         });
     });
   }
@@ -58,7 +59,13 @@ export class TimeEntryCreateService {
       };
     }
 
-    return this.timeEntryDm.createForm(payload).then(form => {
+    return this
+      .apiV3Service
+      .time_entries
+      .form
+      .post(payload)
+      .toPromise()
+      .then(form => {
       return this.fromCreateForm(form);
     });
   }
@@ -72,8 +79,7 @@ export class TimeEntryCreateService {
   private initializeNewResource(form:FormResource) {
     let entry = this.halResource.createHalResourceOfType<TimeEntryResource>('TimeEntry', form.payload.$plain());
 
-    entry.$links['schema'] = form.schema;
-    entry.overriddenSchema = form.schema;
+    entry.$links['schema'] = { href: 'new' };
 
     entry['_type'] = 'TimeEntry';
     entry['id'] = 'new';
@@ -83,10 +89,18 @@ export class TimeEntryCreateService {
     entry['update'] = entry.$links['update'] = form.$links.self;
     // Use POST /work_packages for saving link
     entry['updateImmediately'] = entry.$links['updateImmediately'] = (payload:{}) => {
-      return this.timeEntryDm.create(payload);
+      return this
+        .apiV3Service
+        .time_entries
+        .post(payload)
+        .toPromise();
     };
 
     entry.state.putValue(entry);
+    // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
+    // the editability.
+    // It would be better if the edit field could simply rely on the changeset if it exists.
+    this.schemaCache.update(entry, form.schema);
 
     return entry;
   }

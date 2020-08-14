@@ -47,11 +47,25 @@ module OpenProject::Plugins
     end
 
     def self.providers_for(strategy)
-      filtered_strategies strategies[strategy_key(strategy)].map(&:call).flatten.map(&:to_hash)
+      matching = Array(strategies[strategy_key(strategy)])
+      filtered_strategies matching.map(&:call).flatten.map(&:to_hash)
+    end
+
+    def self.login_provider_for(user)
+      return unless user.identity_url
+
+      provider_name = user.identity_url.split(':').first
+      find_provider_by_name(provider_name)
+    end
+
+    def self.find_provider_by_name(provider_name)
+      providers.detect { |hash| hash[:name].to_s == provider_name.to_s }
     end
 
     def self.providers
-      filtered_strategies strategies.values.flatten.map(&:call).flatten.map(&:to_hash)
+      RequestStore.fetch(:openproject_omniauth_filtered_strategies) do
+        filtered_strategies strategies.values.flatten.map(&:call).flatten.map(&:to_hash)
+      end
     end
 
     def self.filtered_strategies(options)
@@ -67,6 +81,7 @@ module OpenProject::Plugins
 
     def self.strategy_key(strategy)
       return strategy if strategy.is_a? Symbol
+      return strategy.to_sym if strategy.is_a? String
 
       name = strategy.name.demodulize
       camelization = OmniAuth.config.camelizations.select do |_k, v|

@@ -22,6 +22,7 @@ ko:
       export: '내보내기'
       import_update_comment: '(BCF 가져오기에서 업데이트됨)'
       import_failed: 'BCF 파일을 가져올 수 없음: %{error}'
+      import_failed_unsupported_bcf_version: 'BCF 파일을 읽지 못함: 해당 BCF 버전이 지원되지 않습니다. 버전이 %{minimal_version} 이상인지 확인하세요.'
       import_successful: '%{count}개 BCF 이슈 가져옴'
       import_canceled: 'BCF-XML 가져오기가 취소되었습니다.'
       type_not_active: "이 프로젝트에 대해 해당 이슈 유형이 활성화되지 않았습니다."
@@ -65,6 +66,7 @@ ko:
   project_module_bim: "BCF"
   permission_view_linked_issues: "BCF 이슈 보기"
   permission_manage_bcf: "BCF 이슈 가져오기 및 관리"
+  permission_delete_bcf: "BCF 이슈 삭제"
   oauth:
     scopes:
       bcf_v2_1: "BCF v2.1 API에 대한 전체 액세스"
@@ -97,6 +99,8 @@ ko:
           snapshot_type_unsupported: "snapshot_type은 'png' 또는 'jpg'여야 합니다."
           snapshot_data_blank: "snapshot_data를 제공해야 합니다."
           unsupported_key: "지원되지 않는 json 속성이 포함되어 있습니다."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC 모델'
     label_new_ifc_model: '새 IFC 모델'

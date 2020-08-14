@@ -18,4 +18,8 @@ fr:
         manage: 'Gérer les modèles'
       views:
         viewer: 'Visionneuse'
-        split: 'Visionneuse et cartes'
+        split: 'Viewer and table'
+        split_cards: 'Visionneuse et cartes'
+    revit:
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

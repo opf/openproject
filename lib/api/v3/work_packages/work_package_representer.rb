@@ -329,6 +329,10 @@ module API
 
         formattable_property :description
 
+        property :schedule_manually,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.schedule_manually? }
+
         date_property :start_date,
                       skip_render: ->(represented:, **) {
                         represented.milestone?
@@ -359,6 +363,18 @@ module API
                       skip_render: ->(represented:, **) {
                         !represented.milestone?
                       }
+
+        date_property :derived_start_date,
+                      skip_render: ->(represented:, **) {
+                        represented.milestone?
+                      },
+                      uncacheable: true
+
+        date_property :derived_due_date,
+                      skip_render: ->(represented:, **) {
+                        represented.milestone?
+                      },
+                      uncacheable: true
 
         property :estimated_time,
                  exec_context: :decorator,
@@ -394,16 +410,6 @@ module API
         date_time_property :created_at
 
         date_time_property :updated_at
-
-        property :watchers,
-                 embedded: true,
-                 exec_context: :decorator,
-                 uncacheable: true,
-                 if: ->(*) {
-                   current_user_allowed_to(:view_work_package_watchers,
-                                           context: represented.project) &&
-                     embed_links
-                 }
 
         property :relations,
                  embedded: true,
@@ -509,16 +515,6 @@ module API
           super
         end
 
-        def watchers
-          # TODO/LEGACY: why do we need to ensure a specific order here?
-          watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
-          self_link = api_v3_paths.work_package_watchers(represented.id)
-
-          Users::UserCollectionRepresenter.new(watchers,
-                                               self_link,
-                                               current_user: current_user)
-        end
-
         def current_user_watcher?
           represented.watchers.any? { |w| w.user_id == current_user.id }
         end
@@ -542,6 +538,10 @@ module API
 
         def visible_children
           @visible_children ||= represented.children.select(&:visible?)
+        end
+
+        def schedule_manually=(value)
+          represented.schedule_manually = value
         end
 
         def estimated_time=(value)

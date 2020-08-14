@@ -54,17 +54,11 @@ require('@uirouter/angular');
 // Jquery UI
 require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position.js');
-require('jquery-ui/ui/widgets/datepicker.js');
-require('jquery-ui/ui/widgets/dialog.js');
-require('jquery-ui/ui/widgets/autocomplete.js');
+require('jquery-ui/ui/disable-selection.js');
 require('jquery-ui/ui/widgets/sortable.js');
-require('jquery-ui/ui/widgets/tooltip.js');
-require('./misc/datepicker-defaults');
-
-require('jquery-ui/ui/i18n/datepicker-en-GB.js');
-require('jquery-ui/ui/i18n/datepicker-de.js');
-
+require('jquery-ui/ui/widgets/autocomplete.js');
 require('jquery-ui/ui/widgets/dialog.js');
+require('jquery-ui/ui/widgets/tooltip.js');
 
 require('expose-loader?moment!moment');
 require('moment/locale/en-gb.js');
@@ -81,7 +75,8 @@ require('moment-timezone/builds/moment-timezone-with-data.min.js');
 require('expose-loader?URI!urijs');
 require('urijs/src/URITemplate');
 
-require("expose-loader?I18n!../vendor/i18n");
+require("expose-loader?I18n!core-vendor/i18n");
 
 // Localization for fullcalendar
-require("@fullcalendar/core/locales-all.min");
+require("@fullcalendar/core/locales-all");
+

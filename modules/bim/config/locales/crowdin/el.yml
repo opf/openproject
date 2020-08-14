@@ -23,6 +23,7 @@ el:
       export: 'Εξαγωγή'
       import_update_comment: '(Ενημερώθηκε στην εισαγωγή BCF)'
       import_failed: 'Δεν είναι δυνατή η εισαγωγή του BCF αρχείου: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Εισήχθησαν %{count} ζητήματα BCF'
       import_canceled: 'η εισαγωγή BCF-XML ακυρώθηκε.'
       type_not_active: "Ο τύπος του ζητήματος δεν είναι ενεργοποιημένος για αυτό το έργο."
@@ -30,7 +31,7 @@ el:
         num_issues_found: '%{x_bcf_issues} περιέχονται στο αρχείο BCF-XML, οι λεπτομέρειες τους παρατίθενται παρακάτω.'
         button_prepare: 'Προετοιμασία εισαγωγής'
         button_perform_import: 'Επιβεβαιώση εισαγωγής'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Προχωρήστε με εισαγωγή'
         button_back_to_list: 'Επιστροφή στη λίστα'
         no_permission_to_add_members: 'Δεν έχετε επαρκή δικαιώματα για να τους προσθέσετε ως μέλη αυτού του έργου.'
         contact_project_admin: 'Επικοινωνήστε με τον διαχειριστή έργου σας για να τους προσθέσετε ως μέλη και να επανεκκινήσετε την εισαγωγή.'
@@ -66,6 +67,7 @@ el:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Προβολή ζητημάτων BCF"
   permission_manage_bcf: "Εισαγωγή και διαχείριση ζητημάτων BCF"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Πλήρης πρόσβαση στο BCF v2.1 API"
@@ -98,6 +100,8 @@ el:
           snapshot_type_unsupported: "το snapshot_type πρέπει να είναι είτε 'png' ή 'jpg'."
           snapshot_data_blank: "το snapshot_data πρέπει να παρέχεται."
           unsupported_key: "Συμπεριλαμβάνεται μια μη υποστηριζόμενη ιδιότητα json."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'Μοντέλα IFC'
     label_new_ifc_model: 'Νέο μοντέλο IFC'

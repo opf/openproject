@@ -28,6 +28,7 @@ The package is available for the following Linux distributions:
 
 | Distribution (**64 bits only**)             |
 | ------------------------------------------- |
+| [Ubuntu 20.04 Focal](#ubuntu-2004)  |
 | [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
 | [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
 | [Debian 10 Buster](#debian-10)              |
@@ -49,6 +50,30 @@ x86_64
 </div>
 
 ## Ubuntu Installation
+
+### Ubuntu 20.04
+
+Import the PGP key used to sign our packages:
+
+```bash
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+```
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/ubuntu/20.04.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo apt-get update
+sudo apt-get install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
 ### Ubuntu 18.04
 
@@ -214,6 +239,8 @@ sudo zypper install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
+**Note:** For SLES12, we do not provide required dependencies for full-text extraction of attachments. If you need this feature, please install the required dependencies (`catdoc unrtf poppler-utils tesseract-ocr`) manually. For more information, [please see the plaintext gem](https://github.com/planio-gmbh/plaintext). Once installed, check `Administration > Information` to see if OpenProject is able to pick up these dependencies.
+
 [initial-config]: #initial-configuration
 
 # Initial Configuration
@@ -339,7 +366,11 @@ The installer will not set up an external web server for accessing. You will nee
 
 Only choose this option if you have a local Apache2 installed that the OpenProject package may not control, or need to use a different web server such as Nginx. Please note that not all functionality (especially regarding Repositories) are supported on Nginx. 
 
-When installing with an existing Apache2, you can use our [installation wizard templates](https://github.com/pkgr/addon-apache2/tree/master/conf) for guidance on how to set up the integration. [For a minimal nginx config, please see this gist](https://gist.github.com/seLain/375d16ccd4542e3727e97a7478187d3a) as as starting point.
+When installing with an existing Apache2, you can take a look at the source of our [installation  templates](https://github.com/pkgr/addon-apache2/tree/master/conf) for guidance on how to set up the integration. 
+
+[Here's an exemplary configuration](./openproject-apache-example.conf) that might work for you.
+
+[For a minimal nginx config, please see this gist](https://gist.github.com/seLain/375d16ccd4542e3727e97a7478187d3a) as as starting point.
 
 ## Step 3: SVN/Git integration server
 

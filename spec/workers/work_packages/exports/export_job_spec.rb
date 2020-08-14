@@ -32,20 +32,28 @@ require 'spec_helper'
 
 describe WorkPackages::Exports::ExportJob do
   let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
-    FactoryBot.build_stubbed(:work_packages_export, user: user)
+    FactoryBot.create(:work_packages_export)
   end
   let(:query) { FactoryBot.build_stubbed(:query) }
   let(:query_attributes) { {} }
 
-  let(:instance) { described_class.new }
+  let(:job) { described_class.new(jobs_args) }
+  let(:jobs_args) do
+    {
+      export: export,
+      mime_type: mime_type,
+      user: user,
+      options: options,
+      query: query,
+      query_attributes: query_attributes
+    }
+  end
   let(:options) { {} }
+
   subject do
-    instance.perform(export: export,
-                     mime_type: mime_type,
-                     options: options,
-                     query: query,
-                     query_attributes: query_attributes)
+    job.tap(&:perform_now)
   end
 
   shared_examples_for 'exporter returning string' do
@@ -74,13 +82,19 @@ describe WorkPackages::Exports::ExportJob do
 
         expect(File.basename(uploaded_file))
           .to end_with ".#{mime_type}"
+
+        attachment
       end
 
       allow("WorkPackage::Exporter::#{mime_type.upcase}".constantize)
         .to receive(:list)
         .and_yield(result)
 
-      subject
+      # expect to create a status
+      expect(subject.job_status).to be_present
+      expect(subject.job_status.reference).to eq export
+      expect(subject.job_status[:status]).to eq 'success'
+      expect(subject.job_status[:payload]['download']).to eq '/api/v3/attachments/1234/content'
     end
   end
 

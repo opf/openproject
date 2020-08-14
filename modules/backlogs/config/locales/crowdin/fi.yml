@@ -19,7 +19,6 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 fi:
   activerecord:
     attributes:
@@ -35,7 +34,7 @@ fi:
           attributes:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "voi sisältää vain tässä sprintissä mukana olevia typaketteja."
-              must_block_at_least_one_work_package: "vähintään yhden työpaketin tunnuksen tulee olla mainittuna."
+              must_block_at_least_one_work_package: "vähintään yhden tehtävän ID-mainittava."
             parent_id:
               type_must_be_one_of_the_following: "Tyypin on oltava jokin seuraavista: %{type_names}."
         sprint:
@@ -48,7 +47,7 @@ fi:
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
-              parent_child_relationship_across_projects: "ei kelpaa, koska työpaketti \"%{work_package_name}\" on työjonossa ja siksi sillä ei voi olla edeltäjää nykyisen projektin ulkopuolella."
+              parent_child_relationship_across_projects: "ei ole kelvollinen, koska tehtävä \"%{work_package_name}\" on työjonossa ja sillä ei voi olla päätehtävää nykyisen projektin ulkopuolella."
   backlogs:
     add_new_story: "Uusi tarina"
     any: "kaikki"
@@ -64,7 +63,7 @@ fi:
     hours: "Tunnit"
     impediment: "Este"
     label_versions_default_fold_state: "Näytä versiot taitettuna"
-    work_package_is_closed: "Työpaketti on valmis, kun"
+    work_package_is_closed: "Tehtävä on valmis, kun"
     label_is_done_status: "Tila %{status_name} tarkoittaa valmista"
     no_burndown_data: "Edistymistietoja ei ole saatavilla. Sprintin aloitus- ja lopetuspäivien asettaminen on välttämätöntä."
     points: "Pisteet"
@@ -121,7 +120,7 @@ fi:
   label_burndown: "Edistyminen"
   label_column_in_backlog: "Sarake työjonossa"
   label_hours: "tuntia"
-  label_work_package_hierarchy: "Työpaketti hierarkia"
+  label_work_package_hierarchy: "Tehtävähierarkia"
   label_master_backlog: "Pääasiallinen työjono"
   label_not_prioritized: "ei priorisoitu"
   label_points: "pisteet"
@@ -150,10 +149,10 @@ fi:
   points_to_accept: "hylätyt pisteet"
   points_to_resolve: "ratkaisemattomat pisteet"
   project_module_backlogs: "Työjonot"
-  rb_label_copy_tasks: "Kopioi työpaketteja"
+  rb_label_copy_tasks: "Kopioi tehtäviä"
   rb_label_copy_tasks_all: "Kaikki"
   rb_label_copy_tasks_none: "Ei mitään"
-  rb_label_copy_tasks_open: "Avoinna"
+  rb_label_copy_tasks_open: "Avoin"
   rb_label_link_to_original: "Sisällytä linkki alkuperäiseen tarinaan"
   remaining_hours: "jäljellä olevat tunnit"
   required_burn_rate_hours: "tarvittava eistymisnopeus (tuntia)"

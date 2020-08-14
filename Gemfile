@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.3'
+gem 'rails', '~> 6.0.3.2'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -85,7 +85,7 @@ gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 3.17.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 5.1.0'
+gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
@@ -156,29 +156,27 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'autoprefixer-rails', '~> 9.7.4'
-gem 'bourbon', '~> 6.0.0'
 gem 'i18n-js', '~> 3.6.0'
 gem 'rails-i18n', '~> 6.0.0'
-gem 'sassc-rails', '~> 2.1.0'
 gem 'sprockets', '~> 3.7.0'
 
 # required by Procfile, for deployment on heroku or packaging with packager.io.
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 4.3.1' # used for development and optionally for production
+gem 'puma', '~> 4.3.5' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.8'
 
 gem 'carrierwave', '~> 1.3.1'
+gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.91.0'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.61.0'
 
-gem 'openproject-token', '~> 1.0.2'
+gem 'openproject-token', '~> 2.1.1'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -245,12 +243,15 @@ group :development do
 
   gem 'faker'
   gem 'letter_opener'
-  gem 'livingstyleguide', '~> 2.1.0'
 
   gem 'spring'
   gem 'spring-commands-rspec'
 
   gem 'rubocop'
+
+  # Gems for living styleguide
+  gem 'sassc-rails'
+  gem 'livingstyleguide', '~> 2.1.0'
 end
 
 group :development, :test do

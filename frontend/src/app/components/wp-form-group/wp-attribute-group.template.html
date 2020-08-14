@@ -16,40 +16,10 @@
       <div *ngIf="!descriptor.multiple && descriptor.field"
            class="attributes-key-value--value-container">
 
-        <editable-attribute-field *ngIf="descriptor.field!.isFormattable"
-                       class="wp-edit-formattable-field"
-                       [resource]="workPackage"
-                       [isDropTarget]="true"
-                       [fieldName]="descriptor.name">
-        </editable-attribute-field>
-        <editable-attribute-field *ngIf="!descriptor.field.isFormattable"
-                       [resource]="workPackage"
-                       [fieldName]="descriptor.name">
-        </editable-attribute-field>
-      </div>
-      <div
-        class="attributes-key-value--key"
-        *ngIf="descriptor.multiple">
-        <wp-replacement-label [fieldName]="descriptor.name">
-          {{ descriptor.label }}
-        </wp-replacement-label>
-        <attribute-help-text [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></attribute-help-text>
-      </div>
-      <div
-        *ngIf="descriptor.multiple"
-        class="attributes-key-value--value-container -minimal">
-        <editable-attribute-field [fieldName]="descriptor.fields[0].name"
-                       [resource]="workPackage"
-                       [wrapperClasses]="'-small -shrink'"
-                       [displayPlaceholder]="text[descriptor.name][descriptor.fields[0].name]">
-        </editable-attribute-field>
-
-        <span class="attributes-key-value--value-separator"></span>
-
-        <editable-attribute-field [fieldName]="descriptor.fields[1].name"
-                       [resource]="workPackage"
-                       [wrapperClasses]="'-small -shrink'"
-                       [displayPlaceholder]="text[descriptor.name][descriptor.fields[1].name]">
+        <editable-attribute-field [ngClass]="{'wp-edit-formattable-field': descriptor.field!.isFormattable }"
+                                  [resource]="workPackage"
+                                  [isDropTarget]="descriptor.field!.isFormattable"
+                                  [fieldName]="fieldName(descriptor.name)">
         </editable-attribute-field>
       </div>
     </ng-template>

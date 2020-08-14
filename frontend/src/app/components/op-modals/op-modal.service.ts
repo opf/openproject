@@ -50,7 +50,7 @@ export class OpModalService {
       if (this.active &&
         !this.opening &&
         this.active.closeOnOutsideClick &&
-        !this.portalHostElement.contains(evt.target as Element)) {
+        this.activeModal[0] === evt.target as Element) {
         this.close();
       }
     });
@@ -96,6 +96,8 @@ export class OpModalService {
       // Mark that we've opened the modal now
       this.opening = false;
     }, 20);
+
+    jQuery('.op-modal--modal-container').focus();
 
     return this.active as T;
   }

@@ -102,7 +102,7 @@ describe('keepTab service', () => {
     });
 
     it('should correctly change when switching back', () => {
-      currentPathPrefix = 'work-packages.partitioned.list.details.*';
+      currentPathPrefix = '**.details.*';
 
       $state.current.name = 'work-packages.partitioned.list.details.overview';
       keepTab.updateTabs();
@@ -132,7 +132,7 @@ describe('keepTab service', () => {
   describe('when opening a details route', () => {
     beforeEach(() => {
       spyOn($state, 'includes').and.callFake((path:string) => {
-        return path === 'work-packages.partitioned.list.details.*';
+        return path === '**.details.*';
       });
 
       $state.current.name = 'work-packages.partitioned.list.details.activity';

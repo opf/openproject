@@ -6,7 +6,6 @@ import {
   EventEmitter,
   Injector,
   Input,
-  OnInit,
   Output,
   SecurityContext,
   ViewChild,
@@ -20,16 +19,12 @@ import {StateService} from "@uirouter/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import timeGrid from '@fullcalendar/timegrid';
-import {Duration, EventApi, EventInput, View} from '@fullcalendar/core';
-import {EventSourceError} from '@fullcalendar/core/structs/event-source';
-import {ToolbarInput} from '@fullcalendar/core/types/input-types';
+import {CalendarOptions, Duration, EventApi, EventInput} from '@fullcalendar/core';
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 import interactionPlugin from '@fullcalendar/interaction';
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
@@ -37,11 +32,12 @@ import {TimeEntryCreateService} from "core-app/modules/time_entries/create/creat
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {HalResourceNotificationService} from 'core-app/modules/hal/services/hal-resource-notification.service';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;
   event:EventApi;
-  jsEvent:MouseEvent;
 }
 
 interface CalendarMoveEvent {
@@ -50,9 +46,10 @@ interface CalendarMoveEvent {
   oldEvent:EventApi;
   delta:Duration;
   revert:() => void;
-  jsEvent:Event;
-  view:View;
 }
+
+// An array of all the days that are displayed. The zero index represents Monday.
+export type DisplayedDays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 
 const TIME_ENTRY_CLASS_NAME = 'te-calendar--time-entry';
 const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
@@ -72,10 +69,15 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
     HalResourceEditingService
   ]
 })
-export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
+export class TimeEntryCalendarComponent implements AfterViewInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
+
+  @Input() set displayedDays(days:DisplayedDays) {
+    this.setHiddenDays(days);
+  }
+
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
 
   // Not used by the calendar but rather is the maximum/minimum of the graph.
@@ -84,33 +86,42 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
   public labelIntervalHours = 2;
   public scaleRatio = 1;
 
-  public calendarPlugins = [timeGrid, interactionPlugin];
   public calendarEvents:Function;
-  public calendarHeader:ToolbarInput|boolean = {
-    right: '',
-    center: 'title',
-    left: 'prev,next today'
-  };
-  public calendarSlotLabelFormat = (info:any) => (this.maxHour - info.date.hour) / this.scaleRatio;
-  public calendarSlotLabelInterval = `${this.labelIntervalHours}:00:00`;
-  public calendarContentHeight = 605;
-  public calendarAllDaySlot = false;
-  public calendarDisplayEventTime = false;
-  public calendarSlotEventOverlap = false;
-  public calendarEditable = false;
-  public calendarMinTime = `${this.minHour - 1}:00:00`;
-  public calendarMaxTime = `${this.maxHour}:00:00`;
-  public calendarEventOverlap = (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME);
-
   protected memoizedTimeEntries:{ start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>> };
-  protected memoizedCreateAllowed:boolean = false;
+  public memoizedCreateAllowed:boolean = false;
+  public hiddenDays:number[] = [];
 
   public text = {
     logTime: this.i18n.t('js.button_log_time')
   };
 
+  calendarOptions:CalendarOptions = {
+    editable: false,
+    locale: this.i18n.locale,
+    fixedWeekCount: false,
+    headerToolbar: {
+      right: '',
+      center: 'title',
+      left: 'prev,next today'
+    },
+    initialView: 'timeGridWeek',
+    firstDay: this.configuration.startOfWeek(),
+    hiddenDays: [],
+    contentHeight: 605,
+    slotEventOverlap: false,
+    slotLabelInterval: `${this.labelIntervalHours}:00:00`,
+    slotLabelFormat: (info:any) => ((this.maxHour - info.date.hour) / this.scaleRatio).toString(),
+    allDaySlot: false,
+    displayEventTime: false,
+    slotMinTime: `${this.minHour - 1}:00:00`,
+    slotMaxTime: `${this.maxHour}:00:00`,
+    events: this.calendarEventsFunction.bind(this),
+    eventOverlap: (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
+    plugins: [timeGrid, interactionPlugin]
+  };
+
   constructor(readonly states:States,
-              readonly timeEntryDm:TimeEntryDmService,
+              readonly apiV3Service:APIV3Service,
               readonly $state:StateService,
               private element:ElementRef,
               readonly i18n:I18nService,
@@ -121,23 +132,19 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
               private timezone:TimezoneService,
               private timeEntryEdit:TimeEntryEditService,
               private timeEntryCreate:TimeEntryCreateService,
-              private timeEntryCache:TimeEntryCacheService,
+              private schemaCache:SchemaCacheService,
               private colors:ColorsService,
               private browserDetector:BrowserDetector) {
-  }
-
-  ngOnInit() {
-    this.initializeCalendar();
   }
 
   ngAfterViewInit() {
     // The full-calendar component's outputs do not seem to work
     // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
     // Therefore, setting the outputs via the underlying API
-    this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => {
+    this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
       this.alterEventEntry(event);
     });
-    this.ucCalendar.getApi().setOption('eventDestroy', (event:CalendarViewEvent) => {
+    this.ucCalendar.getApi().setOption('eventWillUnmount', (event:CalendarViewEvent) => {
       this.beforeEventRemove(event);
     });
     this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
@@ -150,7 +157,7 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
                                 successCallback:(events:EventInput[]) => void,
-                                failureCallback:(error:EventSourceError) => void):void|PromiseLike<EventInput[]> {
+                                failureCallback:(error:unknown) => void):void|PromiseLike<EventInput[]> {
 
     this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
       .then((collection) => {
@@ -165,12 +172,12 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
       this.memoizedTimeEntries.start.getTime() !== start.getTime() ||
       this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
       let promise = this
-        .timeEntryDm
+        .apiV3Service
+        .time_entries
         .list({ filters: this.dmFilters(start, end), pageSize: 500 })
+        .toPromise()
         .then(collection => {
           this.memoizedCreateAllowed = !!collection.createTimeEntry;
-
-          collection.elements.forEach(timeEntry => this.timeEntryCache.updateValue(timeEntry.id!, timeEntry));
 
           return collection;
         });
@@ -207,7 +214,8 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
       // But it will trigger repainting the calendar.
       // Weirdly, this.ucCalendar.getApi().rerender() does not.
       this.ucCalendar.getApi().setOption('slotLabelFormat', (info:any) => {
-        return (this.maxHour - info.date.hour) / this.scaleRatio;
+        let val = (this.maxHour - info.date.hour) / this.scaleRatio;
+        return val.toString();
       });
     }
   }
@@ -299,6 +307,7 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
       end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), 'h').format(),
       classNames: DAY_SUM_CLASS_NAME,
       rendering: 'background' as 'background',
+      startEditable: false,
       sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) })
     };
   }
@@ -323,34 +332,6 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
     let endDate = moment(end).subtract(1, 'd').format('YYYY-MM-DD');
     return [['spentOn', '<>d', [startDate, endDate]] as [string, FilterOperator, string[]],
       ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
-  }
-
-  private initializeCalendar() {
-    this.calendarEvents = this.calendarEventsFunction.bind(this);
-  }
-
-  public get calendarEventLimit() {
-    return false;
-  }
-
-  public get calendarLocale() {
-    return this.i18n.locale;
-  }
-
-  public get calendarFixedWeekCount() {
-    return false;
-  }
-
-  public get calendarDefaultView() {
-    return 'timeGridWeek';
-  }
-
-  public get calendarFirstDay() {
-    return this.configuration.startOfWeek();
-  }
-
-  private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('.fc-view-container');
   }
 
   private dispatchEventClick(event:CalendarViewEvent) {
@@ -381,14 +362,21 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
     entry.spentOn = moment(event.event.end!).format('YYYY-MM-DD');
 
     this
-      .timeEntryDm
-      .update(entry, entry.schema)
-      .then(event => {
-        this.updateEventSet(event, 'update');
-      })
-      .catch((e) => {
-        this.notifications.handleRawError(e);
-        event.revert();
+      .schemaCache
+      .ensureLoaded(entry)
+      .then(schema => {
+        this
+          .apiV3Service
+          .time_entries
+          .id(entry)
+          .patch(entry, schema)
+          .subscribe(
+            event => this.updateEventSet(event, 'update'),
+            e => {
+              this.notifications.handleRawError(e);
+              event.revert();
+            }
+          );
       });
   }
 
@@ -424,7 +412,12 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
           collection.elements.splice(foundIndex, 1);
           break;
         case 'create':
-          this.timeEntryCache.updateValue(event.id!, event);
+          this
+            .apiV3Service
+            .time_entries
+            .cache
+            .updateFor(event);
+
           collection.elements.push(event);
           break;
       }
@@ -459,7 +452,7 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
 
   private appendSum(event:CalendarViewEvent) {
     if (event.event.extendedProps.sum) {
-      event.el.append(event.event.extendedProps.sum);
+      event.el.innerHTML = event.event.extendedProps.sum;
     }
   }
 
@@ -483,10 +476,16 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
   }
 
   private prependDuration(event:CalendarViewEvent) {
-    let formattedDuration = this.timezone.formattedDuration(event.event.extendedProps.entry.hours);
+    let timeEntry = event.event.extendedProps.entry;
+
+    if (this.timezone.toHours(timeEntry.hours) < 0.5) {
+      return;
+    }
+
+    let formattedDuration = this.timezone.formattedDuration(timeEntry.hours);
 
     jQuery(event.el)
-      .find('.fc-title')
+      .find('.fc-event-title')
       .prepend(`<div class="fc-duration">${formattedDuration}</div>`);
   }
 
@@ -587,5 +586,19 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
     }
 
     return 1;
+  }
+
+  protected setHiddenDays(displayedDays:DisplayedDays) {
+    let hiddenDays:number[] = Array
+      .from(displayedDays, (value, index) => {
+        if (!value) {
+          return (index + 1) % 7;
+        } else {
+          return null;
+        }
+      })
+      .filter((value) => value !== null) as number[];
+
+    this.calendarOptions = { ...this.calendarOptions, hiddenDays };
   }
 }

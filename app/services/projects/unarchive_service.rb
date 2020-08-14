@@ -39,8 +39,6 @@ module Projects
 
     private
 
-    attr_accessor :model
-
     def persist(service_call)
       activate_project(model)
 

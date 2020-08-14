@@ -36,19 +36,16 @@ import {
   OpenProjectFileUploadService,
   UploadFile
 } from 'core-components/api/op-file-upload/op-file-upload.service';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {States} from 'core-components/states.service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InputState} from "reactivestates";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -59,7 +56,7 @@ export interface WorkPackageResourceEmbedded {
   availableWatchers:HalResource|any;
   category:HalResource|any;
   children:WorkPackageResource[];
-  parent:HalResource|any;
+  parent:WorkPackageResource|null;
   priority:HalResource|any;
   project:HalResource|any;
   relations:CollectionResource;
@@ -76,6 +73,7 @@ export interface WorkPackageResourceEmbedded {
   // Only for milestones
   date:string;
   relatedBy:RelationResource|null;
+  scheduleManually:boolean;
 }
 
 export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
@@ -124,13 +122,10 @@ export class WorkPackageBaseResource extends HalResource {
   public activities:CollectionResource;
   public attachments:AttachmentCollectionResource;
 
-  public overriddenSchema:SchemaResource|undefined = undefined;
   @InjectField() I18n:I18nService;
-  @InjectField() tates:States;
+  @InjectField() states:States;
   @InjectField() wpActivity:WorkPackagesActivityService;
-  @InjectField() workPackageDmService:WorkPackageDmService;
-  @InjectField() wpCacheService:WorkPackageCacheService;
-  @InjectField() schemaCacheService:SchemaCacheService;
+  @InjectField() apiV3Service:APIV3Service;
   @InjectField() NotificationsService:NotificationsService;
   @InjectField() workPackageNotificationService:WorkPackageNotificationService;
   @InjectField() pathHelper:PathHelperService;
@@ -144,10 +139,6 @@ export class WorkPackageBaseResource extends HalResource {
   public get ancestorIds():string[] {
     const ancestors = (this as any).ancestors;
     return ancestors.map((el:WorkPackageResource) => el.id!);
-  }
-
-  public get isReadonly():boolean {
-    return this.status && this.status.isReadonly;
   }
 
   /**
@@ -170,28 +161,14 @@ export class WorkPackageBaseResource extends HalResource {
     return `${subject}${id}`;
   }
 
-  public get isMilestone():boolean {
-    return this.schema.hasOwnProperty('date');
-  }
-
   public get isLeaf():boolean {
-    var children = this.$links.children;
+    let children = this.$links.children;
     return !(children && children.length > 0);
-  }
-
-  /**
-   * Return whether the user in general has permission to edit the work package.
-   * This check is required, but not sufficient to check all attribute restrictions.
-   *
-   * Use +isAttributeEditable(property)+ for this case.
-   */
-  public get isEditable() {
-    return this.isNew || !!this.$links.update;
   }
 
   public previewPath() {
     if (!this.isNew) {
-      return this.pathHelper.api.v3.work_packages.id(this.id!).path;
+      return this.apiV3Service.work_packages.id(this.id!).path;
     } else {
       return super.previewPath();
     }
@@ -201,43 +178,8 @@ export class WorkPackageBaseResource extends HalResource {
     return fieldName === 'description' ? 'full' : 'constrained';
   }
 
-  /**
-   * Return whether the work package is editable with the user's permission
-   * on the given work package attribute.
-   *
-   * @param property
-   */
-  public isAttributeEditable(property:string):boolean {
-    const fieldSchema = this.schema[property];
-
-    return this.isEditable &&
-      fieldSchema &&
-      fieldSchema.writable &&
-      (!this.isReadonly || property === 'status');
-  }
-
-  private performUpload(files:UploadFile[]) {
-    let href = '';
-
-    if (this.isNew) {
-      href = this.pathHelper.api.v3.attachments.path;
-    } else {
-      href = this.attachments.$href!;
-    }
-
-    return this.opFileUpload.uploadAndMapResponse(href, files);
-  }
-
-  public getSchemaName(name:string):string {
-    if (this.isMilestone && (name === 'startDate' || name === 'dueDate')) {
-      return 'date';
-    } else {
-      return name;
-    }
-  }
-
   public isParentOf(otherWorkPackage:WorkPackageResource) {
-    return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
+    return otherWorkPackage.parent?.$links.self.$link.href === this.$links.self.$link.href;
   }
 
   /**
@@ -263,29 +205,6 @@ export class WorkPackageBaseResource extends HalResource {
     return promise;
   }
 
-  /**
-   * Assign values from the form for a newly created work package resource.
-   * @param form
-   */
-  public initializeNewResource(form:FormResource) {
-    this.overriddenSchema = form.schema;
-    this.$source.id = 'new';
-
-    // Ensure type is set to identify the resource
-    this._type = 'WorkPackage';
-
-    // Since the ID will change upon saving, keep track of the WP
-    // with the actual creation date
-    this.__initialized_at = Date.now();
-
-    // Set update link to form
-    this['update'] = this.$links.update = form.$links.self;
-    // Use POST /work_packages for saving link
-    this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
-      return this.workPackageDmService.createWorkPackage(payload);
-    };
-  }
-
   public $initialize(source:any) {
     super.$initialize(source);
 
@@ -308,27 +227,6 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   /**
-   * Get the current schema, assuming it is either:
-   * 1. Overridden by the current loaded form
-   * 2. Available as a schema state
-   *
-   * If it is neither, an exception is raised.
-   */
-  public get schema():SchemaResource {
-    if (this.hasOverriddenSchema) {
-      return this.overriddenSchema!;
-    }
-
-    const state = this.schemaCacheService.state(this as any);
-
-    if (!state.hasValue()) {
-      throw `Accessing schema of ${this.id} without it being loaded.`;
-    }
-
-    return state.value!;
-  }
-
-  /**
    * Return the associated state to this HAL resource, if any.
    */
   public get state():InputState<this> {
@@ -338,19 +236,15 @@ export class WorkPackageBaseResource extends HalResource {
   /**
    * Update the state
    */
-  public push(newValue:this):void {
+  public push(newValue:this):Promise<unknown> {
     this.wpActivity.clear(newValue.id!);
 
     // If there is a parent, its view has to be updated as well
     if (newValue.parent) {
-      this.wpCacheService.require(newValue.parent.id!, true);
+      this.apiV3Service.work_packages.id(newValue.parent).refresh();
     }
 
-    this.wpCacheService.updateWorkPackage(newValue as any);
-  }
-
-  public get hasOverriddenSchema():boolean {
-    return this.overriddenSchema != null;
+    return this.apiV3Service.work_packages.cache.updateWorkPackage(newValue as any);
   }
 }
 

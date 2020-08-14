@@ -19,13 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 hr:
   activerecord:
     attributes:
       work_package:
         position: "Pozicija"
-        remaining_hours: "Preostali sati"
+        remaining_hours: "Preostalo vrijeme"
         remaining_time: "Preostalo vrijeme"
         story_points: "Točke priče"
         backlogs_work_package_type: "Backlog tip"

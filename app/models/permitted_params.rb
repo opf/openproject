@@ -279,6 +279,7 @@ class PermittedParams
                                                 :identifier,
                                                 :project_type_id,
                                                 :parent_id,
+                                                :templated,
                                                 status: %i(code explanation),
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],

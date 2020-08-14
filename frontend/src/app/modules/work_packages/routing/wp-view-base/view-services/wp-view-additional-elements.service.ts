@@ -33,9 +33,12 @@ import {WorkPackageViewHierarchiesService} from './wp-view-hierarchy.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -45,22 +48,29 @@ export class WorkPackageViewAdditionalElementsService {
               readonly wpTableColumns:WorkPackageViewColumnsService,
               readonly notificationService:WorkPackageNotificationService,
               readonly halResourceService:HalResourceService,
-              readonly wpCacheService:WorkPackageCacheService,
+              readonly apiV3Service:APIV3Service,
+              readonly schemaCache:SchemaCacheService,
               readonly wpRelations:WorkPackageRelationsService) {
   }
 
-  public initialize(rows:WorkPackageResource[]) {
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
+    const rows = results.elements;
+
     // Add relations to the stack
     Promise.all([
       this.requireInvolvedRelations(rows.map(el => el.id!)),
-      this.requireHierarchyElements(rows)
+      this.requireHierarchyElements(rows),
+      this.requireSumsSchema(results)
     ]).then((results:string[][]) => {
       this.loadAdditional(_.flatten(results));
     });
   }
 
   private loadAdditional(wpIds:string[]) {
-    this.wpCacheService.requireAll(wpIds)
+    this
+      .apiV3Service
+      .work_packages
+      .requireAll(wpIds)
       .then(() => {
         this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       })
@@ -80,7 +90,7 @@ export class WorkPackageViewAdditionalElementsService {
       return Promise.resolve([]);
     }
     return this.wpRelations
-      .requireAll(rows, true)
+      .requireAll(rows)
       .then(() => {
         const ids = this.getInvolvedWorkPackages(rows.map(id => {
           return this.wpRelations.state(id).value!;
@@ -117,5 +127,16 @@ export class WorkPackageViewAdditionalElementsService {
     });
 
     return ids;
+  }
+
+  private requireSumsSchema(results:WorkPackageCollectionResource):Promise<string[]> {
+    if (results.sumsSchema) {
+      return this
+        .schemaCache
+        .ensureLoaded(results.sumsSchema.$href!)
+        .then(() => []);
+    }
+
+    return Promise.resolve([]);
   }
 }

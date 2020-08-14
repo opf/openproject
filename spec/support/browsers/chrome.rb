@@ -21,8 +21,6 @@ def register_chrome_headless(language, name: :"chrome_headless_#{language}")
       options.add_argument('--disable-gpu')
     end
 
-    options.add_argument("--remote-debugging-port=9222")
-
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-popup-blocking')
@@ -80,5 +78,10 @@ register_chrome_headless 'en', name: :headless_chrome_billy do |options, capabil
   options.add_argument('--proxy-bypass-list=127.0.0.1;localhost')
 
   capabilities[:acceptInsecureCerts] = true
+end
+
+# Register Revit add in
+register_chrome_headless 'en', name: :chrome_headless_revit_add_in do |options, capabilities|
+  options.add_argument("--user-agent='foo bar Revit'")
 end
 

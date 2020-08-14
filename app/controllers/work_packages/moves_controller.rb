@@ -100,7 +100,7 @@ class WorkPackages::MovesController < ApplicationController
   def dependent_error_ids(parent_id, service_call)
     ids = service_call
       .results_with_errors(include_self: false)
-      .map { |result| result.context[:copied_from]&.id }
+      .map { |result| result.state.copied_from_work_package_id }
       .compact
 
     if ids.present?

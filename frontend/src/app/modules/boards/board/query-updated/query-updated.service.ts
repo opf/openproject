@@ -1,34 +1,44 @@
 import {Injectable} from "@angular/core";
 import {interval} from 'rxjs';
 import {startWith, switchMap, filter} from 'rxjs/operators';
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
+import {ActiveWindowService} from "core-app/modules/common/active-window/active-window.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 const POLLING_INTERVAL = 2000;
 
 @Injectable()
 export class QueryUpdatedService {
 
-  constructor(readonly queryDm:QueryDmService) {}
+  constructor(readonly activeWindow:ActiveWindowService,
+              readonly apiV3Service:APIV3Service) {
+  }
 
   public monitor(ids:string[]) {
     let time = new Date();
 
     return interval(POLLING_INTERVAL)
-           .pipe(
-             startWith(0),
-             switchMap(() => {
-               let result = this.queryForUpdates(ids, time);
+      .pipe(
+        startWith(0),
+        filter(() => ids.length > 0),
+             filter(() => this.activeWindow.isActive),
+        switchMap(() => {
+          let result = this.queryForUpdates(ids, time);
 
-               time = new Date();
+          time = new Date();
 
-               return result;
-             }),
-             filter((collection) => collection.count > 0)
-           );
+          return result;
+        }),
+        filter((collection) => collection.count > 0)
+      );
   }
 
   private queryForUpdates(ids:string[], updatedAfter:Date) {
-    return this.queryDm.list({filters: [["id", "=", ids],
-                                                ["updatedAt", "<>d", [updatedAfter.toISOString()]]]});
+    return this
+      .apiV3Service
+      .queries
+      .list({
+        filters: [["id", "=", ids],
+          ["updatedAt", "<>d", [updatedAfter.toISOString()]]]
+      });
   }
 }

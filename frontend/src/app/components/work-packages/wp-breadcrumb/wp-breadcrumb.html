@@ -20,7 +20,7 @@
     </ng-container>
     <li
         [ngClass]="{ 'active-parent-select': inputActive, 'icon4 icon-small icon-arrow-right5': !inputActive && hierarchyCount > 1 }">
-      <wp-breadcrumb-parent (onSwitch)="inputActive = !inputActive" [workPackage]="workPackage"></wp-breadcrumb-parent>
+      <wp-breadcrumb-parent (onSwitch)="updateActiveInput($event)" [workPackage]="workPackage"></wp-breadcrumb-parent>
     </li>
   </ul>
 </div>

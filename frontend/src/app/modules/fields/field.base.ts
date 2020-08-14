@@ -63,7 +63,7 @@ export class Field extends UntilDestroyedMixin {
   }
 
   public get writable():boolean {
-    return this.schema.writable && this.resource.isAttributeEditable(this.name);
+    return this.schema.writable;
   }
 
   public get hasDefault():boolean {

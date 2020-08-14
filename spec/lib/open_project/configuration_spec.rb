@@ -480,4 +480,39 @@ describe OpenProject::Configuration do
       end
     end
   end
+
+  context 'helpers' do
+    describe '#direct_uploads?' do
+      let(:value) { OpenProject::Configuration.direct_uploads? }
+
+      it 'should be false by default' do
+        expect(value).to be false
+      end
+
+      context 'with remote storage' do
+        def self.storage(provider)
+          {
+            attachments_storage: :fog,
+            fog: {
+              credentials: {
+                provider: provider
+              }
+            }
+          }
+        end
+
+        context 'AWS', with_config: storage('AWS') do
+          it 'should be true' do
+            expect(value).to be true
+          end
+        end
+
+        context 'Azure', with_config: storage('azure') do
+          it 'should be false' do
+            expect(value).to be false
+          end
+        end
+      end
+    end
+  end
 end

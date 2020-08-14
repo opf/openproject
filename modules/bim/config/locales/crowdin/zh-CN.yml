@@ -22,6 +22,7 @@ zh-CN:
       export: '导出'
       import_update_comment: '（在 BCF 导入中更新）'
       import_failed: '无法导入 BCF 文件：%{error}'
+      import_failed_unsupported_bcf_version: '读取 BCF 文件失败：不支持该 BCF 版本。请确保版本至少为 %{minimal_version} 或更高版本。'
       import_successful: '已导入 %{count} 个 BCF 问题'
       import_canceled: 'BCF-XML 导入已取消。'
       type_not_active: "此项目未激活该问题类型。"
@@ -65,6 +66,7 @@ zh-CN:
   project_module_bim: "BCF"
   permission_view_linked_issues: "查看 BCF 问题"
   permission_manage_bcf: "导入和管理 BCF 问题"
+  permission_delete_bcf: "删除 BCF 问题"
   oauth:
     scopes:
       bcf_v2_1: "BCF v2.1 API 的完全访问权限"
@@ -97,6 +99,8 @@ zh-CN:
           snapshot_type_unsupported: "snapshot_type 需要为“png”或“jpg”。"
           snapshot_data_blank: "需要提供 snapshot_data。"
           unsupported_key: "包含不受支持的 json 属性。"
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC 模型'
     label_new_ifc_model: '新 IFC 模型'

@@ -37,17 +37,21 @@ import {AuthorisationService} from 'core-app/modules/common/model-auth/model-aut
 import {StateService} from '@uirouter/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
-import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {from, Observable, of} from 'rxjs';
 import {input} from "reactivestates";
 import {catchError, mergeMap, share, switchMap, take} from "rxjs/operators";
-import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+import {
+  PaginationUpdateObject,
+  WorkPackageViewPaginationService
+} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {PaginationService} from "core-components/table-pagination/pagination-service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
+import {APIv3QueryPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-paths";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -90,8 +94,7 @@ export class WorkPackagesListService {
               protected UrlParamsHelper:UrlParamsHelperService,
               protected authorisationService:AuthorisationService,
               protected $state:StateService,
-              protected QueryDm:QueryDmService,
-              protected QueryFormDm:QueryFormDmService,
+              protected apiV3Service:APIV3Service,
               protected states:States,
               protected querySpace:IsolatedQuerySpace,
               protected pagination:PaginationService,
@@ -111,7 +114,10 @@ export class WorkPackagesListService {
   private streamQueryRequest(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
     const decodedProps = this.getCurrentQueryProps(queryParams);
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
-    const stream = this.QueryDm.stream(queryData, queryParams.query_id, projectIdentifier);
+    const stream = this
+      .apiV3Service
+      .queries
+      .find(queryData, queryParams.query_id, projectIdentifier);
 
     return stream.pipe(
       catchError((error) => {
@@ -176,28 +182,25 @@ export class WorkPackagesListService {
   }
 
   /**
-   * Update the list from an existing query object.
+   * Update the query from an existing (probably unsaved) query.
+   *
+   * Will choose the correct path:
+   * - If the query is unsaved, use `/api/v3(/projects/:identifier)/queries/default`
+   * - If the query is saved, use `/api/v3/queries/:id`
+   *
    */
-  public loadResultsList(query:QueryResource, additionalParams:PaginationObject):Promise<WorkPackageCollectionResource> {
-    return this.QueryDm
-      .loadResults(query, additionalParams)
-      .then((loadedQuery) => {
+  public loadQueryFromExisting(query:QueryResource, additionalParams:Object, projectIdentifier?:string):Observable<QueryResource> {
+    const params = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additionalParams);
 
-        this.wpStatesInitialization.updateQuerySpace(loadedQuery, loadedQuery.results);
-        this.wpStatesInitialization.updateChecksum(loadedQuery, loadedQuery.results);
-        return query.results;
-      });
-  }
+    let path:APIv3QueriesPaths|APIv3QueryPaths;
 
-  /**
-   * Reload the list of work packages for the current query keeping the
-   * pagination options.
-   */
-  public reloadCurrentResultsList():Promise<WorkPackageCollectionResource> {
-    let pagination = this.getPaginationInfo();
-    let query = this.currentQuery;
+    if (query.id) {
+      path = this.apiV3Service.queries.id(query.id);
+    } else {
+      path = this.apiV3Service.withOptionalProject(projectIdentifier).queries;
+    }
 
-    return this.loadResultsList(query, pagination);
+    return path.parameterised(params);
   }
 
   /**
@@ -210,11 +213,17 @@ export class WorkPackagesListService {
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
-    return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
-      this.wpStatesInitialization.updateStatesFromForm(query, form);
+    return this
+      .apiV3Service
+      .queries
+      .form
+      .load(query)
+      .toPromise()
+      .then(([form, _]) => {
+        this.wpStatesInitialization.updateStatesFromForm(query, form);
 
-      return form;
-    });
+        return form;
+      });
   }
 
   /**
@@ -226,7 +235,11 @@ export class WorkPackagesListService {
 
     query.name = name;
 
-    let promise = this.QueryDm.create(query, form);
+    let promise = this
+      .apiV3Service
+      .queries
+      .post(query, form)
+      .toPromise();
 
     promise
       .then(query => {
@@ -249,7 +262,12 @@ export class WorkPackagesListService {
   public delete() {
     let query = this.currentQuery;
 
-    let promise = this.QueryDm.delete(query);
+    let promise = this
+      .apiV3Service
+      .queries
+      .id(query)
+      .delete()
+      .toPromise();
 
     promise
       .then(() => {
@@ -274,7 +292,12 @@ export class WorkPackagesListService {
 
     let form = this.querySpace.queryForm.value!;
 
-    let promise = this.QueryDm.update(query, form).toPromise();
+    let promise = this
+      .apiV3Service
+      .queries
+      .id(query)
+      .patch(query, form)
+      .toPromise();
 
     promise
       .then(() => {
@@ -291,7 +314,10 @@ export class WorkPackagesListService {
   }
 
   public toggleStarred(query:QueryResource):Promise<any> {
-    let promise = this.QueryDm.toggleStarred(query);
+    let promise = this
+      .apiV3Service
+      .queries
+      .toggleStarred(query);
 
     promise.then((query:QueryResource) => {
       this.querySpace.query.putValue(query);
@@ -304,7 +330,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  private getPaginationInfo() {
+  public getPaginationInfo() {
     return this.wpTablePagination.paginationObject;
   }
 
@@ -334,9 +360,18 @@ export class WorkPackagesListService {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
-      this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
-        .then(form => {
-          this.QueryDm.findDefault({ pageSize: 0 }, projectIdentifier)
+      this
+        .apiV3Service
+        .queries
+        .form
+        .loadWithParams(queryProps, queryId, projectIdentifier)
+        .toPromise()
+        .then(([form, _]) => {
+          this
+            .apiV3Service
+            .queries
+            .find({ pageSize: 0}, undefined, projectIdentifier)
+            .toPromise()
             .then((query:QueryResource) => {
               this.wpListInvalidQueryService.restoreQuery(query, form);
 

@@ -11,4 +11,4 @@ zh-TW:
         grids/grid:
           overlaps: '重疊'
           outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          end_before_start: '結束值必須大於開始值。'

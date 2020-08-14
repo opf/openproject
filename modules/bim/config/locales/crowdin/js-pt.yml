@@ -5,17 +5,21 @@ pt:
       label_bcf: 'BCF'
       import: 'Importar'
       export: 'Exportar'
-      viewpoint: 'Visualização'
+      viewpoint: 'Ponto de vista'
       add_viewpoint: 'Adicionar ponto de vista'
-      show_viewpoint: 'Mostrar ponto de vista'
+      show_viewpoint: 'Exibir ponto de vista'
       delete_viewpoint: 'Excluir ponto de vista'
     ifc_models:
-      empty_warning: "Este projeto ainda não tem nenhum modelo IFC."
-      use_this_link_to_manage: "Use este link para fazer upload e gerenciar seus modelos IFC"
-      keyboard_input_disabled: "O visualizador não tem controlos de teclado. Clique no visualizador para fornecer o controlo do teclado ao espetador."
+      empty_warning: "Este projeto ainda não possui nenhum modelo IFC."
+      use_this_link_to_manage: "Use este link para fazer o upload e gerenciar seus modelos IFC"
+      keyboard_input_disabled: "O visualizador não tem controles de teclado. Clique no visualizador para fornecer o controle do teclado a ele."
       models:
         default: 'Modelos IFC padrão'
         manage: 'Gerenciar modelos'
       views:
         viewer: 'Visualizador'
-        split: 'Visualizador e cards'
+        split: 'Viewer and table'
+        split_cards: 'Visualizador e cartões'
+    revit:
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

@@ -43,21 +43,25 @@
 
 ## Local Properties
 
-| Property         | Description                                            | Type        | Constraints                                                                                                                                                  | Supported operations | Condition                        |
-| :--------------: | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------                                                       | -------------------- | -------------------------------- |
-| id               | Work package id                                        | Integer     | x > 0                                                                                                                                                        | READ                 |                                  |
-| lockVersion      | The version of the item as used for optimistic locking | Integer     |                                                                                                                                                              | READ                 |                                  |
-| subject          | Work package subject                                   | String      | not null; 1 <= length <= 255                                                                                                                                 | READ / WRITE         |                                  |
-| type             | Name of the work package's type                        | String      | not null                                                                                                                                                     | READ                 |                                  |
-| description      | The work package description                           | Formattable |                                                                                                                                                              | READ / WRITE         |                                  |
-| startDate        | Scheduled beginning of a work package                  | Date        | Cannot be set for parent work packages; must be equal or greater than the earliest possible start date; Exists only on work packages of a non milestone type | READ / WRITE         |                                  |
-| dueDate          | Scheduled end of a work package                        | Date        | Cannot be set for parent work packages; must be greater than or equal to the start date; Exists only on work packages of a non milestone type                | READ / WRITE         |                                  |
-| date             | Date on which a milestone is achieved                  | Date        | Exists only on work packages of a milestone type
-| estimatedTime    | Time a work package likely needs to be completed       | Duration    | Cannot be set for parent work packages                                                                                                                       | READ / WRITE         |                                  |
-| spentTime        |                                                        | Duration    |                                                                                                                                                              | READ                 | **Permission** view time entries |
-| percentageDone   | Amount of total completion for a work package          | Integer     | 0 <= x <= 100; Cannot be set for parent work packages                                                                                                        | READ / WRITE         |                                  |
-| createdAt        | Time of creation                                       | DateTime    |                                                                                                                                                              | READ                 |                                  |
-| updatedAt        | Time of the most recent change to the work package     | DateTime    |                                                                                                                                                              | READ                 |                                  |
+| Property                | Description                                                                                                                                                                 | Type        | Constraints                                                                                                                                                  | Supported operations | Condition                        |
+| :--------------:        | ------------------------------------------------------                                                                                                                      | ----------- | ------------------------------------------------------------------------------------------------------                                                       | -------------------- | -------------------------------- |
+| id                      | Work package id                                                                                                                                                             | Integer     | x > 0                                                                                                                                                        | READ                 |                                  |
+| lockVersion             | The version of the item as used for optimistic locking                                                                                                                      | Integer     |                                                                                                                                                              | READ                 |                                  |
+| subject                 | Work package subject                                                                                                                                                        | String      | not null; 1 <= length <= 255                                                                                                                                 | READ / WRITE         |                                  |
+| type                    | Name of the work package's type                                                                                                                                             | String      | not null                                                                                                                                                     | READ                 |                                  |
+| description             | The work package description                                                                                                                                                | Formattable |                                                                                                                                                              | READ / WRITE         |                                  |
+| scheduleManually        | If false (default) schedule automatically.                                                                                                                                  | Boolean     |                                                                                                                                                              | READ / WRITE         |                                  |
+| startDate               | Scheduled beginning of a work package                                                                                                                                       | Date        | Cannot be set for parent work packages; must be equal or greater than the earliest possible start date; Exists only on work packages of a non milestone type | READ / WRITE         |                                  |
+| dueDate                 | Scheduled end of a work package                                                                                                                                             | Date        | Cannot be set for parent work packages; must be greater than or equal to the start date; Exists only on work packages of a non milestone type                | READ / WRITE         |                                  |
+| date                    | Date on which a milestone is achieved                                                                                                                                       | Date        | Exists only on work packages of a milestone type                                                                                                             | READ / WRITE         |                                  |
+| derivedStartDate        | Similar to start date but is not set by a client but rather deduced by the work packages's descendants. If manual scheduleManually is active, the two dates can deviate.    | Date        |                                                                                                                                                              | READ                 |                                  |
+| derivedDueDate          | Similar to due date but is not set by a client but rather deduced by the work packages's descendants. If manual scheduleManually is active, the two dates can deviate.      | Date        |                                                                                                                                                              | READ                 |                                  |
+| estimatedTime           | Time a work package likely needs to be completed excluding its descendants                                                                                                  | Duration    |                                                                                                                                                              | READ / WRITE         |                                  |
+| derivedEstimatedTime    | Time a work package likely needs to be completed including its descendants                                                                                                  | Duration    |                                                                                                                                                              | READ                 |                                  |
+| spentTime               | The time booked for this work package by users working on it                                                                                                                | Duration    |                                                                                                                                                              | READ                 | **Permission** view time entries |
+| percentageDone          | Amount of total completion for a work package                                                                                                                               | Integer     | 0 <= x <= 100; Cannot be set for parent work packages                                                                                                        | READ / WRITE         |                                  |
+| createdAt               | Time of creation                                                                                                                                                            | DateTime    |                                                                                                                                                              | READ                 |                                  |
+| updatedAt               | Time of the most recent change to the work package                                                                                                                          | DateTime    |                                                                                                                                                              | READ                 |                                  |
 
 Note that the properties listed here only cover the built-in properties of the OpenProject Core.
 Using plug-ins and custom fields a work package might contain various additional properties.
@@ -70,12 +74,12 @@ the human readable name of custom fields.
 
 Properties that cannot be set directly on parent work packages are inferred from their children instead:
 
-* `startDate` is the earliest start date from its children
-* `dueDate` is the latest finish date from its children
+* `startDate` is the earliest start date from its children if manual scheduling is activated.
+* `dueDate` is the latest finish date from its children if manual scheduling is activated.
 * `estimatedTime` is the sum of estimated times from its children
 * `percentageDone` is the weighted average of the sum of its children percentages done. The weight is given by the average of its children estimatedHours. However, if the percentage done is given by a work package's status, then only the status matters and no value is inferred.
 
-Start date can also not be earlier than a finish date of any predecessor.
+`startDate` can also not be earlier than a finish date of any predecessor.
 
 While attachments are returned as a link which's content is to be fetched separately, clients can choose to
 replace the work package's attachments by providing an array of already uploaded [Attachment resources](#attachments) on [create](#work-packages-work-packages-post)
@@ -257,9 +261,13 @@ and [update](#work-packages-work-package-patch). The attachments the work packag
                     "raw": "Develop super cool OpenProject API.",
                     "html": "<p>Develop super cool OpenProject API.</p>"
                 },
+                "scheduleManually": false,
                 "startDate": null,
                 "dueDate": null,
+                "derivedStartDate": null,
+                "derivedDueDate": null,
                 "estimatedTime": "PT2H",
+                "derivedEstimatedTime": "PT10H",
                 "percentageDone": 0,
                 "customField1": "Foo",
                 "customField2": 42,
@@ -689,6 +697,28 @@ A project link must be set when creating work packages through this route.
     + notify = `true` (optional, boolean, `false`) ... Indicates whether change notifications (e.g. via E-Mail) should be sent.
     Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
     not just the current user.
+
++ Request (application/json)
+
+        {
+            "subject": "Lorem",
+            "customField41": 8,
+            "startDate": "2048-01-03",
+            "_links": {
+              "project": {
+                "href": "/api/v3/project/42"
+              },
+              "type": {
+                "href": "/api/v3/type/123"
+              },
+              "assignee": {
+                "href": "/api/v3/users/8"
+              },
+              "customField32": {
+                "href": "/api/v3/users/3"
+              }
+            }
+        }
 
 + Response 200 (application/hal+json)
 
@@ -2312,4 +2342,3 @@ Gets a list of users that can be assigned as the responsible of a work package i
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified project does not exist."
             }
-

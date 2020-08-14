@@ -39,7 +39,7 @@ de:
         header-item-bg-hover-color: "Hintergrund der Kopfzeile bei Hover"
         header-item-font-color: "Textfarbe der Kopfzeile"
         header-item-font-hover-color: "Textfarbe der Kopfzeile bei Hover"
-        header-border-bottom-color: "Rahmenfarbe der Kopfzeile"
+        header-border-bottom-color: "Header border"
         main-menu-bg-color: "Hintergrundfarbe des Hauptmenüs"
         main-menu-bg-selected-background: "Hintergrundfarbe des Hauptmenüs bei Auswahl"
         main-menu-bg-hover-background: "Hintergrundfarbe des Hauptmenüs bei Hover"
@@ -78,6 +78,7 @@ de:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
   attribute_help_texts:
+    note_public: 'Diesem Feld hinzugefügten Texte und Bilder sind öffentlich für alle angemeldeten Benutzer sichtbar!'
     text_overview: 'In dieser Ansicht können Sie benutzerdefinierte Hilfe-Texte für Attribute definieren. Für Attribute mit hinterlegtem Text können diese über ein kleines Hilfe-Icon neben dem Attribut angezeigt werden.'
     label_plural: 'Hilfe-Texte für Attribute'
     show_preview: 'Vorschau des Hilfe-Textes'
@@ -87,6 +88,10 @@ de:
     index:
       no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
       no_results_content_text: Erstellen Sie einen neuen Authentifizierungsmodus
+  background_jobs:
+    status:
+      error_requeue: "Der Job ist mit einem Fehler fehlgeschlagen, wird aber erneut eingestellt. Der Fehler war: %{message}"
+      cancelled_due_to: "Job wurde aufgrund eines Fehlers abgebrochen: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Dieses LDAP-Formular erfordert technische Kenntnisse ihres LDAP-/Active Directory Setups.
@@ -108,17 +113,16 @@ de:
         OpenProject filtert nur nach angegebenen Benutzernamen in diesem Unterbaum.
         Beispiel: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Fügen Sie einen optionalen RFC4515 Filter hinzu, um die zu findenden Benutzer im LDAP weiter einschränken zu können. Dieser Fillter wird für die Authentifizierung und Gruppensynchronisierung verwendet.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject filtert immer nach dem Login-Attribut des Benutzers, um einen LDAP-Eintrag zu identifizieren. Wenn Sie hier einen Filter angeben, wird
+        mit einem 'UND' verbunden. Standardmäßig wird ein Catch-All-Filter (objectClass=*) verwendet.
       onthefly_register: |
         Wenn Sie dieses Häkchen setzen, erstellt OpenProject automatisch neue Benutzer aus ihren zugehörigen LDAP-Einträgen, wenn sie sich zuerst mit OpenProject anmelden.
         Lassen Sie sie deaktiviert, um nur existierenden Konten in OpenProject die Authentifizierung über LDAP zu ermöglichen!
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        Wenn Sie die Gruppensynchronisation für diese LDAP-Verbindung aktivieren, werden Benutzer in synchronisierten Gruppen auch automatisch
+        in OpenProject erstellt. Ohne sie werden nur bestehende Konten in OpenProject zu Gruppen hinzugefügt.
     connection_encryption: 'Verbindungsverschlüsselung'
     system_account: 'Systemkonto'
     system_account_legend: |
@@ -231,8 +235,8 @@ de:
       no_results_content_text: Nachricht hinzufügen
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'Dieser Benutzer ist Mitglied der folgenden Gruppen:'
+      no_results_title_text: Dieser Benutzer ist derzeit kein Mitglied in einer Gruppe.
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   prioritiies:
@@ -274,6 +278,7 @@ de:
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
   wiki:
+    page_not_editable_index: Die angeforderte Seite existiert (noch) nicht. Sie wurden auf die Übersichtseite der Wiki-Seiten weitergeleitet.
     no_results_title_text: Derzeit gibt es keine Wikiseiten.
     index:
       no_results_content_text: Neue Wikiseite hinzufügen
@@ -357,7 +362,7 @@ de:
         attr_mail: "E-Mail-Attribut"
         base_dn: "BASE-DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Benutzer automatisch erzeugen"
         port: "Port"
       changeset:
         repository: "Projektarchiv"
@@ -410,6 +415,7 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
+        templated: 'Projektvorlage'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeschreibung'
@@ -481,6 +487,7 @@ de:
         parent_work_package: "Übergeordnetes Arbeitspaket"
         priority: "Priorität"
         progress: "Fortschritt (%)"
+        schedule_manually: "Manuelle Planung"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
         subproject: "Unterprojekt"
@@ -728,6 +735,9 @@ de:
     date: "Datum"
     default_columns: "Standard-Spalten"
     description: "Beschreibung"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Summen anzeigen"
     due_date: "Endtermin"
     estimated_hours: "Geschätzter Aufwand"
@@ -878,6 +888,7 @@ de:
       - "Okt"
       - "Nov"
       - "Dez"
+    abbr_week: 'KW'
     day_names:
       - "Sonntag"
       - "Montag"
@@ -1067,6 +1078,7 @@ de:
   error_cookie_missing: 'Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert.'
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
+  error_enterprise_token_invalid_domain: "Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: 'Fehler beim Löschen dieses Eintrags.'
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ausgewählter Wert ist ungültig."
@@ -1112,6 +1124,8 @@ de:
     work_package_edit: 'Arbeitspaket bearbeitet'
     work_package_note: 'Arbeitspaket kommentiert'
   export:
+    your_work_packages_export: "Export der Arbeitspakete"
+    succeeded: "Der Export wurde erfolgreich abgeschlossen."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1307,6 +1321,7 @@ de:
   label_delete_project: "Projekt löschen"
   label_deleted: "gelöscht"
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
+  label_deleted_custom_option: "(gelöschte Option)"
   label_descending: "Absteigend"
   label_details: "Details"
   label_development_roadmap: "Entwicklungs-Roadmap"
@@ -1324,7 +1339,7 @@ de:
   label_duplicate: "Duplikat"
   label_duplicates: "Duplikat von"
   label_edit: "Bearbeiten"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Bearbeiten: %{x}"
   label_enable_multi_select: "Mehrfachauswahl umschalten"
   label_enabled_project_custom_fields: 'Aktivierte benutzerdefinierte Felder'
   label_enabled_project_modules: 'Aktivierte Module'
@@ -1618,6 +1633,7 @@ de:
   label_time_entry_plural: "Aufgewendete Zeit"
   label_time_sheet_menu: "Zeiterfassung"
   label_time_tracking: "Zeiterfassung"
+  label_projects_menu: "Projekte"
   label_today: "heute"
   label_top_menu: "Hauptmenü"
   label_topic_plural: "Themen"
@@ -1747,7 +1763,16 @@ de:
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
-  mail_body_register: "Um Ihr Konto zu aktivieren, benutzen Sie folgenden Link:"
+  mail_body_register: "Willkommen bei OpenProject. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} Arbeitspakete, die Ihnen zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
   mail_body_group_reminder: "%{count} Arbeitspaket(e), die der Gruppe \"%{group}\" zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
   mail_body_wiki_content_added: "Die Wiki-Seite '%{id}' wurde von %{author} hinzugefügt."
@@ -1903,7 +1928,7 @@ de:
   permission_manage_project_activities: "Aktivitäten (Zeiterfassung) verwalten"
   permission_manage_public_queries: "Öffentliche Ansichten verwalten"
   permission_manage_repository: "Projektarchiv verwalten"
-  permission_manage_subtasks: "Unteraufgaben verwalten"
+  permission_manage_subtasks: "Arbeitspaket-Hierarchien verwalten"
   permission_manage_versions: "Versionen verwalten"
   permission_manage_wiki: "Wiki verwalten"
   permission_manage_wiki_menu: "Wiki-Menü verwalten"
@@ -1938,6 +1963,12 @@ de:
       warning_one: Projektmitglieder müssen die Projektarchive des Projekts umziehen.
       warning_two: Bestehende Projekt-Links werden nicht mehr funktionieren.
       title: Projektkennung ändern
+    template:
+      copying: >
+        Ihr Projekt wird aus der ausgewählten Vorlage erstellt. Sie werden per E-Mail benachrichtigt, sobald das Projekt verfügbar ist.
+      use_template: 'Projektvorlage verwenden'
+      make_template: 'Als Vorlage speichern'
+      remove_from_templates: 'Aus Projektvorlagen entfernen'
     archive:
       are_you_sure: "Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?"
       archived: "Archiviert"
@@ -1959,7 +1990,8 @@ de:
     assigned_to_role: "Rolle der zugewiesenen Person"
     member_of_group: "Gruppe der zugewiesenen Person"
     assignee_or_group: "Zugewiesen an Nutzer oder dessen Gruppe"
-    subproject_id: "Unterprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name oder Kennung"
   repositories:
     at_identifier: 'auf %{identifier}'
@@ -2064,6 +2096,9 @@ de:
     url: "URL zum Projektarchiv"
     warnings:
       cannot_annotate: "Diese Datei kann nicht kommentiert werden."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Suchen ..."
   setting_email_delivery_method: "E-Mail Zustellungsoption"
   setting_sendmail_location: "Systempfad zu sendmail"
@@ -2259,6 +2294,7 @@ de:
   text_journal_deleted_with_diff: "%{label} wurde gelöscht (%{link})"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_set_with_diff: "%{label} gesetzt (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Der letzte Kommentar ist: %{note}"
   text_length_between: "Länge zwischen %{min} und %{max} Zeichen."
   text_line_separated: "Mehrere Werte sind erlaubt (eine Zeile pro Wert)."

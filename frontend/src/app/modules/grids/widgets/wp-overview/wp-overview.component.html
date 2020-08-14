@@ -3,11 +3,12 @@
     (onRenamed)="renameWidget($event)">
 
   <widget-menu
-      [resource]="resource">
+    slot="menu"
+    [resource]="resource">
   </widget-menu>
 </widget-header>
 
 <wp-overview-graph
-    class='grid--widget-content'
+    class='grid--widget-content -no-overflow'
     [groupBy]="'type'">
 </wp-overview-graph>

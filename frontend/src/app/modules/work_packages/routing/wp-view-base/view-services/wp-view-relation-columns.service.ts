@@ -34,7 +34,6 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageViewRelationColumns} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-relation-columns";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {Injectable} from "@angular/core";
 import {
@@ -43,6 +42,7 @@ import {
   RelationQueryColumn,
   TypeRelationQueryColumn
 } from "core-components/wp-query/query-column";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export type RelationColumnType = 'toType'|'ofType';
 
@@ -51,7 +51,7 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
   constructor(public querySpace:IsolatedQuerySpace,
               public wpTableColumns:WorkPackageViewColumnsService,
               public halResourceService:HalResourceService,
-              public wpCacheService:WorkPackageCacheService,
+              public apiV3Service:APIV3Service,
               public wpRelations:WorkPackageRelationsService) {
     super(querySpace);
   }
@@ -116,7 +116,7 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
 
       return _.filter(relations, (relation:RelationResource) => {
         const denormalized = relation.denormalized(workPackage);
-        const target = this.wpCacheService.state(denormalized.targetId).value;
+        const target = this.apiV3Service.work_packages.cache.state(denormalized.targetId).value;
 
         return _.get(target, 'type.href') === typeHref;
       });

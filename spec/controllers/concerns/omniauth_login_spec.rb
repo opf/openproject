@@ -72,6 +72,35 @@ describe AccountController, type: :controller do
         end
       end
 
+      describe 'strategy uid mapping override' do
+        let(:omniauth_strategy) { double('Google Strategy') }
+        let(:omniauth_hash) do
+          OmniAuth::AuthHash.new(
+            provider: 'google',
+            uid: 'foo',
+            info: {
+              uid: 'internal',
+              email: 'whattheheck@example.com',
+              first_name: 'what',
+              last_name: 'theheck'
+            }
+          )
+        end
+
+        before do
+          request.env['omniauth.auth'] = omniauth_hash
+          request.env['omniauth.strategy'] = omniauth_strategy
+        end
+
+        it 'takes the uid from the mapped attributes' do
+          post :omniauth_login, params: { provider: :google }
+
+          user = User.find_by_login('whattheheck@example.com')
+          expect(user).to be_an_instance_of(User)
+          expect(user.identity_url).to eq 'google:internal'
+        end
+      end
+
       describe 'strategy attribute mapping override' do
         let(:omniauth_strategy) { double('Google Strategy') }
         let(:omniauth_hash) do
@@ -512,11 +541,20 @@ describe AccountController, type: :controller do
   end
 
   describe '#identity_url_from_omniauth' do
-    let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid' } }
+    let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: {}  } }
 
     it 'should return the correct identity_url' do
       result = AccountController.new.send(:identity_url_from_omniauth, omniauth_hash)
       expect(result).to eql('developer:veryuniqueid')
+    end
+
+    context 'with uid mapped from info' do
+      let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: { uid: 'internal'} } }
+
+      it 'should return the correct identity_url' do
+        result = AccountController.new.send(:identity_url_from_omniauth, omniauth_hash)
+        expect(result).to eql('developer:internal')
+      end
     end
   end
 end

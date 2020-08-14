@@ -27,8 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "project/description_handling.js" %>
-  <%= javascript_include_tag "project/filters.js" %>
+  <meta name="required_script" content="project" />
 <% end %>
 
 <% html_title(t(:label_project_plural)) -%>
@@ -67,15 +66,13 @@ See docs/COPYRIGHT.rdoc for more details.
             <%= projects_sort_header_tag('name', caption: Project.human_attribute_name(:name), param: :json) %>
             <%= projects_sort_header_tag('project_status', caption: Project.human_attribute_name(:status), param: :json) %>
             <%= projects_sort_header_tag('public', caption: Project.human_attribute_name(:public), param: :json) %>
-            <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
-              <% @custom_fields.each do |custom_field| %>
-                <%= sort_header_tag("cf_#{custom_field.id}", caption: custom_field.name, param: :json) %>
-              <% end %>
+            <% project_custom_fields_for_index.each do |custom_field| %>
+              <%= sort_header_tag("cf_#{custom_field.id}", caption: custom_field.name, param: :json) %>
             <% end %>
             <% if User.current.admin? %>
-              <%= projects_sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
               <%= projects_sort_header_tag('created_at', caption: Project.human_attribute_name(:created_at), param: :json) %>
               <%= projects_sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at), param: :json) %>
+              <%= projects_sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
             <% end %>
             <th class="-right">
               <div class="generic-table--header-outer">
@@ -108,23 +105,21 @@ See docs/COPYRIGHT.rdoc for more details.
                 <% end %>
               </td>
               <td><%= checked_image project.public? %></td>
-              <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
-                <% @custom_fields.each do |custom_field| %>
-                  <td class="format-<%= custom_field.field_format %>">
-                    <% custom_value = project.custom_value_for(custom_field).formatted_value %>
+              <% project_custom_fields_for_index.each do |custom_field| %>
+                <td class="format-<%= custom_field.field_format %>">
+                  <% custom_value = project.custom_value_for(custom_field).formatted_value %>
 
-                    <% if custom_field.field_format == 'text' %>
-                      <%= shorten_text(custom_value, 20) %>
-                    <% else %>
-                      <%= custom_value %>
-                    <% end %>
-                  </td>
-                <% end %>
+                  <% if custom_field.field_format == 'text' %>
+                    <%= shorten_text(custom_value, 20) %>
+                  <% else %>
+                    <%= custom_value %>
+                  <% end %>
+                </td>
               <% end %>
               <% if User.current.admin? %>
-                <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
                 <td><%= format_date(project.created_at) %></td>
                 <td><%= format_date(project.latest_activity_at) %></td>
+                <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
               <% end %>
               <td class="buttons">
                 <% items = project_more_menu_items(project) %>
@@ -151,7 +146,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <% unless project.description.blank? %>
               <tr class="project-description <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">
                 <td></td>
-                <td colspan="<%= @custom_fields.size + (User.current.admin? ? 7 : 4) %>" class="project--hierarchy">
+                <td colspan="<%= project_custom_fields_for_index.length + (User.current.admin? ? 7 : 4) %>" class="project--hierarchy">
                   <div class="description-container">
                     <span class="wiki"><%= format_text(short_project_description(project), project: project) %></span>
                   </div>

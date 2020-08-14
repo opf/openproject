@@ -32,13 +32,21 @@ import {refreshOnFormChanges} from 'core-app/globals/global-listeners/refresh-on
 import {registerRequestForConfirmation} from "core-app/globals/global-listeners/request-for-confirmation";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
+import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable-fieldset";
+import {TopMenu} from "core-app/globals/global-listeners/top-menu";
+import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
+import {makeColorPreviews} from "core-app/globals/global-listeners/color-preview";
+import {dangerZoneValidation} from "core-app/globals/global-listeners/danger-zone-validation";
+import {setupServerResponse} from "core-app/globals/global-listeners/setup-server-response";
+import {listenToSettingChanges} from "core-app/globals/global-listeners/settings";
+import {detectOnboardingTour} from "core-app/globals/onboarding/onboarding_tour_trigger";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
  */
-(function($:JQueryStatic) {
+(function ($:JQueryStatic) {
 
-  $(function() {
+  $(function () {
     $(document.documentElement!)
       .on('click', (evt:any) => {
         const target = jQuery(evt.target) as JQuery;
@@ -69,7 +77,7 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
 
     // Global submitting hook,
     // necessary to avoid a data loss warning on beforeunload
-    $(document).on('submit','form',function(){
+    $(document).on('submit', 'form', function () {
       window.OpenProject.pageIsSubmitted = true;
     });
 
@@ -110,6 +118,37 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
     if (deviceService.isMobile) {
       scrollHeaderOnMobile();
     }
+
+    // Detect and trigger the onboarding tour
+    // through a lazy loaded script
+    detectOnboardingTour();
+
+    //
+    // Legacy scripts from app/assets that are not yet component based
+    //
+
+    // Toggable fieldsets
+    setupToggableFieldsets();
+
+    // Top menu click handling
+    new TopMenu(jQuery('#top-menu-items'));
+
+    // Action menu logic
+    jQuery('.project-actions, .toolbar-items').each(function (idx:number, menu:HTMLElement) {
+      install_menu_logic(jQuery(menu));
+    });
+
+    // Legacy settings listener
+    listenToSettingChanges();
+
+    // Color patches preview the color
+    makeColorPreviews();
+
+    // Danger zone input validation
+    dangerZoneValidation();
+
+    // Bootstrap legacy app code
+    setupServerResponse();
   });
 
 }(jQuery));

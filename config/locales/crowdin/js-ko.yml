@@ -167,7 +167,8 @@ ko:
       enterprise:
         trial:
           confirmation: "이메일 주소 확인"
-          confirmation_info: "이메일이 전송되었습니다. 이메일을 확인하고 제공된 인증 링크를 클릭하여 14일 평가판을 시작하세요. "
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               <a target="_blank" href="%{link_terms}">서비스 약관</a> 및 <a target="_blank" href="%{link_privacy}">개인정보 취급방침</a>에 동의합니다.
@@ -264,13 +265,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-5
+            learn_about_link: https://www.openproject.org/openproject-10-6
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
+              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br><br> <ul class="%{list_styling_class}"> <li>세부 정보 또는 목록 보기의 작업 패키지에서 <b>보다 빠른 시간 기록</b>.</li> <li>셀의 너비, 색상, 맞춤 또는 패딩 등 텍스트 편집기에서 더욱 우수하게 테이블을 구성할 수 있도록 <b>개선된 테이블 서식 지정</b>.</li> <li>이제 작업 패키지에 대한 카드 보기에 프로젝트 이름도 포함됩니다.</li> <li>현재 OpenProject가 <b>슬로베니아어로 100% 번역되었습니다</b>. Zabavaj se!</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              이제 OpenProject 10.5는 BIM 모델에 대한 오픈 이슈 추적 표준인 <b>BIM Collaboration Format(BCF)</b>을 지원합니다.<br><br> <ul> <li>대화형 3D IFC 모델의 충돌, 요청 및 질문 등 <b>BIM 이슈 관리</b> 및 생성을 손쉽게 하고 <b>프로젝트 팀과 공유</b>합니다.</li> <li>강력한 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a>를 사용하여 원하는 BIM 소프트웨어와 OpenProject를 통합합니다.</li> <li>BCF XML 파일을 가져오고 내보냅니다.</li> </ul>
+              이제 OpenProject 10.5는 BIM 모델에 대한 오픈 이슈 추적 표준인 <b>BIM Collaboration Format(BCF)</b>을 지원합니다.<br><br> <ul class="%{list_styling_class}"> <li>대화형 3D IFC 모델의 충돌, 요청, 질문 등 <b>BIM 이슈 관리</b> 및 생성을 손쉽게 하고 <b>프로젝트 팀과 공유</b>합니다.</li> <li>강력한 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a>를 사용하여 원하는 BIM 소프트웨어와 OpenProject를 통합합니다.</li> <li>BCF XML 파일을 가져오고 내보냅니다.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -281,7 +282,7 @@ ko:
     label_add_row_before: "다음 앞에 행 추가"
     label_add_selected_columns: "선택된 열 추가"
     label_added_by: "추가함 : "
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "<a href=%{authorLink}>%{author}</a>(%{age}) 님이 추가함"
     label_ago: "일 전"
     label_all: "모두"
     label_all_work_packages: "모든 작업 패키지"
@@ -397,7 +398,7 @@ ko:
     label_sum_for: "합계 "
     label_subject: "제목"
     label_this_week: "이번 주"
-    label_today: "오늘"
+    label_today: "Today"
     label_time_entry_plural: "소비한 시간"
     label_up: "위"
     label_user_plural: "사용자"
@@ -583,6 +584,9 @@ ko:
       select_branch: '브랜치 선택'
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     project_menu_details: "세부 정보"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
       sorted_dsc: '내림차순 정렬이 적용됨, '
@@ -748,6 +752,7 @@ ko:
         startDate: "시작 날짜"
         status: "상태"
         subject: "제목"
+        subproject: "하위 프로젝트"
         title: "제목"
         type: "타입"
         updatedAt: "업데이트 날짜"
@@ -793,6 +798,9 @@ ko:
           not_found: "해당 보기가 없습니다."
           duplicate_query_title: "이 보기의 이름이 이미 존재합니다. 그래도 변경하시겠습니까?"
         text_no_results: "일치하는 보기가 없습니다."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
         configure_button: '작업 패키지 테이블 구성'
         summary: "작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블."
@@ -881,6 +889,9 @@ ko:
         has_children: "작업 패키지에 %{childUnits}이(가) 있습니다."
         confirm_deletion_children: "나는 작업 패키지의 모든 하위 목록이 재귀적으로 제거되는 것을 인정합니다."
         deletes_children: "모든 하위 작업 패키지 및 그 하위 항목도 재귀적으로 삭제됩니다."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "표시할 결과가 없습니다."
     notice_successful_create: "생성에 성공했습니다."
     notice_successful_delete: "삭제에 성공했습니다."

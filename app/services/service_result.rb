@@ -33,19 +33,19 @@ class ServiceResult
                 :result,
                 :errors,
                 :message_type,
-                :context,
+                :state,
                 :dependent_results
 
   def initialize(success: false,
                  errors: nil,
                  message: nil,
                  message_type: nil,
-                 context: {},
+                 state: ::Shared::ServiceState.new,
                  dependent_results: [],
                  result: nil)
     self.success = success
     self.result = result
-    self.context = context
+    self.state = state
 
     initialize_errors(errors)
     @message = message
@@ -61,7 +61,14 @@ class ServiceResult
 
   def merge!(other)
     merge_success!(other)
+    merge_errors!(other)
     merge_dependent!(other)
+  end
+
+  ##
+  # Rollback the state if possible
+  def rollback!
+    state.rollback!
   end
 
   ##
@@ -157,6 +164,10 @@ class ServiceResult
 
   def merge_success!(other)
     self.success &&= other.success
+  end
+
+  def merge_errors!(other)
+    self.errors.merge! other.errors
   end
 
   def merge_dependent!(other)

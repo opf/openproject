@@ -26,93 +26,125 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {DatePicker} from 'core-app/modules/common/op-date-picker/datepicker';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
+import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {keyCodes} from "core-app/modules/common/keyCodes.enum";
+import {Instance} from "flatpickr/dist/types/instance";
 
 @Component({
   selector: 'op-date-picker',
   templateUrl: './op-date-picker.component.html'
 })
-export class OpDatePickerComponent implements OnInit, OnDestroy {
-  @Output() public onChange = new EventEmitter<string>();
-  @Output() public onInputChange = new EventEmitter<string>();
-  @Output() public onClose = new EventEmitter<string>();
-  @Input() public initialDate?:string;
+export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
+  @Output() public onChange = new DebouncedEventEmitter<string>(componentDestroyed(this));
+  @Output() public onCancel = new EventEmitter<string>();
 
-  private $element:JQuery;
+  @Input() public initialDate:string = '';
+  @Input() public appendTo?:HTMLElement = document.body;
+  @Input() public classes:string = '';
+  @Input() public id:string = '';
+  @Input() public name:string = '';
+  @Input() public required:boolean = false;
+  @Input() public size:number = 20;
+  @Input() public focus:boolean = false;
+  @Input() public disabled:boolean = false;
+
+  @ViewChild('dateInput') dateInput:ElementRef;
+
   private datePickerInstance:DatePicker;
-  private input:JQuery;
 
   public constructor(private elementRef:ElementRef,
                      private ConfigurationService:ConfigurationService,
                      private timezoneService:TimezoneService) {
+    super();
+
+    if (!this.id) {
+      this.id = 'datepicker-input-' + Math.floor(Math.random() * 1000).toString(3);
+    }
   }
 
-
-  ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-
-    this.input = this.$element.find('input');
-    this.input.on('change', () => this.onInputChange.emit(this.currentValue()))
-    this.setup();
+  ngAfterViewInit():void {
+    this.initializeDatepicker();
   }
 
   ngOnDestroy() {
     this.datePickerInstance && this.datePickerInstance.destroy();
   }
 
-  public setup() {
-    this.input.focus(() => this.showDatePicker());
-    this.input.keydown((event) => {
-      if (this.isEmpty()) {
-        this.datePickerInstance.clear();
-      }
-    });
+  openOnClick() {
+    if (!this.disabled) {
+      this.datePickerInstance.show();
+    }
+  }
+
+  onInputChange(_event:KeyboardEvent) {
+    if (this.isEmpty()) {
+      this.datePickerInstance.clear();
+    } else if (this.inputIsValidDate()) {
+      this.onChange.emit(this.currentValue);
+    }
+  }
+
+  closeOnOutsideClick(event:any) {
+    if (!(event.relatedTarget &&
+      this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
+      this.datePickerInstance.hide();
+    }
   }
 
   private isEmpty():boolean {
-    return this.currentValue().trim() === '';
+    return this.currentValue.trim() === '';
   }
 
-  private currentValue():string {
-    return this.input.val() as string;
+  private get currentValue():string {
+    return this.inputElement?.value || '';
   }
 
-  private showDatePicker() {
+  private get inputElement():HTMLInputElement {
+    return this.dateInput.nativeElement;
+  }
+
+  private inputIsValidDate():boolean {
+    return this.currentValue.match(/\d{4}-\d{2}-\d{2}/) !== null;
+  }
+
+  private initializeDatepicker() {
     let options:any = {
-      onSelect: (date:any) => {
-        this.datePickerInstance.hide();
-
-        let val = date;
+      allowInput: true,
+      appendTo: this.appendTo,
+      onChange:(selectedDates:Date[], dateStr:string) => {
+        let val:string = dateStr;
 
         if (this.isEmpty()) {
-          val = null;
+          return;
         }
 
-        this.input.val(val);
-        this.input.trigger('change');
+        this.inputElement.value = val;
         this.onChange.emit(val);
       },
-      onClose: () => this.onClose.emit()
+      onKeyDown: (selectedDates:Date[], dateStr:string, instance:Instance, data:KeyboardEvent) => {
+        if (data.which == keyCodes.ESCAPE) {
+          this.onCancel.emit();
+        }
+      }
     };
 
     let initialValue;
     if (this.isEmpty && this.initialDate) {
       initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
     } else {
-      initialValue = this.currentValue();
+      initialValue = this.currentValue;
     }
 
     this.datePickerInstance = new DatePicker(
-      this.ConfigurationService,
-      this.timezoneService,
-      this.input,
+      '#' + this.id,
       initialValue,
       options
     );
-
-    this.datePickerInstance.show();
   }
 }

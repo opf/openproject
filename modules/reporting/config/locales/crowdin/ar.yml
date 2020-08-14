@@ -19,12 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 ar:
   button_save_as: "حفظ التقرير بشكل..."
   comments: "تعليق"
-  cost_reports_title: "تقارير التكلفة"
+  cost_reports_title: "Time and costs"
   label_cost_report: "تقرير التكلفة"
+  label_cost_report_plural: "تقارير التكلفة"
   description_drill_down: "أظهر التفاصيل"
   description_filter_selection: "الاختيار"
   description_multi_select: "أظهر الاختيار المتعدد"

@@ -63,6 +63,30 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     url: '/bcf',
     loadChildren: () => import('../bim/ifc_models/openproject-ifc-models.module').then(m => m.OpenprojectIFCModelsModule)
   },
+  {
+    name: 'backlogs.**',
+    parent: 'root',
+    url: '/backlogs',
+    loadChildren: () => import('../backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
+  },
+  {
+    name: 'backlogs_sprint.**',
+    parent: 'root',
+    url: '/sprints',
+    loadChildren: () => import('../backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
+  },
+  {
+    name: 'reporting.**',
+    parent: 'root',
+    url: '/cost_reports',
+    loadChildren: () => import('../reporting/openproject-reporting.module').then(m => m.OpenprojectReportingModule)
+  },
+  {
+    name: 'job-statuses.**',
+    parent: 'root',
+    url: '/job_statuses',
+    loadChildren: () => import('../job-status/openproject-job-status.module').then(m => m.OpenProjectJobStatusModule)
+  },
 ];
 
 /**

@@ -53,6 +53,10 @@ module Pages
       !(free? || action_attribute.nil?)
     end
 
+    def expect_path
+      expect(page).to have_current_path /boards\/#{@board.id}/
+    end
+
     def action_attribute
       @board.options['attribute']
     end
@@ -103,7 +107,7 @@ module Pages
 
       select_autocomplete(page.find('.wp-inline-create--reference-autocompleter'),
                           query: work_package.subject,
-                          results_selector: '.board--container',
+                          results_selector: '.work-packages-partitioned-query-space--container',
                           select_text: "##{work_package.id}")
 
       expect_card(list_name, work_package.subject)
@@ -118,7 +122,7 @@ module Pages
 
       target_dropdown = search_autocomplete(page.find('.wp-inline-create--reference-autocompleter'),
                                             query: work_package.subject,
-                                            results_selector: '.board--container')
+                                            results_selector: '.work-packages-partitioned-query-space--container')
 
       expect(target_dropdown).to have_no_selector('.ui-menu-item', text: work_package.subject)
     end
@@ -142,6 +146,13 @@ module Pages
 
         expect(found)
           .to match expected
+      end
+    end
+
+    def expect_movable(list_name, card_title, movable: true)
+      within_list(list_name) do
+        expect(page).to have_selector('.wp-card', text: card_title)
+        expect(page).to have_conditional_selector(movable, '.wp-card.-draggable', text: card_title)
       end
     end
 
@@ -213,7 +224,7 @@ module Pages
     end
 
     def expect_empty
-      expect(page).to have_no_selector('.boards-list--item')
+      expect(page).to have_no_selector('.boards-list--item', wait: 10)
     end
 
     def remove_list(name)
@@ -265,13 +276,10 @@ module Pages
     end
 
     def back_to_index
-      find('.board--back-button').click
+      find('.back-button').click
     end
 
     def expect_editable_board(editable)
-      # Editable / draggable check
-      expect(page).to have_conditional_selector(editable, '.board--container.-editable')
-
       # Settings dropdown
       expect(page).to have_conditional_selector(editable, '.board--settings-dropdown')
 
@@ -292,12 +300,12 @@ module Pages
     def rename_board(new_name, through_dropdown: false)
       if through_dropdown
         click_dropdown_entry 'Rename view'
-        expect(page).to have_focus_on('.board--header-container .editable-toolbar-title--input')
-        input = page.find('.board--header-container .editable-toolbar-title--input')
+        expect(page).to have_focus_on('.toolbar-container .editable-toolbar-title--input')
+        input = page.find('.toolbar-container .editable-toolbar-title--input')
         input.set new_name
         input.send_keys :enter
       else
-        page.within('.board--header-container') do
+        page.within('.toolbar-container') do
           input = page.find('.editable-toolbar-title--input').click
           input.set new_name
           input.send_keys :enter
@@ -306,7 +314,7 @@ module Pages
 
       expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
-      page.within('.board--header-container') do
+      page.within('.toolbar-container') do
         expect(page).to have_field('editable-toolbar-title', with: new_name)
       end
     end

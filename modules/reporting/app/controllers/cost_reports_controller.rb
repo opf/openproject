@@ -71,6 +71,8 @@ class CostReportsController < ApplicationController
 
   attr_accessor :cost_types, :unit_id, :cost_type
 
+  layout 'angular'
+
   # Checks if custom fields have been updated, added or removed since we
   # last saw them, to rebuild the filters and group bys.
   # Called once per request.
@@ -86,7 +88,6 @@ class CostReportsController < ApplicationController
     respond_to do |format|
       format.html {
         session[report_engine.name.underscore.to_sym].try(:delete, :name)
-        render action: 'index', layout: layout_non_or_no_menu
       }
     end unless performed?
   end
@@ -314,9 +315,5 @@ class CostReportsController < ApplicationController
 
   def find_optional_user
     @current_user = User.current || User.anonymous
-  end
-
-  def default_breadcrumb
-    l(:cost_reports_title)
   end
 end

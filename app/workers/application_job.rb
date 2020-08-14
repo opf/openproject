@@ -29,6 +29,13 @@
 require 'active_job'
 
 class ApplicationJob < ::ActiveJob::Base
+  include ::JobStatus::ApplicationJobWithStatus
+
+  around_perform do |_job, block|
+    reload_mailer_configuration!
+    with_clean_request_store { block.call }
+  end
+
   ##
   # Return a priority number on the given payload
   def self.priority_number(prio = :default)
@@ -52,53 +59,30 @@ class ApplicationJob < ::ActiveJob::Base
     end
   end
 
-  def self.inherited(child)
-    child.prepend Setup
+  # Resets the thread local request store.
+  # This should be done, because normal application code expects the RequestStore to be
+  # invalidated between multiple requests and does usually not care whether it is executed
+  # from a request or from a delayed job.
+  # For a delayed job, each job execution is the thing that comes closest to
+  # the concept of a new request.
+  def with_clean_request_store
+    store = RequestStore.store
+
+    begin
+      RequestStore.clear!
+      yield
+    ensure
+      # Reset to previous value
+      RequestStore.clear!
+      RequestStore.store.merge! store
+    end
   end
 
-  # Delayed jobs can have a status:
-  # Delayed::Job::Status
-  # which is related to the job via a reference which is an AR model instance.
-  # If no such reference is defined, there is no status stored in the db.
-  def status_reference
-    nil
-  end
-
-  module Setup
-    def perform(*args)
-      before_perform!
-      with_clean_request_store { super }
-    end
-
-    def before_perform!
-      reload_mailer_configuration!
-    end
-
-    # Resets the thread local request store.
-    # This should be done, because normal application code expects the RequestStore to be
-    # invalidated between multiple requests and does usually not care whether it is executed
-    # from a request or from a delayed job.
-    # For a delayed job, each job execution is the thing that comes closest to
-    # the concept of a new request.
-    def with_clean_request_store
-      store = RequestStore.store
-
-      begin
-        RequestStore.clear!
-        yield
-      ensure
-        # Reset to previous value
-        RequestStore.clear!
-        RequestStore.store.merge! store
-      end
-    end
-
-    # Reloads the thread local ActionMailer configuration.
-    # Since the email configuration is now done in the web app, we need to
-    # make sure that any changes to the configuration is correctly picked up
-    # by the background jobs at runtime.
-    def reload_mailer_configuration!
-      OpenProject::Configuration.reload_mailer_configuration!
-    end
+  # Reloads the thread local ActionMailer configuration.
+  # Since the email configuration is now done in the web app, we need to
+  # make sure that any changes to the configuration is correctly picked up
+  # by the background jobs at runtime.
+  def reload_mailer_configuration!
+    OpenProject::Configuration.reload_mailer_configuration!
   end
 end

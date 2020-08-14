@@ -29,6 +29,11 @@
 require 'spec_helper'
 
 describe AttributeHelpText::WorkPackage, type: :model do
+  it_behaves_like 'acts_as_attachable included' do
+    let(:model_instance) { FactoryBot.create(:work_package_help_text) }
+    let(:project) { FactoryBot.create(:project) }
+  end
+
   describe '.available_attributes' do
     subject { described_class.available_attributes }
     it 'returns an array of potential attributes' do

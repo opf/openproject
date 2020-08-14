@@ -33,11 +33,10 @@ import {merge, Observable} from 'rxjs';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 
 @Injectable()
 export abstract class WorkPackageViewBaseService<T> {
-
   /** Internal state to push non-persisted updates */
   protected updatesState = input<T>();
 
@@ -107,6 +106,17 @@ export abstract class WorkPackageViewBaseService<T> {
     return this
       .updatesState
       .values$();
+  }
+
+  /**
+   * Get only the local update changes
+   *
+   * @param unsubscribe
+   */
+  public changes$():Observable<unknown> {
+    return this
+      .updatesState
+      .changes$();
   }
 
   public onReady() {

@@ -23,6 +23,7 @@ sv:
       export: 'Exportera'
       import_update_comment: '(Uppdaterad i BCF-import)'
       import_failed: 'Kan inte importera BCF-fil: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Importerade %{count} BCF-ärenden'
       import_canceled: 'BCF-XML-import avbruten.'
       type_not_active: "Ärendetypen är inte aktiverad för detta projekt."
@@ -66,6 +67,7 @@ sv:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Visa BCF-problem"
   permission_manage_bcf: "Importera och hantera BCF-problem"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Full tillgång till BCF v2.1 API"
@@ -98,6 +100,8 @@ sv:
           snapshot_type_unsupported: "snapshot_type måste vara antingen 'png' eller 'jpg'."
           snapshot_data_blank: "snapshot_data måste tillhandahållas."
           unsupported_key: "En icke stödd json egendom ingår."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC-modeller'
     label_new_ifc_model: 'Ny IFC-modell'

@@ -78,6 +78,7 @@ fil:
     is_active: kasalukuyang naka-displey
     is_inactive: kasulukuyang hindi naka-displey
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Sa tanawin na ito, pwede kang makalikha ng custom na tulong na mga teksto para sa mga katangian na tanawin. Kung mabigyan ng kahulugan, ang mga tekstong ito ay pwedeng makita sa pamamagitan ng pagpipindot ng icon na tulong kasunod sa pag-aari na katangian.'
     label_plural: 'Katangiang tulong na mga teksto'
     show_preview: 'Preview na teksto'
@@ -87,6 +88,10 @@ fil:
     index:
       no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
       no_results_content_text: Gumawa ng bagong authentication mode
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -278,6 +283,7 @@ fil:
     overview:
       no_results_title_text: Sa kasalukuyan ay walang mga work packages na nakatala sa bersyong ito.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Sa kasalukuyan ay walang mga wiki pages.
     index:
       no_results_content_text: Gumawa ng bagong wiki page
@@ -414,6 +420,7 @@ fil:
         types: "Mga uri"
         versions: "Mga bersyon"
         work_packages: "Ang mga pakete na ginawa"
+        templated: 'Template project'
       projects/status:
         code: 'Estado'
         explanation: 'Status description'
@@ -485,6 +492,7 @@ fil:
         parent_work_package: "Magulang"
         priority: "Ang prayoridad"
         progress: "Isinasagawa (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Nauubos na oras"
         spent_time: "Nauubos na oras"
         subproject: "Kahaliling proyekto"
@@ -732,6 +740,9 @@ fil:
     date: "Petsa"
     default_columns: "I-default ang mga hanay"
     description: "Deskripsyon"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Ipakita ang mga sum"
     due_date: "Finish date"
     estimated_hours: "Tinantyang oras"
@@ -882,6 +893,7 @@ fil:
       - "Oktubre"
       - "Nobyembre"
       - "Disyembre"
+    abbr_week: 'Wk'
     day_names:
       - "Linggo"
       - "Lunes"
@@ -1071,6 +1083,7 @@ fil:
   error_cookie_missing: 'Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos na hindi kasama ang.'
   error_custom_option_not_found: "Ang opsyon ay hindi umiiral."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nabigong burahin ang entry na ito.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
@@ -1116,6 +1129,8 @@ fil:
     work_package_edit: 'Naka-edit ang work package'
     work_package_note: 'Nadagdag ang talaan ng work package'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1311,6 +1326,7 @@ fil:
   label_delete_project: "Burahin ang proyekto"
   label_deleted: "binura"
   label_deleted_custom_field: "(binurang custom field)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Pababa"
   label_details: "Mga detalye"
   label_development_roadmap: "Kaunlaran ng roadmao"
@@ -1622,6 +1638,7 @@ fil:
   label_time_entry_plural: "Nauubos na oras"
   label_time_sheet_menu: "Time sheet"
   label_time_tracking: "Time tracking"
+  label_projects_menu: "Mga proyekto"
   label_today: "ngayon"
   label_top_menu: "Itaas na pagpipilian"
   label_topic_plural: "Mga paksa"
@@ -1751,7 +1768,16 @@ fil:
   mail_body_account_information: "Ang akwant na impormasyon"
   mail_body_account_information_external: "Maari mong gamitin ang iyong %{value} akwant sa pag-log in."
   mail_body_lost_password: "Upang baguhin ang iyong password, pindutin ang mga sumusunod na link:"
-  mail_body_register: "Upang i-aktibo ang iyong akwant, pindutin ang sumusunod na link:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package na nakatakaga sa iyo ay dapat isumite sa mga sumusunod na %{days} araw:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "Ang '%{id}' wiking pahina ay naidagdag sa %{author}."
@@ -1907,7 +1933,7 @@ fil:
   permission_manage_project_activities: "Ang mga aktibidad ng pamahalaing proyekto"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Pamahalain ang repositoryo"
-  permission_manage_subtasks: "Pamahalain ang mga subtask"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Pamahalain ang mga bersyon"
   permission_manage_wiki: "Pamahalain ang wiki"
   permission_manage_wiki_menu: "Pagpipilian ng pamahalaing wiki"
@@ -1942,6 +1968,12 @@ fil:
       warning_one: Ang mga miyembro ng proyekto ay kinakailangang ilipat ang mga repository ng proyekto.
       warning_two: Ang mga umiiral na mga link sa proyekto ay hindi na maaring magamit.
       title: Baguhin ang mga pagkakilanlan ng proyekto
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?"
       archived: "Archived"
@@ -1963,7 +1995,8 @@ fil:
     assigned_to_role: "Naitalagang tungkulin"
     member_of_group: "Itinalagang grupo"
     assignee_or_group: "Nakatakda o pag-aari ng grupo"
-    subproject_id: "Kahaliling proyekto"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Pangalan o pagkakakilanlan"
   repositories:
     at_identifier: 'sa %{identifier}'
@@ -2066,6 +2099,9 @@ fil:
     url: "URL sa repositoryo"
     warnings:
       cannot_annotate: "Ang file na ito ay hindi naka-annotate."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Hanapin ..."
   setting_email_delivery_method: "Pamaraan ng paghahatid ng email"
   setting_sendmail_location: "Lokasyon ng sendmail na pagpapatupad"
@@ -2261,6 +2297,7 @@ fil:
   text_journal_deleted_with_diff: "%{label} binura (%{link})"
   text_journal_set_to: "%{label} itinakda sa %{value}"
   text_journal_set_with_diff: "%{label} itinakda (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Ang pinakabagong komento ay: %{note}"
   text_length_between: "Taas pagitan ng %{min} at %{max} na mga karakter."
   text_line_separated: "Maramihang halaga ang pinahintulutan (isang linya para sa bawat halaga)."

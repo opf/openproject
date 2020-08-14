@@ -27,6 +27,8 @@
 #++
 
 class AttributeHelpText < ApplicationRecord
+  acts_as_attachable viewable_by_all_users: true
+
   def self.available_types
     subclasses.map { |child| child.name.demodulize }
   end
@@ -60,7 +62,7 @@ class AttributeHelpText < ApplicationRecord
   end
 
   def attribute_scope
-    raise NotImplementedError
+    self.class.to_s.demodulize
   end
 
   def type_caption
@@ -77,3 +79,4 @@ class AttributeHelpText < ApplicationRecord
 end
 
 require_dependency 'attribute_help_text/work_package'
+require_dependency 'attribute_help_text/project'

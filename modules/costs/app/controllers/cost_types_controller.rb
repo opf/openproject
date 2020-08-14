@@ -129,7 +129,7 @@ class CostTypesController < ApplicationController
       cr.valid_from = today
     end
 
-    rate.rate = parse_number_string_to_number(params[:rate])
+    rate.rate = CostRate.parse_number_string_to_number(params[:rate])
     if rate.save
       flash[:notice] = t(:notice_successful_update)
       redirect_to action: 'index'

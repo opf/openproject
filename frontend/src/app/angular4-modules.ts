@@ -48,9 +48,9 @@ import {OpenprojectPluginsModule} from "core-app/modules/plugins/openproject-plu
 import {ConfirmFormSubmitController} from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import {ProjectMenuAutocompleteComponent} from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {OpenProjectDirectFileUploadService} from './components/api/op-file-upload/op-direct-file-upload.service';
 import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.module";
 import {HookService} from "core-app/modules/plugins/hook-service";
-import {ModalWrapperAugmentService} from "core-app/globals/augmenting/modal-wrapper.augment.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {OpenprojectWorkPackagesModule} from 'core-app/modules/work_packages/openproject-work-packages.module';
 import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
@@ -75,6 +75,8 @@ import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-s
 import {globalDynamicComponents} from "core-app/global-dynamic-components.const";
 import {OpenprojectMembersModule} from "core-app/modules/members/members.module";
 import {OpenprojectEnterpriseModule} from "core-components/enterprise/openproject-enterprise.module";
+import {OpenprojectAugmentingModule} from "core-app/modules/augmenting/openproject-augmenting.module";
+import {RevitAddInSettingsButtonService} from "core-app/modules/bim/revit_add_in/revit-add-in-settings-button.service";
 
 @NgModule({
   imports: [
@@ -132,16 +134,21 @@ import {OpenprojectEnterpriseModule} from "core-components/enterprise/openprojec
     OpenprojectMembersModule,
 
     // Angular Forms
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
+    // Augmenting Module
+    OpenprojectAugmentingModule,
   ],
   providers: [
     { provide: States, useValue: new States() },
     { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
     PaginationService,
     OpenProjectFileUploadService,
+    OpenProjectDirectFileUploadService,
     // Split view
     CommentService,
     ConfirmDialogService,
+    RevitAddInSettingsButtonService,
   ],
   declarations: [
     OpContextMenuTrigger,
@@ -193,15 +200,13 @@ export function initializeServices(injector:Injector) {
   return () => {
     const ExternalQueryConfiguration = injector.get(ExternalQueryConfigurationService);
     const ExternalRelationQueryConfiguration = injector.get(ExternalRelationQueryConfigurationService);
-    const ModalWrapper = injector.get(ModalWrapperAugmentService);
     const PreviewTrigger = injector.get(PreviewTriggerService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
+    // Conditionally add the Revit Add-In settings button
+    injector.get(RevitAddInSettingsButtonService);
 
     mainMenuNavigationService.register();
-
-    // Setup modal wrapping
-    ModalWrapper.setupListener();
 
     PreviewTrigger.setupListener();
 

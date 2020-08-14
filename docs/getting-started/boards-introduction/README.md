@@ -21,6 +21,8 @@ In this document you will get a first introduction to the Boards in OpenProject,
 
 To find out more about the detailed functionalities of Boards, please visit our [user guide for boards](../../user-guide/agile-boards).
 
+Agile boards is only one of OpenProject's features. Find a comprehensive comparison between OpenProject and Trello [here](https://www.openproject.org/alternatives/best-trello-alternative/).
+
 
 | Feature                                                     | Documentation for                          |
 | ----------------------------------------------------------- | ------------------------------------------ |
@@ -33,7 +35,7 @@ Agile Boards in OpenProject support teams in their agile project management meth
 
 You can create as many flexible boards as you want with both lists and cards on it. A list usually represents a workflow, e.g. status or version of a work package. The cards are work packages, e.g. tasks, on this list.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Z7iE_BNCDus" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dvmS4tOHVcw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ## Manage your work in a Board
 
 To manage your work in an agile board, open the Boards module in the project menu.

@@ -21,7 +21,7 @@ SecureHeaders::Configuration.default do |config|
   frame_src << OpenProject::Configuration[:security_badge_url]
 
   # Default src
-  default_src = %w('self')
+  default_src = %w('self') + [OpenProject::Configuration.remote_storage_host].compact
 
   # Allow requests to CLI in dev mode
   connect_src = default_src
@@ -56,7 +56,7 @@ SecureHeaders::Configuration.default do |config|
     # Allow fonts from self, asset host, or DATA uri
     font_src: assets_src + %w(data:),
     # Form targets can only be self
-    form_action: %w('self'),
+    form_action: default_src,
     # Allow iframe from vimeo (welcome video)
     frame_src: frame_src + %w('self'),
     frame_ancestors: %w('self'),
@@ -72,4 +72,10 @@ SecureHeaders::Configuration.default do |config|
     # Connect sources for CLI in dev mode
     connect_src: connect_src
   }
+end
+
+SecureHeaders::Configuration.named_append(:oauth) do |request|
+  hosts = request.controller_instance.try(:allowed_forms) || []
+
+  { form_action: hosts }
 end

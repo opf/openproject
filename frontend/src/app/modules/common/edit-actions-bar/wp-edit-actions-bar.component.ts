@@ -66,7 +66,7 @@ export class WorkPackageEditActionsBarComponent {
 
     this.saving = true;
     this.editForm
-      .save()
+      .submit()
       .then(() => {
         this.saving = false;
         this.onSave.emit();
@@ -77,7 +77,7 @@ export class WorkPackageEditActionsBarComponent {
   }
 
   public cancel():void {
-    this.editForm.stop();
+    this.editForm.cancel();
     this.onCancel.emit();
   }
 }

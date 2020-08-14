@@ -53,6 +53,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::StatusFilter
   register.filter Query, filters_module::SubjectFilter
   register.filter Query, filters_module::SubprojectFilter
+  register.filter Query, filters_module::OnlySubprojectFilter
   register.filter Query, filters_module::TypeFilter
   register.filter Query, filters_module::UpdatedAtFilter
   register.filter Query, filters_module::VersionFilter
@@ -76,6 +77,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::SubjectOrIdFilter
   register.filter Query, filters_module::ManualSortFilter
   register.filter Query, filters_module::RelatableFilter
+  register.filter Query, filters_module::MilestoneFilter
 
   columns_module = Queries::WorkPackages::Columns
 

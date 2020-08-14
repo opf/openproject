@@ -25,6 +25,7 @@ ru:
       export: 'Экспорт'
       import_update_comment: '(Обновлено в импорте BCF)'
       import_failed: 'Не удается импортировать файл BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Не удалось прочитать файл BCF: версия BCF не поддерживается. Пожалуйста, убедитесь, что версия не ниже %{minimal_version} или выше.'
       import_successful: 'Импортировано %{count} BCF проблем'
       import_canceled: 'Импорт BCF-XML отменен.'
       type_not_active: "Тип задачи не активирован для этого проекта."
@@ -68,6 +69,7 @@ ru:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Просмотр проблем BCF"
   permission_manage_bcf: "Импорт и управление проблемами BCF"
+  permission_delete_bcf: "Удалить задачи BCF"
   oauth:
     scopes:
       bcf_v2_1: "Полный доступ к BCF v2.1 API"
@@ -100,6 +102,8 @@ ru:
           snapshot_type_unsupported: "snapshot_type должен быть 'png' или 'jpg'."
           snapshot_data_blank: "snapshot_data не предоставлены."
           unsupported_key: "Обнаружено неподдерживаемое свойство json."
+        bim/bcf/issue:
+          uuid_already_taken: "Невозможно импортировать эту задачу BCF, так как уже существует другая с тем же GUID. Может быть, этот запрос BCF уже импортирован в другой проект?"
   ifc_models:
     label_ifc_models: 'Модели IFC'
     label_new_ifc_model: 'Новая модель IFC'

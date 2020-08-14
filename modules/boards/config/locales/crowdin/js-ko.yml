@@ -31,25 +31,28 @@ ko:
       error_permission_missing: "공용 쿼리를 만들 수 있는 권한이 없습니다"
       click_to_remove_list: "이 목록을 제거하려면 클릭"
       board_type:
+        text: '보드 유형'
         free: '기본 보드'
+        select_board_type: 'Please choose the type of board you need.'
         free_text: >
           자유롭게 목록을 만들고 작업 패키지를 주문할 수 있는 보드를 생성하십시오. 목록 간에 작업 패키지를 이동해도 작업 패키지 자체는 변경되지 않습니다.
         action: '작업 보드'
         action_by_attribute: '작업 보드(%{attribute})'
         action_text: >
-          단일 특성에서 필터가 적용한 목록을 사용하여 보드를 생성하십시오. 작업 패키지를 다른 목록으로 이동하면 해당 특성이 업데이트됩니다.
+          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: 담당자
+          status: 상태
+          version: 버전
+          subproject: subproject
         select_attribute: "작업 특성"
       add_list_modal:
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: This project currently does not have any members that can be added. <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            사용 가능한 상태가 현재 없습니다. <br>
+            상태가 없거나 보드에 이미 모두 추가되었습니다.
+          assignee: 추가할 수 있는 멤버가 이 프로젝트에는 현재 없습니다. <br>
+          add_members: <a href="%{link}">이 프로젝트에 새 멤버를 추가하여</a> 사용자를 다시 선택하세요.
       configuration_modal:
         title: '이 보드 구성'
         display_settings:

@@ -1,0 +1,16 @@
+@import "~global_styles/content/tooltips"
+
+.xeokit-toolbar [data-tippy-content]
+  @extend .tooltip--bottom
+  &:after
+    position: absolute
+    visibility: hidden
+    z-index: 99999
+    box-sizing: content-box
+    transform: translate3d(0, 0, 0)
+    content: attr(data-tippy-content)
+    opacity: 1
+    left: 0
+
+  &:hover:after
+    visibility: visible

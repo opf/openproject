@@ -46,6 +46,10 @@ module OpenProject
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
+      # only applicable in conjunction with fog (effectively S3) attachments
+      # which will be uploaded directly to the cloud storage rather than via OpenProject's
+      # server process.
+      'direct_uploads'          => true,
       'show_community_links' => true,
       'log_level' => 'info',
       'scm_git_command'         => nil,
@@ -124,6 +128,8 @@ module OpenProject
       'health_checks_jobs_queue_count_threshold' => 50,
       # Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       'health_checks_jobs_never_ran_minutes_ago' => 5,
+      # Maximum number of unprocessed requests in puma's backlog.
+      'health_checks_backlog_threshold' => 20,
 
       'after_login_default_redirect_url' => nil,
       'after_first_login_redirect_url' => nil,
@@ -170,7 +176,13 @@ module OpenProject
       'sentry_host' => 'https://sentry.openproject.com',
 
       # Allow connection to Augur
-      'enterprise_trial_creation_host' => 'https://augur.openproject.com'
+      'enterprise_trial_creation_host' => 'https://augur.openproject.com',
+
+      # Allow override of LDAP options
+      'ldap_auth_source_tls_options' => nil,
+
+      # Slow query logging threshold in ms
+      'sql_slow_query_threshold' => 2000
     }
 
     @config = nil
@@ -200,8 +212,7 @@ module OpenProject
       # Replace config values for which an environment variable with the same key in upper case
       # exists
       def override_config!(config, source = default_override_source)
-        config.keys
-              .select { |key| source.include? key.upcase }
+        config.keys.select { |key| source.include? key.upcase }
               .each   { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)

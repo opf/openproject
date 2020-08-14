@@ -29,10 +29,12 @@ Boards can be for anything you would like to keep track of within your projects:
 | [Remove cards](#remove-cards)                                | How to remove cards.                                         |
 | [Manage boards](#manage-boards)                              | How to manage permissions for boards.                        |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Z7iE_BNCDus" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dvmS4tOHVcw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ## Agile Boards in OpenProject
 
-The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](#work-pages) or [Gantt charts](#gantt-charts).  This makes it so easy and practical to include the Boards in your daily  project management routines and to gain a much quicker overview of  important topics in your project.![OpenProject-Boards_Overview](OpenProject-Boards_Overview.png) 
+The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](#work-pages) or [Gantt charts](#gantt-charts).  This makes it so easy and practical to include the Boards in your daily  project management routines and to gain a much quicker overview of  important topics in your project.
+
+![openproject-board-overview](openproject-board-overview-1364050.png)
 
 ## Create a new Board
 
@@ -49,7 +51,7 @@ Next, you need to choose if you want to create a Basic board or an Action board.
 
 **Basic board**: You can freely create lists, name them  and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package  itself. This allows you to create flexible boards for any kind of  activity you would like to track, e.g. Management of Ideas.
 
-**Action board**: Create boards with filtered lists on a single attribute, e.g. Status. Moving work packages between the lists will update the attribute, e.g. Status. You can choose between Action boards for **Status** or **Versions**. More to be added soon.
+**Action board**: Create boards with filtered lists on a single attribute, e.g. Status. Moving work packages between the lists will update the attribute, e.g. Status. You can choose between Action boards for **Status**, **Assignee** or **Versions**. More to be added soon.
 
 ![OpenProject-Boards_create-form](OpenProject-Boards_create-form.png)
 
@@ -61,9 +63,9 @@ Choose a meaningful title for your Board so that it is clear, e.g. for other tea
 
 ## Add lists to your board
 
-**Lists** usually represent a **status workflow**, a **version**, or **anything** that you would like to track within your project. You can add as many lists that you need to a Board.
+**Lists** usually represent a **status workflow**, **assignees**, a **version** or **anything** that you would like to track within your project. You can add as many lists that you need to a Board.
 
-**Action boards lists**: can be for Status, Versions, and more to come. Remember: if you change a card between the lists, the respective attribute (e.g. Status) will be updated automatically.
+**Action boards lists**: can be for Status, Versions, Assignees and more to come. Remember: if you change a card between the lists, the respective attribute (e.g. Status) will be updated automatically.
 **Basic board lists**:  you can create any kind of list and name them to your needs. Remember:  no updates to the attributes will happen when moving cards between the  lists.
 
 ![OpenProject-Boards_lists](OpenProject-Boards_lists.png)
@@ -131,10 +133,12 @@ To **create new** boards, **open existing** boards, or **delete** boards, naviga
 Verify and **update roles and permissions for boards** in the system's Administration.
 
  ![OpenProject-Boards_manage-permissions](OpenProject-Boards_manage-permissions-1568640266543.png)
- 
- ## Frequently asked questions (FAQ)
- 
- ### How can I activate Boards in OpenProject? 
- 
+
+
+## Frequently asked questions (FAQ)
+
+
+### How can I activate Boards in OpenProject? 
+
 The boards module is a premium feature of the Enterprise And Cloud Edition. You can upgrade your Community Edition installation by entering a valid subscription token in the application administration. You can purchase the token on our [website](https://www.openproject.org/enterprise-edition/).
 In addition, you need to activate the boards module in the project settings.

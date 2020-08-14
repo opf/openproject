@@ -37,7 +37,7 @@ module OpenProject::Bim
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-bim',
-             author_url: 'https://openproject.com',
+             author_url: 'https://www.openproject.com',
              settings: {
                default: {
                }
@@ -57,8 +57,15 @@ module OpenProject::Bim
                    { 'bim/bcf/issues': %i[index] },
                    dependencies: %i[view_work_packages]
         permission :manage_bcf,
-                   { 'bim/bcf/issues': %i[index upload prepare_import perform_import] },
+                   { 'bim/bcf/issues': %i[index upload prepare_import configure_import perform_import] },
                    dependencies: %i[view_linked_issues
+                                    view_work_packages
+                                    add_work_packages
+                                    edit_work_packages]
+        permission :delete_bcf,
+                   {},
+                   dependencies: %i[view_linked_issues
+                                    manage_bcf
                                     view_work_packages
                                     add_work_packages
                                     edit_work_packages
@@ -86,11 +93,11 @@ module OpenProject::Bim
 
     class_inflection_override('v2_1' => 'V2_1')
 
-    assets %w(bim/bcf.css bim/ifc_viewer/generic.css)
+    assets %w(bim/logo_openproject_bim_big.png)
 
     patches %i[WorkPackage Type Journal RootSeeder Project]
 
-    patch_with_namespace :OpenProject, :CustomStyles, :Design
+    patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
     patch_with_namespace :Journal, :AggregatedJournal
     patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers

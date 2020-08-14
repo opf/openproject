@@ -1,17 +1,16 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Injector,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild
 } from "@angular/core";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {
   LoadingIndicatorService,
   withLoadingIndicator
@@ -21,7 +20,6 @@ import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/w
 import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Board} from "core-app/modules/boards/board/board";
@@ -36,18 +34,26 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {ComponentType} from "@angular/cdk/portal";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {BoardFiltersService} from "core-app/modules/boards/board/board-filter/board-filters.service";
+import {StateService, TransitionService} from "@uirouter/core";
+import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
+import {debounceTime, filter, map} from "rxjs/operators";
+import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {ChangeItem} from "core-app/modules/fields/changeset/changeset";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -58,21 +64,19 @@ export interface DisabledButtonPlaceholder {
   selector: 'board-list',
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService },
     BoardListMenuComponent,
     WorkPackageCardDragAndDropService
   ]
 })
-export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy, OnChanges {
+export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
   /** Output fired upon query removal */
   @Output() onRemove = new EventEmitter<void>();
 
   /** Access to the board resource */
   @Input() public board:Board;
-
-  /** Access the filters of the board */
-  @Input() public filters:ApiV3Filter[];
 
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef;
@@ -122,22 +126,30 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public buttonPlaceholder:DisabledButtonPlaceholder|undefined;
 
-  constructor(private readonly QueryDm:QueryDmService,
-              private readonly I18n:I18nService,
-              private readonly boardCache:BoardCacheService,
-              private readonly notifications:NotificationsService,
-              private readonly querySpace:IsolatedQuerySpace,
-              private readonly halNotification:HalResourceNotificationService,
-              private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              private readonly authorisationService:AuthorisationService,
-              private readonly wpInlineCreate:WorkPackageInlineCreateService,
-              protected readonly injector:Injector,
-              private readonly halEditing:HalResourceEditingService,
-              private readonly loadingIndicator:LoadingIndicatorService,
-              private readonly wpCacheService:WorkPackageCacheService,
-              private readonly boardService:BoardService,
-              private readonly boardActionRegistry:BoardActionsRegistryService,
-              private readonly causedUpdates:CausedUpdatesService) {
+  constructor(readonly apiv3Service:APIV3Service,
+              readonly I18n:I18nService,
+              readonly state:StateService,
+              readonly cdRef:ChangeDetectorRef,
+              readonly transitions:TransitionService,
+              readonly boardFilters:BoardFiltersService,
+              readonly notifications:NotificationsService,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly halNotification:HalResourceNotificationService,
+              readonly halEvents:HalEventsService,
+              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+              readonly wpViewFocusService:WorkPackageViewFocusService,
+              readonly wpViewSelectionService:WorkPackageViewSelectionService,
+              readonly boardListCrossSelectionService:BoardListCrossSelectionService,
+              readonly authorisationService:AuthorisationService,
+              readonly wpInlineCreate:WorkPackageInlineCreateService,
+              readonly injector:Injector,
+              readonly halEditing:HalResourceEditingService,
+              readonly loadingIndicator:LoadingIndicatorService,
+              readonly schemaCache:SchemaCacheService,
+              readonly boardService:BoardService,
+              readonly boardActionRegistry:BoardActionsRegistryService,
+              readonly causedUpdates:CausedUpdatesService,
+              readonly $state:StateService) {
     super(I18n, injector);
   }
 
@@ -146,14 +158,62 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.initiallyFocused = this.resource.isNewWidget;
     this.resource.isNewWidget = false;
 
+    // Set initial selection if split view open
+    if (this.state.includes(this.state.current.data.baseRoute + '.details')) {
+      let wpId = this.state.params.workPackageId;
+      this.wpViewSelectionService.initializeSelection([wpId]);
+    }
+
     // Update permission on model updates
     this.authorisationService
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
         if (!this.board.isAction) {
           this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
+          this.cdRef.detectChanges();
         }
       });
+
+    // If this query space changes its focused or selected
+    // work packages, update the board cross selection
+    this.wpViewSelectionService
+      .updates$()
+      .pipe(
+        debounceTime(100),
+        this.untilDestroyed()
+      ).subscribe((selectionState) => {
+      let selected = Object.keys(_.pickBy(selectionState.selected, (selected, _) => selected === true));
+
+      const focused = this.wpViewFocusService.focusedWorkPackage;
+
+      this.boardListCrossSelectionService.updateSelection({
+        withinQuery: this.queryId,
+        focusedWorkPackage: focused,
+        allSelected: selected
+      });
+    });
+
+    // Apply focus and selection when changed in cross service
+    this.boardListCrossSelectionService
+      .selectionsForQuery(this.queryId)
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe(selection => {
+        this.wpViewSelectionService.initializeSelection(selection.allSelected);
+      });
+
+    // Update query on filter change
+    this.boardFilters
+      .filters
+      .values$()
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe(() => this.updateQuery(true));
+
+    // Listen to changes to action attribute
+    this.listenToActionAttributeChanges();
 
     this.querySpace.query
       .values$()
@@ -164,17 +224,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.query = query;
         this.canDragOutOf = !!this.query.updateOrderedWorkPackages;
         this.loadActionAttribute(query);
+        this.cdRef.detectChanges();
       });
 
     this.updateQuery();
   }
 
-  ngOnChanges(changes:SimpleChanges) {
-    // When the changes were caused by an actual filter change
-    // and not by a change in lists
-    if (changes.filters && !changes.resource) {
-      this.updateQuery();
-    }
+  ngOnDestroy() {
+    super.ngOnDestroy();
   }
 
   public get errorMessage() {
@@ -182,12 +239,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public canMove(workPackage:WorkPackageResource) {
-    if (this.board.isAction) {
-      const fieldSchema = workPackage.schema[this.board.actionAttribute!] as IFieldSchema;
-      return this.canDragOutOf && fieldSchema.writable;
-    } else {
-      return this.canDragOutOf;
-    }
+    return this.canDragOutOf && (!this.actionService || this.actionService.canMove(workPackage));
   }
 
   public get canReference() {
@@ -197,10 +249,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   public get canManage() {
     return this.boardService.canManage(this.board);
   }
-
-  //public get canDelete() {
-  //    return this.canManage && !!this.query.delete;
-  //}
 
   public get canRename() {
     return this.canManage &&
@@ -223,22 +271,29 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return;
     }
 
-    this.QueryDm
-      .delete(query)
-      .then(() => this.onRemove.emit());
+    this
+      .apiv3Service
+      .queries
+      .id(query)
+      .delete()
+      .subscribe(() => this.onRemove.emit());
   }
 
   public renameQuery(query:QueryResource, value:string) {
     this.inFlight = true;
     this.query.name = value;
-    this.QueryDm
-      .patch(this.query.id!, { name: value })
-      .toPromise()
-      .then(() => {
-        this.inFlight = false;
-        this.notifications.addSuccess(this.text.updateSuccessful);
-      })
-      .catch(() => this.inFlight = false);
+    this
+      .apiv3Service
+      .queries
+      .id(this.query)
+      .patch({ name: value })
+      .subscribe(
+        () => {
+          this.inFlight = false;
+          this.notifications.addSuccess(this.text.updateSuccessful);
+        },
+        (_error) => this.inFlight = false,
+      );
   }
 
   private boardListActionColorClass(value?:HalResource):string {
@@ -266,7 +321,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public updateQuery(visibly = true) {
-    this.setQueryProps(this.filters);
+    this.setQueryProps(this.boardFilters.current);
     this.loadQuery(visibly);
   }
 
@@ -278,7 +333,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       return;
     }
 
-    const id = this.actionService.getFilterHref(query);
+    let actionService = this.actionService!;
+    const id = actionService.getActionValueId(query);
 
     // Test if we loaded the resource already
     if (this.actionResource && id === this.actionResource.href) {
@@ -286,23 +342,28 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     // Load the resource
-    this.actionService.getLoadedFilterValue(query).then(async resource => {
+    actionService.getLoadedActionValue(query).then(async resource => {
       this.actionResource = resource;
-      this.headerComponent = this.actionService.headerComponent();
-      this.buttonPlaceholder = this.actionService.disabledAddButtonPlaceholder(resource);
+      this.headerComponent = actionService.headerComponent();
+      this.buttonPlaceholder = actionService.disabledAddButtonPlaceholder(resource);
       this.actionResourceClass = this.boardListActionColorClass(resource);
-      this.canDragInto = this.actionService.dragIntoAllowed(query, resource);
+      this.canDragInto = actionService.dragIntoAllowed(query, resource);
 
-      const canWriteAttribute = await this.actionService.canAddToQuery(query);
+      const canWriteAttribute = await actionService.canAddToQuery(query);
       this.showAddButton = this.canDragInto && this.wpInlineCreate.canAdd && canWriteAttribute;
+      this.cdRef.detectChanges();
     });
   }
 
   /**
    * Return the linked action service
    */
-  private get actionService():BoardActionService {
-    return this.boardActionRegistry.get(this.board.actionAttribute!);
+  private get actionService():BoardActionService|undefined {
+    if (this.board.actionAttribute) {
+      return this.boardActionRegistry.get(this.board.actionAttribute);
+    }
+
+    return undefined;
   }
 
   /**
@@ -314,31 +375,27 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     let query = this.querySpace.query.value!;
     const changeset = this.halEditing.changeFor(workPackage) as WorkPackageChangeset;
 
-    // Ensure attribute remains writable in the form
-    const actionAttribute = this.board.actionAttribute;
-    if (actionAttribute && !changeset.isWritable(actionAttribute)) {
-      throw this.I18n.t(
-        'js.boards.error_attribute_not_writable',
-        { attribute: changeset.humanName(actionAttribute) }
-      );
-    }
-
-    const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
-    filter.applyDefaultsFromFilters();
+    // Assign to the action attribute if this is an action board
+    this.actionService?.assignToWorkPackage(changeset, query);
 
     if (changeset.isEmpty()) {
       // Ensure work package and its schema is loaded
-      return this.wpCacheService.updateWorkPackage(workPackage);
+      return this.apiv3Service.work_packages.cache.updateWorkPackage(workPackage);
     } else {
       // Save changes to the work package, which reloads it as well
       return this.halEditing.save(changeset);
     }
   }
 
-  private loadQuery(visibly = true) {
-    const queryId:string = (this.resource.options.queryId as number|string).toString();
+  private get queryId():string {
+    return (this.resource.options.queryId as number|string).toString();
+  }
 
-    let observable = this.QueryDm.stream(this.columnsQueryProps, queryId);
+  private loadQuery(visibly = true) {
+    let observable = this
+      .apiv3Service
+      .queries
+      .find(this.columnsQueryProps, this.queryId);
 
     // Spread arguments on pipe does not work:
     // https://github.com/ReactiveX/rxjs/issues/3989
@@ -349,7 +406,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     observable
       .subscribe(
         query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
-        error => this.loadingError = this.halNotification.retrieveErrorMessage(error)
+        error => {
+          this.loadingError = this.halNotification.retrieveErrorMessage(error);
+          this.cdRef.detectChanges();
+        }
       );
   }
 
@@ -369,5 +429,57 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     };
 
     this.columnsQueryProps = newColumnsQueryProps;
+  }
+
+  private listenToActionAttributeChanges() {
+
+    // If we don't have an action attribute
+    // nothing to do
+    if (!this.board.actionAttribute) {
+      return;
+    }
+
+    // Listen to hal events to detect changes to an action attribute
+    this.halEvents
+      .events$
+      .pipe(
+        filter(event => event.resourceType === 'WorkPackage'),
+        // Only allow updates, otherwise this causes an error reloading the list
+        // before the work package can be added to the query order
+        filter(event => event.eventType === 'updated'),
+        map((event:HalEvent) => event.commit?.changes[this.board.actionAttribute!]),
+        filter(value => !!value),
+        filter((value:ChangeItem) => {
+
+          // Compare the from and to values from the committed changes
+          // with the current actionResource
+          const current = this.actionResource?.href;
+          const to = (value.to as HalResource|undefined)?.href;
+          const from = (value.from as HalResource|undefined)?.href;
+
+          return !!current && (current === to || current === from);
+        })
+      ).subscribe((event) => {
+      this.updateQuery(true);
+    });
+  }
+
+  openFullViewOnDoubleClick(event:{ workPackageId:string, double:boolean }) {
+    if (event.double) {
+      this.state.go(
+        'work-packages.show',
+        { workPackageId: event.workPackageId }
+      );
+    }
+  }
+
+  openStateLink(event:{ workPackageId:string; requestedState:string }) {
+    const params = { workPackageId: event.workPackageId };
+
+    this.$state.go(event.requestedState, params);
+  }
+
+  private schema(workPackage:WorkPackageResource) {
+    return this.schemaCache.of(workPackage);
   }
 }

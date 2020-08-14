@@ -28,8 +28,10 @@
 
 module Projects
   class UnarchiveContract < ModelContract
+    include Projects::Archiver
+
     def validate
-      user_allowed
+      validate_admin_only
       validate_all_ancestors_active
 
       super
@@ -37,24 +39,8 @@ module Projects
 
     protected
 
-    def user_allowed
-      unless authorized?
-        errors.add :base, :error_unauthorized
-      end
-    end
-
-    def validate_all_ancestors_active
-      if model.ancestors.any?(&:archived?)
-        errors.add :base, :archived_ancestor
-      end
-    end
-
     def validate_model?
       false
-    end
-
-    def authorized?
-      user.admin?
     end
   end
 end

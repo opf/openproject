@@ -24,7 +24,7 @@ __webpack_public_path__ = window.appBasePath + ASSET_BASE_PATH;
 window.ErrorReporter = new SentryReporter();
 
 require('core-app/init-vendors');
-require('./app/init-globals');
+require('core-app/init-globals');
 
 const meta = jQuery('meta[name=openproject_initializer]');
 I18n.locale = meta.data('defaultLocale');
@@ -41,12 +41,15 @@ whenDebugging(() => {
   (window as any).disableReactiveStatesLogging = () => enableReactiveStatesLogging(false);
 });
 
-
-jQuery(function () {
-  // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
-  platformBrowserDynamic()
-    .bootstrapModule(OpenProjectModule)
-    .then(platformRef => {
-      jQuery('body').addClass('__ng2-bootstrap-has-run');
+// Import the correct locale early on
+import(`./locales/${I18n.locale}.js`)
+  .then(() => {
+    jQuery(function () {
+      // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
+      platformBrowserDynamic()
+        .bootstrapModule(OpenProjectModule)
+        .then(platformRef => {
+          jQuery('body').addClass('__ng2-bootstrap-has-run');
+        });
     });
 });

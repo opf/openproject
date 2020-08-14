@@ -18,22 +18,23 @@ zh-TW:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
+      import_title: '匯入'
       export: '匯出'
       import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
+      import_failed: '無法匯入 BCF 檔案：%{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
+      import_canceled: 'BCF-XML 匯入已取消。'
       type_not_active: "The issue type is not activated for this project."
       import:
         num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
+        button_prepare: '準備匯入'
+        button_perform_import: '確認匯入'
         button_proceed: 'Proceed with import'
-        button_back_to_list: 'Back to list'
+        button_back_to_list: '回到列表'
         no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
         contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
+        continue_anyways: '你確定要繼續並完成匯入嗎？'
         description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
         invalid_types_found: 'Invalid topic type names found'
         invalid_statuses_found: 'Invalid status names found'
@@ -60,11 +61,12 @@ zh-TW:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "BCF 快照"
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
   permission_view_linked_issues: "View BCF issues"
   permission_manage_bcf: "Import and manage BCF issues"
+  permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"
@@ -97,6 +99,8 @@ zh-TW:
           snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
           snapshot_data_blank: "snapshot_data needs to be provided."
           unsupported_key: "An unsupported json property is included."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
     label_ifc_models: 'IFC models'
     label_new_ifc_model: 'New IFC model'

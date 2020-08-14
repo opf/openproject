@@ -2,6 +2,11 @@
      data-indicator-name="modal">
   <div class="op-modal--modal-container attribute-help-text--modal" tabindex="0">
     <div class="op-modal--modal-header">
+      <h3>
+        <span class="icon-context icon-help1"></span>
+        <span class="ellipsis" [textContent]="helpText.attributeCaption"></span>
+      </h3>
+
       <a class="op-modal--modal-close-button">
         <i
           class="icon-close"
@@ -11,15 +16,14 @@
       </a>
     </div>
 
-    <h3>
-      <span class="icon-context icon-help1"></span>
-      <span class="ellipsis" [textContent]="helpText.attributeCaption"></span>
-    </h3>
-
     <div class="op-modal--modal-body -formattable"
          tabindex="0"
          [innerHtml]="helpText.helpText.html">
     </div>
+
+    <attachments [resource]="helpText"
+                 data-allow-uploading="false">
+    </attachments>
 
     <div class="modal--form-actions">
       <a class="help-text--edit-button button"

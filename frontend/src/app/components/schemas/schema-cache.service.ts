@@ -25,64 +25,129 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
-import {InputState, State} from 'reactivestates';
+import {MultiInputState, State} from 'reactivestates';
 import {States} from '../states.service';
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Injectable} from '@angular/core';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {ISchemaProxy, SchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
+import {WorkPackageSchemaProxy} from "core-app/modules/hal/schemas/work-package-schema-proxy";
+import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import {Observable} from "rxjs";
+import {take} from "rxjs/operators";
 
 @Injectable()
-export class SchemaCacheService {
+export class SchemaCacheService extends StateCacheService<SchemaResource> {
 
   constructor(readonly states:States,
               readonly halResourceService:HalResourceService) {
+    super(states.schemas);
+  }
+
+  public state(id:string|HalResource):State<SchemaResource> {
+    return super.state(this.stateKey(id));
+  }
+
+  /**
+   * Returns the schema of the provided resource.
+   * This method assumes the schema is loaded and will fail if it is not.
+   * @deprecated Assuming the schema to be loaded is deprecated. Rely on the states instead.
+   * @param resource The HalResource for which the schema is to be returned
+   * @return The schema for the HalResource
+   */
+  of(resource:HalResource):ISchemaProxy {
+    let schema = this.state(resource).value;
+
+    if (!schema) {
+      throw `Schema for resource ${resource} was expected to be loaded but isn't.`;
+    }
+
+    if (resource._type === 'WorkPackage') {
+      return WorkPackageSchemaProxy.create(schema, resource);
+    } else {
+      return SchemaProxy.create(schema, resource);
+    }
+  }
+
+  public getSchemaHref(resource:HalResource):string {
+    let href = resource.$links.schema?.href;
+
+    if (!href) {
+      throw new Error(`Resource ${resource} has no schema to load.`);
+    }
+
+    return href;
   }
 
   /**
    * Ensure the given schema identified by its href is currently loaded.
-   * @param href The schema's href.
+   * @param resource The resource with a schema property or a string to the schema href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded(resource:HalResource):Promise<unknown> {
-    const state = this.state(resource);
+  ensureLoaded(resource:HalResource|string):Promise<SchemaResource> {
+    let href = resource instanceof HalResource ? this.getSchemaHref(resource) : resource;
 
-    if (state.hasValue()) {
-      return Promise.resolve(state.value);
-    } else {
-      return this.load(resource).valuesPromise() as Promise<unknown>;
-    }
+    return this
+      .requireAndStream(href)
+      .pipe(
+        take(1)
+      )
+      .toPromise();
   }
 
   /**
-   * Get the associated schema state of the work package
-   *  without initializing a new resource.
+   * Require the value to be loaded either when forced or the value is stale
+   * according to the cache interval specified for this service.
+   *
+   * Returns an observable to the values stream of the state.
+   *
+   * @param id The state to require
+   * @param force Load the value anyway.
    */
-  state(resource:HalResource):InputState<SchemaResource> {
-    const schema = resource.$links.schema;
-
-    if (!schema) {
-      throw `Resource ${resource} has no schema!`;
+  public requireAndStream(href:string, force:boolean = false):Observable<SchemaResource> {
+    // Refresh when stale or being forced
+    if (this.stale(href) || force) {
+      this.clearAndLoad(
+        href,
+        this.load(href)
+      );
     }
 
-    return this.states.schemas.get(schema.href!);
+    return this.state(href).values$();
   }
 
   /**
    * Load the associated schema for the given work package, if needed.
    */
-  load(resource:HalResource, forceUpdate = false):State<SchemaResource> {
-    const state = this.state(resource);
+  protected load(href:string):Observable<SchemaResource> {
+    return this
+      .halResourceService
+      .get<SchemaResource>(href)
+      .pipe(
+        take(1)
+      );
+  }
 
-    if (forceUpdate) {
-      state.clear();
+  protected loadAll(hrefs:string[]):Promise<unknown|undefined> {
+    return Promise.all(hrefs.map(href => this.load(href)));
+  }
+
+  /**
+   * Places the schema in the schema state of the resource.
+   * @param resource The resource for which the schema is to be updated
+   * @param schema
+   */
+  update(resource:HalResource, schema:SchemaResource) {
+    this.multiState.get(this.stateKey(resource)).putValue(schema);
+  }
+
+  private stateKey(id:string|HalResource):string {
+    if (id instanceof HalResource) {
+      return this.getSchemaHref(id);
+    } else {
+      return id;
     }
-
-    state.putFromPromiseIfPristine(() => {
-      const schemaResource = this.halResourceService.createLinkedResource(resource, 'schema', resource.$links.schema.$link);
-      return schemaResource.$load() as any;
-    });
-
-    return state;
   }
 }
+

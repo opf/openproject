@@ -5,7 +5,7 @@
 #
 threads_min_count = ENV.fetch("RAILS_MIN_THREADS") { 4 }
 threads_max_count = ENV.fetch("RAILS_MAX_THREADS") { 16 }
-threads threads_min_count, threads_max_count
+threads threads_min_count, [threads_min_count, threads_max_count].max
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #

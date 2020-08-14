@@ -2,6 +2,8 @@
   <div class="op-modal--modal-container wp-table--configuration-modal"
        tabindex="0">
     <div class="op-modal--modal-header">
+      <h3 [textContent]="text.title"></h3>
+
       <a class="op-modal--modal-close-button">
         <i
             class="icon-close"
@@ -10,8 +12,6 @@
         </i>
       </a>
     </div>
-
-    <h3 [textContent]="text.title"></h3>
 
     <ul *ngIf="exportOptions" class="export-options" [ngClass]="{'-hidden': isLoading}">
       <li *ngFor="let option of exportOptions">
@@ -23,19 +23,5 @@
         </a>
       </li>
     </ul>
-    <div *ngIf="isLoading">
-      <div class="loading-indicator--location"
-           data-indicator-name="modal">
-      </div>
-      <div [textContent]="text.exportPreparing"></div>
-    </div>
-
-    <a #downloadLink
-       id="download-link"
-       [title]="'Export'"
-       class="button"
-       download
-       [attr.href]="downloadHref">
-    </a>
   </div>
 </div>

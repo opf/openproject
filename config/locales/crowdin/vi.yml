@@ -63,21 +63,22 @@ vi:
         main-menu-bg-color: "Màu nền của trình đơn ở bên trái."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Nâng cấp lên bản cho doanh nghiệp"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Thay thế support token hiện tại của bạn"
       order: "Đặt hàng Enterprise Edition"
       paste: "Dán Enterprise Edition support token của bạn"
       required_for_feature: "Tính năng này chỉ có sẵn với một  Enterprise Edition support token được kích hoạt"
       enterprise_link: "Thêm thông tin, nhấn vào đây."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Bắt đầu dùng thử miễn phí'
+      book_now: 'Đặt chỗ ngay'
+      get_quote: 'Lấy trích dẫn'
   announcements:
     show_until: Xem đến khi
     is_active: Đang hiển thị
     is_inactive: hiện tại không hiển thị
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'Tại đây, bạn có thể tạo các văn bản hiển thị hỗ trợ. Khi hoàn thành, các văn bản có thể được hiển thị bằng cách nhấp vào biểu tượng trợ giúp bên cạnh các giá trị.'
     label_plural: 'Thuộc tính văn bản trợ giúp'
     show_preview: 'Văn bản xem trước'
@@ -87,6 +88,10 @@ vi:
     index:
       no_results_content_title: Không có hiện tại không có chế độ xác thực.
       no_results_content_text: Tạo một chế độ xác thực mới
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Biểu mẫu LDAP này yêu cầu kiến thức kỹ thuật về thiết lập LDAP / Active Directory của bạn.
@@ -280,6 +285,7 @@ vi:
     overview:
       no_results_title_text: There are currently no work packages assigned to this version.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
     index:
       no_results_content_text: Add a new wiki page
@@ -415,6 +421,7 @@ vi:
         types: "Các loại"
         versions: "Các phiên bản"
         work_packages: "Work Packages"
+        templated: 'Template project'
       projects/status:
         code: 'Trạng thái'
         explanation: 'Mô tả trạng thái'
@@ -486,6 +493,7 @@ vi:
         parent_work_package: "Cha"
         priority: "Độ ưu tiên"
         progress: "Progress (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Thời gian"
         spent_time: "Thời gian"
         subproject: "Dự án con"
@@ -513,7 +521,7 @@ vi:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "could not be (fully) copied."
         does_not_exist: "does not exist."
-        error_unauthorized: "có thể không được truy cập."
+        error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."
         empty: "can't be empty."
         even: "must be even."
@@ -730,6 +738,9 @@ vi:
     date: "Ngày"
     default_columns: "Cột mặc định"
     description: "Mô tả"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Hiển thị tổng"
     due_date: "Finish date"
     estimated_hours: "Thời gian dự kiến"
@@ -880,6 +891,7 @@ vi:
       - "Thg 10"
       - "Thg 11"
       - "Thg 12"
+    abbr_week: 'Wk'
     day_names:
       - "Chủ Nhật"
       - "Thứ hai"
@@ -1057,6 +1069,7 @@ vi:
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Giá trị đã chọn không hợp lệ."
@@ -1102,6 +1115,8 @@ vi:
     work_package_edit: 'Đã chỉnh sửa work package'
     work_package_note: 'Đã thêm ghi chú của work package'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1154,10 +1169,10 @@ vi:
       forums: "Diễn đàn cộng đồng"
       newsletter: "Security alerts / Newsletter"
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Những thay đổi đã bị rút lại"
   links:
     configuration_guide: 'Configuration guide'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Nếu bạn còn những câu hỏi khác ? Hãy liên lạc với chúng tôi"
   instructions_after_registration: "Bạn có thể đăng nhập ngay sau khi tài khoản của bạn đã được kích hoạt bằng cách nhấn vào %{signin}."
   instructions_after_logout: "Bạn có thể đăng nhập một lần nữa bằng cách nhấp vào %{signin}."
   instructions_after_error: "Bạn có thể thử đăng nhập lại bằng cách nhấn vào %{signin}. Nếu lỗi vẫn còn, yêu cầu quản trị của bạn để được giúp đỡ."
@@ -1297,6 +1312,7 @@ vi:
   label_delete_project: "Delete project"
   label_deleted: "đã xóa"
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "Giảm dần"
   label_details: "Chi tiết"
   label_development_roadmap: "Development roadmap"
@@ -1608,6 +1624,7 @@ vi:
   label_time_entry_plural: "Thời gian"
   label_time_sheet_menu: "Phiếu giờ"
   label_time_tracking: "Theo dõi thời gian"
+  label_projects_menu: "Các dự án"
   label_today: "hôm nay"
   label_top_menu: "Trình đơn trên cùng"
   label_topic_plural: "Các chủ đề"
@@ -1733,7 +1750,16 @@ vi:
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_lost_password: "To change your password, click on the following link:"
-  mail_body_register: "To activate your account, click on the following link:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
   mail_body_group_reminder: "%{count}  gói công việc được gán cho nhóm \"%{group}\" là do %{days} ngày tiếp theo:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
@@ -1888,7 +1914,7 @@ vi:
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Quản lý truy vấn công cộng"
   permission_manage_repository: "Manage repository"
-  permission_manage_subtasks: "Manage subtasks"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
   permission_manage_wiki_menu: "Manage wiki menu"
@@ -1923,6 +1949,12 @@ vi:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?"
       archived: "Archived"
@@ -1944,7 +1976,8 @@ vi:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Người chuyển hoặc thuộc nhóm"
-    subproject_id: "Dự án con"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'at %{identifier}'
@@ -2049,6 +2082,9 @@ vi:
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
   setting_email_delivery_method: "Cách gửi email"
   setting_sendmail_location: "Vị trí của tệp thực thi sendmail (đường dẫn)"
@@ -2244,6 +2280,7 @@ vi:
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "The latest comment is: %{note}"
   text_length_between: "Length between %{min} and %{max} characters."
   text_line_separated: "Multiple values allowed (one line for each value)."
@@ -2491,7 +2528,7 @@ vi:
       mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "Tên được thiết lập với người cung cấp đăng nhập của bạn và vì thế không thể thay đổi"
     unlock: "Mở khoá"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "đã đóng"

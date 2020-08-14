@@ -34,18 +34,27 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {StateService} from "@uirouter/core";
 import {BoardService} from "core-app/modules/boards/board/board.service";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {of} from "rxjs";
+import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
+import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Component({
   templateUrl: './add-list-modal.html'
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
+  /** Keep a switchmap for search term and loading state */
+  public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
+    (searchTerm:string) => this.actionService.loadAvailable(this.board, this.active, searchTerm),
+    errorNotificationHandler(this.halNotification),
+    true
+  );
+
   public showClose:boolean;
 
   public confirmed = false;
@@ -53,14 +62,11 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** Active board */
   public board:Board;
 
-  /** Current set of queries */
-  public queries:QueryResource[];
+  /** Current active set of values */
+  public active:Set<string>;
 
   /** Action service used by the board */
   public actionService:BoardActionService;
-
-  /** Remaining available values */
-  public availableValues:HalResource[] = [];
 
   /** The selected attribute */
   public selectedAttribute:HalResource|undefined;
@@ -72,8 +78,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   /* Do not close on outside click (because the select option are appended to the body */
   public closeOnOutsideClick = false;
-
-  public valuesAvailable:boolean = true;
 
   public warningText:string|undefined;
 
@@ -94,17 +98,24 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public referenceOutputs = {
     onCreate: (value:HalResource) => this.onNewActionCreated(value),
+    onOpen: () => this.requests.input$.next(''),
     onChange: (value:HalResource) => this.onModelChange(value),
     onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField()
   };
+
+  /** The loaded available values */
+  availableValues:any;
+
+  /** Whether the no results warning is displayed */
+  showWarning:boolean = false;
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly boardActions:BoardActionsRegistryService,
+              readonly halNotification:HalResourceNotificationService,
               readonly state:StateService,
               readonly boardService:BoardService,
-              readonly boardCache:BoardCacheService,
               readonly I18n:I18nService) {
 
     super(locals, cdRef, elementRef);
@@ -114,22 +125,29 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     super.ngOnInit();
 
     this.board = this.locals.board;
-    this.queries = this.locals.queries;
+    this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
 
     this.actionService
-      .getAvailableValues(this.board, this.queries)
-      .then(available => {
-        this.availableValues = available;
-        if (this.availableValues.length === 0) {
-          this.actionService
-            .warningTextWhenNoOptionsAvailable()
-            .then((text) => {
-              this.warningText = text;
-              this.valuesAvailable = false;
-            });
-        }
+      .warningTextWhenNoOptionsAvailable()
+      .then((text) => {
+        this.warningText = text;
       });
+
+    this
+      .requests
+      .output$
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe((values:unknown[]) => {
+        this.availableValues = values;
+        this.showWarning = this.requests.lastRequestedValue !== undefined && (values.length === 0);
+        this.cdRef.detectChanges();
+      });
+
+    // Request an empty value to load warning early on
+    this.requests.input$.next('');
   }
 
   onModelChange(element:HalResource) {
@@ -139,13 +157,12 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   create() {
     this.inFlight = true;
     this.actionService
-      .addActionQuery(this.board, this.selectedAttribute!)
-      .then(board => this.boardService.save(board))
+      .addColumnWithActionAttribute(this.board, this.selectedAttribute!)
+      .then(board => this.boardService.save(board).toPromise())
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
-        this.boardCache.update(board);
-        this.state.go('boards.show', { board_id: board.id, isNew: true });
+        this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
       .catch(() => this.inFlight = false);
   }

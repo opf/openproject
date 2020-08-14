@@ -27,7 +27,6 @@
 // ++
 
 import {AttributeHelpTextsService} from './attribute-help-text.service';
-import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -67,7 +66,6 @@ export class AttributeHelpTextComponent implements OnInit {
   };
 
   constructor(protected elementRef:ElementRef,
-              protected helpTextDm:HelpTextDmService,
               protected attributeHelpTexts:AttributeHelpTextsService,
               protected opModalService:OpModalService,
               protected cdRef:ChangeDetectorRef,
@@ -105,7 +103,7 @@ export class AttributeHelpTextComponent implements OnInit {
 
   private load() {
     if (this.helpTextId) {
-      return this.helpTextDm.load(this.helpTextId);
+      return this.attributeHelpTexts.requireById(this.helpTextId);
     } else {
       return this.attributeHelpTexts.require(this.attribute, this.attributeScope);
     }

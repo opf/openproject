@@ -1,5 +1,5 @@
 ar:
   dashboards:
-    label: 'Dashboards'
-    menu_badge: 'Alpha'
-  project_module_dashboards: 'Dashboards'
+    label: 'لوحات المعلومات'
+    menu_badge: ' ألفا'
+  project_module_dashboards: 'لوحات المعلومات'

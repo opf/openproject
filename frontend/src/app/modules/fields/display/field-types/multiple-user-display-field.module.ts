@@ -27,17 +27,13 @@
 // ++
 
 import {ResourcesDisplayField} from "./resources-display-field.module";
-import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
-import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
-import {DomPortalOutlet} from "@angular/cdk/portal";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
+import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 
 export class MultipleUserFieldModule extends ResourcesDisplayField {
-  @InjectField() userDisplayPortal:UserFieldPortalService;
-  @InjectField() portalCleanup:PortalCleanupService;
-
-  public outlet:DomPortalOutlet;
+  @InjectField() avatarRenderer:UserAvatarRendererService;
 
   public render(element:HTMLElement, displayText:string):void {
     const names = this.value;
@@ -57,13 +53,16 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
    */
   protected renderValues(values:UserResource[], element:HTMLElement) {
     const content = document.createDocumentFragment();
+    const divContainer = document.createElement('div');
+    divContainer.classList.add(cssClassCustomOption);
+    content.appendChild(divContainer);
 
-    this.renderAbridgedValues(element, values);
+    this.renderAbridgedValues(divContainer, values);
 
     if (values.length > 2) {
       const dots = document.createElement('span');
       dots.innerHTML = '... ';
-      content.appendChild(dots);
+      divContainer.appendChild(dots);
 
       const badge = this.optionDiv(values.length.toString(), 'badge', '-secondary');
       content.appendChild(badge);
@@ -75,8 +74,6 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
 
   public renderAbridgedValues(element:HTMLElement, values:UserResource[]) {
     const valueForDisplay = _.take(values, 2);
-
-    this.outlet = this.userDisplayPortal.create(element, valueForDisplay);
-    this.portalCleanup.add(() => this.outlet.dispose());
+    this.avatarRenderer.renderMultiple(element, valueForDisplay);
   }
 }

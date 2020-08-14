@@ -1,20 +1,20 @@
 #English strings go here
 ar:
-  label_avatar: "Avatar"
+  label_avatar: "الصورةالرمزية"
   label_avatar_plural: "Avatars"
   label_current_avatar: "Current Avatar"
   label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
+  message_avatar_uploaded: "لقد تم تحميل الصورة الرمزية بنجاح ."
+  error_image_upload: "خطأ في حفظ الصورة."
+  error_image_size: "الملف كبير جداً"
+  button_change_avatar: "تغيير صورة الحساب"
+  are_you_sure_delete_avatar: "هل أنت متأكد من أنك تريد حذف صورتك الرمزية؟"
+  avatar_deleted: "الصورة الرمزية حذفت بنجاح."
   unable_to_delete_avatar: "Avatar could not be deleted."
   wrong_file_format: "Allowed formats are jpg, png, gif"
   empty_file_error: "Please upload a valid image (jpg, png, gif)"
   avatars:
-    label_avatar: "Avatar"
+    label_avatar: "الصورةالرمزية"
     label_gravatar: 'Gravatar'
     label_current_avatar: 'Current avatar'
     label_local_avatar: 'Custom avatar'

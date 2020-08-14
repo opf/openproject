@@ -40,6 +40,7 @@ FactoryBot.define do
     updated_at { Time.now }
     enabled_module_names { OpenProject::AccessControl.available_project_modules }
     public { false }
+    templated { false }
 
     callback(:after_build) do |project, evaluator|
       disabled_modules = Array(evaluator.disable_modules)
@@ -52,6 +53,12 @@ FactoryBot.define do
 
     factory :public_project do
       public { true } # Remark: public defaults to true
+    end
+
+    factory :template_project do
+      sequence(:name) { |n| "Template project No. #{n}" }
+      sequence(:identifier) { |n| "template_no_#{n}" }
+      templated { true }
     end
 
     factory :project_with_types do

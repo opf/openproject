@@ -37,6 +37,11 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= content_for :content_body do %>
   <openproject-base></openproject-base>
+
+  <%# Allow projection pages to show rails rendered content after initialization %>
+  <div id="projected-content" hidden>
+    <%= yield %>
+  </div>
 <% end -%>
 
 <%= render template: 'layouts/base', locals: local_assigns.merge({ no_action_menu: true }) %>

@@ -67,7 +67,7 @@ describe 'project menu', type: :feature do
         end
 
         it 'leads to cost reports' do
-          click_on 'Cost reports'
+          click_on 'Time and costs'
 
           expect(page).to have_selector('.button--dropdown-text', text: 'Ponyo')
         end
@@ -96,7 +96,7 @@ describe 'project menu', type: :feature do
           # doing what no human can - click on invisible items.
           # This way, we avoid having to use selenium and by that increase stability.
           within '#more-menu', visible: false do
-            click_on 'Cost reports', visible: false
+            click_on 'Time and costs', visible: false
           end
 
           # to make sure we're not seeing the project cost reports:

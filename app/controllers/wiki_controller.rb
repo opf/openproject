@@ -53,6 +53,8 @@ class WikiController < ApplicationController
                                               diff
                                               annotate
                                               destroy]
+  before_action :find_wiki_page, only: %i[show]
+  before_action :handle_new_wiki_page, only: %i[show]
   before_action :build_wiki_page_and_content, only: %i[new create]
 
   include AttachmentsHelper
@@ -120,17 +122,6 @@ class WikiController < ApplicationController
 
   # display a page (in editing mode if it doesn't exist)
   def show
-    @page = @wiki.find_or_new_page(wiki_page_title)
-    if @page.new_record?
-      if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
-        edit
-        render action: 'new'
-      else
-        render_404
-      end
-      return
-    end
-
     # Set the related page ID to make it the parent of new links
     flash[:_related_wiki_page_id] = @page.id
 
@@ -387,6 +378,27 @@ class WikiController < ApplicationController
     render_404 unless @wiki
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  # Finds or created the wiki page associated
+  # to the wiki
+  def find_wiki_page
+    @page = @wiki.find_or_new_page(wiki_page_title)
+  end
+
+  # Handles new pages for non-editable permissions
+  def handle_new_wiki_page
+    return unless @page.new_record?
+
+    if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
+      edit
+      render action: :new
+    elsif params[:id] == 'wiki'
+      flash[:info] = I18n.t('wiki.page_not_editable_index')
+      redirect_to action: :index
+    else
+      render_404
+    end
   end
 
   # Finds the requested page and returns a 404 error if it doesn't exist

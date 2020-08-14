@@ -30,13 +30,13 @@ import {Injectable, Injector} from '@angular/core';
 import {INotification} from 'core-app/modules/common/notifications/notifications.service';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageNotificationService extends HalResourceNotificationService {
 
   constructor(readonly injector:Injector,
-              protected wpCacheService:WorkPackageCacheService) {
+              readonly apiV3Service:APIV3Service) {
     super(injector);
   }
 
@@ -57,7 +57,7 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
         type: 'error',
         link: {
           text: this.I18n.t('js.hal.error.update_conflict_refresh'),
-          target: () => this.wpCacheService.require(resource.id!, true)
+          target: () => this.apiV3Service.work_packages.id(resource).refresh()
         }
       });
 

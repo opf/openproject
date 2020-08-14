@@ -29,106 +29,21 @@
 require 'spec_helper'
 
 describe 'Journalized Objects' do
-  before(:each) do
-    @project ||= FactoryBot.create(:project_with_types)
-    @type ||= @project.types.first
-    @current = FactoryBot.create(:user, login: 'user1', mail: 'user1@users.com')
-    allow(User).to receive(:current).and_return(@current)
-  end
-
-  it 'should work with work packages' do
-    @status_open ||= FactoryBot.create(:status, name: 'Open', is_default: true)
-    @work_package ||= FactoryBot.create(:work_package, project: @project, status: @status_open, type: @type, author: @current)
-
-    initial_journal = @work_package.journals.first
-    recreated_journal = @work_package.recreate_initial_journal!
-
-    expect(initial_journal).to be_identical(recreated_journal)
-  end
-
-  it 'should work with news' do
-    @news ||= FactoryBot.create(:news, project: @project, author: @current, title: 'Test', summary: 'Test', description: 'Test')
-
-    initial_journal = @news.journals.first
-    recreated_journal = @news.recreate_initial_journal!
-
-    expect(initial_journal).to be_identical(recreated_journal)
-  end
-
-  it 'should work with wiki content' do
-    @wiki_content ||= FactoryBot.create(:wiki_content, author: @current)
-
-    initial_journal = @wiki_content.journals.first
-    recreated_journal = @wiki_content.recreate_initial_journal!
-
-    expect(initial_journal).to be_identical(recreated_journal)
-  end
-
-  it 'should work with messages' do
-    @message ||= FactoryBot.create(:message, content: 'Test', subject: 'Test', author: @current)
-
-    initial_journal = @message.journals.first
-    recreated_journal = @message.recreate_initial_journal!
-
-    expect(initial_journal).to be_identical(recreated_journal)
-  end
-
-  it 'should work with time entries' do
-    @status_open ||= FactoryBot.create(:status, name: 'Open', is_default: true)
-    @work_package ||= FactoryBot.create(:work_package, project: @project, status: @status_open, type: @type, author: @current)
-
-    @time_entry ||= FactoryBot.create(:time_entry, work_package: @work_package, project: @project, spent_on: Time.now, hours: 5, user: @current, activity: FactoryBot.create(:time_entry_activity))
-
-    initial_journal = @time_entry.journals.first
-    recreated_journal = @time_entry.recreate_initial_journal!
-
-    expect(initial_journal).to be_identical(recreated_journal)
-  end
-
-  it 'should work with attachments' do
-    @attachment ||= FactoryBot.create(:attachment, container: FactoryBot.create(:work_package), author: @current)
-
-    initial_journal = @attachment.journals.first
-    recreated_journal = @attachment.recreate_initial_journal!
-
-    expect(initial_journal).to be_identical(recreated_journal)
-  end
-
-  it 'should work with changesets' do
-    Setting.enabled_scm = ['subversion']
-    @repository ||= FactoryBot.create(:repository_subversion, url: 'http://svn.test.com')
-    @changeset ||= FactoryBot.create(:changeset, committer: @current.login, repository: @repository)
-
-    initial_journal = @changeset.journals.first
-    recreated_journal = @changeset.recreate_initial_journal!
-
-    expect(initial_journal).to be_identical(recreated_journal)
-  end
-
   describe 'journal_editable_by?' do
     context 'when the journable is a work package' do
-      let!(:user) { FactoryBot.create(:user) }
+      let!(:user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: []) }
       let!(:project) { FactoryBot.create(:project_with_types) }
-      let!(:role) { FactoryBot.create(:role, permissions: [:edit_work_packages]) }
-      let!(:member) {
-        FactoryBot.create(:member, project: project,
-                                    roles: [role],
-                                    principal: user)
-      }
-      let!(:work_package) {
-        FactoryBot.build(:work_package, type: project.types.first,
-                                         author: user,
-                                         project: project,
-                                         description: '')
-      }
+      let!(:work_package) do
+        FactoryBot.create(:work_package,
+                          type: project.types.first,
+                          author: user,
+                          project: project,
+                          description: '')
+      end
 
-      subject { work_package.journal_editable_by?(user) }
+      subject { work_package.journal_editable_by?(work_package.journals.first, user) }
 
       context 'and the user has no permission to "edit_work_packages"' do
-        before do
-          role.remove_permission! :edit_work_packages
-        end
-
         it { is_expected.to be_falsey }
       end
     end

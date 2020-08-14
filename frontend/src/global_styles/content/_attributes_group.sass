@@ -1,0 +1,73 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+.attributes-group
+  margin-top: 1.6875rem
+  position: relative
+
+
+.attributes-group--header
+  @include grid-block
+  margin:  0 0 0.5rem 0
+  border-bottom: 1px solid #ddd
+  align-items: flex-end
+
+
+.attributes-group--header-container
+  @include grid-content
+  padding: 0 1rem 0.4rem 0
+
+  // Exclusive toggleable attribute groups
+  // include a radio input to toggle them,
+  // but the positioning is off.
+  .attributes-group.-toggleable &
+    cursor: pointer
+    padding-left: 5px
+
+.attributes-group--header-control
+  @include grid-content(shrink)
+  padding: 0 0 0.4rem 0
+
+.attributes-group--header-toggle
+  @include grid-content(shrink)
+  padding: 0 0 0 1rem
+  overflow-y: hidden
+
+  .button
+    margin: 0 0 8px 0
+
+// HACK. TODO: Remove H3 element rules in various places.
+.attributes-group--header-text,
+#content h3.attributes-group--header-text
+  font-size: 1rem
+  font-weight: bold
+  text-transform: uppercase
+  // properties to reset h3
+  margin: 0
+  padding: 0
+  border: 0

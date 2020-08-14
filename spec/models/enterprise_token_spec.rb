@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe EnterpriseToken, type: :model do
-  let(:object) { OpenProject::Token.new }
+  let(:object) { OpenProject::Token.new domain: Setting.host_name }
   subject { EnterpriseToken.new(encoded_token: 'foo') }
 
   before do

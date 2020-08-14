@@ -3,6 +3,7 @@
     [editable]="isEditable">
 
   <widget-menu
+      slot="menu"
       [resource]="resource">
   </widget-menu>
 </widget-header>
@@ -14,6 +15,8 @@
       <ng-container *ngFor="let cf of customFields">
         <div class="attributes-map--key">
           {{ cf.label }}
+          <attribute-help-text [attribute]="cf.key"
+                               [attributeScope]="'Project'"></attribute-help-text>
         </div>
         <div class="attributes-map--value">
           <editable-attribute-field [resource]="project"

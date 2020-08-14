@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
 -%>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag('meeting/meeting.js') %>
+  <meta name="required_script" content="custom_fields" />
 <% end %>
 
 <div class="meeting_content <%= content_type %>">
@@ -67,5 +67,3 @@ See docs/COPYRIGHT.rdoc for more details.
   <% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
   <%= list_attachments(resource) %>
 <% end %>
-
-<%= render :partial => 'shared/meeting_header' %>

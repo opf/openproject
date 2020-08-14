@@ -6,18 +6,18 @@
   </div>
 
   <div class="wp-card--inline-buttons hidden-for-mobile">
+    <a class="wp-card--details-button -no-decoration"
+       *ngIf="!workPackage.isNew && showInfoButton"
+       [title]="text.detailsView"
+       (accessibleClick)="emitStateLinkClicked(workPackage, true)">
+      <op-icon icon-classes="icon icon-info2"></op-icon>
+    </a>
     <a class="wp-card--inline-cancel-button -no-decoration"
        *ngIf="workPackage.isNew || showRemoveButton"
        [ngClass]="{ '-show': workPackage.isNew }"
        [title]="text.removeCard"
        (accessibleClick)="onRemoved(workPackage)">
       <op-icon icon-classes="icon icon-close"></op-icon>
-    </a>
-    <a class="wp-card--details-button -no-decoration" 
-       *ngIf="!workPackage.isNew && showInfoButton"
-       [title]="text.detailsView"
-       (accessibleClick)="openSplitScreen(workPackage)">
-      <op-icon icon-classes="icon icon-info2"></op-icon>
     </a>
   </div>
   <edit-form [resource]="workPackage" 
@@ -45,10 +45,9 @@
           class="wp-card--type"
           [ngClass]="typeHighlightingClass(workPackage)">
     </span>
-    <a uiSref="work-packages.show" 
-       [uiParams]="{workPackageId: workPackage.id}"
-       class="wp-card--id"
-       [ngClass]="uiStateLinkClass">
+    <a class="wp-card--id"
+       [ngClass]="uiStateLinkClass"
+       (accessibleClick)="emitStateLinkClicked(workPackage)">
       #{{workPackage.id}}
     </a>
     <span [textContent]="wpSubject(workPackage)" 

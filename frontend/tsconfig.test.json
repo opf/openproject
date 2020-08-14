@@ -10,6 +10,6 @@
   },
   "files": [
     "app/components/**/*.test.ts",
-    "app/typings/*"
+
   ]
 }

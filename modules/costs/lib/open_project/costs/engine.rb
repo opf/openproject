@@ -35,7 +35,7 @@ module OpenProject::Costs
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-costs',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.com',
              bundled: true,
              settings: {
                default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
@@ -352,11 +352,8 @@ module OpenProject::Costs
                }
     end
 
-    assets %w(costs/costs.css)
-
     initializer 'costs.register_hooks' do
       require 'open_project/costs/hooks'
-      require 'open_project/costs/hooks/activity_hook'
       require 'open_project/costs/hooks/work_package_hook'
       require 'open_project/costs/hooks/work_package_action_menu'
       require 'open_project/costs/hooks/work_packages_show_attributes'
@@ -382,8 +379,6 @@ module OpenProject::Costs
 
       API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [:cost_object]
 
-      require 'open_project/costs/patches/work_package_eager_loading_patch'
-      API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.prepend OpenProject::Costs::Patches::WorkPackageEagerLoadingPatch
       ##
       # Add a new group
       cost_attributes = %i(cost_object costs_by_type labor_costs material_costs overall_costs)

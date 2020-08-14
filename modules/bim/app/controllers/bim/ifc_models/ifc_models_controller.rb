@@ -33,11 +33,12 @@ module Bim
     class IfcModelsController < BaseController
       helper_method :gon
 
-      before_action :find_project_by_project_id, only: %i[index new create show defaults edit update destroy]
+      before_action :find_project_by_project_id, only: %i[index new create show defaults edit update destroy direct_upload_finished]
       before_action :find_ifc_model_object, only: %i[edit update destroy]
       before_action :find_all_ifc_models, only: %i[show defaults index]
 
-      before_action :authorize
+      before_action :authorize, except: [:set_direct_upload_file_name, :direct_upload_finished]
+      skip_before_action :verify_authenticity_token, only: [:set_direct_upload_file_name]
 
       menu_item :ifc_models
 
@@ -48,9 +49,25 @@ module Bim
 
       def new
         @ifc_model = @project.ifc_models.build
+
+        if OpenProject::Configuration.direct_uploads?
+          @pending_upload = Attachment.create_pending_direct_upload(file_name: "model.ifc", author: current_user)
+          @form = DirectFogUploader.direct_fog_hash(
+            attachment: @pending_upload,
+            success_action_redirect: direct_upload_finished_bcf_project_ifc_models_url
+          )
+        end
       end
 
-      def edit;
+      def edit
+        if OpenProject::Configuration.direct_uploads?
+          @pending_upload = Attachment.create_pending_direct_upload(file_name: "model.ifc", author: current_user)
+          @form = DirectFogUploader.direct_fog_hash(
+            attachment: @pending_upload,
+            success_action_redirect: direct_upload_finished_bcf_project_ifc_models_url
+          )
+          session[:pending_ifc_model_ifc_model_id] = @ifc_model.id
+        end
       end
 
       def show
@@ -59,6 +76,70 @@ module Bim
 
       def defaults
         frontend_redirect @ifc_models.defaults.pluck(:id).uniq
+      end
+
+      def set_direct_upload_file_name
+        session[:pending_ifc_model_title] = params[:title]
+        session[:pending_ifc_model_is_default] = params[:isDefault]
+      end
+
+      def direct_upload_finished
+        id = request.params[:key].scan(/\/file\/(\d+)\//).flatten.first
+        attachment = Attachment.pending_direct_uploads.where(id: id).first
+
+        if attachment.nil? # this should not happen
+          flash[:error] = "Direct upload failed."
+
+          redirect_to action: :new
+        end
+
+        params = {
+          title: session[:pending_ifc_model_title],
+          project: @project,
+          ifc_attachment: attachment,
+          is_default: session[:pending_ifc_model_is_default]
+        }
+
+        new_model = true
+
+        if session[:pending_ifc_model_ifc_model_id]
+          ifc_model = Bim::IfcModels::IfcModel.find_by id: session[:pending_ifc_model_ifc_model_id]
+          new_model = false
+
+          call = ::Bim::IfcModels::UpdateService
+            .new(user: current_user, model: ifc_model)
+            .call(params.with_indifferent_access)
+
+          @ifc_model = call.result
+        else
+          call = ::Bim::IfcModels::CreateService
+            .new(user: current_user)
+            .call(params.with_indifferent_access)
+
+          @ifc_model = call.result
+        end
+
+        session.delete :pending_ifc_model_title
+        session.delete :pending_ifc_model_is_default
+        session.delete :pending_ifc_model_ifc_model_id
+
+        if call.success?
+          ::Attachments::FinishDirectUploadJob.perform_later attachment.id
+
+          if new_model
+            flash[:notice] = t('ifc_models.flash_messages.upload_successful')
+          else
+            flash[:notice] = t(:notice_successful_update)
+          end
+
+          redirect_to action: :index
+        else
+          attachment.destroy
+
+          flash[:error] = call.errors.full_messages.join(" ")
+
+          redirect_to action: :new
+        end
       end
 
       def create

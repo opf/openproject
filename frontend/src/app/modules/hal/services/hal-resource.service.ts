@@ -28,13 +28,11 @@
 
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import {throwError} from 'rxjs/internal/observable/throwError';
 import {catchError, map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {initializeHalProperties} from 'core-app/modules/hal/helpers/hal-resource-builder';
 import {URLParamsEncoder} from 'core-app/modules/hal/services/url-params-encoder';
 import {ErrorResource} from "core-app/modules/hal/resources/error-resource";
 import * as Pako from 'pako';
@@ -45,6 +43,7 @@ import {
   HTTPSupportedMethods
 } from "core-app/modules/hal/http/http.interfaces";
 import {whenDebugging} from "core-app/helpers/debug_output";
+import {initializeHalProperties} from "../helpers/hal-resource-builder";
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -133,14 +132,14 @@ export class HalResourceService {
     // Current offset page
     let page = 1;
     // Accumulated results
-    const allResults:CollectionResource[] = [];
+    const allResults:T = [] as any;
     // If possible, request all at once.
     params.pageSize = expected;
 
     while (retrieved < expected) {
       params.offset = page;
 
-      const promise = this.request<CollectionResource>('get', href, this.toEprops(params), headers).toPromise();
+      const promise = this.request('get', href, this.toEprops(params), headers).toPromise();
       const results = await promise;
 
       if (results.count === 0) {
@@ -307,7 +306,7 @@ export class HalResourceService {
   }
 
   /**
-   * Get the hal type for an attribute.
+   * Get the hal type for an attribute
    *
    * @param type
    * @param attribute

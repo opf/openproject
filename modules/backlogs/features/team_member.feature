@@ -81,6 +81,7 @@ Feature: Team Member
         | Impediment 2 | Sprint 001 | Story 2 |
     And I am already logged in as "paul"
 
+  @javascript
   Scenario: Create a task for a story
     Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1
@@ -89,6 +90,7 @@ Feature: Team Member
      Then the request should complete successfully
       And the 1st task for Story 1 should be A Whole New Task
 
+  @javascript
   Scenario: Update a task for a story
     Given I am on the taskboard for "Sprint 001"
       And I want to edit the task named Task 1
@@ -97,6 +99,7 @@ Feature: Team Member
      Then the request should complete successfully
       And the story named Story 1 should have 1 task named Whoa there, Sparky
 
+  @javascript
   Scenario: View a taskboard
     Given I am on the taskboard for "Sprint 001"
      Then I should see the taskboard
@@ -128,6 +131,7 @@ Feature: Team Member
      When I press "Filter"
      Then I should see "Version" within "#filters"
 
+  @javascript
   Scenario: Copy estimate to remaining
     Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1
@@ -137,6 +141,7 @@ Feature: Team Member
      Then the request should complete successfully
       And task A Whole New Task should have remaining_hours set to 3
 
+  @javascript
   Scenario: Copy remaining to estimate
     Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1
@@ -146,6 +151,7 @@ Feature: Team Member
      Then the request should complete successfully
       And task A Whole New Task should have estimated_hours set to 3
 
+  @javascript
   Scenario: Set both estimate and remaining
     Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1

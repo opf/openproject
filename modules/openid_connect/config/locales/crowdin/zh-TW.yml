@@ -1,19 +1,19 @@
 zh-TW:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    你已被登出，你嘗試送出的內容可能都會遺失。請登入。
   activemodel:
     attributes:
       openid_connect/provider:
         name: 名稱
-        display_name: Display name
+        display_name: 顯示名稱
         identifier: 識別碼
-        secret: Secret
-        scope: Scope
+        secret: 金鑰
+        scope: 範圍
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: OpenID 提供者
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: 新增 OpenID 提供者
+      label_edit: 編輯 OpenID 提供者：%{name}
+      no_results_table: 尚未定義任何提供者。
+      plural: OpenID 提供者
+      singular: OpenID 提供者

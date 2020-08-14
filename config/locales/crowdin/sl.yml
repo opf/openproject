@@ -78,6 +78,7 @@ sl:
     is_active: Trenutno prikazano
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ko je definirano, lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
     label_plural: 'Tekst pomoči atributa'
     show_preview: 'Predogled besedila'
@@ -87,6 +88,10 @@ sl:
     index:
       no_results_content_title: Trenutno ni načinov overjanja.
       no_results_content_text: Ustvarite nov način preverjanja pristnosti
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ta obrazec LDAP zahteva tehnično znanje o vaši namestitvi LDAP / Active Directory.
@@ -276,6 +281,7 @@ sl:
     overview:
       no_results_title_text: Za to različico trenutno ni opravil
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Trenutno ni wiki strani
     index:
       no_results_content_text: Dodaj novo stran
@@ -414,6 +420,7 @@ sl:
         types: "Tipi"
         versions: "Verzije"
         work_packages: "zahtevki"
+        templated: 'Template project'
       projects/status:
         code: 'Stanje'
         explanation: 'Opis stanja'
@@ -485,6 +492,7 @@ sl:
         parent_work_package: "Nadrejeni"
         priority: "Prioriteta"
         progress: "Napredek (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"
@@ -738,6 +746,9 @@ sl:
     date: "Datum"
     default_columns: "Privzeti stolpci"
     description: "Opis"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Prikaži vsote"
     due_date: "Končni datum"
     estimated_hours: "Predvideni čas"
@@ -888,6 +899,7 @@ sl:
       - "Okt"
       - "Nov"
       - "Dec"
+    abbr_week: 'Wk'
     day_names:
       - "Nedelja"
       - "Ponedeljek"
@@ -1101,6 +1113,7 @@ sl:
   error_cookie_missing: 'Piškotek OpenProject manjka. Prepričajte se, da so piškotki omogočeni, saj ta aplikacija ne bo pravilno delovala brez.'
   error_custom_option_not_found: "Možnost ne obstaja."
   error_enterprise_activation_user_limit: "Vašega računa ni bilo mogoče aktivirati (dosežena uporabniška omejitev). Če želite dobiti dostop, se obrnite na skrbnika."
+  error_enterprise_token_invalid_domain: "Podjetniška verzija ni aktivna. Domena vašega žetona podjetja (%{actual}) se ne ujema z imenom gostitelja sistema (%{expected})."
   error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
   error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
@@ -1146,6 +1159,8 @@ sl:
     work_package_edit: 'Delovni paket je bil urejen'
     work_package_note: 'Dodana opomba o delovnem paketu'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1167,7 +1182,7 @@ sl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Angleščina"
+  general_lang_name: "Slovenščina"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ne"
   general_text_yes: "da"
@@ -1341,6 +1356,7 @@ sl:
   label_delete_project: "Brisanje projekta"
   label_deleted: "Izbrisano"
   label_deleted_custom_field: "(izbrisano polje po meri)"
+  label_deleted_custom_option: "(izbrisana možnost)"
   label_descending: "Padajoče"
   label_details: "Podrobnosti"
   label_development_roadmap: "Načrt razvoja"
@@ -1652,6 +1668,7 @@ sl:
   label_time_entry_plural: "Porabljen čas"
   label_time_sheet_menu: "Časovni list"
   label_time_tracking: "Sledenje časa"
+  label_projects_menu: "Projekti"
   label_today: "Danes"
   label_top_menu: "Zgornji meni"
   label_topic_plural: "Teme"
@@ -1789,7 +1806,16 @@ sl:
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
-  mail_body_register: "Za aktivacijo vašega računa kliknite na naslednjo povezavo:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} delovni paketi, ki so vam dodeljeni bodo zapadli v naslednjih dneh: %{days}"
   mail_body_group_reminder: "%{count} delovni paketi, ki so dodeljeni skupini \"%{group}\" bodo zapadli v naslednjih %{days} dneh:"
   mail_body_wiki_content_added: "%{author} je dodal '%{id}' stran wiki."
@@ -1947,7 +1973,7 @@ sl:
   permission_manage_project_activities: "Uredi aktivnosti projekta"
   permission_manage_public_queries: "Upravljajte javne poglede"
   permission_manage_repository: "Uredi shrambo"
-  permission_manage_subtasks: "Uredi podnaloge"
+  permission_manage_subtasks: "Upravljaj hierarhijo delovnih paketov"
   permission_manage_versions: "Uredi verzije"
   permission_manage_wiki: "Uredi wiki"
   permission_manage_wiki_menu: "Uredi wiki meni"
@@ -1982,6 +2008,12 @@ sl:
       warning_one: Člani projekta bodo morali preseliti shrambo projekta.
       warning_two: Obstoječe povezave do projekta ne bodo več delovale.
       title: Spremenite identifikator projekta
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Ali ste prepričani, da želite arhivirati projekt '% {name}'?"
       archived: "Arhiviran"
@@ -2003,7 +2035,8 @@ sl:
     assigned_to_role: "Pooblaščenčeva vloga"
     member_of_group: "Pooblaščenčeva skupina"
     assignee_or_group: "Prejemnik ali pripadajoča skupina"
-    subproject_id: "Podprojekt"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Ime ali identifikator"
   repositories:
     at_identifier: 'na% {identifier}'
@@ -2107,6 +2140,9 @@ sl:
     url: "Pot do shrambe"
     warnings:
       cannot_annotate: "Te datoteke ni mogoče opomniti."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "Iskanje..."
   setting_email_delivery_method: "Način dostave po e-pošti"
   setting_sendmail_location: "Lokacija izvršljive pošte"
@@ -2302,6 +2338,7 @@ sl:
   text_journal_deleted_with_diff: "%{label} izbrisan (%{link})"
   text_journal_set_to: "%{label} nastavljeno na %{value}"
   text_journal_set_with_diff: "%{label} nastavljen (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "Zadnji komentar je: %{note}"
   text_length_between: "Dolžina med %{min} in %{max} znakov."
   text_line_separated: "Dovoljenih več vrednosti (ena vrstica za vsako vrednost)."
@@ -2631,80 +2668,82 @@ sl:
       render:
         context_not_parsable: "Navedeni kontekst ni povezava do vira."
         unsupported_context: "Navedeni vir ni podprt kot kontekst."
-        context_object_not_found: "Cannot find the resource given as the context."
+        context_object_not_found: "Ni mogoče najti vira kot konteksta."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
-        due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
-        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
-        start_date: "Start date cannot be set on parent work packages."
+        done_ratio: "Končnega razmerja ni mogoče določiti za nadrejene delovne pakete, na podlagi statusa ali ko je onemogočeno."
+        due_date: "Končnega datuma ni mogoče določiti za nadrejene delovne pakete."
+        estimated_hours: "Predvidenih ur ni mogoče nastaviti v nadrejenih delovnih paketih."
+        invalid_user_assigned_to_work_package: "Izbrani uporabnik ne sme biti '%{property}' za ta delovni paket."
+        start_date: "Na nadrejenih delovnih paketih začetnega datuma ni mogoče nastaviti."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "je neveljaven gzip: %{message}"
+        invalid_json: "je neveljaven json: %{message}"
     resources:
-      schema: 'Schema'
+      schema: 'Shema'
   doorkeeper:
     pre_authorization:
-      status: 'Pre-authorization'
+      status: 'Pred odobritvijo'
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
-        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        invalid_request: 'Zahtevku manjka zahtevani parameter, vključuje nepodprto vrednost parametra ali je drugače nepravilno oblikovan.'
+        invalid_redirect_uri: "Zahtevani URI preusmeritve je nepravilno oblikovan ali se ne ujema z URI preusmeritve odjemalca.\n"
+        unauthorized_client: 'Stranka nima pooblastila za izvajanje te zahteve po tej metodi.'
+        access_denied: "Lastnik vira ali pooblastitveni strežnik je zahtevo zavrnil.\n"
+        invalid_scope: 'Zahtevani obseg je neveljaven, neznan ali nepravilen.'
+        invalid_code_challenge_method: 'Način izziva kode mora biti navaden ali S256.'
+        server_error: 'Strežnik pooblastil je naletel na nepričakovano stanje, ki je preprečilo, da bi izpolnil zahtevo.'
+        temporarily_unavailable: 'Strežnik pooblastil, zaradi začasne preobremenitve ali vzdrževanja, trenutno ne more obdelati zahteve.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        credential_flow_not_configured: 'Pretok geselskih pooblastil lastnika virov ni uspel, ker Doorkeeper.configure.resource_owner_from_credentials ni nastavljen.'
+        resource_owner_authenticator_not_configured: 'Iskanje lastnika virov ni uspelo, ker Doorkeeper.configure.resource_owner_authenticator ni nastavljen.'
+        admin_authenticator_not_configured: 'Dostop do skrbniške plošče je prepovedan, ker Doorkeeper.configure.admin_authenticator ni konfiguriran.'
         #Access grant errors
-        unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_type: 'Strežnik pooblastil ne podpira te vrste odziva.'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: 'Overitev odjemalca ni uspelo zaradi neznanega odjemalca, zaradi nevključitve overitve odjemalca ali zaradi nepodprte metode overitve.'
+        invalid_grant: 'Predložena odobritev za pooblastilo je neveljavna, potekla, preklicana, se ne ujema z URI preusmeritvijo, ki je uporabljena v zahtevi za pooblastilo ali je bila izdana drugemu odjemalcu.'
+        unsupported_grant_type: 'Strežnik pooblastil ne podpira te vrste odobritve pooblastila.'
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "Žeton za dostop je bil preklican"
+          expired: "Žeton za dostop je pretekel"
+          unknown: "Žeton za dostop je neveljaven"
   unsupported_browser:
-    title: "Your browser is outdated and unsupported."
-    message: "You may run into errors and degraded experience on this page."
-    update_message: 'Please update your browser.'
-    close_warning: "Ignore this warning."
+    title: "Vaš brskalnik je zastarel in nepodprt.\n"
+    message: "Na tej strani lahko naletite na napake in slabšo izkušnjo."
+    update_message: "Posodobite svoj brskalnik.\n"
+    close_warning: "Ignorirajte to opozorilo.\n"
   oauth:
     application:
       singular: "Aplikacija OAuth"
-      plural: "OAuth applications"
-      named: "OAuth application '%{name}'"
-      new: "New OAuth application"
-      default_scopes: "(Default scopes)"
+      plural: "Aplikacija OAuth"
+      named: "OAuth aplikacija '%{name}'"
+      new: "Nova OAuth aplikacija"
+      default_scopes: "(Privzeti obsegi)"
       instructions:
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        name: "Ime vaše prijave. To bo prikazano drugim uporabnikom po odobritvi."
         redirect_uri_html: >
-          The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
-        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
-        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+          Dovoljene uporabnike lahko preusmerimo na dovoljene URL-je. En vnos na vrstico. <br/> Če registrirate aplikacijo za namizje, uporabite naslednji URL.
+        confidential: "Preverite, ali se bo aplikacija uporabljala tam, kjer je lahko tajna stranke zaupna. Domače mobilne aplikacije in aplikacije za eno stran veljajo za nezaupne.\n"
+        scopes: "Preverite področja uporabe, do katerih aplikacija lahko odobri dostop. Če obseg ni preverjen, se domneva, da je api_v3.\n"
+        client_credential_user_id: "Izbirni ID uporabnika, da se predstavi, ko stranke uporabljajo to aplikacijo. Pustite prazno, če želite omogočiti samo javni dostop\n"
+        register_intro: "Če razvijate odjemalsko aplikacijo API OAuth za OpenProject, jo lahko registrirate s tem obrazcem za vse uporabnike."
         default_scopes: ""
     client_id: "ID odjemalca"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      To je edini čas, ko lahko natisnemo skrivnost stranke. Prosimo, zapišite jo in ohranite varno. To bi moralo biti obravnavano kot geslo in ga OpenProject ne more pozneje pridobiti.
+
     authorization_dialog:
-      authorize: "Authorize"
-      cancel: "Cancel and deny authorization."
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
-      title: "Authorize %{application_name}"
+      authorize: "Avtorizacija"
+      cancel: "Prekličite in zavrnite avtorizacijo."
+      prompt_html: "Odobrite <strong>%{application_name}</strong> za uporabo vašega računa <em>%{login}</em>?"
+      title: "Odobrite %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+
+        Ta aplikacija zahteva dostop do vašega računa OpenProject. <br/> <strong> Zahteval je naslednja dovoljenja: </strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Polni API v3 dostop"
+      api_v3_text: "Aplikacija bo prejela popoln dostop za branje in pisanje do API-ja OpenProject v3 za izvajanje dejanj v vašem imenu."
     grants:
       created_date: "Odobreno na"
       scopes: "Dovoljenja"

@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class EmptyContract
+class EmptyContract < ModelContract
   def initialize(*); end
 
   def validate

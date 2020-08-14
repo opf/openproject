@@ -40,15 +40,15 @@ import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {editModeClassName} from "core-app/modules/fields/edit/edit-field.component";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
   @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
-  @InjectField() public wpCacheService:WorkPackageCacheService;
+  @InjectField() public apiV3Service:APIV3Service;
   @InjectField() public states:States;
   @InjectField() public FocusHelper:FocusHelperService;
   @InjectField() public editingPortalService:EditingPortalService;
@@ -57,8 +57,11 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   private cellBuilder = new CellBuilder(this.injector);
 
   // Subscription
-  private resourceSubscription:Subscription = this.wpCacheService
-    .requireAndStream(this.workPackageId)
+  private resourceSubscription:Subscription = this
+    .apiV3Service
+    .work_packages
+    .id(this.workPackageId)
+    .requireAndStream()
     .subscribe((wp) => this.resource = wp);
 
   constructor(public injector:Injector,
@@ -70,7 +73,6 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   destroy() {
     this.resourceSubscription.unsubscribe();
-    super.destroy();
   }
 
   public findContainer(fieldName:string):JQuery {
@@ -135,6 +137,20 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       .trigger('focus');
   }
 
+  /**
+   * Load the resource form to get the current field schema with all
+   * values loaded.
+   * @param fieldName
+   */
+  protected loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
+    // We need to handle start/due date cases like they were combined dates
+    if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
+      fieldName = 'combinedDate';
+    }
+
+    return super.loadFieldSchema(fieldName, noWarnings);
+  }
+
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
   private waitForContainer(fieldName:string):Promise<HTMLElement> {
@@ -153,5 +169,4 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   private get rowContainer() {
     return jQuery(this.table.tableAndTimelineContainer).find(`.${this.classIdentifier}-table`);
   }
-
 }

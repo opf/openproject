@@ -41,7 +41,7 @@ describe SecurityBadgeHelper, type: :helper do
       expect(uri.host).to eq("releases.openproject.com")
       expect(query.keys).to match_array(["uuid", "type", "version", "db", "lang", "ee"])
       expect(query["uuid"]).to eq("abcd1234")
-      expect(query["version"]).to eq(OpenProject::VERSION.to_s)
+      expect(query["version"]).to eq(OpenProject::VERSION.to_semver)
       expect(query["type"]).to eq("manual")
       expect(query["ee"]).to eq("false")
     end

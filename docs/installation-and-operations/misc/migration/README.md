@@ -10,7 +10,7 @@ To create a dump of all your data in the old installation, please follow our [ba
 
 This guide should leave you with a set of archives that you should manually move to your new environment:
 
-- **Database**: mysql-dump-\<timestamp>.sql.gz or postgresql-dump\<timestamp>.pgdump
+- **Database**: postgresql-dump\<timestamp>.pgdump
 - **Attachments**: attachments-\<timestamp>.tar.gz
 - **Custom env configuration**: conf-\<timestamp>.tar.gz
 - **Repositories**: svn- and git-\<timestamp>.tar.gz
@@ -18,6 +18,10 @@ This guide should leave you with a set of archives that you should manually move
 ## Migration
 
 The following steps outline the migration process to the OpenProject package (possibly, a newer version).
+
+## Stop OpenProject on old server
+
+To stop the servers from being accessed on the old installation, stop the service with `service openproject stop` or `systemctl stop openproject` depending on your distribution.
 
 ## Install new package
 
@@ -42,7 +46,7 @@ You can simply look through the installer.dat and change those values you need.
 
 Additional environment, either generated from the wizard or entered by you through `openproject config:set` is written to  `/etc/openproject/conf.d/{server,database,other}`. Also look through those and check which contain relevant values for your new installation. 
 
-### Database
+### PostgreSQL database
 
 On your new host or cluster, ensure you have created a database user and database, ideally using the same names as the old environment (You may want to choose a different random password, however).
 
@@ -51,28 +55,15 @@ To read the values from the old installation, you can execute the following comm
 
 ```bash
 openproject config:get DATABASE_URL
-#=> e.g.: mysql2://dbusername:dbpassword@dbhost:dbport/dbname
+#=> e.g.: postgres://dbusername:dbpassword@dbhost:dbport/dbname
 ```
 
-First the dump has to be extracted (unzipped) and then restored. The command used should look very similar to this:
-
-**PostgreSQL**
+First the dump has to be extracted (unzipped) and then restored. The command used should look very similar to the following. The `--clean` option is used to drop any database object within `<dbname>` so ensure this is the correct database you want to restore, as you will lose all data within it!
 
 ```
 # Restore the PostgreSQL dump
 pg_restore -h <dbhost> -u <dbuser> -W <dbname> --clean postgresql-dump-20180408095521.pgdump
 ```
-
-
-
-**MySQL**
-
-```bash
-# Extract the mysql dump
-zcat mysql-dump-20180408095521.sql.gz | mysql -u <dbuser> -h <dbhost> -p 
-<dbname>
-```
-
 
 
 ### Attachments

@@ -19,12 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 hr:
   button_save_as: "Spremi izvješće kao..."
   comments: "Komentar"
-  cost_reports_title: "Izvješća troškova"
+  cost_reports_title: "Time and costs"
   label_cost_report: "Izvješće troška"
+  label_cost_report_plural: "Izvješća troškova"
   description_drill_down: "Prikaži detalje"
   description_filter_selection: "Izbor"
   description_multi_select: "Prikaži višeodabir"

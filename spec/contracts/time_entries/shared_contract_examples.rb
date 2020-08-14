@@ -227,4 +227,58 @@ shared_examples_for 'time entry contract' do
       end
     end
   end
+
+  describe 'assignable_versions' do
+    let(:project_versions) { double('project versions') }
+    let(:wp_versions) { double('work_package versions') }
+
+    before do
+      if time_entry_project
+        allow(time_entry_project)
+          .to receive(:assignable_versions)
+          .and_return project_versions
+      end
+
+      if time_entry_work_package
+        allow(time_entry_work_package)
+          .to receive(:assignable_versions)
+          .and_return wp_versions
+      end
+    end
+
+    context 'if no project and no work package is set' do
+      let(:time_entry_project) { nil }
+      let(:time_entry_work_package) { nil }
+
+      it 'is empty' do
+        expect(contract.assignable_versions)
+          .to be_empty
+      end
+    end
+
+    context 'if a project is set but no work package' do
+      let(:time_entry_work_package) { nil }
+
+      it 'returns assignable_versions of the project' do
+        expect(contract.assignable_versions)
+          .to eql project_versions
+      end
+    end
+
+    context 'if a work_package is set but no project' do
+      let(:time_entry_project) { nil }
+
+      it 'returns assignable_versions of the project' do
+        expect(contract.assignable_versions)
+          .to eql wp_versions
+      end
+    end
+
+    context 'if both project and work_package are set' do
+      it 'returns assignable_versions of the project' do
+        expect(contract.assignable_versions)
+          .to eql wp_versions
+      end
+    end
+  end
 end

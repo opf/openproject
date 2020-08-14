@@ -37,6 +37,8 @@ class AttributeHelpTextsController < ApplicationController
   before_action :find_type_scope
   before_action :require_enterprise_token_grant
 
+  helper_method :gon
+
   def new
     @attribute_help_text = AttributeHelpText.new type: @attribute_scope
   end
@@ -44,23 +46,30 @@ class AttributeHelpTextsController < ApplicationController
   def edit; end
 
   def update
-    @attribute_help_text.attributes = permitted_params.attribute_help_text
+    call = ::AttributeHelpTexts::UpdateService
+      .new(user: current_user, model: @attribute_help_text)
+      .call(permitted_params_with_attachments)
 
-    if @attribute_help_text.save
+    if call.success?
       flash[:notice] = t(:notice_successful_update)
       redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
     else
+      flash[:error] = call.message || I18n.t('notice_internal_server_error')
       render action: 'edit'
     end
   end
 
   def create
-    @attribute_help_text = AttributeHelpText.new permitted_params.attribute_help_text
+    call = ::AttributeHelpTexts::CreateService
+      .new(user: current_user)
+      .call(permitted_params_with_attachments)
 
-    if @attribute_help_text.save
+    if call.success?
       flash[:notice] = t(:notice_successful_create)
-      redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
+      redirect_to attribute_help_texts_path(tab: call.result.attribute_scope)
     else
+      @attribute_help_text = call.result
+      flash[:error] = call.message || I18n.t('notice_internal_server_error')
       render action: 'new'
     end
   end
@@ -94,6 +103,20 @@ class AttributeHelpTextsController < ApplicationController
   end
 
   private
+
+  def permitted_params_with_attachments
+    permitted_params.attribute_help_text.merge(attachment_params)
+  end
+
+  def attachment_params
+    attachment_params = permitted_params.attachments.to_h
+
+    if attachment_params.any?
+      { attachment_ids: attachment_params.values.map(&:values).flatten }
+    else
+      {}
+    end
+  end
 
   def find_entry
     @attribute_help_text = AttributeHelpText.find(params[:id])

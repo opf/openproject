@@ -31,13 +31,11 @@
 module WorkPackage::SchedulingRules
   extend ActiveSupport::Concern
 
-  def reschedule_after(date)
-    WorkPackages::RescheduleService
-      .new(user: User.current,
-           work_package: self)
-      .call(date)
+  def schedule_automatically?
+    !schedule_manually?
   end
 
+  # TODO: move into work package contract (possibly a module included into the contract)
   # Calculates the minimum date that
   # will not violate the precedes relations (max(finish date, start date) + delay)
   # of this work package or its ancestors

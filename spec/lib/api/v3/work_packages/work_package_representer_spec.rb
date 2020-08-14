@@ -41,14 +41,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:priority) { FactoryBot.build_stubbed(:priority, updated_at: Time.now) }
   let(:assignee) { nil }
   let(:responsible) { nil }
+  let(:schedule_manually) { nil }
   let(:start_date) { Date.today.to_datetime }
   let(:due_date) { Date.today.to_datetime }
   let(:type_milestone) { false }
   let(:estimated_hours) { nil }
   let(:derived_estimated_hours) { nil }
   let(:spent_hours) { 0 }
+  let(:derived_start_date) { Date.today - 4.days }
+  let(:derived_due_date) { Date.today - 5.days }
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
+                             schedule_manually: schedule_manually,
                              start_date: start_date,
                              due_date: due_date,
                              done_ratio: 50,
@@ -68,6 +72,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       allow(wp)
         .to receive(:spent_hours)
         .and_return(spent_hours)
+
+      allow(wp)
+        .to receive(:derived_start_date)
+        .and_return(derived_start_date)
+
+      allow(wp)
+        .to receive(:derived_due_date)
+        .and_return(derived_due_date)
     end
   end
   let(:all_permissions) do
@@ -120,6 +132,30 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:format) { 'markdown' }
         let(:raw) { work_package.description }
         let(:html) { '<p>' + work_package.description + '</p>' }
+      end
+
+      describe 'scheduleManually' do
+        context 'no value' do
+          it 'renders as false (default value)' do
+            is_expected.to be_json_eql(false.to_json).at_path('scheduleManually')
+          end
+        end
+
+        context 'false' do
+          let(:schedule_manually) { false }
+
+          it 'renders as false' do
+            is_expected.to be_json_eql(false.to_json).at_path('scheduleManually')
+          end
+        end
+
+        context 'true' do
+          let(:schedule_manually) { true }
+
+          it 'renders as true' do
+            is_expected.to be_json_eql(true.to_json).at_path('scheduleManually')
+          end
+        end
       end
 
       describe 'startDate' do
@@ -191,6 +227,58 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'with a milestone type' do
           it 'has no date' do
             is_expected.to_not have_json_path('date')
+          end
+        end
+      end
+
+      describe 'derivedStartDate' do
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { derived_start_date }
+          let(:json_path) { 'derivedStartDate' }
+        end
+
+        context 'no derived start date' do
+          let(:derived_start_date) { nil }
+
+          it 'renders as null' do
+            is_expected
+              .to be_json_eql(nil.to_json)
+              .at_path('derivedStartDate')
+          end
+        end
+
+        context 'when the work package has a milestone type' do
+          let(:type_milestone) { true }
+
+          it 'has no derivedStartDate' do
+            is_expected
+              .to_not have_json_path('derivedStartDate')
+          end
+        end
+      end
+
+      describe 'derivedDueDate' do
+        it_behaves_like 'has ISO 8601 date only' do
+          let(:date) { derived_due_date }
+          let(:json_path) { 'derivedDueDate' }
+        end
+
+        context 'no derived due date' do
+          let(:derived_due_date) { nil }
+
+          it 'renders as null' do
+            is_expected
+              .to be_json_eql(nil.to_json)
+                    .at_path('derivedDueDate')
+          end
+        end
+
+        context 'when the work package has a milestone type' do
+          let(:type_milestone) { true }
+
+          it 'has no derivedDueDate' do
+            is_expected
+              .to_not have_json_path('derivedDueDate')
           end
         end
       end
@@ -628,10 +716,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           it_behaves_like 'has an untitled link' do
             let(:link) { 'watchers' }
             let(:href) { api_v3_paths.work_package_watchers work_package.id }
-          end
-
-          it 'embeds the watchers as collection' do
-            is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/watchers/_type')
           end
         end
 

@@ -47,7 +47,6 @@ import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/r
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {WorkPackageQueryStateService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
-import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
@@ -80,7 +79,6 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
   @InjectField() $transitions:TransitionService;
   @InjectField() I18n:I18nService;
   @InjectField() wpStaticQueries:WorkPackageStaticQueriesService;
-  @InjectField() QueryDm:QueryDmService;
   @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
   @InjectField() cdRef:ChangeDetectorRef;
   @InjectField() wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService;

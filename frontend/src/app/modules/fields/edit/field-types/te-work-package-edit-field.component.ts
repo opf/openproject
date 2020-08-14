@@ -28,7 +28,6 @@
 
 import {Component} from "@angular/core";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
-import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {
   TimeEntryWorkPackageAutocompleterComponent,
@@ -36,6 +35,7 @@ import {
 } from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
 
@@ -43,7 +43,7 @@ const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
   templateUrl: './work-package-edit-field.component.html'
 })
 export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditFieldComponent {
-  @InjectField() public timeEntryDm:TimeEntryDmService;
+  @InjectField() apiV3Service:APIV3Service;
 
   private recentWorkPackageIds:string[];
 
@@ -82,21 +82,23 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   // associated with the time entries so that we have the most recent work packages the user logged time on.
   // As a worst case, the user logged RECENT_TIME_ENTRIES_MAGIC_NUMBER times on one work package so we can not guarantee to actually have
   // a fixed number returned.
-  protected allowedValuesFetch(query?:string) {
+  protected loadAllowedValues(query?:string) {
     if (!this.recentWorkPackageIds) {
       return this
-        .timeEntryDm
+        .apiV3Service
+        .time_entries
         .list({ filters: [['user_id', '=', ['me']]], sortBy: [["updated_on", "desc"]], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
+        .toPromise()
         .then(collection => {
           this.recentWorkPackageIds = collection
             .elements
             .map((timeEntry) => timeEntry.workPackage.idFromLink)
             .filter((v, i, a) => a.indexOf(v) === i);
 
-          return super.allowedValuesFetch(query);
+          return this.fetchAllowedValueQuery(query);
         });
     } else {
-      return super.allowedValuesFetch(query);
+      return this.fetchAllowedValueQuery(query);
     }
   }
 

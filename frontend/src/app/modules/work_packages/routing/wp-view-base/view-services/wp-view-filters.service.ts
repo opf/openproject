@@ -77,10 +77,8 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
     let filters = cloneHalResourceCollection<QueryFilterInstanceResource>(query.filters);
 
-    this.loadCurrentFiltersSchemas(filters).then(() => {
-      this.availableState.putValue(schema.filtersSchemas.elements);
-      this.pristineState.putValue(filters);
-    });
+    this.availableState.putValue(schema.filtersSchemas.elements);
+    this.pristineState.putValue(filters);
   }
 
   /**
@@ -328,21 +326,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     return this.rawFilters.map((filter:QueryFilterInstanceResource) => filter.filter);
   }
 
-  /**
-   * Ensure all filter schemas are loaded.
-   * @param filters
-   */
-  private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<unknown> {
-    return Promise.all(filters.map((filter:QueryFilterInstanceResource) => {
-      const href = `/api/v3/queries/filter_instance_schemas/${filter.id}`;
-      if (filter.schema) {
-        return filter.schema.$load();
-      } else {
-        return this.states.schemas
-          .get(href)
-          .valuesPromise()
-          .then(schema => filter.schema = schema as QueryFilterInstanceSchemaResource);
-      }
-    }));
+  isAvailable(el:QueryFilterInstanceResource):boolean {
+    return !!this.availableFilters.find(available => available.id === el.id);
   }
 }

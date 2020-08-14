@@ -45,12 +45,12 @@ module Pages
       end
 
       def finished_loading
-        expect(page).to have_no_selector('.xeokit-busy-modal', visible: true)
+        expect(page).to have_selector('.xeokit-busy-modal', visible: false, wait: 30)
       end
 
       def model_viewer_visible(visible)
         selector = '.ifc-model-viewer--model-canvas'
-        expect(page).to (visible ? have_selector(selector) : have_no_selector(selector))
+        expect(page).to (visible ? have_selector(selector, wait: 10) : have_no_selector(selector, wait: 10))
       end
 
       def model_viewer_shows_a_toolbar(visible)
@@ -78,11 +78,15 @@ module Pages
 
       def switch_view(value)
         page.find('#bim-view-toggle-button').click
-        page.find('.menu-item', text: value).click
+        page.find('.menu-item', text: value, exact_text: true).click
       end
 
       def expect_view_toggle_at(value)
         expect(page).to have_selector('#bim-view-toggle-button', text: value)
+      end
+
+      def has_no_menu_item_with_text?(value)
+        expect(page).to have_no_selector('.menu-item', text: value)
       end
 
       private

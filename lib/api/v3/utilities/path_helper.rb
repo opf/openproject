@@ -115,8 +115,23 @@ module API
             "#{work_package(id)}/attachments"
           end
 
+          def self.attachments_by_help_text(id)
+            "#{help_text(id)}/attachments"
+          end
+
           def self.attachments_by_wiki_page(id)
             "#{wiki_page(id)}/attachments"
+          end
+
+          def self.prepare_new_attachment_upload
+            "#{root}/attachments/prepare"
+          end
+
+          index :attachment_upload
+          show :attachment_upload
+
+          def self.attachment_uploaded(attachment_id)
+            "#{root}/attachments/#{attachment_id}/uploaded"
           end
 
           def self.available_assignees(project_id)

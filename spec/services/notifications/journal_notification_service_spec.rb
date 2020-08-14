@@ -29,214 +29,51 @@
 require 'spec_helper'
 
 describe Notifications::JournalNotificationService do
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:user) do
-    FactoryBot.build(:user,
-                     mail_notification: 'all',
-                     member_in_project: project)
-  end
-  let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      author: user,
-                      type: project.types.first)
-  end
-  let(:journal) { work_package.journals.last }
+  let(:journable) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable) }
   let(:send_mails) { true }
-  let(:notifications) { [] }
 
-  def call_listener
-    described_class.call(journal, send_mails)
-  end
+  shared_examples_for 'enqueues a notification' do
+    before do
+      # Freeze time
+      allow(Time)
+        .to receive(:current)
+        .and_return(Time.current)
 
-  before do
-    # make sure no other calls are made due to WP creation/update
-    allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
+      notification_set = double('notification set')
 
-    login_as(user)
-    allow(Setting).to receive(:notified_events).and_return(notifications)
-  end
-
-  shared_examples_for 'enqueues a regular notification' do
-    it do
       expect(EnqueueWorkPackageNotificationJob)
-        .to receive_message_chain(:set, :perform_later)
+        .to receive(:set)
+        .with(wait_until: Setting.journal_aggregation_time_minutes.to_i.minutes.from_now)
+        .and_return(notification_set)
 
-      call_listener
+      expect(notification_set)
+        .to receive(:perform_later)
+        .with(journal.id, send_mails)
+    end
+
+    it 'fulfills expectations' do
+      described_class.call(journal, send_mails)
     end
   end
 
-  shared_examples_for 'sends notification' do
-    it 'sends a notification' do
-      expect(OpenProject::Notifications)
-        .to receive(:send)
-              .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-                    journal: an_instance_of(Journal::AggregatedJournal),
-                    send_mail: send_mails)
+  shared_examples_for 'enqueues no notification' do
+    before do
+      expect(EnqueueWorkPackageNotificationJob)
+        .not_to receive(:set)
+    end
 
-      call_listener
+    it 'fulfills expectations' do
+      described_class.call(journal, send_mails)
     end
   end
 
-  describe 'journal creation' do
-    context 'work_package_created' do
-      before do
-        FactoryBot.create(:work_package, project: project)
-      end
-
-      it_behaves_like 'enqueues a regular notification'
-    end
-
-    context 'work_package_updated' do
-      before do
-        work_package.add_journal(user)
-        work_package.subject = 'A change to the issue'
-        work_package.save!(validate: false)
-      end
-
-      it_behaves_like 'enqueues a regular notification'
-    end
-
-    context 'work_package_note_added' do
-      before do
-        work_package.add_journal(user, 'This update has a note')
-        work_package.save!(validate: false)
-      end
-
-      it_behaves_like 'enqueues a regular notification'
-    end
+  context 'for a work package journal' do
+    it_behaves_like 'enqueues a notification'
   end
 
-  describe 'mail suppressing aggregation' do
-    # business logic of whether to send or not to send a mail is mainly driven by the presence
-    # of an aggregated journal. However, there is an edge case that could lead to a notification
-    # getting lost. Sadly this is very implementation specific, so I'll describe it:
-    #  Journal 1: comment
-    #  Journal 2: change (this can also be multiple journals)
-    #  Journal 3: comment
-    #
-    # The Job for the first journal will not send any mail, because Journal 2 supersedes it.
-    # However, after adding Journal 3, the aggregation will look like (1), (2, 3). Therefore the
-    # job for Journal 2 will not send a notification. Finally the job for Journal 3 will send a
-    # notification, but only containing the changes of 2 and 3. The comment of journal 1 is lost.
-    # Therefore two things have to happen:
-    # - someone needs to send notifications for the hidden journal
-    #   (done by JournalNotificationMailer)
-    # - in case a journal is hidden, its Job is not allowed to enqueue a mail for it
-    #   (because someone else will do it on behalf)
-    #   This is important since late exec of a Job might cause it to _not_ skip notifications
-
-    let(:author) { user }
-    let(:timeout) { Setting.journal_aggregation_time_minutes.to_i.minutes }
-
-    let(:journal_1) { work_package.journals[1] }
-    let(:journal_2) { work_package.journals[2] }
-    let(:journal_3) { work_package.journals[3] }
-
-    def update_by(author, attributes)
-      WorkPackages::UpdateService
-        .new(user: author, model: work_package)
-        .call(attributes)
-    end
-
-    shared_context 'updated until Journal 1' do
-      before do
-        expect(update_by(author, journal_notes: 'a comment')).to be_success
-      end
-    end
-
-    shared_context 'updated until Journal 2' do
-      include_context 'updated until Journal 1'
-
-      before do
-        work_package.reload
-        expect(update_by(author, subject: 'new subject')).to be_success
-      end
-    end
-
-    shared_context 'updated until Journal 3' do
-      include_context 'updated until Journal 2'
-
-      before do
-        work_package.reload
-        expect(update_by(author, journal_notes: 'a comment')).to be_success
-      end
-    end
-
-    context 'all changes happen within the timeout of journal 1' do
-      # The job for 1 will know, that Journal 3 took its addition.
-      # The job for 2 will know, that it has become part of Journal 3.
-      #  -> no special behaviour required
-
-      describe 'Journal 1' do
-        include_context 'updated until Journal 1'
-
-        it_behaves_like 'enqueues a regular notification'
-      end
-
-      describe 'Journal 2' do
-        include_context 'updated until Journal 2'
-
-        it_behaves_like 'enqueues a regular notification'
-      end
-
-      describe 'Journal 3' do
-        include_context 'updated until Journal 3'
-
-        it_behaves_like 'enqueues a regular notification'
-      end
-    end
-
-    context 'journal 3 created after timeout of 1, but inside of timeout for 2' do
-      describe 'Journal 3' do
-        include_context 'updated until Journal 3'
-
-        before do
-          journal_2.update_attribute(:created_at, journal_1.created_at + (timeout / 2))
-          journal_3.update_attribute(:created_at, journal_1.created_at + timeout + 5.seconds)
-        end
-
-        it_behaves_like 'sends notification' # for journal 1
-        it_behaves_like 'enqueues a regular notification' # for journal 3
-      end
-    end
-
-    context 'journal 3 created after timeout of 1 and 2' do
-      # This is a normal case again, ensuring Journal 3 takes no responsibility when not necessary.
-
-      describe 'Journal 3' do
-        include_context 'updated until Journal 3'
-
-        before do
-          journal_2.update_attribute(:created_at, journal_1.created_at + (timeout / 2))
-          journal_3.update_attribute(:created_at, journal_2.created_at + timeout + 5.seconds)
-        end
-
-        it_behaves_like 'enqueues a regular notification'
-      end
-    end
-
-    context 'two subsequent changes after timeout of another journal' do
-      # This is a normal case again, because handling edge cases makes us miss on the normal cases
-
-      before do
-        work_package.journals.first.update_attribute(:created_at, (timeout + 5.seconds).ago)
-        work_package.reload
-
-        expect(update_by(author, done_ratio: 50)).to be_success
-        work_package.reload
-        expect(update_by(author, done_ratio: 60)).to be_success
-        work_package.reload
-      end
-
-      it_behaves_like 'enqueues a regular notification'
-    end
-  end
-end
-
-describe 'initialization' do
-  it 'subscribes the listener' do
-    expect(Notifications::JournalNotificationService).to receive(:call)
-    FactoryBot.create(:work_package)
+  context 'for a news journal' do
+    let(:journable) { FactoryBot.build_stubbed(:news) }
+    it_behaves_like 'enqueues no notification'
   end
 end

@@ -86,7 +86,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       hours: 4
   end
   let!(:custom_field) do
-    FactoryBot.create :time_entry_custom_field, field_format: 'string'
+    FactoryBot.create :time_entry_custom_field, field_format: 'text'
   end
   let(:other_user) do
     FactoryBot.create(:user)
@@ -99,7 +99,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:cf_field) { ::EditField.new(page, "customField#{custom_field.id}") }
+  let(:cf_field) { ::TextEditorField.new(page, "customField#{custom_field.id}") }
   let(:time_logging_modal) { ::Components::TimeLoggingModal.new }
 
   before do
@@ -124,12 +124,12 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     expect(page)
       .to have_content visible_time_entry.spent_on.strftime('%-m/%-d')
     expect(page)
-      .to have_selector('.fc-event .fc-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_selector('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     expect(page)
       .to have_content(other_visible_time_entry.spent_on.strftime('%-m/%-d'))
     expect(page)
-      .to have_selector('.fc-event .fc-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_selector('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     # go to last week
     within entries_area.area do
@@ -142,7 +142,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     expect(page)
       .to have_content(last_week_visible_time_entry.spent_on.strftime('%-m/%-d'))
     expect(page)
-      .to have_selector('.fc-event .fc-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_selector('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     # go to today again
     within entries_area.area do
@@ -153,7 +153,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_content "Total: 5.00"
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .te-calendar--time-entry").hover
+      find(".te-calendar--time-entry", match: :first).hover
     end
 
     expect(page)
@@ -163,7 +163,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     # The add time entry event is invisible
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(5) .te-calendar--add-entry", visible: false).click
+      find("td.fc-timegrid-col:nth-of-type(5) .te-calendar--add-entry", visible: false).click
     end
 
     time_logging_modal.is_visible true
@@ -194,7 +194,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     within entries_area.area do
       expect(page)
-        .to have_selector(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .te-calendar--time-entry",
+        .to have_selector("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry",
                           text: other_work_package.subject)
     end
 
@@ -207,7 +207,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     ## Editing an entry
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .te-calendar--time-entry").click
+      find("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").click
     end
 
     time_logging_modal.is_visible true
@@ -231,7 +231,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_update)
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .te-calendar--time-entry").hover
+      find("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").hover
     end
 
     expect(page)
@@ -249,10 +249,26 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     expect(page)
       .to have_content "Total: 12.00"
 
+    ## Hiding weekdays
+    entries_area.click_menu_item I18n.t('js.grid.configure')
+
+    uncheck 'Monday' # the day visible_time_entry is logged for
+
+    click_button 'Apply'
+
+    within entries_area.area do
+      expect(page)
+        .not_to have_selector('.fc-day-header', text: 'Mon')
+      expect(page)
+        .not_to have_selector('.fc-duration', text: "6 h")
+    end
+
     ## Removing the time entry
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .te-calendar--time-entry").click
+      # to place the tooltip at a different spot
+      find("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry").hover
+      find("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry").click
     end
 
     time_logging_modal.is_visible true
@@ -263,14 +279,26 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     within entries_area.area do
       expect(page)
-       .not_to have_selector(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .te-calendar--time-entry")
+       .not_to have_selector("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry")
     end
-
-    expect(page)
-      .to have_content "Total: 10.00"
 
     expect(TimeEntry.where(id: other_visible_time_entry.id))
       .not_to be_exist
+
+    ## Reloading keeps the configuration
+    visit root_path
+    my_page.visit!
+
+    within entries_area.area do
+      expect(page)
+        .to have_content(/#{Regexp.escape(I18n.t('js.grid.widgets.time_entries_current_user.title'))}/i)
+
+      expect(page)
+        .to have_selector(".te-calendar--time-entry", count: 1)
+
+      expect(page)
+        .not_to have_selector('.fc-col-header-cell', text: 'Mon')
+    end
 
     # Removing the widget
 

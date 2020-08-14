@@ -28,11 +28,13 @@
 
 import {Injector} from '@angular/core';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {
+  HalResourceEditingService,
+  ResourceChangesetCommit
+} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -63,9 +65,6 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   // Whether this form exists in edit mode
   public editMode:boolean = false;
 
-  // Subscribe to changes to the temporary edit form
-  protected subscription:Subscription;
-
   protected constructor(public injector:Injector) {
   }
 
@@ -87,9 +86,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   /**
    * Optional callback when the form is being saved
    */
-  protected onSaved(isInitial:boolean, saved:HalResource):void {
-    const eventType = isInitial ? 'created' : 'updated';
-    this.halEvents.push(saved, { eventType });
+  protected onSaved(commit:ResourceChangesetCommit):void {
+    // Does nothing by default
   }
 
   protected abstract focusOnFirstError():void;
@@ -190,7 +188,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
           this.halNotification.showSave(result.resource, result.wasNew);
           this.editMode = false;
-          this.onSaved(result.wasNew, result.resource);
+          this.onSaved(result);
           this.change.inFlight = false;
         })
         .catch((error:ErrorResource|Object) => {
@@ -207,35 +205,23 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   }
 
   /**
-   * Close all fields and unsubscribe the observers on this form.
-   */
-  public destroy() {
-    if (this.subscription) {
-      // Unsubscribe changes
-      this.subscription.unsubscribe();
-    }
-
-    // Kill all active fields
-    // Without resetting the changeset, if, e.g., we're moving an active edit
-    _.each(this.activeFields, (handler) => {
-      handler && handler.deactivate(false);
-    });
-  }
-
-  /**
    * Close the given or all open fields.
    *
    * @param {string[]} fields
+   * @param resetChange whether to undo any changes made
    */
-  public closeEditFields(fields?:string[]) {
-    if (!fields) {
+  public closeEditFields(fields:string[]|'all' = 'all', resetChange:boolean = true) {
+    if (fields === 'all') {
       fields = _.keys(this.activeFields);
     }
 
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
       handler && handler.deactivate(false);
-      this.change.reset(name);
+
+      if (resetChange) {
+        this.change.reset(name);
+      }
     });
   }
 
@@ -283,12 +269,10 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * values loaded.
    * @param fieldName
    */
-  private loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
-    const schemaName = this.change.getSchemaName(fieldName);
-
+  protected loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
     return new Promise((resolve, reject) => {
-      this.loadFormAndCheck(schemaName, noWarnings);
-      const fieldSchema:IFieldSchema = this.change.schema[schemaName];
+      this.loadFormAndCheck(fieldName, noWarnings);
+      const fieldSchema:IFieldSchema = this.change.schema.ofProperty(fieldName);
 
       if (!fieldSchema) {
         throw new Error();
@@ -300,18 +284,16 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
   /**
    * Ensure the form gets loaded and we show an error when the field cannot be opened
-   * @param schemaName
+   * @param fieldName
    * @param noWarnings
    */
   private loadFormAndCheck(fieldName:string, noWarnings:boolean = false) {
-    const schemaName = this.change.getSchemaName(fieldName);
-
     // Ensure the form is being loaded if necessary
     this.change
       .getForm()
-      .then((form) => {
+      .then(() => {
         // Look up whether we're actually editable
-        const fieldSchema = form.schema[schemaName];
+        const fieldSchema = this.change.schema.ofProperty(fieldName);
         if (!fieldSchema.writable && !noWarnings) {
           this.halNotification.showEditingBlockedError(fieldSchema.name || fieldName);
           this.closeEditFields([fieldName]);

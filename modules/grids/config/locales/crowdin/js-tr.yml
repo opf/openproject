@@ -3,6 +3,7 @@ tr:
     grid:
       add_widget: 'Widget ekleyin'
       remove: 'Widget''ı kaldır'
+      configure: 'Widget''ı yapılandır'
       upsale:
         text: "İş paketi grafik widget'ı gibi bazı widget’lar yalnızca"
         link: 'kurumsal baskı.'
@@ -39,6 +40,7 @@ tr:
           no_results: 'Alt proje yok.'
         time_entries_current_user:
           title: 'Geçirdiğim zaman'
+          displayed_days: 'Widget''te görüntülenen günler:'
         time_entries_list:
           title: 'Harcanan zaman (son 7 gün)'
           no_results: 'Son 7 güne zaman girişi yok.'

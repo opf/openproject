@@ -32,7 +32,16 @@ module WorkPackage::Journalized
   extend ActiveSupport::Concern
 
   included do
-    acts_as_journalized calculate: -> { { parent_id: parent && parent.id } }
+    acts_as_journalized data_sql: ->(journable) do
+      <<~SQL
+        LEFT OUTER JOIN
+          (
+            #{Relation.hierarchy.direct.where(to_id: journable.id).limit(1).select('from_id parent_id, to_id').to_sql}
+          ) parent_relation
+        ON
+          #{journable.class.table_name}.id = parent_relation.to_id
+      SQL
+    end
 
     # This one is here only to ease reading
     module JournalizedProcs
@@ -84,6 +93,7 @@ module WorkPackage::Journalized
     register_on_journal_formatter(:fraction, 'derived_estimated_hours')
     register_on_journal_formatter(:decimal, 'done_ratio')
     register_on_journal_formatter(:diff, 'description')
+    register_on_journal_formatter(:schedule_manually, 'schedule_manually')
     register_on_journal_formatter(:attachment, /attachments_?\d+/)
     register_on_journal_formatter(:custom_field, /custom_fields_\d+/)
 
@@ -92,7 +102,6 @@ module WorkPackage::Journalized
                                   :status_id, :type_id,
                                   :assigned_to_id, :priority_id,
                                   :category_id, :version_id,
-                                  :planning_element_status_id,
                                   :author_id, :responsible_id
     register_on_journal_formatter :datetime, :start_date, :due_date
     register_on_journal_formatter :plaintext, :subject

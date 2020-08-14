@@ -34,8 +34,6 @@ module OpenProject::TextFormatting::Formats
       def wikitoolbar_for(*_args)
         ''.html_safe
       end
-
-      def text_formatting_js_includes; end
     end
   end
 end

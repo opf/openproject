@@ -25,6 +25,7 @@ sl:
       export: 'Izvozi'
       import_update_comment: '(Posodobljeno v uvozu BCF)'
       import_failed: 'BCF datoteke ni mogoče uvoziti: %{error}'
+      import_failed_unsupported_bcf_version: 'Datoteke BCF ni bilo mogoče prebrati: Različica BCF ni podprta. Prepričajte se, da je različica vsaj %{minimal_version} ali višja.'
       import_successful: 'Uvožene %{count} težave BCF'
       import_canceled: "BCF-XML uvoz preklican\n"
       type_not_active: "Vrsta težave za ta projekt ni aktivirana"
@@ -68,6 +69,7 @@ sl:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Prikaži BCF težave"
   permission_manage_bcf: "Uvozite in upravljajte BCF težave"
+  permission_delete_bcf: "Izbriši BCF probleme"
   oauth:
     scopes:
       bcf_v2_1: "Popoln dostop do BCF v2.1 API"
@@ -100,6 +102,8 @@ sl:
           snapshot_type_unsupported: "snapshot_type mora biti ali 'png' ali 'jpg'."
           snapshot_data_blank: "navesti je treba snapshot_data."
           unsupported_key: "Vključena je nepodprta lastnost json."
+        bim/bcf/issue:
+          uuid_already_taken: "Te izdaje BCF ni mogoče uvoziti, saj je že ena z istim GUID-om. Ali je morda ta BCF problem že uvožen v drug projekt?"
   ifc_models:
     label_ifc_models: 'model IFC'
     label_new_ifc_model: 'Nov IFC model'

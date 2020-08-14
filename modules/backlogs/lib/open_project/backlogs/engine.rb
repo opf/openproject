@@ -48,7 +48,7 @@ module OpenProject::Backlogs
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-backlogs',
-             author_url: 'http://finn.de',
+             author_url: 'https://www.openproject.com',
              bundled: true,
              settings: settings do
       OpenProject::AccessControl.permission(:edit_project).tap do |add|
@@ -106,10 +106,7 @@ module OpenProject::Backlogs
     end
 
     assets %w(
-      backlogs/backlogs.css
       backlogs/backlogs.js
-      backlogs/master_backlog.css
-      backlogs/taskboard.css
       backlogs/jquery.flot/excanvas.js
       backlogs/burndown.js
     )

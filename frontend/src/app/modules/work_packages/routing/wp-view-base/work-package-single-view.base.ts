@@ -31,10 +31,8 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {States} from "core-components/states.service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
@@ -42,10 +40,11 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {catchError, subscribeOn} from "rxjs/operators";
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
-  @InjectField() wpCacheService:WorkPackageCacheService;
   @InjectField() states:States;
   @InjectField() I18n:I18nService;
   @InjectField() keepTab:KeepTabService;
@@ -53,9 +52,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() halEditing:HalResourceEditingService;
   @InjectField() wpTableFocus:WorkPackageViewFocusService;
   @InjectField() notificationService:WorkPackageNotificationService;
-  @InjectField() projectCacheService:ProjectCacheService;
   @InjectField() authorisationService:AuthorisationService;
   @InjectField() cdRef:ChangeDetectorRef;
+  @InjectField() readonly titleService:OpTitleService;
+  @InjectField() readonly apiV3Service:APIV3Service;
 
   // Static texts
   public text:any = {};
@@ -66,8 +66,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   public focusAnchorLabel:string;
   public showStaticPagePath:string;
-
-  @InjectField() readonly titleService:OpTitleService;
 
   constructor(public injector:Injector, protected workPackageId:string) {
     super();
@@ -80,20 +78,21 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    */
   protected observeWorkPackage() {
     /** Require the work package once to ensure we're displaying errors */
-    this.wpCacheService.require(this.workPackageId)
-      .catch((error) => this.notificationService.handleRawError(error));
-
-    /** Stream updates of the work package */
-    this.wpCacheService.state(this.workPackageId)
-      .values$()
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackageId)
+      .requireAndStream()
       .pipe(
         this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
-        this.workPackage = wp;
-        this.init();
-        this.cdRef.detectChanges();
-      });
+          this.workPackage = wp;
+          this.init();
+          this.cdRef.detectChanges();
+        },
+        (error) => this.notificationService.handleRawError(error)
+      );
   }
 
   /**
@@ -111,10 +110,14 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    */
   protected init() {
     // Set elements
-    this.projectCacheService
-      .require(this.workPackage.project.idFromLink)
-      .then(() => {
+    this
+      .apiV3Service
+      .projects
+      .id(this.workPackage.project)
+      .requireAndStream()
+      .subscribe(() => {
         this.projectIdentifier = this.workPackage.project.identifier;
+        this.cdRef.detectChanges();
       });
 
     // Set authorisation data
@@ -151,9 +154,5 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   public canViewWorkPackageWatchers() {
     return !!(this.workPackage && this.workPackage.watchers);
-  }
-
-  public get isEditable() {
-    return this.workPackage.isEditable;
   }
 }

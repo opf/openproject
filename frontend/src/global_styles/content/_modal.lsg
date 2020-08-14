@@ -1,0 +1,109 @@
+# Modals
+
+## Modals: Standard style
+
+```
+<div class="op-modal--modal-container">
+  <div class="op-modal--modal-header">
+    <h3>Export</h3>
+    <a class="op-modal--modal-close-button">
+      <i class="icon-close" title="Close popup"></i>
+    </a>
+  </div>
+  <div class="op-modal--modal-body">
+    <ul class="export-options">
+      <li>
+        <a>
+          <i class="icon-export-atom icon-big"></i>
+          <span class="export-label">ATOM</span>
+        </a>
+      </li>
+       <li>
+        <a>
+          <i class="icon-export-xls icon-big"></i>
+          <span class="export-label">XLS</span>
+        </a>
+      </li>
+       <li>
+        <a>
+          <i class="icon-export-export-xls-with-descriptions icon-big"></i>
+          <span class="export-label">XLS with description</span>
+        </a>
+      </li>
+       <li>
+        <a>
+          <i class="icon-export-pdf icon-big"></i>
+          <span class="export-label">PDF</span>
+        </a>
+      </li>
+       <li>
+        <a>
+          <i class="icon-export-pdf-descr icon-big"></i>
+         <span class="export-label">PDF with description</span>
+        </a>
+      </li>
+       <li>
+        <a>
+          <i class="icon-export-csv icon-big"></i>
+          <span class="export-label">CSV</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+```
+
+## Modals: Highlighted and with footer
+
+```
+<div class="op-modal--modal-container -highlight">
+  <div class="op-modal--modal-header">
+    <h2>Welcome to OpenProject</h2>
+    <a class="op-modal--modal-close-button" title="Close popup">
+      <i class="icon-close"></i>
+    </a>
+  </div>
+  <div class="op-modal--modal-body">
+    <b>Please select your language</b>
+    <fieldset class="form--fieldset">
+      <div class="form--field">
+        <label class="form--label" title="Language" for="user_language">Language</label>
+        <span class="form--field-container">
+          <span class="form--select-container -slim">
+            <select class="form--select">
+              <option value="de">Deutsch</option>
+              <option selected="selected" value="en">English</option>
+              <option value="fr">Français</option>
+            </select>
+          </span>
+        </span>
+      </div>
+    </fieldset>
+  </div>
+  <div class="op-modal--modal-footer">
+    <button name="button" type="submit" class="button -highlight">Save</button>
+  </div>
+</div>
+```
+
+## Modals: Danger zone highlighting
+
+```
+<div class="op-modal--modal-container -highlight -danger-zone">
+  <div class="op-modal--modal-header">
+    <h3 class="icon-context icon-warning">Confirm deletion of Work Package</h3>
+    <a class="op-modal--modal-close-button" title="Close popup">
+      <i class="icon-close"></i>
+    </a>
+  </div>
+  <div class="op-modal--modal-body">
+    <p>Are you sure you want to delete the following work package?<p>
+    <p> ... </p>
+  </div>
+  <div class="op-modal--modal-footer">
+    <button name="button" type="submit" class="button -danger">Continue</button>
+    <button name="button" type="submit" class="button">Cancel</button>
+  </div>
+</div>
+```

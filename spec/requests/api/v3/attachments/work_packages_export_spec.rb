@@ -37,7 +37,7 @@ describe "WorkPackages::Export attachments" do
     let(:read_permission) { :export_work_packages }
     let(:update_permission) { :export_work_packages }
 
-    let(:export) { FactoryBot.create(:work_packages_export, user: author) }
+    let(:export) { FactoryBot.create(:work_packages_export) }
 
     let(:missing_permissions_user) { FactoryBot.create(:user) }
     let(:other_user) { FactoryBot.create(:user) }

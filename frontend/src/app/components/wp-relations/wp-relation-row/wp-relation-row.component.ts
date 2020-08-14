@@ -1,4 +1,3 @@
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -8,6 +7,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 
 @Component({
@@ -55,7 +55,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     }
   };
 
-  constructor(protected wpCacheService:WorkPackageCacheService,
+  constructor(protected apiV3Service:APIV3Service,
               protected notificationService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
               protected halEvents:HalEventsService,
@@ -73,8 +73,11 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     this.selectedRelationType = _.find(this.availableRelationTypes,
       { 'name': this.relation.normalizedType(this.workPackage) })!;
 
-    this.wpCacheService
-      .observe(this.relatedWorkPackage.id!)
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.relatedWorkPackage)
+      .requireAndStream()
       .pipe(
         this.untilDestroyed()
       ).subscribe((wp) => {
@@ -176,7 +179,12 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
           relationType: this.relation.normalizedType(this.workPackage)
         });
 
-        this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
+        this
+          .apiV3Service
+          .work_packages
+          .cache
+          .updateWorkPackage(this.relatedWorkPackage);
+
         this.notificationService.showSave(this.relatedWorkPackage);
       })
       .catch((err:any) => this.notificationService.handleRawError(err,

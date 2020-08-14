@@ -78,6 +78,7 @@ es:
     is_active: mostrado actualmente
     is_inactive: no mostrado actualmente
   attribute_help_texts:
+    note_public: '¡Cualquier texto e imágenes que añadas a este campo es visible públicamente para todos los usuarios conectados!'
     text_overview: 'En esta vista, puede crear textos de ayuda personalizados para la vista de atributos. Después de definir estos textos, se pueden mostrar al hacer clic en el icono de ayuda junto al atributo al que pertenezcan.'
     label_plural: 'Textos de ayuda para atributos'
     show_preview: 'Vista previa del texto'
@@ -87,13 +88,17 @@ es:
     index:
       no_results_content_title: Actualmente no hay modos de autenticación.
       no_results_content_text: Crear un nuevo modo de autenticación
+  background_jobs:
+    status:
+      error_requeue: "El trabajo experimentó un error pero se está reintentando. El error fue: %{message}"
+      cancelled_due_to: "El trabajo ha sido cancelado debido al error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      Este formulario LDAP requiere conocimientos técnicos de su configuración de LDAP / activiar directorio <br/>
+      Este formulario LDAP requiere conocimientos técnicos para la configuración de su  LDAP / Directorio Activo <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Visite nuestra documentación para obtener instrucciones detalladas.
     attribute_texts:
       name: Nombre arbitrario de la conexión LDAP
-      host: Nombre del anfitrion LDAP o dirección IP
+      host: Nombre del host LDAP o dirección IP
       login_map: La clave de atributo en LDAP que se utiliza para identificar el inicio de sesión único del usuario. Por lo general, esto será `uid` o`samAccountName`.
       generic_map: La clave de atributo en LDAP que está asignada al proyecto abierto `%{attribute}` atributo
       admin_map_html: "Opcional: la clave de atributo en LDAP que <strong> si esta presente </strong> marca al usuario del proyecto abierto como administrador. Deje en blanco cuando tenga dudas."
@@ -107,17 +112,17 @@ es:
         El proyecto abierto filtrará los nombres de usuario proporcionados solo en este subárbol.
         Ejemplo ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Permite añadir un filtro RFC4515 opcional para aplicar los resultados mostrados de los usuarios filtrados en LDAP.
+        Esta opción se puede usar para restringir el conjunto de usuarios mostrados por OpenProject para la sincronización de grupos y autenticación.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject siempre filtrará el atributo de inicio de sesión proporcionado por el usuario para identificar el registro. Si especifica un filtro aquí,
+        se concatenará con un operador AND. De forma predeterminada, se usará un valor de comodín (objectClass=*) como filtro.
       onthefly_register: |
         Si marca esta casilla, el proyecto abierto creará automáticamente nuevos usuarios a partir de sus entradas LDAP cuando se autentican por primera vez con el proyecto abierto.
         ¡Deje esto sin marcar para permitir que solo las cuentas existentes en el proyecto abierto se autentiquen a través de LDAP!
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        Si habilita la sincronización de grupos para esta conexión LDAP, también se crearán automáticamente usuarios
+        en OpenProject para los grupos sincronizados. Sin esta opción, solo se añadirán a los grupos aquellas cuentas que existan en OpenProject.
     connection_encryption: 'Cifrado de conexión'
     system_account: 'Cuenta del sistema'
     system_account_legend: |
@@ -230,8 +235,8 @@ es:
       no_results_content_text: Añadir un elemento de noticias
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'Este usuario es miembro actualmente de los grupos siguientes:'
+      no_results_title_text: Este usuario no es miembro actualmente de ningún grupo.
     memberships:
       no_results_title_text: El usuario no es actualmente un miembro del proyecto.
   prioritiies:
@@ -275,6 +280,7 @@ es:
     overview:
       no_results_title_text: Actualmente no hay paquetes de trabajo asignados a esta versión.
   wiki:
+    page_not_editable_index: La página solicitada no existe (todavía). Has sido redirigido al inicio las páginas de la wiki.
     no_results_title_text: Actualmente no hay paginas de wiki.
     index:
       no_results_content_text: Añadir una nueva página wiki
@@ -358,7 +364,7 @@ es:
         attr_mail: "Atributo Correo electrónico"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Creación automática de usuarios"
         port: "Puerto"
       changeset:
         repository: "Repositorio"
@@ -411,6 +417,7 @@ es:
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
+        templated: 'Plantilla del proyecto'
       projects/status:
         code: 'Estado'
         explanation: 'Descripción del estado'
@@ -482,6 +489,7 @@ es:
         parent_work_package: "Padre"
         priority: "Prioridad"
         progress: "Progreso (%)"
+        schedule_manually: "Programación manual"
         spent_hours: "Tiempo empleado"
         spent_time: "Tiempo empleado"
         subproject: "Subproyecto"
@@ -729,6 +737,9 @@ es:
     date: "Fecha"
     default_columns: "Columnas predeterminadas"
     description: "Descripción"
+    derived_due_date: "Fecha final derivada"
+    derived_estimated_time: "Tiempo estimado derivado"
+    derived_start_date: "Fecha de comienzo deseada"
     display_sums: "Mostrar sumas"
     due_date: "Fecha de finalización"
     estimated_hours: "Tiempo estimado"
@@ -879,6 +890,7 @@ es:
       - "Oct"
       - "Nov"
       - "Dec"
+    abbr_week: 'Sem'
     day_names:
       - "Domingo"
       - "Lunes"
@@ -1068,6 +1080,7 @@ es:
   error_cookie_missing: 'No se encuentra la cookie de OpenProject. Por favor asegúrese de que las cookies están habilitadas, ya que sin ellas esta aplicación no funcionará correctamente.'
   error_custom_option_not_found: "Esta opción no existe."
   error_enterprise_activation_user_limit: "Su cuenta no puede ser activada (se alcanzó el límite del usuario). Por favor, contacte su administrador para obtener acceso."
+  error_enterprise_token_invalid_domain: "La versión Enterprise Edition no está activa. Su dominio del token de Enterprise (%{actual}) no coincide con el nombre de host del sistema (%{expected})."
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
   error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "El valor seleccionado no es válido."
@@ -1113,6 +1126,8 @@ es:
     work_package_edit: 'Paquete de trabajo editado'
     work_package_note: 'Nota de paquete de trabajo añadido'
   export:
+    your_work_packages_export: "Exportar paquetes de trabajo"
+    succeeded: "La exportación se ha completado correctamente."
     format:
       atom: "Atomo"
       csv: "CSV"
@@ -1308,6 +1323,7 @@ es:
   label_delete_project: "Eliminar proyecto"
   label_deleted: "borrado"
   label_deleted_custom_field: "(campo personalizado borrado)"
+  label_deleted_custom_option: "(opción eliminada)"
   label_descending: "Descendente"
   label_details: "Detalles"
   label_development_roadmap: "Itinerario de desarrollo"
@@ -1325,7 +1341,7 @@ es:
   label_duplicate: "duplicar"
   label_duplicates: "duplicados"
   label_edit: "Editar"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Editar: %{x}"
   label_enable_multi_select: "Selección multiple"
   label_enabled_project_custom_fields: 'Habilitar campos personalizados'
   label_enabled_project_modules: 'Habilitar módulos'
@@ -1619,6 +1635,7 @@ es:
   label_time_entry_plural: "Tiempo empleado"
   label_time_sheet_menu: "Tabla de tiempo"
   label_time_tracking: "Tiempo de seguimiento"
+  label_projects_menu: "Proyectos"
   label_today: "hoy"
   label_top_menu: "Menú superior"
   label_topic_plural: "Temas"
@@ -1748,7 +1765,16 @@ es:
   mail_body_account_information: "Información de su cuenta"
   mail_body_account_information_external: "Puede usar su %{value} cuenta para ingresar."
   mail_body_lost_password: "Para cambiar su contraseña, haga clic en el siguiente enlace:"
-  mail_body_register: "Para activar su cuenta, haga clic en el siguiente enlace:"
+  mail_body_register: "Bienvenido a OpenProject. Por favor, active su cuenta haciendo clic en este enlace:"
+  mail_body_register_header_title: "Correo electrónico de invitación al miembro del proyecto"
+  mail_body_register_user: "Estimado/a %{name},"
+  mail_body_register_links_html: |
+    Por favor, no dude en navegar por nuestro canal de youtube (%{youtube_link}) donde proporcionamos un webinar (%{webinar_link})
+    y videos "Get started" (%{get_started_link}) para hacer que sus primeros pasos en OpenProject sean lo más fáciles posible.
+    <br />
+    Si tiene más preguntas, consulte nuestra documentación (%{documentation_link}) o póngase en contacto con nosotros (%{contact_us_link}).
+  mail_body_register_closing: "Tu equipo de OpenProject"
+  mail_body_register_ending: "¡Mantente conectado! Saludos,"
   mail_body_reminder: "%{count} paquete(s) de trabajo que le fueron asignados vencen en los próximos %{days}:"
   mail_body_group_reminder: "%{count} paquete(s) de trabajo asignado(s) al grupo “%{group}” vencerán en los próximos %{days} días:"
   mail_body_wiki_content_added: "La página wiki de '%{id}' ha sido añadida por %{author}."
@@ -1904,7 +1930,7 @@ es:
   permission_manage_project_activities: "Gestionar actividades del proyecto"
   permission_manage_public_queries: "Administrar vistas públicas"
   permission_manage_repository: "Gestionar repositorio"
-  permission_manage_subtasks: "Gestionar subtareas"
+  permission_manage_subtasks: "Administrar jerarquías de paquetes de trabajo"
   permission_manage_versions: "Administrar versiones"
   permission_manage_wiki: "Administrar wiki"
   permission_manage_wiki_menu: "Administrar menú wiki"
@@ -1939,6 +1965,12 @@ es:
       warning_one: Los miembros del proyecto deberán migrar los repositorios del proyecto.
       warning_two: Los links al proyeto existentes dejarán de funcionar.
       title: Cambiar el identificador de proyecto
+    template:
+      copying: >
+        Tu proyecto está siendo creado a partir de la plantilla seleccionada. Serás notificado por correo electrónico tan pronto como el proyecto esté disponible.
+      use_template: 'Usar plantilla'
+      make_template: 'Establecer como plantilla'
+      remove_from_templates: 'Eliminar de plantillas'
     archive:
       are_you_sure: "¿Está seguro que desea archivar el proyecto '%{name}'?"
       archived: "Archivado"
@@ -1960,7 +1992,8 @@ es:
     assigned_to_role: "Asignación de roles"
     member_of_group: "Asignación de grupo"
     assignee_or_group: "Grupo al que pertenece o al que está asignado"
-    subproject_id: "Subproyecto"
+    subproject_id: "Incluyendo Subproyecto"
+    only_subproject_id: "Sólo subproyecto"
     name_or_identifier: "Nombre o identificador"
   repositories:
     at_identifier: 'en %{identifier}'
@@ -2065,6 +2098,9 @@ es:
     url: "URL al repositorio"
     warnings:
       cannot_annotate: "No se pueden realizar notas sobre este fichero."
+  scheduling:
+    activated: 'Habilitado'
+    deactivated: 'deshabilitado'
   search_input_placeholder: "Buscar..."
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
@@ -2260,6 +2296,7 @@ es:
   text_journal_deleted_with_diff: "%{label} eliminado (%{link})"
   text_journal_set_to: "%{label} establecido al %{value}"
   text_journal_set_with_diff: "%{label} fijado (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "El último comentario es: %{note}"
   text_length_between: "Longitud entre %{min} y %{max} caracteres."
   text_line_separated: "Múltiples valores permitidos (una línea para cada valor)."

@@ -19,12 +19,12 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-#---
 zh-TW:
   button_save_as: "將報表另存為..。"
   comments: "評論"
-  cost_reports_title: "成本報告"
+  cost_reports_title: "時程與成本"
   label_cost_report: "成本報告"
+  label_cost_report_plural: "成本報告"
   description_drill_down: "顯示詳細資訊"
   description_filter_selection: "選擇"
   description_multi_select: "顯示多選"

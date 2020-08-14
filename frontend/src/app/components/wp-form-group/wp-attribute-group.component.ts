@@ -40,15 +40,8 @@ export class WorkPackageFormAttributeGroupComponent {
   @Input() public workPackage:WorkPackageResource;
   @Input() public group:GroupDescriptor;
 
-  public text = {
-    date: {
-      startDate: this.I18n.t('js.label_no_start_date'),
-      dueDate: this.I18n.t('js.label_no_due_date')
-    },
-  };
-
   constructor(readonly I18n:I18nService,
-              public wpeditForm:EditFormComponent,
+              public wpEditForm:EditFormComponent,
               protected injector:Injector) {
   }
 
@@ -62,6 +55,14 @@ export class WorkPackageFormAttributeGroupComponent {
    */
   public shouldHideField(descriptor:FieldDescriptor) {
     const field = descriptor.field || descriptor.fields![0];
-    return this.wpeditForm.editMode && !field.writable;
+    return this.wpEditForm.editMode && !field.writable;
+  }
+
+  public fieldName(name:string) {
+    if (name === 'startDate') {
+      return 'combinedDate';
+    } else {
+      return name;
+    }
   }
 }

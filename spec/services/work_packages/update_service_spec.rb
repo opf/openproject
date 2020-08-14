@@ -51,7 +51,7 @@ describe WorkPackages::UpdateService, type: :model do
   end
 
   before do
-    # Stub update_ancestors because it messes with the JournalManager expect
+    # Stub update_ancestors because it messes with the jouralizing expectations
     allow(instance).to receive(:update_ancestors).and_return []
   end
 
@@ -120,6 +120,10 @@ describe WorkPackages::UpdateService, type: :model do
         let(:errors) { double('set errors', empty?: false) }
         let(:set_service_results) { ServiceResult.new success: false, errors: errors, result: work_package }
 
+        before do
+          allow(errors).to receive(:merge!)
+        end
+
         it 'is unsuccessful' do
           expect(subject.success?).to be_falsey
         end
@@ -142,6 +146,7 @@ describe WorkPackages::UpdateService, type: :model do
         let(:saving_errors) { double('saving_errors', empty?: false) }
 
         before do
+          allow(saving_errors).to receive(:merge!)
           allow(work_package)
             .to receive(:errors)
             .and_return(saving_errors)

@@ -27,10 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% unless OpenProject::Plugins::AuthPlugin.providers.empty? %>
-  <%= stylesheet_link_tag 'auth_plugins/auth_plugins' %>
-<% end %>
-
 <% OpenProject::Plugins::AuthPlugin.providers.each do |pro| %>
   <%
     opts = { script_name: OpenProject::Configuration.rails_relative_url_root }

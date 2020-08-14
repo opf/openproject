@@ -53,15 +53,21 @@ export class States extends StatesGroup {
   changes = new GlobalStateChanges();
 
   // Additional state map that can be dynamically registered.
-  additional:{ [id:string]:MultiInputState<HalResource> } = {};
+  additional:{ [id:string]:MultiInputState<unknown> } = {};
 
-  forResource(resource:HalResource):InputState<HalResource>|undefined {
-    const stateName = _.camelCase(resource._type) + 's';
+  forType<T>(stateName:string):MultiInputState<T> {
     let state = (this as any)[stateName] || this.additional[stateName];
 
     if (!state) {
-      state = this.additional[stateName] = multiInput<HalResource>();
+      state = this.additional[stateName] = multiInput<T>();
     }
+
+    return state as any;
+  }
+
+  forResource<T extends HalResource = HalResource>(resource:T):InputState<T>|undefined {
+    const stateName = _.camelCase(resource._type) + 's';
+    let state = this.forType<T>(stateName);
 
     return state && state.get(resource.id!);
   }

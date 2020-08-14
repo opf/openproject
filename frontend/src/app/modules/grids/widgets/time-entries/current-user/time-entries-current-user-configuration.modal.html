@@ -1,0 +1,38 @@
+<div class="op-modal--portal ">
+  <div class="op-modal--modal-container"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+          class="icon-close"
+          (click)="closeMe($event)"
+          [attr.title]="text.closePopup">
+        </i>
+      </a>
+    </div>
+
+    <h3 [textContent]="text.displayedDays"></h3>
+
+    <div class="form--field -trailing-label" *ngFor="let day of text.weekdays; let index = index">
+      <label class="form--label" [textContent]="day" [htmlFor]="'day_' + index"></label>
+      <span class="form--field-container">
+        <span class="form--check-box-container">
+          <input type="checkbox" [id]="'day_' + index" name="days" class="form--check-box" [(ngModel)]="days[index]">
+        </span>
+      </span>
+    </div>
+
+    <div class="tab-content"></div>
+    <div class="modal--form-actions">
+      <button class="button -highlight"
+              [textContent]="text.applyButton"
+              (click)="saveChanges()">
+      </button>
+      <button class="button"
+              [textContent]="text.cancelButton"
+              (click)="closeMe($event)">
+      </button>
+    </div>
+  </div>
+</div>

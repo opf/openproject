@@ -23,43 +23,43 @@ ar:
   no_results_title_text: لا يوجد حالياً أي شيء لعرضه.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: ولم يكن هناك أي نشاط للمشروع ضمن هذا الإطار الزمني.
   admin:
     plugins:
       no_results_title_text: لا يوجد حالياً أية إضافات متاحة.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "لون السمة"
+      color_theme_custom: "(تخصيص)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "البديل"
+        content-link-color: "خط الارتبط"
+        primary-color: "الأساسي"
+        primary-color-dark: "الأساسي (داكن)"
+        header-bg-color: "خلفية الترويسة"
+        header-item-bg-hover-color: "خلفية الترويسة على الحافة"
+        header-item-font-color: "خط الترويسة"
+        header-item-font-hover-color: "خط الترويسة عند الحافة"
+        header-border-bottom-color: "حدود الترويسة"
+        main-menu-bg-color: "خلفية القائمة الرئيسية"
+        main-menu-bg-selected-background: "القائمة الرئيسية عند تحديد"
+        main-menu-bg-hover-background: "القائمة الرئيسية على الحافة"
+        main-menu-font-color: "خط القائمة الرئيسية"
+        main-menu-selected-font-color: "خط القائمة الرئيسية عند تحديد"
+        main-menu-hover-font-color: "خط القائمة الرئيسية عند الحوالة"
+        main-menu-border-color: "حدود القائمة الرئيسية"
       custom_colors: "تخصيص الألوان"
       customize: "عدل مشروعك الخاص بالشعار الذي تريده.ملاحظه:هذا الشعار سوف يكون مرئي لجميع المستخدمين"
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
-      manage_colors: "Edit color select options"
+      enterprise_notice: "كخاصية \"شكرًا!\" على مساهمتهم المالية لتطوير OpenProject، هذه الميزة الصغيرة متاحة فقط للمشتركين في إصدار المؤسسة."
+      manage_colors: "تعديل خيارات تحديد اللون"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
-        content-link-color: "Font color of most of the links."
-        primary-color: "Main color."
-        primary-color-dark: "Typically a darker version of the main color used for hover effects."
-        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
-        header-item-font-color: "Font color of clickable header items."
-        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
-        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
+        alternative-color: "لون اللكنة القوية، يستخدم عادة لأهم زر على الشاشة."
+        content-link-color: "لون الخط لمعظم الروابط."
+        primary-color: "اللون الرئيسي."
+        primary-color-dark: "عادةً ما تكون نسخة داكنة من اللون الرئيسي المستخدم لتأثيرات الحرارة."
+        header-item-bg-hover-color: "لون الخلفية لعناصر الترويسة القابلة للنقر عند ربطها بالفأرة."
+        header-item-font-color: "لون الخط لعناصر الترويسة النقر عليها."
+        header-item-font-hover-color: "لون الخط لعناصر الترويسة القابلة للنقر عند ربطها بالفأرة."
+        header-border-bottom-color: "خط تحت الرأس. اترك هذا الحقل فارغاً إذا كنت لا تريد أي سطر."
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
@@ -78,6 +78,7 @@ ar:
     is_active: معروض حاليًا
     is_inactive: غير معروض حاليًا
   attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -87,6 +88,10 @@ ar:
     index:
       no_results_content_title: لا يوجد حالياً أنماط تحقيق.
       no_results_content_text: أنشئ نمط تحقيق جديد
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -278,6 +283,7 @@ ar:
     overview:
       no_results_title_text: لا يوجد حالياً حزم عمل مخصصة لهذا الإصدار.
   wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: لا يوجد حالياً صفحة ويكي.
     index:
       no_results_content_text: إضافة صفحة ويكي جديدة
@@ -418,6 +424,7 @@ ar:
         types: "الأنواع"
         versions: "الإصدارات"
         work_packages: "مجموعات العمل"
+        templated: 'Template project'
       projects/status:
         code: 'الحالة'
         explanation: 'Status description'
@@ -489,6 +496,7 @@ ar:
         parent_work_package: "الجذر"
         priority: "الأولوية"
         progress: "التقدم (%)"
+        schedule_manually: "Manual scheduling"
         spent_hours: "الوقت المستهلك"
         spent_time: "الوقت المستهلك"
         subproject: "مشروع فرعي"
@@ -748,6 +756,9 @@ ar:
     date: "التاريخ"
     default_columns: "الأعمدة الافتراضية"
     description: "الوصف"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "عرض المبالغ"
     due_date: "Finish date"
     estimated_hours: "الوقت المُقّدَّر"
@@ -898,6 +909,7 @@ ar:
       - "تشرين الأول"
       - "تشرين الثاني"
       - "كانون الأول"
+    abbr_week: 'Wk'
     day_names:
       - "الأحد"
       - "الاثنين"
@@ -1135,6 +1147,7 @@ ar:
   error_cookie_missing: 'ملف تعريف الارتباط "كوكي" لأوبن بروجكت مفقود. من فضلك تأكد من أن يتم تمكين ملفات تعريف الارتباط "كوكيز"، لأن هذا التطبيق لن يعمل بشكل صحيح دون ذلك.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
@@ -1180,6 +1193,8 @@ ar:
     work_package_edit: 'تم تحريرمجموعة العمل'
     work_package_note: 'لم يتم اضافة مجموعة العمل'
   export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
     format:
       atom: "ذرّة"
       csv: "CSV"
@@ -1375,6 +1390,7 @@ ar:
   label_delete_project: "Delete project"
   label_deleted: "محذوف"
   label_deleted_custom_field: "(حذف حقل مخصص)"
+  label_deleted_custom_option: "(deleted option)"
   label_descending: "ترتيب تنازلي"
   label_details: "تفاصيل"
   label_development_roadmap: "خارطة طريق التطوير"
@@ -1686,6 +1702,7 @@ ar:
   label_time_entry_plural: "الوقت المستهلك"
   label_time_sheet_menu: "ساعات العمل"
   label_time_tracking: "تعقب الوقت"
+  label_projects_menu: "المشاريع"
   label_today: "اليوم"
   label_top_menu: "القائمة العليا"
   label_topic_plural: "مواضيع"
@@ -1831,7 +1848,16 @@ ar:
   mail_body_account_information: "معلومات الحساب الخاص بك"
   mail_body_account_information_external: "يمكنك استخدام حساب %{value} الخاص بك لتسجيل الدخول."
   mail_body_lost_password: "لتغيير كلمة المرور الخاصة بك، انقر فوق الارتباط التالي:"
-  mail_body_register: "لتغيير كلمة المرور الخاصة بك، انقر فوق الارتباط التالي:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} عمل الحزمة (الحزم) التي تم تعيينها لك الواجبة في الأيام المقبلة %{days}:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "تم إضافة صفحة wiki '%{id}' من %{author}."
@@ -1991,7 +2017,7 @@ ar:
   permission_manage_project_activities: "إدارة أنشطة المشروع"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "إدارة المستودع"
-  permission_manage_subtasks: "إدارة المهام الفرعية"
+  permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "إدارة الإصدارات"
   permission_manage_wiki: "إدارة wiki"
   permission_manage_wiki_menu: "إدارة قائمة wiki"
@@ -2026,6 +2052,12 @@ ar:
       warning_one: وسيكون أعضاء المشروع إلى نقل مستودعات للمشروع.
       warning_two: لن تعد تعمل الارتباطات الموجودة في المشروع.
       title: تغيير معرف المشروع
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟"
       archived: "Archived"
@@ -2047,7 +2079,8 @@ ar:
     assigned_to_role: "دور الموكل إليه"
     member_of_group: "مجموعة الموكل إليه"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "مشروع فرعي"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'في %{identifier}'
@@ -2150,6 +2183,9 @@ ar:
     url: "عنوان URL للمستودع"
     warnings:
       cannot_annotate: "هذا الملف لا يمكن أن يشرح."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
   search_input_placeholder: "بحث..."
   setting_email_delivery_method: "طريقة تسليم البريد الإلكتروني"
   setting_sendmail_location: "موقع إرسال بريد إلكتروني قابل للتنفيذ"
@@ -2345,6 +2381,7 @@ ar:
   text_journal_deleted_with_diff: "%{label} تم حذفه (%{link})"
   text_journal_set_to: "%{label} تعيين إلى %{value}"
   text_journal_set_with_diff: "%{label} تم تعيينه إلى (%{link})"
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "التعليق الأخير هو: %{note}"
   text_length_between: "الطول بين %{min} و %{max} محارف."
   text_line_separated: "القيم المتعددة المسموح بها (سطر واحد لكل قيمة)."

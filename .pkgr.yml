@@ -11,11 +11,11 @@ targets:
       - catdoc
   debian-10:
     <<: *debian9
-  ubuntu-14.04:
-    <<: *debian9
   ubuntu-16.04:
     <<: *debian9
   ubuntu-18.04:
+    <<: *debian9
+  ubuntu-20.04:
     <<: *debian9
   centos-8:
    dependencies:
