@@ -108,9 +108,10 @@ export function registerWorkPackageMouseHandler(this:void,
     workPackageTimeline.disableViewParamsCalculation = true;
     mouseDownStartDay = getCursorOffsetInDaysFromLeft(renderInfo, ev);
 
-    // If this wp is a parent element, changing it is not allowed.
+    // If this wp is a parent element, changing it is not allowed
+    // if it is not on 'Manual scheduling' mode
     // But adding a relation to it is.
-    if (!renderInfo.workPackage.isLeaf && !renderInfo.viewParams.activeSelectionMode) {
+    if (!renderInfo.workPackage.isLeaf && !renderInfo.viewParams.activeSelectionMode && !renderInfo.workPackage.scheduleManually) {
       return;
     }
 
