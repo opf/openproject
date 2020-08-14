@@ -106,7 +106,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
-gem 'multi_json', '~> 1.14.1'
+gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
