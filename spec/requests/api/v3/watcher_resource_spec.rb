@@ -58,6 +58,19 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     FactoryBot.create(:watcher, watchable: work_package, user: watching_user)
   end
 
+  let!(:watching_blocked_user) do
+    FactoryBot.create :user, 
+                      login: 'lockedUser',
+                      mail: 'lockedUser@gmail.com',  
+                      member_in_project: project,
+                      member_through_role: view_work_packages_role
+  end
+  let!(:existing_blocked_watcher) do
+    FactoryBot.create(:watcher, watchable: work_package, user: watching_blocked_user).tap do
+      watching_blocked_user.lock!
+    end
+  end
+
   subject(:response) { last_response }
 
   before do
