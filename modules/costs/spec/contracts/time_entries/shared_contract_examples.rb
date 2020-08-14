@@ -58,7 +58,7 @@ shared_examples_for 'time entry contract' do
   let(:activities_scope) do
     scope = double('activities')
 
-    if (time_entry_activity)
+    if time_entry_activity
       allow(scope)
         .to receive(:exists?)
         .with(time_entry_activity.id)

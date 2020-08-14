@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe API::V3::CostsApiUserPermissionCheck do
   class CostsApiUserPermissionCheckTestClass
@@ -64,15 +64,14 @@ describe API::V3::CostsApiUserPermissionCheck do
   let(:view_budgets) { false }
 
   before do
-    [:view_time_entries,
-     :view_own_time_entries,
-     :view_hourly_rates,
-     :view_own_hourly_rate,
-     :view_cost_rates,
-     :view_own_cost_entries,
-     :view_cost_entries,
-     :view_budgets].each do |permission|
-
+    %i[view_time_entries
+       view_own_time_entries
+       view_hourly_rates
+       view_own_hourly_rate
+       view_cost_rates
+       view_own_cost_entries
+       view_cost_entries
+       view_budgets].each do |permission|
       allow(subject)
         .to receive(:current_user_allowed_to)
         .with(permission, context: work_package.project)
@@ -81,7 +80,6 @@ describe API::V3::CostsApiUserPermissionCheck do
   end
 
   describe '#overall_costs_visible?' do
-
     describe :overall_costs_visible? do
       shared_examples_for 'not visible' do
         it 'is not visible' do

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -33,7 +34,7 @@ module API
       class BudgetsByProjectAPI < ::API::OpenProjectAPI
         resources :budgets do
           after_validation do
-            authorize_any([:view_work_packages, :view_budgets], projects: @project)
+            authorize_any(%i[view_work_packages view_budgets], projects: @project)
             @budgets = @project.budgets
           end
 

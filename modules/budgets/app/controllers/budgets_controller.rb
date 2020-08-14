@@ -34,10 +34,10 @@ class BudgetsController < ApplicationController
 
   before_action :authorize_global, only: :index
   before_action :authorize, except: [
-      # unrestricted actions
-      :index,
-      :update_material_budget_item,
-      :update_labor_budget_item
+    # unrestricted actions
+    :index,
+    :update_material_budget_item,
+    :update_labor_budget_item
   ]
 
   helper :sort
@@ -53,22 +53,10 @@ class BudgetsController < ApplicationController
   include PaginationHelper
 
   def index
-    sort_columns = {
-      'id' => "#{Budget.table_name}.id",
-      'subject' => "#{Budget.table_name}.subject",
-      'fixed_date' => "#{Budget.table_name}.fixed_date"
-    }
-
     sort_init 'id', 'desc'
-    sort_update sort_columns
+    sort_update default_budget_sort
 
-    @budgets = Budget
-        .visible(current_user)
-        .order(sort_clause)
-        .includes(:author)
-        .where(project_id: @project.id)
-        .page(page_param)
-        .per_page(per_page_param)
+    @budgets = visible_sorted_budgets
 
     respond_to do |format|
       format.html do
@@ -171,7 +159,7 @@ class BudgetsController < ApplicationController
 
     if cost_type && params[:units].present?
       volume = Rate.parse_number_string_to_number(params[:units])
-      @costs = (volume * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
+      @costs = volume * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0
       @unit = volume == 1.0 ? cost_type.unit : cost_type.unit_plural
     else
       @costs = 0.0
@@ -254,5 +242,23 @@ class BudgetsController < ApplicationController
     end
 
     response
+  end
+
+  def default_budget_sort
+    {
+      'id' => "#{Budget.table_name}.id",
+      'subject' => "#{Budget.table_name}.subject",
+      'fixed_date' => "#{Budget.table_name}.fixed_date"
+    }
+  end
+
+  def visible_sorted_budgets
+    Budget
+      .visible(current_user)
+      .order(sort_clause)
+      .includes(:author)
+      .where(project_id: @project.id)
+      .page(page_param)
+      .per_page(per_page_param)
   end
 end

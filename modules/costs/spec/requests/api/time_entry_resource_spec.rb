@@ -649,7 +649,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       context 'with permission to delete own time entries' do
         it_behaves_like 'does not delete the time_entry', 403
-      end 
+      end
     end
   end
 end

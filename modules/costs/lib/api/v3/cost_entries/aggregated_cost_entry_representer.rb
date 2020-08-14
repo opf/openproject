@@ -65,7 +65,7 @@ module API
 
         link :staticPath do
           {
-              href: budget_path(@cost_type.id)
+            href: budget_path(@cost_type.id)
           }
         end
 

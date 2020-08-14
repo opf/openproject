@@ -31,7 +31,6 @@ module API
     module TimeEntries
       class TimeEntriesActivityAPI < ::API::OpenProjectAPI
         resources :activities do
-
           route_param :id, type: Integer, desc: 'Time entry activity ID' do
             after_validation do
               authorize_any(%i(log_time

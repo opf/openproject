@@ -42,8 +42,11 @@ module Pages
     ##
     # Adds planned labor costs with the default cost type.
     def add_labor_costs!(num_hours, user_name:, comment: nil)
-      edit_labor_costs!(
-        labor_rows, hours: num_hours, user_name: user_name, comment: comment, type: 'new')
+      edit_labor_costs!(labor_rows,
+                        hours: num_hours,
+                        user_name: user_name,
+                        comment: comment,
+                        type: 'new')
       add_labor_costs_row!
     end
 
@@ -51,7 +54,7 @@ module Pages
     # Adds planned unit costs with the default cost type.
     #
     # @param type [String] Either 'existing' (default) or 'new'
-    def edit_unit_costs!(id, units:nil, comment: nil, type: :existing)
+    def edit_unit_costs!(id, units: nil, comment: nil, type: :existing)
       prefix = "#{unit_cost_attr_id(type)}_#{id}"
 
       fill_in "#{prefix}_units", with: units if units.present?
@@ -66,7 +69,7 @@ module Pages
       end
     end
 
-    def edit_planned_costs!(id, costs:, type: )
+    def edit_planned_costs!(id, costs:, type:)
       open_edit_planned_costs!(id, type: type)
 
       row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
@@ -88,7 +91,7 @@ module Pages
     # Adds planned labor costs with the default cost type.
     #
     # @param type [String] Either 'existing' (default) or 'new'
-    def edit_labor_costs!(id, hours:nil, user_name:nil, comment: nil, type: 'existing')
+    def edit_labor_costs!(id, hours: nil, user_name: nil, comment: nil, type: 'existing')
       prefix = "#{labor_cost_attr_id(type)}_#{id}"
 
       fill_in "#{prefix}_hours", with: hours if hours.present?

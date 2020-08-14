@@ -111,9 +111,11 @@ describe 'updating a budget', type: :feature, js: true do
       budget_page.expect_planned_costs! type: :material, row: 1, expected: '150.00 EUR'
       budget_page.expect_planned_costs! type: :labor, row: 1, expected: '125.00 EUR'
 
-      budget_page.edit_unit_costs! material_budget_item.id, units: 5,
+      budget_page.edit_unit_costs! material_budget_item.id,
+                                   units: 5,
                                    comment: 'updated num stimpaks'
-      budget_page.edit_labor_costs! labor_budget_item.id, hours: 3,
+      budget_page.edit_labor_costs! labor_budget_item.id,
+                                    hours: 3,
                                     user_name: user.name,
                                     comment: 'updated treatment duration'
 
@@ -173,7 +175,8 @@ describe 'updating a budget', type: :feature, js: true do
 
     context 'with two material budget items' do
       let!(:material_budget_item_2) do
-        FactoryBot.create :material_budget_item, units: 5,
+        FactoryBot.create :material_budget_item,
+                          units: 5,
                           cost_type: cost_type,
                           budget: budget
       end
@@ -212,7 +215,7 @@ describe 'updating a budget', type: :feature, js: true do
         before do
           allow(Setting)
             .to receive(:plugin_costs)
-            .and_return({costs_currency_format: '%u %n', costs_currency: 'USD'}.with_indifferent_access)
+            .and_return({ costs_currency_format: '%u %n', costs_currency: 'USD' }.with_indifferent_access)
         end
 
         it 'can still update budgets (Regression test #32664)' do
@@ -249,7 +252,8 @@ describe 'updating a budget', type: :feature, js: true do
 
     context 'with two labor budget items' do
       let!(:labor_budget_item_2) do
-        FactoryBot.create :labor_budget_item, hours: 5,
+        FactoryBot.create :labor_budget_item,
+                          hours: 5,
                           user: user,
                           budget: budget
       end
@@ -285,11 +289,10 @@ describe 'updating a budget', type: :feature, js: true do
       end
 
       context 'with a reversed currency format' do
-
         before do
           allow(Setting)
             .to receive(:plugin_costs)
-            .and_return({costs_currency_format: '%u %n', costs_currency: 'USD'}.with_indifferent_access)
+            .and_return({ costs_currency_format: '%u %n', costs_currency: 'USD' }.with_indifferent_access)
         end
 
         it 'can still update budgets (Regression test #32664)' do

@@ -43,10 +43,10 @@ module Costs::Patches::PermittedParamsPatch
       params.require(:budget).permit(:subject,
                                      :description,
                                      :fixed_date,
-                                     { new_material_budget_item_attributes: [:units, :cost_type_id, :comments, :amount] },
-                                     { new_labor_budget_item_attributes: [:hours, :user_id, :comments, :amount] },
-                                     { existing_material_budget_item_attributes: [:units, :cost_type_id, :comments, :amount] },
-                                     existing_labor_budget_item_attributes: [:hours, :user_id, :comments, :amount])
+                                     { new_material_budget_item_attributes: %i[units cost_type_id comments amount] },
+                                     { new_labor_budget_item_attributes: %i[hours user_id comments amount] },
+                                     { existing_material_budget_item_attributes: %i[units cost_type_id comments amount] },
+                                     existing_labor_budget_item_attributes: %i[hours user_id comments amount])
     end
 
     def cost_type
@@ -54,13 +54,13 @@ module Costs::Patches::PermittedParamsPatch
                                         :unit,
                                         :unit_plural,
                                         :default,
-                                        { new_rate_attributes: [:valid_from, :rate] },
-                                        existing_rate_attributes: [:valid_from, :rate])
+                                        { new_rate_attributes: %i[valid_from rate] },
+                                        existing_rate_attributes: %i[valid_from rate])
     end
 
     def user_rates
-      params.require(:user).permit(new_rate_attributes: [:valid_from, :rate],
-                                   existing_rate_attributes: [:valid_from, :rate])
+      params.require(:user).permit(new_rate_attributes: %i[valid_from rate],
+                                   existing_rate_attributes: %i[valid_from rate])
     end
   end
 end

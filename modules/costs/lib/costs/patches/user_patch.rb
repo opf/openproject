@@ -45,9 +45,7 @@ module Costs::Patches::UserPatch
 
       ids = scope.pluck(:id)
 
-      ids.empty? ?
-        '1=0' :
-        "(#{Project.table_name}.id in (#{ids.join(', ')}))"
+      ids.empty? ? '1=0' : "(#{Project.table_name}.id in (#{ids.join(', ')}))"
     end
 
     def current_rate(project = nil, include_default = true)

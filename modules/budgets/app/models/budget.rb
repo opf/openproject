@@ -162,7 +162,7 @@ class Budget < ApplicationRecord
 
   def new_material_budget_item_attributes=(material_budget_item_attributes)
     material_budget_item_attributes.each do |_index, attributes|
-      material_budget_items.build(attributes) if attributes[:units].to_i > 0
+      material_budget_items.build(attributes) if attributes[:units].to_i.positive?
     end
   end
 
@@ -171,9 +171,8 @@ class Budget < ApplicationRecord
       attributes = material_budget_item_attributes[material_budget_item.id.to_s]
 
       if User.current.allowed_to? :edit_budgets, material_budget_item.budget.project
-        if attributes && attributes[:units].to_i > 0
-          attributes[:amount] = Rate.parse_number_string(attributes[:amount])
-          material_budget_item.attributes = attributes
+        if attributes && attributes[:units].to_i.positive?
+          material_budget_item.attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
         else
           material_budget_items.delete(material_budget_item)
         end
@@ -189,9 +188,7 @@ class Budget < ApplicationRecord
 
   def new_labor_budget_item_attributes=(labor_budget_item_attributes)
     labor_budget_item_attributes.each do |_index, attributes|
-      if attributes[:hours].to_i > 0 &&
-        attributes[:user_id].to_i > 0 &&
-        project.possible_assignees.map(&:id).include?(attributes[:user_id].to_i)
+      if valid_labor_budget_attributes?(attributes)
 
         item = labor_budget_items.build(attributes)
         item.budget = self # to please the labor_budget_item validation
@@ -203,9 +200,8 @@ class Budget < ApplicationRecord
     labor_budget_items.reject(&:new_record?).each do |labor_budget_item|
       attributes = labor_budget_item_attributes[labor_budget_item.id.to_s]
       if User.current.allowed_to? :edit_budgets, labor_budget_item.budget.project
-        if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0 && project.possible_assignees.map(&:id).include?(attributes[:user_id].to_i)
-          attributes[:amount] = Rate.parse_number_string(attributes[:amount])
-          labor_budget_item.attributes = attributes
+        if valid_labor_budget_attributes?(attributes)
+          labor_budget_item.attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
         else
           labor_budget_items.delete(labor_budget_item)
         end
@@ -217,5 +213,12 @@ class Budget < ApplicationRecord
     labor_budget_items.each do |labor_budget_item|
       labor_budget_item.save(validate: false)
     end
+  end
+
+  def valid_labor_budget_attributes?(attributes)
+    attributes &&
+      attributes[:hours].to_i.positive? &&
+      attributes[:user_id].to_i.positive? &&
+      project.possible_assignees.map(&:id).include?(attributes[:user_id].to_i)
   end
 end

@@ -363,7 +363,7 @@ describe TimeEntry, type: :model do
     end
 
     context 'when having the view_own_time_entries permission ' +
-              'and being the owner of the time entry' do
+            'and being the owner of the time entry' do
       before do
         is_member(project, user, [:view_own_time_entries])
 
@@ -376,7 +376,7 @@ describe TimeEntry, type: :model do
     end
 
     context 'when having the view_own_time_entries permission ' +
-              'and not being the owner of the time entry' do
+            'and not being the owner of the time entry' do
       before do
         is_member(project, user, [:view_own_time_entries])
 

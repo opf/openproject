@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe PermittedParams, type: :model do
   let(:user) { FactoryBot.build(:user) }

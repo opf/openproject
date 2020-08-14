@@ -120,7 +120,8 @@ module API
 
         def update_allowed?
           current_user_allowed_to(:edit_time_entries, context: represented.project) ||
-            represented.user_id == current_user.id && current_user_allowed_to(:edit_own_time_entries, context: represented.project)
+            represented.user_id == current_user.id &&
+              current_user_allowed_to(:edit_own_time_entries, context: represented.project)
         end
 
         def current_user_allowed_to(permission, context:)

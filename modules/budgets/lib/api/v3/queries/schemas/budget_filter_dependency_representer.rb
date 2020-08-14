@@ -32,7 +32,6 @@ module API
       module Schemas
         class BudgetFilterDependencyRepresenter <
           FilterDependencyRepresenter
-
           def href_callback
             api_v3_paths.budgets_by_project filter.project.id
           end

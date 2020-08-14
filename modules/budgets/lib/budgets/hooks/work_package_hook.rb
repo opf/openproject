@@ -42,7 +42,7 @@ class Budgets::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
     when '' # a.k.a "(No change)"
       # cost objects HAVE to be changed if move is performed across project boundaries
       # as the are project specific
-      context[:work_package].budget_id = nil unless (context[:work_package].project == context[:target_project])
+      context[:work_package].budget_id = nil unless context[:work_package].project == context[:target_project]
     when 'none'
       context[:work_package].budget_id = nil
     else

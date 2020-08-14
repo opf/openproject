@@ -50,6 +50,7 @@ class CostEntry < ApplicationRecord
 
   extend CostEntryScopes
   include Entry::Costs
+  include Entry::SplashedDates
 
   def after_initialize
     if new_record? && cost_type.nil?
@@ -64,7 +65,7 @@ class CostEntry < ApplicationRecord
   end
 
   def validate
-    errors.add :units, :invalid if units && (units < 0)
+    errors.add :units, :invalid if units&.negative?
     errors.add :project_id, :invalid if project.nil?
     errors.add :work_package_id, :invalid if work_package.nil? || (project != work_package.project)
     errors.add :cost_type_id, :invalid if cost_type.present? && cost_type.deleted_at.present?
@@ -88,15 +89,6 @@ class CostEntry < ApplicationRecord
 
   def units=(units)
     write_attribute(:units, CostRate.parse_number_string(units))
-  end
-
-  # tyear, tmonth, tweek assigned where setting spent_on attributes
-  # these attributes make time aggregations easier
-  def spent_on=(date)
-    super
-    self.tyear = spent_on ? spent_on.year : nil
-    self.tmonth = spent_on ? spent_on.month : nil
-    self.tweek = spent_on ? Date.civil(spent_on.year, spent_on.month, spent_on.day).cweek : nil
   end
 
   def current_rate

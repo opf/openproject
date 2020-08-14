@@ -42,7 +42,7 @@ class LaborBudgetItem < ApplicationRecord
   # user_id correctness is ensured in Budget#*_labor_budget_item_attributes=
 
   def self.visible(user, project)
-    table = self.arel_table
+    table = arel_table
 
     view_allowed = Project.allowed_to(user, :view_hourly_rates).select(:id)
     view_own_allowed = Project.allowed_to(user, :view_own_hourly_rate).select(:id)
@@ -75,7 +75,7 @@ class LaborBudgetItem < ApplicationRecord
   end
 
   def calculated_costs(fixed_date = budget.fixed_date, project_id = budget.project_id)
-    if user_id && hours && rate = HourlyRate.at_date_for_user_in_project(fixed_date, user_id, project_id)
+    if user_id && hours && (rate = HourlyRate.at_date_for_user_in_project(fixed_date, user_id, project_id))
       rate.rate * hours
     else
       0.0
