@@ -408,37 +408,28 @@ export class TimelineCellRenderer {
       bar.classList.remove('-readonly');
     }
 
-    // Display the parent as clamp-style when it has children in the table
-    if (this.isParentWithVisibleChildren(wp)) {
-      bar.classList.add('-clamp-style');
-      bar.style.borderStyle = 'solid';
-      bar.style.borderWidth = '2px';
-      bar.style.borderBottom = 'none';
-      bar.style.background = 'none';
+    // Display the children's duration clamp
+    if (wp.derivedStartDate && wp.derivedDueDate) {
+      let derivedStartDate = moment(wp.derivedStartDate);
+      let derivedDueDate = moment(wp.derivedDueDate);
+      let startDate = moment(renderInfo.change.projectedResource.startDate);
+      let dueDate = moment(renderInfo.change.projectedResource.dueDate);
+      let previousChildrenDurationBar = row.querySelector('.children-duration-bar');
+      const childrenDurationBar = document.createElement('div');
 
-      // Display the children's duration bar
-      if (wp.derivedStartDate && wp.derivedDueDate) {
-        let derivedStartDate = moment(wp.derivedStartDate);
-        let derivedDueDate = moment(wp.derivedDueDate);
-        let startDate = moment(renderInfo.change.projectedResource.startDate);
-        let dueDate = moment(renderInfo.change.projectedResource.dueDate);
-        let previousChildrenDurationBar = row.querySelector('.children-duration-bar');
-        const childrenDurationBar = document.createElement('div');
+      childrenDurationBar.classList.add('children-duration-bar', '-clamp-style');
 
-        childrenDurationBar.classList.add('children-duration-bar');
-
-        if (derivedStartDate.isBefore(startDate) || derivedDueDate.isAfter(dueDate)) {
-          childrenDurationBar.classList.add('-duration-overflow');
-        }
-
-        this.setElementPositionAndSize(childrenDurationBar, renderInfo, derivedStartDate, derivedDueDate);
-
-        if (previousChildrenDurationBar) {
-          previousChildrenDurationBar.remove();
-        }
-
-        row!.appendChild(childrenDurationBar);
+      if (derivedStartDate.isBefore(startDate) || derivedDueDate.isAfter(dueDate)) {
+        childrenDurationBar.classList.add('-duration-overflow');
       }
+
+      this.setElementPositionAndSize(childrenDurationBar, renderInfo, derivedStartDate, derivedDueDate);
+
+      if (previousChildrenDurationBar) {
+        previousChildrenDurationBar.remove();
+      }
+
+      row!.appendChild(childrenDurationBar);
     }
   }
 
