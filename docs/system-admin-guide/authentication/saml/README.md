@@ -99,7 +99,36 @@ OPENPROJECT_SAML_MY__SAML_ATTRIBUTE__STATEMENTS_ADMIN="['openproject-isadmin']"
 Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
 (`__`) in the environment variable as the single underscore denotes namespaces. For more information, follow our [guide on environment variables](https://docs.openproject.org/installation-and-operations/configuration/environment/).
 
+#### 1.3 Settings in database
 
+The SAML settings can also be changed at runtime in the database through the OpenProject settings.
+As opposed to other settings there is no user interface for this.
+That means it's best to set them using the console.
+
+```
+# package based installation:
+> sudo openproject run console
+
+# docker-based installation:
+> docker exec -it openproject bash
+>> bundle exec rails console
+```
+
+Once on the console you can set the same values as named in the `configuration.yml` file.
+For example:
+
+```ruby
+Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml).deep_merge({
+  "providers" => {
+    "my_saml" => {
+      "name" => "saml",
+      "display_name" => "My SSO",
+      "assertion_consumer_service_url" => "https:/<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+      # etc.
+    }
+  }
+})
+```
 
 ### 2. Configuration details
 
