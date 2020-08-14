@@ -217,9 +217,16 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-enumerations'
 
   menu.push :settings,
-            { controller: '/settings', action: 'show' },
+            { controller: '/settings/general', action: 'show' },
             caption: :label_system_settings,
             icon: 'icon2 icon-settings2'
+
+  SettingsHelper.system_settings_tabs.each do |node|
+    menu.push :"settings_#{node[:name]}",
+              node[:action],
+              caption: node[:label],
+              parent: :settings
+  end
 
   menu.push :email,
             { controller: '/admin/mail_notifications', action: 'show' },

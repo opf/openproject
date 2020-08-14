@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,41 +27,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class SettingsController < ApplicationController
+class Settings::DisplayController < SettingsController
   include AdminSettingsUpdater
 
-  helper_method :gon
-
-  current_menu_item [:show] do
-    :settings
-  end
-
-  current_menu_item :plugin do |controller|
-    plugin = Redmine::Plugin.find(controller.params[:id])
-    plugin.settings[:menu_item] || :settings
-  rescue Redmine::PluginNotFound
-    :settings
-  end
+  menu_item :settings_display
 
   def show
-    redirect_to general_settings_path
+    @options = {}
+    @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
+
+    render template: 'settings/_display'
   end
 
-  def plugin
-    @plugin = Redmine::Plugin.find(params[:id])
-    if request.post?
-      Setting["plugin_#{@plugin.id}"] = params[:settings].permit!.to_h
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to action: 'plugin', id: @plugin.id
-    else
-      @partial = @plugin.settings[:partial]
-      @settings = Setting["plugin_#{@plugin.id}"]
-    end
-  rescue Redmine::PluginNotFound
-    render_404
-  end
-
-  def show_local_breadcrumb
-    true
+  def default_breadcrumb
+    t(:label_display)
   end
 end
