@@ -125,6 +125,7 @@ module Costs
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::CostEntries::CostEntriesAPI
       mount ::API::V3::CostTypes::CostTypesAPI
+      mount ::API::V3::TimeEntries::TimeEntriesAPI
     end
 
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
