@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,42 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Entry::Costs
-  extend ActiveSupport::Concern
+module TimeEntry::Scopes
+  class Visible
+    def self.fetch(user = User.current)
+      all_scope = TimeEntry
+                  .where(project_id: Project.allowed_to(user, :view_time_entries))
 
-  included do
-    def real_costs
-      # This methods returns the actual assigned costs of the entry
-      overridden_costs || costs || calculated_costs
-    end
+      own_scope = TimeEntry
+                  .where(project_id: Project.allowed_to(user, :view_own_time_entries))
+                  .where(user_id: user)
 
-    def calculated_costs(rate_attr = nil)
-      rate_attr ||= current_rate
-      cost_attribute * rate_attr.rate
-    rescue StandardError
-      0.0
-    end
-
-    def update_costs(rate_attr = nil)
-      rate_attr ||= current_rate
-      if rate_attr.nil?
-        self.costs = 0.0
-        self.rate = nil
-        return
-      end
-
-      self.costs = calculated_costs(rate_attr)
-      self.rate = rate_attr
-    end
-
-    def update_costs!(rate_attr = nil)
-      update_costs(rate_attr)
-
-      save!
-    end
-
-    def cost_attribute
-      raise NotImplementedError
+      all_scope.or(own_scope)
     end
   end
 end

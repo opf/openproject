@@ -30,6 +30,12 @@ require File.expand_path('../../../../spec_helper', __FILE__)
 
 describe API::V3::CostsApiUserPermissionCheck do
   class CostsApiUserPermissionCheckTestClass
+    # mimick representer
+    def view_time_entries_allowed?
+      current_user_allowed_to(:view_time_entries, context: represented.project) ||
+        current_user_allowed_to(:view_own_time_entries, context: represented.project)
+    end
+
     include API::V3::CostsApiUserPermissionCheck
   end
 

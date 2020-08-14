@@ -45,6 +45,7 @@ module Costs
              name: :project_module_costs do
       project_module :costs do
         permission :view_time_entries, {}
+        permission :view_own_time_entries, {}
 
         permission :log_time,
                    {},
@@ -53,8 +54,6 @@ module Costs
         permission :edit_time_entries,
                    {},
                    require: :member
-
-        permission :view_own_time_entries, {}
 
         permission :edit_own_time_entries,
                    {},

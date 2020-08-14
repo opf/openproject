@@ -11,7 +11,7 @@ class TimeEntry
     end
 
     def with_visible_rates_on(scope, user: User.current)
-      table = self.arel_table
+      table = arel_table
 
       view_allowed = Project.allowed_to(user, :view_hourly_rates).select(:id)
       view_own_allowed = Project.allowed_to(user, :view_own_hourly_rate).select(:id)

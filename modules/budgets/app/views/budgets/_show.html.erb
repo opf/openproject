@@ -168,7 +168,7 @@ See docs/COPYRIGHT.rdoc for more details.
               </tr>
               </thead>
               <tbody>
-                <% @budget.cost_entries.visible(User.current, @project).includes(:cost_type).group_by(&:work_package).each do |work_package, cost_entries|
+                <% @budget.cost_entries.visible(User.current).includes(:cost_type).group_by(&:work_package).each do |work_package, cost_entries|
                 entries = cost_entries.inject(Hash.new)  do |results, entry|
                   result = results[entry.cost_type.id.to_s]
                   unless result
@@ -365,7 +365,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 </tr>
               </thead>
               <tbody>
-              <% @budget.time_entries.visible(User.current, @project).group_by(&:work_package).each do |work_package, time_entries|
+              <% @budget.time_entries.visible(User.current).group_by(&:work_package).each do |work_package, time_entries|
                 entries = time_entries.inject(Hash.new)  do |results, entry|
                   result = results[entry.user.id.to_s]
                   unless result

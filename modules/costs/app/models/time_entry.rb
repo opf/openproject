@@ -47,21 +47,15 @@ class TimeEntry < ApplicationRecord
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
+  include ::Scopes::Scoped
   extend ::TimeEntry::TimeEntryScopes
   include Entry::Costs
 
+  scope_classes TimeEntry::Scopes::OfUserAndDay,
+                TimeEntry::Scopes::Visible
+
   # TODO: move into service
   before_save :update_costs
-
-  def self.visible(*args)
-    # TODO: check whether the visibility should also be influenced by the work
-    # package the time entry is assigned to.  Currently a work package can
-    # switch projects. But as the time entry is still part of it's original
-    # project, it is unclear, whether the time entry is actually visible if the
-    # user lacks the view_work_packages permission in the moved to project.
-    joins(:project)
-      .merge(Project.allowed_to(args.first || User.current, :view_time_entries))
-  end
 
   def self.update_all(updates, conditions = nil, options = {})
     # instead of a update_all, perform an individual update during work_package#move
