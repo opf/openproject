@@ -413,7 +413,8 @@ export class TimelineCellRenderer {
     let selectionMode = renderInfo.viewParams.activeSelectionMode;
 
     // Cannot edit the work package if it has children
-    if (!wp.isLeaf && !selectionMode) {
+    // and it is not on 'Manual scheduling' mode
+    if (!wp.isLeaf && !selectionMode && !wp.scheduleManually) {
       bar.classList.add('-readonly');
     } else {
       bar.classList.remove('-readonly');
