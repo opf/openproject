@@ -486,7 +486,7 @@ GEM
     escape_utils (1.2.1)
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.72.0)
+    excon (0.76.0)
     factory_bot (5.1.1)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.1.1)
