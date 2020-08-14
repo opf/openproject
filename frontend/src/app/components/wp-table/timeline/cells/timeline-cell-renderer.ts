@@ -52,7 +52,9 @@ export class TimelineCellRenderer {
 
   public text = {
     label_children_derived_duration: this.I18n.t('js.label_children_derived_duration')
-  }
+  };
+
+  public ganttChartRowHeight:number;
 
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
@@ -60,6 +62,9 @@ export class TimelineCellRenderer {
 
   constructor(readonly injector:Injector,
               readonly workPackageTimeline:WorkPackageTimelineTableController) {
+    this.ganttChartRowHeight = +getComputedStyle(document.documentElement)
+                                .getPropertyValue('--table-timeline--row-height')
+                                .replace('px', '');
   }
 
   public get type():string {
@@ -422,9 +427,12 @@ export class TimelineCellRenderer {
       let dueDate = moment(renderInfo.change.projectedResource.dueDate);
       let previousChildrenDurationBar = row.querySelector('.children-duration-bar');
       const childrenDurationBar = document.createElement('div');
+      const childrenDurationHoverContainer = document.createElement('div');
 
       childrenDurationBar.classList.add('children-duration-bar', '-clamp-style');
       childrenDurationBar.title = this.text.label_children_derived_duration;
+      childrenDurationHoverContainer.classList.add('children-duration-hover-container');
+      childrenDurationHoverContainer.style.height = this.ganttChartRowHeight * wp.children.length + 10 + 'px';
 
       if (derivedStartDate.isBefore(startDate) || derivedDueDate.isAfter(dueDate)) {
         childrenDurationBar.classList.add('-duration-overflow');
@@ -436,6 +444,7 @@ export class TimelineCellRenderer {
         previousChildrenDurationBar.remove();
       }
 
+      childrenDurationBar.appendChild(childrenDurationHoverContainer);
       row!.appendChild(childrenDurationBar);
     }
   }

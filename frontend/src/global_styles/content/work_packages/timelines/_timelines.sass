@@ -82,7 +82,7 @@
 
 .children-duration-bar
   position: absolute
-  height: 0.5em
+  height: 10px
   top: 1.7em
   border: 1px solid
   background: none
@@ -90,3 +90,16 @@
 
 .-duration-overflow
   border-color: var(--warn)
+
+.children-duration-hover-container
+  display: none
+  margin-left: -1px
+  margin-right: -1px
+  background-color: #d3d3d361
+
+.children-duration-hover-container:hover,
+.children-duration-bar:hover  .children-duration-hover-container,
+.timeline-element:hover + .children-duration-bar  .children-duration-hover-container
+    display: block
+
+
