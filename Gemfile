@@ -268,10 +268,10 @@ group :development, :test do
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
-  gem 'pry-byebug', '~> 3.8.0', platforms: [:mri]
+  gem 'pry-byebug', '~> 3.9.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
-  gem 'pry-rescue', '~> 1.5.0'
-  gem 'pry-stack_explorer', '~> 0.4.9.2'
+  gem 'pry-rescue', '~> 1.5.2'
+  gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
   gem 'danger', '~> 6.3.1'
