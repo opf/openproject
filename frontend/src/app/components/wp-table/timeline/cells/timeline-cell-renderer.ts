@@ -32,6 +32,7 @@ import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/rou
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -47,6 +48,11 @@ export class TimelineCellRenderer {
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
   @InjectField() TimezoneService:TimezoneService;
   @InjectField() schemaCache:SchemaCacheService;
+  @InjectField() readonly I18n:I18nService;
+
+  public text = {
+    label_children_derived_duration: this.I18n.t('js.label_children_derived_duration')
+  }
 
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
@@ -418,6 +424,7 @@ export class TimelineCellRenderer {
       const childrenDurationBar = document.createElement('div');
 
       childrenDurationBar.classList.add('children-duration-bar', '-clamp-style');
+      childrenDurationBar.title = this.text.label_children_derived_duration;
 
       if (derivedStartDate.isBefore(startDate) || derivedDueDate.isAfter(dueDate)) {
         childrenDurationBar.classList.add('-duration-overflow');
