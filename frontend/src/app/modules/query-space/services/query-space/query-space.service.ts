@@ -149,7 +149,7 @@ export class QuerySpaceService extends UntilDestroyedMixin {
     }
   }
 
-  refresh(firstPage:boolean):Promise<unknown> {
+  refresh(firstPage?:boolean):Promise<unknown> {
     firstPage = firstPage != null ?
       firstPage :
       !this.query.initialized.hasValue();
@@ -186,7 +186,7 @@ export class QuerySpaceService extends UntilDestroyedMixin {
       ).subscribe(([pagination, query]) => {
       if (this.workPackages.listChecksum.isQueryOutdated(query, pagination)) {
         this.workPackages.listChecksum.update(query, pagination);
-        this.refresh(true);
+        this.refresh();
       }
     });
 
