@@ -100,7 +100,6 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     else
       WorkPackageCustomField.all
     end
-      .reject { |cf| cf.field_format == 'text' }
       .map { |cf| new(cf) }
   end
 end

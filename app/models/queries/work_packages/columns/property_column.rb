@@ -48,6 +48,9 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     subject: {
       sortable: "#{WorkPackage.table_name}.subject"
     },
+    description: {
+      sortable: "#{WorkPackage.table_name}.description"
+    },
     type: {
       association: 'type',
       sortable: "position",
