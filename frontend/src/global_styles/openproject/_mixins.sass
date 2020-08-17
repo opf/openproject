@@ -135,6 +135,10 @@ $scrollbar-size: 10px
 @mixin two-column-layout
   column-count: 2
   column-gap: 3rem
+
+  .attributes-key-value.-column-start
+    column-break-before: always !important
+    break-before: column
   
   @supports (column-span: all)
         // Let some elements still span both columns
