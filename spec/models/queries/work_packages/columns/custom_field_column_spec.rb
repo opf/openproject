@@ -55,14 +55,6 @@ describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
           .and_return([text_custom_field,
                        list_custom_field])
       end
-
-      it 'contains only non text cf columns' do
-        expect(described_class.instances(project).length)
-          .to eq 1
-
-        expect(described_class.instances(project)[0].custom_field)
-          .to eq list_custom_field
-      end
     end
 
     context 'global' do
@@ -71,14 +63,6 @@ describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
           .to receive(:all)
           .and_return([text_custom_field,
                        list_custom_field])
-      end
-
-      it 'contains only non text cf columns' do
-        expect(described_class.instances.length)
-          .to eq 1
-
-        expect(described_class.instances[0].custom_field)
-          .to eq list_custom_field
       end
     end
   end
