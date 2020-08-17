@@ -27,7 +27,7 @@ ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV HEROKU=true
 ENV RAILS_ENV=production
 ENV RAILS_CACHE_STORE=memcache
-ENV RAILS_GROUPS="production docker opf_plugins"
+ENV BUNDLER_GROUPS="production docker opf_plugins"
 ENV OPENPROJECT_INSTALLATION__TYPE=docker
 # Valid values are: standard,bim
 ENV OPENPROJECT_EDITION=standard
@@ -51,7 +51,7 @@ COPY vendor ./vendor
 COPY lib ./lib
 
 RUN bundle install --deployment --path vendor/bundle --no-cache \
-  --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
+  --with="$BUNDLER_GROUPS" --without="test development" --jobs=8 --retry=3 && \
   rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
 
 # Finally, copy over the whole thing
