@@ -35,12 +35,8 @@ module Members
 
     attribute :roles
 
-    def validate
-      user_allowed_to_manage
-      roles_grantable
-
-      super
-    end
+    validate :user_allowed_to_manage
+    validate :roles_grantable
 
     def user_allowed_to_manage
       if model.project && !user.allowed_to?(:manage_members, model.project)

@@ -87,11 +87,12 @@ module API
 
           errors.keys.each do |attribute|
             api_attribute_name = ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-            errors.symbols_and_messages_for(attribute).each do |symbol, full_message, _|
+
+            errors.symbols_and_messages_for(attribute).each do |symbol, message|
               api_errors << if symbol == :error_readonly
-                              ::API::Errors::UnwritableProperty.new(api_attribute_name, full_message)
+                              ::API::Errors::UnwritableProperty.new(api_attribute_name, message)
                             else
-                              ::API::Errors::Validation.new(api_attribute_name, full_message)
+                              ::API::Errors::Validation.new(api_attribute_name, message)
                             end
             end
           end

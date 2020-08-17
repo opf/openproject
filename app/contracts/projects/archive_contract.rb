@@ -30,12 +30,8 @@ module Projects
   class ArchiveContract < ModelContract
     include Projects::Archiver
 
-    def validate
-      validate_admin_only
-      validate_no_foreign_wp_references
-
-      super
-    end
+    validate :validate_admin_only
+    validate :validate_no_foreign_wp_references
 
     protected
 

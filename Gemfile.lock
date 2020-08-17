@@ -792,12 +792,6 @@ GEM
     recaptcha (5.5.0)
       json
     redcarpet (3.5.0)
-    reform (2.2.4)
-      disposable (>= 0.4.1)
-      representable (>= 2.4.0, < 3.1.0)
-    reform-rails (0.1.7)
-      activemodel (>= 3.2)
-      reform (>= 2.2.0)
     regexp_parser (1.7.0)
     representable (3.0.4)
       declarative (< 0.1.0)
@@ -1023,6 +1017,7 @@ DEPENDENCIES
   deckar01-task_list (~> 2.3.1)
   delayed_cron_job (~> 0.7.2)
   delayed_job_active_record (~> 4.1.4)
+  disposable (~> 0.4.7)
   doorkeeper (~> 5.3.1)
   equivalent-xml (~> 0.6)
   escape_utils (~> 1.0)
@@ -1104,8 +1099,6 @@ DEPENDENCIES
   rails-i18n (~> 6.0.0)
   rails_12factor
   rdoc (>= 2.4.2)
-  reform (~> 2.2.0)
-  reform-rails (~> 0.1.7)
   reporting_engine!
   request_store (~> 1.5.0)
   responders (~> 3.0)

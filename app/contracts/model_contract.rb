@@ -28,10 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/active_model/model_validations'
+class ModelContract < Disposable::Twin
+  require "disposable/twin/composition" # Expose.
+  include Expose
 
-class ModelContract < Reform::Contract
+  feature Setup
+  feature Setup::SkipSetter
+  feature Default
+
+  include ActiveModel::Validations
+  extend ActiveModel::Naming
+  extend ActiveModel::Translation
+
+  delegate :id,
+           to: :model
+
+  # Allows human_attribute_name to resolve custom fields correctly
+  extend Redmine::Acts::Customizable::HumanAttributeName
+
   class << self
     def writable_attributes
       @writable_attributes ||= []
@@ -39,10 +53,6 @@ class ModelContract < Reform::Contract
 
     def writable_conditions
       @writable_conditions ||= []
-    end
-
-    def attribute_validations
-      @attribute_validations ||= []
     end
 
     def attribute_permissions
@@ -59,15 +69,25 @@ class ModelContract < Reform::Contract
       attribute_aliases[db] = outside
     end
 
+    def property(name, options = {}, &block)
+      if twin = options.delete(:form)
+        options[:twin] = twin
+      end
+
+      if validates_options = options[:validates]
+        validates name, validates_options
+      end
+
+      super
+    end
+
     def attribute(attribute, options = {}, &block)
       property attribute
 
       add_writable(attribute, options[:writeable])
       attribute_permission(attribute, options[:permission])
 
-      if block
-        attribute_validations << block
-      end
+      validate(attribute, &block) if block
     end
 
     def default_attribute_permission(permission)
@@ -126,11 +146,9 @@ class ModelContract < Reform::Contract
     writable_attributes.include?(attribute.to_s)
   end
 
-  def validate
+  def validate(*args)
+    super()
     readonly_attributes_unchanged
-    run_attribute_validations
-
-    super
 
     # Allow subclasses to check only contract errors
     return errors.empty? unless validate_model?
@@ -141,7 +159,7 @@ class ModelContract < Reform::Contract
     # order to have them available at one place.
     # This is something we need as long as we have validations split
     # among the model and its contract.
-    errors.merge!(model.errors, [])
+    errors.merge!(model.errors)
 
     errors.empty?
   end
@@ -154,7 +172,11 @@ class ModelContract < Reform::Contract
   end
 
   def self.model
-    @model ||= name.deconstantize.singularize.constantize
+    @model ||= begin
+                 name.deconstantize.singularize.constantize
+               rescue NameError
+                 ActiveRecord::Base
+               end
   end
 
   # use activerecord as the base scope instead of 'activemodel' to be compatible
@@ -196,14 +218,6 @@ class ModelContract < Reform::Contract
     end
 
     changed
-  end
-
-  def run_attribute_validations
-    attribute_validations.each { |validation| instance_exec(&validation) }
-  end
-
-  def attribute_validations
-    collect_ancestor_attributes(:attribute_validations)
   end
 
   def collect_ancestor_attribute_aliases

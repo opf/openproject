@@ -39,13 +39,13 @@ describe CustomActions::Actions::AssignedTo, type: :model do
                FactoryBot.build_stubbed(:user)]
       allow(User)
         .to receive_message_chain(:active_or_registered, :select, :order_by_name)
-              .and_return(users)
+        .and_return(users)
     else
       users = [FactoryBot.build_stubbed(:user),
                FactoryBot.build_stubbed(:group)]
       allow(Principal)
         .to receive_message_chain(:active_or_registered, :select, :order_by_name)
-              .and_return(users)
+        .and_return(users)
     end
 
     [{ value: nil, label: '-' },
@@ -105,7 +105,7 @@ describe CustomActions::Actions::AssignedTo, type: :model do
       end
 
       it 'validates the me value when executing' do
-        errors = ActiveModel::Errors.new(work_package)
+        errors = ActiveModel::Errors.new(CustomAction.new)
         subject.validate errors
         expect(errors.symbols_for(:actions)).to be_empty
       end
@@ -118,7 +118,7 @@ describe CustomActions::Actions::AssignedTo, type: :model do
       end
 
       it 'validates the me value when executing' do
-        errors = ActiveModel::Errors.new(work_package)
+        errors = ActiveModel::Errors.new(CustomAction.new)
         subject.validate errors
         expect(errors.symbols_for(:actions)).to include :not_logged_in
       end

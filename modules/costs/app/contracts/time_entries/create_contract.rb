@@ -30,12 +30,8 @@
 
 module TimeEntries
   class CreateContract < BaseContract
-    def validate
-      user_allowed_to_add
-      validate_user_current_user
-
-      super
-    end
+    validate :user_allowed_to_add
+    validate :validate_user_current_user
 
     private
 

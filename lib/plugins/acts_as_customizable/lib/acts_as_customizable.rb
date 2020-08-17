@@ -61,6 +61,7 @@ module Redmine
       module InstanceMethods
         def self.included(base)
           base.extend ClassMethods
+          base.extend HumanAttributeName
         end
 
         def available_custom_fields
@@ -238,11 +239,11 @@ module Redmine
 
             custom_value
               .errors
-              .symbols_and_messages_for(attribute)
-              .each do |symbol, _, partial_message|
+              .details[attribute]
+              .each do |hash|
                 # Use the generated message by the custom field
                 # as it may contain specific parameters (e.g., :too_long requires :count)
-                errors.add(name, partial_message, error_symbol: symbol)
+                errors.add(name, hash[:error], **hash.except(:error))
               end
           end
         end

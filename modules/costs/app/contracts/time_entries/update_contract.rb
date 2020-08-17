@@ -32,12 +32,12 @@ module TimeEntries
   class UpdateContract < BaseContract
     include UnchangedProject
 
-    def validate
+    validate :validate_user_allowed_to_update
+
+    def validate_user_allowed_to_update
       unless user_allowed_to_update?
         errors.add :base, :error_unauthorized
       end
-
-      super
     end
 
     ##
