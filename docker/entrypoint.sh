@@ -67,7 +67,7 @@ if [ "$(id -u)" = '0' ]; then
 	mkdir -p "$APP_PATH/log" "$APP_PATH/tmp/pids" "$APP_PATH/files"
 	chown "$APP_USER:$APP_USER" "$APP_PATH"
 	chown -R "$APP_USER:$APP_USER" "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files" "$APP_PATH/public"
-	if [ "$1" = "./docker/supervisord" ] || [ "$1" = "./docker/proxy" ]; then
+	if [ "$1" = "./docker/supervisord" ] || [ "$1" = "./docker/proxy" ] || [ "$1" = "bash" ]; then
 		exec "$@"
 	else
 		exec $APP_PATH/docker/gosu $APP_USER "$BASH_SOURCE" "$@"
