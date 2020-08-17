@@ -29,8 +29,8 @@ ENV RAILS_ENV=production
 ENV RAILS_CACHE_STORE=memcache
 ENV RAILS_GROUPS="production docker opf_plugins"
 ENV OPENPROJECT_INSTALLATION__TYPE=docker
-# Valid values are: default,bim
-ENV OPENPROJECT_EDITION=default
+# Valid values are: standard,bim
+ENV OPENPROJECT_EDITION=standard
 ENV NEW_RELIC_AGENT_ENABLED=false
 ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
 # Set a default key base, ensure to provide a secure value in production environments!
