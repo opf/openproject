@@ -32,11 +32,7 @@ require 'users/base_contract'
 
 module Users
   class UpdateContract < BaseContract
-    def validate
-      user_allowed_to_update
-
-      super
-    end
+    validate :user_allowed_to_update
 
     private
 

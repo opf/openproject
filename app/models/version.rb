@@ -46,7 +46,6 @@ class Version < ApplicationRecord
   validates_format_of :effective_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
   validates_format_of :start_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
   validates_inclusion_of :status, in: VERSION_STATUSES
-  validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
   scope_classes ::Versions::Scopes::OrderBySemverName

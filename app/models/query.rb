@@ -122,7 +122,8 @@ class Query < ApplicationRecord
 
     (column_names - available_names).each do |name|
       errors.add :column_names,
-                 I18n.t(:error_invalid_query_column, value: name)
+                 :invalid,
+                 value: name
     end
   end
 
@@ -131,14 +132,14 @@ class Query < ApplicationRecord
 
     sort_criteria.each do |name, _dir|
       unless available_criteria.include? name.to_s
-        errors.add :sort_criteria, I18n.t(:error_invalid_sort_criterion, value: name)
+        errors.add :sort_criteria, :invalid, value: name
       end
     end
   end
 
   def validate_group_by
     unless group_by.blank? || groupable_columns.map(&:name).map(&:to_s).include?(group_by.to_s)
-      errors.add :group_by, I18n.t(:error_invalid_group_by, value: group_by)
+      errors.add :group_by, :invalid, value: group_by
     end
   end
 

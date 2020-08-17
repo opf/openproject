@@ -43,13 +43,9 @@ module TimeEntries
       TimeEntry
     end
 
-    def validate
-      validate_hours_are_in_range
-      validate_project_is_set
-      validate_work_package
-
-      super
-    end
+    validate :validate_hours_are_in_range
+    validate :validate_project_is_set
+    validate :validate_work_package
 
     attribute :project_id
     attribute :work_package_id

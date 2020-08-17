@@ -30,11 +30,7 @@ module Roles
   class CreateContract < BaseContract
     attribute :type
 
-    def validate
-      type_in_allowed
-
-      super
-    end
+    validate :type_in_allowed
 
     private
 

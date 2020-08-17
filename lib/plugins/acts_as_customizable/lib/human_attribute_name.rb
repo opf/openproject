@@ -26,44 +26,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::ValidateInRange
-  def minimum
-    nil
-  end
+module Redmine
+  module Acts
+    module Customizable
+      module HumanAttributeName
+        # If a model acts_as_customizable it will inject attributes like 'custom_field_1' into itself.
+        # Using this method, they can now be i18ned same as every other attribute. This is for example
+        # for error messages following the format of '%{attribute} %{message}' where `attribute` is resolved
+        # by calling IncludingClass.human_attribute_name
+        def human_attribute_name(attribute, options = {})
+          match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
 
-  def maximum
-    nil
-  end
-
-  def validate(errors)
-    super
-    validate_in_interval(errors)
-  end
-
-  private
-
-  def validate_in_interval(errors)
-    return unless values.compact.length == 1
-
-    validate_greater_than_minimum(errors)
-    validate_smaller_than_maximum(errors)
-  end
-
-  def validate_smaller_than_maximum(errors)
-    if maximum && values[0] > maximum
-      errors.add :actions,
-                 :smaller_than_or_equal_to,
-                 name: human_name,
-                 count: maximum
-    end
-  end
-
-  def validate_greater_than_minimum(errors)
-    if minimum && values[0] < minimum
-      errors.add :actions,
-                 :greater_than_or_equal_to,
-                 name: human_name,
-                 count: minimum
+          if match
+            CustomField.find_by(id: match[:id]).name
+          else
+            super
+          end
+        end
+      end
     end
   end
 end

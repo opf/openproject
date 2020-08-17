@@ -52,11 +52,7 @@ module Projects
       validate_templated_set_by_admin
     end
 
-    def validate
-      validate_user_allowed_to_manage
-
-      super
-    end
+    validate :validate_user_allowed_to_manage
 
     def assignable_parents
       Project

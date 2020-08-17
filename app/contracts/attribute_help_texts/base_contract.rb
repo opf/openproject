@@ -32,11 +32,7 @@ module AttributeHelpTexts
   class BaseContract < ::ModelContract
     include Attachments::ValidateReplacements
 
-    def validate
-      validate_user_allowed_to_manage
-
-      super
-    end
+    validate :validate_user_allowed_to_manage
 
     def self.model
       AttributeHelpText

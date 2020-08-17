@@ -285,13 +285,13 @@ gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
 gem 'grape', '~> 1.3.0'
+gem 'roar', '~> 1.1.0'
 
 # CORS for API
 gem 'rack-cors', '~> 1.1.1'
 
-gem 'reform', '~> 2.2.0'
-gem 'reform-rails', '~> 0.1.7'
-gem 'roar', '~> 1.1.0'
+# Required for contracts
+gem 'disposable', '~> 0.4.7'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
@@ -302,7 +302,7 @@ platforms :mri, :mingw, :x64_mingw do
   gem 'activerecord-nulldb-adapter', '~> 0.4.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
-  # We e.g. emply this to safeguard the creation of journals.
+  # We e.g. employ this to safeguard the creation of journals.
   gem 'with_advisory_lock', '~> 4.6.0'
 end
 
