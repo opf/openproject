@@ -31,9 +31,26 @@ module ::Query::Sums
   include ActionView::Helpers::NumberHelper
 
   def all_total_sums
+    core = WorkPackage
+             .where(id: work_packages)
+             .except(:order, :select)
+             .select("SUM(estimated_hours) estimated_hours")
+
+    joins = callable_summed_up_columns
+              .map { |c| "LEFT OUTER JOIN (#{c.summable.(query).to_sql}) #{c.name} ON TRUE" }
+              .join(' ')
+
+    sql = <<~SQL
+      SELECT *
+      FROM (#{core.to_sql}) work_packages
+      #{joins}
+    SQL
+
+    group_sums = ActiveRecord::Base.connection.select_all(sql)
+
     summed_up_columns.inject({}) do |result, column|
-      sum = total_sum_of(column)
-      result[column] = sum unless sum.nil?
+      value = group_sums.first
+      result[column] = value[column.name.to_s] unless value.nil?
       result
     end
   end
@@ -48,7 +65,7 @@ module ::Query::Sums
              .select("#{query.group_by_statement} id, SUM(estimated_hours) estimated_hours")
 
     joins = callable_summed_up_columns
-              .map { |c| "LEFT OUTER JOIN (#{c.summable.(query).to_sql}) #{c.name} ON #{c.name}.id = work_packages.id" }
+              .map { |c| "LEFT OUTER JOIN (#{c.summable.(query).to_sql}) #{c.name} ON #{c.name}.id = work_packages.id OR #{c.name}.id IS NULL AND work_packages.id IS NULL" }
               .join(' ')
 
     sql = <<~SQL

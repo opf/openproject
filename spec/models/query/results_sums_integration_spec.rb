@@ -116,7 +116,7 @@ describe ::Query::Results, 'sums', type: :model do
     it 'is a hash of all summable columns' do
       expect(query_results.all_total_sums)
         .to eql(estimated_hours_column => 15.0,
-                int_cf_column => 30.0,
+                int_cf_column => 30,
                 float_cf_column => 10.24)
     end
 
@@ -128,7 +128,7 @@ describe ::Query::Results, 'sums', type: :model do
       it 'is a hash of all summable columns and includes only the work packages matching the filter' do
         expect(query_results.all_total_sums)
           .to eql(estimated_hours_column => 10.0,
-                  int_cf_column => 20.0,
+                  int_cf_column => 20,
                   float_cf_column => 6.83)
       end
     end

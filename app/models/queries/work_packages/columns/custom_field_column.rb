@@ -72,7 +72,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
                             .select("#{query.group_by_statement} id, #{select} #{name}")
                         else
                           scope
-                            .select(select)
+                            .select("#{select} #{name}")
                         end
                         #CustomValue
                         # .where(customized: , custom_field: @cf)
