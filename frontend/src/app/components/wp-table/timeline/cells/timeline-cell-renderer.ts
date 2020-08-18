@@ -367,9 +367,9 @@ export class TimelineCellRenderer {
     let type = wp.type;
     let selectionMode = renderInfo.viewParams.activeSelectionMode;
 
-    // Don't apply the class in selection mode or for parents (clamps)
+    // Don't apply the class in selection mode
     const id = type.id;
-    if (selectionMode || this.isParentWithVisibleChildren(wp)) {
+    if (selectionMode) {
       bg.classList.remove(Highlighting.backgroundClass('type', id!));
     } else {
       bg.classList.add(Highlighting.backgroundClass('type', id!));
@@ -404,8 +404,8 @@ export class TimelineCellRenderer {
    *
    * Known cases:
    * 1. Display a clamp if this work package is a parent element
-   * 2. Display the children's duration bar if this work package is a
-   *    parent element
+   *    and display a box wrapping all the visible children when the
+   *    parent is hovered
    */
   checkForSpecialDisplaySituations(renderInfo:RenderInfo, bar:HTMLElement) {
     const wp = renderInfo.workPackage;
