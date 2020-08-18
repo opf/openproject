@@ -30,7 +30,7 @@ module OpenProject
   module GlobalRoles
     module PluginSpecHelper
       def costs_plugin_loaded?
-        plugin_loaded?('openproject_costs')
+        plugin_loaded?('costs')
       end
 
       def plugin_loaded?(name)

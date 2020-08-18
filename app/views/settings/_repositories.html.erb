@@ -26,8 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<%= toolbar title: t(:label_repository_plural) %>
 
-<%= styled_form_tag(general_settings_path(tab: 'repositories'), method: :patch) do %>
+<%= styled_form_tag(update_repositories_settings_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field">
       <%= setting_check_box :autofetch_changesets %>

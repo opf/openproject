@@ -45,12 +45,7 @@ class SettingsController < ApplicationController
   end
 
   def show
-    @options = {}
-    @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
-
-    @guessed_host = request.host_with_port.dup
-
-    @custom_style = CustomStyle.current || CustomStyle.new
+    redirect_to general_settings_path
   end
 
   def plugin
@@ -65,15 +60,6 @@ class SettingsController < ApplicationController
     end
   rescue Redmine::PluginNotFound
     render_404
-  end
-
-  def default_breadcrumb
-    if params[:action] == "plugin"
-      plugin = Redmine::Plugin.find(params[:id])
-      plugin.name
-    else
-      t(:label_system_settings)
-    end
   end
 
   def show_local_breadcrumb

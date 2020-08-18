@@ -59,11 +59,10 @@ module OpenProject::Backlogs::Patches::UpdateServicePatch
       attributes = { version_id: work_package.version_id }
 
       descendant_tasks.each do |task|
+        # Ensure the parent is already moved to new version so that validation errors are avoided.
+        task.parent = ([work_package] + all_descendants).detect { |d| d.id == task.parent_id }
         result.add_dependent!(set_attributes(attributes, task))
       end
     end
   end
 end
-
-
-

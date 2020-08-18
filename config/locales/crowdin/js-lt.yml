@@ -410,7 +410,7 @@ lt:
     label_value_derived_from_children: "(reikšmė išvesta iš vaikų)"
     label_warning: "Įspėjimas"
     label_work_package: "Darbų paketas"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Tėvinis darbų paketas"
     label_work_package_plural: "Darbų paketai"
     label_watch: "Stebėti"
     label_watch_work_package: "Stebėti darbų paketą"

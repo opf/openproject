@@ -26,6 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# This now only seems to be used when rendering atom responses.
+# Search as well as activities do not rely on it.
+# Thus, whenever an atom link is removed for a resource, acts_as_event within that model can also be removed.
+
 module Redmine
   module Acts
     module Event

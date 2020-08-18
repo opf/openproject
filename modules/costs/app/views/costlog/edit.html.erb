@@ -38,7 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
             :post :
             :put %>
 
-<remote-field-updater data-url="<%= url_for(controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
+<remote-field-updater data-url="<%= url_for(controller: :budgets, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
                       data-mode="json">
 </remote-field-updater>
 <%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>
@@ -119,7 +119,7 @@ See docs/COPYRIGHT.rdoc for more details.
             </a>
           <% else %>
             <span id="cost_entry_costs_editor" class="form--text-field-container">
-              <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.overridden_costs, unit: "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
+              <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.overridden_costs, unit: "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_costs['costs_currency'] %>
             </span>
             <br /><em><%= t(:help_override_rate) %></em>
           <% end %>

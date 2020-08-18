@@ -36,7 +36,7 @@ module API
         after_validation do
           authorize_any([:view_cost_entries, :view_own_cost_entries],
                         projects: @work_package.project)
-          @cost_helper = ::OpenProject::Costs::AttributesHelper.new(@work_package, current_user)
+          @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
         end
 
         resources :cost_entries do

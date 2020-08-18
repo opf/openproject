@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector, Input} from '@angular/core';
+import {Component, Injector, Input, AfterViewInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FieldDescriptor, GroupDescriptor} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -36,13 +36,17 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
   selector: 'wp-attribute-group',
   templateUrl: './wp-attribute-group.template.html'
 })
-export class WorkPackageFormAttributeGroupComponent {
+export class WorkPackageFormAttributeGroupComponent implements AfterViewInit {
   @Input() public workPackage:WorkPackageResource;
   @Input() public group:GroupDescriptor;
 
   constructor(readonly I18n:I18nService,
               public wpEditForm:EditFormComponent,
               protected injector:Injector) {
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.fixColumns());
   }
 
   public trackByName(_index:number, elem:{ name:string }) {
@@ -64,5 +68,25 @@ export class WorkPackageFormAttributeGroupComponent {
     } else {
       return name;
     }
+  }
+
+  /**
+   * Fix the top of the columns after view has been loaded
+   * to prevent columns from repositioning (e.g. when editing multi-select fields)
+   */
+  private fixColumns() {
+    let lastOffset = 0;
+    // Find corresponding HTML of attribute fields for each group
+    let htmlAttributes = jQuery('div.attributes-group:contains(' + this.group.name + ')').find('.attributes-key-value');
+
+    htmlAttributes.each(function() {
+      let offset = jQuery(this).position().top;
+
+      if (offset < lastOffset) {
+        // Fix position of the column start
+        jQuery(this).addClass('-column-start');
+      }
+      lastOffset = offset;
+    });
   }
 }

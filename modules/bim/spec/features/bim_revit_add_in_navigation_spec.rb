@@ -61,7 +61,7 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     it 'shows a toolbar' do
-      model_page.page_shows_a_toolbar true
+      model_page.page_has_a_toolbar
     end
 
     it 'shows no viewer' do

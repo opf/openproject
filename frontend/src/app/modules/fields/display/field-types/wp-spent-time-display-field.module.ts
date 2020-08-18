@@ -63,8 +63,9 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         .id(this.resource.project)
         .get()
         .subscribe((project:ProjectResource) => {
+          // Link to the cost report having the work package filter preselected. No grouping.
           const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
-            .search({ work_package_id: wpID })
+            .search(`fields[]=WorkPackageId&operators[WorkPackageId]=%3D&values[WorkPackageId]=${wpID}&set_filter=1`)
             .toString();
 
           link.href = href;

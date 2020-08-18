@@ -66,6 +66,7 @@ exclude_paths:
   - lib/plugins/rfpdf/**/*
   - app/assets/javascripts/vendor/**/*
   - frontend/vendor/**/*
+  - frontend/src/vendor/**/*
   - "**/*.d.ts"
   - "**/node_modules/"
   - spec/**

@@ -55,14 +55,6 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_news, nil, global: true)
             }
-  menu.push :time_sheet,
-            { controller: '/timelog', project_id: nil, action: 'index' },
-            context: :modules,
-            caption: I18n.t('label_time_sheet_menu'),
-            if: Proc.new {
-              (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to?(:view_time_entries, nil, global: true)
-            }
   menu.push :help,
             OpenProject::Static::Links.help_link,
             last: true,
@@ -217,9 +209,16 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-enumerations'
 
   menu.push :settings,
-            { controller: '/settings', action: 'show' },
+            { controller: '/settings/general', action: 'show' },
             caption: :label_system_settings,
             icon: 'icon2 icon-settings2'
+
+  SettingsHelper.system_settings_tabs.each do |node|
+    menu.push :"settings_#{node[:name]}",
+              node[:action],
+              caption: node[:label],
+              parent: :settings
+  end
 
   menu.push :email,
             { controller: '/admin/mail_notifications', action: 'show' },
@@ -277,38 +276,38 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :custom_style,
             { controller: '/custom_styles', action: 'show' },
-            caption:    :label_custom_style,
+            caption: :label_custom_style,
             icon: 'icon2 icon-design'
 
   menu.push :colors,
             { controller: '/colors', action: 'index' },
-            caption:    :'timelines.admin_menu.colors',
+            caption: :'timelines.admin_menu.colors',
             icon: 'icon2 icon-status'
 
   menu.push :enterprise,
             { controller: '/enterprises', action: 'show' },
-            caption:    :label_enterprise_edition,
+            caption: :label_enterprise_edition,
             icon: 'icon2 icon-headset',
             if: proc { OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :admin_costs,
-            { controller: '/settings', action: 'plugin', id: :openproject_costs },
-            caption:    :label_cost_object_plural,
+            { controller: '/settings', action: 'plugin', id: :costs },
+            caption: :project_module_costs,
             icon: 'icon2 icon-budget'
 
   menu.push :costs_setting,
-            { controller: '/settings', action: 'plugin', id: :openproject_costs },
-            caption:    :label_settings,
+            { controller: '/settings', action: 'plugin', id: :costs },
+            caption: :label_settings,
             parent: :admin_costs
 
   menu.push :admin_backlogs,
             { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
-            caption:    :label_backlogs,
+            caption: :label_backlogs,
             icon: 'icon2 icon-backlogs'
 
   menu.push :backlogs_settings,
             { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
-            caption:    :label_settings,
+            caption: :label_settings,
             parent: :admin_backlogs
 end
 
@@ -368,13 +367,6 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-folder-open'
 
   # Wiki menu items are added by WikiMenuItemHelper
-
-  menu.push :time_entries,
-            { controller: '/timelog', action: 'index' },
-            param: :project_id,
-            if: -> (project) { User.current.allowed_to?(:view_time_entries, project) },
-            caption: :label_time_sheet_menu,
-            icon: 'icon2 icon-cost-reports'
 
   menu.push :members,
             { controller: '/members', action: 'index' },

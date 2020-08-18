@@ -38,7 +38,7 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 ## Work package form configuration
 
-You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the from and how they are grouped.
+You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the form and how they are grouped.
 
 To configure a type, first select the type from the list of types (see above) and select the tab ***Form configuration*** *(1)*.
 
