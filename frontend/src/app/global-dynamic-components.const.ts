@@ -138,6 +138,14 @@ import {
   BacklogsPageComponent,
   backlogsPageComponentSelector
 } from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
+import {
+  attributeValueMacro,
+  AttributeValueMacroComponent
+} from "core-app/modules/fields/macros/attribute-value-macro.component";
+import {
+  attributeLabelMacro,
+  AttributeLabelMacroComponent
+} from "core-app/modules/fields/macros/attribute-label-macro.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -180,6 +188,8 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
+  { selector: attributeValueMacro, cls: AttributeValueMacroComponent },
+  { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent },
 ];
 
 

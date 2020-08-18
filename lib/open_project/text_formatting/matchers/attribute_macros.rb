@@ -1,0 +1,75 @@
+#-- encoding: UTF-8
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+module OpenProject::TextFormatting
+  module Matchers
+    # OpenProject wiki link syntax
+    # Examples:
+    #   [[mypage]]
+    #   [[mypage|mytext]]
+    # wiki links can refer other project wikis, using project name or identifier:
+    #   [[project:]] -> wiki starting page
+    #   [[project:|mytext]]
+    #   [[project:mypage]]
+    #   [[project:mypage|mytext]]
+    class AttributeMacros < RegexMatcher
+
+      def self.regexp
+        %r{
+          (\w+)(Label|Value) # The model type we try to reference
+          (?::(?:([^"\s]+)|"([^"]+)"))? # Optional: An ID or subject reference
+          (?::([^"\s.]+|"([^".]+)")) # The attribute name we're trying to reference
+        }x
+      end
+
+      ##
+      # Faster inclusion check before the regex is being applied
+      def self.applicable?(content)
+        content.include?('Label:') || content.include?('Value:')
+      end
+
+      def self.process_match(m, matched_string, context)
+        # Leading string before match
+        macro_attributes = {
+          model: m[1],
+          type: m[2].downcase,
+          id: m[4] || m[3],
+          attribute: m[6] || m[5]
+        }
+
+
+        ApplicationController.helpers.content_tag :macro,
+                                                  '',
+                                                  class: "macro--attribute-#{macro_attributes[:type]}",
+                                                  data: macro_attributes
+      end
+    end
+  end
+end

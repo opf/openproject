@@ -52,6 +52,8 @@ import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/fiel
 import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/field-types/project-status-edit-field.component";
 import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
 import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
+import {AttributeValueMacroComponent} from "core-app/modules/fields/macros/attribute-value-macro.component";
+import {AttributeLabelMacroComponent} from "core-app/modules/fields/macros/attribute-label-macro.component";
 
 @NgModule({
   imports: [
@@ -97,6 +99,8 @@ import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/ed
     EditFormComponent,
     EditableAttributeFieldComponent,
     ProjectStatusEditFieldComponent,
+    AttributeValueMacroComponent,
+    AttributeLabelMacroComponent,
   ]
 })
 export class OpenprojectFieldsModule {

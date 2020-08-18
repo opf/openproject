@@ -35,7 +35,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
 import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
 import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {tap} from "rxjs/operators";
+import {take, tap} from "rxjs/operators";
 import {WorkPackageCache} from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
 
 export class ApiV3WorkPackageCachedSubresource extends APIv3GettableResource<WorkPackageCollectionResource> {
@@ -45,7 +45,8 @@ export class ApiV3WorkPackageCachedSubresource extends APIv3GettableResource<Wor
       .halResourceService
       .get<WorkPackageCollectionResource>(this.path)
       .pipe(
-        tap(collection => this.cache.updateWorkPackageList(collection.elements))
+        tap(collection => this.cache.updateWorkPackageList(collection.elements)),
+        take(1)
       );
   }
 

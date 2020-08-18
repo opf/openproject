@@ -1,0 +1,102 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+// ++    Ng1FieldControlsWrapper,
+
+import {Injectable} from "@angular/core";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {NEVER, Observable} from "rxjs";
+import {map, take} from "rxjs/operators";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {multiInput} from "reactivestates";
+import {TransitionService} from "@uirouter/core";
+
+export type SupportedAttributeModels = 'project'|'workPackage';
+
+@Injectable({ providedIn: "root" })
+export class AttributeModelLoaderService {
+
+  text = {
+    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found')
+  };
+
+  // Cache the required model/id values because
+  // we may need to expensively filter for them
+  private cache$ = multiInput<HalResource>();
+
+  constructor(readonly apiV3Service:APIV3Service,
+              readonly transitions:TransitionService,
+              readonly I18n:I18nService) {
+
+    // Clear cached values whenever leaving the page
+    transitions.onStart({}, () => {
+      this.cache$.clear();
+      return true;
+    });
+  }
+
+  /**
+   * Require a given model with an id reference to be loaded.
+   * This might be a singular resource identified by an actual integer ID or
+   * another (e.g., work package subject) reference.
+   *
+   * @param model
+   * @param id
+   */
+  require(model:SupportedAttributeModels, id:string):Promise<HalResource|undefined> {
+    const identifier = `${model}-${id}`;
+    const state = this.cache$.get(identifier);
+
+    state.putFromPromiseIfPristine(() =>
+      this.load(model, id).toPromise()
+    );
+
+    return state
+      .values$()
+      .pipe(
+        take(1)
+      )
+      .toPromise();
+  }
+
+  private load(model:string, id:string):Observable<HalResource|undefined> {
+    switch (model) {
+      case 'workPackage':
+        return this
+          .apiV3Service
+          .work_packages
+          .filterBySubjectOrId(id, false, { pageSize: '1' })
+          .get()
+          .pipe(
+            take(1),
+            map(collection => collection.elements[0])
+          );
+      default:
+        return NEVER;
+    }
+  }
+}
