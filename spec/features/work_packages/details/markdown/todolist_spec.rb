@@ -166,7 +166,7 @@ describe 'Todolists in CKEditor', js: true do
       # Update the link text, no idea how to do this differently
       ckeditor.in_editor do |_container, editable|
         link = editable.find('.todo-list .todo-list a')
-        page.execute_script('arguments[0].textContent = "This is a link"', link.native)
+        link.set('This is a link')
 
         sleep 0.5
       end
