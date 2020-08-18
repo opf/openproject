@@ -30,41 +30,6 @@
 module ::Query::Sums
   include ActionView::Helpers::NumberHelper
 
-  def total_sum_of(column)
-    sum_of(column, work_packages)
-  end
-
-  def sum_of(column, collection)
-    return nil unless should_be_summed_up?(column)
-
-    sum = column.sum_of(collection)
-
-    crunch(sum)
-  end
-
-  def mapping_for(column)
-    if column.respond_to? :real_value
-      method(:number_to_currency)
-    else
-      # respond_to? :call, but do nothing
-      @nilproc ||= Proc.new { |val| val }
-    end
-  end
-
-  def crunch(num)
-    return num if num.nil? || !num.respond_to?(:integer?) || num.integer?
-
-    Float(format('%.2f', num.to_f))
-  end
-
-  def should_be_summed_up?(column)
-    column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s)
-  end
-
-  def column_total_sums
-    query.columns.map { |column| total_sum_of(column) }
-  end
-
   def all_total_sums
     query.available_columns.select { |column|
       should_be_summed_up?(column)
@@ -84,5 +49,29 @@ module ::Query::Sums
       result[column] = sum unless sum.nil?
       result
     end
+  end
+
+  private
+
+  def sum_of(column, collection)
+    return nil unless should_be_summed_up?(column)
+
+    sum = column.sum_of(collection)
+
+    crunch(sum)
+  end
+
+  def crunch(num)
+    return num if num.nil? || !num.respond_to?(:integer?) || num.integer?
+
+    Float(format('%.2f', num.to_f))
+  end
+
+  def should_be_summed_up?(column)
+    column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s)
+  end
+
+  def total_sum_of(column)
+    sum_of(column, work_packages)
   end
 end
