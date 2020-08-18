@@ -40,6 +40,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
 @Injectable()
 export class QuerySpaceService extends UntilDestroyedMixin {
@@ -121,6 +122,7 @@ export class QuerySpaceService extends UntilDestroyedMixin {
     private currentProject:CurrentProjectService,
     private halEvents:HalEventsService,
     private queryParamListener:QueryParamListenerService,
+    private loadingIndicatorService:LoadingIndicatorService,
   ) {
     super();
   }
@@ -130,7 +132,7 @@ export class QuerySpaceService extends UntilDestroyedMixin {
     this.queryId = queryId;
 
     // Load first page onInit
-    this.refresh(true);
+    this.refresh(true, true);
 
     // Listen to changes on the query state objects
     this.setupQueryObservers();
@@ -145,11 +147,11 @@ export class QuerySpaceService extends UntilDestroyedMixin {
         .pipe(
           this.untilDestroyed()
         )
-        .subscribe(() => this.refresh(true));
+        .subscribe(() => this.refresh(true, true));
     }
   }
 
-  refresh(firstPage?:boolean):Promise<unknown> {
+  refresh(firstPage?:boolean, showSpinner?:boolean):Promise<unknown> {
     firstPage = firstPage != null ?
       firstPage :
       !this.query.initialized.hasValue();
@@ -157,7 +159,6 @@ export class QuerySpaceService extends UntilDestroyedMixin {
     let promise:Promise<unknown>;
 
     if (firstPage || !query) {
-      // TODO: Is this query ever true?
       if (query) {
         promise = this.workPackages.list.reloadQuery(query, this.projectIdentifier).toPromise();
       } else {
@@ -170,6 +171,13 @@ export class QuerySpaceService extends UntilDestroyedMixin {
                   .list
                   .loadQueryFromExisting(query, pagination, this.projectIdentifier)
                   .toPromise();
+    }
+
+    if (showSpinner) {
+      return this.loadingIndicator = promise.then((loadedQuery:QueryResource) => {
+        this.workPackages.statesInitialization.initialize(loadedQuery, loadedQuery.results);
+        return this.additionalLoadingTime();
+      });
     }
 
     return promise.then((loadedQuery:QueryResource) => {
@@ -186,7 +194,7 @@ export class QuerySpaceService extends UntilDestroyedMixin {
       ).subscribe(([pagination, query]) => {
       if (this.workPackages.listChecksum.isQueryOutdated(query, pagination)) {
         this.workPackages.listChecksum.update(query, pagination);
-        this.refresh();
+        this.refresh(false, true);
       }
     });
 
@@ -230,7 +238,7 @@ export class QuerySpaceService extends UntilDestroyedMixin {
           .then(() => {
             // Update the page, if the change requires it
             if (triggerUpdate) {
-              this.refresh(true);
+              this.refresh(firstPage, true);
             }
           });
       });
@@ -252,7 +260,7 @@ export class QuerySpaceService extends UntilDestroyedMixin {
         filter((events:HalEvent[]) => this.filterRefreshEvents(events))
       )
       .subscribe((events:HalEvent[]) => {
-        this.refresh(false);
+        this.refresh();
       });
   }
 
@@ -275,20 +283,15 @@ export class QuerySpaceService extends UntilDestroyedMixin {
     return false;
   }
 
-  // TODO: Implement this method
   /**
    * Set the loading indicator for this set instance
    * @param promise
    */
-  // protected abstract set loadingIndicator(promise:Promise<unknown>);
-  // From partitionedQuerySpace
-  /*protected set loadingIndicator(promise:Promise<unknown>) {
+  protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.table.promise = promise;
   }
-  if (visibly) {
-      return this.loadingIndicator = promise.then((loadedQuery:QueryResource) => {
-        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return this.additionalLoadingTime();
-      });
-    }*/
+
+  protected additionalLoadingTime():Promise<unknown> {
+    return Promise.resolve();
+  }
 }
