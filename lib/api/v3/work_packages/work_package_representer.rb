@@ -85,8 +85,7 @@ module API
           next if represented.new_record?
 
           {
-            href: new_work_package_time_entry_path(represented),
-            type: 'text/html',
+            href: api_v3_paths.time_entries,
             title: "Log time on #{represented.subject}"
           }
         end
@@ -286,9 +285,10 @@ module API
              cache_if: -> { view_time_entries_allowed? } do
           next if represented.new_record?
 
+          filters = [{ work_package_id: { operator: "=", values: [represented.id.to_s] } }]
+
           {
-            href: work_package_time_entries_path(represented.id),
-            type: 'text/html',
+            href: api_v3_paths.path_for(:time_entries, filters: filters),
             title: 'Time entries'
           }
         end
@@ -483,6 +483,13 @@ module API
                               represented.parent = new_parent
                             end
 
+        associated_resource :budget,
+                            as: :budget,
+                            v3_path: :budget,
+                            link_title_attribute: :subject,
+                            representer: ::API::V3::Budgets::BudgetRepresenter,
+                            skip_render: ->(*) { !view_budgets_allowed? }
+
         resources :customActions,
                   uncacheable_link: true,
                   link: ->(*) {
@@ -568,7 +575,8 @@ module API
         self.to_eager_load = %i[parent
                                 type
                                 watchers
-                                attachments]
+                                attachments
+                                budget]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
@@ -586,7 +594,12 @@ module API
         end
 
         def view_time_entries_allowed?
-          current_user_allowed_to(:view_time_entries, context: represented.project)
+          current_user_allowed_to(:view_time_entries, context: represented.project) ||
+            current_user_allowed_to(:view_own_time_entries, context: represented.project)
+        end
+
+        def view_budgets_allowed?
+          current_user_allowed_to(:view_budgets, context: represented.project)
         end
 
         def load_complete_model(model)

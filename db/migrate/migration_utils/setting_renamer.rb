@@ -27,16 +27,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Migration
+module Migration::MigrationUtils
   class SettingRenamer
     # define all the following methods as class methods
     class << self
       def rename(source_name, target_name)
         ActiveRecord::Base.connection.execute <<-SQL
-            UPDATE #{settings_table}
-            SET name = #{quote_value(target_name)}
-            WHERE name = #{quote_value(source_name)}
-          SQL
+          UPDATE #{settings_table}
+          SET name = #{quote_value(target_name)}
+          WHERE name = #{quote_value(source_name)}
+        SQL
       end
 
       private

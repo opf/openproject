@@ -45,12 +45,12 @@ class HourlyRate < Rate
   end
 
   def self.history_for_user(usr)
-    projects_with_costs_module = Project.has_module(:costs_module)
+    projects_with_costs = Project.has_module(:costs)
                                         .active
                                         .visible
                                         .order(:name)
 
-    permitted_projects = Project.has_module(:costs_module)
+    permitted_projects = Project.has_module(:costs)
                                 .active
                                 .allowed_to(User.current, :view_hourly_rates)
 
@@ -61,7 +61,7 @@ class HourlyRate < Rate
 
     rates = {}
 
-    projects_with_costs_module.each do |project|
+    projects_with_costs.each do |project|
       rates[project] = rates_by_project.fetch(project, [])
     end
 

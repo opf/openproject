@@ -32,7 +32,7 @@ describe WorkPackages::BulkController, type: :controller do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:controller_role) { FactoryBot.build(:role, permissions: [:view_work_packages, :edit_work_packages]) }
   let(:user) { FactoryBot.create :user, member_in_project: project, member_through_role: controller_role }
-  let(:cost_object) { FactoryBot.create :cost_object, project: project }
+  let(:budget) { FactoryBot.create :budget, project: project }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
 
   before do
@@ -43,12 +43,12 @@ describe WorkPackages::BulkController, type: :controller do
     context 'when a cost report is assigned' do
       before do
         put :update, params: { ids: [work_package.id],
-                               work_package: { cost_object_id: cost_object.id } }
+                               work_package: { budget_id: budget.id } }
       end
 
-      subject { work_package.reload.cost_object.try :id }
+      subject { work_package.reload.budget.try :id }
 
-      it { is_expected.to eq(cost_object.id) }
+      it { is_expected.to eq(budget.id) }
     end
   end
 end

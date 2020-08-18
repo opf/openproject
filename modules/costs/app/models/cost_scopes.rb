@@ -3,7 +3,6 @@ module CostScopes
     base_module.class_eval do
       def self.extended(base_class)
         base_class.class_eval do
-
           def self.visible(*args)
             user = args.first || User.current
             with_visible_entries_on self, user: user, project: args[1]
@@ -36,7 +35,7 @@ module CostScopes
   end
 
   def with_visible_entries_on(scope, user: User.current, project: nil)
-    table = self.arel_table
+    table = arel_table
 
     view_allowed = Project.allowed_to(user, view_allowed_entries_permission).select(:id)
     view_own_allowed = Project.allowed_to(user, view_allowed_own_entries_permission).select(:id)
@@ -59,7 +58,7 @@ module CostScopes
   end
 
   def with_visible_rates_on(scope, user: User.current)
-    table = self.arel_table
+    table = arel_table
     view_allowed = Project.allowed_to(user, view_rates_permissions).select(:id)
 
     scope.where(table[:project_id].in(view_allowed.arel))

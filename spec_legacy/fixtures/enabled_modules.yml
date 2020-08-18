@@ -32,7 +32,7 @@ enabled_modules_001:
   project_id: 1
   id: 1
 enabled_modules_002:
-  name: time_tracking
+  name: costs
   project_id: 1
   id: 2
 enabled_modules_003:
@@ -64,7 +64,7 @@ enabled_modules_011:
   project_id: 2
   id: 11
 enabled_modules_012:
-  name: time_tracking
+  name: costs
   project_id: 3
   id: 12
 enabled_modules_013:

@@ -138,6 +138,7 @@ class Project < ApplicationRecord
      join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
      association_foreign_key: 'custom_field_id'
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
+  has_many :budgets, dependent: :destroy
 
   acts_as_nested_set order_column: :name, dependent: :destroy
 
@@ -146,10 +147,6 @@ class Project < ApplicationRecord
                      date_column: "#{table_name}.created_at",
                      project_key: 'id',
                      permission: nil
-  acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
-                url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
-                author: nil,
-                datetime: :created_at
 
   validates :name,
             presence: true,

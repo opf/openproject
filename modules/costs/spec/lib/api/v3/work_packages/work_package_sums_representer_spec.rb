@@ -32,9 +32,9 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
   let(:sums) { double 'sums', material_costs: 5, labor_costs: 10, overall_costs: 15 }
   let(:schema) { double 'schema', available_custom_fields: [] }
   let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:representer) {
+  let(:representer) do
     described_class.create_class(schema, user).new(sums)
-  }
+  end
   let(:summable_columns) { [] }
 
   before do

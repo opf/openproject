@@ -27,7 +27,7 @@ group :opf_plugins do
 	gem 'openproject-documents',                 path: 'modules/documents'
 	gem 'openproject-xls_export',                path: 'modules/xls_export'
 	gem 'reporting_engine',                      path: 'modules/reporting_engine'
-	gem 'openproject-costs',                     path: 'modules/costs'
+	gem 'costs',                                 path: 'modules/costs'
 	gem 'openproject-reporting',                 path: 'modules/reporting'
 	gem 'openproject-meeting',                   path: 'modules/meeting'
 	gem 'openproject-pdf_export',                path: 'modules/pdf_export'
@@ -45,6 +45,7 @@ group :opf_plugins do
 	gem 'dashboards',                            path: 'modules/dashboards'
 	gem 'openproject-boards',                    path: 'modules/boards'
 	gem 'overviews',                             path: 'modules/overviews'
+	gem 'budgets',                               path: 'modules/budgets'
 
 	gem 'openproject-bim',                       path: 'modules/bim'
 end

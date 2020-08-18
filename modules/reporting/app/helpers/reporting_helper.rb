@@ -86,10 +86,13 @@ module ReportingHelper
     @raw_row[key][value] ||= field_sort_map(key, value)
   end
 
-  def cost_object_link(cost_object_id)
-    co = CostObject.find(cost_object_id)
-    if User.current.allowed_to?(:view_cost_objects, co.project)
-      link_to_cost_object(co)
+  def budget_link(budget_id)
+    co = Budget.find(budget_id)
+    if User.current.allowed_to?(:view_budgets, co.project)
+      link_to budget.subject,
+              budget_path(budget),
+              class: budget.css_classes,
+              title: budget.subject
     else
       co.subject
     end
@@ -107,7 +110,7 @@ module ReportingHelper
     when :tmonth                                then month_name(value.to_i)
     when :category_id                           then h(Category.find(value.to_i).name)
     when :cost_type_id                          then mapped value, CostType, l(:caption_labor)
-    when :cost_object_id                        then cost_object_link value
+    when :budget_id                        then budget_link value
     when :work_package_id                       then link_to_work_package(WorkPackage.find(value.to_i))
     when :spent_on                              then format_date(value.to_date)
     when :type_id                               then h(Type.find(value.to_i).name)

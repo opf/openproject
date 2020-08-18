@@ -34,7 +34,6 @@ class WorkPackageCostlogController < ApplicationController
   before_action :authorize
   before_action :redirect_when_outside_project
 
-
   def index
     filters = { operators: {}, values: {} }
 

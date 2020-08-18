@@ -287,7 +287,7 @@ default_projects_modules:
   - board_view
   - work_package_tracking
   - news
-  - time_tracking
+  - costs
   - wiki
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:

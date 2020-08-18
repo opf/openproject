@@ -208,11 +208,6 @@ OpenProject::Application.routes.draw do
 
     resources :news, only: %i[index new create]
 
-    namespace :time_entries do
-      resource :report, controller: 'reports', only: [:show]
-    end
-    resources :time_entries, controller: 'timelog', except: [:show]
-
     # Match everything to be the ID of the wiki page except the part that
     # is reserved for the format. This assumes that we have only two formats:
     # .txt and .html
@@ -434,12 +429,6 @@ OpenProject::Application.routes.draw do
     # move individual wp
     resource :move, controller: 'work_packages/moves', only: %i[new create]
 
-    # this duplicate mapping is required for the timelog_helper
-    namespace :time_entries do
-      resource :report, controller: 'reports'
-    end
-    resources :time_entries, controller: 'timelog'
-
     # states managed by client-side routing on work_package#index
     get 'details/*state' => 'work_packages#index', on: :collection, as: :details
 
@@ -457,13 +446,6 @@ OpenProject::Application.routes.draw do
       get :status_by
     end
   end
-
-  namespace :time_entries do
-    resource :report, controller: 'reports',
-                      only: [:show]
-  end
-
-  resources :time_entries, controller: 'timelog'
 
   resources :activity, :activities, only: :index, controller: 'activities'
 

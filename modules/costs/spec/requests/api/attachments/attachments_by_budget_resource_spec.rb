@@ -40,8 +40,8 @@ describe 'API v3 Attachments by budget resource', type: :request do
                       member_with_permissions: permissions)
   end
   let(:project) { FactoryBot.create(:project) }
-  let(:permissions) { [:view_cost_objects] }
-  let(:budget) { FactoryBot.create(:cost_object, project: project) }
+  let(:permissions) { [:view_budgets] }
+  let(:budget) { FactoryBot.create(:budget, project: project) }
 
   subject(:response) { last_response }
 
@@ -65,7 +65,7 @@ describe 'API v3 Attachments by budget resource', type: :request do
   end
 
   describe '#post' do
-    let(:permissions) { %i[view_cost_objects edit_cost_objects] }
+    let(:permissions) { %i[view_budgets edit_budgets] }
 
     let(:request_path) { api_v3_paths.attachments_by_budget budget.id }
     let(:request_parts) { { metadata: metadata, file: file } }
