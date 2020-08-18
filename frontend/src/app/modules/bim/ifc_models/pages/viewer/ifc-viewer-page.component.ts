@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   Injector,
   OnDestroy,
@@ -136,6 +136,7 @@ export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDes
               readonly wpStaticQueries:WorkPackageStaticQueriesService,
               readonly authorisationService:AuthorisationService,
               readonly titleService:OpTitleService,
+              readonly changeDetectorRef:ChangeDetectorRef,
 ) {
     // super(injector);
     super();
@@ -252,6 +253,7 @@ export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDes
       .pipe(take(1))
       .subscribe(() => {
         this.showToolbar = true;
+        this.changeDetectorRef.detectChanges();
       });
   }
 
