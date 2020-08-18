@@ -30,44 +30,6 @@
 module ::Query::Sums
   include ActionView::Helpers::NumberHelper
 
-  def next_in_same_group?(issue = cached_issue)
-    caching_issue issue do |issue|
-      !last_issue? &&
-        query.group_by_column.value(issue) == query.group_by_column.value(work_packages[issue_index + 1])
-    end
-  end
-
-  def last_issue?(issue = cached_issue)
-    caching_issue issue do |_issue|
-      issue_index == work_packages.size - 1
-    end
-  end
-
-  def issue_index(issue = cached_issue)
-    caching_issue issue do |issue|
-      work_packages.find_index(issue)
-    end
-  end
-
-  def grouped_sum_of_issue(column, issue = cached_issue)
-    grouped_sum_of column, group_for_issue(issue)
-  end
-
-  def grouped_sum_of(column, group)
-    sum_of column, group
-  end
-
-  def grouped_sums(column)
-    work_packages
-      .map { |wp| query.group_by_column.value(wp) }
-      .uniq
-      .inject({}) do |group_sums, current_group|
-        work_packages_in_current_group = work_packages.select { |wp| query.group_by_column.value(wp) == current_group }
-        # TODO: sum_of only works fast when passing an AR::Relation
-        group_sums.merge current_group => sum_of(column, work_packages_in_current_group)
-      end
-  end
-
   def total_sum_of(column)
     sum_of(column, work_packages)
   end
@@ -78,15 +40,6 @@ module ::Query::Sums
     sum = column.sum_of(collection)
 
     crunch(sum)
-  end
-
-  def caching_issue(issue)
-    @cached_issue = issue unless @cached_issue == issue
-    block_given? ? yield(issue) : issue
-  end
-
-  def cached_issue
-    @cached_issue
   end
 
   def mapping_for(column)
@@ -102,14 +55,6 @@ module ::Query::Sums
     return num if num.nil? || !num.respond_to?(:integer?) || num.integer?
 
     Float(format('%.2f', num.to_f))
-  end
-
-  def group_for_issue(issue = @current_issue)
-    caching_issue issue do |issue|
-      work_packages.select do |is|
-        query.group_by_column.value(issue) == query.group_by_column.value(is)
-      end
-    end
   end
 
   def should_be_summed_up?(column)
@@ -139,9 +84,5 @@ module ::Query::Sums
       result[column] = sum unless sum.nil?
       result
     end
-  end
-
-  def column_group_sums
-    query.group_by_column && query.columns.map { |column| grouped_sums(column) }
   end
 end
