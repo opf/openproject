@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
@@ -87,7 +87,7 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
     QueryParamListenerService,
   ],
 })
-export class QuerySpaceComponent implements OnInit {
+export class QuerySpaceComponent implements AfterViewInit {
   @Input()
   queryId:string;
 
@@ -95,7 +95,7 @@ export class QuerySpaceComponent implements OnInit {
     readonly querySpaceService:QuerySpaceService,
   ) {}
 
-  ngOnInit():void {
+  ngAfterViewInit():void {
     this.querySpaceService.initialize(this.queryId);
   }
 }
