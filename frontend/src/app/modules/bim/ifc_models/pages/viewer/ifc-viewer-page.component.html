@@ -8,11 +8,7 @@
       </back-button>
 
       <editable-toolbar-title [title]="selectedTitle"
-                              [inFlight]="toolbarDisabled"
-                              [showSaveCondition]="showToolbarSaveButton"
-                              (onSave)="changeChangesFromTitle($event)"
-                              (onEmptySubmit)="updateTitleName('')"
-                              [editable]="titleEditingEnabled">
+                              [editable]="false">
       </editable-toolbar-title>
 
       <ul class="toolbar-items hide-when-print"
