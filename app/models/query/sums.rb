@@ -31,22 +31,41 @@ module ::Query::Sums
   include ActionView::Helpers::NumberHelper
 
   def all_total_sums
-    query.available_columns.select { |column|
-      should_be_summed_up?(column)
-    }.inject({}) { |result, column|
+    summed_up_columns.inject({}) do |result, column|
       sum = total_sum_of(column)
       result[column] = sum unless sum.nil?
       result
-    }
+    end
   end
 
   def all_sums_for_group(group)
     return nil unless query.grouped?
 
-    group_work_packages = work_packages.select { |wp| query.group_by_column.value(wp) == group }
-    query.available_columns.inject({}) do |result, column|
-      sum = sum_of(column, group_work_packages)
-      result[column] = sum unless sum.nil?
+    core = WorkPackage
+             .where(id: work_packages)
+             .except(:order, :select)
+             .group(query.group_by_statement)
+             .select("#{query.group_by_statement} id, SUM(estimated_hours) estimated_hours")
+
+    joins = callable_summed_up_columns
+              .map { |c| "LEFT OUTER JOIN (#{c.summable.(query).to_sql}) #{c.name} ON #{c.name}.id = work_packages.id" }
+              .join(' ')
+
+    sql = <<~SQL
+      SELECT *
+      FROM (#{core.to_sql}) work_packages
+      #{joins}
+    SQL
+
+    group_sums = ActiveRecord::Base.connection.select_all(sql)
+
+    summed_up_columns.inject({}) do |result, column|
+      value = if group.respond_to?(:id)
+                group_sums.detect { |s| s['id'] == group.id }
+              else
+                group_sums.detect { |s| s['id'] == group }
+              end
+      result[column] = value[column.name.to_s] unless value.nil?
       result
     end
   end
@@ -54,11 +73,15 @@ module ::Query::Sums
   private
 
   def sum_of(column, collection)
-    return nil unless should_be_summed_up?(column)
-
     sum = column.sum_of(collection)
 
     crunch(sum)
+  end
+
+  def total_sum_of(column)
+    #binding.pry
+    #work_packages.sum(column.name)#
+    sum_of(column, work_packages)
   end
 
   def crunch(num)
@@ -71,7 +94,11 @@ module ::Query::Sums
     column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s)
   end
 
-  def total_sum_of(column)
-    sum_of(column, work_packages)
+  def summed_up_columns
+    query.available_columns.select { |column| should_be_summed_up?(column) }
+  end
+
+  def callable_summed_up_columns
+    query.available_columns.select { |column| should_be_summed_up?(column) && column.summable.respond_to?(:call) }
   end
 end

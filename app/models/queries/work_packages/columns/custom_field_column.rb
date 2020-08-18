@@ -54,7 +54,36 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
   end
 
   def set_summable!(custom_field)
-    self.summable = %w(float int).include?(custom_field.field_format)
+    self.summable = if %w(float int).include?(custom_field.field_format)
+                      select = custom_field.field_format == 'int' ? "SUM(value::BIGINT)::BIGINT" : "ROUND(SUM(value::NUMERIC), 2)::FLOAT"
+
+                      ->(query) {
+                        scope = WorkPackage
+                                  .where(id: query.results.work_packages)
+                                  .left_joins(:custom_values)
+                                  .except(:order, :select)
+                                  .where(custom_values: { custom_field: @cf })
+                                  .where.not(custom_values: { value: nil })
+                                  .where.not(custom_values: { value: '' })
+
+                        if query.grouped?
+                          scope
+                            .group(query.group_by_statement)
+                            .select("#{query.group_by_statement} id, #{select} #{name}")
+                        else
+                          scope
+                            .select(select)
+                        end
+                        #CustomValue
+                        # .where(customized: , custom_field: @cf)
+                        # .where.not(value: nil)
+                        # .where.not(value: '')
+                        # .select("SUM(value::FLOAT) a_sum")[0].a_sum
+                      }
+
+                    else
+                      false
+                    end
   end
 
   def groupable_custom_field?(custom_field)
@@ -79,14 +108,13 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
 
   def sum_of(work_packages)
     if work_packages.respond_to?(:joins)
-      cast = @cf.field_format == 'int' ? 'BIGINT' : 'FLOAT'
+      #cast = @cf.field_format == 'int' ? 'BIGINT' : 'FLOAT'
 
       CustomValue
         .where(customized: work_packages, custom_field: @cf)
         .where.not(value: nil)
         .where.not(value: '')
-        .pluck("SUM(value::#{cast})")
-        .first
+        .select("SUM(value::FLOAT) a_sum")[0].a_sum
     else
       # TODO: eliminate calls of this method with an Array and drop the :compact call below
       ActiveSupport::Deprecation.warn('Passing an array of work packages is deprecated. Pass an AR-relation instead.')
