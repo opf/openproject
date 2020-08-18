@@ -429,11 +429,12 @@ export class TimelineCellRenderer {
       let previousChildrenDurationBar = row.querySelector('.children-duration-bar');
       const childrenDurationBar = document.createElement('div');
       const childrenDurationHoverContainer = document.createElement('div');
+      const visibleChildren = this.numberOfVisibleChildren(wp);
 
       childrenDurationBar.classList.add('children-duration-bar', '-clamp-style');
       childrenDurationBar.title = this.text.label_children_derived_duration;
       childrenDurationHoverContainer.classList.add('children-duration-hover-container');
-      childrenDurationHoverContainer.style.height = this.ganttChartRowHeight * wp.children.length + 10 + 'px';
+      childrenDurationHoverContainer.style.height = this.ganttChartRowHeight * visibleChildren + 10 + 'px';
 
       if (derivedStartDate.isBefore(startDate) || derivedDueDate.isAfter(dueDate)) {
         childrenDurationBar.classList.add('-duration-overflow');
@@ -515,5 +516,16 @@ export class TimelineCellRenderer {
     }
 
     return false;
+  }
+
+  protected numberOfVisibleChildren(wp:WorkPackageResource):number {
+    let children = 0;
+    const renderPass = this.workPackageTimeline.workPackageTable.lastRenderPass as HierarchyRenderPass|null;
+
+    if (renderPass) {
+      children = wp.children.filter(child => renderPass.rendered[child.id!]).length;
+    }
+
+    return children;
   }
 }

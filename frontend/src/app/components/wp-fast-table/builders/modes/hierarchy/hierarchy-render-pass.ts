@@ -23,7 +23,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   // Remember which rows were already rendered
-  private rendered:{ [workPackageId:string]:boolean } = {};
+  readonly rendered:{ [workPackageId:string]:boolean } = {};
 
   // Remember additional parents inserted that are not part of the results table
   private additionalParents:{ [workPackageId:string]:WorkPackageResource } = {};
