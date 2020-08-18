@@ -16,7 +16,7 @@ cp ./docker/mysql-to-postgres/bin/migrate-mysql-to-postgres /usr/local/bin/
 # Ensure we can write in /tmp/op_uploaded_files (cf. #29112)
 mkdir -p /tmp/op_uploaded_files/ && chown -R $APP_USER:$APP_USER /tmp/op_uploaded_files/
 
-cp ./packaging/conf/database.yml ./config/database.yml
+rm -f ./config/database.yml
 
 if test -f ./docker/setup/postinstall-$PLATFORM.sh ; then
 	echo " ---> Executing postinstall for $PLATFORM..."

@@ -6,8 +6,8 @@ RUN /tmp/build-pgloader && rm /tmp/build-pgloader
 FROM ruby:2.6-stretch
 MAINTAINER operations@openproject.com
 
-# Allow platform-specific additions. Valid values are: on-premise,cloud
-ARG PLATFORM=on-premise
+# Allow platform-specific additions. Valid values are: on-prem,saas,bahn
+ARG PLATFORM=on-prem
 # Use OAuth token in case private gems need to be fetched
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
@@ -27,7 +27,7 @@ ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV HEROKU=true
 ENV RAILS_ENV=production
 ENV RAILS_CACHE_STORE=memcache
-ENV BUNDLER_GROUPS="production docker opf_plugins"
+ENV RAILS_GROUPS="production docker opf_plugins"
 ENV OPENPROJECT_INSTALLATION__TYPE=docker
 # Valid values are: standard,bim
 ENV OPENPROJECT_EDITION=standard
@@ -50,8 +50,8 @@ COPY vendor ./vendor
 # some gemspec files of plugins require files in there, notably OpenProject::Version
 COPY lib ./lib
 
-RUN bundle install --deployment --path vendor/bundle --no-cache \
-  --with="$BUNDLER_GROUPS" --without="test development" --jobs=8 --retry=3 && \
+RUN bundle install --quiet --deployment --path vendor/bundle --no-cache \
+  --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
   rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
 
 # Finally, copy over the whole thing
