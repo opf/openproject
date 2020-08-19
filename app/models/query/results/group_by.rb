@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module ::Query::GroupBy
+module ::Query::Results::GroupBy
   # Returns the work package count by group or nil if query is not grouped
   def work_package_count_by_group
     @work_package_count_by_group ||= begin

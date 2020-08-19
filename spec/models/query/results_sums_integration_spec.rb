@@ -46,6 +46,7 @@ describe ::Query::Results, 'sums', type: :model do
                       type: type,
                       project: project,
                       estimated_hours: 5,
+                      done_ratio: 10,
                       "custom_field_#{int_cf.id}" => 10,
                       "custom_field_#{float_cf.id}" => 3.414)
   end
@@ -54,6 +55,7 @@ describe ::Query::Results, 'sums', type: :model do
                       type: type,
                       project: project,
                       assigned_to: current_user,
+                      done_ratio: 50,
                       estimated_hours: 5,
                       "custom_field_#{int_cf.id}" => 10,
                       "custom_field_#{float_cf.id}" => 3.414)
@@ -64,6 +66,7 @@ describe ::Query::Results, 'sums', type: :model do
                       project: project,
                       assigned_to: current_user,
                       responsible: current_user,
+                      done_ratio: 50,
                       estimated_hours: 5,
                       "custom_field_#{int_cf.id}" => 10,
                       "custom_field_#{float_cf.id}" => 3.414)
@@ -138,18 +141,14 @@ describe ::Query::Results, 'sums', type: :model do
     context 'grouped by assigned_to' do
       let(:group_by) { :assigned_to }
 
-      it 'is a hash of sums for a user group' do
-        expect(query_results.all_sums_for_group(current_user))
-          .to eql(estimated_hours_column => 10.0,
-                  int_cf_column => 20,
-                  float_cf_column => 6.83)
-      end
-
-      it 'is a hash of sums for the nil group' do
-        expect(query_results.all_sums_for_group(nil))
-          .to eql(estimated_hours_column => 5.0,
-                  int_cf_column => 10,
-                  float_cf_column => 3.41)
+      it 'is a hash of sums grouped by user values (and nil) and grouped columns' do
+        expect(query_results.all_group_sums)
+          .to eql(current_user => { estimated_hours_column => 10.0,
+                                    int_cf_column => 20,
+                                    float_cf_column => 6.83 },
+                  nil => { estimated_hours_column => 5.0,
+                           int_cf_column => 10,
+                           float_cf_column => 3.41 })
       end
 
       context 'when filtering' do
@@ -157,11 +156,38 @@ describe ::Query::Results, 'sums', type: :model do
           query.add_filter('responsible_id', '=', [current_user.id.to_s])
         end
 
-        it 'is a hash of sums for a user group' do
-          expect(query_results.all_sums_for_group(current_user))
-            .to eql(estimated_hours_column => 5.0,
-                    int_cf_column => 10,
-                    float_cf_column => 3.41)
+        it 'is a hash of sums grouped by user values and grouped columns' do
+          expect(query_results.all_group_sums)
+            .to eql(current_user => { estimated_hours_column => 5.0,
+                                      int_cf_column => 10,
+                                      float_cf_column => 3.41 })
+        end
+      end
+    end
+
+    context 'grouped by done_ratio' do
+      let(:group_by) { :done_ratio }
+
+      it 'is a hash of sums grouped by done_ratio values and grouped columns' do
+        expect(query_results.all_group_sums)
+          .to eql(50 => { estimated_hours_column => 10.0,
+                          int_cf_column => 20,
+                          float_cf_column => 6.83 },
+                  10 => { estimated_hours_column => 5.0,
+                          int_cf_column => 10,
+                          float_cf_column => 3.41 })
+      end
+
+      context 'when filtering' do
+        before do
+          query.add_filter('responsible_id', '=', [current_user.id.to_s])
+        end
+
+        it 'is a hash of sums grouped by done_ratio values and grouped columns' do
+          expect(query_results.all_group_sums)
+            .to eql(50 => { estimated_hours_column => 5.0,
+                            int_cf_column => 10,
+                            float_cf_column => 3.41 })
         end
       end
     end

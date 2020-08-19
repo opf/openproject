@@ -100,12 +100,12 @@ module API
 
         results = query.results
 
-        results.work_package_count_by_group.map do |group, count|
-          sums = if query.display_sums?
-                   format_query_sums results.all_sums_for_group(group)
-                 end
+        sums = query.display_sums? ? format_query_sums(results.all_group_sums) : {}
 
-          ::API::Decorators::AggregationGroup.new(group, count, query: results.query, sums: sums, current_user: current_user)
+        results.work_package_count_by_group.map do |group, count|
+          group_sums = sums[group]
+
+          ::API::Decorators::AggregationGroup.new(group, count, query: results.query, sums: group_sums, current_user: current_user)
         end
       end
 
