@@ -74,11 +74,6 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
                           scope
                             .select("#{select} #{name}")
                         end
-                        #CustomValue
-                        # .where(customized: , custom_field: @cf)
-                        # .where.not(value: nil)
-                        # .where.not(value: '')
-                        # .select("SUM(value::FLOAT) a_sum")[0].a_sum
                       }
 
                     else
