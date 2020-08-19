@@ -79,6 +79,20 @@ describe ::Query::Results, 'sums', type: :model do
                       "custom_field_#{int_cf.id}" => 10,
                       "custom_field_#{float_cf.id}" => 3.414)
   end
+  let!(:cost_entry1) do
+    FactoryBot.create(:cost_entry,
+                      project: project,
+                      work_package: work_package1,
+                      user: current_user,
+                      overridden_costs: 200)
+  end
+  let!(:cost_entry2) do
+    FactoryBot.create(:cost_entry,
+                      project: project,
+                      work_package: work_package2,
+                      user: current_user,
+                      overridden_costs: 200)
+  end
   let(:int_cf) do
     FactoryBot.create(:int_wp_custom_field)
   end
@@ -96,7 +110,7 @@ describe ::Query::Results, 'sums', type: :model do
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
-  let(:permissions) { %i[view_work_packages] }
+  let(:permissions) { %i[view_work_packages view_cost_entries view_time_entries view_cost_rates] }
   let(:group_by) { nil }
   let(:query) do
     FactoryBot.build :query,
@@ -109,18 +123,22 @@ describe ::Query::Results, 'sums', type: :model do
 
   before do
     login_as(current_user)
-    Setting.work_package_list_summable_columns = ['estimated_hours', "cf_#{int_cf.id}", "cf_#{float_cf.id}"]
+    allow(Setting)
+      .to receive(:work_package_list_summable_columns)
+      .and_return ['estimated_hours', "cf_#{int_cf.id}", "cf_#{float_cf.id}", "material_costs"]
   end
   let(:estimated_hours_column) { query.available_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
   let(:int_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
   let(:float_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{float_cf.id}" } }
+  let(:material_costs_column) { query.available_columns.detect { |c| c.name.to_s == "material_costs" } }
 
   describe '#all_total_sums' do
     it 'is a hash of all summable columns' do
       expect(query_results.all_total_sums)
         .to eql(estimated_hours_column => 15.0,
                 int_cf_column => 30,
-                float_cf_column => 10.24)
+                float_cf_column => 10.24,
+                material_costs_column => 400.0)
     end
 
     context 'when filtering' do
@@ -132,7 +150,8 @@ describe ::Query::Results, 'sums', type: :model do
         expect(query_results.all_total_sums)
           .to eql(estimated_hours_column => 10.0,
                   int_cf_column => 20,
-                  float_cf_column => 6.83)
+                  float_cf_column => 6.83,
+                  material_costs_column => 200.0)
       end
     end
   end
@@ -145,10 +164,12 @@ describe ::Query::Results, 'sums', type: :model do
         expect(query_results.all_group_sums)
           .to eql(current_user => { estimated_hours_column => 10.0,
                                     int_cf_column => 20,
-                                    float_cf_column => 6.83 },
+                                    float_cf_column => 6.83,
+                                    material_costs_column => 200.0 },
                   nil => { estimated_hours_column => 5.0,
                            int_cf_column => 10,
-                           float_cf_column => 3.41 })
+                           float_cf_column => 3.41,
+                           material_costs_column => 200.0 })
       end
 
       context 'when filtering' do
@@ -160,7 +181,8 @@ describe ::Query::Results, 'sums', type: :model do
           expect(query_results.all_group_sums)
             .to eql(current_user => { estimated_hours_column => 5.0,
                                       int_cf_column => 10,
-                                      float_cf_column => 3.41 })
+                                      float_cf_column => 3.41,
+                                      material_costs_column => nil })
         end
       end
     end
@@ -172,10 +194,12 @@ describe ::Query::Results, 'sums', type: :model do
         expect(query_results.all_group_sums)
           .to eql(50 => { estimated_hours_column => 10.0,
                           int_cf_column => 20,
-                          float_cf_column => 6.83 },
+                          float_cf_column => 6.83,
+                          material_costs_column => 200.0 },
                   10 => { estimated_hours_column => 5.0,
                           int_cf_column => 10,
-                          float_cf_column => 3.41 })
+                          float_cf_column => 3.41,
+                          material_costs_column => 200.0 })
       end
 
       context 'when filtering' do
@@ -187,7 +211,8 @@ describe ::Query::Results, 'sums', type: :model do
           expect(query_results.all_group_sums)
             .to eql(50 => { estimated_hours_column => 5.0,
                             int_cf_column => 10,
-                            float_cf_column => 3.41 })
+                            float_cf_column => 3.41,
+                            material_costs_column => nil })
         end
       end
     end

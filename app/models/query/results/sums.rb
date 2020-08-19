@@ -65,7 +65,7 @@ module ::Query::Results::Sums
                []
              end
 
-    select += non_callable_summed_up_columns.map(&:name)
+    select += query.summed_up_columns.map(&:name)
 
     sql = <<~SQL
       SELECT #{select.join(', ')}

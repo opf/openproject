@@ -34,8 +34,8 @@ module Costs
     def initialize(name, options = {})
       super
 
-      @sum_function = options[:summable]
-      self.summable = @sum_function.respond_to?(:call)
+      #@sum_function = options[:summable]
+      #self.summable = @sum_function.respond_to?(:call)
     end
 
     def value(work_package)
@@ -59,31 +59,44 @@ module Costs
     self.currency_columns = {
       budget: {},
       material_costs: {
-        summable: ->(work_packages) {
-          WorkPackage::MaterialCosts
-            .new(user: User.current)
-            .costs_of(work_packages: work_packages)
+        summable: ->(query) {
+          scope = WorkPackage::MaterialCosts
+                  .new(user: User.current)
+                  .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
+                  .except(:order, :select)
+
+          if query.grouped?
+            scope
+              .group(query.group_by_statement)
+              .select("#{query.group_by_statement} id", "ROUND(SUM(cost_entries_sum), 2)::FLOAT material_costs")
+          else
+            scope
+              .select("ROUND(SUM(cost_entries_sum), 2)::FLOAT material_costs")
+          end
         }
       },
       labor_costs: {
-        summable: ->(work_packages) {
+        summable: ->(query) {
           WorkPackage::LaborCosts
             .new(user: User.current)
-            .costs_of(work_packages: work_packages)
+            .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
+            .except(:order, :select)
+            .group(query.group_by_statement)
+            .select("#{query.group_by_statement} id", "SUM(time_entries_sum) labor_costs")
         }
       },
       overall_costs: {
-        summable: ->(work_packages) {
-          labor_costs = WorkPackage::LaborCosts
-                        .new(user: User.current)
-                        .costs_of(work_packages: work_packages)
+        summable: false #->(work_packages) {
+      #labor_costs = WorkPackage::LaborCosts
+      #              .new(user: User.current)
+      #              .costs_of(work_packages: work_packages)
 
-          material_costs = WorkPackage::MaterialCosts
-                           .new(user: User.current)
-                           .costs_of(work_packages: work_packages)
+      #material_costs = WorkPackage::MaterialCosts
+      #                 .new(user: User.current)
+      #                 .costs_of(work_packages: work_packages)
 
-          labor_costs + material_costs
-        }
+      #labor_costs + material_costs
+        # }
       }
     }
 
