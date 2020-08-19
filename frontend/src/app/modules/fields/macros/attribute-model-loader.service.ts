@@ -34,6 +34,7 @@ import {map, take} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {multiInput} from "reactivestates";
 import {TransitionService} from "@uirouter/core";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 
 export type SupportedAttributeModels = 'project'|'workPackage';
 

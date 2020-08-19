@@ -116,10 +116,6 @@ import {
   GlobalSearchTabsComponent,
   globalSearchTabsSelector
 } from "core-app/modules/global_search/tabs/global-search-tabs.component";
-import {
-  AttributeHelpTextComponent,
-  attributeHelpTextSelector
-} from "core-app/modules/common/help-texts/attribute-help-text.component";
 import {MainMenuToggleComponent, mainMenuToggleSelector} from "core-components/main-menu/main-menu-toggle.component";
 import {
   MembersAutocompleterComponent,
@@ -146,6 +142,10 @@ import {
   attributeLabelMacro,
   AttributeLabelMacroComponent
 } from "core-app/modules/fields/macros/attribute-label-macro.component";
+import {
+  AttributeHelpTextComponent,
+  attributeHelpTextSelector
+} from "core-app/modules/fields/help-texts/attribute-help-text.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },

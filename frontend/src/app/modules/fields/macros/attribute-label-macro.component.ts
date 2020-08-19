@@ -109,6 +109,8 @@ export class AttributeLabelMacroComponent {
     if (!this.label) {
       this.markError(this.text.invalid_attribute(attributeName));
     }
+
+    this.cdRef.detectChanges();
   }
 
   markError(message:string) {

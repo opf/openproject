@@ -54,10 +54,14 @@ import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/f
 import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
 import {AttributeValueMacroComponent} from "core-app/modules/fields/macros/attribute-value-macro.component";
 import {AttributeLabelMacroComponent} from "core-app/modules/fields/macros/attribute-label-macro.component";
+import {AttributeHelpTextComponent} from "core-app/modules/fields/help-texts/attribute-help-text.component";
+import {AttributeHelpTextModal} from "core-app/modules/fields/help-texts/attribute-help-text.modal";
+import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
+    OpenprojectAttachmentsModule,
     OpenprojectAccessibilityModule,
     OpenprojectEditorModule,
   ],
@@ -66,6 +70,7 @@ import {AttributeLabelMacroComponent} from "core-app/modules/fields/macros/attri
     EditFormPortalComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
+    AttributeHelpTextComponent,
   ],
   providers: [
     {
@@ -101,6 +106,10 @@ import {AttributeLabelMacroComponent} from "core-app/modules/fields/macros/attri
     ProjectStatusEditFieldComponent,
     AttributeValueMacroComponent,
     AttributeLabelMacroComponent,
+
+    // Help texts
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
   ]
 })
 export class OpenprojectFieldsModule {
