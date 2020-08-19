@@ -35,6 +35,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {multiInput} from "reactivestates";
 import {TransitionService} from "@uirouter/core";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export type SupportedAttributeModels = 'project'|'workPackage';
 
@@ -51,6 +52,7 @@ export class AttributeModelLoaderService {
 
   constructor(readonly apiV3Service:APIV3Service,
               readonly transitions:TransitionService,
+              readonly currentProject:CurrentProjectService,
               readonly I18n:I18nService) {
 
     // Clear cached values whenever leaving the page
@@ -84,7 +86,7 @@ export class AttributeModelLoaderService {
       .toPromise();
   }
 
-  private load(model:string, id:string):Observable<HalResource|undefined> {
+  private load(model:SupportedAttributeModels, id:string):Observable<HalResource|undefined> {
     switch (model) {
       case 'workPackage':
         return this
@@ -95,6 +97,15 @@ export class AttributeModelLoaderService {
           .pipe(
             take(1),
             map(collection => collection.elements[0])
+          );
+      case 'project':
+        return this
+          .apiV3Service
+          .projects
+          .id(this.currentProject.id!)
+          .get()
+          .pipe(
+            take(1)
           );
       default:
         return NEVER;
