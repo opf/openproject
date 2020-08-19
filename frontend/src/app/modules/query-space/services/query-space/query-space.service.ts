@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
@@ -128,7 +128,6 @@ export class QuerySpaceService extends UntilDestroyedMixin {
   }
 
   initialize(queryId?:string) {
-    // TODO: Implement refresh when the component has queryId (nested querySpace?)
     this.queryId = queryId;
 
     // Load first page onInit
@@ -159,7 +158,9 @@ export class QuerySpaceService extends UntilDestroyedMixin {
     let promise:Promise<unknown>;
 
     if (firstPage || !query) {
-      if (query) {
+      if (this.queryId) {
+        promise = this.workPackages.list.fromQueryParams({query_id:this.queryId}).toPromise();
+      } else if (query) {
         promise = this.workPackages.list.reloadQuery(query, this.projectIdentifier).toPromise();
       } else {
         promise = this.workPackages.list.loadCurrentQueryFromParams(this.projectIdentifier);
