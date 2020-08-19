@@ -28,7 +28,7 @@
 
 class AttributeHelpText::Project < AttributeHelpText
   def self.available_attributes
-    skip = %w[_type links _dependencies id]
+    skip = %w[_type links _dependencies id created_at updated_at]
 
     attributes = API::V3::Projects::Schemas::ProjectSchemaRepresenter
       .representable_definitions
