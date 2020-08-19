@@ -79,6 +79,21 @@ describe 'Project attribute help texts', type: :feature, js: true do
   describe 'as admin' do
     let(:user) { FactoryBot.create :admin }
     it_behaves_like 'allows to view help texts'
+
+    it 'shows the help text on the project create form' do
+      visit new_project_path
+
+      page.find('.form--fieldset-legend', text: 'ADVANCED SETTINGS').click
+
+      expect(page).to have_selector('.form--label attribute-help-text', wait: 10)
+
+      # Open help text modal
+      modal.open!
+      expect(modal.modal_container).to have_selector('strong', text: 'help text')
+      modal.expect_edit(admin: user.admin?)
+
+      modal.close!
+    end
   end
 
   describe 'as regular user' do

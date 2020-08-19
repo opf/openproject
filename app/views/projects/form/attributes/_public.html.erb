@@ -28,5 +28,6 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div class="form--field">
-  <%= form.check_box :public %>
+  <%= form.check_box :public,
+                     help_text: { attribute: :public, 'attribute-scope': :Project } %>
 </div>

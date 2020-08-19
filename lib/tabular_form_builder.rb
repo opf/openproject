@@ -241,6 +241,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_for_field_for(options, label_options, field)
     label_for_field_prefix(content, options)
 
+    # Render a help text icon
+    if options[:help_text]
+      content << content_tag('attribute-help-text', '', data: options[:help_text])
+    end
+
     label_options[:lang] = options[:lang]
     label_options.reject! do |_k, v|
       v.nil?
@@ -286,7 +291,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def extract_from(options)
     label_options = options.dup.except(:class)
-    input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix, :label_options)
+    input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix, :label_options, :help_text)
 
     label_options.merge!(options.delete(:label_options) || {})
 

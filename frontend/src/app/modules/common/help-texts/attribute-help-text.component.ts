@@ -75,13 +75,11 @@ export class AttributeHelpTextComponent implements OnInit {
 
   ngOnInit() {
     const element:HTMLElement = this.elementRef.nativeElement;
-    if (element.dataset.helpTextId) {
-      this.helpTextId = element.dataset.helpTextId!;
-      this.attribute = element.dataset.attribute!;
-      this.attributeScope = element.dataset.attributeScope!;
-      this.additionalLabel = element.dataset.additionalLabel!;
-    }
-
+    // Fall back to values provided by data
+    this.helpTextId = this.helpTextId || element.dataset.helpTextId!;
+    this.attribute = this.attribute || element.dataset.attribute!;
+    this.attributeScope = this.attributeScope || element.dataset.attributeScope!;
+    this.additionalLabel = this.additionalLabel || element.dataset.additionalLabel!;
 
     if (this.helpTextId) {
       this.exists = true;
