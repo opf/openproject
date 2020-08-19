@@ -54,10 +54,6 @@ module Costs
       super_value work_package
     end
 
-    def sum_of(work_packages)
-      @sum_function.call(work_packages)
-    end
-
     class_attribute :currency_columns
 
     self.currency_columns = {

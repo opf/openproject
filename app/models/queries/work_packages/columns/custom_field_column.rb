@@ -106,22 +106,6 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     work_package.formatted_custom_value_for(@cf.id)
   end
 
-  def sum_of(work_packages)
-    if work_packages.respond_to?(:joins)
-      #cast = @cf.field_format == 'int' ? 'BIGINT' : 'FLOAT'
-
-      CustomValue
-        .where(customized: work_packages, custom_field: @cf)
-        .where.not(value: nil)
-        .where.not(value: '')
-        .select("SUM(value::FLOAT) a_sum")[0].a_sum
-    else
-      # TODO: eliminate calls of this method with an Array and drop the :compact call below
-      ActiveSupport::Deprecation.warn('Passing an array of work packages is deprecated. Pass an AR-relation instead.')
-      work_packages.map { |wp| wp.typed_custom_value_for(@cf) }.compact.reduce(:+)
-    end
-  end
-
   def self.instances(context = nil)
     if context
       context.all_work_package_custom_fields

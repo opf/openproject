@@ -40,14 +40,4 @@ class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
   def caption
     WorkPackage.human_attribute_name(name)
   end
-
-  def sum_of(work_packages)
-    if work_packages.is_a?(Array)
-      # TODO: Sums::grouped_sums might call through here without an AR::Relation
-      # Ensure that this also calls using a Relation and drop this (slow!) implementation
-      work_packages.map { |wp| value(wp) }.compact.reduce(:+)
-    else
-      work_packages.sum(name)
-    end
-  end
 end

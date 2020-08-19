@@ -103,12 +103,6 @@ module ::Query::Results::Sums
       .join(' ')
   end
 
-  def sum_of(column, collection)
-    sum = column.sum_of(collection)
-
-    crunch(sum)
-  end
-
   def sums_work_package_scope_selects
     select = if query.grouped?
                ["#{query.group_by_statement} id"]
