@@ -25,7 +25,6 @@ sk:
       property_groups:
         costs: "Náklady"
       properties:
-        costObject: "Rozpočet"
         overallCosts: "Celkové náklady"
         spentUnits: "Použité jednotky"
     button_log_costs: "Zaúčtovať jednotkové náklady"

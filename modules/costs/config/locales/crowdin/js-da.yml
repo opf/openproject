@@ -25,7 +25,6 @@ da:
       property_groups:
         costs: "Omkostninger"
       properties:
-        costObject: "Budget"
         overallCosts: "Samlede omkostninger"
         spentUnits: "Forbrugte enheder"
     button_log_costs: "Registrér enhedsomkostninger"

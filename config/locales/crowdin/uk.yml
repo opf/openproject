@@ -178,8 +178,6 @@ uk:
       no_results_content_text: Створіть нове спеціальне поле
   concatenation:
     single: 'або'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -823,7 +821,6 @@ uk:
   button_generate: "Згенерувати"
   button_list: "Список"
   button_lock: "Заблокувати"
-  button_log_time: "Час журналу"
   button_login: "Увійти"
   button_move: "Перемістити"
   button_move_and_follow: "Перемістити і перейти"
@@ -1065,8 +1062,6 @@ uk:
   description_compare_to: "Порівняти до"
   description_current_position: "Ви знаходитесь тут: "
   description_date_from: "Введіть дату початку"
-  description_date_range_interval: "Вибрати діапазон вибравши початкову та кінцеву дату"
-  description_date_range_list: "Вибрати діапазон зі списку"
   description_date_to: "Введіть кінцеву дату"
   description_enter_number: "Введіть номер"
   description_enter_text: "Введіть текст"
@@ -1350,7 +1345,6 @@ uk:
   label_date_and_time: "Дата і час"
   label_date_from: "Від"
   label_date_from_to: "З %{start} по %{end}"
-  label_date_range: "Проміжок часу"
   label_date_to: "Кому:"
   label_day_plural: "днів"
   label_default: "За замовчуванням"
@@ -1497,7 +1491,6 @@ uk:
   label_modified: "змінено"
   label_module_plural: "Модулі"
   label_modules: "Модулі"
-  label_month: "Місяць"
   label_months_from: "місяців(ця) з"
   label_more: "Більше"
   label_more_than_ago: "більш ніж днів(я) назад"
@@ -1668,8 +1661,6 @@ uk:
   label_this_week: "цього тижня"
   label_this_year: "цей рік"
   label_time_entry_plural: "Трудовитрати"
-  label_time_sheet_menu: "Табель обліку робочого часу"
-  label_time_tracking: "Відстеження часу"
   label_projects_menu: "Проекти"
   label_today: "сьогодні"
   label_top_menu: "Верхнє меню"
@@ -1777,7 +1768,6 @@ uk:
     few: "%{count} проектів"
     many: "%{count} проектів"
     other: "%{count} проектів"
-  label_year: "Рік"
   label_yesterday: "вчора"
   auth_source:
     using_abstract_auth_source: "Неможливо використовувати абстрактне джерело автентифікації."
@@ -1894,7 +1884,6 @@ uk:
   notice_successful_delete: "Видалення успішно завершене."
   notice_successful_update: "Успішно оновлено."
   notice_to_many_principals_to_display: "Є занадто багато результатів.\nЗвузити пошук ввівши назву нового елемента (або групи)."
-  notice_unable_delete_time_entry: "Неможливо видалити запис журналу."
   notice_user_missing_authentication_method: Користувач ще не вибрав пароль або інший спосіб входу.
   notice_user_invitation_resent: Надіслано запрошення %{email}.
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
@@ -2025,8 +2014,6 @@ uk:
   project_module_work_package_tracking: "Відстеження робочого пакету"
   project_module_news: "Новини"
   project_module_repository: "Репозиторій"
-  project_module_time_tracking: "Відстеження часу"
-  project_module_timelines: "Терміни"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute}%{direction}"

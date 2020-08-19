@@ -180,8 +180,6 @@ vi:
       no_results_content_text: Tạo trường tùy chỉnh mới
   concatenation:
     single: 'hoặc'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -813,7 +811,6 @@ vi:
   button_generate: "Generate"
   button_list: "Danh sách"
   button_lock: "Khóa"
-  button_log_time: "Thời gian truy cập"
   button_login: "Đăng nhập"
   button_move: "Di chuyển"
   button_move_and_follow: "Di chuyển và thực hiện theo"
@@ -1019,8 +1016,6 @@ vi:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Nhập ngày bắt đầu"
-  description_date_range_interval: "Chọn khoảng thời gian giữa ngày bắt đầu và kết thúc"
-  description_date_range_list: "Chọn khoảng từ danh sách"
   description_date_to: "Nhập ngày kết thúc"
   description_enter_number: "Nhập số"
   description_enter_text: "Nhập văn bản"
@@ -1304,7 +1299,6 @@ vi:
   label_date_and_time: "Date and time"
   label_date_from: "Từ"
   label_date_from_to: "Từ %{start} tới %{end}"
-  label_date_range: "Khoảng thời gian"
   label_date_to: "Đến"
   label_day_plural: "ngày"
   label_default: "Mặc định"
@@ -1451,7 +1445,6 @@ vi:
   label_modified: "đã sửa đổi"
   label_module_plural: "Modules"
   label_modules: "Modules"
-  label_month: "Month"
   label_months_from: "tháng từ"
   label_more: "Xem thêm"
   label_more_than_ago: "nhiều hơn mấy ngày trước"
@@ -1622,8 +1615,6 @@ vi:
   label_this_week: "tuần này"
   label_this_year: "năm này"
   label_time_entry_plural: "Thời gian"
-  label_time_sheet_menu: "Phiếu giờ"
-  label_time_tracking: "Theo dõi thời gian"
   label_projects_menu: "Các dự án"
   label_today: "hôm nay"
   label_top_menu: "Trình đơn trên cùng"
@@ -1719,7 +1710,6 @@ vi:
   label_x_projects:
     zero: "Không có dự án"
     other: "%{count} projects"
-  label_year: "Year"
   label_yesterday: "yesterday"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
@@ -1836,7 +1826,6 @@ vi:
   notice_successful_delete: "Successful deletion."
   notice_successful_update: "Successful update."
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
-  notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
@@ -1964,8 +1953,6 @@ vi:
   project_module_work_package_tracking: "Theo dõi work package"
   project_module_news: "Tin tức"
   project_module_repository: "Repository"
-  project_module_time_tracking: "Theo dõi thời gian"
-  project_module_timelines: "Timelines"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

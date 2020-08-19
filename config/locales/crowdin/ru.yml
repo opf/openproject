@@ -177,8 +177,6 @@ ru:
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
     single: 'или'
-  deprecations:
-    time_entries: "В этот раз просмотр записей заменяется модулем 'Затраты отчетов' и теперь поддерживает экспорт информации о времени в csv. Для интерактивной фильтрации, пожалуйста, активируйте модуль 'Затраты отчеты' в настройках проекта."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -822,7 +820,6 @@ ru:
   button_generate: "Генерировать"
   button_list: "Список"
   button_lock: "Заблокировать"
-  button_log_time: "Журналировать время"
   button_login: "Войти"
   button_move: "Переместить"
   button_move_and_follow: "Переместить и следовать"
@@ -1064,8 +1061,6 @@ ru:
   description_compare_to: "Сравнить до"
   description_current_position: "Вы здесь: "
   description_date_from: "Введите дату начала"
-  description_date_range_interval: "Задайте диапазон, указав дату начала и окончания"
-  description_date_range_list: "Выберите диапазон из списка"
   description_date_to: "Введите дату окончания"
   description_enter_number: "Введите номер"
   description_enter_text: "Введите текст"
@@ -1349,7 +1344,6 @@ ru:
   label_date_and_time: "Дата и время"
   label_date_from: "От"
   label_date_from_to: "C %{start} по %{end}"
-  label_date_range: "Диапазон дат"
   label_date_to: "Кому"
   label_day_plural: "дней"
   label_default: "по умолчанию"
@@ -1496,7 +1490,6 @@ ru:
   label_modified: "изменение"
   label_module_plural: "Модули"
   label_modules: "Модули"
-  label_month: "Месяц"
   label_months_from: "месяцев с"
   label_more: "Более"
   label_more_than_ago: "больше, чем дней назад"
@@ -1667,8 +1660,6 @@ ru:
   label_this_week: "на этой неделе"
   label_this_year: "в этом году"
   label_time_entry_plural: "Затраченное время"
-  label_time_sheet_menu: "Табель"
-  label_time_tracking: "Учет времени"
   label_projects_menu: "Проекты"
   label_today: "Сегодня"
   label_top_menu: "Верхнее меню"
@@ -1776,7 +1767,6 @@ ru:
     few: "%{count} проектов"
     many: "%{count} проектов"
     other: "%{count} проектов"
-  label_year: "Год"
   label_yesterday: "вчера"
   auth_source:
     using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
@@ -1892,7 +1882,6 @@ ru:
   notice_successful_delete: "Удаление выполнено."
   notice_successful_update: "Обновление выполнено."
   notice_to_many_principals_to_display: "Слишком много результатов. Сузьте поиск, введя имя нового участника (или группы)."
-  notice_unable_delete_time_entry: "Не удается удалить учетную запись о времени."
   notice_user_missing_authentication_method: Пользователь еще не выбрал пароль или другой способ авторизации.
   notice_user_invitation_resent: Приглашение было отправлено на %{email}.
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
@@ -2023,8 +2012,6 @@ ru:
   project_module_work_package_tracking: "Отслеживание пакета работ"
   project_module_news: "Новости"
   project_module_repository: "Репозиторий"
-  project_module_time_tracking: "Учет времени"
-  project_module_timelines: "Графики"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

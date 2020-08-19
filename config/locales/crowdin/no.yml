@@ -178,8 +178,6 @@
       no_results_content_text: Opprett nytt egendefinert felt
   concatenation:
     single: 'eller'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -815,7 +813,6 @@
   button_generate: "Generer"
   button_list: "Liste"
   button_lock: "Lås"
-  button_log_time: "Logg tid"
   button_login: "Logg inn"
   button_move: "Flytt"
   button_move_and_follow: "Flytt og følg"
@@ -1033,8 +1030,6 @@
   description_compare_to: "Sammenlign med"
   description_current_position: "You are here: "
   description_date_from: "Skriv startdato"
-  description_date_range_interval: "Angi intervall ved å velge start- og sluttdato"
-  description_date_range_list: "Velg intervall fra listen"
   description_date_to: "Skriv sluttdato"
   description_enter_number: "Skriv nummer"
   description_enter_text: "Skriv tekst"
@@ -1318,7 +1313,6 @@
   label_date_and_time: "Dato og tid"
   label_date_from: "Fra"
   label_date_from_to: "Fra %{start} til %{end}"
-  label_date_range: "Datointervall"
   label_date_to: "Til"
   label_day_plural: "dager"
   label_default: "Standard"
@@ -1465,7 +1459,6 @@
   label_modified: "endret"
   label_module_plural: "Moduler"
   label_modules: "Moduler"
-  label_month: "Måned"
   label_months_from: "måneder fra"
   label_more: "Mer"
   label_more_than_ago: "mer enn dager siden"
@@ -1636,8 +1629,6 @@
   label_this_week: "denne uken"
   label_this_year: "dette året"
   label_time_entry_plural: "Tid brukt"
-  label_time_sheet_menu: "Timeliste"
-  label_time_tracking: "Tidsstyring"
   label_projects_menu: "Prosjekter"
   label_today: "i dag"
   label_top_menu: "Toppmeny"
@@ -1737,7 +1728,6 @@
     zero: "no projects"
     one: "%{count} prosjekt"
     other: "%{count} prosjekter"
-  label_year: "År"
   label_yesterday: "i går"
   auth_source:
     using_abstract_auth_source: "Kan ikke bruke en abstrakt autentiserings kilde."
@@ -1854,7 +1844,6 @@
   notice_successful_delete: "Slettingen var vellykket."
   notice_successful_update: "Oppdateringen var vellykket."
   notice_to_many_principals_to_display: "Det er for mange resultater.\nForsøk å innskrenke søket ved å skrive inn navnet på det nye medlemmet (eller gruppen)."
-  notice_unable_delete_time_entry: "Kunne ikke slette oppføringen i tidsloggen."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
@@ -1983,8 +1972,6 @@
   project_module_work_package_tracking: "Sporing av arbeidspakke"
   project_module_news: "Nyheter"
   project_module_repository: "Pakkebrønn"
-  project_module_time_tracking: "Tidsstyring"
-  project_module_timelines: "Tidslinjer"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

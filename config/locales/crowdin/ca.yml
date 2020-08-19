@@ -178,8 +178,6 @@ ca:
       no_results_content_text: Crear un camp personalitzat nou
   concatenation:
     single: 'o'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -815,7 +813,6 @@ ca:
   button_generate: "Generar"
   button_list: "Llista"
   button_lock: "Bloquejar"
-  button_log_time: "Temps de registre"
   button_login: "Iniciar sessió"
   button_move: "Moure"
   button_move_and_follow: "Moure i continuar"
@@ -1033,8 +1030,6 @@ ca:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Introduir data d'inici"
-  description_date_range_interval: "Escollir un rang seleccionat de dates d'inici i fi"
-  description_date_range_list: "Escollir un rang de la llista"
   description_date_to: "Introduir data final"
   description_enter_number: "Introduïu número"
   description_enter_text: "Introduïu text"
@@ -1318,7 +1313,6 @@ ca:
   label_date_and_time: "Date and time"
   label_date_from: "De"
   label_date_from_to: "Des de %{start} a %{end}"
-  label_date_range: "Interval de dates"
   label_date_to: "Fins"
   label_day_plural: "dies"
   label_default: "Per defecte"
@@ -1465,7 +1459,6 @@ ca:
   label_modified: "modificat"
   label_module_plural: "Mòduls"
   label_modules: "Mòduls"
-  label_month: "Mes"
   label_months_from: "mesos des de"
   label_more: "Més"
   label_more_than_ago: "fa més dies"
@@ -1636,8 +1629,6 @@ ca:
   label_this_week: "aquesta setmana"
   label_this_year: "aquest any"
   label_time_entry_plural: "Temps invertit"
-  label_time_sheet_menu: "Full de temps"
-  label_time_tracking: "Seguiment de temps"
   label_projects_menu: "Projectes"
   label_today: "avui"
   label_top_menu: "Menú superior"
@@ -1737,7 +1728,6 @@ ca:
     zero: "sense projectes"
     one: "1 projecte"
     other: "%{count} projectes"
-  label_year: "Any"
   label_yesterday: "ahir"
   auth_source:
     using_abstract_auth_source: "No podeu utilitzar una font d'autenticació abstracte."
@@ -1854,7 +1844,6 @@ ca:
   notice_successful_delete: "Esborrat correctament."
   notice_successful_update: "S'ha modificat correctament."
   notice_to_many_principals_to_display: "Hi ha massa resultats.\nAfini la cerca escrivint el nom del nou membre (o grup)."
-  notice_unable_delete_time_entry: "No s'ha pogut suprimir l'entrada del registre de temps."
   notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya o una altra manera d'iniciar la sessió.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "El seu %{key_name} és: %{value}"
@@ -1983,8 +1972,6 @@ ca:
   project_module_work_package_tracking: "Paquet de treball de seguiment"
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
-  project_module_time_tracking: "Seguiment de temps"
-  project_module_timelines: "Terminis"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

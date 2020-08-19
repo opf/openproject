@@ -178,8 +178,6 @@ zh-TW:
       no_results_content_text: 建立一個新的自定義欄位
   concatenation:
     single: '或者'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "維基"
@@ -811,7 +809,6 @@ zh-TW:
   button_generate: "產生"
   button_list: "清單"
   button_lock: "鎖定"
-  button_log_time: "日誌的時間"
   button_login: "登入"
   button_move: "移動"
   button_move_and_follow: "移動並跟隨"
@@ -1017,8 +1014,6 @@ zh-TW:
   description_compare_to: "比較："
   description_current_position: "你在這裡："
   description_date_from: "輸入開始日期"
-  description_date_range_interval: "以開始和結束日期來選擇範圍"
-  description_date_range_list: "從清單中選擇範圍"
   description_date_to: "輸入結束日期"
   description_enter_number: "輸入數字"
   description_enter_text: "輸入文字"
@@ -1302,7 +1297,6 @@ zh-TW:
   label_date_and_time: "日期和時間"
   label_date_from: "寄件者"
   label_date_from_to: "從 %{start} 到 %{end}"
-  label_date_range: "日期範圍"
   label_date_to: "到"
   label_day_plural: "天"
   label_default: "預設"
@@ -1449,7 +1443,6 @@ zh-TW:
   label_modified: "已修改"
   label_module_plural: "模組"
   label_modules: "模組"
-  label_month: "月份"
   label_months_from: "從幾個月"
   label_more: "更多"
   label_more_than_ago: "很多天之前"
@@ -1620,8 +1613,6 @@ zh-TW:
   label_this_week: "本週"
   label_this_year: "今年"
   label_time_entry_plural: "耗時"
-  label_time_sheet_menu: "時間表"
-  label_time_tracking: "時間追蹤"
   label_projects_menu: "專案"
   label_today: "今天"
   label_top_menu: "頂層選單"
@@ -1717,7 +1708,6 @@ zh-TW:
   label_x_projects:
     zero: "沒有專案"
     other: "%{count} 個專案"
-  label_year: "年份"
   label_yesterday: "昨天"
   auth_source:
     using_abstract_auth_source: "不能使用抽象的認證來源"
@@ -1833,7 +1823,6 @@ zh-TW:
   notice_successful_delete: "刪除成功"
   notice_successful_update: "更新成功"
   notice_to_many_principals_to_display: "搜尋的結果太多。\n請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。"
-  notice_unable_delete_time_entry: "無法刪除時間日誌項目"
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。
   present_access_key_value: "您的 %{key_name} 是 %{value}"
@@ -1961,8 +1950,6 @@ zh-TW:
   project_module_work_package_tracking: "工作項目追蹤"
   project_module_news: "新知"
   project_module_repository: "Repository"
-  project_module_time_tracking: "時間追蹤"
-  project_module_timelines: "時間軸"
   project_module_wiki: "維基"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

@@ -25,7 +25,6 @@ sv:
       property_groups:
         costs: "Kostnader"
       properties:
-        costObject: "Budget"
         overallCosts: "Totalkostnader"
         spentUnits: "Bokade enheter"
     button_log_costs: "Logga enhetskostnader"

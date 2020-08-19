@@ -178,8 +178,6 @@ fi:
       no_results_content_text: Luo uusi mukautettu kenttä
   concatenation:
     single: 'or'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -815,7 +813,6 @@ fi:
   button_generate: "Luo"
   button_list: "Lista"
   button_lock: "Lukitse"
-  button_log_time: "Kirjaa lokiin aika"
   button_login: "Kirjaudu"
   button_move: "Siirrä"
   button_move_and_follow: "Siirrä ja seuraa"
@@ -1033,8 +1030,6 @@ fi:
   description_compare_to: "Verrattuna"
   description_current_position: "You are here: "
   description_date_from: "Syötä aloituspäivämäärä"
-  description_date_range_interval: "Valitse alkamis- ja päättymispäivämäärä"
-  description_date_range_list: "Valitse alue luettelosta"
   description_date_to: "Syötä päättymispäivä"
   description_enter_number: "Enter number"
   description_enter_text: "Enter text"
@@ -1318,7 +1313,6 @@ fi:
   label_date_and_time: "Päivämäärä ja aika"
   label_date_from: "Alkaen"
   label_date_from_to: "Välillä %{start} - %{end}"
-  label_date_range: "Aikaväli"
   label_date_to: "Päättyen"
   label_day_plural: "päivää"
   label_default: "Oletus"
@@ -1465,7 +1459,6 @@ fi:
   label_modified: "muokattu"
   label_module_plural: "Moduulit"
   label_modules: "Moduulit"
-  label_month: "Kuukausi"
   label_months_from: "kuukauden päässä"
   label_more: "Lisää"
   label_more_than_ago: "enemän kuin päivää sitten"
@@ -1636,8 +1629,6 @@ fi:
   label_this_week: "tällä viikolla"
   label_this_year: "tänä vuonna"
   label_time_entry_plural: "Käytetty aika"
-  label_time_sheet_menu: "Aikaraportti"
-  label_time_tracking: "Ajan seuranta"
   label_projects_menu: "Projektit"
   label_today: "tänään"
   label_top_menu: "Päävalikko"
@@ -1737,7 +1728,6 @@ fi:
     zero: "no projects"
     one: "1 projekti"
     other: "%{count} projects"
-  label_year: "Vuosi"
   label_yesterday: "eilen"
   auth_source:
     using_abstract_auth_source: "Voi käyttää abstrakti autentikointi lähde."
@@ -1854,7 +1844,6 @@ fi:
   notice_successful_delete: "Poisto onnistui."
   notice_successful_update: "Päivitys onnistui."
   notice_to_many_principals_to_display: "On liian paljon tuloksia.\nRajata hakua kirjoittamalla nimi uuden jäsenen (tai ryhmä)."
-  notice_unable_delete_time_entry: "Ei voi poistaa aikakirjausta."
   notice_user_missing_authentication_method: Käyttäjä on vielä valita salasana tai toinen tapa kirjautua sisään.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
@@ -1983,8 +1972,6 @@ fi:
   project_module_work_package_tracking: "Tehtävien seuranta"
   project_module_news: "Uutiset"
   project_module_repository: "Tietovarasto"
-  project_module_time_tracking: "Ajan seuranta"
-  project_module_timelines: "Aikataulut"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

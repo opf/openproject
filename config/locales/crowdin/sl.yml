@@ -177,8 +177,6 @@ sl:
       no_results_content_text: Ustvarite novo uporabniško lastnost
   concatenation:
     single: 'ali'
-  deprecations:
-    time_entries: "Ta pogled vnosov nadomešča modul »Poročila o stroških«. Ta pogled zdaj podpira samo izvoz podatkov o vnosu časa v CSV. Za interaktivno filtriranje v nastavitvah projekta aktivirajte modul »Poročila o stroških«."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -821,7 +819,6 @@ sl:
   button_generate: "Ustvari"
   button_list: "Seznam"
   button_lock: "Zakleni"
-  button_log_time: "Datum vpisa"
   button_login: "Prijava"
   button_move: "Premakni"
   button_move_and_follow: "Premakni in sledi"
@@ -1063,8 +1060,6 @@ sl:
   description_compare_to: "Primerjaj z"
   description_current_position: "Vi ste tukaj:"
   description_date_from: "Vpišite datum začetka"
-  description_date_range_interval: "Izberite obseg z izbiro začetnega in končnega datuma"
-  description_date_range_list: "Izberite razpon s seznama"
   description_date_to: "Vstavi končni datum"
   description_enter_number: "Vnesite število"
   description_enter_text: "Vnesite besedilo"
@@ -1348,7 +1343,6 @@ sl:
   label_date_and_time: "Datum in ura"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
-  label_date_range: "Datumski obseg"
   label_date_to: "Do/za"
   label_day_plural: "dnevi"
   label_default: "Privzeto"
@@ -1495,7 +1489,6 @@ sl:
   label_modified: "Urejeno"
   label_module_plural: "Moduli"
   label_modules: "Moduli"
-  label_month: "Mesec"
   label_months_from: "mesecev od"
   label_more: "več"
   label_more_than_ago: "pred več kot nekaj dnevi"
@@ -1666,8 +1659,6 @@ sl:
   label_this_week: "ta teden"
   label_this_year: "to leto"
   label_time_entry_plural: "Porabljen čas"
-  label_time_sheet_menu: "Časovni list"
-  label_time_tracking: "Sledenje časa"
   label_projects_menu: "Projekti"
   label_today: "Danes"
   label_top_menu: "Zgornji meni"
@@ -1775,7 +1766,6 @@ sl:
     two: "2 projekta"
     few: "Več projektov"
     other: "% {count} projektov"
-  label_year: "leto"
   label_yesterday: "včeraj"
   auth_source:
     using_abstract_auth_source: "Ne morem uporabiti vira abstraktne avtentikacije."
@@ -1892,7 +1882,6 @@ sl:
   notice_successful_delete: "Uspešen izbris."
   notice_successful_update: "Posodobitev uspela."
   notice_to_many_principals_to_display: "Preveč je rezultatov.\nZmanjšajte iskanje tako, da vtipkate ime novega člana (ali skupine)."
-  notice_unable_delete_time_entry: "Brisanje vpisa v dnevnik ni mogoče."
   notice_user_missing_authentication_method: Uporabnik rabi izbrati geslo ali kakšen drug način, da se prijavi.
   notice_user_invitation_resent: Povabilo je bilo poslano na %{email}.
   present_access_key_value: "Vaš %{key_name} je: %{value}"
@@ -2023,8 +2012,6 @@ sl:
   project_module_work_package_tracking: "Sledenje delovnega paketa"
   project_module_news: "Novice"
   project_module_repository: "Repozitorij"
-  project_module_time_tracking: "Sledenje časa"
-  project_module_timelines: "Časovnice"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

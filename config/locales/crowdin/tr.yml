@@ -178,8 +178,6 @@ tr:
       no_results_content_text: Yeni bir özel alan oluştur
   concatenation:
     single: 'ya da'
-  deprecations:
-    time_entries: "Bu kez girdiler görünümü 'Maliyet raporları' modülü tarafından değiştirildi. Bu görünüm artık yalnızca zaman girişi bilgisinin csv'ye aktarılmasını desteklemektedir. Etkileşimli filtreleme için lütfen proje ayarlarında 'Maliyet raporları' modülünü etkinleştirin."
   global_search:
     overwritten_tabs:
       wiki_pages: "Viki"
@@ -815,7 +813,6 @@ tr:
   button_generate: "Üretmek"
   button_list: "Liste"
   button_lock: "Kilitle"
-  button_log_time: "Zaman kaydet"
   button_login: "Oturum aç"
   button_move: "Taşı"
   button_move_and_follow: "Taşı ve takip et"
@@ -1033,8 +1030,6 @@ tr:
   description_compare_to: "Karşılaştır (hedef)"
   description_current_position: "Buradasınız:"
   description_date_from: "Başlangıç tarihini girin"
-  description_date_range_interval: "Başlangıç ​​ve bitiş tarihini seçerek aralık seçin"
-  description_date_range_list: "Listeden tarih aralığını seçin"
   description_date_to: "Bitiş tarihini girin"
   description_enter_number: "Numara girin"
   description_enter_text: "Metin girin"
@@ -1318,7 +1313,6 @@ tr:
   label_date_and_time: "Tarih ve zaman"
   label_date_from: "Başlangıç"
   label_date_from_to: "%{start} tarihinden %{end} tarihine"
-  label_date_range: "Tarih aralığı"
   label_date_to: "Bitiş"
   label_day_plural: "gün"
   label_default: "Varsayılan"
@@ -1465,7 +1459,6 @@ tr:
   label_modified: "değiştirildi"
   label_module_plural: "Modüller"
   label_modules: "Modüller"
-  label_month: "Ay"
   label_months_from: "aydan itibaren"
   label_more: "Fazlası"
   label_more_than_ago: "günler önce"
@@ -1636,8 +1629,6 @@ tr:
   label_this_week: "bu hafta"
   label_this_year: "bu yıl"
   label_time_entry_plural: "Harcanan zaman"
-  label_time_sheet_menu: "Zaman tablosu"
-  label_time_tracking: "Zaman takibi"
   label_projects_menu: "Projeler"
   label_today: "bugün"
   label_top_menu: "Üst Menü"
@@ -1737,7 +1728,6 @@ tr:
     zero: "proje yok"
     one: "1 proje"
     other: "%{count} proje"
-  label_year: "Yıl"
   label_yesterday: "dün"
   auth_source:
     using_abstract_auth_source: "Özet kimlik doğrulama kaynağı kullanılamıyor."
@@ -1854,7 +1844,6 @@ tr:
   notice_successful_delete: "Silme başarılı."
   notice_successful_update: "Güncelleme başarılı."
   notice_to_many_principals_to_display: "Çok fazla sonuç var. Yeni üyenin (veya grubun) adını yazarak aramayı daraltın."
-  notice_unable_delete_time_entry: "Zaman kaydı girişi silinemiyor."
   notice_user_missing_authentication_method: Kullanıcı henüz şifre veya oturum açmak için başka bir yol seçmemiştir.
   notice_user_invitation_resent: '%{email} adresine bir davet gönderildi.'
   present_access_key_value: "% {Key_name}, şu:% {value} %{key_name} %{value}"
@@ -1983,8 +1972,6 @@ tr:
   project_module_work_package_tracking: "İş paketi takibi"
   project_module_news: "Haberler"
   project_module_repository: "Depo"
-  project_module_time_tracking: "Zaman takibi"
-  project_module_timelines: "Zaman çizelgeleri"
   project_module_wiki: "Viki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

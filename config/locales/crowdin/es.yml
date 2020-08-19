@@ -175,8 +175,6 @@ es:
       no_results_content_text: Crear un nuevo campo personalizado
   concatenation:
     single: 'o bien'
-  deprecations:
-    time_entries: "Esta vista de entradas de tiempo se ha reemplazado por el módulo “Informes de costes”. En este momento, esta vista solo permite exportar a CSV información de entradas de tiempo. Para el filtrado interactivo, active el módulo “Informes de costes“ en la configuración del proyecto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -812,7 +810,6 @@ es:
   button_generate: "Generar"
   button_list: "Lista"
   button_lock: "Bloquear"
-  button_log_time: "Registro de tiempo"
   button_login: "Ingresar"
   button_move: "Mover"
   button_move_and_follow: "Mover y seguir"
@@ -1030,8 +1027,6 @@ es:
   description_compare_to: "Comparar con"
   description_current_position: "Usted está aquí: "
   description_date_from: "Introduzca la fecha de inicio"
-  description_date_range_interval: "Elija rango mediante la selección de fecha de inicio y fin"
-  description_date_range_list: "Elija el rango desde la lista"
   description_date_to: "Introduzca la fecha de finalización"
   description_enter_number: "Ingrese número"
   description_enter_text: "Ingrese texto"
@@ -1315,7 +1310,6 @@ es:
   label_date_and_time: "Fecha y hora"
   label_date_from: "De"
   label_date_from_to: "De %{start} al %{end}"
-  label_date_range: "Intervalo de fechas"
   label_date_to: "Para"
   label_day_plural: "días"
   label_default: "Por defecto"
@@ -1462,7 +1456,6 @@ es:
   label_modified: "modificado"
   label_module_plural: "Módulos"
   label_modules: "Módulos"
-  label_month: "Mes"
   label_months_from: "meses desde"
   label_more: "Más"
   label_more_than_ago: "más días atrás"
@@ -1633,8 +1626,6 @@ es:
   label_this_week: "esta semana"
   label_this_year: "este año"
   label_time_entry_plural: "Tiempo empleado"
-  label_time_sheet_menu: "Tabla de tiempo"
-  label_time_tracking: "Tiempo de seguimiento"
   label_projects_menu: "Proyectos"
   label_today: "hoy"
   label_top_menu: "Menú superior"
@@ -1734,7 +1725,6 @@ es:
     zero: "sin proyectos"
     one: "1 proyecto"
     other: "%{count} projectos"
-  label_year: "Año"
   label_yesterday: "ayer"
   auth_source:
     using_abstract_auth_source: "No puede utilizar una fuente de autenticación abstracta."
@@ -1851,7 +1841,6 @@ es:
   notice_successful_delete: "Eliminado con éxito."
   notice_successful_update: "Actualización correcta."
   notice_to_many_principals_to_display: "Hay demasiados resultados.\nAfine la búsqueda ingresando el nombre del nuevo miembro (o grupo)."
-  notice_unable_delete_time_entry: "No es posible eliminar la entrada de registro de hora."
   notice_user_missing_authentication_method: El usuario todavía tiene que elegir una contraseña u otra manera de iniciar sesión.
   notice_user_invitation_resent: Se envió una invitación a %{email}.
   present_access_key_value: "Su %{key_name} es: %{value}"
@@ -1980,8 +1969,6 @@ es:
   project_module_work_package_tracking: "Seguimiento de paquetes de trabajo"
   project_module_news: "Noticias"
   project_module_repository: "Repositorio"
-  project_module_time_tracking: "Tiempo de seguimiento"
-  project_module_timelines: "Líneas de tiempo"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

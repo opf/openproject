@@ -174,8 +174,6 @@ pl:
       no_results_content_text: Utwórz pole użytkownika
   concatenation:
     single: 'lub'
-  deprecations:
-    time_entries: "Ten widok wpisów czasu jest zastąpiony przez moduł „Raporty kosztów”. Widok ten obsługuje teraz eksportowanie informacji o wpisach czasu jedynie do plików csv. W celu interaktywnego filtrowania należy aktywować moduł „Raporty kosztów” w ustawieniach projektu."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -819,7 +817,6 @@ pl:
   button_generate: "Utwórz"
   button_list: "Lista"
   button_lock: "Blokada"
-  button_log_time: "Rejestruj czas pracy"
   button_login: "Zaloguj"
   button_move: "Przenieś"
   button_move_and_follow: "Przenieś i kontynuuj"
@@ -1061,8 +1058,6 @@ pl:
   description_compare_to: "W porównaniu do"
   description_current_position: "Jesteś tutaj: "
   description_date_from: "Wprowadź datę początkową"
-  description_date_range_interval: "Wybierz zakres wybierając datę rozpoczęcia i zakończenia"
-  description_date_range_list: "Wybierz zakres z listy"
   description_date_to: "Wprowadź datę końcową"
   description_enter_number: "Wprowadź numer"
   description_enter_text: "Wpisz tekst"
@@ -1346,7 +1341,6 @@ pl:
   label_date_and_time: "Data i czas"
   label_date_from: "Od"
   label_date_from_to: "Data od %{start} do %{end}"
-  label_date_range: "Zakres dat"
   label_date_to: "Do"
   label_day_plural: "dni"
   label_default: "Domyślnie"
@@ -1493,7 +1487,6 @@ pl:
   label_modified: "zmodyfikowany"
   label_module_plural: "Moduły"
   label_modules: "Moduły"
-  label_month: "Miesiąc"
   label_months_from: "miesięcy od"
   label_more: "Więcej"
   label_more_than_ago: "Więcej niż dni temu"
@@ -1664,8 +1657,6 @@ pl:
   label_this_week: "ten tydzień"
   label_this_year: "ten rok"
   label_time_entry_plural: "Czas pracy"
-  label_time_sheet_menu: "Grafik"
-  label_time_tracking: "Zarządzanie czasem"
   label_projects_menu: "Projekty"
   label_today: "dzisiaj"
   label_top_menu: "Głowne Menu"
@@ -1773,7 +1764,6 @@ pl:
     few: "%{count} projekty"
     many: "%{count} projekty"
     other: "%{count} projekty"
-  label_year: "Rok"
   label_yesterday: "wczoraj"
   auth_source:
     using_abstract_auth_source: "Nie można użyć fikcyjnego źródła uwierzytelniania."
@@ -1889,7 +1879,6 @@ pl:
   notice_successful_delete: "Usuwanie zakończone sukcesem."
   notice_successful_update: "Aktualizacja zakończona sukcesem."
   notice_to_many_principals_to_display: "Istnieje zbyt wiele wyników.\nNależy zawęzić wyszukiwanie przez wpisanie w nazwy użytkownika (lub grupy)."
-  notice_unable_delete_time_entry: "Nie można usunąć wpisu dziennika."
   notice_user_missing_authentication_method: Użytkownik jeszcze nie wybrał sposobu logowania przez hasło lub inaczej.
   notice_user_invitation_resent: Zaproszenie wysłano do %{email}.
   present_access_key_value: "Twój %{key_name} jest: %{value}"
@@ -2020,8 +2009,6 @@ pl:
   project_module_work_package_tracking: "Śledzenie pakietów roboczych"
   project_module_news: "Aktualności"
   project_module_repository: "Repozytorium"
-  project_module_time_tracking: "Zarządzanie czasem"
-  project_module_timelines: "Oś czasu"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
