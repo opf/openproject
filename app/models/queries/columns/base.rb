@@ -89,7 +89,7 @@ class Queries::Columns::Base
   end
 
   def summable?
-    summable || summable_select || summable_work_packages_select
+    summable || @summable_select || @summable_work_packages_select
   end
 
   def summable_select
