@@ -56,13 +56,13 @@ module Costs
     self.currency_columns = {
       budget: {},
       material_costs: {
-        summable: ->(query) {
+        summable: ->(query, grouped) {
           scope = WorkPackage::MaterialCosts
                   .new(user: User.current)
                   .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
                   .except(:order, :select)
 
-          if query.grouped?
+          if grouped
             scope
               .group(query.group_by_statement)
               .select("#{query.group_by_statement} id", "ROUND(SUM(cost_entries_sum), 2)::FLOAT material_costs")
@@ -73,13 +73,13 @@ module Costs
         }
       },
       labor_costs: {
-        summable: ->(query) {
+        summable: ->(query, grouped) {
           scope = WorkPackage::LaborCosts
                   .new(user: User.current)
                   .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
                   .except(:order, :select)
 
-          if query.grouped?
+          if grouped
             scope
               .group(query.group_by_statement)
               .select("#{query.group_by_statement} id", "ROUND(SUM(time_entries_sum), 2)::FLOAT labor_costs")

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -43,7 +44,7 @@ module ::Query::Results::Sums
   def all_group_sums
     return nil unless query.grouped?
 
-    sums_by_id = sums_select.inject({}) do |result, group_sum|
+    sums_by_id = sums_select(true).inject({}) do |result, group_sum|
       result[group_sum['id']] = {}
 
       query.summed_up_columns.each do |column|
@@ -58,8 +59,8 @@ module ::Query::Results::Sums
 
   private
 
-  def sums_select
-    select = if query.grouped?
+  def sums_select(grouped = false)
+    select = if grouped
                ["work_packages.id"]
              else
                []
@@ -69,42 +70,46 @@ module ::Query::Results::Sums
 
     sql = <<~SQL
       SELECT #{select.join(', ')}
-      FROM (#{sums_work_package_scope.to_sql}) work_packages
-      #{sums_callable_joins}
+      FROM (#{sums_work_package_scope(grouped).to_sql}) work_packages
+      #{sums_callable_joins(grouped)}
     SQL
 
-    ActiveRecord::Base.connection.select_all(sql)
+    connection = ActiveRecord::Base.connection
+
+    connection.uncached do
+      connection.select_all(sql)
+    end
   end
 
-  def sums_work_package_scope
+  def sums_work_package_scope(grouped)
     scope = WorkPackage
             .where(id: work_packages)
             .except(:order, :select)
-            .select(sums_work_package_scope_selects)
+            .select(sums_work_package_scope_selects(grouped))
 
-    if query.grouped?
+    if grouped
       scope.group(query.group_by_statement)
     else
       scope
     end
   end
 
-  def sums_callable_joins
+  def sums_callable_joins(grouped)
     callable_summed_up_columns
       .map do |c|
-        join_condition = if query.grouped?
+        join_condition = if grouped
                            "#{c.name}.id = work_packages.id OR #{c.name}.id IS NULL AND work_packages.id IS NULL"
                          else
                            "TRUE"
                          end
 
-        "LEFT OUTER JOIN (#{c.summable.(query).to_sql}) #{c.name} ON #{join_condition}"
+        "LEFT OUTER JOIN (#{c.summable.(query, grouped).to_sql}) #{c.name} ON #{join_condition}"
       end
       .join(' ')
   end
 
-  def sums_work_package_scope_selects
-    select = if query.grouped?
+  def sums_work_package_scope_selects(grouped)
+    select = if grouped
                ["#{query.group_by_statement} id"]
              else
                []

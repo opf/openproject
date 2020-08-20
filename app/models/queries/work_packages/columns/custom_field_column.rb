@@ -57,7 +57,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     self.summable = if %w(float int).include?(custom_field.field_format)
                       select = custom_field.field_format == 'int' ? "SUM(value::BIGINT)::BIGINT" : "ROUND(SUM(value::NUMERIC), 2)::FLOAT"
 
-                      ->(query) {
+                      ->(query, grouped) {
                         scope = WorkPackage
                                   .where(id: query.results.work_packages)
                                   .left_joins(:custom_values)
@@ -66,7 +66,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
                                   .where.not(custom_values: { value: nil })
                                   .where.not(custom_values: { value: '' })
 
-                        if query.grouped?
+                        if grouped
                           scope
                             .group(query.group_by_statement)
                             .select("#{query.group_by_statement} id, #{select} #{name}")
