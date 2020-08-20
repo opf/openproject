@@ -23,7 +23,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           tag_semver: true
           cache: ${{ github.event_name != 'schedule' }}
-      - name: Test
+      - name: Test1
+        run: which docker || true
+      - name: Test2
         run: |
+          ls -lrt .
+          which docker || true
           docker run -d -p 8080:80 -e SUPERVISORD_LOG_LEVEL=debug -e SECRET_KEY_BASE=secret ${{ steps.build_and_push.outputs.digest }}
-          curl --fail -ks --retry 10 http://localhost:8080/api/v3
+          curl --fail -k --retry 10 http://localhost:8080/api/v3
