@@ -188,8 +188,8 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
-  { selector: attributeValueMacro, cls: AttributeValueMacroComponent },
-  { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent },
+  { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },
+  { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
 ];
 
 
