@@ -30,7 +30,7 @@
 
 module OpenProject::TextFormatting
   module Matchers
-    # OpenProject wiki link syntax
+    # OpenProject attribute macros syntax
     # Examples:
     #   workPackageLabel:1234:subject # Outputs work package label attribute "Subject" + help text
     #   workPackageValue:1234:subject # Outputs the actual subject of #1234
@@ -38,7 +38,6 @@ module OpenProject::TextFormatting
     #   projectLabel:statusExplanation # Outputs current project label attribute "Status description" + help text
     #   projectValue:statusExplanation # Outputs current project value for "Status description"
     class AttributeMacros < RegexMatcher
-
       def self.regexp
         %r{
           (\w+)(Label|Value) # The model type we try to reference
@@ -55,7 +54,7 @@ module OpenProject::TextFormatting
 
       def self.process_match(m, matched_string, context)
         # Leading string before match
-          macro_attributes = {
+        macro_attributes = {
           model: m[1],
           id: m[4] || m[3],
           attribute: m[6] || m[5]

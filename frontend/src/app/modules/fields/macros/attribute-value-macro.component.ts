@@ -80,18 +80,18 @@ export class AttributeValueMacroComponent {
     const id:string = element.dataset.id!;
     const attributeName:string = element.dataset.attribute!;
 
-    try {
-      this.loadAndRender(model, id, attributeName);
-    } catch (e) {
-      console.error("Failed to render macro " + e);
-      this.markError(this.text.not_found);
-    }
+    this.loadAndRender(model, id, attributeName);
   }
 
   private async loadAndRender(model:SupportedAttributeModels, id:string, attributeName:string) {
-    const resource = await this
-      .resourceLoader
-      .require(model, id);
+    let resource:HalResource|null;
+
+    try {
+      resource = await this.resourceLoader.require(model, id);
+    } catch (e) {
+      console.error("Failed to render macro " + e);
+      return this.markError(this.text.not_found);
+    }
 
     if (!resource) {
       this.markError(this.text.not_found);

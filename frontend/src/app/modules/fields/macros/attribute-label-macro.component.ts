@@ -89,18 +89,18 @@ export class AttributeLabelMacroComponent {
     const attributeName:string = element.dataset.attribute!;
     this.attributeScope = StringHelpers.capitalize(model);
 
-    try {
-      this.loadResourceAttribute(model, id, attributeName);
-    } catch (e) {
-      console.error("Failed to render macro " + e);
-      this.markError(this.text.not_found);
-    }
+    this.loadResourceAttribute(model, id, attributeName);
   }
 
   private async loadResourceAttribute(model:SupportedAttributeModels, id:string, attributeName:string) {
-    const resource = this.resource = await this
-      .resourceLoader
-      .require(model, id);
+    let resource:HalResource|null;
+
+    try {
+      this.resource = resource = await this.resourceLoader.require(model, id);
+    } catch (e) {
+      console.error("Failed to render macro " + e);
+      return this.markError(this.text.not_found);
+    }
 
     if (!resource) {
       this.markError(this.text.not_found);

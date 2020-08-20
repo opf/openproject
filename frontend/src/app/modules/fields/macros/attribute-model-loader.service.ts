@@ -30,7 +30,7 @@ import {Injectable} from "@angular/core";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {NEVER, Observable, throwError} from "rxjs";
-import {map, take} from "rxjs/operators";
+import {map, take, tap} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {multiInput} from "reactivestates";
 import {TransitionService} from "@uirouter/core";
@@ -74,14 +74,18 @@ export class AttributeModelLoaderService {
     const identifier = `${model}-${id}`;
     const state = this.cache$.get(identifier);
 
-    state.putFromPromiseIfPristine(() =>
-      this.load(model, id).toPromise()
-    );
+    if (state.isPristine()) {
+      const promise = this.load(model, id).toPromise();
+      state.clearAndPutFromPromise(promise);
+
+      return promise;
+    }
 
     return state
       .values$()
       .pipe(
-        take(1)
+        take(1),
+        tap(val => console.log("VAL " + val), err => console.error('ERR ' + err))
       )
       .toPromise();
   }
@@ -112,7 +116,7 @@ export class AttributeModelLoaderService {
         return this
           .apiV3Service
           .projects
-          .id(this.currentProject.id!)
+          .id(id)
           .get()
           .pipe(
             take(1)
