@@ -80,7 +80,12 @@ export class AttributeValueMacroComponent {
     const id:string = element.dataset.id!;
     const attributeName:string = element.dataset.attribute!;
 
-    this.loadAndRender(model, id, attributeName);
+    try {
+      this.loadAndRender(model, id, attributeName);
+    } catch (e) {
+      console.error("Failed to render macro " + e);
+      this.markError(this.text.not_found);
+    }
   }
 
   private async loadAndRender(model:SupportedAttributeModels, id:string, attributeName:string) {

@@ -70,7 +70,7 @@ export class AttributeModelLoaderService {
    * @param model
    * @param id
    */
-  require(model:SupportedAttributeModels, id:string):Promise<HalResource|undefined> {
+  require(model:SupportedAttributeModels, id:string):Promise<HalResource|null> {
     const identifier = `${model}-${id}`;
     const state = this.cache$.get(identifier);
 
@@ -86,7 +86,7 @@ export class AttributeModelLoaderService {
       .toPromise();
   }
 
-  private load(model:SupportedAttributeModels, id?:string|undefined|null):Observable<HalResource|undefined> {
+  private load(model:SupportedAttributeModels, id?:string|undefined|null):Observable<HalResource|null> {
     switch (model) {
       case 'workPackage':
         if (!id) {
@@ -100,7 +100,7 @@ export class AttributeModelLoaderService {
           .get()
           .pipe(
             take(1),
-            map(collection => collection.elements[0])
+            map(collection => collection.elements[0] || null)
           );
       case 'project':
         id = id || this.currentProject.id;

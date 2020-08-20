@@ -64,7 +64,7 @@ export class AttributeLabelMacroComponent {
   };
 
   // The loaded resource, required for help text
-  resource:HalResource|undefined;
+  resource:HalResource|null = null;
   // The scope to load for attribute help text
   attributeScope:string;
   // The attribute name, normalized from schema
@@ -89,7 +89,12 @@ export class AttributeLabelMacroComponent {
     const attributeName:string = element.dataset.attribute!;
     this.attributeScope = StringHelpers.capitalize(model);
 
-    this.loadResourceAttribute(model, id, attributeName);
+    try {
+      this.loadResourceAttribute(model, id, attributeName);
+    } catch (e) {
+      console.error("Failed to render macro " + e);
+      this.markError(this.text.not_found);
+    }
   }
 
   private async loadResourceAttribute(model:SupportedAttributeModels, id:string, attributeName:string) {
