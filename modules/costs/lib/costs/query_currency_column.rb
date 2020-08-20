@@ -33,9 +33,6 @@ module Costs
 
     def initialize(name, options = {})
       super
-
-      #@sum_function = options[:summable]
-      #self.summable = @sum_function.respond_to?(:call)
     end
 
     def value(work_package)
@@ -93,17 +90,9 @@ module Costs
         }
       },
       overall_costs: {
-        summable: false #->(work_packages) {
-      #labor_costs = WorkPackage::LaborCosts
-      #              .new(user: User.current)
-      #              .costs_of(work_packages: work_packages)
-
-      #material_costs = WorkPackage::MaterialCosts
-      #                 .new(user: User.current)
-      #                 .costs_of(work_packages: work_packages)
-
-      #labor_costs + material_costs
-        # }
+        summable: true,
+        summable_select: "(COALESCE(labor_costs, 0.0) + COALESCE(material_costs, 0.0)) AS overall_costs",
+        summable_work_packages_select: false
       }
     }
 

@@ -65,7 +65,7 @@ module ::Query::Results::Sums
                []
              end
 
-    select += query.summed_up_columns.map(&:name)
+    select += query.summed_up_columns.map(&:summable_select)
 
     sql = <<~SQL
       SELECT #{select.join(', ')}
@@ -110,7 +110,7 @@ module ::Query::Results::Sums
                []
              end
 
-    select + non_callable_summed_up_columns.map { |c| "SUM(#{c.name}) #{c.name}" }
+    select + query.summed_up_columns.map(&:summable_work_packages_select).compact.map { |c| "SUM(#{c}) #{c}" }
   end
 
   def callable_summed_up_columns
@@ -118,6 +118,6 @@ module ::Query::Results::Sums
   end
 
   def non_callable_summed_up_columns
-    query.summed_up_columns.reject { |column| column.summable.respond_to?(:call) }
+    query.summed_up_columns.map { |column| column.summable.respond_to?(:call) }
   end
 end

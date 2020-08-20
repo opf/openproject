@@ -124,7 +124,9 @@ describe ::Query::Results, 'sums', type: :model do
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
-  let(:permissions) { %i[view_work_packages view_cost_entries view_time_entries view_cost_rates view_hourly_rates] }
+  let(:permissions) do
+    %i[view_work_packages view_cost_entries view_time_entries view_cost_rates view_hourly_rates]
+  end
   let(:group_by) { nil }
   let(:query) do
     FactoryBot.build :query,
@@ -139,13 +141,14 @@ describe ::Query::Results, 'sums', type: :model do
     login_as(current_user)
     allow(Setting)
       .to receive(:work_package_list_summable_columns)
-      .and_return ['estimated_hours', "cf_#{int_cf.id}", "cf_#{float_cf.id}", "material_costs", "labor_costs"]
+      .and_return ['estimated_hours', "cf_#{int_cf.id}", "cf_#{float_cf.id}", "material_costs", "labor_costs", "overall_costs"]
   end
   let(:estimated_hours_column) { query.available_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
   let(:int_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
   let(:float_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{float_cf.id}" } }
   let(:material_costs_column) { query.available_columns.detect { |c| c.name.to_s == "material_costs" } }
   let(:labor_costs_column) { query.available_columns.detect { |c| c.name.to_s == "labor_costs" } }
+  let(:overall_costs_column) { query.available_columns.detect { |c| c.name.to_s == "overall_costs" } }
 
   describe '#all_total_sums' do
     it 'is a hash of all summable columns' do
@@ -154,7 +157,8 @@ describe ::Query::Results, 'sums', type: :model do
                 int_cf_column => 30,
                 float_cf_column => 10.24,
                 material_costs_column => 400.0,
-                labor_costs_column => 600.0)
+                labor_costs_column => 600.0,
+                overall_costs_column => 1000.0)
     end
 
     context 'when filtering' do
@@ -168,7 +172,8 @@ describe ::Query::Results, 'sums', type: :model do
                   int_cf_column => 20,
                   float_cf_column => 6.83,
                   material_costs_column => 200.0,
-                  labor_costs_column => 300.0)
+                  labor_costs_column => 300.0,
+                  overall_costs_column => 500.0)
       end
     end
   end
@@ -183,12 +188,14 @@ describe ::Query::Results, 'sums', type: :model do
                                     int_cf_column => 20,
                                     float_cf_column => 6.83,
                                     material_costs_column => 200.0,
-                                    labor_costs_column => 300.0 },
+                                    labor_costs_column => 300.0,
+                                    overall_costs_column => 500.0 },
                   nil => { estimated_hours_column => 5.0,
                            int_cf_column => 10,
                            float_cf_column => 3.41,
                            material_costs_column => 200.0,
-                           labor_costs_column => 300.0 })
+                           labor_costs_column => 300.0,
+                           overall_costs_column => 500.0 })
       end
 
       context 'when filtering' do
@@ -202,7 +209,8 @@ describe ::Query::Results, 'sums', type: :model do
                                       int_cf_column => 10,
                                       float_cf_column => 3.41,
                                       material_costs_column => nil,
-                                      labor_costs_column => nil })
+                                      labor_costs_column => nil,
+                                      overall_costs_column => nil })
         end
       end
     end
@@ -216,12 +224,14 @@ describe ::Query::Results, 'sums', type: :model do
                           int_cf_column => 20,
                           float_cf_column => 6.83,
                           material_costs_column => 200.0,
-                          labor_costs_column => 300.0 },
+                          labor_costs_column => 300.0,
+                          overall_costs_column => 500.0 },
                   10 => { estimated_hours_column => 5.0,
                           int_cf_column => 10,
                           float_cf_column => 3.41,
                           material_costs_column => 200.0,
-                          labor_costs_column => 300.0 })
+                          labor_costs_column => 300.0,
+                          overall_costs_column => 500.0 })
       end
 
       context 'when filtering' do
@@ -235,7 +245,8 @@ describe ::Query::Results, 'sums', type: :model do
                             int_cf_column => 10,
                             float_cf_column => 3.41,
                             material_costs_column => nil,
-                            labor_costs_column => nil })
+                            labor_costs_column => nil,
+                            overall_costs_column => nil })
         end
       end
     end
