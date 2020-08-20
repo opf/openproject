@@ -97,8 +97,22 @@ export class AttributeModelLoaderService {
           return throwError(this.text.not_found);
         }
 
+        // Return global reference to the subject
+        if (_.isNumber(id)) {
+          return this
+            .apiV3Service
+            .work_packages
+            .id(id)
+            .get()
+            .pipe(
+              take(1)
+            );
+        }
+
+        // Otherwise, look for subject IN the current project (if we're in project context)
         return this
           .apiV3Service
+          .withOptionalProject(this.currentProject.id)
           .work_packages
           .filterBySubjectOrId(id, false, { pageSize: '1' })
           .get()
