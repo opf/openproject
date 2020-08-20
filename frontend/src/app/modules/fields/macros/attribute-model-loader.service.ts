@@ -29,7 +29,7 @@
 import {Injectable} from "@angular/core";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {NEVER, Observable} from "rxjs";
+import {NEVER, Observable, throwError} from "rxjs";
 import {map, take} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {multiInput} from "reactivestates";
@@ -86,9 +86,13 @@ export class AttributeModelLoaderService {
       .toPromise();
   }
 
-  private load(model:SupportedAttributeModels, id:string):Observable<HalResource|undefined> {
+  private load(model:SupportedAttributeModels, id?:string|undefined|null):Observable<HalResource|undefined> {
     switch (model) {
       case 'workPackage':
+        if (!id) {
+          return throwError(this.text.not_found);
+        }
+
         return this
           .apiV3Service
           .work_packages
@@ -99,6 +103,12 @@ export class AttributeModelLoaderService {
             map(collection => collection.elements[0])
           );
       case 'project':
+        id = id || this.currentProject.id;
+
+        if (!id) {
+          return throwError(this.text.not_found);
+        }
+
         return this
           .apiV3Service
           .projects
