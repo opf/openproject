@@ -129,10 +129,79 @@ As with the textile formatting syntax, you can link to other resources within Op
 - **commit by hash:** `commit:f30e13e4`
 - **To a source file in the repository**: `source:"some/file"`
 
-To avoid processing these items, preceed them with a bang `!` character such as `!#12` will prevent linking to a work package with ID 12.
+To avoid processing these items, precede them with a bang `!` character such as `!#12` will prevent linking to a work package with ID 12.
 
 
 
 ### Autocompletion for work packages and users
 
 For work packages and users, typing `#` or `@` will open an autocompleter for visible work packages and users, respectively.
+
+
+
+## Embedding of work package and project attributes
+
+You can embed specific attributes of work packages or projects using the following syntax:
+
+- **Linking to the subject of work package with id #1234**: `workPackageValue:1234:subject`
+- **Linking to the current project's status**: `projectValue:status`
+- **Linking to the subject of work package with subject "Project start"**: `workPackageValue:"Project start":subject`
+
+
+
+<div class="alert alert-info" role="alert">
+    
+**Note**: Referencing a work package by subject results in only looking for work packages with that given subject in the current project (if any). If you need to cross-reference work packages, use their ID to pinpoint the work package you want to reference.
+    
+</div>
+
+
+
+You can also embed attribute values and [their help texts](https://docs.openproject.org/system-admin-guide/manage-work-packages/attribute-help-texts/#manage-attribute-help-texts-premium-feature) by using `workPackageLabel` instead: `workPackageLabel:1234:status` would output the translated label for "Status" and (if exists), the corresponding help text for it.
+
+Note that these macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.
+
+
+
+**Available attributes for work packages**
+
+The following list contains all suppported attribute names for the `workPackageValue` and `workPackageLabel` macros.
+
+| **Attribute**       | Usage example                                                |
+| ------------------- | ------------------------------------------------------------ |
+| Assigned user       | `workPackageValue:1234:assignee`                             |
+| Author              | `workPackageValue:1234:author`                               |
+| Category            | `workPackageValue:1234:category`                             |
+| Creation date       | `workPackageValue:1234:createdAt`                            |
+| Finish date         | `workPackageValue:1234:dueDate`                              |
+| Estimated time      | `workPackageValue:1234:estimatedTime`                        |
+| Parent work package | `workPackageValue:1234:parent`                               |
+| Priority            | `workPackageValue:1234:priority`                             |
+| Project             | `workPackageValue:1234:project`                              |
+| Remaining Time      | `workPackageValue:1234:remainingTime`                        |
+| Responsible user    | `workPackageValue:1234:responsible`                          |
+| Spent time          | `workPackageValue:1234:spentTime`                            |
+| Start date          | `workPackageValue:1234:startDate`                            |
+| Status              | `workPackageValue:1234:status`                               |
+| Subject / Title     | `workPackageValue:1234:subject`                              |
+| Work package type   | `workPackageValue:1234:type`                                 |
+| Date of last update | `workPackageValue:1234:updatedAt`                            |
+| Version             | `workPackageValue:1234:version`                              |
+| *Custom Fields*     | `workPackageValue:1234:"Name of the work package custom field"` |
+
+**Available attributes for projects**
+
+The following list contains all suppported attribute names for the `projectValue`  and `projectLabel` macros. The examples all show references to the _current_ project the document is rendered in. They can also reference another project with `projectValue:"Identifier of the project":attribute`.
+
+| **Attribute**             | Usage example                                     |
+| ------------------------- | ------------------------------------------------- |
+| Project active? (boolean) | `projectValue:active`                             |
+| Description               | `projectValue:description`                        |
+| Identifier of the project | `projectValue:identifier`                         |
+| Name of the project       | `projectValue:name`                               |
+| Status                    | `projectValue:status`                             |
+| Status description        | `projectValue:statusExplanation`                  |
+| Parent project            | `projectValue:parent`                             |
+| Project public? (boolean) | `projectValue:public`                             |
+| *Custom Fields*           | `projectValue:"Name of the project custom field"` |
+
