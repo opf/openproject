@@ -93,50 +93,58 @@ export class AttributeModelLoaderService {
   private load(model:SupportedAttributeModels, id?:string|undefined|null):Observable<HalResource|null> {
     switch (model) {
       case 'workPackage':
-        if (!id) {
-          return throwError(this.text.not_found);
-        }
-
-        // Return global reference to the subject
-        if (_.isNumber(id)) {
-          return this
-            .apiV3Service
-            .work_packages
-            .id(id)
-            .get()
-            .pipe(
-              take(1)
-            );
-        }
-
-        // Otherwise, look for subject IN the current project (if we're in project context)
-        return this
-          .apiV3Service
-          .withOptionalProject(this.currentProject.id)
-          .work_packages
-          .filterBySubjectOrId(id, false, { pageSize: '1' })
-          .get()
-          .pipe(
-            take(1),
-            map(collection => collection.elements[0] || null)
-          );
+        return this.loadWorkPackage(id);
       case 'project':
-        id = id || this.currentProject.id;
-
-        if (!id) {
-          return throwError(this.text.not_found);
-        }
-
-        return this
-          .apiV3Service
-          .projects
-          .id(id)
-          .get()
-          .pipe(
-            take(1)
-          );
+        return this.loadProject(id);
       default:
         return NEVER;
     }
+  }
+
+  private loadProject(id:string|undefined|null) {
+    id = id || this.currentProject.id;
+
+    if (!id) {
+      return throwError(this.text.not_found);
+    }
+
+    return this
+      .apiV3Service
+      .projects
+      .id(id)
+      .get()
+      .pipe(
+        take(1)
+      );
+  }
+
+  private loadWorkPackage(id?:string|undefined|null) {
+    if (!id) {
+      return throwError(this.text.not_found);
+    }
+
+    // Return global reference to the subject
+    if (_.isNumber(id)) {
+      return this
+        .apiV3Service
+        .work_packages
+        .id(id)
+        .get()
+        .pipe(
+          take(1)
+        );
+    }
+
+    // Otherwise, look for subject IN the current project (if we're in project context)
+    return this
+      .apiV3Service
+      .withOptionalProject(this.currentProject.id)
+      .work_packages
+      .filterBySubjectOrId(id, false, { pageSize: '1' })
+      .get()
+      .pipe(
+        take(1),
+        map(collection => collection.elements[0] || null)
+      );
   }
 }
