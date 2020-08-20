@@ -397,7 +397,7 @@ pt:
     label_sum_for: "Soma para"
     label_subject: "Assunto"
     label_this_week: "esta semana"
-    label_today: "Today"
+    label_today: "Hoje"
     label_time_entry_plural: "Tempo gasto"
     label_up: "Acima"
     label_user_plural: "Usuários"
@@ -409,7 +409,7 @@ pt:
     label_value_derived_from_children: "(valor derivado de crianças)"
     label_warning: "Aviso"
     label_work_package: "Pacote de trabalho"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Pacote de trabalho pai"
     label_work_package_plural: "Pacotes de trabalho"
     label_watch: "Observar"
     label_watch_work_package: "Observar pacote de trabalho"
@@ -585,8 +585,8 @@ pt:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     project_menu_details: "Detalhes"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Agendamento manual'
+      automatic: 'Agendamento automático'
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -799,8 +799,8 @@ pt:
           duplicate_query_title: "O nome desta visão já existe. Modificar assim mesmo?"
         text_no_results: "Nenhuma visão correspondente foi encontrada."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Agendamento manual' para definir as datas."
+        is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após mudar de agendamento manual para automático devido a relações com outros pacotes de trabalho."
       table:
         configure_button: 'Configurar a tabela de pacote de trabalho'
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."

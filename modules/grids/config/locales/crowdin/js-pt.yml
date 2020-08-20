@@ -3,7 +3,7 @@ pt:
     grid:
       add_widget: 'Adicionar widget'
       remove: 'Remover widget'
-      configure: 'Configure widget'
+      configure: 'Configurar widget'
       upsale:
         text: "Alguns widgets, como o widget gráfico do pacote de trabalho, só estão disponíveis na "
         link: 'edição empresarial.'
@@ -40,7 +40,7 @@ pt:
           no_results: 'Nenhum subprojeto.'
         time_entries_current_user:
           title: 'Meu tempo gasto'
-          displayed_days: 'Days displayed in the widget:'
+          displayed_days: 'Dias exibidos no widget:'
         time_entries_list:
           title: 'Tempo gasto (últimos 7 dias)'
           no_results: 'Não há entradas de tempo nos últimos 7 dias.'

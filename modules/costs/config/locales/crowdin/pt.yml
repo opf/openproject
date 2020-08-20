@@ -129,7 +129,7 @@ pt:
   permission_view_own_cost_entries: "Ver custos reservados próprios"
   permission_view_own_hourly_rate: "Ver sua própria taxa horária"
   permission_view_own_time_entries: "Ver o próprio tempo gasto"
-  project_module_costs: "Time and costs"
+  project_module_costs: "Tempo e custos"
   text_assign_time_and_cost_entries_to_project: "Atribuir horas relatadas e custos ao projeto"
   text_destroy_cost_entries_question: "%{cost_entries} foram informados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?"
   text_destroy_time_and_cost_entries: "Excluir horas e custos informados"
