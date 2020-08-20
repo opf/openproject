@@ -32,13 +32,11 @@ module OpenProject::TextFormatting
   module Matchers
     # OpenProject wiki link syntax
     # Examples:
-    #   [[mypage]]
-    #   [[mypage|mytext]]
-    # wiki links can refer other project wikis, using project name or identifier:
-    #   [[project:]] -> wiki starting page
-    #   [[project:|mytext]]
-    #   [[project:mypage]]
-    #   [[project:mypage|mytext]]
+    #   workPackageLabel:1234:subject # Outputs work package label attribute "Subject" + help text
+    #   workPackageValue:1234:subject # Outputs the actual subject of #1234
+    #
+    #   projectLabel:statusExplanation # Outputs current project label attribute "Status description" + help text
+    #   projectValue:statusExplanation # Outputs current project value for "Status description"
     class AttributeMacros < RegexMatcher
 
       def self.regexp
@@ -57,17 +55,16 @@ module OpenProject::TextFormatting
 
       def self.process_match(m, matched_string, context)
         # Leading string before match
-        macro_attributes = {
+          macro_attributes = {
           model: m[1],
-          type: m[2].downcase,
           id: m[4] || m[3],
           attribute: m[6] || m[5]
         }
-
+        type = m[2].downcase
 
         ApplicationController.helpers.content_tag :macro,
                                                   '',
-                                                  class: "macro--attribute-#{macro_attributes[:type]}",
+                                                  class: "macro--attribute-#{type}",
                                                   data: macro_attributes
       end
     end
