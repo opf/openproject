@@ -77,12 +77,19 @@ module Costs
       },
       labor_costs: {
         summable: ->(query) {
-          WorkPackage::LaborCosts
-            .new(user: User.current)
-            .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
-            .except(:order, :select)
-            .group(query.group_by_statement)
-            .select("#{query.group_by_statement} id", "SUM(time_entries_sum) labor_costs")
+          scope = WorkPackage::LaborCosts
+                  .new(user: User.current)
+                  .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
+                  .except(:order, :select)
+
+          if query.grouped?
+            scope
+              .group(query.group_by_statement)
+              .select("#{query.group_by_statement} id", "ROUND(SUM(time_entries_sum), 2)::FLOAT labor_costs")
+          else
+            scope
+              .select("ROUND(SUM(time_entries_sum), 2)::FLOAT labor_costs")
+          end
         }
       },
       overall_costs: {
