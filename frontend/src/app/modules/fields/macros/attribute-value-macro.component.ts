@@ -114,7 +114,7 @@ export class AttributeValueMacroComponent {
       resource,
       fieldName,
       fieldSchema,
-      { injector: this.injector, container: 'table', options: {} }
+      { injector: this.injector, container: 'table', options: { writable: false } }
     );
 
     const container = this.displayContainer.nativeElement;

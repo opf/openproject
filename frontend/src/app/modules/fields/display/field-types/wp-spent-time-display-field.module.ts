@@ -42,7 +42,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   };
 
   @InjectField() PathHelper:PathHelperService;
-  @InjectField() timeEntryCreateService:TimeEntryCreateService;
+  @InjectField(TimeEntryCreateService, null) timeEntryCreateService:TimeEntryCreateService;
   @InjectField() apiV3Service:APIV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
@@ -79,7 +79,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   }
 
   private appendTimelogLink(element:HTMLElement) {
-    if (this.resource.logTime) {
+    if (this.timeEntryCreateService && this.resource.logTime) {
       const timelogElement = document.createElement('a');
       timelogElement.setAttribute('class', 'icon icon-time');
       timelogElement.setAttribute('href', '');
