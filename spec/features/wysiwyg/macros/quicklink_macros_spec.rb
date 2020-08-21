@@ -28,39 +28,22 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg attribute macros', type: :feature, js: true do
+describe 'Wysiwyg work package quicklink macros', type: :feature, js: true do
   using_shared_fixtures :admin
   let(:user) { admin }
   let!(:project) { FactoryBot.create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
-  let!(:work_package) { FactoryBot.create(:work_package, subject: "Foo Bar", project: project) }
+  let!(:work_package) {
+    FactoryBot.create(:work_package, subject: "Foo Bar", project: project, start_date: '2020-01-01', due_date: '2020-02-01')
+  }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   let(:markdown) {
     <<~MD
       # My headline
 
-      <table>
-        <thead>
-        <tr>
-          <th>Label</th>
-          <th>Value</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>workPackageLabel:"Foo Bar":subject</td>
-          <td>workPackageValue:"Foo Bar":subject</td>
-        </tr>
-        <tr>
-          <td>projectLabel:identifier</td>
-          <td>projectValue:identifier</td>
-        </tr>
-        <tr>
-          <td>invalid subject workPackageValue:"Invalid":subject</td>
-          <td>invalid project projectValue:"does not exist":identifier</td>
-        </tr>
-        </tbody>
-      </table>
+      ###{work_package.id}
+
+      ####{work_package.id}
     MD
   }
 
@@ -77,7 +60,8 @@ describe 'Wysiwyg attribute macros', type: :feature, js: true do
       it 'can add and save multiple code blocks (Regression #28350)' do
         editor.in_editor do |container,|
           editor.set_markdown markdown
-          expect(container).to have_selector('table')
+          expect(container).to have_selector('p', text: "###{work_package.id}")
+          expect(container).to have_selector('p', text: "####{work_package.id}")
         end
 
         click_on 'Save'
@@ -86,20 +70,22 @@ describe 'Wysiwyg attribute macros', type: :feature, js: true do
 
         # Expect output widget
         within('#content') do
-          expect(page).to have_selector('td', text: 'Subject')
-          expect(page).to have_selector('td', text: 'Foo Bar')
-          expect(page).to have_selector('td', text: 'Identifier')
-          expect(page).to have_selector('td', text: 'some-project')
-
-          expect(page).to have_selector('td', text: 'invalid subject Cannot expand macro: Requested resource could not be found')
-          expect(page).to have_selector('td', text: 'invalid project Cannot expand macro: Requested resource could not be found')
+          expect(page).to have_selector('macro', count: 2)
+          expect(page).to have_selector('span', text: 'Foo Bar', count: 2)
+          expect(page).to have_selector('span', text: work_package.type.name.upcase, count: 2)
+          expect(page).to have_selector('span', text: work_package.status.name, count: 1)
+          # Dates are being rendered in two nested spans
+          expect(page).to have_selector('span', text: '01/01/2020', count: 2)
+          expect(page).to have_selector('span', text: '02/01/2020', count: 2)
+          expect(page).to have_selector('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}",  count: 2)
         end
 
         # Edit page again
         click_on 'Edit'
 
         editor.in_editor do |container,|
-          expect(container).to have_selector('tbody td', count: 6)
+          expect(container).to have_selector('p', text: "###{work_package.id}")
+          expect(container).to have_selector('p', text: "####{work_package.id}")
         end
       end
     end

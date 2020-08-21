@@ -286,7 +286,7 @@ describe 'API v3 Work package resource',
 
             # resolves links
             expect(subject['html'])
-              .to have_selector("a[href='/work_packages/#{other_wp.id}']")
+              .to have_selector("macro.macro--wp-quickinfo[data-id='#{other_wp.id}']")
             # resolves macros
             is_expected.to have_text('Table of contents')
           end
