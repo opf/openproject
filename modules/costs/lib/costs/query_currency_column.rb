@@ -62,14 +62,10 @@ module Costs
                   .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
                   .except(:order, :select)
 
-          if grouped
-            scope
-              .group(query.group_by_statement)
-              .select("#{query.group_by_statement} id", "ROUND(SUM(cost_entries_sum), 2)::FLOAT material_costs")
-          else
-            scope
-              .select("ROUND(SUM(cost_entries_sum), 2)::FLOAT material_costs")
-          end
+          Queries::WorkPackages::Columns::WorkPackageColumn
+            .scoped_column_sum(scope,
+                               "COALESCE(ROUND(SUM(cost_entries_sum), 2)::FLOAT, 0.0) material_costs",
+                               grouped && query.group_by_statement)
         }
       },
       labor_costs: {
@@ -79,19 +75,15 @@ module Costs
                   .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
                   .except(:order, :select)
 
-          if grouped
-            scope
-              .group(query.group_by_statement)
-              .select("#{query.group_by_statement} id", "ROUND(SUM(time_entries_sum), 2)::FLOAT labor_costs")
-          else
-            scope
-              .select("ROUND(SUM(time_entries_sum), 2)::FLOAT labor_costs")
-          end
+          Queries::WorkPackages::Columns::WorkPackageColumn
+            .scoped_column_sum(scope,
+                               "COALESCE(ROUND(SUM(time_entries_sum), 2)::FLOAT, 0.0) labor_costs",
+                               grouped && query.group_by_statement)
         }
       },
       overall_costs: {
         summable: true,
-        summable_select: "(COALESCE(labor_costs, 0.0) + COALESCE(material_costs, 0.0)) AS overall_costs",
+        summable_select: "labor_costs + material_costs AS overall_costs",
         summable_work_packages_select: false
       }
     }

@@ -267,7 +267,7 @@ class Query < ApplicationRecord
   end
 
   def summed_up_columns
-    available_columns.select { |column| column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s) }
+    available_columns.select(&:summable?)
   end
 
   def columns
@@ -354,11 +354,7 @@ class Query < ApplicationRecord
   end
 
   def display_sums?
-    display_sums && any_summable_columns?
-  end
-
-  def any_summable_columns?
-    Setting.work_package_list_summable_columns.any?
+    display_sums
   end
 
   def group_by_column

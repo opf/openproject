@@ -40,4 +40,18 @@ class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
   def caption
     WorkPackage.human_attribute_name(name)
   end
+
+  def self.scoped_column_sum(scope, select, group_by)
+    scope = scope
+              .except(:order, :select)
+
+    if group_by
+      scope
+        .group(group_by)
+        .select("#{group_by} id", select)
+    else
+      scope
+        .select(select)
+    end
+  end
 end

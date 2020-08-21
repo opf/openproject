@@ -48,7 +48,9 @@ describe ::Query::Results, 'sums', type: :model do
                       estimated_hours: 5,
                       done_ratio: 10,
                       "custom_field_#{int_cf.id}" => 10,
-                      "custom_field_#{float_cf.id}" => 3.414)
+                      "custom_field_#{float_cf.id}" => 3.414,
+                      remaining_hours: 3,
+                      story_points: 7)
   end
   let!(:work_package2) do
     FactoryBot.create(:work_package,
@@ -58,7 +60,9 @@ describe ::Query::Results, 'sums', type: :model do
                       done_ratio: 50,
                       estimated_hours: 5,
                       "custom_field_#{int_cf.id}" => 10,
-                      "custom_field_#{float_cf.id}" => 3.414)
+                      "custom_field_#{float_cf.id}" => 3.414,
+                      remaining_hours: 3,
+                      story_points: 7)
   end
   let!(:work_package3) do
     FactoryBot.create(:work_package,
@@ -69,7 +73,9 @@ describe ::Query::Results, 'sums', type: :model do
                       done_ratio: 50,
                       estimated_hours: 5,
                       "custom_field_#{int_cf.id}" => 10,
-                      "custom_field_#{float_cf.id}" => 3.414)
+                      "custom_field_#{float_cf.id}" => 3.414,
+                      remaining_hours: 3,
+                      story_points: 7)
   end
   let!(:invisible_work_package1) do
     FactoryBot.create(:work_package,
@@ -77,7 +83,9 @@ describe ::Query::Results, 'sums', type: :model do
                       project: other_project,
                       estimated_hours: 5,
                       "custom_field_#{int_cf.id}" => 10,
-                      "custom_field_#{float_cf.id}" => 3.414)
+                      "custom_field_#{float_cf.id}" => 3.414,
+                      remaining_hours: 3,
+                      story_points: 7)
   end
   let!(:cost_entry1) do
     FactoryBot.create(:cost_entry,
@@ -139,9 +147,6 @@ describe ::Query::Results, 'sums', type: :model do
 
   before do
     login_as(current_user)
-    allow(Setting)
-      .to receive(:work_package_list_summable_columns)
-      .and_return ['estimated_hours', "cf_#{int_cf.id}", "cf_#{float_cf.id}", "material_costs", "labor_costs", "overall_costs"]
   end
   let(:estimated_hours_column) { query.available_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
   let(:int_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
@@ -149,6 +154,8 @@ describe ::Query::Results, 'sums', type: :model do
   let(:material_costs_column) { query.available_columns.detect { |c| c.name.to_s == "material_costs" } }
   let(:labor_costs_column) { query.available_columns.detect { |c| c.name.to_s == "labor_costs" } }
   let(:overall_costs_column) { query.available_columns.detect { |c| c.name.to_s == "overall_costs" } }
+  let(:remaining_hours_column) { query.available_columns.detect { |c| c.name.to_s == "remaining_hours" } }
+  let(:story_points_column) { query.available_columns.detect { |c| c.name.to_s == "story_points" } }
 
   describe '#all_total_sums' do
     it 'is a hash of all summable columns' do
@@ -158,7 +165,9 @@ describe ::Query::Results, 'sums', type: :model do
                 float_cf_column => 10.24,
                 material_costs_column => 400.0,
                 labor_costs_column => 600.0,
-                overall_costs_column => 1000.0)
+                overall_costs_column => 1000.0,
+                remaining_hours_column => 9.0,
+                story_points_column => 21)
     end
 
     context 'when filtering' do
@@ -173,7 +182,9 @@ describe ::Query::Results, 'sums', type: :model do
                   float_cf_column => 6.83,
                   material_costs_column => 200.0,
                   labor_costs_column => 300.0,
-                  overall_costs_column => 500.0)
+                  overall_costs_column => 500.0,
+                  remaining_hours_column => 6.0,
+                  story_points_column => 14)
       end
     end
   end
@@ -189,13 +200,17 @@ describe ::Query::Results, 'sums', type: :model do
                                     float_cf_column => 6.83,
                                     material_costs_column => 200.0,
                                     labor_costs_column => 300.0,
-                                    overall_costs_column => 500.0 },
+                                    overall_costs_column => 500.0,
+                                    remaining_hours_column => 6.0,
+                                    story_points_column => 14 },
                   nil => { estimated_hours_column => 5.0,
                            int_cf_column => 10,
                            float_cf_column => 3.41,
                            material_costs_column => 200.0,
                            labor_costs_column => 300.0,
-                           overall_costs_column => 500.0 })
+                           overall_costs_column => 500.0,
+                           remaining_hours_column => 3.0,
+                           story_points_column => 7 })
       end
 
       context 'when filtering' do
@@ -208,9 +223,11 @@ describe ::Query::Results, 'sums', type: :model do
             .to eql(current_user => { estimated_hours_column => 5.0,
                                       int_cf_column => 10,
                                       float_cf_column => 3.41,
-                                      material_costs_column => nil,
-                                      labor_costs_column => nil,
-                                      overall_costs_column => nil })
+                                      material_costs_column => 0.0,
+                                      labor_costs_column => 0.0,
+                                      overall_costs_column => 0.0,
+                                      story_points_column => 7,
+                                      remaining_hours_column => 3.0 })
         end
       end
     end
@@ -225,13 +242,17 @@ describe ::Query::Results, 'sums', type: :model do
                           float_cf_column => 6.83,
                           material_costs_column => 200.0,
                           labor_costs_column => 300.0,
-                          overall_costs_column => 500.0 },
+                          overall_costs_column => 500.0,
+                          remaining_hours_column => 6.0,
+                          story_points_column => 14 },
                   10 => { estimated_hours_column => 5.0,
                           int_cf_column => 10,
                           float_cf_column => 3.41,
                           material_costs_column => 200.0,
                           labor_costs_column => 300.0,
-                          overall_costs_column => 500.0 })
+                          overall_costs_column => 500.0,
+                          remaining_hours_column => 3.0,
+                          story_points_column => 7 })
       end
 
       context 'when filtering' do
@@ -244,9 +265,11 @@ describe ::Query::Results, 'sums', type: :model do
             .to eql(50 => { estimated_hours_column => 5.0,
                             int_cf_column => 10,
                             float_cf_column => 3.41,
-                            material_costs_column => nil,
-                            labor_costs_column => nil,
-                            overall_costs_column => nil })
+                            material_costs_column => 0.0,
+                            labor_costs_column => 0.0,
+                            overall_costs_column => 0.0,
+                            story_points_column => 7,
+                            remaining_hours_column => 3.0 })
         end
       end
     end

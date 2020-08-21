@@ -177,7 +177,7 @@ module ::Query::Results::GroupBy
   # Retrieve the defined order for the group by
   # IF it occurs in the sort criteria
   def order_for_group_by(column)
-    sort_entry = query.sort_criteria.detect { |column, _dir| column == query.group_by }
+    sort_entry = query.sort_criteria.detect { |c, _dir| c == query.group_by }
     order = sort_entry&.last || column.default_order
 
     "#{order} #{column.null_handling(order == 'asc')}"
