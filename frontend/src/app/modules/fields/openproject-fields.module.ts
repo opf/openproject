@@ -57,6 +57,8 @@ import {AttributeLabelMacroComponent} from "core-app/modules/fields/macros/attri
 import {AttributeHelpTextComponent} from "core-app/modules/fields/help-texts/attribute-help-text.component";
 import {AttributeHelpTextModal} from "core-app/modules/fields/help-texts/attribute-help-text.modal";
 import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
+import {WorkPackageQuickinfoMacroComponent} from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
+import {DisplayFieldComponent} from "core-app/modules/fields/display/display-field.component";
 
 @NgModule({
   imports: [
@@ -102,6 +104,7 @@ import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openpro
     WorkPackageEditFieldComponent,
     TimeEntryWorkPackageEditFieldComponent,
     EditFormComponent,
+    DisplayFieldComponent,
     EditableAttributeFieldComponent,
     ProjectStatusEditFieldComponent,
     AttributeValueMacroComponent,
@@ -110,6 +113,7 @@ import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openpro
     // Help texts
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
+    WorkPackageQuickinfoMacroComponent,
   ]
 })
 export class OpenprojectFieldsModule {

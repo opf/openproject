@@ -26,52 +26,50 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++    Ng1FieldControlsWrapper,
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, ViewChild} from "@angular/core";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector} from "@angular/core";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {NEVER, Observable} from "rxjs";
-import {filter, map, take, tap} from "rxjs/operators";
+import {Observable} from "rxjs";
+import {tap} from "rxjs/operators";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {
-  AttributeModelLoaderService,
-  SupportedAttributeModels
-} from "core-app/modules/fields/macros/attribute-model-loader.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {DateDisplayField} from "core-app/modules/fields/display/field-types/date-display-field.module";
+import {CombinedDateDisplayField} from "core-app/modules/fields/display/field-types/combined-date-display.field";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
-export const attributeValueMacro = 'macro.macro--attribute-value';
+export const quickInfoMacroSelector = 'macro.macro--wp-quickinfo';
 
 @Component({
-  selector: attributeValueMacro,
-  templateUrl: './attribute-value-macro.html',
+  selector: quickInfoMacroSelector,
+  templateUrl: './work-package-quickinfo-macro.html',
+  styleUrls: ['./work-package-quickinfo-macro.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService
   ]
 })
-export class AttributeValueMacroComponent {
-  @ViewChild('displayContainer') private displayContainer:ElementRef<HTMLSpanElement>;
-
+export class WorkPackageQuickinfoMacroComponent {
   // Whether the value could not be loaded
   error:string|null = null;
 
   text = {
-    placeholder: this.I18n.t('js.placeholders.default'),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    invalid_attribute: (attr:string) =>
-      this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  resource:HalResource;
-  fieldName:string;
+  /** Work package to be shown */
+  workPackage$:Observable<WorkPackageResource>;
+  dateDisplayField = CombinedDateDisplayField;
+  workPackageLink:string;
+  detailed:boolean = false;
 
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
-              readonly resourceLoader:AttributeModelLoaderService,
+              readonly apiV3Service:APIV3Service,
               readonly schemaCache:SchemaCacheService,
               readonly displayField:DisplayFieldService,
+              readonly pathHelper:PathHelperService,
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef) {
 
@@ -79,43 +77,22 @@ export class AttributeValueMacroComponent {
 
   ngOnInit() {
     const element = this.elementRef.nativeElement as HTMLElement;
-    const model:SupportedAttributeModels = element.dataset.model as any;
     const id:string = element.dataset.id!;
-    const attributeName:string = element.dataset.attribute!;
+    this.detailed = element.dataset.detailed === 'true';
+    this.workPackageLink = this.pathHelper.workPackagePath(id);
 
-    this.loadAndRender(model, id, attributeName);
-  }
-
-  private async loadAndRender(model:SupportedAttributeModels, id:string, attributeName:string) {
-    let resource:HalResource|null;
-
-    try {
-      resource = await this.resourceLoader.require(model, id);
-    } catch (e) {
-      console.error("Failed to render macro " + e);
-      return this.markError(this.text.not_found);
-    }
-
-    if (!resource) {
-      this.markError(this.text.not_found);
-      return;
-    }
-
-    const schema = await this.schemaCache.ensureLoaded(resource);
-    const attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
-    const fieldSchema = schema[attribute] as IFieldSchema|undefined;
-
-    if (fieldSchema) {
-      this.resource = resource;
-      this.fieldName = attribute;
-    } else {
-      this.markError(this.text.invalid_attribute(attributeName));
-    }
-
-    this.cdRef.detectChanges();
+    this.workPackage$ = this
+      .apiV3Service
+      .work_packages
+      .id(id)
+      .get()
+      .pipe(
+        tap({ error: (e) => this.markError(this.text.not_found) })
+      );
   }
 
   markError(message:string) {
+    console.error("Failed to render macro " + message);
     this.error = this.I18n.t('js.editor.macro.error', { message: message });
     this.cdRef.detectChanges();
   }

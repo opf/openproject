@@ -146,6 +146,10 @@ import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector
 } from "core-app/modules/fields/help-texts/attribute-help-text.component";
+import {
+  quickInfoMacroSelector,
+  WorkPackageQuickinfoMacroComponent
+} from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -190,6 +194,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },
   { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
+  { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
 ];
 
 

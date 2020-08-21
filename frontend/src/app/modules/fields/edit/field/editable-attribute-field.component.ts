@@ -27,12 +27,6 @@
 // ++
 
 import {States} from 'core-components/states.service';
-import {
-  displayClassName,
-  DisplayFieldRenderer,
-  editFieldContainerClass
-} from 'core-components/wp-edit-form/display-field-renderer';
-
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {SelectionHelpers} from '../../../../helpers/selection-helpers';
 import {debugLog} from '../../../../helpers/debug_output';
@@ -44,7 +38,7 @@ import {
   Injector,
   Input,
   OnDestroy,
-  OnInit,
+  OnInit, Optional,
   ViewChild
 } from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
@@ -57,6 +51,11 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
+import {
+  displayClassName,
+  DisplayFieldRenderer,
+  editFieldContainerClass
+} from "core-app/modules/fields/display/display-field-renderer";
 
 @Component({
   selector: 'editable-attribute-field',
@@ -64,12 +63,12 @@ import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
   templateUrl: './editable-attribute-field.component.html'
 })
 export class EditableAttributeFieldComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @Input('fieldName') public fieldName:string;
-  @Input('resource') public resource:HalResource;
-  @Input('wrapperClasses') public wrapperClasses?:string;
-  @Input('displayFieldOptions') public displayFieldOptions:any = {};
-  @Input('displayPlaceholder') public displayPlaceholder?:string;
-  @Input('isDropTarget') public isDropTarget?:boolean = false;
+  @Input() public fieldName:string;
+  @Input() public resource:HalResource;
+  @Input() public wrapperClasses?:string;
+  @Input() public displayFieldOptions:any = {};
+  @Input() public displayPlaceholder?:string;
+  @Input() public isDropTarget?:boolean = false;
 
   @ViewChild('displayContainer', { static: true }) readonly displayContainer:ElementRef;
   @ViewChild('editContainer', { static: true }) readonly editContainer:ElementRef;
@@ -88,8 +87,8 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
               protected opContextMenu:OPContextMenuService,
               protected halEditing:HalResourceEditingService,
               protected schemaCache:SchemaCacheService,
-              // Get parent field group from injector
-              protected editForm:EditFormComponent,
+              // Get parent field group from injector if we're in a form
+              @Optional() protected editForm:EditFormComponent,
               protected NotificationsService:NotificationsService,
               protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {
@@ -106,7 +105,9 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   public ngOnInit() {
     this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view', this.displayFieldOptions);
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.editForm.register(this);
+
+    // Register on the form if we're in an editable context
+    this.editForm?.register(this);
 
     this.halEditing
       .temporaryEditResource(this.resource)
@@ -147,8 +148,8 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     }
   }
 
-  public get isEditable() {
-    return this.schema.isAttributeEditable(this.fieldName);
+  public get isEditable():boolean {
+    return this.editForm && this.schema.isAttributeEditable(this.fieldName);
   }
 
   public activateIfEditable(event:JQuery.TriggeredEvent) {

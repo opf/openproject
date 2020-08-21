@@ -2,4 +2,8 @@
   <i class="icon icon-error"></i>
   <em [textContent]="error"></em>
 </span>
-<span #displayContainer hidden></span>
+<display-field *ngIf="!!resource"
+               [resource]="resource"
+               [displayFieldOptions]="{ writable: false }"
+               [fieldName]="fieldName">
+</display-field>

@@ -41,7 +41,7 @@ export interface DisplayFieldContext {
   injector:Injector;
 
   /** Where will the field be rendered? This may result in different styles (Multi select field, e.g.,) */
-  container: 'table'|'single-view'|'timeline';
+  container:'table'|'single-view'|'timeline';
 
   /** Options passed to the display field */
   options:{ [key:string]:any };
