@@ -410,6 +410,7 @@ it:
     label_value_derived_from_children: "(valore derivato dai figli)"
     label_warning: "Attenzione"
     label_work_package: "Macro-attività"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Macro-attività"
     label_watch: "Osserva"
     label_watch_work_package: "Osserva macro-attività"

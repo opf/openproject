@@ -57,14 +57,9 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
       .and_return(1 => 5, 2 => 10)
 
     allow(results)
-      .to receive(:all_sums_for_group)
-      .with(1)
-      .and_return(OpenStruct.new(name: :status_id) => 50)
-
-    allow(results)
-      .to receive(:all_sums_for_group)
-      .with(2)
-      .and_return(OpenStruct.new(name: :status_id) => 100)
+      .to receive(:all_group_sums)
+      .and_return(1 => { OpenStruct.new(name: :status_id) => 50 },
+                  2 => { OpenStruct.new(name: :status_id) => 100 })
 
     allow(results)
       .to receive(:query)

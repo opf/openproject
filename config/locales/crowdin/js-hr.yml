@@ -410,6 +410,7 @@ hr:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Upozorenje"
     label_work_package: "Radni paket"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Radni paketi"
     label_watch: "Nadgledaj"
     label_watch_work_package: "Nadgledaj radni paket"

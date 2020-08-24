@@ -7,11 +7,17 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {ApiV3Filter, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class WorkPackageFilterValues {
 
   @InjectField() currentUser:CurrentUserService;
   @InjectField() halResourceService:HalResourceService;
+
+  handlers:Partial<Record<FilterOperator, (filter:QueryFilterInstanceResource) => void>> = {
+    '=': this.applyFirstValue.bind(this),
+    '!*': this.setToNull.bind(this)
+  };
 
   constructor(public injector:Injector,
               private change:WorkPackageChangeset,
@@ -22,38 +28,59 @@ export class WorkPackageFilterValues {
 
   public applyDefaultsFromFilters() {
     _.each(this.filters, filter => {
-      // Ignore any filters except =
-      if (filter.operator.id !== '=') {
-        return;
-      }
-
       // Exclude filters specified in constructor
       if (this.excluded.indexOf(filter.id) !== -1) {
         return;
       }
 
-      // Avoid setting a value if current value is in filter list
-      // and more than one value selected
-      if (this.filterAlreadyApplied(filter)) {
-        return;
-      }
+      // Look for a handler with the filter's operator
+      const operator = filter.operator.id as FilterOperator;
+      const handler = this.handlers[operator];
 
-      // Select the first value
-      let value = filter.values[0];
-
-      // Avoid empty values
-      if (value) {
-        let attributeName = this.mapFilterToAttribute(filter);
-        this.setValueFor(attributeName, value);
-      }
+      // Apply the filter if there is any
+      handler?.call(this, filter);
     });
+  }
+
+  /**
+   * Apply a positive value from a '=' [value] filter
+   *
+   * @param filter A positive '=' filter with at least one value
+   * @private
+   */
+  private applyFirstValue(filter:QueryFilterInstanceResource):void {
+    // Avoid setting a value if current value is in filter list
+    // and more than one value selected
+    if (this.filterAlreadyApplied(filter)) {
+      return;
+    }
+
+    // Select the first value
+    let value = filter.values[0];
+
+    // Avoid empty values
+    if (value) {
+      let attributeName = this.mapFilterToAttribute(filter);
+      this.setValueFor(attributeName, value);
+    }
+  }
+
+  /**
+   * Set a value no null for a none type filter (!*)
+   *
+   * @param filter A none '!*' filter
+   * @private
+   */
+  private setToNull(filter:QueryFilterInstanceResource):void {
+    let attributeName = this.mapFilterToAttribute(filter);
+    this.change.setValue(attributeName, { href: null  });
   }
 
   private setValueFor(field:string, value:string|HalResource) {
     let newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
-      this.change.projectedResource[field] = newValue;
+      this.change.setValue(field, newValue);
     }
   }
 

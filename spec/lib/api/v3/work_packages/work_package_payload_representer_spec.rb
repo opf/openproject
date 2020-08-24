@@ -37,6 +37,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
                              due_date: Date.today.to_datetime,
                              created_at: DateTime.now,
                              updated_at: DateTime.now,
+                             budget: budget,
                              type: FactoryBot.build_stubbed(:type)) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
@@ -44,13 +45,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
   end
 
-  let(:user) do
-    FactoryBot.build_stubbed(:user) do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(true)
-    end
-  end
+  let(:budget) { FactoryBot.build_stubbed(:budget) }
 
   let(:representer) do
     ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
@@ -64,6 +59,18 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       .to receive(:lock_version)
       .and_return(1)
   end
+
+  #include_context 'user with stubbed permissions'
+  #let(:project) { work_package.project }
+  let(:user) do
+        FactoryBot.build_stubbed(:user) do |u|
+            allow(u)
+              .to receive(:allowed_to?)
+              .and_return(true)
+          end
+      end
+  #let(:project) { work_package.project }
+  #let(:permissions) { %i[view_budgets view_work_packages edit_work_packages assign_versions] }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -405,6 +412,38 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           it_behaves_like 'linked property' do
             let(:property) { :parent }
             let(:link) { nil }
+          end
+        end
+      end
+
+      describe 'budgets' do
+        context 'without a cost object assigned' do
+          let(:budget) { nil }
+
+          it_behaves_like 'linked property' do
+            let(:property) { :budget }
+            let(:link) { nil }
+          end
+        end
+
+        context 'with a cost object assigned' do
+          it_behaves_like 'linked property' do
+            let(:property) { :budget }
+            let(:link) { api_v3_paths.budget(budget.id) }
+          end
+        end
+
+        context 'without necessary permissions' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:view_budgets, work_package.project)
+              .and_return(false)
+          end
+
+          it 'has no href' do
+            expect(subject)
+              .not_to have_json_path('_links/budget')
           end
         end
       end

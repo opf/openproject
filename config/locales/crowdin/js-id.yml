@@ -410,6 +410,7 @@ id:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
     label_work_package: "Paket-Penugasan"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Paket-Penugasan"
     label_watch: "Pantau"
     label_watch_work_package: "Pantau Paket-Penugasan"

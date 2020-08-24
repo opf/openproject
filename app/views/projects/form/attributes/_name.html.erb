@@ -28,7 +28,9 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div class="form--field -required">
-  <%= form.text_field :name, required: true,
-                             autofocus: form.object&.name&.empty?,
-                             container_class: '-wide' %>
+  <%= form.text_field :name,
+                      required: true,
+                      help_text: { attribute: :name, 'attribute-scope': :Project },
+                      autofocus: form.object&.name&.empty?,
+                      container_class: '-wide' %>
 </div>

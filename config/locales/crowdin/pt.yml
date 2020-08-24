@@ -78,7 +78,7 @@ pt:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Qualquer texto e imagens que você adicionar a este campo ficará publicamente visível para todos os usuários autenticados!'
     text_overview: 'Neste modo de exibição, você pode criar textos de ajuda personalizada para a exibição de atributos. Quando definido, estes textos podem ser mostrados, clicando no ícone de ajuda ao lado de seu atributo relacionado.'
     label_plural: 'Textos de ajuda do atributo'
     show_preview: 'Pré-visualização de texto'
@@ -90,8 +90,8 @@ pt:
       no_results_content_text: Criar um novo modo de autenticação
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "A tarefa apresentou um erro, mas está tentando novamente. O erro foi: %{message}"
+      cancelled_due_to: "A tarefa foi cancelada devido ao erro: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Este formulário LDAP requer conhecimento técnico da sua configuração LDAP / Active Directory.
@@ -177,8 +177,6 @@ pt:
       no_results_content_text: Criar um novo campo personalizado
   concatenation:
     single: 'ou'
-  deprecations:
-    time_entries: "Esta exibição de entradas de tempo foi substituída pelo módulo 'Relatórios de Custos'. Esta visão somente suporta exportação das informações de entrada de tempo para csv. Para filtros interativos, ative o módulo 'Relatórios de Custos' nas configurações do projeto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -281,7 +279,7 @@ pt:
     overview:
       no_results_title_text: Não há pacote de trabalho atribuído a esta versão.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: A página solicitada (ainda) não existe. Você foi redirecionado para o índice de todas as páginas wiki.
     no_results_title_text: Atualmente, não há páginas wiki.
     index:
       no_results_content_text: Adicionar uma nova página wiki
@@ -418,7 +416,7 @@ pt:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
-        templated: 'Template project'
+        templated: 'Projeto modelo'
       projects/status:
         code: 'Status'
         explanation: 'Descrição do estado'
@@ -490,7 +488,7 @@ pt:
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Agendamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
         subproject: "Subprojeto"
@@ -738,9 +736,9 @@ pt:
     date: "Data"
     default_columns: "Colunas padrão"
     description: "Descrição"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Data de término derivada"
+    derived_estimated_time: "Tempo estimado derivado"
+    derived_start_date: "Data inicial derivada"
     display_sums: "Mostrar somas"
     due_date: "Data de conclusão"
     estimated_hours: "Tempo estimado"
@@ -813,7 +811,6 @@ pt:
   button_generate: "Gerar"
   button_list: "Lista"
   button_lock: "Bloquear"
-  button_log_time: "Registro de tempo"
   button_login: "Fazer login"
   button_move: "Mover"
   button_move_and_follow: "Mover e seguir"
@@ -891,7 +888,7 @@ pt:
       - "Out"
       - "Nov"
       - "Dez"
-    abbr_week: 'Wk'
+    abbr_week: 'Sem.'
     day_names:
       - "Domingo"
       - "Segunda"
@@ -1031,8 +1028,6 @@ pt:
   description_compare_to: "Comparar com"
   description_current_position: "Você está aqui: "
   description_date_from: "Digite a data de início"
-  description_date_range_interval: "Escolha o intervalo selecionando a data inicial e final"
-  description_date_range_list: "Escolha o intervalo da lista"
   description_date_to: "Digite a data de término"
   description_enter_number: "Digite o número"
   description_enter_text: "Digite o texto"
@@ -1127,8 +1122,8 @@ pt:
     work_package_edit: 'Pacote de Trabalho editado'
     work_package_note: 'Anotação acrescentada ao Pacote de Trabalho'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Exportação de seus pacotes de trabalho"
+    succeeded: "A exportação foi completada com sucesso."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1316,7 +1311,6 @@ pt:
   label_date_and_time: "Data e hora"
   label_date_from: "De"
   label_date_from_to: "De %{start} até %{end}"
-  label_date_range: "Período"
   label_date_to: "Para"
   label_day_plural: "dias"
   label_default: "Padrão"
@@ -1463,7 +1457,6 @@ pt:
   label_modified: "modificado"
   label_module_plural: "Módulos"
   label_modules: "Módulos"
-  label_month: "Mês"
   label_months_from: "meses de"
   label_more: "Mais"
   label_more_than_ago: "mais do que dias atrás"
@@ -1634,8 +1627,6 @@ pt:
   label_this_week: "esta semana"
   label_this_year: "este ano"
   label_time_entry_plural: "Tempo gasto"
-  label_time_sheet_menu: "Linha de tempo"
-  label_time_tracking: "Controle de tempo"
   label_projects_menu: "Projetos"
   label_today: "hoje"
   label_top_menu: "Menu superior"
@@ -1735,7 +1726,6 @@ pt:
     zero: "sem projetos"
     one: "1 projeto"
     other: "%{count} projetos"
-  label_year: "Ano"
   label_yesterday: "ontem"
   auth_source:
     using_abstract_auth_source: "Não é possível usar uma fonte de autenticação abstrata."
@@ -1766,16 +1756,15 @@ pt:
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register: "Bem-vindo ao OpenProject. Por favor, ative sua conta clicando neste link:"
+  mail_body_register_header_title: "E-mail de convite a membro do projeto"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Por favor, fique à vontade para navegar em nosso canal do youtube (%{youtube_link}), onde fornecemos um webinar (%{webinar_link}) e vídeos de "Como começar" (%{get_started_link}) para aprender seus primeiros passos no OpenProject da maneira mais simples possível.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    Se você tiver mais perguntas, consulte nossa documentação (%{documentation_link}) ou entre em contato conosco (%{contact_us_link}).
+  mail_body_register_closing: "Sua equipe do OpenProject"
+  mail_body_register_ending: "Fique ligado! Atenciosamente,"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"
   mail_body_group_reminder: "%{count} pacote(s) de trabalho que estão atribuídos ao grupo \"%{group}\" expiram nos próximos %{days} dias:"
   mail_body_wiki_content_added: "A página wiki '%{id}' foi adicionada por %{author}."
@@ -1852,7 +1841,6 @@ pt:
   notice_successful_delete: "Exclusão bem sucedida."
   notice_successful_update: "Atualizado com sucesso."
   notice_to_many_principals_to_display: "Existem muitos resultados. Reduza a busca, digitando o nome do novo membro (ou grupo)."
-  notice_unable_delete_time_entry: "Não é possível excluir o registro de tempo."
   notice_user_missing_authentication_method: Usuário ainda tem que escolher uma senha ou outra maneira de acesso.
   notice_user_invitation_resent: Um convite foi enviado para %{email}.
   present_access_key_value: "Seu %{key_name} é: %{value}"
@@ -1968,10 +1956,10 @@ pt:
       title: Alterar o identificador do projeto
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+        Seu projeto está sendo criado a partir do modelo selecionado. Você será notificado por e-mail assim que o projeto estiver disponível.
+      use_template: 'Usar modelo'
+      make_template: 'Definir como modelo'
+      remove_from_templates: 'Remover dos modelos'
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
       archived: "Arquivado"
@@ -1981,8 +1969,6 @@ pt:
   project_module_work_package_tracking: "Controle de pacote de trabalho"
   project_module_news: "Notícias"
   project_module_repository: "Repositório"
-  project_module_time_tracking: "Controle de tempo"
-  project_module_timelines: "Cronogramas"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -1993,8 +1979,8 @@ pt:
     assigned_to_role: "Atribuído ao papel"
     member_of_group: "Atribuído ao grupo"
     assignee_or_group: "Responsável ou grupo"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Incluindo Subprojeto"
+    only_subproject_id: "Apenas subprojeto"
     name_or_identifier: "Nome ou identificador"
   repositories:
     at_identifier: 'em %{identifier}'
@@ -2100,8 +2086,8 @@ pt:
     warnings:
       cannot_annotate: "Este arquivo não pode ser anotado."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'ativado'
+    deactivated: 'desativado'
   search_input_placeholder: "Pesquisar..."
   setting_email_delivery_method: "Método de entrega de e-mail"
   setting_sendmail_location: "Localização do executável do sendmail"

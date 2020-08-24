@@ -411,6 +411,7 @@ ja:
     label_value_derived_from_children: "(子から派生した値)"
     label_warning: "注意"
     label_work_package: "ワーク パッケージ"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "作業項目"
     label_watch: "ウォッチする"
     label_watch_work_package: "作業項目をウォッチ"

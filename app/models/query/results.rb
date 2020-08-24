@@ -29,8 +29,8 @@
 #++
 
 class ::Query::Results
-  include ::Query::GroupBy
-  include ::Query::Sums
+  include ::Query::Results::GroupBy
+  include ::Query::Results::Sums
   include Redmine::I18n
 
   attr_accessor :query

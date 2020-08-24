@@ -261,7 +261,7 @@ export function bootstrapModule(injector:Injector) {
     DraggableAutocompleteComponent,
 
     HomescreenNewFeaturesBlockComponent,
-    BoardVideoTeaserModalComponent
+    BoardVideoTeaserModalComponent,
   ]
 })
 export class OpenprojectCommonModule {

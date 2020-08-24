@@ -178,8 +178,6 @@ sk:
       no_results_content_text: Vytvoriť nové vlastné pole
   concatenation:
     single: 'alebo'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -823,7 +821,6 @@ sk:
   button_generate: "Generovať"
   button_list: "Zoznam"
   button_lock: "Uzamknúť"
-  button_log_time: "Zaprotokoluj čas"
   button_login: "Prihlásiť sa"
   button_move: "Presunúť"
   button_move_and_follow: "Presunúť a nasledovať"
@@ -1065,8 +1062,6 @@ sk:
   description_compare_to: "Porovnať s"
   description_current_position: "You are here: "
   description_date_from: "Zadajte počiatočný dátum"
-  description_date_range_interval: "Vybrať rozsah zvolením počiatočného a koncového dátumu"
-  description_date_range_list: "Vybrať rozsah zo zoznamu"
   description_date_to: "Zadajte koncový dátum"
   description_enter_number: "Zadajte číslo"
   description_enter_text: "Zadajte text"
@@ -1350,7 +1345,6 @@ sk:
   label_date_and_time: "Dátum a čas"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
-  label_date_range: "Časové obdobie"
   label_date_to: "Do"
   label_day_plural: "dní"
   label_default: "Predvolený"
@@ -1497,7 +1491,6 @@ sk:
   label_modified: "upravené"
   label_module_plural: "Moduly"
   label_modules: "Moduly"
-  label_month: "Mesiac"
   label_months_from: "mesiacov od"
   label_more: "Viac"
   label_more_than_ago: "pred viac než dňom"
@@ -1668,8 +1661,6 @@ sk:
   label_this_week: "tento týždeň"
   label_this_year: "Tento rok"
   label_time_entry_plural: "Strávený čas"
-  label_time_sheet_menu: "Časový výkaz"
-  label_time_tracking: "Sledovanie času"
   label_projects_menu: "Projekty"
   label_today: "dnes"
   label_top_menu: "Horné menu"
@@ -1777,7 +1768,6 @@ sk:
     few: "%{count} projektov"
     many: "%{count} projektov"
     other: "%{count} projektov"
-  label_year: "Rok"
   label_yesterday: "včera"
   auth_source:
     using_abstract_auth_source: "Nie je možné použiť abstraktný zdroj overovania."
@@ -1893,7 +1883,6 @@ sk:
   notice_successful_delete: "Úspešne zmazané."
   notice_successful_update: "Úspešne aktualizované."
   notice_to_many_principals_to_display: "Existuje príliš veľa výsledkov.\nUpresnite vyhľadávanie zadaním názvu nového člena (alebo skupiny)."
-  notice_unable_delete_time_entry: "Položka sledovania času sa nedala odstrániť."
   notice_user_missing_authentication_method: Užívateľ si ešte nevybral heslo alebo iný spôsob, ako sa prihlásiť.
   notice_user_invitation_resent: Pozvánka bola odoslaná na %{email}.
   present_access_key_value: "Vašš %{key_name} je: %{value}"
@@ -2024,8 +2013,6 @@ sk:
   project_module_work_package_tracking: "Sledovanie Pracovného balíka"
   project_module_news: "Novinky"
   project_module_repository: "Repozitár"
-  project_module_time_tracking: "Sledovanie času"
-  project_module_timelines: "Časové osy"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

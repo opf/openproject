@@ -30,6 +30,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <div id="settings">
   <%= styled_form_tag({action: 'plugin'}) do %>
     <%= render partial: @partial, locals: {settings: @settings}%>
-    <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
+    <%= styled_submit_tag t(:button_apply), class: '-highlight' %>
   <% end %>
 </div>

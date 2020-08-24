@@ -409,6 +409,7 @@ hu:
     label_value_derived_from_children: "(érték származik a gyermekektől)"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Munkacsomagok"
     label_watch: "Megfigyelés"
     label_watch_work_package: "Megfigyelő munkacsomag"

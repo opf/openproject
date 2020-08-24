@@ -178,8 +178,6 @@ ro:
       no_results_content_text: Creare câmp personalizat nou
   concatenation:
     single: 'sau'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -819,7 +817,6 @@ ro:
   button_generate: "Generare"
   button_list: "Listă"
   button_lock: "Blocare"
-  button_log_time: "Consum timp"
   button_login: "Autentificare"
   button_move: "Mutare"
   button_move_and_follow: "Mutare și continuare"
@@ -1049,8 +1046,6 @@ ro:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Introduceţi data de început"
-  description_date_range_interval: "Alegeți intervalul selectând datele de început și sfârșit"
-  description_date_range_list: "Alegeți intervalul din listă"
   description_date_to: "Introduceţi data de sfârşit"
   description_enter_number: "Introduceţi numărul"
   description_enter_text: "Introduceţi textul"
@@ -1334,7 +1329,6 @@ ro:
   label_date_and_time: "Date and time"
   label_date_from: "Din"
   label_date_from_to: "Din %{start} la %{end}"
-  label_date_range: "Interval calendaristic"
   label_date_to: "La"
   label_day_plural: "zile"
   label_default: "Implicit"
@@ -1481,7 +1475,6 @@ ro:
   label_modified: "modificat"
   label_module_plural: "Module"
   label_modules: "Module"
-  label_month: "Luna"
   label_months_from: "luni de la"
   label_more: "Mai mult"
   label_more_than_ago: "acum mai mult de zile"
@@ -1652,8 +1645,6 @@ ro:
   label_this_week: "săptămâna curentă"
   label_this_year: "anul curent"
   label_time_entry_plural: "Timp consumat"
-  label_time_sheet_menu: "Sumar efort"
-  label_time_tracking: "Monitorizare efort"
   label_projects_menu: "Proiecte"
   label_today: "astăzi"
   label_top_menu: "Meniul de sus"
@@ -1757,7 +1748,6 @@ ro:
     one: "un proiect"
     few: "%{count} proiecte"
     other: "%{count} proiecte"
-  label_year: "An"
   label_yesterday: "ieri"
   auth_source:
     using_abstract_auth_source: "Nu poate fi folosită o sursă de autentificare abstractă."
@@ -1873,7 +1863,6 @@ ro:
   notice_successful_delete: "Ştergere reuşită."
   notice_successful_update: "Actualizare reușită."
   notice_to_many_principals_to_display: "Există prea multe rezultate. Restrângeți căutarea prin tastarea numelui noului membru (sau grup)."
-  notice_unable_delete_time_entry: "Nu se poate șterge intrarea de jurnal."
   notice_user_missing_authentication_method: Utilizatorul nu a ales încă o parolă sau un alt mod de autentificare.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "%{key_name} tău/ta este: %{value}"
@@ -2003,8 +1992,6 @@ ro:
   project_module_work_package_tracking: "Urmărire pachete de lucru"
   project_module_news: "Noutăţi"
   project_module_repository: "Repo"
-  project_module_time_tracking: "Monitorizare efort"
-  project_module_timelines: "Planificări"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

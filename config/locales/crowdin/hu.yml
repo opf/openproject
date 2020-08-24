@@ -177,8 +177,6 @@ hu:
       no_results_content_text: Új egyéni mező létrehozása
   concatenation:
     single: 'vagy'
-  deprecations:
-    time_entries: "Az idei bejegyzések nézetét felváltja a 'Költségjelentések' modul. Ez a nézet csak az időbeviteli információk exportálását támogatja a csv-be. Az interaktív szűréshez kérjük, aktiválja a 'Költségjelentések' modult a projektbeállításokban."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -812,7 +810,6 @@ hu:
   button_generate: "Generálás"
   button_list: "Lista"
   button_lock: "Tilt"
-  button_log_time: "Eltöltött idő rögzítése"
   button_login: "Bejelentkezés"
   button_move: "Mozgatás"
   button_move_and_follow: "Mozgatés és a következő"
@@ -1030,8 +1027,6 @@ hu:
   description_compare_to: "Összehasonlítás ehhez"
   description_current_position: "You are here: "
   description_date_from: "Adja meg a kezdő dátumot"
-  description_date_range_interval: "Válasszon időszakot a kezdő és befejező időpont kiválasztásával "
-  description_date_range_list: "Válasszon időszakot a listából"
   description_date_to: "Írjon befejező dátumot"
   description_enter_number: "Írjon számot"
   description_enter_text: "Írjon szöveget"
@@ -1315,7 +1310,6 @@ hu:
   label_date_and_time: "Dátum és idő"
   label_date_from: "tól"
   label_date_from_to: "%{start}-tól %{end}-ig"
-  label_date_range: "Dátum intervallum"
   label_date_to: "címzett"
   label_day_plural: "nap"
   label_default: "alapértelmezett"
@@ -1462,7 +1456,6 @@ hu:
   label_modified: "módosított"
   label_module_plural: "Modulok"
   label_modules: "Modulok"
-  label_month: "Havi"
   label_months_from: "hónaptól"
   label_more: "További"
   label_more_than_ago: "több, nappal ezelőtt"
@@ -1633,8 +1626,6 @@ hu:
   label_this_week: "ezen a héten"
   label_this_year: "Ebben az évben"
   label_time_entry_plural: "Eltöltött idő"
-  label_time_sheet_menu: "Munkaidő-kimutatás"
-  label_time_tracking: "Munkaidő követése"
   label_projects_menu: "Projektek"
   label_today: "Ma"
   label_top_menu: "Felső menü"
@@ -1734,7 +1725,6 @@ hu:
     zero: "nincsenek projektek"
     one: "1 projekt"
     other: "%{count} projekt"
-  label_year: "Év"
   label_yesterday: "tegnap"
   auth_source:
     using_abstract_auth_source: "Nem használható egy absztrakt hitelesítési forrás."
@@ -1850,7 +1840,6 @@ hu:
   notice_successful_delete: "Sikeres törlés."
   notice_successful_update: "Sikeres frissítés."
   notice_to_many_principals_to_display: "Túl sok a találat. Szűkítse le a keresést  az új tagok (vagy csoport) nevének beírásával."
-  notice_unable_delete_time_entry: "Nem tudom törtölni az idő naplóbejegyzést."
   notice_user_missing_authentication_method: A felhasználónak még jelszót kell választani, vagy más módon kell bejelentkeznie.
   notice_user_invitation_resent: Meghívó elküldve a %{email} címre.
   present_access_key_value: "A Te %{key_name} is: %{value}"
@@ -1979,8 +1968,6 @@ hu:
   project_module_work_package_tracking: "A munkacsomag nyomon követése"
   project_module_news: "Hírek"
   project_module_repository: "Csomagtároló"
-  project_module_time_tracking: "Munkaidő követése"
-  project_module_timelines: "Idővonalak"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

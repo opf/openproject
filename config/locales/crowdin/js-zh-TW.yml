@@ -409,6 +409,7 @@ zh-TW:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "警告"
     label_work_package: "工作項目"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "工作項目"
     label_watch: "監看"
     label_watch_work_package: "關注工作項目"

@@ -215,7 +215,7 @@ module OpenProject::XlsExport
     end
 
     def currency_sign
-      Setting.plugin_openproject_costs['costs_currency']
+      Setting.plugin_costs['costs_currency']
     end
 
     def escaped_worksheet_name(name)

@@ -31,4 +31,4 @@ require 'spec_helper'
 
 require File.join(File.dirname(__FILE__), 'plugin_spec_helper')
 
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }

@@ -175,8 +175,6 @@ de:
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
   concatenation:
     single: 'oder'
-  deprecations:
-    time_entries: "Die Ansicht für Zeiterfassungseinträge wird durch das Reportmodul ersetzt und wird fortan nur noch das Exportieren von Zeiterfassungseinträgen als CSV unterstützen. Für interaktive Filter verwenden Sie bitte das Reporting Modul, welches Sie unter den Projekteinstellungen aktivieren können."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -810,7 +808,6 @@ de:
   button_generate: "Generieren"
   button_list: "Liste"
   button_lock: "Sperren"
-  button_log_time: "Zeit buchen"
   button_login: "Anmelden"
   button_move: "Verschieben"
   button_move_and_follow: "Verschieben und Arbeitspaket anzeigen"
@@ -1028,8 +1025,6 @@ de:
   description_compare_to: "Vergleiche mit"
   description_current_position: "Du bist hier: "
   description_date_from: "Startdatum eintragen"
-  description_date_range_interval: "Zeitraum durch Start- und Enddatum festlegen"
-  description_date_range_list: "Zeitraum aus einer Liste wählen"
   description_date_to: "Enddatum eintragen"
   description_enter_number: "Zahl eingeben"
   description_enter_text: "Text eingeben"
@@ -1313,7 +1308,6 @@ de:
   label_date_and_time: "Datum und Zeit"
   label_date_from: "Von"
   label_date_from_to: "von %{start} bis %{end}"
-  label_date_range: "Zeitraum"
   label_date_to: "Bis"
   label_day_plural: "Tagen"
   label_default: "Standard"
@@ -1460,7 +1454,6 @@ de:
   label_modified: "geändert"
   label_module_plural: "Module"
   label_modules: "Module"
-  label_month: "Monat"
   label_months_from: "Monate ab"
   label_more: "Mehr"
   label_more_than_ago: "vor mehr als (Tage)"
@@ -1631,8 +1624,6 @@ de:
   label_this_week: "aktuelle Woche"
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Aufgewendete Zeit"
-  label_time_sheet_menu: "Zeiterfassung"
-  label_time_tracking: "Zeiterfassung"
   label_projects_menu: "Projekte"
   label_today: "heute"
   label_top_menu: "Hauptmenü"
@@ -1732,7 +1723,6 @@ de:
     zero: "Keine Projekte"
     one: "1 Projekt"
     other: "%{count} Projekte"
-  label_year: "Jahr"
   label_yesterday: "gestern"
   auth_source:
     using_abstract_auth_source: "Abstrakte Authentifizierungsquellen können nicht verwendet werden."
@@ -1849,7 +1839,6 @@ de:
   notice_successful_delete: "Erfolgreich gelöscht."
   notice_successful_update: "Erfolgreich aktualisiert."
   notice_to_many_principals_to_display: "Es gibt zu viele Treffer.\nBitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben."
-  notice_unable_delete_time_entry: "Der Zeiterfassungseintrag konnte nicht gelöscht werden."
   notice_user_missing_authentication_method: Benutzer muss noch ein Passwort oder eine andere Authentifizierungsmethode wählen.
   notice_user_invitation_resent: Eine Einladung wurde an %{email} gesendet.
   present_access_key_value: "Ihr %{key_name} ist: %{value}"
@@ -1978,8 +1967,6 @@ de:
   project_module_work_package_tracking: "Arbeitspakete-Verfolgung"
   project_module_news: "Nachrichten"
   project_module_repository: "Projektarchiv"
-  project_module_time_tracking: "Zeiterfassung"
-  project_module_timelines: "Zeitpläne"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

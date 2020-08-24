@@ -58,7 +58,7 @@ module API
                    embedded: true
 
         def cost_helper
-          @cost_helper ||= ::OpenProject::Costs::AttributesHelper.new(represented, current_user)
+          @cost_helper ||= ::Costs::AttributesHelper.new(represented, current_user)
         end
 
         def _type

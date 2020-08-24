@@ -63,6 +63,23 @@ describe TabularFormBuilder do
       }).at_path('input')
     end
 
+    context 'with help text' do
+      let(:options) { { title: 'Name', class: 'custom-class', help_text: { attribute: 'foo', 'attribute-scope': 'bar' } } }
+
+      it 'will output a label with an attribute-help-text tag' do
+        expect(output).to be_html_eql(%{
+          <label class="form--label"
+                 for="user_name"
+                 title="Name">
+            Name
+            <attribute-help-text data-attribute="foo"
+                                 data-attribute-scope="bar">
+            </attribute-help-text>
+          </label>
+        }).at_path('label')
+      end
+    end
+
     context 'with affixes' do
       let(:random_id) { 'random_id' }
 

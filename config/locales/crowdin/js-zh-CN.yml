@@ -410,6 +410,7 @@ zh-CN:
     label_value_derived_from_children: "（来自子项的值）"
     label_warning: "警告"
     label_work_package: "工作包"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "工作包"
     label_watch: "关注"
     label_watch_work_package: "关注工作包"

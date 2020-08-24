@@ -25,7 +25,6 @@ bg:
       property_groups:
         costs: "Разходи"
       properties:
-        costObject: "Бюджет"
         overallCosts: "Общи разходи"
         spentUnits: "Изразходвани единици"
     button_log_costs: "Разходи за единична регистрация"

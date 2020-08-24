@@ -22,7 +22,7 @@
 pt:
   button_save_as: "Salvar relatório como..."
   comments: "Comentário"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Tempo e custos"
   label_cost_report: "Relatório de custos"
   label_cost_report_plural: "Relatórios de custos"
   description_drill_down: "Exibir detalhes"

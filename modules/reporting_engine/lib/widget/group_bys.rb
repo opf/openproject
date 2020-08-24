@@ -42,13 +42,12 @@ class Widget::GroupBys < Widget::Base
     end
 
     content_tag :fieldset do
-
       legend = content_tag :legend, I18n.t("reporting.group_by.selected_#{type}"), class: 'hidden-for-sighted'
 
       container = content_tag :div,
-                id: "group-by--#{type}",
-                class: 'group-by--container grid-block',
-                :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
+                              id: "group-by--#{type}",
+                              class: 'group-by--container grid-block',
+                              :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
         out = content_tag :span, class: 'group-by--caption grid-content shrink' do
           content_tag :span do
             l(:"label_#{type}")
@@ -60,9 +59,9 @@ class Widget::GroupBys < Widget::Base
         out += content_tag :span,
                            class: 'group-by--control grid-content shrink' do
           label = label_tag "group-by--add-#{type}",
-                         l(:"label_group_by_add") + ' ' +
-                         I18n.t('js.filter.description.text_open_filter'),
-                         class: 'hidden-for-sighted'
+                            l(:"label_group_by_add") + ' ' +
+                            I18n.t('js.filter.description.text_open_filter'),
+                            class: 'hidden-for-sighted'
 
           label += content_tag :select, id: "group-by--add-#{type}", class: 'advanced-filters--select' do
             content = content_tag :option, l(:label_group_by_add), value: ''

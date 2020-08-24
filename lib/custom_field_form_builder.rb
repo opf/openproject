@@ -39,7 +39,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
     if options[:no_label]
       input
     else
-      label = custom_field_label_tag
+      label = custom_field_label_tag(options)
       container_options = options.merge(no_label: true)
 
       label + container_wrap_field(input, 'field', container_options)
@@ -111,7 +111,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
   end
 
   # Return custom field label tag
-  def custom_field_label_tag
+  def custom_field_label_tag(options)
     custom_value = object
 
     classes = 'form--label'
@@ -121,7 +121,16 @@ class CustomFieldFormBuilder < TabularFormBuilder
                 for: custom_field_field_id,
                 class: classes,
                 title: custom_value.custom_field.name do
-      custom_value.custom_field.name
+      output = ''.html_safe
+      output += custom_value.custom_field.name
+
+
+      # Render a help text icon
+      if options[:help_text]
+        output += content_tag('attribute-help-text', '', data: options[:help_text])
+      end
+
+      output
     end
   end
 end

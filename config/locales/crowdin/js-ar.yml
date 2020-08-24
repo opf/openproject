@@ -410,6 +410,7 @@ ar:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "تحذير"
     label_work_package: "مجموعة العمل"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "مجموعات العمل"
     label_watch: "مشاهدة"
     label_watch_work_package: "مراقبة مجموعة العمل"

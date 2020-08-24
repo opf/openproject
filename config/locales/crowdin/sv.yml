@@ -178,8 +178,6 @@ sv:
       no_results_content_text: Skapa ett nytt anpassat fält
   concatenation:
     single: 'eller'
-  deprecations:
-    time_entries: "Denna tidspostvy ersätts av modulen \"Kostnadsrapporter\". Den här vyn stöder nu endast exporterande information om tidspost till csv. För interaktiv filtrering, vänligen aktivera modulen \"Kostnadsrapporter\" i projektinställningarna."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -814,7 +812,6 @@ sv:
   button_generate: "Generera"
   button_list: "Lista"
   button_lock: "Lås"
-  button_log_time: "Logga tid"
   button_login: "Logga in"
   button_move: "Flytta"
   button_move_and_follow: "Flytta och följ"
@@ -1032,8 +1029,6 @@ sv:
   description_compare_to: "Jämför med"
   description_current_position: "Du är här: "
   description_date_from: "Ange startdatum"
-  description_date_range_interval: "Välj intervall genom att välja start- och slutdatum"
-  description_date_range_list: "Välj intervall i listan"
   description_date_to: "Ange slutdatum"
   description_enter_number: "Ange nummer"
   description_enter_text: "Ange text"
@@ -1317,7 +1312,6 @@ sv:
   label_date_and_time: "Datum och tid"
   label_date_from: "Från"
   label_date_from_to: "Från %{start} till %{end}"
-  label_date_range: "Datumintervall"
   label_date_to: "Till"
   label_day_plural: "dagar"
   label_default: "Standard"
@@ -1464,7 +1458,6 @@ sv:
   label_modified: "modifierad"
   label_module_plural: "Moduler"
   label_modules: "Moduler"
-  label_month: "Månad"
   label_months_from: "månader från"
   label_more: "Mer"
   label_more_than_ago: "mer än dagar sedan"
@@ -1635,8 +1628,6 @@ sv:
   label_this_week: "denna vecka"
   label_this_year: "i år"
   label_time_entry_plural: "Förbrukad tid"
-  label_time_sheet_menu: "Tidrapport"
-  label_time_tracking: "Tidredovisning"
   label_projects_menu: "Projekt"
   label_today: "idag"
   label_top_menu: "Huvudmeny"
@@ -1736,7 +1727,6 @@ sv:
     zero: "no projects"
     one: "Ett projekt"
     other: "%{count} projekt"
-  label_year: "År"
   label_yesterday: "igår"
   auth_source:
     using_abstract_auth_source: "Kan inte använda en abstrakt autentiseringskälla."
@@ -1853,7 +1843,6 @@ sv:
   notice_successful_delete: "Raderades utan problem."
   notice_successful_update: "Uppdaterades utan problem."
   notice_to_many_principals_to_display: "Det finns för många resultat. \nBegränsa sökningen genom att skriva namnet på den nya medlemmen (eller gruppen)."
-  notice_unable_delete_time_entry: "Det gick inte att ta bort tidrapport."
   notice_user_missing_authentication_method: Användaren har ännu inte valt ett lösenord eller annat sätt logga in.
   notice_user_invitation_resent: En inbjudan har skickats till %{email}.
   present_access_key_value: "Din %{key_name} är: %{value}"
@@ -1982,8 +1971,6 @@ sv:
   project_module_work_package_tracking: "Arbetspaketsspårning"
   project_module_news: "Nyheter"
   project_module_repository: "Versionsarkiv"
-  project_module_time_tracking: "Tidredovisning"
-  project_module_timelines: "Tidslinjer"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

@@ -72,6 +72,10 @@ module Pages
         end
       end
 
+      def page_has_a_toolbar
+        expect(page).to have_selector('.toolbar-container')
+      end
+
       def page_shows_a_filter_button(visible)
         expect(page).to have_conditional_selector(visible, '.toolbar-item', text: 'Filter')
       end

@@ -48,13 +48,15 @@ describe 'OAuth applications management', type: :feature, js: true do
     click_on 'Create'
 
     expect(page).to have_selector('.errorExplanation', text: 'Redirect URI must be an absolute URI.')
-    fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback"
+
+    # Can create localhost without https (https://community.openproject.com/wp/34025)
+    fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
     click_on 'Create'
 
     expect(page).to have_selector('.flash.notice', text: 'Successful creation.')
 
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
-    expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback")
+    expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback")
 
     # Should print secret on initial visit
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client secret')

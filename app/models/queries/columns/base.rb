@@ -30,16 +30,17 @@
 
 class Queries::Columns::Base
   attr_reader :groupable,
-              :sortable,
-              :association
+              :sortable
 
   attr_accessor :name,
                 :sortable_join,
                 :summable,
-                :null_handling,
-                :default_order
+                :default_order,
+                :association
 
-  alias_method :summable?, :summable
+  attr_writer :null_handling,
+              :summable_select,
+              :summable_work_packages_select
 
   def initialize(name, options = {})
     self.name = name
@@ -48,6 +49,8 @@ class Queries::Columns::Base
        sortable_join
        groupable
        summable
+       summable_select
+       summable_work_packages_select
        association
        null_handling
        default_order).each do |attribute|
@@ -75,10 +78,6 @@ class Queries::Columns::Base
     @sortable =  name_or_value_or_false(value)
   end
 
-  def association=(value)
-    @association = value
-  end
-
   # Returns true if the column is sortable, otherwise false
   def sortable?
     !!sortable
@@ -89,8 +88,28 @@ class Queries::Columns::Base
     !!groupable
   end
 
-  def value(issue)
-    issue.send name
+  def summable?
+    summable || @summable_select || @summable_work_packages_select
+  end
+
+  def summable_select
+    @summable_select || name
+  end
+
+  def summable_work_packages_select
+    if @summable_work_packages_select == false
+      nil
+    elsif @summable_work_packages_select
+      @summable_work_packages_select
+    elsif summable&.respond_to?(:call)
+      nil
+    else
+      name
+    end
+  end
+
+  def value(model)
+    model.send name
   end
 
   def self.instances(_context = nil)

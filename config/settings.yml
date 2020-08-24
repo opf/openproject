@@ -270,10 +270,6 @@ work_package_list_default_highlighting_mode:
 work_package_list_default_highlighted_attributes:
   serialized: true
   default: []
-work_package_list_summable_columns:
-  serialized: true
-  default:
-  - estimated_hours
 display_subprojects_work_packages:
   default: 1
 work_package_done_ratio:
@@ -287,7 +283,7 @@ default_projects_modules:
   - board_view
   - work_package_tracking
   - news
-  - time_tracking
+  - costs
   - wiki
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:

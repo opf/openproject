@@ -410,6 +410,7 @@ fil:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Babala"
     label_work_package: "Work package"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Ang mga work package"
     label_watch: "Tumingin"
     label_watch_work_package: "Tingnan ang work package"

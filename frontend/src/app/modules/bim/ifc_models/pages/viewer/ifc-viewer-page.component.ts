@@ -22,6 +22,7 @@ import {BehaviorSubject} from "rxjs";
 import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
 import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -79,7 +80,11 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     },
     {
       component: BimManageIfcModelsButtonComponent,
-      show: () => this.ifcData.allowed('manage_ifc_models')
+      show: () => {
+        // Hide 'Manage models' toolbar button on plugin environment (ie: Revit)
+        return this.viewerBridgeService.shouldShowViewer &&
+               this.ifcData.allowed('manage_ifc_models');
+      }
     }
   ];
 
@@ -88,7 +93,8 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
               readonly bimView:BimViewService,
               readonly transition:TransitionService,
               readonly gon:GonService,
-              readonly injector:Injector) {
+              readonly injector:Injector,
+              readonly viewerBridgeService:ViewerBridgeService) {
     super(injector);
   }
 

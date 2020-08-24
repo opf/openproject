@@ -409,6 +409,7 @@ vi:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
     label_work_package: "Work Package"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Work Packages"
     label_watch: "Theo dõi"
     label_watch_work_package: "Xem gói công việc"

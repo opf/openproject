@@ -178,8 +178,6 @@ id:
       no_results_content_text: Buat bidang kustom baru
   concatenation:
     single: 'atau'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -810,7 +808,6 @@ id:
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
-  button_log_time: "Catatan waktu"
   button_login: "Login"
   button_move: "Pindahkan"
   button_move_and_follow: "Pindahkan dan amati"
@@ -1016,8 +1013,6 @@ id:
   description_compare_to: "Bandingkan dengan"
   description_current_position: "You are here: "
   description_date_from: "Masukkan tanggal start"
-  description_date_range_interval: "Pilih durasi dengan memilih tanggal start dan finish"
-  description_date_range_list: "Pilih durasi dari daftar"
   description_date_to: "Masukkan tanggal finish"
   description_enter_number: "Masukkan nomor"
   description_enter_text: "Masukkan teks"
@@ -1301,7 +1296,6 @@ id:
   label_date_and_time: "Tanggal dan waktu"
   label_date_from: "Dari"
   label_date_from_to: "Dari %{start} ke %{end}"
-  label_date_range: "Kisaran tanggal"
   label_date_to: "Ke"
   label_day_plural: "hari"
   label_default: "Default"
@@ -1448,7 +1442,6 @@ id:
   label_modified: "dimodifikasi"
   label_module_plural: "Modul"
   label_modules: "Modul"
-  label_month: "Bulan"
   label_months_from: "dari bulan"
   label_more: "Lanjut"
   label_more_than_ago: "lusa yang lalu"
@@ -1619,8 +1612,6 @@ id:
   label_this_week: "minggu ini"
   label_this_year: "tahun ini"
   label_time_entry_plural: "Durasi"
-  label_time_sheet_menu: "Time sheet"
-  label_time_tracking: "Time tracking"
   label_projects_menu: "Project"
   label_today: "hari ini"
   label_top_menu: "Top Menu"
@@ -1716,7 +1707,6 @@ id:
   label_x_projects:
     zero: "no projects"
     other: "%{count} proyek"
-  label_year: "Tahun"
   label_yesterday: "kemarin"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
@@ -1833,7 +1823,6 @@ id:
   notice_successful_delete: "Berhasil dihapus."
   notice_successful_update: "Berhasil diperbarui."
   notice_to_many_principals_to_display: "Ada terlalu banyak hasil. Persempit pencarian dengan mengetik nama member baru (atau grup)."
-  notice_unable_delete_time_entry: "Entri time log tidak bisa dihapus."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: Sebuah undangan telah dikirim ke %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
@@ -1961,8 +1950,6 @@ id:
   project_module_work_package_tracking: "Tracking Paket-Penugasan"
   project_module_news: "News"
   project_module_repository: "Repositori"
-  project_module_time_tracking: "Time tracking"
-  project_module_timelines: "Timeline"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

@@ -176,8 +176,6 @@ el:
       no_results_content_text: Δημιουργία νέου προσαρμοσμένου πεδίου
   concatenation:
     single: 'ή'
-  deprecations:
-    time_entries: "Αυτή η προβολή καταχωρήσεων χρόνου αντικαθίσταται από την ενότητα \"Αναφορές κόστους\". Αυτή η προβολή τώρα υποστηρίζει μόνο την εξαγωγή πληροφοριών καταχωρήσεων χρόνου σε csv. Για διαδραστικό φιλτράρισμα, ενεργοποιήστε την ενότητα \"Αναφορές κόστους\" στις ρυθμίσεις του έργου."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -812,7 +810,6 @@ el:
   button_generate: "Παραγωγή"
   button_list: "Προβολή λίστας"
   button_lock: "Κλείδωμα"
-  button_log_time: "Καταγραφή χρόνου"
   button_login: "Σύνδεση"
   button_move: "Μετακίνηση"
   button_move_and_follow: "Μετακίνηση και ακολούθηση"
@@ -1030,8 +1027,6 @@ el:
   description_compare_to: "Σύγκριση με"
   description_current_position: "Είστε εδώ: "
   description_date_from: "Εισαγάγετε ημερομηνία έναρξης"
-  description_date_range_interval: "Διαλέξτε εύρος επιλέγοντας ημερομηνίες έναρξης και λήξης"
-  description_date_range_list: "Επιλέξτε εύρος από τη λίστα"
   description_date_to: "Εισάγετε ημερομηνία λήξης"
   description_enter_number: "Εισάγετε αριθμό"
   description_enter_text: "Εισάγετε κείμενο"
@@ -1315,7 +1310,6 @@ el:
   label_date_and_time: "Ημερομηνία και ώρα"
   label_date_from: "Από"
   label_date_from_to: "Από %{start} έως %{end}"
-  label_date_range: "Εύρος ημερομηνίας"
   label_date_to: "Έως"
   label_day_plural: "ημέρες"
   label_default: "Προεπιλογή"
@@ -1462,7 +1456,6 @@ el:
   label_modified: "τροποποιήθηκε"
   label_module_plural: "Ενότητες"
   label_modules: "Ενότητες"
-  label_month: "Μήνας"
   label_months_from: "μήνες από"
   label_more: "Περισσότερα"
   label_more_than_ago: "σε περισσότερο από ημέρες πριν"
@@ -1633,8 +1626,6 @@ el:
   label_this_week: "αυτή την εβδομάδα"
   label_this_year: "αυτό το έτος"
   label_time_entry_plural: "Χρόνος που δαπανήθηκε"
-  label_time_sheet_menu: "Χρονοπρόγραμμα"
-  label_time_tracking: "Παρακολούθηση χρόνου"
   label_projects_menu: "Έργα"
   label_today: "σήμερα"
   label_top_menu: "Επάνω μενού"
@@ -1734,7 +1725,6 @@ el:
     zero: "κανένα έργο"
     one: "1 έργο"
     other: "%{count} έργα"
-  label_year: "Έτος"
   label_yesterday: "χθες"
   auth_source:
     using_abstract_auth_source: "Δεν μπορεί να χρησιμοποιηθεί μια αφηρημένη πηγή αυθεντικοποίησης."
@@ -1850,7 +1840,6 @@ el:
   notice_successful_delete: "Επιτυχής διαγραφή."
   notice_successful_update: "Επιτυχής ενημέρωση."
   notice_to_many_principals_to_display: "Υπάρχουν πάρα πολλά αποτελέσματα.\nΠεριορίστε την αναζήτηση πληκτρολογώντας το όνομα του νέου μέλους (ή ομάδας)."
-  notice_unable_delete_time_entry: "Δεν ήταν δυνατή η διαγραφή της καταχώρησης καταγραφής χρόνου."
   notice_user_missing_authentication_method: Ο χρήστης δεν έχει επιλέξει ακόμα έναν κωδικό πρόσβασης ή άλλο τρόπο σύνδεσης.
   notice_user_invitation_resent: Απεστάλει μια πρόσκληση στο %{email}.
   present_access_key_value: "Το %{key_name} είναι: %{value}"
@@ -1979,8 +1968,6 @@ el:
   project_module_work_package_tracking: "Παρακολούθηση πακέτου εργασίας"
   project_module_news: "Νέα"
   project_module_repository: "Αποθετήριο"
-  project_module_time_tracking: "Παρακολούθηση χρόνου"
-  project_module_timelines: "Χρονοδιαγράμματα"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

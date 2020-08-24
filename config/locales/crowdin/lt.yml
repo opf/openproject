@@ -174,8 +174,6 @@ lt:
       no_results_content_text: Sukurti naują pasirinktinį lauką
   concatenation:
     single: 'arba'
-  deprecations:
-    time_entries: "Šis laiko įrašų rodinys permuštas „Kaštų ataskaitos“ modulio. Šis rodinys dabar palaiko tik laiko įrašų eksportą į csv. Interaktyviam filtravimui prašome projekto nustatymuose aktyvuoti „Kaštų ataskaitų“ modulį."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -818,7 +816,6 @@ lt:
   button_generate: "Generuoti"
   button_list: "Sąrašas"
   button_lock: "Užrakinti"
-  button_log_time: "Registruoti laiką"
   button_login: "Prisijungti"
   button_move: "Perkelti"
   button_move_and_follow: "Perkelti ir sekti"
@@ -1060,8 +1057,6 @@ lt:
   description_compare_to: "Palyginti iki"
   description_current_position: "Jūs esate čia: "
   description_date_from: "Įveskite pradžios datą"
-  description_date_range_interval: "Pasirinkite diapazoną nurodydami pradžios ir pabaigos datas"
-  description_date_range_list: "Pasirinkitę diapazoną iš sąrašo"
   description_date_to: "Įveskite pabaigos datą"
   description_enter_number: "Įveskite numerį"
   description_enter_text: "Įveskite tekstą"
@@ -1345,7 +1340,6 @@ lt:
   label_date_and_time: "Data ir laikas"
   label_date_from: "Nuo"
   label_date_from_to: "Nuo %{start} iki %{end}"
-  label_date_range: "Laikotarpis"
   label_date_to: "Į"
   label_day_plural: "dienas(-ų)"
   label_default: "Numatytasis"
@@ -1492,7 +1486,6 @@ lt:
   label_modified: "pakeistas"
   label_module_plural: "Moduliai"
   label_modules: "Moduliai"
-  label_month: "Mėnuo"
   label_months_from: "mėnesiai nuo"
   label_more: "Daugiau"
   label_more_than_ago: "daugiau nei prieš dieną"
@@ -1663,8 +1656,6 @@ lt:
   label_this_week: "ši savaitė"
   label_this_year: "šiemet"
   label_time_entry_plural: "Praleista laiko"
-  label_time_sheet_menu: "Laiko lentelė"
-  label_time_tracking: "Laiko apskaita"
   label_projects_menu: "Projektai"
   label_today: "šiandien"
   label_top_menu: "Viršutinis meniu"
@@ -1772,7 +1763,6 @@ lt:
     few: "%{count} projektai (-as, -ų)"
     many: "%{count} projektai (-as, -ų)"
     other: "%{count} projektai (-as, -ų)"
-  label_year: "Metai"
   label_yesterday: "vakar"
   auth_source:
     using_abstract_auth_source: "Negalima naudoti abstraktaus autentifikavimo šaltinio."
@@ -1889,7 +1879,6 @@ lt:
   notice_successful_delete: "Sėkmingas panaikinimas."
   notice_successful_update: "Sėkmingas atnaujinimas."
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
-  notice_unable_delete_time_entry: "Neįmano ištrinti laiko žurnalo įrašo."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
   present_access_key_value: "Jūsų %{key_name} yra: %{value}"
@@ -2020,8 +2009,6 @@ lt:
   project_module_work_package_tracking: "Darbų paketo sekimas"
   project_module_news: "Naujienos"
   project_module_repository: "Repozitorija"
-  project_module_time_tracking: "Laiko apskaita"
-  project_module_timelines: "Laiko juostos"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

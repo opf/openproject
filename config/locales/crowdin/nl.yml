@@ -178,8 +178,6 @@ nl:
       no_results_content_text: Maak een nieuw aangepast veld
   concatenation:
     single: 'of'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -815,7 +813,6 @@ nl:
   button_generate: "Genereer"
   button_list: "Lijst"
   button_lock: "Vergrendelen"
-  button_log_time: "Gelogde tijd"
   button_login: "Aanmelden"
   button_move: "Verplaatsen"
   button_move_and_follow: "Verplaatsen en volgen"
@@ -1033,8 +1030,6 @@ nl:
   description_compare_to: "Vergelijk met"
   description_current_position: "You are here: "
   description_date_from: "Begindatum opgeven"
-  description_date_range_interval: "Kies bereik door begin- en einddatum te selecteren"
-  description_date_range_list: "Bereik kiezen uit lijst"
   description_date_to: "Voer de einddatum in"
   description_enter_number: "Voer een nummer in"
   description_enter_text: "Tekst invoeren"
@@ -1318,7 +1313,6 @@ nl:
   label_date_and_time: "Datum en tijd"
   label_date_from: "Van"
   label_date_from_to: "Van %{start} tot %{end}"
-  label_date_range: "Datumbereik"
   label_date_to: "Aan"
   label_day_plural: "dagen"
   label_default: "Standaard"
@@ -1465,7 +1459,6 @@ nl:
   label_modified: "gewijzigd"
   label_module_plural: "Modules"
   label_modules: "Modules"
-  label_month: "Maand"
   label_months_from: "maanden vanaf"
   label_more: "Meer"
   label_more_than_ago: "meer dan dagen geleden"
@@ -1636,8 +1629,6 @@ nl:
   label_this_week: "deze week"
   label_this_year: "Dit jaar"
   label_time_entry_plural: "Bestede tijd"
-  label_time_sheet_menu: "Tijdkaart"
-  label_time_tracking: "Tijdregistratie"
   label_projects_menu: "Projecten"
   label_today: "vandaag"
   label_top_menu: "Hoofdmenu"
@@ -1737,7 +1728,6 @@ nl:
     zero: "no projects"
     one: "1 project"
     other: "%{count} projecten"
-  label_year: "Jaar"
   label_yesterday: "gisteren"
   auth_source:
     using_abstract_auth_source: "Kan geen abstracte authenticatiebron gebruiken."
@@ -1853,7 +1843,6 @@ nl:
   notice_successful_delete: "Verwijdering geslaagd."
   notice_successful_update: "Succesvolle wijziging."
   notice_to_many_principals_to_display: "Er zijn te veel resultaten. Beperk het zoekbereik door een naam in te geven van een nieuw lid (of groep)."
-  notice_unable_delete_time_entry: "Niet in staat om tijdlog te verwijderen."
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te kiezen of een andere manier om in te loggen te bepalen.
   notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
   present_access_key_value: "Uw %{key_name} is: %{value}"
@@ -1982,8 +1971,6 @@ nl:
   project_module_work_package_tracking: "Werkpakket bijhouden"
   project_module_news: "Nieuws"
   project_module_repository: "Repository"
-  project_module_time_tracking: "Tijdregistratie"
-  project_module_timelines: "Tijdlijnen"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

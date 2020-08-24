@@ -32,7 +32,7 @@ class CostQuery::GroupBy < Report::GroupBy
   def self.all
     @all ||= super + Set[
       CostQuery::GroupBy::ActivityId,
-      CostQuery::GroupBy::CostObjectId,
+      CostQuery::GroupBy::BudgetId,
       CostQuery::GroupBy::CostTypeId,
       CostQuery::GroupBy::VersionId,
       CostQuery::GroupBy::WorkPackageId,

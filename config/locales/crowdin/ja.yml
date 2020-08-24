@@ -176,8 +176,6 @@ ja:
       no_results_content_text: 新しいカスタム フィールドを作成
   concatenation:
     single: 'または'
-  deprecations:
-    time_entries: "この時間エントリビューは、「コストレポート」モジュールに置き換えられました。 現在、このビューは時間エントリ情報のcsvへのエクスポートのみをサポートしています。 インタラクティブフィルタリングを行うには、プロジェクト設定の「コストレポート」モジュールを有効にしてください。"
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -807,7 +805,6 @@ ja:
   button_generate: "生成"
   button_list: "リスト"
   button_lock: "ロック"
-  button_log_time: "時間を記録"
   button_login: "ログイン"
   button_move: "移動"
   button_move_and_follow: "移動後表示"
@@ -1013,8 +1010,6 @@ ja:
   description_compare_to: "比較："
   description_current_position: "現在の位置: "
   description_date_from: "開始日"
-  description_date_range_interval: "日付で指定"
-  description_date_range_list: "一覧から選択"
   description_date_to: "終了日"
   description_enter_number: "番号"
   description_enter_text: "テキスト"
@@ -1298,7 +1293,6 @@ ja:
   label_date_and_time: "日付と時刻"
   label_date_from: "日付指定: "
   label_date_from_to: "%{start} ～%{end}"
-  label_date_range: "期間"
   label_date_to: "から"
   label_day_plural: "日"
   label_default: "既定の項目"
@@ -1445,7 +1439,6 @@ ja:
   label_modified: "変更"
   label_module_plural: "モジュール"
   label_modules: "モジュール"
-  label_month: "月"
   label_months_from: "ヶ月分"
   label_more: "続き"
   label_more_than_ago: "今日より○日前以前"
@@ -1616,8 +1609,6 @@ ja:
   label_this_week: "今週"
   label_this_year: "今年"
   label_time_entry_plural: "作業時間の記録"
-  label_time_sheet_menu: "タイムシート"
-  label_time_tracking: "作業時間の記録"
   label_projects_menu: "プロジェクト"
   label_today: "今日"
   label_top_menu: "トップメニュー"
@@ -1713,7 +1704,6 @@ ja:
   label_x_projects:
     zero: "no projects"
     other: "%{count}件プロジェクト"
-  label_year: "年"
   label_yesterday: "昨日"
   auth_source:
     using_abstract_auth_source: "概要認証元を使用できません。"
@@ -1830,7 +1820,6 @@ ja:
   notice_successful_delete: "正常に削除しました。"
   notice_successful_update: "正常に更新しました。"
   notice_to_many_principals_to_display: "検索結果が多すぎです。新たにメンバー名（またはグループ名）を入力して検索を絞り込んでください。"
-  notice_unable_delete_time_entry: "作業時間記録を削除できません。"
   notice_user_missing_authentication_method: ユーザーは、サインインのパスワードまたは別の方法を選択する必要があります。
   notice_user_invitation_resent: '%{email} に招待状が送信されました。'
   present_access_key_value: "%{key_name} は: %{value}"
@@ -1958,8 +1947,6 @@ ja:
   project_module_work_package_tracking: "作業項目の追跡"
   project_module_news: "ニュース"
   project_module_repository: "リポジトリ"
-  project_module_time_tracking: "作業時間の記録"
-  project_module_timelines: "タイムライン"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

@@ -178,8 +178,6 @@ ar:
       no_results_content_text: إنشاء ملف زبون جديد
   concatenation:
     single: 'or'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -831,7 +829,6 @@ ar:
   button_generate: "أنتج"
   button_list: "القائمة"
   button_lock: "إغلاق"
-  button_log_time: "وقت السجل"
   button_login: "تسجيل الدخول"
   button_move: "نقل"
   button_move_and_follow: "نقل ومتابعة"
@@ -1097,8 +1094,6 @@ ar:
   description_compare_to: "مقارنة مع"
   description_current_position: "You are here: "
   description_date_from: "ادخل تاريخ البدء"
-  description_date_range_interval: "اختر النطاق عن طريق تحديد تاريخ البدء والانتهاء"
-  description_date_range_list: "اختر نطاقا من القائمة"
   description_date_to: "أدخل تاريخ الانتهاء"
   description_enter_number: "أدخل رقم"
   description_enter_text: "ادخل نصا"
@@ -1382,7 +1377,6 @@ ar:
   label_date_and_time: "Date and time"
   label_date_from: "من"
   label_date_from_to: "من %{start} إلى %{end}"
-  label_date_range: "النطاق الزمني"
   label_date_to: "إلى"
   label_day_plural: "أيام"
   label_default: "الافتراضي"
@@ -1529,7 +1523,6 @@ ar:
   label_modified: "تم التعديل"
   label_module_plural: "أنماط"
   label_modules: "أنماط"
-  label_month: "شهر"
   label_months_from: "أشهر من"
   label_more: "المزيد"
   label_more_than_ago: "منذ أكثر من أيام"
@@ -1700,8 +1693,6 @@ ar:
   label_this_week: "هذا الأسبوع"
   label_this_year: "هذه السنة"
   label_time_entry_plural: "الوقت المستهلك"
-  label_time_sheet_menu: "ساعات العمل"
-  label_time_tracking: "تعقب الوقت"
   label_projects_menu: "المشاريع"
   label_today: "اليوم"
   label_top_menu: "القائمة العليا"
@@ -1817,7 +1808,6 @@ ar:
     few: "%{count} projects"
     many: "%{count} projects"
     other: "%{count} projects"
-  label_year: "السنة"
   label_yesterday: "الأمس"
   auth_source:
     using_abstract_auth_source: "لا يمكن استخدام مصدر مصادقة الملخص."
@@ -1934,7 +1924,6 @@ ar:
   notice_successful_delete: "حذف ناجح."
   notice_successful_update: "تحديث ناجح."
   notice_to_many_principals_to_display: "هناك الكثير من النتائج. تضييق البحث عن طريق كتابة اسم العضو الجديد (أو المجموعة)."
-  notice_unable_delete_time_entry: "غير قادر على حذف إدخال سجل الوقت."
   notice_user_missing_authentication_method: على المستخدم اختيار كلمة مرور أو طريقة أخرى لتسجيل الدخول.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "%{key_name} الخاص بك: %{value}"
@@ -2067,8 +2056,6 @@ ar:
   project_module_work_package_tracking: "تتبع مجموعة العمل"
   project_module_news: "الأخبار"
   project_module_repository: "مستودع البيانات"
-  project_module_time_tracking: "تعقب الوقت"
-  project_module_timelines: "الخطوط الزمنية"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

@@ -178,8 +178,6 @@ fil:
       no_results_content_text: Gumawa ng bagong patlang na custom
   concatenation:
     single: 'or'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -815,7 +813,6 @@ fil:
   button_generate: "Bumuo"
   button_list: "Listahan"
   button_lock: "I-kandado"
-  button_log_time: "Ang oras ng tala"
   button_login: "Mag-sign in"
   button_move: "Ilipat"
   button_move_and_follow: "Ilipat at sundin"
@@ -1033,8 +1030,6 @@ fil:
   description_compare_to: "Ikinumpara sa"
   description_current_position: "You are here: "
   description_date_from: "Ipasok ang petsa ng pasisimula"
-  description_date_range_interval: "Pumili ng saklaw sa pamamagitan ng simula at katapusang petsa"
-  description_date_range_list: "Pumili ng saklaw mula sa listahan"
   description_date_to: "Ipasok ang katapusang petsa"
   description_enter_number: "Ipasok ang numero"
   description_enter_text: "Ipasok ang teksto"
@@ -1318,7 +1313,6 @@ fil:
   label_date_and_time: "Petsa at oras"
   label_date_from: "Mula sa"
   label_date_from_to: "Mula sa %{start} hanggang %{end}"
-  label_date_range: "Haba ng petsa"
   label_date_to: "Sa"
   label_day_plural: "mga araw"
   label_default: "Default"
@@ -1465,7 +1459,6 @@ fil:
   label_modified: "nabago"
   label_module_plural: "Mga modyul"
   label_modules: "Mga modyul"
-  label_month: "Buwan"
   label_months_from: "mga buwan mula sa"
   label_more: "Iba pa"
   label_more_than_ago: "mahigit sa araw nakalipas"
@@ -1636,8 +1629,6 @@ fil:
   label_this_week: "ngayong semana"
   label_this_year: "ngayong taon"
   label_time_entry_plural: "Nauubos na oras"
-  label_time_sheet_menu: "Time sheet"
-  label_time_tracking: "Time tracking"
   label_projects_menu: "Mga proyekto"
   label_today: "ngayon"
   label_top_menu: "Itaas na pagpipilian"
@@ -1737,7 +1728,6 @@ fil:
     zero: "no projects"
     one: "Isang proyekto"
     other: "%{count} mga proyekto"
-  label_year: "Taon"
   label_yesterday: "kahapon"
   auth_source:
     using_abstract_auth_source: "Hindi magamit ang isang abstrak na pagpapatunay ng pinagmulan."
@@ -1854,7 +1844,6 @@ fil:
   notice_successful_delete: "Matagumpay ang pagtanggal."
   notice_successful_update: "Matagumpay nai-update."
   notice_to_many_principals_to_display: "Mayroong maraming resulta.\nI-narrow down ang paghahanap sa pamamagitan ng pagtype ng pangalan ng bagong miyembro (o grupo)."
-  notice_unable_delete_time_entry: "Hindi mabura ang oras ng log entry."
   notice_user_missing_authentication_method: Ang user ay pipili pa ng password o iba pang paraan para maka pag-sign in.
   notice_user_invitation_resent: Isang imbitasyon ay ipinadala sa %{email}.
   present_access_key_value: "Ang iyong %{key_name} ay: %{value}"
@@ -1983,8 +1972,6 @@ fil:
   project_module_work_package_tracking: "Ang pagtra-track ng work package"
   project_module_news: "Mga balita"
   project_module_repository: "Repositoryo"
-  project_module_time_tracking: "Time tracking"
-  project_module_timelines: "Ang mga timeline"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

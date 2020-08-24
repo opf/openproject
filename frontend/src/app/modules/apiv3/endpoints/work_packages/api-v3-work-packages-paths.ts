@@ -107,8 +107,9 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    * Shortcut to filter work packages by subject or ID
    * @param term
    * @param idOnly
+   * @param additionalParams Additional set of params to the API
    */
-  public filterBySubjectOrId(term:string, idOnly:boolean = false):ApiV3WorkPackageCachedSubresource {
+  public filterBySubjectOrId(term:string, idOnly:boolean = false, additionalParams:{ [key:string]:string } = {}):ApiV3WorkPackageCachedSubresource {
     let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
     if (idOnly) {
@@ -120,7 +121,8 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
     let params = {
       sortBy: '[["updatedAt","desc"]]',
       offset: '1',
-      pageSize: '10'
+      pageSize: '10',
+      ...additionalParams
     };
 
     return this.filtered(filters, params);

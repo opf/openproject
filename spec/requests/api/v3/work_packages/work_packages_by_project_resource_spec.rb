@@ -219,7 +219,12 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
               value: priority1.name,
               count: 2,
               sums: {
-                estimatedTime: 'PT4H'
+                estimatedTime: 'PT4H',
+                laborCosts: "0.00 EUR",
+                materialCosts: "0.00 EUR",
+                overallCosts: "0.00 EUR",
+                remainingTime: nil,
+                storyPoints: nil
               }
             }
           end
@@ -237,7 +242,12 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
               value: priority2.name,
               count: 1,
               sums: {
-                estimatedTime: 'PT2H'
+                estimatedTime: 'PT2H',
+                laborCosts: "0.00 EUR",
+                materialCosts: "0.00 EUR",
+                overallCosts: "0.00 EUR",
+                remainingTime: nil,
+                storyPoints: nil
               }
             }
           end
@@ -265,7 +275,12 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
 
         it 'contains the sum element' do
           expected = {
-            estimatedTime: 'PT3H'
+            estimatedTime: 'PT3H',
+            laborCosts: "0.00 EUR",
+            materialCosts: "0.00 EUR",
+            overallCosts: "0.00 EUR",
+            remainingTime: nil,
+            storyPoints: nil
           }
 
           expect(subject.body).to be_json_eql(expected.to_json).at_path('totalSums')
