@@ -55,8 +55,10 @@ module WorkPackage::SchedulingRules
   #   B is 2017/07/25
   #   A is 2017/07/25
   def soonest_start
+    # eager load `to` to avoid n+1 on successor_soonest_start
     @soonest_start ||=
       ancestors_follows_relations
+        .includes(:to)
         .map(&:successor_soonest_start)
         .compact
         .max
