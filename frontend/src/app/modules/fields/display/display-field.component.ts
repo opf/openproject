@@ -38,9 +38,14 @@ export class DisplayFieldComponent implements OnInit {
     const field = this.getDisplayFieldInstance(fieldSchema);
 
     const container = this.container.nativeElement;
-    container.textContent = '-';
     container.hidden = false;
-    field.render(container, field.valueString);
+
+    // Default the field to a placeholder when rendering
+    if (field.isEmpty()) {
+      container.textContent = '-';
+    } else {
+      field.render(container, field.valueString);
+    }
   }
 
   private getDisplayFieldInstance(fieldSchema:IFieldSchema) {
