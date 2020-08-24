@@ -201,3 +201,16 @@ $scrollbar-size: 10px
 
 @mixin d_n_d--preview
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1)
+
+@mixin macro--text-style
+  @media screen
+    // Ensure width of contents is wrapped
+    display: inline-block
+    background: rgba(218,223,225,0.19)
+    border: 1px solid transparent
+    padding: 2px
+
+    &:hover
+      cursor: default
+      border-color: #c7c7c7
+      background: rgba(218,223,225,0.75)

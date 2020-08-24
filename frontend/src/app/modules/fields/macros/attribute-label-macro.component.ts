@@ -26,7 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++    Ng1FieldControlsWrapper,
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, ViewChild} from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Injector,
+  ViewChild
+} from "@angular/core";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {NEVER, Observable} from "rxjs";
@@ -47,6 +55,7 @@ export const attributeLabelMacro = 'macro.macro--attribute-label';
 @Component({
   selector: attributeLabelMacro,
   templateUrl: './attribute-label-macro.html',
+  styleUrls: ['./attribute-macro.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService
@@ -58,10 +67,13 @@ export class AttributeLabelMacroComponent {
   error:string|null = null;
 
   text = {
+    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
     invalid_attribute: (attr:string) =>
       this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
+
+  @HostBinding('title') hostTitle = this.text.help;
 
   // The loaded resource, required for help text
   resource:HalResource|null = null;

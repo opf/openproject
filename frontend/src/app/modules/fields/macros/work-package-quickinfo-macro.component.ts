@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++    Ng1FieldControlsWrapper,
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector} from "@angular/core";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
@@ -56,7 +56,10 @@ export class WorkPackageQuickinfoMacroComponent {
 
   text = {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
+    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip')
   };
+
+  @HostBinding('title') hostTitle = this.text.help;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;
