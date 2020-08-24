@@ -57,7 +57,8 @@ module WorkPackage::SchedulingRules
   def soonest_start
     # eager load `to` to avoid n+1 on successor_soonest_start
     @soonest_start ||=
-      ancestors_follows_relations
+      Relation
+        .follows_non_manual_ancestors(self)
         .includes(:to)
         .map(&:successor_soonest_start)
         .compact
@@ -77,23 +78,5 @@ module WorkPackage::SchedulingRules
     else
       1
     end
-  end
-
-  private
-
-  # Returns all follows relationships of ancestors or self unless
-  # the ancestor or a work package between the ancestor and self is manually scheduled.
-  def ancestors_follows_relations
-    manually_schedule_ancestors = ancestors.where(schedule_manually: true)
-    hierarchy_relations_from_manual_ancestors = Relation
-                                                .hierarchy_or_reflexive
-                                                .where(to_id: manually_schedule_ancestors.select(:id))
-    ancestor_relations_non_manual = Relation
-                                    .hierarchy_or_reflexive
-                                    .where(to_id: id)
-                                    .where.not(from_id: hierarchy_relations_from_manual_ancestors.select(:from_id))
-    Relation
-      .where(from_id: ancestor_relations_non_manual.select(:from_id))
-      .follows
   end
 end
