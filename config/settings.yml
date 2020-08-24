@@ -270,10 +270,6 @@ work_package_list_default_highlighting_mode:
 work_package_list_default_highlighted_attributes:
   serialized: true
   default: []
-work_package_list_summable_columns:
-  serialized: true
-  default:
-  - estimated_hours
 display_subprojects_work_packages:
   default: 1
 work_package_done_ratio:

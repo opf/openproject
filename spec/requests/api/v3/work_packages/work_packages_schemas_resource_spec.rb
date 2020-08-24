@@ -185,12 +185,6 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
     let(:schema_path) { api_v3_paths.work_package_sums_schema }
     subject { last_response }
 
-    before do
-      allow(Setting)
-        .to receive(:work_package_list_summable_columns)
-        .and_return(['estimated_hours'])
-    end
-
     context 'logged in' do
       before do
         allow(User).to receive(:current).and_return(current_user)

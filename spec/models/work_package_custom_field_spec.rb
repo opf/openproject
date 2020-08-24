@@ -30,41 +30,20 @@ require 'spec_helper'
 
 describe WorkPackageCustomField, type: :model do
   describe '.summable' do
-    let (:custom_field) do
-      FactoryBot.create(:work_package_custom_field,
-                        name: 'Database',
-                        field_format: 'list',
-                        possible_values: %w(MySQL PostgreSQL Oracle),
-                        is_required: true)
+    let!(:list_custom_field) do
+      FactoryBot.create(:list_wp_custom_field)
     end
-
-    before do
-      custom_field.save!
+    let!(:int_custom_field) do
+      FactoryBot.create(:int_wp_custom_field)
+    end
+    let!(:float_custom_field) do
+      FactoryBot.create(:float_wp_custom_field)
     end
 
     context 'with a summable field' do
-      before do
-        allow(Setting)
-          .to receive(:work_package_list_summable_columns)
-          .and_return(["cf_#{custom_field.id}"])
-      end
-
       it 'contains the custom_field' do
         expect(described_class.summable)
-          .to match_array [custom_field]
-      end
-    end
-
-    context 'without a summable field' do
-      before do
-        allow(Setting)
-          .to receive(:work_package_list_summable_columns)
-          .and_return(['blubs'])
-      end
-
-      it 'does not contain the custom_field' do
-        expect(described_class.summable)
-          .to be_empty
+          .to match_array [int_custom_field, float_custom_field]
       end
     end
   end

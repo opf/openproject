@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module ::Query::GroupBy
+module ::Query::Results::GroupBy
   # Returns the work package count by group or nil if query is not grouped
   def work_package_count_by_group
     @work_package_count_by_group ||= begin
@@ -177,7 +177,7 @@ module ::Query::GroupBy
   # Retrieve the defined order for the group by
   # IF it occurs in the sort criteria
   def order_for_group_by(column)
-    sort_entry = query.sort_criteria.detect { |column, _dir| column == query.group_by }
+    sort_entry = query.sort_criteria.detect { |c, _dir| c == query.group_by }
     order = sort_entry&.last || column.default_order
 
     "#{order} #{column.null_handling(order == 'asc')}"

@@ -72,12 +72,10 @@ See docs/COPYRIGHT.rdoc for more details.
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
     <%
        column_choices = Query.new.available_columns.map { |column|
-         choice = { caption: column.caption, value: column.name.to_s }
-         choice[:except] = :work_package_list_summable_columns unless column.summable?
-         choice
+         { caption: column.caption, value: column.name.to_s }
        }
     %>
-    <%= settings_matrix([:work_package_list_default_columns, :work_package_list_summable_columns],
+    <%= settings_matrix([:work_package_list_default_columns],
                         column_choices, label_choices: :setting_work_package_properties) %>
   </fieldset>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>

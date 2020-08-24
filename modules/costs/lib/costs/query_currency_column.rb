@@ -33,9 +33,6 @@ module Costs
 
     def initialize(name, options = {})
       super
-
-      @sum_function = options[:summable]
-      self.summable = @sum_function.respond_to?(:call)
     end
 
     def value(work_package)
@@ -54,40 +51,40 @@ module Costs
       super_value work_package
     end
 
-    def sum_of(work_packages)
-      @sum_function.call(work_packages)
-    end
-
     class_attribute :currency_columns
 
     self.currency_columns = {
       budget: {},
       material_costs: {
-        summable: ->(work_packages) {
-          WorkPackage::MaterialCosts
-            .new(user: User.current)
-            .costs_of(work_packages: work_packages)
+        summable: ->(query, grouped) {
+          scope = WorkPackage::MaterialCosts
+                  .new(user: User.current)
+                  .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
+                  .except(:order, :select)
+
+          Queries::WorkPackages::Columns::WorkPackageColumn
+            .scoped_column_sum(scope,
+                               "COALESCE(ROUND(SUM(cost_entries_sum), 2)::FLOAT, 0.0) material_costs",
+                               grouped && query.group_by_statement)
         }
       },
       labor_costs: {
-        summable: ->(work_packages) {
-          WorkPackage::LaborCosts
-            .new(user: User.current)
-            .costs_of(work_packages: work_packages)
+        summable: ->(query, grouped) {
+          scope = WorkPackage::LaborCosts
+                  .new(user: User.current)
+                  .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
+                  .except(:order, :select)
+
+          Queries::WorkPackages::Columns::WorkPackageColumn
+            .scoped_column_sum(scope,
+                               "COALESCE(ROUND(SUM(time_entries_sum), 2)::FLOAT, 0.0) labor_costs",
+                               grouped && query.group_by_statement)
         }
       },
       overall_costs: {
-        summable: ->(work_packages) {
-          labor_costs = WorkPackage::LaborCosts
-                        .new(user: User.current)
-                        .costs_of(work_packages: work_packages)
-
-          material_costs = WorkPackage::MaterialCosts
-                           .new(user: User.current)
-                           .costs_of(work_packages: work_packages)
-
-          labor_costs + material_costs
-        }
+        summable: true,
+        summable_select: "labor_costs + material_costs AS overall_costs",
+        summable_work_packages_select: false
       }
     }
 

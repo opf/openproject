@@ -266,6 +266,10 @@ class Query < ApplicationRecord
       .merge(column_sortability)
   end
 
+  def summed_up_columns
+    available_columns.select(&:summable?)
+  end
+
   def columns
     column_list = if has_default_columns?
                     column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
@@ -350,11 +354,7 @@ class Query < ApplicationRecord
   end
 
   def display_sums?
-    display_sums && any_summable_columns?
-  end
-
-  def any_summable_columns?
-    Setting.work_package_list_summable_columns.any?
+    display_sums
   end
 
   def group_by_column

@@ -50,13 +50,11 @@ class WorkPackageCustomField < CustomField
   }
 
   def self.summable
-    ids = Setting.work_package_list_summable_columns.map do |column_name|
-      if match = /cf_(\d+)/.match(column_name)
-        match[1]
-      end
-    end.compact
+    where(field_format: %w[int float])
+  end
 
-    where(id: ids)
+  def summable?
+    %w[int float].include?(field_format)
   end
 
   def type_name

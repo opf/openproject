@@ -54,10 +54,32 @@ module API
           schema :estimated_time,
                  type: 'Duration',
                  required: false,
-                 writable: false,
-                 show_if: ->(*) {
-                   ::Setting.work_package_list_summable_columns.include?('estimated_hours')
-                 }
+                 writable: false
+
+          schema :story_points,
+                 type: 'Integer',
+                 required: false
+
+          schema :remaining_time,
+                 type: 'Duration',
+                 name_source: :remaining_hours,
+                 required: false,
+                 writable: false
+
+          schema :overall_costs,
+                 type: 'String',
+                 required: false,
+                 writable: false
+
+          schema :labor_costs,
+                 type: 'String',
+                 required: false,
+                 writable: false
+
+          schema :material_costs,
+                 type: 'String',
+                 required: false,
+                 writable: false
         end
       end
     end
