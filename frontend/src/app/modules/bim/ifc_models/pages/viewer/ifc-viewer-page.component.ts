@@ -135,8 +135,6 @@ export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDes
       const toState = transition.to();
 
       this.setPartition(toState);
-      // Update title on entering this state
-      this.updateTitle(this.querySpaceService.query.query.value);
       // Keep the new route up to date depending on where we move to
       this.newRoute$.next(this.uIRouterGlobals.current.data.newRoute);
     });
