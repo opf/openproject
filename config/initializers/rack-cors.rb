@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,17 +26,13 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-
-require_relative 'cache/cache_key'
-
-module OpenProject
-  module Cache
-    def self.fetch(*parts, &block)
-      Rails.cache.fetch(CacheKey.key(*parts), &block)
-    end
-
-    def self.clear
-      Rails.cache.clear
-    end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins { |source, env| ::API::V3::CORS.allowed?(source) }
+    resource '/api/v3*',
+             headers: :any,
+             methods: :any,
+             credentials: true,
+             if: proc { ::API::V3::CORS.enabled? }
   end
 end

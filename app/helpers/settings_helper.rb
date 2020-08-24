@@ -51,6 +51,11 @@ module SettingsHelper
         label: :label_project_plural
       },
       {
+        name: 'api',
+        action: { controller: '/settings/api', action: 'show' },
+        label: :label_api_access_key_type
+      },
+      {
         name: 'repositories',
         action: { controller: '/settings/repositories', action: 'show' },
         label: :label_repository_plural
@@ -116,7 +121,13 @@ module SettingsHelper
   def setting_text_area(setting, options = {})
     setting_label(setting, options) +
       wrap_field_outer(options) do
-        styled_text_area_tag("settings[#{setting}]", Setting.send(setting), options)
+        value = Setting.send(setting)
+
+        if value.is_a?(Array)
+          value = value.join("\n")
+        end
+
+        styled_text_area_tag("settings[#{setting}]", value, options)
       end
   end
 

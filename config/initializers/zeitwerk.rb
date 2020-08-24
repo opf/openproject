@@ -55,6 +55,7 @@ OpenProject::Inflector.inflection(
   'scm' => 'SCM',
   'imap' => 'IMAP',
   'pop3' => 'POP3',
+  'cors' => 'CORS',
   'openid_connect' => 'OpenIDConnect',
   'pdf_export' => 'PDFExport'
 )

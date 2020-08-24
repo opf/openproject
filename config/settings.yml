@@ -365,3 +365,9 @@ installation_uuid:
 oauth_allow_remapping_of_existing_users:
   default: false
   format: boolean
+apiv3_cors_enabled:
+  default: false
+  format: boolean
+apiv3_cors_origins:
+  serialized: true
+  default: []

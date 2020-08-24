@@ -100,6 +100,15 @@ On the other hand using **API keys** has some advantages too, which is why we we
 Most importantly users may not actually have a password to begin with. Specifically when they have registered
 through an OpenID Connect provider.
 
+# Cross-Origin Resource Sharing (CORS)
+
+By default, the OpenProject API is _not_ responding with any CORS headers.
+If you want to allow cross-domain AJAX calls against your OpenProject instance, you need to enable CORS headers being returned.
+
+Please see [our API settings documentation](https://docs.openproject.org/system-admin-guide/system-settings/api-settings/) on
+how to selectively enable CORS.
+
+
 # Allowed HTTP methods
 
 - `GET` - Get a single resource or collection of resources

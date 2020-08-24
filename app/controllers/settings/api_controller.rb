@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,16 +27,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'cache/cache_key'
+class Settings::ApiController < SettingsController
+  include AdminSettingsUpdater
 
-module OpenProject
-  module Cache
-    def self.fetch(*parts, &block)
-      Rails.cache.fetch(CacheKey.key(*parts), &block)
-    end
+  menu_item :settings_api
 
-    def self.clear
-      Rails.cache.clear
+  def show
+    render template: 'settings/_api'
+  end
+
+  def default_breadcrumb
+    t(:label_api_access_key_type)
+  end
+
+  def settings_params
+    super.tap do |settings|
+      settings["apiv3_cors_origins"] = settings["apiv3_cors_origins"].split(/\r?\n/)
     end
   end
 end

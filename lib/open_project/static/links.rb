@@ -184,6 +184,9 @@ module OpenProject
             ldap_encryption_documentation: {
               href: 'https://www.rubydoc.info/gems/net-ldap/Net/LDAP#constructor_details',
             },
+            origin_mdn_documentation: {
+              href: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin'
+            },
             security_badge_documentation: {
               href: 'https://docs.openproject.org/system-admin-guide/information/#security-badge'
             },
