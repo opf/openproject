@@ -50,7 +50,6 @@ module WorkPackages
         query.tap do |q|
           q.attributes = query_attributes
           q.filters = filters
-          q.set_context
         end
       end
 
