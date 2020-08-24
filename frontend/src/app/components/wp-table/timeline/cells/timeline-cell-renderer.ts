@@ -422,14 +422,14 @@ export class TimelineCellRenderer {
 
     // Display the children's duration clamp
     if (wp.derivedStartDate && wp.derivedDueDate) {
-      let derivedStartDate = moment(wp.derivedStartDate);
-      let derivedDueDate = moment(wp.derivedDueDate);
-      let startDate = moment(renderInfo.change.projectedResource.startDate);
-      let dueDate = moment(renderInfo.change.projectedResource.dueDate);
-      let previousChildrenDurationBar = row.querySelector('.children-duration-bar');
+      const derivedStartDate = moment(wp.derivedStartDate);
+      const derivedDueDate = moment(wp.derivedDueDate);
+      const startDate = moment(renderInfo.change.projectedResource.startDate);
+      const dueDate = moment(renderInfo.change.projectedResource.dueDate);
+      const previousChildrenDurationBar = row.querySelector('.children-duration-bar');
       const childrenDurationBar = document.createElement('div');
       const childrenDurationHoverContainer = document.createElement('div');
-      const visibleChildren = this.numberOfVisibleChildren(wp);
+      const visibleChildren = document.querySelector('wp-timeline-container')?.querySelectorAll(`.__hierarchy-group-${wp.id}`).length || 0;
 
       childrenDurationBar.classList.add('children-duration-bar', '-clamp-style');
       childrenDurationBar.title = this.text.label_children_derived_duration;
@@ -516,16 +516,5 @@ export class TimelineCellRenderer {
     }
 
     return false;
-  }
-
-  protected numberOfVisibleChildren(wp:WorkPackageResource):number {
-    let children = 0;
-    const renderPass = this.workPackageTimeline.workPackageTable.lastRenderPass as HierarchyRenderPass|null;
-
-    if (renderPass) {
-      children = wp.children.filter(child => renderPass.rendered[child.id!]).length;
-    }
-
-    return children;
   }
 }
