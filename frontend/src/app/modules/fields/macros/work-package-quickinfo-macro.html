@@ -1,0 +1,38 @@
+<ng-container *ngIf="(workPackage$ | async) as workPackage">
+  <display-field *ngIf="detailed"
+                 [resource]="workPackage"
+                 [displayFieldOptions]="{ writable: false }"
+                 fieldName="status">
+  </display-field>
+  <display-field [resource]="workPackage"
+                 [displayFieldOptions]="{ writable: false }"
+                 fieldName="type">
+  </display-field>
+  <a class="work-package--quickinfo preview-trigger"
+     [href]="workPackageLink"
+     [attr.data-work-package-id]="workPackage.id">
+    #{{workPackage.id}}:
+  </a>
+  <display-field [resource]="workPackage"
+                 [displayFieldOptions]="{ writable: false }"
+                 fieldName="subject">
+  </display-field>
+  <ng-container *ngIf="detailed">
+    (<display-field *ngIf="!!workPackage.date"
+                   [resource]="workPackage"
+                   [displayFieldOptions]="{ writable: false }"
+                   fieldName="date">
+    </display-field>
+    <display-field *ngIf="!workPackage.date"
+                   [resource]="workPackage"
+                   [displayFieldOptions]="{ writable: false }"
+                   [displayClass]="dateDisplayField"
+                   fieldName="startDate">
+    </display-field>)
+  </ng-container>
+</ng-container>
+<span *ngIf="error">
+  <i class="icon icon-error"></i>
+  <em [textContent]="error"></em>
+</span>
+

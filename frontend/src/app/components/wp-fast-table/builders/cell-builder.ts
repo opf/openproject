@@ -1,8 +1,9 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {
+  displayClassName,
   DisplayFieldRenderer,
   editFieldContainerClass
-} from '../../wp-edit-form/display-field-renderer';
+} from "core-app/modules/fields/display/display-field-renderer";
 import {Injector} from '@angular/core';
 import {QueryColumn} from "core-components/wp-query/query-column";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
