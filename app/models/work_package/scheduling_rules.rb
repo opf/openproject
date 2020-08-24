@@ -86,11 +86,23 @@ module WorkPackage::SchedulingRules
 
   private
 
+  # Returns all follows relationships of ancestors unless
+  # the ancestor or a work package between the ancestor and self is manually scheduled.
   def ancestors_follows_relations
-    Relation.where(from_id: self.ancestors_relations.select(:from_id)).follows
+    manually_schedule_ancestors = ancestors.where(schedule_manually: true)
+    hierarchy_relations_from_manual_ancestors = Relation
+                                                .hierarchy_or_reflexive
+                                                .where(to_id: manually_schedule_ancestors.select(:id))
+    ancestor_relations_non_manual = ancestors_relations
+                                    .where.not(from_id: hierarchy_relations_from_manual_ancestors.select(:from_id))
+    Relation
+      .where(from_id: ancestor_relations_non_manual.select(:from_id))
+      .follows
   end
 
   def own_follows_relations
-    Relation.where(from_id: self.id).follows
+    Relation
+      .where(from_id: id)
+      .follows
   end
 end
