@@ -429,7 +429,7 @@ export class TimelineCellRenderer {
       const previousChildrenDurationBar = row.querySelector('.children-duration-bar');
       const childrenDurationBar = document.createElement('div');
       const childrenDurationHoverContainer = document.createElement('div');
-      const visibleChildren = document.querySelector('wp-timeline-container')?.querySelectorAll(`.__hierarchy-group-${wp.id}`).length || 0;
+      const visibleChildren = document.querySelectorAll(`.wp-timeline-cell.__hierarchy-group-${wp.id}:not([class*='__collapsed-group'])`).length || 0;
 
       childrenDurationBar.classList.add('children-duration-bar', '-clamp-style');
       childrenDurationBar.title = this.text.label_children_derived_duration;
