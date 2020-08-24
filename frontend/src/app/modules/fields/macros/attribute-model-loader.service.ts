@@ -124,7 +124,7 @@ export class AttributeModelLoaderService {
     }
 
     // Return global reference to the subject
-    if (_.isNumber(id)) {
+    if (/^[1-9]\d*$/.test(id)) {
       return this
         .apiV3Service
         .work_packages
