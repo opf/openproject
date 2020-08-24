@@ -55,18 +55,11 @@ module WorkPackage::SchedulingRules
   #   B is 2017/07/25
   #   A is 2017/07/25
   def soonest_start
-    # Using a hand crafted union here instead of the alternative
-    # Relation.from_work_package_or_ancestors(self).follows
-    # as the performance of the above would be several orders of magnitude worse on MySql
-    sql = Relation.connection.unprepared_statement do
-      "((#{ancestors_follows_relations.to_sql}) UNION (#{own_follows_relations.to_sql})) AS relations"
-    end
-
     @soonest_start ||=
-      Relation.from(sql)
-              .map(&:successor_soonest_start)
-              .compact
-              .max
+      ancestors_follows_relations
+        .map(&:successor_soonest_start)
+        .compact
+        .max
   end
 
   # Returns the time scheduled for this work package.
@@ -86,23 +79,19 @@ module WorkPackage::SchedulingRules
 
   private
 
-  # Returns all follows relationships of ancestors unless
+  # Returns all follows relationships of ancestors or self unless
   # the ancestor or a work package between the ancestor and self is manually scheduled.
   def ancestors_follows_relations
     manually_schedule_ancestors = ancestors.where(schedule_manually: true)
     hierarchy_relations_from_manual_ancestors = Relation
                                                 .hierarchy_or_reflexive
                                                 .where(to_id: manually_schedule_ancestors.select(:id))
-    ancestor_relations_non_manual = ancestors_relations
+    ancestor_relations_non_manual = Relation
+                                    .hierarchy_or_reflexive
+                                    .where(to_id: id)
                                     .where.not(from_id: hierarchy_relations_from_manual_ancestors.select(:from_id))
     Relation
       .where(from_id: ancestor_relations_non_manual.select(:from_id))
-      .follows
-  end
-
-  def own_follows_relations
-    Relation
-      .where(from_id: id)
       .follows
   end
 end
