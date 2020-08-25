@@ -45,4 +45,20 @@ describe Queries::Users::Filters::StatusFilter, type: :model do
       end
     end
   end
+
+  describe '#scope' do
+    include_context 'filter tests'
+    let(:values) { %w[active invited] }
+    let(:model) { User }
+
+    context 'for "="' do
+      let(:operator) { '=' }
+
+      it 'is the same as handwriting the query' do
+        expected = model.where("users.status IN (1,4)")
+
+        expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+  end
 end
