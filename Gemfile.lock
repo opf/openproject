@@ -418,9 +418,9 @@ GEM
     danger-plugin-api (1.0.0)
       danger (> 2.0)
     database_cleaner (1.8.5)
-    date_validator (0.9.0)
-      activemodel
-      activesupport
+    date_validator (0.10.0)
+      activemodel (>= 3)
+      activesupport (>= 3)
     debug_inspector (0.0.3)
     deckar01-task_list (2.3.1)
       html-pipeline
@@ -1013,7 +1013,7 @@ DEPENDENCIES
   danger-brakeman
   dashboards!
   database_cleaner (~> 1.8)
-  date_validator (~> 0.9.0)
+  date_validator (~> 0.10.0)
   deckar01-task_list (~> 2.3.1)
   delayed_cron_job (~> 0.7.2)
   delayed_job_active_record (~> 4.1.4)

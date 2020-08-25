@@ -95,7 +95,7 @@ gem 'semantic', '~> 1.6.1'
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.2.0'
 
-gem 'date_validator', '~> 0.9.0'
+gem 'date_validator', '~> 0.10.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
