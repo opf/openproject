@@ -314,7 +314,7 @@ GEM
     aws-sigv4 (1.1.1)
       aws-eventstream (~> 1.0, >= 1.0.2)
     backports (3.11.4)
-    bcrypt (3.1.13)
+    bcrypt (3.1.15)
     bigdecimal (2.0.0)
     bindata (2.4.8)
     binding_of_caller (0.8.0)
