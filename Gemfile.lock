@@ -709,7 +709,7 @@ GEM
     pry-stack_explorer (0.5.1)
       binding_of_caller (~> 0.7)
       pry (~> 0.13)
-    public_suffix (4.0.3)
+    public_suffix (4.0.5)
     puffing-billy (2.3.1)
       addressable (~> 2.5)
       em-http-request (~> 1.1, >= 1.1.0)
@@ -952,7 +952,7 @@ GEM
     validate_email (0.1.6)
       activemodel (>= 3.0)
       mail (>= 2.2.5)
-    validate_url (1.0.8)
+    validate_url (1.0.11)
       activemodel (>= 3.0.0)
       public_suffix
     warden (1.2.8)
