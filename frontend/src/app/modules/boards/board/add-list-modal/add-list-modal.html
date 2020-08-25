@@ -24,7 +24,7 @@
         <div class="form--field">
           <div class="form--field-container">
             <div class="form--select-container">
-              <label class="form--label" [textContent]="actionService.localizedName"></label>
+              <label class="form--label" [textContent]="actionService.label"></label>
               <ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
                            [ndcDynamicInputs]="{ availableValues: availableValues,
                                                  typeahead: requests.input$,
