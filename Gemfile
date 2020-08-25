@@ -191,7 +191,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.11.0'
+  gem 'test-prof', '~> 0.12.0'
 
   gem 'cucumber', '~> 3.1.0'
   gem 'cucumber-rails', '~> 1.8.0', require: false
