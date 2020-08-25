@@ -62,15 +62,30 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   def set_default_attributes(*)
     return unless work_package.new_record?
 
-    work_package.priority ||= IssuePriority.active.default
-    work_package.author ||= user
-    work_package.status ||= Status.default
-
-    work_package.start_date ||= Date.today if Setting.work_package_startdate_is_adddate?
+    set_default_priority
+    set_default_author
+    set_default_status
+    set_default_dates
   end
 
   def non_or_default_description?
     work_package.description.blank? || false
+  end
+
+  def set_default_author
+    work_package.author ||= user
+  end
+
+  def set_default_status
+    work_package.status ||= Status.default
+  end
+
+  def set_default_priority
+    work_package.priority ||= IssuePriority.active.default
+  end
+
+  def set_default_dates
+    work_package.start_date ||= Date.today if Setting.work_package_startdate_is_adddate?
   end
 
   def set_templated_description
