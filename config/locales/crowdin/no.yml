@@ -2146,7 +2146,6 @@
   setting_work_package_done_ratio_status: "Bruk arbeidspakkestatus"
   setting_work_package_done_ratio_disabled: "Deaktiver (skjul forløp)"
   setting_work_package_list_default_columns: "Vis som standard"
-  setting_work_package_list_summable_columns: "Summerbar"
   setting_work_package_properties: "Egenskaper for arbeidspakke"
   setting_work_package_startdate_is_adddate: "Bruk gjeldende dato som startdato for nye arbeidspakker"
   setting_work_packages_export_limit: "Eksportgrense for arbeidspakker"

@@ -2184,7 +2184,6 @@ ru:
   setting_work_package_done_ratio_status: "Использовать статус пакета работ"
   setting_work_package_done_ratio_disabled: "Отключить (скрыть прогресс)"
   setting_work_package_list_default_columns: "Отображать по умолчанию"
-  setting_work_package_list_summable_columns: "Суммируемое"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_export_limit: "Лимит экспорта пакета работ"

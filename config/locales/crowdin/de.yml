@@ -2141,7 +2141,6 @@ de:
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"
   setting_work_package_done_ratio_disabled: "Deaktivieren (Fortschritt verstecken)"
   setting_work_package_list_default_columns: "Standardmäßig anzeigen"
-  setting_work_package_list_summable_columns: "Summierbar"
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_export_limit: "Max. Anzahl Arbeitspakete bei CSV/PDF-Export"

@@ -2143,7 +2143,6 @@ pt:
   setting_work_package_done_ratio_status: "Usar situação do pacote de trabalho"
   setting_work_package_done_ratio_disabled: "Desabilitar (ocultar o progresso)"
   setting_work_package_list_default_columns: "Exibir por padrão"
-  setting_work_package_list_summable_columns: "Somável"
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
   setting_work_packages_export_limit: "Limite para exportação de pacotes de trabalho"

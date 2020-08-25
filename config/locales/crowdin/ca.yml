@@ -2144,7 +2144,6 @@ ca:
   setting_work_package_done_ratio_status: "Utilitzar l'estat de paquet de treball"
   setting_work_package_done_ratio_disabled: "Deshabilitar (amagar el progrés)"
   setting_work_package_list_default_columns: "Mostrar per defecte"
-  setting_work_package_list_summable_columns: "Sumable"
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
   setting_work_packages_export_limit: "Límit d'exportació de paquets de treball"

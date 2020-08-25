@@ -2144,7 +2144,6 @@ da:
   setting_work_package_done_ratio_status: "Brug arbejdspakkens status"
   setting_work_package_done_ratio_disabled: "Deaktiver (skjul fremgang)"
   setting_work_package_list_default_columns: "Vis efter forhåndsopsætning"
-  setting_work_package_list_summable_columns: "Sammentælling mulig"
   setting_work_package_properties: "Egenskaber for arbejdspakke"
   setting_work_package_startdate_is_adddate: "Brug dags dato som start for nye arbejdspakker"
   setting_work_packages_export_limit: "Begrænsning for eksport af arbejdspakker"

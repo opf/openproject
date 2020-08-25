@@ -2142,7 +2142,6 @@ el:
   setting_work_package_done_ratio_status: "Χρήση της κατάστασης πακέτου εργασίας"
   setting_work_package_done_ratio_disabled: "Απενεργοποίηση (απόκρυψη της διαδικασίας)"
   setting_work_package_list_default_columns: "Εμφάνιση από προεπιλογή"
-  setting_work_package_list_summable_columns: "Αθροίσιμο"
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
   setting_work_packages_export_limit: "Όριο εξαγωγών πακέτων εργασίας"

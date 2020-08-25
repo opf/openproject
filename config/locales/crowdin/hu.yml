@@ -2142,7 +2142,6 @@ hu:
   setting_work_package_done_ratio_status: "Használja a feladatcsoport állapotát"
   setting_work_package_done_ratio_disabled: "Letiltja (elrejti a haladást)"
   setting_work_package_list_default_columns: "Alapértelmezés megjelenítése"
-  setting_work_package_list_summable_columns: "Összegzés"
   setting_work_package_properties: "feladatcsoport tulajdonságok"
   setting_work_package_startdate_is_adddate: "Az aktuális dátum használata, mint kezdő dátuma az új feladatcsoportoknak"
   setting_work_packages_export_limit: "A feladatcsoportok exportjának a korlátozása"

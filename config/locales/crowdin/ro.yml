@@ -2166,7 +2166,6 @@ ro:
   setting_work_package_done_ratio_status: "Utilizare stare pachet de lucru"
   setting_work_package_done_ratio_disabled: "Dezactivat (ascunde progresul)"
   setting_work_package_list_default_columns: "Afișate implicit"
-  setting_work_package_list_summable_columns: "Permite total"
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
   setting_work_packages_export_limit: "Limita de export pentru pachetele de lucru"

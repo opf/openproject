@@ -2181,7 +2181,6 @@ lt:
   setting_work_package_done_ratio_status: "Naudoti darbų paketo būseną"
   setting_work_package_done_ratio_disabled: "Išjungti (slėpti progresą)"
   setting_work_package_list_default_columns: "Pagal nutylėjimą rodyti"
-  setting_work_package_list_summable_columns: "Galimas sumuoti"
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_export_limit: "Darbų paketų eksportavimo limitas"

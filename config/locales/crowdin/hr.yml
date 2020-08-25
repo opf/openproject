@@ -2167,7 +2167,6 @@ hr:
   setting_work_package_done_ratio_status: "Koristi status radnog paketa"
   setting_work_package_done_ratio_disabled: "Onemogući (sakrij omjer učinjenoga)"
   setting_work_package_list_default_columns: "Zadani prikaz"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Postavke radnih paketa"
   setting_work_package_startdate_is_adddate: "Koristite današanji datum kao početni datum novih radnih paketa"
   setting_work_packages_export_limit: "Limit izvoza radnih paketa"

@@ -2185,7 +2185,6 @@ sl:
   setting_work_package_done_ratio_status: "Uporabite stanje delovnega paketa"
   setting_work_package_done_ratio_disabled: "Onemogoči (skrij napredek)"
   setting_work_package_list_default_columns: "Privzet prikaz"
-  setting_work_package_list_summable_columns: "Povzetek"
   setting_work_package_properties: "Lastnosti delovnega paketa"
   setting_work_package_startdate_is_adddate: "52/5000\nUporabite trenutni datum kot datum začetka za nove delovne pakete"
   setting_work_packages_export_limit: "Omejitev izvoza delovnih paketov"

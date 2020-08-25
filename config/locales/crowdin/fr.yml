@@ -2145,7 +2145,6 @@ fr:
   setting_work_package_done_ratio_status: "Utiliser le statut des Lots de Travaux"
   setting_work_package_done_ratio_disabled: "Désactiver (cacher l'avancement)"
   setting_work_package_list_default_columns: "Afficher par défaut"
-  setting_work_package_list_summable_columns: "Additionnable"
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
   setting_work_packages_export_limit: "Nombre limite de lots de travaux exportés"

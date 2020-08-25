@@ -2146,7 +2146,6 @@ tr:
   setting_work_package_done_ratio_status: "İş paketi durumunu kullan"
   setting_work_package_done_ratio_disabled: "Kapalı (ilerlemeyi gizle)"
   setting_work_package_list_default_columns: "Varsayılan olarak göster"
-  setting_work_package_list_summable_columns: "Toplanabirliği"
   setting_work_package_properties: "İş paketi özellikleri"
   setting_work_package_startdate_is_adddate: "Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan"
   setting_work_packages_export_limit: "İş paketi dışarı aktarma sınırı"

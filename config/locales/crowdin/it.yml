@@ -2142,7 +2142,6 @@ it:
   setting_work_package_done_ratio_status: "Usa lo stato della macro-attività"
   setting_work_package_done_ratio_disabled: "Disabilita (nascondi l'avanzamento)"
   setting_work_package_list_default_columns: "Visualizza come impostazione predefinita"
-  setting_work_package_list_summable_columns: "Sommabile"
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_export_limit: "Limite di esportazione delle macro-attività"

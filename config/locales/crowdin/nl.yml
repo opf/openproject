@@ -2145,7 +2145,6 @@ nl:
   setting_work_package_done_ratio_status: "Gebruik de werkpakket status"
   setting_work_package_done_ratio_disabled: "Uitschakelen (verbergen de vooruitgang)"
   setting_work_package_list_default_columns: "Standaard worden weergegeven"
-  setting_work_package_list_summable_columns: "Optelbaar"
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
   setting_work_packages_export_limit: "Werkpakketten export limiet"

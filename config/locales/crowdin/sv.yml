@@ -2143,7 +2143,6 @@ sv:
   setting_work_package_done_ratio_status: "Använd fältet arbetspaketsstatus"
   setting_work_package_done_ratio_disabled: "Inaktivera (dölj andel klart)"
   setting_work_package_list_default_columns: "Visa som standard"
-  setting_work_package_list_summable_columns: "Kan summeras"
   setting_work_package_properties: "Egenskaper för arbetspaket"
   setting_work_package_startdate_is_adddate: "Använda aktuellt datum som startdatum för nya arbetspaket"
   setting_work_packages_export_limit: "Gräns för export av arbetspaket"

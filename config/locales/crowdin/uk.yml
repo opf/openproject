@@ -2188,7 +2188,6 @@ uk:
   setting_work_package_done_ratio_status: "Використовуйте поле робочого пакету"
   setting_work_package_done_ratio_disabled: "Вимкнути (приховати прогрес)"
   setting_work_package_list_default_columns: "Дисплей за замовчуванням"
-  setting_work_package_list_summable_columns: "Підсумковий"
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
   setting_work_packages_export_limit: "Ліміт експорту робочих пакетів"

@@ -2146,7 +2146,6 @@ fi:
   setting_work_package_done_ratio_status: "Käytä tehtävän tilaa"
   setting_work_package_done_ratio_disabled: "Ei käytössä (piilota valmiusaste)"
   setting_work_package_list_default_columns: "Oletuksena näkyvissä"
-  setting_work_package_list_summable_columns: "Yhteenlaskettavissa"
   setting_work_package_properties: "Tehtävän ominaisuudet"
   setting_work_package_startdate_is_adddate: "Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä"
   setting_work_packages_export_limit: "Tehtävien viennin enimmäismäärä"

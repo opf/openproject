@@ -2122,7 +2122,6 @@ ko:
   setting_work_package_done_ratio_status: "작업 패키지 상태 사용"
   setting_work_package_done_ratio_disabled: "사용 안 함(진행률 숨기기)"
   setting_work_package_list_default_columns: "기본적으로 사용 안 함"
-  setting_work_package_list_summable_columns: "합계 계산 가능"
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_export_limit: "작업 패키지 내보내기 제한"

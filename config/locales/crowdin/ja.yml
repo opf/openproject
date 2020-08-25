@@ -2121,7 +2121,6 @@ ja:
   setting_work_package_done_ratio_status: "作業項目のステータスを使用する"
   setting_work_package_done_ratio_disabled: "無効にする（進行状況が非表示）"
   setting_work_package_list_default_columns: "デフォルトで表示する"
-  setting_work_package_list_summable_columns: "集計可能"
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しい作業項目の開始日とする"
   setting_work_packages_export_limit: "エクスポートする項目数の上限"

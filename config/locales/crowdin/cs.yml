@@ -2187,7 +2187,6 @@ cs:
   setting_work_package_done_ratio_status: "Použít stav pracovního balíčku"
   setting_work_package_done_ratio_disabled: "Zakázat (Skrýt průběh)"
   setting_work_package_list_default_columns: "Zobrazit ve výchozím nastavení"
-  setting_work_package_list_summable_columns: "Souhrnné"
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
   setting_work_packages_export_limit: "Limit exportu pracovních balíčků"

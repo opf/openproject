@@ -2124,7 +2124,6 @@ zh-TW:
   setting_work_package_done_ratio_status: "使用工作項目狀態"
   setting_work_package_done_ratio_disabled: "禁用 （隱藏進度）"
   setting_work_package_list_default_columns: "預設顯示"
-  setting_work_package_list_summable_columns: "可加總"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_export_limit: "工作項目匯出數量限制"

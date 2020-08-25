@@ -2187,7 +2187,6 @@ sk:
   setting_work_package_done_ratio_status: "Použite stav pracovného balíčka"
   setting_work_package_done_ratio_disabled: "Vypnúť (Skryť priebeh)"
   setting_work_package_list_default_columns: "Predvolené zobrazenie"
-  setting_work_package_list_summable_columns: "Sčítateľné"
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
   setting_work_packages_export_limit: "Limit exportu pracovných balíčkov"

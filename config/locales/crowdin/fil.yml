@@ -2144,7 +2144,6 @@ fil:
   setting_work_package_done_ratio_status: "Gamitin ang estado ng work package"
   setting_work_package_done_ratio_disabled: "Hindi pinaga (itago ang proseso)"
   setting_work_package_list_default_columns: "Ipakiita sa pamamagitan ng default"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
   setting_work_packages_export_limit: "Limitasyon ng pag-export ng work package"

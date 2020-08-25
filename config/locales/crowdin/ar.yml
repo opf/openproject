@@ -2228,7 +2228,6 @@ ar:
   setting_work_package_done_ratio_status: "استخدم حالة مجموعة العمل"
   setting_work_package_done_ratio_disabled: "تعطيل (إخفاء التقدم)"
   setting_work_package_list_default_columns: "عرض بشكل افتراضي"
-  setting_work_package_list_summable_columns: "يمكن جمعه"
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
   setting_work_packages_export_limit: "حد تصدير مجموعات العمل"

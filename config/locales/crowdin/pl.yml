@@ -2181,7 +2181,6 @@ pl:
   setting_work_package_done_ratio_status: "Użyj statusu pakietu roboczego"
   setting_work_package_done_ratio_disabled: "Wyłącz (Ukryj postęp)"
   setting_work_package_list_default_columns: "Wyświetlane domyślnie"
-  setting_work_package_list_summable_columns: "Sumowanie"
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
   setting_work_packages_export_limit: "Limit eksportowanych pakietów roboczych"
