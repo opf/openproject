@@ -290,7 +290,7 @@ GEM
       rbtree3 (~> 0.5)
     ast (2.4.1)
     attr_required (1.0.1)
-    auto_strip_attributes (2.5.0)
+    auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
     awesome_nested_set (3.2.1)
       activerecord (>= 4.0.0, < 7.0)
