@@ -282,7 +282,7 @@ GEM
       activerecord (>= 3.0.0)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    aes_key_wrap (1.0.1)
+    aes_key_wrap (1.1.0)
     afm (0.2.2)
     airbrake (9.4.3)
       airbrake-ruby (~> 4.6)
@@ -316,7 +316,7 @@ GEM
     backports (3.11.4)
     bcrypt (3.1.13)
     bigdecimal (2.0.0)
-    bindata (2.4.6)
+    bindata (2.4.8)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
     bootsnap (1.4.8)
@@ -567,7 +567,7 @@ GEM
     iso8601 (0.13.0)
     jmespath (1.4.0)
     json (2.3.1)
-    json-jwt (1.11.0)
+    json-jwt (1.13.0)
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
