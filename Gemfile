@@ -50,7 +50,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 gem 'will_paginate', '~> 3.3.0'
 
-gem 'friendly_id', '~> 5.3.0'
+gem 'friendly_id', '~> 5.4.0'
 
 gem 'acts_as_list', '~> 0.9.9'
 gem 'acts_as_tree', '~> 2.9.0'
@@ -106,7 +106,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
-gem 'multi_json', '~> 1.14.1'
+gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
@@ -231,7 +231,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 3.1', require: nil
 
-  gem 'parallel_tests', '~> 2.31'
+  gem 'parallel_tests', '~> 3.1'
 end
 
 group :ldap do
@@ -268,10 +268,10 @@ group :development, :test do
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
-  gem 'pry-byebug', '~> 3.8.0', platforms: [:mri]
+  gem 'pry-byebug', '~> 3.9.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
-  gem 'pry-rescue', '~> 1.5.0'
-  gem 'pry-stack_explorer', '~> 0.4.9.2'
+  gem 'pry-rescue', '~> 1.5.2'
+  gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
   gem 'danger', '~> 6.3.1'
