@@ -853,7 +853,7 @@ GEM
       activesupport (>= 3.0.0)
       i18n
       iso8601
-    ruby-enum (0.7.2)
+    ruby-enum (0.8.0)
       i18n
     ruby-ole (1.2.12.2)
     ruby-prof (1.4.1)
