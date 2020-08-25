@@ -898,7 +898,7 @@ GEM
       activesupport (>= 4.0.0)
     spreadsheet (1.2.6)
       ruby-ole (>= 1.0)
-    spring (2.1.0)
+    spring (2.1.1)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     sprockets (3.7.2)
