@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, Optional, SimpleChanges, SkipSelf} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
@@ -77,7 +77,6 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
     WorkPackagesListService,
     WorkPackagesListChecksumService,
     // Others
-    // TODO: Are this services needed here?
     HalResourceEditingService,
     TimeEntryCreateService,
     TableDragActionsRegistryService,
@@ -87,24 +86,17 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
     QueryParamListenerService,
   ],
 })
-export class QuerySpaceComponent implements OnChanges, OnInit, AfterViewInit {
+export class QuerySpaceComponent implements OnChanges, AfterViewInit {
   @Input()
   queryId:string;
 
   constructor(
-    @SkipSelf() @Optional() private parentQuerySpaceService:QuerySpaceService,
     readonly querySpaceService:QuerySpaceService,
   ) {}
 
   ngOnChanges(changes:SimpleChanges) {
     if (changes.queryId && !changes.queryId.isFirstChange()) {
       this.querySpaceService.initialize(this.queryId);
-    }
-  }
-
-  ngOnInit() {
-    if (this.parentQuerySpaceService && !this.queryId) {
-      throw new Error (`Only one QuerySpaceService is allowed to be loaded from the route params. Please provide a queryId @Input value for this instance.`);
     }
   }
 

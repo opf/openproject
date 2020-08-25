@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
@@ -41,9 +41,10 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {QuerySpaceInstancesTrackerService} from "core-app/modules/query-space/services/query-space-instances-tracker/query-space-instances-tracker.service";
 
 @Injectable()
-export class QuerySpaceService extends UntilDestroyedMixin {
+export class QuerySpaceService extends UntilDestroyedMixin implements OnDestroy {
   queryId?:string;
   view = {
     relationColumns: this.relationColumns,
@@ -112,7 +113,6 @@ export class QuerySpaceService extends UntilDestroyedMixin {
     private list:WorkPackagesListService,
     private listChecksum:WorkPackagesListChecksumService,
     // Others
-    // TODO: Are this services needed here?
     private halResourceEditingService:HalResourceEditingService,
     private timeEntryCreateService:TimeEntryCreateService,
     private tableDragActionsRegistryService:TableDragActionsRegistryService,
@@ -123,12 +123,19 @@ export class QuerySpaceService extends UntilDestroyedMixin {
     private halEvents:HalEventsService,
     private queryParamListener:QueryParamListenerService,
     private loadingIndicatorService:LoadingIndicatorService,
+    private querySpaceInstancesTrackerService:QuerySpaceInstancesTrackerService,
   ) {
     super();
   }
 
+  ngOnDestroy() {
+    this.querySpaceInstancesTrackerService.unregister(this);
+  }
+
   initialize(queryId?:string) {
     this.queryId = queryId;
+
+    this.querySpaceInstancesTrackerService.register(this, this.queryId);
 
     // Load first page onInit
     this.refresh(true, true);
