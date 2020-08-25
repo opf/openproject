@@ -198,6 +198,8 @@ group :test do
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.9.0'
+  # TODO: replace stub_model and mock_model by calls to factory or simple double
+  # and remove this dependency
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 4.0.0', group: :development
