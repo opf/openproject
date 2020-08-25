@@ -723,7 +723,7 @@ GEM
     rack (2.2.3)
     rack-accept (0.4.5)
       rack (>= 0.4)
-    rack-attack (6.2.2)
+    rack-attack (6.3.1)
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
@@ -1093,7 +1093,7 @@ DEPENDENCIES
   pry-stack_explorer (~> 0.5.1)
   puffing-billy (~> 2.3.1)
   puma (~> 4.3.5)
-  rack-attack (~> 6.2.2)
+  rack-attack (~> 6.3.1)
   rack-cors (~> 1.1.1)
   rack-mini-profiler
   rack-protection (~> 2.0.8)
