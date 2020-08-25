@@ -392,8 +392,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     it 'properly transmits parameters used in URL query' do
       global_search.search "Foo &"
       # Bug in ng-select causes highlights to break up entities
-      global_search.find_option "Foo &amp;&amp; Bar"
-      global_search.find_option "Foo &amp;# Bar"
+      global_search.find_option "Foo && Bar"
+      global_search.find_option "Foo &# Bar"
       global_search.expect_global_scope_marked
       global_search.submit_in_global_scope
 
@@ -409,8 +409,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
       global_search.search "&"
       # Bug in ng-select causes highlights to break up entities
-      global_search.find_option "Foo &amp;&amp; Bar"
-      global_search.find_option "Foo &amp;# Bar"
+      global_search.find_option "Foo && Bar"
+      global_search.find_option "Foo &# Bar"
       global_search.submit_in_global_scope
       table.ensure_work_package_not_listed! wp_2
       table.expect_work_package_listed(wp_1, wp_3)
