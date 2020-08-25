@@ -428,7 +428,7 @@ GEM
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
     declarative-option (0.1.0)
-    delayed_cron_job (0.7.2)
+    delayed_cron_job (0.7.3)
       delayed_job (>= 4.1)
     delayed_job (4.1.8)
       activesupport (>= 3.0, < 6.1)
