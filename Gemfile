@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 2.6.1'
+gem 'browser', '~> 4.2.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -156,7 +156,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'i18n-js', '~> 3.6.0'
+gem 'i18n-js', '~> 3.7.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -274,10 +274,10 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 6.3.1'
+  gem 'danger', '~> 8.0.4'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.8.0'
+  gem 'brakeman', '~> 4.9.0'
   gem 'danger-brakeman'
 end
 
