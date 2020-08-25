@@ -20,6 +20,8 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
   description = this.I18n.t('js.boards.board_type.action_text',
   { attribute: this.I18n.t('js.boards.board_type.action_type.assignee')});
 
+  label = this.I18n.t('js.boards.add_list_modal.labels.assignee');
+
   icon = 'icon-user';
 
   readonly unassignedUser:any = {

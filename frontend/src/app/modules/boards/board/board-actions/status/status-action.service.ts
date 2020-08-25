@@ -14,6 +14,8 @@ export class BoardStatusActionService extends CachedBoardActionService {
   description = this.I18n.t('js.boards.board_type.action_text',
   { attribute: this.I18n.t('js.boards.board_type.action_type.status')});
 
+  label = this.I18n.t('js.boards.add_list_modal.labels.status');
+
   icon = 'icon-workflow';
 
   public get localizedName() {
