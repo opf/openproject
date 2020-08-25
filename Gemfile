@@ -215,7 +215,7 @@ group :test do
   gem 'capybara', '~> 3.32.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.2.0', require: false
+  gem 'webdrivers', '~> 4.4.1', require: false
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
