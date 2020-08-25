@@ -184,11 +184,13 @@ module ActiveRecord
   end
 end
 
-require "active_record/connection_adapters/postgresql_adapter"
-require 'active_record/connection_adapters/abstract/connection_pool'
+unless String(ENV["USE_POSTGRES_TYPE_CACHE"]).strip.downcase == "false"
+  require "active_record/connection_adapters/postgresql_adapter"
+  require 'active_record/connection_adapters/abstract/connection_pool'
 
-ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
-  .prepend ActiveRecord::ConnectionAdapters::PostgresAdapterTypeCache
+  ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
+    .prepend ActiveRecord::ConnectionAdapters::PostgresAdapterTypeCache
 
-ActiveRecord::ConnectionAdapters::AbstractPool
-  .prepend ActiveRecord::ConnectionAdapters::AbstractPoolTypeCache
+  ActiveRecord::ConnectionAdapters::AbstractPool
+    .prepend ActiveRecord::ConnectionAdapters::AbstractPoolTypeCache
+end
