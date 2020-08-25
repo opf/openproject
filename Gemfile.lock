@@ -671,7 +671,7 @@ GEM
     passenger (6.0.6)
       rack
       rake (>= 0.8.1)
-    pdf-core (0.7.0)
+    pdf-core (0.8.1)
     pdf-inspector (1.3.0)
       pdf-reader (>= 1.0, < 3.0.a)
     pdf-reader (2.2.0)
@@ -686,9 +686,9 @@ GEM
       nokogiri (~> 1.10, >= 1.10.4)
       rubyzip (~> 1.3.0)
     posix-spawn (0.3.13)
-    prawn (2.2.2)
-      pdf-core (~> 0.7.0)
-      ttfunk (~> 1.5)
+    prawn (2.3.0)
+      pdf-core (~> 0.8.1)
+      ttfunk (~> 1.6)
     prawn-markup (0.2.2)
       nokogiri
       prawn
