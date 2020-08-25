@@ -424,7 +424,7 @@ GEM
     debug_inspector (0.0.3)
     deckar01-task_list (2.3.1)
       html-pipeline
-    declarative (0.0.10)
+    declarative (0.0.20)
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
     declarative-option (0.1.0)
