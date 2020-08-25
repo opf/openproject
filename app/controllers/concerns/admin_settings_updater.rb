@@ -40,11 +40,17 @@ module AdminSettingsUpdater
       if params[:settings]
         Settings::UpdateService
           .new(user: current_user)
-          .call(settings: permitted_params.settings.to_h)
+          .call(settings: settings_params)
 
         flash[:notice] = t(:notice_successful_update)
         redirect_to action: 'show', tab: params[:tab]
       end
+    end
+
+    protected
+
+    def settings_params
+      permitted_params.settings.to_h
     end
   end
 end

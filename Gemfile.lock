@@ -724,6 +724,8 @@ GEM
       rack (>= 0.4)
     rack-attack (6.2.2)
       rack (>= 1.0, < 3)
+    rack-cors (1.1.1)
+      rack (>= 2.0.0)
     rack-mini-profiler (2.0.1)
       rack (>= 1.2.0)
     rack-oauth2 (1.10.1)
@@ -1088,6 +1090,7 @@ DEPENDENCIES
   puffing-billy (~> 2.3.1)
   puma (~> 4.3.5)
   rack-attack (~> 6.2.2)
+  rack-cors (~> 1.1.1)
   rack-mini-profiler
   rack-protection (~> 2.0.8)
   rack-test (~> 1.1.0)

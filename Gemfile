@@ -286,6 +286,9 @@ gem 'bootsnap', '~> 1.4.5', require: false
 # API gems
 gem 'grape', '~> 1.3.0'
 
+# CORS for API
+gem 'rack-cors', '~> 1.1.1'
+
 gem 'reform', '~> 2.2.0'
 gem 'reform-rails', '~> 0.1.7'
 gem 'roar', '~> 1.1.0'
