@@ -95,7 +95,7 @@ gem 'semantic', '~> 1.6.1'
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.2.0'
 
-gem 'date_validator', '~> 0.9.0'
+gem 'date_validator', '~> 0.10.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -212,7 +212,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.32.0'
+  gem 'capybara', '~> 3.33.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
   gem 'webdrivers', '~> 4.4.1', require: false
@@ -258,9 +258,9 @@ group :development, :test do
   gem 'thin', '~> 1.7.2'
 
   # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 5.1.1'
+  gem 'factory_bot', '~> 6.1.0'
   # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 5.1.1'
+  gem 'factory_bot_rails', '~> 6.1.0'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false
