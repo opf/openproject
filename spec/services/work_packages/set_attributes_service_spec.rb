@@ -294,6 +294,38 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
     end
 
+    context 'start_date with default setting', with_settings: { work_package_startdate_is_adddate: true } do
+      context 'no value set before for a new work package' do
+        let(:call_attributes) { {} }
+        let(:attributes) { {} }
+        let(:work_package) { new_work_package }
+
+        it_behaves_like 'service call' do
+          it "sets the default priority" do
+            subject
+
+            expect(work_package.start_date)
+              .to eql Date.today
+          end
+        end
+      end
+
+      context 'value set on new work package' do
+        let(:call_attributes) { { start_date: Date.today + 1.day } }
+        let(:attributes) { {} }
+        let(:work_package) { new_work_package }
+
+        it_behaves_like 'service call' do
+          it 'stays that value' do
+            subject
+
+            expect(work_package.start_date)
+              .to eq(Date.today + 1.day)
+          end
+        end
+      end
+    end
+
     context 'priority' do
       let(:default_priority) { FactoryBot.build_stubbed(:priority) }
       let(:other_priority) { FactoryBot.build_stubbed(:priority) }
@@ -319,42 +351,6 @@ describe WorkPackages::SetAttributesService, type: :model do
 
             expect(work_package.priority)
               .to eql default_priority
-          end
-        end
-      end
-
-      context 'start_date with default setting', with_settings: { work_package_startdate_is_adddate: true } do
-        context 'no value set before for a new work package' do
-          let(:call_attributes) { {} }
-          let(:attributes) { {} }
-          let(:work_package) { new_work_package }
-
-          before do
-            work_package.priority = nil
-          end
-
-          it_behaves_like 'service call' do
-            it "sets the default priority" do
-              subject
-
-              expect(work_package.priority)
-                .to eql default_priority
-            end
-          end
-        end
-
-        context 'value set on new work package' do
-          let(:call_attributes) { { start_date: Date.today + 1.day } }
-          let(:attributes) { {} }
-          let(:work_package) { new_work_package }
-
-          it_behaves_like 'service call' do
-            it 'stays that value' do
-              subject
-
-              expect(work_package.start_date)
-                .to eq(Date.today + 1.day)
-            end
           end
         end
       end
