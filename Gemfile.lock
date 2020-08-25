@@ -487,11 +487,11 @@ GEM
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
     excon (0.76.0)
-    factory_bot (5.1.1)
-      activesupport (>= 4.2.0)
-    factory_bot_rails (5.1.1)
-      factory_bot (~> 5.1.0)
-      railties (>= 4.2.0)
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.1.0)
+      factory_bot (~> 6.1.0)
+      railties (>= 5.0.0)
     faker (2.10.2)
       i18n (>= 1.6, < 2)
     faraday (1.0.1)
@@ -1021,8 +1021,8 @@ DEPENDENCIES
   doorkeeper (~> 5.3.1)
   equivalent-xml (~> 0.6)
   escape_utils (~> 1.0)
-  factory_bot (~> 5.1.1)
-  factory_bot_rails (~> 5.1.1)
+  factory_bot (~> 6.1.0)
+  factory_bot_rails (~> 6.1.0)
   faker
   flamegraph
   fog-aws
