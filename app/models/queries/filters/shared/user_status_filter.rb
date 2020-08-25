@@ -52,9 +52,9 @@ module Queries::Filters::Shared::UserStatusFilter
     def where
       case operator
       when "="
-        ["users.status IN (?)", status_values.join(", ")]
+        ["users.status IN (?)", status_values]
       when "!"
-        ["users.status NOT IN (?)", status_values.join(", ")]
+        ["users.status NOT IN (?)", status_values]
       end
     end
   end
