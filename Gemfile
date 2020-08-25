@@ -93,7 +93,7 @@ gem 'semantic', '~> 1.6.1'
 
 # generates SVG Graphs
 # used for statistics on svn repositories
-gem 'svg-graph', '~> 2.1.0'
+gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
