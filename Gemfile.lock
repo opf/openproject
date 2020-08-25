@@ -446,7 +446,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     doorkeeper (5.3.1)
       railties (>= 5)
-    dry-configurable (0.11.4)
+    dry-configurable (0.11.6)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.4, >= 0.4.7)
       dry-equalizer (~> 0.2)
