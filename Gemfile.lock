@@ -729,12 +729,12 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (2.0.1)
       rack (>= 1.2.0)
-    rack-oauth2 (1.10.1)
+    rack-oauth2 (1.16.0)
       activesupport
       attr_required
       httpclient
       json-jwt (>= 1.11.0)
-      rack
+      rack (>= 2.1.0)
     rack-protection (2.0.8.1)
       rack
     rack-test (1.1.0)
@@ -912,7 +912,7 @@ GEM
     stringex (2.8.5)
     structured_warnings (0.4.0)
     svg-graph (2.2.0)
-    swd (1.1.2)
+    swd (1.2.0)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
