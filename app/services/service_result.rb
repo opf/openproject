@@ -59,8 +59,11 @@ class ServiceResult
     !success?
   end
 
-  def merge!(other)
-    merge_success!(other)
+  ##
+  # Merge another service result into this instance
+  # allowing optionally to skip updating its service
+  def merge!(other, without_success: false)
+    merge_success!(other) unless without_success
     merge_errors!(other)
     merge_dependent!(other)
   end
