@@ -564,7 +564,7 @@ GEM
     ice_cube (0.16.3)
     interception (0.5)
     ipaddress (0.8.3)
-    iso8601 (0.12.1)
+    iso8601 (0.13.0)
     jmespath (1.4.0)
     json (2.3.0)
     json-jwt (1.11.0)
