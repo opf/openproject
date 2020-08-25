@@ -64,7 +64,7 @@ gem 'addressable', '~> 2.7.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2019.3'
+gem 'tzinfo-data', '~> 1.2020.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -93,7 +93,7 @@ gem 'semantic', '~> 1.6.1'
 
 # generates SVG Graphs
 # used for statistics on svn repositories
-gem 'svg-graph', '~> 2.1.0'
+gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
@@ -119,7 +119,7 @@ gem 'rack-protection', '~> 2.0.8'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.2.2'
+gem 'rack-attack', '~> 6.3.1'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
@@ -191,7 +191,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.11.0'
+  gem 'test-prof', '~> 0.12.0'
 
   gem 'cucumber', '~> 3.1.0'
   gem 'cucumber-rails', '~> 1.8.0', require: false
@@ -215,7 +215,7 @@ group :test do
   gem 'capybara', '~> 3.32.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.2.0', require: false
+  gem 'webdrivers', '~> 4.4.1', require: false
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
