@@ -97,4 +97,13 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
         this.handler.handleUserSubmit();
       });
   }
+
+  // Overwrite super in order to set the inital dates.
+  protected initialize() {
+    super.initialize();
+
+    // this breaks the preceived abstraction of the edit fields. But the date picker
+    // is already highly specific to start and due Date.
+    this.dates = `${this.resource['startDate']} - ${this.resource['dueDate']}`;
+  }
 }
