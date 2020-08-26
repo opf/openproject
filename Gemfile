@@ -286,6 +286,9 @@ end
 gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
+# Grape 1.4.0 has a bug which requires us to wait until 1.4.1 is released.
+# https://github.com/ruby-grape/grape/pull/2088
+# In 1.4.0, the Cache-Control will always be set to no-cache when sending a file.
 gem 'grape', '~> 1.3.0'
 gem 'roar', '~> 1.1.0'
 
