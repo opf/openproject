@@ -49,6 +49,10 @@ module Boards
       ::Query.where(id: contained_query_ids)
     end
 
+    def to_s
+      "#{I18n.t('boards.label_board')} '#{name}'"
+    end
+
     private
 
     def delete_queries

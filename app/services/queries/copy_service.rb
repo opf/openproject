@@ -44,7 +44,38 @@ module Queries
       new_query.sort_criteria = source.sort_criteria if source.sort_criteria
       new_query.project = state.project || source.project
 
+      map_filters new_query
+
       ServiceResult.new(success: new_query.save, result: new_query)
+    end
+
+    def map_filters(query)
+      mappers = filter_mappers
+
+      query.filters.each do |filter|
+        mapper = mappers[filter.name.to_sym]
+
+        mapper&.call filter
+      end
+    end
+
+    def filter_mappers
+      {
+        version_id: method(:map_version_filter),
+        category_id: method(:map_category_filter)
+      }
+    end
+
+    def map_version_filter(filter)
+      return unless state.version_id_lookup
+
+      filter.values = filter.values.map { |id| state.version_id_lookup[id.to_i] || id }
+    end
+
+    def map_category_filter(filter)
+      return unless state.category_id_lookup
+
+      filter.values = filter.values.map { |id| state.category_id_lookup[id.to_i] || id }
     end
 
     def skipped_attributes

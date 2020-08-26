@@ -5,4 +5,5 @@ en:
 
   project_module_board_view: "Boards"
   boards:
+    label_board: "Board"
     label_boards: "Boards"

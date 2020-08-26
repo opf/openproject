@@ -28,12 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Boards
-  class CopyService < ::Grids::CopyService
-    protected
-
-    def initialize_new_grid!(new_board, original_board, _params)
-      new_board.project = state.project || original_board.project
-    end
+module Overviews::Copy
+  class WidgetsDependentService < ::Grids::Copy::WidgetsDependentService
   end
 end

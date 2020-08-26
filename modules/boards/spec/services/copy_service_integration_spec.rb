@@ -64,25 +64,37 @@ describe Projects::CopyService, 'integration', type: :model do
   describe 'call' do
     subject { instance.call(params) }
     let(:project_copy) { subject.result }
-    let(:copied_boards) { Boards::Grid.where(project: project_copy) }
-    let(:copied_board) { copied_boards.first }
+    let(:board_copies) { Boards::Grid.where(project: project_copy) }
+    let(:board_copy) { board_copies.first }
 
     it 'will copy the boards with the order correct' do
       expect(subject).to be_success
 
-      expect(copied_boards.count).to eq 1
+      expect(board_copies.count).to eq 1
 
       # Expect board name to match
-      expect(copied_board.name).to eq 'My Board'
+      expect(board_copy.name).to eq 'My Board'
 
       # Expect query to differ
-      query_id = copied_board.widgets.first.options['queryId']
+      query_id = board_copy.widgets.first.options['queryId']
       expect(query_id.to_i).not_to eq(query.id)
 
       # Expect query to be in correct project
       query = Query.find(query_id)
       expect(query.project).to eq project_copy
 
+      # Expect widgets have been copied (including updated query references)
+      widget = board_view.widgets.first
+      widget_copy = board_copy.widgets.first
+
+      different_attr = %w(id grid_id options)
+      expect(widget.attributes.except(*different_attr)).to eq widget_copy.attributes.except(*different_attr)
+
+      expect(widget_copy.grid_id).to eq board_copy.id
+      expect(widget_copy.options["queryId"]).to eq query.id
+      expect(widget_copy.options["filters"]).to eq widget.options["filters"]
+
+      # Expect work packages have been copied in the correct order
       wps = query.ordered_work_packages
       expect(wps.count).to eq 2
 
