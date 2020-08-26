@@ -45,6 +45,8 @@ import * as URI from 'urijs';
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {HalSource, HalSourceLinks} from "core-app/modules/hal/resources/hal-resource";
+import {HalLinkSource} from "core-app/modules/hal/hal-link/hal-link";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
@@ -169,10 +171,22 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   protected createdWorkPackage() {
+    let defaults:HalSource = {
+      _links: {}
+    };
+
     const type = this.stateParams.type ? parseInt(this.stateParams.type) : undefined;
+    const parent = this.stateParams.parent_id ? parseInt(this.stateParams.parent_id) : undefined;
     const project = this.stateParams.projectPath;
 
-    return this.wpCreate.createOrContinueWorkPackage(project, type);
+    if (type) {
+      defaults._links['type'] = { href: this.apiV3Service.types.id(type).path };
+    }
+    if (parent) {
+      defaults._links['parent'] = { href: this.apiV3Service.work_packages.id(parent).path };
+    }
+
+    return this.wpCreate.createOrContinueWorkPackage(project, type, defaults);
   }
 
   private closeEditFormWhenNewWorkPackageSaved() {
