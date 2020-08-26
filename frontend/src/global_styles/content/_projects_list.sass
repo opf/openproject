@@ -167,10 +167,17 @@ form.project-filters
 // just as in the work package table.
 body.controller-projects.action-index
   #content
-    overflow: visible
     .generic-table--container
       min-height: 1
-      overflow: visible
+      position: relative
+      width: 100%
+      height: 700px
+      overflow:
+        x: hidden
+        y: hidden
+
+      &.-with-footer
+        padding-bottom: var(--generic-table--footer-height)
 
 
 // project list in types configuration

@@ -60,7 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table" id="project-table">
-        <thead>
+        <thead class="-sticky">
           <tr>
             <%= render partial: 'hierarchy_header' %>
             <%= projects_sort_header_tag('name', caption: Project.human_attribute_name(:name), param: :json) %>
