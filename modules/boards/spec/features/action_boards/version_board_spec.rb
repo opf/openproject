@@ -292,6 +292,13 @@ describe 'Version action board', type: :feature, js: true do
       board_page.expect_card('Open version', 'Closed', present: true)
       board_page.expect_card('Closed version', 'Closed', present: false)
       board_page.expect_card('Closed version', 'Foo', present: false)
+
+      # We can reference the work package back
+      board_page.reference('A second version', work_package)
+
+      board_page.expect_card('A second version', 'Foo', present: true)
+      board_page.expect_card('Open version', 'Foo', present: false)
+      board_page.expect_card('Closed version', 'Foo', present: false)
     end
   end
 
