@@ -56,7 +56,8 @@ module Projects
         ::Projects::Copy::WikiDependentService,
         ::Projects::Copy::ForumsDependentService,
         ::Projects::Copy::QueriesDependentService,
-        ::Projects::Copy::BoardsDependentService
+        ::Projects::Copy::BoardsDependentService,
+        ::Projects::Copy::OverviewDependentService
       ]
     end
 
@@ -75,6 +76,8 @@ module Projects
       # Copy enabled custom fields and their values
       target.custom_field_values = source.custom_value_attributes
       target.custom_values = source.custom_values.map(&:dup)
+
+      target.status = source.status.dup
 
       # Additional input target params
       target_project_params = params[:target_project_params].with_indifferent_access

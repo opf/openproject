@@ -28,12 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Boards
-  class CopyService < ::Grids::CopyService
+module Projects::Copy
+  class OverviewDependentService < Dependency
     protected
 
-    def initialize_new_grid!(new_board, original_board, _params)
-      new_board.project = state.project || original_board.project
+    # Copies the overview from +project+
+    def copy_dependency(params)
+      ::Grids::Overview.where(project: source).find_each do |overview|
+        duplicate_overview(overview, params)
+      end
+    end
+
+    def duplicate_overview(overview, params)
+      ::Overviews::CopyService
+        .new(source: overview, user: user)
+        .with_state(state)
+        .call(params.merge)
+        .on_failure { |result| add_error! overview, result.errors }
     end
   end
 end
