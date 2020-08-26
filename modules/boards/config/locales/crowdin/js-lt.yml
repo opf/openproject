@@ -24,7 +24,7 @@ lt:
         locked: 'Užrakinta'
         closed: 'Uždaryta'
       new_board: 'Nauja lenta'
-      add_list: 'Pridėti sąrašą'
+      add_list: 'Add list to board'
       add_card: 'Pridėti kortelę'
       error_attribute_not_writable: "Negalima perkelti darbų paketo, %{attribute} negali būti įrašytas."
       error_loading_the_list: "Sąrašo užkrovimo klaida: %{error_message}"
@@ -52,6 +52,12 @@ lt:
           subtasks: vaikai
         select_attribute: "Veiksmo atributas"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             Nebėra laisvų statusų. <br>

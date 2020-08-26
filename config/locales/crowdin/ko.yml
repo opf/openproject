@@ -558,6 +558,7 @@ ko:
           not_an_integer: "(%{name})은(는) 정수가 아닙니다."
           smaller_than_or_equal_to: "(%{name})은(는) %{count}보다 작거나 같아야 합니다."
           greater_than_or_equal_to: "(%{name})은(는) %{count}보다 크거나 같아야 합니다."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -592,6 +593,15 @@ ko:
               error_not_found: "찾을 수 없음"
             public:
               error_unauthorized: "- 해당 사용자는 공용 보기를 만들 권한이 없습니다."
+            group_by:
+              invalid: "그룹화할 수 없습니다: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "잘못 된 쿼리 열: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "열로 정렬할 수 없습니다: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
             custom_fields:
@@ -614,8 +624,9 @@ ko:
           must_not_be_ssh: "SSH url이 아니어야 합니다."
           no_directory: "디텍터리가 아님"
         role:
-          permissions:
-            dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
+          attributes:
+            permissions:
+              dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
         time_entry:
           attributes:
             hours:
@@ -1065,9 +1076,6 @@ ko:
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
   error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."
-  error_invalid_group_by: "그룹화할 수 없습니다: %{value}"
-  error_invalid_query_column: "잘못 된 쿼리 열: %{value}"
-  error_invalid_sort_criterion: "열로 정렬할 수 없습니다: %{value}"
   error_journal_attribute_not_present: "저널에 %{attribute} 특성이 없습니다."
   error_pdf_export_too_many_columns: "PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오."
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
@@ -2068,6 +2076,10 @@ ko:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "검색..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"

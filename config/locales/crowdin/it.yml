@@ -556,6 +556,7 @@ it:
           not_an_integer: "(%{name}) non è un intero."
           smaller_than_or_equal_to: "(%{name}) deve essere più piccolo o uguale a %{count}."
           greater_than_or_equal_to: "(%{name}) deve essere più grande o uguale a %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -590,6 +591,15 @@ it:
               error_not_found: "non trovato"
             public:
               error_unauthorized: "- L'utente non è autorizzato a creare viste pubbliche."
+            group_by:
+              invalid: "Impossibile raggruppare per: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Colonna di query non valida: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Impossibile ordinare per la colonna: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
           filters:
             custom_fields:
@@ -612,8 +622,9 @@ it:
           must_not_be_ssh: "non deve essere un URL SSH."
           no_directory: "non è una directory."
         role:
-          permissions:
-            dependency_missing: "deve includere anche '%{dependency}' in quanto è selezionato '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "deve includere anche '%{dependency}' in quanto è selezionato '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -1078,9 +1089,6 @@ it:
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valore selezionato non valido."
-  error_invalid_group_by: "Impossibile raggruppare per: %{value}"
-  error_invalid_query_column: "Colonna di query non valida: %{value}"
-  error_invalid_sort_criterion: "Impossibile ordinare per la colonna: %{value}"
   error_journal_attribute_not_present: "Il diario non contiene l'attributo %{attribute}."
   error_pdf_export_too_many_columns: "Troppe colonne selezionate per l'esportazione in PDF. Ridurre il numero di colonne."
   error_pdf_failed_to_export: "L'esportazione del PDF non può essere salvata: %{error}"
@@ -2088,6 +2096,10 @@ it:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Ricerca..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"

@@ -562,6 +562,7 @@ sk:
           not_an_integer: "(%{name}) nie je celé číslo."
           smaller_than_or_equal_to: "(%{name}) musí byť menšie než alebo rovné %{count}."
           greater_than_or_equal_to: "(%{name}) musí byť väčšie než alebo rovné %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -596,6 +597,15 @@ sk:
               error_not_found: "nenájdené"
             public:
               error_unauthorized: "- Používateľ nemá povolenie na vytvorenie verejných zobrazení."
+            group_by:
+              invalid: "Nie je možné zoskupiť podľa: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Nesprávny filter pre stĺpec: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Údaje nie je možné zoradiť podľa stĺpcov: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "vzájomne sa vylučuje so skupinou podľa '%{group_by}'. Nemôžete aktivovať oboje."
           filters:
             custom_fields:
@@ -618,8 +628,9 @@ sk:
           must_not_be_ssh: "nesmie byť SSH URL."
           no_directory: "nie je adresár."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -1114,9 +1125,6 @@ sk:
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Vybratá neplatná hodnota."
-  error_invalid_group_by: "Nie je možné zoskupiť podľa: %{value}"
-  error_invalid_query_column: "Nesprávny filter pre stĺpec: %{value}"
-  error_invalid_sort_criterion: "Údaje nie je možné zoradiť podľa stĺpcov: %{value}"
   error_journal_attribute_not_present: "Denník neobsahuje atribút %{attribute}."
   error_pdf_export_too_many_columns: "Vybraných príliš veľa stĺpcov pre export do PDF. Znížte počet stĺpcov."
   error_pdf_failed_to_export: "PDF export nie je možné uložiť: %{error}"
@@ -2133,6 +2141,10 @@ sk:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Hľadať..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Spôsob doručenia e-mailu"
   setting_sendmail_location: "Umiestnenie sendmail spustiteľného programu"
   setting_smtp_enable_starttls_auto: "Automaticky použiť STARTTLS, ak je k dispozícii"

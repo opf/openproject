@@ -557,6 +557,7 @@ hu:
           not_an_integer: "(%{name}) nem egész szám."
           smaller_than_or_equal_to: "(%{name}) kisebb vagy egyenlő, mint %{count}."
           greater_than_or_equal_to: "(%{name}) nagyobbnak vagy egyenlőnek kell lennie %{count} értékkel."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -591,6 +592,15 @@ hu:
               error_not_found: "nem található"
             public:
               error_unauthorized: "- A felhasználó nem jogosult nyilvános nézeteket létrehozni."
+            group_by:
+              invalid: "Nem csoportosítható e szerint: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Érvénytelen lekérdezési oszlop: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Nem lehet rendezni ezen oszlop szerint: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:
@@ -613,8 +623,9 @@ hu:
           must_not_be_ssh: "nem lehet SSH url."
           no_directory: "nem egy könyvtár."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -1079,9 +1090,6 @@ hu:
   error_failed_to_delete_entry: 'Nem sikerült törölni ezt a bejegyzést.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Kijelölt érték érvénytelen."
-  error_invalid_group_by: "Nem csoportosítható e szerint: %{value}"
-  error_invalid_query_column: "Érvénytelen lekérdezési oszlop: %{value}"
-  error_invalid_sort_criterion: "Nem lehet rendezni ezen oszlop szerint: %{value}"
   error_journal_attribute_not_present: "A lap nem tartalmaz attribútumot %{attribute}."
   error_pdf_export_too_many_columns: "Túl sok oszlop lett kiválasztva a PDF exportáláshoz. Kérlek csökkentsd a sorok számát."
   error_pdf_failed_to_export: "A PDF-Exportálás mentése nem sikerült: %{error}"
@@ -2088,6 +2096,10 @@ hu:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Keresés ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "E-mail küldés módja"
   setting_sendmail_location: "A sendmail program elérési útja"
   setting_smtp_enable_starttls_auto: "Automatikus STARTTLS, ha rendelkezésre áll"

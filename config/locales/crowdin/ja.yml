@@ -555,6 +555,7 @@ ja:
           not_an_integer: "(%{name}) が整数ではありません。"
           smaller_than_or_equal_to: "(%{name}) は %{count} 以下にする必要があります。"
           greater_than_or_equal_to: "(%{name}) は %{count} 以上にする必要があります。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -589,6 +590,15 @@ ja:
               error_not_found: "存在しません"
             public:
               error_unauthorized: "- ユーザーにはパブリックビューを作成する権限がありません。"
+            group_by:
+              invalid: "グループ化できません: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "無効なクエリ列: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "列を並べ替えできません: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
             custom_fields:
@@ -611,8 +621,9 @@ ja:
           must_not_be_ssh: "SSH url ではありません。"
           no_directory: "はファルダーではありません。"
         role:
-          permissions:
-            dependency_missing: "選択した '%{permission}' の他に '%{dependency}' も含める必要があります。"
+          attributes:
+            permissions:
+              dependency_missing: "選択した '%{permission}' の他に '%{dependency}' も含める必要があります。"
         time_entry:
           attributes:
             hours:
@@ -1062,9 +1073,6 @@ ja:
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
-  error_invalid_group_by: "グループ化できません: %{value}"
-  error_invalid_query_column: "無効なクエリ列: %{value}"
-  error_invalid_sort_criterion: "列を並べ替えできません: %{value}"
   error_journal_attribute_not_present: "ジャーナルには属性%{attribute}は含まれていません。"
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
   error_pdf_failed_to_export: "PDFエクスポートを保存できませんでした： %{error}"
@@ -2067,6 +2075,10 @@ ja:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "検索…"
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "メールの配信方法"
   setting_sendmail_location: "Sendmail の実行可能ファイルの場所"
   setting_smtp_enable_starttls_auto: "利用可能な場合、STARTTLS を自動的に使用する"

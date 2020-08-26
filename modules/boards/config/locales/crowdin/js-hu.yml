@@ -24,7 +24,7 @@ hu:
         locked: 'Zárolt'
         closed: 'Lezárva'
       new_board: 'Új tábla'
-      add_list: 'Lista hozzáadása'
+      add_list: 'Add list to board'
       add_card: 'Kártya hozzáadása'
       error_attribute_not_writable: "Nem mozgatható munkacsomag, %{attribute} nem írható."
       error_loading_the_list: "Betöltési hiba: %{error_message}"
@@ -52,6 +52,12 @@ hu:
           subtasks: children
         select_attribute: "Akció attribútum"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             There is currently no status available. <br>

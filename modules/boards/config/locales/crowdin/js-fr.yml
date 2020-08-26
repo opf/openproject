@@ -24,7 +24,7 @@ fr:
         locked: 'Verrouillé'
         closed: 'Clôturé'
       new_board: 'Nouveau tableau'
-      add_list: 'Ajouter une liste'
+      add_list: 'Add list to board'
       add_card: 'Ajouter une carte'
       error_attribute_not_writable: "Impossible de déplacer le lot de travaux, %{attribute} n'est pas modifiable."
       error_loading_the_list: "Erreur lors du chargement de la liste : %{error_message}"
@@ -52,6 +52,12 @@ fr:
           subtasks: children
         select_attribute: "Attribut d'action"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             Il n'y a actuellement aucun statut disponible. <br>

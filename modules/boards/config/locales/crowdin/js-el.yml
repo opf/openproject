@@ -24,7 +24,7 @@ el:
         locked: 'Κλειδωμένο'
         closed: 'Κλειστό'
       new_board: 'Νέος πίνακας'
-      add_list: 'Προσθήκη λίστας'
+      add_list: 'Add list to board'
       add_card: 'Προσθήκη κάρτας'
       error_attribute_not_writable: "Δεν είναι δυνατή η μετακίνηση του πακέτου εργασίας, το %{attribute} δεν είναι εγγράψιμο."
       error_loading_the_list: "Σφάλμα κατά την φόρτωση της λίστας: %{error_message}"
@@ -52,6 +52,12 @@ el:
           subtasks: children
         select_attribute: "Χαρακτηριστικό ενέργειας"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             There is currently no status available. <br>

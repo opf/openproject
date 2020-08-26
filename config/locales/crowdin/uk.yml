@@ -562,6 +562,7 @@ uk:
           not_an_integer: "(%{name})  не є цілим числом."
           smaller_than_or_equal_to: "(%{name})  має бути меншим або рівним   %{count}."
           greater_than_or_equal_to: "(%{name}) має бути більшим або рівним %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -596,6 +597,15 @@ uk:
               error_not_found: "не знайдено"
             public:
               error_unauthorized: "- Користувач не має дозволу на створення загальнодоступних переглядів."
+            group_by:
+              invalid: "Неможливо групувати за %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Недійсний стовпець запиту: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Неможливо сортувати за стовпцями: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
             custom_fields:
@@ -618,8 +628,9 @@ uk:
           must_not_be_ssh: "не повинна бути URL-адресою SSH."
           no_directory: "не є каталогом."
         role:
-          permissions:
-            dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -1114,9 +1125,6 @@ uk:
   error_failed_to_delete_entry: 'Не вдалося видалити цей запис.'
   error_in_dependent: "Помилка спроби змінити залежний об'єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Недійсне вибране значення."
-  error_invalid_group_by: "Неможливо групувати за %{value}"
-  error_invalid_query_column: "Недійсний стовпець запиту: %{value}"
-  error_invalid_sort_criterion: "Неможливо сортувати за стовпцями: %{value}"
   error_journal_attribute_not_present: "Журнал не містить атрибута %{attribute}."
   error_pdf_export_too_many_columns: "Для експорту PDF-файлу вибрано занадто багато стовпців. Скоротіть кількість стовпців."
   error_pdf_failed_to_export: "Експорт PDF не вдалося зберегти: %{error}"
@@ -2134,6 +2142,10 @@ uk:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Пошук ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Спосіб доставки електронної пошти"
   setting_sendmail_location: "Розташування виконуваного файлу sendmail"
   setting_smtp_enable_starttls_auto: "Автоматично використовуйте STARTTLS, якщо він доступний"
