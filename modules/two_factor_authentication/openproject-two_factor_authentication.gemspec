@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency 'rotp', '~> 5.1'
+  s.add_dependency 'rotp', '~> 6.1'
   s.add_dependency 'messagebird-rest', '~> 1.4.2'
 
   s.add_dependency 'aws-sdk-sns', '~> 1.30.0'
