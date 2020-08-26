@@ -37,6 +37,9 @@ class ProjectsController < ApplicationController
   before_action :authorize_global, only: %i[new create]
   before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
 
+  before_action :assign_default_create_variables, only: %i[new]
+  before_action :new_project, only: %i[new]
+
   include SortHelper
   include PaginationHelper
   include CustomFieldsHelper
@@ -63,10 +66,6 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    assign_default_create_variables
-
-    @project = Project.new
-
     Projects::SetAttributesService
       .new(user: current_user, model: @project, contract_class: EmptyContract)
       .call(params.permit(:parent_id))
@@ -100,9 +99,9 @@ class ProjectsController < ApplicationController
     @altered_project = Project.find(@project.id)
 
     service_call = Projects::UpdateService
-                   .new(user: current_user,
-                        model: @altered_project)
-                   .call(permitted_params.project)
+      .new(user: current_user,
+           model: @altered_project)
+      .call(permitted_params.project)
 
     @errors = service_call.errors
 
@@ -112,9 +111,9 @@ class ProjectsController < ApplicationController
 
   def update_identifier
     service_call = Projects::UpdateService
-                   .new(user: current_user,
-                        model: @project)
-                   .call(permitted_params.project)
+      .new(user: current_user,
+           model: @project)
+      .call(permitted_params.project)
 
     if service_call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
@@ -167,8 +166,8 @@ class ProjectsController < ApplicationController
   # Delete @project
   def destroy
     service_call = ::Projects::ScheduleDeletionService
-                   .new(user: current_user, model: @project)
-                   .call
+      .new(user: current_user, model: @project)
+      .call
 
     if service_call.success?
       flash[:notice] = I18n.t('projects.delete.scheduled')
@@ -253,11 +252,6 @@ class ProjectsController < ApplicationController
     @query
   end
 
-  def assign_default_create_variables
-    @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @types = ::Type.all
-  end
-
   protected
 
   def create_from_params
@@ -308,6 +302,38 @@ class ProjectsController < ApplicationController
     # e.g. when one of the demo projects gets deleted or a archived
     if project.identifier == 'your-scrum-project' || project.identifier == 'demo-project'
       Setting.demo_projects_available = value
+    end
+  end
+
+  def assign_default_create_variables
+    @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
+    @types = ::Type.all
+  end
+
+  def new_project
+    # If a template is passed, assign that as default
+    @template_project = template_project_from_param
+    @project =
+      if @template_project.nil?
+        Project.new
+      else
+        Projects::CopyService
+          .new(user: current_user, source: @template_project)
+          .call(target_project_params: {}, attributes_only: true)
+          .result
+      end
+
+    # Allow setting the name when selecting template
+    if params[:name]
+      @project.name = params[:name]
+    end
+  end
+
+  def template_project_from_param
+    if params[:template_project]
+      ::Projects::InstantiateTemplateContract
+        .visible_templates(current_user)
+        .find_by(id: params[:template_project])
     end
   end
 end

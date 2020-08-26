@@ -69,6 +69,9 @@ module Projects
       target.types = source.types
       target.work_package_custom_fields = source.work_package_custom_fields
 
+      # Copy status object
+      target.status = source.status&.dup
+
       # Copy enabled custom fields and their values
       target.custom_field_values = source.custom_value_attributes
       target.custom_values = source.custom_values.map(&:dup)
