@@ -113,8 +113,7 @@ export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDes
   filterContainerDefinition:DynamicComponentDefinition = {
     component: WorkPackageFilterContainerComponent
   };
-  /** Go back to list using back-button */
-  backButtonCallback = () => this.$state.go('bim');
+  backButtonCallback = false;
 
   constructor(readonly ifcData:IfcModelsDataService,
               readonly bimView:BimViewService,
