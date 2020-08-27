@@ -33,7 +33,8 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 
 @Component({
   selector: 'filter-boolean-value',
-  templateUrl: './filter-boolean-value.component.html'
+  templateUrl: './filter-boolean-value.component.html',
+  styleUrls: ['./filter-boolean-value.component.sass'],
 })
 export class FilterBooleanValueComponent {
   @Input() public shouldFocus:boolean = false;

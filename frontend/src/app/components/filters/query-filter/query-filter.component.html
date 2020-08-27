@@ -16,6 +16,7 @@
     </label>
 
     <select required
+            *ngIf="valueType !== '[1]Boolean'"
             class="advanced-filters--select"
             id="operators-{{filter.id}}"
             name="op[{{filter.id}}]"
@@ -28,6 +29,12 @@
               [ngValue]="operator">
       </option>
     </select>
+    
+    <filter-boolean-value *ngIf="valueType == '[1]Boolean'"
+    (filterChanged)="onFilterUpdated($event)"
+    [shouldFocus]="shouldFocus"
+    [filter]="filter"></filter-boolean-value>
+
   </div>
 
   <!-- Values -->
@@ -68,7 +75,7 @@
                            [shouldFocus]="shouldFocus"
                            [filter]="filter"></filter-string-value>
 
-      <filter-boolean-value *ngSwitchCase="'[1]Boolean'"
+      <filter-boolean-value *ngSwitchCase="'[1]Boolean'"  hidden
                             (filterChanged)="onFilterUpdated($event)"
                             [shouldFocus]="shouldFocus"
                             [filter]="filter"></filter-boolean-value>
