@@ -67,40 +67,46 @@ $datepicker--hover-color:   #DDDDDD
         height: $datepicker--line-height
         line-height: $datepicker--line-height
         border-radius: $datepicker--border-radius
+        color: var(--body-font-color)
+
+        &:nth-child(7n+7),
+        &:nth-child(7n+6)
+          background: var(--gray-light)
+          border-radius: 0
+
+        &:nth-child(7n+6)
+          box-shadow: 5px 0 0 var(--gray-light)
 
         &.today
           border-color: var(--light-gray) !important
-          &:hover
-            background: $datepicker--hover-color
-            color: var(--body-font-color)
 
         &.selected
           background: var(--primary-color)
           border-color: var(--primary-color)
+          color: var(--font-color-on-primary)
           &.startRange
             border-radius: 2px 0 0 2px
-            // Workaround to close the gap caused by original styles
+          // Workaround to close the gap caused by original styles
           &.endRange
             border-radius: 0 2px 2px 0
             box-shadow: none
-
           &:hover
             background: var(--primary-color-dark)
             border-color: var(--primary-color-dark)
 
         &.inRange
+          background: $datepicker--hover-color
+          border-color: $datepicker--hover-color
           border-radius: 0
-          &:nth-child(7n+7)
-            box-shadow: none
           &:hover
-            background: var(--light-gray) !important
+            background: var(--light-gray)
             border-color: var(--light-gray)
 
-        &.inRange,
+        &.inRange:not(:nth-child(7n+7)),
+        &.selected.startRange:not(:nth-child(7n+7))
+          box-shadow: 5px 0 0 $datepicker--hover-color
+
         &:hover
           background: $datepicker--hover-color
           border-color: $datepicker--hover-color
-
-        &.inRange,
-        &.selected.startRange:not(:nth-child(7n+7))
-          box-shadow: 5px 0 0 $datepicker--hover-color
+          border-radius: $datepicker--border-radius
