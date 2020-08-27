@@ -1,4 +1,3 @@
-import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
@@ -28,82 +27,38 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
-import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
-import {OpTableActionsService} from "core-components/wp-table/table-actions/table-actions.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {QuerySpaceService} from "core-app/modules/query-space/services/query-space/query-space.service";
-import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 
-@Component({
-  selector: 'query-space',
-  host: { 'class': 'work-packages-page--ui-view' },
-  templateUrl: './query-space.component.html',
-  styleUrls: ['./query-space.component.css'],
-  providers: [
-    QuerySpaceService,
-    // View services
-    WorkPackageViewRelationColumnsService,
-    WorkPackageViewPaginationService,
-    WorkPackageViewGroupByService,
-    WorkPackageViewHierarchiesService,
-    WorkPackageViewSortByService,
-    WorkPackageViewColumnsService,
-    WorkPackageViewFiltersService,
-    WorkPackageViewTimelineService,
-    WorkPackageViewSelectionService,
-    WorkPackageViewSumService,
-    WorkPackageViewAdditionalElementsService,
-    WorkPackageViewFocusService,
-    WorkPackageViewHighlightingService,
-    WorkPackageViewDisplayRepresentationService,
-    WorkPackageViewOrderService,
-    WorkPackageViewHierarchyIdentationService,
-    // Work packages services
-    WorkPackageService,
-    WorkPackageRelationsHierarchyService,
-    WorkPackageFiltersService,
-    WorkPackageContextMenuHelperService,
-    WorkPackageInlineCreateService,
-    WpChildrenInlineCreateService,
-    WpRelationInlineCreateService,
-    WorkPackageCardViewService,
-    WorkPackageCreateService,
-    WorkPackageStatesInitializationService,
-    WorkPackageNotificationService,
-    WorkPackagesListService,
-    WorkPackagesListChecksumService,
-    WorkPackagesListService,
-    WorkPackagesListChecksumService,
-    // Others
-    HalResourceEditingService,
-    TimeEntryCreateService,
-    TableDragActionsRegistryService,
-    OpTableActionsService,
-    IsolatedQuerySpace,
-    CausedUpdatesService,
-    QueryParamListenerService,
-  ],
-})
-export class QuerySpaceComponent implements OnChanges, AfterViewInit {
-  @Input()
-  queryId:string;
+interface IQuerySpaceViewServices {
+  relationColumns:WorkPackageViewRelationColumnsService;
+  pagination:WorkPackageViewPaginationService;
+  groupBy:WorkPackageViewGroupByService;
+  hierarchies:WorkPackageViewHierarchiesService;
+  sortBy:WorkPackageViewSortByService;
+  columns:WorkPackageViewColumnsService;
+  filters:WorkPackageViewFiltersService;
+  timeline:WorkPackageViewTimelineService;
+  selection:WorkPackageViewSelectionService;
+  sum:WorkPackageViewSumService;
+  additionalElements:WorkPackageViewAdditionalElementsService;
+  focus:WorkPackageViewFocusService;
+  highlighting:WorkPackageViewHighlightingService;
+  displayRepresentation:WorkPackageViewDisplayRepresentationService;
+  order:WorkPackageViewOrderService;
+  hierarchyIndentation:WorkPackageViewHierarchyIdentationService;
+}
 
-  constructor(
-    readonly query:QuerySpaceService,
-  ) {}
-
-  ngOnChanges(changes:SimpleChanges) {
-    if (changes.queryId && !changes.queryId.isFirstChange()) {
-      this.query.initialize(this.queryId);
-    }
-  }
-
-  // Wait until the view is ready to load the querySpace
-  // so the spinner is shown
-  ngAfterViewInit():void {
-    this.query.initialize(this.queryId);
-  }
+interface IQuerySpaceWorkPackagesServices {
+  service:WorkPackageService;
+  relationsHierarchy:WorkPackageRelationsHierarchyService;
+  workPackageFilters:WorkPackageFiltersService;
+  contextMenuHelper:WorkPackageContextMenuHelperService;
+  inlineCreate:WorkPackageInlineCreateService;
+  childrenInlineCreate:WpChildrenInlineCreateService;
+  relationInlineCreate:WpRelationInlineCreateService;
+  cardView:WorkPackageCardViewService;
+  create:WorkPackageCreateService;
+  statesInitialization:WorkPackageStatesInitializationService;
+  notification:WorkPackageNotificationService;
+  list:WorkPackagesListService;
+  listChecksum:WorkPackagesListChecksumService;
 }
