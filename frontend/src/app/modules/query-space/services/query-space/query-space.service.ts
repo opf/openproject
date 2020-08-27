@@ -42,52 +42,82 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QuerySpaceInstancesTrackerService} from "core-app/modules/query-space/services/query-space-instances-tracker/query-space-instances-tracker.service";
-import {IQuerySpaceViewServices, IQuerySpaceWorkPackagesServices} from "core-app/modules/query-space";
 
 @Injectable()
 export class QuerySpaceService extends UntilDestroyedMixin implements OnDestroy {
   queryId?:string;
-  view:IQuerySpaceViewServices;
-  workPackages:IQuerySpaceWorkPackagesServices;
+  view = {
+    relationColumns: this.relationColumns,
+    pagination: this.pagination,
+    groupBy: this.groupBy,
+    hierarchies: this.hierarchies,
+    sortBy: this.sortBy,
+    columns: this.columns,
+    filters: this.viewFilters,
+    timeline: this.timeline,
+    selection: this.selection,
+    sum: this.sum,
+    additionalElements: this.additionalElements,
+    focus: this.focus,
+    highlighting: this.highlighting,
+    displayRepresentation: this.displayRepresentation,
+    order: this.order,
+    hierarchyIndentation: this.hierarchyIndentation,
+  };
+  workPackages = {
+    service: this.service,
+    relationsHierarchy: this.relationsHierarchy,
+    filters: this.workPackageFilters,
+    contextMenuHelper: this.contextMenuHelper,
+    inlineCreate: this.inlineCreate,
+    childrenInlineCreate: this.childrenInlineCreate,
+    relationInlineCreate: this.relationInlineCreate,
+    cardView: this.cardView,
+    create: this.create,
+    statesInitialization: this.statesInitialization,
+    notification: this.notification,
+    list: this.list,
+    listChecksum: this.listChecksum,
+  };
 
   constructor(
     // View services
-    relationColumns:WorkPackageViewRelationColumnsService,
-    pagination:WorkPackageViewPaginationService,
-    groupBy:WorkPackageViewGroupByService,
-    hierarchies:WorkPackageViewHierarchiesService,
-    sortBy:WorkPackageViewSortByService,
-    columns:WorkPackageViewColumnsService,
-    viewFilters:WorkPackageViewFiltersService,
-    timeline:WorkPackageViewTimelineService,
-    selection:WorkPackageViewSelectionService,
-    sum:WorkPackageViewSumService,
-    additionalElements:WorkPackageViewAdditionalElementsService,
-    focus:WorkPackageViewFocusService,
-    highlighting:WorkPackageViewHighlightingService,
-    displayRepresentation:WorkPackageViewDisplayRepresentationService,
-    order:WorkPackageViewOrderService,
-    hierarchyIndentation:WorkPackageViewHierarchyIdentationService,
+    private relationColumns:WorkPackageViewRelationColumnsService,
+    private pagination:WorkPackageViewPaginationService,
+    private groupBy:WorkPackageViewGroupByService,
+    private hierarchies:WorkPackageViewHierarchiesService,
+    private sortBy:WorkPackageViewSortByService,
+    private columns:WorkPackageViewColumnsService,
+    private viewFilters:WorkPackageViewFiltersService,
+    private timeline:WorkPackageViewTimelineService,
+    private selection:WorkPackageViewSelectionService,
+    private sum:WorkPackageViewSumService,
+    private additionalElements:WorkPackageViewAdditionalElementsService,
+    private focus:WorkPackageViewFocusService,
+    private highlighting:WorkPackageViewHighlightingService,
+    private displayRepresentation:WorkPackageViewDisplayRepresentationService,
+    private order:WorkPackageViewOrderService,
+    private hierarchyIndentation:WorkPackageViewHierarchyIdentationService,
     // Work packages service
-    service:WorkPackageService,
-    relationsHierarchy:WorkPackageRelationsHierarchyService,
-    workPackageFilters:WorkPackageFiltersService,
-    contextMenuHelper:WorkPackageContextMenuHelperService,
-    inlineCreate:WorkPackageInlineCreateService,
-    childrenInlineCreate:WpChildrenInlineCreateService,
-    relationInlineCreate:WpRelationInlineCreateService,
-    cardView:WorkPackageCardViewService,
-    create:WorkPackageCreateService,
-    statesInitialization:WorkPackageStatesInitializationService,
-    notification:WorkPackageNotificationService,
-    list:WorkPackagesListService,
-    listChecksum:WorkPackagesListChecksumService,
+    private service:WorkPackageService,
+    private relationsHierarchy:WorkPackageRelationsHierarchyService,
+    private workPackageFilters:WorkPackageFiltersService,
+    private contextMenuHelper:WorkPackageContextMenuHelperService,
+    private inlineCreate:WorkPackageInlineCreateService,
+    private childrenInlineCreate:WpChildrenInlineCreateService,
+    private relationInlineCreate:WpRelationInlineCreateService,
+    private cardView:WorkPackageCardViewService,
+    private create:WorkPackageCreateService,
+    private statesInitialization:WorkPackageStatesInitializationService,
+    private notification:WorkPackageNotificationService,
+    private list:WorkPackagesListService,
+    private listChecksum:WorkPackagesListChecksumService,
     // Others
-    readonly query:IsolatedQuerySpace,
     private halResourceEditingService:HalResourceEditingService,
     private timeEntryCreateService:TimeEntryCreateService,
     private tableDragActionsRegistryService:TableDragActionsRegistryService,
     private opTableActionsService:OpTableActionsService,
+    readonly query:IsolatedQuerySpace,
     private wpTablePagination:WorkPackageViewPaginationService,
     private currentProject:CurrentProjectService,
     private halEvents:HalEventsService,
@@ -96,41 +126,6 @@ export class QuerySpaceService extends UntilDestroyedMixin implements OnDestroy 
     private querySpaceInstancesTrackerService:QuerySpaceInstancesTrackerService,
   ) {
     super();
-
-    this.view = {
-      relationColumns,
-      pagination,
-      groupBy,
-      hierarchies,
-      sortBy,
-      columns,
-      filters: viewFilters,
-      timeline,
-      selection,
-      sum,
-      additionalElements,
-      focus,
-      highlighting,
-      displayRepresentation,
-      order,
-      hierarchyIndentation,
-    };
-
-    this.workPackages = {
-      service,
-      relationsHierarchy,
-      workPackageFilters,
-      contextMenuHelper,
-      inlineCreate,
-      childrenInlineCreate,
-      relationInlineCreate,
-      cardView,
-      create,
-      statesInitialization,
-      notification,
-      list,
-      listChecksum,
-    };
   }
 
   ngOnDestroy() {
