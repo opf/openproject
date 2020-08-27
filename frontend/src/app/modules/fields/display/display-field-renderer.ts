@@ -3,13 +3,12 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {DisplayFieldContext, DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/multiple-lines-string-objects-display-field.module";
+import {MultipleLinesCustomOptionsDisplayField} from "core-app/modules/fields/display/field-types/multiple-lines-custom-options-display-field.module";
 import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/progress-text-display-field.module";
 import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-lines-user-display-field.module";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {CombinedDateDisplayField} from "core-app/modules/fields/display/field-types/combined-date-display.field";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
@@ -104,7 +103,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     // We handle multi value fields differently in the single view context
     const isCustomMultiLinesField = ['[]CustomOption'].indexOf(fieldSchema.type) >= 0;
     if (this.container === 'single-view' && isCustomMultiLinesField) {
-      return new MultipleLinesStringObjectsDisplayField(attributeName, context) as DisplayField;
+      return new MultipleLinesCustomOptionsDisplayField(attributeName, context) as DisplayField;
     }
     const isUserMultiLinesField = ['[]User'].indexOf(fieldSchema.type) >= 0;
     if (this.container === 'single-view' && isUserMultiLinesField) {

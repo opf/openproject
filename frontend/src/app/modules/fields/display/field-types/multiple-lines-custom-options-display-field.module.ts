@@ -29,7 +29,7 @@
 import {ResourcesDisplayField} from "./resources-display-field.module";
 import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 
-export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
+export class MultipleLinesCustomOptionsDisplayField extends ResourcesDisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
     const values = this.value;
