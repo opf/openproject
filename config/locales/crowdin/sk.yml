@@ -178,8 +178,6 @@ sk:
       no_results_content_text: Vytvoriť nové vlastné pole
   concatenation:
     single: 'alebo'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -564,6 +562,7 @@ sk:
           not_an_integer: "(%{name}) nie je celé číslo."
           smaller_than_or_equal_to: "(%{name}) musí byť menšie než alebo rovné %{count}."
           greater_than_or_equal_to: "(%{name}) musí byť väčšie než alebo rovné %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -598,6 +597,15 @@ sk:
               error_not_found: "nenájdené"
             public:
               error_unauthorized: "- Používateľ nemá povolenie na vytvorenie verejných zobrazení."
+            group_by:
+              invalid: "Nie je možné zoskupiť podľa: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Nesprávny filter pre stĺpec: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Údaje nie je možné zoradiť podľa stĺpcov: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "vzájomne sa vylučuje so skupinou podľa '%{group_by}'. Nemôžete aktivovať oboje."
           filters:
             custom_fields:
@@ -620,8 +628,9 @@ sk:
           must_not_be_ssh: "nesmie byť SSH URL."
           no_directory: "nie je adresár."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -748,6 +757,9 @@ sk:
     date: "Dátum"
     default_columns: "Predvolené stĺpce"
     description: "Popis"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Zobraziť súčty"
     due_date: "Dátum dokončenia"
     estimated_hours: "Predpokladaný čas"
@@ -820,7 +832,6 @@ sk:
   button_generate: "Generovať"
   button_list: "Zoznam"
   button_lock: "Uzamknúť"
-  button_log_time: "Zaprotokoluj čas"
   button_login: "Prihlásiť sa"
   button_move: "Presunúť"
   button_move_and_follow: "Presunúť a nasledovať"
@@ -1062,8 +1073,6 @@ sk:
   description_compare_to: "Porovnať s"
   description_current_position: "You are here: "
   description_date_from: "Zadajte počiatočný dátum"
-  description_date_range_interval: "Vybrať rozsah zvolením počiatočného a koncového dátumu"
-  description_date_range_list: "Vybrať rozsah zo zoznamu"
   description_date_to: "Zadajte koncový dátum"
   description_enter_number: "Zadajte číslo"
   description_enter_text: "Zadajte text"
@@ -1116,9 +1125,6 @@ sk:
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Vybratá neplatná hodnota."
-  error_invalid_group_by: "Nie je možné zoskupiť podľa: %{value}"
-  error_invalid_query_column: "Nesprávny filter pre stĺpec: %{value}"
-  error_invalid_sort_criterion: "Údaje nie je možné zoradiť podľa stĺpcov: %{value}"
   error_journal_attribute_not_present: "Denník neobsahuje atribút %{attribute}."
   error_pdf_export_too_many_columns: "Vybraných príliš veľa stĺpcov pre export do PDF. Znížte počet stĺpcov."
   error_pdf_failed_to_export: "PDF export nie je možné uložiť: %{error}"
@@ -1347,7 +1353,6 @@ sk:
   label_date_and_time: "Dátum a čas"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
-  label_date_range: "Časové obdobie"
   label_date_to: "Do"
   label_day_plural: "dní"
   label_default: "Predvolený"
@@ -1494,7 +1499,6 @@ sk:
   label_modified: "upravené"
   label_module_plural: "Moduly"
   label_modules: "Moduly"
-  label_month: "Mesiac"
   label_months_from: "mesiacov od"
   label_more: "Viac"
   label_more_than_ago: "pred viac než dňom"
@@ -1665,8 +1669,6 @@ sk:
   label_this_week: "tento týždeň"
   label_this_year: "Tento rok"
   label_time_entry_plural: "Strávený čas"
-  label_time_sheet_menu: "Časový výkaz"
-  label_time_tracking: "Sledovanie času"
   label_projects_menu: "Projekty"
   label_today: "dnes"
   label_top_menu: "Horné menu"
@@ -1774,7 +1776,6 @@ sk:
     few: "%{count} projektov"
     many: "%{count} projektov"
     other: "%{count} projektov"
-  label_year: "Rok"
   label_yesterday: "včera"
   auth_source:
     using_abstract_auth_source: "Nie je možné použiť abstraktný zdroj overovania."
@@ -1890,7 +1891,6 @@ sk:
   notice_successful_delete: "Úspešne zmazané."
   notice_successful_update: "Úspešne aktualizované."
   notice_to_many_principals_to_display: "Existuje príliš veľa výsledkov.\nUpresnite vyhľadávanie zadaním názvu nového člena (alebo skupiny)."
-  notice_unable_delete_time_entry: "Položka sledovania času sa nedala odstrániť."
   notice_user_missing_authentication_method: Užívateľ si ešte nevybral heslo alebo iný spôsob, ako sa prihlásiť.
   notice_user_invitation_resent: Pozvánka bola odoslaná na %{email}.
   present_access_key_value: "Vašš %{key_name} je: %{value}"
@@ -2021,8 +2021,6 @@ sk:
   project_module_work_package_tracking: "Sledovanie Pracovného balíka"
   project_module_news: "Novinky"
   project_module_repository: "Repozitár"
-  project_module_time_tracking: "Sledovanie času"
-  project_module_timelines: "Časové osy"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2143,6 +2141,10 @@ sk:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Hľadať..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Spôsob doručenia e-mailu"
   setting_sendmail_location: "Umiestnenie sendmail spustiteľného programu"
   setting_smtp_enable_starttls_auto: "Automaticky použiť STARTTLS, ak je k dispozícii"
@@ -2197,7 +2199,6 @@ sk:
   setting_work_package_done_ratio_status: "Použite stav pracovného balíčka"
   setting_work_package_done_ratio_disabled: "Vypnúť (Skryť priebeh)"
   setting_work_package_list_default_columns: "Predvolené zobrazenie"
-  setting_work_package_list_summable_columns: "Sčítateľné"
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
   setting_work_packages_export_limit: "Limit exportu pracovných balíčkov"

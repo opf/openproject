@@ -116,6 +116,11 @@ de:
         manual: 'Wechseln zu reinem Markdown-Text'
         wysiwyg: 'Wechseln zu WYSIWYG-Editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Auflistung untergeordneter Seiten'
           include_parent: 'Elternseite anzeigen'
@@ -409,6 +414,7 @@ de:
     label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
     label_warning: "Warnung"
     label_work_package: "Arbeitspaket"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Arbeitspakete"
     label_watch: "Beobachten"
     label_watch_work_package: "Arbeitspaket beobachten"

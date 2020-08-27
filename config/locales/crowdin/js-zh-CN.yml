@@ -116,6 +116,11 @@ zh-CN:
         manual: '切换到标记源'
         wysiwyg: '切换到 WYSIWYG 编辑器'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: '链接至子页面'
           include_parent: '包括上级'
@@ -410,6 +415,7 @@ zh-CN:
     label_value_derived_from_children: "（来自子项的值）"
     label_warning: "警告"
     label_work_package: "工作包"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "工作包"
     label_watch: "关注"
     label_watch_work_package: "关注工作包"

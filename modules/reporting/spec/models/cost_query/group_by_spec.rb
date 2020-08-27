@@ -39,7 +39,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     time_entry2.save!
     time_entry2
   end
-  let!(:cost_object1) { FactoryBot.create(:cost_object, project: project1) }
+  let!(:budget1) { FactoryBot.create(:budget, project: project1) }
   let!(:cost_entry1) { FactoryBot.create(:cost_entry, work_package: work_package1, project: project1, spent_on: Date.new(2013, 2, 3)) }
   let!(:cost_entry2) do
     cost_entry2 =  cost_entry1.dup
@@ -55,7 +55,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     time_entry4.save!
     time_entry4
   end
-  let!(:cost_object2) { FactoryBot.create(:cost_object, project: project2) }
+  let!(:budget2) { FactoryBot.create(:budget, project: project2) }
   let!(:cost_entry3) { FactoryBot.create(:cost_entry, work_package: work_package2, project: project2, spent_on: Date.new(2012, 1, 1)) }
   let!(:cost_entry4) do
     cost_entry4 =  cost_entry3.dup
@@ -127,8 +127,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.result.size).to eq(1)
     end
 
-    it "should compute group_by CostObject" do
-      @query.group_by :cost_object_id
+    it "should compute group_by Budget" do
+      @query.group_by :budget_id
       expect(@query.result.size).to eq(1)
     end
 

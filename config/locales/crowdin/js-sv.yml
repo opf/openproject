@@ -116,6 +116,11 @@ sv:
         manual: 'Växla till markdown-källa'
         wysiwyg: 'Växla till WYSIWYG-redigerare'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Länkar till underordnade sidor'
           include_parent: 'Inkludera överordnade'
@@ -409,6 +414,7 @@ sv:
     label_value_derived_from_children: "(värde härrör från barn)"
     label_warning: "Varning"
     label_work_package: "Arbetspaket"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Arbetspaketen"
     label_watch: "Bevaka"
     label_watch_work_package: "Bevaka arbetspaket"

@@ -258,17 +258,9 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
       it 'responds with 422 and mentions the error' do
         expect(subject.status).to eq 422
 
-        expect(subject.body)
-          .to be_json_eql('Error'.to_json)
-          .at_path('_type')
-
-        expect(subject.body)
-          .to be_json_eql("Widgets is outside of the grid.".to_json)
-          .at_path('_embedded/errors/0/message')
-
-        expect(subject.body)
-          .to be_json_eql("Number of rows must be greater than 0.".to_json)
-          .at_path('_embedded/errors/1/message')
+        expect(JSON.parse(subject.body)['_embedded']['errors'].map { |e| e['message'] })
+          .to match_array ["Widgets is outside of the grid.",
+                           "Number of rows must be greater than 0."]
       end
 
       it 'does not persist the changes to widgets' do
@@ -398,17 +390,10 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
           .to be_json_eql('Error'.to_json)
           .at_path('_type')
 
-        expect(subject.body)
-          .to be_json_eql("Widgets is outside of the grid.".to_json)
-          .at_path('_embedded/errors/0/message')
-
-        expect(subject.body)
-          .to be_json_eql("Number of rows must be greater than 0.".to_json)
-          .at_path('_embedded/errors/1/message')
-
-        expect(subject.body)
-          .to be_json_eql("Number of columns must be greater than 0.".to_json)
-          .at_path('_embedded/errors/2/message')
+        expect(JSON.parse(subject.body)['_embedded']['errors'].map { |e| e['message'] })
+          .to match_array ["Widgets is outside of the grid.",
+                           "Number of rows must be greater than 0.",
+                           "Number of columns must be greater than 0."]
       end
     end
 

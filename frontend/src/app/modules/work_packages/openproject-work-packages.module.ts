@@ -165,8 +165,6 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
 import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
-import {AttributeHelpTextComponent} from "core-app/modules/common/help-texts/attribute-help-text.component";
-import {AttributeHelpTextModal} from "core-app/modules/common/help-texts/attribute-help-text.modal";
 import {QuerySpaceModule} from "core-app/modules/query-space/query-space.module";
 
 @NgModule({
@@ -374,10 +372,6 @@ import {QuerySpaceModule} from "core-app/modules/query-space/query-space.module"
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButton,
-
-    // Help texts
-    AttributeHelpTextComponent,
-    AttributeHelpTextModal,
   ],
   exports: [
     WorkPackagesTableComponent,
@@ -412,10 +406,6 @@ import {QuerySpaceModule} from "core-app/modules/query-space/query-space.module"
     WorkPackageSingleViewComponent,
     WorkPackageSplitViewComponent,
     BackButtonComponent,
-
-    // Help texts
-    AttributeHelpTextComponent,
-    AttributeHelpTextModal,
   ]
 })
 export class OpenprojectWorkPackagesModule {

@@ -178,8 +178,6 @@ ko:
       no_results_content_text: 새 사용자 필드 생성
   concatenation:
     single: '또는'
-  deprecations:
-    time_entries: "이 시간 항목 보기는 \"비용 보고서 '모듈로 대체됩니다. 현재 이 보기는 시간 항목 정보를 csv로 내보내기만 지원합니다. 대화형 필터링을 사용하려면 프로젝트 설정의 '비용 보고서' 모듈을 활성화하십시오."
   global_search:
     overwritten_tabs:
       wiki_pages: "위키"
@@ -560,6 +558,7 @@ ko:
           not_an_integer: "(%{name})은(는) 정수가 아닙니다."
           smaller_than_or_equal_to: "(%{name})은(는) %{count}보다 작거나 같아야 합니다."
           greater_than_or_equal_to: "(%{name})은(는) %{count}보다 크거나 같아야 합니다."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +593,15 @@ ko:
               error_not_found: "찾을 수 없음"
             public:
               error_unauthorized: "- 해당 사용자는 공용 보기를 만들 권한이 없습니다."
+            group_by:
+              invalid: "그룹화할 수 없습니다: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "잘못 된 쿼리 열: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "열로 정렬할 수 없습니다: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
             custom_fields:
@@ -616,8 +624,9 @@ ko:
           must_not_be_ssh: "SSH url이 아니어야 합니다."
           no_directory: "디텍터리가 아님"
         role:
-          permissions:
-            dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
+          attributes:
+            permissions:
+              dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
         time_entry:
           attributes:
             hours:
@@ -735,6 +744,9 @@ ko:
     date: "날짜"
     default_columns: "기본 칼럼"
     description: "설명"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "합계 표시"
     due_date: "완료 날짜"
     estimated_hours: "예상된 시간"
@@ -807,7 +819,6 @@ ko:
   button_generate: "생성"
   button_list: "목록"
   button_lock: "잠금"
-  button_log_time: "작업시간 기록"
   button_login: "로그인"
   button_move: "이동"
   button_move_and_follow: "이동하고 따라가기"
@@ -1013,8 +1024,6 @@ ko:
   description_compare_to: "비교:"
   description_current_position: "사용자의 위치: "
   description_date_from: "시작 날짜 입력"
-  description_date_range_interval: "시작과 끝 날짜로 범위를 선택하세요."
-  description_date_range_list: "목록에서 범위 선택"
   description_date_to: "종료 날짜 입력"
   description_enter_number: "번호 입력"
   description_enter_text: "텍스트 입력"
@@ -1067,9 +1076,6 @@ ko:
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
   error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."
-  error_invalid_group_by: "그룹화할 수 없습니다: %{value}"
-  error_invalid_query_column: "잘못 된 쿼리 열: %{value}"
-  error_invalid_sort_criterion: "열로 정렬할 수 없습니다: %{value}"
   error_journal_attribute_not_present: "저널에 %{attribute} 특성이 없습니다."
   error_pdf_export_too_many_columns: "PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오."
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
@@ -1298,7 +1304,6 @@ ko:
   label_date_and_time: "날짜 및 시간"
   label_date_from: "시작"
   label_date_from_to: "%{start}부터 %{end}까지"
-  label_date_range: "날짜 범위"
   label_date_to: "끝"
   label_day_plural: "일"
   label_default: "기본"
@@ -1445,7 +1450,6 @@ ko:
   label_modified: "수정됨"
   label_module_plural: "모듈"
   label_modules: "모듈"
-  label_month: "월"
   label_months_from: "개월 동안 | 다음부터"
   label_more: "기타"
   label_more_than_ago: "일 이상 전"
@@ -1616,8 +1620,6 @@ ko:
   label_this_week: "이번 주"
   label_this_year: "올해"
   label_time_entry_plural: "소비한 시간"
-  label_time_sheet_menu: "시간 시트"
-  label_time_tracking: "시간 추적"
   label_projects_menu: "프로젝트"
   label_today: "오늘"
   label_top_menu: "상단 메뉴"
@@ -1713,7 +1715,6 @@ ko:
   label_x_projects:
     zero: "프로젝트 없음"
     other: "1개 프로젝트\n%{count}개 프로젝트"
-  label_year: "년"
   label_yesterday: "어제"
   auth_source:
     using_abstract_auth_source: "추상 인증 소스를 사용할 수 없습니다."
@@ -1830,7 +1831,6 @@ ko:
   notice_successful_delete: "삭제에 성공했습니다."
   notice_successful_update: "업데이트에 성공했습니다."
   notice_to_many_principals_to_display: "너무 많은 결과가 있습니다.\n새 멤버(또는 그룹)의 이름을 입력하여 검색 범위를 좁히세요."
-  notice_unable_delete_time_entry: "시간 로그 항목을 삭제할 수 없습니다."
   notice_user_missing_authentication_method: 사용자가 암호나 로그인할 수 있는 다른 방법을 선택해야 합니다.
   notice_user_invitation_resent: 초대장이 %{email}(으)로 전송되었습니다.
   present_access_key_value: "당신의 %{key_name} : %{value}"
@@ -1958,8 +1958,6 @@ ko:
   project_module_work_package_tracking: "작업 패키지 추적"
   project_module_news: "뉴스"
   project_module_repository: "리포지토리"
-  project_module_time_tracking: "시간 추적"
-  project_module_timelines: "타임라인"
   project_module_wiki: "위키"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2078,6 +2076,10 @@ ko:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "검색..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"
@@ -2132,7 +2134,6 @@ ko:
   setting_work_package_done_ratio_status: "작업 패키지 상태 사용"
   setting_work_package_done_ratio_disabled: "사용 안 함(진행률 숨기기)"
   setting_work_package_list_default_columns: "기본적으로 사용 안 함"
-  setting_work_package_list_summable_columns: "합계 계산 가능"
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_export_limit: "작업 패키지 내보내기 제한"

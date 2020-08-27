@@ -91,8 +91,8 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
   def validate_me_value(errors)
     if has_me_value? && !User.current.logged?
       errors.add :actions,
-                 I18n.t(:'activerecord.errors.models.custom_actions.not_logged_in', name: human_name),
-                 error_symbol: :not_logged_in
+                 :not_logged_in,
+                 name: human_name
     end
   end
 

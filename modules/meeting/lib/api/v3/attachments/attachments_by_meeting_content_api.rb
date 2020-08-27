@@ -45,6 +45,10 @@ module API
 
           get &API::V3::Attachments::AttachmentsByContainerAPI.read
           post &API::V3::Attachments::AttachmentsByContainerAPI.create
+
+          namespace :prepare do
+            post &API::V3::Attachments::AttachmentsByContainerAPI.prepare
+          end
         end
       end
     end

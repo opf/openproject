@@ -38,6 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
                     project_tree_options_for_select(allowed_parents,
                                                     selected: project.parent),
                     include_blank: true,
+                    help_text: { attribute: :parent, 'attribute-scope': :Project },
                     container_class: '-wide' %>
   </div>
 <% end %>

@@ -116,6 +116,11 @@ vi:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Liên kết đến trang con'
           include_parent: 'Bao gồm trang trước'
@@ -409,6 +414,7 @@ vi:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
     label_work_package: "Work Package"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Work Packages"
     label_watch: "Theo dõi"
     label_watch_work_package: "Xem gói công việc"

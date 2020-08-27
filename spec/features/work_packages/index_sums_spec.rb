@@ -29,8 +29,17 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package index sums', js: true do
-  using_shared_fixtures :admin
-
+  let(:user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: %i[view_own_hourly_rate
+                                                  view_work_packages
+                                                  edit_work_packages
+                                                  view_time_entries
+                                                  view_cost_entries
+                                                  view_cost_rates
+                                                  log_costs]
+  end
   let(:project) do
     FactoryBot.create(:project, name: 'project1', identifier: 'project1')
   end
@@ -59,6 +68,33 @@ RSpec.feature 'Work package index sums', js: true do
       wp.save!
     end
   end
+  let!(:hourly_rate) do
+    FactoryBot.create :default_hourly_rate,
+                      user: user,
+                      rate: 10.00
+  end
+  let!(:time_entry) do
+    FactoryBot.create :time_entry,
+                      user: user,
+                      work_package: work_package_1,
+                      project: project,
+                      hours: 1.50
+  end
+  let(:cost_type) do
+    type = FactoryBot.create :cost_type, name: 'Translations'
+    FactoryBot.create :cost_rate,
+                      cost_type: type,
+                      rate: 3.00
+    type
+  end
+  let!(:cost_entry) do
+    FactoryBot.create :cost_entry,
+                      work_package: work_package_1,
+                      project: project,
+                      units: 2.50,
+                      cost_type: cost_type,
+                      user: user
+  end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { ::Components::WorkPackages::Columns.new }
@@ -66,17 +102,13 @@ RSpec.feature 'Work package index sums', js: true do
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   before do
-    login_as(admin)
-
-    allow(Setting)
-      .to receive(:work_package_list_summable_columns)
-      .and_return(%W(estimated_hours cf_#{int_cf.id} cf_#{float_cf.id}))
+    login_as(user)
 
     visit project_work_packages_path(project)
     expect(current_path).to eq('/projects/project1/work_packages')
   end
 
-  scenario 'calculates summs correctly' do
+  scenario 'calculates sums correctly' do
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
     # Add estimated time column
@@ -85,6 +117,12 @@ RSpec.feature 'Work package index sums', js: true do
     columns.add int_cf.name
     # Add float cf column
     columns.add float_cf.name
+    # Add overall costs column
+    columns.add 'Overall costs'
+    # Add unit costs column
+    columns.add 'Unit costs'
+    # Add labor costs column
+    columns.add 'Labor costs'
 
     # Trigger action from action menu dropdown
     modal.set_display_sums enable: true
@@ -98,6 +136,12 @@ RSpec.feature 'Work package index sums', js: true do
     expect(page).to have_selector('.wp-table--sum-container', text: '25')
     expect(page).to have_selector('.wp-table--sum-container', text: '12')
     expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
+    # Unit costs
+    expect(page).to have_selector('.wp-table--sum-container', text: '7.50')
+    # Overall costs
+    expect(page).to have_selector('.wp-table--sum-container', text: '22.50')
+    # Labor costs
+    expect(page).to have_selector('.wp-table--sum-container', text: '15.00')
 
     # Update the sum
     edit_field = wp_table.edit_field(work_package_1, :estimatedTime)
@@ -107,17 +151,29 @@ RSpec.feature 'Work package index sums', js: true do
     expect(page).to have_selector('.wp-table--sum-container', text: '35')
     expect(page).to have_selector('.wp-table--sum-container', text: '12')
     expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
+    # Unit costs
+    expect(page).to have_selector('.wp-table--sum-container', text: '7.50')
+    # Overall costs
+    expect(page).to have_selector('.wp-table--sum-container', text: '22.50')
+    # Labor costs
+    expect(page).to have_selector('.wp-table--sum-container', text: '15.00')
 
     # Enable groups
     group_by.enable_via_menu 'Status'
 
-    # Expect to have three sums rows no
+    # Expect to have three sums rows now
     expect(page).to have_selector('.wp-table--sums-row', count: 3)
 
     # First status row
     expect(page).to have_selector('.wp-table--sum-container', text: '20 h')
     expect(page).to have_selector(".wp-table--sum-container.customField#{int_cf.id}", text: '5')
     expect(page).to have_selector(".wp-table--sum-container.customField#{float_cf.id}", text: '5.5')
+    # Unit costs
+    expect(page).to have_selector('.wp-table--sum-container.materialCosts', text: '7.50')
+    # Overall costs
+    expect(page).to have_selector('.wp-table--sum-container.overallCosts', text: '22.50')
+    # Labor costs
+    expect(page).to have_selector('.wp-table--sum-container.laborCosts', text: '15.00')
 
     # Second status row
     expect(page).to have_selector('.wp-table--sum-container', text: '15 h')
@@ -128,6 +184,12 @@ RSpec.feature 'Work package index sums', js: true do
     expect(page).to have_selector('tfoot .wp-table--sum-container', text: '35')
     expect(page).to have_selector("tfoot .wp-table--sum-container.customField#{int_cf.id}", text: '12')
     expect(page).to have_selector("tfoot .wp-table--sum-container.customField#{float_cf.id}", text: '13.2')
+    # Unit costs
+    expect(page).to have_selector('tfoot .wp-table--sum-container.materialCosts', text: '7.50')
+    # Overall costs
+    expect(page).to have_selector('tfoot .wp-table--sum-container.overallCosts', text: '22.50')
+    # Labor costs
+    expect(page).to have_selector('tfoot .wp-table--sum-container.laborCosts', text: '15.00')
 
     # Collapsing groups will also hide the sums row
     page.find('.expander.icon-minus2', match: :first).click

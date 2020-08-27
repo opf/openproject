@@ -116,6 +116,11 @@ es:
         manual: 'Cambiar a visualización de Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Vínculos a páginas secundarias'
           include_parent: 'Incluir principal'
@@ -168,7 +173,7 @@ es:
         trial:
           confirmation: "Confirmación de dirección de correo electrónico"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Le hemos enviado un correo electrónico a %{email} el %{date}. Por favor, compruebe su bandeja de entrada y haga clic en el enlace de confirmación que le hemos enviado para comenzar con su prueba gratuita de 14 días.
           form:
             general_consent: >
               Estoy de acuerdo con los <a target="_blank" href="%{link_terms}">Términos del servicio</a> y la <a target="_blank" href="%{link_privacy}">Política de privacidad</a>.
@@ -398,7 +403,7 @@ es:
     label_sum_for: "Suma para"
     label_subject: "Asunto"
     label_this_week: "esta semana"
-    label_today: "Today"
+    label_today: "Hoy"
     label_time_entry_plural: "Tiempo empleado"
     label_up: "Arriba"
     label_user_plural: "Usuarios"
@@ -410,6 +415,7 @@ es:
     label_value_derived_from_children: "(valor derivado del elemento secundario)"
     label_warning: "Alerta"
     label_work_package: "Paquete de trabajo"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Paquetes de trabajo"
     label_watch: "Controlar"
     label_watch_work_package: "Ver paquetes de trabajo"
@@ -585,8 +591,8 @@ es:
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     project_menu_details: "Detalles"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Programación manual'
+      automatic: 'Programación automática'
     sort:
       sorted_asc: 'Orden ascendiente aplicado '
       sorted_dsc: 'Orden descendiente aplicado '
@@ -799,8 +805,8 @@ es:
           duplicate_query_title: "El nombre de la vista ya existe. ¿Quiere cambiarlo de todos modos?"
         text_no_results: "No se encontraron vistas que coincidan."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Las fechas de este paquete de trabajo son deducidas automáticamente de sus hijos. Active 'Programación manual' para establecer las fechas."
+        is_switched_from_manual_to_automatic: "Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo."
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."
@@ -890,8 +896,8 @@ es:
         confirm_deletion_children: "Reconozco que TODOS los descendientes de los paquetes de trabajo enumerados se eliminarán recursivamente."
         deletes_children: "También se eliminarán de forma recursiva todos los paquetes de trabajo secundarios y sus descendientes."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Confirmar la eliminación de la entrada de tiempo"
+        text: "¿Realmente quiere eliminar la siguiente entrada de tiempo?"
     notice_no_results_to_display: "No se pueden mostrar resultados visibles."
     notice_successful_create: "Creación exitosa."
     notice_successful_delete: "Eliminado con éxito."

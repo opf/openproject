@@ -24,7 +24,7 @@ ru:
         locked: 'Заперто'
         closed: 'закрыто'
       new_board: 'Новая доска'
-      add_list: 'Добавить список'
+      add_list: 'Add list to board'
       add_card: 'Добавить карточку'
       error_attribute_not_writable: "Невозможно переместить пакет работ, %{attribute} не доступен для записи."
       error_loading_the_list: "Ошибка загрузки списка: %{error_message}"
@@ -33,20 +33,31 @@ ru:
       board_type:
         text: 'Тип доски'
         free: 'Базовая доска'
-        select_board_type: 'Please choose the type of board you need.'
+        select_board_type: 'Пожалуйста, выберите требуемый вам тип доски.'
         free_text: >
-          Создайте доску, в которой вы можете свободно создавать списки и заказать пакеты работ внутри. Перемещение пакетов работ между списками не изменяет сам пакет работ.
+          Доска, в которой вы можете свободно создавать списки и заказывать пакеты работ внутри. Перемещение пакетов работ между списками не изменяет сам пакет работ.
         action: 'Доска действий'
         action_by_attribute: 'Доска действий (%{attribute})'
         action_text: >
-          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Доска с отфильтрованными по атрибуту %{attribute} списками . Перемещение рабочих пакетов в другие списки обновит их атрибут.
+        action_text_subprojects: >
+          Доска со списками подпроектов этого проекта и их пакетов работ как элементов списка. Перемещение пакетов работ в другие списки переместит их в соответствующий подпроект.
+        action_text_subtasks: >
+          Доска со списками выбранных родителей и их дочерних пакетов работ как элементов списка. Перемещение пакетов работ в другие списки обновит родителей соответственно.
         action_type:
           assignee: правопреемник
           status: статус
           version: версия
-          subproject: subproject
+          subproject: подпроект
+          subtasks: дочерние элементы
         select_attribute: "Атрибут действия"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             Статус недоступен. <br>

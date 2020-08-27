@@ -58,7 +58,7 @@ See docs/COPYRIGHT.rdoc for more details.
                locals: { form: form } %>
     <% unless all_fields %>
       <%= render partial: "customizable/form",
-                 locals: { form: form, all_fields: false, only_required: false } %>
+                 locals: { form: form, help_text: { 'attribute-scope': :Project }, all_fields: false, only_required: false } %>
     <% end %>
 <% if render_advanced %>
   </div>

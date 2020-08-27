@@ -176,8 +176,6 @@ ja:
       no_results_content_text: 新しいカスタム フィールドを作成
   concatenation:
     single: 'または'
-  deprecations:
-    time_entries: "この時間エントリビューは、「コストレポート」モジュールに置き換えられました。 現在、このビューは時間エントリ情報のcsvへのエクスポートのみをサポートしています。 インタラクティブフィルタリングを行うには、プロジェクト設定の「コストレポート」モジュールを有効にしてください。"
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -557,6 +555,7 @@ ja:
           not_an_integer: "(%{name}) が整数ではありません。"
           smaller_than_or_equal_to: "(%{name}) は %{count} 以下にする必要があります。"
           greater_than_or_equal_to: "(%{name}) は %{count} 以上にする必要があります。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -591,6 +590,15 @@ ja:
               error_not_found: "存在しません"
             public:
               error_unauthorized: "- ユーザーにはパブリックビューを作成する権限がありません。"
+            group_by:
+              invalid: "グループ化できません: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "無効なクエリ列: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "列を並べ替えできません: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
             custom_fields:
@@ -613,8 +621,9 @@ ja:
           must_not_be_ssh: "SSH url ではありません。"
           no_directory: "はファルダーではありません。"
         role:
-          permissions:
-            dependency_missing: "選択した '%{permission}' の他に '%{dependency}' も含める必要があります。"
+          attributes:
+            permissions:
+              dependency_missing: "選択した '%{permission}' の他に '%{dependency}' も含める必要があります。"
         time_entry:
           attributes:
             hours:
@@ -732,6 +741,9 @@ ja:
     date: "日付"
     default_columns: "既定の列"
     description: "説明"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "合計を表示"
     due_date: "終了日"
     estimated_hours: "予定工数"
@@ -804,7 +816,6 @@ ja:
   button_generate: "生成"
   button_list: "リスト"
   button_lock: "ロック"
-  button_log_time: "時間を記録"
   button_login: "ログイン"
   button_move: "移動"
   button_move_and_follow: "移動後表示"
@@ -1010,8 +1021,6 @@ ja:
   description_compare_to: "比較："
   description_current_position: "現在の位置: "
   description_date_from: "開始日"
-  description_date_range_interval: "日付で指定"
-  description_date_range_list: "一覧から選択"
   description_date_to: "終了日"
   description_enter_number: "番号"
   description_enter_text: "テキスト"
@@ -1064,9 +1073,6 @@ ja:
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
-  error_invalid_group_by: "グループ化できません: %{value}"
-  error_invalid_query_column: "無効なクエリ列: %{value}"
-  error_invalid_sort_criterion: "列を並べ替えできません: %{value}"
   error_journal_attribute_not_present: "ジャーナルには属性%{attribute}は含まれていません。"
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
   error_pdf_failed_to_export: "PDFエクスポートを保存できませんでした： %{error}"
@@ -1295,7 +1301,6 @@ ja:
   label_date_and_time: "日付と時刻"
   label_date_from: "日付指定: "
   label_date_from_to: "%{start} ～%{end}"
-  label_date_range: "期間"
   label_date_to: "から"
   label_day_plural: "日"
   label_default: "既定の項目"
@@ -1442,7 +1447,6 @@ ja:
   label_modified: "変更"
   label_module_plural: "モジュール"
   label_modules: "モジュール"
-  label_month: "月"
   label_months_from: "ヶ月分"
   label_more: "続き"
   label_more_than_ago: "今日より○日前以前"
@@ -1613,8 +1617,6 @@ ja:
   label_this_week: "今週"
   label_this_year: "今年"
   label_time_entry_plural: "作業時間の記録"
-  label_time_sheet_menu: "タイムシート"
-  label_time_tracking: "作業時間の記録"
   label_projects_menu: "プロジェクト"
   label_today: "今日"
   label_top_menu: "トップメニュー"
@@ -1710,7 +1712,6 @@ ja:
   label_x_projects:
     zero: "no projects"
     other: "%{count}件プロジェクト"
-  label_year: "年"
   label_yesterday: "昨日"
   auth_source:
     using_abstract_auth_source: "概要認証元を使用できません。"
@@ -1827,7 +1828,6 @@ ja:
   notice_successful_delete: "正常に削除しました。"
   notice_successful_update: "正常に更新しました。"
   notice_to_many_principals_to_display: "検索結果が多すぎです。新たにメンバー名（またはグループ名）を入力して検索を絞り込んでください。"
-  notice_unable_delete_time_entry: "作業時間記録を削除できません。"
   notice_user_missing_authentication_method: ユーザーは、サインインのパスワードまたは別の方法を選択する必要があります。
   notice_user_invitation_resent: '%{email} に招待状が送信されました。'
   present_access_key_value: "%{key_name} は: %{value}"
@@ -1955,8 +1955,6 @@ ja:
   project_module_work_package_tracking: "作業項目の追跡"
   project_module_news: "ニュース"
   project_module_repository: "リポジトリ"
-  project_module_time_tracking: "作業時間の記録"
-  project_module_timelines: "タイムライン"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2077,6 +2075,10 @@ ja:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "検索…"
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "メールの配信方法"
   setting_sendmail_location: "Sendmail の実行可能ファイルの場所"
   setting_smtp_enable_starttls_auto: "利用可能な場合、STARTTLS を自動的に使用する"
@@ -2131,7 +2133,6 @@ ja:
   setting_work_package_done_ratio_status: "作業項目のステータスを使用する"
   setting_work_package_done_ratio_disabled: "無効にする（進行状況が非表示）"
   setting_work_package_list_default_columns: "デフォルトで表示する"
-  setting_work_package_list_summable_columns: "集計可能"
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しい作業項目の開始日とする"
   setting_work_packages_export_limit: "エクスポートする項目数の上限"

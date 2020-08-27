@@ -46,9 +46,9 @@ module Bim::Bcf::API::V2_1::Errors
     def self.map(original_errors)
       mapped_errors = ActiveModel::Errors.new(new)
 
-      original_errors.send(:error_symbols).each do |key, errors|
-        errors.map(&:first).each do |error|
-          mapped_errors.add(error_key_mapper(key), error)
+      original_errors.details.each do |key, errors|
+        errors.each do |error|
+          mapped_errors.add(error_key_mapper(key), error[:error], *error.except(:error))
         end
       end
 

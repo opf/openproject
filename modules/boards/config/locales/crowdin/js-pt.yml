@@ -24,7 +24,7 @@ pt:
         locked: 'Bloqueado'
         closed: 'Fechado'
       new_board: 'Novo quadro'
-      add_list: 'Adicionar lista'
+      add_list: 'Add list to board'
       add_card: 'Adicionar cartão'
       error_attribute_not_writable: "Não é possível mover o pacote de trabalho, %{attribute} não é gravável."
       error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
@@ -33,20 +33,31 @@ pt:
       board_type:
         text: 'Tipo de quadro'
         free: 'Quadro básico'
-        select_board_type: 'Please choose the type of board you need.'
+        select_board_type: 'Por favor, escolha o tipo de quadro que precisa.'
         free_text: >
-          Crie um quadro no qual você pode criar livremente listas e ordenar seus pacotes de trabalho dentro. Mover pacotes de trabalho entre listas não altera o pacote de trabalho em si.
+          Um quadro no qual você pode criar listas livremente e ordenar seus pacotes de trabalho. Arrastar pacotes de trabalho entre listas não altera o pacote de trabalho em si.
         action: 'Quadro de ação'
         action_by_attribute: 'Quadro de ação (%{attribute})'
         action_text: >
-          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Um quadro com listas filtradas no atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
+        action_text_subprojects: >
+          Um quadro com listas de subprojetos deste projeto e seus pacotes de trabalho como lista de itens. Arrastar pacotes de trabalho para outras listas irá movê-los para o subprojeto correspondente.
+        action_text_subtasks: >
+          Um quadro com listas de pais selecionados e seus pacotes de trabalho filhos como itens listados. Arrastar pacotes de trabalho para outras listas irá atualizar a hierarquia.
         action_type:
           assignee: responsável
           status: estado
           version: versão
-          subproject: subproject
+          subproject: subprojeto
+          subtasks: filhos
         select_attribute: "Atributo de ação"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             No momento, não há nenhum estado disponível. <br>

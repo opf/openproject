@@ -24,7 +24,7 @@ ko:
         locked: '잠김'
         closed: '닫음'
       new_board: '새로운 보드'
-      add_list: '목록 추가'
+      add_list: 'Add list to board'
       add_card: '카드 추가'
       error_attribute_not_writable: "작업 패키지를 이동할 수 없습니다. %{attribute}은(는) 쓰기 가능하지 않습니다."
       error_loading_the_list: "목록 로드 중 오류 발생: %{error_message}"
@@ -35,18 +35,29 @@ ko:
         free: '기본 보드'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
-          자유롭게 목록을 만들고 작업 패키지를 주문할 수 있는 보드를 생성하십시오. 목록 간에 작업 패키지를 이동해도 작업 패키지 자체는 변경되지 않습니다.
+          A board in which you can freely create lists and order your work packages within. Dragging work packages between lists do not change the work package itself.
         action: '작업 보드'
         action_by_attribute: '작업 보드(%{attribute})'
         action_text: >
-          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          A board with lists of subprojects of this project and their work packages as list items. Dragging work packages to other lists will move them to the corresponding subproject.
+        action_text_subtasks: >
+          A board with lists of selected parents and their child work packages as list items. Dragging work packages to other lists will update the parent accordingly.
         action_type:
           assignee: 담당자
           status: 상태
           version: 버전
           subproject: subproject
+          subtasks: children
         select_attribute: "작업 특성"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             사용 가능한 상태가 현재 없습니다. <br>

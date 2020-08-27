@@ -28,38 +28,38 @@ ar:
     plugins:
       no_results_title_text: لا يوجد حالياً أية إضافات متاحة.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "لون السمة"
+      color_theme_custom: "(تخصيص)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "البديل"
+        content-link-color: "خط الارتبط"
+        primary-color: "الأساسي"
+        primary-color-dark: "الأساسي (داكن)"
+        header-bg-color: "خلفية الترويسة"
+        header-item-bg-hover-color: "خلفية الترويسة على الحافة"
+        header-item-font-color: "خط الترويسة"
+        header-item-font-hover-color: "خط الترويسة عند الحافة"
+        header-border-bottom-color: "حدود الترويسة"
+        main-menu-bg-color: "خلفية القائمة الرئيسية"
+        main-menu-bg-selected-background: "القائمة الرئيسية عند تحديد"
+        main-menu-bg-hover-background: "القائمة الرئيسية على الحافة"
+        main-menu-font-color: "خط القائمة الرئيسية"
+        main-menu-selected-font-color: "خط القائمة الرئيسية عند تحديد"
+        main-menu-hover-font-color: "خط القائمة الرئيسية عند الحوالة"
+        main-menu-border-color: "حدود القائمة الرئيسية"
       custom_colors: "تخصيص الألوان"
       customize: "عدل مشروعك الخاص بالشعار الذي تريده.ملاحظه:هذا الشعار سوف يكون مرئي لجميع المستخدمين"
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
-      manage_colors: "Edit color select options"
+      enterprise_notice: "كخاصية \"شكرًا!\" على مساهمتهم المالية لتطوير OpenProject، هذه الميزة الصغيرة متاحة فقط للمشتركين في إصدار المؤسسة."
+      manage_colors: "تعديل خيارات تحديد اللون"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
-        content-link-color: "Font color of most of the links."
-        primary-color: "Main color."
-        primary-color-dark: "Typically a darker version of the main color used for hover effects."
-        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
-        header-item-font-color: "Font color of clickable header items."
-        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
-        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
+        alternative-color: "لون اللكنة القوية، يستخدم عادة لأهم زر على الشاشة."
+        content-link-color: "لون الخط لمعظم الروابط."
+        primary-color: "اللون الرئيسي."
+        primary-color-dark: "عادةً ما تكون نسخة داكنة من اللون الرئيسي المستخدم لتأثيرات الحرارة."
+        header-item-bg-hover-color: "لون الخلفية لعناصر الترويسة القابلة للنقر عند ربطها بالفأرة."
+        header-item-font-color: "لون الخط لعناصر الترويسة النقر عليها."
+        header-item-font-hover-color: "لون الخط لعناصر الترويسة القابلة للنقر عند ربطها بالفأرة."
+        header-border-bottom-color: "خط تحت الرأس. اترك هذا الحقل فارغاً إذا كنت لا تريد أي سطر."
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
@@ -178,8 +178,6 @@ ar:
       no_results_content_text: إنشاء ملف زبون جديد
   concatenation:
     single: 'or'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -566,6 +564,7 @@ ar:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -600,6 +599,15 @@ ar:
               error_not_found: "لم يتم العثور"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -622,8 +630,9 @@ ar:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "ليس من دليل."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -756,6 +765,9 @@ ar:
     date: "التاريخ"
     default_columns: "الأعمدة الافتراضية"
     description: "الوصف"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "عرض المبالغ"
     due_date: "Finish date"
     estimated_hours: "الوقت المُقّدَّر"
@@ -828,7 +840,6 @@ ar:
   button_generate: "أنتج"
   button_list: "القائمة"
   button_lock: "إغلاق"
-  button_log_time: "وقت السجل"
   button_login: "تسجيل الدخول"
   button_move: "نقل"
   button_move_and_follow: "نقل ومتابعة"
@@ -1094,8 +1105,6 @@ ar:
   description_compare_to: "مقارنة مع"
   description_current_position: "You are here: "
   description_date_from: "ادخل تاريخ البدء"
-  description_date_range_interval: "اختر النطاق عن طريق تحديد تاريخ البدء والانتهاء"
-  description_date_range_list: "اختر نطاقا من القائمة"
   description_date_to: "أدخل تاريخ الانتهاء"
   description_enter_number: "أدخل رقم"
   description_enter_text: "ادخل نصا"
@@ -1148,9 +1157,6 @@ ar:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "تم تحديد عدد كبير جداً من الأعمدة لتصدير PDF. الرجاء تقليل عدد الأعمدة."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1379,7 +1385,6 @@ ar:
   label_date_and_time: "Date and time"
   label_date_from: "من"
   label_date_from_to: "من %{start} إلى %{end}"
-  label_date_range: "النطاق الزمني"
   label_date_to: "إلى"
   label_day_plural: "أيام"
   label_default: "الافتراضي"
@@ -1526,7 +1531,6 @@ ar:
   label_modified: "تم التعديل"
   label_module_plural: "أنماط"
   label_modules: "أنماط"
-  label_month: "شهر"
   label_months_from: "أشهر من"
   label_more: "المزيد"
   label_more_than_ago: "منذ أكثر من أيام"
@@ -1697,8 +1701,6 @@ ar:
   label_this_week: "هذا الأسبوع"
   label_this_year: "هذه السنة"
   label_time_entry_plural: "الوقت المستهلك"
-  label_time_sheet_menu: "ساعات العمل"
-  label_time_tracking: "تعقب الوقت"
   label_projects_menu: "المشاريع"
   label_today: "اليوم"
   label_top_menu: "القائمة العليا"
@@ -1814,7 +1816,6 @@ ar:
     few: "%{count} projects"
     many: "%{count} projects"
     other: "%{count} projects"
-  label_year: "السنة"
   label_yesterday: "الأمس"
   auth_source:
     using_abstract_auth_source: "لا يمكن استخدام مصدر مصادقة الملخص."
@@ -1931,7 +1932,6 @@ ar:
   notice_successful_delete: "حذف ناجح."
   notice_successful_update: "تحديث ناجح."
   notice_to_many_principals_to_display: "هناك الكثير من النتائج. تضييق البحث عن طريق كتابة اسم العضو الجديد (أو المجموعة)."
-  notice_unable_delete_time_entry: "غير قادر على حذف إدخال سجل الوقت."
   notice_user_missing_authentication_method: على المستخدم اختيار كلمة مرور أو طريقة أخرى لتسجيل الدخول.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "%{key_name} الخاص بك: %{value}"
@@ -2064,8 +2064,6 @@ ar:
   project_module_work_package_tracking: "تتبع مجموعة العمل"
   project_module_news: "الأخبار"
   project_module_repository: "مستودع البيانات"
-  project_module_time_tracking: "تعقب الوقت"
-  project_module_timelines: "الخطوط الزمنية"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2184,6 +2182,10 @@ ar:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "بحث..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "طريقة تسليم البريد الإلكتروني"
   setting_sendmail_location: "موقع إرسال بريد إلكتروني قابل للتنفيذ"
   setting_smtp_enable_starttls_auto: "استخدم STARTTLS تلقائيًّا إذا كان متوفرًا"
@@ -2238,7 +2240,6 @@ ar:
   setting_work_package_done_ratio_status: "استخدم حالة مجموعة العمل"
   setting_work_package_done_ratio_disabled: "تعطيل (إخفاء التقدم)"
   setting_work_package_list_default_columns: "عرض بشكل افتراضي"
-  setting_work_package_list_summable_columns: "يمكن جمعه"
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
   setting_work_packages_export_limit: "حد تصدير مجموعات العمل"

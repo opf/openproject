@@ -25,7 +25,6 @@ fi:
       property_groups:
         costs: "Kustannukset"
       properties:
-        costObject: "Budjetti"
         overallCosts: "Kokonaiskustannukset"
         spentUnits: "Käytetyt yksiköt"
     button_log_costs: "Kirjaa työkustannuksia"

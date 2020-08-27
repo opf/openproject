@@ -286,7 +286,7 @@ describe 'API v3 Work package resource',
 
             # resolves links
             expect(subject['html'])
-              .to have_selector("a[href='/work_packages/#{other_wp.id}']")
+              .to have_selector("macro.macro--wp-quickinfo[data-id='#{other_wp.id}']")
             # resolves macros
             is_expected.to have_text('Table of contents')
           end
@@ -947,6 +947,37 @@ describe 'API v3 Work package resource',
           end
 
           it_behaves_like 'lock version updated'
+        end
+      end
+
+      context 'budget' do
+        let(:target_budget) { FactoryBot.create(:budget, project: project) }
+        let(:budget_link) { api_v3_paths.budget target_budget.id }
+        let(:budget_parameter) { { _links: { budget: { href: budget_link } } } }
+        let(:params) { valid_params.merge(budget_parameter) }
+        let(:permissions) { %i[view_work_packages edit_work_packages view_budgets] }
+
+        before { login_as(current_user) }
+
+        context 'valid' do
+          include_context 'patch request'
+
+          it { expect(response.status).to eq(200) }
+
+          it 'should respond with the work package and its new budget' do
+            expect(subject.body).to be_json_eql(target_budget.subject.to_json)
+                                      .at_path('_embedded/budget/subject')
+          end
+        end
+
+        context 'not valid' do
+          let(:target_budget) { FactoryBot.create(:budget) }
+
+          include_context 'patch request'
+
+          it_behaves_like 'constraint violation' do
+            let(:message) { I18n.t('activerecord.errors.messages.inclusion') }
+          end
         end
       end
 

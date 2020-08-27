@@ -37,6 +37,8 @@ export class CombinedDateDisplayField extends DateDisplayField {
   };
 
   public render(element:HTMLElement, displayText:string):void {
+    element.innerHTML = '';
+
     let startDateElement = this.createDateDisplayField('startDate');
     let dueDateElement = this.createDateDisplayField('dueDate');
 

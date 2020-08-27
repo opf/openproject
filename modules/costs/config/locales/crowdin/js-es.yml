@@ -25,7 +25,6 @@ es:
       property_groups:
         costs: "Costos"
       properties:
-        costObject: "Presupuesto"
         overallCosts: "Costos totales"
         spentUnits: "Unidades usadas"
     button_log_costs: "Registrar costos unitarios"

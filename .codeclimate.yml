@@ -27,7 +27,7 @@ checks:
 plugins:
   rubocop:
     enabled: true
-    channel: rubocop-0-79
+    channel: rubocop-0-89
   # Codeclimate uses brakeman 4.3.1 which does not support rails 6
   # Check https://docs.codeclimate.com/docs/brakeman for updates.
   brakeman:
@@ -66,6 +66,7 @@ exclude_paths:
   - lib/plugins/rfpdf/**/*
   - app/assets/javascripts/vendor/**/*
   - frontend/vendor/**/*
+  - frontend/src/vendor/**/*
   - "**/*.d.ts"
   - "**/node_modules/"
   - spec/**

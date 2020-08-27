@@ -174,8 +174,6 @@ pl:
       no_results_content_text: Utwórz pole użytkownika
   concatenation:
     single: 'lub'
-  deprecations:
-    time_entries: "Ten widok wpisów czasu jest zastąpiony przez moduł „Raporty kosztów”. Widok ten obsługuje teraz eksportowanie informacji o wpisach czasu jedynie do plików csv. W celu interaktywnego filtrowania należy aktywować moduł „Raporty kosztów” w ustawieniach projektu."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -560,6 +558,7 @@ pl:
           not_an_integer: "(%{name}) – wartość nie jest liczbą całkowitą."
           smaller_than_or_equal_to: "(%{name}) – wartość musi być mniejsza lub równa %{count}."
           greater_than_or_equal_to: "(%{name}) – wartość musi być większa lub równa %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +593,15 @@ pl:
               error_not_found: "nie znaleziono"
             public:
               error_unauthorized: "– Użytkownik nie ma uprawnień do tworzenia widoków publicznych."
+            group_by:
+              invalid: "Nie można grupować przez: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Nieprawidłowa kolumna zapytań: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Nie można sortować według kolumny: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
           filters:
             custom_fields:
@@ -616,8 +624,9 @@ pl:
           must_not_be_ssh: "nie może być adresem SSH."
           no_directory: "nie jest katalogiem."
         role:
-          permissions:
-            dependency_missing: "musi również uwzględniać wybór '%{dependency}' jako '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "musi również uwzględniać wybór '%{dependency}' jako '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -744,6 +753,9 @@ pl:
     date: "Data"
     default_columns: "Domyślne kolumny"
     description: "Opis"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Wyświetl sumy"
     due_date: "Data zakończenia"
     estimated_hours: "Szacowany czas"
@@ -816,7 +828,6 @@ pl:
   button_generate: "Utwórz"
   button_list: "Lista"
   button_lock: "Blokada"
-  button_log_time: "Rejestruj czas pracy"
   button_login: "Zaloguj"
   button_move: "Przenieś"
   button_move_and_follow: "Przenieś i kontynuuj"
@@ -1058,8 +1069,6 @@ pl:
   description_compare_to: "W porównaniu do"
   description_current_position: "Jesteś tutaj: "
   description_date_from: "Wprowadź datę początkową"
-  description_date_range_interval: "Wybierz zakres wybierając datę rozpoczęcia i zakończenia"
-  description_date_range_list: "Wybierz zakres z listy"
   description_date_to: "Wprowadź datę końcową"
   description_enter_number: "Wprowadź numer"
   description_enter_text: "Wpisz tekst"
@@ -1112,9 +1121,6 @@ pl:
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
   error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
-  error_invalid_group_by: "Nie można grupować przez: %{value}"
-  error_invalid_query_column: "Nieprawidłowa kolumna zapytań: %{value}"
-  error_invalid_sort_criterion: "Nie można sortować według kolumny: %{value}"
   error_journal_attribute_not_present: "Dziennik nie zawiera atrybutu %{attribute}."
   error_pdf_export_too_many_columns: "Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz liczbę kolumn."
   error_pdf_failed_to_export: "Nie można było zapisać eksportu PDF: %{error}"
@@ -1343,7 +1349,6 @@ pl:
   label_date_and_time: "Data i czas"
   label_date_from: "Od"
   label_date_from_to: "Data od %{start} do %{end}"
-  label_date_range: "Zakres dat"
   label_date_to: "Do"
   label_day_plural: "dni"
   label_default: "Domyślnie"
@@ -1490,7 +1495,6 @@ pl:
   label_modified: "zmodyfikowany"
   label_module_plural: "Moduły"
   label_modules: "Moduły"
-  label_month: "Miesiąc"
   label_months_from: "miesięcy od"
   label_more: "Więcej"
   label_more_than_ago: "Więcej niż dni temu"
@@ -1661,8 +1665,6 @@ pl:
   label_this_week: "ten tydzień"
   label_this_year: "ten rok"
   label_time_entry_plural: "Czas pracy"
-  label_time_sheet_menu: "Grafik"
-  label_time_tracking: "Zarządzanie czasem"
   label_projects_menu: "Projekty"
   label_today: "dzisiaj"
   label_top_menu: "Głowne Menu"
@@ -1770,7 +1772,6 @@ pl:
     few: "%{count} projekty"
     many: "%{count} projekty"
     other: "%{count} projekty"
-  label_year: "Rok"
   label_yesterday: "wczoraj"
   auth_source:
     using_abstract_auth_source: "Nie można użyć fikcyjnego źródła uwierzytelniania."
@@ -1886,7 +1887,6 @@ pl:
   notice_successful_delete: "Usuwanie zakończone sukcesem."
   notice_successful_update: "Aktualizacja zakończona sukcesem."
   notice_to_many_principals_to_display: "Istnieje zbyt wiele wyników.\nNależy zawęzić wyszukiwanie przez wpisanie w nazwy użytkownika (lub grupy)."
-  notice_unable_delete_time_entry: "Nie można usunąć wpisu dziennika."
   notice_user_missing_authentication_method: Użytkownik jeszcze nie wybrał sposobu logowania przez hasło lub inaczej.
   notice_user_invitation_resent: Zaproszenie wysłano do %{email}.
   present_access_key_value: "Twój %{key_name} jest: %{value}"
@@ -2017,8 +2017,6 @@ pl:
   project_module_work_package_tracking: "Śledzenie pakietów roboczych"
   project_module_news: "Aktualności"
   project_module_repository: "Repozytorium"
-  project_module_time_tracking: "Zarządzanie czasem"
-  project_module_timelines: "Oś czasu"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2137,6 +2135,10 @@ pl:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Wyszukaj ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Metoda dostarczenia maila"
   setting_sendmail_location: "Lokalizacja pliku wykonywalnego sendmail"
   setting_smtp_enable_starttls_auto: "Automatycznie użyj STARTTLS, jeśli jest dostępny"
@@ -2191,7 +2193,6 @@ pl:
   setting_work_package_done_ratio_status: "Użyj statusu pakietu roboczego"
   setting_work_package_done_ratio_disabled: "Wyłącz (Ukryj postęp)"
   setting_work_package_list_default_columns: "Wyświetlane domyślnie"
-  setting_work_package_list_summable_columns: "Sumowanie"
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
   setting_work_packages_export_limit: "Limit eksportowanych pakietów roboczych"

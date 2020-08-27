@@ -59,10 +59,8 @@ module API
           errors = ActiveModel::Errors.new call.result
 
           call.dependent_results.each do |dr|
-            dr.errors.keys.each do |field|
-              dr.errors.symbols_and_messages_for(field).each do |symbol, full_message, _|
-                errors.add :base, symbol, message: dependent_error_message(dr.result, full_message)
-              end
+            dr.errors.full_messages.each do |full_message|
+              errors.add :base, :dependent_invalid, message: dependent_error_message(dr.result, full_message)
             end
           end
 

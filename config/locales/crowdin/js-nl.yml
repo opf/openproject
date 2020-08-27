@@ -116,6 +116,11 @@ nl:
         manual: 'Schakel naar de bron van het Markdown'
         wysiwyg: 'Schakel over naar de WYSIWYG-Editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Links naar onderliggende pagina ''s'
           include_parent: 'Inclusief bovenliggende'
@@ -410,6 +415,7 @@ nl:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Waarschuwing"
     label_work_package: "Werkpakket"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Werkpakketten"
     label_watch: "Volgen"
     label_watch_work_package: "Bekijk werkpakket"

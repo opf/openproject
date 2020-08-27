@@ -37,6 +37,7 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 import {OpTitleService} from "core-components/html/op-title.service";
 import {WorkPackageFilterContainerComponent} from "core-components/filters/filter-container/filter-container.directive";
 import {UIRouterGlobals} from '@uirouter/core';
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
   templateUrl: './ifc-viewer-page.component.html',
@@ -92,7 +93,11 @@ export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDes
     },
     {
       component: BimManageIfcModelsButtonComponent,
-      show: () => this.ifcData.allowed('manage_ifc_models')
+      show: () => {
+        // Hide 'Manage models' toolbar button on plugin environment (ie: Revit)
+        return this.viewerBridgeService.shouldShowViewer &&
+               this.ifcData.allowed('manage_ifc_models');
+      }
     }
   ];
 
@@ -125,7 +130,7 @@ export class IFCViewerPageComponent extends UntilDestroyedMixin implements OnDes
               readonly titleService:OpTitleService,
               readonly changeDetectorRef:ChangeDetectorRef,
               readonly uIRouterGlobals:UIRouterGlobals,
-) {
+              readonly viewerBridgeService:ViewerBridgeService) {
     super();
   }
 

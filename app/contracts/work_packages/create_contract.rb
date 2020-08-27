@@ -39,11 +39,7 @@ module WorkPackages
 
     default_attribute_permission :add_work_packages
 
-    def validate
-      user_allowed_to_add
-
-      super
-    end
+    validate :user_allowed_to_add
 
     private
 

@@ -116,6 +116,11 @@ pl:
         manual: 'Przełącz na źródło Markdown'
         wysiwyg: 'Przełącz na edytor WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Łącza do stron podrzędnych'
           include_parent: 'Uwzględnij nadrzędne'
@@ -410,6 +415,7 @@ pl:
     label_value_derived_from_children: "(wartość wyprowadzana z elementów podrzędnych)"
     label_warning: "Ostrzeżenie"
     label_work_package: "Zadanie"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pakiety robocze"
     label_watch: "Obserwuj"
     label_watch_work_package: "Obserwuj zadanie"

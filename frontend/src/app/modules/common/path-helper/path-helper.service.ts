@@ -175,12 +175,8 @@ export class PathHelperService {
     return this.projectPath(projectId) + '/news';
   }
 
-  public projectTimelinesPath(projectId:string) {
-    return this.projectPath(projectId) + '/timelines';
-  }
-
   public projectTimeEntriesPath(projectIdentifier:string) {
-    return this.projectPath(projectIdentifier) + '/time_entries';
+    return this.projectPath(projectIdentifier) + '/cost_reports';
   }
 
   public projectWikiPath(projectId:string) {

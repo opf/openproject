@@ -46,6 +46,10 @@ module API
                  },
                  setter: ->(fragment:, **) { self.description = fragment['raw'] },
                  render_nil: true
+
+        property :content_type, render_nil: false
+        property :file_size, render_nil: false
+        property :digest, render_nil: false
       end
     end
   end

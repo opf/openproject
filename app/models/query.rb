@@ -77,22 +77,15 @@ class Query < ApplicationRecord
     end
   end
 
-  after_initialize :set_context
-  # For some reasons the filters loose their context
-  # between the after_save and the after_commit callback.
-  after_commit :set_context
-
-  def set_context
-    # We need to set the project for each filter if a project
-    # is present because the information is not available when
-    # deserializing the filters from the db.
-
-    # Allow to use AR's select(...) without
-    # the filters attribute
-    return unless respond_to?(:filters)
-
-    filters.each do |filter|
-      filter.context = self
+  ##
+  # Ensure the filters receive
+  # the query context as this appears to be lost
+  # whenever the field is reloaded from the serialized value
+  def filters
+    super.tap do |filters|
+      filters.each do |filter|
+        filter.context = self
+      end
     end
   end
 
@@ -129,7 +122,8 @@ class Query < ApplicationRecord
 
     (column_names - available_names).each do |name|
       errors.add :column_names,
-                 I18n.t(:error_invalid_query_column, value: name)
+                 :invalid,
+                 value: name
     end
   end
 
@@ -138,14 +132,14 @@ class Query < ApplicationRecord
 
     sort_criteria.each do |name, _dir|
       unless available_criteria.include? name.to_s
-        errors.add :sort_criteria, I18n.t(:error_invalid_sort_criterion, value: name)
+        errors.add :sort_criteria, :invalid, value: name
       end
     end
   end
 
   def validate_group_by
     unless group_by.blank? || groupable_columns.map(&:name).map(&:to_s).include?(group_by.to_s)
-      errors.add :group_by, I18n.t(:error_invalid_group_by, value: group_by)
+      errors.add :group_by, :invalid, value: group_by
     end
   end
 
@@ -266,6 +260,10 @@ class Query < ApplicationRecord
       .merge(column_sortability)
   end
 
+  def summed_up_columns
+    available_columns.select(&:summable?)
+  end
+
   def columns
     column_list = if has_default_columns?
                     column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
@@ -350,11 +348,7 @@ class Query < ApplicationRecord
   end
 
   def display_sums?
-    display_sums && any_summable_columns?
-  end
-
-  def any_summable_columns?
-    Setting.work_package_list_summable_columns.any?
+    display_sums
   end
 
   def group_by_column

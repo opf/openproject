@@ -178,8 +178,6 @@ hr:
       no_results_content_text: Novo prilagođeno polje
   concatenation:
     single: 'or'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -563,6 +561,7 @@ hr:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -597,6 +596,15 @@ hr:
               error_not_found: "nije pronađeno"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -619,8 +627,9 @@ hr:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "nije direktorij."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -744,6 +753,9 @@ hr:
     date: "Datum"
     default_columns: "Zadani stupci"
     description: "Opis"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Prikaži iznose"
     due_date: "Finish date"
     estimated_hours: "Predviđeno vrijeme"
@@ -816,7 +828,6 @@ hr:
   button_generate: "Generiraj"
   button_list: "Popis"
   button_lock: "Zaključaj"
-  button_log_time: "Vrijeme pristupa"
   button_login: "Prijavi se"
   button_move: "Premjesti"
   button_move_and_follow: "Premjesti i slijedi"
@@ -1046,8 +1057,6 @@ hr:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Unesite datum početka"
-  description_date_range_interval: "Odaberite raspon tako da odaberete datum početka i završetka"
-  description_date_range_list: "Odaberite raspon s popisa"
   description_date_to: "Unesite datum završetka"
   description_enter_number: "Unesite broj"
   description_enter_text: "Unesite tekst"
@@ -1100,9 +1109,6 @@ hr:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1331,7 +1337,6 @@ hr:
   label_date_and_time: "Datum i vrijeme"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
-  label_date_range: "Raspon datuma"
   label_date_to: "Prima"
   label_day_plural: "dani"
   label_default: "Zadana vrijednost"
@@ -1478,7 +1483,6 @@ hr:
   label_modified: "modificirano"
   label_module_plural: "Moduli"
   label_modules: "Moduli"
-  label_month: "Mjesec"
   label_months_from: "mjeseci od"
   label_more: "Više"
   label_more_than_ago: "prije nekoliko dana"
@@ -1649,8 +1653,6 @@ hr:
   label_this_week: "ovog tjedna"
   label_this_year: "ove godine"
   label_time_entry_plural: "Utrošeno vrijeme"
-  label_time_sheet_menu: "Vrijeme angažiranosti"
-  label_time_tracking: "Praćenje vremena"
   label_projects_menu: "Projekti"
   label_today: "danas"
   label_top_menu: "Gornji izbornik"
@@ -1754,7 +1756,6 @@ hr:
     one: "1 projekt"
     few: "%{count} projekta"
     other: "%{count} projekta"
-  label_year: "Godina"
   label_yesterday: "jučer"
   auth_source:
     using_abstract_auth_source: "Ne možete se koristiti apstraktni izvor autentifikacije."
@@ -1871,7 +1872,6 @@ hr:
   notice_successful_delete: "Brisanje uspješno."
   notice_successful_update: "Ažuriranje je uspješno završeno."
   notice_to_many_principals_to_display: "Prikazano je previše rezultata.\nSužite rezultate pretrage na način da unesete ime novog člana (ili grupe)."
-  notice_unable_delete_time_entry: "Nije moguće brisanje evidentiranih zapisa o vremenu."
   notice_user_missing_authentication_method: Korisnik mora odabrati lozinku ili drugi način prijave.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Vaš %{key_name} je: %{value}"
@@ -2001,8 +2001,6 @@ hr:
   project_module_work_package_tracking: "Praćenje radnog paketa"
   project_module_news: "Vijesti"
   project_module_repository: "Repozitorij"
-  project_module_time_tracking: "Praćenje vremena"
-  project_module_timelines: "Kronologija"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2123,6 +2121,10 @@ hr:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Traži ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2177,7 +2179,6 @@ hr:
   setting_work_package_done_ratio_status: "Koristi status radnog paketa"
   setting_work_package_done_ratio_disabled: "Onemogući (sakrij omjer učinjenoga)"
   setting_work_package_list_default_columns: "Zadani prikaz"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Postavke radnih paketa"
   setting_work_package_startdate_is_adddate: "Koristite današanji datum kao početni datum novih radnih paketa"
   setting_work_packages_export_limit: "Limit izvoza radnih paketa"

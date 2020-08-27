@@ -32,7 +32,7 @@ import {States} from "core-components/states.service";
 import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
 import {concat, from, merge, Observable, of} from "rxjs";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {mapTo, publish, share, switchMap, take, tap} from "rxjs/operators";
+import {mapTo, publish, share, shareReplay, switchMap, take, tap} from "rxjs/operators";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
@@ -59,7 +59,7 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
         .load()
         .pipe(
           take(1),
-          share()
+          shareReplay(1)
         );
 
       this.cache.clearAndLoad(
@@ -70,7 +70,7 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
       // Return concat of the loading observable
       // for error handling and the like,
       // but then continue with the streamed cache
-      return merge<T>(
+      return concat<T>(
         observable,
         this.cache.state(id).values$()
       );

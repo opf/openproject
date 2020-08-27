@@ -30,11 +30,7 @@ module Versions
   class DeleteContract < ::DeleteContract
     delete_permission :manage_versions
 
-    def validate
-      validate_no_work_packages_attached
-
-      super
-    end
+    validate :validate_no_work_packages_attached
 
     protected
 

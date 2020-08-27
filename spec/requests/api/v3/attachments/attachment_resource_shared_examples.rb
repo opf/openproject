@@ -29,6 +29,112 @@
 require 'spec_helper'
 require 'rack/test'
 
+shared_examples 'it supports direct uploads' do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
+  include FileHelpers
+
+  let(:container_href) { raise "define me!" }
+  let(:request_path) { raise "define me!" }
+
+  before do
+    allow(User).to receive(:current).and_return current_user
+  end
+
+  describe 'POST /prepare', with_settings: { attachment_max_size: 512 } do
+    let(:request_parts) { { metadata: metadata, file: file } }
+    let(:metadata) { { fileName: 'cat.png', fileSize: file.size }.to_json }
+    let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
+
+    def request!
+      post request_path, request_parts
+    end
+
+    subject(:response) { last_response }
+
+    context 'with local storage' do
+      before do
+        request!
+      end
+
+      it 'should respond with HTTP Not Found' do
+        expect(subject.status).to eq(404)
+      end
+    end
+    
+    context 'with remote AWS storage', with_direct_uploads: true do
+      before do
+        request!
+      end
+
+      context 'with no filesize metadata' do
+        let(:metadata) { { fileName: 'cat.png' }.to_json }
+
+        it 'should respond with 422 due to missing file size metadata' do
+          expect(subject.status).to eq(422)
+          expect(subject.body).to include 'fileSize'
+        end
+      end
+
+      context 'with the correct parameters' do
+        let(:json) { JSON.parse subject.body }
+
+        it 'should prepare a direct upload' do
+          expect(subject.status).to eq 201
+
+          expect(json["_type"]).to eq "AttachmentUpload"
+          expect(json["fileName"]).to eq "cat.png"
+        end
+
+        describe 'response' do
+          describe '_links' do
+            describe 'container' do
+              let(:link) { json.dig "_links", "container" }
+
+              before do
+                expect(link).to be_present
+              end
+
+              it "it points to the expected container" do
+                expect(link["href"]).to eq container_href
+              end
+            end
+
+            describe 'addAttachment' do
+              let(:link) { json.dig "_links", "addAttachment" }
+
+              before do
+                expect(link).to be_present
+              end
+
+              it 'should point to AWS' do
+                expect(link["href"]).to eq "https://#{MockCarrierwave.bucket}.s3.amazonaws.com/"
+              end
+
+              it 'should have the method POST' do
+                expect(link["method"]).to eq "post"
+              end
+
+              it 'should include form fields' do
+                fields = link["form_fields"]
+
+                expect(fields).to be_present
+                expect(fields).to include(
+                  "key", "acl", "policy",
+                  "X-Amz-Signature", "X-Amz-Credential", "X-Amz-Algorithm", "X-Amz-Date",
+                  "success_action_status"
+                )
+
+                expect(fields["key"]).to end_with "cat.png"
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
 shared_examples 'an APIv3 attachment resource', type: :request, content_type: :json do |include_by_container = true|
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
@@ -366,6 +472,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
   end
 
   context 'by container', if: include_by_container do
+    it_behaves_like 'it supports direct uploads' do
+      let(:request_path) { "/api/v3/#{attachment_type}s/#{container.id}/attachments/prepare" }
+      let(:container_href) { "/api/v3/#{attachment_type}s/#{container.id}" }
+    end
+
     subject(:response) { last_response }
 
     describe '#get' do

@@ -25,7 +25,6 @@ lt:
       property_groups:
         costs: "Kaštai"
       properties:
-        costObject: "Biudžetas"
         overallCosts: "Bendri kaštai"
         spentUnits: "Panaudota vienetų"
     button_log_costs: "Vesti į žurnalą vieneto kaštus"

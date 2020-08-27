@@ -178,8 +178,6 @@ nl:
       no_results_content_text: Maak een nieuw aangepast veld
   concatenation:
     single: 'of'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -562,6 +560,7 @@ nl:
           not_an_integer: "(%{name}) is geen geheel getal."
           smaller_than_or_equal_to: "(%{name}) moet kleiner zijn dan of gelijk aan %{count}."
           greater_than_or_equal_to: "(%{name}) moet groter zijn dan of gelijk aan %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -596,6 +595,15 @@ nl:
               error_not_found: "niet gevonden"
             public:
               error_unauthorized: "-De gebruiker heeft geen toestemming om openbare overzichten te maken."
+            group_by:
+              invalid: "Kan niet groeperen op: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Ongeldige zoekopdracht kolom: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Kan niet sorteren op kolom: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
           filters:
             custom_fields:
@@ -618,8 +626,9 @@ nl:
           must_not_be_ssh: "mag geen ssh url zijn."
           no_directory: "is geen map."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -740,6 +749,9 @@ nl:
     date: "Datum"
     default_columns: "Standaardkolommen"
     description: "Omschrijving"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Bedragen weergeven"
     due_date: "Einddatum"
     estimated_hours: "Geschatte tijd"
@@ -812,7 +824,6 @@ nl:
   button_generate: "Genereer"
   button_list: "Lijst"
   button_lock: "Vergrendelen"
-  button_log_time: "Gelogde tijd"
   button_login: "Aanmelden"
   button_move: "Verplaatsen"
   button_move_and_follow: "Verplaatsen en volgen"
@@ -1030,8 +1041,6 @@ nl:
   description_compare_to: "Vergelijk met"
   description_current_position: "You are here: "
   description_date_from: "Begindatum opgeven"
-  description_date_range_interval: "Kies bereik door begin- en einddatum te selecteren"
-  description_date_range_list: "Bereik kiezen uit lijst"
   description_date_to: "Voer de einddatum in"
   description_enter_number: "Voer een nummer in"
   description_enter_text: "Tekst invoeren"
@@ -1084,9 +1093,6 @@ nl:
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "De geselecteerde waarde is ongeldig."
-  error_invalid_group_by: "Kan niet groeperen op: %{value}"
-  error_invalid_query_column: "Ongeldige zoekopdracht kolom: %{value}"
-  error_invalid_sort_criterion: "Kan niet sorteren op kolom: %{value}"
   error_journal_attribute_not_present: "Dagboek bevat geen kenmerk %{attribute}."
   error_pdf_export_too_many_columns: "Te veel kolommen geselecteerd voor het exporteren naar PDF. Beperk het aantal kolommen."
   error_pdf_failed_to_export: "De pdf export kan niet worden opgeslagen:%{error}"
@@ -1315,7 +1321,6 @@ nl:
   label_date_and_time: "Datum en tijd"
   label_date_from: "Van"
   label_date_from_to: "Van %{start} tot %{end}"
-  label_date_range: "Datumbereik"
   label_date_to: "Aan"
   label_day_plural: "dagen"
   label_default: "Standaard"
@@ -1462,7 +1467,6 @@ nl:
   label_modified: "gewijzigd"
   label_module_plural: "Modules"
   label_modules: "Modules"
-  label_month: "Maand"
   label_months_from: "maanden vanaf"
   label_more: "Meer"
   label_more_than_ago: "meer dan dagen geleden"
@@ -1633,8 +1637,6 @@ nl:
   label_this_week: "deze week"
   label_this_year: "Dit jaar"
   label_time_entry_plural: "Bestede tijd"
-  label_time_sheet_menu: "Tijdkaart"
-  label_time_tracking: "Tijdregistratie"
   label_projects_menu: "Projecten"
   label_today: "vandaag"
   label_top_menu: "Hoofdmenu"
@@ -1734,7 +1736,6 @@ nl:
     zero: "no projects"
     one: "1 project"
     other: "%{count} projecten"
-  label_year: "Jaar"
   label_yesterday: "gisteren"
   auth_source:
     using_abstract_auth_source: "Kan geen abstracte authenticatiebron gebruiken."
@@ -1850,7 +1851,6 @@ nl:
   notice_successful_delete: "Verwijdering geslaagd."
   notice_successful_update: "Succesvolle wijziging."
   notice_to_many_principals_to_display: "Er zijn te veel resultaten. Beperk het zoekbereik door een naam in te geven van een nieuw lid (of groep)."
-  notice_unable_delete_time_entry: "Niet in staat om tijdlog te verwijderen."
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te kiezen of een andere manier om in te loggen te bepalen.
   notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
   present_access_key_value: "Uw %{key_name} is: %{value}"
@@ -1979,8 +1979,6 @@ nl:
   project_module_work_package_tracking: "Werkpakket bijhouden"
   project_module_news: "Nieuws"
   project_module_repository: "Repository"
-  project_module_time_tracking: "Tijdregistratie"
-  project_module_timelines: "Tijdlijnen"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2101,6 +2099,10 @@ nl:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Zoeken ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Kies verzendmethode"
   setting_sendmail_location: "Locatie van het uitvoerbare sendmail"
   setting_smtp_enable_starttls_auto: "Gebruik STARTTLS automatisch wanneer deze beschikbaar is"
@@ -2155,7 +2157,6 @@ nl:
   setting_work_package_done_ratio_status: "Gebruik de werkpakket status"
   setting_work_package_done_ratio_disabled: "Uitschakelen (verbergen de vooruitgang)"
   setting_work_package_list_default_columns: "Standaard worden weergegeven"
-  setting_work_package_list_summable_columns: "Optelbaar"
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
   setting_work_packages_export_limit: "Werkpakketten export limiet"

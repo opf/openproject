@@ -52,20 +52,18 @@ module CustomActions::Actions::Strategies::ValidateInRange
   def validate_smaller_than_maximum(errors)
     if maximum && values[0] > maximum
       errors.add :actions,
-                 I18n.t(:'activerecord.errors.models.custom_actions.smaller_than_or_equal_to',
-                        name: human_name,
-                        count: maximum),
-                 error_symbol: :smaller_than_or_equal_to
+                 :smaller_than_or_equal_to,
+                 name: human_name,
+                 count: maximum
     end
   end
 
   def validate_greater_than_minimum(errors)
     if minimum && values[0] < minimum
       errors.add :actions,
-                 I18n.t(:'activerecord.errors.models.custom_actions.greater_than_or_equal_to',
-                        name: human_name,
-                        count: minimum),
-                 error_symbol: :greater_than_or_equal_to
+                 :greater_than_or_equal_to,
+                 name: human_name,
+                 count: minimum
     end
   end
 end

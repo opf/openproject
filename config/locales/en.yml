@@ -201,9 +201,6 @@ en:
   concatenation:
     single: 'or'
 
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
-
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -614,6 +611,7 @@ en:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -648,6 +646,15 @@ en:
               error_not_found: "not found"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -670,8 +677,9 @@ en:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "is not a directory."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -873,7 +881,6 @@ en:
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
-  button_log_time: "Log time"
   button_login: "Sign in"
   button_move: "Move"
   button_move_and_follow: "Move and follow"
@@ -1061,8 +1068,6 @@ en:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Enter start date"
-  description_date_range_interval: "Choose range by selecting start and end date"
-  description_date_range_list: "Choose range from list"
   description_date_to: "Enter end date"
   description_enter_number: "Enter number"
   description_enter_text: "Enter text"
@@ -1119,9 +1124,6 @@ en:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1363,7 +1365,6 @@ en:
   label_date_and_time: "Date and time"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
-  label_date_range: "Date range"
   label_date_to: "To"
   label_day_plural: "days"
   label_default: "Default"
@@ -1510,7 +1511,6 @@ en:
   label_modified: "modified"
   label_module_plural: "Modules"
   label_modules: "Modules"
-  label_month: "Month"
   label_months_from: "months from"
   label_more: "More"
   label_more_than_ago: "more than days ago"
@@ -1681,8 +1681,6 @@ en:
   label_this_week: "this week"
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
-  label_time_sheet_menu: "Time sheet"
-  label_time_tracking: "Time tracking"
   label_projects_menu: "Projects"
   label_today: "today"
   label_top_menu: "Top Menu"
@@ -1782,7 +1780,6 @@ en:
     one: "1 project"
     other: "%{count} projects"
     zero: "no projects"
-  label_year: "Year"
   label_yesterday: "yesterday"
 
   auth_source:
@@ -1908,7 +1905,6 @@ en:
   notice_successful_delete: "Successful deletion."
   notice_successful_update: "Successful update."
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
-  notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
@@ -2045,8 +2041,6 @@ en:
   project_module_work_package_tracking: "Work package tracking"
   project_module_news: "News"
   project_module_repository: "Repository"
-  project_module_time_tracking: "Time tracking"
-  project_module_timelines: "Timelines"
   project_module_wiki: "Wiki"
 
   query:
@@ -2175,6 +2169,12 @@ en:
 
   search_input_placeholder: "Search ..."
 
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API.
+    <br/>
+    Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2229,7 +2229,6 @@ en:
   setting_work_package_done_ratio_status: "Use the work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
   setting_work_package_list_default_columns: "Display by default"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_export_limit: "Work packages export limit"

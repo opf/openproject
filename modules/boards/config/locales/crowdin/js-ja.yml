@@ -24,7 +24,7 @@ ja:
         locked: 'ロックされている'
         closed: '終了'
       new_board: '新しいボード'
-      add_list: 'リストを追加'
+      add_list: 'Add list to board'
       add_card: 'カードを追加'
       error_attribute_not_writable: "作業項目を移動できません。 %{attribute} は書き込みできません。"
       error_loading_the_list: "リストの読み込み中にエラーが発生しました: %{error_message}"
@@ -35,18 +35,29 @@ ja:
         free: '基本ボード'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
-          自由にリストを作成し、その中で作業項目を注文できるボードを作成してください。 リスト間で作業項目を移動しても、作業項目自体は変更されません。
+          A board in which you can freely create lists and order your work packages within. Dragging work packages between lists do not change the work package itself.
         action: 'アクションボード'
         action_by_attribute: 'アクションボード (%{attribute})'
         action_text: >
-          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          A board with lists of subprojects of this project and their work packages as list items. Dragging work packages to other lists will move them to the corresponding subproject.
+        action_text_subtasks: >
+          A board with lists of selected parents and their child work packages as list items. Dragging work packages to other lists will update the parent accordingly.
         action_type:
           assignee: assignee
           status: status
           version: version
           subproject: subproject
+          subtasks: children
         select_attribute: "アクション属性"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             There is currently no status available. <br>

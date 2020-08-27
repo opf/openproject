@@ -116,6 +116,11 @@ tr:
         manual: 'Markdown kaynağına geç'
         wysiwyg: 'WYSIWYG düzenleyiciye geç'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Alt sayfalara bağlantılar'
           include_parent: 'Üst öğeyi dahil et'
@@ -410,6 +415,7 @@ tr:
     label_value_derived_from_children: "(çocuklardan elde edilen değer)"
     label_warning: "Uyarı"
     label_work_package: "İş paketi"
+    label_work_package_parent: "İş paketini oluştur"
     label_work_package_plural: "İş paketleri"
     label_watch: "İzle"
     label_watch_work_package: "İş paketini izle"

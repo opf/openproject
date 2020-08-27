@@ -24,7 +24,7 @@ sl:
         locked: 'Zaklenjen'
         closed: 'Zaprto'
       new_board: 'Nova tabla'
-      add_list: 'Dodaj seznam'
+      add_list: 'Add list to board'
       add_card: 'Dodaj kartico'
       error_attribute_not_writable: "Delovnega paketa ni mogoče premakniti, %{attribute} ni zapisljiv."
       error_loading_the_list: "Napaka pri nalaganju seznama: %{error_message}"
@@ -35,18 +35,29 @@ sl:
         free: 'Osnovna tabela'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
-          Ustvarite tablo, v kateri lahko prosto ustvarite sezname in naročite svoje delovne pakete. Premikanje delovnih paketov med seznami ne spremeni samega delovnega paketa.
+          A board in which you can freely create lists and order your work packages within. Dragging work packages between lists do not change the work package itself.
         action: 'Tabela opravil'
         action_by_attribute: 'Tabela opravil (%{attribute})'
         action_text: >
-          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          A board with lists of subprojects of this project and their work packages as list items. Dragging work packages to other lists will move them to the corresponding subproject.
+        action_text_subtasks: >
+          A board with lists of selected parents and their child work packages as list items. Dragging work packages to other lists will update the parent accordingly.
         action_type:
           assignee: Pooblaščenec
           status: Stanje
           version: različica
           subproject: subproject
+          subtasks: children
         select_attribute: "Atributi opravil"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             Trenutno ni na voljo nobenega statusa <br>

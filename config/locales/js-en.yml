@@ -133,6 +133,11 @@ en:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Links to child pages'
           include_parent: 'Include parent'
@@ -447,6 +452,7 @@ en:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
     label_work_package: "Work package"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Work packages"
     label_watch: "Watch"
     label_watch_work_package: "Watch work package"

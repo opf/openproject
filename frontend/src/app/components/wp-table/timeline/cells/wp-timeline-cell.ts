@@ -40,7 +40,6 @@ import {HalEventsService} from "core-app/modules/hal/services/hal-events.service
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -76,7 +75,6 @@ export class WorkPackageTimelineCell {
 
   private elementShape:string;
 
-  private timelineCell:JQuery;
   private labels:WorkPackageCellLabels;
 
   constructor(public readonly injector:Injector,

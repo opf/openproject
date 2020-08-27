@@ -62,7 +62,6 @@ export class KeyboardShortcutService {
     'g a': this.projectScoped('projectActivityPath'),
     'g c': this.projectScoped('projectCalendarPath'),
     'g n': this.projectScoped('projectNewsPath'),
-    'g t': this.projectScoped('projectTimelinesPath'),
     'n w p': this.projectScoped('projectWorkPackageNewPath'),
 
     'g e': this.accessKey('edit'),

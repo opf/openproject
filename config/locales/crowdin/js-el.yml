@@ -116,6 +116,11 @@ el:
         manual: 'Αλλαγή σε Markdown source'
         wysiwyg: 'Αλλαγή σε επεξεργαστή WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Σύνδεσμοι σε σελίδες-παιδιά'
           include_parent: 'Συμπεριλάβετε τον γονέα'
@@ -409,6 +414,7 @@ el:
     label_value_derived_from_children: "(αξία που προέρχεται από παιδιά)"
     label_warning: "Προειδοποίηση"
     label_work_package: "Εργασία"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Πακέτα εργασίας"
     label_watch: "Παρακολουθήστε"
     label_watch_work_package: "Παρακολούθηση πακέτου εργασίας"

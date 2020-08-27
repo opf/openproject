@@ -32,29 +32,12 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
   def initialize(custom_field)
     super
 
-    set_name! custom_field
-    set_sortable! custom_field
-    set_groupable! custom_field
-    set_summable! custom_field
-
     @cf = custom_field
-  end
 
-  def set_name!(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-  end
-
-  def set_sortable!(custom_field)
-    self.sortable = custom_field.order_statements || false
-  end
-
-  def set_groupable!(custom_field)
-    self.groupable = custom_field.group_by_statements if groupable_custom_field?(custom_field)
-    self.groupable ||= false
-  end
-
-  def set_summable!(custom_field)
-    self.summable = %w(float int).include?(custom_field.field_format)
+    set_name!
+    set_sortable!
+    set_groupable!
+    set_summable!
   end
 
   def groupable_custom_field?(custom_field)
@@ -77,23 +60,6 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     work_package.formatted_custom_value_for(@cf.id)
   end
 
-  def sum_of(work_packages)
-    if work_packages.respond_to?(:joins)
-      cast = @cf.field_format == 'int' ? 'BIGINT' : 'FLOAT'
-
-      CustomValue
-        .where(customized: work_packages, custom_field: @cf)
-        .where.not(value: nil)
-        .where.not(value: '')
-        .pluck("SUM(value::#{cast})")
-        .first
-    else
-      # TODO: eliminate calls of this method with an Array and drop the :compact call below
-      ActiveSupport::Deprecation.warn('Passing an array of work packages is deprecated. Pass an AR-relation instead.')
-      work_packages.map { |wp| wp.typed_custom_value_for(@cf) }.compact.reduce(:+)
-    end
-  end
-
   def self.instances(context = nil)
     if context
       context.all_work_package_custom_fields
@@ -102,5 +68,50 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     end
       .reject { |cf| cf.field_format == 'text' }
       .map { |cf| new(cf) }
+  end
+
+  private
+
+  def set_name!
+    self.name = "cf_#{custom_field.id}".to_sym
+  end
+
+  def set_sortable!
+    self.sortable = custom_field.order_statements || false
+  end
+
+  def set_groupable!
+    self.groupable = custom_field.group_by_statements if groupable_custom_field?(custom_field)
+    self.groupable ||= false
+  end
+
+  def set_summable!
+    self.summable = if %w(float int).include?(custom_field.field_format)
+                      select = summable_select_statement
+
+                      ->(query, grouped) {
+                        Queries::WorkPackages::Columns::WorkPackageColumn
+                          .scoped_column_sum(summable_scope(query), select, grouped && query.group_by_statement)
+                      }
+                    else
+                      false
+                    end
+  end
+
+  def summable_scope(query)
+    WorkPackage
+      .where(id: query.results.work_packages)
+      .left_joins(:custom_values)
+      .where(custom_values: { custom_field: custom_field })
+      .where.not(custom_values: { value: nil })
+      .where.not(custom_values: { value: '' })
+  end
+
+  def summable_select_statement
+    if custom_field.field_format == 'int'
+      "COALESCE(SUM(value::BIGINT)::BIGINT, 0) #{name}"
+    else
+      "COALESCE(ROUND(SUM(value::NUMERIC), 2)::FLOAT, 0.0) #{name}"
+    end
   end
 end

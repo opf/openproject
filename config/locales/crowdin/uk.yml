@@ -178,8 +178,6 @@ uk:
       no_results_content_text: Створіть нове спеціальне поле
   concatenation:
     single: 'або'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -564,6 +562,7 @@ uk:
           not_an_integer: "(%{name})  не є цілим числом."
           smaller_than_or_equal_to: "(%{name})  має бути меншим або рівним   %{count}."
           greater_than_or_equal_to: "(%{name}) має бути більшим або рівним %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -598,6 +597,15 @@ uk:
               error_not_found: "не знайдено"
             public:
               error_unauthorized: "- Користувач не має дозволу на створення загальнодоступних переглядів."
+            group_by:
+              invalid: "Неможливо групувати за %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Недійсний стовпець запиту: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Неможливо сортувати за стовпцями: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
             custom_fields:
@@ -620,8 +628,9 @@ uk:
           must_not_be_ssh: "не повинна бути URL-адресою SSH."
           no_directory: "не є каталогом."
         role:
-          permissions:
-            dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -748,6 +757,9 @@ uk:
     date: "Дата"
     default_columns: "Типові колонки"
     description: "Опис"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Відображати суми"
     due_date: "Дата закінчення"
     estimated_hours: "Час (приблизно)"
@@ -820,7 +832,6 @@ uk:
   button_generate: "Згенерувати"
   button_list: "Список"
   button_lock: "Заблокувати"
-  button_log_time: "Час журналу"
   button_login: "Увійти"
   button_move: "Перемістити"
   button_move_and_follow: "Перемістити і перейти"
@@ -1062,8 +1073,6 @@ uk:
   description_compare_to: "Порівняти до"
   description_current_position: "Ви знаходитесь тут: "
   description_date_from: "Введіть дату початку"
-  description_date_range_interval: "Вибрати діапазон вибравши початкову та кінцеву дату"
-  description_date_range_list: "Вибрати діапазон зі списку"
   description_date_to: "Введіть кінцеву дату"
   description_enter_number: "Введіть номер"
   description_enter_text: "Введіть текст"
@@ -1116,9 +1125,6 @@ uk:
   error_failed_to_delete_entry: 'Не вдалося видалити цей запис.'
   error_in_dependent: "Помилка спроби змінити залежний об'єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Недійсне вибране значення."
-  error_invalid_group_by: "Неможливо групувати за %{value}"
-  error_invalid_query_column: "Недійсний стовпець запиту: %{value}"
-  error_invalid_sort_criterion: "Неможливо сортувати за стовпцями: %{value}"
   error_journal_attribute_not_present: "Журнал не містить атрибута %{attribute}."
   error_pdf_export_too_many_columns: "Для експорту PDF-файлу вибрано занадто багато стовпців. Скоротіть кількість стовпців."
   error_pdf_failed_to_export: "Експорт PDF не вдалося зберегти: %{error}"
@@ -1347,7 +1353,6 @@ uk:
   label_date_and_time: "Дата і час"
   label_date_from: "Від"
   label_date_from_to: "З %{start} по %{end}"
-  label_date_range: "Проміжок часу"
   label_date_to: "Кому:"
   label_day_plural: "днів"
   label_default: "За замовчуванням"
@@ -1494,7 +1499,6 @@ uk:
   label_modified: "змінено"
   label_module_plural: "Модулі"
   label_modules: "Модулі"
-  label_month: "Місяць"
   label_months_from: "місяців(ця) з"
   label_more: "Більше"
   label_more_than_ago: "більш ніж днів(я) назад"
@@ -1665,8 +1669,6 @@ uk:
   label_this_week: "цього тижня"
   label_this_year: "цей рік"
   label_time_entry_plural: "Трудовитрати"
-  label_time_sheet_menu: "Табель обліку робочого часу"
-  label_time_tracking: "Відстеження часу"
   label_projects_menu: "Проекти"
   label_today: "сьогодні"
   label_top_menu: "Верхнє меню"
@@ -1774,7 +1776,6 @@ uk:
     few: "%{count} проектів"
     many: "%{count} проектів"
     other: "%{count} проектів"
-  label_year: "Рік"
   label_yesterday: "вчора"
   auth_source:
     using_abstract_auth_source: "Неможливо використовувати абстрактне джерело автентифікації."
@@ -1891,7 +1892,6 @@ uk:
   notice_successful_delete: "Видалення успішно завершене."
   notice_successful_update: "Успішно оновлено."
   notice_to_many_principals_to_display: "Є занадто багато результатів.\nЗвузити пошук ввівши назву нового елемента (або групи)."
-  notice_unable_delete_time_entry: "Неможливо видалити запис журналу."
   notice_user_missing_authentication_method: Користувач ще не вибрав пароль або інший спосіб входу.
   notice_user_invitation_resent: Надіслано запрошення %{email}.
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
@@ -2022,8 +2022,6 @@ uk:
   project_module_work_package_tracking: "Відстеження робочого пакету"
   project_module_news: "Новини"
   project_module_repository: "Репозиторій"
-  project_module_time_tracking: "Відстеження часу"
-  project_module_timelines: "Терміни"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute}%{direction}"
@@ -2144,6 +2142,10 @@ uk:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Пошук ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Спосіб доставки електронної пошти"
   setting_sendmail_location: "Розташування виконуваного файлу sendmail"
   setting_smtp_enable_starttls_auto: "Автоматично використовуйте STARTTLS, якщо він доступний"
@@ -2198,7 +2200,6 @@ uk:
   setting_work_package_done_ratio_status: "Використовуйте поле робочого пакету"
   setting_work_package_done_ratio_disabled: "Вимкнути (приховати прогрес)"
   setting_work_package_list_default_columns: "Дисплей за замовчуванням"
-  setting_work_package_list_summable_columns: "Підсумковий"
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
   setting_work_packages_export_limit: "Ліміт експорту робочих пакетів"

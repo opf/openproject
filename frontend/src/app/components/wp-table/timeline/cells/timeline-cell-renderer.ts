@@ -22,7 +22,7 @@ import {
 } from './wp-timeline-cell';
 import {classNameBarLabel, classNameLeftHandle, classNameRightHandle} from './wp-timeline-cell-mouse-handler';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
+import {DisplayFieldRenderer} from 'core-app/modules/fields/display/display-field-renderer';
 import {Injector} from '@angular/core';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
@@ -396,7 +396,8 @@ export class TimelineCellRenderer {
     let selectionMode = renderInfo.viewParams.activeSelectionMode;
 
     // Cannot edit the work package if it has children
-    if (!wp.isLeaf && !selectionMode) {
+    // and it is not on 'Manual scheduling' mode
+    if (!wp.isLeaf && !selectionMode && !wp.scheduleManually) {
       bar.classList.add('-readonly');
     } else {
       bar.classList.remove('-readonly');

@@ -53,6 +53,7 @@ import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/help
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {filter, map, take, tap} from "rxjs/operators";
 import {APIV3Service} from "../../apiv3/api-v3.service";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -62,6 +63,8 @@ interface SearchResultItem {
   status:string;
   statusId:string;
   $href:string;
+  project:string;
+  author:HalResource;
 }
 
 interface SearchOptionItem {
@@ -299,7 +302,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         subject: wp.subject,
         status: wp.status.name,
         statusId: wp.status.idFromLink,
-        $href: wp.$href
+        $href: wp.$href,
+        project: wp.project.name,
+        author: wp.author
       } as SearchResultItem;
 
       // If we have a direct hit, we choose it to be the selected element.

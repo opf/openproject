@@ -42,7 +42,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   };
 
   @InjectField() PathHelper:PathHelperService;
-  @InjectField() timeEntryCreateService:TimeEntryCreateService;
+  @InjectField(TimeEntryCreateService, null) timeEntryCreateService:TimeEntryCreateService;
   @InjectField() apiV3Service:APIV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
@@ -63,8 +63,9 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         .id(this.resource.project)
         .get()
         .subscribe((project:ProjectResource) => {
+          // Link to the cost report having the work package filter preselected. No grouping.
           const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
-            .search({ work_package_id: wpID })
+            .search(`fields[]=WorkPackageId&operators[WorkPackageId]=%3D&values[WorkPackageId]=${wpID}&set_filter=1`)
             .toString();
 
           link.href = href;
@@ -78,7 +79,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   }
 
   private appendTimelogLink(element:HTMLElement) {
-    if (this.resource.logTime) {
+    if (this.timeEntryCreateService && this.resource.logTime) {
       const timelogElement = document.createElement('a');
       timelogElement.setAttribute('class', 'icon icon-time');
       timelogElement.setAttribute('href', '');

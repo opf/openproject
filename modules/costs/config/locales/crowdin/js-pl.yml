@@ -25,7 +25,6 @@ pl:
       property_groups:
         costs: "Koszty"
       properties:
-        costObject: "Budżet"
         overallCosts: "Koszt całkowity"
         spentUnits: "Zużyte jednostki"
     button_log_costs: "Rejestruj koszty jednostkowe"

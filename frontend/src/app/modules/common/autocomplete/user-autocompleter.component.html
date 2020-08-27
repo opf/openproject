@@ -11,7 +11,7 @@
            [appendTo]="appendTo"
            [multiple]="multiple" >
   <ng-template ng-option-tmp let-item="item" let-index="index">
-    <user-avatar *ngIf="item && item.id"
+    <user-avatar *ngIf="item && item.href"
                  [user]="item"
                  data-class-list="avatar-mini">
     </user-avatar>

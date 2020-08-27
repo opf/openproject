@@ -120,8 +120,8 @@ $search-input-height: 30px
 
 .global-search--option-wrapper
   padding: 5px 5px
-  line-height: 25px
-  min-height: 35px  // line-height + padding
+  line-height: 15px
+  min-height: 25px  // line-height + padding
   word-break: break-word
 
 .global-search--project-scope
@@ -133,3 +133,44 @@ $search-input-height: 30px
   border-radius: 2px
   padding: 0 4px
   color: var(--body-font-color)
+
+
+.global-search-author-avatar
+  margin-right: 5px
+  float: left
+
+
+
+.global-search--wp-content
+  display: grid
+  grid-template-columns: auto 1fr auto
+  grid-template-rows: auto auto auto 1fr auto
+  grid-template-areas: "project idlink status"
+  overflow: hidden
+  flex-grow: 1
+  font-size: 0.8rem
+  padding: 5px 0 5px 0px
+ 
+
+  .global-search--wp-project
+    grid-area: project
+
+  .global-search--wp-id
+    grid-area: idlink
+    place-self: center 
+    font-style: italic
+
+  .global-search--wp-status
+    grid-area: status
+    margin-right: 5px
+    overflow: hidden
+    font-style: italic
+
+
+.global-search--wp-subject
+  font-weight: bold
+  display: inline-block
+  width: 85%
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis

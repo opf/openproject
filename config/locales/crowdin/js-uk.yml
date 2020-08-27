@@ -116,6 +116,11 @@ uk:
         manual: 'Перейдіть до джерела Markdown'
         wysiwyg: 'Перейти до редактора WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Посилання на дочірні сторінки'
           include_parent: 'Включити джерела'
@@ -410,6 +415,7 @@ uk:
     label_value_derived_from_children: "(значення, отримане від дітей)"
     label_warning: "Попередження"
     label_work_package: "Пакет робіт"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Пакет робіт"
     label_watch: "Спостерігати"
     label_watch_work_package: "Спостерігати за робочим пакетом"

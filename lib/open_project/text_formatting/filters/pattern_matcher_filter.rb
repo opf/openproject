@@ -37,7 +37,8 @@ module OpenProject::TextFormatting
       def self.matchers
         [
           OpenProject::TextFormatting::Matchers::ResourceLinksMatcher,
-          OpenProject::TextFormatting::Matchers::WikiLinksMatcher
+          OpenProject::TextFormatting::Matchers::WikiLinksMatcher,
+          OpenProject::TextFormatting::Matchers::AttributeMacros
         ]
       end
 

@@ -47,6 +47,12 @@ require 'test_prof/recipes/rspec/before_all'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
+# The files are sorted before requiring them to ensure the load order is the same
+# everywhere. There are certain helpers that depend on a expected order.
+# The CI may load the files in a different order than what you see locally which
+# may lead to broken specs on the CI, if we don't sort here
+# (example: with_config.rb has to precede with_direct_uploads.rb).
+#
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/features/support/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].each { |f| require f }

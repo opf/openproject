@@ -26,17 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-mock_credentials = {
-  provider: 'AWS',
-  aws_access_key_id: 'someaccesskeyid',
-  aws_secret_access_key: 'someprivateaccesskey',
-  region: 'us-east-1'
-}
-mock_bucket = 'test-bucket'
+module MockCarrierwave
+  extend self
 
-Fog.mock!
-Fog.credentials = mock_credentials
-CarrierWave::Configuration.configure_fog! directory: mock_bucket, credentials: mock_credentials
+  def apply
+    Fog.mock!
+    Fog.credentials = credentials
 
-connection = Fog::Storage.new provider: mock_credentials[:provider]
-connection.directories.create key: mock_bucket
+    CarrierWave::Configuration.configure_fog! directory: bucket, credentials: credentials
+
+    connection = Fog::Storage.new provider: credentials[:provider]
+    connection.directories.create key: bucket
+  end
+
+  def bucket
+    'test-bucket'
+  end
+
+  def credentials
+    {
+      provider: 'AWS',
+      aws_access_key_id: 'someaccesskeyid',
+      aws_secret_access_key: 'someprivateaccesskey',
+      region: 'us-east-1'
+    }
+  end
+end
+
+MockCarrierwave.apply

@@ -25,7 +25,6 @@ nl:
       property_groups:
         costs: "Costs"
       properties:
-        costObject: "Budget"
         overallCosts: "Totale kosten"
         spentUnits: "Spent units"
     button_log_costs: "Registreer kost per eenheid"

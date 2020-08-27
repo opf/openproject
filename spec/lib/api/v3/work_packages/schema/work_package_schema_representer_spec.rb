@@ -90,6 +90,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   before do
     login_as(current_user)
+    allow(schema.project)
+      .to receive(:module_enabled?)
+      .and_return(true)
+
     allow(schema).to receive(:writable?).and_call_original
   end
 
@@ -544,7 +548,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'spentTime' do
-      context 'with \'time_tracking\' enabled' do
+      context 'with \'costs\' enabled' do
         before do
           allow(project)
             .to receive(:module_enabled?)
@@ -560,11 +564,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'with \'time_tracking\' disabled' do
+      context 'with \'costs\' disabled' do
         before do
           allow(project)
             .to receive(:module_enabled?) do |name|
-            name != 'time_tracking'
+            name != 'costs'
           end
         end
 
@@ -906,6 +910,35 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           it_behaves_like 'does not link to allowed values' do
             let(:path) { 'responsible' }
           end
+        end
+      end
+    end
+
+    describe 'budget' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'budget' }
+        let(:type) { 'Budget' }
+        let(:name) { I18n.t('attributes.budget') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+
+      it_behaves_like 'has a collection of allowed values' do
+        let(:json_path) { 'budget' }
+        let(:href_path) { 'budgets' }
+        let(:factory) { :budget }
+      end
+
+      context 'budgets disabled' do
+        before do
+          allow(schema.project)
+            .to receive(:module_enabled?)
+            .with(:budgets)
+            .and_return(false)
+        end
+
+        it 'has no schema for budget' do
+          is_expected.not_to have_json_path('budget')
         end
       end
     end

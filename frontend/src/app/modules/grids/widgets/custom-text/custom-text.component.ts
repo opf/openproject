@@ -1,5 +1,6 @@
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -17,6 +18,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {filter} from 'rxjs/operators';
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   templateUrl: './custom-text.component.html',
@@ -35,7 +37,8 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
               protected injector:Injector,
               public handler:CustomTextEditFieldService,
               protected cdr:ChangeDetectorRef,
-              readonly sanitization:DomSanitizer,
+              protected sanitization:DomSanitizer,
+              protected appRef:ApplicationRef,
               protected layout:GridAreaService) {
     super(i18n, injector);
   }
@@ -126,6 +129,11 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
 
   private memorizeCustomText() {
     this.customText = this.sanitization.bypassSecurityTrustHtml(this.handler.htmlText);
+
+    // Allow embeddable rendered content
+    setTimeout(() => {
+      DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, this.displayContainer.nativeElement);
+    }, 100);
   }
 
   private clickedElementIsLinkWithinDisplayContainer(event:any) {

@@ -8,10 +8,6 @@ keywords: OpenID providers
 ---
 # OpenID providers
 
-<div class="alert alert-info" role="alert">
-**Note**: For the OpenID configuration view our docs in Github:  https://github.com/opf/openproject/blob/dev/docs/configuration/openid.md  (Todo: needs to be moved to documentation).
-</div>
-
 To activate and configure OpenID providers in OpenProject, navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
 
 ## Add a new authentication application for oauth

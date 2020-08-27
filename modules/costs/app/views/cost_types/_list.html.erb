@@ -91,7 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <label class="hidden-for-sighted" for="<%= "rate_field_#{cost_type.id}" %>"><%= t(:caption_set_rate) %></label>
                 <%= content_tag :input, '', :value => "", :name => :rate, :size => 7, :id => "rate_field_#{cost_type.id}" %>
                 <span class="form-label">
-                  <%= Setting.plugin_openproject_costs['costs_currency'] %>
+                  <%= Setting.plugin_costs['costs_currency'] %>
                 </span>
                 <button type="submit"
                         class="button submit_cost_type">
