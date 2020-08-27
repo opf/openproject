@@ -59,11 +59,6 @@ describe API::V3::Utilities::ResourceLinkGenerator do
       expect(subject.make_link record).to be_nil
     end
 
-    it 'returns a string object for strings' do
-      record = 'a string'
-      expect(subject.make_link record).to eql "/api/v3/string_objects?value=a%20string"
-    end
-
     it 'returns nil for non-AR types' do
       record = Object.new
       expect(subject.make_link record).to be_nil
