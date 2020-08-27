@@ -39,6 +39,7 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
 
 @Component({
   selector: 'query-space',
+  host: { 'class': 'work-packages-page--ui-view' },
   templateUrl: './query-space.component.html',
   styleUrls: ['./query-space.component.css'],
   providers: [

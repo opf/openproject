@@ -35,10 +35,8 @@ export const wpBaseSelector = 'work-packages-base';
 @Component({
   selector: wpBaseSelector,
   template: `
-    <div class="work-packages-page--ui-view">
-      <query-space>
-        <ui-view></ui-view>
-      </query-space>
+    <div class="work-packages-page--ui-view" wp-isolated-query-space>
+      <ui-view></ui-view>
     </div>
   `,
   providers: [

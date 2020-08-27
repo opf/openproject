@@ -28,12 +28,12 @@
 import {Ng2StateDeclaration} from '@uirouter/angular';
 import {IFCViewerPageComponent} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-viewer-page.component";
 import {IFCViewerComponent} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.component";
-import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {EmptyComponent} from "core-app/modules/bim/ifc_models/empty/empty-component";
 import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
 import {BcfListContainerComponent} from "core-app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {QuerySpaceComponent} from "core-app/modules/query-space/components/query-space/query-space.component";
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -41,7 +41,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     parent: 'root',
     url: '/bcf?query_props&models&viewpoint',
     abstract: true,
-    component: WorkPackagesBaseComponent,
+    component: QuerySpaceComponent,
     redirectTo: 'bim.partitioned',
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
