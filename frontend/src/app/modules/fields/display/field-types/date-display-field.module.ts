@@ -44,7 +44,9 @@ export class DateDisplayField extends HighlightableDisplayField {
       const schedulingIcon = document.createElement('span');
       schedulingIcon.classList.add('icon-context');
 
-      schedulingIcon.classList.add(this.resource.scheduleManually ? 'icon-pin' : 'icon-void');
+      if (this.resource.scheduleManually) {
+        schedulingIcon.classList.add('icon-pin');
+      }
 
       element.prepend(schedulingIcon);
     }
