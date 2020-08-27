@@ -44,6 +44,7 @@ import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module"
 import {BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
 import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
 import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
+import {QuerySpaceModule} from "core-app/modules/query-space/query-space.module";
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.mod
     OpenprojectWorkPackagesModule,
     UIRouterModule.forChild({
       states: IFC_ROUTES
-    })
+    }),
+    QuerySpaceModule
   ],
   providers: [
     IFCViewerService,
