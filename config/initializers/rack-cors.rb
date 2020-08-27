@@ -26,7 +26,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-Rails.application.config.middleware.insert_before 0, Rack::Cors do
+Rails.application.config.middleware.insert_after Rails::Rack::Logger, Rack::Cors do
   allow do
     origins { |source, env| ::API::V3::CORS.allowed?(source) }
     resource '/api/v3*',
