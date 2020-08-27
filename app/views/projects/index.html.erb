@@ -54,13 +54,14 @@ See docs/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-<%= render partial: 'projects/filters/form', locals: { query: @query } %>
+<div class="generic-table--flex-container">
+  <%= render partial: 'projects/filters/form', locals: { query: @query } %>
 
-<% if @projects.any? %>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" id="project-table">
-        <thead class="-sticky">
+  <% if @projects.any? %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table" id="project-table">
+          <thead class="-sticky">
           <tr>
             <%= render partial: 'hierarchy_header' %>
             <%= projects_sort_header_tag('name', caption: Project.human_attribute_name(:name), param: :json) %>
@@ -86,8 +87,8 @@ See docs/COPYRIGHT.rdoc for more details.
               </div>
             </th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <% projects_with_levels_order_sensitive(@projects) do |project, level| %>
             <tr class="basics context-menu--reveal <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' && short_project_description(project).present? ? '-no-highlighting -expanded' : '' %>">
               <td></td>
@@ -154,21 +155,23 @@ See docs/COPYRIGHT.rdoc for more details.
               </tr>
             <% end %>
           <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-  <%= pagination_links_full @projects %>
-<% else %>
-  <%= no_results_box(no_projects_result_box_params) %>
-<% end %>
+    <%= pagination_links_full @projects %>
+  <% else %>
+    <%= no_results_box(no_projects_result_box_params) %>
+  <% end %>
 
 
-<% if User.current.admin? %>
-  <p class="information-section">
-    <%= op_icon('icon-info1') %>
-    <%= t(:label_projects_storage_information,
-          count: Project.count,
-          storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
-  </p>
-<% end %>
+  <% if User.current.admin? %>
+    <p class="information-section">
+      <%= op_icon('icon-info1') %>
+      <%= t(:label_projects_storage_information,
+            count: Project.count,
+            storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
+    </p>
+  <% end %>
+
+</div>
