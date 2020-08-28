@@ -554,6 +554,7 @@ zh-CN:
           not_an_integer: "(%{name}) 不是整数。"
           smaller_than_or_equal_to: "（%{name}）必须小于或等于 %{count}。"
           greater_than_or_equal_to: "（%{name}）必须大于或等于 %{count}。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -588,6 +589,15 @@ zh-CN:
               error_not_found: "未找到"
             public:
               error_unauthorized: "- 用户没有创建公公查询的权限。"
+            group_by:
+              invalid: "无法按照 %{value} 分组"
+              format: "%{message}"
+            column_names:
+              invalid: "无效的查询列：%{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "无法按照列 %{value} 排序"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的群组互相排斥。您无法将它们都激活。"
           filters:
             custom_fields:
@@ -610,8 +620,9 @@ zh-CN:
           must_not_be_ssh: "不能是 SSH url。"
           no_directory: "不是一个目录。"
         role:
-          permissions:
-            dependency_missing: "还需要包括“%{dependency}”，因为已选择“%{permission}”。"
+          attributes:
+            permissions:
+              dependency_missing: "还需要包括“%{dependency}”，因为已选择“%{permission}”。"
         time_entry:
           attributes:
             hours:
@@ -1061,9 +1072,6 @@ zh-CN:
   error_failed_to_delete_entry: '无法删除此条目。'
   error_in_dependent: "尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}"
   error_invalid_selected_value: "选中的值无效。"
-  error_invalid_group_by: "无法按照 %{value} 分组"
-  error_invalid_query_column: "无效的查询列：%{value}"
-  error_invalid_sort_criterion: "无法按照列 %{value} 排序"
   error_journal_attribute_not_present: "日志不包含 %{attribute} 属性。"
   error_pdf_export_too_many_columns: "选择 PDF 导出的列太多。请减少列数。"
   error_pdf_failed_to_export: "无法保存被导出的 PDF 文件：%{error}"
@@ -2063,6 +2071,10 @@ zh-CN:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "搜索"
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"
@@ -2117,7 +2129,6 @@ zh-CN:
   setting_work_package_done_ratio_status: "使用工作包状态"
   setting_work_package_done_ratio_disabled: "禁用 （隐藏进度）"
   setting_work_package_list_default_columns: "默认显示"
-  setting_work_package_list_summable_columns: "可汇总"
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_export_limit: "工作包导出限制"

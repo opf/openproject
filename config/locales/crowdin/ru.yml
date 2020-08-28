@@ -561,6 +561,7 @@ ru:
           not_an_integer: "(%{name}) не является целым числом."
           smaller_than_or_equal_to: "(%{name}) должен быть меньше или равен %{count}."
           greater_than_or_equal_to: "(%{name}) должен быть больше или равен %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -595,6 +596,15 @@ ru:
               error_not_found: "не найдено"
             public:
               error_unauthorized: "- У пользователя нет прав для создания общедоступных представлений."
+            group_by:
+              invalid: "Невозможно группировать по: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Недопустимый столбец в запросе: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Невозможно сортировать по столбцу: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
             custom_fields:
@@ -617,8 +627,9 @@ ru:
           must_not_be_ssh: "не должно быть URL-адресом SSH."
           no_directory: "не является каталогом."
         role:
-          permissions:
-            dependency_missing: "включите также '%{dependency}', так как выбрано '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "включите также '%{dependency}', так как выбрано '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -1113,9 +1124,6 @@ ru:
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
   error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Выбранное значение недопустимо."
-  error_invalid_group_by: "Невозможно группировать по: %{value}"
-  error_invalid_query_column: "Недопустимый столбец в запросе: %{value}"
-  error_invalid_sort_criterion: "Невозможно сортировать по столбцу: %{value}"
   error_journal_attribute_not_present: "Журнал не содержит атрибут %{attribute}."
   error_pdf_export_too_many_columns: "Для экспорта в PDF-файл выбрано слишком много столбцов. Пожалуйста, сократите количество столбцов."
   error_pdf_failed_to_export: "Не удалось сохранить экспорт в PDF: %{error}"
@@ -2130,6 +2138,10 @@ ru:
     activated: 'активирован'
     deactivated: 'деактивирован'
   search_input_placeholder: "Поиск ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Метод доставки электронной почты"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
   setting_smtp_enable_starttls_auto: "Автоматически использовать STARTTLS, если таковые имеются"
@@ -2184,7 +2196,6 @@ ru:
   setting_work_package_done_ratio_status: "Использовать статус пакета работ"
   setting_work_package_done_ratio_disabled: "Отключить (скрыть прогресс)"
   setting_work_package_list_default_columns: "Отображать по умолчанию"
-  setting_work_package_list_summable_columns: "Суммируемое"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_export_limit: "Лимит экспорта пакета работ"

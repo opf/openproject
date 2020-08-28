@@ -30,12 +30,8 @@ module Projects
   class UnarchiveContract < ModelContract
     include Projects::Archiver
 
-    def validate
-      validate_admin_only
-      validate_all_ancestors_active
-
-      super
-    end
+    validate :validate_admin_only
+    validate :validate_all_ancestors_active
 
     protected
 

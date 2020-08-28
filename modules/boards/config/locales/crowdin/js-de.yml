@@ -24,7 +24,7 @@ de:
         locked: 'Gesperrt'
         closed: 'Erledigt'
       new_board: 'Neues Board'
-      add_list: 'Liste hinzufügen'
+      add_list: 'Add list to board'
       add_card: 'Karte erstellen'
       error_attribute_not_writable: "Das Arbeitspaket kann nicht verschoben werden, %{attribute} ist nicht schreibbar."
       error_loading_the_list: "Fehler beim Laden der Liste: %{error_message}"
@@ -52,6 +52,12 @@ de:
           subtasks: children
         select_attribute: "Aktionsattribut"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             Derzeit ist kein Status verfügbar. <br>

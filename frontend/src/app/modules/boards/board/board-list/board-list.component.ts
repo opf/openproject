@@ -447,7 +447,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         // Only allow updates, otherwise this causes an error reloading the list
         // before the work package can be added to the query order
         filter(event => event.eventType === 'updated'),
-        map((event:HalEvent) => event.commit?.changes[this.board.actionAttribute!]),
+        map((event:HalEvent) => event.commit?.changes[this.actionService!.filterName]),
         filter(value => !!value),
         filter((value:ChangeItem) => {
 

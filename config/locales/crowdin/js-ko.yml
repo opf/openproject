@@ -116,6 +116,11 @@ ko:
         manual: 'Markdown 소스로 전환'
         wysiwyg: 'WYSIWYG 편집기로 전환'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: '자식 페이지의 링크'
           include_parent: '부모 포함'

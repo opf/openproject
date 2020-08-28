@@ -557,6 +557,7 @@ es:
           not_an_integer: "(%{name}) no es un número entero."
           smaller_than_or_equal_to: "(%{name}) debe ser menor o igual que %{count}."
           greater_than_or_equal_to: "(%{name}) debe ser mayor o igual que %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -591,6 +592,15 @@ es:
               error_not_found: "no encontrado"
             public:
               error_unauthorized: "- El usuario no tiene permiso para crear vistas públicas."
+            group_by:
+              invalid: "No se puede agrupar por: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Columna no válida en la solicitud: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "No se puede ordenar por la columna: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
           filters:
             custom_fields:
@@ -613,8 +623,9 @@ es:
           must_not_be_ssh: "no debe usarse una URL de SSH."
           no_directory: "no es un directorio."
         role:
-          permissions:
-            dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
+          attributes:
+            permissions:
+              dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
         time_entry:
           attributes:
             hours:
@@ -1079,9 +1090,6 @@ es:
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
   error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "El valor seleccionado no es válido."
-  error_invalid_group_by: "No se puede agrupar por: %{value}"
-  error_invalid_query_column: "Columna no válida en la solicitud: %{value}"
-  error_invalid_sort_criterion: "No se puede ordenar por la columna: %{value}"
   error_journal_attribute_not_present: "El diario no contiene el atributo %{attribute}."
   error_pdf_export_too_many_columns: "Demasiadas columnas seleccionadas para la exportación de PDF. Reduzca el número de columnas."
   error_pdf_failed_to_export: "No se ha podido guardar la exportación PDF: %{error}"
@@ -2089,6 +2097,10 @@ es:
     activated: 'Habilitado'
     deactivated: 'deshabilitado'
   search_input_placeholder: "Buscar..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
   setting_smtp_enable_starttls_auto: "Usar STARTTLS automáticamente si está disponible"
@@ -2143,7 +2155,6 @@ es:
   setting_work_package_done_ratio_status: "Usar el estado del paquete de trabajo"
   setting_work_package_done_ratio_disabled: "Desactivar (oculta el progreso)"
   setting_work_package_list_default_columns: "Mostrar por defecto"
-  setting_work_package_list_summable_columns: "Sumable"
   setting_work_package_properties: "Propiedades de paquete de trabajo"
   setting_work_package_startdate_is_adddate: "Usar fecha actual como fecha de inicio para nuevos paquetes de trabajo"
   setting_work_packages_export_limit: "Fecha limite para exportar paquete de trabajo"

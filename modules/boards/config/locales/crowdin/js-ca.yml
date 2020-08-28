@@ -24,7 +24,7 @@ ca:
         locked: 'Bloquejat'
         closed: 'Tancat'
       new_board: 'New board'
-      add_list: 'Add list'
+      add_list: 'Add list to board'
       add_card: 'Add card'
       error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
       error_loading_the_list: "Error loading the list: %{error_message}"
@@ -52,6 +52,12 @@ ca:
           subtasks: children
         select_attribute: "Action attribute"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             There is currently no status available. <br>

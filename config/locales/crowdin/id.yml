@@ -558,6 +558,7 @@ id:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -592,6 +593,15 @@ id:
               error_not_found: "tidak ditemukan"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Tidak dapat dikelompokkan dengan: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Permintaan tidak valid kolom: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Tidak dapat diurutkan dengan kolom: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "saling ekslusif bersama kelompok dengan '%{group_by}'. Anda tidak dapat mengaktifkan keduanya."
           filters:
             custom_fields:
@@ -614,8 +624,9 @@ id:
           must_not_be_ssh: "tidak boleh sebuah url SSH."
           no_directory: "is not a directory."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -1065,9 +1076,6 @@ id:
   error_failed_to_delete_entry: 'Gagal untuk menghapus isian ini.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Tidak dapat dikelompokkan dengan: %{value}"
-  error_invalid_query_column: "Permintaan tidak valid kolom: %{value}"
-  error_invalid_sort_criterion: "Tidak dapat diurutkan dengan kolom: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Kolom yang dipilih utnuk ekspor PDF terlalu banyak. Mohon kurangi jumlah kolom."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -2068,6 +2076,10 @@ id:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Mencari ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2122,7 +2134,6 @@ id:
   setting_work_package_done_ratio_status: "Gunakan status Paket-Penugasan"
   setting_work_package_done_ratio_disabled: "Nonaktifkan (sembunyikan progress)"
   setting_work_package_list_default_columns: "Tampilkan secara default"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Properti Paket-Penugasan"
   setting_work_package_startdate_is_adddate: "Gunakan tanggal sekarang untuk start Paket-Penugasan"
   setting_work_packages_export_limit: "Limit export Paket-Penugasan"

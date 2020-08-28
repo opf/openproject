@@ -24,7 +24,7 @@ es:
         locked: 'Bloqueado'
         closed: 'Cerrado'
       new_board: 'Nuevo panel'
-      add_list: 'Agregar lista'
+      add_list: 'Add list to board'
       add_card: 'Agregar tarjeta'
       error_attribute_not_writable: "No se puede mover el paquete de trabajo porque %{attribute} no permite la escritura."
       error_loading_the_list: "Error al cargar la lista: %{error_message}"
@@ -52,6 +52,12 @@ es:
           subtasks: children
         select_attribute: "Atributo de acción"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             No hay estados disponibles actualmente. <br>

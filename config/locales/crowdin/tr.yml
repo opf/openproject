@@ -560,6 +560,7 @@ tr:
           not_an_integer: "(%{name}) bir tamsayı değil."
           smaller_than_or_equal_to: "(%{name}) %{count} ' e eşit veya daha küçük olmalıdır."
           greater_than_or_equal_to: "(%{name}) sıfırdan büyük veya %{count} ' e eşit olması gerekir."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +595,15 @@ tr:
               error_not_found: "bulunamadı"
             public:
               error_unauthorized: "- Kullanıcı herkese açık görünüm oluşturma yetkisine sahip değil."
+            group_by:
+              invalid: "%{value} ya göre guplandırılamadı"
+              format: "%{message}"
+            column_names:
+              invalid: "Geçersiz sorgu sütunu: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Sütuna göre sıralama yapamazsınız: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
           filters:
             custom_fields:
@@ -616,8 +626,9 @@ tr:
           must_not_be_ssh: "bir SSH url olmamalı."
           no_directory: "bir dizin değil."
         role:
-          permissions:
-            dependency_missing: "'%'%{dependency}' seçili olduğundan,'%{permission}'  ı da eklemeniz gerekir."
+          attributes:
+            permissions:
+              dependency_missing: "'%'%{dependency}' seçili olduğundan,'%{permission}'  ı da eklemeniz gerekir."
         time_entry:
           attributes:
             hours:
@@ -1082,9 +1093,6 @@ tr:
   error_failed_to_delete_entry: 'Girdi silinemedi.'
   error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Seçili değeri geçersiz."
-  error_invalid_group_by: "%{value} ya göre guplandırılamadı"
-  error_invalid_query_column: "Geçersiz sorgu sütunu: %{value}"
-  error_invalid_sort_criterion: "Sütuna göre sıralama yapamazsınız: %{value}"
   error_journal_attribute_not_present: "Günlük  %{attribute} özniteliği içermiyor."
   error_pdf_export_too_many_columns: "PDF Dışa Aktarma için çok fazla sütun seçili. Sütun sayısını azaltın."
   error_pdf_failed_to_export: "PDF çıktısı kaydedilemedi: %{error}"
@@ -2092,6 +2100,10 @@ tr:
     activated: 'etkinleştirmek'
     deactivated: 'devre dışı bırakmak'
   search_input_placeholder: "Ara ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "E-posta teslim yöntemi"
   setting_sendmail_location: "Çalıştırılabilir sendmail aracının yolu"
   setting_smtp_enable_starttls_auto: "STARTTLS varsa otomatik olarak kullan"
@@ -2146,7 +2158,6 @@ tr:
   setting_work_package_done_ratio_status: "İş paketi durumunu kullan"
   setting_work_package_done_ratio_disabled: "Kapalı (ilerlemeyi gizle)"
   setting_work_package_list_default_columns: "Varsayılan olarak göster"
-  setting_work_package_list_summable_columns: "Toplanabirliği"
   setting_work_package_properties: "İş paketi özellikleri"
   setting_work_package_startdate_is_adddate: "Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan"
   setting_work_packages_export_limit: "İş paketi dışarı aktarma sınırı"

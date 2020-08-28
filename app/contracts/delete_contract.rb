@@ -37,11 +37,7 @@ class DeleteContract < ModelContract
     end
   end
 
-  def validate
-    user_allowed
-
-    super
-  end
+  validate :user_allowed
 
   def user_allowed
     unless authorized?

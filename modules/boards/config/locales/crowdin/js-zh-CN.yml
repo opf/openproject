@@ -24,7 +24,7 @@ zh-CN:
         locked: '锁定'
         closed: '已关闭'
       new_board: '新建面板'
-      add_list: '添加列表'
+      add_list: 'Add list to board'
       add_card: '添加卡片'
       error_attribute_not_writable: "无法移动工作包，%{attribute} 不可写。"
       error_loading_the_list: "加载列表时出错：%{error_message}"
@@ -52,6 +52,12 @@ zh-CN:
           subtasks: children
         select_attribute: "操作属性"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             目前没有可用的状态。<br>

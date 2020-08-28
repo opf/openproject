@@ -116,6 +116,11 @@ es:
         manual: 'Cambiar a visualización de Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Vínculos a páginas secundarias'
           include_parent: 'Incluir principal'

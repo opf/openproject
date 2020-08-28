@@ -34,11 +34,7 @@ module Bim::Bcf
       extend ActiveSupport::Concern
 
       included do
-        def validate
-          validate_user_allowed_to_manage
-
-          super
-        end
+        validate :validate_user_allowed_to_manage
 
         private
 

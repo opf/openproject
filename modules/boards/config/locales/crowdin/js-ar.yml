@@ -24,7 +24,7 @@ ar:
         locked: 'مقفل'
         closed: 'مغلق'
       new_board: 'لوحة جديدة'
-      add_list: 'إنشاء قائمة'
+      add_list: 'Add list to board'
       add_card: 'إضافة بطاقة'
       error_attribute_not_writable: "لا يمكن نقل حزمة العمل، %{attribute} غير قابل للكتابة."
       error_loading_the_list: "خطأ في تحميل القائمة: %{error_message}"
@@ -52,6 +52,12 @@ ar:
           subtasks: children
         select_attribute: "Action attribute"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             There is currently no status available. <br>

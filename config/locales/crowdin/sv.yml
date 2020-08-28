@@ -559,6 +559,7 @@ sv:
           not_an_integer: "(%{name}) är inte ett heltal."
           smaller_than_or_equal_to: "(%{name}) måste vara mindre än eller lika med %{count}."
           greater_than_or_equal_to: "(%{name}) måste vara större än eller lika med %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -593,6 +594,15 @@ sv:
               error_not_found: "hittades inte"
             public:
               error_unauthorized: "- Användaren har ingen behörighet att skapa offentliga vyer."
+            group_by:
+              invalid: "Kan inte gruppera efter: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Ogiltig frågekolumn: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Kan inte sortera på kolumn: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "är ömsesidigt uteslutande med grupperingen '%{group_by}'. Du kan inte aktivera båda."
           filters:
             custom_fields:
@@ -615,8 +625,9 @@ sv:
           must_not_be_ssh: "får inte vara en SSH-url."
           no_directory: "är inte en katalog."
         role:
-          permissions:
-            dependency_missing: "måste också inkludera '%{dependency}' som '%{permission}' är vald."
+          attributes:
+            permissions:
+              dependency_missing: "måste också inkludera '%{dependency}' som '%{permission}' är vald."
         time_entry:
           attributes:
             hours:
@@ -1081,9 +1092,6 @@ sv:
   error_failed_to_delete_entry: 'Det gick inte ta bort denna post.'
   error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ogiltigt valt värde."
-  error_invalid_group_by: "Kan inte gruppera efter: %{value}"
-  error_invalid_query_column: "Ogiltig frågekolumn: %{value}"
-  error_invalid_sort_criterion: "Kan inte sortera på kolumn: %{value}"
   error_journal_attribute_not_present: "Loggbok innehåller inte attribut %{attribute}."
   error_pdf_export_too_many_columns: "För många kolumner har markerats för PDF-export. Vänlogen minska antalet kolumner."
   error_pdf_failed_to_export: "PDF-exporten kunde inte sparas: %{error}"
@@ -2089,6 +2097,10 @@ sv:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Sök ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Leveransmetod för e-post"
   setting_sendmail_location: "Sökväg till sendmail"
   setting_smtp_enable_starttls_auto: "Använd STARTTLS om det går"
@@ -2143,7 +2155,6 @@ sv:
   setting_work_package_done_ratio_status: "Använd fältet arbetspaketsstatus"
   setting_work_package_done_ratio_disabled: "Inaktivera (dölj andel klart)"
   setting_work_package_list_default_columns: "Visa som standard"
-  setting_work_package_list_summable_columns: "Kan summeras"
   setting_work_package_properties: "Egenskaper för arbetspaket"
   setting_work_package_startdate_is_adddate: "Använda aktuellt datum som startdatum för nya arbetspaket"
   setting_work_packages_export_limit: "Gräns för export av arbetspaket"

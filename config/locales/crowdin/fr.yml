@@ -559,6 +559,7 @@ fr:
           not_an_integer: "(%{name}) n’est pas un nombre entier."
           smaller_than_or_equal_to: "(%{name}) doit être inférieure ou égale à %{count}."
           greater_than_or_equal_to: "(%{name}) doit être supérieur ou égal à %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -593,6 +594,15 @@ fr:
               error_not_found: "non trouvé"
             public:
               error_unauthorized: "- L’utilisateur n'est pas autorisé à créer des vues publiques."
+            group_by:
+              invalid: "Impossible de grouper par : %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Colonne de requête invalide : %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Impossible de trier par colonne : %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
           filters:
             custom_fields:
@@ -615,8 +625,9 @@ fr:
           must_not_be_ssh: "ne doit pas être une url SSH."
           no_directory: "n'est pas un répertoire."
         role:
-          permissions:
-            dependency_missing: "doit également inclure '%{dependency}' car'%{permission}' est sélectionné."
+          attributes:
+            permissions:
+              dependency_missing: "doit également inclure '%{dependency}' car'%{permission}' est sélectionné."
         time_entry:
           attributes:
             hours:
@@ -1081,9 +1092,6 @@ fr:
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
   error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}"
   error_invalid_selected_value: "Valeur sélectionnée invalide."
-  error_invalid_group_by: "Impossible de grouper par : %{value}"
-  error_invalid_query_column: "Colonne de requête invalide : %{value}"
-  error_invalid_sort_criterion: "Impossible de trier par colonne : %{value}"
   error_journal_attribute_not_present: "Le journal ne contient pas l’attribut %{attribute}."
   error_pdf_export_too_many_columns: "Trop de colonnes sélectionnées pour l’exportation PDF. Veuillez réduire le nombre de colonnes."
   error_pdf_failed_to_export: "L'export PDF n'a pas pu être enregistré: %{error}"
@@ -2091,6 +2099,10 @@ fr:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Rechercher…"
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Méthode de livraison d'e-mail"
   setting_sendmail_location: "Emplacement de l’exécutable sendmail"
   setting_smtp_enable_starttls_auto: "Utiliser automatiquement STARTTLS si disponible"
@@ -2145,7 +2157,6 @@ fr:
   setting_work_package_done_ratio_status: "Utiliser le statut des Lots de Travaux"
   setting_work_package_done_ratio_disabled: "Désactiver (cacher l'avancement)"
   setting_work_package_list_default_columns: "Afficher par défaut"
-  setting_work_package_list_summable_columns: "Additionnable"
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
   setting_work_packages_export_limit: "Nombre limite de lots de travaux exportés"

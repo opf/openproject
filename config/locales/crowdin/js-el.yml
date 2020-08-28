@@ -116,6 +116,11 @@ el:
         manual: 'Αλλαγή σε Markdown source'
         wysiwyg: 'Αλλαγή σε επεξεργαστή WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Σύνδεσμοι σε σελίδες-παιδιά'
           include_parent: 'Συμπεριλάβετε τον γονέα'

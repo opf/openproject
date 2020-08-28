@@ -19,6 +19,8 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   description = this.I18n.t('js.boards.board_type.action_text_subprojects');
 
+  label = this.I18n.t('js.boards.add_list_modal.labels.subproject');
+
   icon = 'icon-projects';
 
   get localizedName() {

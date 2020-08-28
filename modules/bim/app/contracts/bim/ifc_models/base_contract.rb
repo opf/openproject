@@ -41,15 +41,11 @@ module Bim
         ::Bim::IfcModels::IfcModel
       end
 
-      def validate
-        user_allowed_to_manage
-        user_is_uploader
-        ifc_attachment_existent
-        ifc_attachment_is_ifc
-        uploader_is_ifc_attachment_author
-
-        super
-      end
+      validate :user_allowed_to_manage
+      validate :user_is_uploader
+      validate :ifc_attachment_existent
+      validate :ifc_attachment_is_ifc
+      validate :uploader_is_ifc_attachment_author
 
       def user_allowed_to_manage
         if model.project && !user.allowed_to?(:manage_ifc_models, model.project)

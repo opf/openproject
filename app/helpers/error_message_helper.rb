@@ -45,11 +45,7 @@ module ErrorMessageHelper
 
     error_messages = errors.full_messages
 
-    errors.details.each do |attribute, details|
-      details.each do |error|
-        object.errors.add(attribute, error[:error], **error.except(:error))
-      end
-    end
+    object.errors.merge!(errors)
 
     render_error_messages_partial(error_messages, object: object)
   end

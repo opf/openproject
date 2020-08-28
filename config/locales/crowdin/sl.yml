@@ -560,6 +560,7 @@ sl:
           not_an_integer: "(%{name}) ni celo število."
           smaller_than_or_equal_to: "(%{name}) mora biti manjša ali enaka %{count}."
           greater_than_or_equal_to: "(%{name}) mora biti večje ali enako %{count}. "
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +595,15 @@ sl:
               error_not_found: "Ni najdeno"
             public:
               error_unauthorized: "Uporabnik nima dovoljenja za ustvarjanje javnih pogledov."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Neveljaven stolpec poizvedbe: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Ne morem razvrščati po stolpcu: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "\nse medsebojno izključuje s skupino '%{group_by}'. Ne morete aktivirati obeh."
           filters:
             custom_fields:
@@ -616,8 +626,9 @@ sl:
           must_not_be_ssh: "ne sme biti SSH url"
           no_directory: "ni imenik."
         role:
-          permissions:
-            dependency_missing: "morate vključiti '%{dependency}' kot '%{permission}' je izbrano."
+          attributes:
+            permissions:
+              dependency_missing: "morate vključiti '%{dependency}' kot '%{permission}' je izbrano."
         time_entry:
           attributes:
             hours:
@@ -1112,9 +1123,6 @@ sl:
   error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
   error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Neveljaven stolpec poizvedbe: %{value}"
-  error_invalid_sort_criterion: "Ne morem razvrščati po stolpcu: %{value}"
   error_journal_attribute_not_present: "Dnevnik ne vsebuje atributa %{attribute}."
   error_pdf_export_too_many_columns: "Za izvoz PDF je izbranih preveč stolpcev. Zmanjšajte število stolpcev."
   error_pdf_failed_to_export: "Izvoza PDF ni bilo mogoče shraniti: %{error}"
@@ -2131,6 +2139,10 @@ sl:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Iskanje..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Način dostave po e-pošti"
   setting_sendmail_location: "Lokacija izvršljive pošte"
   setting_smtp_enable_starttls_auto: "Avtomatično uporabi STARTTLS, če je možno"
@@ -2185,7 +2197,6 @@ sl:
   setting_work_package_done_ratio_status: "Uporabite stanje delovnega paketa"
   setting_work_package_done_ratio_disabled: "Onemogoči (skrij napredek)"
   setting_work_package_list_default_columns: "Privzet prikaz"
-  setting_work_package_list_summable_columns: "Povzetek"
   setting_work_package_properties: "Lastnosti delovnega paketa"
   setting_work_package_startdate_is_adddate: "52/5000\nUporabite trenutni datum kot datum začetka za nove delovne pakete"
   setting_work_packages_export_limit: "Omejitev izvoza delovnih paketov"

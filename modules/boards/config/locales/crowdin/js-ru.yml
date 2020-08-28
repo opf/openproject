@@ -24,7 +24,7 @@ ru:
         locked: 'Заперто'
         closed: 'закрыто'
       new_board: 'Новая доска'
-      add_list: 'Добавить список'
+      add_list: 'Add list to board'
       add_card: 'Добавить карточку'
       error_attribute_not_writable: "Невозможно переместить пакет работ, %{attribute} не доступен для записи."
       error_loading_the_list: "Ошибка загрузки списка: %{error_message}"
@@ -52,6 +52,12 @@ ru:
           subtasks: дочерние элементы
         select_attribute: "Атрибут действия"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             Статус недоступен. <br>

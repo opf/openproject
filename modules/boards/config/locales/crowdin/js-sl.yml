@@ -24,7 +24,7 @@ sl:
         locked: 'Zaklenjen'
         closed: 'Zaprto'
       new_board: 'Nova tabla'
-      add_list: 'Dodaj seznam'
+      add_list: 'Add list to board'
       add_card: 'Dodaj kartico'
       error_attribute_not_writable: "Delovnega paketa ni mogoče premakniti, %{attribute} ni zapisljiv."
       error_loading_the_list: "Napaka pri nalaganju seznama: %{error_message}"
@@ -52,6 +52,12 @@ sl:
           subtasks: children
         select_attribute: "Atributi opravil"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             Trenutno ni na voljo nobenega statusa <br>

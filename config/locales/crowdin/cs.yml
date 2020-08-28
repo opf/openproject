@@ -562,6 +562,7 @@ cs:
           not_an_integer: "(%{name}) není celé číslo."
           smaller_than_or_equal_to: "(%{name}) musí být menší než nebo rovno %{count}."
           greater_than_or_equal_to: "(%{name}) musí být větší než nebo rovno %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -596,6 +597,15 @@ cs:
               error_not_found: "nenalezeno"
             public:
               error_unauthorized: "- Uživatel nemá oprávnění k vytváření veřejných zobrazení."
+            group_by:
+              invalid: "Nelze seskupit podle: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Neplatný sloupec dotazu: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Nelze řadit podle sloupce: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
           filters:
             custom_fields:
@@ -618,8 +628,9 @@ cs:
           must_not_be_ssh: "nesmí být SSH url."
           no_directory: "není adresář."
         role:
-          permissions:
-            dependency_missing: "musí také obsahovat '%{dependency}' jako '%{permission}' je vybráno."
+          attributes:
+            permissions:
+              dependency_missing: "musí také obsahovat '%{dependency}' jako '%{permission}' je vybráno."
         time_entry:
           attributes:
             hours:
@@ -1114,9 +1125,6 @@ cs:
   error_failed_to_delete_entry: 'Nepodařilo se odstranit tento záznam.'
   error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neplatná vybraná hodnota."
-  error_invalid_group_by: "Nelze seskupit podle: %{value}"
-  error_invalid_query_column: "Neplatný sloupec dotazu: %{value}"
-  error_invalid_sort_criterion: "Nelze řadit podle sloupce: %{value}"
   error_journal_attribute_not_present: "Deník neobsahuje atribut %{attribute}."
   error_pdf_export_too_many_columns: "Příliš mnoho sloupců vybraných pro PDF export. Snižte počet sloupců."
   error_pdf_failed_to_export: "PDF export nelze uložit: %{error}"
@@ -2133,6 +2141,10 @@ cs:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Hledat ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Způsob zasílání emailu"
   setting_sendmail_location: "Umístění spustitelného souboru sendmail"
   setting_smtp_enable_starttls_auto: "Automaticky použít STARTTLS, pokud je dostupné"
@@ -2187,7 +2199,6 @@ cs:
   setting_work_package_done_ratio_status: "Použít stav pracovního balíčku"
   setting_work_package_done_ratio_disabled: "Zakázat (Skrýt průběh)"
   setting_work_package_list_default_columns: "Zobrazit ve výchozím nastavení"
-  setting_work_package_list_summable_columns: "Souhrnné"
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
   setting_work_packages_export_limit: "Limit exportu pracovních balíčků"

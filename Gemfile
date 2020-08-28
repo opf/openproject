@@ -50,7 +50,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 gem 'will_paginate', '~> 3.3.0'
 
-gem 'friendly_id', '~> 5.3.0'
+gem 'friendly_id', '~> 5.4.0'
 
 gem 'acts_as_list', '~> 0.9.9'
 gem 'acts_as_tree', '~> 2.9.0'
@@ -64,7 +64,7 @@ gem 'addressable', '~> 2.7.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2019.3'
+gem 'tzinfo-data', '~> 1.2020.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -93,9 +93,9 @@ gem 'semantic', '~> 1.6.1'
 
 # generates SVG Graphs
 # used for statistics on svn repositories
-gem 'svg-graph', '~> 2.1.0'
+gem 'svg-graph', '~> 2.2.0'
 
-gem 'date_validator', '~> 0.9.0'
+gem 'date_validator', '~> 0.10.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -106,7 +106,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
-gem 'multi_json', '~> 1.14.1'
+gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
@@ -119,13 +119,13 @@ gem 'rack-protection', '~> 2.0.8'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.2.2'
+gem 'rack-attack', '~> 6.3.1'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 2.6.1'
+gem 'browser', '~> 4.2.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -156,7 +156,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'i18n-js', '~> 3.6.0'
+gem 'i18n-js', '~> 3.7.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -191,7 +191,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.11.0'
+  gem 'test-prof', '~> 0.12.0'
 
   gem 'cucumber', '~> 3.1.0'
   gem 'cucumber-rails', '~> 1.8.0', require: false
@@ -212,10 +212,10 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.32.0'
+  gem 'capybara', '~> 3.33.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.2.0', require: false
+  gem 'webdrivers', '~> 4.4.1', require: false
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -231,7 +231,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 3.1', require: nil
 
-  gem 'parallel_tests', '~> 2.31'
+  gem 'parallel_tests', '~> 3.1'
 end
 
 group :ldap do
@@ -258,9 +258,9 @@ group :development, :test do
   gem 'thin', '~> 1.7.2'
 
   # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 5.1.1'
+  gem 'factory_bot', '~> 6.1.0'
   # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 5.1.1'
+  gem 'factory_bot_rails', '~> 6.1.0'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false
@@ -268,16 +268,16 @@ group :development, :test do
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
-  gem 'pry-byebug', '~> 3.8.0', platforms: [:mri]
+  gem 'pry-byebug', '~> 3.9.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
-  gem 'pry-rescue', '~> 1.5.0'
-  gem 'pry-stack_explorer', '~> 0.4.9.2'
+  gem 'pry-rescue', '~> 1.5.2'
+  gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 6.3.1'
+  gem 'danger', '~> 8.0.4'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.8.0'
+  gem 'brakeman', '~> 4.9.0'
   gem 'danger-brakeman'
 end
 
@@ -285,10 +285,13 @@ gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
 gem 'grape', '~> 1.3.0'
-
-gem 'reform', '~> 2.2.0'
-gem 'reform-rails', '~> 0.1.7'
 gem 'roar', '~> 1.1.0'
+
+# CORS for API
+gem 'rack-cors', '~> 1.1.1'
+
+# Required for contracts
+gem 'disposable', '~> 0.4.7'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
@@ -299,7 +302,7 @@ platforms :mri, :mingw, :x64_mingw do
   gem 'activerecord-nulldb-adapter', '~> 0.4.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
-  # We e.g. emply this to safeguard the creation of journals.
+  # We e.g. employ this to safeguard the creation of journals.
   gem 'with_advisory_lock', '~> 4.6.0'
 end
 

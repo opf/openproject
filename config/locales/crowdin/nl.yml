@@ -560,6 +560,7 @@ nl:
           not_an_integer: "(%{name}) is geen geheel getal."
           smaller_than_or_equal_to: "(%{name}) moet kleiner zijn dan of gelijk aan %{count}."
           greater_than_or_equal_to: "(%{name}) moet groter zijn dan of gelijk aan %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +595,15 @@ nl:
               error_not_found: "niet gevonden"
             public:
               error_unauthorized: "-De gebruiker heeft geen toestemming om openbare overzichten te maken."
+            group_by:
+              invalid: "Kan niet groeperen op: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Ongeldige zoekopdracht kolom: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Kan niet sorteren op kolom: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
           filters:
             custom_fields:
@@ -616,8 +626,9 @@ nl:
           must_not_be_ssh: "mag geen ssh url zijn."
           no_directory: "is geen map."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -1082,9 +1093,6 @@ nl:
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "De geselecteerde waarde is ongeldig."
-  error_invalid_group_by: "Kan niet groeperen op: %{value}"
-  error_invalid_query_column: "Ongeldige zoekopdracht kolom: %{value}"
-  error_invalid_sort_criterion: "Kan niet sorteren op kolom: %{value}"
   error_journal_attribute_not_present: "Dagboek bevat geen kenmerk %{attribute}."
   error_pdf_export_too_many_columns: "Te veel kolommen geselecteerd voor het exporteren naar PDF. Beperk het aantal kolommen."
   error_pdf_failed_to_export: "De pdf export kan niet worden opgeslagen:%{error}"
@@ -2091,6 +2099,10 @@ nl:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Zoeken ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Kies verzendmethode"
   setting_sendmail_location: "Locatie van het uitvoerbare sendmail"
   setting_smtp_enable_starttls_auto: "Gebruik STARTTLS automatisch wanneer deze beschikbaar is"
@@ -2145,7 +2157,6 @@ nl:
   setting_work_package_done_ratio_status: "Gebruik de werkpakket status"
   setting_work_package_done_ratio_disabled: "Uitschakelen (verbergen de vooruitgang)"
   setting_work_package_list_default_columns: "Standaard worden weergegeven"
-  setting_work_package_list_summable_columns: "Optelbaar"
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
   setting_work_packages_export_limit: "Werkpakketten export limiet"

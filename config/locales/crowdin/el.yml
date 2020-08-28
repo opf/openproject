@@ -557,6 +557,7 @@ el:
           not_an_integer: "(%{name}) δεν είναι ακέραιος."
           smaller_than_or_equal_to: "(%{name}) πρέπει να είναι μικρότερο ή ίσο με %{count}."
           greater_than_or_equal_to: "(%{name}) πρέπει να είναι μεγαλύτερο ή ίσο με %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -591,6 +592,15 @@ el:
               error_not_found: "δεν βρέθηκε"
             public:
               error_unauthorized: "- Ο χρήστης δεν έχει δικαίωμα να δημιουργήσει δημόσιες προβολές."
+            group_by:
+              invalid: "Δεν μπορούν να ομαδοποιηθούν κατά: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Μη έγκυρη στήλη αναζήτησης: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Δεν είναι δυνατή η ταξινόμηση κατά στήλη: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "είναι αμοιβαία αποκλειστικό με την ομαδοποίηση κατά '%{group_by}'. Δεν μπορείτε να ενεργοποιήσετε και τα δύο."
           filters:
             custom_fields:
@@ -613,8 +623,9 @@ el:
           must_not_be_ssh: "δεν πρέπει να είναι σύνδεσμος SSH."
           no_directory: "δεν είναι κατάλογος."
         role:
-          permissions:
-            dependency_missing: "πρέπει επίσης να συμπεριληφθεί το '%{dependency}' καθώς το '%{permission}' είναι επιλεγμένο."
+          attributes:
+            permissions:
+              dependency_missing: "πρέπει επίσης να συμπεριληφθεί το '%{dependency}' καθώς το '%{permission}' είναι επιλεγμένο."
         time_entry:
           attributes:
             hours:
@@ -1079,9 +1090,6 @@ el:
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
-  error_invalid_group_by: "Δεν μπορούν να ομαδοποιηθούν κατά: %{value}"
-  error_invalid_query_column: "Μη έγκυρη στήλη αναζήτησης: %{value}"
-  error_invalid_sort_criterion: "Δεν είναι δυνατή η ταξινόμηση κατά στήλη: %{value}"
   error_journal_attribute_not_present: "Το ημερολόγιο δεν περιέχει το χαρακτηριστικό %{attribute}."
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
   error_pdf_failed_to_export: "Η εξαγωγή σε PDF δεν ήταν δυνατό να αποθηκευτεί: %{error}"
@@ -2088,6 +2096,10 @@ el:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Αναζήτηση ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Μέθοδος αποστολής email"
   setting_sendmail_location: "Τοποθεσία του εκτελέσιμου sendmail"
   setting_smtp_enable_starttls_auto: "Αυτόματη χρήση STARTTLS αν είναι διαθέσιμο"
@@ -2142,7 +2154,6 @@ el:
   setting_work_package_done_ratio_status: "Χρήση της κατάστασης πακέτου εργασίας"
   setting_work_package_done_ratio_disabled: "Απενεργοποίηση (απόκρυψη της διαδικασίας)"
   setting_work_package_list_default_columns: "Εμφάνιση από προεπιλογή"
-  setting_work_package_list_summable_columns: "Αθροίσιμο"
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
   setting_work_packages_export_limit: "Όριο εξαγωγών πακέτων εργασίας"

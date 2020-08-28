@@ -116,6 +116,11 @@ zh-TW:
         manual: '切換到標記源模式'
         wysiwyg: '切換到所見即所得編輯器'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: '指向子頁面的連結'
           include_parent: '包括父項'

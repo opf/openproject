@@ -177,6 +177,11 @@ describe 'Assignee action board',
 
       board_page.expect_card('Foo Bar', 'Some Task', present: true)
       board_page.expect_card('Grouped', 'Some Task', present: false)
+
+      # Reassign to grouped
+      board_page.reference 'Grouped', work_package
+      board_page.expect_card('Grouped', 'Some Task', present: true)
+      board_page.expect_card('Foo Bar', 'Some Task', present: false)
     end
   end
 

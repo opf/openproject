@@ -559,6 +559,7 @@ zh-TW:
           not_an_integer: "(%{name}) 不是一個整數。"
           smaller_than_or_equal_to: "(%{name}) 必須小於等於 %{count}。"
           greater_than_or_equal_to: "(%{name}) 必須大於等於 %{count}。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -593,6 +594,15 @@ zh-TW:
               error_not_found: "未找到"
             public:
               error_unauthorized: "- 此用戶沒有建立公共查詢的權限。"
+            group_by:
+              invalid: "無法按照 %{value} 分組"
+              format: "%{message}"
+            column_names:
+              invalid: "無效的查詢欄：%{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "無法按照 %{value} 排序"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "與按照 \"%{group_by}\" 分組的群組相互排斥。不能同時啟動兩者。"
           filters:
             custom_fields:
@@ -615,8 +625,9 @@ zh-TW:
           must_not_be_ssh: "不可以是一個 SSH url"
           no_directory: "不是一個資料夾"
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -1066,9 +1077,6 @@ zh-TW:
   error_failed_to_delete_entry: '刪除此項目失敗。'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "不合法的項目數值。"
-  error_invalid_group_by: "無法按照 %{value} 分組"
-  error_invalid_query_column: "無效的查詢欄：%{value}"
-  error_invalid_sort_criterion: "無法按照 %{value} 排序"
   error_journal_attribute_not_present: "Journal 不含有屬性 %{attribute}。"
   error_pdf_export_too_many_columns: "為 PDF 匯出選擇的列太多。請減少列數。"
   error_pdf_failed_to_export: "無法保存 pdf 匯出: %{error}"
@@ -2070,6 +2078,10 @@ zh-TW:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "搜尋 ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_sendmail_location: "Sendmail 的執行位置"
   setting_smtp_enable_starttls_auto: "如果可用將自動使用 STARTTLS"
@@ -2124,7 +2136,6 @@ zh-TW:
   setting_work_package_done_ratio_status: "使用工作項目狀態"
   setting_work_package_done_ratio_disabled: "禁用 （隱藏進度）"
   setting_work_package_list_default_columns: "預設顯示"
-  setting_work_package_list_summable_columns: "可加總"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_export_limit: "工作項目匯出數量限制"

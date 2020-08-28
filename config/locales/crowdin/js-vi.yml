@@ -116,6 +116,11 @@ vi:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Liên kết đến trang con'
           include_parent: 'Bao gồm trang trước'

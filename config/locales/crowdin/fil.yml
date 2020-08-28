@@ -560,6 +560,7 @@ fil:
           not_an_integer: "(%{name}) ay hindi isang numero."
           smaller_than_or_equal_to: "(%{name}) dapat ay mas maliit kaysa o katumbas sa %{count}."
           greater_than_or_equal_to: "(%{name}) ay mas mataas kaysa o katumbas sa %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +595,15 @@ fil:
               error_not_found: "hindi nakita"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Hindi ma grupo sa pamamagitan ng: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Hindi balido ang hanay ng query:%{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Hindi masunod sa pamamagitan ng hanay: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "ay mutually wxclusive sa grupo ng '%{group_by}'. Hindi mo maaring i-aktibi ang dalawa."
           filters:
             custom_fields:
@@ -616,8 +626,9 @@ fil:
           must_not_be_ssh: "hindi dapat isang SSH url."
           no_directory: "ay hindi isang direktoryo."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -1082,9 +1093,6 @@ fil:
   error_failed_to_delete_entry: 'Nabigong burahin ang entry na ito.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Hindi ma grupo sa pamamagitan ng: %{value}"
-  error_invalid_query_column: "Hindi balido ang hanay ng query:%{value}"
-  error_invalid_sort_criterion: "Hindi masunod sa pamamagitan ng hanay: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Masyadong maraming hanay ang napili para sa PDF export. Mangyaring bawasan ang mga bilang ng hanay."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -2090,6 +2098,10 @@ fil:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Hanapin ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Pamaraan ng paghahatid ng email"
   setting_sendmail_location: "Lokasyon ng sendmail na pagpapatupad"
   setting_smtp_enable_starttls_auto: "Automatikong gagamitin ang STARTTLS kung magagamit"
@@ -2144,7 +2156,6 @@ fil:
   setting_work_package_done_ratio_status: "Gamitin ang estado ng work package"
   setting_work_package_done_ratio_disabled: "Hindi pinaga (itago ang proseso)"
   setting_work_package_list_default_columns: "Ipakiita sa pamamagitan ng default"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
   setting_work_packages_export_limit: "Limitasyon ng pag-export ng work package"
