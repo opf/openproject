@@ -137,7 +137,7 @@ gem 'lograge', '~> 0.11.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 9.4.3', require: false
+gem 'airbrake', '~> 11.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
