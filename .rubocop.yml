@@ -266,6 +266,10 @@ Style/FrozenStringLiteralComment:
 Style/NumericLiterals:
   Enabled: false
 
+# Avoid enforcing "positive?"
+Style/NumericPredicate:
+  Enabled: false
+
 Style/HashEachMethods:
   Enabled: true
 
