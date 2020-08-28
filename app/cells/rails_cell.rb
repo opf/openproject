@@ -42,7 +42,14 @@ class RailsCell < Cell::ViewModel
     # but don't use the request method itself.
     @_request = request
 
+    # Prepare the model for rendering
+    prepare
+
     render
+  end
+
+  def prepare
+    # Nothing to do by default
   end
 
   def controller
@@ -59,12 +66,6 @@ class RailsCell < Cell::ViewModel
 
   def form_authenticity_token(*args)
     controller.send(:form_authenticity_token, *args)
-  end
-
-  # override cell-erb's behaviour to not escape
-  # https://github.com/trailblazer/cells-erb/tree/v0.1.0#html-escaping
-  def content_tag(name, content_or_options_with_block = nil, options = nil, escape = true, &block)
-    super
   end
 
   def request

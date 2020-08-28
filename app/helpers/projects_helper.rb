@@ -65,14 +65,6 @@ module ProjectsHelper
     end
   end
 
-  def project_custom_fields_for_index
-    @project_custom_fields_for_index ||= if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-                                           ProjectCustomField.visible(User.current).order(:position)
-                                         else
-                                           ProjectCustomField.none
-                                         end
-  end
-
   def project_more_menu_items(project)
     [project_more_menu_subproject_item(project),
      project_more_menu_settings_item(project),
@@ -178,16 +170,6 @@ module ProjectsHelper
     end
   end
 
-  def project_css_classes(project)
-    s = 'project'
-
-    s << ' root' if project.root?
-    s << ' child' if project.child?
-    s << (project.leaf? ? ' leaf' : ' parent')
-
-    s
-  end
-
   def projects_level_list_json(projects)
     projects_list = projects.map do |item|
       project = item[:project]
@@ -223,18 +205,6 @@ module ProjectsHelper
     sort_header_tag(*args)
   ensure
     @sort_criteria.criteria = former_criteria
-  end
-
-  def deactivate_class_on_lft_sort
-    if sorted_by_lft?
-      '-inactive'
-    end
-  end
-
-  def href_only_when_not_sort_lft
-    unless sorted_by_lft?
-      "href=#{projects_path(sortBy: JSON::dump([['lft', 'asc']]))}"
-    end
   end
 
   def sorted_by_lft?
