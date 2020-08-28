@@ -47,13 +47,32 @@ See docs/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.projects.section_project_overview') %></legend>
       <%
-        column_choices = Query.new.available_columns.map { |column|
-          { caption: column.caption, value: column.name.to_s }
-        }
+        column_choices = ::Projects::TableCell
+          .new(nil, current_user: current_user)
+          .all_columns
+          .reject { |_, options| options[:builtin] }
+          .map { |name, options| { caption: options[:caption], value: name.to_s } }
       %>
-      <%= settings_matrix([:work_package_list_default_columns],
-                          column_choices, label_choices: :setting_work_package_properties) %>
+      <%= settings_matrix([:enabled_projects_columns],
+                          column_choices, label_choices: :description_selected_columns) %>
+
+      <div class="form--field">
+        <%= setting_block("project_gantt_query") do %>
+        <span class="form--check-box-field-container -slim">
+          <%= content_tag 'editable-query-props',
+                          '',
+                          data: {
+                            name: 'settings[project_gantt_query]',
+                            id: 'settings_project_gantt_query',
+                            query: Setting.project_gantt_query
+                          }
+          %>
+        </span>
+        <% end %>
+        <div class="form--field-instructions">
+          <%= I18n.t(:setting_project_gantt_query_text) %>
+        </div>
+      </div>
     </fieldset>
   </section>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
