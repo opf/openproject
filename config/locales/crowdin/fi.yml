@@ -796,7 +796,7 @@ fi:
   button_decline: "Decline"
   button_delete_watcher: "Poista seuraaja %{name}"
   button_download: "Lataa"
-  button_duplicate: "Kahdenna"
+  button_duplicate: "Luo kopio"
   button_edit: "Muokkaa"
   button_edit_associated_wikipage: "Muokkaa liitettyä Wiki-sivua: %{page_title}"
   button_expand_all: "Laajenna kaikki"
