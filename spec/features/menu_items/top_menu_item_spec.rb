@@ -72,10 +72,9 @@ feature 'Top menu items', js: true, selenium: true do
 
     let(:news_item) { I18n.t('label_news_plural') }
     let(:project_item) { I18n.t('label_projects_menu') }
-    let(:time_entries_item) { I18n.t('label_time_sheet_menu') }
     let(:reporting_item) { I18n.t('cost_reports_title') }
 
-    let(:all_items) { [news_item, time_entries_item, project_item] }
+    let(:all_items) { [news_item, project_item, reporting_item] }
 
     context 'as an admin' do
       let(:user) { FactoryBot.create :admin }

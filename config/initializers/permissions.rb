@@ -182,31 +182,6 @@ OpenProject::AccessControl.map do |map|
                    {}
   end
 
-  map.project_module :time_tracking do |time|
-    time.permission :view_time_entries,
-                    timelog: %i[index show],
-                    time_entry_reports: [:report]
-
-    time.permission :log_time,
-                    { timelog: %i[new create edit update] },
-                    require: :loggedin
-
-    time.permission :edit_time_entries,
-                    { timelog: %i[new create edit update destroy] },
-                    require: :member
-
-    time.permission :view_own_time_entries,
-                    timelog: %i[index report]
-
-    time.permission :edit_own_time_entries,
-                    { timelog: %i[new create edit update destroy] },
-                    require: :loggedin
-
-    time.permission :manage_project_activities,
-                    { 'projects/time_entry_activities': %i[update] },
-                    require: :member
-  end
-
   map.project_module :news do |news|
     news.permission :view_news,
                     { news: %i[index show] },

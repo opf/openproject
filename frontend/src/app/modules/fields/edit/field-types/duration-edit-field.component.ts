@@ -71,7 +71,7 @@ export class DurationEditFieldComponent extends EditFieldComponent {
     if (val.isValid()) {
       parsedValue = val.toISOString();
     } else {
-      parsedValue = this.resource[this.name];
+      parsedValue = null;
     }
 
     return parsedValue;

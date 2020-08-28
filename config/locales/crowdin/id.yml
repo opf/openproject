@@ -178,8 +178,6 @@ id:
       no_results_content_text: Buat bidang kustom baru
   concatenation:
     single: 'atau'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -560,6 +558,7 @@ id:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +593,15 @@ id:
               error_not_found: "tidak ditemukan"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Tidak dapat dikelompokkan dengan: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Permintaan tidak valid kolom: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Tidak dapat diurutkan dengan kolom: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "saling ekslusif bersama kelompok dengan '%{group_by}'. Anda tidak dapat mengaktifkan keduanya."
           filters:
             custom_fields:
@@ -616,8 +624,9 @@ id:
           must_not_be_ssh: "tidak boleh sebuah url SSH."
           no_directory: "is not a directory."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -810,7 +819,6 @@ id:
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
-  button_log_time: "Catatan waktu"
   button_login: "Login"
   button_move: "Pindahkan"
   button_move_and_follow: "Pindahkan dan amati"
@@ -1016,8 +1024,6 @@ id:
   description_compare_to: "Bandingkan dengan"
   description_current_position: "You are here: "
   description_date_from: "Masukkan tanggal start"
-  description_date_range_interval: "Pilih durasi dengan memilih tanggal start dan finish"
-  description_date_range_list: "Pilih durasi dari daftar"
   description_date_to: "Masukkan tanggal finish"
   description_enter_number: "Masukkan nomor"
   description_enter_text: "Masukkan teks"
@@ -1070,9 +1076,6 @@ id:
   error_failed_to_delete_entry: 'Gagal untuk menghapus isian ini.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Tidak dapat dikelompokkan dengan: %{value}"
-  error_invalid_query_column: "Permintaan tidak valid kolom: %{value}"
-  error_invalid_sort_criterion: "Tidak dapat diurutkan dengan kolom: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Kolom yang dipilih utnuk ekspor PDF terlalu banyak. Mohon kurangi jumlah kolom."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1301,7 +1304,6 @@ id:
   label_date_and_time: "Tanggal dan waktu"
   label_date_from: "Dari"
   label_date_from_to: "Dari %{start} ke %{end}"
-  label_date_range: "Kisaran tanggal"
   label_date_to: "Ke"
   label_day_plural: "hari"
   label_default: "Default"
@@ -1448,7 +1450,6 @@ id:
   label_modified: "dimodifikasi"
   label_module_plural: "Modul"
   label_modules: "Modul"
-  label_month: "Bulan"
   label_months_from: "dari bulan"
   label_more: "Lanjut"
   label_more_than_ago: "lusa yang lalu"
@@ -1619,8 +1620,6 @@ id:
   label_this_week: "minggu ini"
   label_this_year: "tahun ini"
   label_time_entry_plural: "Durasi"
-  label_time_sheet_menu: "Time sheet"
-  label_time_tracking: "Time tracking"
   label_projects_menu: "Project"
   label_today: "hari ini"
   label_top_menu: "Top Menu"
@@ -1716,7 +1715,6 @@ id:
   label_x_projects:
     zero: "no projects"
     other: "%{count} proyek"
-  label_year: "Tahun"
   label_yesterday: "kemarin"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
@@ -1833,7 +1831,6 @@ id:
   notice_successful_delete: "Berhasil dihapus."
   notice_successful_update: "Berhasil diperbarui."
   notice_to_many_principals_to_display: "Ada terlalu banyak hasil. Persempit pencarian dengan mengetik nama member baru (atau grup)."
-  notice_unable_delete_time_entry: "Entri time log tidak bisa dihapus."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: Sebuah undangan telah dikirim ke %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
@@ -1961,8 +1958,6 @@ id:
   project_module_work_package_tracking: "Tracking Paket-Penugasan"
   project_module_news: "News"
   project_module_repository: "Repositori"
-  project_module_time_tracking: "Time tracking"
-  project_module_timelines: "Timeline"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2081,6 +2076,10 @@ id:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Mencari ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2135,7 +2134,6 @@ id:
   setting_work_package_done_ratio_status: "Gunakan status Paket-Penugasan"
   setting_work_package_done_ratio_disabled: "Nonaktifkan (sembunyikan progress)"
   setting_work_package_list_default_columns: "Tampilkan secara default"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Properti Paket-Penugasan"
   setting_work_package_startdate_is_adddate: "Gunakan tanggal sekarang untuk start Paket-Penugasan"
   setting_work_packages_export_limit: "Limit export Paket-Penugasan"

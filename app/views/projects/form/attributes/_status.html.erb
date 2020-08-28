@@ -36,6 +36,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--field">
     <%= status_form.select :code,
                            project_options_for_status(project),
+                           help_text: { attribute: :status, 'attribute-scope': :Project },
                            include_blank: true,
                            container_class: '-wide' %>
   </div>
@@ -43,6 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= status_form.text_area :explanation,
                               with_text_formatting: true,
                               macros: false,
+                              help_text: { attribute: :statusExplanation, 'attribute-scope': :Project },
                               preview_context: project_preview_context(project.status, project),
                               container_class: '-xxwide' %>
   </div>

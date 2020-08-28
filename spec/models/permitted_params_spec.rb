@@ -106,31 +106,6 @@ describe PermittedParams, type: :model do
     it_behaves_like 'allows params'
   end
 
-  describe '#time_entry' do
-    let(:attribute) { :time_entry }
-
-    context 'whitelisted params' do
-      let(:hash) do
-        acceptable_params = %w(hours comments work_package_id
-                               activity_id spent_on)
-
-        acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
-
-        acceptable_params_with_data['custom_field_values'] = { '1' => 'foo', '2' => 'bar', '3' => 'baz' }
-
-        acceptable_params_with_data
-      end
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'empty' do
-      let(:hash) { {} }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
   describe '#news' do
     let(:attribute) { :news }
     let(:hash) do
@@ -446,6 +421,12 @@ describe PermittedParams, type: :model do
       it_behaves_like 'allows params'
     end
 
+    context 'budget_id' do
+      let(:hash) { { 'budget_id' => '1' } }
+
+      it_behaves_like 'allows params'
+    end
+
     context 'notes' do
       let(:hash) { { 'journal_notes' => 'blubs' } }
 
@@ -478,35 +459,6 @@ describe PermittedParams, type: :model do
       end
 
       context 'user is not allowed to add watchers' do
-        let(:allowed_to) { false }
-
-        it do
-          expect(subject).to eq({})
-        end
-      end
-    end
-
-    context 'time_entry' do
-      include_context 'prepare params comparison'
-
-      let(:hash) { { 'time_entry' => { 'hours' => '5', 'activity_id' => '1', 'comments' => 'lorem' } } }
-      let(:project) { double('project') }
-
-      before do
-        allow(user).to receive(:allowed_to?).with(:log_time, project).and_return(allowed_to)
-      end
-
-      subject { PermittedParams.new(params, user).update_work_package(project: project).to_h }
-
-      context 'user has the log_time permission' do
-        let(:allowed_to) { true }
-
-        it do
-          expect(subject).to eq(hash)
-        end
-      end
-
-      context 'user lacks the log_time permission' do
         let(:allowed_to) { false }
 
         it do

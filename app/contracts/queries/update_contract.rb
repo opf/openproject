@@ -31,10 +31,7 @@ require 'queries/base_contract'
 
 module Queries
   class UpdateContract < BaseContract
-    def validate
-      user_allowed_to_change
-      super
-    end
+    validate :user_allowed_to_change
 
     ##
     # Check if the current user may save the changes

@@ -31,6 +31,17 @@
 module Type::Attributes
   extend ActiveSupport::Concern
 
+  EXCLUDED = %w[_type
+                _dependencies
+                attribute_groups
+                links parent_id
+                parent
+                description
+                schedule_manually
+                derived_start_date
+                derived_due_date
+                derived_estimated_time].freeze
+
   included do
     # Allow plugins to define constraints
     # that disable a given attribute for this type.
@@ -120,9 +131,7 @@ module Type::Attributes
       # We always want to include the priority even if its required
       return false if key == 'priority'
 
-
-      skip = %w[_type _dependencies attribute_groups links parent_id parent description schedule_manually]
-      skip.include?(key) || definition[:required]
+      EXCLUDED.include?(key) || definition[:required]
     end
 
     def merge_date_for_form_attributes(attributes)

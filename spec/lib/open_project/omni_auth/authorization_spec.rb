@@ -34,6 +34,7 @@ describe OpenProject::OmniAuth::Authorization do
     let(:user)  { FactoryBot.create :user, mail: 'foo@bar.de' }
     let(:state) { Struct.new(:number, :user_email, :uid).new 0, nil, nil }
     let(:collector) { [] }
+    let!(:existing_callbacks) { OpenProject::OmniAuth::Authorization.after_login_callbacks.dup }
 
     before do
       OpenProject::OmniAuth::Authorization.after_login_callbacks.clear
@@ -53,7 +54,13 @@ describe OpenProject::OmniAuth::Authorization do
     end
 
     after do
+      # Reset existing callbacks to avoid sideeffects
       OpenProject::OmniAuth::Authorization.after_login_callbacks.clear
+      callbacks = OpenProject::OmniAuth::Authorization.after_login_callbacks
+
+      existing_callbacks.each do |callback_block|
+        callbacks << callback_block
+      end
     end
 
     it 'triggers every callback setting uid to "bar", number to 42 and user_email to foo@bar.de' do

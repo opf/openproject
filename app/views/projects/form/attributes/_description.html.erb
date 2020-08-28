@@ -31,6 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= form.text_area :description,
                      id: :project_description,
                      with_text_formatting: true,
+                     help_text: { attribute: :description, 'attribute-scope': :Project },
                      macros: false,
                      container_class: '-xxwide' %>
 </div>

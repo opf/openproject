@@ -38,13 +38,9 @@ module Versions
              :new_record?,
              to: :model
 
-    def validate
-      user_allowed_to_manage
-      validate_project_is_set
-      validate_sharing_included
-
-      super
-    end
+    validate :user_allowed_to_manage
+    validate :validate_project_is_set
+    validate :validate_sharing_included
 
     attribute :name
     attribute :description

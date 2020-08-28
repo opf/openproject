@@ -31,6 +31,10 @@
 class Relation < ApplicationRecord
   include VirtualAttribute
 
+  include ::Scopes::Scoped
+
+  scope_classes Relations::Scopes::FollowsNonManualAncestors
+
   scope :of_work_package,
         ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
 

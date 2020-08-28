@@ -146,7 +146,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         @query.filter :cost_type_id, value: CostQuery::Filter::CostTypeId.available_values.first
         @query.filter :category_id, value: CostQuery::Filter::CategoryId.available_values.first
         @query.group_by :activity_id
-        @query.group_by :cost_object_id
+        @query.group_by :budget_id
         @query.group_by :cost_type_id
         @new_query = CostQuery.deserialize(@query.serialize)
       end

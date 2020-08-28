@@ -20,6 +20,7 @@ import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {Observable} from "rxjs";
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Injectable()
 export abstract class BoardActionService {
@@ -54,10 +55,23 @@ export abstract class BoardActionService {
    */
   description:string;
 
-    /**
+  /**
+   * Label used to describe the values in the modal
+   */
+  label:string;
+
+  /**
    * The text used in tile header
    */
   text:string;
+
+  /**
+   * Returns the current filter instance
+   * @param query
+   */
+  getActionFilter(query:QueryResource, getHref = false):QueryFilterInstanceResource|undefined {
+    return query.filters.find(filter => filter.id === this.filterName);
+  }
 
   /**
    * Returns the current filter value ID if any
@@ -65,7 +79,7 @@ export abstract class BoardActionService {
    * @returns The id of the resource
    */
   getActionValueId(query:QueryResource, getHref = false):string|undefined {
-    const filter = _.find(query.filters, filter => filter.id === this.filterName);
+    const filter = this.getActionFilter(query);
     if (!filter) {
       return;
     }
@@ -78,6 +92,7 @@ export abstract class BoardActionService {
 
     return value;
   }
+
 
   /**
    * Returns the current filter value if any

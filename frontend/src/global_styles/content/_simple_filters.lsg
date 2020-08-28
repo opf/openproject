@@ -83,7 +83,7 @@ By default, simple filters can have multiple fields per row (as many as the give
     </li>
     <li class="simple-filters--filter -with-radio-buttons">
       <span class="form--radio-button-container">
-        <input type="radio" name="period_type" id="period_type_list" value="1" class="form--radio-button" checked="checked">
+        <input type="radio" name="period_type" value="1" class="form--radio-button" checked="checked">
       </span>
       <div class="simple-filters--filter-value">
         <span class="form--select-container">

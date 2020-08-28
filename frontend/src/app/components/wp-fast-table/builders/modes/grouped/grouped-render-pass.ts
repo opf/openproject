@@ -10,7 +10,7 @@ import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {collapsedRowClass} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {GroupSumsBuilder} from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
-import {DisplayFieldRenderer} from "core-components/wp-edit-form/display-field-renderer";
+import {DisplayFieldRenderer} from "core-app/modules/fields/display/display-field-renderer";
 
 export class GroupedRenderPass extends PlainRenderPass {
 

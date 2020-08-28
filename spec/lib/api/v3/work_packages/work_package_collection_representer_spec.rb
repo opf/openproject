@@ -387,7 +387,9 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       let(:total_sums) { OpenStruct.new(estimated_hours: 1) }
 
       it 'renders the groups object as json' do
-        expected = { 'estimatedTime': 'PT1H' }
+        expected = { 'estimatedTime': 'PT1H',
+                     'remainingTime': nil,
+                     'storyPoints': nil }
         is_expected.to be_json_eql(expected.to_json).at_path('totalSums')
       end
 

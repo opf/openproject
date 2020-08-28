@@ -34,7 +34,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions] }
+  shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions view_budgets] }
   shared_let(:assign_permissions) { %i[view_work_packages assign_versions] }
   shared_let(:project) { FactoryBot.create(:project, public: false) }
   shared_let(:work_package) do
@@ -185,7 +185,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
               end
 
               it_behaves_like 'parse error',
-                              'unexpected comma () at line 1, column 3'
+                              'unexpected comma (after ) at line 1, column 3'
             end
 
             describe 'lock version' do
@@ -664,6 +664,55 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                 it 'should respond with updated work package type' do
                   expect(subject.body).to be_json_eql(type_link.to_json).at_path(path)
+                end
+              end
+            end
+
+            describe 'budget' do
+              let(:path) { '_embedded/payload/_links/budget/href' }
+              let(:links_path) { '_embedded/schema/budget/_links' }
+              let(:target_budget) { FactoryBot.create(:budget, project: project) }
+              let(:other_budget) { FactoryBot.create(:budget, project: project) }
+              let(:budget_link) { api_v3_paths.budget target_budget.id }
+              let(:budget_parameter) { { _links: { budget: { href: budget_link } } } }
+              let(:params) { valid_params.merge(budget_parameter) }
+
+              describe 'allowed values' do
+                before do
+                  other_budget
+                end
+
+                include_context 'post request'
+
+                it 'should list the budgets' do
+                  budgets = project.budgets
+
+                  budgets.each_with_index do |budget, index|
+                    expect(subject.body).to be_json_eql(api_v3_paths.budget(budget.id).to_json)
+                                              .at_path("#{links_path}/allowedValues/#{index}/href")
+                  end
+                end
+              end
+
+              context 'valid budget' do
+                include_context 'post request'
+
+                it_behaves_like 'having no errors'
+
+                it 'should respond with updated work package budget' do
+                  expect(subject.body).to be_json_eql(budget_link.to_json).at_path(path)
+                end
+              end
+
+              context 'invalid budget' do
+                let(:target_budget) { FactoryBot.create(:budget) }
+
+                include_context 'post request'
+
+                it_behaves_like 'having an error', 'budget'
+
+                it 'should respond with updated work package budget' do
+                  expect(subject.body).to be_json_eql(budget_link.to_json).at_path(path)
                 end
               end
             end

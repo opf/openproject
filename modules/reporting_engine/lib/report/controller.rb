@@ -320,14 +320,17 @@ module Report::Controller
 
   # renders option tags for each available value for a single filter
   def available_values
-    if name = params[:filter_name]
-      f_cls = report_engine::Filter.const_get(name.to_s.camelcase)
-      filter = f_cls.new.tap do |f|
-        f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present? and params[:values]
-      end
-      render_widget Widget::Filters::Option, filter, to: canvas = ''
-      render plain: canvas, layout: !request.xhr?
+    name = params[:filter_name]
+
+    return unless name
+
+    f_cls = report_engine::Filter.const_get(name.to_s.camelcase)
+    filter = f_cls.new.tap do |f|
+      f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present? && params[:values]
     end
+    render_widget Widget::Filters::Option, filter, to: canvas = ''
+
+    render plain: canvas, layout: !request.xhr?
   end
 
   ##

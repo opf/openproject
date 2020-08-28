@@ -37,8 +37,6 @@ OpenProject::Activity.map do |activity|
                                  default: false
   activity.register :messages, class_name: 'Activities::MessageActivityProvider',
                                default: false
-  activity.register :time_entries, class_name: 'Activities::TimeEntryActivityProvider',
-                                   default: false
 end
 
 Project.register_latest_project_activity on: 'WorkPackage',
@@ -57,7 +55,4 @@ Project.register_latest_project_activity on: 'WikiContent',
 
 Project.register_latest_project_activity on: 'Message',
                                          chain: 'Forum',
-                                         attribute: :updated_on
-
-Project.register_latest_project_activity on: 'TimeEntry',
                                          attribute: :updated_on

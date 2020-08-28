@@ -178,8 +178,6 @@ bg:
       no_results_content_text: Създаване на ново персонализирано поле
   concatenation:
     single: 'or'
-  deprecations:
-    time_entries: "Този изглед на записи за време се заменя от модула „Отчети за разходите“. Този изглед сега поддържа само експортиране на информация за въвеждане на време в csv. За интерактивно филтриране, моля, активирайте модула „Отчети за разходите“ в настройките на проекта."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -562,6 +560,7 @@ bg:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -596,6 +595,15 @@ bg:
               error_not_found: "not found"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -618,8 +626,9 @@ bg:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "не е директория."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -815,7 +824,6 @@ bg:
   button_generate: "Генерирай"
   button_list: "Списък"
   button_lock: "Заключи"
-  button_log_time: "Отчетено време"
   button_login: "Влизане"
   button_move: "Премести"
   button_move_and_follow: "Преместване и последване"
@@ -1033,8 +1041,6 @@ bg:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Въведете начална дата"
-  description_date_range_interval: "Изберете периода, чрез избиране на начална и крайна дата"
-  description_date_range_list: "Изберете период от списък"
   description_date_to: "Въведете крайна дата"
   description_enter_number: "Въведете номер"
   description_enter_text: "Въведи текст"
@@ -1087,9 +1093,6 @@ bg:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1318,7 +1321,6 @@ bg:
   label_date_and_time: "Дата и час"
   label_date_from: "От"
   label_date_from_to: "От %{start} до %{end}"
-  label_date_range: "Период"
   label_date_to: "До"
   label_day_plural: "дни"
   label_default: "По подразбиране"
@@ -1465,7 +1467,6 @@ bg:
   label_modified: "променени"
   label_module_plural: "Модули"
   label_modules: "Модули"
-  label_month: "Месец"
   label_months_from: "месеца от"
   label_more: "Повече"
   label_more_than_ago: "повече от преди дни"
@@ -1636,8 +1637,6 @@ bg:
   label_this_week: "тази седмица"
   label_this_year: "тази година"
   label_time_entry_plural: "Отработено време"
-  label_time_sheet_menu: "Времеви график"
-  label_time_tracking: "Проследяване по време"
   label_projects_menu: "Проекти"
   label_today: "днес"
   label_top_menu: "Главно меню"
@@ -1737,7 +1736,6 @@ bg:
     zero: "no projects"
     one: "1 проект"
     other: "%{count} проекти"
-  label_year: "Година"
   label_yesterday: "вчера"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
@@ -1854,7 +1852,6 @@ bg:
   notice_successful_delete: "Успешно изтриване."
   notice_successful_update: "Успешно обновяване."
   notice_to_many_principals_to_display: "Има твърде много резултати. Стесните търсенето, като въведете името на нов член (или група)."
-  notice_unable_delete_time_entry: "Не може да изтриете запис в регистъра на време."
   notice_user_missing_authentication_method: Потребителят все още не е избрал парола или друг начин за влизане.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
@@ -1983,8 +1980,6 @@ bg:
   project_module_work_package_tracking: "Проследяване на работен пакет"
   project_module_news: "Новини"
   project_module_repository: "Хранилище"
-  project_module_time_tracking: "Проследяване по време"
-  project_module_timelines: "Timelines"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2105,6 +2100,10 @@ bg:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Търсене ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Метод за доставка на имейл"
   setting_sendmail_location: "Местоположение на sendmail програма"
   setting_smtp_enable_starttls_auto: "Автоматично използвай STARTTLS ако е налично"
@@ -2159,7 +2158,6 @@ bg:
   setting_work_package_done_ratio_status: "Use the work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
   setting_work_package_list_default_columns: "Display by default"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_export_limit: "Work packages export limit"

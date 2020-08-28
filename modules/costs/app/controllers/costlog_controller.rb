@@ -92,14 +92,6 @@ class CostlogController < ApplicationController
     end
   end
 
-  def get_cost_type_unit_plural
-    @cost_type = CostType.find(params[:cost_type_id]) unless params[:cost_type_id].empty?
-
-    if request.xhr?
-      render partial: 'cost_type_unit_plural', layout: false
-    end
-  end
-
   private
 
   def find_project
@@ -158,7 +150,7 @@ class CostlogController < ApplicationController
 
   def new_default_cost_entry
     @cost_entry = CostEntry.new.tap do |ce|
-      ce.project  = @project
+      ce.project = @project
       ce.work_package = @work_package
       ce.user = User.current
       ce.spent_on = Date.today

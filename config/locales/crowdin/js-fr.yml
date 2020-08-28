@@ -116,6 +116,11 @@ fr:
         manual: 'Basculer en mode source Markdown'
         wysiwyg: 'Basculer vers l''éditeur WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Liens vers les pages enfants'
           include_parent: 'Inclure un parent'
@@ -408,8 +413,10 @@ fr:
     label_total_amount: "Total : %{amount}"
     label_updated_on: "mis à jour le"
     label_value_derived_from_children: "(valeur dérivée des enfants)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Attention"
     label_work_package: "Lot de travaux"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Lots de Travaux"
     label_watch: "Suivre"
     label_watch_work_package: "Suivre le lot de travaux"

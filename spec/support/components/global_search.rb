@@ -65,17 +65,17 @@ module Components
 
     def expect_work_package_marked(wp)
       expect(page)
-        .to have_selector('.ng-option-marked', text: "##{wp.id} #{wp.subject}", wait: 10)
+        .to have_selector('.ng-option-marked', text: "#{wp.subject}", wait: 10)
     end
 
     def expect_work_package_option(wp)
       expect(page)
-        .to have_selector('.global-search--option', text: "##{wp.id} #{wp.subject}", wait: 10)
+        .to have_selector('.global-search--option', text: "#{wp.subject}", wait: 10)
     end
 
     def expect_no_work_package_option(wp)
       expect(page)
-        .not_to have_selector('.global-search--option', text: "##{wp.id} #{wp.subject}")
+        .not_to have_selector('.global-search--option', text: "#{wp.subject}")
     end
 
     def click_work_package(wp)
@@ -83,11 +83,11 @@ module Components
     end
 
     def find_work_package(wp)
-      find_option "##{wp.id} #{wp.subject}"
+      find_option "#{wp.subject}"
     end
 
     def find_option(text)
-      page.find('.global-search--option', text: text, wait: 10)
+      page.find('.global-search--wp-subject', text: text, wait: 10)
     end
 
     def cancel

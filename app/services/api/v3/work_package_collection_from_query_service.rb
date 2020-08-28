@@ -99,13 +99,10 @@ module API
         return unless query.grouped?
 
         results = query.results
+        sums = generate_group_sums
 
         results.work_package_count_by_group.map do |group, count|
-          sums = if query.display_sums?
-                   format_query_sums results.all_sums_for_group(group)
-                 end
-
-          ::API::Decorators::AggregationGroup.new(group, count, query: results.query, sums: sums, current_user: current_user)
+          ::API::Decorators::AggregationGroup.new(group, count, query: query, sums: sums[group], current_user: current_user)
         end
       end
 
@@ -113,6 +110,14 @@ module API
         return unless query.display_sums?
 
         format_query_sums query.results.all_total_sums
+      end
+
+      def generate_group_sums
+        return {} unless query.display_sums?
+
+        query.results.all_group_sums.transform_values do |v|
+          format_query_sums(v)
+        end
       end
 
       def format_query_sums(sums)

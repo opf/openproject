@@ -116,6 +116,11 @@ sl:
         manual: 'Preklopite na Markdown vir'
         wysiwyg: 'Preklopi na WYSIWYG urejevalnik'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Povezave do podrejenih strani'
           include_parent: 'Vključi nadrejen zahtevek'
@@ -407,8 +412,10 @@ sl:
     label_total_amount: "Skupaj: %{amount}"
     label_updated_on: "Posodobljeno"
     label_value_derived_from_children: "(vrednost izpeljana iz podrejenih)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Opozorilo"
     label_work_package: "Zahtevek"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Delovni paketi"
     label_watch: "Glej"
     label_watch_work_package: "Spremljaj delovni paket"

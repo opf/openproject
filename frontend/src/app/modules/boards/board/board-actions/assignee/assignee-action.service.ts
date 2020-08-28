@@ -5,6 +5,10 @@ import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {Board} from "core-app/modules/boards/board/board";
+import {ApiV3Filter, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+
 
 @Injectable()
 export class BoardAssigneeActionService extends CachedBoardActionService {
@@ -16,7 +20,60 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
   description = this.I18n.t('js.boards.board_type.action_text',
   { attribute: this.I18n.t('js.boards.board_type.action_type.assignee')});
 
+  label = this.I18n.t('js.boards.add_list_modal.labels.assignee');
+
   icon = 'icon-user';
+
+  readonly unassignedUser:any = {
+    id: null,
+    href: null,
+    name: this.I18n.t('js.filter.noneElement')
+  };
+
+  /**
+   * Add a single action query
+   */
+  addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
+    let params:any = {
+      name: value.name,
+    };
+
+    let filter:ApiV3Filter;
+
+    if (value.id === null) {
+      filter = {
+        assignee: {
+          operator: '!*',
+          values: []
+        }
+      };
+    } else {
+      filter = {
+        assignee: {
+          operator: '=',
+          values: [value.idFromLink]
+        }
+      };
+    }
+
+    return this.boardListsService.addQuery(board, params, [filter]);
+  }
+
+  /**
+   * Returns the current filter value if any
+   * @param query
+   * @returns The loaded action reosurce
+   */
+  getLoadedActionValue(query:QueryResource):Promise<HalResource|undefined> {
+    const filter = this.getActionFilter(query);
+
+    // Return the special unassigned user
+    if (filter && filter.operator.id === '!*') {
+      return Promise.resolve(this.unassignedUser);
+    }
+
+    return super.getLoadedActionValue(query);
+  }
 
   public get localizedName() {
     return this.I18n.t('js.work_packages.properties.assignee');
@@ -56,6 +113,8 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       .available_assignees
       .get()
       .toPromise()
-      .then((collection:CollectionResource<UserResource>) => collection.elements);
+      .then(
+        (collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements)
+      );
   }
 }

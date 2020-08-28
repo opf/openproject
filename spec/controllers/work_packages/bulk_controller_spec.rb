@@ -171,7 +171,7 @@ describe WorkPackages::BulkController, type: :controller do
         subject { response }
 
         describe '#parent' do
-          it { assert_select 'input', {attributes: { name: 'work_package[parent_id]' }}, false }
+          it { assert_select 'input', { attributes: { name: 'work_package[parent_id]' } }, false }
         end
 
         context 'custom_field' do
@@ -180,7 +180,7 @@ describe WorkPackages::BulkController, type: :controller do
           end
 
           describe '#project' do
-            it { assert_select 'select', {attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" }}, false }
+            it { assert_select 'select', { attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }, false }
           end
         end
       end

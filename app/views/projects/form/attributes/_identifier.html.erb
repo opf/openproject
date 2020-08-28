@@ -36,7 +36,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="form--field <%= identifier_editable ? '-required' : '' %>">
   <% if identifier_editable %>
-    <%= form.text_field :identifier, container_class: '-middle'%>
+    <%= form.text_field :identifier,
+                        help_text: { attribute: :identifier, 'attribute-scope': :Project },
+                        container_class: '-middle'%>
 
     <%= nonced_javascript_tag do %>
       window.projectIdentifierMaxLength = <%= id_max_length %>;
@@ -52,6 +54,10 @@ See docs/COPYRIGHT.rdoc for more details.
   <% else %>
     <label class="form--label" title="<%= Project.human_attribute_name(:identifier) %>">
       <%= Project.human_attribute_name(:identifier) %>
+      <attribute-help-text
+        data-attribute="identifier"
+        data-attribute-scope="Project">
+      </attribute-help-text>
     </label>
     <span class="form--field-container">
       <span id="identifier">

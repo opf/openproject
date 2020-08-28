@@ -25,7 +25,6 @@ el:
       property_groups:
         costs: "Κόστος"
       properties:
-        costObject: "Προϋπολογισμός"
         overallCosts: "Συνολικό κόστος"
         spentUnits: "Δαπανημένες μονάδες"
     button_log_costs: "Καταγραφή κόστους μονάδας"

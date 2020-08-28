@@ -91,7 +91,9 @@ export class WpTableHoverSync {
     const wpId = this.extractWorkPackageId(hovered!);
 
     const tableRow:JQuery = this.tableAndTimeline.find('tr.wp-row-' + wpId).first();
-    const timelineRow:JQuery = this.tableAndTimeline.find('div.wp-row-' + wpId).first();
+    const timelineRow:JQuery = this.tableAndTimeline.find('div.wp-row-' + wpId).length ?
+                                this.tableAndTimeline.find('div.wp-row-' + wpId).first() :
+                                this.tableAndTimeline.find('div.wp-ancestor-row-' + wpId).first();
 
     requestAnimationFrame(() => {
       this.removeAllHoverClasses();

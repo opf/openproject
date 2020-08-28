@@ -116,6 +116,11 @@ sk:
         manual: 'Prepnúť na zdroj Markdown'
         wysiwyg: 'Prepnúť na WYSIWYG editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Odkazy na podstránky'
           include_parent: 'Zahrnúť nadradený'
@@ -408,8 +413,10 @@ sk:
     label_total_amount: "Celkom: %{amount}"
     label_updated_on: "aktualizované"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Upozornenie"
     label_work_package: "Pracovný balíček"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pracovné balíčky"
     label_watch: "Začať pozorovať"
     label_watch_work_package: "Sleduj pracovný balíček"

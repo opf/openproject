@@ -203,7 +203,7 @@ class CostReportsController < ApplicationController
     @unit_id = if set_unit?
                  params[:unit].to_i
                elsif @query.present?
-                 cost_type_filter =  @query.filters.detect { |f| f.is_a?(CostQuery::Filter::CostTypeId) }
+                 cost_type_filter = @query.filters.detect { |f| f.is_a?(CostQuery::Filter::CostTypeId) }
 
                  cost_type_filter.values.first.to_i if cost_type_filter
     end

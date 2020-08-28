@@ -109,10 +109,8 @@ describe 'Assignee action board',
       board_page.add_list option: 'Grouped'
       board_page.expect_list 'Grouped'
 
-      # There can't be any other users added
-      board_page.open_add_list_modal
-      board_page.add_list_modal_shows_warning true, with_link: false
-      click_on 'Cancel'
+      # There is now only the none option left
+      board_page.expect_list_option '(none)'
 
       board_page.board(reload: true) do |board|
         expect(board.name).to eq 'Action board (assignee)'
@@ -179,6 +177,11 @@ describe 'Assignee action board',
 
       board_page.expect_card('Foo Bar', 'Some Task', present: true)
       board_page.expect_card('Grouped', 'Some Task', present: false)
+
+      # Reassign to grouped
+      board_page.reference 'Grouped', work_package
+      board_page.expect_card('Grouped', 'Some Task', present: true)
+      board_page.expect_card('Foo Bar', 'Some Task', present: false)
     end
   end
 
@@ -197,6 +200,10 @@ describe 'Assignee action board',
 
       # Expect no assignees to be present
       board_page.expect_empty
+
+      # Add none to the list
+      board_page.add_list option: '(none)'
+      board_page.expect_list '(none)'
 
       board_page.open_add_list_modal
       board_page.add_list_modal_shows_warning true, with_link: true

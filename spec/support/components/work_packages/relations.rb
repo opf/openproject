@@ -119,10 +119,10 @@ module Components
 
       def expect_relation(relatable)
         expect(relations_group).to have_selector('.wp-relations--subject-field', text: relatable.subject)
-        end
+      end
 
       def expect_relation_by_text(text)
-        expect(relations_group).to have_text('.wp-relations--subject-field', text)
+        expect(relations_group).to have_selector('.wp-relations--subject-field', text: text)
       end
 
       def expect_no_relation(relatable)

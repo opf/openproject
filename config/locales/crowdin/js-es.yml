@@ -116,6 +116,11 @@ es:
         manual: 'Cambiar a visualización de Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Vínculos a páginas secundarias'
           include_parent: 'Incluir principal'
@@ -408,8 +413,10 @@ es:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "actualizado el"
     label_value_derived_from_children: "(valor derivado del elemento secundario)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Alerta"
     label_work_package: "Paquete de trabajo"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Paquetes de trabajo"
     label_watch: "Controlar"
     label_watch_work_package: "Ver paquetes de trabajo"

@@ -41,6 +41,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Hooks
   include WorkPackages::DerivedDates
   include WorkPackages::SpentTime
+  include WorkPackages::Costs
   include ::Scopes::Scoped
 
   include OpenProject::Journal::AttachmentHelper
@@ -547,14 +548,6 @@ class WorkPackage < ApplicationRecord
     joins("LEFT OUTER JOIN (#{max_relation_depth.to_sql}) AS max_depth ON max_depth.to_id = work_packages.id")
       .reorder(Arel.sql("COALESCE(max_depth.depth, 0) #{direction}"))
       .select("#{table_name}.*, COALESCE(max_depth.depth, 0)")
-  end
-
-  def self.self_and_descendants_of_condition(work_package)
-    relation_subquery = Relation
-                        .with_type_columns_not(hierarchy: nil)
-                        .select(:to_id)
-                        .where(from_id: work_package.id)
-    "#{table_name}.id IN (#{relation_subquery.to_sql}) OR #{table_name}.id = #{work_package.id}"
   end
 
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields

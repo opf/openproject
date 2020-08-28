@@ -30,32 +30,34 @@
 require 'securerandom'
 
 module SettingsHelper
+  extend self
   include OpenProject::FormTagHelper
 
-  def administration_settings_tabs
+  def system_settings_tabs
     [
       {
         name: 'general',
-        partial: 'settings/general',
-        path: general_settings_path,
+        action: { controller: '/settings/general', action: 'show' },
         label: :label_general
       },
       {
         name: 'display',
-        partial: 'settings/display',
-        path: general_settings_path(tab: :display),
+        action: { controller: '/settings/display', action: 'show' },
         label: :label_display
       },
       {
         name: 'projects',
-        partial: 'settings/projects',
-        path: general_settings_path(tab: :projects),
+        action: { controller: '/settings/projects', action: 'show' },
         label: :label_project_plural
       },
       {
+        name: 'api',
+        action: { controller: '/settings/api', action: 'show' },
+        label: :label_api_access_key_type
+      },
+      {
         name: 'repositories',
-        partial: 'settings/repositories',
-        path: general_settings_path(tab: :repositories),
+        action: { controller: '/settings/repositories', action: 'show' },
         label: :label_repository_plural
       }
     ]
@@ -119,7 +121,13 @@ module SettingsHelper
   def setting_text_area(setting, options = {})
     setting_label(setting, options) +
       wrap_field_outer(options) do
-        styled_text_area_tag("settings[#{setting}]", Setting.send(setting), options)
+        value = Setting.send(setting)
+
+        if value.is_a?(Array)
+          value = value.join("\n")
+        end
+
+        styled_text_area_tag("settings[#{setting}]", value, options)
       end
   end
 

@@ -116,6 +116,11 @@ lt:
         manual: 'Perjungti į Markdown išeities kodą'
         wysiwyg: 'Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių'
       macro:
+        error: 'Negaliu išskleisti makrokomandos: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.'
+          not_found: 'Reikalaujamas resursas nerastas.'
+          invalid_attribute: "Pasirinktas atributas '%{name}' neegzistuoja."
         child_pages:
           button: 'Nuorodos į vaikų puslapius'
           include_parent: 'Įtraukti tėvus'
@@ -408,8 +413,10 @@ lt:
     label_total_amount: "Iš viso: %{amount}"
     label_updated_on: "atnaujintas"
     label_value_derived_from_children: "(reikšmė išvesta iš vaikų)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Įspėjimas"
     label_work_package: "Darbų paketas"
+    label_work_package_parent: "Tėvinis darbų paketas"
     label_work_package_plural: "Darbų paketai"
     label_watch: "Stebėti"
     label_watch_work_package: "Stebėti darbų paketą"

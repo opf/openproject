@@ -25,7 +25,6 @@ ar:
       property_groups:
         costs: "التكاليف"
       properties:
-        costObject: "الميزانية"
         overallCosts: "التكاليف الإجمالية"
         spentUnits: "الوحدات المستهلكة"
     button_log_costs: "سجل تكاليف الوحدة"

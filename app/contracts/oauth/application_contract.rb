@@ -34,11 +34,7 @@ module OAuth
       ::Doorkeeper::Application
     end
 
-    def validate
-      validate_client_credential_user
-
-      super
-    end
+    validate :validate_client_credential_user
 
     attribute :name
     attribute :redirect_uri

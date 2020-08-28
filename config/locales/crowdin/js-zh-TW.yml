@@ -116,6 +116,11 @@ zh-TW:
         manual: '切換到標記源模式'
         wysiwyg: '切換到所見即所得編輯器'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: '指向子頁面的連結'
           include_parent: '包括父項'
@@ -407,8 +412,10 @@ zh-TW:
     label_total_amount: "總計: %{amount}"
     label_updated_on: "更新於"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "警告"
     label_work_package: "工作項目"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "工作項目"
     label_watch: "監看"
     label_watch_work_package: "關注工作項目"

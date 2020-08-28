@@ -174,8 +174,6 @@ lt:
       no_results_content_text: Sukurti naują pasirinktinį lauką
   concatenation:
     single: 'arba'
-  deprecations:
-    time_entries: "Šis laiko įrašų rodinys permuštas „Kaštų ataskaitos“ modulio. Šis rodinys dabar palaiko tik laiko įrašų eksportą į csv. Interaktyviam filtravimui prašome projekto nustatymuose aktyvuoti „Kaštų ataskaitų“ modulį."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -559,6 +557,7 @@ lt:
           not_an_integer: "(%{name}) nėra sveikasis skaičius."
           smaller_than_or_equal_to: "(%{name}) turi būti mažesnis arba lygus %{count}."
           greater_than_or_equal_to: "(%{name}) turi būti didesnis arba lygus %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -593,6 +592,15 @@ lt:
               error_not_found: "nerasta"
             public:
               error_unauthorized: "- Naudotojas neturi teisių kurti viešus rodinius."
+            group_by:
+              invalid: "Negalima grupuoti naudojant: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Netinkamas užklausos stulpelis: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Negalima rūšiuoti pagal stulpelį: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
           filters:
             custom_fields:
@@ -615,8 +623,9 @@ lt:
           must_not_be_ssh: "neturi būti SSH URL."
           no_directory: "nėra aplankas."
         role:
-          permissions:
-            dependency_missing: "taipogi reikia įtraukti „%{dependency}“ kai parinktas „%{permission}“."
+          attributes:
+            permissions:
+              dependency_missing: "taipogi reikia įtraukti „%{dependency}“ kai parinktas „%{permission}“."
         time_entry:
           attributes:
             hours:
@@ -818,7 +827,6 @@ lt:
   button_generate: "Generuoti"
   button_list: "Sąrašas"
   button_lock: "Užrakinti"
-  button_log_time: "Registruoti laiką"
   button_login: "Prisijungti"
   button_move: "Perkelti"
   button_move_and_follow: "Perkelti ir sekti"
@@ -1060,8 +1068,6 @@ lt:
   description_compare_to: "Palyginti iki"
   description_current_position: "Jūs esate čia: "
   description_date_from: "Įveskite pradžios datą"
-  description_date_range_interval: "Pasirinkite diapazoną nurodydami pradžios ir pabaigos datas"
-  description_date_range_list: "Pasirinkitę diapazoną iš sąrašo"
   description_date_to: "Įveskite pabaigos datą"
   description_enter_number: "Įveskite numerį"
   description_enter_text: "Įveskite tekstą"
@@ -1114,9 +1120,6 @@ lt:
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
   error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Netinkama parinkta reikšmė."
-  error_invalid_group_by: "Negalima grupuoti naudojant: %{value}"
-  error_invalid_query_column: "Netinkamas užklausos stulpelis: %{value}"
-  error_invalid_sort_criterion: "Negalima rūšiuoti pagal stulpelį: %{value}"
   error_journal_attribute_not_present: "Žurnale nėra atributo %{attribute}."
   error_pdf_export_too_many_columns: "PDF eksportavimui pasirinkta per daug stulpelių. Prašome sumažinti stulpelių skaičių."
   error_pdf_failed_to_export: "PDF eksportas negali būti išsaugotas: %{error}"
@@ -1345,7 +1348,6 @@ lt:
   label_date_and_time: "Data ir laikas"
   label_date_from: "Nuo"
   label_date_from_to: "Nuo %{start} iki %{end}"
-  label_date_range: "Laikotarpis"
   label_date_to: "Į"
   label_day_plural: "dienas(-ų)"
   label_default: "Numatytasis"
@@ -1492,7 +1494,6 @@ lt:
   label_modified: "pakeistas"
   label_module_plural: "Moduliai"
   label_modules: "Moduliai"
-  label_month: "Mėnuo"
   label_months_from: "mėnesiai nuo"
   label_more: "Daugiau"
   label_more_than_ago: "daugiau nei prieš dieną"
@@ -1663,8 +1664,6 @@ lt:
   label_this_week: "ši savaitė"
   label_this_year: "šiemet"
   label_time_entry_plural: "Praleista laiko"
-  label_time_sheet_menu: "Laiko lentelė"
-  label_time_tracking: "Laiko apskaita"
   label_projects_menu: "Projektai"
   label_today: "šiandien"
   label_top_menu: "Viršutinis meniu"
@@ -1772,7 +1771,6 @@ lt:
     few: "%{count} projektai (-as, -ų)"
     many: "%{count} projektai (-as, -ų)"
     other: "%{count} projektai (-as, -ų)"
-  label_year: "Metai"
   label_yesterday: "vakar"
   auth_source:
     using_abstract_auth_source: "Negalima naudoti abstraktaus autentifikavimo šaltinio."
@@ -1889,7 +1887,6 @@ lt:
   notice_successful_delete: "Sėkmingas panaikinimas."
   notice_successful_update: "Sėkmingas atnaujinimas."
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
-  notice_unable_delete_time_entry: "Neįmano ištrinti laiko žurnalo įrašo."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
   present_access_key_value: "Jūsų %{key_name} yra: %{value}"
@@ -2020,8 +2017,6 @@ lt:
   project_module_work_package_tracking: "Darbų paketo sekimas"
   project_module_news: "Naujienos"
   project_module_repository: "Repozitorija"
-  project_module_time_tracking: "Laiko apskaita"
-  project_module_timelines: "Laiko juostos"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2140,6 +2135,10 @@ lt:
     activated: 'aktyvuotas'
     deactivated: 'deaktyvuotas'
   search_input_placeholder: "Paieška..."
+  setting_apiv3_cors_enabled: "Įgalinti CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) leidžiami kilmės domenai"
+  setting_apiv3_cors_origins_text_html: >
+    Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
   setting_email_delivery_method: "El. pašto pristatymo metodas"
   setting_sendmail_location: "Sendmail vykdomojo failo lokacija"
   setting_smtp_enable_starttls_auto: "Automatiškai naudoti STARTTLS, jei galima"
@@ -2194,7 +2193,6 @@ lt:
   setting_work_package_done_ratio_status: "Naudoti darbų paketo būseną"
   setting_work_package_done_ratio_disabled: "Išjungti (slėpti progresą)"
   setting_work_package_list_default_columns: "Pagal nutylėjimą rodyti"
-  setting_work_package_list_summable_columns: "Galimas sumuoti"
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_export_limit: "Darbų paketų eksportavimo limitas"

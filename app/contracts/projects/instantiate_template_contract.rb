@@ -34,11 +34,7 @@ module Projects
         .where(templated: true)
     end
 
-    def validate
-      validate_user_allowed_to_instantiate_template
-
-      super
-    end
+    validate :validate_user_allowed_to_instantiate_template
 
     private
 

@@ -24,7 +24,7 @@ hu:
         locked: 'Zárolt'
         closed: 'Lezárva'
       new_board: 'Új tábla'
-      add_list: 'Lista hozzáadása'
+      add_list: 'Add list to board'
       add_card: 'Kártya hozzáadása'
       error_attribute_not_writable: "Nem mozgatható munkacsomag, %{attribute} nem írható."
       error_loading_the_list: "Betöltési hiba: %{error_message}"
@@ -35,18 +35,29 @@ hu:
         free: 'Alap tábla'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
-          Hozzon létre egy táblát, amelyben szabadon létrehozhat listákat, és megrendelheti a munkacsomagokat. A munkacsomagok listák közötti mozgatása nem változtatja meg a munkacsomagot.
+          A board in which you can freely create lists and order your work packages within. Dragging work packages between lists do not change the work package itself.
         action: 'Akció tábla'
         action_by_attribute: 'Akció tábla (%{attribute})'
         action_text: >
-          Create a board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          A board with lists of subprojects of this project and their work packages as list items. Dragging work packages to other lists will move them to the corresponding subproject.
+        action_text_subtasks: >
+          A board with lists of selected parents and their child work packages as list items. Dragging work packages to other lists will update the parent accordingly.
         action_type:
           assignee: assignee
           status: status
           version: version
           subproject: subproject
+          subtasks: children
         select_attribute: "Akció attribútum"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             There is currently no status available. <br>

@@ -238,7 +238,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
 
         parent.reload
 
-        instance.call(version: version2)
+        call = instance.call(version: version2)
+
+        expect(call).to be_success
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.version).to eql version2

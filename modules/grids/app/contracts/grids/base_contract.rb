@@ -44,23 +44,18 @@ module Grids
 
     attribute_alias :type, :scope
 
-    def validate
-      validate_allowed
-      validate_registered_widgets
-      validate_widget_collisions
-      validate_widgets_within
-      validate_widgets_start_before_end
-
-      run_registration_validations
-
-      super
-    end
-
     attribute :widgets
 
     attribute :name
 
     attribute :options
+
+    validate :validate_allowed
+    validate :validate_registered_widgets
+    validate :validate_widget_collisions
+    validate :validate_widgets_within
+    validate :validate_widgets_start_before_end
+    validate :run_registration_validations
 
     def self.model
       Grid

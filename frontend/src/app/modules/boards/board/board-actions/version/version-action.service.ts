@@ -27,6 +27,8 @@ export class BoardVersionActionService extends CachedBoardActionService {
   description = this.I18n.t('js.boards.board_type.action_text',
   { attribute: this.I18n.t('js.boards.board_type.action_type.version')});
 
+  label = this.I18n.t('js.boards.add_list_modal.labels.version');
+
   icon = 'icon-getting-started';
 
   private writable$:Promise<boolean>;

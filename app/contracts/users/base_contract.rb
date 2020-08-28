@@ -48,11 +48,7 @@ module Users
       User
     end
 
-    def validate
-      existing_auth_source
-
-      super
-    end
+    validate :existing_auth_source
 
     private
 

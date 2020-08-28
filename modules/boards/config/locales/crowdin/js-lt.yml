@@ -24,7 +24,7 @@ lt:
         locked: 'Užrakinta'
         closed: 'Uždaryta'
       new_board: 'Nauja lenta'
-      add_list: 'Pridėti sąrašą'
+      add_list: 'Pridėti sąrašą į lentą'
       add_card: 'Pridėti kortelę'
       error_attribute_not_writable: "Negalima perkelti darbų paketo, %{attribute} negali būti įrašytas."
       error_loading_the_list: "Sąrašo užkrovimo klaida: %{error_message}"
@@ -35,18 +35,29 @@ lt:
         free: 'Paprasta lenta'
         select_board_type: 'Prašome pasirinkti reikalingą lentos tipą.'
         free_text: >
-          Sukurkite lentą, kurioje galėsite laisvai kurti sąrašus, o juose rikiuoti darbų paketus. Darbo paketo perkėlimas tarp sąrašų visiškai nekeis darbo paketo.
+          Lenta, kurioje galite laisvai kurti sąrašus, o juose rikiuoti darbų paketus. Darbo paketo perkėlimas tarp sąrašų visiškai nekeis darbo paketo.
         action: 'Veiksmų lenta'
         action_by_attribute: 'Veiksmų lenta (%{attribute})'
         action_text: >
-          Sukurkite lentą su filtruotomis atributo %{attribute} reikšmėmis. Perkeliant darbo paketą tarp sąrašų bus keičiama atributo reikšmė.
+          Lenta su filtruotomis atributo %{attribute} reikšmėmis. Perkeliant darbo paketą tarp sąrašų bus keičiama atributo reikšmė.
+        action_text_subprojects: >
+          Lenta su subprojektų ir jų darbų paketų sąrašu. Perkėlus darbų paketą tarp sąrašų jis bus perkeliamas į kitą subprojektą.
+        action_text_subtasks: >
+          Lenta su pasirinktais tėvais ir jų darbų paketai-vaikai kaip sąrašo elementai. Perkėlus darbų paketą į kitą sąrašą bus atitinkamai atnaujintas tėvas.
         action_type:
           assignee: paskirtas
           status: būsena
           version: versija
           subproject: sub-projektas
+          subtasks: vaikai
         select_attribute: "Veiksmo atributas"
       add_list_modal:
+        labels:
+          assignee: Pasirinkite vartotoją, kuris bus pridėtas į naują „paskirtas“ sąrašą
+          status: Pasirinkite statusą, kuris bus pridėtas į naują sąrašą
+          version: Pasirinkite versiją, kuri bus pridėta į naują sąrašą
+          subproject: Pasirinkite subprojektą, kuris bus pridėtas į naują sąrašą
+          subtasks: Pasirinkite darbų paketą, kuris bus pridėtas į naują sąrašą
         warning:
           status: |
             Nebėra laisvų statusų. <br>

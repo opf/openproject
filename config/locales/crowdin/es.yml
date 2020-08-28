@@ -175,8 +175,6 @@ es:
       no_results_content_text: Crear un nuevo campo personalizado
   concatenation:
     single: 'o bien'
-  deprecations:
-    time_entries: "Esta vista de entradas de tiempo se ha reemplazado por el módulo “Informes de costes”. En este momento, esta vista solo permite exportar a CSV información de entradas de tiempo. Para el filtrado interactivo, active el módulo “Informes de costes“ en la configuración del proyecto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -559,6 +557,7 @@ es:
           not_an_integer: "(%{name}) no es un número entero."
           smaller_than_or_equal_to: "(%{name}) debe ser menor o igual que %{count}."
           greater_than_or_equal_to: "(%{name}) debe ser mayor o igual que %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -593,6 +592,15 @@ es:
               error_not_found: "no encontrado"
             public:
               error_unauthorized: "- El usuario no tiene permiso para crear vistas públicas."
+            group_by:
+              invalid: "No se puede agrupar por: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Columna no válida en la solicitud: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "No se puede ordenar por la columna: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
           filters:
             custom_fields:
@@ -615,8 +623,9 @@ es:
           must_not_be_ssh: "no debe usarse una URL de SSH."
           no_directory: "no es un directorio."
         role:
-          permissions:
-            dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
+          attributes:
+            permissions:
+              dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
         time_entry:
           attributes:
             hours:
@@ -812,7 +821,6 @@ es:
   button_generate: "Generar"
   button_list: "Lista"
   button_lock: "Bloquear"
-  button_log_time: "Registro de tiempo"
   button_login: "Ingresar"
   button_move: "Mover"
   button_move_and_follow: "Mover y seguir"
@@ -1030,8 +1038,6 @@ es:
   description_compare_to: "Comparar con"
   description_current_position: "Usted está aquí: "
   description_date_from: "Introduzca la fecha de inicio"
-  description_date_range_interval: "Elija rango mediante la selección de fecha de inicio y fin"
-  description_date_range_list: "Elija el rango desde la lista"
   description_date_to: "Introduzca la fecha de finalización"
   description_enter_number: "Ingrese número"
   description_enter_text: "Ingrese texto"
@@ -1084,9 +1090,6 @@ es:
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
   error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "El valor seleccionado no es válido."
-  error_invalid_group_by: "No se puede agrupar por: %{value}"
-  error_invalid_query_column: "Columna no válida en la solicitud: %{value}"
-  error_invalid_sort_criterion: "No se puede ordenar por la columna: %{value}"
   error_journal_attribute_not_present: "El diario no contiene el atributo %{attribute}."
   error_pdf_export_too_many_columns: "Demasiadas columnas seleccionadas para la exportación de PDF. Reduzca el número de columnas."
   error_pdf_failed_to_export: "No se ha podido guardar la exportación PDF: %{error}"
@@ -1315,7 +1318,6 @@ es:
   label_date_and_time: "Fecha y hora"
   label_date_from: "De"
   label_date_from_to: "De %{start} al %{end}"
-  label_date_range: "Intervalo de fechas"
   label_date_to: "Para"
   label_day_plural: "días"
   label_default: "Por defecto"
@@ -1462,7 +1464,6 @@ es:
   label_modified: "modificado"
   label_module_plural: "Módulos"
   label_modules: "Módulos"
-  label_month: "Mes"
   label_months_from: "meses desde"
   label_more: "Más"
   label_more_than_ago: "más días atrás"
@@ -1633,8 +1634,6 @@ es:
   label_this_week: "esta semana"
   label_this_year: "este año"
   label_time_entry_plural: "Tiempo empleado"
-  label_time_sheet_menu: "Tabla de tiempo"
-  label_time_tracking: "Tiempo de seguimiento"
   label_projects_menu: "Proyectos"
   label_today: "hoy"
   label_top_menu: "Menú superior"
@@ -1734,7 +1733,6 @@ es:
     zero: "sin proyectos"
     one: "1 proyecto"
     other: "%{count} projectos"
-  label_year: "Año"
   label_yesterday: "ayer"
   auth_source:
     using_abstract_auth_source: "No puede utilizar una fuente de autenticación abstracta."
@@ -1851,7 +1849,6 @@ es:
   notice_successful_delete: "Eliminado con éxito."
   notice_successful_update: "Actualización correcta."
   notice_to_many_principals_to_display: "Hay demasiados resultados.\nAfine la búsqueda ingresando el nombre del nuevo miembro (o grupo)."
-  notice_unable_delete_time_entry: "No es posible eliminar la entrada de registro de hora."
   notice_user_missing_authentication_method: El usuario todavía tiene que elegir una contraseña u otra manera de iniciar sesión.
   notice_user_invitation_resent: Se envió una invitación a %{email}.
   present_access_key_value: "Su %{key_name} es: %{value}"
@@ -1980,8 +1977,6 @@ es:
   project_module_work_package_tracking: "Seguimiento de paquetes de trabajo"
   project_module_news: "Noticias"
   project_module_repository: "Repositorio"
-  project_module_time_tracking: "Tiempo de seguimiento"
-  project_module_timelines: "Líneas de tiempo"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2102,6 +2097,10 @@ es:
     activated: 'Habilitado'
     deactivated: 'deshabilitado'
   search_input_placeholder: "Buscar..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
   setting_smtp_enable_starttls_auto: "Usar STARTTLS automáticamente si está disponible"
@@ -2156,7 +2155,6 @@ es:
   setting_work_package_done_ratio_status: "Usar el estado del paquete de trabajo"
   setting_work_package_done_ratio_disabled: "Desactivar (oculta el progreso)"
   setting_work_package_list_default_columns: "Mostrar por defecto"
-  setting_work_package_list_summable_columns: "Sumable"
   setting_work_package_properties: "Propiedades de paquete de trabajo"
   setting_work_package_startdate_is_adddate: "Usar fecha actual como fecha de inicio para nuevos paquetes de trabajo"
   setting_work_packages_export_limit: "Fecha limite para exportar paquete de trabajo"
