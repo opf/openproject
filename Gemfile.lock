@@ -522,7 +522,7 @@ GEM
     fuubar (2.5.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
-    get_process_mem (0.2.5)
+    get_process_mem (0.2.7)
       ffi (~> 1.0)
     gherkin (5.1.0)
     git (1.7.0)
