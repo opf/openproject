@@ -33,13 +33,13 @@
     opacity: 0
 
 $input-elements: input, 'input.form--text-field', select, 'select.form--select', '.form--field-affix', 'a.button'
-$toolbar-height: 80px
+$toolbar-height: 160px
 
 .generic-table--flex-container
   display: flex
   flex-direction: column
   // Calculate table size by subtracting the space above
-  max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height})
+  max-height: calc(100vh - #{var(--header-height)} + #{$toolbar-height})
 
   .generic-table--container
     display: contents
