@@ -13,6 +13,11 @@ class RowCell < RailsCell
 
   def column_value(column)
     value = send column
+
+    escaped(value)
+  end
+
+  def escaped(value)
     if value.html_safe?
       value
     else

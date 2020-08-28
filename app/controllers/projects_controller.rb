@@ -47,13 +47,13 @@ class ProjectsController < ApplicationController
   # Lists visible projects
   def index
     query = load_query
-    set_sorting(query)
 
     unless query.valid?
       flash[:error] = query.errors.full_messages
     end
 
     @projects = load_projects query
+    @orders = set_sorting query
 
     render layout: 'no_menu'
   end
@@ -287,14 +287,6 @@ class ProjectsController < ApplicationController
     call_result
   end
 
-  def set_sorting(query)
-    orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
-
-    sort_clear
-    sort_init orders
-    sort_update orders.map(&:first)
-  end
-
   def load_projects(query)
     query
       .results
@@ -302,6 +294,10 @@ class ProjectsController < ApplicationController
       .with_latest_activity
       .includes(:custom_values, :enabled_modules)
       .paginate(page: page_param, per_page: per_page_param)
+  end
+
+  def set_sorting(query)
+    query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
   end
 
   def update_demo_project_settings(project, value)

@@ -8,6 +8,7 @@ class TableCell < RailsCell
 
   options :groups, :roles, :status, :project
   options show_inline_create: true
+  options table_id: nil
 
   class << self
     ##
@@ -75,14 +76,14 @@ class TableCell < RailsCell
     end
   end
 
-  def initialize(rows, opts = {}, &block)
-    super
+  def prepare
+    initialize_sorted_model if sortable?
+  end
 
-    if sortable?
-      sort_init *initial_sort.map(&:to_s)
-      sort_update sortable_columns.map(&:to_s)
-      @model = sort_and_paginate_collection model
-    end
+  def initialize_sorted_model
+    sort_init *initial_sort.map(&:to_s)
+    sort_update sortable_columns.map(&:to_s)
+    @model = sort_and_paginate_collection model
   end
 
   def sort_and_paginate_collection(ar_collection)
@@ -108,10 +109,6 @@ class TableCell < RailsCell
       .per_page(per_page_param)
   end
 
-  def show
-    render
-  end
-
   def rows
     model
   end
@@ -134,6 +131,14 @@ class TableCell < RailsCell
 
   def paginated?
     rows.respond_to? :total_entries
+  end
+
+  def build_sort_header(column, options)
+    sort_header_tag(column, options)
+  end
+
+  def button_header
+    content_tag :div, '', class: 'generic-table--empty-header'
   end
 
   def inline_create_link
