@@ -687,7 +687,7 @@ GEM
     prawn (2.3.0)
       pdf-core (~> 0.8.1)
       ttfunk (~> 1.6)
-    prawn-markup (0.2.2)
+    prawn-markup (0.3.0)
       nokogiri
       prawn
       prawn-table
@@ -1078,7 +1078,7 @@ DEPENDENCIES
   plaintext (~> 0.3.2)
   posix-spawn (~> 0.3.13)
   prawn (~> 2.2)
-  prawn-markup (~> 0.2.1)
+  prawn-markup (~> 0.3.0)
   pry-byebug (~> 3.9.0)
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
