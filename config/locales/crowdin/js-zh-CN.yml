@@ -413,6 +413,7 @@ zh-CN:
     label_total_amount: "总计: %{amount}"
     label_updated_on: "更新于"
     label_value_derived_from_children: "（来自子项的值）"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "警告"
     label_work_package: "工作包"
     label_work_package_parent: "Parent work package"

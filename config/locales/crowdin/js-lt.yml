@@ -413,6 +413,7 @@ lt:
     label_total_amount: "Iš viso: %{amount}"
     label_updated_on: "atnaujintas"
     label_value_derived_from_children: "(reikšmė išvesta iš vaikų)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Įspėjimas"
     label_work_package: "Darbų paketas"
     label_work_package_parent: "Tėvinis darbų paketas"

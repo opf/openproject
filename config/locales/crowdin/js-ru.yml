@@ -412,6 +412,7 @@ ru:
     label_total_amount: "Всего: %{amount}"
     label_updated_on: "Обновлено"
     label_value_derived_from_children: "(значение, полученное от потомков)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Предупреждение"
     label_work_package: "Пакет работ"
     label_work_package_parent: "Родительский пакет работ"

@@ -412,6 +412,7 @@ vi:
     label_total_amount: "Tổng số tiền%{amount}"
     label_updated_on: "cập Nhật ngày"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
     label_work_package: "Work Package"
     label_work_package_parent: "Parent work package"

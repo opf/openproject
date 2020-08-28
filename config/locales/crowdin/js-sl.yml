@@ -412,6 +412,7 @@ sl:
     label_total_amount: "Skupaj: %{amount}"
     label_updated_on: "Posodobljeno"
     label_value_derived_from_children: "(vrednost izpeljana iz podrejenih)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Opozorilo"
     label_work_package: "Zahtevek"
     label_work_package_parent: "Parent work package"

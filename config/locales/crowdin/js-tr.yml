@@ -413,6 +413,7 @@ tr:
     label_total_amount: "Toplam: %{amount}"
     label_updated_on: "güncelleme tarihi"
     label_value_derived_from_children: "(çocuklardan elde edilen değer)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Uyarı"
     label_work_package: "İş paketi"
     label_work_package_parent: "İş paketini oluştur"

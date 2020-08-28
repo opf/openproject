@@ -412,6 +412,7 @@ zh-TW:
     label_total_amount: "總計: %{amount}"
     label_updated_on: "更新於"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "警告"
     label_work_package: "工作項目"
     label_work_package_parent: "Parent work package"

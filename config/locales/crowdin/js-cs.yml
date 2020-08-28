@@ -413,6 +413,7 @@ cs:
     label_total_amount: "Celkem: %{amount}"
     label_updated_on: "aktualizováno"
     label_value_derived_from_children: "(hodnota odvozená od dětí)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Varování"
     label_work_package: "Pracovní balíček"
     label_work_package_parent: "Parent work package"

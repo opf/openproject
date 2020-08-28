@@ -412,6 +412,7 @@ de:
     label_total_amount: "Gesamt: %{amount}"
     label_updated_on: "aktualisiert am"
     label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warnung"
     label_work_package: "Arbeitspaket"
     label_work_package_parent: "Parent work package"
