@@ -53,6 +53,9 @@ export class CostSubformAugmentService {
         let row = jQuery(template.replace(/INDEX/g, rowIndex.toString()));
         row.show();
         row.removeClass('subform-row-template');
+        row.find('input.costs-date-picker').prop('required', true);
+        row.find('input[id^="cost_type_new_rate_attributes"]').prop('required', true);
+
         container.append(row);
         rowIndex += 1;
 
