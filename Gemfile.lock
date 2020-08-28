@@ -500,7 +500,7 @@ GEM
     fastimage (2.1.7)
     ffi (1.13.1)
     flamegraph (0.9.5)
-    fog-aws (3.6.6)
+    fog-aws (3.6.7)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
