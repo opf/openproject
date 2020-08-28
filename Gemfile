@@ -187,7 +187,7 @@ gem 'ruby-progressbar', '~> 1.10.0', require: false
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
-  gem 'shoulda-context', '~> 1.2'
+  gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
   # and other niceties
