@@ -172,9 +172,9 @@ gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.91.0'
+gem 'aws-sdk-core', '~> 3.105.0'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.61.0'
+gem 'aws-sdk-s3', '~> 1.79.0'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -198,6 +198,8 @@ group :test do
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.9.0'
+  # TODO: replace stub_model and mock_model by calls to factory or simple double
+  # and remove this dependency
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 4.0.0', group: :development
@@ -284,6 +286,9 @@ end
 gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
+# Grape 1.4.0 has a bug which requires us to wait until 1.4.1 is released.
+# https://github.com/ruby-grape/grape/pull/2088
+# In 1.4.0, the Cache-Control will always be set to no-cache when sending a file.
 gem 'grape', '~> 1.3.0'
 gem 'roar', '~> 1.1.0'
 
