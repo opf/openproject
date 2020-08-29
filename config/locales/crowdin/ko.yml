@@ -2192,6 +2192,9 @@ ko:
     passwords: "암호"
     session: "세션"
     brute_force_prevention: "자동화된 사용자 차단"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "기본 설정"
       deletion: "삭제"

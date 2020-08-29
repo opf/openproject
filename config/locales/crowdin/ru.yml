@@ -2254,6 +2254,9 @@ ru:
     passwords: "Пароли"
     session: "Сессия"
     brute_force_prevention: "Автоматическое блокирование пользователя"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Предпочтения по умолчанию"
       deletion: "Удаление"

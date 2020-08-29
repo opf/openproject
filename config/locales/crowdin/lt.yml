@@ -2251,6 +2251,9 @@ lt:
     passwords: "Slaptažodžiai"
     session: "Sesija"
     brute_force_prevention: "Automatinis vartotojų blokavimas"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Numatytosios parinktys"
       deletion: "Trynimas"

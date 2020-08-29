@@ -2211,6 +2211,9 @@ de:
     passwords: "Passwörter"
     session: "Sitzung"
     brute_force_prevention: "Automatisches Sperren von Benutzern"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Standardeinstellungen"
       deletion: "Löschen"
