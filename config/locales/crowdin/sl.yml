@@ -488,7 +488,7 @@ sl:
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"
-        time_entries: "Datum vpisa"
+        time_entries: "Beleži čas"
         type: "Vrsta"
         watcher: "Opazovalec"
       'doorkeeper/application':
@@ -810,7 +810,7 @@ sl:
   button_generate: "Ustvari"
   button_list: "Seznam"
   button_lock: "Zakleni"
-  button_log_time: "Datum vpisa"
+  button_log_time: "Beleži čas"
   button_login: "Prijava"
   button_move: "Premakni"
   button_move_and_follow: "Premakni in sledi"

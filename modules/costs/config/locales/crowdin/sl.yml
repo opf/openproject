@@ -89,7 +89,7 @@ sl:
   button_cancel_edit_budget: "Prekliči urejanje proračuna"
   button_cancel_edit_costs: "Prekliči urejanje stroškov"
   button_log_costs: "Stroški enote dnevnika"
-  button_log_time: "Datum vpisa"
+  button_log_time: "Beleži čas"
   caption_booked_on_project: "Rezervirano na projektu"
   caption_default: "Privzeto"
   caption_default_rate_history_for: "Zgodovina privzetih tečajev za %{user}"
