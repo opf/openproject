@@ -120,7 +120,7 @@ describe('WorkPackageFilterValues', () => {
       }
     ];
 
-    subject = new WorkPackageFilterValues(injector, changeset, filters);
+    subject = new WorkPackageFilterValues(injector, filters);
   }
 
   describe('when a filter value already exists in values', () => {
@@ -141,7 +141,7 @@ describe('WorkPackageFilterValues', () => {
       });
 
       it('it should not apply the first value (Regression #30817)', (() => {
-        subject.applyDefaultsFromFilters();
+        subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value('type').href).toEqual('/api/v3/types/1');
@@ -164,7 +164,7 @@ describe('WorkPackageFilterValues', () => {
       });
 
       it('it should not apply the first value (Regression #30817)', (() => {
-        subject.applyDefaultsFromFilters();
+        subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value('type').href).toEqual('/api/v3/types/2');

@@ -85,7 +85,7 @@ export class HalPayloadHelper {
     _.each(nonLinkProperties, property => {
       if (resource.hasOwnProperty(property) || resource[property]) {
         if (Array.isArray(resource[property])) {
-          payload[property] = _.map(resource[property], (element:any) => {
+          payload[property] = _.map(resource[property], (element:any) => {
             if (element instanceof HalResource) {
               return this.extractPayloadFromSchema(element, element.currentSchema || element.schema);
             } else {
@@ -93,7 +93,7 @@ export class HalPayloadHelper {
             }
           });
         } else {
-          payload[property] = resource[property];
+          payload[property] = resource[property];
         }
       }
     });

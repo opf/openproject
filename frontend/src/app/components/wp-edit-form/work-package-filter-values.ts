@@ -7,7 +7,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {ApiV3Filter, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class WorkPackageFilterValues {
 
@@ -20,13 +20,12 @@ export class WorkPackageFilterValues {
   };
 
   constructor(public injector:Injector,
-              private change:WorkPackageChangeset,
               private filters:QueryFilterInstanceResource[],
               private excluded:string[] = []) {
 
   }
 
-  public applyDefaultsFromFilters() {
+  public applyDefaultsFromFilters(change:WorkPackageChangeset|Object) {
     _.each(this.filters, filter => {
       // Exclude filters specified in constructor
       if (this.excluded.indexOf(filter.id) !== -1) {
@@ -38,7 +37,7 @@ export class WorkPackageFilterValues {
       const handler = this.handlers[operator];
 
       // Apply the filter if there is any
-      handler?.call(this, filter);
+      handler?.call(this, change, filter);
     });
   }
 
@@ -48,10 +47,10 @@ export class WorkPackageFilterValues {
    * @param filter A positive '=' filter with at least one value
    * @private
    */
-  private applyFirstValue(filter:QueryFilterInstanceResource):void {
+  private applyFirstValue(change:WorkPackageChangeset|{[id:string]:any}, filter:QueryFilterInstanceResource):void {
     // Avoid setting a value if current value is in filter list
     // and more than one value selected
-    if (this.filterAlreadyApplied(filter)) {
+    if (this.filterAlreadyApplied(change, filter)) {
       return;
     }
 
@@ -61,7 +60,7 @@ export class WorkPackageFilterValues {
     // Avoid empty values
     if (value) {
       let attributeName = this.mapFilterToAttribute(filter);
-      this.setValueFor(attributeName, value);
+      this.setValueFor(change, attributeName, value);
     }
   }
 
@@ -71,16 +70,25 @@ export class WorkPackageFilterValues {
    * @param filter A none '!*' filter
    * @private
    */
-  private setToNull(filter:QueryFilterInstanceResource):void {
+  private setToNull(change:WorkPackageChangeset|{[id:string]:any}, filter:QueryFilterInstanceResource):void {
     let attributeName = this.mapFilterToAttribute(filter);
-    this.change.setValue(attributeName, { href: null  });
+
+    this.setValue(change, attributeName,{ href: null });
   }
 
-  private setValueFor(field:string, value:string|HalResource) {
+  private setValueFor(change:WorkPackageChangeset|Object, field:string, value:string|HalResource) {
     let newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
-      this.change.setValue(field, newValue);
+      this.setValue(change, field, newValue);
+    }
+  }
+
+  private setValue(change:WorkPackageChangeset|{[id:string]:any}, field:string, value:any) {
+    if (change instanceof WorkPackageChangeset) {
+      change.setValue(field, value);
+    } else {
+      change[field] = value;
     }
   }
 
@@ -107,13 +115,13 @@ export class WorkPackageFilterValues {
    *  - changeset already matches one of the selected values
    * @param filter
    */
-  private filterAlreadyApplied(filter:any):boolean {
+  private filterAlreadyApplied(change:WorkPackageChangeset|{[id:string]:any}, filter:any):boolean {
     // Only applicable if more than one selected
     if (filter.values.length <= 1) {
       return false;
     }
 
-    const current = this.change.projectedResource[filter.id];
+    const current = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
 
     for (let i = 0; i < filter.values.length; i++) {
       if (compareByHrefOrString(current, filter.values[i])) {
