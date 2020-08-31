@@ -131,15 +131,15 @@
       </ng-container>
 
       <div class="datepicker-modal--actions-container">
-        <a (click)="cancel()"
-           class="datepicker-modal--action"
+        <button (click)="cancel()"
+           class="datepicker-modal--action button"
            [textContent]="text.cancel">
-        </a>
-        <a (click)="save()"
+        </button>
+        <button (click)="save()"
            [attr.disabled]="!this.isSavable || undefined"
-           class="datepicker-modal--action"
+           class="datepicker-modal--action button -highlight"
            [textContent]="text.save">
-        </a>
+        </button>
       </div>
     </div>
   </div>
