@@ -574,7 +574,8 @@ GEM
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     kgio (2.11.3)
-    kramdown (2.1.0)
+    kramdown (2.3.0)
+      rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     ladle (1.0.1)
@@ -867,10 +868,9 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.8.0)
       nokogumbo (~> 2.0)
-    sassc (2.0.1)
+    sassc (2.4.0)
       ffi (~> 1.9)
-      rake
-    sassc-rails (2.1.0)
+    sassc-rails (2.1.2)
       railties (>= 4.0.0)
       sassc (>= 2.0)
       sprockets (> 3.0)
