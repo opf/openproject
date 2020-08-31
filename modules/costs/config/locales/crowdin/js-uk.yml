@@ -25,7 +25,6 @@ uk:
       property_groups:
         costs: "Витрати"
       properties:
-        costObject: "Бюджет"
         overallCosts: "Загальні витрати"
         spentUnits: "Витрачені одиниці"
     button_log_costs: "Витрати лог-одиниць"

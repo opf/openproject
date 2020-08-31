@@ -116,6 +116,11 @@ ru:
         manual: 'Перейти к источнику уценок'
         wysiwyg: 'Перейти к WYSIWYG-редактору'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Ссылки на дочерние страницы'
           include_parent: 'Включить родителей'
@@ -407,8 +412,10 @@ ru:
     label_total_amount: "Всего: %{amount}"
     label_updated_on: "Обновлено"
     label_value_derived_from_children: "(значение, полученное от потомков)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Предупреждение"
     label_work_package: "Пакет работ"
+    label_work_package_parent: "Родительский пакет работ"
     label_work_package_plural: "Комплекс работ"
     label_watch: "Просмотреть"
     label_watch_work_package: "Наблюдать за пакетом работ"
@@ -495,6 +502,7 @@ ru:
       context: 'Контекст проекта'
       work_package_belongs_to: 'Этот пакет работ относится к проекту %{projectname}.'
       click_to_switch_context: 'Открыть пакет работ в этом проекте.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Автоматическое завершение проекта'
     text_are_you_sure: "Вы уверены?"

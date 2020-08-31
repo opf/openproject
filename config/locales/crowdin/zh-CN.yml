@@ -174,8 +174,6 @@ zh-CN:
       no_results_content_text: 创建新的自定义字段
   concatenation:
     single: '或'
-  deprecations:
-    time_entries: "此时间条目视图已由“成本报告”模块取代。现在，此视图仅支持将时间条目信息导出到 csv。要进行交互式筛选，请在项目设置中激活“成本报告”模块。"
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -512,7 +510,7 @@ zh-CN:
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
-        could_not_be_copied: "不能 (完全) 复制。"
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在。"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"
@@ -556,6 +554,7 @@ zh-CN:
           not_an_integer: "(%{name}) 不是整数。"
           smaller_than_or_equal_to: "（%{name}）必须小于或等于 %{count}。"
           greater_than_or_equal_to: "（%{name}）必须大于或等于 %{count}。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -590,6 +589,15 @@ zh-CN:
               error_not_found: "未找到"
             public:
               error_unauthorized: "- 用户没有创建公公查询的权限。"
+            group_by:
+              invalid: "无法按照 %{value} 分组"
+              format: "%{message}"
+            column_names:
+              invalid: "无效的查询列：%{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "无法按照列 %{value} 排序"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的群组互相排斥。您无法将它们都激活。"
           filters:
             custom_fields:
@@ -612,8 +620,9 @@ zh-CN:
           must_not_be_ssh: "不能是 SSH url。"
           no_directory: "不是一个目录。"
         role:
-          permissions:
-            dependency_missing: "还需要包括“%{dependency}”，因为已选择“%{permission}”。"
+          attributes:
+            permissions:
+              dependency_missing: "还需要包括“%{dependency}”，因为已选择“%{permission}”。"
         time_entry:
           attributes:
             hours:
@@ -731,6 +740,9 @@ zh-CN:
     date: "日期"
     default_columns: "默认的列"
     description: "描述"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "显示汇总"
     due_date: "完成日期"
     estimated_hours: "估计的时间"
@@ -803,7 +815,6 @@ zh-CN:
   button_generate: "生成"
   button_list: "列表"
   button_lock: "锁定"
-  button_log_time: "记录时间"
   button_login: "登录"
   button_move: "移动"
   button_move_and_follow: "移动和跟踪"
@@ -1009,8 +1020,6 @@ zh-CN:
   description_compare_to: "比较截止于"
   description_current_position: "您现在的位置："
   description_date_from: "输入开始日期"
-  description_date_range_interval: "通过选择开始日期和结束日期来选择范围"
-  description_date_range_list: "从列表中选择范围"
   description_date_to: "输入结束日期"
   description_enter_number: "输入数字"
   description_enter_text: "输入文本"
@@ -1063,9 +1072,6 @@ zh-CN:
   error_failed_to_delete_entry: '无法删除此条目。'
   error_in_dependent: "尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}"
   error_invalid_selected_value: "选中的值无效。"
-  error_invalid_group_by: "无法按照 %{value} 分组"
-  error_invalid_query_column: "无效的查询列：%{value}"
-  error_invalid_sort_criterion: "无法按照列 %{value} 排序"
   error_journal_attribute_not_present: "日志不包含 %{attribute} 属性。"
   error_pdf_export_too_many_columns: "选择 PDF 导出的列太多。请减少列数。"
   error_pdf_failed_to_export: "无法保存被导出的 PDF 文件：%{error}"
@@ -1294,7 +1300,6 @@ zh-CN:
   label_date_and_time: "日期和时间"
   label_date_from: "从"
   label_date_from_to: "从 %{start} 到 %{end}"
-  label_date_range: "日期范围"
   label_date_to: "到"
   label_day_plural: "天"
   label_default: "默认"
@@ -1441,7 +1446,6 @@ zh-CN:
   label_modified: "修改"
   label_module_plural: "模块"
   label_modules: "模块"
-  label_month: "月"
   label_months_from: "月份从"
   label_more: "更多"
   label_more_than_ago: "更多天前"
@@ -1612,8 +1616,6 @@ zh-CN:
   label_this_week: "这一周"
   label_this_year: "这一年"
   label_time_entry_plural: "已耗时间"
-  label_time_sheet_menu: "时间表"
-  label_time_tracking: "时间跟踪"
   label_projects_menu: "项目"
   label_today: "今天"
   label_top_menu: "顶部的菜单"
@@ -1709,7 +1711,6 @@ zh-CN:
   label_x_projects:
     zero: "没有项目"
     other: "%{count} 个项目"
-  label_year: "年"
   label_yesterday: "昨天"
   auth_source:
     using_abstract_auth_source: "无法使用抽象的验证源。"
@@ -1825,7 +1826,6 @@ zh-CN:
   notice_successful_delete: "成功删除。"
   notice_successful_update: "成功更新。"
   notice_to_many_principals_to_display: "搜索结果数量过多。\n请键入新成员 (或群组) 的名字来缩小搜索范围。"
-  notice_unable_delete_time_entry: "不能删除时间记录条目。"
   notice_user_missing_authentication_method: 用户尚未选择密码或另一种方式登录。
   notice_user_invitation_resent: 邀请已发送到 %{email}。
   present_access_key_value: "你的 %{key_name} 是: %{value}"
@@ -1953,8 +1953,6 @@ zh-CN:
   project_module_work_package_tracking: "工作包跟踪"
   project_module_news: "新闻"
   project_module_repository: "代码库"
-  project_module_time_tracking: "时间跟踪"
-  project_module_timelines: "时间线"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2073,6 +2071,10 @@ zh-CN:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "搜索"
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"
@@ -2127,7 +2129,6 @@ zh-CN:
   setting_work_package_done_ratio_status: "使用工作包状态"
   setting_work_package_done_ratio_disabled: "禁用 （隐藏进度）"
   setting_work_package_list_default_columns: "默认显示"
-  setting_work_package_list_summable_columns: "可汇总"
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_export_limit: "工作包导出限制"
@@ -2186,6 +2187,9 @@ zh-CN:
     passwords: "密码"
     session: "会话"
     brute_force_prevention: "自动化的用户阻止"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默认偏好设置"
       deletion: "删除"

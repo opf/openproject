@@ -47,6 +47,8 @@ module CarrierWave
         config.fog_credentials = { provider: provider }.merge(credentials)
         config.fog_directory   = directory
         config.fog_public      = public
+
+        config.use_action_status = true
       end
     end
   end

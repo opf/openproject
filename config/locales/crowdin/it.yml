@@ -175,8 +175,6 @@ it:
       no_results_content_text: Crea un nuovo campo personalizzato
   concatenation:
     single: 'oppure'
-  deprecations:
-    time_entries: "Questa visualizzazione di voci sul tempo è superata dal modulo \"Rapporto Costi\". Questa visualizzazione ora supporta solo l'esportazione di informazioni sulle voci sul tempo in csv. Per usare i filtri in modo interattivo, attiva il modulo \"Rapporto Costi\" nelle impostazioni del progetto."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -514,7 +512,7 @@ it:
         cant_link_a_work_package_with_a_descendant: "Una macro-attività non può essere collegato a una delle sue sottoattività."
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare."
         confirmation: "non coincide con %{attribute}."
-        could_not_be_copied: "non possono essere copiati (integralmente)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "non esiste."
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
@@ -558,6 +556,7 @@ it:
           not_an_integer: "(%{name}) non è un intero."
           smaller_than_or_equal_to: "(%{name}) deve essere più piccolo o uguale a %{count}."
           greater_than_or_equal_to: "(%{name}) deve essere più grande o uguale a %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -592,6 +591,15 @@ it:
               error_not_found: "non trovato"
             public:
               error_unauthorized: "- L'utente non è autorizzato a creare viste pubbliche."
+            group_by:
+              invalid: "Impossibile raggruppare per: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Colonna di query non valida: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Impossibile ordinare per la colonna: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
           filters:
             custom_fields:
@@ -614,8 +622,9 @@ it:
           must_not_be_ssh: "non deve essere un URL SSH."
           no_directory: "non è una directory."
         role:
-          permissions:
-            dependency_missing: "deve includere anche '%{dependency}' in quanto è selezionato '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "deve includere anche '%{dependency}' in quanto è selezionato '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -736,6 +745,9 @@ it:
     date: "Data"
     default_columns: "Colonne predefinite"
     description: "Descrizione"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Visualizza somme"
     due_date: "Data di fine"
     estimated_hours: "Tempo stimato"
@@ -808,7 +820,6 @@ it:
   button_generate: "Genera"
   button_list: "Elenca"
   button_lock: "Blocca"
-  button_log_time: "Registra l'orario effettuato"
   button_login: "Accedi"
   button_move: "Sposta"
   button_move_and_follow: "Sposta e segui"
@@ -1026,8 +1037,6 @@ it:
   description_compare_to: "Confronta con"
   description_current_position: "Sei qui: "
   description_date_from: "Inserisci data di inizio"
-  description_date_range_interval: "Scegli l'intervallo selezionando la data di inizio e fine"
-  description_date_range_list: "Scegli l'intervallo dalla lista"
   description_date_to: "Inserisci data di fine"
   description_enter_number: "Inserisci numero"
   description_enter_text: "Inserisci testo"
@@ -1080,9 +1089,6 @@ it:
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valore selezionato non valido."
-  error_invalid_group_by: "Impossibile raggruppare per: %{value}"
-  error_invalid_query_column: "Colonna di query non valida: %{value}"
-  error_invalid_sort_criterion: "Impossibile ordinare per la colonna: %{value}"
   error_journal_attribute_not_present: "Il diario non contiene l'attributo %{attribute}."
   error_pdf_export_too_many_columns: "Troppe colonne selezionate per l'esportazione in PDF. Ridurre il numero di colonne."
   error_pdf_failed_to_export: "L'esportazione del PDF non può essere salvata: %{error}"
@@ -1311,7 +1317,6 @@ it:
   label_date_and_time: "Data e ora"
   label_date_from: "Da"
   label_date_from_to: "Da %{start} a %{end}"
-  label_date_range: "Intervallo di date"
   label_date_to: "A"
   label_day_plural: "giorni"
   label_default: "Predefinito"
@@ -1458,7 +1463,6 @@ it:
   label_modified: "modificato"
   label_module_plural: "Moduli"
   label_modules: "Moduli"
-  label_month: "Mese"
   label_months_from: "mesi da"
   label_more: "Più"
   label_more_than_ago: "più di qualche giorno fa"
@@ -1629,8 +1633,6 @@ it:
   label_this_week: "questa settimana"
   label_this_year: "questo anno"
   label_time_entry_plural: "Tempo speso"
-  label_time_sheet_menu: "Foglio orario"
-  label_time_tracking: "Monitoraggio tempi"
   label_projects_menu: "Progetti"
   label_today: "oggi"
   label_top_menu: "Top Menu"
@@ -1730,7 +1732,6 @@ it:
     zero: "nessun progetto"
     one: "1 progetto"
     other: "%{count} progetti"
-  label_year: "Anno"
   label_yesterday: "ieri"
   auth_source:
     using_abstract_auth_source: "Non è possibile utilizzare una fonte di autenticazione astratta."
@@ -1847,7 +1848,6 @@ it:
   notice_successful_delete: "Cancellato con successo."
   notice_successful_update: "Aggiornato con successo."
   notice_to_many_principals_to_display: "Ci sono troppi risultati.\nAffina la ricerca digitando il nome del nuovo membro (o gruppo)."
-  notice_unable_delete_time_entry: "Impossibile eliminare la registrazione di orario effettuato."
   notice_user_missing_authentication_method: L'utente deve ancora scegliere una password o un altro sistema di autenticazione.
   notice_user_invitation_resent: Un invito è stato inviato a %{email}.
   present_access_key_value: "Il tuo %{key_name} è: %{value}"
@@ -1976,8 +1976,6 @@ it:
   project_module_work_package_tracking: "Monitoraggio macro-attività"
   project_module_news: "Notizie"
   project_module_repository: "Archivio"
-  project_module_time_tracking: "Monitoraggio tempi"
-  project_module_timelines: "Tempistiche"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2098,6 +2096,10 @@ it:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Ricerca..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"
@@ -2152,7 +2154,6 @@ it:
   setting_work_package_done_ratio_status: "Usa lo stato della macro-attività"
   setting_work_package_done_ratio_disabled: "Disabilita (nascondi l'avanzamento)"
   setting_work_package_list_default_columns: "Visualizza come impostazione predefinita"
-  setting_work_package_list_summable_columns: "Sommabile"
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_export_limit: "Limite di esportazione delle macro-attività"
@@ -2211,6 +2212,9 @@ it:
     passwords: "Password"
     session: "Sessione"
     brute_force_prevention: "Blocco automatico degli utenti"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Preferenze predefinite"
       deletion: "Eliminazione"

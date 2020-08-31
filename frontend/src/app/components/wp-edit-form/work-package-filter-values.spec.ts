@@ -48,6 +48,7 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {UIRouterModule} from "@uirouter/angular";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {OpenProjectDirectFileUploadService} from "core-components/api/op-file-upload/op-direct-file-upload.service";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
@@ -83,6 +84,7 @@ describe('WorkPackageFilterValues', () => {
         CurrentUserService,
         HookService,
         OpenProjectFileUploadService,
+        OpenProjectDirectFileUploadService,
         LoadingIndicatorService,
         HalResourceService,
         NotificationsService,

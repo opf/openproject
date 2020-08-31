@@ -101,7 +101,7 @@ es:
           snapshot_data_blank: "«snapshot_data» tiene que especificarse."
           unsupported_key: "Se ha incluido una propiedad JSON no admitida."
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "No se puede importar el defecto de BCF porque ya existe otro con el mismo GUID ¿Podría ser \nque este defecto BCF ya fue importado a un proyecto diferente?"
   ifc_models:
     label_ifc_models: 'Modelos IFC'
     label_new_ifc_model: 'Nuevo modelo IFC'

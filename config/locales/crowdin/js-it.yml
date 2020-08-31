@@ -116,6 +116,11 @@ it:
         manual: 'Passa alla risorsa Markdown'
         wysiwyg: 'Passa all''editor WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Collegamenti alle pagine discendenti'
           include_parent: 'Includi genitore'
@@ -408,8 +413,10 @@ it:
     label_total_amount: "Totale: %{amount}"
     label_updated_on: "aggiornato il"
     label_value_derived_from_children: "(valore derivato dai figli)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Attenzione"
     label_work_package: "Macro-attività"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Macro-attività"
     label_watch: "Osserva"
     label_watch_work_package: "Osserva macro-attività"
@@ -496,6 +503,7 @@ it:
       context: 'Contesto del progetto'
       work_package_belongs_to: 'Questa macro-attività appartiene al progetto %{projectname}.'
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Autocompletamento del progetto'
     text_are_you_sure: "Sei sicuro?"

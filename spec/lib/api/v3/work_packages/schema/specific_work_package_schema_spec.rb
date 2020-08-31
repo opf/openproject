@@ -160,6 +160,18 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
   end
 
+  describe '#assignable_budgets' do
+    subject { described_class.new(work_package: work_package) }
+
+    before do
+      allow(project).to receive(:budgets).and_return(double('Budgets'))
+    end
+
+    it 'returns project.budgets' do
+      expect(subject.assignable_values(:budget, nil)).to eql(project.budgets)
+    end
+  end
+
   describe '#writable?' do
     context 'percentage done' do
       it 'is not writable when inferred by status' do

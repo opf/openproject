@@ -42,35 +42,15 @@ describe 'API v3 String Objects resource' do
       get path
     end
 
-    it 'is successful' do
-      expect(subject.status).to eql(200)
-    end
-
-    it 'returns the value' do
-      expect(subject.body).to be_json_eql('foo bar'.to_json).at_path('value')
-    end
-
-    context 'empty string' do
-      let(:path) { api_v3_paths.string_object '' }
-
-      it 'is successful' do
-        expect(subject.status).to eql(200)
-      end
-
-      it 'returns the value' do
-        expect(subject.body).to be_json_eql(''.to_json).at_path('value')
-      end
+    it 'return 410 GONE' do
+      expect(subject.status).to eql(410)
     end
 
     context 'nil string' do
       let(:path) { '/api/v3/string_objects?value' }
 
-      it 'is successful' do
-        expect(subject.status).to eql(200)
-      end
-
-      it 'returns the empty string' do
-        expect(subject.body).to be_json_eql(''.to_json).at_path('value')
+      it 'return 410 GONE' do
+        expect(subject.status).to eql(410)
       end
     end
   end

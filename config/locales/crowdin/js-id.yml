@@ -116,6 +116,11 @@ id:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Tautkan ke anak halaman'
           include_parent: 'Sertakan induk'
@@ -408,8 +413,10 @@ id:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "diupdate pada"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
     label_work_package: "Paket-Penugasan"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Paket-Penugasan"
     label_watch: "Pantau"
     label_watch_work_package: "Pantau Paket-Penugasan"
@@ -496,6 +503,7 @@ id:
       context: 'Konteks proyek'
       work_package_belongs_to: 'Paket kerja ini menjadi milik proyek %{projectname}.'
       click_to_switch_context: 'Buka paket kerja ini dalam proyek tersebut.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Penyelesaian Proyek secara otomatis'
     text_are_you_sure: "Anda yakin?"

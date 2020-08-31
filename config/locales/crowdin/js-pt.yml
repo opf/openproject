@@ -116,6 +116,11 @@ pt:
         manual: 'Alternar para fonte Markdown'
         wysiwyg: 'Alternar para editor WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Links para páginas filhas'
           include_parent: 'Incluir pai'
@@ -397,7 +402,7 @@ pt:
     label_sum_for: "Soma para"
     label_subject: "Assunto"
     label_this_week: "esta semana"
-    label_today: "Today"
+    label_today: "Hoje"
     label_time_entry_plural: "Tempo gasto"
     label_up: "Acima"
     label_user_plural: "Usuários"
@@ -407,8 +412,10 @@ pt:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "atualizado em"
     label_value_derived_from_children: "(valor derivado de crianças)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Aviso"
     label_work_package: "Pacote de trabalho"
+    label_work_package_parent: "Pacote de trabalho pai"
     label_work_package_plural: "Pacotes de trabalho"
     label_watch: "Observar"
     label_watch_work_package: "Observar pacote de trabalho"
@@ -495,6 +502,7 @@ pt:
       context: 'Contexto do projeto'
       work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Autocompletar projeto'
     text_are_you_sure: "Você tem certeza?"
@@ -584,8 +592,8 @@ pt:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     project_menu_details: "Detalhes"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Agendamento manual'
+      automatic: 'Agendamento automático'
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -798,8 +806,8 @@ pt:
           duplicate_query_title: "O nome desta visão já existe. Modificar assim mesmo?"
         text_no_results: "Nenhuma visão correspondente foi encontrada."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Agendamento manual' para definir as datas."
+        is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após mudar de agendamento manual para automático devido a relações com outros pacotes de trabalho."
       table:
         configure_button: 'Configurar a tabela de pacote de trabalho'
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."

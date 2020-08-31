@@ -213,7 +213,7 @@ describe Changeset, type: :model do
     describe 'with timelogs' do
       let!(:activity) { FactoryBot.create :activity, is_default: true }
       before do
-        repository.project.enabled_module_names += ['time_tracking']
+        repository.project.enabled_module_names += ['costs']
         repository.project.save!
       end
 

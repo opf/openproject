@@ -6,6 +6,7 @@ import {BoardVersionActionService} from "core-app/modules/boards/board/board-act
 import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 import {BoardAssigneeActionService} from "core-app/modules/boards/board/board-actions/assignee/assignee-action.service";
 import {BoardSubprojectActionService} from "core-app/modules/boards/board/board-actions/subproject/subproject-action.service";
+import {BoardSubtasksActionService} from "core-app/modules/boards/board/board-actions/subtasks/board-subtasks-action.service";
 
 @Component({
   selector: 'boards-entry',
@@ -16,6 +17,7 @@ import {BoardSubprojectActionService} from "core-app/modules/boards/board/board-
     BoardVersionActionService,
     BoardAssigneeActionService,
     BoardSubprojectActionService,
+    BoardSubtasksActionService,
     QueryUpdatedService,
   ]
 })
@@ -25,14 +27,11 @@ export class BoardsRootComponent {
 
     // Register action services
     const registry = injector.get(BoardActionsRegistryService);
-    const statusAction = injector.get(BoardStatusActionService);
-    const versionAction = injector.get(BoardVersionActionService);
-    const assigneeAction = injector.get(BoardAssigneeActionService);
-    const subprojectAction = injector.get(BoardSubprojectActionService);
 
-    registry.add('status', statusAction);
-    registry.add('assignee', assigneeAction);
-    registry.add('version', versionAction);
-    registry.add('subproject', subprojectAction);
+    registry.add('status', injector.get(BoardStatusActionService));
+    registry.add('assignee', injector.get(BoardAssigneeActionService));
+    registry.add('version', injector.get(BoardVersionActionService));
+    registry.add('subproject', injector.get(BoardSubprojectActionService));
+    registry.add('subtasks', injector.get(BoardSubtasksActionService));
   }
 }

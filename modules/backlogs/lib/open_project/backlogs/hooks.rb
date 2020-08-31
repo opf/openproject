@@ -27,41 +27,6 @@
 #++
 
 module OpenProject::Backlogs::Hooks
-  class Hook < Redmine::Hook::Listener
-    include ActionView::Helpers::TagHelper
-    include ActionView::Context
-    include WorkPackagesHelper
-
-    def work_packages_show_attributes(context = {})
-      work_package = context[:work_package]
-      attributes = context[:attributes]
-
-      return unless work_package.backlogs_enabled?
-      return if context[:from] == 'OpenProject::Backlogs::WorkPackageView::FieldsParagraph'
-
-      attributes << work_package_show_story_points_attribute(work_package)
-      attributes << work_package_show_remaining_hours_attribute(work_package)
-
-      attributes
-    end
-
-    private
-
-    def work_package_show_story_points_attribute(work_package)
-      return nil unless work_package.is_story?
-
-      work_package_show_table_row(:story_points, :"story-points") do
-        work_package.story_points ? work_package.story_points.to_s : empty_element_tag
-      end
-    end
-
-    def work_package_show_remaining_hours_attribute(work_package)
-      work_package_show_table_row(:remaining_hours) do
-        work_package.remaining_hours ? l_hours(work_package.remaining_hours) : empty_element_tag
-      end
-    end
-  end
-
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 

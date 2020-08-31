@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SettingsController, type: :controller do
+describe Settings::ProjectsController, type: :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
     @params = {}
@@ -53,7 +53,7 @@ describe SettingsController, type: :controller do
         get 'show', params: { tab: 'projects' }
 
         expect(response).to be_successful
-        expect(response).to render_template 'show'
+        expect(response).to render_template 'settings/_projects'
         expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
       end
 
@@ -61,7 +61,7 @@ describe SettingsController, type: :controller do
         get 'show', params: { tab: 'projects' }
 
         expect(response).to be_successful
-        expect(response).to render_template 'show'
+        expect(response).to render_template 'settings/_projects'
         expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
       end
 
@@ -74,7 +74,7 @@ describe SettingsController, type: :controller do
           get 'show', params: { tab: 'projects' }
 
           expect(response).to be_successful
-          expect(response).to render_template 'show'
+          expect(response).to render_template 'settings/_projects'
 
           expect(response.body).not_to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
         end
@@ -89,7 +89,7 @@ describe SettingsController, type: :controller do
           get 'show', params: { tab: 'projects' }
 
           expect(response).to be_successful
-          expect(response).to render_template 'show'
+          expect(response).to render_template 'settings/_projects'
 
           expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
         end

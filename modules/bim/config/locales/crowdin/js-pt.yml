@@ -18,8 +18,8 @@ pt:
         manage: 'Gerenciar modelos'
       views:
         viewer: 'Visualizador'
-        split: 'Viewer and table'
+        split: 'Visualizador e tabela'
         split_cards: 'Visualizador e cartões'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Complemento Revit"
+      revit_add_in_settings: "Configurações do complemento Revit"

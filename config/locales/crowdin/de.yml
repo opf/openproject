@@ -115,7 +115,7 @@ de:
       filter_string: |
         Fügen Sie einen optionalen RFC4515 Filter hinzu, um die zu findenden Benutzer im LDAP weiter einschränken zu können. Dieser Fillter wird für die Authentifizierung und Gruppensynchronisierung verwendet.
       filter_string_concat: |
-        OpenProject filtert immer nach dem Login-Attribut des Benutzers filtern, um einen LDAP-Eintrag zu identifizieren. Wenn Sie hier einen Filter angeben, wird
+        OpenProject filtert immer nach dem Login-Attribut des Benutzers, um einen LDAP-Eintrag zu identifizieren. Wenn Sie hier einen Filter angeben, wird
         mit einem 'UND' verbunden. Standardmäßig wird ein Catch-All-Filter (objectClass=*) verwendet.
       onthefly_register: |
         Wenn Sie dieses Häkchen setzen, erstellt OpenProject automatisch neue Benutzer aus ihren zugehörigen LDAP-Einträgen, wenn sie sich zuerst mit OpenProject anmelden.
@@ -175,8 +175,6 @@ de:
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
   concatenation:
     single: 'oder'
-  deprecations:
-    time_entries: "Die Ansicht für Zeiterfassungseinträge wird durch das Reportmodul ersetzt und wird fortan nur noch das Exportieren von Zeiterfassungseinträgen als CSV unterstützen. Für interaktive Filter verwenden Sie bitte das Reporting Modul, welches Sie unter den Projekteinstellungen aktivieren können."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -513,7 +511,7 @@ de:
         cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden."
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen."
         confirmation: "stimmt nicht mit %{attribute} überein."
-        could_not_be_copied: "konnten nicht (vollständig) kopiert werden."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "existiert nicht."
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
@@ -557,6 +555,7 @@ de:
           not_an_integer: "(%{name}) ist keine Ganzzahl."
           smaller_than_or_equal_to: "(%{name}) muss kleiner als oder gleich %{count} sein."
           greater_than_or_equal_to: "(%{name}) muss größer als oder gleich %{count} sein."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -591,6 +590,15 @@ de:
               error_not_found: "nicht gefunden"
             public:
               error_unauthorized: "- Der Nutzer hat nicht die Berechtigung öffentliche Ansichten zu erstellen."
+            group_by:
+              invalid: "Kann nicht gruppieren nach: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Ungültige Filter-Spalte: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Kann nicht nach Spalte sortieren: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
           filters:
             custom_fields:
@@ -613,8 +621,9 @@ de:
           must_not_be_ssh: "darf keine SSH-URL sein."
           no_directory: "ist kein Verzeichnis."
         role:
-          permissions:
-            dependency_missing: "muss auch '%{dependency}' als '%{permission}' ausgewählt werden."
+          attributes:
+            permissions:
+              dependency_missing: "muss auch '%{dependency}' als '%{permission}' ausgewählt werden."
         time_entry:
           attributes:
             hours:
@@ -735,6 +744,9 @@ de:
     date: "Datum"
     default_columns: "Standard-Spalten"
     description: "Beschreibung"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Summen anzeigen"
     due_date: "Endtermin"
     estimated_hours: "Geschätzter Aufwand"
@@ -807,7 +819,6 @@ de:
   button_generate: "Generieren"
   button_list: "Liste"
   button_lock: "Sperren"
-  button_log_time: "Zeit buchen"
   button_login: "Anmelden"
   button_move: "Verschieben"
   button_move_and_follow: "Verschieben und Arbeitspaket anzeigen"
@@ -1025,8 +1036,6 @@ de:
   description_compare_to: "Vergleiche mit"
   description_current_position: "Du bist hier: "
   description_date_from: "Startdatum eintragen"
-  description_date_range_interval: "Zeitraum durch Start- und Enddatum festlegen"
-  description_date_range_list: "Zeitraum aus einer Liste wählen"
   description_date_to: "Enddatum eintragen"
   description_enter_number: "Zahl eingeben"
   description_enter_text: "Text eingeben"
@@ -1079,9 +1088,6 @@ de:
   error_failed_to_delete_entry: 'Fehler beim Löschen dieses Eintrags.'
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ausgewählter Wert ist ungültig."
-  error_invalid_group_by: "Kann nicht gruppieren nach: %{value}"
-  error_invalid_query_column: "Ungültige Filter-Spalte: %{value}"
-  error_invalid_sort_criterion: "Kann nicht nach Spalte sortieren: %{value}"
   error_journal_attribute_not_present: "Journal enthält Attribut %{attribute} nicht."
   error_pdf_export_too_many_columns: "Zu viele Spalten für PDF-Export ausgewählt. Bitte reduzieren Sie die Anzahl der ausgewählten Spalten."
   error_pdf_failed_to_export: "Der PDF-Export konnte nicht gespeichert werden: %{error}"
@@ -1310,7 +1316,6 @@ de:
   label_date_and_time: "Datum und Zeit"
   label_date_from: "Von"
   label_date_from_to: "von %{start} bis %{end}"
-  label_date_range: "Zeitraum"
   label_date_to: "Bis"
   label_day_plural: "Tagen"
   label_default: "Standard"
@@ -1457,7 +1462,6 @@ de:
   label_modified: "geändert"
   label_module_plural: "Module"
   label_modules: "Module"
-  label_month: "Monat"
   label_months_from: "Monate ab"
   label_more: "Mehr"
   label_more_than_ago: "vor mehr als (Tage)"
@@ -1628,8 +1632,6 @@ de:
   label_this_week: "aktuelle Woche"
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Aufgewendete Zeit"
-  label_time_sheet_menu: "Zeiterfassung"
-  label_time_tracking: "Zeiterfassung"
   label_projects_menu: "Projekte"
   label_today: "heute"
   label_top_menu: "Hauptmenü"
@@ -1729,7 +1731,6 @@ de:
     zero: "Keine Projekte"
     one: "1 Projekt"
     other: "%{count} Projekte"
-  label_year: "Jahr"
   label_yesterday: "gestern"
   auth_source:
     using_abstract_auth_source: "Abstrakte Authentifizierungsquellen können nicht verwendet werden."
@@ -1846,7 +1847,6 @@ de:
   notice_successful_delete: "Erfolgreich gelöscht."
   notice_successful_update: "Erfolgreich aktualisiert."
   notice_to_many_principals_to_display: "Es gibt zu viele Treffer.\nBitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben."
-  notice_unable_delete_time_entry: "Der Zeiterfassungseintrag konnte nicht gelöscht werden."
   notice_user_missing_authentication_method: Benutzer muss noch ein Passwort oder eine andere Authentifizierungsmethode wählen.
   notice_user_invitation_resent: Eine Einladung wurde an %{email} gesendet.
   present_access_key_value: "Ihr %{key_name} ist: %{value}"
@@ -1975,8 +1975,6 @@ de:
   project_module_work_package_tracking: "Arbeitspakete-Verfolgung"
   project_module_news: "Nachrichten"
   project_module_repository: "Projektarchiv"
-  project_module_time_tracking: "Zeiterfassung"
-  project_module_timelines: "Zeitpläne"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2097,6 +2095,10 @@ de:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Suchen ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "E-Mail Zustellungsoption"
   setting_sendmail_location: "Systempfad zu sendmail"
   setting_smtp_enable_starttls_auto: "Automatisch STARTTLS verwenden, falls vorhanden"
@@ -2151,7 +2153,6 @@ de:
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"
   setting_work_package_done_ratio_disabled: "Deaktivieren (Fortschritt verstecken)"
   setting_work_package_list_default_columns: "Standardmäßig anzeigen"
-  setting_work_package_list_summable_columns: "Summierbar"
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_export_limit: "Max. Anzahl Arbeitspakete bei CSV/PDF-Export"
@@ -2210,6 +2211,9 @@ de:
     passwords: "Passwörter"
     session: "Sitzung"
     brute_force_prevention: "Automatisches Sperren von Benutzern"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Standardeinstellungen"
       deletion: "Löschen"

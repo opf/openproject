@@ -30,7 +30,7 @@
 class Member < ApplicationRecord
   extend DeprecatedAlias
   belongs_to :principal, foreign_key: 'user_id'
-  has_many :member_roles, dependent: :destroy, autosave: true
+  has_many :member_roles, dependent: :destroy, autosave: true, validate: false
   has_many :roles, through: :member_roles
   belongs_to :project
 

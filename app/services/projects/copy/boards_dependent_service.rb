@@ -30,6 +30,10 @@
 
 module Projects::Copy
   class BoardsDependentService < Dependency
+    def self.human_name
+      I18n.t(:'boards.label_boards')
+    end
+
     protected
 
     # Copies boards from +project+

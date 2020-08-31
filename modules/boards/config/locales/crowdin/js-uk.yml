@@ -24,7 +24,7 @@ uk:
         locked: 'Заблоковано'
         closed: 'Зачинено'
       new_board: 'Нова дошка'
-      add_list: 'Додати список'
+      add_list: 'Add list to board'
       add_card: 'Додати картку'
       error_attribute_not_writable: "Неможливо перемістити робочий пакет, %{attribute} недоступний для запису."
       error_loading_the_list: "Помилка завантаження списку: %{error_message}"
@@ -33,19 +33,31 @@ uk:
       board_type:
         text: 'Тип дошки'
         free: 'Базова дошка'
+        select_board_type: 'Please choose the type of board you need.'
         free_text: >
-          Створіть дошку для якої ви можете вільно створювати списки і впорядковувати свої робочі пакети. Переміщення робочих пакетів між списками не змінює робочий пакет.
+          A board in which you can freely create lists and order your work packages within. Dragging work packages between lists do not change the work package itself.
         action: 'Action board'
         action_by_attribute: 'Action board (%{attribute})'
         action_text: >
-          Create a board with filtered lists on a single attribute. Moving work packages to other lists will update their attribute.
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          A board with lists of subprojects of this project and their work packages as list items. Dragging work packages to other lists will move them to the corresponding subproject.
+        action_text_subtasks: >
+          A board with lists of selected parents and their child work packages as list items. Dragging work packages to other lists will update the parent accordingly.
         action_type:
           assignee: assignee
           status: status
           version: version
-          subproject: Підпроект
+          subproject: subproject
+          subtasks: children
         select_attribute: "Action attribute"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             There is currently no status available. <br>

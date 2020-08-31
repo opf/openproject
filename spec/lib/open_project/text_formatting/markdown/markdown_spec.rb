@@ -43,27 +43,27 @@ describe OpenProject::TextFormatting,
   end
 
   describe '.format_text' do
-    let(:project) { FactoryBot.create :valid_project }
+    shared_let(:project) { FactoryBot.create :valid_project }
     let(:identifier) { project.identifier }
-    let(:role) do
+    shared_let(:role) do
       FactoryBot.create :role,
                         permissions: %i(view_work_packages edit_work_packages
                                         browse_repository view_changesets view_wiki_pages)
     end
 
-    let(:project_member) do
+    shared_let(:project_member) do
       FactoryBot.create :user,
                         member_in_project: project,
                         member_through_role: role
     end
-    let(:issue) do
+    shared_let(:issue) do
       FactoryBot.create :work_package,
                         project: project,
                         author: project_member,
                         type: project.types.first
     end
 
-    let!(:non_member) do
+    shared_let(:non_member) do
       FactoryBot.create(:non_member)
     end
 
@@ -237,6 +237,29 @@ describe OpenProject::TextFormatting,
         }
       end
 
+      describe 'double hash issue link' do
+        let(:issue_link) do
+          content_tag :macro,
+                      '',
+                      class: "macro--wp-quickinfo",
+                      data: { id: '1234', detailed: 'false' }
+        end
+        subject { format_text("foo (bar ##1234)") }
+
+        it { is_expected.to be_html_eql("<p>foo (bar #{issue_link})</p>") }
+      end
+
+      describe 'triple hash issue link' do
+        let(:issue_link) do
+          content_tag :macro,
+                      '',
+                      class: "macro--wp-quickinfo",
+                      data: { id: '1234', detailed: 'true' }
+        end
+        subject { format_text("foo (bar ###1234)") }
+
+        it { is_expected.to be_html_eql("<p>foo (bar #{issue_link})</p>") }
+      end
       context 'Escaping issue link' do
         subject { format_text("Some leading text. !##{issue.id}. Some following") }
 

@@ -58,11 +58,8 @@ module Queries
       Query
     end
 
-    def validate
-      validate_project
-      user_allowed_to_make_public
-      super
-    end
+    validate :validate_project
+    validate :user_allowed_to_make_public
 
     def validate_project
       errors.add :project, :error_not_found if project_id.present? && !project_visible?

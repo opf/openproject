@@ -66,6 +66,8 @@ function getFieldset(el:HTMLElement) {
 
 function toggleFieldset(el:HTMLElement) {
   var fieldset = getFieldset(el);
+  // Mark the fieldset that the user has touched it at least once
+  fieldset.attr('data-touched', 'true');
   var contentArea = fieldset.find('> div').not('.form--toolbar');
 
   fieldset.toggleClass('collapsed');
@@ -90,7 +92,7 @@ export function setupToggableFieldsets() {
     .each(function() {
       var fieldset = getFieldset(this);
 
-      var contentArea = fieldset.find('> div');
+      let contentArea = fieldset.find('> div');
       if (fieldset.hasClass('collapsed')) {
         contentArea.hide();
       }

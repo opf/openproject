@@ -177,8 +177,6 @@ ru:
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
     single: 'или'
-  deprecations:
-    time_entries: "В этот раз просмотр записей заменяется модулем 'Затраты отчетов' и теперь поддерживает экспорт информации о времени в csv. Для интерактивной фильтрации, пожалуйста, активируйте модуль 'Затраты отчеты' в настройках проекта."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -519,7 +517,7 @@ ru:
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
-        could_not_be_copied: "не может быть скопировано (полностью)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "не существует."
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
@@ -563,6 +561,7 @@ ru:
           not_an_integer: "(%{name}) не является целым числом."
           smaller_than_or_equal_to: "(%{name}) должен быть меньше или равен %{count}."
           greater_than_or_equal_to: "(%{name}) должен быть больше или равен %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -597,6 +596,15 @@ ru:
               error_not_found: "не найдено"
             public:
               error_unauthorized: "- У пользователя нет прав для создания общедоступных представлений."
+            group_by:
+              invalid: "Невозможно группировать по: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Недопустимый столбец в запросе: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Невозможно сортировать по столбцу: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
             custom_fields:
@@ -619,8 +627,9 @@ ru:
           must_not_be_ssh: "не должно быть URL-адресом SSH."
           no_directory: "не является каталогом."
         role:
-          permissions:
-            dependency_missing: "включите также '%{dependency}', так как выбрано '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "включите также '%{dependency}', так как выбрано '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -747,6 +756,9 @@ ru:
     date: "Дата"
     default_columns: "Столбцы по умолчанию"
     description: "Описание"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
     estimated_hours: "Предполагаемое время"
@@ -819,7 +831,6 @@ ru:
   button_generate: "Генерировать"
   button_list: "Список"
   button_lock: "Заблокировать"
-  button_log_time: "Журналировать время"
   button_login: "Войти"
   button_move: "Переместить"
   button_move_and_follow: "Переместить и следовать"
@@ -1061,8 +1072,6 @@ ru:
   description_compare_to: "Сравнить до"
   description_current_position: "Вы здесь: "
   description_date_from: "Введите дату начала"
-  description_date_range_interval: "Задайте диапазон, указав дату начала и окончания"
-  description_date_range_list: "Выберите диапазон из списка"
   description_date_to: "Введите дату окончания"
   description_enter_number: "Введите номер"
   description_enter_text: "Введите текст"
@@ -1115,9 +1124,6 @@ ru:
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
   error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Выбранное значение недопустимо."
-  error_invalid_group_by: "Невозможно группировать по: %{value}"
-  error_invalid_query_column: "Недопустимый столбец в запросе: %{value}"
-  error_invalid_sort_criterion: "Невозможно сортировать по столбцу: %{value}"
   error_journal_attribute_not_present: "Журнал не содержит атрибут %{attribute}."
   error_pdf_export_too_many_columns: "Для экспорта в PDF-файл выбрано слишком много столбцов. Пожалуйста, сократите количество столбцов."
   error_pdf_failed_to_export: "Не удалось сохранить экспорт в PDF: %{error}"
@@ -1346,7 +1352,6 @@ ru:
   label_date_and_time: "Дата и время"
   label_date_from: "От"
   label_date_from_to: "C %{start} по %{end}"
-  label_date_range: "Диапазон дат"
   label_date_to: "Кому"
   label_day_plural: "дней"
   label_default: "по умолчанию"
@@ -1493,7 +1498,6 @@ ru:
   label_modified: "изменение"
   label_module_plural: "Модули"
   label_modules: "Модули"
-  label_month: "Месяц"
   label_months_from: "месяцев с"
   label_more: "Более"
   label_more_than_ago: "больше, чем дней назад"
@@ -1664,8 +1668,6 @@ ru:
   label_this_week: "на этой неделе"
   label_this_year: "в этом году"
   label_time_entry_plural: "Затраченное время"
-  label_time_sheet_menu: "Табель"
-  label_time_tracking: "Учет времени"
   label_projects_menu: "Проекты"
   label_today: "Сегодня"
   label_top_menu: "Верхнее меню"
@@ -1773,7 +1775,6 @@ ru:
     few: "%{count} проектов"
     many: "%{count} проектов"
     other: "%{count} проектов"
-  label_year: "Год"
   label_yesterday: "вчера"
   auth_source:
     using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
@@ -1889,7 +1890,6 @@ ru:
   notice_successful_delete: "Удаление выполнено."
   notice_successful_update: "Обновление выполнено."
   notice_to_many_principals_to_display: "Слишком много результатов. Сузьте поиск, введя имя нового участника (или группы)."
-  notice_unable_delete_time_entry: "Не удается удалить учетную запись о времени."
   notice_user_missing_authentication_method: Пользователь еще не выбрал пароль или другой способ авторизации.
   notice_user_invitation_resent: Приглашение было отправлено на %{email}.
   present_access_key_value: "Ваш ключ %{key_name}: %{value}"
@@ -2020,8 +2020,6 @@ ru:
   project_module_work_package_tracking: "Отслеживание пакета работ"
   project_module_news: "Новости"
   project_module_repository: "Репозиторий"
-  project_module_time_tracking: "Учет времени"
-  project_module_timelines: "Графики"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2032,8 +2030,8 @@ ru:
     assigned_to_role: "Роль назначенного"
     member_of_group: "Группа назначенного"
     assignee_or_group: "Назначенец или его группа"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Включая подпроект"
+    only_subproject_id: "Только подпроект"
     name_or_identifier: "Имя или идентификатор"
   repositories:
     at_identifier: 'в %{identifier}'
@@ -2137,9 +2135,13 @@ ru:
     warnings:
       cannot_annotate: "Этот файл не может быть прокомментирован."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'активирован'
+    deactivated: 'деактивирован'
   search_input_placeholder: "Поиск ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Метод доставки электронной почты"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
   setting_smtp_enable_starttls_auto: "Автоматически использовать STARTTLS, если таковые имеются"
@@ -2194,7 +2196,6 @@ ru:
   setting_work_package_done_ratio_status: "Использовать статус пакета работ"
   setting_work_package_done_ratio_disabled: "Отключить (скрыть прогресс)"
   setting_work_package_list_default_columns: "Отображать по умолчанию"
-  setting_work_package_list_summable_columns: "Суммируемое"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_export_limit: "Лимит экспорта пакета работ"
@@ -2253,6 +2254,9 @@ ru:
     passwords: "Пароли"
     session: "Сессия"
     brute_force_prevention: "Автоматическое блокирование пользователя"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Предпочтения по умолчанию"
       deletion: "Удаление"

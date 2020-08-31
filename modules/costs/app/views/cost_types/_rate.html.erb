@@ -53,7 +53,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= rate_form.text_field :valid_from,
                                class: 'date costs-date-picker -augmented-datepicker',
                                index: id_or_index,
-                               required: true %>
+                               required: templated ? false : true %>
     </td>
     <td class="currency">
       <span class="inline-label">
@@ -62,9 +62,9 @@ See docs/COPYRIGHT.rdoc for more details.
                                  size: 7,
                                  index: id_or_index,
                                  value: rate.rate ? rate.rate.round(2) : "",
-                                 required: true %>
+                                 required: templated ? false : true %>
         <span class="form-label">
-          <%= Setting.plugin_openproject_costs['costs_currency'] %>
+          <%= Setting.plugin_costs['costs_currency'] %>
         </span>
       </span>
     </td>

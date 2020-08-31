@@ -88,7 +88,6 @@ class CostReportsController < ApplicationController
     respond_to do |format|
       format.html {
         session[report_engine.name.underscore.to_sym].try(:delete, :name)
-        render action: 'index', layout: layout_non_or_no_menu
       }
     end unless performed?
   end
@@ -204,7 +203,7 @@ class CostReportsController < ApplicationController
     @unit_id = if set_unit?
                  params[:unit].to_i
                elsif @query.present?
-                 cost_type_filter =  @query.filters.detect { |f| f.is_a?(CostQuery::Filter::CostTypeId) }
+                 cost_type_filter = @query.filters.detect { |f| f.is_a?(CostQuery::Filter::CostTypeId) }
 
                  cost_type_filter.values.first.to_i if cost_type_filter
     end

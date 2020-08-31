@@ -18,7 +18,6 @@ PGUSER=${PGUSER:=postgres}
 PGPASSWORD=${PGPASSWORD:=postgres}
 PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
 SUPERVISORD_LOG_LEVEL=${SUPERVISORD_LOG_LEVEL:=info}
-PGBIN="/usr/lib/postgresql/9.6/bin"
 
 dbhost=$(ruby -ruri -e 'puts URI(ENV.fetch("DATABASE_URL")).host')
 pwfile=$(mktemp)

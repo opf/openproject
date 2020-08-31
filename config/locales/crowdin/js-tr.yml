@@ -116,6 +116,11 @@ tr:
         manual: 'Markdown kaynağına geç'
         wysiwyg: 'WYSIWYG düzenleyiciye geç'
       macro:
+        error: 'Makro genişletilemiyor: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'Bu metin parçası bir makro tarafından dinamik olarak işleniyor.'
+          not_found: 'İstenen kaynak bulunamadı'
+          invalid_attribute: "Seçilen '%{name}' özniteliği mevcut değil."
         child_pages:
           button: 'Alt sayfalara bağlantılar'
           include_parent: 'Üst öğeyi dahil et'
@@ -408,8 +413,10 @@ tr:
     label_total_amount: "Toplam: %{amount}"
     label_updated_on: "güncelleme tarihi"
     label_value_derived_from_children: "(çocuklardan elde edilen değer)"
+    label_children_derived_duration: "Çalışma paketinin çocuklarının türetilen süresi"
     label_warning: "Uyarı"
     label_work_package: "İş paketi"
+    label_work_package_parent: "İş paketini oluştur"
     label_work_package_plural: "İş paketleri"
     label_watch: "İzle"
     label_watch_work_package: "İş paketini izle"
@@ -496,6 +503,7 @@ tr:
       context: 'Proje içeriği'
       work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
       click_to_switch_context: 'Bu iş paketini o projede aç.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Proje otomatik tamamlama'
     text_are_you_sure: "Emin misiniz?"

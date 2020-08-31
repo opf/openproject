@@ -36,7 +36,9 @@ class CostQuery::Filter::CategoryId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    categories = Category.where(project_id: Project.visible.map(&:id))
-    categories.map { |c| ["#{c.project.name} - #{c.name} ", c.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
+    Category
+      .where(project_id: Project.visible.map(&:id))
+      .map { |c| ["#{c.project.name} - #{c.name} ", c.id] }
+      .sort_by { |a| a.first.to_s + a.second.to_s }
   end
 end

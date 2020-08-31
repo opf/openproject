@@ -124,16 +124,16 @@ describe User, '#destroy', type: :model do
 
   describe 'WHEN the user updated a cost object' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryBot.build(:variable_cost_object) }
-    let(:associated_class) { CostObject }
+    let(:associated_instance) { FactoryBot.build(:budget) }
+    let(:associated_class) { Budget }
 
     it_should_behave_like 'costs updated journalized associated object'
   end
 
   describe 'WHEN the user created a cost object' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryBot.build(:variable_cost_object) }
-    let(:associated_class) { CostObject }
+    let(:associated_instance) { FactoryBot.build(:budget) }
+    let(:associated_class) { Budget }
 
     it_should_behave_like 'costs created journalized associated object'
   end

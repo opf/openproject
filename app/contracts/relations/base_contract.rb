@@ -51,6 +51,7 @@ module Relations
     def validate!(*args)
       # same as before_validation callback
       model.send(:reverse_if_needed)
+
       super
     end
 

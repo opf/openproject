@@ -62,7 +62,7 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     it 'shows a toolbar' do
-      model_page.page_shows_a_toolbar true
+      model_page.page_has_a_toolbar
     end
 
     it 'shows no viewer' do
@@ -88,9 +88,29 @@ describe 'BIM Revit Add-in navigation spec',
 
     it 'opens new work package form in full view' do
       find('.add-work-package', wait: 10).click
+      # The only type to select is 'NONE'
       find('.menu-item', text: 'NONE', wait: 10).click
 
       full_create.edit_field(:subject).expect_active!
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+    end
+
+    it 'shows work package details page in full view on Cards display mode' do
+      card_element = page.find('.wp-card')
+
+      card_element.hover
+      card_element.find('.wp-card--details-button').click
+
+      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+    end
+
+    it 'shows work package details page in full view on Table display mode' do
+      model_page.switch_view 'Table'
+      wp_table.expect_work_package_listed work_package
+      wp_table.open_split_view work_package
+
+      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
   end

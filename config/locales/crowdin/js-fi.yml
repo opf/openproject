@@ -52,7 +52,7 @@ fi:
     button_delete: "Poista"
     button_delete_watcher: "Poista seuraaja"
     button_details_view: "Tiedot-näkymä"
-    button_duplicate: "Kahdenna"
+    button_duplicate: "Luo kopio"
     button_edit: "Muokkaa"
     button_filter: "Suodata"
     button_advanced_filter: "Edistynyt suodatin"
@@ -116,6 +116,11 @@ fi:
         manual: 'Lähdekoodi'
         wysiwyg: 'Muokkaustila'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Linkit alasivuihin'
           include_parent: 'Include parent'
@@ -408,8 +413,10 @@ fi:
     label_total_amount: "Yhteensä: %{amount}"
     label_updated_on: "päivitetty"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
     label_work_package: "Tehtävä"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Tehtävät"
     label_watch: "Seuraa"
     label_watch_work_package: "Seuraa tehtävää"
@@ -496,6 +503,7 @@ fi:
       context: 'Project context'
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Project autocompletion'
     text_are_you_sure: "Oletko varma?"
@@ -537,7 +545,7 @@ fi:
       parent: "Ylätaso"
       children: "Aliriippuvuudet"
       relates: "Liittyy"
-      duplicates: "Kaksoiskappaleet"
+      duplicates: "Alkuperäinen"
       duplicated: "Päällekkäistä"
       blocks: "Estää"
       blocked: "Estetty"

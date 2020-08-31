@@ -116,6 +116,11 @@ ko:
         manual: 'Markdown 소스로 전환'
         wysiwyg: 'WYSIWYG 편집기로 전환'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: '자식 페이지의 링크'
           include_parent: '부모 포함'
@@ -408,8 +413,10 @@ ko:
     label_total_amount: "합계: %{amount}"
     label_updated_on: "업데이트 :"
     label_value_derived_from_children: "(자식에서 파생된 값)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "경고"
     label_work_package: "작업 패키지"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "작업 패키지"
     label_watch: "주시"
     label_watch_work_package: "작업 패키지 주시"
@@ -496,6 +503,7 @@ ko:
       context: '프로젝트 컨텍스트'
       work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: '프로젝트 자동완성'
     text_are_you_sure: "계속하시겠습니까?"

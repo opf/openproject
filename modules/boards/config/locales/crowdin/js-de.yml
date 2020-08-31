@@ -24,7 +24,7 @@ de:
         locked: 'Gesperrt'
         closed: 'Erledigt'
       new_board: 'Neues Board'
-      add_list: 'Liste hinzufügen'
+      add_list: 'Add list to board'
       add_card: 'Karte erstellen'
       error_attribute_not_writable: "Das Arbeitspaket kann nicht verschoben werden, %{attribute} ist nicht schreibbar."
       error_loading_the_list: "Fehler beim Laden der Liste: %{error_message}"
@@ -33,19 +33,31 @@ de:
       board_type:
         text: 'Board-Typ'
         free: 'Einfaches Board'
+        select_board_type: 'Please choose the type of board you need.'
         free_text: >
-          Erstellen Sie ein Board, in dem Sie frei Listen erstellen und Ihre Arbeitspakete darin anordnen können. Verschieben von Arbeitspakete zwischen Listen hat keine Auswirkung auf das Arbeitspaket selbst.
+          A board in which you can freely create lists and order your work packages within. Dragging work packages between lists do not change the work package itself.
         action: 'Aktionsboard'
         action_by_attribute: 'Aktionsboard (%{attribute})'
         action_text: >
-          Erstellen Sie ein Board mit gefilterten Listen auf einem Attribut. Das Verschieben von Arbeitspaketen auf andere Listen aktualisiert das Attribut entsprechend.
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          A board with lists of subprojects of this project and their work packages as list items. Dragging work packages to other lists will move them to the corresponding subproject.
+        action_text_subtasks: >
+          A board with lists of selected parents and their child work packages as list items. Dragging work packages to other lists will update the parent accordingly.
         action_type:
           assignee: Zugewiesen an
           status: Status
           version: Version
-          subproject: Unterprojekt
+          subproject: subproject
+          subtasks: children
         select_attribute: "Aktionsattribut"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             Derzeit ist kein Status verfügbar. <br>

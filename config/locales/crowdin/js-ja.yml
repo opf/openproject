@@ -117,6 +117,11 @@ ja:
         manual: 'Markdownソースに切り替える'
         wysiwyg: 'WYSIWYGエディタに切り替えます'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: '子ページへのリンク'
           include_parent: '親を含める'
@@ -409,8 +414,10 @@ ja:
     label_total_amount: "合計: %{amount}"
     label_updated_on: "更新日時"
     label_value_derived_from_children: "(子から派生した値)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "注意"
     label_work_package: "ワーク パッケージ"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "作業項目"
     label_watch: "ウォッチする"
     label_watch_work_package: "作業項目をウォッチ"
@@ -497,6 +504,7 @@ ja:
       context: 'プロジェクトのコンテキスト'
       work_package_belongs_to: 'このワークパッケージは、プロジェクト %{projectname} に属しています。'
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'プロジェクト名の入力補完'
     text_are_you_sure: "よろしいですか？"

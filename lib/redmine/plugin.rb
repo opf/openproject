@@ -92,7 +92,7 @@ module Redmine #:nodoc:
         end
       end
     end
-    def_field :name, :description, :url, :author, :author_url, :version, :settings, :bundled
+    def_field :description, :url, :author, :author_url, :version, :settings, :bundled
     attr_reader :id
 
     # Plugin constructor
@@ -100,8 +100,6 @@ module Redmine #:nodoc:
       id = id.to_sym
       p = new(id)
       p.instance_eval(&block)
-      # Set a default name if it was not provided during registration
-      p.name(id.to_s.humanize) if p.name.nil?
 
       registered_plugins[id] = p
 
@@ -127,9 +125,23 @@ module Redmine #:nodoc:
       if RedminePluginLocator.instance.has_plugin? e.plugin_id
         # The required plugin is going to be loaded later, defer loading this plugin
         (deferred_plugins[e.plugin_id] ||= []) << [id, block]
-        return p
+        p
       else
         raise
+      end
+    end
+
+    def name(*args)
+      name = args.empty? ? instance_variable_get("@name") : instance_variable_set("@name", *args)
+
+      case name
+      when Symbol
+        ::I18n.t(name)
+      when NilClass
+        # Default name if it was not provided during registration
+        id.to_s.humanize
+      else
+        name
       end
     end
 
@@ -249,9 +261,6 @@ module Redmine #:nodoc:
     def delete_menu_item(menu_name, item)
       hide_menu_item(menu_name, item)
     end
-
-    # N.B.: I could not find any usages of :delete_menu_item in my locally available plugins
-    deprecate delete_menu_item: 'Use :hide_menu_item instead'
 
     # Allows to hide an existing +item+ in a menu.
     #

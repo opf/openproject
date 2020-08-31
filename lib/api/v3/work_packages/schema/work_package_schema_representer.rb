@@ -134,6 +134,16 @@ module API
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
 
+          schema :derived_start_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+
+          schema :derived_due_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+
           schema :date,
                  type: 'Date',
                  required: false,
@@ -143,10 +153,14 @@ module API
                  type: 'Duration',
                  required: false
 
+          schema :derived_estimated_time,
+                 type: 'Duration',
+                 required: false
+
           schema :spent_time,
                  type: 'Duration',
                  required: false,
-                 show_if: ->(*) { represented.project && represented.project.module_enabled?('time_tracking') }
+                 show_if: ->(*) { represented.project&.module_enabled?('costs') }
 
           schema :percentage_done,
                  type: 'Integer',
@@ -255,6 +269,20 @@ module API
                                          },
                                          required: true,
                                          has_default: true
+
+          schema_with_allowed_collection :budget,
+                                         type: 'Budget',
+                                         required: false,
+                                         value_representer: ::API::V3::Budgets::BudgetRepresenter,
+                                         link_factory: ->(budget) {
+                                           {
+                                             href: api_v3_paths.budget(budget.id),
+                                             title: budget.subject
+                                           }
+                                         },
+                                         show_if: ->(*) {
+                                           represented.project&.module_enabled?(:budgets)
+                                         }
 
           def attribute_groups
             (represented.type&.attribute_groups || []).map do |group|

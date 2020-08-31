@@ -46,6 +46,8 @@ OpenProject::Application.routes.draw do
       resources :ifc_models, controller: 'bim/ifc_models/ifc_models' do
         collection do
           get :defaults
+          get :direct_upload_finished
+          post :set_direct_upload_file_name
         end
       end
     end

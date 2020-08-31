@@ -75,13 +75,11 @@ module Pages
 
     def add_card(list_name, card_title)
       within_list(list_name) do
-        page.find('.board-list--add-button ').click
+        page.find('.board-list--add-button').click
       end
 
-      unless action?
-        # Add item in dropdown
-        page.find('.menu-item', text: 'Add new card').click
-      end
+      # Add item in dropdown
+      page.find('.menu-item', text: 'Add new card').click
 
       subject = page.find('#wp-new-inline-edit--field-subject')
       subject.set card_title
@@ -107,7 +105,7 @@ module Pages
 
       select_autocomplete(page.find('.wp-inline-create--reference-autocompleter'),
                           query: work_package.subject,
-                          results_selector: '.work-packages-partitioned-query-space--container',
+                          results_selector: 'body',
                           select_text: "##{work_package.id}")
 
       expect_card(list_name, work_package.subject)
@@ -290,8 +288,7 @@ module Pages
     def expect_editable_list(editable)
       # Add list button
       if action?
-        expect(page).to have_conditional_selector(!editable, '.board-list--add-button[disabled]')
-        expect(page).to have_conditional_selector(editable, '.board-list--add-button:not([disabled])')
+        expect(page).to have_conditional_selector(editable, '.board-list--add-button')
       else
         expect(page).to have_conditional_selector(editable, '.board-list--card-dropdown-button')
       end

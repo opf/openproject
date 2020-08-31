@@ -38,15 +38,32 @@
             </div>
           </div>
           <ng-template #workPackageItemTemplate>
-            <div tabindex="-1" class="global-search--option" (click)="redirectToWp(item.id, $event)">
-              <a class="global-search--option-wrapper"
-                 [href]="wpPath(item.id)">
-                <span class="global-search--wp-id"
-                      title="{{item.status}}"
-                      [ngOptionHighlight]="currentValue"
-                      [ngClass]="statusHighlighting(item.statusId)"> #{{item.id}} </span>
-                <span class="global-search--wp-subject" [ngOptionHighlight]="currentValue"> {{item.subject}} </span>
-              </a>
+            <div tabindex="-1" class="global-search--option" (click)="redirectToWp(item.id, $event)" style="line-height: 1">
+              <div class="global-search--option-wrapper">
+                <user-avatar 
+                [user]="item.author"
+                data-class-list="avatar global-search-author-avatar hidden-for-mobile">
+                </user-avatar>
+
+                <span class="global-search--wp-subject"> 
+                {{item.subject}} 
+                </span>
+
+                <div class="global-search--wp-content">
+                  <span [textContent]="item.project" 
+                  class="global-search--wp-project">
+                  </span>
+
+                  <a class="global-search--wp-id"
+                    [ngClass]="uiStateLinkClass">
+                  #{{item.id}}
+                  </a>
+
+                  <span [textContent]="item.status"
+                    class="global-search--wp-status">
+                  </span>
+                </div>
+              </div>
             </div>
         </ng-template>
       </ng-template>

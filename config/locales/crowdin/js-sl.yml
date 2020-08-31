@@ -58,7 +58,7 @@ sl:
     button_advanced_filter: "Napredni filter"
     button_list_view: "Prikaz seznama"
     button_show_view: "Celozaslonski pogled"
-    button_log_time: "Datum vpisa"
+    button_log_time: "Beleži čas"
     button_more: "več"
     button_open_details: "Prikaži pogled podrobnosti"
     button_close_details: "Zapri prikaz podrobnosti"
@@ -116,6 +116,11 @@ sl:
         manual: 'Preklopite na Markdown vir'
         wysiwyg: 'Preklopi na WYSIWYG urejevalnik'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Povezave do podrejenih strani'
           include_parent: 'Vključi nadrejen zahtevek'
@@ -407,8 +412,10 @@ sl:
     label_total_amount: "Skupaj: %{amount}"
     label_updated_on: "Posodobljeno"
     label_value_derived_from_children: "(vrednost izpeljana iz podrejenih)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Opozorilo"
     label_work_package: "Zahtevek"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Delovni paketi"
     label_watch: "Glej"
     label_watch_work_package: "Spremljaj delovni paket"
@@ -495,6 +502,7 @@ sl:
       context: 'Kontekst projekta'
       work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Samodejno dokončanje projekta'
     text_are_you_sure: "Ste prepričani?"
@@ -522,7 +530,7 @@ sl:
       duration: 'Trajanje'
       spent_on: 'Datum'
       hours: 'Ure'
-      title: 'Datum vpisa'
+      title: 'Beleži čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
     watchers:

@@ -205,8 +205,8 @@ describe 'Status action board', type: :feature, js: true do
       expect(queries.last.name).to eq 'Closed'
       expect(queries.first.ordered_work_packages).to be_empty
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
-      expect(subjects).to match_array [['Task 1', closed_status.id]]
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
+      expect(subjects.pluck(:subject, :status_id)).to match_array [['Task 1', closed_status.id]]
 
       # Open remaining in split view
       wp = second.ordered_work_packages.first.work_package
@@ -221,6 +221,12 @@ describe 'Status action board', type: :feature, js: true do
 
       board_page.expect_card('Open', 'Task 1', present: true)
       board_page.expect_card('Closed', 'Task 1', present: false)
+
+      # Re-add task 1 to closed
+      board_page.reference('Closed', subjects.first)
+
+      board_page.expect_card('Open', 'Task 1', present: false)
+      board_page.expect_card('Closed', 'Task 1', present: true)
     end
   end
 end

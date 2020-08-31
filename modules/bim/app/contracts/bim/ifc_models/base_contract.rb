@@ -41,15 +41,11 @@ module Bim
         ::Bim::IfcModels::IfcModel
       end
 
-      def validate
-        user_allowed_to_manage
-        user_is_uploader
-        ifc_attachment_existent
-        ifc_attachment_is_ifc
-        uploader_is_ifc_attachment_author
-
-        super
-      end
+      validate :user_allowed_to_manage
+      validate :user_is_uploader
+      validate :ifc_attachment_existent
+      validate :ifc_attachment_is_ifc
+      validate :uploader_is_ifc_attachment_author
 
       def user_allowed_to_manage
         if model.project && !user.allowed_to?(:manage_ifc_models, model.project)
@@ -68,16 +64,20 @@ module Bim
       end
 
       def ifc_attachment_is_ifc
-        return unless model.ifc_attachment&.new_record?
+        return unless model.ifc_attachment&.new_record? || model.ifc_attachment&.pending_direct_upload?
 
-        firstline = File.open(model.ifc_attachment.file.file.path, &:readline)
+        file_path = model.ifc_attachment.file.local_file.path
 
         begin
+          firstline = File.open(file_path, &:readline)
+
           unless firstline.match?(/^ISO-10303-21;/)
             errors.add :base, :invalid_ifc_file
           end
         rescue ArgumentError
           errors.add :base, :invalid_ifc_file
+        ensure
+          FileUtils.rm file_path if File.exists? file_path
         end
       end
 

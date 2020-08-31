@@ -28,12 +28,7 @@
 
 module Groups
   class BaseContract < ::ModelContract
-
-    def validate
-      user_allowed_to_manage
-
-      super
-    end
+    validate :user_allowed_to_manage
 
     def user_allowed_to_manage
       unless user.admin?

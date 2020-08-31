@@ -178,8 +178,6 @@ ca:
       no_results_content_text: Crear un camp personalitzat nou
   concatenation:
     single: 'o'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -518,7 +516,7 @@ ca:
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
-        could_not_be_copied: "no pot ser (completament) copiat."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "no existeix."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -562,6 +560,7 @@ ca:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -596,6 +595,15 @@ ca:
               error_not_found: "not found"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -618,8 +626,9 @@ ca:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "no és un directori."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -740,6 +749,9 @@ ca:
     date: "Data"
     default_columns: "Columnes predeterminades"
     description: "Descripció"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Mostra les sumes"
     due_date: "Finish date"
     estimated_hours: "Temps estimat"
@@ -812,7 +824,6 @@ ca:
   button_generate: "Generar"
   button_list: "Llista"
   button_lock: "Bloquejar"
-  button_log_time: "Temps de registre"
   button_login: "Iniciar sessió"
   button_move: "Moure"
   button_move_and_follow: "Moure i continuar"
@@ -1030,8 +1041,6 @@ ca:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Introduir data d'inici"
-  description_date_range_interval: "Escollir un rang seleccionat de dates d'inici i fi"
-  description_date_range_list: "Escollir un rang de la llista"
   description_date_to: "Introduir data final"
   description_enter_number: "Introduïu número"
   description_enter_text: "Introduïu text"
@@ -1084,9 +1093,6 @@ ca:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1315,7 +1321,6 @@ ca:
   label_date_and_time: "Date and time"
   label_date_from: "De"
   label_date_from_to: "Des de %{start} a %{end}"
-  label_date_range: "Interval de dates"
   label_date_to: "Fins"
   label_day_plural: "dies"
   label_default: "Per defecte"
@@ -1462,7 +1467,6 @@ ca:
   label_modified: "modificat"
   label_module_plural: "Mòduls"
   label_modules: "Mòduls"
-  label_month: "Mes"
   label_months_from: "mesos des de"
   label_more: "Més"
   label_more_than_ago: "fa més dies"
@@ -1633,8 +1637,6 @@ ca:
   label_this_week: "aquesta setmana"
   label_this_year: "aquest any"
   label_time_entry_plural: "Temps invertit"
-  label_time_sheet_menu: "Full de temps"
-  label_time_tracking: "Seguiment de temps"
   label_projects_menu: "Projectes"
   label_today: "avui"
   label_top_menu: "Menú superior"
@@ -1734,7 +1736,6 @@ ca:
     zero: "sense projectes"
     one: "1 projecte"
     other: "%{count} projectes"
-  label_year: "Any"
   label_yesterday: "ahir"
   auth_source:
     using_abstract_auth_source: "No podeu utilitzar una font d'autenticació abstracte."
@@ -1851,7 +1852,6 @@ ca:
   notice_successful_delete: "Esborrat correctament."
   notice_successful_update: "S'ha modificat correctament."
   notice_to_many_principals_to_display: "Hi ha massa resultats.\nAfini la cerca escrivint el nom del nou membre (o grup)."
-  notice_unable_delete_time_entry: "No s'ha pogut suprimir l'entrada del registre de temps."
   notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya o una altra manera d'iniciar la sessió.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "El seu %{key_name} és: %{value}"
@@ -1980,8 +1980,6 @@ ca:
   project_module_work_package_tracking: "Paquet de treball de seguiment"
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
-  project_module_time_tracking: "Seguiment de temps"
-  project_module_timelines: "Terminis"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2100,6 +2098,10 @@ ca:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Mètode de lliurament del correu electrònic"
   setting_sendmail_location: "Localització de l'executable de sendmail"
   setting_smtp_enable_starttls_auto: "Utilitza STARTTLS automàticament si està disponible"
@@ -2154,7 +2156,6 @@ ca:
   setting_work_package_done_ratio_status: "Utilitzar l'estat de paquet de treball"
   setting_work_package_done_ratio_disabled: "Deshabilitar (amagar el progrés)"
   setting_work_package_list_default_columns: "Mostrar per defecte"
-  setting_work_package_list_summable_columns: "Sumable"
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
   setting_work_packages_export_limit: "Límit d'exportació de paquets de treball"
@@ -2213,6 +2214,9 @@ ca:
     passwords: "Contrasenyes"
     session: "Sessió"
     brute_force_prevention: "Bloqueig automàtic d'usuari"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"

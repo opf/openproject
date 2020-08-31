@@ -23,6 +23,10 @@ module OpenProject::Recaptcha
     end
 
     config.after_initialize do
+      SecureHeaders::Configuration.named_append(:recaptcha) do |request|
+        { frame_src: %w(https://www.google.com/recaptcha/) }
+      end
+
       OpenProject::Authentication::Stage.register(:recaptcha,
                                                   nil,
                                                   run_after_activation: true,
@@ -32,13 +36,6 @@ module OpenProject::Recaptcha
                                                   }) do
         recaptcha_request_path
       end
-    end
-
-    config.to_prepare do
-      SecureHeaders::Configuration.named_append(:recaptcha) do |request|
-        { frame_src: %w(https://www.google.com/recaptcha/) }
-      end
-
     end
   end
 end

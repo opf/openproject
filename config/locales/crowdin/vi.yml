@@ -180,8 +180,6 @@ vi:
       no_results_content_text: Tạo trường tùy chỉnh mới
   concatenation:
     single: 'hoặc'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -519,7 +517,7 @@ vi:
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
-        could_not_be_copied: "could not be (fully) copied."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "does not exist."
         error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."
@@ -563,6 +561,7 @@ vi:
           not_an_integer: "(%{name}) không phải là một số nguyên."
           smaller_than_or_equal_to: "(%{name}) phải nhỏ hơn hoặc bằng %{count}."
           greater_than_or_equal_to: "(%{name}) phải nhỏ hơn hoặc bằng %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -597,6 +596,15 @@ vi:
               error_not_found: "not found"
             public:
               error_unauthorized: "-Người dùng không có quyền tạo ra khu vực xem công cộng."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -619,8 +627,9 @@ vi:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "is not a directory."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -738,6 +747,9 @@ vi:
     date: "Ngày"
     default_columns: "Cột mặc định"
     description: "Mô tả"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "Hiển thị tổng"
     due_date: "Finish date"
     estimated_hours: "Thời gian dự kiến"
@@ -810,7 +822,6 @@ vi:
   button_generate: "Generate"
   button_list: "Danh sách"
   button_lock: "Khóa"
-  button_log_time: "Thời gian truy cập"
   button_login: "Đăng nhập"
   button_move: "Di chuyển"
   button_move_and_follow: "Di chuyển và thực hiện theo"
@@ -1016,8 +1027,6 @@ vi:
   description_compare_to: "Compare to"
   description_current_position: "You are here: "
   description_date_from: "Nhập ngày bắt đầu"
-  description_date_range_interval: "Chọn khoảng thời gian giữa ngày bắt đầu và kết thúc"
-  description_date_range_list: "Chọn khoảng từ danh sách"
   description_date_to: "Nhập ngày kết thúc"
   description_enter_number: "Nhập số"
   description_enter_text: "Nhập văn bản"
@@ -1070,9 +1079,6 @@ vi:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Giá trị đã chọn không hợp lệ."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1301,7 +1307,6 @@ vi:
   label_date_and_time: "Date and time"
   label_date_from: "Từ"
   label_date_from_to: "Từ %{start} tới %{end}"
-  label_date_range: "Khoảng thời gian"
   label_date_to: "Đến"
   label_day_plural: "ngày"
   label_default: "Mặc định"
@@ -1448,7 +1453,6 @@ vi:
   label_modified: "đã sửa đổi"
   label_module_plural: "Modules"
   label_modules: "Modules"
-  label_month: "Month"
   label_months_from: "tháng từ"
   label_more: "Xem thêm"
   label_more_than_ago: "nhiều hơn mấy ngày trước"
@@ -1619,8 +1623,6 @@ vi:
   label_this_week: "tuần này"
   label_this_year: "năm này"
   label_time_entry_plural: "Thời gian"
-  label_time_sheet_menu: "Phiếu giờ"
-  label_time_tracking: "Theo dõi thời gian"
   label_projects_menu: "Các dự án"
   label_today: "hôm nay"
   label_top_menu: "Trình đơn trên cùng"
@@ -1716,7 +1718,6 @@ vi:
   label_x_projects:
     zero: "Không có dự án"
     other: "%{count} projects"
-  label_year: "Year"
   label_yesterday: "yesterday"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
@@ -1833,7 +1834,6 @@ vi:
   notice_successful_delete: "Successful deletion."
   notice_successful_update: "Successful update."
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
-  notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
@@ -1961,8 +1961,6 @@ vi:
   project_module_work_package_tracking: "Theo dõi work package"
   project_module_news: "Tin tức"
   project_module_repository: "Repository"
-  project_module_time_tracking: "Theo dõi thời gian"
-  project_module_timelines: "Timelines"
   project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2083,6 +2081,10 @@ vi:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Cách gửi email"
   setting_sendmail_location: "Vị trí của tệp thực thi sendmail (đường dẫn)"
   setting_smtp_enable_starttls_auto: "Tự động sử dụng STARTTLS nếu hiện hữu"
@@ -2137,7 +2139,6 @@ vi:
   setting_work_package_done_ratio_status: "Use the work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
   setting_work_package_list_default_columns: "Display by default"
-  setting_work_package_list_summable_columns: "Summable"
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_export_limit: "Work packages export limit"
@@ -2196,6 +2197,9 @@ vi:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Cấu hình mặc định"
       deletion: "Xóa"

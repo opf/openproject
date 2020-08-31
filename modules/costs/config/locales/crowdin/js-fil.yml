@@ -25,7 +25,6 @@ fil:
       property_groups:
         costs: "Costs"
       properties:
-        costObject: "Budget"
         overallCosts: "Kabuuang gastos"
         spentUnits: "Ginugol na yunit"
     button_log_costs: "Log unit costs"

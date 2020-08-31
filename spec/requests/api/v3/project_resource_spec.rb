@@ -517,12 +517,12 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
         expect(last_response.body)
           .to be_json_eql(
-                {
-                  "format": "markdown",
-                  "html": "<p>Some explanation.</p>",
-                  "raw": "Some explanation."
-                }.to_json
-              )
+            {
+              "format": "markdown",
+              "html": "<p>Some explanation.</p>",
+              "raw": "Some explanation."
+            }.to_json
+          )
           .at_path("statusExplanation")
       end
     end
@@ -619,6 +619,61 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(last_response.body)
           .to be_json_eql("Status is not set to one of the allowed values.".to_json)
                 .at_path('message')
+      end
+    end
+
+    context 'deactivating (archiving) the project' do
+      context 'for an admin' do
+        let(:current_user) do
+          FactoryBot.create(:admin)
+        end
+        let(:project) do
+          FactoryBot.create(:project).tap do |p|
+            p.children << child_project
+          end
+        end
+        let(:child_project) do
+          FactoryBot.create(:project)
+        end
+
+        let(:body) do
+          {
+            active: false
+          }
+        end
+
+        it 'responds with 200 OK' do
+          expect(last_response.status)
+            .to eql(200)
+        end
+
+        it 'archives the project' do
+          expect(project.reload.active)
+            .to be_falsey
+        end
+
+        it 'archives the child project' do
+          expect(child_project.reload.active)
+            .to be_falsey
+        end
+      end
+
+      context 'for a non admin' do
+        let(:body) do
+          {
+            active: false
+          }
+        end
+
+        it 'responds with 403' do
+          expect(last_response.status)
+            .to eql(403)
+        end
+
+        it 'does not alter the project' do
+          expect(project.reload.active)
+            .to be_truthy
+        end
       end
     end
   end

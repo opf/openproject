@@ -43,6 +43,15 @@ module API
             }
           end
 
+          link :prepareAttachment do
+            next unless OpenProject::Configuration.direct_uploads?
+
+            {
+              href: attachments_by_resource + '/prepare',
+              method: :post
+            }
+          end
+
           link :addAttachment,
                cache_if: -> do
                  represented.attachments_addable?(current_user)

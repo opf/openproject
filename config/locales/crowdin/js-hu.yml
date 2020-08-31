@@ -116,6 +116,11 @@ hu:
         manual: 'Váltás Markdown forrásra'
         wysiwyg: 'Váltás a WYSIWYG szerkesztőre'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Gyermek kapcsolatok'
           include_parent: 'Tartalmazza a szülőt'
@@ -407,8 +412,10 @@ hu:
     label_total_amount: "Teljes: %{amount}"
     label_updated_on: "frissítve"
     label_value_derived_from_children: "(érték származik a gyermekektől)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Munkacsomagok"
     label_watch: "Megfigyelés"
     label_watch_work_package: "Megfigyelő munkacsomag"
@@ -495,6 +502,7 @@ hu:
       context: 'Projekt kontextus'
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Projektnevek automatikus kiegészítése'
     text_are_you_sure: "Biztos vagy benne?"

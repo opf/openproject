@@ -178,8 +178,6 @@ zh-TW:
       no_results_content_text: 建立一個新的自定義欄位
   concatenation:
     single: '或者'
-  deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
   global_search:
     overwritten_tabs:
       wiki_pages: "維基"
@@ -517,7 +515,7 @@ zh-TW:
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
-        could_not_be_copied: "無法 (完全) 複製"
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
@@ -561,6 +559,7 @@ zh-TW:
           not_an_integer: "(%{name}) 不是一個整數。"
           smaller_than_or_equal_to: "(%{name}) 必須小於等於 %{count}。"
           greater_than_or_equal_to: "(%{name}) 必須大於等於 %{count}。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -595,6 +594,15 @@ zh-TW:
               error_not_found: "未找到"
             public:
               error_unauthorized: "- 此用戶沒有建立公共查詢的權限。"
+            group_by:
+              invalid: "無法按照 %{value} 分組"
+              format: "%{message}"
+            column_names:
+              invalid: "無效的查詢欄：%{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "無法按照 %{value} 排序"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "與按照 \"%{group_by}\" 分組的群組相互排斥。不能同時啟動兩者。"
           filters:
             custom_fields:
@@ -617,8 +625,9 @@ zh-TW:
           must_not_be_ssh: "不可以是一個 SSH url"
           no_directory: "不是一個資料夾"
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -736,6 +745,9 @@ zh-TW:
     date: "日期"
     default_columns: "預設欄"
     description: "說明"
+    derived_due_date: "Derived finish date"
+    derived_estimated_time: "Derived estimated time"
+    derived_start_date: "Derived start date"
     display_sums: "顯示加總"
     due_date: "完成日期"
     estimated_hours: "預估時間"
@@ -808,7 +820,6 @@ zh-TW:
   button_generate: "產生"
   button_list: "清單"
   button_lock: "鎖定"
-  button_log_time: "日誌的時間"
   button_login: "登入"
   button_move: "移動"
   button_move_and_follow: "移動並跟隨"
@@ -1014,8 +1025,6 @@ zh-TW:
   description_compare_to: "比較："
   description_current_position: "你在這裡："
   description_date_from: "輸入開始日期"
-  description_date_range_interval: "以開始和結束日期來選擇範圍"
-  description_date_range_list: "從清單中選擇範圍"
   description_date_to: "輸入結束日期"
   description_enter_number: "輸入數字"
   description_enter_text: "輸入文字"
@@ -1068,9 +1077,6 @@ zh-TW:
   error_failed_to_delete_entry: '刪除此項目失敗。'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "不合法的項目數值。"
-  error_invalid_group_by: "無法按照 %{value} 分組"
-  error_invalid_query_column: "無效的查詢欄：%{value}"
-  error_invalid_sort_criterion: "無法按照 %{value} 排序"
   error_journal_attribute_not_present: "Journal 不含有屬性 %{attribute}。"
   error_pdf_export_too_many_columns: "為 PDF 匯出選擇的列太多。請減少列數。"
   error_pdf_failed_to_export: "無法保存 pdf 匯出: %{error}"
@@ -1299,7 +1305,6 @@ zh-TW:
   label_date_and_time: "日期和時間"
   label_date_from: "寄件者"
   label_date_from_to: "從 %{start} 到 %{end}"
-  label_date_range: "日期範圍"
   label_date_to: "到"
   label_day_plural: "天"
   label_default: "預設"
@@ -1446,7 +1451,6 @@ zh-TW:
   label_modified: "已修改"
   label_module_plural: "模組"
   label_modules: "模組"
-  label_month: "月份"
   label_months_from: "從幾個月"
   label_more: "更多"
   label_more_than_ago: "很多天之前"
@@ -1617,8 +1621,6 @@ zh-TW:
   label_this_week: "本週"
   label_this_year: "今年"
   label_time_entry_plural: "耗時"
-  label_time_sheet_menu: "時間表"
-  label_time_tracking: "時間追蹤"
   label_projects_menu: "專案"
   label_today: "今天"
   label_top_menu: "頂層選單"
@@ -1714,7 +1716,6 @@ zh-TW:
   label_x_projects:
     zero: "沒有專案"
     other: "%{count} 個專案"
-  label_year: "年份"
   label_yesterday: "昨天"
   auth_source:
     using_abstract_auth_source: "不能使用抽象的認證來源"
@@ -1830,7 +1831,6 @@ zh-TW:
   notice_successful_delete: "刪除成功"
   notice_successful_update: "更新成功"
   notice_to_many_principals_to_display: "搜尋的結果太多。\n請透過輸入新成員 (群組) 的名稱來縮小搜尋的範圍。"
-  notice_unable_delete_time_entry: "無法刪除時間日誌項目"
   notice_user_missing_authentication_method: 用戶尚未選擇密碼或其他方式登錄。
   notice_user_invitation_resent: 已向 %{email} 發送邀請。
   present_access_key_value: "您的 %{key_name} 是 %{value}"
@@ -1958,8 +1958,6 @@ zh-TW:
   project_module_work_package_tracking: "工作項目追蹤"
   project_module_news: "新知"
   project_module_repository: "Repository"
-  project_module_time_tracking: "時間追蹤"
-  project_module_timelines: "時間軸"
   project_module_wiki: "維基"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -2080,6 +2078,10 @@ zh-TW:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "搜尋 ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_sendmail_location: "Sendmail 的執行位置"
   setting_smtp_enable_starttls_auto: "如果可用將自動使用 STARTTLS"
@@ -2134,7 +2136,6 @@ zh-TW:
   setting_work_package_done_ratio_status: "使用工作項目狀態"
   setting_work_package_done_ratio_disabled: "禁用 （隱藏進度）"
   setting_work_package_list_default_columns: "預設顯示"
-  setting_work_package_list_summable_columns: "可加總"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_export_limit: "工作項目匯出數量限制"
@@ -2193,6 +2194,9 @@ zh-TW:
     passwords: "密碼"
     session: "Session"
     brute_force_prevention: "自動禁止使用者"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默認偏好設置"
       deletion: "消除"
@@ -2594,7 +2598,7 @@ zh-TW:
       multipart_body_error: "請求正文不包含預期的多段部分。"
       multiple_errors: "已違反多個欄位約束。"
       unable_to_create_attachment: "無法創建附件"
-      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+      unable_to_create_attachment_permissions: "缺乏檔案系統權限，無法儲存此附件"
       render:
         context_not_parsable: "提供的對應文不是指向資源的連結。"
         unsupported_context: "所提供的資源不受相對應支援。"
@@ -2661,14 +2665,14 @@ zh-TW:
         default_scopes: ""
     client_id: "用戶端 ID"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      這是唯一顯示客戶端密鑰的機會，請記下密鑰並妥善保存。客戶端密鑰應該被視為密碼妥善保管，日後你將無法再次透過 OpenProject 取得它。
     authorization_dialog:
       authorize: "授權"
       cancel: "取消並拒絕授權。"
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
+      prompt_html: "是否授權 <strong>%{application_name}</strong> 使用您的帳號 <em>%{login}</em>？"
       title: "授權 %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+        此應用程式要求存取您的 OpenProject 帳號。<br/><strong> 請求的權限如下：</strong>
     scopes:
       api_v3: "完整 API v3 存取"
       api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."

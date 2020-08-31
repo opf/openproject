@@ -36,7 +36,14 @@ See docs/COPYRIGHT.rdoc for more details.
     <% if all_fields || (only_required && required) || (!only_required && !required) %>
       <% container_class = value.custom_field.field_format == 'text' ? '-xxwide' : '-wide' %>
       <div class="form--field custom_field_<%= value.custom_field.id %> <%= required ? '-required' : '' %>">
-        <%= value_form.custom_field(container_class: container_class, required: required) %>
+        <%
+          options = { container_class: container_class, required: required }
+
+          if local_assigns[:help_text]
+            options[:help_text] = local_assigns[:help_text].merge(attribute: "customField#{value.custom_field.id}")
+          end
+        %>
+        <%= value_form.custom_field(options) %>
       </div>
     <% end %>
   <% end %>

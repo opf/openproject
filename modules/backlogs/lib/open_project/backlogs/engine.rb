@@ -29,8 +29,6 @@
 require 'open_project/plugins'
 require_relative './patches/api/work_package_representer'
 require_relative './patches/api/work_package_schema_representer'
-require_relative './patches/api/work_package_sums_representer'
-require_relative './patches/api/work_package_sums_schema_representer'
 
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
@@ -148,12 +146,6 @@ module OpenProject::Backlogs
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
-
-    extend_api_response(:v3, :work_packages, :schema, :work_package_sums_schema,
-                        &::OpenProject::Backlogs::Patches::API::WorkPackageSumsSchemaRepresenter.extension)
-
-    extend_api_response(:v3, :work_packages, :work_package_sums,
-                        &::OpenProject::Backlogs::Patches::API::WorkPackageSumsRepresenter.extension)
 
     add_api_attribute on: :work_package, ar_name: :story_points
     add_api_attribute on: :work_package, ar_name: :remaining_hours, writeable: ->(*) { model.leaf? }

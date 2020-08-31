@@ -79,7 +79,7 @@ class HourlyRatesController < ApplicationController
   end
 
   current_menu_item :edit do
-    :cost_objects
+    :budgets
   end
 
   def update

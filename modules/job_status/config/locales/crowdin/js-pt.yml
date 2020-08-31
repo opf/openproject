@@ -1,14 +1,17 @@
 pt:
   js:
     job_status:
-      download_starts: 'The download should start automatically.'
-      click_to_download: 'Or click here to download.'
-      title: 'Background job status'
-      redirect: 'You are being redirected.'
+      download_starts: 'O download deve iniciar automaticamente.'
+      click_to_download: 'Ou clique aqui para baixar.'
+      title: 'Status do trabalho em segundo plano'
+      redirect: 'Você está sendo redirecionado.'
+      redirect_link: 'Please click here to continue.'
+      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
+      errors: 'Some errors have occurred'
       generic_messages:
-        not_found: 'This job could not be found.'
-        in_queue: 'The job has been queued and will be processed shortly.'
-        in_process: 'The job is currently being processed.'
-        error: 'The job has failed to complete.'
-        cancelled: 'The job has been cancelled due to an error.'
-        success: 'The job completed successfully.'
+        not_found: 'Este trabalho não pode ser encontrado.'
+        in_queue: 'O trabalho foi colocado na fila e será processado em breve.'
+        in_process: 'O trabalho está sendo processado.'
+        error: 'O trabalho não pode ser finalizado.'
+        cancelled: 'O trabalho foi cancelado devido a um erro.'
+        success: 'Trabalho concluído com sucesso.'

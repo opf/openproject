@@ -24,7 +24,7 @@ zh-CN:
         locked: '锁定'
         closed: '已关闭'
       new_board: '新建面板'
-      add_list: '添加列表'
+      add_list: 'Add list to board'
       add_card: '添加卡片'
       error_attribute_not_writable: "无法移动工作包，%{attribute} 不可写。"
       error_loading_the_list: "加载列表时出错：%{error_message}"
@@ -33,19 +33,31 @@ zh-CN:
       board_type:
         text: '面板类型'
         free: '基本面板'
+        select_board_type: 'Please choose the type of board you need.'
         free_text: >
-          创建一个可在其中自由创建列表和订购工作包的面板。在列表之间移动工作包不会更改工作包本身。
+          A board in which you can freely create lists and order your work packages within. Dragging work packages between lists do not change the work package itself.
         action: '操作面板'
         action_by_attribute: '操作面板 (%{attribute})'
         action_text: >
-          创建一个在单个属性上具有筛选列表的面板。将工作包移动到其他列表将更新其属性。
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          A board with lists of subprojects of this project and their work packages as list items. Dragging work packages to other lists will move them to the corresponding subproject.
+        action_text_subtasks: >
+          A board with lists of selected parents and their child work packages as list items. Dragging work packages to other lists will update the parent accordingly.
         action_type:
           assignee: 指派人
           status: 状态
           version: 版本
-          subproject: 子项目
+          subproject: subproject
+          subtasks: children
         select_attribute: "操作属性"
       add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
         warning:
           status: |
             目前没有可用的状态。<br>

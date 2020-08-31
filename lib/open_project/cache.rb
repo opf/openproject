@@ -26,6 +26,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'cache/cache_key'
+
 module OpenProject
   module Cache
     def self.fetch(*parts, &block)

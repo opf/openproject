@@ -178,18 +178,6 @@ export class WorkPackageBaseResource extends HalResource {
     return fieldName === 'description' ? 'full' : 'constrained';
   }
 
-  private performUpload(files:UploadFile[]) {
-    let href = '';
-
-    if (this.isNew) {
-      href = this.apiV3Service.attachments.path;
-    } else {
-      href = this.attachments.$href!;
-    }
-
-    return this.opFileUpload.uploadAndMapResponse(href, files);
-  }
-
   public isParentOf(otherWorkPackage:WorkPackageResource) {
     return otherWorkPackage.parent?.$links.self.$link.href === this.$links.self.$link.href;
   }

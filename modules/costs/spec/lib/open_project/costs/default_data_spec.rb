@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe OpenProject::Costs::DefaultData do
+describe Costs::DefaultData do
   let(:seeder) { BasicData::RoleSeeder.new }
-  let(:member) { OpenProject::Costs::DefaultData.member_role }
-  let(:permissions) { OpenProject::Costs::DefaultData.member_permissions }
+  let(:member) { Costs::DefaultData.member_role }
+  let(:permissions) { Costs::DefaultData.member_permissions }
 
   before do
     allow(seeder).to receive(:builtin_roles).and_return([])

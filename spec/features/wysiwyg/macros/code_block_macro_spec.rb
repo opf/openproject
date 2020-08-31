@@ -28,7 +28,10 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg code block macro', type: :feature, js: true do
+describe 'Wysiwyg code block macro',
+         type: :feature,
+         driver: :firefox_headless_en,
+         js: true do
   using_shared_fixtures :admin
   let(:user) { admin }
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }

@@ -54,6 +54,10 @@ module API
           # :edit_work_packages in this endpoint and require clients to upload uncontainered work packages
           # first and attach them on wp creation.
           post &API::V3::Attachments::AttachmentsByContainerAPI.create([:edit_work_packages])
+
+          namespace :prepare do
+            post &API::V3::Attachments::AttachmentsByContainerAPI.prepare([:edit_work_packages])
+          end
         end
       end
     end

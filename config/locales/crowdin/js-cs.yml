@@ -116,6 +116,11 @@ cs:
         manual: 'Přepněte do Markdown zdroje'
         wysiwyg: 'Přepnout na WYSIWYG Editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Odkazy na podřízené stránky'
           include_parent: 'Zahrnout rodiče'
@@ -408,8 +413,10 @@ cs:
     label_total_amount: "Celkem: %{amount}"
     label_updated_on: "aktualizováno"
     label_value_derived_from_children: "(hodnota odvozená od dětí)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Varování"
     label_work_package: "Pracovní balíček"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Pracovní balíčky"
     label_watch: "Sledovat"
     label_watch_work_package: "Sledovat pracovní balíček"
@@ -496,6 +503,7 @@ cs:
       context: 'Kontext projektu'
       work_package_belongs_to: 'Tento pracovní balíček náleží projektu %{projectname}.'
       click_to_switch_context: 'Otevřete tento pracovní balíček v tomto projektu.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Automatické doplňování projektu'
     text_are_you_sure: "Jste si jisti?"

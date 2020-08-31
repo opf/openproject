@@ -195,7 +195,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
    *
    * @param board
    */
-  private getActionFiltersFromWidget(board:Board):string[] {
+  private getActionFiltersFromWidget(board:Board):(string|null)[] {
     return board.grid.widgets
       .map(widget => {
         const service = this.boardActionRegistry.get(board.actionAttribute!);
@@ -204,10 +204,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         const filter = _.find(options.filters, (filter) => !!filter[filterName]);
 
         if (filter) {
-          return filter[filterName].values[0];
+          return (filter[filterName].values[0] || null) as any;
         }
       })
-      .filter(value => !!value);
+      .filter(value => value !== undefined);
   }
 
 }

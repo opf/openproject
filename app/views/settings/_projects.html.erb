@@ -26,16 +26,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= styled_form_tag(general_settings_path(tab: 'projects'), method: :patch) do %>
+<%= toolbar title: t(:label_project_plural) %>
+
+<%= styled_form_tag(update_projects_settings_path, method: :patch) do %>
   <section class="form--section">
-    <div class="form--field"><%= setting_check_box :default_projects_public %></div>
-    <div class="form--field"><%= setting_multiselect(:default_projects_modules,
-        OpenProject::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, prefix: "project_module_"), m.to_s]}) %></div>
-    <div class="form--field"><%= setting_check_box :sequential_project_identifiers %></div>
-    <div class="form--field"><%= setting_select :new_project_user_role_id,
-                      Role.givable.collect {|r| [r.name, r.id.to_s]},
-                      blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
-                      container_class: '-middle' %></div>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t('settings.projects.section_new_projects') %></legend>
+      <div class="form--field"><%= setting_check_box :default_projects_public %></div>
+      <div class="form--field"><%= setting_multiselect(:default_projects_modules,
+          OpenProject::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, prefix: "project_module_"), m.to_s]}) %></div>
+      <div class="form--field"><%= setting_check_box :sequential_project_identifiers %></div>
+      <div class="form--field"><%= setting_select :new_project_user_role_id,
+                        Role.givable.collect {|r| [r.name, r.id.to_s]},
+                        blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
+                        container_class: '-middle' %></div>
+    </fieldset>
+  </section>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t('settings.projects.section_project_overview') %></legend>
+      <%
+        column_choices = Query.new.available_columns.map { |column|
+          { caption: column.caption, value: column.name.to_s }
+        }
+      %>
+      <%= settings_matrix([:work_package_list_default_columns],
+                          column_choices, label_choices: :setting_work_package_properties) %>
+    </fieldset>
   </section>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

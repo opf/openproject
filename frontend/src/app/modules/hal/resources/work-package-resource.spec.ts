@@ -42,6 +42,7 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {StateService} from "@uirouter/core";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {OpenProjectDirectFileUploadService} from "core-components/api/op-file-upload/op-direct-file-upload.service";
 import {WorkPackageCreateService} from 'core-app/components/wp-new/wp-create.service';
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
@@ -76,6 +77,7 @@ describe('WorkPackage', () => {
         NotificationsService,
         ConfigurationService,
         OpenProjectFileUploadService,
+        OpenProjectDirectFileUploadService,
         LoadingIndicatorService,
         PathHelperService,
         I18nService,

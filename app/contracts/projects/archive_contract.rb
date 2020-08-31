@@ -28,40 +28,15 @@
 
 module Projects
   class ArchiveContract < ModelContract
-    def validate
-      user_allowed
-      validate_no_foreign_wp_references
+    include Projects::Archiver
 
-      super
-    end
+    validate :validate_admin_only
+    validate :validate_no_foreign_wp_references
 
     protected
 
-    def user_allowed
-      unless authorized?
-        errors.add :base, :error_unauthorized
-      end
-    end
-
-    # Check that there is no wp of a non descendant project that is assigned
-    # to one of the project or descendant versions
-    def validate_no_foreign_wp_references
-      version_ids = model.rolled_up_versions.select(:id)
-
-      exists = WorkPackage
-               .where.not(project_id: model.self_and_descendants.select(:id))
-               .where(version_id: version_ids)
-               .exists?
-
-      errors.add :base, :foreign_wps_reference_version if exists
-    end
-
     def validate_model?
       false
-    end
-
-    def authorized?
-      user.admin?
     end
   end
 end

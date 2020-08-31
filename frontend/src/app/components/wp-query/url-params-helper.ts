@@ -291,8 +291,6 @@ export class UrlParamsHelperService {
       return '';
     } else if (value.id) {
       return value.id.toString();
-    } else if (value.$href && value.$href.match(/^\/api\/v3\/string_objects/i)) {
-      return value.$href.match(/value=([^&]+)/)[1].toString();
     } else if (value.$href) {
       return value.$href.split('/').pop().toString();
     } else {

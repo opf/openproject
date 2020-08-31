@@ -119,7 +119,7 @@ describe 'Subproject action board', type: :feature, js: true do
       board_page.expect_movable 'Child 1', 'Foo', movable: true
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (Subproject)'
+        expect(board.name).to eq 'Action board (subproject)'
         queries = board.contained_queries
         expect(queries.count).to eq(1)
 
@@ -159,10 +159,9 @@ describe 'Subproject action board', type: :feature, js: true do
       board_page.expect_card('Child 2', 'Task 1', present: true)
 
       # Expect work package to be saved in query second
-      sleep 2
       retry_block do
-        expect(first.reload.ordered_work_packages).to be_empty
-        expect(second.reload.ordered_work_packages.count).to eq(1)
+        raise "first should be empty" if first.reload.ordered_work_packages.any?
+        raise "second should have one item" if second.reload.ordered_work_packages.count != 1
       end
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :project_id)

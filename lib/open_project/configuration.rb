@@ -46,6 +46,10 @@ module OpenProject
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
+      # only applicable in conjunction with fog (effectively S3) attachments
+      # which will be uploaded directly to the cloud storage rather than via OpenProject's
+      # server process.
+      'direct_uploads'          => true,
       'show_community_links' => true,
       'log_level' => 'info',
       'scm_git_command'         => nil,

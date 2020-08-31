@@ -116,10 +116,6 @@ import {
   GlobalSearchTabsComponent,
   globalSearchTabsSelector
 } from "core-app/modules/global_search/tabs/global-search-tabs.component";
-import {
-  AttributeHelpTextComponent,
-  attributeHelpTextSelector
-} from "core-app/modules/common/help-texts/attribute-help-text.component";
 import {MainMenuToggleComponent, mainMenuToggleSelector} from "core-components/main-menu/main-menu-toggle.component";
 import {
   MembersAutocompleterComponent,
@@ -138,6 +134,22 @@ import {
   BacklogsPageComponent,
   backlogsPageComponentSelector
 } from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
+import {
+  attributeValueMacro,
+  AttributeValueMacroComponent
+} from "core-app/modules/fields/macros/attribute-value-macro.component";
+import {
+  attributeLabelMacro,
+  AttributeLabelMacroComponent
+} from "core-app/modules/fields/macros/attribute-label-macro.component";
+import {
+  AttributeHelpTextComponent,
+  attributeHelpTextSelector
+} from "core-app/modules/fields/help-texts/attribute-help-text.component";
+import {
+  quickInfoMacroSelector,
+  WorkPackageQuickinfoMacroComponent
+} from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -180,6 +192,9 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
+  { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },
+  { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
+  { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
 ];
 
 

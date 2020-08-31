@@ -116,6 +116,11 @@ el:
         manual: 'Αλλαγή σε Markdown source'
         wysiwyg: 'Αλλαγή σε επεξεργαστή WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Σύνδεσμοι σε σελίδες-παιδιά'
           include_parent: 'Συμπεριλάβετε τον γονέα'
@@ -407,8 +412,10 @@ el:
     label_total_amount: "Σύνολο: %{amount}"
     label_updated_on: "ενημερώθηκε στις"
     label_value_derived_from_children: "(αξία που προέρχεται από παιδιά)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Προειδοποίηση"
     label_work_package: "Εργασία"
+    label_work_package_parent: "Parent work package"
     label_work_package_plural: "Πακέτα εργασίας"
     label_watch: "Παρακολουθήστε"
     label_watch_work_package: "Παρακολούθηση πακέτου εργασίας"
@@ -495,6 +502,7 @@ el:
       context: 'Πλαίσιο έργου'
       work_package_belongs_to: 'Αυτό το πακέτο εργασίας ανήκει στο έργο %{projectname}.'
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
     text_are_you_sure: "Είστε σίγουρος/η;"

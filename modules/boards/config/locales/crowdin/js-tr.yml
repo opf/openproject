@@ -24,7 +24,7 @@ tr:
         locked: 'Kilitlendi'
         closed: 'Kapalı'
       new_board: 'Yeni yazı tahtası'
-      add_list: 'Liste ekle'
+      add_list: 'Listeyi panele ekle'
       add_card: 'Kart ekle'
       error_attribute_not_writable: "Çalışma paketi taşınamıyor, %{attribute} yazılabilir değil."
       error_loading_the_list: "Liste yüklenirken hata oluştu: %{error_message}"
@@ -33,19 +33,31 @@ tr:
       board_type:
         text: 'Yazı tahtası tipi'
         free: 'Temel kurulu'
+        select_board_type: 'Lütfen ihtiyacınız olan kart tipini seçin.'
         free_text: >
-          Serbestçe listeler oluşturabileceğiniz ve çalışma paketlerinizi içinde sipariş edebileceğiniz bir tahta oluşturun. İş paketlerini listeler arasında taşımak, iş paketini değiştirmez.
+          Listeleri özgürce oluşturabileceğiniz ve içinde iş paketlerinizi sipariş edebileceğiniz bir pano. İş paketlerinin listeler arasında sürüklenmesi, iş paketinin kendisini değiştirmez.
         action: 'Eylem kurulu'
         action_by_attribute: 'Eylem kurulu (%{attribute})'
         action_text: >
-          Tek bir özellik üzerinde filtrelenmiş listeler içeren bir tahta oluşturun. İş paketlerini diğer listelere taşımak, niteliklerini güncelleyecektir.
+          %{attribute} özniteliğinde filtrelenmiş listelere sahip bir pano. İş paketlerinin diğer listelere taşınması niteliklerini güncelleyecektir.
+        action_text_subprojects: >
+          Bu projenin alt projelerinin listelerini ve bunların çalışma paketlerini liste öğeleri olarak içeren bir pano. İş paketlerini diğer listelere sürüklemek, onları ilgili alt projeye taşıyacaktır.
+        action_text_subtasks: >
+          Liste öğeleri olarak seçilen ebeveynlerin ve çocuklarının çalışma paketlerinin listelerini içeren bir pano. İş paketlerini başka listelere sürüklemek, üst öğeyi uygun şekilde güncelleyecektir.
         action_type:
           assignee: vekil
           status: durum
           version: Sürüm
           subproject: Alt proje
+          subtasks: çocuklar
         select_attribute: "Eylem özelliği"
       add_list_modal:
+        labels:
+          assignee: Yeni bir vekil listesi olarak eklenecek kullanıcıyı seçin
+          status: Yeni bir liste olarak eklemek için durumu seçin
+          version: Yeni bir liste olarak eklemek için sürümü seçin
+          subproject: Yeni bir liste olarak eklenecek alt projeyi seçin
+          subtasks: Yeni liste olarak eklenecek iş paketini seçin
         warning:
           status: |
             Şu anda kullanılabilir durum yok. <br>

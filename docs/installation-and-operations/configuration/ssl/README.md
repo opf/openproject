@@ -31,23 +31,33 @@ we're using.
 ## Create a free SSL certificate using let's encrypt
 
 You can get an SSL certificate for free via Let's Encrypt.
-Here is how you do it using [certbot](https://github.com/certbot/certbot):
 
-    curl https://dl.eff.org/certbot-auto > /usr/local/bin/certbot-auto
-    chmod a+x /usr/local/bin/certbot-auto
+This requires your OpenProject server to be reachable using a domain name (e.g. openproject.mydomain.com), with port 443 or 80 open. If you don't have anything running on port 80 or 443, we recommend that you first configure OpenProject without SSL support, and only then execute the steps outline below.
+
+Here is how to do it using [certbot](https://github.com/certbot/certbot):
+
+    sudo curl https://dl.eff.org/certbot-auto -o /usr/local/bin/certbot-auto
+    sudo chmod a+x /usr/local/bin/certbot-auto
     
-    certbot-auto certonly --webroot --webroot-path /opt/openproject/public -d openprojecct.mydomain.com
+    certbot-auto certonly --webroot --webroot-path /opt/openproject/public -d openproject.mydomain.com
 
-This requires your OpenProject server to be available from the Internet on port 443 or 80.
-If this works the certificate (`cert.pem`) and private key (`privkey.pem`) will be created under `/etc/letsencrypt/live/openproject.mydomain.com/`. Configure these for OpenProject to use by running `openproject reconfigure` and choosing yes when the wizard asks for SSL.
+The CLI will ask for a few details and to agree to the Let's Encrypt terms of usage. Then it will perform the Let's Encrypt challenge and finally issue a certificate file and a private key file if the challenge succeeded.
 
-Now this Let's Encryt certificate is only valid for 90 days. To renew it automatically all you have to do is to add the following entry to your crontab (run `crontab -e`):
+At the end, it will store the certificate (`fullchain.pem`) and private key (`privkey.pem`) under `/etc/letsencrypt/live/openproject.mydomain.com/`.
+
+You can now configure OpenProject to use them by running `openproject reconfigure`: hit ENTER until you get to the SSL wizard, and select "Yes" when the wizard asks for SSL support:
+
+* Enter the `/etc/letsencrypt/live/openproject.mydomain.com/fullchain.pem` path when asked for the `server/ssl_cert` detail.
+* Enter the `/etc/letsencrypt/live/openproject.mydomain.com/privkey.pem` path when asked for the `server/ssl_key` detail.
+* Enter the `/etc/letsencrypt/live/openproject.mydomain.com/fullchain.pem` path (same as `server/ssl_cert`) when asked for the `server/ssl_ca` detail.
+
+Hit ENTER, and after the wizard is finished your OpenProject installation should be accessible using `https://openproject.mydomain.com`.
+
+Note that this Let's Encryt certificate is only valid for 90 days. To renew it automatically all you have to do is to add the following entry to your crontab (run `crontab -e`):
 
     0 1 * * * certbot-auto renew --quiet --post-hook "service apache2 restart"
 
 This will execute `certbot renew` every day at 1am. The command checks if the certificate is expired and renews it if that is the case. The web server is restarted in a post hook in order for it to pick up the new certificate.
-
-
 
 <div class="alert alert-warning" role="alert">
 

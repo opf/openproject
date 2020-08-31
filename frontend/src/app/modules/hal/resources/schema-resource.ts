@@ -29,6 +29,7 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {InputState} from 'reactivestates';
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export class SchemaResource extends HalResource {
 
@@ -38,6 +39,21 @@ export class SchemaResource extends HalResource {
 
   public get availableAttributes() {
     return _.keys(this.$source).filter(name => name.indexOf('_') !== 0);
+  }
+
+  // Find the attribute name with a matching (localized) name;
+  public attributeFromLocalizedName(name:string):string|null {
+    let match:string|null = null;
+
+    for (let attribute of this.availableAttributes) {
+      let fieldSchema = this[attribute];
+      if (fieldSchema?.name === name) {
+        match = attribute;
+        break;
+      }
+    }
+
+    return match;
   }
 }
 

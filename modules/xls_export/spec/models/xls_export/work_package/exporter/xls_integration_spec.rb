@@ -227,7 +227,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       end
 
       allow(Setting)
-        .to receive(:plugin_openproject_costs)
+        .to receive(:plugin_costs)
         .and_return('costs_currency' => 'EUR', 'costs_currency_format' => '%n %u')
     end
 
