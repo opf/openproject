@@ -42,7 +42,7 @@ gem 'rdoc', '>= 2.4.2'
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
-gem 'doorkeeper', '~> 5.3.1'
+gem 'doorkeeper', '~> 5.4.0'
 gem 'request_store', '~> 1.5.0'
 
 gem 'warden', '~> 1.2'
@@ -77,13 +77,13 @@ gem 'commonmarker', '~> 0.21.0'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
-gem 'html-pipeline', '~> 2.12.0'
+gem 'html-pipeline', '~> 2.14.0'
 # Tasklist parsing and renderer
 gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.17.0'
+gem 'rouge', '~> 3.22.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -137,10 +137,10 @@ gem 'lograge', '~> 0.11.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 9.4.3', require: false
+gem 'airbrake', '~> 11.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'prawn-markup', '~> 0.2.1'
+gem 'prawn-markup', '~> 0.3.0'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
@@ -187,7 +187,7 @@ gem 'ruby-progressbar', '~> 1.10.0', require: false
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
-  gem 'shoulda-context', '~> 1.2'
+  gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
   # and other niceties
@@ -226,12 +226,12 @@ group :test do
   gem 'webmock', '~> 3.8.2', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 2.3.1'
+  gem 'puffing-billy', '~> 2.4.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 3.1', require: nil
+  gem 'shoulda-matchers', '~> 4.4', require: nil
 
   gem 'parallel_tests', '~> 3.1'
 end

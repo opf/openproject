@@ -4,7 +4,7 @@ sidebar_navigation: false
 
 # Manual installation guide
 
-**IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation). This guide is simply provided as a reference, and is most likely NOT up to date wit relation to the latest OpenProject releases.**
+**IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation). This guide is simply provided as a reference, and is most likely NOT up to date with relation to the latest OpenProject releases.**
 
 Please be aware that:
 

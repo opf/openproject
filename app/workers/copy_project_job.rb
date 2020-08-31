@@ -91,18 +91,23 @@ class CopyProjectJob < ApplicationJob
   private
 
   def successful_status_update
+    payload = redirect_payload(url_helpers.project_path(target_project))
+
+    if errors.any?
+      payload[:errors] = errors
+    end
+
     upsert_status status: :success,
                   message: I18n.t('copy_project.succeeded', target_project_name: target_project.name),
-                  payload: redirect_payload(url_helpers.project_path(target_project))
+                  payload: payload
   end
 
   def failure_status_update
-    message =
-      if errors
-        "#{I18n.t('copy_project.failed', source_project_name: source_project.name)}. #{errors.join("\n")}"
-      else
-        I18n.t('copy_project.failed')
-      end
+    message = I18n.t('copy_project.failed', source_project_name: source_project.name)
+
+    if errors
+      message << ": #{errors.join("\n")}"
+    end
 
     upsert_status status: :failure, message: message
   end
@@ -123,7 +128,8 @@ class CopyProjectJob < ApplicationJob
       target_project = service_call.result
       errors = service_call.errors.full_messages
 
-      unless service_call.success? && target_project.save
+      # We assume the copying worked "successfully" if the project was saved
+      unless target_project&.persisted?
         target_project = nil
         logger.error("Copying project fails with validation errors: #{errors.join("\n")}")
       end

@@ -2214,6 +2214,9 @@ ca:
     passwords: "Contrasenyes"
     session: "Sessió"
     brute_force_prevention: "Bloqueig automàtic d'usuari"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"

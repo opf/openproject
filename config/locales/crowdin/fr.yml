@@ -2215,6 +2215,9 @@ fr:
     passwords: "Mots de passe"
     session: "Session"
     brute_force_prevention: "Blocage d'utilisateur automatique (pour éviter les pirates)"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Préférences par défaut"
       deletion: "Suppression"

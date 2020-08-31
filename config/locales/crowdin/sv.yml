@@ -2213,6 +2213,9 @@ sv:
     passwords: "Lösenord"
     session: "Session"
     brute_force_prevention: "Automatiserad användarblockering"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Förvalda inställningar"
       deletion: "Borttagning"

@@ -2212,6 +2212,9 @@ hu:
     passwords: "Jelszavak"
     session: "Munkamenet"
     brute_force_prevention: "Felhasználó automatikus blokkolása"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Alapértelmezett preferenciák"
       deletion: "Törlés"

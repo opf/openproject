@@ -24,7 +24,7 @@ tr:
         locked: 'Kilitlendi'
         closed: 'Kapalı'
       new_board: 'Yeni yazı tahtası'
-      add_list: 'Add list to board'
+      add_list: 'Listeyi panele ekle'
       add_card: 'Kart ekle'
       error_attribute_not_writable: "Çalışma paketi taşınamıyor, %{attribute} yazılabilir değil."
       error_loading_the_list: "Liste yüklenirken hata oluştu: %{error_message}"
@@ -53,11 +53,11 @@ tr:
         select_attribute: "Eylem özelliği"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Yeni bir vekil listesi olarak eklenecek kullanıcıyı seçin
+          status: Yeni bir liste olarak eklemek için durumu seçin
+          version: Yeni bir liste olarak eklemek için sürümü seçin
+          subproject: Yeni bir liste olarak eklenecek alt projeyi seçin
+          subtasks: Yeni liste olarak eklenecek iş paketini seçin
         warning:
           status: |
             Şu anda kullanılabilir durum yok. <br>

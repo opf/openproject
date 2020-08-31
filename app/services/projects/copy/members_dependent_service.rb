@@ -30,6 +30,10 @@
 
 module Projects::Copy
   class MembersDependentService < Dependency
+    def self.human_name
+      I18n.t(:label_member_plural)
+    end
+
     protected
 
     def copy_dependency(*)

@@ -30,6 +30,10 @@
 
 module Projects::Copy
   class ForumsDependentService < Dependency
+    def self.human_name
+      I18n.t(:label_forum_plural)
+    end
+
     protected
 
     def copy_dependency(params:)

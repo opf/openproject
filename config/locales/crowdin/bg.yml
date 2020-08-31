@@ -2216,6 +2216,9 @@ bg:
     passwords: "Пароли"
     session: "Сесия"
     brute_force_prevention: "Automated user blocking"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Настройки по подразбиране"
       deletion: "Deletion"

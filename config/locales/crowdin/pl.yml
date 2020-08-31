@@ -2251,6 +2251,9 @@ pl:
     passwords: "Hasła"
     session: "Sesja"
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Ustawienia domyślne"
       deletion: "Usunięcie"

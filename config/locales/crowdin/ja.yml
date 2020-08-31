@@ -2191,6 +2191,9 @@ ja:
     passwords: "パスワード"
     session: "セッション"
     brute_force_prevention: "自動的にユーザをロック"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "デフォルト設定"
       deletion: "削除"

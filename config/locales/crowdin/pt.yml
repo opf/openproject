@@ -2213,6 +2213,9 @@ pt:
     passwords: "Senhas"
     session: "Sessão"
     brute_force_prevention: "Bloqueio automatizado de usuário"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Preferências padrão"
       deletion: "Exclusão"

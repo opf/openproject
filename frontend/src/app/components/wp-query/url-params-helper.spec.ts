@@ -247,7 +247,7 @@ describe('UrlParamsHelper', function() {
       expect(_.isEqual(v3Params, expected)).toBeTruthy();
     });
 
-    it('decodes string object filters', function() {
+    it('decodes custom options filters', function() {
       let filter1 = {
         id: 'customField1',
         operator: {
@@ -258,14 +258,14 @@ describe('UrlParamsHelper', function() {
         },
         values: [
           {
-            _type: "StringObject",
-            value: "val2val",
-            $href: "/api/v3/string_objects/?value=val2val"
+            _type: "CustomOption",
+            value: "cde",
+            $href: "/api/v3/custom_options/2"
           },
           {
-            _type: "StringObject",
-            value: "7val7",
-            $href: "/api/v3/string_objects/?value=7val7"
+            _type: "CustomOption",
+            value: "abc",
+            $href: "/api/v3/custom_options/7"
           }
         ]
       };
@@ -279,7 +279,7 @@ describe('UrlParamsHelper', function() {
         sums: false
       };
 
-      additional = {}
+      additional = {};
 
       let v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
 
@@ -289,7 +289,7 @@ describe('UrlParamsHelper', function() {
           {
             customField1: {
               operator: '=',
-              values: ['val2val', '7val7']
+              values: ['2', '7']
             }
           }
         ]),

@@ -30,6 +30,10 @@
 
 module Projects::Copy
   class QueriesDependentService < Dependency
+    def self.human_name
+      I18n.t(:label_query_plural)
+    end
+
     protected
 
     # Copies queries from +project+
