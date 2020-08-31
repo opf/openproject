@@ -64,7 +64,8 @@ See docs/COPYRIGHT.rdoc for more details.
                           data: {
                             name: 'settings[project_gantt_query]',
                             id: 'settings_project_gantt_query',
-                            query: Setting.project_gantt_query
+                            query: Setting.project_gantt_query,
+                            'url-params': 'true'
                           }
           %>
         </span>
@@ -75,4 +76,6 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </fieldset>
   </section>
+
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

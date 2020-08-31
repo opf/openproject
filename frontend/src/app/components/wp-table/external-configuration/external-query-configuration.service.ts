@@ -2,11 +2,11 @@ import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from '@a
 import {ComponentPortal, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
 import {TransitionService} from '@uirouter/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {ExternalQueryConfigurationComponent} from "core-components/wp-table/external-configuration/external-query-configuration.component";
 import {
-  OpQueryConfigurationLocalsToken,
-  OpQueryConfigurationTriggerEvent
-} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
+  ExternalQueryConfigurationComponent,
+  QueryConfigurationLocals
+} from "core-components/wp-table/external-configuration/external-query-configuration.component";
+import {OpQueryConfigurationLocalsToken} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
 
 export type Class = { new(...args:any[]):any; };
 
@@ -23,16 +23,6 @@ export class ExternalQueryConfigurationService {
               private appRef:ApplicationRef,
               private $transitions:TransitionService,
               private injector:Injector) {
-  }
-
-  public setupListener() {
-    // Listen to keyups on window to close context menus
-    jQuery(window)
-      .on(OpQueryConfigurationTriggerEvent,
-        (event:JQuery.TriggeredEvent, originator:JQuery, currentQuery:any) => {
-      this.show(originator, currentQuery);
-      return false;
-    });
   }
 
   /**
@@ -58,20 +48,14 @@ export class ExternalQueryConfigurationService {
   /**
    * Open a Modal reference and append it to the portal
    */
-  public show(currentQuery:any,
-              callback:(newQuery:any) => void,
-              disabledTabs:{[key:string]:string} = {}) {
+  public show(data:Partial<QueryConfigurationLocals>) {
     this.detach();
 
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(
       this.externalQueryConfigurationComponent(),
       null,
-      this.injectorFor({
-                        callback: callback,
-                        currentQuery: currentQuery,
-                        disabledTabs: disabledTabs
-                      })
+      this.injectorFor(data)
     );
     this.bodyPortalHost.attach(portal);
     this._portalHostElement.style.display = 'block';

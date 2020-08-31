@@ -198,8 +198,6 @@ export class OpenProjectModule {
 
 export function initializeServices(injector:Injector) {
   return () => {
-    const ExternalQueryConfiguration = injector.get(ExternalQueryConfigurationService);
-    const ExternalRelationQueryConfiguration = injector.get(ExternalRelationQueryConfigurationService);
     const PreviewTrigger = injector.get(PreviewTriggerService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
@@ -211,9 +209,5 @@ export function initializeServices(injector:Injector) {
     PreviewTrigger.setupListener();
 
     keyboardShortcuts.register();
-
-    // Setup query configuration listener
-    ExternalQueryConfiguration.setupListener();
-    ExternalRelationQueryConfiguration.setupListener();
   };
 }

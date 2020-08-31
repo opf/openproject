@@ -52,6 +52,15 @@ See docs/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item">
     <%= link_to t(:label_overall_activity), activities_path, class: 'button' %>
   </li>
+  <li class="toolbar-item">
+    <%= link_to gantt_portfolio_query_link(@projects.select(:id).uniq.pluck(:id)),
+                class: 'button',
+                target: '_blank' do %>
+      <%= op_icon("button--icon icon-view-timeline") %>
+      <%= t('projects.index.open_as_gantt') %>
+      <%= op_icon("button--icon icon-external-link") %>
+    <% end %>
+  </li>
 <% end %>
 
 <%= render partial: 'projects/filters/form', locals: { query: @query } %>

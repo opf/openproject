@@ -288,7 +288,6 @@ default_projects_modules:
 enabled_projects_columns:
   serialized: true
   default:
-    - name
     - project_status
     - public
     - created_at

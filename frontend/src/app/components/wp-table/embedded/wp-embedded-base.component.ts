@@ -71,6 +71,13 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     return this.urlParamsHelper.buildV3GetQueryFromQueryResource(query);
   }
 
+  public buildUrlParams() {
+    const query = this.querySpace.query.value!;
+    this.wpStatesInitialization.applyToQuery(query);
+
+    return this.urlParamsHelper.encodeQueryJsonParams(query);
+  }
+
   protected setLoaded() {
     this.renderTable = this.configuration.tableVisible;
     this.cdRef.detectChanges();

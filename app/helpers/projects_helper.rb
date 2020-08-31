@@ -220,6 +220,11 @@ module ProjectsHelper
        .assignable_parents
   end
 
+  def gantt_portfolio_query_link(filtered_project_ids)
+    generator = ::Projects::GanttQueryGeneratorService.new(filtered_project_ids)
+    work_packages_path query_props: generator.call
+  end
+
   def short_project_description(project, length = 255)
     unless project.description.present?
       return ''

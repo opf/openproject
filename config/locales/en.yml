@@ -229,6 +229,7 @@ en:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
     settings:
