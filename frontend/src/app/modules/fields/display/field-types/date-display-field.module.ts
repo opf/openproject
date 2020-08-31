@@ -43,7 +43,10 @@ export class DateDisplayField extends HighlightableDisplayField {
     if (this.showSchedulingMode()) {
       const schedulingIcon = document.createElement('span');
       schedulingIcon.classList.add('icon-context');
-      schedulingIcon.classList.add(this.resource.scheduleManually ? 'icon-pin' : 'icon-arrow-left-right');
+
+      if (this.resource.scheduleManually) {
+        schedulingIcon.classList.add('icon-pin');
+      }
 
       element.prepend(schedulingIcon);
     }

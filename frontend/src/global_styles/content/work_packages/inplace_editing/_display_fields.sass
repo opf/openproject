@@ -100,6 +100,20 @@
     .-placeholder
       @include wp-table--placeholder-time-values
 
+.wp-table--cell-container .dueDate .icon-pin
+  display: none
+
+.wp-table--cell-container.startDate
+  padding-left: 24px
+
+  .icon-context
+    position: relative
+
+  .icon-pin:before
+    position: absolute
+    left: -24px
+    top: -8px
+
 // Sums in wp table
 .wp-table--sum-container.split-time-field
   .-actual-value
