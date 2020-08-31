@@ -20,7 +20,7 @@
         </div>
       </div>
       <div>
-        <span [textContent]="message"></span>
+        <span class="job-status--modal-main-message" [textContent]="message"></span>
         <span [hidden]="!downloadHref">
           {{ text.download_starts }}
           <a #downloadLink
@@ -29,6 +29,19 @@
              [attr.href]="downloadHref">
           </a>
         </span>
+        <ng-container *ngIf="payload?.errors">
+          <h3 class="job-status--modal-additional-errors" [textContent]="text.errors"></h3>
+          <ul *ngFor="let error of payload.errors">
+            <li [textContent]="error"></li>
+          </ul>
+
+          <p *ngIf="payload?.redirect">
+            <span [textContent]="text.redirect_errors"></span>
+            <a [textContent]="text.redirect_link"
+               [attr.href]="payload.redirect">
+            </a>
+          </p>
+        </ng-container>
       </div>
     </div>
   </div>

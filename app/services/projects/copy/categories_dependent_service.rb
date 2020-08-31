@@ -30,6 +30,10 @@
 
 module Projects::Copy
   class CategoriesDependentService < Dependency
+    def self.human_name
+      I18n.t(:label_work_package_category_plural)
+    end
+
     protected
 
     def copy_dependency(params:)
