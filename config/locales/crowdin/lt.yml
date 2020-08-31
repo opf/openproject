@@ -513,7 +513,7 @@ lt:
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
-        could_not_be_copied: "negalima (pilnai) nukopijuoti."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "neegzistuoja."
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
@@ -2252,8 +2252,8 @@ lt:
     session: "Sesija"
     brute_force_prevention: "Automatinis vartotojų blokavimas"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Naujų projektų nustatymai"
+      section_project_overview: "Nustatymai projektų peržiūros sąrašui"
     user:
       default_preferences: "Numatytosios parinktys"
       deletion: "Trynimas"

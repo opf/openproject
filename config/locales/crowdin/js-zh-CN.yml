@@ -503,6 +503,7 @@ zh-CN:
       context: '项目上下文'
       work_package_belongs_to: '此工作包属于项目%{projectname}。'
       click_to_switch_context: '在该项目中打开此工作包。'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: '项目自动补全'
     text_are_you_sure: "是否确定？"

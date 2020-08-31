@@ -511,7 +511,7 @@ ja:
         cant_link_a_work_package_with_a_descendant: "親子関係にある作業項目間で関連設定できません。"
         circular_dependency: "この関係は循環依存になります。"
         confirmation: "は%{attribute} と一致しません。"
-        could_not_be_copied: "（完全に）コピーできませんでした。"
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "は存在しません。"
         error_unauthorized: "アクセスできません。"
         error_readonly: "was attempted to be written but is not writable."

@@ -514,7 +514,7 @@ pl:
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
-        could_not_be_copied: "nie można skopiować (w całości)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "nie istnieje."
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."

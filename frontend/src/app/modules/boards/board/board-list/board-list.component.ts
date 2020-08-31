@@ -31,8 +31,6 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {BoardService} from "app/modules/boards/board/board.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";

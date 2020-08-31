@@ -32,7 +32,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-
 import {
   HalResourceEditingService,
   ResourceChangesetCommit
@@ -46,7 +45,8 @@ import {AuthorisationService} from "core-app/modules/common/model-auth/model-aut
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Form} from "@angular/forms";
+import {HalResource, HalSource, HalSourceLink} from "core-app/modules/hal/resources/hal-resource";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -98,23 +98,17 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 
-  public createNewWorkPackage(projectIdentifier:string|undefined|null):Promise<WorkPackageChangeset> {
-    return this.getEmptyForm(projectIdentifier).then(form => {
-      return this.fromCreateForm(form);
-    });
-  }
-
-  public createNewTypedWorkPackage(projectIdentifier:string|undefined|null, type:number):Promise<WorkPackageChangeset> {
+  public createNewWorkPackage(projectIdentifier:string|undefined|null, payload:HalSource):Promise<WorkPackageChangeset> {
     return this
       .apiV3Service
       .withOptionalProject(projectIdentifier)
       .work_packages
       .form
-      .forType(type)
+      .forPayload(payload)
       .toPromise()
       .then((form:FormResource) => {
-      return this.fromCreateForm(form);
-    });
+        return this.fromCreateForm(form);
+      });
   }
 
   public fromCreateForm(form:FormResource):WorkPackageChangeset {
@@ -184,11 +178,11 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .values$();
   }
 
-  public createOrContinueWorkPackage(projectIdentifier:string|null|undefined, type?:number) {
+  public createOrContinueWorkPackage(projectIdentifier:string|null|undefined, type?:number, defaults?:HalSource) {
     let changePromise = this.continueExistingEdit(type);
 
     if (!changePromise) {
-      changePromise = this.createNewWithDefaults(projectIdentifier, type);
+      changePromise = this.createNewWithDefaults(projectIdentifier, defaults);
     }
 
     return changePromise.then((change:WorkPackageChangeset) => {
@@ -230,48 +224,115 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return null;
   }
 
-  protected createNewWithDefaults(projectIdentifier:string|null|undefined, type?:number) {
-    let changePromise = null;
+  /**
+   * Initializes a new work package. The work package is not yet persisted.
+   * The properties of the work package are initialized from two sources:
+   *  * The default values provided
+   *  * The filter values that might exist in the query space
+   *
+   *  The first can be employed to e.g. provide the type or the parent of the work package.
+   *  The later can be employed to create a work package that adheres to the filter values.
+   *
+   * @params projectIdentifier The project the work package is to be created in.
+   * @param defaults Values the new work package should possess on creation.
+   */
+  protected createNewWithDefaults(projectIdentifier:string|null|undefined, defaults?:HalSource) {
+    return this
+      .withFiltersPayload(projectIdentifier, defaults)
+      .then(filterDefaults => {
+        const mergedPayload = _.merge({ _links: {} }, filterDefaults, defaults);
 
-    if (type) {
-      changePromise = this.createNewTypedWorkPackage(projectIdentifier, type);
-    } else {
-      changePromise = this.createNewWorkPackage(projectIdentifier);
-    }
+        return this.createNewWorkPackage(projectIdentifier, mergedPayload).then((change:WorkPackageChangeset) => {
+          if (!change) {
+            throw 'No new work package was created';
+          }
 
-    return changePromise.then((change:WorkPackageChangeset) => {
-      if (!change) {
-        throw 'No new work package was created';
-      }
+          // We need to apply the defaults again (after them being applied in the form requests)
+          // here as the initial form requests might have led to some default
+          // values not being carried over. This can happen when custom fields not available in one type are filter values.
+          this.defaultsFromFilters(change, defaults);
 
-      let except:string[] = [];
-
-      if (type) {
-        except = ['type'];
-      }
-
-      this.applyDefaults(change, change.projectedResource, except);
-
-      return change;
+          return change;
+        });
     });
   }
 
   /**
-   * Apply values to the work package from the current set of filters
+   * Fetches all values of filters applicable to work as default values (e.g. assignee = 123).
+   * If defaults already contain the type, that filter is ignored.
    *
-   * @param changeset
-   * @param wp
-   * @param except
+   * The ignoring functionality could be generalized.
+   *
+   * @params object
+   * @param defaults
    */
-  private applyDefaults(change:WorkPackageChangeset, wp:WorkPackageResource, except:string[]) {
+  private defaultsFromFilters(object:HalSource|WorkPackageChangeset, defaults?:HalSource) {
     // Not using WorkPackageViewFiltersService here as the embedded table does not load the form
     // which will result in that service having empty current filters.
     let query = this.querySpace.query.value;
 
     if (query) {
-      const filter = new WorkPackageFilterValues(this.injector, change, query.filters, except);
-      filter.applyDefaultsFromFilters();
+      const except:string[] = defaults?._links && defaults._links['type'] ? ['type'] : [];
+
+      new WorkPackageFilterValues(this.injector, query.filters, except)
+          .applyDefaultsFromFilters(object);
     }
+  }
+
+  /**
+   * Returns valid payload based on the filters active in the query space validated by the backend via a form
+   * request. In case no filters are active, the (empty) filters payload is just passed through.
+   *
+   * If there are filters applied, we need the additional form request to turn the defaults of the filters into
+   * a valid payload in the sense that all properties are at their correct place and are in the right format. That means
+   * HalResources are in the _links section and follow the { href: some_link } format while simple properties stay on the
+   * top level.
+    */
+  private withFiltersPayload(projectIdentifier:string|null|undefined, defaults?:HalSource):Promise<HalSource> {
+    const fromFilter = { _links: {} };
+    this.defaultsFromFilters(fromFilter, defaults);
+
+    const filtersApplied = Object.keys(fromFilter).length > 1 || Object.keys(fromFilter._links).length > 0;
+
+    if (filtersApplied) {
+      return this
+        .apiV3Service
+        .withOptionalProject(projectIdentifier)
+        .work_packages
+        .form
+        .forTypePayload(defaults || { _links: {} })
+        .toPromise()
+        .then((form:FormResource) => {
+          this.toApiPayload(fromFilter, form.schema);
+          return fromFilter;
+        });
+    } else {
+      return Promise.resolve(fromFilter);
+    }
+  }
+
+  private toApiPayload(payload:HalSource, schema:SchemaResource) {
+    let links:string[] = [];
+
+    Object.keys(schema.$source).forEach(attribute => {
+      if (!['Integer', 'Float', 'Date', 'DateTime', 'Duration', 'Formattable', 'Boolean', undefined].includes(schema.$source[attribute].type)) {
+        links.push(attribute);
+      }
+    });
+
+    links.forEach(attribute => {
+      const value = payload[attribute];
+      if (value === undefined) {
+        // nothing
+      } else if (value instanceof HalResource) {
+        payload._links[attribute] = { href: value.$links.self.href };
+      } else if (!value) {
+        payload._links[attribute] = { href: null };
+      } else {
+        payload._links[attribute] = value as unknown as HalSourceLink;
+      }
+      delete payload[attribute];
+    });
   }
 
   /**

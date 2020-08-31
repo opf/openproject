@@ -517,7 +517,7 @@ ro:
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
-        could_not_be_copied: "nu poate fi (complet) copiat(ă)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "nu există."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

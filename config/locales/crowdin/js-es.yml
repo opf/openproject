@@ -503,6 +503,7 @@ es:
       context: 'Contexto de proyecto'
       work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
       click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Contexto | Solicitar contexto'
     text_are_you_sure: "¿Estás seguro?"

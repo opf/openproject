@@ -516,7 +516,7 @@
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
-        could_not_be_copied: "kunne ikke kopieres fullstendig."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finnes ikke."
         error_unauthorized: "kan ikke nås"
         error_readonly: "ble forsøkt skrevet til, men er skrivebeskyttet"

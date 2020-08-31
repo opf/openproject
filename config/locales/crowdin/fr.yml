@@ -515,7 +515,7 @@ fr:
         cant_link_a_work_package_with_a_descendant: "Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches."
         circular_dependency: "Cette relation créerait une dépendance circulaire."
         confirmation: "ne correspond pas à %{attribute}."
-        could_not_be_copied: "n'a pas pu être copié (entièrement)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "n'existe pas."
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."

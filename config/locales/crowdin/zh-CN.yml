@@ -510,7 +510,7 @@ zh-CN:
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
-        could_not_be_copied: "不能 (完全) 复制。"
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在。"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"

@@ -516,7 +516,7 @@ fil:
         cant_link_a_work_package_with_a_descendant: "Ang isang package ng pagawaan ay hindi maaring mai-ugnay sa isa sa mga substak."
         circular_dependency: "Itong pakikipag-ugnayan ay lilikha ng kabilugang dependecia."
         confirmation: "hindi tugma %{attribute}."
-        could_not_be_copied: "dapat hindi masyado kinopya ang lahat."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "hindi umiiral."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

@@ -514,7 +514,7 @@ id:
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."
-        could_not_be_copied: "sebagian tidak dapat dicopy."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "tidak ditemukan."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

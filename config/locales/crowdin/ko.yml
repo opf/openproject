@@ -514,7 +514,7 @@ ko:
         cant_link_a_work_package_with_a_descendant: "작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다."
         circular_dependency: "이 연계는 순환 종속관계를 만듭니다."
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
-        could_not_be_copied: "은(는) (완전히) 복제될 수 없습니다."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "존재하지 않음"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."

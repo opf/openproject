@@ -1818,8 +1818,8 @@ en:
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link}) 
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible. 
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
     If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
   mail_body_register_closing: "Your OpenProject team"

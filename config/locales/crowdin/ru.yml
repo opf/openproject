@@ -517,7 +517,7 @@ ru:
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
-        could_not_be_copied: "не может быть скопировано (полностью)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "не существует."
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."

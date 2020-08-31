@@ -517,7 +517,7 @@ vi:
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
-        could_not_be_copied: "could not be (fully) copied."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "does not exist."
         error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."

@@ -66,7 +66,13 @@ class DateEditField < EditField
   end
 
   def input_element
-    modal_element.find(input_selector)
+    # The date picker might not be opened but the input might still be visible,
+    # e.g. when the work package form is opened completely like on create
+    if active?
+      modal_element.find(input_selector)
+    else
+      page.find(".#{property_name} input")
+    end
   end
 
   def active?
@@ -109,8 +115,7 @@ class DateEditField < EditField
   end
 
   def expect_value(value)
-    expect
-    expect(input_element.text).to eq(value)
+    expect(input_element.value).to eq(value)
   end
 
   def select_value(value)

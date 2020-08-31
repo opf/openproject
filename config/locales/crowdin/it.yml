@@ -512,7 +512,7 @@ it:
         cant_link_a_work_package_with_a_descendant: "Una macro-attività non può essere collegato a una delle sue sottoattività."
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare."
         confirmation: "non coincide con %{attribute}."
-        could_not_be_copied: "non possono essere copiati (integralmente)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "non esiste."
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."

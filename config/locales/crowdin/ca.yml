@@ -516,7 +516,7 @@ ca:
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
-        could_not_be_copied: "no pot ser (completament) copiat."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "no existeix."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

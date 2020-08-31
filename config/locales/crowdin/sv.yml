@@ -515,7 +515,7 @@ sv:
         cant_link_a_work_package_with_a_descendant: "Ett arbetspaket kan inte kopplas till någon av dess underaktiviteter."
         circular_dependency: "Detta förhållande skulle skapa ett cirkelberoende."
         confirmation: "matchar inte %{attribute}."
-        could_not_be_copied: "kunde inte (fullständigt) kopieras."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finns inte."
         error_unauthorized: "åtkomst nekas."
         error_readonly: "försökte skrivas men är inte skrivbart."

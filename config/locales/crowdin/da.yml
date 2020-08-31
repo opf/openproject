@@ -516,7 +516,7 @@ da:
         cant_link_a_work_package_with_a_descendant: "En arbejdspakke kan ikke knyttes til en af dens underopgaver."
         circular_dependency: "Denne relation vil skabe en cirkulær afhængighed."
         confirmation: "matcher ikke %{attribute}."
-        could_not_be_copied: "kunne ikke (fuldt ud) kopieres."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "findes ikke."
         error_unauthorized: "kan muligvis ikke tilgås."
         error_readonly: "was attempted to be written but is not writable."

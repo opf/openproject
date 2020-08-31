@@ -5,6 +5,9 @@ de:
       click_to_download: 'Oder klicken Sie hier zum Download.'
       title: 'Status des Jobs im Hintergrund'
       redirect: 'Sie werden weitergeleitet.'
+      redirect_link: 'Please click here to continue.'
+      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
+      errors: 'Some errors have occurred'
       generic_messages:
         not_found: 'Dieser Job konnte nicht gefunden werden.'
         in_queue: 'Der Job wurde in die Warteschlange eingereiht und wird in Kürze bearbeitet.'

@@ -516,7 +516,7 @@ bg:
         cant_link_a_work_package_with_a_descendant: "Работния пакет не може да бъде свързан с една от неговите подзадачи."
         circular_dependency: "Тази връзка ще доведе до циклична зависимост."
         confirmation: "не съвпада с %{attribute}."
-        could_not_be_copied: "не можа да бъде копиран (изцяло)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "не съществува."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

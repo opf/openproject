@@ -503,6 +503,7 @@ nl:
       context: 'Context van het project'
       work_package_belongs_to: 'Dit werkpakket behoort tot project %{projectname}.'
       click_to_switch_context: 'Open dit werkpakket in dat project.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Project auto aanvullen'
     text_are_you_sure: "Weet u het zeker?"

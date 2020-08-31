@@ -230,8 +230,8 @@ export abstract class BoardActionService {
       );
     }
 
-    const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
-    filter.applyDefaultsFromFilters();
+    new WorkPackageFilterValues(this.injector, query.filters)
+        .applyDefaultsFromFilters(changeset);
   }
 
   /**

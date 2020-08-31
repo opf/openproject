@@ -502,6 +502,7 @@ el:
       context: 'Πλαίσιο έργου'
       work_package_belongs_to: 'Αυτό το πακέτο εργασίας ανήκει στο έργο %{projectname}.'
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
     text_are_you_sure: "Είστε σίγουρος/η;"

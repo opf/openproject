@@ -503,6 +503,7 @@ fr:
       context: 'Contexte du projet'
       work_package_belongs_to: 'Ce lot de travaux appartient au projet %{projectname}.'
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Remplissage automatique du projet'
     text_are_you_sure: "Êtes-vous sûr ?"

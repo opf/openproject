@@ -503,6 +503,7 @@ uk:
       context: 'Контекст проекту'
       work_package_belongs_to: 'Цей робочий пакет належить до проекту %{projectname}'
       click_to_switch_context: 'Відкрийте цей робочий пакет у цьому проекті.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Автозавершення проекту'
     text_are_you_sure: "Ви впевненені?"

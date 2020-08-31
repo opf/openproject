@@ -502,6 +502,7 @@ pt:
       context: 'Contexto do projeto'
       work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Autocompletar projeto'
     text_are_you_sure: "Você tem certeza?"

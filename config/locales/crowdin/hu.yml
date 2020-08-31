@@ -513,7 +513,7 @@ hu:
         cant_link_a_work_package_with_a_descendant: "A feladatcsoport nem kapcsolható saját részfeladatához."
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményezne."
         confirmation: "%{attribute} nem egyezik."
-        could_not_be_copied: "nem lehet (teljesen) másolni."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "nem létezik."
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
