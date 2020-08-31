@@ -503,6 +503,7 @@ ca:
       context: 'Context de projecte'
       work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
       click_to_switch_context: 'Obrir aquest paquet de treball d''aquell projecte.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Autoemplenament del projecte'
     text_are_you_sure: "N'esteu segur?"

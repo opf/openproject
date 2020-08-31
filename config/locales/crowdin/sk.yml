@@ -518,7 +518,7 @@ sk:
         cant_link_a_work_package_with_a_descendant: "Pracovný balíček nemôže byť previazaný na žiadny zo svojich podriadenými balíčkov."
         circular_dependency: "Tento vzťah by vytvoril cyklickú závislosť."
         confirmation: "%{attribute} sa nezhoduje."
-        could_not_be_copied: "Nepodarilo sa (úplne) skopírovať."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "neexistuje."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

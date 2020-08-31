@@ -5,6 +5,9 @@ es:
       click_to_download: 'O haga click aquí para descargar.'
       title: 'Estado de trabajo en segundo plano.'
       redirect: 'Usted está siendo redirigido.'
+      redirect_link: 'Please click here to continue.'
+      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
+      errors: 'Some errors have occurred'
       generic_messages:
         not_found: 'No se pudo encontrar esta tarea.'
         in_queue: 'La tarea se ha puesto en cola y se procesará en breve.'

@@ -5,6 +5,9 @@ ko:
       click_to_download: 'Or click here to download.'
       title: 'Background job status'
       redirect: 'You are being redirected.'
+      redirect_link: 'Please click here to continue.'
+      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
+      errors: 'Some errors have occurred'
       generic_messages:
         not_found: 'This job could not be found.'
         in_queue: 'The job has been queued and will be processed shortly.'

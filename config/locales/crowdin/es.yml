@@ -513,7 +513,7 @@ es:
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
-        could_not_be_copied: "No pueden ser copiados (totalmente)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "no existe."
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."

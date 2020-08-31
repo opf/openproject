@@ -520,7 +520,7 @@ ar:
         cant_link_a_work_package_with_a_descendant: "حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية."
         circular_dependency: "ان هذه العلاقة خلق تبعية دائرية."
         confirmation: "لا يتطابق مع %{attribute}."
-        could_not_be_copied: "لا يمكن أن ينسخ بشكل كامل."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "غير موجود."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

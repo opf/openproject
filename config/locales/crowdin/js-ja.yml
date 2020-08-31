@@ -504,6 +504,7 @@ ja:
       context: 'プロジェクトのコンテキスト'
       work_package_belongs_to: 'このワークパッケージは、プロジェクト %{projectname} に属しています。'
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'プロジェクト名の入力補完'
     text_are_you_sure: "よろしいですか？"

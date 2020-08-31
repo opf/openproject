@@ -513,7 +513,7 @@ el:
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
         confirmation: "δεν ταιριάζει με %{attribute}."
-        could_not_be_copied: "δεν ήταν δυνατή η (πλήρης) αντιγραφή."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "δεν υπάρχει."
         error_unauthorized: "δεν είναι δυνατή η πρόσβαση."
         error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."

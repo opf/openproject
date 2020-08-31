@@ -502,6 +502,7 @@ ro:
       context: 'Project context'
       work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Completarea automată a proiectului'
     text_are_you_sure: "Sunteți sigur?"

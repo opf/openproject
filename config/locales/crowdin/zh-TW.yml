@@ -515,7 +515,7 @@ zh-TW:
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
-        could_not_be_copied: "無法 (完全) 複製"
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"

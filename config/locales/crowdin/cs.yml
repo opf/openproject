@@ -518,7 +518,7 @@ cs:
         cant_link_a_work_package_with_a_descendant: "Pracovní balíček nemůže být propojen s jedním z jeho podúkolů."
         circular_dependency: "Tento vztah by vytvořil kruhovou závislost."
         confirmation: "neshoduje se s %{attribute}."
-        could_not_be_copied: "nelze (celé) zkopírovat."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "neexistuje."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

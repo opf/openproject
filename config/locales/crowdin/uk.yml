@@ -518,7 +518,7 @@ uk:
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"
-        could_not_be_copied: "неможливо (повністю) скопіювати."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "не існує."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

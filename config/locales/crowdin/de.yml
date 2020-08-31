@@ -511,7 +511,7 @@ de:
         cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden."
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen."
         confirmation: "stimmt nicht mit %{attribute} überein."
-        could_not_be_copied: "konnten nicht (vollständig) kopiert werden."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "existiert nicht."
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."

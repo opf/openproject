@@ -516,7 +516,7 @@ tr:
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
-        could_not_be_copied: "(tamamen) kopyalanamadı."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "mevcut değil."
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."

@@ -503,6 +503,7 @@ sk:
       context: 'Kontext projektu'
       work_package_belongs_to: 'Tento pracovný balíček patrí k projektu %{projectname}.'
       click_to_switch_context: 'Otvoriť tento pracovný balík v danom projekte.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Automatické doplňovanie projektu'
     text_are_you_sure: "Ste si istí?"

@@ -5,6 +5,9 @@ pt:
       click_to_download: 'Ou clique aqui para baixar.'
       title: 'Status do trabalho em segundo plano'
       redirect: 'Você está sendo redirecionado.'
+      redirect_link: 'Please click here to continue.'
+      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
+      errors: 'Some errors have occurred'
       generic_messages:
         not_found: 'Este trabalho não pode ser encontrado.'
         in_queue: 'O trabalho foi colocado na fila e será processado em breve.'

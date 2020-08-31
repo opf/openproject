@@ -516,7 +516,7 @@ sl:
         cant_link_a_work_package_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
         circular_dependency: "Ta povezava bi ustvarila krožno odvisnost."
         confirmation: "se ne ujema %{attribute}"
-        could_not_be_copied: "ni bilo mogoče (v celoti) kopirati."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ne obstaja"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."

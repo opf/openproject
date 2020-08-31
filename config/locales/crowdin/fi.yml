@@ -516,7 +516,7 @@ fi:
         cant_link_a_work_package_with_a_descendant: "Tehtävää ei voida yhdistää alitehtäviin."
         circular_dependency: "Tämä riippuvuus loisi kehän."
         confirmation: "ei vastaa %{attribute}."
-        could_not_be_copied: "kopioiminen ei onnistunut (täysimääräisesti)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ei ole olemassa."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

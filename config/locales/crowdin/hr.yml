@@ -517,7 +517,7 @@ hr:
         cant_link_a_work_package_with_a_descendant: "Radni paket ne može biti pridružen podređenim radnim zadacima."
         circular_dependency: "Ova relacija izraditi će skupnu odnosno cirkularnu ovisnost."
         confirmation: "ne odgovara %{attribute}."
-        could_not_be_copied: "ne može biti (u potpunosti) kopirano."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ne postoji."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."

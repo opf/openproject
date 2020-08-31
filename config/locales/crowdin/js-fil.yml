@@ -503,6 +503,7 @@ fil:
       context: 'Kontekstong proyekto'
       work_package_belongs_to: 'Itong work packge ay nabibilang sa proyekto %{projectname}.'
       click_to_switch_context: 'Buksan ang work package sa proyekto na iyan.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Proyektong autocompletion'
     text_are_you_sure: "Sigurado ka ba?"
