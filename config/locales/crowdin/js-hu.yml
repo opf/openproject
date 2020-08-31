@@ -412,6 +412,7 @@ hu:
     label_total_amount: "Teljes: %{amount}"
     label_updated_on: "frissítve"
     label_value_derived_from_children: "(érték származik a gyermekektől)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
     label_work_package_parent: "Parent work package"

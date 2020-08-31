@@ -56,8 +56,12 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
       this.valueString
     );
 
+    let title = document.createElement('span');
+    title.textContent = ' ' + _.truncate(this.title, {length: 40});
+
     element.innerHTML = '';
     element.appendChild(link);
+    element.appendChild(title);
   }
 
   public get writable():boolean {

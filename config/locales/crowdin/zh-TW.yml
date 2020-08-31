@@ -2194,6 +2194,9 @@ zh-TW:
     passwords: "密碼"
     session: "Session"
     brute_force_prevention: "自動禁止使用者"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默認偏好設置"
       deletion: "消除"

@@ -39,8 +39,6 @@ module API
               path_method = determine_path_method(record)
               record_identifier = record.id
               api_v3_paths.send(path_method, record_identifier)
-            elsif record.is_a?(String)
-              api_v3_paths.string_object(record)
             end
           rescue NoMethodError
             nil

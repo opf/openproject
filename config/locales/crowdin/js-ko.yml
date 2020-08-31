@@ -413,6 +413,7 @@ ko:
     label_total_amount: "합계: %{amount}"
     label_updated_on: "업데이트 :"
     label_value_derived_from_children: "(자식에서 파생된 값)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "경고"
     label_work_package: "작업 패키지"
     label_work_package_parent: "Parent work package"

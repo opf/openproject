@@ -450,6 +450,7 @@ en:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "updated on"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
     label_work_package: "Work package"
     label_work_package_parent: "Parent work package"
@@ -547,6 +548,7 @@ en:
       context: 'Project context'
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
 
       autocompleter:
         label: 'Project autocompletion'

@@ -29,16 +29,16 @@ cs:
       no_results_title_text: V současné době nejsou k dispozici žádné pluginy.
     custom_styles:
       color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme_custom: "Vlastní"
       colors:
         alternative-color: "Alternative"
         content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
+        primary-color: "Primární"
+        primary-color-dark: "Primární (tmavé)"
+        header-bg-color: "Pozadí záhlaví"
+        header-item-bg-hover-color: "Pozadí záhlaví při přejetí myší"
+        header-item-font-color: "Písmo záhlaví"
+        header-item-font-hover-color: "Písmo záhlaví při přejetí myší"
         header-border-bottom-color: "Header border"
         main-menu-bg-color: "Main menu background"
         main-menu-bg-selected-background: "Main menu when selected"
@@ -130,7 +130,7 @@ cs:
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
+    ldap_details: 'Podrobnosti LDAP'
     user_settings: 'Attribute mapping'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
@@ -2257,6 +2257,9 @@ cs:
     passwords: "Hesla"
     session: "Relace"
     brute_force_prevention: "Automatizované blokování uživatelů"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Výchozí předvolby"
       deletion: "Odstranění"

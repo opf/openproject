@@ -413,6 +413,7 @@ sk:
     label_total_amount: "Celkom: %{amount}"
     label_updated_on: "aktualizované"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Upozornenie"
     label_work_package: "Pracovný balíček"
     label_work_package_parent: "Parent work package"

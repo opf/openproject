@@ -2258,6 +2258,9 @@ uk:
     passwords: "Паролі"
     session: "Сесія"
     brute_force_prevention: "Автоматизоване блокування користувачів"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Параметри за умовчанням"
       deletion: "Видалення"

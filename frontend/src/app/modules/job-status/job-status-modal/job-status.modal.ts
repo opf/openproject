@@ -32,6 +32,9 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
     title: this.I18n.t('js.job_status.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
     redirect: this.I18n.t('js.job_status.redirect'),
+    redirect_errors: this.I18n.t('js.job_status.redirect_errors') + ' ',
+    redirect_link: this.I18n.t('js.job_status.redirect_link'),
+    errors: this.I18n.t('js.job_status.errors'),
     download_starts: this.I18n.t('js.job_status.download_starts'),
     click_to_download: this.I18n.t('js.job_status.click_to_download'),
   };
@@ -50,6 +53,9 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
 
   /** Public message to show */
   public message:string;
+
+  /** Payload object of the response */
+  public payload:any;
 
   /** Title to show */
   public title:string = this.text.title;
@@ -127,9 +133,10 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
     this.message = body.message ||
       this.I18n.t(`js.job_status.generic_messages.${status}`, { defaultValue: status });
 
+    this.payload = body.payload;
     if (body.payload) {
       this.title = body.payload.title || this.text.title;
-      this.handleRedirect(body.payload?.redirect);
+      this.handleRedirect(body.payload);
       this.handleDownload(body.payload?.download);
     }
 
@@ -137,9 +144,9 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 
-  private handleRedirect(redirectUrl?:string) {
-    if (redirectUrl !== undefined) {
-      setTimeout(() => window.location.href = redirectUrl, 2000);
+  private handleRedirect(payload:any) {
+    if (payload?.redirect && !payload?.errors) {
+      setTimeout(() => window.location.href = payload.redirect, 2000);
       this.message += `. ${this.text.redirect}`;
     }
   }

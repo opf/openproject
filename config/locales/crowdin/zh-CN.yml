@@ -2187,6 +2187,9 @@ zh-CN:
     passwords: "密码"
     session: "会话"
     brute_force_prevention: "自动化的用户阻止"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默认偏好设置"
       deletion: "删除"

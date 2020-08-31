@@ -35,13 +35,10 @@ module API
       SEGMENT_CHARACTER = '(\w|[-~!$&\'\(\)*+\.,:;=@]|%[0-9A-Fa-f]{2})'.freeze
       RESOURCE_REGEX =
         "/api/v(?<version>\\d)/(?<namespace>[\\w\/]+)/(?<id>#{SEGMENT_CHARACTER}+)\\z".freeze
-      SO_REGEX = "/api/v(?<version>\\d)/string_objects/?\\?value=(?<id>\\w*).*\\z".freeze
 
       class << self
         def parse(resource_link)
-          # string objects have a quite different format from the usual resources (query-parameter)
-          # we therefore have a specific regex to deal with them and a generic one for all others
-          parse_string_object(resource_link) || parse_resource(resource_link)
+          parse_resource(resource_link)
         end
 
         def parse_id(resource_link,
@@ -75,19 +72,7 @@ module API
           {
             version: match[:version],
             namespace: match[:namespace],
-            id: ::URI.unescape(match[:id])
-          }
-        end
-
-        def parse_string_object(resource_link)
-          match = string_object_matcher.match(resource_link)
-
-          return nil unless match
-
-          {
-            version: match[:version],
-            namespace: 'string_objects',
-            id: ::URI.unescape(match[:id])
+            id: unescape(match[:id])
           }
         end
 
@@ -95,8 +80,10 @@ module API
           @resource_matcher ||= Regexp.compile(RESOURCE_REGEX)
         end
 
-        def string_object_matcher
-          @string_object_matcher ||= Regexp.compile(SO_REGEX)
+        def unescape(string)
+          @unescaper ||= Addressable::Template.new('{+id}')
+
+          @unescaper.extract(string)['id']
         end
 
         # returns whether expectation and actual are identical

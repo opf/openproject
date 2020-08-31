@@ -74,7 +74,18 @@ export class HierarchyTransformer {
       // Toggle the root style
       jQuery(`.${hierarchyRootClass(wpId)} .wp-table--hierarchy-indicator`).toggleClass(indicatorCollapsedClass, isCollapsed);
 
-      // Get all affected rows
+      // Get parent row and mark/unmark it as collapsed
+      const hierarchyRoot = document.querySelector(`.wp-timeline-cell.__hierarchy-root-${wpId}`);
+
+      if (hierarchyRoot) {
+        if (isCollapsed) {
+          hierarchyRoot.classList.add(`__hierarchy-root-collapsed`);
+        } else {
+          hierarchyRoot.classList.remove(`__hierarchy-root-collapsed`);
+        }
+      }
+
+      // Get all affected children rows
       const affected = jQuery(`.${hierarchyGroupClass(wpId)}`);
 
       // Hide/Show the descendants.

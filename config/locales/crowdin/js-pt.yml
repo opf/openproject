@@ -412,6 +412,7 @@ pt:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "atualizado em"
     label_value_derived_from_children: "(valor derivado de crianças)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Aviso"
     label_work_package: "Pacote de trabalho"
     label_work_package_parent: "Pacote de trabalho pai"

@@ -414,6 +414,7 @@ ja:
     label_total_amount: "合計: %{amount}"
     label_updated_on: "更新日時"
     label_value_derived_from_children: "(子から派生した値)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "注意"
     label_work_package: "ワーク パッケージ"
     label_work_package_parent: "Parent work package"

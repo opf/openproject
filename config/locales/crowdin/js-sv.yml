@@ -412,6 +412,7 @@ sv:
     label_total_amount: "Totalt: %{amount}"
     label_updated_on: "uppdaterad den"
     label_value_derived_from_children: "(värde härrör från barn)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Varning"
     label_work_package: "Arbetspaket"
     label_work_package_parent: "Parent work package"

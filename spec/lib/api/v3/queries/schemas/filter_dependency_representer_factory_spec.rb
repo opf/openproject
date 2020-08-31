@@ -122,7 +122,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       context 'type list' do
         let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
 
-        it 'is the string object dependency' do
+        it 'is the custom option dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter)
         end
 
@@ -162,7 +162,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       context 'type bool' do
         let(:custom_field) { FactoryBot.build_stubbed(:bool_wp_custom_field) }
 
-        it 'is the string object dependency' do
+        it 'is the boolean filter dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter)
         end
 

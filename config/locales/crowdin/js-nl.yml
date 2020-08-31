@@ -413,6 +413,7 @@ nl:
     label_total_amount: "Totaal: %{amount}"
     label_updated_on: "bijgewerkt op"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Waarschuwing"
     label_work_package: "Werkpakket"
     label_work_package_parent: "Parent work package"

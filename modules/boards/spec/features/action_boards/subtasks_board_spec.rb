@@ -148,6 +148,12 @@ describe 'Subtasks action board', type: :feature, js: true do
 
       wp = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).first
       expect(wp.parent_id).to eq other_wp.id
+
+      # Reference back
+      board_page.reference('Parent WP', wp)
+
+      board_page.expect_card('Parent WP', 'Second child', present: true)
+      board_page.expect_card('Other WP', 'Second child', present: false)
     end
   end
 end

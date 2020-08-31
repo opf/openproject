@@ -2237,6 +2237,9 @@ hr:
     passwords: "Lozinke"
     session: "Sesija"
     brute_force_prevention: "Automatizirano blokiranje korisnika"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"

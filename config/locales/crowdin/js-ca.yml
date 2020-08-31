@@ -413,6 +413,7 @@ ca:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "actualitzat el"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Alerta"
     label_work_package: "Paquet de treball"
     label_work_package_parent: "Parent work package"
