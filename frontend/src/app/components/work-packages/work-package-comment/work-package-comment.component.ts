@@ -154,8 +154,13 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
         this
           .apiV3Service
           .work_packages
+          .id(this.workPackage.id!)
+          .refresh();
+        /*this
+          .apiV3Service
+          .work_packages
           .cache
-          .updateWorkPackage(this.workPackage);
+          .updateWorkPackage(this.workPackage);*/
         this.inFlight = false;
         this.deactivate(true);
       })

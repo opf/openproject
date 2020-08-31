@@ -96,6 +96,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public onContentChange(value:string) {
+    console.log('onContentChange: ', value, this.rawValue)
     // Have the guard clause to avoid the text being set
     // in the changeset when no actual change has taken place.
     if (this.rawValue !== value) {
@@ -104,6 +105,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public handleUserSubmit() {
+    console.log('handleUserSubmit', this.handler)
     this.getCurrentValue()
       .then(() => {
         this.handler.handleUserSubmit();
