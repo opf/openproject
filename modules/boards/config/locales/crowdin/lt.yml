@@ -4,4 +4,5 @@ lt:
   permission_manage_board_views: "Valdyti lentas"
   project_module_board_view: "Lentos"
   boards:
+    label_board: "Lenta"
     label_boards: "Lentos"

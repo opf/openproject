@@ -4,4 +4,5 @@ pt:
   permission_manage_board_views: "Gerenciar quadros"
   project_module_board_view: "Quadros"
   boards:
+    label_board: "Quadro"
     label_boards: "Quadros"

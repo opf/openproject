@@ -4,4 +4,5 @@ zh-TW:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "看板"
   boards:
+    label_board: "面板"
     label_boards: "看板"

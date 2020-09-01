@@ -224,10 +224,10 @@ export abstract class BoardActionService {
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
     // Ensure attribute remains writable in the form
     if (!changeset.isWritable(this.filterName)) {
-      throw this.I18n.t(
+      throw new Error(this.I18n.t(
         'js.boards.error_attribute_not_writable',
         { attribute: changeset.humanName(this.filterName) }
-      );
+      ));
     }
 
     new WorkPackageFilterValues(this.injector, query.filters)

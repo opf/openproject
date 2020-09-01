@@ -89,6 +89,11 @@ export class HalResourceNotificationService {
       return;
     }
 
+    if (response instanceof Error) {
+      this.NotificationsService.addError(response.message);
+      return;
+    }
+
     this.showGeneralError(errorBody || response);
   }
 

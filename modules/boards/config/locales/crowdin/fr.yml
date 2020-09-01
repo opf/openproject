@@ -4,4 +4,5 @@ fr:
   permission_manage_board_views: "Gérer les tableaux"
   project_module_board_view: "Tableaux"
   boards:
+    label_board: "Tableau"
     label_boards: "Tableaux"

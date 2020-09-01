@@ -28,6 +28,7 @@
 import {Component, Input} from "@angular/core";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 
 @Component({
@@ -38,11 +39,13 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 export class VersionBoardHeaderComponent {
   @Input('resource') public version:VersionResource;
 
-  constructor(private I18n:I18nService) {
+  constructor(readonly I18n:I18nService,
+              readonly pathHelper:PathHelperService) {
   }
 
   public text = {
     isLocked: this.I18n.t('js.boards.version.is_locked'),
-    isClosed: this.I18n.t('js.boards.version.is_closed')
+    isClosed: this.I18n.t('js.boards.version.is_closed'),
+    version: this.I18n.t('js.work_packages.properties.version')
   };
 }

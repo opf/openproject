@@ -4,4 +4,5 @@ pl:
   permission_manage_board_views: "Zarządzaj tablicami"
   project_module_board_view: "Tablice"
   boards:
+    label_board: "Tablica"
     label_boards: "Tablice"

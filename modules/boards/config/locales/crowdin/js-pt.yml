@@ -24,7 +24,7 @@ pt:
         locked: 'Bloqueado'
         closed: 'Fechado'
       new_board: 'Novo quadro'
-      add_list: 'Add list to board'
+      add_list: 'Adicionar lista ao quadro'
       add_card: 'Adicionar cartão'
       error_attribute_not_writable: "Não é possível mover o pacote de trabalho, %{attribute} não é gravável."
       error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
@@ -33,13 +33,13 @@ pt:
       board_type:
         text: 'Tipo de quadro'
         free: 'Quadro básico'
-        select_board_type: 'Por favor, escolha o tipo de quadro que precisa.'
+        select_board_type: 'Por favor, escolha o tipo de quadro que você precisa.'
         free_text: >
           Um quadro no qual você pode criar listas livremente e ordenar seus pacotes de trabalho. Arrastar pacotes de trabalho entre listas não altera o pacote de trabalho em si.
         action: 'Quadro de ação'
         action_by_attribute: 'Quadro de ação (%{attribute})'
         action_text: >
-          Um quadro com listas filtradas no atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
+          Um quadro com listas filtradas por atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
         action_text_subprojects: >
           Um quadro com listas de subprojetos deste projeto e seus pacotes de trabalho como lista de itens. Arrastar pacotes de trabalho para outras listas irá movê-los para o subprojeto correspondente.
         action_text_subtasks: >
@@ -53,11 +53,11 @@ pt:
         select_attribute: "Atributo de ação"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Selecione um usuário para  ser adicionado como uma nova lista de responsáveis
+          status: Selecione o estado a ser adicionado como uma nova lista
+          version: Selecione a versão a ser adicionada como uma nova lista
+          subproject: Selecione o subprojeto a ser adicionado como uma nova lista
+          subtasks: Selecione o pacote de trabalho a ser adicionado como uma nova lista
         warning:
           status: |
             No momento, não há nenhum estado disponível. <br>

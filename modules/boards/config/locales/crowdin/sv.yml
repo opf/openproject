@@ -4,4 +4,5 @@ sv:
   permission_manage_board_views: "Hantera tavlor"
   project_module_board_view: "Tavlor"
   boards:
+    label_board: "Tavla"
     label_boards: "Tavlor"

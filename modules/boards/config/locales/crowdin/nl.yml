@@ -4,4 +4,5 @@ nl:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Borden"
   boards:
+    label_board: "Bord"
     label_boards: "Borden"

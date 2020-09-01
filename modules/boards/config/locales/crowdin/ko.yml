@@ -4,4 +4,5 @@ ko:
   permission_manage_board_views: "보드 관리"
   project_module_board_view: "보드"
   boards:
+    label_board: "게시판"
     label_boards: "보드"

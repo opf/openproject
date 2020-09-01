@@ -503,7 +503,7 @@ lt:
       context: 'Projekto kontekstas'
       work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvesta informaciją. Tęsti?'
       autocompleter:
         label: 'Projekto autoužpildymas'
     text_are_you_sure: "Ar esate įsitikinę?"

@@ -26,24 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import {Component, Input} from "@angular/core";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
 
 @Component({
-  templateUrl: './assignee-board-header.html',
-  styleUrls: ['./assignee-board-header.sass'],
+  templateUrl: './status-board-header.html',
+  styleUrls: ['./status-board-header.sass'],
   host: { 'class': 'title-container -small' }
 })
-export class AssigneeBoardHeaderComponent {
-  @Input('resource') public user:UserResource;
+export class StatusBoardHeaderComponent {
+  @Input('resource') public status:StatusResource;
 
   text = {
-    assignee: this.I18n.t('js.work_packages.properties.assignee')
+    status: this.I18n.t('js.work_packages.properties.status')
   };
 
-  constructor(readonly pathHelper:PathHelperService,
-              readonly I18n:I18nService) {
+  constructor(readonly I18n:I18nService) {
   }
 }
