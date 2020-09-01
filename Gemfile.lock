@@ -946,8 +946,8 @@ GEM
     validate_url (1.0.11)
       activemodel (>= 3.0.0)
       public_suffix
-    warden (1.2.8)
-      rack (>= 2.0.6)
+    warden (1.2.9)
+      rack (>= 2.0.9)
     warden-basic_auth (0.2.1)
       warden (~> 1.2)
     webdrivers (4.4.1)
