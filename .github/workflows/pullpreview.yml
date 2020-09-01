@@ -1,10 +1,8 @@
 name: PullPreview
 on:
   push:
-    branches:
-      - dev
   pull_request:
-    types: [labeled, unlabeled, closed, reopened, synchronized]
+    types: [labeled, unlabeled, closed]
 
 jobs:
   deploy:
