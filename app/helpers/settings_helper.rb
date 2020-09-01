@@ -80,11 +80,12 @@ module SettingsHelper
       content_tag(:span, class: 'form--field-container -vertical') do
         hidden_field_tag("settings[#{setting}][]", '') +
           choices.map do |choice|
-            text, value = (choice.is_a?(Array) ? choice : [choice, choice])
+            text, value, choice_options = (choice.is_a?(Array) ? choice : [choice, choice])
+            choice_options = (choice_options || {}).merge(options.except(:id))
 
             content_tag(:label, class: 'form--label-with-check-box') do
               styled_check_box_tag("settings[#{setting}][]", value,
-                                   Setting.send(setting).include?(value), options.merge(id: nil)) + text.to_s
+                                   Setting.send(setting).include?(value), choice_options) + text.to_s
             end
           end.join.html_safe
       end
