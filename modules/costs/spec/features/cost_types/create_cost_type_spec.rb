@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'deleting a cost type', type: :feature, js: true do
+describe 'creating a cost type', type: :feature, js: true do
   let!(:user) { FactoryBot.create :admin }
   let!(:cost_type) {
     type = FactoryBot.create :cost_type, name: 'Translations'
@@ -40,25 +40,26 @@ describe 'deleting a cost type', type: :feature, js: true do
     login_as user
   end
 
-  it 'can delete the cost type' do
-    visit cost_types_path
+  it 'can create a cost type' do
+    visit "/cost_types/new"
 
-    within("#delete_cost_type_#{cost_type.id}") do
-      scroll_to_and_click(find('button.submit_cost_type'))
-    end
+    fill_in 'cost_type_name', with: 'Test day rate'
+    fill_in 'cost_type_unit', with: 'dayUnit'
+    fill_in 'cost_type_unit_plural', with: 'dayUnitPlural'
+    fill_in 'cost_type_new_rate_attributes_0_rate', with: '5'
 
-    # Expect no results if not locked
+    sleep 1
+
+    scroll_to_and_click(find('button.-with-icon.icon-checkmark'))
+
     expect_angular_frontend_initialized
-    expect(page).to have_selector '.generic-table--no-results-container', wait: 10
+    expect(page).to have_selector '.generic-table', wait: 10
 
-    # Show locked
-    find('#include_deleted').set true
-    click_on 'Apply'
+    cost_type_row = find('tr', text: 'Test day rate')
 
-    # Expect no results if not locked
-    expect(page).to have_text I18n.t(:label_locked_cost_types)
-
-    expect(page).to have_selector('.restore_cost_type')
-    expect(page).to have_selector('.cost-types--list-deleted td', text: 'Translations')
+    expect(cost_type_row).to have_selector('td a', text: 'Test day rate')
+    expect(cost_type_row).to have_selector('td', text: 'dayUnit')
+    expect(cost_type_row).to have_selector('td', text: 'dayUnitPlural')
+    expect(cost_type_row).to have_selector('td.currency', text: '5')
   end
 end
