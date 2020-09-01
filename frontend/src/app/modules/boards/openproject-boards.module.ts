@@ -54,6 +54,7 @@ import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-
 import { TileViewComponent } from './tile-view/tile-view.component';
 import {SubprojectBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/subproject/subproject-board-header.component";
 import {SubtasksBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/subtasks/subtasks-board-header.component";
+import {StatusBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/status/status-board-header.component";
 
 @NgModule({
   imports: [
@@ -91,6 +92,7 @@ import {SubtasksBoardHeaderComponent} from "core-app/modules/boards/board/board-
     AssigneeBoardHeaderComponent,
     SubprojectBoardHeaderComponent,
     SubtasksBoardHeaderComponent,
+    StatusBoardHeaderComponent,
     TileViewComponent,
   ]
 })
