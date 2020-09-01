@@ -1,6 +1,11 @@
 <div class="assignee-board-header" *ngIf="user">
   <user-avatar *ngIf="user.id" [user]="user" data-class-list="avatar-mini"></user-avatar>
-  <h2 [textContent]="user.name"
-      class="editable-toolbar-title--fixed">
+  <h2 class="editable-toolbar-title--fixed">
+    <small [textContent]="text.assignee"></small>
+    <br/>
+    <a [href]="pathHelper.userPath(user.id)"
+       [textContent]="user.name"
+       target="_blank">
+    </a>
   </h2>
 </div>
