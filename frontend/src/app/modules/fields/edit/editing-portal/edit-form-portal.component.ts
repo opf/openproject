@@ -56,7 +56,6 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
       this.change = this.injector.get<ResourceChangeset>(OpEditingPortalChangesetToken);
     }
 
-
     this.componentClass = this.editField.getSpecificClassFor(this.change.pristineResource._type, this.handler.fieldName, this.schema.type);
     this.fieldInjector = createLocalInjector(this.injector, this.change, this.handler, this.schema);
   }
