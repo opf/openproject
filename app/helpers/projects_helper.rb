@@ -225,6 +225,17 @@ module ProjectsHelper
     work_packages_path query_props: generator.call
   end
 
+  def gantt_portfolio_title
+    title = t('projects.index.open_as_gantt_title')
+
+    if current_user.admin?
+      title << ' '
+      title << t('projects.index.open_as_gantt_title_admin')
+    end
+
+    title
+  end
+
   def short_project_description(project, length = 255)
     unless project.description.present?
       return ''
