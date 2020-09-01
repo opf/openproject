@@ -59,9 +59,6 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
 
     this.componentClass = this.editField.getSpecificClassFor(this.change.pristineResource._type, this.handler.fieldName, this.schema.type);
     this.fieldInjector = createLocalInjector(this.injector, this.change, this.handler, this.schema);
-
-    console.log('ngOnInit: ', this.handler, this.change, this.componentClass)
-
   }
 
   ngOnDestroy() {

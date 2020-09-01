@@ -82,7 +82,6 @@ export class OpCkeditorComponent implements OnInit {
     () => {
       this.getTransformedContent(false)
         .then(val => {
-          console.log('onContentChange: ', val)
           this.onContentChange.emit(val);
         });
     },

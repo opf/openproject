@@ -51,7 +51,6 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
   }
 
   updateWorkPackage(wp:WorkPackageResource, immediate:boolean = false):Promise<WorkPackageResource> {
-    console.log('updateWorkPackage: ', wp)
     if (immediate || wp.isNew) {
       return super.updateValue(wp.id!, wp);
     } else {
