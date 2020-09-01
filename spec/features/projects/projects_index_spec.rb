@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe 'Projects index page',
          type: :feature,
+         clear_cache: true,
          js: true,
          with_settings: { login_required?: false } do
   using_shared_fixtures :admin
@@ -210,8 +211,7 @@ describe 'Projects index page',
     end
 
     scenario 'CF columns and filters are visible when added to settings' do
-      Setting.enabled_projects_columns << "cf_#{custom_field.id}"
-      Setting.enabled_projects_columns << "cf_#{invisible_custom_field.id}"
+      Setting.enabled_projects_columns += ["cf_#{custom_field.id}", "cf_#{invisible_custom_field.id}"]
       load_and_open_filters admin
 
       # CF's column is present:
@@ -856,7 +856,7 @@ describe 'Projects index page',
     end
 
     scenario 'allows to alter the order in which projects are displayed' do
-      Setting.enabled_projects_columns << "cf_#{integer_custom_field.id}"
+      Setting.enabled_projects_columns += ["cf_#{integer_custom_field.id}"]
 
       # initially, ordered by name asc on each hierarchical level
       expect_projects_in_order(development_project,
