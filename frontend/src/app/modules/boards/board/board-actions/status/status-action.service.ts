@@ -3,6 +3,7 @@ import {Board} from "core-app/modules/boards/board/board";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
+import {StatusBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/status/status-board-header.component";
 
 @Injectable()
 export class BoardStatusActionService extends CachedBoardActionService {
@@ -20,6 +21,10 @@ export class BoardStatusActionService extends CachedBoardActionService {
 
   public get localizedName() {
     return this.I18n.t('js.work_packages.properties.status');
+  }
+
+  headerComponent() {
+    return StatusBoardHeaderComponent;
   }
 
   public addInitialColumnsForAction(board:Board):Promise<Board> {
