@@ -63,7 +63,7 @@ describe 'Projects index page',
 
     # It has checked all selected settings
     Setting.enabled_projects_columns.each do |name|
-      expect(page).to have_selector("#enabled_projects_columns_#{name}:checked")
+      expect(page).to have_selector(%(input[value="#{name}"]:checked))
     end
 
     # Uncheck all selected columns
@@ -72,11 +72,11 @@ describe 'Projects index page',
     end
 
     # Check the status and custom field only
-    find("#enabled_projects_columns_project_status").check
-    find("#enabled_projects_columns_cf_#{string_cf.id}").check
+    find('input[value="project_status"]').check
+    find(%(input[value="cf_#{string_cf.id}"])).check
 
-    expect(page).to have_selector("#enabled_projects_columns_project_status:checked")
-    expect(page).to have_selector("#enabled_projects_columns_cf_#{string_cf.id}:checked")
+    expect(page).to have_selector('input[value="project_status"]:checked')
+    expect(page).to have_selector(%(input[value="cf_#{string_cf.id}"]:checked))
 
     # Edit the project gantt query
     scroll_to_and_click(find('a', text: 'Edit query'))

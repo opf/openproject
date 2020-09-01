@@ -33,8 +33,10 @@ See docs/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.projects.section_new_projects') %></legend>
       <div class="form--field"><%= setting_check_box :default_projects_public %></div>
-      <div class="form--field"><%= setting_multiselect(:default_projects_modules,
-          OpenProject::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, prefix: "project_module_"), m.to_s]}) %></div>
+      <div class="form--field">
+        <%= setting_multiselect(:default_projects_modules,
+          OpenProject::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, prefix: "project_module_"), m.to_s]}) %>
+      </div>
       <div class="form--field"><%= setting_check_box :sequential_project_identifiers %></div>
       <div class="form--field"><%= setting_select :new_project_user_role_id,
                         Role.givable.collect {|r| [r.name, r.id.to_s]},
@@ -50,11 +52,13 @@ See docs/COPYRIGHT.rdoc for more details.
         column_choices = ::Projects::TableCell
           .new(nil, current_user: current_user)
           .all_columns
-          .reject { |_, options| options[:builtin] }
-          .map { |name, options| { caption: options[:caption], value: name.to_s } }
+          .reject { |_, options| !options[:caption] }
+          .map { |name, options| [options[:caption], name.to_s, checked: options[:builtin], disabled: options[:builtin]] }
       %>
-      <%= settings_matrix([:enabled_projects_columns],
-                          column_choices, label_choices: :description_selected_columns) %>
+
+      <div class="form--field">
+        <%= setting_multiselect(:enabled_projects_columns, column_choices) %>
+      </div>
 
       <div class="form--field">
         <%= setting_block("project_gantt_query") do %>
