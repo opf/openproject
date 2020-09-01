@@ -53,10 +53,10 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= link_to t(:label_overall_activity), activities_path, class: 'button' %>
   </li>
   <li class="toolbar-item">
-    <% all_projects = @projects.select(:id).uniq.pluck(:id) %>
-    <%= link_to gantt_portfolio_query_link(all_projects),
-                disabled: all_projects.empty?,
-                class: "button #{all_projects.empty? ? '-disabled' : ''}",
+    <% gantt_project_ids = gantt_portfolio_project_ids(@projects) %>
+    <%= link_to gantt_portfolio_query_link(gantt_project_ids),
+                disabled: gantt_project_ids.empty?,
+                class: "button #{gantt_project_ids.empty? ? '-disabled' : ''}",
                 title: gantt_portfolio_title,
                 target: '_blank' do %>
       <%= op_icon("button--icon icon-view-timeline") %>

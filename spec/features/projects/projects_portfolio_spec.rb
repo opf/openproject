@@ -40,6 +40,7 @@ describe 'Projects index page',
   let(:columns) { ::Components::WorkPackages::Columns.new }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
+  let(:projects_page) { Pages::Projects::Index.new }
 
   before do
     login_as admin
@@ -48,6 +49,20 @@ describe 'Projects index page',
   describe 'with no projects on index' do
     it 'disables the button' do
       visit projects_path
+
+      projects_page.open_filters
+      projects_page.filter_by_active('yes')
+
+      expect(page).to have_selector('.button.-disabled', text: 'Open as Gantt view', wait: 10)
+    end
+  end
+
+  describe 'with only an archived project on index' do
+    let!(:project) { FactoryBot.create :project, active: false }
+
+    it 'disables the button' do
+      visit projects_path
+
       expect(page).to have_selector('.button.-disabled', text: 'Open as Gantt view')
     end
   end

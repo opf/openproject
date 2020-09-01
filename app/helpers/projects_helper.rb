@@ -225,6 +225,14 @@ module ProjectsHelper
     work_packages_path query_props: generator.call
   end
 
+  def gantt_portfolio_project_ids(project_scope)
+    project_scope
+      .where(active: true)
+      .select(:id)
+      .uniq
+      .pluck(:id)
+  end
+
   def gantt_portfolio_title
     title = t('projects.index.open_as_gantt_title')
 
