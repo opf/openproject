@@ -129,7 +129,7 @@ export abstract class BoardActionService {
     let filter = {
       [this.filterName]: {
         operator: '=' as FilterOperator,
-        values: [value.idFromLink]
+        values: [value.id!]
       }
     };
 

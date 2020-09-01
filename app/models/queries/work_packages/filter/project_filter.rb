@@ -42,7 +42,7 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   end
 
   def available?
-    !project && visible_projects.exists?
+    visible_projects.exists?
   end
 
   def type
