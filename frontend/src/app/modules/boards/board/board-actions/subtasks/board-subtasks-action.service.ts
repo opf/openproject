@@ -6,13 +6,15 @@ import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {SubtasksBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/subtasks/subtasks-board-header.component";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 
 @Injectable()
 export class BoardSubtasksActionService extends BoardActionService {
   filterName = 'parent';
 
   text = this.I18n.t('js.boards.board_type.action_by_attribute',
-    { attribute: this.I18n.t('js.boards.board_type.action_type.subtasks')}) ;
+    { attribute: this.I18n.t('js.boards.board_type.action_type.subtasks') });
 
   description = this.I18n.t('js.boards.board_type.action_text_subtasks');
 
@@ -30,6 +32,17 @@ export class BoardSubtasksActionService extends BoardActionService {
 
   public canMove(workPackage:WorkPackageResource):boolean {
     return !!workPackage.changeParent;
+  }
+
+  assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
+    const parentId = this.getActionValueId(query)?.toString();
+
+    // Disable dragging a work package into its own column
+    if (parentId === changeset.id) {
+      throw new Error(this.I18n.t('js.boards.error_cannot_move_into_self'));
+    }
+
+    super.assignToWorkPackage(changeset, query);
   }
 
   protected loadValues(matching?:string):Observable<HalResource[]> {
