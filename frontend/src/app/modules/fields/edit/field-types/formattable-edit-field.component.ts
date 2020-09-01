@@ -104,7 +104,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public handleUserSubmit() {
-    console.log('handleUserSubmit', this.handler)
     this.getCurrentValue()
       .then(() => {
         this.handler.handleUserSubmit();
