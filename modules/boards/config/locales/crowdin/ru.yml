@@ -4,4 +4,5 @@ ru:
   permission_manage_board_views: "Управление досками"
   project_module_board_view: "Доски"
   boards:
+    label_board: "Доска"
     label_boards: "Доски"

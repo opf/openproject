@@ -4,4 +4,5 @@ ja:
   permission_manage_board_views: "ボードの管理"
   project_module_board_view: "ボード"
   boards:
+    label_board: "ボード"
     label_boards: "ボード"

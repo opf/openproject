@@ -4,4 +4,5 @@ el:
   permission_manage_board_views: "Διαχείριση πινάκων"
   project_module_board_view: "Πινακες"
   boards:
+    label_board: "Πινακας"
     label_boards: "Πινακες"

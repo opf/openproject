@@ -4,4 +4,5 @@ es:
   permission_manage_board_views: "Administrar paneles"
   project_module_board_view: "Tableros"
   boards:
+    label_board: "Tablero"
     label_boards: "Tableros"
