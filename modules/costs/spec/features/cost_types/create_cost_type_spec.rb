@@ -60,9 +60,6 @@ describe 'creating a cost type', type: :feature, js: true do
     expect(cost_type_row).to have_selector('td a', text: 'Test day rate')
     expect(cost_type_row).to have_selector('td', text: 'dayUnit')
     expect(cost_type_row).to have_selector('td', text: 'dayUnitPlural')
-    # TODO: The following test is commented out because it is failing due to a
-    # related bug: https://community.openproject.com/projects/openproject/work_packages/34145/activity?query_id=491
-    # Please uncomment it when the bug is fixed
-    # expect(cost_type_row).to have_selector('td.currency', text: '5')
+    expect(cost_type_row).to have_selector('td.currency', text: '5')
   end
 end
