@@ -94,6 +94,12 @@ module Components
         end
       end
 
+      def expect_unchecked(name)
+        within_modal do
+          expect(page).to have_no_selector('.draggable-autocomplete--item', text: name)
+        end
+      end
+
       def uncheck_all(save_changes: true)
         modal_open? or open_modal
 
@@ -101,7 +107,7 @@ module Components
           expect(page).to have_selector('.draggable-autocomplete--item', minimum: 1)
           page.all('.draggable-autocomplete--remove-item').each do |el|
             el.click
-            sleep 1
+            sleep 0.2
           end
         end
 

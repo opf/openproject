@@ -29,10 +29,12 @@
 #++
 
 RSpec.configure do |config|
-  config.before(:each) do |example|
+  config.around(:each) do |example|
     clear_cache = example.metadata[:clear_cache]
-    if clear_cache
-      Rails.cache.clear
-    end
+    OpenProject::Cache.clear if clear_cache
+
+    example.run
+
+    OpenProject::Cache.clear if clear_cache
   end
 end

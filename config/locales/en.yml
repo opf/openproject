@@ -229,6 +229,9 @@ en:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
     settings:
@@ -2219,6 +2222,7 @@ en:
   setting_emails_header: "Emails header"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2249,6 +2253,8 @@ en:
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"

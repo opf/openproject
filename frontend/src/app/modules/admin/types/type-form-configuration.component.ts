@@ -170,11 +170,11 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
       'timelines': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled')
     };
 
-    this.externalRelationQuery.show(
-      JSON.parse(group.query),
-      (queryProps:any) => group.query = JSON.stringify(queryProps),
+    this.externalRelationQuery.show({
+      currentQuery: JSON.parse(group.query),
+      callback: (queryProps:any) => group.query = JSON.stringify(queryProps),
       disabledTabs
-    );
+    });
   }
 
   public deleteGroup(group:TypeGroup) {
