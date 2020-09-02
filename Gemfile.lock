@@ -1125,6 +1125,7 @@ DEPENDENCIES
   sprockets (~> 3.7.0)
   stackprof
   stringex (~> 2.8.5)
+  structured_warnings (~> 0.4.0)
   svg-graph (~> 2.2.0)
   sys-filesystem (~> 1.3.3)
   table_print (~> 1.5.6)

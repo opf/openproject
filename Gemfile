@@ -135,6 +135,9 @@ gem 'gon', '~> 6.3.2'
 # Lograge to provide sane and non-verbose logging
 gem 'lograge', '~> 0.11.0'
 
+# Structured warnings to selectively disable them in production
+gem 'structured_warnings', '~> 0.4.0'
+
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 11.0.0', require: false
