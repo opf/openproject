@@ -277,7 +277,7 @@ class CustomField < ApplicationRecord
 
   def possible_user_values_options(obj)
     mapped_with_deduced_project(obj) do |project|
-      if project
+      if project&.persisted?
         project.users
       else
         Principal

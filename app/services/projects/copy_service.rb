@@ -73,11 +73,8 @@ module Projects
       # Copy status object
       target.status = source.status&.dup
 
-      # Copy enabled custom fields and their values
+      # Take over the CF values for attributes
       target.custom_field_values = source.custom_value_attributes
-      target.custom_values = source.custom_values.map(&:dup)
-
-      target.status = source.status.dup
 
       # Additional input target params
       target_project_params = params[:target_project_params].with_indifferent_access
