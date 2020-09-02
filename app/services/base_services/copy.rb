@@ -87,9 +87,7 @@ module BaseServices
     #
     # Note that for dependent copy services to be called
     # this will already be present.
-    def prepare(params)
-      params[:copy_state] ||= {}
-    end
+    def prepare(_params); end
 
     ##
     # dependent services to copy associations
