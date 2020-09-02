@@ -474,11 +474,10 @@ class ApplicationController < ActionController::Base
   end
 
   def default_breadcrumb
-    name = l('label_' + self.class.name.gsub('Controller', '').underscore.singularize + '_plural')
-    if name =~ /translation missing/i
-      name = l('label_' + self.class.name.gsub('Controller', '').underscore.singularize)
-    end
-    name
+    label = "label_#{self.class.name.gsub('Controller', '').underscore.singularize}"
+
+    I18n.t(label + '_plural',
+           default: label.to_sym)
   end
   helper_method :default_breadcrumb
 
