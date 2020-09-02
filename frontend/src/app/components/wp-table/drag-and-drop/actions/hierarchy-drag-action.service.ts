@@ -42,7 +42,7 @@ export class HierarchyDragActionService extends TableDragActionService {
     let next = el.nextElementSibling;
     let parent = null;
 
-    if (previous !== null && !this.isFlatList(previous, next)) {
+    if (previous !== null && this.droppedIntoParentGroup(el, previous, next)) {
       // If the previous element is a relation row,
       // skip it until we find the real previous sibling
       const isRelationRow = previous.className.indexOf(relationRowClass()) >= 0;
@@ -82,18 +82,22 @@ export class HierarchyDragActionService extends TableDragActionService {
     return null;
   }
 
-  private isFlatList(previous:Element, next:Element | null):boolean {
+  private droppedIntoParentGroup(element:Element, previous:Element, next:Element | null):boolean {
     const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
     const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
-    let isLastElementInGroup;
+    let skipDroppedIntoGroup;
 
     if (inGroup) {
-      let previousGroup = previous && Array.from(previous.classList).find(listClass => listClass.includes('__hierarchy-group-'));
-      let nextGroup = next && Array.from(next.classList).find(listClass => listClass.includes('__hierarchy-group-'));
-      isLastElementInGroup = previousGroup !== nextGroup;
+      const elementGroup = Array.from(element.classList).find(listClass => listClass.includes('__hierarchy-group-'));
+      const previousGroup = Array.from(previous.classList).find(listClass => listClass.includes('__hierarchy-group-'));
+      const nextGroup = next && Array.from(next.classList).find(listClass => listClass.includes('__hierarchy-group-'));
+      const isLastElementOfGroup = previousGroup !== nextGroup;
+      const elementAlreadyBelongsToGroup = elementGroup === previousGroup;
+
+      skipDroppedIntoGroup = isLastElementOfGroup && !elementAlreadyBelongsToGroup;
     }
 
-    return isLastElementInGroup || !inGroup && !isRoot;
+    return !skipDroppedIntoGroup && inGroup || isRoot;
   }
 
   private isHiearchyRoot(previous:Element, previousWpId:string):boolean {
