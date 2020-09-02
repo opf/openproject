@@ -27,7 +27,6 @@
 // ++
 
 const cssClassRowHovered = 'row-hovered';
-const cssClassChecked = '-checked';
 
 export class WpTableHoverSync {
 
@@ -50,7 +49,7 @@ export class WpTableHoverSync {
 
   deactivate() {
     window.removeEventListener('mousemove', this.eventListener);
-    this.removeCSSClasses([cssClassRowHovered]);
+    this.removeAllHoverClasses();
   }
 
   private locateHoveredTableRow(child:JQuery):Element | null {
@@ -76,7 +75,7 @@ export class WpTableHoverSync {
 
     // remove all hover classes if cursor does not hover a row
     if (parentTableRow === null && parentTimelineRow === null) {
-      this.removeCSSClasses([cssClassRowHovered]);
+      this.removeAllHoverClasses();
       return;
     }
 
@@ -97,17 +96,15 @@ export class WpTableHoverSync {
                                 this.tableAndTimeline.find('div.wp-ancestor-row-' + wpId).first();
 
     requestAnimationFrame(() => {
-      this.removeCSSClasses([cssClassRowHovered, cssClassChecked]);
+      this.removeAllHoverClasses();
       timelineRow.addClass(cssClassRowHovered);
       tableRow.addClass(cssClassRowHovered);
     });
   }
 
-  private removeCSSClasses(cssClasses:string[]) {
-    cssClasses.forEach(cssClass => {
-      this.tableAndTimeline
-        .find(`.${cssClass}`)
-        .removeClass(cssClass);
-    });
+  private removeAllHoverClasses() {
+    this.tableAndTimeline
+      .find(`.${cssClassRowHovered}`)
+      .removeClass(cssClassRowHovered);
   }
 }
