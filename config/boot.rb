@@ -37,8 +37,18 @@ end
 
 require 'bundler/setup' # Set up gems listed in the Gemfile.
 
-if ENV['RAILS_ENV'] == 'development'
-  $stderr.puts "Starting with bootsnap."
+env = ENV['RAILS_ENV']
+# Disable deprecation warnings early on (before loading gems), which behaves as RUBYOPT="-w0"
+# to disable the Ruby 2.7 warnings in production.
+# Set OPENPROJECT_PROD_DEPRECATIONS=true if you want to see them for debugging purposes
+if env == 'production' && ENV['OPENPROJECT_PROD_DEPRECATIONS'] != 'true'
+  require 'structured_warnings'
+  Warning[:deprecated] = false
+  StructuredWarnings::BuiltInWarning.disable
+  StructuredWarnings::DeprecationWarning.disable
+end
 
+if env == 'development'
+  $stderr.puts "Starting with bootsnap."
   require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 end

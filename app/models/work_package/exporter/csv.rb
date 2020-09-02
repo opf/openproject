@@ -95,8 +95,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
       csv_format_value(work_package, column)
     end
 
-    if !row.empty?
-
+    if row.any?
       row << if work_package.description
                work_package.description.squish
              else
@@ -118,6 +117,10 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
         format_date(value)
       when Time
         format_time(value)
+      when nil
+        # ruby 2.7.1 will return a frozen string for nil.to_s which will cause an error when e.g. trying to
+        # force an encoding
+        ''
       else
         value
       end

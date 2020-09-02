@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,28 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+require 'representable'
 
-config = OpenProject::Configuration
+module OpenProject::Patches::DeclarativeOption
+  extend ActiveSupport::Concern
 
-# Enforce session storage for testing
-if Rails.env.test?
-  config['session_store'] = :active_record_store
+  included do
+    private
+
+    # Override Declarative::Option to avoid ruby 2.7.1 warnings about using the last argument as keyword parameter.
+    def lambda_for_proc(value, options)
+      return ->(context, **args) { context.instance_exec(**args, &value) } if options[:instance_exec]
+      value
+    end
+  end
 end
 
-session_store     = config['session_store'].to_sym
-relative_url_root = config['rails_relative_url_root'].presence
-
-session_options = {
-  key:    config['session_cookie_name'],
-  httponly: true,
-  secure: Setting.https?,
-  path:   relative_url_root
-}
-
-OpenProject::Application.config.session_store session_store, **session_options
-
-##
-# We use our own decorated session model to note the user_id
-# for each session.
-ActionDispatch::Session::ActiveRecordStore.session_class = ::UserSession
+unless Declarative::Option.included_modules.include?(OpenProject::Patches::DeclarativeOption)
+  if Gem.loaded_specs['declarative-option'].version > Gem::Version.create('0.1.0')
+    raise "Check whether the patch to Declarative::Option is still necessary"
+  end
+  Declarative::Option.send(:include, OpenProject::Patches::DeclarativeOption)
+end
