@@ -27,10 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title(l(:label_my_account), l(:label_settings)) %>
+<% html_title(l(:label_my_account), l(:label_setting_plural)) %>
 
-<% breadcrumb_paths(l(:label_my_account), l(:label_settings)) %>
-<%= toolbar title: l(:label_settings) %>
+<% breadcrumb_paths(l(:label_my_account), l(:label_setting_plural)) %>
+<%= toolbar title: l(:label_setting_plural) %>
 
 <%= error_messages_for 'user' %>
 <%= labelled_tabular_form_for @user, as: :user, url: { action: 'update_settings' },
