@@ -98,7 +98,7 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu_push
   menu.push :settings,
             { controller: '/my', action: 'settings' },
-            caption: :label_settings,
+            caption: :label_setting_plural,
             icon: 'icon2 icon-settings2'
   menu.push :password,
             { controller: '/my', action: 'password' },
@@ -136,7 +136,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :user_settings,
             { controller: '/users_settings' },
-            caption: :label_settings,
+            caption: :label_setting_plural,
             parent: :users_and_permissions
 
   menu.push :users,
@@ -166,7 +166,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :work_packages_setting,
             { controller: '/work_packages/settings' },
-            caption: :label_settings,
+            caption: :label_setting_plural,
             parent: :admin_work_packages
 
   menu.push :types,
@@ -242,7 +242,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :authentication_settings,
             { controller: '/authentication', action: 'authentication_settings' },
-            caption: :label_settings,
+            caption: :label_setting_plural,
             parent: :authentication
 
   menu.push :ldap_authentication,
@@ -297,7 +297,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :costs_setting,
             { controller: '/settings', action: 'plugin', id: :costs },
-            caption: :label_settings,
+            caption: :label_setting_plural,
             parent: :admin_costs
 
   menu.push :admin_backlogs,
@@ -307,7 +307,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :backlogs_settings,
             { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
-            caption: :label_settings,
+            caption: :label_setting_plural,
             parent: :admin_backlogs
 end
 

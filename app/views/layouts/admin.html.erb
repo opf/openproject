@@ -28,7 +28,6 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%
-  parent_node = admin_first_level_menu_entry
   if local_assigns[:additional_breadcrumb].nil?
     breadcrumb_paths(ActionController::Base.helpers.link_to(t(:label_administration), admin_index_path),
                      default_breadcrumb)
