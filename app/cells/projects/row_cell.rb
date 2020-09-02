@@ -76,6 +76,12 @@ module Projects
       content
     end
 
+    def status_explanation
+      if project.status.try(:explanation)
+        format_text(project.status.explanation)
+      end
+    end
+
     def public
       checked_image project.public?
     end
@@ -122,6 +128,8 @@ module Projects
       case column
       when :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
+      when :status_explanation
+        "-no-ellipsis"
       when /\Acf_/
         cf = custom_field(column)
         "format-#{cf.field_format}"
