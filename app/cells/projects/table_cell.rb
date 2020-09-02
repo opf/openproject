@@ -55,6 +55,7 @@ module Projects
           [:hierarchy, builtin: true],
           [:name, builtin: true, caption: Project.human_attribute_name(:name)],
           [:project_status, caption: Project.human_attribute_name(:status)],
+          [:status_explanation, caption: Projects::Status.human_attribute_name(:explanation)],
           [:public, caption: Project.human_attribute_name(:public)],
           *custom_field_columns,
           *admin_columns
