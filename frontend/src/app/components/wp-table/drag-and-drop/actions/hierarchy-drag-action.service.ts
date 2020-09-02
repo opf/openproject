@@ -39,12 +39,14 @@ export class HierarchyDragActionService extends TableDragActionService {
    */
   private determineParent(el:HTMLElement):Promise<string|null> {
     let previous = el.previousElementSibling;
-    var parent = null;
+    let next = el.nextElementSibling;
+    let parent = null;
 
-    if (previous !== null && !this.isFlatList(previous)) {
+    if (previous !== null && !this.isFlatList(previous, next)) {
       // If the previous element is a relation row,
       // skip it until we find the real previous sibling
       const isRelationRow = previous.className.indexOf(relationRowClass()) >= 0;
+
       if (isRelationRow) {
         let relationRoot = this.findRelationRowRoot(previous);
         if (relationRoot == null) {
@@ -54,6 +56,7 @@ export class HierarchyDragActionService extends TableDragActionService {
       }
 
       let previousWpId = (previous as HTMLElement).dataset.workPackageId!;
+
       if (this.isHiearchyRoot(previous, previousWpId)) {
         // If the sibling is a hierarchy root, return that sibling as new parent.
         parent = previousWpId;
@@ -79,11 +82,18 @@ export class HierarchyDragActionService extends TableDragActionService {
     return null;
   }
 
-  private isFlatList(previous:Element):boolean {
+  private isFlatList(previous:Element, next:Element | null):boolean {
     const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
     const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
+    let isLastElementInGroup;
 
-    return !(inGroup || isRoot);
+    if (inGroup) {
+      let previousGroup = previous && Array.from(previous.classList).find(listClass => listClass.includes('__hierarchy-group-'));
+      let nextGroup = next && Array.from(next.classList).find(listClass => listClass.includes('__hierarchy-group-'));
+      isLastElementInGroup = previousGroup !== nextGroup;
+    }
+
+    return isLastElementInGroup || !inGroup && !isRoot;
   }
 
   private isHiearchyRoot(previous:Element, previousWpId:string):boolean {
