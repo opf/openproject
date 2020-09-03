@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe CustomFieldsController, type: :controller do
+  using_shared_fixtures :admin
+
   let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
 
   before do
-    allow(@controller).to receive(:authorize)
-    allow(@controller).to receive(:check_if_login_required)
-    allow(@controller).to receive(:require_admin)
+    login_as admin
   end
 
   describe 'POST edit' do
@@ -99,8 +99,8 @@ describe CustomFieldsController, type: :controller do
       end
 
       it 'responds ok' do
-        expect(response.status).to eq(302)
-        expect(assigns(:custom_field).name).to eq('field')
+        expect(response).to be_redirect
+        expect(CustomField.last.name).to eq 'field'
       end
     end
   end
