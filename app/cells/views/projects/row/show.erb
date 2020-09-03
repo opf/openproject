@@ -61,10 +61,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <tr class="project-description <%= project_css_classes %> <%= row_css_level_classes %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">
     <td></td>
     <td colspan="<%= columns.length%>" class="project--hierarchy">
-      <div class="description-container">
-        <span class="wiki">
-          <%= format_text(short_project_description(project), project: project) %>
-        </span>
+      <div class="description-container wiki">
+        <%= format_text(short_project_description(project), project: project) %>
       </div>
     </td>
   </tr>
