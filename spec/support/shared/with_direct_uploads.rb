@@ -93,7 +93,7 @@ class WithDirectUploads
   end
 
   def stub_frontend(redirect: false)
-    proxy.stub("https://" + OpenProject::Configuration.remote_storage_host + ":443/", method: 'options').and_return(
+    proxy.stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'options').and_return(
       headers: {
         'Access-Control-Allow-Methods' => 'POST',
         'Access-Control-Allow-Origin'  => '*'
@@ -110,7 +110,7 @@ class WithDirectUploads
 
   def stub_with_redirect
     proxy
-      .stub("https://" + OpenProject::Configuration.remote_storage_host + ":443/", method: 'post')
+      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'post')
       .and_return(Proc.new { |params, headers, body, url, method|
         key = body.scan(/key"\s*([^\s]+)\s/m).flatten.first
         redirect_url = body.scan(/success_action_redirect"\s*(http[^\s]+)\s/m).flatten.first
@@ -129,7 +129,7 @@ class WithDirectUploads
 
   def stub_with_status
     proxy
-      .stub("https://" + OpenProject::Configuration.remote_storage_host + ":443/", method: 'post')
+      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'post')
       .and_return(Proc.new { |params, headers, body, url, method|
         {
           code: (body =~ /X-Amz-Signature/) ? 201 : 403, # check that the expected post to AWS was made with the form fields
