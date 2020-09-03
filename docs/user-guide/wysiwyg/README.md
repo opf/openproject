@@ -122,6 +122,7 @@ As with the textile formatting syntax, you can link to other resources within Op
 - **version by ID or name**: `version#3`,  `version:"Release 1.0.0"`
 - **project by ID/name**:  `project#12` , `project:"My project name"`
 - **attachment by filename**: `attachment:filename.zip`
+- **meeting by ID/name**:  `meeting#12` , `meeting:"My meeting name"`
 - **document by ID/name**:  `document#12` , `document:"My document name"`
 - **user by id or login**: `user#4` , `user:"johndoe"` 
 - **a forum message by ID**: `message#1218`
