@@ -77,7 +77,7 @@ RSpec.feature 'Query menu items', js: true do
       click_on 'Save'
 
       notification.expect_success('Successful update')
-      expect(page).to have_selector('.wp-query-menu--item[data-category=starred]', text: query.name)
+      expect(page).to have_selector('.collapsible-menu--item[data-category=starred]', text: query.name)
     end
 
     after do

@@ -290,16 +290,16 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
         // e.g., https://community.openproject.com/wp/28197
         if (sourceEvent && sourceEvent.type === 'keydown') {
           this.queryResultsContainer
-            .find(`#wp-query-menu-item-${ui.item.auto_id} .wp-query-menu--item-link`)
+            .find(`#collapsible-menu-item-${ui.item.auto_id} .collapsible-menu--item-link`)
             .focus();
         }
 
         return false;
       },
-      appendTo: '.wp-query-menu--results-container',
+      appendTo: '.collapsible-menu--results-container',
       classes: {
-        'ui-autocomplete': 'wp-query-menu--search-ul -inplace',
-        'ui-menu-divider': 'wp-query-menu--category-icon'
+        'ui-autocomplete': 'collapsible-menu--search-ul -inplace',
+        'ui-menu-divider': 'collapsible-menu--category-icon'
       },
       autoFocus: false, // Don't automatically select first entry since we 'open' the autocomplete on page load
       minLength: 0
@@ -312,18 +312,18 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     jQuery.widget('custom.querycomplete', jQuery.ui.autocomplete, {
       _create: function (this:any) {
         this._super();
-        this.widget().menu('option', 'items', '.wp-query-menu--item');
+        this.widget().menu('option', 'items', '.collapsible-menu--item');
         this._search('');
       },
       _renderItem: function (this:{}, ul:any, item:IAutocompleteItem) {
         const link = jQuery('<a>')
-          .addClass('wp-query-menu--item-link')
+          .addClass('collapsible-menu--item-link')
           .attr('href', thisComponent.buildQueryItemUrl(item))
           .text(item.label);
 
         const li = jQuery('<li>')
-          .addClass(`ui-menu-item wp-query-menu--item`)
-          .attr('id', `wp-query-menu-item-${item.auto_id}`)
+          .addClass(`ui-menu-item collapsible-menu--item`)
+          .attr('id', `collapsible-menu-item-${item.auto_id}`)
           .attr('data-category', item.category || '')
           .data('ui-autocomplete-item', item)  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
           .append(link)
@@ -342,9 +342,9 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
             currentCategory = option.category!;
             let label = thisComponent.labelFunction(currentCategory);
 
-            ul.append(`<a tabindex="0" class="wp-query-menu--category-icon wp-query-menu--category-toggle" data-category="${currentCategory}" aria-hidden="true"></a>`);
+            ul.append(`<a tabindex="0" class="collapsible-menu--category-icon collapsible-menu--category-toggle" data-category="${currentCategory}" aria-hidden="true"></a>`);
             jQuery('<li>')
-              .addClass('ui-autocomplete--category wp-query-menu--category-toggle ellipsis')
+              .addClass('ui-autocomplete--category collapsible-menu--category-toggle ellipsis')
               .attr('title', label)
               .attr('data-category', currentCategory)
               .text(label)
@@ -356,7 +356,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
         // Scroll to selected element if search is empty
         if (thisComponent.searchInput.val() === '') {
-          let selected = thisComponent.queryResultsContainer.find('.wp-query-menu--item.selected');
+          let selected = thisComponent.queryResultsContainer.find('.collapsible-menu--item.selected');
           if (selected.length > 0) {
             setTimeout(() => selected[0].scrollIntoView({ behavior: 'auto', block: 'center' }), 20);
           }
@@ -423,7 +423,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
       // Don't hide the categories themselves (Regression #28584)
       .not('.ui-autocomplete--category')
       .toggleClass('-hidden');
-    jQuery(`.wp-query-menu--category-icon[data-category="${category}"]`).toggleClass('-collapsed');
+    jQuery(`.collapsible-menu--category-icon[data-category="${category}"]`).toggleClass('-collapsed');
   }
 
   // On click of a menu item, load requested query
@@ -465,7 +465,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   }
 
   private highlightSelected(item:IAutocompleteItem) {
-    this.highlightBySelector(`#wp-query-menu-item-${item.auto_id}`);
+    this.highlightBySelector(`#collapsible-menu-item-${item.auto_id}`);
   }
 
   private highlightBySelector(selector:string) {
@@ -490,7 +490,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
         // Find the item from the clicked element
         const target = jQuery(evt.target);
         const item:IAutocompleteItem = target
-          .closest('.wp-query-menu--item')
+          .closest('.collapsible-menu--item')
           .data('ui-autocomplete-item');
 
         // Either the link is clicked with a modifier, then always cancel any propagation
@@ -516,7 +516,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
         return true;
       })
-      .on('click keydown', '.wp-query-menu--category-toggle', (evt:JQuery.TriggeredEvent) => {
+      .on('click keydown', '.collapsible-menu--category-toggle', (evt:JQuery.TriggeredEvent) => {
         if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
           return true;
         }

@@ -28,16 +28,23 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% queries ||= respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
-<ul id='<%= "#{report_type}_sidebar_report_list" %>'
-    class="report_list list"
+<ul id='<%= "report-list--#{report_type}" %>'
+    class="collapsible-menu--submenu"
     data-update-url="<%= url_for(:action => :display_report_list, :report_type => report_type) %>">
-  <a tabindex="0" class="wp-query-menu--category-icon wp-query-menu--category-toggle" data-category="<% report_type %>" aria-hidden="true"></a>
-  <li class="ui-autocomplete--category wp-query-menu--category-toggle ellipsis" title="<%= report_type %>">
+  <a tabindex="0"
+     class="collapsible-menu--category-icon collapsible-menu--category-toggle"
+     data-category="<% report_type %>"
+     aria-hidden="true"></a>
+  <li class="ui-autocomplete--category collapsible-menu--category-toggle ellipsis"
+      title="<%= l(:"label_#{report_type}_report_plural") %>"
+      data-category="<% report_type %>">
     <%= l(:"label_#{report_type}_report_plural") %>
   </li>
   <% queries.each do |query| -%>
-    <li class="ui-menu-item wp-query-menu--item">
-      <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id, :class => "wp-query-menu--item-link") %>
+    <li class="ui-menu-item collapsible-menu--item">
+      <%= link_to(h(query.name),
+                  {:controller => 'cost_reports', :action => 'show', :id => query.id},
+                  :class => 'collapsible-menu--item-link') %>
     </li>
   <% end -%>
 </ul>
