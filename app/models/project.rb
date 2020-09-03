@@ -574,6 +574,6 @@ class Project < ApplicationRecord
   end
 
   def remove_white_spaces_from_project_name
-    self.name = name.squish unless self.name.nil?
+    self.name = name.squish unless name.nil?
   end
 end
