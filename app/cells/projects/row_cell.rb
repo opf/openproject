@@ -78,7 +78,7 @@ module Projects
 
     def status_explanation
       if project.status.try(:explanation)
-        format_text(project.status.explanation)
+        content_tag :div, format_text(project.status.explanation), class: 'wiki'
       end
     end
 
