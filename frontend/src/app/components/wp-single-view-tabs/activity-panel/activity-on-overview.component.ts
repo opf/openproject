@@ -28,20 +28,21 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 @Component({
   selector: 'newest-activity-on-overview',
-  templateUrl: './activity-on-overview.html'
+  templateUrl: './activity-on-overview.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewestActivityOnOverviewComponent extends ActivityPanelBaseController {
   @Input('workPackage') public workPackage:WorkPackageResource;
 
   public latestActivityInfo:ActivityEntryInfo[] = [];
-  public trackByHref = AngularTrackingHelpers.trackByHref;
+  public trackByHref = AngularTrackingHelpers.trackByProperty('identifier');
 
   ngOnInit() {
     this.workPackageId = this.workPackage.id!;
