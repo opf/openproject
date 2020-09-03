@@ -26,8 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'representable'
-
 module OpenProject::Patches::DeclarativeOption
   extend ActiveSupport::Concern
 

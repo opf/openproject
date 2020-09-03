@@ -36,11 +36,13 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
   let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
+  let(:admin) { FactoryBot.create(:admin) }
   let(:project) do
-    FactoryBot.create(:project, public: false, status: project_status)
+    FactoryBot.create(:project, public: false, status: project_status, active: project_active)
   end
+  let(:project_active) { true }
   let(:project_status) do
-    FactoryBot.create(:project_status)
+    FactoryBot.build(:project_status, project: nil)
   end
   let(:other_project) do
     FactoryBot.create(:project, public: false)
@@ -150,6 +152,29 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
             .at_path('_links/parent/href')
         end
       end
+
+      context 'with the project being archived/inactive' do
+        let(:project_active) { false }
+
+        context 'with the user being admin' do
+          let(:current_user) { admin }
+
+          it 'responds with 200 OK' do
+            expect(subject.status).to eq(200)
+          end
+
+          it 'responds with the correct project' do
+            expect(subject.body).to include_json('Project'.to_json).at_path('_type')
+            expect(subject.body).to be_json_eql(project.identifier.to_json).at_path('identifier')
+          end
+        end
+
+        context 'with the user being no admin' do
+          it 'responds with 404' do
+            expect(subject.status).to eq(404)
+          end
+        end
+      end
     end
 
     context 'not logged in user' do
@@ -175,7 +200,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     end
 
     it 'succeeds' do
-      expect(last_response.status)
+      expect(response.status)
         .to eql(200)
     end
 
@@ -244,9 +269,32 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         end
 
         it 'returns the projects not matching the value' do
-          expect(response.body)
+          expect(last_response.body)
             .to be_json_eql(other_project.id.to_json)
             .at_path('_embedded/elements/0/id')
+        end
+      end
+    end
+
+    context 'with the project being archived/inactive' do
+      let(:project_active) { false }
+      let(:projects) { [project] }
+
+      context 'with the user being admin' do
+        let(:current_user) { admin }
+
+        it 'responds with 200 OK' do
+          expect(last_response.status).to eq(200)
+        end
+
+        it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+      end
+
+      context 'with the user being no admin' do
+        it_behaves_like 'API V3 collection response', 0, 0, 'Project'
+
+        it 'responds with 200' do
+          expect(last_response.status).to eq(200)
         end
       end
     end
@@ -680,7 +728,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
   describe '#delete /api/v3/projects/:id' do
     let(:path) { api_v3_paths.project(project.id) }
-    let(:setup) { }
+    let(:setup) {}
 
     before do
       login_as current_user
