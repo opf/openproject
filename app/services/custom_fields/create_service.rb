@@ -53,6 +53,16 @@ module CustomFields
       cf
     end
 
+    def after_perform(call)
+      cf = call.result
+
+      if cf.is_a?(ProjectCustomField)
+        add_cf_to_visible_columns(cf.id)
+      end
+
+      call
+    end
+
     private
 
     def add_cf_to_visible_columns(id)
