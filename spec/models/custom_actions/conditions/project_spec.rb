@@ -37,7 +37,7 @@ describe CustomActions::Conditions::Project, type: :model do
         projects = [FactoryBot.build_stubbed(:project),
                     FactoryBot.build_stubbed(:project)]
         allow(Project)
-          .to receive_message_chain(:select, :order)
+          .to receive_message_chain(:active, :select, :order)
           .and_return(projects)
 
         expect(instance.allowed_values)
