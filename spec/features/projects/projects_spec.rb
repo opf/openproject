@@ -213,5 +213,28 @@ describe 'Projects', type: :feature do
       expect(page).to have_content 'Required Foo'
       expect(page).to have_content 'Optional Foo'
     end
+
+    context 'with a restricted custom field' do
+      let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
+      let!(:required_custom_field) do
+        FactoryBot.create(:string_project_custom_field,
+                          name: 'Foo',
+                          type: ProjectCustomField,
+                          min_length: 1,
+                          max_length: 2,
+                          is_for_all: true)
+      end
+
+      it 'shows the errors of that field when saving (Regression #33766)' do
+        visit settings_generic_project_path(project.id)
+
+        expect(page).to have_content 'Foo'
+        # Enter something too long
+        fill_in 'Foo', with: '1234'
+
+        click_on 'Save'
+        expect(page).to have_selector('#errorExplanation', text: 'Foo is too long (maximum is 2 characters)')
+      end
+    end
   end
 end
