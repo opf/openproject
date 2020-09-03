@@ -36,6 +36,10 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
     this.wpTableFilters
       .onReady()
       .then(() => this.filters = this.wpTableFilters.current);
+
+    this.wpTableFilters.changes$().subscribe(filters => {
+      this.filters = this.wpTableFilters.current;
+    });
   }
 
   public onSave() {
