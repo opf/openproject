@@ -32,7 +32,7 @@ module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class ColonSeparator < Base
       def self.allowed_prefixes
-        %w(commit source export version project user attachment)
+        %w(commit source export version project user attachment document meeting)
       end
 
       ##
@@ -139,6 +139,36 @@ module OpenProject::TextFormatting::Matchers
       def render_user
         if (user = User.find_by(login: oid))
           link_to_user(user, only_path: context[:only_path], class: 'user-mention')
+        end
+      end
+
+      def render_document
+        scope = project ? project.documents : Document
+        document = scope
+          .visible
+          .where(['LOWER(title) = :s', { s: oid.downcase }])
+          .first
+
+        if document
+          link_to document.title,
+                  { only_path: context[:only_path],
+                    controller: '/documents',
+                    action: 'show',
+                    id: document.id },
+                  class: 'document'
+        end
+      end
+
+      def render_meeting
+        scope = project ? project.meetings : Meeting
+        meeting = scope
+          .where(['LOWER(title) = :s', { s: oid.downcase }])
+          .first
+
+        if meeting && meeting.visible?(User.current)
+          link_to meeting.title,
+                  { only_path: context[:only_path], controller: '/meetings', action: 'show', id: meeting.id },
+                  class: 'meeting'
         end
       end
     end
