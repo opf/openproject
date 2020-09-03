@@ -15,6 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Build & Push
+        id: build_and_push
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: openproject/community
