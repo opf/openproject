@@ -78,6 +78,13 @@ module OpenProject::Reporting
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
            icon: 'icon2 icon-cost-reports'
+
+      menu :project_menu,
+           :costs_menu,
+           { controller: '/cost_reports', action: 'index' },
+           partial: '/cost_reports/report_menu',
+           parent: :costs
+
     end
 
     initializer "reporting.register_hooks" do

@@ -31,9 +31,13 @@ See docs/COPYRIGHT.rdoc for more details.
 <ul id='<%= "#{report_type}_sidebar_report_list" %>'
     class="report_list list"
     data-update-url="<%= url_for(:action => :display_report_list, :report_type => report_type) %>">
+  <a tabindex="0" class="wp-query-menu--category-icon wp-query-menu--category-toggle" data-category="<% report_type %>" aria-hidden="true"></a>
+  <li class="ui-autocomplete--category wp-query-menu--category-toggle ellipsis" title="<%= report_type %>">
+    <%= l(:"label_#{report_type}_report_plural") %>
+  </li>
   <% queries.each do |query| -%>
-    <li>
-      <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id) %>
+    <li class="ui-menu-item wp-query-menu--item">
+      <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id, :class => "wp-query-menu--item-link") %>
     </li>
   <% end -%>
 </ul>
