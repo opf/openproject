@@ -104,14 +104,14 @@ module Bim
         # If the original file is already called 'model.ifc' then renaming the file is
         # unnecessary as the conversion result is already called model.xkt then.
         # Hence only rename if `xkt_path` is actually different from `final_xkt_path`.
-        FileUtils.mv xkt_path, final_xkt_path.to_s unless xkt_path == final_xkt_path
+        FileUtils.mv xkt_path, final_xkt_path.to_s unless xkt_path.to_s == final_xkt_path.to_s
 
         ifc_model.xkt_attachment = File.new final_xkt_path.to_s
       end
 
       def save_metadata(metadata_path)
         final_metadata_path = change_basename metadata_path, ifc_model_path, ".json"
-        FileUtils.mv metadata_path, final_metadata_path.to_s unless metadata_path == final_metadata_path
+        FileUtils.mv metadata_path, final_metadata_path.to_s unless metadata_path.to_s == final_metadata_path.to_s
 
         ifc_model.metadata_attachment = File.new final_metadata_path.to_s
       end
