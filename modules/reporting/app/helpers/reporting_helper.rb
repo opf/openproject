@@ -99,7 +99,7 @@ module ReportingHelper
   end
 
   def field_representation_map(key, value)
-    return I18n.t(:label_none) if value.blank?
+    return I18n.t(:'placeholders.default') if value.blank?
 
     case key.to_sym
     when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
@@ -110,18 +110,28 @@ module ReportingHelper
     when :tmonth                                then month_name(value.to_i)
     when :category_id                           then h(Category.find(value.to_i).name)
     when :cost_type_id                          then mapped value, CostType, l(:caption_labor)
-    when :budget_id                        then budget_link value
+    when :budget_id                             then budget_link value
     when :work_package_id                       then link_to_work_package(WorkPackage.find(value.to_i))
     when :spent_on                              then format_date(value.to_date)
     when :type_id                               then h(Type.find(value.to_i).name)
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
     when :priority_id                           then h(IssuePriority.find(value.to_i).name)
-    when :version_id                      then h(Version.find(value.to_i).name)
+    when :version_id                            then h(Version.find(value.to_i).name)
     when :singleton_value                       then ''
     when :status_id                             then h(Status.find(value.to_i).name)
-    when /custom_field\d+/                      then CustomOption.find_by(id: value)&.value || value.to_s
+    when /custom_field\d+/                      then custom_value(key, value)
     else h(value.to_s)
     end
+  end
+
+  def custom_value(cf_identifier, value)
+    cf_id = cf_identifier.gsub('custom_field', '').to_i
+
+    # Reuses rails cache to locate the custom field
+    # and then properly cast the value
+    CustomValue
+      .new(custom_field_id: cf_id, value: value)
+      .typed_value
   end
 
   def field_sort_map(key, value)
