@@ -75,10 +75,6 @@
                            [shouldFocus]="shouldFocus"
                            [filter]="filter"></filter-string-value>
 
-      <filter-boolean-value *ngSwitchCase="'[1]Boolean'"  hidden
-                            (filterChanged)="onFilterUpdated($event)"
-                            [shouldFocus]="shouldFocus"
-                            [filter]="filter"></filter-boolean-value>
 
       <filter-toggled-multiselect-value *ngSwitchDefault
                                         (filterChanged)="onFilterUpdated($event)"

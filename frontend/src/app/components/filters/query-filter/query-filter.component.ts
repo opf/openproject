@@ -68,7 +68,7 @@ export class QueryFilterComponent implements OnInit {
 
   public onFilterUpdated(filter:QueryFilterInstanceResource) {
     this.filter = filter;
-    this.showValuesInput = this.filter.currentSchema!.isValueRequired();
+    this.showValuesInput = this.filter.currentSchema!.isValueRequired() && this.filter.currentSchema!.values!.type !== '[1]Boolean';
     this.filterChanged.emit(this.filter);
   }
 
@@ -87,6 +87,6 @@ export class QueryFilterComponent implements OnInit {
   ngOnInit() {
     this.eeShowBanners = this.bannerService.eeShowBanners;
     this.availableOperators = this.schemaCache.of(this.filter).availableOperators;
-    this.showValuesInput = this.filter.currentSchema!.isValueRequired();
+    this.showValuesInput = this.filter.currentSchema!.isValueRequired() && this.filter.currentSchema!.values!.type !== '[1]Boolean';
   }
 }

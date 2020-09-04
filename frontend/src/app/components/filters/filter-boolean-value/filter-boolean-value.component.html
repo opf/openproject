@@ -1,8 +1,4 @@
-<div id="div-values-{{filter.name}}">
-  <label class="switch">
-        <input  type="checkbox" [(ngModel)]="value"
-                [focus]="shouldFocus"  id="values-{{filter.name}}"
-                name="v[{{filter.name}}]" value="true">
-        <span class="slider round"></span>
-      </label>
-</div>
+<slide-toggle [filterValue]="value" 
+            [filterName]="filter.name" 
+            (valueChanged)="onFilterUpdated($event)">
+</slide-toggle>

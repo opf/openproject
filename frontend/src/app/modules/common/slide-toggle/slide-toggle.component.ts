@@ -26,30 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-
+import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 @Component({
-  selector: 'filter-boolean-value',
-  templateUrl: './filter-boolean-value.component.html'
+  templateUrl: './slide-toggle.component.html',
+  selector: 'slide-toggle',
+  styleUrls: ['./slide-toggle.component.sass'],
 })
-export class FilterBooleanValueComponent {
-  @Input() public shouldFocus:boolean = false;
-  @Input() public filter:QueryFilterInstanceResource;
-  @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
-  constructor(readonly I18n:I18nService) {
+
+export class SlideToggleComponent {
+  @Input() filterName:string;
+  @Input() filterValue:boolean;
+  @Output() valueChanged = new EventEmitter();
+
+  onInint() {
+    this.filterValue = true;
   }
-
-  public get value():HalResource | string {
-    return this.filter.values[0];
+  public onValueChanged(val:any) {
+    this.valueChanged.emit(val);
   }
-
-  public onFilterUpdated(val:string | HalResource) {
-    this.filter.values[0] = val;
-    this.filterChanged.emit(this.filter);
-  }
-
 }
