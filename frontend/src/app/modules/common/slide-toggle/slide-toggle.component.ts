@@ -26,18 +26,42 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
+export const slideToggleSelector = 'slide-toggle';
+
 @Component({
   templateUrl: './slide-toggle.component.html',
-  selector: 'slide-toggle',
+  selector: slideToggleSelector,
   styleUrls: ['./slide-toggle.component.sass'],
 })
 
-
-export class SlideToggleComponent {
+export class SlideToggleComponent implements OnInit {
+  @Input() containerId:string;
+  @Input() containerClasses:string;
   @Input() filterName:string;
+  @Input() inputId:string;
+  @Input() inputName:string;
   @Input() filterValue:boolean;
+
   @Output() valueChanged = new EventEmitter();
+
+  constructor(private elementRef:ElementRef) {
+  }
+
+  ngOnInit() {
+    const dataset = this.elementRef.nativeElement.dataset;
+
+    // Allow taking over values from dataset (Rails)
+    if (dataset.inputName) {
+      this.containerId = dataset.containerId;
+      this.containerClasses = dataset.containerClasses;
+      this.filterName = dataset.filterName;
+      this.inputId = dataset.inputId;
+      this.inputName = dataset.inputName;
+      this.filterValue = dataset.filterValue.toString() === 'true';
+    }
+  }
 
   public onValueChanged(val:any) {
     this.valueChanged.emit(val);

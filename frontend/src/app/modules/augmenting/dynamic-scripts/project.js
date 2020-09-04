@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-jQuery(function($) {
+jQuery(function ($) {
   let $filterForm = $('form.project-filters').first();
   let $button = $('#projects-filter-toggle-button');
   let operatorsWithoutValues = ['*', '!*', 't', 'w'];
@@ -34,7 +34,7 @@ jQuery(function($) {
   let $closeIcon = $('#projects-filter-close-button');
 
   function toggleProjectFilterForm() {
-    if($button.hasClass('-active')) {
+    if ($button.hasClass('-active')) {
       $button.removeClass('-active');
       $filterForm.removeClass('-expanded');
     } else {
@@ -47,7 +47,7 @@ jQuery(function($) {
     let $advancedFilters = $(".advanced-filters--filter:not(.hidden)", $filterForm);
     let filters = [];
 
-    $advancedFilters.each(function(_i, filter) {
+    $advancedFilters.each(function (_i, filter) {
       let $filter = $(filter);
       let filterName = $filter.attr('filter-name');
       let parsedOperator = $('select[name="operator"]', $filter).val();
@@ -55,7 +55,7 @@ jQuery(function($) {
 
       if (parsedValue) {
         let filter = {}
-        filter[filterName] = { 'operator': parsedOperator, 'values': parsedValue };
+        filter[filterName] = {'operator': parsedOperator, 'values': parsedValue};
 
         filters.push(filter);
       }
@@ -67,20 +67,29 @@ jQuery(function($) {
   function parseFilterValue($filter, operator) {
     let filterType = $filter.attr('filter-type');
     let $valueBlock = $('.advanced-filters--filter-value', $filter);
+    let checkbox = $('input[type="checkbox"]', $valueBlock)[0];
+
+    if (checkbox) {
+      return [checkbox.checked ? 't' : 'f'];
+    }
 
     if (operatorsWithoutValues.includes(operator)) {
       return [];
-    } else if (selectFilterTypes.includes(filterType)) {
+    }
+
+    if (selectFilterTypes.includes(filterType)) {
       // Operator expects presence of value(s)
       return parseSelectFilterValue($valueBlock);
-    } else if (['datetime_past', 'date'].includes(filterType)) {
+    }
+
+    if (['datetime_past', 'date'].includes(filterType)) {
       return parseDateFilterValue($valueBlock);
-    } else {
-      // not a select box nor datetime_past
-      let value = $('input[name="value"]', $valueBlock).val();
-      if (value.length > 0) {
-        return [value];
-      }
+    }
+
+    // not a select box nor datetime_past
+    let value = $('input[name="value"]', $valueBlock).val();
+    if (value.length > 0) {
+      return [value];
     }
   }
 
@@ -111,7 +120,7 @@ jQuery(function($) {
     } else if ($valueBlock.hasClass('between-dates')) {
       let fromValue = $('.between-dates input[name="from_value"]',
         $valueBlock).val();
-      let toValue   = $('.between-dates input[name="to_value"]',
+      let toValue = $('.between-dates input[name="to_value"]',
         $valueBlock).val();
 
       value = [fromValue, toValue];
@@ -137,12 +146,12 @@ jQuery(function($) {
     return false;
   }
 
-  function toggleMultiselect(){
+  function toggleMultiselect() {
     let $self = $(this);
     let $valueSelector = $self.parents('.advanced-filters--filter-value');
 
     let $singleSelect = $('.single-select select', $valueSelector);
-    let $multiSelect  = $('.multi-select select', $valueSelector);
+    let $multiSelect = $('.multi-select select', $valueSelector);
 
     if ($valueSelector.hasClass('multi-value')) {
       let values = $multiSelect.val();
@@ -166,8 +175,8 @@ jQuery(function($) {
     e.preventDefault();
     $('[filter-name="' + $(this).val() + '"]').removeClass('hidden');
     // If the user removes the filter the same filter has to be selectable from fresh again:
-    $('#add_filter_select option:selected', $filterForm).prop('disabled','disabled');
-    jQuery('#add_filter_select option:first-of-type').prop('selected','selected');
+    $('#add_filter_select option:selected', $filterForm).prop('disabled', 'disabled');
+    jQuery('#add_filter_select option:first-of-type').prop('selected', 'selected');
     setSpacerVisibility();
     return false;
   }
@@ -239,7 +248,7 @@ jQuery(function($) {
   };
 });
 
-(function($) {
+(function ($) {
   function toggleDescription() {
     let $el = $(this);
     let otherTrigger = $el.siblings('.projects-table--description-toggle');
@@ -261,7 +270,7 @@ jQuery(function($) {
     return false;
   }
 
-  $('document').ready(function() {
+  $('document').ready(function () {
     $('.projects-table--description-toggle').click(toggleDescription);
   });
 })(jQuery);

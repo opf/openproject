@@ -6,13 +6,14 @@
     <ul class="advanced-filters--filters">
       <% allowed_filters(query).each do |filter| %>
         <% filter_active = query.find_active_filter(filter.name).present? %>
+        <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
 
         <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>" filter-name="<%= filter.name %>" filter-type="<%= filter.type %>">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>
           </label>
-          <div class="advanced-filters--filter-operator">
-            <% selected_operator = filter.operator || filter.default_operator.symbol %>
+          <% selected_operator = filter.operator || filter.default_operator.symbol %>
+          <%= content_tag :div, class: "advanced-filters--filter-operator", style: filter_boolean ? 'display:none' : '' do %>
             <%= select_tag :operator,
                            options_from_collection_for_select(
                              filter.available_operators,
@@ -20,9 +21,13 @@
                              :human_name,
                              selected_operator),
                            class: 'advanced-filters--select' %>
-          </div>
+          <% end %>
           <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
-          <% if %i(list list_optional list_all).include? filter.type %>
+          <% if filter_boolean %>
+            <%= render partial: 'projects/filters/boolean',
+                       locals: { value_visibility: value_visibility,
+                                 filter: filter } %>
+          <% elsif %i(list list_optional list_all).include? filter.type %>
             <%= render partial: 'projects/filters/list/input_options',
                        locals: { value_visibility: value_visibility,
                                  filter: filter } %>
