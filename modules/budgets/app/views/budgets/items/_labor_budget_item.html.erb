@@ -42,26 +42,33 @@ See docs/COPYRIGHT.rdoc for more details.
   error_messages = error_messages_for 'labor_budget_item'
 -%>
 
-<% unless error_messages.blank? %><tr><td colspan="5"><%= error_messages %></td></tr><% end %>
+<% unless error_messages.blank? %>
+  <tr>
+    <td colspan="5"><%= error_messages %></td>
+  </tr>
+<% end %>
 <%= fields_for prefix, labor_budget_item do |cost_form| %>
   <tr class="cost_entry <%= classes %>" id="<%= id_prefix %>">
     <td class="units">
       <div class="form--field-container">
         <div class="form--text-field-container -xslim">
           <label class="hidden-for-sighted" for="<%= id_prefix %>_units"><%= LaborBudgetItem.human_attribute_name(:hours) %></label>
-          <%= cost_form.number_field :hours,
-                                     index: id_or_index,
-                                     min: 0,
-                                     step: 0.01,
-                                     class: 'budget-item-value form--text-field',
-                                     data: { :'request-key' => 'hours' } %>
+          <%= cost_form.text_field :hours,
+                                   index: id_or_index,
+                                   value: unitless_currency_number(labor_budget_item.hours),
+                                   # Avoid a number field due to chrome bug (OP#32232)
+                                   # but show the appearance of a decimal field on mobile
+                                   inputmode: :decimal,
+                                   placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
+                                   class: 'budget-item-value form--text-field',
+                                   data: { :'request-key' => 'hours' } %>
         </div>
       </div>
     </td>
     <td class="user">
       <label class="hidden-for-sighted" for="<%= id_prefix %>_user_id"><%= t(:label_user) %></label>
       <%= cost_form.select :user_id,
-                           @project.possible_assignees.sort.map{|u| [u.name, u.id]},
+                           @project.possible_assignees.sort.map { |u| [u.name, u.id] },
                            { prompt: true },
                            {
                              index: id_or_index,
@@ -74,7 +81,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <label class="hidden-for-sighted" for="<%= id_prefix %>_comments"><%= LaborBudgetItem.human_attribute_name(:comments) %></label>
       <%= cost_form.text_field :comments, index: id_or_index, size: 40 %>
     </td>
-    <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+    <% if User.current.allowed_to?(:view_cost_rates, @project) %>
       <td class="currency budget-table--fields">
         <%# Keep current budget as hidden field because otherwise they will be overridden %>
         <% if templated == false && !labor_budget_item.new_record? && labor_budget_item.overridden_costs? %>

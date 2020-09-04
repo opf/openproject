@@ -138,11 +138,11 @@ module Pages
     end
 
     def unit_costs_container
-      find_container('Planned unit costs')
+      find_container(Budget.human_attribute_name(:material_budget))
     end
 
     def labor_costs_container
-      find_container('Planned labor costs')
+      find_container(Budget.human_attribute_name(:labor_budget))
     end
 
     def find_container(title)
