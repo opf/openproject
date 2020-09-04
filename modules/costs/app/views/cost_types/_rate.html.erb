@@ -61,6 +61,8 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= rate_form.text_field :rate,
                                  size: 7,
                                  index: id_or_index,
+                                 inputmode: :decimal,
+                                 placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
                                  value: rate.rate ? rate.rate.round(2) : "",
                                  required: templated ? false : true %>
         <span class="form-label">
