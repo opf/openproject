@@ -39,9 +39,6 @@ export class SlideToggleComponent {
   @Input() filterValue:boolean;
   @Output() valueChanged = new EventEmitter();
 
-  onInint() {
-    this.filterValue = true;
-  }
   public onValueChanged(val:any) {
     this.valueChanged.emit(val);
   }
