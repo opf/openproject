@@ -2,6 +2,8 @@
 
 set -e
 
+PGBIN="$(pg_config --bindir)"
+
 display_error() {
 	echo " !--> ERROR on postinstall:"
 	tail -n 200 /tmp/dockerize.log

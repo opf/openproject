@@ -14,6 +14,8 @@ if [ "$PGDATA" == "" ]; then
 	exit 2
 fi
 
+export PGBIN="$(pg_config --bindir)"
+export PGCONF_FILE="/etc/postgresql/9.6/main/postgresql.conf"
 PGUSER=${PGUSER:=postgres}
 PGPASSWORD=${PGPASSWORD:=postgres}
 PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
@@ -74,34 +76,56 @@ migrate() {
 	popd >/dev/null
 }
 
+check_postgres_connection() {
+	su postgres -c "$PGBIN/psql $DATABASE_URL -c 'select 1;'"
+}
+
 wait_for_postgres() {
 	retries=${PG_STARTUP_WAIT_TIME}
 
 	echo "Trying to contact PostgreSQL server instance or waiting for it to come online."
 
-	until su postgres -c "$PGBIN/psql $DATABASE_URL -c 'select 1;' > /dev/null 2>&1" || [ $retries -eq 0 ]; do
-		echo "Waiting for postgres server, $((retries--)) remaining attempts..."
-		sleep 3
+	while ! check_postgres_connection &> /dev/null ; do
+		if [ $retries -eq 0 ]; then
+			echo "Unable to contact postgres server:"
+			check_postgres_connection
+		else
+			echo "Waiting for postgres server, $((retries--)) remaining attempts..."
+			sleep 3
+		fi
 	done
 }
 
+configure_local_postgres() {
+	mkdir -p "$PGDATA"
+	chown -R postgres:postgres "$PGDATA"
+	# remove any dangling pid
+	rm -f $PGDATA/postmaster.pid
+
+	# Set up pg defaults
+	echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
+	echo "listen_addresses='0.0.0.0'" >> "$PGCONF_FILE"
+	echo "data_directory='$PGDATA'" >> "$PGCONF_FILE"
+}
+
 if [ "$dbhost" = "127.0.0.1" ]; then
+	configure_local_postgres
+
 	# initialize cluster if it does not exist yet
 	if [ -f "$PGDATA/PG_VERSION" ]; then
 		echo "-----> Database cluster already exists, not modifying."
-		/etc/init.d/postgresql start | indent
+		su - postgres -c "$PGBIN/pg_ctl -w -l /dev/null -o '-c config_file=$PGCONF_FILE' -D '$PGDATA' start" | indent
 		(install_plugins && migrate) | indent
-		/etc/init.d/postgresql stop | indent
+		su - postgres -c "$PGBIN/pg_ctl -D '$PGDATA' stop" | indent
 	else
 		echo "-----> Database cluster not found. Creating a new one in $PGDATA..."
-		chown -R postgres:postgres $PGDATA
 		su postgres -c "$PGBIN/initdb --pgdata=${PGDATA} --username=${PGUSER} --encoding=unicode --auth=trust --pwfile=$pwfile" | indent
 		su postgres -c "rm -f $pwfile"
-		/etc/init.d/postgresql start | indent
+		su - postgres -c "$PGBIN/pg_ctl -w -l /dev/null -o '-c config_file=$PGCONF_FILE' -D '$PGDATA' start" | indent
 		su postgres -c "$PGBIN/psql --command \"CREATE USER openproject WITH SUPERUSER PASSWORD 'openproject';\"" | indent
 		su postgres -c "$PGBIN/createdb -O openproject openproject" | indent
 		(install_plugins && migrate) | indent
-		/etc/init.d/postgresql stop | indent
+		su - postgres -c "$PGBIN/pg_ctl -D '$PGDATA' stop" | indent
 	fi
 else
 	echo "-----> You're using an external database. Not initializing a local database cluster."

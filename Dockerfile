@@ -19,7 +19,6 @@ ENV APP_USER=app
 ENV APP_PATH=/app
 ENV APP_DATA_PATH=/var/openproject/assets
 ENV APP_DATA_PATH_LEGACY=/var/db/openproject
-ENV PGBIN="/usr/lib/postgresql/9.6/bin"
 ENV PGDATA=/var/openproject/pgdata
 ENV PGDATA_LEGACY=/var/lib/postgresql/9.6/main
 
