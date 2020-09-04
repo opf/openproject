@@ -31,6 +31,8 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
   icon = 'icon-getting-started';
 
+  image = "frontend/src/assets/images/board_creation_modal/version.svg";
+
   private writable$:Promise<boolean>;
 
   public get localizedName() {

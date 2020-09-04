@@ -93,10 +93,11 @@ export class NewBoardModalComponent extends OpModalComponent {
   }
   private initiateTiles() {
     this.available.unshift({attribute:'basic', text:this.text.free_board,
-    icon:'icon-boards', description:this.text.free_board_text});
+    icon:'icon-boards', description:this.text.free_board_text, image: 'frontend/src/assets/images/board_creation_modal/version.png'});
     this.addIcon(this.available);
     this.addDescription(this.available);
     this.addText(this.available);
+    this.addImage(this.available);
   }
   private createFree() {
     this.create({ type: 'free' });
@@ -141,6 +142,14 @@ export class NewBoardModalComponent extends OpModalComponent {
       if (element.attribute !== 'basic') {
         const service = this.boardActionRegistry.get(element.attribute!);
         element.text = service.text;
+      }
+    });
+  }
+  private addImage(tiles:ITileViewEntry[]) {
+    tiles.forEach(element => {
+      if (element.attribute !== 'basic') {
+        const service = this.boardActionRegistry.get(element.attribute!);
+        element.image = service.image;
       }
     });
   }

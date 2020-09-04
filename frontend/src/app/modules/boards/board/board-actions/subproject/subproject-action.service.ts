@@ -23,6 +23,8 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   icon = 'icon-projects';
 
+  image = 'frontend/src/assets/images/board_creation_modal/subproject.svg';
+
   get localizedName() {
     return this.I18n.t('js.work_packages.properties.subproject');
   }

@@ -24,6 +24,8 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   icon = 'icon-user';
 
+  image = 'frontend/src/assets/images/board_creation_modal/assignees.svg';
+
   readonly unassignedUser:any = {
     id: null,
     href: null,

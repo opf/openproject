@@ -19,6 +19,8 @@ export class BoardStatusActionService extends CachedBoardActionService {
 
   icon = 'icon-workflow';
 
+  image = 'frontend/src/assets/images/board_creation_modal/status.svg';
+
   public get localizedName() {
     return this.I18n.t('js.work_packages.properties.status');
   }
