@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -o pipefail
 
 echo " ---> PREINSTALL"
 
@@ -12,6 +13,9 @@ display_error() {
 echo " ---> Setting up common dependencies. This will take a while..."
 
 (
+	set -e
+	set -o pipefail
+
 	# install node + npm
 	curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | \
 		tar xzf - -C /usr/local --strip-components=1

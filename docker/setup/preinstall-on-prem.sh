@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -o pipefail
 
 apt-get install -y  \
 	memcached \
