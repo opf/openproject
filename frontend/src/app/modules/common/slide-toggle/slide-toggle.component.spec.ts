@@ -1,6 +1,6 @@
-import { ComponentFixture, fakeAsync, TestBed, async } from '@angular/core/testing';
-import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { SlideToggleComponent } from './slide-toggle.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ChangeDetectionStrategy, DebugElement} from '@angular/core';
+import {SlideToggleComponent} from './slide-toggle.component';
 import {FormsModule} from '@angular/forms';
 
 describe('slide toggler', () => {
@@ -9,10 +9,13 @@ describe('slide toggler', () => {
   let element:DebugElement;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [SlideToggleComponent],
-      imports: [ FormsModule ],
-    }).compileComponents();
+    TestBed
+      .configureTestingModule({
+        declarations: [SlideToggleComponent],
+        imports: [FormsModule],
+      })
+      .overrideComponent(SlideToggleComponent, { set: { changeDetection: ChangeDetectionStrategy.Default } })
+      .compileComponents();
 
     fixture = TestBed.createComponent(SlideToggleComponent);
     app = fixture.debugElement.componentInstance;
@@ -20,32 +23,28 @@ describe('slide toggler', () => {
   });
 
 
-  it('should set the input correctly', async(() => {
-    app.filterName = 'foo';
+  it('should set the input correctly', (() => {
+    app.active = false;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      let container = document.querySelector('#div-values-foo');
-      expect(document.contains(container)).toBeTruthy();
-    });
+
+    let container = document.querySelector('.slide-toggle')!;
+    expect(container.classList.contains('-active')).toBeFalse();
+    expect(document.contains(container)).toBeTruthy();
   }));
 
-  it('should emit the value correctly', async(() => {
-    app.filterValue = true;
+  it('should emit the value correctly', (() => {
+    app.active = true;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-        let slider = document.querySelector('.slider');
-        if (slider) {
-            let style = getComputedStyle(slider);
-            let backgroundColor = style.backgroundColor;
-            expect(backgroundColor).toBe('rgb(0, 0, 139)');
-            app.filterValue = false;
-            fixture.detectChanges();
-            setTimeout(() => {
-            style = getComputedStyle(slider!!);
-            backgroundColor = style.backgroundColor;
-            expect(backgroundColor).toBe('rgb(204, 204, 204)'); }, 1000);
-        }
-    });
+
+    let container = document.querySelector('.slide-toggle')!;
+    expect(container.classList.contains('-active')).toBeTrue();
+
+    app.active = false;
+    fixture.detectChanges();
+
+    expect(app.active).toBeFalse();
+    container = document.querySelector('.slide-toggle')!;
+    expect(container.classList.contains('-active')).toBeFalse();
   }));
 
 });

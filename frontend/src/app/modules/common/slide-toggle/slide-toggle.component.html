@@ -1,9 +1,13 @@
-<div id="div-values-{{filterName}}">
-    <label class="switch">
-          <input  type="checkbox" [ngModel]="filterValue" id="values-{{filterName}}"
-          name="v[{{filterName}}]"
-          (ngModelChange)="onValueChanged($event)">
-          <span class="slider round"></span>
-        </label>
-  </div>
+<div [attr.id]="containerId"
+     class="slide-toggle {{ containerClasses }}"
+     [ngClass]="{ '-active': active }">
+  <label class="switch">
+    <input type="checkbox"
+           [ngModel]="active"
+           [attr.id]="inputId || undefined"
+           [attr.name]="inputName || undefined"
+           (ngModelChange)="onValueChanged($event)" />
+    <span class="slider round"></span>
+  </label>
+</div>
   
