@@ -199,6 +199,9 @@ es:
       completed: "Borrado del proyecto %{name} completado"
       completed_text: "La petición para borrar el proyecto '%{name}' se ha completado."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: No hay proyectos por el momento
       no_results_content_text: Crear un nuevo proyecto
     settings:
@@ -689,6 +692,8 @@ es:
               unassignable: "no puede ser asignado a un proyecto."
         version:
           undeletable_work_packages_attached: "La versión no puede borrarse cuando tiene paquetes de trabajos adjuntos."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Por favor revise los siguientes campos:"
         header:
@@ -1491,6 +1496,7 @@ es:
   label_no_parent_page: "Sin página principal"
   label_nothing_display: "Nada que mostrar"
   label_nobody: "nadie"
+  label_not_found: 'no encontrado'
   label_none: "ninguno"
   label_none_parentheses: "(ninguno)"
   label_not_contains: "no contiene"
@@ -1598,7 +1604,7 @@ es:
   label_search: "Buscar"
   label_send_information: "Enviar información de la cuenta del usuario"
   label_send_test_email: "Enviar un correo electrónico de prueba"
-  label_settings: "Configuración"
+  label_setting_plural: "Configuración"
   label_system_settings: "Ajustes de sistema"
   label_show_completed_versions: "Mostrar versiones terminadas"
   label_sort: "Ordenar"
@@ -2145,6 +2151,7 @@ es:
   setting_emails_header: "Encabezado de correos electrónicos"
   setting_email_login: "Usar correo electrónico como nombre de usuario"
   setting_enabled_scm: "SCM activado"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Activar Feeds"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
@@ -2175,6 +2182,8 @@ es:
   setting_per_page_options: "Objetos por página de opciones"
   setting_plain_text_mail: "Correo en texto plano (sin HTML)"
   setting_protocol: "Protocolo"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Mostrar insignia de seguridad"
   setting_registration_footer: "Pié de página de registro"
   setting_repositories_automatic_managed_vendor: "Tipo de proveedor de repositorio automático"

@@ -5,9 +5,9 @@ ru:
       click_to_download: 'Или нажмите здесь для загрузки.'
       title: 'Фоновый статус работы'
       redirect: 'Вы перенаправлены.'
-      redirect_link: 'Please click here to continue.'
-      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
-      errors: 'Some errors have occurred'
+      redirect_link: 'Пожалуйста, нажмите здесь, чтобы продолжить.'
+      redirect_errors: 'Из-за этих ошибок вы не будете перенаправлены автоматически.'
+      errors: 'Произошли некоторые ошибки'
       generic_messages:
         not_found: 'Задание не найдено.'
         in_queue: 'Задание поставлено в очередь и будет обработано в ближайшее время.'

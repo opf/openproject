@@ -29,6 +29,7 @@ el:
       error_attribute_not_writable: "Δεν είναι δυνατή η μετακίνηση του πακέτου εργασίας, το %{attribute} δεν είναι εγγράψιμο."
       error_loading_the_list: "Σφάλμα κατά την φόρτωση της λίστας: %{error_message}"
       error_permission_missing: "Λείπει το δικαίωμα δημιουργίας δημόσιων ερωτημάτων"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Κάντε κλικ για να αφαιρέσετε αυτή τη λίστα"
       board_type:
         text: 'Τύπος πίνακα'

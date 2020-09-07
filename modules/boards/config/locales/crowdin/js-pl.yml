@@ -29,6 +29,7 @@ pl:
       error_attribute_not_writable: "Nie można przenieść pakietu roboczego, nie można zapisać %{attribute}."
       error_loading_the_list: "Błąd podczas ładowania listy: %{error_message}"
       error_permission_missing: "Brakuje uprawnienia do tworzenia zapytań publicznych"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Kliknij, aby usunąć tę listę"
       board_type:
         text: 'Typ tablicy'

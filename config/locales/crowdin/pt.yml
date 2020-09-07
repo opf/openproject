@@ -201,6 +201,9 @@ pt:
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
     index:
+      open_as_gantt: 'Abrir como uma exibição Gantt'
+      open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
+      open_as_gantt_title_admin: "Você pode modificar as configurações de exibição (tais como tipos de pacotes de trabalho selecionados) em administração, nas configurações de projeto."
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Criar um novo projeto
     settings:
@@ -690,6 +693,8 @@ pt:
               unassignable: "não pode ser atribuído a um projeto."
         version:
           undeletable_work_packages_attached: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Por favor, verifique os seguintes campos:"
         header:
@@ -1492,6 +1497,7 @@ pt:
   label_no_parent_page: "Nenhuma página pai"
   label_nothing_display: "Nada para exibir"
   label_nobody: "ninguém"
+  label_not_found: 'não encontrado'
   label_none: "nenhum"
   label_none_parentheses: "(nenhum)"
   label_not_contains: "não contém"
@@ -1599,7 +1605,7 @@ pt:
   label_search: "Pesquisar"
   label_send_information: "Enviar informações da conta para o usuário"
   label_send_test_email: "Enviar um e-mail de teste"
-  label_settings: "Configurações"
+  label_setting_plural: "Configurações"
   label_system_settings: "Configurações do sistema"
   label_show_completed_versions: "Mostrar versões concluídas"
   label_sort: "Ordenar"
@@ -2145,6 +2151,7 @@ pt:
   setting_emails_header: "Cabeçalho de e-mails"
   setting_email_login: "Usar e-mail como login"
   setting_enabled_scm: "SCM habilitado"
+  setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
@@ -2175,6 +2182,8 @@ pt:
   setting_per_page_options: "Opções de objetos por página"
   setting_plain_text_mail: "Mensagens de texto simples (sem HTML)"
   setting_protocol: "Protocolo"
+  setting_project_gantt_query: "Exibição Gantt do portfólio do projeto"
+  setting_project_gantt_query_text: "Você pode modificar a consulta que é usada para exibir o gráfico Gantt da página de visão geral do projeto."
   setting_security_badge_displayed: "Exibir distintivo de segurança"
   setting_registration_footer: "Rodapé de registro"
   setting_repositories_automatic_managed_vendor: "Tipo de fornecedor de repositório automático"

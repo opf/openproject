@@ -29,6 +29,7 @@ ca:
       error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
       error_loading_the_list: "Error loading the list: %{error_message}"
       error_permission_missing: "No disposa de permisos per crear consultes públiques"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Click to remove this list"
       board_type:
         text: 'Taulell tipus'

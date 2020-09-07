@@ -200,6 +200,9 @@ ja:
       completed: "プロジェクト%{name} の削除が完了しました"
       completed_text: "プロジェクト '%{name}'を削除要求は完了しました。"
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     settings:
@@ -686,6 +689,8 @@ ja:
               unassignable: "はプロジェクトに割り当てできません。"
         version:
           undeletable_work_packages_attached: "作業パッケージが添付されているため、バージョンを削除できません。"
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "次のフィールドをチェックしてください："
         header:
@@ -1474,6 +1479,7 @@ ja:
   label_no_parent_page: "親ページはありません"
   label_nothing_display: "表示するものはありません"
   label_nobody: "無記名"
+  label_not_found: '存在しません'
   label_none: "なし"
   label_none_parentheses: "(なし)"
   label_not_contains: "含まない"
@@ -1581,7 +1587,7 @@ ja:
   label_search: "検索"
   label_send_information: "アカウント情報をユーザに送信"
   label_send_test_email: "テスト電子メールを送信"
-  label_settings: "設定"
+  label_setting_plural: "設定"
   label_system_settings: "システム設定"
   label_show_completed_versions: "終了したバージョンを表示"
   label_sort: "並べ替え"
@@ -2123,6 +2129,7 @@ ja:
   setting_emails_header: "電子メールのヘッダー"
   setting_email_login: "メールアドレスをログインに使用する"
   setting_enabled_scm: "使用するバージョン管理システム"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
@@ -2153,6 +2160,8 @@ ja:
   setting_per_page_options: "オプションページごとの項目数"
   setting_plain_text_mail: "テキストメール（HTMLなし）"
   setting_protocol: "プロトコル"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "セキュリティバッジを表示する"
   setting_registration_footer: "登録フッター"
   setting_repositories_automatic_managed_vendor: "自動リポジトリ ベンダー種類"

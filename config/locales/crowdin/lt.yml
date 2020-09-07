@@ -198,6 +198,9 @@ lt:
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
     index:
+      open_as_gantt: 'Atidaryti kaip Gantt diagramą'
+      open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
+      open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     settings:
@@ -691,6 +694,8 @@ lt:
               unassignable: "negalima priskirti projektui."
         version:
           undeletable_work_packages_attached: "Versija negali būti pašalinta, nes prie jos yra prijungtų darbo paketų."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Prašome patikrinti šiuos laukelius:"
         header:
@@ -1521,6 +1526,7 @@ lt:
   label_no_parent_page: "Nėra tėvinio puslapio"
   label_nothing_display: "Nėra ką rodyti"
   label_nobody: "niekas"
+  label_not_found: 'nerasta'
   label_none: "joks"
   label_none_parentheses: "(nėra)"
   label_not_contains: "neturi"
@@ -1628,7 +1634,7 @@ lt:
   label_search: "Paieška"
   label_send_information: "Nusiųsti vartotojui paskyros informaciją"
   label_send_test_email: "Siųsti bandomąjį el. laišką"
-  label_settings: "Nustatymai"
+  label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
   label_sort: "Rūšiuoti"
@@ -2183,6 +2189,7 @@ lt:
   setting_emails_header: "El. laiškų antraštė"
   setting_email_login: "Naudokite e-paštą prisijungimui"
   setting_enabled_scm: "Įgalinti SCM"
+  setting_enabled_projects_columns: "Matomas projektų sąraše"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
@@ -2213,6 +2220,8 @@ lt:
   setting_per_page_options: "Įrašų puslapyje nustatymai"
   setting_plain_text_mail: "Tik tekstas laiške (be HTML)"
   setting_protocol: "Protokolas"
+  setting_project_gantt_query: "Projektų portfelio Gantt diagrama"
+  setting_project_gantt_query_text: "Galite pakeisti užklausą, kuri naudojama projekto apžvalgos puslapyje rodomos Gantt'o diagramos darbo paketams atrinkti."
   setting_security_badge_displayed: "Rodyti saugumo ženkliuką"
   setting_registration_footer: "Registracijos poraštė"
   setting_repositories_automatic_managed_vendor: "Automatinis repozitorijos tiekėjo tipas"

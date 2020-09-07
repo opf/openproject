@@ -51,6 +51,7 @@ uk:
   label_budget_plural: "Бюджети"
   label_cost_type_specific: "Бюджет #%{id}: %{name}\n"
   label_deliverable: "Бюджет"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Переглянути всі бюджети"
   label_yes: "Так"
   notice_budget_conflict: "Робочі пакети повинні бути одного проекту."

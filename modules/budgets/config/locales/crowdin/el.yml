@@ -51,6 +51,7 @@ el:
   label_budget_plural: "Προϋπολογισμοί"
   label_cost_type_specific: "Προϋπολογισμός#%{id}: %{name}"
   label_deliverable: "Προϋπολογισμός"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Εμφάνιση όλων των προϋπολογισμών"
   label_yes: "Ναι"
   notice_budget_conflict: "Τα Πακέτα Εργασίας πρέπει να είναι από το ίδιο έργο."

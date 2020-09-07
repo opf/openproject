@@ -29,6 +29,7 @@ es:
       error_attribute_not_writable: "No se puede mover el paquete de trabajo porque %{attribute} no permite la escritura."
       error_loading_the_list: "Error al cargar la lista: %{error_message}"
       error_permission_missing: "Falta el permiso para crear consultas públicas"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Haga clic para quitar esta lista"
       board_type:
         text: 'Tipo de panel'

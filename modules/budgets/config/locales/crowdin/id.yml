@@ -51,6 +51,7 @@ id:
   label_budget_plural: "Budget"
   label_cost_type_specific: "Budget #%{id}: %{name}"
   label_deliverable: "Bugdet"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Lihat semua budget"
   label_yes: "Yes"
   notice_budget_conflict: "Pilihan WorksPackage harus dari proyek yang sama."

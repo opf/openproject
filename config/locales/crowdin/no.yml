@@ -202,6 +202,9 @@
       completed: "Sletting av prosjektet %{name} er fullført"
       completed_text: "Forespørselen om å slette prosjektet '%{name}' er fullført."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Det er for tiden ingen prosjekter
       no_results_content_text: Opprett nytt prosjekt
     settings:
@@ -692,6 +695,8 @@
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Kontroller følgende felter:"
         header:
@@ -1494,6 +1499,7 @@
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
   label_nobody: "ingen"
+  label_not_found: 'not found'
   label_none: "ingen"
   label_none_parentheses: "(ingen)"
   label_not_contains: "inneholder ikke"
@@ -1601,7 +1607,7 @@
   label_search: "Søk"
   label_send_information: "Send kontoinformasjon til brukeren"
   label_send_test_email: "Send en testmail"
-  label_settings: "Innstillinger"
+  label_setting_plural: "Innstillinger"
   label_system_settings: "Systeminnstillinger"
   label_show_completed_versions: "Vis fullførte versjoner"
   label_sort: "Sortèr"
@@ -2148,6 +2154,7 @@
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM aktivert"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktiver Feeds"
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
@@ -2178,6 +2185,8 @@
   setting_per_page_options: "Alternativer for oppføringer pr. side"
   setting_plain_text_mail: "Ren tekst (ingen HTML)"
   setting_protocol: "Protokoll"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registrerings bunntekst"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"

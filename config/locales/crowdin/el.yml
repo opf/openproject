@@ -200,6 +200,9 @@ el:
       completed: "Η διαγραφή του έργου %{name} ολοκληρώθηκε"
       completed_text: "Το αίτημα για διαγραφή του έργου %{name} έχει ολοκληρωθεί."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
     settings:
@@ -689,6 +692,8 @@ el:
               unassignable: "δεν μπορεί να ανατεθεί σε ένα έργο."
         version:
           undeletable_work_packages_attached: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Παρακαλούμε ελέγξτε τα ακόλουθα πεδία:"
         header:
@@ -1491,6 +1496,7 @@ el:
   label_no_parent_page: "Δεν υπάρχει σελίδα γονέα"
   label_nothing_display: "Δεν υπάρχει κάτι για εμφάνιση"
   label_nobody: "κανένας"
+  label_not_found: 'δεν βρέθηκε'
   label_none: "κανένα"
   label_none_parentheses: "(κανένα)"
   label_not_contains: "δεν περιέχει"
@@ -1598,7 +1604,7 @@ el:
   label_search: "Αναζήτηση"
   label_send_information: "Αποστολή πληροφοριών λογαριασμού στο χρήστη"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
-  label_settings: "Ρυθμίσεις"
+  label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"
   label_show_completed_versions: "Εμφάνιση ολοκληρωμένων εκδόσεων"
   label_sort: "Ταξινόμηση"
@@ -2144,6 +2150,7 @@ el:
   setting_emails_header: "Επικεφαλίδα email"
   setting_email_login: "Χρησιμοποιήστε email για είσοδο"
   setting_enabled_scm: "Ενεργοποίηση SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
@@ -2174,6 +2181,8 @@ el:
   setting_per_page_options: "Αντικείμενα ανά σελίδα επιλογών"
   setting_plain_text_mail: "Email απλού κειμένου (χωρίς HTML)"
   setting_protocol: "Πρωτόκολλο"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Εμφάνιση πληροφοριών ασφαλείας"
   setting_registration_footer: "Υποσέλιδο εγγραφής"
   setting_repositories_automatic_managed_vendor: "Αυτόματος τύπος προμηθευτή αποθετηρίου"

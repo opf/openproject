@@ -29,6 +29,7 @@ pt:
       error_attribute_not_writable: "Não é possível mover o pacote de trabalho, %{attribute} não é gravável."
       error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
       error_permission_missing: "A permissão para criar consultas públicas está faltando"
+      error_cannot_move_into_self: "Você não pode mover um pacote de trabalho para sua própria coluna."
       click_to_remove_list: "Clique para remover esta lista"
       board_type:
         text: 'Tipo de quadro'

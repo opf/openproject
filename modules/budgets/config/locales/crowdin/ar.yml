@@ -51,6 +51,7 @@ ar:
   label_budget_plural: "الميزانيات"
   label_cost_type_specific: "الميزانية #%{id}:\n%{name}"
   label_deliverable: "الميزانية"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "عرض جميع الميزانيات"
   label_yes: "نعم"
   notice_budget_conflict: "مجموعات العمل يجب أن تكون لنفس المشروع."
