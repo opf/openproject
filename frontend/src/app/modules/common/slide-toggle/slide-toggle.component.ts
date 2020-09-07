@@ -26,7 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input, OnChanges,
+  OnInit,
+  Output, SimpleChanges
+} from '@angular/core';
 
 export const slideToggleSelector = 'slide-toggle';
 
@@ -37,17 +46,21 @@ export const slideToggleSelector = 'slide-toggle';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class SlideToggleComponent implements OnInit {
+export class SlideToggleComponent implements OnInit, OnChanges {
   @Input() containerId:string;
   @Input() containerClasses:string;
-  @Input() filterName:string;
   @Input() inputId:string;
   @Input() inputName:string;
-  @Input() filterValue:boolean;
+  @Input() active:boolean;
 
   @Output() valueChanged = new EventEmitter();
 
-  constructor(private elementRef:ElementRef) {
+  constructor(private elementRef:ElementRef,
+              private cdRef:ChangeDetectorRef) {
+  }
+
+  ngOnChanges(changes:SimpleChanges) {
+    console.warn(JSON.stringify(changes));
   }
 
   ngOnInit() {
@@ -57,15 +70,15 @@ export class SlideToggleComponent implements OnInit {
     if (dataset.inputName) {
       this.containerId = dataset.containerId;
       this.containerClasses = dataset.containerClasses;
-      this.filterName = dataset.filterName;
       this.inputId = dataset.inputId;
       this.inputName = dataset.inputName;
-      this.filterValue = dataset.filterValue.toString() === 'true';
+      this.active = dataset.active.toString() === 'true';
     }
   }
 
   public onValueChanged(val:any) {
-    this.filterValue = val;
+    this.active = val;
     this.valueChanged.emit(val);
+    this.cdRef.detectChanges();
   }
 }

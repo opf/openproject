@@ -1,9 +1,9 @@
 <div [attr.id]="containerId"
      class="slide-toggle {{ containerClasses }}"
-     [ngClass]="{ '-active': filterValue }">
+     [ngClass]="{ '-active': active }">
   <label class="switch">
     <input type="checkbox"
-           [ngModel]="filterValue"
+           [ngModel]="active"
            [attr.id]="inputId || undefined"
            [attr.name]="inputName || undefined"
            (ngModelChange)="onValueChanged($event)" />

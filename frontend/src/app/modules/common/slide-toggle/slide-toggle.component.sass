@@ -26,25 +26,25 @@
   transition: .4s
 
 
-.slider:before 
-  position: absolute
-  content: ""
-  height: 16px
-  width: 16px
-  left: 4px
-  bottom: 4px
-  background-color: white
-  -webkit-transition: .4s
-  transition: .4s
+  &:before
+    position: absolute
+    content: ""
+    height: 16px
+    width: 16px
+    left: 4px
+    bottom: 4px
+    background-color: white
+    -webkit-transition: .4s
+    transition: .4s
 
 
-input:checked + .slider 
+.slide-toggle.-active .slider
   background-color: darkblue
 
-input:checked + .slider:before 
-  -webkit-transform: translateX(26px)
-  -ms-transform: translateX(26px)
-  transform: translateX(26px)
+  &:before
+    -webkit-transform: translateX(26px)
+    -ms-transform: translateX(26px)
+    transform: translateX(26px)
 
 
 /* Rounded sliders */
