@@ -207,6 +207,11 @@ module WorkPackagesHelper
     ret
   end
 
+  def back_url_is_wp_show?
+    route = Rails.application.routes.recognize_path(params[:back_url] || request.env['HTTP_REFERER'])
+    route[:controller] == 'work_packages' && route[:action] == 'index' && route[:state]&.match?(/^\d+/)
+  end
+
   private
 
   def truncated_work_package_description(work_package, lines = 3)
