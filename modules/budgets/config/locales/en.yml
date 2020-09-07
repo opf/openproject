@@ -37,22 +37,19 @@ en:
         budget_ratio: "Spent (ratio)"
         created_on: "Created on"
         description: "Description"
-        fixed_date: "Fixed date"
         spent: "Spent"
         status: "Status"
         subject: "Subject"
         type: "Cost type"
         updated_on: "Updated on"
-      work_package:
-        budget_subject: "Budget title"
-      budget:
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
+      work_package:
+        budget_subject: "Budget title"
     models:
       budget: "Budget"
       material_budget_item: "Unit"
   attributes:
-    budget: "Planned costs"
     budget: "Budget"
 
   button_add_budget_item: "Add planned costs"
