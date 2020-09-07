@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'Only see your own rates', type: :feature, js: true do
+describe 'Deleting time entries', type: :feature, js: true do
   let(:project) { work_package.project }
   let(:user) do
     FactoryBot.create :user,
@@ -65,7 +65,7 @@ describe 'Only see your own rates', type: :feature, js: true do
   end
 
   it 'allows to move the time entry to a different work package' do
-    allow(User).to receive(:current).and_return(user)
+    login_as(user)
 
     work_package
     other_work_package
@@ -86,6 +86,9 @@ describe 'Only see your own rates', type: :feature, js: true do
     fill_in 'to_do_reassign_to_id', with: other_work_package.id
 
     click_button(I18n.t('button_delete'))
+
+    table = Pages::WorkPackagesTable.new(project)
+    table.expect_current_path
 
     other_wp_page = Pages::FullWorkPackage.new(other_work_package)
     other_wp_page.visit!
