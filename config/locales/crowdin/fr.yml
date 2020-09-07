@@ -202,6 +202,9 @@ fr:
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
     settings:
@@ -691,6 +694,8 @@ fr:
               unassignable: "ne peut pas être assigné à un projet."
         version:
           undeletable_work_packages_attached: "La version ne peut pas être supprimée car des lots de travaux y sont attachés."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Veuillez vérifier les champs suivants :"
         header:
@@ -1493,6 +1498,7 @@ fr:
   label_no_parent_page: "Aucune page parente"
   label_nothing_display: "Rien à afficher"
   label_nobody: "personne"
+  label_not_found: 'non trouvé'
   label_none: "aucune"
   label_none_parentheses: "(none)"
   label_not_contains: "ne contient pas"
@@ -1600,7 +1606,7 @@ fr:
   label_search: "Recherche"
   label_send_information: "Envoyer informations du compte à l'utilisateur"
   label_send_test_email: "Envoyer un courriel de test"
-  label_settings: "Paramètres"
+  label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"
   label_show_completed_versions: "Afficher les versions terminées"
   label_sort: "Trier"
@@ -2147,6 +2153,7 @@ fr:
   setting_emails_header: "En-tête des courriels"
   setting_email_login: "Utiliser l'adresse courriel comme login"
   setting_enabled_scm: "Permettre SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Permettre les flux"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
@@ -2177,6 +2184,8 @@ fr:
   setting_per_page_options: "Options des objets par page"
   setting_plain_text_mail: "Courriel au format texte (pas de HTML)"
   setting_protocol: "Protocole"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Afficher le badge de sécurité"
   setting_registration_footer: "Pied de page d’inscription"
   setting_repositories_automatic_managed_vendor: "Type de fournisseur de dépôt automatique"

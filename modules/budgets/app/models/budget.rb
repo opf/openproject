@@ -162,13 +162,16 @@ class Budget < ApplicationRecord
 
   def new_material_budget_item_attributes=(material_budget_item_attributes)
     material_budget_item_attributes.each do |_index, attributes|
-      material_budget_items.build(attributes) if attributes[:units].to_i.positive?
+      correct_material_attributes!(attributes)
+
+      material_budget_items.build(attributes) if attributes[:units].to_f.positive?
     end
   end
 
   def existing_material_budget_item_attributes=(material_budget_item_attributes)
     material_budget_items.reject(&:new_record?).each do |material_budget_item|
       attributes = material_budget_item_attributes[material_budget_item.id.to_s]
+      correct_material_attributes!(attributes)
 
       if User.current.allowed_to? :edit_budgets, material_budget_item.budget.project
         if attributes && attributes[:units].to_i.positive?
@@ -188,8 +191,9 @@ class Budget < ApplicationRecord
 
   def new_labor_budget_item_attributes=(labor_budget_item_attributes)
     labor_budget_item_attributes.each do |_index, attributes|
-      if valid_labor_budget_attributes?(attributes)
+      correct_labor_attributes!(attributes)
 
+      if valid_labor_budget_attributes?(attributes)
         item = labor_budget_items.build(attributes)
         item.budget = self # to please the labor_budget_item validation
       end
@@ -199,6 +203,8 @@ class Budget < ApplicationRecord
   def existing_labor_budget_item_attributes=(labor_budget_item_attributes)
     labor_budget_items.reject(&:new_record?).each do |labor_budget_item|
       attributes = labor_budget_item_attributes[labor_budget_item.id.to_s]
+      correct_labor_attributes!(attributes)
+
       if User.current.allowed_to? :edit_budgets, labor_budget_item.budget.project
         if valid_labor_budget_attributes?(attributes)
           labor_budget_item.attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
@@ -215,9 +221,21 @@ class Budget < ApplicationRecord
     end
   end
 
+  def correct_labor_attributes!(attributes)
+    return unless attributes
+
+    attributes[:hours] = Rate.parse_number_string_to_number(attributes[:hours])
+  end
+
+  def correct_material_attributes!(attributes)
+    return unless attributes
+
+    attributes[:units] = Rate.parse_number_string_to_number(attributes[:units])
+  end
+
   def valid_labor_budget_attributes?(attributes)
     attributes &&
-      attributes[:hours].to_i.positive? &&
+      attributes[:hours].to_f.positive? &&
       attributes[:user_id].to_i.positive? &&
       project.possible_assignees.map(&:id).include?(attributes[:user_id].to_i)
   end

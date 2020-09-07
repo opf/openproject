@@ -202,6 +202,9 @@ ca:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
     settings:
@@ -692,6 +695,8 @@ ca:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Si us plau, revisi els camps següents:"
         header:
@@ -1494,6 +1499,7 @@ ca:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Res a mostrar"
   label_nobody: "ningú"
+  label_not_found: 'not found'
   label_none: "cap"
   label_none_parentheses: "(cap)"
   label_not_contains: "no conté"
@@ -1601,7 +1607,7 @@ ca:
   label_search: "Cercar"
   label_send_information: "Envia la informació del compte a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
-  label_settings: "Configuració"
+  label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"
   label_show_completed_versions: "Mostra les versions acabades"
   label_sort: "Ordena"
@@ -2146,6 +2152,7 @@ ca:
   setting_emails_header: "Encapçalament dels correus"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Activar SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Habilita els canals"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
@@ -2176,6 +2183,8 @@ ca:
   setting_per_page_options: "Opcions d'objectes per pàgina"
   setting_plain_text_mail: "Només text pla (no HTML)"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Tipus de proveïdor de repositori automàtic"

@@ -202,6 +202,9 @@ fil:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Sa kasalukuyan ay walang mga proyekto
       no_results_content_text: Gumawa ng bagong proyekto
     settings:
@@ -692,6 +695,8 @@ fil:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Mangyaring suriin ang mga sumusunod na mga patlang:"
         header:
@@ -1494,6 +1499,7 @@ fil:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Walang maipakita"
   label_nobody: "walang sinuman"
+  label_not_found: 'hindi nakita'
   label_none: "wala"
   label_none_parentheses: "(wala)"
   label_not_contains: "hindi naglalaman"
@@ -1601,7 +1607,7 @@ fil:
   label_search: "Hanapin"
   label_send_information: "Magpadala ng akwant impormasyon sa gumagamit"
   label_send_test_email: "Magpadala ng test email"
-  label_settings: "Mga setting"
+  label_setting_plural: "Mga setting"
   label_system_settings: "Mga setting ng system"
   label_show_completed_versions: "Ipakita ang mga kompletong bersyon"
   label_sort: "Ayusin"
@@ -2146,6 +2152,7 @@ fil:
   setting_emails_header: "Ang email ng header"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Paganahin ang SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Paganahin ang mga feed"
   setting_feeds_limit: "Limitasyon ng nilalaman na feed"
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
@@ -2176,6 +2183,8 @@ fil:
   setting_per_page_options: "Ang mga bagay kada pahina ng pagpipilian"
   setting_plain_text_mail: "Plain text mail (walang HTML)"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Footer ng pagrerehistro"
   setting_repositories_automatic_managed_vendor: "Awtomatiko na uri ng repository vendor"

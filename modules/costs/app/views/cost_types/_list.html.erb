@@ -89,7 +89,14 @@ See docs/COPYRIGHT.rdoc for more details.
             <td>
               <%= form_for cost_type, :url => { :controller => '/cost_types', :action => 'set_rate', :id => cost_type }, method: :put, html: { class: 'inline-label' }  do |f| %>
                 <label class="hidden-for-sighted" for="<%= "rate_field_#{cost_type.id}" %>"><%= t(:caption_set_rate) %></label>
-                <%= content_tag :input, '', :value => "", :name => :rate, :size => 7, :id => "rate_field_#{cost_type.id}" %>
+                <%= content_tag :input,
+                                '',
+                                value: "",
+                                name: :rate,
+                                size: 7,
+                                inputmode: :decimal,
+                                placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
+                                id: "rate_field_#{cost_type.id}" %>
                 <span class="form-label">
                   <%= Setting.plugin_costs['costs_currency'] %>
                 </span>

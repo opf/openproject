@@ -29,6 +29,7 @@ sv:
       error_attribute_not_writable: "Kan inte flytta arbetspaketet, %{attribute} är inte skrivbar."
       error_loading_the_list: "Fel vid inläsning av listan: %{error_message}"
       error_permission_missing: "Behörigheten att skapa offentliga frågor saknas"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Klicka för att ta bort denna lista"
       board_type:
         text: 'Typ av tavla'

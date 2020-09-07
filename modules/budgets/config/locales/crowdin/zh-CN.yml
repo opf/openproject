@@ -51,6 +51,7 @@ zh-CN:
   label_budget_plural: "预算"
   label_cost_type_specific: "预算 #%{id}：%{name}"
   label_deliverable: "预算"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "查看所有预算"
   label_yes: "是"
   notice_budget_conflict: "工作包必须具有相同的项目。"

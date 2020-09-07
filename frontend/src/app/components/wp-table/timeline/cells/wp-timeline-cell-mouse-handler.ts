@@ -125,7 +125,6 @@ export function registerWorkPackageMouseHandler(this:void,
 
   function createMouseMoveFn(direction:'left'|'right'|'both'|'create'|'dragright') {
     return (ev:JQuery.MouseMoveEvent) => {
-
       const days = getCursorOffsetInDaysFromLeft(renderInfo, ev.originalEvent!) - mouseDownStartDay!;
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
@@ -222,10 +221,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
     // const renderInfo = getRenderInfo();
     if (cancelled || renderInfo.change.isEmpty()) {
-      renderInfo.change.clear();
-      renderer.update(bar, labels, renderInfo);
-      renderer.onMouseDownEnd(labels, renderInfo.change);
-      workPackageTimeline.refreshView();
+      cancelChange();
     } else {
       const stopAndRefresh = () => {
         renderInfo.change.clear();
@@ -235,9 +231,18 @@ export function registerWorkPackageMouseHandler(this:void,
       // Persist the changes
       saveWorkPackage(renderInfo.change)
         .then(stopAndRefresh)
-        .catch(stopAndRefresh);
+        .catch(error => {
+          notificationService.handleRawError(error, renderInfo.workPackage);
+          cancelChange();
+        });
     }
+  }
 
+  function cancelChange() {
+    renderInfo.change.clear();
+    renderer.update(bar, labels, renderInfo);
+    renderer.onMouseDownEnd(labels, renderInfo.change);
+    workPackageTimeline.refreshView();
   }
 
   function saveWorkPackage(change:WorkPackageChangeset) {
@@ -261,9 +266,6 @@ export function registerWorkPackageMouseHandler(this:void,
             halEvents.push(result.resource, { eventType: 'updated' });
             return querySpace.timelineRendered.pipe(take(1)).toPromise();
           });
-      })
-      .catch((error) => {
-        notificationService.handleRawError(error, renderInfo.workPackage);
       });
   }
 }

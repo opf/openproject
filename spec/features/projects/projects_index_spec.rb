@@ -350,10 +350,6 @@ describe 'Projects index page',
         # value selection defaults to "active"'
         expect(page).to have_selector('li[filter-name="active"]')
 
-        # Filter has three operators 'all', 'active' and 'archived'
-        expect(page.find('li[filter-name="active"] select[name="operator"] option[value="="]')).to have_text('is')
-        expect(page.find('li[filter-name="active"] select[name="operator"] option[value="!"]')).to have_text('is not')
-
         expect(page).to have_text(parent_project.name)
         expect(page).to have_text(child_project.name)
         expect(page).to have_text('Plain project')

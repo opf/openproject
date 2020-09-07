@@ -202,6 +202,9 @@ tr:
       completed: " %{name}  projesinin silinmesi tamamlandı"
       completed_text: "'%{name}' projesini silme isteği tamamlandı."
     index:
+      open_as_gantt: 'Gantt görünümü olarak aç'
+      open_as_gantt_title: "Bu sayfada görünen projeler için iş paketlerini filtreleyen bir Gantt görünümü oluşturmak için bu düğmeyi kullanın."
+      open_as_gantt_title_admin: "Proje ayarları altında yönetimde görünüm ayarlarını (seçilen iş paketi türleri gibi) değiştirebilirsiniz."
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
     settings:
@@ -516,7 +519,7 @@ tr:
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} (tam olarak) kopyalanamadı."
         does_not_exist: "mevcut değil."
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
@@ -692,6 +695,8 @@ tr:
               unassignable: "bir projeye atanamaz."
         version:
           undeletable_work_packages_attached: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Lütfen aşağıdaki alanları kontrol edin:"
         header:
@@ -1494,6 +1499,7 @@ tr:
   label_no_parent_page: "Üst sayfa yok"
   label_nothing_display: "Görüntülenecek bir şey yok"
   label_nobody: "hiçkimse"
+  label_not_found: 'bulunamadı'
   label_none: "hiçbiri"
   label_none_parentheses: "(yok)"
   label_not_contains: "içermiyor"
@@ -1601,7 +1607,7 @@ tr:
   label_search: "Ara"
   label_send_information: "Hesap bilgilerini kullanıcıya gönder"
   label_send_test_email: "Deneme e-postası gönder"
-  label_settings: "Ayarlar"
+  label_setting_plural: "Ayarlar"
   label_system_settings: "Sistem ayarları"
   label_show_completed_versions: "Tamamlanmış sürümleri göster"
   label_sort: "Sırala"
@@ -2148,6 +2154,7 @@ tr:
   setting_emails_header: "E-posta üstbilgisi"
   setting_email_login: "Giriş olarak e-posta kullanın"
   setting_enabled_scm: "Etkinleştirilmiş SCM"
+  setting_enabled_projects_columns: "Proje listesinde görünür"
   setting_feeds_enabled: "Yayınları Etkinleştir"
   setting_feeds_limit: "Besleme içeriği sınırı"
   setting_file_max_size_displayed: "Satır içi görüntülenen maksimum metin dosyası boyutu"
@@ -2178,6 +2185,8 @@ tr:
   setting_per_page_options: "Sayfa başı nesne seçenekleri"
   setting_plain_text_mail: "Düz metin postası (HTML yok)"
   setting_protocol: "Protokol"
+  setting_project_gantt_query: "Proje portföyü Gantt görünümü"
+  setting_project_gantt_query_text: "Gantt grafiğini görüntülemek için kullanılan sorguyu projeye genel bakış sayfasından değiştirebilirsiniz."
   setting_security_badge_displayed: "Güvenlik rozeti göster"
   setting_registration_footer: "Kayıt alt bilgisi"
   setting_repositories_automatic_managed_vendor: "Otomatik depo satıcısı türü"
@@ -2217,8 +2226,8 @@ tr:
     session: "Oturum"
     brute_force_prevention: "Otomatik kullanıcı engelleme"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Yeni projeler için ayarlar"
+      section_project_overview: "Projeye genel bakış listesi ayarları"
     user:
       default_preferences: "Varsayılan Tercihler"
       deletion: "Silme"

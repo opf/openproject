@@ -100,6 +100,9 @@ class CustomValue < ApplicationRecord
   end
 
   def strategy
-    @strategy ||= OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format).formatter.new(self)
+    @strategy ||= begin
+      format = custom_field&.field_format || 'empty'
+      OpenProject::CustomFieldFormat.find_by_name(format).formatter.new(self)
+    end
   end
 end

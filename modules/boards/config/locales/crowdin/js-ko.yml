@@ -29,6 +29,7 @@ ko:
       error_attribute_not_writable: "작업 패키지를 이동할 수 없습니다. %{attribute}은(는) 쓰기 가능하지 않습니다."
       error_loading_the_list: "목록 로드 중 오류 발생: %{error_message}"
       error_permission_missing: "공용 쿼리를 만들 수 있는 권한이 없습니다"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "이 목록을 제거하려면 클릭"
       board_type:
         text: '보드 유형'

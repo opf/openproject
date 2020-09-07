@@ -65,7 +65,6 @@ class CustomFieldsController < ApplicationController
       call_hook(:controller_custom_fields_new_after_save, custom_field: call.result)
       redirect_to custom_fields_path(tab: call.result.class.name)
     else
-      flash[:error] = call.message || I18n.t('notice_internal_server_error')
       @custom_field = call.result || new_custom_field
       render action: 'new'
     end
@@ -83,7 +82,6 @@ class CustomFieldsController < ApplicationController
       call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
       redirect_back_or_default edit_custom_field_path(id: @custom_field.id)
     else
-      flash[:error] = call.message || I18n.t('notice_internal_server_error')
       render action: 'edit'
     end
   end

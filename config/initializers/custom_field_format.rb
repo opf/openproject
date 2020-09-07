@@ -56,6 +56,10 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: :label_boolean,
                                                      order: 7,
                                                      formatter: 'CustomValue::BoolStrategy')
+  fields.register OpenProject::CustomFieldFormat.new('empty',
+                                                     label: :label_empty,
+                                                     order: 7,
+                                                     formatter: 'CustomValue::EmptyStrategy')
   fields.register OpenProject::CustomFieldFormat.new('user',
                                                      label: Proc.new { User.model_name.human },
                                                      only: %w(WorkPackage TimeEntry

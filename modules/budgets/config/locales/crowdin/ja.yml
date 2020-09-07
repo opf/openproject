@@ -51,6 +51,7 @@ ja:
   label_budget_plural: "予算"
   label_cost_type_specific: "予算 #%{id}: %{name}"
   label_deliverable: "予算"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "全ての予算を表示"
   label_yes: "はい"
   notice_budget_conflict: "作業項目は同一プロジェクトである必要があります。"

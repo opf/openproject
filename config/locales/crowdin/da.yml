@@ -202,6 +202,9 @@ da:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Der er i øjeblikket ingen projekter
       no_results_content_text: Opret et nyt projekt
     settings:
@@ -692,6 +695,8 @@ da:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Kontroller venligst følgende felter:"
         header:
@@ -1494,6 +1499,7 @@ da:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Intet at vise"
   label_nobody: "ingen"
+  label_not_found: 'not found'
   label_none: "ingen"
   label_none_parentheses: "(ingen)"
   label_not_contains: "indeholder ikke"
@@ -1601,7 +1607,7 @@ da:
   label_search: "Søg"
   label_send_information: "Send kontooplysninger til brugeren"
   label_send_test_email: "Send en e-mailtest"
-  label_settings: "Indstillinger"
+  label_setting_plural: "Indstillinger"
   label_system_settings: "System settings"
   label_show_completed_versions: "Vis færdige versioner"
   label_sort: "Sorter"
@@ -2146,6 +2152,7 @@ da:
   setting_emails_header: "Mailhoved"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Aktiver SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktiver feeds"
   setting_feeds_limit: "Grænse for indhold af feeds"
   setting_file_max_size_displayed: "Maksimal størrelse af tekstfiler, der vises inline"
@@ -2176,6 +2183,8 @@ da:
   setting_per_page_options: "Mulige objekter per side"
   setting_plain_text_mail: "Simpel tekst mails (ingen HTML)"
   setting_protocol: "Protokol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Automatisk repositorie-leverandørtype"

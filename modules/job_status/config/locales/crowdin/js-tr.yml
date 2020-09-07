@@ -5,9 +5,9 @@ tr:
       click_to_download: 'Veya indirmek için buraya tıklayın.'
       title: 'Arka plan iş durumu'
       redirect: 'Yönlendiriliyorsunuz.'
-      redirect_link: 'Please click here to continue.'
-      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
-      errors: 'Some errors have occurred'
+      redirect_link: 'Devam etmek için lütfen buraya tıklayın.'
+      redirect_errors: 'Bu hatalar nedeniyle, otomatik olarak yeniden yönlendirilmeyeceksiniz.'
+      errors: 'Bazı hatalar meydana geldi'
       generic_messages:
         not_found: 'Bu iş bulunamadı.'
         in_queue: 'İş kuyruğa alındı ve kısa süre içinde işlenecek.'

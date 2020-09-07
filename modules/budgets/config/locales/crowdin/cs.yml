@@ -51,6 +51,7 @@ cs:
   label_budget_plural: "Rozpočty"
   label_cost_type_specific: "Rozpočet č.%{id}: %{name}"
   label_deliverable: "Rozpočet"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Zobrazit všechny rozpočty"
   label_yes: "Ano"
   notice_budget_conflict: "Pracovní balíčky musí být ze stejného projektu."

@@ -24,11 +24,12 @@ ru:
         locked: 'Заперто'
         closed: 'закрыто'
       new_board: 'Новая доска'
-      add_list: 'Add list to board'
+      add_list: 'Добавить список в форум'
       add_card: 'Добавить карточку'
       error_attribute_not_writable: "Невозможно переместить пакет работ, %{attribute} не доступен для записи."
       error_loading_the_list: "Ошибка загрузки списка: %{error_message}"
       error_permission_missing: "Отсутствует разрешение на создание публичных запросов"
+      error_cannot_move_into_self: "Вы не можете переместить пакет работ в свой столбец."
       click_to_remove_list: "Нажмите, чтобы удалить этот список"
       board_type:
         text: 'Тип доски'
@@ -53,11 +54,11 @@ ru:
         select_attribute: "Атрибут действия"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Выберите пользователя для добавления в качестве нового списка исполнителей
+          status: Выберите статус для добавления в новый список
+          version: Выберите версию для добавления в новый список
+          subproject: Выберите подпроект для добавления в новый список
+          subtasks: Выберите пакет работ для добавления в новый список
         warning:
           status: |
             Статус недоступен. <br>

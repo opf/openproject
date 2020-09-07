@@ -202,6 +202,9 @@ zh-TW:
       completed: "專案 %{name} 已完成刪除"
       completed_text: "刪除專案 \"%{name}\" 的請求已經完成。"
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
     settings:
@@ -690,6 +693,8 @@ zh-TW:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "請檢查下列欄位："
         header:
@@ -1478,6 +1483,7 @@ zh-TW:
   label_no_parent_page: "無上層頁面"
   label_nothing_display: "沒有可以顯示的"
   label_nobody: "沒有人"
+  label_not_found: '未找到'
   label_none: "無"
   label_none_parentheses: "（無）"
   label_not_contains: "不包含"
@@ -1585,7 +1591,7 @@ zh-TW:
   label_search: "搜尋"
   label_send_information: "傳送帳號資訊給使用者"
   label_send_test_email: "發送測試電子郵件"
-  label_settings: "設定"
+  label_setting_plural: "設定"
   label_system_settings: "系統設置"
   label_show_completed_versions: "顯示已完成的版本"
   label_sort: "排序"
@@ -2126,6 +2132,7 @@ zh-TW:
   setting_emails_header: "電子郵件標頭"
   setting_email_login: "使用信箱登入"
   setting_enabled_scm: "啟用 SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "啟用 Feed"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
@@ -2156,6 +2163,8 @@ zh-TW:
   setting_per_page_options: "每頁顯示項目個數的設置"
   setting_plain_text_mail: "純文字郵件（不含 HTML）"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "顯示安全徽章"
   setting_registration_footer: "註冊頁腳"
   setting_repositories_automatic_managed_vendor: "自動版本控制類型"

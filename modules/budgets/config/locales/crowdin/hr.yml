@@ -51,6 +51,7 @@ hr:
   label_budget_plural: "Proračuni"
   label_cost_type_specific: "Proračun #%{id}: %{name}"
   label_deliverable: "Budžet"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Pogledaj sve proračune"
   label_yes: "Da"
   notice_budget_conflict: "Radni paketi moraju biti na istom projektu."

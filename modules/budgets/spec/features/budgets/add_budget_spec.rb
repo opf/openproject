@@ -33,7 +33,7 @@ describe 'adding a new budget', type: :feature, js: true do
   let(:user) { FactoryBot.create :admin }
 
   before do
-    allow(User).to receive(:current).and_return user
+    login_as user
   end
 
   it 'shows link to create a new budget' do
@@ -95,12 +95,57 @@ describe 'adding a new budget', type: :feature, js: true do
     end
 
     let(:new_budget_page) { Pages::NewBudget.new project.identifier }
+    let(:budget_page) { Pages::EditBudget.new Budget.last }
 
     before do
       project.add_member! user, FactoryBot.create(:role)
 
       FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0
       FactoryBot.create :default_hourly_rate, user: user, rate: 25.0
+    end
+
+    context 'with german locale' do
+      let(:user) { FactoryBot.create(:admin, language: :de) }
+
+      it 'creates the budget including the given cost items with german locale' do
+        I18n.locale = :de
+        new_budget_page.visit!
+
+        fill_in 'Thema', with: 'First Aid'
+
+        new_budget_page.add_unit_costs! '3,50', comment: 'RadAway'
+        new_budget_page.add_unit_costs! '1.000,50', comment: 'Rad-X'
+
+        new_budget_page.add_labor_costs! '5000,10', user_name: user.name, comment: 'treatment'
+        new_budget_page.add_labor_costs! '0,5', user_name: user.name, comment: 'attendance'
+
+        click_on 'Anlegen'
+        expect(page).to have_content('Erfolgreich angelegt')
+
+        expect(new_budget_page.unit_costs_at(1)).to have_content '175,00 EUR'
+        expect(new_budget_page.unit_costs_at(2)).to have_content '50.025,00 EUR'
+        expect(new_budget_page.overall_unit_costs).to have_content '50.200,00 EUR'
+
+        expect(new_budget_page.labor_costs_at(1)).to have_content '125.002,50 EUR'
+        expect(new_budget_page.labor_costs_at(2)).to have_content '12,50 EUR'
+        expect(new_budget_page.overall_labor_costs).to have_content '125.015,00 EUR'
+
+        click_on 'Bearbeiten'
+
+        budget_page.expect_planned_costs! type: :material, row: 1, expected: '175,00 EUR'
+        budget_page.expect_planned_costs! type: :material, row: 2, expected: '50.025,00 EUR'
+        budget_page.expect_planned_costs! type: :labor, row: 1, expected: '125.002,50 EUR'
+        budget_page.expect_planned_costs! type: :labor, row: 2, expected: '12,50 EUR'
+
+
+        fields = page
+          .all('input.budget-item-value')
+          .select { |node| node.value.present? }
+          .map(&:value)
+
+        expect(fields).to contain_exactly '3,50', '1.000,50', '5.000,10', '0,50'
+
+      end
     end
 
     it 'creates the budget including the given cost items' do

@@ -199,6 +199,9 @@ it:
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
     settings:
@@ -688,6 +691,8 @@ it:
               unassignable: "non può essere assegnato a un progetto."
         version:
           undeletable_work_packages_attached: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Perfavore controlla i seguenti campi:"
         header:
@@ -1490,6 +1495,7 @@ it:
   label_no_parent_page: "Nessuna pagina genitore"
   label_nothing_display: "Niente da visualizzare"
   label_nobody: "nessuno"
+  label_not_found: 'non trovato'
   label_none: "nessuno"
   label_none_parentheses: "(nessuno)"
   label_not_contains: "non contiene"
@@ -1597,7 +1603,7 @@ it:
   label_search: "Cerca"
   label_send_information: "Invia le informazioni di registrazione all'utente"
   label_send_test_email: "Invia un email di prova"
-  label_settings: "Impostazioni"
+  label_setting_plural: "Impostazioni"
   label_system_settings: "Impostazioni di sistema"
   label_show_completed_versions: "Visualizza le versioni completate"
   label_sort: "Ordina"
@@ -2144,6 +2150,7 @@ it:
   setting_emails_header: "Intestazione e-mail"
   setting_email_login: "Usa email come login"
   setting_enabled_scm: "SCM Abilitato"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Abilita Feed"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
@@ -2174,6 +2181,8 @@ it:
   setting_per_page_options: "Opzioni degli oggetti per pagina"
   setting_plain_text_mail: "Posta in formato testo semplice (no HTML)"
   setting_protocol: "Protocollo"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Mostra badge di sicurezza"
   setting_registration_footer: "Piè di pagina registrazione"
   setting_repositories_automatic_managed_vendor: "Tipo automatico di gestore dell'archivio di progetto"

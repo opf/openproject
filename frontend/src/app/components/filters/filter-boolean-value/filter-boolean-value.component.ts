@@ -40,12 +40,6 @@ export class FilterBooleanValueComponent {
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
-  public text = {
-    placeholder: this.I18n.t('js.placeholders.selection'),
-    true: this.I18n.t('js.general_text_Yes'),
-    false: this.I18n.t('js.general_text_No')
-  };
-
   constructor(readonly I18n:I18nService) {
   }
 
@@ -53,16 +47,9 @@ export class FilterBooleanValueComponent {
     return this.filter.values[0];
   }
 
-  public set value(val) {
+  public onFilterUpdated(val:string | HalResource) {
     this.filter.values[0] = val;
     this.filterChanged.emit(this.filter);
   }
 
-  public get hasNoValue() {
-    return _.isEmpty(this.filter.values);
-  }
-
-  public get availableOptions() {
-    return [true, false];
-  }
 }

@@ -51,6 +51,7 @@ zh-TW:
   label_budget_plural: "預算"
   label_cost_type_specific: "預算 #%{id}：%{name}"
   label_deliverable: "Budget"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"
   label_yes: "是"
   notice_budget_conflict: "WorkPackages must be of the same project."

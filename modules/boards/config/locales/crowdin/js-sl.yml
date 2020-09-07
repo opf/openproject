@@ -29,6 +29,7 @@ sl:
       error_attribute_not_writable: "Delovnega paketa ni mogoče premakniti, %{attribute} ni zapisljiv."
       error_loading_the_list: "Napaka pri nalaganju seznama: %{error_message}"
       error_permission_missing: "Ni dovoljenja za izdelavo javnih poizvedb"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Kliknite za izbris seznama"
       board_type:
         text: 'Vrsta table'
