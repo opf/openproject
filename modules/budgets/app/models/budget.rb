@@ -174,7 +174,7 @@ class Budget < ApplicationRecord
       correct_material_attributes!(attributes)
 
       if User.current.allowed_to? :edit_budgets, material_budget_item.budget.project
-        if attributes && attributes[:units].to_i.positive?
+        if attributes && attributes[:units].to_f.positive?
           material_budget_item.attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
         else
           material_budget_items.delete(material_budget_item)
