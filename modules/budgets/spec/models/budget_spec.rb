@@ -83,6 +83,15 @@ describe Budget, type: :model do
             .to eql 0.5
         end
       end
+
+      context 'with no value' do
+        it 'deletes the item' do
+          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => {  } }
+
+          expect(existing_material_budget_item)
+            .to be_destroyed
+        end
+      end
     end
   end
 end
