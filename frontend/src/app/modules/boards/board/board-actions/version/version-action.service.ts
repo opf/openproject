@@ -13,6 +13,7 @@ import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-a
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
+import {ImageHelpers} from "core-app/helpers/images/path-helper";
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {
@@ -31,7 +32,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
   icon = 'icon-getting-started';
 
-  image = "frontend/src/assets/images/board_creation_modal/version.svg";
+  image = ImageHelpers.imagePath('board_creation_modal/version.svg');
 
   private writable$:Promise<boolean>;
 

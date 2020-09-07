@@ -6,9 +6,10 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Board} from "core-app/modules/boards/board/board";
-import {ApiV3Filter, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-
+import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import imagePath = ImageHelpers.imagePath;
 
 @Injectable()
 export class BoardAssigneeActionService extends CachedBoardActionService {
@@ -24,7 +25,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   icon = 'icon-user';
 
-  image = 'frontend/src/assets/images/board_creation_modal/assignees.svg';
+  image = ImageHelpers.imagePath('board_creation_modal/assignees.svg');
 
   readonly unassignedUser:any = {
     id: null,

@@ -8,6 +8,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 import {SubtasksBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/subtasks/subtasks-board-header.component";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {ImageHelpers} from "core-app/helpers/images/path-helper";
 
 @Injectable()
 export class BoardSubtasksActionService extends BoardActionService {
@@ -22,7 +23,7 @@ export class BoardSubtasksActionService extends BoardActionService {
 
   icon = 'icon-hierarchy';
 
-  image = 'frontend/src/assets/images/board_creation_modal/parent-child.svg';
+  image = ImageHelpers.imagePath('board_creation_modal/parent-child.svg');
 
   public get localizedName() {
     return this.I18n.t('js.boards.board_type.action_type.subtasks');

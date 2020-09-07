@@ -37,7 +37,9 @@ import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import { ITileViewEntry } from '../tile-view/tile-view.component';
+import {ITileViewEntry} from '../tile-view/tile-view.component';
+import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import imagePath = ImageHelpers.imagePath;
 
 
 @Component({
@@ -85,20 +87,26 @@ export class NewBoardModalComponent extends OpModalComponent {
 
   public createBoard(attribute:string) {
     if (attribute === 'basic') {
-    this.createFree();
-    }
-    else {
+      this.createFree();
+    } else {
       this.createAction(attribute);
     }
   }
+
   private initiateTiles() {
-    this.available.unshift({attribute:'basic', text:this.text.free_board,
-    icon:'icon-boards', description:this.text.free_board_text, image: 'frontend/src/assets/images/board_creation_modal/version.png'});
+    this.available.unshift({
+      attribute: 'basic',
+      text: this.text.free_board,
+      icon: 'icon-boards',
+      description: this.text.free_board_text,
+      image: imagePath('board_creation_modal/lists.svg')
+    });
     this.addIcon(this.available);
     this.addDescription(this.available);
     this.addText(this.available);
     this.addImage(this.available);
   }
+
   private createFree() {
     this.create({ type: 'free' });
   }
@@ -122,13 +130,16 @@ export class NewBoardModalComponent extends OpModalComponent {
         this.halNotification.handleRawError(error);
       });
   }
+
   private addDescription(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
         const service = this.boardActionRegistry.get(element.attribute!);
-        element.description = service.description; }
+        element.description = service.description;
+      }
     });
   }
+
   private addIcon(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
@@ -137,6 +148,7 @@ export class NewBoardModalComponent extends OpModalComponent {
       }
     });
   }
+
   private addText(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
@@ -145,6 +157,7 @@ export class NewBoardModalComponent extends OpModalComponent {
       }
     });
   }
+
   private addImage(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
