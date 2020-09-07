@@ -202,6 +202,9 @@ ar:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: لا يوجد حالياً مشاريع
       no_results_content_text: إنشاء مشروع جديد
     settings:
@@ -700,6 +703,8 @@ ar:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "من فضلك تحقّقْ من الحقول التالية:"
         header:
@@ -1558,6 +1563,7 @@ ar:
   label_no_parent_page: "No parent page"
   label_nothing_display: "لا يوجد شيء لعرضه"
   label_nobody: "لا أحد"
+  label_not_found: 'لم يتم العثور'
   label_none: "لا شيء"
   label_none_parentheses: "(بلا)"
   label_not_contains: "لا يحتوي على"
@@ -1665,7 +1671,7 @@ ar:
   label_search: "البحث"
   label_send_information: "إرسال معلومات الحساب إلى المستخدم"
   label_send_test_email: "إرسال رسالة اختبار"
-  label_settings: "إعدادات"
+  label_setting_plural: "إعدادات"
   label_system_settings: "إعدادات النظام"
   label_show_completed_versions: "عرض الإصدارات المنجزة"
   label_sort: "فرز"
@@ -2230,6 +2236,7 @@ ar:
   setting_emails_header: "رأس البريد الإلكتروني"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "تمكين SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "تمكين التغذية"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
@@ -2260,6 +2267,8 @@ ar:
   setting_per_page_options: "الكائنات لكل خيارات الصفحة"
   setting_plain_text_mail: "بريد النص العادي (لا إتش تي أم ال)"
   setting_protocol: "البروتوكول Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "نوع المورد مستودع التلقائي"

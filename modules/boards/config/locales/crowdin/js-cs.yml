@@ -29,6 +29,7 @@ cs:
       error_attribute_not_writable: "Pracovní balíček nelze přesunout, do %{attribute} nelze zapisovat."
       error_loading_the_list: "Chyba při načítání seznamu: %{error_message}"
       error_permission_missing: "Chybí oprávnění k vytvoření veřejných dotazů"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Kliknutím odstraníte tento seznam"
       board_type:
         text: 'Typ tabule'

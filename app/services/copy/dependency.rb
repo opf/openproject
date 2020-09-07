@@ -80,7 +80,7 @@ module Copy
       rescue StandardError => e
         Rails.logger.error { "Failed to copy dependency #{self.class.identifier}: #{e.message}" }
         result.success = false
-        result.errors.add(:base, :could_not_be_copied, dependency: self.class.name)
+        result.errors.add(:base, :could_not_be_copied, dependency: self.class.human_name)
       end
 
       result

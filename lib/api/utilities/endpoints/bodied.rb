@@ -90,7 +90,7 @@ module API
                    contract_class: process_contract }
 
           process_service
-            .new(args.compact)
+            .new(**args.compact)
             .call(params)
         end
 

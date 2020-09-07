@@ -80,7 +80,7 @@ module WorkPackagesHelper
 
     parts[:link] << "##{h(package.id)}" if options[:id]
 
-    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status
+    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status_id
 
     # Hidden link part
 

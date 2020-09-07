@@ -33,7 +33,7 @@ module OpenProject::TextFormatting::Matchers
     class HashSeparator < Base
 
       def self.allowed_prefixes
-        %w(version message project user group)
+        %w(version message project user group document meeting)
       end
 
       ##
@@ -65,6 +65,29 @@ module OpenProject::TextFormatting::Matchers
           link_to h(version.name),
                   { only_path: context[:only_path], controller: '/versions', action: 'show', id: version },
                   class: 'version'
+        end
+      end
+
+      def render_document
+        if document = Document.visible.find_by_id(oid)
+          link_to document.title,
+                  { only_path: context[:only_path],
+                    controller: '/documents',
+                    action: 'show',
+                    id: document },
+                  class: 'document'
+        end
+      end
+
+      def render_meeting
+        meeting = Meeting.find_by_id(oid)
+        if meeting&.visible?(User.current)
+          link_to meeting.title,
+                  { only_path: context[:only_path],
+                    controller: '/meetings',
+                    action: 'show',
+                    id: oid },
+                  class: 'meeting'
         end
       end
 

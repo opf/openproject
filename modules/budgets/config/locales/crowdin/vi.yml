@@ -51,6 +51,7 @@ vi:
   label_budget_plural: "Budgets"
   label_cost_type_specific: "Budget #%{id}: %{name}"
   label_deliverable: "Budget"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"
   label_yes: "Có"
   notice_budget_conflict: "WorkPackages must be of the same project."

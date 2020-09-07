@@ -89,7 +89,8 @@ module Grids::Copy
 
     def reference_mappers
       {
-        /query_?id/i => method(:map_query_id)
+        /query_?id/i => method(:map_query_id),
+        filters: method(:map_query_filters)
       }
     end
 
@@ -101,6 +102,14 @@ module Grids::Copy
       else
         duplicate_query(query_id, params).map(&:id)
       end
+    end
+
+    def map_query_filters(filters, _params)
+      ::Queries::Copy::FiltersMapper
+        .new(state, filters)
+        .map_filters!
+
+      ServiceResult.new success: true, result: filters
     end
 
     def duplicate_query(query_id, params)

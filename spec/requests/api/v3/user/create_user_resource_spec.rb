@@ -102,7 +102,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
       context 'ID' do
         before do
           parameters[:_links] = {
-            authSource: {
+            auth_source: {
               href: "/api/v3/auth_sources/#{auth_source.id}"
             }
           }
@@ -122,7 +122,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
       context 'name' do
         before do
           parameters[:_links] = {
-            authSource: {
+            auth_source: {
               href: "/api/v3/auth_sources/#{auth_source.name}"
             }
           }
@@ -142,15 +142,15 @@ describe ::API::V3::Users::UsersAPI, type: :request do
       context 'invalid identifier' do
         before do
           parameters[:_links] = {
-            authSource: {
+            auth_source: {
               href: "/api/v3/auth_sources/foobar"
             }
           }
         end
 
-        it 'returns an error for the authSource attribute' do
+        it 'returns an error for the auth_source attribute' do
           send_request
-
+          
           attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
           expect(last_response.status).to eq 422

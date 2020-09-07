@@ -285,6 +285,16 @@ default_projects_modules:
   - news
   - costs
   - wiki
+enabled_projects_columns:
+  serialized: true
+  default:
+    - project_status
+    - public
+    - created_at
+    - latest_activity_at
+    - required_disk_space
+project_gantt_query:
+  default: ''
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int

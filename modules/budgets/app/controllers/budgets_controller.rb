@@ -178,7 +178,7 @@ class BudgetsController < ApplicationController
     user = User.where(id: params[:user_id]).first
 
     if user && params[:hours]
-      hours = params[:hours].to_s.to_hours
+      hours = Rate.parse_number_string_to_number(params[:hours])
       @costs = hours * user.rate_at(params[:fixed_date], @project).rate rescue 0.0
     else
       @costs = 0.0

@@ -47,6 +47,8 @@ class Status < ApplicationRecord
 
   validates_inclusion_of :default_done_ratio, in: 0..100, allow_nil: true
 
+  validate :default_status_must_not_be_readonly
+
   after_save :unmark_old_default_value, if: :is_default?
 
   def unmark_old_default_value
@@ -106,6 +108,12 @@ class Status < ApplicationRecord
 
   def check_integrity
     raise "Can't delete status" if WorkPackage.where(status_id: id).exists?
+  end
+
+  def default_status_must_not_be_readonly
+    if is_readonly? && is_default?
+      errors.add(:is_readonly, :readonly_default_exlusive)
+    end
   end
 
   # Deletes associated workflows

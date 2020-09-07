@@ -48,7 +48,7 @@ module Redmine
           attachments_order = options.delete(:order) || "#{Attachment.table_name}.created_at"
           has_many :attachments, -> {
             order(attachments_order)
-          }, options.reverse_merge!(as: :container, dependent: :destroy)
+          }, **options.reverse_merge!(as: :container, dependent: :destroy)
 
           attr_accessor :attachments_replacements,
                         :attachments_claimed

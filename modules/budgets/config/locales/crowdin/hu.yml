@@ -51,6 +51,7 @@ hu:
   label_budget_plural: "Költségvetések"
   label_cost_type_specific: "Költségvetés #%{id}: %{name}"
   label_deliverable: "Költségvetés"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Minden költség megtekintése"
   label_yes: "Igen"
   notice_budget_conflict: "Munkacsomagok ugyanabból a projektből kell származzanak."

@@ -29,6 +29,7 @@ it:
       error_attribute_not_writable: "Impossibile spostare il pacchetto di lavoro, %{attribute} non è scrivibile."
       error_loading_the_list: "Errore nel caricamento della lista: %{error_message}"
       error_permission_missing: "Manca l'autorizzazione per creare query pubbliche"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Clicca per rimuovere questa lista"
       board_type:
         text: 'Tipo scheda'

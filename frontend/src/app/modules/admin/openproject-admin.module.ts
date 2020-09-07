@@ -33,11 +33,14 @@ import {GroupEditInPlaceComponent} from 'core-app/modules/admin/types/group-edit
 import {TypeFormAttributeGroupComponent} from 'core-app/modules/admin/types/attribute-group.component';
 import {DragulaModule} from 'ng2-dragula';
 import {TypeFormQueryGroupComponent} from "core-app/modules/admin/types/query-group.component";
+import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
+import {EditableQueryPropsComponent} from "core-app/modules/admin/editable-query-props/editable-query-props.component";
 
 @NgModule({
   imports: [
     DragulaModule.forRoot(),
-    OpenprojectCommonModule
+    OpenprojectCommonModule,
+    OpenprojectAccessibilityModule
   ],
   providers: [
   ],
@@ -45,7 +48,8 @@ import {TypeFormQueryGroupComponent} from "core-app/modules/admin/types/query-gr
     TypeFormAttributeGroupComponent,
     TypeFormQueryGroupComponent,
     TypeFormConfigurationComponent,
-    GroupEditInPlaceComponent
+    GroupEditInPlaceComponent,
+    EditableQueryPropsComponent,
   ]
 })
 export class OpenprojectAdminModule { }

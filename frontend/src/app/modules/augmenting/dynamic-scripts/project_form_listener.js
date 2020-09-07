@@ -82,12 +82,12 @@
       identifier = identifier.replace(/[^a-z0-9]+/gi, '-'); // remaining non-alphanumeric => hyphen
       identifier = identifier.replace(/^[-\d]*|-*$/g, ''); // remove hyphens and numbers at beginning and hyphens at end
       identifier = identifier.toLowerCase(); // to lower
-      identifier = identifier.substr(0,projectIdentifierMaxLength); // max characters
+      identifier = identifier.substr(0,window.projectIdentifierMaxLength); // max characters
       return identifier;
     }
 
     function updateIdentifierFromName() {
-      if(!projectIdentifierLocked) {
+      if(!window.projectIdentifierLocked) {
         jQuery('#project_identifier').val(generateProjectIdentifier());
       }
     }
@@ -99,7 +99,7 @@
 
     function observeProjectIdentifier() {
       jQuery('#project_identifier').keyup(function() {
-        projectIdentifierLocked = this.value !== '' && this.value != generateProjectIdentifier();
+        window.projectIdentifierLocked = this.value !== '' && this.value != generateProjectIdentifier();
       });
     }
 

@@ -1,0 +1,9 @@
+<div id="div-values-{{filterName}}">
+    <label class="switch">
+          <input  type="checkbox" [ngModel]="filterValue" id="values-{{filterName}}"
+          name="v[{{filterName}}]"
+          (ngModelChange)="onValueChanged($event)">
+          <span class="slider round"></span>
+        </label>
+  </div>
+  

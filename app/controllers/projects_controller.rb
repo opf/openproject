@@ -103,10 +103,14 @@ class ProjectsController < ApplicationController
            model: @altered_project)
       .call(permitted_params.project)
 
-    @errors = service_call.errors
 
-    flash[:notice] = t(:notice_successful_update) if service_call.success?
-    redirect_to settings_generic_project_path(@altered_project)
+    if service_call.success?
+      flash[:notice] = t(:notice_successful_update)
+      redirect_to settings_generic_project_path(@altered_project)
+    else
+      @errors = service_call.errors
+      render template: 'project_settings/generic'
+    end
   end
 
   def update_identifier

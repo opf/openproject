@@ -51,6 +51,7 @@ es:
   label_budget_plural: "Presupuestos"
   label_cost_type_specific: "Presupuesto %{id}:%{name}"
   label_deliverable: "Presupuesto"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Ver todos los presupuestos"
   label_yes: "Sí"
   notice_budget_conflict: "Paquetes de trabajo deben de estar en un mismo proyecto."

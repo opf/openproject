@@ -51,6 +51,7 @@ sv:
   label_budget_plural: "Budgetar"
   label_cost_type_specific: "Budget #%{id}: %{name}"
   label_deliverable: "Budget"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Visa alla budgetar"
   label_yes: "Ja"
   notice_budget_conflict: "Arbetspaketen måste tillhöra samma projekt."

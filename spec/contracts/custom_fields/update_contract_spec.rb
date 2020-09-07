@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,31 +28,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Documents::Patches
-  module HashSeparatorPatch
-    def self.mixin!
-      base = ::OpenProject::TextFormatting::Matchers::LinkHandlers::HashSeparator
-      base.prepend InstanceMethods
-      base.singleton_class.prepend ClassMethods
-    end
+require 'spec_helper'
 
-    module InstanceMethods
-      def render_document
-        if document = Document.visible.find_by_id(oid)
-          link_to document.title,
-                  { only_path: context[:only_path],
-                    controller: '/documents',
-                    action: 'show',
-                    id: document },
-                  class: 'document'
-        end
-      end
-    end
+describe CustomFields::UpdateContract do
+  let(:cf) { FactoryBot.build :project_custom_field }
+  let(:contract) do
+    described_class.new(cf, current_user, options: { changed_by_system: [] })
+  end
 
-    module ClassMethods
-      def allowed_prefixes
-        super + %w[document]
-      end
+  describe 'as admin' do
+    let(:current_user) { FactoryBot.build_stubbed :admin }
+
+    it 'validates the contract' do
+      expect(contract.validate).to eq(true)
+    end
+  end
+
+  describe 'as regular user' do
+    let(:current_user) { FactoryBot.build_stubbed :user }
+
+    it 'invalidates the contract' do
+      expect(contract.validate).to eq(false)
+      expect(contract.errors.symbols_for(:base))
+        .to match_array [:error_unauthorized]
     end
   end
 end

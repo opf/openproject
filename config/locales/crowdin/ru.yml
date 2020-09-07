@@ -201,6 +201,9 @@ ru:
       completed: "Удаление проекта %{name} завершено"
       completed_text: "Запрос на удаление проекта '%{name}' был завершен."
     index:
+      open_as_gantt: 'Открыть в виде Gantt'
+      open_as_gantt_title: "Используйте эту кнопку для создания представления Гантта, фильтрующего пакеты работ, видимых на этой странице."
+      open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
     settings:
@@ -517,7 +520,7 @@ ru:
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         does_not_exist: "не существует."
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
@@ -695,6 +698,8 @@ ru:
               unassignable: "не может быть присвоен проекту."
         version:
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Пожалуйста, проверьте следующие поля:"
         header:
@@ -756,9 +761,9 @@ ru:
     date: "Дата"
     default_columns: "Столбцы по умолчанию"
     description: "Описание"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Дата окончания производства"
+    derived_estimated_time: "Планируемое время ожидания"
+    derived_start_date: "Дата начала производства"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
     estimated_hours: "Предполагаемое время"
@@ -1525,6 +1530,7 @@ ru:
   label_no_parent_page: "Без родительской страницы"
   label_nothing_display: "Нет данных для отображения"
   label_nobody: "никто"
+  label_not_found: 'не найдено'
   label_none: "Ничего"
   label_none_parentheses: "(нет)"
   label_not_contains: "не содержит"
@@ -1632,7 +1638,7 @@ ru:
   label_search: "Поиск"
   label_send_information: "Отправить сведения об учетной записи"
   label_send_test_email: "Отправить тестовое сообщение"
-  label_settings: "Параметры"
+  label_setting_plural: "Параметры"
   label_system_settings: "Настройки системы"
   label_show_completed_versions: "Показать завершённые этапы"
   label_sort: "Сортировать"
@@ -2138,10 +2144,10 @@ ru:
     activated: 'активирован'
     deactivated: 'деактивирован'
   search_input_placeholder: "Поиск ..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "Включить CORS"
+  setting_apiv3_cors_origins: "Разделение ресурсов (CORS) разрешено в API V3"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Если CORS включен, то это источники, которым разрешен доступ к OpenProject API. <br/> Пожалуйста, проверьте <a href="%{origin_link}" target="_blank">документацию по происхождению</a> о том, как указывать ожидаемые значения.
   setting_email_delivery_method: "Метод доставки электронной почты"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
   setting_smtp_enable_starttls_auto: "Автоматически использовать STARTTLS, если таковые имеются"
@@ -2186,6 +2192,7 @@ ru:
   setting_emails_header: "Заголовок письма"
   setting_email_login: "Использовать email как логин"
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
+  setting_enabled_projects_columns: "Видимый в списке проектов"
   setting_feeds_enabled: "Включить новостные ленты"
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
@@ -2216,6 +2223,8 @@ ru:
   setting_per_page_options: "Количество объектов на страницу"
   setting_plain_text_mail: "Обычный текст электронной почты (не HTML)"
   setting_protocol: "Протокол"
+  setting_project_gantt_query: "Вид Gantt портфолио проекта"
+  setting_project_gantt_query_text: "Вы можете изменить запрос, используемый для отображения графика Гантта на странице обзора проекта."
   setting_security_badge_displayed: "Отображать бейджик безопасности"
   setting_registration_footer: "Нижний колонтитул регистрации"
   setting_repositories_automatic_managed_vendor: "Автоматический тип поставщика репозитория"
@@ -2255,8 +2264,8 @@ ru:
     session: "Сессия"
     brute_force_prevention: "Автоматическое блокирование пользователя"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Настройки для новых проектов"
+      section_project_overview: "Настройки списка обзоров проекта"
     user:
       default_preferences: "Предпочтения по умолчанию"
       deletion: "Удаление"

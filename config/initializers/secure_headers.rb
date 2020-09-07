@@ -21,7 +21,7 @@ SecureHeaders::Configuration.default do |config|
   frame_src << OpenProject::Configuration[:security_badge_url]
 
   # Default src
-  default_src = %w('self') + [OpenProject::Configuration.remote_storage_host].compact
+  default_src = %w('self') + OpenProject::Configuration.remote_storage_hosts
 
   # Allow requests to CLI in dev mode
   connect_src = default_src

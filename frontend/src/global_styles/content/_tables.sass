@@ -153,7 +153,6 @@ th.hidden
 
 tr.context-menu-selection,
 tr.-checked
-  background-color: var(--table-row-highlighting-color) !important
   &[class*=__hl_background]
     outline: var(--table-row-highlighting-outline-color) solid 2px
 
@@ -163,6 +162,10 @@ tr.-checked
     color: var(--body-font-color) !important
     a
       color: var(--body-font-color) !important
+
+.work-packages-partitioned-query-space--container.-split
+  tr.-checked
+    background-color: var(--table-row-highlighting-color) !important
 
 #custom-options-table
   .custom-option-value

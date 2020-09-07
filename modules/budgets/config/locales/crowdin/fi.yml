@@ -51,6 +51,7 @@ fi:
   label_budget_plural: "Budjetit"
   label_cost_type_specific: "Budjetti #%{id}: %{name}"
   label_deliverable: "Budjetti"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Näytä kaikki budjetit"
   label_yes: "Kyllä"
   notice_budget_conflict: "Tehtävien tulee olla samasta projektista."

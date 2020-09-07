@@ -26,32 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Documents::Patches
-  module ColonSeparatorPatch
-    def self.mixin!
-      base = ::OpenProject::TextFormatting::Matchers::LinkHandlers::ColonSeparator
-      base.prepend InstanceMethods
-      base.singleton_class.prepend ClassMethods
-    end
+module OpenProject::Patches::DeclarativeOption
+  extend ActiveSupport::Concern
 
-    module InstanceMethods
-      def render_document
-        name = identifier.gsub(%r{^"(.*)"$}, "\\1")
-        if document = project.documents.visible.find_by_title(name)
-          link_to document.title,
-                  { only_path: context[:only_path],
-                    controller: '/documents',
-                    action: 'show',
-                    id: document },
-                  class: 'document'
-        end
-      end
-    end
+  included do
+    private
 
-    module ClassMethods
-      def allowed_prefixes
-        super + %w[document]
-      end
+    # Override Declarative::Option to avoid ruby 2.7.1 warnings about using the last argument as keyword parameter.
+    def lambda_for_proc(value, options)
+      return ->(context, **args) { context.instance_exec(**args, &value) } if options[:instance_exec]
+      value
     end
   end
+end
+
+unless Declarative::Option.included_modules.include?(OpenProject::Patches::DeclarativeOption)
+  if Gem.loaded_specs['declarative-option'].version > Gem::Version.create('0.1.0')
+    raise "Check whether the patch to Declarative::Option is still necessary"
+  end
+  Declarative::Option.send(:include, OpenProject::Patches::DeclarativeOption)
 end

@@ -51,6 +51,7 @@ pl:
   label_budget_plural: "Budżetowanie"
   label_cost_type_specific: "Budżet #%{id}: %{name}"
   label_deliverable: "Budżet"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Zobacz wszystkie budżety"
   label_yes: "Tak"
   notice_budget_conflict: "Zestaw zadań musi być z tego samego projektu."

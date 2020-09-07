@@ -29,6 +29,7 @@ uk:
       error_attribute_not_writable: "Неможливо перемістити робочий пакет, %{attribute} недоступний для запису."
       error_loading_the_list: "Помилка завантаження списку: %{error_message}"
       error_permission_missing: "Немає дозволу на створення загальнодоступних запитів"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Натисніть, щоб видалити список"
       board_type:
         text: 'Тип дошки'

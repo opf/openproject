@@ -98,6 +98,8 @@ module Components
         set_operator(name, operator, selector)
 
         set_value(id, value) unless value.nil?
+
+        close_autocompleter(id)
       end
 
       def expect_filter_by(name, operator, value, selector = nil)
@@ -191,6 +193,15 @@ module Components
       def within_values(id)
         page.within("#filter_#{id} .advanced-filters--filter-value", wait: 10) do
           yield page.has_selector?('.ng-select-container')
+        end
+      end
+
+      def close_autocompleter(id)
+        input = page.all("#filter_#{id} .advanced-filters--filter-value .ng-input input").first
+
+        if input
+          input.click
+          input.send_keys :escape
         end
       end
     end

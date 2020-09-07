@@ -77,8 +77,17 @@ module Bim
         rescue ArgumentError
           errors.add :base, :invalid_ifc_file
         ensure
-          FileUtils.rm file_path if File.exists? file_path
+          clean_up file_path
         end
+      end
+
+      def clean_up(file_path)
+        # If we are using direct uploads we can safely discard the file here straight away
+        # after we checked its contents. The actual file has already been uploaded to its final (remote) destination.
+        # For local uploads the file must remain to be copied later to its final (local) destination from the cache.
+        return unless OpenProject::Configuration.direct_uploads?
+
+        FileUtils.rm file_path if File.exists? file_path
       end
 
       def uploader_is_ifc_attachment_author

@@ -202,6 +202,9 @@ sk:
       completed: "Odstránenie projektu %{name} dokončené"
       completed_text: "Požiadavka na odstránenie projektu '%{name}' bola ukončená."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: V súčasnosti neexistujú žiadne projekty
       no_results_content_text: Vytvoriť nový projekt
     settings:
@@ -696,6 +699,8 @@ sk:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Skontrolujte nasledujúce polia:"
         header:
@@ -1526,6 +1531,7 @@ sk:
   label_no_parent_page: "Žiadna nadradená stránka"
   label_nothing_display: "Nič na zobrazenie"
   label_nobody: "nikto"
+  label_not_found: 'nenájdené'
   label_none: "žiadne"
   label_none_parentheses: "(žiadny)"
   label_not_contains: "neobsahuje"
@@ -1633,7 +1639,7 @@ sk:
   label_search: "Vyhľadávanie"
   label_send_information: "Odoslať užívateľovi informácie o účte"
   label_send_test_email: "Odoslať testovací email"
-  label_settings: "Nastavenia"
+  label_setting_plural: "Nastavenia"
   label_system_settings: "Nastavenia systému"
   label_show_completed_versions: "Zobraziť dokončené verzie"
   label_sort: "Zoradiť"
@@ -2189,6 +2195,7 @@ sk:
   setting_emails_header: "E-mail záhlavie"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Povolené SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Povoliť informačné kanály"
   setting_feeds_limit: "Limit obsahu informačných kanálov"
   setting_file_max_size_displayed: "Maximálna veľkosť textových súborov zobrazených priamo na stránke"
@@ -2219,6 +2226,8 @@ sk:
   setting_per_page_options: "Povolené množstvo položiek na stránku"
   setting_plain_text_mail: "Len jednoduchý text (bez HTML)"
   setting_protocol: "Protokol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Zobrazte znaky zabezpečenia"
   setting_registration_footer: "Registrácia zápätia"
   setting_repositories_automatic_managed_vendor: "Automatický typ poskytovateľa úložiska"

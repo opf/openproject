@@ -199,6 +199,9 @@ de:
       completed: "Löschen des Projekts %{name} abgeschlossen"
       completed_text: "Die Anfrage zum Löschen des Projekts '%{name}' wurde abgeschlossen."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
     settings:
@@ -687,6 +690,8 @@ de:
               unassignable: "kann keinem Projekt zugeordnet werden."
         version:
           undeletable_work_packages_attached: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -1489,6 +1494,7 @@ de:
   label_no_parent_page: "Keine Übergeordnete Seite"
   label_nothing_display: "Nichts anzuzeigen"
   label_nobody: "Niemand"
+  label_not_found: 'nicht gefunden'
   label_none: "keine"
   label_none_parentheses: "(keiner)"
   label_not_contains: "enthält nicht"
@@ -1596,7 +1602,7 @@ de:
   label_search: "Suche"
   label_send_information: "Sende Kontoinformationen zum Benutzer"
   label_send_test_email: "Test-E-Mail senden"
-  label_settings: "Einstellungen"
+  label_setting_plural: "Einstellungen"
   label_system_settings: "Systemkonfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
   label_sort: "Sortierung"
@@ -2143,6 +2149,7 @@ de:
   setting_emails_header: "E-Mail-Kopfzeile"
   setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
@@ -2173,6 +2180,8 @@ de:
   setting_per_page_options: "Objekte pro Seite"
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Plakette zur Update-Sicherheit anzeigen"
   setting_registration_footer: "Fußzeile der Registrierung-Ansicht"
   setting_repositories_automatic_managed_vendor: "Automatisch genutzter Projektarchiv Anbieter-Typ"

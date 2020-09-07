@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.6.6'
+ruby '~> 2.7.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -134,6 +134,9 @@ gem 'gon', '~> 6.3.2'
 
 # Lograge to provide sane and non-verbose logging
 gem 'lograge', '~> 0.11.0'
+
+# Structured warnings to selectively disable them in production
+gem 'structured_warnings', '~> 0.4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured

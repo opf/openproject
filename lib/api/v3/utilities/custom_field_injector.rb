@@ -34,6 +34,7 @@ module API
       class CustomFieldInjector
         TYPE_MAP = {
           'string' => 'String',
+          'empty' => 'String',
           'text' => 'Formattable',
           'int' => 'Integer',
           'float' => 'Float',

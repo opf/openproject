@@ -171,7 +171,7 @@ module API
         ##
         # Used while parsing JSON to initialize `auth_source_id` through the given link.
         def initialize_embedded_links!(data)
-          auth_source_id = parse_auth_source_id data, "authSource"
+          auth_source_id = parse_auth_source_id data, "auth_source"
 
           if auth_source_id
             auth_source = AuthSource.find_by_unique auth_source_id

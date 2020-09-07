@@ -202,6 +202,9 @@ bg:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: В момента няма проекти
       no_results_content_text: Създаване на нов проект
     settings:
@@ -692,6 +695,8 @@ bg:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Моля проверете следните полета:"
         header:
@@ -1494,6 +1499,7 @@ bg:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Нищо за показване"
   label_nobody: "nobody"
+  label_not_found: 'not found'
   label_none: "none"
   label_none_parentheses: "(none)"
   label_not_contains: "doesn't contain"
@@ -1601,7 +1607,7 @@ bg:
   label_search: "Търсене"
   label_send_information: "Изпрати информация за акаунта на този потребител"
   label_send_test_email: "Изпрати пробен имейл"
-  label_settings: "Настройки"
+  label_setting_plural: "Настройки"
   label_system_settings: "Системни настройки"
   label_show_completed_versions: "Покажи завършени версии"
   label_sort: "Сортиране"
@@ -2148,6 +2154,7 @@ bg:
   setting_emails_header: "Emails header"
   setting_email_login: "Използвайте имейла като вход"
   setting_enabled_scm: "Enabled SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2178,6 +2185,8 @@ bg:
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Протокол"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"

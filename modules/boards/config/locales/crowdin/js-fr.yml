@@ -29,6 +29,7 @@ fr:
       error_attribute_not_writable: "Impossible de déplacer le lot de travaux, %{attribute} n'est pas modifiable."
       error_loading_the_list: "Erreur lors du chargement de la liste : %{error_message}"
       error_permission_missing: "La permission pour créer des requêtes publiques est manquante"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Cliquez pour supprimer cette liste"
       board_type:
         text: 'Type de tableau'

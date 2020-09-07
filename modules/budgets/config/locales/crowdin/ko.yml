@@ -51,6 +51,7 @@ ko:
   label_budget_plural: "예산"
   label_cost_type_specific: "예산 #%{id}: %{name}"
   label_deliverable: "예산"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "모든 예산 보기"
   label_yes: "예"
   notice_budget_conflict: "작업 패키지는 동일한 프로젝트에 속해야 합니다."

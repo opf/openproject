@@ -164,7 +164,7 @@ export class UrlParamsHelperService {
   public buildV3GetQueryFromJsonParams(updateJson:string|null) {
     var queryData:any = {
       pageSize: this.paginationService.getPerPage()
-    }
+    };
 
     if (!updateJson) {
       return queryData;

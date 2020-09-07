@@ -51,6 +51,7 @@ de:
   label_budget_plural: "Budgets"
   label_cost_type_specific: "Kostentyp #%{id}: %{name}"
   label_deliverable: "Budget"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Alle Budgets anzeigen"
   label_yes: "Ja"
   notice_budget_conflict: "Tickets müssen im gleichen Projekt sein."

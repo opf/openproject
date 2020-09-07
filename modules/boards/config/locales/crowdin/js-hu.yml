@@ -29,6 +29,7 @@ hu:
       error_attribute_not_writable: "Nem mozgatható munkacsomag, %{attribute} nem írható."
       error_loading_the_list: "Betöltési hiba: %{error_message}"
       error_permission_missing: "Nincs jogosultság a publikus lekérdezés létrehozásához"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
       click_to_remove_list: "Kattints a lista eltávolításához"
       board_type:
         text: 'Tábla típus'
