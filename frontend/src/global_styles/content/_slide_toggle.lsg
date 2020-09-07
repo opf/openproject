@@ -1,0 +1,9 @@
+# Slide toggle checkbox
+
+```
+<slide-toggle data-filter-value="true"
+              data-container-classes="advanced-filters--filter-value"
+              data-input-name="v-filter-foo"
+              data-filter-name="boolean">
+</slide-toggle>
+```

@@ -104,8 +104,14 @@ export class TopMenu {
   }
 
   closeOnBodyClick() {
-    var self = this;
-    document.getElementById('wrapper')!.addEventListener('click', function (evt) {
+    let self = this;
+    let wrapper = document.getElementById('wrapper');
+
+    if (!wrapper) {
+      return;
+    }
+
+    wrapper.addEventListener('click', function (evt) {
       if (self.menuIsOpen && !self.openDropdowns()[0].contains(evt.target as HTMLElement)) {
         self.closing();
       }

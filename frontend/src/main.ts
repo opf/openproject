@@ -27,8 +27,7 @@ require('core-app/init-vendors');
 require('core-app/init-globals');
 
 const meta = jQuery('meta[name=openproject_initializer]');
-I18n.locale = meta.data('defaultLocale');
-I18n.locale = meta.data('locale');
+I18n.locale = meta.data('locale') || 'en';
 I18n.firstDayOfWeek = parseInt(meta.data('firstDayOfWeek'), 10);
 
 if (environment.production) {
