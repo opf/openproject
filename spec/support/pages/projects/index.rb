@@ -54,7 +54,7 @@ module Pages
         selected_filter = page.find("li[filter-name='#{name}']")
 
         within(selected_filter) do
-          select human_operator, from: 'operator'
+          select(human_operator, from: 'operator') unless name == 'active'
 
           return unless values.any?
 
@@ -62,7 +62,7 @@ module Pages
           when 'name_and_identifier'
             set_name_and_identifier_filter(values)
           when 'active'
-            set_active_filter(values)
+            set_toggle_filter(values)
           when 'created_at'
             set_created_at_filter(human_operator, values)
           when /cf_[\d]+/
@@ -71,9 +71,18 @@ module Pages
         end
       end
 
-      def set_active_filter(values)
-        if values.size == 1
-          select values.first, from: 'value'
+      def set_toggle_filter(values)
+        should_active = values.first == 'yes'
+        is_active = page.has_selector? '.slide-toggle.-active'
+
+        if should_active != is_active
+          page.find('.slide-toggle .slider').click
+        end
+
+        if should_active
+          expect(page).to have_selector('.slide-toggle.-active')
+        else
+          expect(page).to have_selector('.slide-toggle:not(.-active)')
         end
       end
 

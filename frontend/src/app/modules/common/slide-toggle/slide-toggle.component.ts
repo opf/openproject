@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 export const slideToggleSelector = 'slide-toggle';
 
@@ -34,6 +34,7 @@ export const slideToggleSelector = 'slide-toggle';
   templateUrl: './slide-toggle.component.html',
   selector: slideToggleSelector,
   styleUrls: ['./slide-toggle.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class SlideToggleComponent implements OnInit {
@@ -64,6 +65,7 @@ export class SlideToggleComponent implements OnInit {
   }
 
   public onValueChanged(val:any) {
+    this.filterValue = val;
     this.valueChanged.emit(val);
   }
 }

@@ -1,5 +1,6 @@
 <div [attr.id]="containerId"
-     [ngClass]="containerClasses">
+     class="slide-toggle {{ containerClasses }}"
+     [ngClass]="{ '-active': filterValue }">
   <label class="switch">
     <input type="checkbox"
            [ngModel]="filterValue"
