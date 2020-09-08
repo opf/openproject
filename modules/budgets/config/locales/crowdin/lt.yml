@@ -51,7 +51,7 @@ lt:
   label_budget_plural: "Biudžetai"
   label_cost_type_specific: "Biudžetas Ę%{id}: %{name}"
   label_deliverable: "Biudžetas"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 't.y., %{decimal}'
   label_view_all_budgets: "Peržiūrėti visus biudžetus"
   label_yes: "Taip"
   notice_budget_conflict: "Darbų paketai turi būti tame pačiame projekte."

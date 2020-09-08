@@ -699,7 +699,7 @@ ru:
         version:
           undeletable_work_packages_attached: "Версия не может быть удалена, так как имеет пакеты работ, прикрепленные к ней."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "не может быть активирован для статусов, отмеченных по умолчанию."
       template:
         body: "Пожалуйста, проверьте следующие поля:"
         header:
