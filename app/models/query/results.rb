@@ -51,7 +51,11 @@ class ::Query::Results
     raise ::Query::StatementInvalid.new(e.message)
   end
 
+  # This method is deprecated use sorted_work_packages instead
+  # noinspection Rails3Deprecated
   def work_packages
+    OpenProject::Deprecation.replaced :work_packages, :sorted_work_packages, caller
+
     work_package_scope
       .where(query.statement)
       .includes(all_includes)
@@ -64,6 +68,8 @@ class ::Query::Results
   # Note: It escapes me, why this is not the default behaviour.
   # If there is a reason: This is a somewhat DRY way of using the sort criteria.
   # If there is no reason: The :work_package method can die over time and be replaced by this one.
+  #
+  # TODO: Once the #work_packages method is removed, rename this to work_packages
   def sorted_work_packages
     work_packages.order(sort_criteria_array)
   end
