@@ -46,7 +46,6 @@ export class HierarchyDragActionService extends TableDragActionService {
       // If the previous element is a relation row,
       // skip it until we find the real previous sibling
       const isRelationRow = previous.className.indexOf(relationRowClass()) >= 0;
-      const droppedIntoCollapsedGroup = isInsideCollapsedGroup(next);
 
       if (isRelationRow) {
         let relationRoot = this.findRelationRowRoot(previous);
@@ -59,6 +58,8 @@ export class HierarchyDragActionService extends TableDragActionService {
       let previousWpId = (previous as HTMLElement).dataset.workPackageId!;
 
       if (this.isHiearchyRoot(previous, previousWpId)) {
+        const droppedIntoCollapsedGroup = isInsideCollapsedGroup(next);
+
         if (droppedIntoCollapsedGroup) {
           return this.determineParent(previous);
         }
@@ -97,8 +98,8 @@ export class HierarchyDragActionService extends TableDragActionService {
       const nextGroups = next && Array.from(next.classList).filter(listClass => listClass.includes('__hierarchy-group-')) || [];
       const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
       const isLastElementOfGroup = !nextGroups.some(nextGroup => previousGroups.includes(nextGroup)) && !nextGroups.includes(hierarchyGroupClass(previousWpId));
-      const elementAlreadyBelongsToGroup = elementGroups.some(nextGroup => previousGroups.includes(nextGroup)) ||
-        elementGroups.includes(hierarchyGroupClass(previousWpId));
+      const elementAlreadyBelongsToGroup = elementGroups.some(elementGroup => previousGroups.includes(elementGroup)) ||
+                                           elementGroups.includes(hierarchyGroupClass(previousWpId));
 
       skipDroppedIntoGroup = isLastElementOfGroup && !elementAlreadyBelongsToGroup;
     }
