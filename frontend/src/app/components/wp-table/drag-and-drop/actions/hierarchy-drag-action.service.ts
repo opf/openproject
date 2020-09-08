@@ -6,7 +6,7 @@ import {
   hierarchyGroupClass,
   hierarchyRootClass
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
-import {relationRowClass} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
+import {relationRowClass, isInsideCollapsedGroup} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
@@ -37,15 +37,16 @@ export class HierarchyDragActionService extends TableDragActionService {
    * Find an applicable parent element from the hierarchy information in the table.
    * @param el
    */
-  private determineParent(el:HTMLElement):Promise<string|null> {
+  private determineParent(el:Element):Promise<string|null> {
     let previous = el.previousElementSibling;
     let next = el.nextElementSibling;
     let parent = null;
 
-    if (previous !== null && this.droppedIntoParentGroup(el, previous, next)) {
+    if (previous !== null && this.droppedIntoGroup(el, previous, next)) {
       // If the previous element is a relation row,
       // skip it until we find the real previous sibling
       const isRelationRow = previous.className.indexOf(relationRowClass()) >= 0;
+      const droppedIntoCollapsedGroup = isInsideCollapsedGroup(next);
 
       if (isRelationRow) {
         let relationRoot = this.findRelationRowRoot(previous);
@@ -58,6 +59,9 @@ export class HierarchyDragActionService extends TableDragActionService {
       let previousWpId = (previous as HTMLElement).dataset.workPackageId!;
 
       if (this.isHiearchyRoot(previous, previousWpId)) {
+        if (droppedIntoCollapsedGroup) {
+          return this.determineParent(previous);
+        }
         // If the sibling is a hierarchy root, return that sibling as new parent.
         parent = previousWpId;
       } else {
@@ -82,17 +86,19 @@ export class HierarchyDragActionService extends TableDragActionService {
     return null;
   }
 
-  private droppedIntoParentGroup(element:Element, previous:Element, next:Element | null):boolean {
+  private droppedIntoGroup(element:Element, previous:Element, next:Element | null):boolean {
     const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
     const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
     let skipDroppedIntoGroup;
 
-    if (inGroup) {
-      const elementGroup = Array.from(element.classList).find(listClass => listClass.includes('__hierarchy-group-'));
-      const previousGroup = Array.from(previous.classList).find(listClass => listClass.includes('__hierarchy-group-'));
-      const nextGroup = next && Array.from(next.classList).find(listClass => listClass.includes('__hierarchy-group-'));
-      const isLastElementOfGroup = previousGroup !== nextGroup;
-      const elementAlreadyBelongsToGroup = elementGroup === previousGroup;
+    if (inGroup || isRoot) {
+      const elementGroups = Array.from(element.classList).filter(listClass => listClass.includes('__hierarchy-group-')) || [];
+      const previousGroups = Array.from(previous.classList).filter(listClass => listClass.includes('__hierarchy-group-')) || [];
+      const nextGroups = next && Array.from(next.classList).filter(listClass => listClass.includes('__hierarchy-group-')) || [];
+      const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
+      const isLastElementOfGroup = !nextGroups.some(nextGroup => previousGroups.includes(nextGroup)) && !nextGroups.includes(hierarchyGroupClass(previousWpId));
+      const elementAlreadyBelongsToGroup = elementGroups.some(nextGroup => previousGroups.includes(nextGroup)) ||
+        elementGroups.includes(hierarchyGroupClass(previousWpId));
 
       skipDroppedIntoGroup = isLastElementOfGroup && !elementAlreadyBelongsToGroup;
     }

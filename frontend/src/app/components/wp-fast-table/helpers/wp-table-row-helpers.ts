@@ -1,7 +1,8 @@
-
 /**
  * Return the row html id attribute for the given work package ID.
  */
+import {collapsedGroupClass} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
+
 export function rowId(workPackageId:string):string {
   return `wp-row-${workPackageId}-table`;
 }
@@ -16,6 +17,14 @@ export function locateTableRow(workPackageId:string):JQuery {
 
 export function locateTableRowByIdentifier(identifier:string) {
   return jQuery(`.${identifier}-table`);
+}
+
+export function isInsideCollapsedGroup(el?:Element | null) {
+  if (!el) {
+    return false;
+  }
+
+  return Array.from(el.classList).find(listClass => listClass.includes(collapsedGroupClass())) != null;
 }
 
 export function locatePredecessorBySelector(el:HTMLElement, selector:string):HTMLElement|null {
