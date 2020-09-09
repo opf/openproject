@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::Projects::ProjectQuery, type: :model do
   let(:instance) { described_class.new }
-  let(:base_scope) { Project.all }
+  let(:base_scope) { Project.all.order(id: :desc) }
   let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
   before do
@@ -128,6 +128,15 @@ describe Queries::Projects::ProjectQuery, type: :model do
 
           expect(instance.results.to_sql).to eql expected.to_sql
         end
+      end
+    end
+  end
+
+  context 'with an order by id asc' do
+    describe '#results' do
+      it 'returns all visible projects ordered by id asc' do
+        expect(instance.order(id: :asc).results.to_sql)
+          .to eql base_scope.except(:order).order(id: :asc).to_sql
       end
     end
   end

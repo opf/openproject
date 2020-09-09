@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::TimeEntries::TimeEntryQuery, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:base_scope) { TimeEntry.visible(user) }
+  let(:base_scope) { TimeEntry.visible(user).order(id: :desc) }
   let(:instance) { described_class.new }
 
   before do
@@ -158,6 +158,15 @@ describe Queries::TimeEntries::TimeEntryQuery, type: :model do
       it 'is invalid if the filter is invalid' do
         instance.where('work_package_id', '=', [''])
         expect(instance).to be_invalid
+      end
+    end
+  end
+
+  context 'with an order by id asc' do
+    describe '#results' do
+      it 'returns all visible time entries ordered by id asc' do
+        expect(instance.order(id: :asc).results.to_sql)
+          .to eql base_scope.except(:order).order(id: :asc).to_sql
       end
     end
   end

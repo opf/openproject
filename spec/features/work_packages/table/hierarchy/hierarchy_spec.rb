@@ -117,6 +117,7 @@ describe 'Work Package table hierarchy', js: true do
       query.column_names = ['subject', 'category']
       query.filters.clear
       query.show_hierarchies = false
+      query.sort_criteria = [['id', 'asc']]
 
       query.save!
       query

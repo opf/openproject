@@ -44,7 +44,7 @@ describe 'API v3 User resource',
   subject(:response) { last_response }
 
   before do
-    allow(User).to receive(:current).and_return current_user
+    login_as(current_user)
   end
 
   describe '#index' do
@@ -87,7 +87,7 @@ describe 'API v3 User resource',
 
         it 'contains the current user in the response' do
           expect(subject.body)
-            .to be_json_eql(user.name.to_json)
+            .to be_json_eql(current_user.name.to_json)
             .at_path('_embedded/elements/0/name')
         end
       end

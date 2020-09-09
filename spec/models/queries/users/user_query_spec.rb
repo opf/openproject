@@ -33,7 +33,7 @@ require 'system_user'
 
 describe Queries::Users::UserQuery, type: :model do
   let(:instance) { described_class.new }
-  let(:base_scope) { User.not_builtin }
+  let(:base_scope) { User.not_builtin.order(id: :desc) }
 
   context 'without a filter' do
     describe '#results' do
@@ -161,12 +161,12 @@ describe Queries::Users::UserQuery, type: :model do
 
   context 'with an id sortation' do
     before do
-      instance.order(id: :desc)
+      instance.order(id: :asc)
     end
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = base_scope.merge(User.order(id: :desc))
+        expected = User.not_builtin.merge(User.order(id: :asc))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -180,7 +180,7 @@ describe Queries::Users::UserQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = base_scope.merge(User.order_by_name.reverse_order)
+        expected = User.not_builtin.merge(User.order_by_name.reverse_order).order(id: :desc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -194,7 +194,7 @@ describe Queries::Users::UserQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = base_scope.merge(User.joins(:groups).order("groups_users.lastname DESC"))
+        expected = User.not_builtin.merge(User.joins(:groups).order("groups_users.lastname DESC")).order(id: :desc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
