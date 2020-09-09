@@ -135,6 +135,23 @@ Verify and **update roles and permissions for boards** in the system's Administr
  ![OpenProject-Boards_manage-permissions](OpenProject-Boards_manage-permissions-1568640266543.png)
 
 
+
+![basic-board-docs](basic-board-docs.png)
+
+
+
+![action-board-status-docs](action-board-status-docs.png)
+
+
+
+![action-board-assignee-docs](action-board-assignee-docs.png)
+
+
+
+![action-board-version-docs](action-board-version-docs.png)
+
+
+
 ## Frequently asked questions (FAQ)
 
 
