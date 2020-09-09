@@ -55,7 +55,7 @@ module API
       private
 
       def results_to_representer(params)
-        results_scope = query.results.sorted_work_packages
+        results_scope = query.results.work_packages
 
         if scope
           results_scope = results_scope.where(id: scope.select(:id))

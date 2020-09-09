@@ -51,27 +51,15 @@ class ::Query::Results
     raise ::Query::StatementInvalid.new(e.message)
   end
 
-  # This method is deprecated use sorted_work_packages instead
-  # noinspection Rails3Deprecated
+  # Returns the work packages adhering to the filters and ordered by the provided criteria (grouping and sorting)
   def work_packages
-    OpenProject::Deprecation.replaced :work_packages, :sorted_work_packages, caller
-
     work_package_scope
       .where(query.statement)
       .includes(all_includes)
       .joins(all_joins)
       .order(order_option)
       .references(:projects)
-  end
-
-  # Same as :work_packages, but returns a result sorted by the sort_criteria defined in the query.
-  # Note: It escapes me, why this is not the default behaviour.
-  # If there is a reason: This is a somewhat DRY way of using the sort criteria.
-  # If there is no reason: The :work_package method can die over time and be replaced by this one.
-  #
-  # TODO: Once the #work_packages method is removed, rename this to work_packages
-  def sorted_work_packages
-    work_packages.order(sort_criteria_array)
+      .order(sort_criteria_array)
   end
 
   def versions

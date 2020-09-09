@@ -119,7 +119,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
       expect(query_results.work_package_count_by_group)
         .to eql(old_version => 1, no_date_version => 1, new_version => 1, nil => 1)
 
-      expect(query_results.sorted_work_packages.pluck(:id))
+      expect(query_results.work_packages.pluck(:id))
         .to match work_packages_asc.map(&:id)
     end
   end
@@ -128,7 +128,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
     let(:sort_criteria) { [['version', 'asc']] }
 
     it 'returns the correctly sorted result' do
-      expect(query_results.sorted_work_packages.pluck(:id))
+      expect(query_results.work_packages.pluck(:id))
         .to match work_packages_asc.map(&:id)
     end
   end
@@ -140,7 +140,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
       # null values are still sorted last
       work_packages_order = [newest_version_wp, no_date_version_wp, oldest_version_wp, no_version_wp]
 
-      expect(query_results.sorted_work_packages.pluck(:id))
+      expect(query_results.work_packages.pluck(:id))
         .to match work_packages_order.map(&:id)
     end
   end

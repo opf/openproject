@@ -218,7 +218,7 @@ describe WorkPackagesController, type: :controller do
             # Note: Stubs for methods used to build up the json query results.
             # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
             allow(query).to receive(:results).and_return(results)
-            allow(results).to receive_message_chain(:sorted_work_packages, :page, :per_page).and_return(work_packages)
+            allow(results).to receive_message_chain(:work_packages, :page, :per_page).and_return(work_packages)
 
             expect(controller).to receive(:render_feed).with(work_packages, anything) do |*_args|
               # We need to render something because otherwise
