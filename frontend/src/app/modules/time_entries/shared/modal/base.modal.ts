@@ -22,6 +22,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
   public closeOnEscape = false;
   public closeOnOutsideClick = false;
+  public formInFlight:boolean;
 
   @InjectField() apiV3Service:APIV3Service;
 
@@ -48,6 +49,8 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   }
 
   public saveEntry() {
+    this.formInFlight = true;
+
     this.editForm.save()
       .then(() => {
         // reload workPackage
@@ -59,7 +62,9 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
             .refresh();
         }
         this.service.close();
-      });
+        this.formInFlight = false;
+      })
+      .catch(() => this.formInFlight = false);
   }
 
   public get saveText() {
