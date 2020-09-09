@@ -86,6 +86,8 @@ export class DragAndDropTransformer {
         } catch (e) {
           this.halNotification.handleRawError(e);
 
+          // Restore original element's styles
+          this.actionService.changeShadowElement(el, true);
           // Restore element in from container
           DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
         }
