@@ -90,6 +90,10 @@ describe 'Query name inline edit', js: true do
     # Expect unchanged
     query_title.expect_not_changed
 
+    # TODO: The notification should actually not be shown at all since no update
+    # has taken place
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+
     assignee_query.reload
     expect(assignee_query.filters.count).to eq(1)
     expect(assignee_query.filters.first.name).to eq :status_id
@@ -100,7 +104,7 @@ describe 'Query name inline edit', js: true do
 
     # Rename query
     query_title.rename 'Not my assignee query'
-    wp_table.expect_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
 
     assignee_query.reload
     expect(assignee_query.name).to eq 'Not my assignee query'
@@ -112,7 +116,7 @@ describe 'Query name inline edit', js: true do
     page.driver.browser.switch_to.active_element.send_keys('Some other name')
     page.driver.browser.switch_to.active_element.send_keys(:return)
 
-    wp_table.expect_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
 
     assignee_query.reload
     expect(assignee_query.name).to eq 'Some other name'
