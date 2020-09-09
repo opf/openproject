@@ -134,22 +134,35 @@ Verify and **update roles and permissions for boards** in the system's Administr
 
  ![OpenProject-Boards_manage-permissions](OpenProject-Boards_manage-permissions-1568640266543.png)
 
+## Agile boards examples
 
+We would like to show you some examples so that you get an idea on how to use agile boards. Also, once you have set up your custom boards, you can easily copy them (with release of OpenProject 11.0) to use them as a basis for new ones.
+
+**Basic board**
+
+Freely create any kind of list you need to organize your team in OpenProject. If it is organizing tasks for a department, planning a team event, collecting feedback for different topics, coordinating tasks in different locations, generating ideas and many more. Every team member can add tasks to this board and thus the board will be growing over time. It allows you to always know what tasks need to be done without using an Excel file and one coordinator. Everyone has access to the information at any time from anywhere.
 
 ![basic-board-docs](basic-board-docs.png)
 
+**Action board (status)**
 
+The status action board is probably the most used agile board. Start with the three basic status “new”, “in progress” and “closed” and see what status you might need according to your way of working. With a status action board, you can implement the KANBAN principle, continuously improving the flow of work.
+If you would for example like to map your order process in a board, you can use the status board to pass the tickets through the status. From an incoming order (new), to when it is being handled (in progress) to when it is done (closed). Accompanying work packages to the actual order process would also be shown in this board to give a good overview, e.g. adding a new payment option. Different people from different departments can work together and are up to date on where every work package stands without having to ask.
 
 ![action-board-status-docs](action-board-status-docs.png)
 
+**Action board (assignee)**
 
+Know who is working on what. If a cross-functional team is e.g. developing a product together, you would like to know who is working on what and if everything is on track. The assignee board gives you the opportunity to get an overview of responsibilities, how busy the teams are and if all tasks are distributed. It gives the teams clear responsibilities. The marketing team knows that the finance team is doing the product calculation but they have to check the overall product profitability themselves.
+Of course you don’t need to use groups as assignees, you can also use individual team members in the list.
 
 ![action-board-assignee-docs](action-board-assignee-docs.png)
 
+**Action board (version)**
 
+The version board facilitates the planning of a product development in several iterations. With every iteration you can add and improve features and let your product become the best version for your customers. If a certain feature is e.g. too complex to be developed in one specific version because you have other features to develop with higher priority, just drag it to the next version and it will update automatically. This board gives you a perfect overview of what is coming and you can see at a glance if it fits your priorities. If not, adjust with drag and drop.
 
 ![action-board-version-docs](action-board-version-docs.png)
-
 
 
 ## Frequently asked questions (FAQ)
