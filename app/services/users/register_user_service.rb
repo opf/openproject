@@ -37,10 +37,10 @@ module Users
 
     def call
       %i[
+        ensure_user_limit_not_reached!
         register_invited_user
         register_ldap_user
         ensure_registration_allowed!
-        ensure_user_limit_not_reached!
         register_by_email_activation
         register_automatically
         register_manually
