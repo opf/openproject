@@ -31,9 +31,22 @@
 module Projects
   class GanttQueryGeneratorService
     DEFAULT_GANTT_QUERY ||=
-      '{"c":["type","id","subject","status","project"],"tv":true,"hi":false,"g":"project"}'.freeze
+      {
+        c: %w[type id subject status],
+        tll: '{"left":"startDate","right":"dueDate","farRight":null}',
+        tzl: "auto",
+        tv: true,
+        hi: false,
+        g: "project"
+      }.to_json.freeze
 
     attr_reader :selected_project_ids
+
+    ##
+    # Returns the current query or the default one if none was saved
+    def self.current_query
+      Setting.project_gantt_query.presence || DEFAULT_GANTT_QUERY
+    end
 
     def initialize(selected_project_ids)
       @selected_project_ids = selected_project_ids
@@ -67,8 +80,7 @@ module Projects
     private
 
     def params_from_settings
-      setting = Setting.project_gantt_query.presence || DEFAULT_GANTT_QUERY
-      JSON.parse(setting)
+      JSON.parse(self.class.current_query)
     rescue JSON::JSONError => e
       Rails.logger.error "Failed to read project gantt view, resetting to default. Error was: #{e.message}"
       Setting.project_gantt_query = DEFAULT_GANTT_QUERY
