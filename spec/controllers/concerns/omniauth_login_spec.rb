@@ -34,7 +34,7 @@ describe AccountController, type: :controller do
     User.current = nil
   end
 
-  context 'GET #omniauth_login', with_settings: { self_registration: '3' } do
+  context 'GET #omniauth_login', with_settings: { self_registration: Setting::SelfRegistration.automatic} do
     describe 'with on-the-fly registration' do
       context 'providing all required fields' do
         let(:omniauth_hash) do
@@ -244,7 +244,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with self-registration disabled',
-              with_settings: { self_registration: 0 } do
+              with_settings: { self_registration: Setting::SelfRegistration.disabled } do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
             provider: 'google',
@@ -442,7 +442,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with a registered and not activated accout',
-              with_settings: { self_registration: '1' } do
+              with_settings: { self_registration: Setting::SelfRegistration.by_email } do
         before do
           user.register
           user.save!
@@ -460,7 +460,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with an invited user and self registration disabled',
-              with_settings: { self_registration: '0' } do
+              with_settings: { self_registration: Setting::SelfRegistration.disabled } do
         before do
           user.invite
           user.save!

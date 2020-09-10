@@ -213,7 +213,8 @@ module Authentication
     ##
     # Try to provide some context of the auth_hash in case of errors
     def auth_uid
-      auth_hash.try(:[], :uid) || 'unknown'
+      hash = (auth_hash || {})
+      hash.dig(:info, :uid) || hash.dig(:uid) || 'unknown'
     end
   end
 end

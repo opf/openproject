@@ -156,7 +156,7 @@ module Users
       ServiceResult.new(success: false).tap do |call|
         # Avoid using the errors from the user
         call.result = user
-        call.errors.add(:base, I18n.t(:notice_activation_failed), error_symbol: :failed_to_activate)
+        call.errors.add(:base, I18n.t(:notice_activation_failed), error: :failed_to_activate)
       end
     end
   end
