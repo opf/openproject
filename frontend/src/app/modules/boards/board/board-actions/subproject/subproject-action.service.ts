@@ -14,8 +14,7 @@ import {ImageHelpers} from "core-app/helpers/images/path-helper";
 export class BoardSubprojectActionService extends CachedBoardActionService {
   filterName = 'onlySubproject';
 
-  text = this.I18n.t('js.boards.board_type.action_by_attribute',
-  { attribute: this.I18n.t('js.boards.board_type.action_type.subproject')}) ;
+  text =  this.I18n.t('js.boards.board_type.action_type.subproject');
 
   description = this.I18n.t('js.boards.board_type.action_text_subprojects');
 

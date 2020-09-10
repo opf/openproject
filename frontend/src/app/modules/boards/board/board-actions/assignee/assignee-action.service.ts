@@ -15,11 +15,9 @@ import imagePath = ImageHelpers.imagePath;
 export class BoardAssigneeActionService extends CachedBoardActionService {
   filterName = 'assignee';
 
-  text = this.I18n.t('js.boards.board_type.action_by_attribute',
-  { attribute: this.I18n.t('js.boards.board_type.action_type.assignee')});
+  text = this.I18n.t('js.boards.board_type.action_type.assignee');
 
-  description = this.I18n.t('js.boards.board_type.action_text',
-  { attribute: this.I18n.t('js.boards.board_type.action_type.assignee')});
+  description = this.I18n.t('js.boards.board_type.action_text_assignee');
 
   label = this.I18n.t('js.boards.add_list_modal.labels.assignee');
 

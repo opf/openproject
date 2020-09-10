@@ -2,6 +2,8 @@ import {ComponentFixture, TestBed, async} from '@angular/core/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {TileViewComponent} from './tile-view.component';
+import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import imagePath = ImageHelpers.imagePath;
 
 describe('shows tiles', () => {
   let app:TileViewComponent;
@@ -9,8 +11,11 @@ describe('shows tiles', () => {
   let element:DebugElement;
 
   let tilesStub = [{
-    attribute: 'basic', text: 'Basic board',
-    icon: 'icon-boards', description: `Create a board in which you can freely
+    attribute: 'basic',
+    text: 'Basic board',
+    icon: 'icon-boards',
+    image: imagePath('board_creation_modal/lists.svg'),
+    description: `Create a board in which you can freely
   create lists and order your work packages within.
   Moving work packages between lists do not change the work package itself.`
   }];
@@ -37,13 +42,13 @@ describe('shows tiles', () => {
   it('should show each tile', () => {
     fixture.detectChanges();
     let tile:HTMLElement = element.query(By.css('.tile-block')).nativeElement;
-    expect(tile.textContent).toContain('Basic Board');
+    expect(tile.textContent).toContain('Basic');
 
   });
 
-  it('should show the icon', () => {
+  it('should show the image', () => {
     fixture.detectChanges();
-    let tile = document.querySelector('.tile-block--icon');
+    let tile = document.querySelector('.tile-block-image');
     expect(document.contains(tile)).toBeTruthy();
 
   });

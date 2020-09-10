@@ -1,15 +1,12 @@
 <div class="tile-blocks--container">
-    <div class="tile-block" 
-          [disabled]="disabled()" 
-          (accessibleClick)="created(tile.attribute)"
-          *ngFor="let tile of tiles">
-          <img [src]="tile.image" />
-      <div class="row tile-block-header">
-        
-       
-        <span>{{ tile.text | titlecase}}</span>
-      </div>
-
-      <p [textContent]="tile.description"></p>
+    <div class="tile-block button row" 
+        [disabled]="disabled()" 
+        (accessibleClick)="created(tile.attribute)"
+        *ngFor="let tile of tiles">
+        <img [src]="tile.image" class="tile-block-image"/>
+        <div>
+          <span class="tile-block-title">{{ tile.text | titlecase}}</span> 
+          <p class="tile-block-description" [textContent]="tile.description"></p>
+        </div>
     </div>
 </div>
