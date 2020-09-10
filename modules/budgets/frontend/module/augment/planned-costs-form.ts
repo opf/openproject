@@ -31,6 +31,7 @@ export class PlannedCostsFormAugment {
   public obj:JQuery;
   public objId:string;
   public objName:string;
+  public placeholder:string;
 
   static listen() {
     jQuery(document).on('click', '.costs--edit-planned-costs-btn', (evt) => {
@@ -43,6 +44,7 @@ export class PlannedCostsFormAugment {
     this.objId = this.$element.attr('obj-id')!;
     this.objName = this.$element.attr('obj-name')!;
     this.obj = jQuery(`#${this.objId}_costs`) as any;
+    this.placeholder = this.$element.data('placeholder');
 
     this.makeEditable();
   }
@@ -73,6 +75,7 @@ export class PlannedCostsFormAugment {
     let currency = this.getCurrency();
     let value = this.getValue();
     let name = this.objName;
+    let placeholder = this.placeholder;
 
     let template = `
       <section class="form--section" id="${id}_section">
@@ -80,7 +83,13 @@ export class PlannedCostsFormAugment {
           <div class="form--field-container">
             <div id="${id}_cancel" class="form--field-affix -transparent icon icon-close"></div>
             <div id="${id}_editor" class="form--text-field-container">
-                <input id="${id}_edit" class="form--text-field" name="${name}" value="${value}" class="currency" type="text" />
+                <input id="${id}_edit"
+                       class="form--text-field"
+                       name="${name}"
+                       value="${value}"
+                       placeholder="${placeholder}"
+                       class="currency"
+                       type="text" />
             </div>
             <div class="form--field-affix" id="${id}_affix">${currency}</div>
           </div>
