@@ -121,10 +121,6 @@ class BudgetsController < ApplicationController
   end
 
   def update
-    # TODO: This was simply copied over from edit in order to have
-    # something as a starting point for separating the two
-    # Please go ahead and start removing code where necessary
-
     @budget.attributes = permitted_params.budget if params[:budget]
     if params[:budget][:existing_material_budget_item_attributes].nil?
       @budget.existing_material_budget_item_attributes = ({})

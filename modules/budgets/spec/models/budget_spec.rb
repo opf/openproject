@@ -59,4 +59,39 @@ describe Budget, type: :model do
     it { expect(WorkPackage.find_by_id(work_package.id)).to eq(work_package) }
     it { expect(work_package.reload.budget).to be_nil }
   end
+
+  describe '#existing_material_budget_item_attributes=' do
+    let!(:existing_material_budget_item) do
+      FactoryBot.create(:material_budget_item, budget: budget, units: 10.0)
+
+      budget.material_budget_items.reload.first
+    end
+
+    context 'allowed to edit budgets' do
+      before do
+        allow(User.current)
+          .to receive(:allowed_to?)
+          .with(:edit_budgets, project)
+          .and_return(true)
+      end
+
+      context 'with a non integer value' do
+        it 'updates the item' do
+          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => { units: "0.5" } }
+
+          expect(existing_material_budget_item.units)
+            .to eql 0.5
+        end
+      end
+
+      context 'with no value' do
+        it 'deletes the item' do
+          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => {  } }
+
+          expect(existing_material_budget_item)
+            .to be_destroyed
+        end
+      end
+    end
+  end
 end
