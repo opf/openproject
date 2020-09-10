@@ -51,6 +51,7 @@ class BudgetsController < ApplicationController
   helper :budgets
   include BudgetsHelper
   include PaginationHelper
+  include ::Costs::NumberHelper
 
   def index
     sort_init 'id', 'desc'
@@ -234,7 +235,7 @@ class BudgetsController < ApplicationController
 
     if current_user.allowed_to?(permission, project)
       response["#{element_id}_costs"] = number_to_currency(costs)
-      response["#{element_id}_cost_value"] = costs
+      response["#{element_id}_cost_value"] = unitless_currency_number(costs)
     end
 
     response
