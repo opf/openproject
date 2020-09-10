@@ -83,8 +83,8 @@ describe Query, "manual sorting ", type: :model do
       query.sort_criteria = [[:manual_sorting, 'asc']]
       query2.sort_criteria = [[:manual_sorting, 'asc']]
 
-      expect(query.results.sorted_work_packages.pluck(:id)).to eq [wp_1.id, wp_2.id]
-      expect(query2.results.sorted_work_packages.pluck(:id)).to eq [wp_2.id, wp_1.id]
+      expect(query.results.work_packages.pluck(:id)).to eq [wp_1.id, wp_2.id]
+      expect(query2.results.work_packages.pluck(:id)).to eq [wp_2.id, wp_1.id]
     end
   end
 end
