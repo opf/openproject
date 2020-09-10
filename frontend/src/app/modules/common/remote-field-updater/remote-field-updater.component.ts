@@ -109,7 +109,13 @@ export class RemoteFieldUpdaterComponent implements OnInit {
         this.target.html(response);
       } else {
         _.each(response, (val:string, selector:string) => {
-          jQuery('#' + selector).html(val);
+          let element = document.getElementById(selector) as HTMLElement|HTMLInputElement;
+
+          if (element instanceof HTMLInputElement) {
+            element.value = val;
+          } else if (element) {
+            element.textContent = val;
+          }
         });
       }
     });
