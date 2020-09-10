@@ -141,6 +141,8 @@ describe "multi select custom values", clear_cache: true, js: true do
 
         wp1_field.submit_by_dashboard
 
+        wp_page.expect_and_dismiss_notification message: 'Successful update'
+
         # Expect changed groups
         expect(page).to have_selector('.group--value .count', count: 1)
         expect(page).to have_selector('.group--value', text: 'ham (2)')
@@ -152,6 +154,8 @@ describe "multi select custom values", clear_cache: true, js: true do
         field.activate!
         field.unset_value "ham", true
         field.submit_by_dashboard
+
+        wp_page.expect_and_dismiss_notification message: 'Successful update'
 
         # Expect none selected in split and table
         field.expect_state_text '-'

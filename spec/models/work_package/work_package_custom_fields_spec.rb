@@ -57,11 +57,11 @@ describe WorkPackage, type: :model do
     end
 
     before do
-      def self.change_custom_field_value(work_package, value)
+      def self.change_custom_field_value(work_package, value, save: true)
         val = custom_field.custom_options.find { |co| co.value == value }.try(:id)
 
         work_package.custom_field_values = { custom_field.id => (val || value) }
-        work_package.save
+        work_package.save if save
       end
     end
 
@@ -225,28 +225,22 @@ describe WorkPackage, type: :model do
         end
 
         context 'save' do
-          before do
-            work_package.save!
-            work_package.reload
-          end
-
           subject { work_package.typed_custom_value_for(custom_field.id) }
           it { is_expected.to eq('PostgreSQL') }
         end
+      end
 
-        describe 'value change' do
-          before do
-            change_custom_field_value(work_package, 'PostgreSQL')
-            @initial_custom_value = work_package.custom_value_for(custom_field).id
-            change_custom_field_value(work_package, 'MySQL')
+      describe 'only updates when actually saving' do
+        before do
+          change_custom_field_value(work_package, 'PostgreSQL')
+          change_custom_field_value(work_package, 'MySQL', save: false)
 
-            work_package.reload
-          end
-
-          subject { work_package.custom_value_for(custom_field).id }
-
-          it { is_expected.to eq(@initial_custom_value) }
+          work_package.reload
         end
+
+        subject { work_package.typed_custom_value_for(custom_field.id) }
+
+        it { is_expected.to eql('PostgreSQL') }
       end
     end
 
