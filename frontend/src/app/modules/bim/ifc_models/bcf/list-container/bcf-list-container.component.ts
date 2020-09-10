@@ -39,6 +39,8 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     dragAndDropEnabled: false
   };
 
+  public currentWorkPackageInViewer:string;
+
   ngOnInit() {
     super.ngOnInit();
 
@@ -81,14 +83,20 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   }
 
   handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
-    // Open the viewpoint if any
-    const wp = this.states.workPackages.get(event.workPackageId).value;
-    if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints) {
-      this.viewer.showViewpoint(wp, 0);
+    const {workPackageId, double} = event;
+
+    if (workPackageId !== this.currentWorkPackageInViewer) {
+      const wp = this.states.workPackages.get(workPackageId).value;
+
+      if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints) {
+        this.viewer.showViewpoint(wp, 0);
+      }
+
+      this.currentWorkPackageInViewer = workPackageId;
     }
 
-    if (event.double) {
-      this.goToWpDetailState(event.workPackageId, this.uIRouterGlobals.params.cards);
+    if (double) {
+      this.goToWpDetailState(workPackageId, this.uIRouterGlobals.params.cards);
     }
   }
 
