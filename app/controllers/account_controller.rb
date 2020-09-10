@@ -457,12 +457,13 @@ class AccountController < ApplicationController
   end
 
   def login_user!(user)
-    # Valid user
-    self.logged_user = user
     # generate a key and set cookie if autologin
-    if params[:autologin] && Setting.autologin?
+    if Setting.autologin? && (params[:autologin] || session.delete(:autologin_requested))
       set_autologin_cookie(user)
     end
+
+    # Set the logged user, resetting their session
+    self.logged_user = user
 
     call_hook(:controller_account_success_authentication_after, user: user)
 
