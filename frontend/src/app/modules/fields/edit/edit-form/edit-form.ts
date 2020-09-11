@@ -200,6 +200,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
           }
 
           this.change.inFlight = false;
+
+          return Promise.reject(error);
         });
     });
   }

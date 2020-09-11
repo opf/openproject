@@ -25,7 +25,8 @@
       <button class="button -highlight"
               *ngIf="saveAllowed"
               (click)="saveEntry()"
-              [attr.title]="saveText">
+              [attr.title]="saveText"
+              [disabled]="formInFlight">
         <op-icon icon-classes="button--icon icon-checkmark"></op-icon>
         <span class="button--text"
               [textContent]="saveText"
