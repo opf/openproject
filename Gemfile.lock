@@ -67,7 +67,7 @@ PATH
   remote: modules/backlogs
   specs:
     openproject-backlogs (1.0.0)
-      acts_as_list (~> 0.9.18)
+      acts_as_list (~> 1.0.1)
       openproject-pdf_export
 
 PATH
@@ -276,8 +276,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
-    acts_as_list (0.9.19)
-      activerecord (>= 3.0)
+    acts_as_list (1.0.1)
+      activerecord (>= 4.2)
     acts_as_tree (2.9.1)
       activerecord (>= 3.0.0)
     addressable (2.7.0)
@@ -980,7 +980,7 @@ DEPENDENCIES
   activerecord-import (~> 1.0.2)
   activerecord-nulldb-adapter (~> 0.4.0)
   activerecord-session_store (~> 1.1.0)
-  acts_as_list (~> 0.9.9)
+  acts_as_list (~> 1.0.1)
   acts_as_tree (~> 2.9.0)
   addressable (~> 2.7.0)
   airbrake (~> 11.0.0)
