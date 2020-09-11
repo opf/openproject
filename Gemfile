@@ -52,7 +52,7 @@ gem 'will_paginate', '~> 3.3.0'
 
 gem 'friendly_id', '~> 5.4.0'
 
-gem 'acts_as_list', '~> 0.9.9'
+gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
 gem 'awesome_nested_set', '~> 3.2.0'
 gem 'rubytree', '~> 1.0.0'
