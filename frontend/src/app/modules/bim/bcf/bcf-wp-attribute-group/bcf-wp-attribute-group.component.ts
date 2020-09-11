@@ -208,7 +208,10 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     return [
       {
         icon: 'icon-view-model',
-        onClick: (evt:any, index:number) => this.showViewpoint(this.workPackage, index),
+        onClick: (evt:any, index:number) => {
+          this.showViewpoint(this.workPackage, index);
+          this.gallery.preview.close();
+        },
         titleText: this.text.show_viewpoint
       },
       {
