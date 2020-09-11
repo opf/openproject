@@ -43,6 +43,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="meta">
     <div class="story_id"><%= task.parent_id %></div>
     <div class="status_id"><%= task.status_id %></div>
-    <%= render :partial => "shared/model_errors", :object => task.errors %>
+    <%= render(:partial => "shared/model_errors", :object => errors) if defined?(errors) && errors.size > 0 %>
   </div>
 </div>
