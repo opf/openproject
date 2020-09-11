@@ -10,11 +10,16 @@ export namespace DragAndDropHelpers {
 
   export function reinsert(el:HTMLElement, previousIndex:number|string, container:HTMLElement) {
     previousIndex = typeof previousIndex === 'string' ? parseInt(previousIndex, 10) : previousIndex;
-
+    const currentIndex = el.parentNode && Array.from(el.parentNode.children).indexOf(el) || null;
     const children = Array.from(container.children);
-    const currentIndex = Array.from(el.parentNode!.children).indexOf(el);
-    const isDraggingDown = currentIndex > previousIndex;
-    const pointOfInsertion = isDraggingDown ? children[previousIndex] : children[previousIndex + 1];
+    let pointOfInsertion;
+
+    if (currentIndex != null) {
+      const isDraggingDown = currentIndex > previousIndex;
+      pointOfInsertion = isDraggingDown ? children[previousIndex] : children[previousIndex + 1];
+    } else {
+      pointOfInsertion = children[previousIndex];
+    }
 
     if (pointOfInsertion) {
       container.insertBefore(el, pointOfInsertion);
