@@ -32,12 +32,8 @@ describe 'user self registration', type: :feature, js: true do
   let(:admin) { FactoryBot.create :admin, password: 'Test123Test123', password_confirmation: 'Test123Test123' }
   let(:home_page) { Pages::Home.new }
 
-  context 'with "manual account activation"' do
-    before do
-      allow(Setting)
-        .to receive(:self_registration?)
-        .and_return true
-    end
+  context 'with "manual account activation"',
+          with_settings: { self_registration: Setting::SelfRegistration.manual.to_s } do
 
     it 'allows self registration on login page (Regression #28076)' do
       visit signin_path

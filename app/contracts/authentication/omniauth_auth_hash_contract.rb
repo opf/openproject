@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,41 +28,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Users
-  class LoginService
-    attr_accessor :controller
+module Authentication
+  class OmniauthAuthHashContract
+    include ActiveModel::Validations
 
-    def initialize(controller:)
-      self.controller = controller
+    attr_reader :auth_hash
+
+    def initialize(auth_hash)
+      @auth_hash = auth_hash
     end
 
-    def call(user)
-      # retain custom session values
-      retained_values = retain_sso_session_values!(user)
+    validate :validate_auth_hash
+    validate :validate_auth_hash_not_expired
+    validate :validate_authorization_callback
 
-      # retain flash values
-      flash_values = controller.flash.to_h
+    private
 
-      controller.reset_session
+    def validate_auth_hash
+      return if auth_hash&.valid?
 
-      flash_values.each { |k, v| controller.flash[k] = v }
-
-      User.current = user
-
-      ::Sessions::InitializeSessionService.call(user, controller.session)
-
-      controller.session.merge!(retained_values) if retained_values
-
-      user.log_successful_login
-
-      ServiceResult.new(result: user)
+      errors.add(:base, I18n.t(:error_omniauth_invalid_auth))
     end
 
-    def retain_sso_session_values!(user)
-      provider = ::OpenProject::Plugins::AuthPlugin.login_provider_for(user)
-      return unless provider && provider[:retain_from_session]
+    def validate_auth_hash_not_expired
+      return unless auth_hash['timestamp']
 
-      controller.session.to_h.slice(*provider[:retain_from_session])
+      if auth_hash['timestamp'] < Time.now - 30.minutes
+        errors.add(:base, I18n.t(:error_omniauth_registration_timed_out))
+      end
+    end
+
+    def validate_authorization_callback
+      return unless auth_hash&.valid?
+
+      decision = OpenProject::OmniAuth::Authorization.authorized?(auth_hash)
+      errors.add(:base, decision.message) unless decision.approve?
     end
   end
 end
