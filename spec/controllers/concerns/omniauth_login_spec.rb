@@ -34,7 +34,7 @@ describe AccountController, type: :controller do
     User.current = nil
   end
 
-  context 'GET #omniauth_login', with_settings: { self_registration: '3' } do
+  context 'GET #omniauth_login', with_settings: { self_registration: Setting::SelfRegistration.automatic} do
     describe 'with on-the-fly registration' do
       context 'providing all required fields' do
         let(:omniauth_hash) do
@@ -243,7 +243,8 @@ describe AccountController, type: :controller do
         end
       end
 
-      context 'with self-registration disabled' do
+      context 'with self-registration disabled',
+              with_settings: { self_registration: Setting::SelfRegistration.disabled } do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
             provider: 'google',
@@ -257,8 +258,6 @@ describe AccountController, type: :controller do
         end
 
         before do
-          allow(Setting).to receive(:self_registration?).and_return(false)
-
           request.env['omniauth.auth'] = omniauth_hash
           request.env['omniauth.origin'] = 'https://example.net/some_back_url'
 
@@ -443,7 +442,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with a registered and not activated accout',
-              with_settings: { self_registration: '1' } do
+              with_settings: { self_registration: Setting::SelfRegistration.by_email } do
         before do
           user.register
           user.save!
@@ -461,7 +460,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with an invited user and self registration disabled',
-              with_settings: { self_registration: '0' } do
+              with_settings: { self_registration: Setting::SelfRegistration.disabled } do
         before do
           user.invite
           user.save!
@@ -514,8 +513,9 @@ describe AccountController, type: :controller do
         post :omniauth_login, params: { provider: :google }
       end
 
-      it 'should respond with a 400' do
-        expect(response.code.to_i).to eql(400)
+      it 'should respond with an error' do
+        expect(flash[:error]).to include 'The authentication information returned from the identity provider was invalid.'
+        expect(response).to redirect_to signin_path
       end
 
       it 'should not sign in the user' do
@@ -536,24 +536,6 @@ describe AccountController, type: :controller do
       it 'should log a warn message' do
         expect(Rails.logger).to receive(:warn).with('invalid_credentials')
         post :omniauth_failure, params: { message: 'invalid_credentials' }
-      end
-    end
-  end
-
-  describe '#identity_url_from_omniauth' do
-    let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: {}  } }
-
-    it 'should return the correct identity_url' do
-      result = AccountController.new.send(:identity_url_from_omniauth, omniauth_hash)
-      expect(result).to eql('developer:veryuniqueid')
-    end
-
-    context 'with uid mapped from info' do
-      let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: { uid: 'internal'} } }
-
-      it 'should return the correct identity_url' do
-        result = AccountController.new.send(:identity_url_from_omniauth, omniauth_hash)
-        expect(result).to eql('developer:internal')
       end
     end
   end

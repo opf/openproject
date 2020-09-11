@@ -95,6 +95,15 @@ class ServiceResult
   end
 
   ##
+  # Test whether the returned errors respond
+  # to the search key
+  def includes_error?(attribute, error_key)
+    all_errors.any? do |error|
+      error.symbols_for(attribute).include?(error_key)
+    end
+  end
+
+  ##
   # Collect all present errors for the given result
   # and dependent results.
   #

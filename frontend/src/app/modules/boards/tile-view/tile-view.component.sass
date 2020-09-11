@@ -1,32 +1,39 @@
 .tile-blocks--container
   display: grid
-  grid-template: repeat(auto-fit, 220px) / repeat(auto-fit, 450px)
-  grid-auto-rows: 220px
+  grid-template-rows: repeat(minmax(200px, auto))
+  grid-template-columns: auto auto
   grid-column-gap: 10px
   grid-row-gap: 10px
-  min-width: 500px
-  margin: 5px
+
 
 .tile-block
-  border-radius: 3px
+  border-radius: 10px
   display: grid
   grid-template: 95px 1fr / 1fr
+  grid-template-columns: auto 1fr auto
+  grid-template-rows: auto
   grid-row-gap: 5px
   justify-items: left
-  background: #f8f8f8
+  background: #f7fafc
 
   &:hover
-    outline: 1px solid grey
     text-decoration: none
+    border: 1px solid grey
+    border-radius: 10px !important
+    cursor: pointer
 
 .tile-block--icon
   font-size: 50px
 
-.tile-block-header
-  padding-left: 10px
+.tile-block-title
+  padding-top: 30px
   color: var(--primary-color-dark)
-  display: flex
-  align-items: center
+  display: block
+  text-align: left
+  font-weight: bolder
 
 .tile-block p
   text-align: left 
+  width: 90%
+
+

@@ -23,6 +23,17 @@ zh-TW:
   activerecord:
     attributes:
       budget:
+        author: "作者"
+        available: "Available"
+        budget: "Planned"
+        budget_ratio: "Spent (ratio)"
+        created_on: "建立於"
+        description: "說明"
+        spent: "花費"
+        status: "狀態"
+        subject: "主題"
+        type: "Cost type"
+        updated_on: "更新於"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:
@@ -49,7 +60,7 @@ zh-TW:
   label_budget: "Budget"
   label_budget_new: "新增預算"
   label_budget_plural: "預算"
-  label_cost_type_specific: "預算 #%{id}：%{name}"
+  label_budget_id: "預算 #%{id}"
   label_deliverable: "Budget"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"

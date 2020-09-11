@@ -12,7 +12,7 @@ export class BoardActionsRegistryService {
 
   public available() {
     return _.map(this.mapping, (service:BoardActionService, attribute:string) => {
-      return { attribute: attribute, text: service.localizedName, icon:'', description:'' };
+      return { attribute: attribute, text: service.localizedName, icon:'', description:'', image:''};
     });
   }
 

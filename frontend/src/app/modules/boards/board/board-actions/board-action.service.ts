@@ -56,6 +56,11 @@ export abstract class BoardActionService {
   description:string;
 
   /**
+   * The description used in tile
+   */
+  image:string;
+
+  /**
    * Label used to describe the values in the modal
    */
   label:string;

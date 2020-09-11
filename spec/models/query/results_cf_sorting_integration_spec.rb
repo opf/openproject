@@ -83,7 +83,7 @@ describe ::Query::Results, 'Sorting of custom field floats', type: :model, with_
     let(:sort_criteria) { [["cf_#{custom_field.id}", 'asc']] }
 
     it 'returns the correctly sorted result' do
-      expect(query_results.sorted_work_packages.pluck(:id))
+      expect(query_results.work_packages.pluck(:id))
         .to match [work_package_without_float, work_package_with_float].map(&:id)
     end
   end
@@ -92,7 +92,7 @@ describe ::Query::Results, 'Sorting of custom field floats', type: :model, with_
     let(:sort_criteria) { [["cf_#{custom_field.id}", 'desc']] }
 
     it 'returns the correctly sorted result' do
-      expect(query_results.sorted_work_packages.pluck(:id))
+      expect(query_results.work_packages.pluck(:id))
         .to match [work_package_with_float, work_package_without_float].map(&:id)
     end
   end

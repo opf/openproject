@@ -45,7 +45,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
     results = double('results')
 
     allow(results)
-      .to receive(:sorted_work_packages)
+      .to receive(:work_packages)
       .and_return([work_package])
 
     allow(results)

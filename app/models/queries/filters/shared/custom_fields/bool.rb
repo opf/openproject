@@ -33,22 +33,7 @@ require_relative 'base'
 module Queries::Filters::Shared
   module CustomFields
     class Bool < Base
-      def allowed_values
-        [
-          [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-          [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
-        ]
-      end
-
-      def type
-        :list
-      end
-
-      protected
-
-      def type_strategy_class
-        ::Queries::Filters::Strategies::BooleanList
-      end
+      include Queries::Filters::Shared::BooleanFilter
     end
   end
 end

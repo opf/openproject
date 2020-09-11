@@ -42,7 +42,7 @@ class ::Query::SortCriteria < ::SortHelper::SortCriteria
   # Building the query sort criteria needs to respect
   # specific options of the column
   def to_a
-    @criteria
+    criteria_with_default_order
       .map { |attribute, order| [find_column(attribute), @available_criteria[attribute], order] }
       .reject { |column, criterion, _| column.nil? || criterion.nil? }
       .map { |column, criterion, order| [column, execute_criterion(criterion), order] }
@@ -64,7 +64,7 @@ class ::Query::SortCriteria < ::SortHelper::SortCriteria
   def append_order(column, criterion, asc = true)
     ordered_criterion = append_direction(criterion, asc)
 
-    ordered_criterion.map { |statement| "#{statement} #{column.null_handling(asc)}" }
+    ordered_criterion.map { |statement| "#{statement} #{column.null_handling(asc)}".strip }
   end
 
   def execute_criterion(criteria)
@@ -74,6 +74,14 @@ class ::Query::SortCriteria < ::SortHelper::SortCriteria
       else
         criterion
       end
+    end
+  end
+
+  def criteria_with_default_order
+    if @criteria.none? { |attribute, _| attribute == 'id' }
+      @criteria + [['id', false]]
+    else
+      @criteria
     end
   end
 end

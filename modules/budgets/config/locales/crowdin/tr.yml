@@ -23,6 +23,17 @@ tr:
   activerecord:
     attributes:
       budget:
+        author: "Sahibi"
+        available: "Uygun"
+        budget: "Planlanmış"
+        budget_ratio: "Harcanma (oranı)"
+        created_on: "Oluşturma tarihi"
+        description: "Açıklama"
+        spent: "Harcanan"
+        status: "Durum"
+        subject: "Konu"
+        type: "Maliyet türü"
+        updated_on: "Güncelleme tarihi"
         labor_budget: "Planlanan işçilik maliyetleri"
         material_budget: "Planlanan birim maliyetleri"
       work_package:
@@ -49,7 +60,7 @@ tr:
   label_budget: "Bütçe"
   label_budget_new: "Yeni bütçe"
   label_budget_plural: "Bütçeler"
-  label_cost_type_specific: "Bütçe #% {id}:% {name}%{id}%{name}"
+  label_budget_id: "Bütçe #%{id}"
   label_deliverable: "Bütçe"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Tüm bütçeleri görüntüle"

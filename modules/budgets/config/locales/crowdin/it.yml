@@ -23,6 +23,17 @@ it:
   activerecord:
     attributes:
       budget:
+        author: "Autore"
+        available: "Disponibile"
+        budget: "Pianificato"
+        budget_ratio: "Trascorso (tasso)"
+        created_on: "Creato il"
+        description: "Descrizione"
+        spent: "Trascorso"
+        status: "Stato"
+        subject: "Soggetto"
+        type: "Tipo di costo"
+        updated_on: "Aggiornato il"
         labor_budget: "Costo del lavoro pianificato"
         material_budget: "Costi pianificati per unità"
       work_package:
@@ -49,7 +60,7 @@ it:
   label_budget: "Bilancio"
   label_budget_new: "Nuovo budget"
   label_budget_plural: "Bilanci"
-  label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_budget_id: "Budget #%{id}"
   label_deliverable: "Bilancio"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Mostra tutti i budget"

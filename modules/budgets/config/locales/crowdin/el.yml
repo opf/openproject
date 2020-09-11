@@ -23,6 +23,17 @@ el:
   activerecord:
     attributes:
       budget:
+        author: "Συγγραφέας"
+        available: "Διαθέσιμο"
+        budget: "Προγραμματισμένο"
+        budget_ratio: "Δαπανημένα (αναλογία)"
+        created_on: "Δημιουργήθηκε στις"
+        description: "Περιγραφή"
+        spent: "Δαπανήθηκε"
+        status: "Κατάσταση"
+        subject: "Θέμα"
+        type: "Τύπος κόστους"
+        updated_on: "Τροποποιήθηκε"
         labor_budget: "Σχεδιασμένο κόστος εργασίας"
         material_budget: "Σχεδιασμένο κόστος μονάδας"
       work_package:
@@ -49,7 +60,7 @@ el:
   label_budget: "Προϋπολογισμός"
   label_budget_new: "Νέος προϋπολογισμός"
   label_budget_plural: "Προϋπολογισμοί"
-  label_cost_type_specific: "Προϋπολογισμός#%{id}: %{name}"
+  label_budget_id: "Προϋπολογισμός #%{id}"
   label_deliverable: "Προϋπολογισμός"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Εμφάνιση όλων των προϋπολογισμών"
