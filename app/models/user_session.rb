@@ -39,6 +39,22 @@ class UserSession < ActiveRecord::SessionStore::Session
   # Delete related sessions when an active session is destroyed
   after_destroy :delete_user_sessions
 
+  ##
+  # Looks up session data for a given session ID.
+  #
+  # This is not specific to AR sessions which are stored as `UserSession` records.
+  # But this is the probably the first place one would search for session-related
+  # methods. I.e. this works just as well for cache- and file-based sessions.
+  #
+  # @param session_id [String] The session ID as found in the `_open_project_session` cookie
+  # @return [Hash] The saved session data (user_id, updated_at, etc.) or nil if no session was found.
+  def self.lookup_data(session_id)
+    session_store = Rails.application.config.session_store.new nil, {}
+    _id, data = session_store.find_session({}, Rack::Session::SessionId.new(session_id))
+
+    data if data.present?
+  end
+
   private
 
   def set_user_id

@@ -1,6 +1,9 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
+
+PGBIN="$(pg_config --bindir)"
 
 display_error() {
 	echo " !--> ERROR on postinstall:"
@@ -26,6 +29,8 @@ fi
 echo " ---> Precompiling assets. This will take a while..."
 
 (
+	set -e
+	set -o pipefail
 	pushd "${APP_PATH}/frontend"
 
 	export NG_CLI_ANALYTICS=ci # so angular cli doesn't block waiting for user input

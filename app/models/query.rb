@@ -180,28 +180,6 @@ class Query < ApplicationRecord
     filters << filter
   end
 
-  def add_short_filter(field, expression)
-    return unless expression
-
-    parms = expression.scan(/\A(o|c|!\*|!|\*)?(.*)\z/).first
-    add_filter field, (parms[0] || '='), [parms[1] || '']
-  end
-
-  # Add multiple filters using +add_filter+
-  def add_filters(fields, operators, values)
-    values ||= {}
-
-    if fields.is_a?(Array) && operators.respond_to?(:[]) && values.respond_to?(:[])
-      fields.each do |field|
-        add_filter(field, operators[field], values[field])
-      end
-    end
-  end
-
-  def has_filter?(field)
-    filters.present? && filters.any? { |f| f.field.to_s == field.to_s }
-  end
-
   def filter_for(field)
     filter = (filters || []).detect { |f| f.field.to_s == field.to_s } || super(field)
 

@@ -45,6 +45,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="version_id"><%= story.version_id %></div>
   <div class="higher_item_id"><%= !defined?(higher_item) || higher_item.nil? ? '' : higher_item.id %></div>
   <div class="meta">
-    <%= render(:partial => "shared/model_errors", :object => story.errors) if story.errors.size > 0 %>
+    <%= render(:partial => "shared/model_errors", :object => errors) if defined?(errors) && errors.size > 0 %>
   </div>
 </li>

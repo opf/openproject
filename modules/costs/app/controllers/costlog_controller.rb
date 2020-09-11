@@ -163,7 +163,14 @@ class CostlogController < ApplicationController
     @cost_entry.work_package = @work_package
     @cost_entry.cost_type = @cost_type
 
-    @cost_entry.attributes = permitted_params.cost_entry
+    attributes = permitted_params.cost_entry
+    attributes[:units] = Rate.parse_number_string_to_number(attributes[:units])
+
+    if attributes.key?(:overridden_costs)
+      attributes[:overridden_costs] = Rate.parse_number_string_to_number(attributes[:overridden_costs])
+    end
+
+    @cost_entry.attributes = attributes
   end
 
   private

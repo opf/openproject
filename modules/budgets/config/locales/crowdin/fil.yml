@@ -23,6 +23,17 @@ fil:
   activerecord:
     attributes:
       budget:
+        author: "May-akda"
+        available: "Libre"
+        budget: "Nakaplano"
+        budget_ratio: "Nagasta(ratio)"
+        created_on: "Nilikha sa"
+        description: "Deskripsyon"
+        spent: "Nagasta"
+        status: "Estado"
+        subject: "Paksa"
+        type: "Uri ng Gastos"
+        updated_on: "Naka-update sa"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:
@@ -49,7 +60,7 @@ fil:
   label_budget: "Budget"
   label_budget_new: "New budget"
   label_budget_plural: "Budgets"
-  label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"

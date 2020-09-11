@@ -23,6 +23,17 @@ pt:
   activerecord:
     attributes:
       budget:
+        author: "Autor"
+        available: "Disponível"
+        budget: "Planejado"
+        budget_ratio: "Gasto (taxa)"
+        created_on: "Criado em"
+        description: "Descrição"
+        spent: "Gasto"
+        status: "Status"
+        subject: "Assunto"
+        type: "Tipo de custo"
+        updated_on: "Atualizado em"
         labor_budget: "Custos planejados de trabalho"
         material_budget: "Custos unitários planejados"
       work_package:
@@ -49,7 +60,7 @@ pt:
   label_budget: "Orçamento"
   label_budget_new: "Novo orçamento"
   label_budget_plural: "Orçamentos"
-  label_cost_type_specific: "Orçamento #%{id}: %{name}"
+  label_budget_id: "Orçamento #%{id}"
   label_deliverable: "Orçamento"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Ver os todos os orçamentos"

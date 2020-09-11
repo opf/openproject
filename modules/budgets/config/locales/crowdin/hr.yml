@@ -23,6 +23,17 @@ hr:
   activerecord:
     attributes:
       budget:
+        author: "Autor"
+        available: "Dostupno"
+        budget: "Planirano"
+        budget_ratio: "Potrošeno (omjer)"
+        created_on: "Izrađeno"
+        description: "Opis"
+        spent: "Potrošeno"
+        status: "Status"
+        subject: "Predmet"
+        type: "Vrsta troška"
+        updated_on: "Ažurirano"
         labor_budget: "Planirani troškovi rada"
         material_budget: "Planirani troškovi jedinica"
       work_package:
@@ -49,7 +60,7 @@ hr:
   label_budget: "Budžet"
   label_budget_new: "Novi proračun"
   label_budget_plural: "Proračuni"
-  label_cost_type_specific: "Proračun #%{id}: %{name}"
+  label_budget_id: "Proračun #%{id}"
   label_deliverable: "Budžet"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Pogledaj sve proračune"

@@ -7,7 +7,7 @@ robots: index, follow
 keywords: work packages
 ---
 
-# Work Packages
+# Work packages
 
 <div class="glossary">
 **Work packages** are items in a project (such as tasks, features, risks, user stories, bugs, change requests). A work package captures important information and can be assigned to project members for execution. 
@@ -35,7 +35,6 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies?        |
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/R6-p8HgFmm8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 ## Frequently asked questions (FAQ)
 
 ### How to copy work package hierarchies with their relations?

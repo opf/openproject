@@ -35,7 +35,7 @@ class Queries::Members::Filters::PrincipalFilter < Queries::Members::Filters::Me
     @allowed_values ||= begin
       values = Principal
                .active_or_registered
-               .in_visible_project
+               .in_visible_project_or_me
                .map { |s| [s.name, s.id.to_s] }
                .sort
 

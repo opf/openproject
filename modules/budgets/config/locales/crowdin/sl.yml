@@ -23,6 +23,17 @@ sl:
   activerecord:
     attributes:
       budget:
+        author: "Avtor"
+        available: "Na voljo"
+        budget: "Načrtovano"
+        budget_ratio: "Poraba (razmerje)"
+        created_on: "Ustvarjeno dne"
+        description: "Opis"
+        spent: "Porabljeno"
+        status: "Stanje"
+        subject: "Zadeva"
+        type: "Vrsta stroška"
+        updated_on: "Posodobljeno"
         labor_budget: "Načrtovani stroški dela"
         material_budget: "Načrtovani stroški enote"
       work_package:
@@ -49,7 +60,7 @@ sl:
   label_budget: "Proračun"
   label_budget_new: "Nov proračun"
   label_budget_plural: "Proračun"
-  label_cost_type_specific: "Proračun #%{id}: %{name}"
+  label_budget_id: "Proračun #%{id}"
   label_deliverable: "Proračun"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Oglejte si vse proračune"

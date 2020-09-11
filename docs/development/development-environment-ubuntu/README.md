@@ -17,7 +17,7 @@ We need an active Ruby and Node JS environment to run OpenProject. To this end, 
 
 ```bash
 sudo apt-get update
-sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libpq-dev  libreadline-dev libffi6
+sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libpq-dev libreadline-dev
 ```
 
 ## Install Ruby
@@ -163,8 +163,14 @@ npm --version
 
 # Install OpenProject
 
+In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub account.
+This allows you to create branches and push changes and finally opening a pull request for us to review.
+
+To do that, go to https://github.com/opf/openproject and press "Fork" on the upper right corner.
+
 ```bash
 # Download the repository
+# If you want to create a pull request, replace the URL with your own fork as described above
 git clone https://github.com/opf/openproject.git
 cd openproject
 
@@ -226,7 +232,7 @@ however most developers end up running the tasks in separate shells for better u
 gem install foreman
 foreman start -f Procfile.dev
 ```
-The application will be available at `http://127.0.0.1:5000`. To customize bind address and port copy the `.env.sample` provided in the root of this
+The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.sample` provided in the root of this
 project as `.env` and [configure values][foreman-env] as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,

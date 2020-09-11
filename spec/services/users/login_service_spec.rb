@@ -32,6 +32,7 @@ describe ::Users::LoginService, type: :model do
   let(:input_user) { FactoryBot.build_stubbed(:user) }
   let(:controller) { double('ApplicationController') }
   let(:session) { {} }
+  let(:flash) { ActionDispatch::Flash::FlashHash.new() }
 
   let(:instance) { described_class.new(controller: controller) }
 
@@ -56,9 +57,17 @@ describe ::Users::LoginService, type: :model do
           .and_return session
 
         allow(controller)
+          .to(receive(:flash))
+          .and_return flash
+
+        allow(controller)
           .to(receive(:reset_session)) do
           session.clear
+          flash.clear
         end
+
+        allow(input_user)
+          .to receive(:log_successful_login)
       end
 
       context 'if provider retains session values' do
@@ -74,6 +83,14 @@ describe ::Users::LoginService, type: :model do
           expect(session[:what]).to eq nil
           expect(session[:user_id]).to eq input_user.id
         end
+      end
+
+      it 'retains present flash values' do
+        flash[:notice] = 'bar'
+
+        subject
+
+        expect(controller.flash[:notice]).to eq 'bar'
       end
     end
   end

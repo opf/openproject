@@ -90,6 +90,10 @@ class Budget < ApplicationRecord
     I18n.t(:label_budget)
   end
 
+  def edit_allowed?
+    User.current.allowed_to? :edit_budgets, project
+  end
+
   # Amount of the budget spent.  Expressed as as a percentage whole number
   def budget_ratio
     return 0.0 if budget.nil? || budget == 0.0
@@ -169,18 +173,7 @@ class Budget < ApplicationRecord
   end
 
   def existing_material_budget_item_attributes=(material_budget_item_attributes)
-    material_budget_items.reject(&:new_record?).each do |material_budget_item|
-      attributes = material_budget_item_attributes[material_budget_item.id.to_s]
-      correct_material_attributes!(attributes)
-
-      if User.current.allowed_to? :edit_budgets, material_budget_item.budget.project
-        if attributes && attributes[:units].to_i.positive?
-          material_budget_item.attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
-        else
-          material_budget_items.delete(material_budget_item)
-        end
-      end
-    end
+    update_budget_item_attributes(material_budget_item_attributes, type: 'material')
   end
 
   def save_material_budget_items
@@ -201,19 +194,10 @@ class Budget < ApplicationRecord
   end
 
   def existing_labor_budget_item_attributes=(labor_budget_item_attributes)
-    labor_budget_items.reject(&:new_record?).each do |labor_budget_item|
-      attributes = labor_budget_item_attributes[labor_budget_item.id.to_s]
-      correct_labor_attributes!(attributes)
-
-      if User.current.allowed_to? :edit_budgets, labor_budget_item.budget.project
-        if valid_labor_budget_attributes?(attributes)
-          labor_budget_item.attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
-        else
-          labor_budget_items.delete(labor_budget_item)
-        end
-      end
-    end
+    update_budget_item_attributes(labor_budget_item_attributes, type: 'labor')
   end
+
+  private
 
   def save_labor_budget_items
     labor_budget_items.each do |labor_budget_item|
@@ -233,10 +217,34 @@ class Budget < ApplicationRecord
     attributes[:units] = Rate.parse_number_string_to_number(attributes[:units])
   end
 
+  def update_budget_item_attributes(budget_item_attributes, type:)
+    return unless edit_allowed?
+
+    budget_items = send("#{type}_budget_items")
+
+    budget_items.reject(&:new_record?).each do |budget_item|
+      attributes = budget_item_attributes[budget_item.id.to_s]
+      send("correct_#{type}_attributes!", attributes)
+
+      if send("valid_#{type}_budget_attributes?", attributes)
+        budget_item.attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
+      else
+        # This is surprising as it will delete right away compared to the
+        # update of the attributes that requires a save afterwards to take effect.
+        budget_items.delete(budget_item)
+      end
+    end
+  end
+
   def valid_labor_budget_attributes?(attributes)
     attributes &&
       attributes[:hours].to_f.positive? &&
       attributes[:user_id].to_i.positive? &&
       project.possible_assignees.map(&:id).include?(attributes[:user_id].to_i)
+  end
+
+  def valid_material_budget_attributes?(attributes)
+    attributes &&
+      attributes[:units].to_f.positive?
   end
 end
