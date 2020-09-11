@@ -160,7 +160,10 @@ module API
           schema :spent_time,
                  type: 'Duration',
                  required: false,
-                 show_if: ->(*) { represented.project&.module_enabled?('costs') }
+                 show_if: ->(*) {
+                   current_user_allowed_to(:view_time_entries, context: represented.project) ||
+                     current_user_allowed_to(:view_own_time_entries, context: represented.project)
+                 }
 
           schema :percentage_done,
                  type: 'Integer',
