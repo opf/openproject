@@ -12,7 +12,7 @@ export namespace DragAndDropHelpers {
     previousIndex = typeof previousIndex === 'string' ? parseInt(previousIndex, 10) : previousIndex;
 
     const children = Array.from(container.children);
-    const currentIndex = Array.from(el.parentNode.children).indexOf(el);
+    const currentIndex = Array.from(el.parentNode!.children).indexOf(el);
     const isDraggingDown = currentIndex > previousIndex;
     const pointOfInsertion = isDraggingDown ? children[previousIndex] : children[previousIndex + 1];
 
