@@ -45,7 +45,7 @@ describe Queries::Members::Filters::PrincipalFilter, type: :model do
       .and_return(principal_scope)
 
     allow(principal_scope)
-      .to receive(:in_visible_project)
+      .to receive(:in_visible_project_or_me)
       .and_return([user, group, current_user])
   end
 
