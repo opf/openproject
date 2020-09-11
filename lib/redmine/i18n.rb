@@ -54,7 +54,7 @@ module Redmine
         ::I18n.t(*args)
       when 2
         if args.last.is_a?(Hash)
-          ::I18n.t(*args)
+          ::I18n.t(args.first, **args.last)
         elsif args.last.is_a?(String)
           ::I18n.t(args.first, value: args.last)
         else

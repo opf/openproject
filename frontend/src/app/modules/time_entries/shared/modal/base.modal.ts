@@ -52,18 +52,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     this.formInFlight = true;
 
     this.editForm.save()
-      .then(() => {
-        // reload workPackage
-        if (this.entry.workPackage) {
-          this
-            .apiV3Service
-            .work_packages
-            .id(this.entry.workPackage)
-            .refresh();
-        }
-        this.service.close();
-        this.formInFlight = false;
-      })
+      .then(() => this.reloadWorkPackageAndClose())
       .catch(() => this.formInFlight = false);
   }
 
@@ -77,5 +66,18 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
   public get deleteAllowed() {
     return true;
+  }
+
+  protected reloadWorkPackageAndClose() {
+    // reload workPackage
+    if (this.entry.workPackage) {
+      this
+        .apiV3Service
+        .work_packages
+        .id(this.entry.workPackage)
+        .refresh();
+    }
+    this.service.close();
+    this.formInFlight = false;
   }
 }

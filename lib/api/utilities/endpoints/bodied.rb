@@ -91,7 +91,7 @@ module API
 
           process_service
             .new(**args.compact)
-            .call(params)
+            .call(**params)
         end
 
         def render(current_user, call)

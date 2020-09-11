@@ -86,7 +86,7 @@ module API
           def initialize(schema, self_link, context)
             @base_schema_link = context.delete(:base_schema_link) || nil
             @show_lock_version = !context.delete(:hide_lock_version)
-            super(schema, self_link, context)
+            super(schema, self_link, **context)
           end
 
           link :baseSchema do

@@ -359,7 +359,7 @@ module API
         attributes[:allowed_values_getter] = allowed_values_getter if allowed_values_getter
 
         representer = ::API::Decorators::AllowedValuesByCollectionRepresenter
-                      .new(attributes)
+                      .new(**attributes)
 
         if form_embedded
           representer.allowed_values = instance_exec(&values_callback)
