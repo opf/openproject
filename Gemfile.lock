@@ -733,7 +733,7 @@ GEM
       httpclient
       json-jwt (>= 1.11.0)
       rack (>= 2.1.0)
-    rack-protection (2.0.8.1)
+    rack-protection (2.1.0)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -1088,7 +1088,7 @@ DEPENDENCIES
   rack-attack (~> 6.3.1)
   rack-cors (~> 1.1.1)
   rack-mini-profiler
-  rack-protection (~> 2.0.8)
+  rack-protection (~> 2.1.0)
   rack-test (~> 1.1.0)
   rack_session_access
   rails (~> 6.0.3.2)
