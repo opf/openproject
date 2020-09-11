@@ -548,12 +548,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'spentTime' do
-      context 'with \'costs\' enabled' do
-        before do
-          allow(project)
-            .to receive(:module_enabled?)
-            .and_return(true)
-        end
+      context 'with the view_time_entries permission' do
+        let(:permissions) { %i[edit_work_packages view_time_entries] }
 
         it_behaves_like 'has basic schema properties' do
           let(:path) { 'spentTime' }
@@ -564,15 +560,20 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'with \'costs\' disabled' do
-        before do
-          allow(project)
-            .to receive(:module_enabled?) do |name|
-            name != 'costs'
-          end
-        end
+      context 'with the view_own_time_entries permission' do
+        let(:permissions) { %i[edit_work_packages view_own_time_entries] }
 
-        it 'has no date attribute' do
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'spentTime' }
+          let(:type) { 'Duration' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
+      end
+
+      context 'without any view time_entries permission' do
+        it 'has no spentTime attribute' do
           is_expected.to_not have_json_path('spentTime')
         end
       end
