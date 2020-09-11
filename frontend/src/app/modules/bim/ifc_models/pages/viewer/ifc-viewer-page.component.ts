@@ -39,7 +39,7 @@ import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/vi
 export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
   text = {
-    title: this.I18n.t('js.ifc_models.models.default'),
+    title: this.I18n.t('js.bcf.management'),
     delete: this.I18n.t('js.button_delete'),
     edit: this.I18n.t('js.button_edit'),
     areYouSure: this.I18n.t('js.text_are_you_sure')
@@ -134,10 +134,8 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   updateTitle(query?:QueryResource) {
     if (this.bimView.current === bimListViewIdentifier) {
       super.updateTitle(query);
-    } else if (this.ifcData.isSingleModel()) {
-      this.selectedTitle = this.ifcData.models[0].name;
     } else {
-      this.selectedTitle = this.I18n.t('js.ifc_models.models.default');
+      this.selectedTitle = this.I18n.t('js.bcf.management');
     }
 
     // For now, disable any editing

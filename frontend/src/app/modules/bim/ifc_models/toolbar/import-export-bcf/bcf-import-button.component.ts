@@ -33,7 +33,9 @@ import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-hel
 
 @Component({
   template: `
-    <a [title]="text.import" class="button import-bcf-button" (click)="handleClick()">
+    <a [title]="text.import_hover"
+      (click)="handleClick()"
+      class="button import-bcf-button">
       <op-icon icon-classes="button--icon icon-import"></op-icon>
       <span class="button--text"> {{text.import}} </span>
     </a>
@@ -42,7 +44,8 @@ import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-hel
 })
 export class BcfImportButtonComponent {
   public text = {
-    import: this.I18n.t('js.bcf.import')
+    import: this.I18n.t('js.bcf.import'),
+    import_hover: this.I18n.t('js.bcf.import_bcf_xml_file')
   };
 
   constructor(readonly I18n:I18nService,

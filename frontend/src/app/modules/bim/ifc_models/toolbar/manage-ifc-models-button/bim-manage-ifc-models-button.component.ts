@@ -49,7 +49,7 @@ import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer
 export class BimManageIfcModelsButtonComponent {
 
   text = {
-    manage: this.I18n.t('js.ifc_models.models.manage'),
+    manage: this.I18n.t('js.ifc_models.models.ifc_models'),
   };
 
   manageAllowed = this.ifcData.allowed('manage_ifc_models');
