@@ -71,7 +71,10 @@ export class RevitBridgeService extends ViewerBridgeService {
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
      this.viewpointsService
               .getViewPoint$(workPackage, index)
-              .subscribe((viewpoint:BcfViewpointInterface) =>  this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
+              .subscribe((viewpoint:BcfViewpointInterface) => {
+                this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint));
+                this.sendMessageToRevit("SetBrowserToForeground", this.newTrackingId(), '');
+              });
   }
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
