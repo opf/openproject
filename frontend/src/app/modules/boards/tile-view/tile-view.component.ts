@@ -5,6 +5,7 @@ export interface ITileViewEntry {
     attribute:string;
     icon:string;
     description:string;
+    image:string;
   }
 
   @Component({
