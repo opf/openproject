@@ -23,6 +23,17 @@ fi:
   activerecord:
     attributes:
       budget:
+        author: "Tekijä"
+        available: "Saatavilla"
+        budget: "Suunniteltu"
+        budget_ratio: "Käytetty (suhde)"
+        created_on: "Luotu"
+        description: "Kuvaus"
+        spent: "Käytetty"
+        status: "Tila"
+        subject: "Aihe"
+        type: "Kustannustyyppi"
+        updated_on: "Päivitetty"
         labor_budget: "Suunnitellut työvoimakustannukset"
         material_budget: "Suunnitellut yksikkökustannukset"
       work_package:
@@ -49,7 +60,7 @@ fi:
   label_budget: "Budjetti"
   label_budget_new: "Uusi budjetti"
   label_budget_plural: "Budjetit"
-  label_cost_type_specific: "Budjetti #%{id}: %{name}"
+  label_budget_id: "Budjetti #%{id}"
   label_deliverable: "Budjetti"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Näytä kaikki budjetit"

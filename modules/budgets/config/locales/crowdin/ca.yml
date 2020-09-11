@@ -23,6 +23,17 @@ ca:
   activerecord:
     attributes:
       budget:
+        author: "Autor/a"
+        available: "Available"
+        budget: "Planned"
+        budget_ratio: "Spent (ratio)"
+        created_on: "Creat el"
+        description: "Descripció"
+        spent: "Spent"
+        status: "Estat"
+        subject: "Assumpte"
+        type: "Cost type"
+        updated_on: "Actualitzat el"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:
@@ -49,7 +60,7 @@ ca:
   label_budget: "Budget"
   label_budget_new: "New budget"
   label_budget_plural: "Budgets"
-  label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"

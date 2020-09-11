@@ -23,6 +23,17 @@ da:
   activerecord:
     attributes:
       budget:
+        author: "Forfatter"
+        available: "Tillrådighed"
+        budget: "Planlagte"
+        budget_ratio: "Forbrugt (ratio)"
+        created_on: "Oprettet den"
+        description: "Beskrivelse"
+        spent: "Forbrugt"
+        status: "Status"
+        subject: "Emne"
+        type: "Omkostningstype"
+        updated_on: "Opdateret den"
         labor_budget: "Planlagte lønomkostninger"
         material_budget: "Planlagte enhedsomkostninger"
       work_package:
@@ -49,7 +60,7 @@ da:
   label_budget: "Budget"
   label_budget_new: "Nyt budget"
   label_budget_plural: "Budgetter"
-  label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Se alle budgetter"
