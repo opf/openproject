@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.22.0'
+gem 'rouge', '~> 3.23.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -113,7 +113,7 @@ gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.4'
 gem 'delayed_cron_job', '~> 0.7.2'
 
-gem 'rack-protection', '~> 2.0.8'
+gem 'rack-protection', '~> 2.1.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
@@ -177,7 +177,7 @@ gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.105.0'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.79.0'
+gem 'aws-sdk-s3', '~> 1.80.0'
 
 gem 'openproject-token', '~> 2.1.1'
 
