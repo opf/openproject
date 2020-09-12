@@ -4,18 +4,20 @@ pl:
     bcf:
       label_bcf: 'BCF'
       import: 'Importuj'
+      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
       export: 'Eksportuj'
+      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
       viewpoint: 'Punkt widzenia'
       add_viewpoint: 'Dodaj punkt widzenia'
       show_viewpoint: 'Pokaż punkt widzenia'
       delete_viewpoint: 'Usuń punkt widzenia'
+      management: 'BCF management'
     ifc_models:
       empty_warning: "Ten projekt nie ma jeszcze żadnych modeli IFC."
       use_this_link_to_manage: "Użyj tego linku, aby przesłać swoje modele IFC i zarządzać nimi"
       keyboard_input_disabled: "Przeglądarka nie obsługuje sterowania za pomocą klawiatury. Kliknij przeglądarkę, aby przekazać jej sterowanie za pomocą klawiatury."
       models:
-        default: 'Domyślne modele IFC'
-        manage: 'Zarządzaj modelami'
+        ifc_models: 'Modele IFC'
       views:
         viewer: 'Przeglądarka'
         split: 'Viewer and table'

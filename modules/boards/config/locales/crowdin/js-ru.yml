@@ -33,24 +33,30 @@ ru:
       click_to_remove_list: "Нажмите, чтобы удалить этот список"
       board_type:
         text: 'Тип доски'
-        free: 'Базовая доска'
+        free: 'basic'
         select_board_type: 'Пожалуйста, выберите требуемый вам тип доски.'
         free_text: >
-          Доска, в которой вы можете свободно создавать списки и заказывать пакеты работ внутри. Перемещение пакетов работ между списками не изменяет сам пакет работ.
+          Start from scratch with a blank board. Manually add cards and columns to this board.
         action: 'Доска действий'
         action_by_attribute: 'Доска действий (%{attribute})'
         action_text: >
           Доска с отфильтрованными по атрибуту %{attribute} списками . Перемещение рабочих пакетов в другие списки обновит их атрибут.
         action_text_subprojects: >
-          Доска со списками подпроектов этого проекта и их пакетов работ как элементов списка. Перемещение пакетов работ в другие списки переместит их в соответствующий подпроект.
+          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
         action_text_subtasks: >
-          Доска со списками выбранных родителей и их дочерних пакетов работ как элементов списка. Перемещение пакетов работ в другие списки обновит родителей соответственно.
+          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        action_text_status: >
+          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        action_text_assignee: >
+          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        action_text_version: >
+          Board with automated columns based on the version attribute. Ideal for planning software releases.
         action_type:
           assignee: правопреемник
           status: статус
           version: версия
           subproject: подпроект
-          subtasks: дочерние элементы
+          subtasks: Parent_child
         select_attribute: "Атрибут действия"
       add_list_modal:
         labels:

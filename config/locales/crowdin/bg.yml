@@ -1110,6 +1110,7 @@ bg:
   error_no_default_work_package_status: "Не е дефиниран работен пакет по подразбиране. Моля проверете конфигурацията ( Отидете на Администрация -> Статуси на работни пакети)."
   error_no_type_in_project: "Няма тип свързан към този проект. Моля проверете проектните настройки."
   error_omniauth_registration_timed_out: "Изтече времето на изчакване за регистриране чрез удостоверяване на външен доставчик. Моля, опитайте отново."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Възникна грешка при опит за достъп до хранилището: %{value}"
   error_scm_not_found: "Търсеното или негова версия не е намерено в хранилището."
   error_unable_delete_status: "Състоянието на работният пакет не може да бъде изтрито, тъй като се използва от най-малко един работен пакет."

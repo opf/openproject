@@ -1110,6 +1110,7 @@ tr:
   error_no_default_work_package_status: "Varsayılan iş paketi durumu tanımlanmadı. Lütfen yapılandırmanızı kontrol edin (\"Yönetim -> İş paketi durumu \" na gidin)."
   error_no_type_in_project: "Bu proje ile ilişkili bir tür yok. Lütfen Proje ayarlarını kontrol edin."
   error_omniauth_registration_timed_out: "Harici bir kimlik doğrulama sağlayıcısı aracılığıyla kayıt zaman aşımına uğradı. Lütfen tekrar deneyin."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Depoya erişmeye çalışılırken bir hata oluştu:%{value}"
   error_scm_not_found: "Depoda girme veya düzeltme bulunamadı."
   error_unable_delete_status: "İş paketi durumu en az bir tarafından kullanılır beri silinemez iş paketi."

@@ -1174,6 +1174,7 @@ ar:
   error_no_default_work_package_status: "لم يتم تعريف حالة افتراضية لمجموعة العمل. رجاء تحقق من اعداداتك ( من \"ادارة-->حالات مجموعة العمل\")."
   error_no_type_in_project: "هذا المشروع غير مرتبط بأي نوع. رجاء تحقق من اعدادات المشروع."
   error_omniauth_registration_timed_out: "انتهاء مهلة التسجيل عبر موفر المصادقة الخارجية. الرجاء المحاولة مرة أخرى."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "حدث خطأ عند محاولة الوصول إلى مستودع الوثائق: %{value}"
   error_scm_not_found: "لم يتم العثور على إدخال أو مراجعة في مستودع الوثائق."
   error_unable_delete_status: "لا يمكن حذف حالة حزمة العمل نظراً لأنها تستخدم من قبل مجموعة عمل واحدة على الأقل."

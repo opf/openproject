@@ -36,18 +36,12 @@ tr:
               can_only_contain_work_packages_of_current_sprint: "yalnızca geçerli sprintteki iş paketlerinin kimliklerini içerebilir."
               must_block_at_least_one_work_package: "en az bir biletin kimliğini içermelidir."
             parent_id:
+              parent_child_relationship_across_projects: "iş paketi bir bekleme listesi işidir ve bu nedenle mevcut projenin dışında bir üst öğeye sahip olamaz.%{work_package_name}"
               type_must_be_one_of_the_following: "Tür, aşağıdakilerden biri olmalıdır: %{type_names}."
-        sprint:
-          cannot_end_before_it_starts: "Sprint başlamadan önce bitemez."
-  activemodel:
-    errors:
-      models:
-        work_package:
-          attributes:
             version_id:
               task_version_must_be_the_same_as_story_version: "ana hikaye sürümüyle aynı olmalıdır."
-            parent_id:
-              parent_child_relationship_across_projects: "iş paketi bir bekleme listesi işidir ve bu nedenle mevcut projenin dışında bir üst öğeye sahip olamaz.%{work_package_name}"
+        sprint:
+          cannot_end_before_it_starts: "Sprint başlamadan önce bitemez."
   backlogs:
     add_new_story: "Yeni Hikaye"
     any: "herhangi bir"

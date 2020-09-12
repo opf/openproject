@@ -33,24 +33,30 @@ tr:
       click_to_remove_list: "Bu listeyi kaldırmak için tıklayın"
       board_type:
         text: 'Yazı tahtası tipi'
-        free: 'Temel kurulu'
+        free: 'basic'
         select_board_type: 'Lütfen ihtiyacınız olan kart tipini seçin.'
         free_text: >
-          Listeleri özgürce oluşturabileceğiniz ve içinde iş paketlerinizi sipariş edebileceğiniz bir pano. İş paketlerinin listeler arasında sürüklenmesi, iş paketinin kendisini değiştirmez.
+          Start from scratch with a blank board. Manually add cards and columns to this board.
         action: 'Eylem kurulu'
         action_by_attribute: 'Eylem kurulu (%{attribute})'
         action_text: >
           %{attribute} özniteliğinde filtrelenmiş listelere sahip bir pano. İş paketlerinin diğer listelere taşınması niteliklerini güncelleyecektir.
         action_text_subprojects: >
-          Bu projenin alt projelerinin listelerini ve bunların çalışma paketlerini liste öğeleri olarak içeren bir pano. İş paketlerini diğer listelere sürüklemek, onları ilgili alt projeye taşıyacaktır.
+          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
         action_text_subtasks: >
-          Liste öğeleri olarak seçilen ebeveynlerin ve çocuklarının çalışma paketlerinin listelerini içeren bir pano. İş paketlerini başka listelere sürüklemek, üst öğeyi uygun şekilde güncelleyecektir.
+          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        action_text_status: >
+          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        action_text_assignee: >
+          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        action_text_version: >
+          Board with automated columns based on the version attribute. Ideal for planning software releases.
         action_type:
           assignee: vekil
           status: durum
           version: Sürüm
           subproject: Alt proje
-          subtasks: çocuklar
+          subtasks: Parent_child
         select_attribute: "Eylem özelliği"
       add_list_modal:
         labels:

@@ -1096,6 +1096,7 @@ vi:
   error_no_default_work_package_status: "Không có tình trạng mặc định được định nghĩa cho work package. Vui lòng kiểm tra cấu hình của bạn (đi đến \"Quản lý-> các trạng thái của work package\")."
   error_no_type_in_project: "Không có kiểu được liên kết với dự án này. Hãy kiểm tra lại phần \"Thiết Lập Dự Án\"."
   error_omniauth_registration_timed_out: "Đăng ký thông qua một nhà cung cấp bên ngoài xác thực hết thời gian. Xin vui lòng thử lại."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: %{value}"
   error_scm_not_found: "Mục hay revision không được tìm thấy trong kho."
   error_unable_delete_status: "Trạng thái work package không thể bị xóa vì nó được sử dụng bởi ít nhất 1 work package."

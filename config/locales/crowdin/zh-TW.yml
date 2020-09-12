@@ -1094,6 +1094,7 @@ zh-TW:
   error_no_default_work_package_status: "沒有定義預設的工作項目狀態。請檢查您的設定 (前往 \"管理 -> 工作項目狀態\")。"
   error_no_type_in_project: "這個專案沒有關聯的類型，請檢查專案設定。"
   error_omniauth_registration_timed_out: "外部身份驗證註冊逾時，請再試一次。"
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "嘗試存取版本庫的時候發生錯誤: %{value}"
   error_scm_not_found: "在版本庫中找不到項目或修訂"
   error_unable_delete_status: "工作項目狀態無法刪除，因為它被至少一個工作項目使用了。"

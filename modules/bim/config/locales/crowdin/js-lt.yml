@@ -4,18 +4,20 @@ lt:
     bcf:
       label_bcf: 'BCF'
       import: 'Importuoti'
+      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
       export: 'Eksportuoti'
+      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
       viewpoint: 'Požiūrio taškas'
       add_viewpoint: 'Pridėti požiūrio tašką'
       show_viewpoint: 'Parodyti požiūrio tašką'
       delete_viewpoint: 'Pašalinti požiūrio tašką'
+      management: 'BCF management'
     ifc_models:
       empty_warning: "Šis projektas kol kas neturi jokių IFC modelių."
       use_this_link_to_manage: "Naudokite šią nuorodą IFC modelių įkėlimui ir valdymui"
       keyboard_input_disabled: "Peržiūros langas šiuo metu nevaldomas klaviatūra. Spustelėkite ant jo, norėdami valdyti klaviatūra."
       models:
-        default: 'Numatyti IFC modeliai'
-        manage: 'Valdyti modelius'
+        ifc_models: 'IFC modeliai'
       views:
         viewer: 'Peržiūros priemonės'
         split: 'Peržiūros priemonės ir lentelė'

@@ -33,24 +33,30 @@ pt:
       click_to_remove_list: "Clique para remover esta lista"
       board_type:
         text: 'Tipo de quadro'
-        free: 'Quadro básico'
+        free: 'basic'
         select_board_type: 'Por favor, escolha o tipo de quadro que você precisa.'
         free_text: >
-          Um quadro no qual você pode criar listas livremente e ordenar seus pacotes de trabalho. Arrastar pacotes de trabalho entre listas não altera o pacote de trabalho em si.
+          Start from scratch with a blank board. Manually add cards and columns to this board.
         action: 'Quadro de ação'
         action_by_attribute: 'Quadro de ação (%{attribute})'
         action_text: >
           Um quadro com listas filtradas por atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
         action_text_subprojects: >
-          Um quadro com listas de subprojetos deste projeto e seus pacotes de trabalho como lista de itens. Arrastar pacotes de trabalho para outras listas irá movê-los para o subprojeto correspondente.
+          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
         action_text_subtasks: >
-          Um quadro com listas de pais selecionados e seus pacotes de trabalho filhos como itens listados. Arrastar pacotes de trabalho para outras listas irá atualizar a hierarquia.
+          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        action_text_status: >
+          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        action_text_assignee: >
+          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        action_text_version: >
+          Board with automated columns based on the version attribute. Ideal for planning software releases.
         action_type:
           assignee: responsável
           status: estado
           version: versão
           subproject: subprojeto
-          subtasks: filhos
+          subtasks: Parent_child
         select_attribute: "Atributo de ação"
       add_list_modal:
         labels:

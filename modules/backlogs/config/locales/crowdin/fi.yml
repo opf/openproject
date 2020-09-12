@@ -36,18 +36,12 @@ fi:
               can_only_contain_work_packages_of_current_sprint: "voi sisältää vain tässä sprintissä mukana olevia typaketteja."
               must_block_at_least_one_work_package: "vähintään yhden tehtävän ID-mainittava."
             parent_id:
+              parent_child_relationship_across_projects: "ei ole kelvollinen, koska tehtävä \"%{work_package_name}\" on työjonossa ja sillä ei voi olla päätehtävää nykyisen projektin ulkopuolella."
               type_must_be_one_of_the_following: "Tyypin on oltava jokin seuraavista: %{type_names}."
-        sprint:
-          cannot_end_before_it_starts: "Sprintti ei voi päättyä, ennen kuin se alkaa."
-  activemodel:
-    errors:
-      models:
-        work_package:
-          attributes:
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
-            parent_id:
-              parent_child_relationship_across_projects: "ei ole kelvollinen, koska tehtävä \"%{work_package_name}\" on työjonossa ja sillä ei voi olla päätehtävää nykyisen projektin ulkopuolella."
+        sprint:
+          cannot_end_before_it_starts: "Sprintti ei voi päättyä, ennen kuin se alkaa."
   backlogs:
     add_new_story: "Uusi tarina"
     any: "kaikki"

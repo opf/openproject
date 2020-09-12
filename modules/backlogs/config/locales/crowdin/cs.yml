@@ -36,18 +36,12 @@ cs:
               can_only_contain_work_packages_of_current_sprint: "může obsahovat pouze ID pracovních balíčků v aktuálním sprintu."
               must_block_at_least_one_work_package: "musí obsahovat ID alespoň jednoho tiketu."
             parent_id:
+              parent_child_relationship_across_projects: "je neplatný, protože pracovní balíček '%{work_package_name}' je nevyřízený úkol, a proto nemůže mít nadřazený mimo aktuální projekt."
               type_must_be_one_of_the_following: "Typ musí být jeden z následujících: %{type_names}."
-        sprint:
-          cannot_end_before_it_starts: "Sprint nemůže končit dříve, než začne."
-  activemodel:
-    errors:
-      models:
-        work_package:
-          attributes:
             version_id:
               task_version_must_be_the_same_as_story_version: "musí být stejná jako verze nadřazeného příběhu."
-            parent_id:
-              parent_child_relationship_across_projects: "je neplatný, protože pracovní balíček '%{work_package_name}' je nevyřízený úkol, a proto nemůže mít nadřazený mimo aktuální projekt."
+        sprint:
+          cannot_end_before_it_starts: "Sprint nemůže končit dříve, než začne."
   backlogs:
     add_new_story: "Nový příběh"
     any: "jakákoliv"
