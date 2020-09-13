@@ -133,7 +133,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public ngAfterViewInit() {
-    if (window.location.hash === 'activity-' + this.activityNo) {
+    if (window.location.hash === '#activity-' + this.activityNo) {
       this.elementRef.nativeElement.scrollIntoView(true);
     }
   }
