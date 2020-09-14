@@ -120,7 +120,7 @@ describe Projects::SetAttributesService, type: :model do
             it 'sets a default identifier' do
               allow(Project)
                 .to receive(:next_identifier)
-                      .and_return('ipsum')
+                .and_return('ipsum')
 
               expect(subject.result.identifier)
                 .to eql 'ipsum'
@@ -146,7 +146,7 @@ describe Projects::SetAttributesService, type: :model do
             it 'stays nil' do
               allow(Project)
                 .to receive(:next_identifier)
-                      .and_return('ipsum')
+                .and_return('ipsum')
 
               expect(subject.result.identifier)
                 .to be_nil
@@ -155,7 +155,7 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'public default value', with_settings: {default_projects_public: true} do
+      context 'public default value', with_settings: { default_projects_public: true } do
         context 'with a value for is_public provided' do
           let(:call_attributes) do
             {
@@ -177,7 +177,7 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'enabled_module_names default value', with_settings: {default_projects_modules: ['lorem', 'ipsum']} do
+      context 'enabled_module_names default value', with_settings: { default_projects_modules: ['lorem', 'ipsum'] } do
         context 'with a value for enabled_module_names provided' do
           let(:call_attributes) do
             {
