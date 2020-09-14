@@ -2,6 +2,6 @@
 fi:
   permission_show_board_views: "View boards"
   permission_manage_board_views: "Manage boards"
-  project_module_board_view: "Boards"
+  project_module_board_view: "Taulut"
   boards:
-    label_boards: "Boards"
+    label_boards: "Taulut"

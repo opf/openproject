@@ -403,7 +403,7 @@ fi:
         is_closed: "Tehtävä suljettu"
         is_readonly: "Work package read-only"
       journal:
-        notes: "Muistiinpanot"
+        notes: "Kommentit"
       member:
         roles: "Roolit"
       project:
@@ -825,7 +825,7 @@ fi:
   button_test: "Testaa"
   button_unarchive: "Palauta"
   button_uncheck_all: "Poista valinnat"
-  button_unlock: "Vapauta"
+  button_unlock: "Poista lukitus"
   button_unwatch: "Älä seuraa"
   button_update: "Päivitä"
   button_upgrade: "Upgrade"
@@ -1031,7 +1031,7 @@ fi:
   description_category_reassign: "Choose category"
   description_message_content: "Viestin sisältö"
   description_my_project: "You are member"
-  description_notes: "Muistiinpanot"
+  description_notes: "Kommentit"
   description_parent_work_package: "Vanhemman työ paketti nykyinen"
   description_project_scope: "Haun laajuus"
   description_query_sort_criteria_attribute: "Lajittelun perusta"
@@ -1195,7 +1195,7 @@ fi:
   label_add_edit_translations: "Lisää ja muokkaa käännöksiä"
   label_add_another_file: "Lisää uusi tiedosto"
   label_add_columns: "Lisää valitut sarakkeet"
-  label_add_note: "Lisää muistiinpano"
+  label_add_note: "Lisää kommentti"
   label_add_related_work_packages: "Lisää tehtävän riippuvuudet"
   label_add_subtask: "Lisätä alitehtävä"
   label_added: "lisätty"
@@ -1256,7 +1256,7 @@ fi:
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
   label_select_project: "Valitse projekti"
   label_required_disk_storage: "Tarvittava levytila"
-  label_send_invitation: Send invitation
+  label_send_invitation: Lähetä kutsu
   label_change_plural: "Muutokset"
   label_change_properties: "Vaihda asetuksia"
   label_change_status: "Muuta tila"
@@ -1866,7 +1866,7 @@ fi:
     text_show_again: "Voit käynnistää tämä videon uudelleen ohjeet-valikosta"
     welcome: "Tervetuloa OpenProjectiin"
     select_language: "Please select your language"
-  permission_add_work_package_notes: "Lisää muistiinpanoja"
+  permission_add_work_package_notes: "Lisää kommentteja"
   permission_add_work_packages: "Lisää tehtävä"
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Luo projekti"
@@ -1886,10 +1886,10 @@ fi:
   permission_delete_timelines: "Poista aikajanat"
   permission_delete_wiki_pages: "Poista wiki sivuja"
   permission_delete_wiki_pages_attachments: "Poista liitteitä"
-  permission_edit_work_package_notes: "Muokkaa muistiinpanoja"
+  permission_edit_work_package_notes: "Muokkaa kommentteja"
   permission_edit_work_packages: "Muokkaa tehtäviä"
   permission_edit_messages: "Muokkaa viestejä"
-  permission_edit_own_work_package_notes: "Muokkaa omia muistiinpanoja"
+  permission_edit_own_work_package_notes: "Muokkaa omia kommentteja"
   permission_edit_own_messages: "Muokkaa omia viestejä"
   permission_edit_own_time_entries: "Muokka omia aikamerkintöjä"
   permission_edit_project: "Muokkaa projektia"
@@ -2502,7 +2502,7 @@ fi:
     error_status_change_failed: "Muuttaminen käyttäjän tila epäonnistui koska seuraavia virheitä: %{errors}"
     invite: Invite user via email
     invited: kutsuttu
-    lock: "Lukko vakinaisesti"
+    lock: "Lukitse"
     locked: "locked permanently"
     no_login: "Tämä käyttäjä todentaa kautta kirjautuminen salasanalla. Koska se on poistettu käytöstä, he ei voi loki sisään."
     password_change_unsupported: Muutos salasana ei tueta.
@@ -2515,7 +2515,7 @@ fi:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
-    unlock: "Vapauta"
+    unlock: "Poista lukitus"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "suljettu"
   version_status_locked: "lukittu"
