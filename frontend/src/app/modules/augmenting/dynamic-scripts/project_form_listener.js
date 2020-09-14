@@ -119,8 +119,16 @@
       });
     }
 
+    function focusOnName() {
+      const name = document.getElementById('project_name');
+      if (!name.value) {
+        name.focus();
+      }
+    }
+
     observeProjectIdentifier();
     observeProjectName();
     observeTemplateChanges();
+    focusOnName();
   });
 }(jQuery));
