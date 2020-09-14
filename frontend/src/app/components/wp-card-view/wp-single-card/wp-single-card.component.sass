@@ -18,6 +18,9 @@
   &.-new
     padding-right: 25px
 
+  &.-checked
+    background-color: var(--table-row-highlighting-color)
+
   &.-horizontal
     height: 100%
     
@@ -30,10 +33,6 @@
   // Style shadow element while dragging
   wp-single-card:host.gu-transit &
     @include modifying--placeholder
-
-::ng-deep .work-packages-partitioned-query-space--container.-split
-  .wp-card.-checked
-    background-color: var(--table-row-highlighting-color)
 
 .wp-card--content:not(.-new)
   display: grid
