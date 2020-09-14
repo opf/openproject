@@ -916,28 +916,25 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'budget' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'budget' }
-        let(:type) { 'Budget' }
-        let(:name) { I18n.t('attributes.budget') }
-        let(:required) { false }
-        let(:writable) { true }
-      end
+      context 'user allowed to view_budgets' do
+        let(:permissions) { %i[edit_work_packages view_budgets] }
 
-      it_behaves_like 'has a collection of allowed values' do
-        let(:json_path) { 'budget' }
-        let(:href_path) { 'budgets' }
-        let(:factory) { :budget }
-      end
-
-      context 'budgets disabled' do
-        before do
-          allow(schema.project)
-            .to receive(:module_enabled?)
-            .with(:budgets)
-            .and_return(false)
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'budget' }
+          let(:type) { 'Budget' }
+          let(:name) { I18n.t('attributes.budget') }
+          let(:required) { false }
+          let(:writable) { true }
         end
 
+        it_behaves_like 'has a collection of allowed values' do
+          let(:json_path) { 'budget' }
+          let(:href_path) { 'budgets' }
+          let(:factory) { :budget }
+        end
+      end
+
+      context 'user not allowed to view_budgets' do
         it 'has no schema for budget' do
           is_expected.not_to have_json_path('budget')
         end
