@@ -58,7 +58,7 @@ export class WpCustomActionsComponent extends UntilDestroyedMixin implements OnI
         this.untilDestroyed()
       )
       .subscribe((wp) => {
-        this.actions = [...wp.customActions];
+        this.actions = wp.customActions ? [...wp.customActions] : [];
         this.cdRef.detectChanges();
       });
   }

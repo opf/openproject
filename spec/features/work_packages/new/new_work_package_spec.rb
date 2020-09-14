@@ -304,6 +304,15 @@ describe 'new work package', js: true do
       click_on 'Cancel'
     end
 
+    it 'sets a default date that is readable (Regression #34291)' do
+      create_work_package_globally(type_bug, project.name)
+
+      date_field = wp_page.edit_field(:combinedDate)
+      date_field.expect_value("no start date - no end date")
+
+      click_on 'Cancel'
+    end
+
     it 'can save the work package with an assignee (Regression #32887)' do
       create_work_package_globally(type_task, project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
@@ -451,17 +460,6 @@ describe 'new work package', js: true do
       wp_page.visit_tab!('relations')
 
       click_link('Create new child')
-
-      ## The dates are taken over from the parent by default
-      #date_field = wp_page_create.edit_field(:combinedDate)
-      #date_field.expect_value("#{parent.start_date} - #{parent.due_date}" )
-
-      #date_field.input_element.click
-      #sleep 1
-      #date_field.clear with_backspace: true
-      #date_field.input_element.send_keys :backspace
-
-      #date_field.save!
 
       subject = EditField.new wp_page, :subject
       subject.set_value 'Child'

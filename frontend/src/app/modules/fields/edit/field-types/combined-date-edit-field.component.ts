@@ -47,6 +47,8 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
   @InjectField() opModalService:OpModalService;
 
   dates:string = '';
+  text_no_start_date = this.I18n.t('js.label_no_start_date');
+  text_no_due_date = this.I18n.t('js.label_no_due_date');
 
   private modal:OpModalComponent;
 
@@ -104,6 +106,14 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
 
     // this breaks the preceived abstraction of the edit fields. But the date picker
     // is already highly specific to start and due Date.
-    this.dates = `${this.resource['startDate']} - ${this.resource['dueDate']}`;
+    this.dates = `${this.currentStartDate} - ${this.currentDueDate}`;
+  }
+
+  protected get currentStartDate():string {
+    return this.resource.startDate || this.text_no_start_date;
+  }
+
+  protected get currentDueDate():string {
+    return this.resource.dueDate || this.text_no_due_date;
   }
 }
