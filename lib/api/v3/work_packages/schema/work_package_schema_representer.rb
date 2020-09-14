@@ -284,7 +284,7 @@ module API
                                            }
                                          },
                                          show_if: ->(*) {
-                                           represented.project&.module_enabled?(:budgets)
+                                           current_user_allowed_to(:view_budgets, context: represented.project)
                                          }
 
           def attribute_groups
