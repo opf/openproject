@@ -161,7 +161,7 @@ export class HalResource {
   }
 
   public get isNew():boolean {
-    return this.id === 'new';
+    return !this.id || this.id === 'new';
   }
 
   public get persisted() {
