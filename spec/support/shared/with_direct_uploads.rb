@@ -66,7 +66,7 @@ class WithDirectUploads
     example.metadata[:driver] = :headless_firefox_billy
 
     csp_config = SecureHeaders::Configuration.instance_variable_get("@default_config").csp
-    csp_config.connect_src = ["'self'", "my-bucket.s3.amazonaws.com"]
+    csp_config.connect_src = ["'self'", "test-bucket.s3.amazonaws.com"]
 
     begin
       example.run
