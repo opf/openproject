@@ -957,7 +957,7 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.8.3)
+    webmock (3.9.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -1139,7 +1139,7 @@ DEPENDENCIES
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webdrivers (~> 4.4.1)
-  webmock (~> 3.8.2)
+  webmock (~> 3.9.1)
   will_paginate (~> 3.3.0)
   with_advisory_lock (~> 4.6.0)
 

@@ -226,7 +226,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.8.2', require: false
+  gem 'webmock', '~> 3.9.1', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
