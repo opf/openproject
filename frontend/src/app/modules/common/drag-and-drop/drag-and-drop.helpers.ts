@@ -8,20 +8,21 @@ export namespace DragAndDropHelpers {
     return children.indexOf(el);
   }
 
-  export function reinsert(el:HTMLElement, index:number|string, container:HTMLElement) {
-    index = typeof index === 'string' ? parseInt(index, 10) : index;
-
+  export function reinsert(el:HTMLElement, previousIndex:number|string, container:HTMLElement) {
+    previousIndex = typeof previousIndex === 'string' ? parseInt(previousIndex, 10) : previousIndex;
+    const currentIndex = el.parentNode && Array.from(el.parentNode.children).indexOf(el) || null;
     const children = Array.from(container.children);
+    let pointOfInsertion;
 
-    // Append to end if unknown index or no child nodes
-    if (index < 0 || index >= children.length || children.length === 0) {
-      container.appendChild(el);
+    if (currentIndex != null) {
+      const isDraggingDown = currentIndex > previousIndex;
+      pointOfInsertion = isDraggingDown ? children[previousIndex] : children[previousIndex + 1];
+    } else {
+      pointOfInsertion = children[previousIndex];
     }
 
-    // Get the element to insert before
-    const sibling = children[index];
-    if (sibling) {
-      container.insertBefore(el, sibling);
+    if (pointOfInsertion) {
+      container.insertBefore(el, pointOfInsertion);
     } else {
       container.appendChild(el);
     }
