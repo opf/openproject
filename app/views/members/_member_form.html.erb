@@ -55,14 +55,14 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
       <div class="grid-content medium-8 small-12 -flex -with-button">
         <div class="form--field">
-          <%= styled_label_tag :member_role_ids, l(:label_role_search) %>
+          <%= styled_label_tag :member_role_ids, t(:label_role_search) %>
           <div class="form--field-container">
             <div class="form--select-container -auto">
               <% options = roles.collect { |obj| [obj.name, obj.id] } %>
               <%= select_tag 'member[role_ids][]', options_for_select(options),
                              multiple: false,
                              no_label: true,
-                             title:    l(:label_role_search),
+                             title:    t(:label_role_search),
                              tabIndex: 0,
                              class:    'form--select',
                              id:       'member_role_ids' %>
@@ -70,7 +70,7 @@ See docs/COPYRIGHT.rdoc for more details.
           </div>
         </div>
         <div id="member-add-submit-button--container">
-          <%= f.button l(:button_add),
+          <%= f.button t(:button_add),
                        class: 'button -highlight -with-icon icon-checkmark',
                        id: 'add-member--submit-button' %>
         </div>

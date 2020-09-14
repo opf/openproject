@@ -44,12 +44,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <fieldset class="form--fieldset -with-control">
   <legend class="form--fieldset-legend">
-    <%= l(:label_available_project_repositories) %>
+    <%= t(:label_available_project_repositories) %>
   </legend>
 
   <%= error_messages_for 'repository' %>
   <div class="form--field -required">
-    <%= label_tag('scm_vendor', l('repositories.scm_vendor'), class: "form--label") %>
+    <%= label_tag('scm_vendor', t('repositories.scm_vendor'), class: "form--label") %>
     <div class="form--field-container">
       <div class="form--select-container -middle">
         <%= scm_vendor_tag(@repository) %>

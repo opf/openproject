@@ -34,15 +34,15 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to({controller: '/documents', action: 'edit', id: @document}, class: 'button', accesskey: accesskey(:edit)) do %>
         <%= op_icon('button--icon icon-edit') %>
-        <span class="button--text"><%= l(:button_edit) %></span>
+        <span class="button--text"><%= t(:button_edit) %></span>
       <% end %>
     </li>
   <% end %>
   <% if authorize_for(:documents, :destroy) %>
     <li class="toolbar-item">
-      <%= link_to({controller: '/documents', action: 'destroy', id: @document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) do %>
+      <%= link_to({controller: '/documents', action: 'destroy', id: @document}, class: 'button', data: { confirm: t(:text_are_you_sure) }, method: :delete) do %>
         <%= op_icon('button--icon icon-delete') %>
-        <span class="button--text"><%= l(:button_delete) %></span>
+        <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     </li>
   <% end %>

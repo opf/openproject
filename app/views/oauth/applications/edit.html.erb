@@ -27,8 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% edit_label = "#{l(:label_edit)} #{@application.class.model_name.human} #{h(@application.name)}" %>
-<% html_title(l(:label_administration), edit_label) -%>
+<% edit_label = "#{t(:label_edit)} #{@application.class.model_name.human} #{h(@application.name)}" %>
+<% html_title(t(:label_administration), edit_label) -%>
 <% local_assigns[:additional_breadcrumb] = h(@application.name) %>
 <%= breadcrumb_toolbar(edit_label) %>
 

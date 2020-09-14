@@ -107,7 +107,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <strong><%= t(:noscript_heading) %></strong>
       </span>
       <%= t(:noscript_description) %>
-      <a href="http://www.enable-javascript.com/" target="_blank"><%= l(:noscript_learn_more) %></a>
+      <a href="http://www.enable-javascript.com/" target="_blank"><%= t(:noscript_learn_more) %></a>
     </p>
   </div>
 </noscript>
@@ -121,7 +121,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <div id="header">
         <div id="top-menu-items">
           <h1 class="hidden-for-sighted">
-            <%= l(:label_top_menu) %>
+            <%= t(:label_top_menu) %>
           </h1>
           <main-menu-toggle></main-menu-toggle>
           <a href="" class="hidden-for-sighted skip-navigation-link"
@@ -145,7 +145,7 @@ See docs/COPYRIGHT.rdoc for more details.
        class="<%= initial_classes %>">
     <% if (side_displayed && show_decoration) %>
       <div id="main-menu" class="main-menu">
-        <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
+        <h1 class="hidden-for-sighted"><%= t(:label_main_menu) %></h1>
         <main-menu-resizer></main-menu-resizer>
         <div id="menu-sidebar">
           <%= main_menu %>
@@ -177,7 +177,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </section>
       <% end %>
       <div id="content" class="<%= initial_classes %>">
-        <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
+        <h1 class="hidden-for-sighted"><%= t(:label_content) %></h1>
         <%= content_for :content_body %>
         <% unless local_assigns[:no_action_menu] %>
           <%= yield %>
@@ -186,7 +186,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   </div>
-  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
+  <div id="ajax-indicator" style="display:none;"><span><%= t(:label_loading) %></span></div>
 </div>
 <%# Properly decides main menu expanded state and width before its drawn. Fixes flickering side menu
         where menu is first expanded, then being collapsed in angular. %>

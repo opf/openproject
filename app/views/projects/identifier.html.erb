@@ -32,27 +32,27 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= form_for @project, url: { action: 'update_identifier' }, html: { class: 'danger-zone form -vertical' } do |f| %>
   <section class="form--section">
     <h3 class="form--section-title">
-      <%= l('project.identifier.title') %>
+      <%= t('project.identifier.title') %>
     </h3>
 
     <p class="danger-zone--warning">
       <span class="icon icon-error"></span>
-      <span><%= l('project.identifier.warning_one').html_safe %></span>
+      <span><%= t('project.identifier.warning_one').html_safe %></span>
       <br>
       <span class="icon icon-error"></span>
-      <span><%= l('project.identifier.warning_two').html_safe %></span>
+      <span><%= t('project.identifier.warning_two').html_safe %></span>
     </p>
 
     <%= styled_label_tag 'identifier', Project.human_attribute_name(:identifier), class: '-required' %>
     <div class="danger-zone--verification">
       <%= f.text_field :identifier %>
       <span>
-        <%= f.submit l(:button_update), class: 'button -highlight -with-icon icon-checkmark' %>
+        <%= f.submit t(:button_update), class: 'button -highlight -with-icon icon-checkmark' %>
       </span>
       <span>
         <%= link_to settings_generic_project_path(@project), class: 'button' do %>
           <%= op_icon('button--icon icon-cancel') %> 
-          <span class="button--text"><%= l(:button_cancel) %></span>
+          <span class="button--text"><%= t(:button_cancel) %></span>
         <% end %>
       </span>
     </div>
@@ -61,9 +61,9 @@ See docs/COPYRIGHT.rdoc for more details.
     <br>
 
     <div class="form--field-instructions">
-      <%= l(:text_length_between, min: 1,
+      <%= t(:text_length_between, min: 1,
                                   max: Project::IDENTIFIER_MAX_LENGTH) %>
-      <%= l(:text_project_identifier_info).html_safe %>
+      <%= t(:text_project_identifier_info).html_safe %>
     </div>
 
   </section>

@@ -27,10 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title(l(:label_my_account), l(:label_profile)) -%>
+<% html_title(t(:label_my_account), t(:label_profile)) -%>
 
-<% breadcrumb_paths(l(:label_my_account), l(:label_profile)) %>
-<%= toolbar title: l(:label_profile) %>
+<% breadcrumb_paths(t(:label_my_account), t(:label_profile)) %>
+<%= toolbar title: t(:label_profile) %>
 <%= error_messages_for 'user' %>
 
 <%= password_confirmation_form_for @user,
@@ -75,5 +75,5 @@ See docs/COPYRIGHT.rdoc for more details.
                locals: { form: f, input_size: :middle } %>
   </section>
 
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

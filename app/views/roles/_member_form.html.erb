@@ -36,7 +36,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
   <% if role.new_record? && roles.any? %>
     <div class="form--field">
-      <%= styled_label_tag :copy_workflow_from, l(:label_copy_workflow_from) %>
+      <%= styled_label_tag :copy_workflow_from, t(:label_copy_workflow_from) %>
       <div class="form--field-container">
         <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name)) %>
       </div>
@@ -44,7 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-<h3><%= l(:label_permissions) %></h3>
+<h3><%= t(:label_permissions) %></h3>
 <div id="permissions">
   <% @permissions.each do |mod, mod_permissions| %>
       <fieldset><legend><%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, :prefix => 'project_module_') %></legend>

@@ -55,7 +55,7 @@ See docs/COPYRIGHT.rdoc for more details.
                   <div class="generic-table--sort-header-outer">
                     <div class="generic-table--sort-header">
                       <span>
-                        <%= l(:label_role_plural) %>
+                        <%= t(:label_role_plural) %>
                       </span>
                     </div>
                   </div>
@@ -89,8 +89,8 @@ See docs/COPYRIGHT.rdoc for more details.
                             </label>
                         <% end %>
                         <p class="generic-table--cell-controls">
-                          <%= submit_tag l(:button_change), class: 'button -highlight -small' %>
-                          <%= link_to_function l(:button_cancel), "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
+                          <%= submit_tag t(:button_change), class: 'button -highlight -small' %>
+                          <%= link_to_function t(:button_cancel), "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
                                                                   class: 'button -small' %>
                         </p>
                       <% end %>
@@ -99,7 +99,7 @@ See docs/COPYRIGHT.rdoc for more details.
                       <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
                                            "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();" do %>
                       <% end %>
-                      <%= link_to l(:button_remove), membership_of_group_path(@group, membership),
+                      <%= link_to t(:button_remove), membership_of_group_path(@group, membership),
                                            method: :delete,
                                            class: 'icon icon-remove' %>
                     </td>
@@ -118,16 +118,16 @@ See docs/COPYRIGHT.rdoc for more details.
     <% if projects.any? %>
       <%= styled_form_tag(memberships_of_group_path(@group), method: :post) do %>
          <fieldset class="form--fieldset add-membership-form-fieldset">
-            <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>
-            <%= label_tag "new_membership_project_id", l(:description_choose_project), class: "hidden-for-sighted" %>
+            <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
+            <%= label_tag "new_membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
             <%= styled_select_tag 'new_membership[project_id]', options_for_membership_project_select(@group, projects) %>
             <div class="form--field -vertical">
-              <%= styled_label_tag nil, "#{l(:label_role_plural)}:" %>
+              <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
               <div class="form--field-container -vertical">
                 <%= labeled_check_box_tags 'new_membership[role_ids][]', roles %>
               </div>
             </div>
-            <div><%= styled_button_tag l(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+            <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
           </fieldset>
         <% end %>
       <% end %>

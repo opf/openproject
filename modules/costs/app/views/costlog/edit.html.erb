@@ -66,7 +66,7 @@ See docs/COPYRIGHT.rdoc for more details.
                      class: 'remote-field--input -augmented-datepicker',
                      data: { :'remote-field-key' => 'fixed_date' },
                      container_class: '-xslim' %>
-    <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= l(:label_date) %> <%= l(:text_hint_date_format) %></label>
+    <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= t(:label_date) %> <%= t(:text_hint_date_format) %></label>
   </div>
   <% if User.current.allowed_to? :log_costs, @project %>
     <div class="form--field">

@@ -30,8 +30,8 @@ See docs/COPYRIGHT.rdoc for more details.
   managable = User.current.allowed_to?(:manage_news, @project)
  %>
 
-<% html_title(l(:label_news_plural)) -%>
-<%= toolbar title: l(:label_news_plural) do %>
+<% html_title(t(:label_news_plural)) -%>
+<%= toolbar title: t(:label_news_plural) do %>
   <% if managable %>
     <li class="toolbar-item">
       <%= link_to new_project_news_path(@project),
@@ -51,7 +51,7 @@ See docs/COPYRIGHT.rdoc for more details.
    <div class="news">
     <h3 class="news--header"><%= avatar(news.author) %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
       <%= link_to h(news.title), news_path(news) %>
-      <%= "(#{l(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %></h3>
+      <%= "(#{t(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author additional-information"><%= authoring news.created_at, news.author %></p>
     <div class="wiki">
       <%= format_text(news.summary.present? ? news.summary : truncate(news.description, length: 150, escape: false), object: news) %>

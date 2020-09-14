@@ -52,7 +52,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <% if (issues = @wps_by_version[version]) && issues.size > 0 %>
       <form>
         <fieldset class="form--fieldset -collapsible">
-          <legend class="form--fieldset-legend" ><%= l(:label_related_work_packages) %></legend>
+          <legend class="form--fieldset-legend" ><%= t(:label_related_work_packages) %></legend>
           <div>
             <ul>
               <%- issues.each do |issue| -%>
@@ -73,4 +73,4 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render partial: 'roadmap_version_links' %>
 <% end %>
 
-<% html_title(l(:label_roadmap)) %>
+<% html_title(t(:label_roadmap)) %>

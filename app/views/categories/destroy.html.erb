@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: "#{Category.model_name.human} #{@category.name}" %>
 <%= form_tag({}, {method: :delete, class: 'form'}) do %>
-  <p><strong><%= l(:text_work_package_category_destroy_question, @issue_count) %></strong></p>
+  <p><strong><%= t(:text_work_package_category_destroy_question, count: @issue_count) %></strong></p>
 
   <div class="form--field">
     <label class="form--label" for="todo_nullify"><%= t(:text_work_package_category_destroy_assignments) %></label>
@@ -43,12 +43,12 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field-container">
         <%= styled_radio_button_tag 'todo', 'reassign', false %>
       </div>
-      <%= label_tag "reassign_to_id", l(:description_work_package_category_reassign), class: "hidden-for-sighted" %>
+      <%= label_tag "reassign_to_id", t(:description_work_package_category_reassign), class: "hidden-for-sighted" %>
       <%= styled_select_tag 'reassign_to_id', options_from_collection_for_select(@categories, 'id', 'name'), container_class: '-middle' %>
     </div>
   <% end %>
 
-  <%= submit_tag l(:button_apply), class: 'button -highlight' %>
-  <%= link_to l(:button_cancel), { controller: '/project_settings/categories', action: 'show', id: @project },
+  <%= submit_tag t(:button_apply), class: 'button -highlight' %>
+  <%= link_to t(:button_cancel), { controller: '/project_settings/categories', action: 'show', id: @project },
       class: 'button' %>
 <% end %>

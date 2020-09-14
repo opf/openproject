@@ -31,8 +31,8 @@ See docs/COPYRIGHT.rdoc for more details.
   fail ArgumentError, 'missing instructions' unless defined? instructions
 %>
 
-<% html_title l(:label_login) %>
-<% breadcrumb_paths(l(:label_login)) %>
+<% html_title t(:label_login) %>
+<% breadcrumb_paths(t(:label_login)) %>
 <%= call_hook :view_account_login_top %>
 
 <%

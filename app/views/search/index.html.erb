@@ -40,7 +40,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <global-search-work-packages-entry></global-search-work-packages-entry>
 <% else %>
 
-  <h3><%= l(:label_result_plural) %> (<%= @results_count&.values&.sum || 0 %>)</h3>
+  <h3><%= t(:label_result_plural) %> (<%= @results_count&.values&.sum || 0 %>)</h3>
 
   <% if @results.present? %>
 
@@ -76,4 +76,4 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= render partial: 'pagination', locals: {pagination_previous_date: @pagination_previous_date, pagination_next_date: @pagination_next_date } unless params[:work_packages].present? %>
-<% html_title(l(:label_search)) -%>
+<% html_title(t(:label_search)) -%>

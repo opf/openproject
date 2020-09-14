@@ -27,9 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title @copy ? l(:button_copy) : l(:button_move), l('activerecord.models.work_package') %>
+<% html_title @copy ? t(:button_copy) : t(:button_move), t('activerecord.models.work_package') %>
 
-<h2><%= @copy ? l(:button_copy) : l(:button_move) %></h2>
+<h2><%= @copy ? t(:button_copy) : t(:button_move) %></h2>
 <ul>
   <% @work_packages.each do |work_package| -%>
     <li>
@@ -52,7 +52,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= back_url_hidden_field_tag %>
     <section class="form--section">
       <fieldset class="form--fieldset">
-        <legend class="form--fieldset-legend"><%= l(:label_change_properties) %></legend>
+        <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>
         <div class="grid-block">
           <div class="grid-content medium-6">
               <div class="form--field">
@@ -67,7 +67,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <label class="form--label" for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
               <div class="form--field-container">
                 <%= styled_select_tag("new_type_id",
-                       content_tag('option', l(:label_no_change_option), value: '') +
+                       content_tag('option', t(:label_no_change_option), value: '') +
                        options_from_collection_for_select(@types, "id", "name")) %>
               </div>
             </div>
@@ -75,7 +75,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <label class="form--label" for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
               <div class="form--field-container">
                 <%= styled_select_tag('status_id',
-                       content_tag('option', l(:label_no_change_option), value: '') +
+                       content_tag('option', t(:label_no_change_option), value: '') +
                        options_from_collection_for_select(@available_statuses, :id, :name)) %>
               </div>
             </div>
@@ -83,7 +83,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <label class="form--label" for='version_id'><%= WorkPackage.human_attribute_name(:version) %></label>
               <div class="form--field-container">
                 <%= styled_select_tag('version_id',
-                                      content_tag('option', l(:label_no_change_option), value: '') +
+                                      content_tag('option', t(:label_no_change_option), value: '') +
                                         version_options_for_select(@available_versions)) %>
               </div>
             </div>
@@ -91,7 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <label class="form--label" for='priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
               <div class="form--field-container">
                 <%= styled_select_tag('priority_id',
-                       content_tag('option', l(:label_no_change_option), value: '') +
+                       content_tag('option', t(:label_no_change_option), value: '') +
                        options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
               </div>
             </div>
@@ -99,8 +99,8 @@ See docs/COPYRIGHT.rdoc for more details.
               <label class="form--label" for='assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
               <div class="form--field-container">
                 <%= styled_select_tag('assigned_to_id',
-                       content_tag('option', l(:label_no_change_option), value: '') +
-                       content_tag('option', l(:label_nobody), value: 'none') +
+                       content_tag('option', t(:label_no_change_option), value: '') +
+                       content_tag('option', t(:label_nobody), value: 'none') +
                        options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
               </div>
             </div>
@@ -108,8 +108,8 @@ See docs/COPYRIGHT.rdoc for more details.
               <label class="form--label" for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
               <div class="form--field-container">
                 <%= styled_select_tag('responsible_id',
-                       content_tag('option', l(:label_no_change_option), value: '') +
-                       content_tag('option', l(:label_nobody), value: 'none') +
+                       content_tag('option', t(:label_no_change_option), value: '') +
+                       content_tag('option', t(:label_nobody), value: 'none') +
                        options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
               </div>
             </div>
@@ -145,11 +145,11 @@ See docs/COPYRIGHT.rdoc for more details.
     </section>
   <% if @copy %>
     <%= hidden_field_tag("copy") %>
-    <%= styled_submit_tag l(:button_copy), class: '-highlight' %>
-    <%= styled_submit_tag l(:button_copy_and_follow), name: 'follow', class: '-highlight' %>
+    <%= styled_submit_tag t(:button_copy), class: '-highlight' %>
+    <%= styled_submit_tag t(:button_copy_and_follow), name: 'follow', class: '-highlight' %>
   <% else %>
-    <%= styled_submit_tag l(:button_move), class: '-highlight' %>
-    <%= styled_submit_tag l(:button_move_and_follow), name: 'follow', class: '-highlight' %>
+    <%= styled_submit_tag t(:button_move), class: '-highlight' %>
+    <%= styled_submit_tag t(:button_move_and_follow), name: 'follow', class: '-highlight' %>
   <% end %>
 <% end %>
 <% content_for :header_tags do %>

@@ -36,7 +36,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer -no-border">
               <div class="generic-table--sort-header workflow-table--header">
                 <span>
-                  <%=l(:label_new_statuses_allowed)%>
+                  <%=t(:label_new_statuses_allowed)%>
                 </span>
                 <span class="workflow-table--check-all">
                   (<%= check_all_links 'workflow_form_' + name %>)
@@ -49,11 +49,11 @@ See docs/COPYRIGHT.rdoc for more details.
           <th class="-table-border-bottom  -table-border-right"></th>
           <% for new_status in @statuses %>
               <th class="workflow-table--current-status -table-border-top -table-border-bottom">
-                <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_column)}"),
+                <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{t(:label_check_uncheck_all_in_column)}"),
                                      "OpenProject.helpers.toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
                                      class: 'no-decoration-on-hover',
-                                     title: "#{l(:label_check_uncheck_all_in_column)}",
-                                     alt: "#{l(:label_check_uncheck_all_in_column)}") %>
+                                     title: "#{t(:label_check_uncheck_all_in_column)}",
+                                     alt: "#{t(:label_check_uncheck_all_in_column)}") %>
                 <%=h new_status.name %>
               </th>
           <% end %>
@@ -63,11 +63,11 @@ See docs/COPYRIGHT.rdoc for more details.
         <% for old_status in @statuses %>
           <tr class="-table-border-left">
             <td class="workflow-table--current-status -table-border-right">
-              <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_row)}"),
+              <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{t(:label_check_uncheck_all_in_row)}"),
                                    "OpenProject.helpers.toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
                                    class: 'no-decoration-on-hover',
-                                   title: "#{l(:label_check_uncheck_all_in_row)}",
-                                   alt: "#{l(:label_check_uncheck_all_in_row)}") %>
+                                   title: "#{t(:label_check_uncheck_all_in_row)}",
+                                   alt: "#{t(:label_check_uncheck_all_in_row)}") %>
               <%=h old_status.name %>
             </td>
             <% for new_status in @statuses -%>
@@ -81,7 +81,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <tr class="-no-highlighting">
           <td colspan="<%= @statuses.length + 2 %>">
                         <span class="workflow-table--turned-header">
-              <%=l(:label_current_status)%>
+              <%=t(:label_current_status)%>
             </span>
           </td>
         </tr>

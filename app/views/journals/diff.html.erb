@@ -32,6 +32,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= render partial: 'diff',
            locals: { diff: @diff } %>
 
-<p><%= link_to(l(:button_back), polymorphic_path(@journable)) %></p>
+<p><%= link_to(t(:button_back), polymorphic_path(@journable)) %></p>
 
 <% html_title "#{ @journable.to_s }" %>

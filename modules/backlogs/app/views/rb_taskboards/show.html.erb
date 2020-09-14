@@ -35,7 +35,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: @sprint.name do %>
   <li class="toolbar-item toolbar-input-group" id="col_width">
     <div>
-      <label for="col_width_input"><%= l('backlogs.column_width') %></label>
+      <label for="col_width_input"><%= t('backlogs.column_width') %></label>
     </div>
     <input type="text" id="col_width_input">
   </li>
@@ -46,13 +46,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-<% breadcrumb_paths(link_to(l(:label_backlogs), backlogs_project_backlogs_path(@project)), link_to(@sprint.name, backlogs_project_backlogs_path(@sprint))) %>
+<% breadcrumb_paths(link_to(t(:label_backlogs), backlogs_project_backlogs_path(@project)), link_to(@sprint.name, backlogs_project_backlogs_path(@sprint))) %>
 
 <div id='rb'>
   <div id="taskboard">
     <table id="board_header" cellspacing="0">
       <tr>
-        <td><%= l(:backlogs_story) %></td>
+        <td><%= t(:backlogs_story) %></td>
         <% @statuses.each do |status| %>
           <td class="swimlane"><%= status.name %></td>
         <% end %>
@@ -61,7 +61,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
     <table id="impediments" class="board" cellspacing="0">
       <tr>
-        <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
+        <td><div class="label_sprint_impediments"><%= t(:label_sprint_impediments) %></div></td>
         <% if User.current.allowed_to?(:add_work_packages, @project) %>
           <td class ="add_new clickable">+</td>
         <% else %>
@@ -97,7 +97,7 @@ See docs/COPYRIGHT.rdoc for more details.
                   <% if story.assigned_to.present? %>
                     <%= link_to_user(story.assigned_to) %>
                   <% else %>
-                    <em><%= l('backlogs.unassigned') %></em>
+                    <em><%= t('backlogs.unassigned') %></em>
                   <% end %>
                 </div>
                 <div class="story-points">
