@@ -35,7 +35,7 @@ module Groups
       @group = group
 
       super user: current_user,
-            contract_class: BaseContract
+            contract_class: Groups::AddUsersContract
     end
 
     def after_validate(user_ids, _call)
