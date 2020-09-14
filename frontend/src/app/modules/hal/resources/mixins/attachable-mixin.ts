@@ -174,7 +174,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     private performUpload(files:UploadFile[]) {
       let href:string = this.directUploadURL || '';
 
-      if (href) {
+      if (href !== '') {
         return this.opDirectFileUpload.uploadAndMapResponse(href, files);
       } else if (this.isNew || !this.id || !this.attachmentsBackend) {
         href = this.apiV3Service.attachments.path;
@@ -186,15 +186,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     private get directUploadURL():string|null {
-      if (this.$links.prepareAttachment) {
-        return this.$links.prepareAttachment.href;
-      }
-
-      if (this.isNew) {
-        return this.config.prepareAttachmentURL;
-      } else {
-        return null;
-      }
+      return this.$links?.prepareAttachment?.href;
     }
 
     private updateState() {

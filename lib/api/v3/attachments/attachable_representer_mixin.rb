@@ -46,11 +46,8 @@ module API
           link :prepareAttachment do
             next unless OpenProject::Configuration.direct_uploads?
 
-            # We may not generate this link for new resources
-            next if represented.new_record?
-
             {
-              href: attachments_by_resource + '/prepare',
+              href: prepare_attachment_path,
               method: :post
             }
           end
@@ -75,6 +72,14 @@ module API
             ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachment_set,
                                                                         attachments_by_resource,
                                                                         current_user: current_user)
+          end
+
+          def prepare_attachment_path
+            if represented.new_record?
+              api_v3_paths.prepare_new_attachment_upload
+            else
+              attachments_by_resource + '/prepare'
+            end
           end
 
           def attachments_by_resource
