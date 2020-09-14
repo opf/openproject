@@ -62,7 +62,7 @@ de:
   label_budget_plural: "Budgets"
   label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'z. B. %{decimal}'
   label_view_all_budgets: "Alle Budgets anzeigen"
   label_yes: "Ja"
   notice_budget_conflict: "Tickets müssen im gleichen Projekt sein."

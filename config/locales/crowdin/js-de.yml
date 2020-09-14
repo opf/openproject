@@ -116,11 +116,11 @@ de:
         manual: 'Wechseln zu reinem Markdown-Text'
         wysiwyg: 'Wechseln zu WYSIWYG-Editor'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Kann Makro nicht anzeigen: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt.'
+          not_found: 'Die angeforderte Ressource konnte nicht gefunden werden'
+          invalid_attribute: "Das ausgewählte Attribut '%{name}' existiert nicht."
         child_pages:
           button: 'Auflistung untergeordneter Seiten'
           include_parent: 'Elternseite anzeigen'
@@ -412,10 +412,10 @@ de:
     label_total_amount: "Gesamt: %{amount}"
     label_updated_on: "aktualisiert am"
     label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Aggregierte Dauer der Unterarbeitspakete"
     label_warning: "Warnung"
     label_work_package: "Arbeitspaket"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Übergeordnetes Arbeitspaket"
     label_work_package_plural: "Arbeitspakete"
     label_watch: "Beobachten"
     label_watch_work_package: "Arbeitspaket beobachten"
@@ -502,7 +502,7 @@ de:
       context: 'Projektkontext'
       work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       autocompleter:
         label: 'Projekt Auto-Vervollständigung'
     text_are_you_sure: "Sind Sie sicher?"
@@ -806,8 +806,8 @@ de:
           duplicate_query_title: "Eine Ansicht mit diesem Namen existiert bereits. Trotzdem ändern?"
         text_no_results: "Keine übereinstimmenden Ansichten gefunden."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Die Termine dieses Arbeitspakets werden automatisch von seinen Kindern aggregiert. Aktivieren Sie \"Manuelle Planung\", um die Termine frei zu setzen."
+        is_switched_from_manual_to_automatic: "Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden."
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

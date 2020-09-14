@@ -199,9 +199,9 @@ de:
       completed: "Löschen des Projekts %{name} abgeschlossen"
       completed_text: "Die Anfrage zum Löschen des Projekts '%{name}' wurde abgeschlossen."
     index:
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt: 'Als Gantt-Ansicht öffnen'
+      open_as_gantt_title: "Eine Gantt-Ansicht für Arbeitspakete aus den auf dieser Seite sichtbaren Projekten erzeugen."
+      open_as_gantt_title_admin: "Sie können die Einstellungen der erzeugten Ansicht (wie zum Beispiel die ausgewählten Arbeitspakettypen) in der Administration unter den Projekteinstellungen ändern."
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
     settings:
@@ -514,7 +514,7 @@ de:
         cant_link_a_work_package_with_a_descendant: "Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden."
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen."
         confirmation: "stimmt nicht mit %{attribute} überein."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
@@ -691,7 +691,7 @@ de:
         version:
           undeletable_work_packages_attached: "Die Version kann nicht gelöscht werden, da sie Arbeitspakete enthält, die an sie angeschlossen sind."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "kann nicht für einen Status aktiviert werden, der als Standard markiert ist."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -749,9 +749,9 @@ de:
     date: "Datum"
     default_columns: "Standard-Spalten"
     description: "Beschreibung"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Aggregierter Endtermin"
+    derived_estimated_time: "Aggregierter geschätzter Aufwand"
+    derived_start_date: "Aggregierter Starttermin"
     display_sums: "Summen anzeigen"
     due_date: "Endtermin"
     estimated_hours: "Geschätzter Aufwand"
@@ -1105,7 +1105,7 @@ de:
   error_no_default_work_package_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Arbeitspaket-Status\")."
   error_no_type_in_project: "Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
   error_omniauth_registration_timed_out: "Die Registrierung über einen externen Authentifizierungsprovider ist fehlgeschlagen. Bitte versuchen Sie es erneut."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "Die vom Identity Provider zurückgegebenen Authentifizierungsdatem waren ungültig. Bitte kontaktieren Sie Ihren Adminstrator für weitere Hilfe."
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
   error_unable_delete_status: "Der Arbeitspaket-Status kann nicht gelöscht werden, da er von mindestens einem Arbeitspaket genutzt wird."
@@ -1769,15 +1769,15 @@ de:
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
   mail_body_register: "Willkommen bei OpenProject. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_header_title: "Einladung als Projektmitglied"
+  mail_body_register_user: "Hallo %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Bitte besuchen Sie unseren YouTube-Kanal (%{youtube_link}), in dem wir Webinare (%{webinar_link})
+    und "Erste-Schritte"-Videos (%{get_started_link}) bereitstellen, um Ihre ersten Schritte in OpenProject so einfach wie möglich zu machen.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    Wenn Sie weitere Fragen haben, finden Sie Hilfe in unserer Dokumentation (%{documentation_link}) oder Sie kontaktieren uns (%{contact_us_link}).
+  mail_body_register_closing: "Ihr OpenProject Team"
+  mail_body_register_ending: "Wir freuen uns auf Ihre Rückmeldung! Herzlichen Dank,"
   mail_body_reminder: "%{count} Arbeitspakete, die Ihnen zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
   mail_body_group_reminder: "%{count} Arbeitspaket(e), die der Gruppe \"%{group}\" zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"
   mail_body_wiki_content_added: "Die Wiki-Seite '%{id}' wurde von %{author} hinzugefügt."
@@ -1992,8 +1992,8 @@ de:
     assigned_to_role: "Rolle der zugewiesenen Person"
     member_of_group: "Gruppe der zugewiesenen Person"
     assignee_or_group: "Zugewiesen an Nutzer oder dessen Gruppe"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Mit Unterprojekt"
+    only_subproject_id: "Nur Unterprojekt"
     name_or_identifier: "Name oder Kennung"
   repositories:
     at_identifier: 'auf %{identifier}'
@@ -2099,13 +2099,13 @@ de:
     warnings:
       cannot_annotate: "Diese Datei kann nicht kommentiert werden."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'Aktiviert'
+    deactivated: 'Deaktiviert'
   search_input_placeholder: "Suchen ..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "CORS aktivieren"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) erlaubte Origins"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Wenn CORS aktiviert ist, sind dies die Origins, die auf die OpenProject API zugreifen dürfen. <br/> Bitte überprüfen Sie die <a href="%{origin_link}" target="_blank">Dokumentation über den Origin Header</a>, wie die Werte anzugeben sind.
   setting_email_delivery_method: "E-Mail Zustellungsoption"
   setting_sendmail_location: "Systempfad zu sendmail"
   setting_smtp_enable_starttls_auto: "Automatisch STARTTLS verwenden, falls vorhanden"
@@ -2150,7 +2150,7 @@ de:
   setting_emails_header: "E-Mail-Kopfzeile"
   setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "In der Projektliste sichtbar"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
@@ -2181,8 +2181,8 @@ de:
   setting_per_page_options: "Objekte pro Seite"
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Projekt-Portfolioübersicht"
+  setting_project_gantt_query_text: "Sie können die Ansicht konfigurieren, die verwendet wird, um Gantt-Diagramm von der Projektliste zu erzeugen."
   setting_security_badge_displayed: "Plakette zur Update-Sicherheit anzeigen"
   setting_registration_footer: "Fußzeile der Registrierung-Ansicht"
   setting_repositories_automatic_managed_vendor: "Automatisch genutzter Projektarchiv Anbieter-Typ"
@@ -2222,8 +2222,8 @@ de:
     session: "Sitzung"
     brute_force_prevention: "Automatisches Sperren von Benutzern"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Einstellungen für neue Projekte"
+      section_project_overview: "Einstellungen für Projektliste"
     user:
       default_preferences: "Standardeinstellungen"
       deletion: "Löschen"
