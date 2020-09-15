@@ -17,6 +17,9 @@ try 'npm install --no-shrinkwrap >> log/setup_dev.log'
 echo "Linking plugin modules"
 try 'bundle exec rake openproject:plugins:register_frontend >> log/setup_dev.log'
 
+echo "Exporting frontend locale files"
+try 'bundle exec rake i18n:js:export >> log/setup_dev.log'
+
 echo "---------------------------------------"
 echo "Done. Now start the following services"
 echo '- Rails server `RAILS_ENV=development ./bin/rails s`'
