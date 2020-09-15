@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), t(:label_cost_type_plural) %>
+<% html_title t(:label_administration), t(:label_cost_type_plural) %>
 <%= toolbar title: CostType.model_name.human(count: 2) do %>
   <li class="toolbar-item">
     <a href="<%= new_cost_type_path %>" aria-label="<%= t(:button_add_cost_type) %>" title="<%= t(:button_add_cost_type) %>" class="button -alt-highlight">

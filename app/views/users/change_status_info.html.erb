@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title(l(:label_administration), "#{ l(:label_change_status_of_user, username: @user.name)}") -%>
+<% html_title(t(:label_administration), "#{ t(:label_change_status_of_user, username: @user.name)}") -%>
 <% local_assigns[:additional_breadcrumb] = @user.name %>
 
 <% new_status =  t("user.#{@status_change}") %>

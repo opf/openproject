@@ -44,7 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to({:controller => '/meetings', :action => 'edit', :id => @meeting}, class: 'button',:accesskey => accesskey(:edit)) do%>
         <%= op_icon('button--icon icon-edit') %>
-        <span class="button--text"><%= l(:button_edit) %></span>
+        <span class="button--text"><%= t(:button_edit) %></span>
       <% end %>
     </li>
   <% end %>
@@ -52,7 +52,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item hidden-for-mobile">
       <%= link_to({:controller => '/meetings', :action => 'copy', :id => @meeting}, class: 'button') do %>
         <%= op_icon('button--icon icon-copy') %>
-        <span class="button--text"><%= l(:button_copy) %></span>
+        <span class="button--text"><%= t(:button_copy) %></span>
       <% end %>
     </li>
   <% end %>
@@ -95,7 +95,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% if @meeting.journals.changing.present? %>
 <div id="history">
-  <h3><%=l(:label_history)%></h3>
+  <h3><%=t(:label_history)%></h3>
   <% @meeting.journals.each do |journal| %>
     <%= render_meeting_journal @meeting, journal %>
   <% end %>

@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% if storage['total'] > 0 %>
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%=l(:label_required_disk_storage)%></legend>
+  <legend class="form--fieldset-legend"><%=t(:label_required_disk_storage)%></legend>
 
   <% storage['modules'].each do |label, value| %>
     <%= render partial: 'projects/form/attributes/storage_field',
@@ -38,7 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%# Hide total when there's only one module %>
   <% if storage['modules'].length > 1 %>
     <%= render partial: 'projects/form/attributes/storage_field',
-               locals: { label: l(:label_total), value: storage['total'] } %>
+               locals: { label: t(:label_total), value: storage['total'] } %>
   <% end %>
 </fieldset>
 <% end %>

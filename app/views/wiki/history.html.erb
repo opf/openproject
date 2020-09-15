@@ -27,9 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: @page.title %>
-<% html_title l('activerecord.models.wiki'), l(:label_history) %>
+<% html_title t('activerecord.models.wiki'), t(:label_history) %>
 <% breadcrumb_paths(*(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)] )) %>
-<h3><%= l(:label_history) %></h3>
+<h3><%= t(:label_history) %></h3>
 <%= form_tag({action: "diff"}, method: :get) do %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
@@ -137,7 +137,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <td class="updated_on"><%= format_time(ver.created_at) %></td>
               <td class="author"><%= link_to_user ver.user %></td>
               <td class="comments"><%=h ver.notes %></td>
-              <td class="buttons"><%= link_to l(:button_annotate), action: 'annotate', id: @page, version: ver.version %></td>
+              <td class="buttons"><%= link_to t(:button_annotate), action: 'annotate', id: @page, version: ver.version %></td>
             </tr>
             <% line_num += 1 %>
           <% end %>
@@ -147,7 +147,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <div class="generic-table--action-buttons">
-    <%= submit_tag l(:label_view_diff), class: 'button -highlight -small' if show_diff %>
+    <%= submit_tag t(:label_view_diff), class: 'button -highlight -small' if show_diff %>
   </div>
 
   <%= nonced_javascript_tag  do -%>

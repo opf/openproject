@@ -105,7 +105,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= render partial: 'account/user_consent_check', locals: { consenting_user: @user } %>
       <% end %>
 
-      <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+      <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 
       <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
     </div>

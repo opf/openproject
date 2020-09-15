@@ -26,12 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title l(:label_administration), l(:label_workflow_plural) -%>
+<% html_title t(:label_administration), t(:label_workflow_plural) -%>
 <%= render partial: 'toolbar', locals: {title: Workflow.model_name.human } %>
 
 <%= styled_form_tag({}, method: 'get') do %>
   <fieldset class="simple-filters--container">
-    <legend><%=l(:text_workflow_edit)%></legend>
+    <legend><%=t(:text_workflow_edit)%></legend>
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
         <%= styled_label_tag :role_id, Role.model_name.human, class: 'simple-filters--filter-name' %>
@@ -49,14 +49,14 @@ See docs/COPYRIGHT.rdoc for more details.
         <li class="form--field -trailing-label">
           <%= hidden_field_tag 'used_statuses_only', '0', id: 'used_statuses_only_hidden' %>
 
-          <%= styled_label_tag :used_statuses_only, l(:label_display_used_statuses_only) %>
+          <%= styled_label_tag :used_statuses_only, t(:label_display_used_statuses_only) %>
           <span class="form--field-container">
             <%= styled_check_box_tag :used_statuses_only, '1', @used_statuses_only %>
           </span>
         </li>
       </ul>
       <li class="simple-filters--controls">
-        <%= submit_tag l(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -small -highlight' %>
+        <%= submit_tag t(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -small -highlight' %>
       </li>
     </ul>
   </fieldset>
@@ -79,7 +79,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= render partial: 'form', locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
     <% end %>
 
-    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
   <% end %>
 <% end %>
 

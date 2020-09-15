@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_bulk_edit_selected_work_packages) %>
+<% html_title t(:label_bulk_edit_selected_work_packages) %>
 
 <% if @bulk_errors.present? %>
   <div class="notification-box -error">
@@ -47,7 +47,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 
-<h2><%= l(:label_bulk_edit_selected_work_packages) %></h2>
+<h2><%= t(:label_bulk_edit_selected_work_packages) %></h2>
 <ul>
   <% @work_packages.each do |wp| %>
     <li>
@@ -65,20 +65,20 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= back_url_hidden_field_tag %>
   <section class="form--section">
     <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= l(:label_change_properties) %></legend>
+      <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>
       <div class="grid-block">
         <div class="grid-content medium-6">
           <div class="form--field">
             <label class="form--label" for="work_package_type_id"><%= WorkPackage.human_attribute_name(:type) %></label>
             <div class="form--field-container">
-              <%= styled_select_tag('work_package[type_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(@types, :id, :name)) %>
+              <%= styled_select_tag('work_package[type_id]', "<option value=\"\">#{t(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(@types, :id, :name)) %>
             </div>
           </div>
           <% if @available_statuses.any? %>
             <div class="form--field">
               <label class="form--label" for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
               <div class="form--field-container">
-                <%= styled_select_tag('work_package[status_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(@available_statuses, :id, :name)) %>
+                <%= styled_select_tag('work_package[status_id]', "<option value=\"\">#{t(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(@available_statuses, :id, :name)) %>
               </div>
             </div>
           <% else %>
@@ -92,22 +92,22 @@ See docs/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <label class="form--label" for='work_package_priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
             <div class="form--field-container">
-              <%= styled_select_tag('work_package[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
+              <%= styled_select_tag('work_package[priority_id]', "<option value=\"\">#{t(:label_no_change_option)}</option>".html_safe + options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
             </div>
           </div>
           <div class="form--field">
             <label class="form--label" for='work_package_assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
             <div class="form--field-container">
-              <%= styled_select_tag('work_package[assigned_to_id]', content_tag('option', l(:label_no_change_option), value: '') +
-                                     content_tag('option', l(:label_nobody), value: 'none') +
+              <%= styled_select_tag('work_package[assigned_to_id]', content_tag('option', t(:label_no_change_option), value: '') +
+                                     content_tag('option', t(:label_nobody), value: 'none') +
                                      options_from_collection_for_select(@assignables, :id, :name)) %>
             </div>
           </div>
           <div class="form--field">
             <label class="form--label" for='work_package_responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
             <div class="form--field-container">
-              <%= styled_select_tag('work_package[responsible_id]', content_tag('option', l(:label_no_change_option), value: '') +
-                                     content_tag('option', l(:label_nobody), value: 'none') +
+              <%= styled_select_tag('work_package[responsible_id]', content_tag('option', t(:label_no_change_option), value: '') +
+                                     content_tag('option', t(:label_nobody), value: 'none') +
                                      options_from_collection_for_select(@responsibles, :id, :name)) %>
             </div>
           </div>
@@ -115,8 +115,8 @@ See docs/COPYRIGHT.rdoc for more details.
             <div class="form--field">
               <label class="form--label" for='category_id'><%= WorkPackage.human_attribute_name(:category) %></label>
               <div class="form--field-container">
-                <%= styled_select_tag('work_package[category_id]', content_tag('option', l(:label_no_change_option), value: '') +
-                                    content_tag('option', l(:label_none), value: 'none') +
+                <%= styled_select_tag('work_package[category_id]', content_tag('option', t(:label_no_change_option), value: '') +
+                                    content_tag('option', t(:label_none), value: 'none') +
                                     options_from_collection_for_select(@project.categories, :id, :name)) %>
               </div>
             </div>
@@ -126,8 +126,8 @@ See docs/COPYRIGHT.rdoc for more details.
             <div class="form--field">
               <label class="form--label" for='work_package_version_id'><%= WorkPackage.human_attribute_name(:version) %></label>
               <div class="form--field-container">
-                <%= styled_select_tag('work_package[version_id]', content_tag('option', l(:label_no_change_option), value: '') +
-                                       content_tag('option', l(:label_none), value: 'none') +
+                <%= styled_select_tag('work_package[version_id]', content_tag('option', t(:label_no_change_option), value: '') +
+                                       content_tag('option', t(:label_none), value: 'none') +
                                        version_options_for_select(@project.shared_versions.with_status_open.order_by_semver_name)) %>
               </div>
             </div>
@@ -180,7 +180,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <div class="form--field">
               <label class="form--label" for='work_package_done_ratio'><%= WorkPackage.human_attribute_name(:done_ratio) %></label>
               <div class="form--field-container">
-                <%= styled_select_tag 'work_package[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>
+                <%= styled_select_tag 'work_package[done_ratio]', options_for_select([[t(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>
               </div>
             </div>
           <% end %>
@@ -194,5 +194,5 @@ See docs/COPYRIGHT.rdoc for more details.
       <p><%= send_notification_option %></p>
     </fieldset>
   </section>
-  <p><%= styled_button_tag l(:button_submit), class: '-highlight -with-icon icon-checkmark' %></p>
+  <p><%= styled_button_tag t(:button_submit), class: '-highlight -with-icon icon-checkmark' %></p>
 <% end %>

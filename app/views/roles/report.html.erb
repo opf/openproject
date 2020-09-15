@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= breadcrumb_toolbar l(:label_permissions_report) %>
-<% local_assigns[:additional_breadcrumb] = l(:label_permissions_report) %>
-<% html_title l(:label_administration), l(:label_permissions_report) %>
+<%= breadcrumb_toolbar t(:label_permissions_report) %>
+<% local_assigns[:additional_breadcrumb] = t(:label_permissions_report) %>
+<% html_title t(:label_administration), t(:label_permissions_report) %>
 
 <% (@calls || []).select(&:failure?).each do |call| %>
   <%= error_messages_for_contract(call.result, call.errors) %>
@@ -67,7 +67,7 @@ See docs/COPYRIGHT.rdoc for more details.
                   <div class="generic-table--sort-header-outer">
                     <div class="generic-table--sort-header">
                       <span>
-                        <%=l(:label_permissions)%>
+                        <%=t(:label_permissions)%>
                       </span>
                     </div>
                   </div>
@@ -79,10 +79,10 @@ See docs/COPYRIGHT.rdoc for more details.
                         <span>
                           <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
                           <%= link_to_function(
-                                icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"),
+                                icon_wrapper('icon-context icon-checkmark',"#{t(:button_check_all)}/#{t(:button_uncheck_all)}"),
                                 "OpenProject.helpers.toggleCheckboxesBySelector('input.role-#{role.id}')",
                                 class: 'no-decoration-on-hover',
-                                title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+                                title: "#{t(:button_check_all)}/#{t(:button_uncheck_all)}") %>
                         </span>
                       </div>
                     </div>
@@ -95,10 +95,10 @@ See docs/COPYRIGHT.rdoc for more details.
                 <tr class="permission-<%= permission.name %>">
                   <td>
                     <%= link_to_function(
-                          icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"),
+                          icon_wrapper('icon-context icon-checkmark',"#{t(:button_check_all)}/#{t(:button_uncheck_all)}"),
                           "OpenProject.helpers.toggleCheckboxesBySelector('.permission-#{permission.name} input')",
                           class: 'no-decoration-on-hover',
-                          title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+                          title: "#{t(:button_check_all)}/#{t(:button_uncheck_all)}") %>
                     <%= l_or_humanize(permission.name, prefix: 'permission_') %>
                   </td>
                   <% @roles.each do |role| %>
@@ -118,5 +118,5 @@ See docs/COPYRIGHT.rdoc for more details.
     </fieldset>
   <% end %>
 
-  <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %></p>
+  <p><%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %></p>
 <% end %>

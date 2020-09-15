@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to({ controller: 'budgets', action: 'edit',  id: @budget }, class: 'button', accesskey: accesskey(:edit)) do %>
         <%= op_icon('button--icon icon-edit') %>
-        <span class="button--text"><%= l(:button_update) %></span>
+        <span class="button--text"><%= t(:button_update) %></span>
       <% end %>
     </li>
   <% end %>
@@ -41,7 +41,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item hidden-for-mobile">
       <%= link_to({ controller: 'budgets', action: 'copy', id: @budget }, class: 'button') do %>
         <%= op_icon('button--icon icon-copy') %>
-        <span class="button--text"><%= l(:button_copy) %></span>
+        <span class="button--text"><%= t(:button_copy) %></span>
       <% end %>
     </li>
   <% end %>

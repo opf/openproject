@@ -34,7 +34,7 @@ See docs/COPYRIGHT.rdoc for more details.
         accesskey: accesskey(:edit),
         class: 'button edit-news-button') do %>
         <%= op_icon('button--icon icon-edit') %>
-        <span class="button--text"><%= l(:button_edit) %></span>
+        <span class="button--text"><%= t(:button_edit) %></span>
       <% end %>
       <% csp_onclick('jQuery("#edit-news").show()', '.edit-news-button') %>
     </li>
@@ -45,11 +45,11 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if User.current.allowed_to?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(news_path(@news),
-        data: { confirm: l(:text_are_you_sure) },
+        data: { confirm: t(:text_are_you_sure) },
         method: :delete,
         class: 'button') do %>
         <%= op_icon('button--icon icon-delete') %>
-        <span class="button--text"><%= l(:button_delete) %></span>
+        <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     </li>
   <% end %>
@@ -59,8 +59,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <div id="edit-news" style="display:none;">
     <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
       <%= render partial: 'form', locals: { f: f } %>
-      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-      <%= link_to_function l(:button_cancel), 'jQuery("#edit-news").hide()', class: 'button -with-icon icon-cancel'%>
+      <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+      <%= link_to_function t(:button_cancel), 'jQuery("#edit-news").hide()', class: 'button -with-icon icon-cancel'%>
     <% end %>
   </div>
 <% end %>
@@ -75,18 +75,18 @@ See docs/COPYRIGHT.rdoc for more details.
 </div>
 <br />
 <div id="comments" class="news--comments comments">
-  <h3 class="icon-context icon-quote"><%= l(:label_comment_plural) %></h3>
+  <h3 class="icon-context icon-quote"><%= t(:label_comment_plural) %></h3>
   <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
       <div class="comment">
         <div class="contextual">
-          <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', l(:button_delete)),
+          <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', t(:button_delete)),
                                 {controller: '/news/comments', action: 'destroy', id: comment},
-                                data: { confirm: l(:text_are_you_sure) },
+                                data: { confirm: t(:text_are_you_sure) },
                                 method: :delete,
                                 class: 'no-decoration-on-hover',
-                                title: l(:button_delete),
-                                alt: l(:button_delete) %>
+                                title: t(:button_delete),
+                                alt: t(:button_delete) %>
         </div>
         <h4 class="author additional-information"><%= avatar(comment.author) %><%= authoring comment.created_on, comment.author %></h4>
         <%= format_text(comment.comments, object: comment) %>
@@ -103,7 +103,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
       </div>
       <p>
-        <%= submit_tag l(:button_add_comment), class: 'button -highlight' %>
+        <%= submit_tag t(:button_add_comment), class: 'button -highlight' %>
       </p>
     <% end %>
   <% end %>

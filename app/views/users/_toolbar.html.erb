@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= breadcrumb_toolbar(@user.new_record? ? l(:label_user_new) : @user.name) do %>
+<%= breadcrumb_toolbar(@user.new_record? ? t(:label_user_new) : @user.name) do %>
   <% unless @user.new_record? %>
     <% if current_user.admin? || current_user.id == @user.id %>
       <li class="toolbar-item hidden-for-mobile">
@@ -43,7 +43,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to user_path(@user), class: 'button' do %>
         <%= op_icon('button--icon icon-user') %>
-        <span class="button--text"><%= l(:label_profile) %></span>
+        <span class="button--text"><%= t(:label_profile) %></span>
       <% end %>
     </li>
     <% unless current_user.id == @user.id %>
@@ -58,7 +58,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <li class="toolbar-item">
         <%= link_to deletion_info_user_path(@user), class: 'button' do %>
           <%= op_icon('button--icon icon-delete') %>
-          <span class="button--text"><%= l(:button_delete) %></span>
+          <span class="button--text"><%= t(:button_delete) %></span>
         <% end %>
       </li>
     <% end %>

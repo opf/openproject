@@ -38,7 +38,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="meeting_content <%= content_type %>">
   <div>
-    <%= toolbar title: l(:"label_#{content_type}") do %>
+    <%= toolbar title: t(:"label_#{content_type}") do %>
       <%=raw meeting_content_context_menu content, content_type %>
     <% end %>
   </div>

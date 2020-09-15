@@ -36,5 +36,5 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= hidden_field_tag :id, @role.id %>
   <%= render partial: 'form', locals: { f: f , role: @role } %>
   <br/>
-  <%= styled_button_tag l(:button_save), class: '-with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
 <% end %>

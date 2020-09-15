@@ -30,13 +30,13 @@ See docs/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= call_hook :users_show_head %>
 <% end %>
-<% html_title l(:label_administration), l(:label_user_plural) -%>
+<% html_title t(:label_administration), t(:label_user_plural) -%>
 <%= toolbar title: "#{avatar @user} #{h(@user.name)}".html_safe do %>
   <% if User.current.admin? %>
     <li class="toolbar-item">
       <%= link_to edit_user_path(@user), class: 'button', accesskey: accesskey(:edit) do %>
         <%= op_icon('button--icon icon-edit') %>
-        <span class="button--text"><%= l(:button_edit) %></span>
+        <span class="button--text"><%= t(:button_edit) %></span>
       <% end %>
     </li>
   <% end %>
@@ -59,7 +59,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= call_hook :view_account_left_middle, user: @user %>
 
     <% unless @memberships.empty? %>
-      <h3><%=l(:label_project_plural)%></h3>
+      <h3><%=t(:label_project_plural)%></h3>
       <ul>
         <% for membership in @memberships %>
           <li>
@@ -75,10 +75,10 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="grid-content">
     <% unless @events_by_day.empty? %>
       <h3>
-        <%= link_to l(:label_activity), controller: '/activities', action: 'index', id: nil, user_id: @user, from: @events_by_day.keys.first %>
+        <%= link_to t(:label_activity), controller: '/activities', action: 'index', id: nil, user_id: @user, from: @events_by_day.keys.first %>
       </h3>
       <p>
-        <%=l(:label_reported_work_packages)%>: <%= @user.reported_work_package_count %>
+        <%=t(:label_reported_work_packages)%>: <%= @user.reported_work_package_count %>
       </p>
       <div id="activity">
         <% @events_by_day.keys.sort.reverse.each do |day| %>

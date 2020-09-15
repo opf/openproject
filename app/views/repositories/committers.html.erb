@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: l(:label_repository) %>
-<%= simple_format(l(:text_repository_usernames_mapping)) %>
+<%= toolbar title: t(:label_repository) %>
+<%= simple_format(t(:text_repository_usernames_mapping)) %>
 <% if @committers.empty? %>
   <% no_results_box %>
 <% else %>
@@ -80,9 +80,9 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
     <hr class="form--separator" />
     <p>
-      <%= submit_tag l(:button_update), class: 'button -highlight' %>
+      <%= submit_tag t(:button_update), class: 'button -highlight' %>
       <%= link_to settings_repository_project_path(@project.id), class: 'button' do %>
-        <span class="button--text"><%= l(:button_cancel) %></span>
+        <span class="button--text"><%= t(:button_cancel) %></span>
       <% end %>
     </p>
   <% end %>

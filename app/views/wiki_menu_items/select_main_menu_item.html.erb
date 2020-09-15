@@ -32,7 +32,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for :wiki_page, url: { action: 'replace_main_menu_item' } do |f| %>
   <fieldset class="form--fieldset" id="wiki_menu_item_setting">
-    <legend class="form--fieldset-legend"><%= l(:label_wiki_page) %></legend>
+    <legend class="form--fieldset-legend"><%= t(:label_wiki_page) %></legend>
     <p>
       <%= f.select :id,
                    wiki_page_options_for_select(@possible_wiki_pages),
