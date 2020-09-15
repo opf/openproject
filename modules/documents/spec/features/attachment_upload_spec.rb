@@ -52,6 +52,9 @@ describe 'Upload attachment to documents', js: true do
     it 'can upload an image' do
       visit project_documents_path(project)
 
+      expect(page)
+        .to have_content I18n.t(:no_results_title_text)
+
       within '.toolbar-items' do
         click_on 'Document'
       end
