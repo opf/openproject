@@ -1,3 +1,11 @@
+---
+sidebar_navigation:
+  title: Inline editing
+description: Get an overview of how inline-editing of resources works
+robots: index, follow
+keywords: development concepts, inline editing, edit forms
+---
+
 # Development Concept: Inline Editing
 
 Inline editing is a core functionality of work packages and other attributes. 
