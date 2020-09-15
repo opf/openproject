@@ -37,7 +37,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= render partial: "customizable/form",
-           locals: { form: form, all_fields: all_fields, only_required: render_advanced } %>
+           locals: { form: form, help_text: { 'attribute-scope': :Project }, all_fields: all_fields, only_required: render_advanced } %>
 <% if render_advanced %>
 <fieldset id="advanced-settings" class="form--fieldset -collapsible collapsed">
   <legend class="form--fieldset-legend" title="<%=t(:label_show_hide)%>" >
