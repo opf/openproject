@@ -25,10 +25,28 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ElementRef,
+  Inject,
+  ChangeDetectorRef, Injector, Optional, OnDestroy
+} from "@angular/core";
+import {
+  EditFieldComponent,
+  OpEditingPortalChangesetToken, OpEditingPortalHandlerToken,
+  OpEditingPortalSchemaToken
+} from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 export const formattableFieldTemplate = `
     <div class="textarea-wrapper">
@@ -44,7 +62,7 @@ export const formattableFieldTemplate = `
       <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
                            [fieldController]="field"
                            (onSave)="handleUserSubmit()"
-                           (onCancel)="handler.handleUserCancel()"
+                           (onCancel)="handleUserCancel()"
                            [saveTitle]="text.save"
                            [cancelTitle]="text.cancel">
       </edit-field-controls>
@@ -55,7 +73,7 @@ export const formattableFieldTemplate = `
   template: formattableFieldTemplate,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
+export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
   public readonly field = this;
 
   // Detect when inner component could not be initalized
@@ -70,6 +88,18 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public editorType = this.resource.getEditorTypeFor(this.field.name);
 
+  constructor(readonly I18n:I18nService,
+              readonly elementRef:ElementRef,
+              @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
+              @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
+              @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
+              readonly cdRef:ChangeDetectorRef,
+              readonly injector:Injector,
+              // Get parent field group from injector if we're in a form
+              @Optional() protected editForm:EditFormComponent) {
+    super(I18n, elementRef, change, schema, handler, cdRef, injector);
+  }
+
   ngOnInit() {
     super.ngOnInit();
 
@@ -79,6 +109,12 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
       cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
     };
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+
+    this.editForm.removeFromFieldsWithModelChanges(this);
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance) {
@@ -100,6 +136,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     // in the changeset when no actual change has taken place.
     if (this.rawValue !== value) {
       this.rawValue = value;
+      this.editForm.addToFieldsWithModelChanges(this, this.rawValue);
     }
   }
 
@@ -107,9 +144,16 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     this.getCurrentValue()
       .then(() => {
         this.handler.handleUserSubmit();
+        this.editForm.removeFromFieldsWithModelChanges(this);
       });
 
     return false;
+  }
+
+  public handleUserCancel() {
+    this.editForm.removeFromFieldsWithModelChanges(this);
+
+    this.handler.handleUserCancel();
   }
 
   public get ckEditorContext():ICKEditorContext {
@@ -130,6 +174,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       this.editor.content = this.rawValue;
 
       this.cdRef.markForCheck();
+
+      this.editForm.removeFromFieldsWithModelChanges(this);
     }
   }
 
