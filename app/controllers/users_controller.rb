@@ -107,7 +107,7 @@ class UsersController < ApplicationController
     if UserInvitation.invite_user! @user
       respond_to do |format|
         format.html do
-          flash[:notice] = l(:notice_successful_create)
+          flash[:notice] = I18n.t(:notice_successful_create)
           redirect_to(params[:continue] ? new_user_path : edit_user_path(@user))
         end
       end
@@ -175,7 +175,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html do
-          flash[:notice] = l(:notice_successful_update)
+          flash[:notice] = I18n.t(:notice_successful_update)
           redirect_back(fallback_location: edit_user_path(@user))
         end
       end
@@ -263,7 +263,7 @@ class UsersController < ApplicationController
 
     Users::DeleteService.new(@user, User.current).call
 
-    flash[:notice] = l('account.deleted')
+    flash[:notice] = I18n.t('account.deleted')
 
     respond_to do |format|
       format.html do

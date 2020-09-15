@@ -42,7 +42,7 @@ class UsersSettingsController < ::ApplicationController
         .new(user: current_user)
         .call(settings: permitted_params.settings.to_h)
 
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'index'
     end
   end

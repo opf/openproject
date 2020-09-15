@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= render :partial => 'custom_fields_header' %>
 
 <% html_title t(:label_administration), t(:label_custom_field_new) %>
-<% local_assigns[:additional_breadcrumb] = link_to(l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
+<% local_assigns[:additional_breadcrumb] = link_to(I18n.t(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
                        t(:label_custom_field_new) %>
 <%= breadcrumb_toolbar t(:label_custom_field_new) %>
 <%= error_messages_for 'custom_field' %>

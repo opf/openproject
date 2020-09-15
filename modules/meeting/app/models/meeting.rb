@@ -56,13 +56,13 @@ class Meeting < ApplicationRecord
 
   acts_as_journalized
   acts_as_event title: Proc.new { |o|
-    "#{l :label_meeting}: #{o.title} \
-                 #{format_date o.start_time} \
-                 #{format_time o.start_time, false}-#{format_time o.end_time, false})"
-  },
-                url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
-                author: Proc.new(&:user),
-                description: ''
+      "#{I18n.t(:label_meeting)}: #{o.title} \
+        #{format_date o.start_time} \
+        #{format_time o.start_time, false}-#{format_time o.end_time, false})"
+    },
+    url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
+    author: Proc.new(&:user),
+    description: ''
 
   register_on_journal_formatter(:plaintext, 'title')
   register_on_journal_formatter(:fraction, 'duration')

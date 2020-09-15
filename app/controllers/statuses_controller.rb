@@ -48,7 +48,7 @@ class StatusesController < ApplicationController
   def create
     @status = Status.new(permitted_params.status)
     if @status.save
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to action: 'index'
     else
       render action: 'new'
@@ -62,7 +62,7 @@ class StatusesController < ApplicationController
   def update
     @status = Status.find(params[:id])
     if @status.update(permitted_params.status)
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'index'
     else
       render action: 'edit'
@@ -72,22 +72,22 @@ class StatusesController < ApplicationController
   def destroy
     status = Status.find(params[:id])
     if status.is_default?
-      flash[:error] = l(:error_unable_delete_default_status)
+      flash[:error] = I18n.t(:error_unable_delete_default_status)
     else
       status.destroy
-      flash[:notice] = l(:notice_successful_delete)
+      flash[:notice] = I18n.t(:notice_successful_delete)
     end
     redirect_to action: 'index'
   rescue
-    flash[:error] = l(:error_unable_delete_status)
+    flash[:error] = I18n.t(:error_unable_delete_status)
     redirect_to action: 'index'
   end
 
   def update_work_package_done_ratio
     if Status.update_work_package_done_ratios
-      flash[:notice] = l(:notice_work_package_done_ratios_updated)
+      flash[:notice] = I18n.t(:notice_work_package_done_ratios_updated)
     else
-      flash[:error] =  l(:error_work_package_done_ratios_not_updated)
+      flash[:error] =  I18n.t(:error_work_package_done_ratios_not_updated)
     end
     redirect_to action: 'index'
   end

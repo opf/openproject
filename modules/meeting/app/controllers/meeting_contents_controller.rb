@@ -65,12 +65,12 @@ class MeetingContentsController < ApplicationController
     @content.author = User.current
     @content.attach_files(permitted_params.attachments.to_h)
     if @content.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash.now[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = I18n.t(:notice_locking_conflict)
     params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
     render 'meetings/show'
   end
@@ -98,10 +98,10 @@ class MeetingContentsController < ApplicationController
       result = service.call(@content, :content_for_review)
 
       if result.success?
-        flash[:notice] = l(:notice_successful_notification)
+        flash[:notice] = I18n.t(:notice_successful_notification)
       else
-        flash[:error] = l(:error_notification_with_errors,
-                          recipients: result.errors.map(&:name).join('; '))
+        flash[:error] = I18n.t(:error_notification_with_errors,
+                               recipients: result.errors.map(&:name).join('; '))
       end
     end
     redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
@@ -113,10 +113,10 @@ class MeetingContentsController < ApplicationController
       result = service.call(@content, :icalendar_notification, include_author: true)
 
       if result.success?
-        flash[:notice] = l(:notice_successful_notification)
+        flash[:notice] = I18n.t(:notice_successful_notification)
       else
-        flash[:error] = l(:error_notification_with_errors,
-                          recipients: result.errors.map(&:name).join('; '))
+        flash[:error] = I18n.t(:error_notification_with_errors,
+                               recipients: result.errors.map(&:name).join('; '))
       end
     end
     redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting

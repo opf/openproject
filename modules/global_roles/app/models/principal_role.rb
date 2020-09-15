@@ -38,6 +38,6 @@ class PrincipalRole < ApplicationRecord
   private
 
   def add_error_can_not_be_assigned
-    errors[:base] << l(:error_can_not_be_assigned)
+    errors[:base] << I18n.t(:error_can_not_be_assigned)
   end
 end

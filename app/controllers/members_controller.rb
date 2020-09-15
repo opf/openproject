@@ -74,7 +74,7 @@ class MembersController < ApplicationController
     member = update_member_from_params
 
     if member.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
     else
       # only possible message is about choosing at least one role
       flash[:error] = member.errors.full_messages.first
@@ -291,9 +291,9 @@ class MembersController < ApplicationController
 
   def members_added_notice(members)
     if members.size == 1
-      l(:notice_member_added, name: members.first.name)
+      I18n.t(:notice_member_added, name: members.first.name)
     else
-      l(:notice_members_added, number: members.size)
+      I18n.t(:notice_members_added, number: members.size)
     end
   end
 end

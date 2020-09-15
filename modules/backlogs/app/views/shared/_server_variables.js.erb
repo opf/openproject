@@ -38,8 +38,8 @@ RB.constants = {
 };
 
 RB.i18n = {
-  generating_graph: '<%= j l("backlogs.generating_chart").html_safe %>',
-  burndown_graph: '<%= j l("backlogs.burndown_graph").html_safe %>'
+  generating_graph: '<%= j I18n.t("backlogs.generating_chart").html_safe %>',
+  burndown_graph: '<%= j I18n.t("backlogs.burndown_graph").html_safe %>'
 };
 
 RB.urlFor = (function () {

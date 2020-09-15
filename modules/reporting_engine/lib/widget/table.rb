@@ -69,7 +69,8 @@ class Widget::Table < Widget::Base
     write('<!-- table start -->')
     if @subject.result.count <= 0
       write(content_tag(:div, '', class: 'generic-table--no-results-container') do
-        content_tag(:i, '', class: 'icon-info1') + content_tag(:h2, l(:no_results_title_text), class: 'generic-table--no-results-title')
+        content_tag(:i, '', class: 'icon-info1') +
+          content_tag(:h2, I18n.t(:no_results_title_text), class: 'generic-table--no-results-title')
       end)
     else
       str = render_widget(resolve_table, @subject, @options.reverse_merge(to: @output))

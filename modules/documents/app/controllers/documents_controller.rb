@@ -68,7 +68,7 @@ class DocumentsController < ApplicationController
     @document.attach_files(permitted_params.attachments.to_h)
 
     if @document.save
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to project_documents_path(@project)
     else
       render action: 'new'
@@ -84,7 +84,7 @@ class DocumentsController < ApplicationController
     @document.attach_files(permitted_params.attachments.to_h)
 
     if @document.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'show', id: @document
     else
       render action: 'edit'

@@ -29,7 +29,7 @@
 class Widget::Controls::Save < Widget::Controls
   def render
     return '' if @subject.new_record? or !@options[:can_save]
-    write link_to(l(:button_save),
+    write link_to(I18n.t(:button_save),
                   '#',
                   id: 'query-breadcrumb-save',
                   class: 'button icon-context icon-save',

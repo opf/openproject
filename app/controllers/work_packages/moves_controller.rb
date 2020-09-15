@@ -86,12 +86,12 @@ class WorkPackages::MovesController < ApplicationController
 
   def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
     if unsaved_work_package_ids.empty? and not work_packages.empty?
-      flash[:notice] = @copy ? l(:notice_successful_create) : l(:notice_successful_update)
+      flash[:notice] = @copy ? I18n.t(:notice_successful_create) : I18n.t(:notice_successful_update)
     else
-      flash[:error] = l(:notice_failed_to_save_work_packages,
-                        count: unsaved_work_package_ids.size,
-                        total: work_packages.size,
-                        ids: '#' + unsaved_work_package_ids.join(', #'))
+      flash[:error] = I18n.t(:notice_failed_to_save_work_packages,
+                             count: unsaved_work_package_ids.size,
+                             total: work_packages.size,
+                             ids: '#' + unsaved_work_package_ids.join(', #'))
     end
   end
 
@@ -112,7 +112,7 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   def default_breadcrumb
-    l(:label_move_work_package)
+    I18n.t(:label_move_work_package)
   end
 
   private

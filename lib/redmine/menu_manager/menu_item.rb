@@ -77,7 +77,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
       if @caption.nil?
         l_or_humanize(name, prefix: 'label_')
       else
-        @caption.is_a?(Symbol) ? l(@caption) : @caption
+        @caption.is_a?(Symbol) ? I18n.t(@caption) : @caption
       end
     end
   end

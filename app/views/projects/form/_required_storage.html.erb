@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <% storage['modules'].each do |label, value| %>
     <%= render partial: 'projects/form/attributes/storage_field',
-               locals: { label: l(label), value: value } %>
+               locals: { label: I18n.t(label), value: value } %>
   <% end %>
   <%# Hide total when there's only one module %>
   <% if storage['modules'].length > 1 %>

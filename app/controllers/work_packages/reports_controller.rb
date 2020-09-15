@@ -64,6 +64,6 @@ class WorkPackages::ReportsController < ApplicationController
   private
 
   def default_breadcrumb
-    l(:label_summary)
+    I18n.t(:label_summary)
   end
 end

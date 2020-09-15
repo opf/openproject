@@ -72,9 +72,9 @@ class MeetingsController < ApplicationController
       @meeting.agenda.author = User.current
     end
     if @meeting.save
-      text = l(:notice_successful_create)
+      text = I18n.t(:notice_successful_create)
       if User.current.time_zone.nil?
-        link = l(:notice_timezone_missing, zone: Time.zone)
+        link = I18n.t(:notice_timezone_missing, zone: Time.zone)
         text += " #{view_context.link_to(link, { controller: '/my', action: :account }, class: 'link_to_profile')}"
       end
       flash[:notice] = text.html_safe
@@ -100,7 +100,7 @@ class MeetingsController < ApplicationController
 
   def destroy
     @meeting.destroy
-    flash[:notice] = l(:notice_successful_delete)
+    flash[:notice] = I18n.t(:notice_successful_delete)
     redirect_to action: 'index', project_id: @project
   end
 
@@ -110,7 +110,7 @@ class MeetingsController < ApplicationController
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
     @meeting.attributes = @converted_params
     if @meeting.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'show', id: @meeting
     else
       render action: 'edit'

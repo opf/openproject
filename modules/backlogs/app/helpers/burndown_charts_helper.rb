@@ -36,7 +36,7 @@ module BurndownChartsHelper
 
     mvalue = mvalue + 1 if mvalue == 1 || ((max % 25) == 0)
 
-    labels << "[#{(mvalue) * 25}, '<span class=\"axislabel\">#{l('backlogs.points')}</span>']"
+    labels << "[#{(mvalue) * 25}, '<span class=\"axislabel\">#{I18n.t('backlogs.points')}</span>']"
 
     result = labels.join(', ')
 
@@ -60,7 +60,7 @@ module BurndownChartsHelper
     dataset = {}
     burndown.series.each do |s|
       dataset[s.first] = {
-        label: l('backlogs.' + s.first.to_s),
+        label: I18n.t('backlogs.' + s.first.to_s),
         data: s.last.enum_for(:each_with_index).map { |val, i| [i + 1, val] }
       }
     end
@@ -71,7 +71,7 @@ module BurndownChartsHelper
   def burndown_series_checkboxes(burndown)
     boxes = ''
     burndown.series(:all).map { |s| s.first.to_s }.sort.each do |series|
-      boxes += "<input class=\"series_enabled\" type=\"checkbox\" id=\"#{series}\" name=\"#{series}\" value=\"#{series}\" checked>#{l('backlogs.' + series.to_s)}<br/>"
+      boxes += "<input class=\"series_enabled\" type=\"checkbox\" id=\"#{series}\" name=\"#{series}\" value=\"#{series}\" checked>#{I18n.t('backlogs.' + series.to_s)}<br/>"
     end
     boxes.html_safe
   end

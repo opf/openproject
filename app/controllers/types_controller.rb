@@ -103,7 +103,7 @@ class TypesController < ApplicationController
     @type = ::Type.find(params[:id])
 
     if @type.update(permitted_params.type_move)
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
     else
       flash.now[:error] = t('type_could_not_be_saved')
       render action: 'edit'
@@ -118,7 +118,7 @@ class TypesController < ApplicationController
     # put that into the model and do a `if @type.destroy`
     if @type.work_packages.empty? && !@type.is_standard?
       @type.destroy
-      flash[:notice] = l(:notice_successful_delete)
+      flash[:notice] = I18n.t(:notice_successful_delete)
     else
       flash[:error] = if @type.is_standard?
                         t(:error_can_not_delete_standard_type)
