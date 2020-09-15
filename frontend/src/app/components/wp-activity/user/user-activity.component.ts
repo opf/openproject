@@ -32,13 +32,12 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   Injector,
-  Input,
+  Input, NgZone,
   OnInit
 } from "@angular/core";
 import {CommentService} from "core-components/wp-activity/comment-service";
@@ -53,7 +52,7 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-activity.component.html'
 })
-export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit, AfterViewInit {
+export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit {
   @Input() public workPackage:WorkPackageResource;
   @Input() public activity:HalResource;
   @Input() public activityNo:number;
@@ -91,7 +90,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
               readonly ConfigurationService:ConfigurationService,
               readonly apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly ngZone:NgZone) {
     super(elementRef, injector);
   }
 
@@ -126,16 +126,18 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
         this.userAvatar = user.avatar;
         this.cdRef.detectChanges();
       });
+
+    if (window.location.hash === `#activity-${this.activityNo}`) {
+      this.ngZone.runOutsideAngular(() => {
+        setTimeout(() => {
+          this.elementRef.nativeElement.scrollIntoView(true);
+        });
+      });
+    }
   }
 
   public shouldHideIcons():boolean {
     return !((this.isComment || this.isBcfComment) && this.focussing());
-  }
-
-  public ngAfterViewInit() {
-    if (window.location.hash === '#activity-' + this.activityNo) {
-      this.elementRef.nativeElement.scrollIntoView(true);
-    }
   }
 
   public activate() {
