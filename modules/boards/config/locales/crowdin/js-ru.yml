@@ -33,30 +33,30 @@ ru:
       click_to_remove_list: "Нажмите, чтобы удалить этот список"
       board_type:
         text: 'Тип доски'
-        free: 'basic'
+        free: 'базовый'
         select_board_type: 'Пожалуйста, выберите требуемый вам тип доски.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Начните с нуля с пустой доски. Вручную добавляйте карты и столбцы на эту доску.
         action: 'Доска действий'
         action_by_attribute: 'Доска действий (%{attribute})'
         action_text: >
-          Доска с отфильтрованными по атрибуту %{attribute} списками . Перемещение рабочих пакетов в другие списки обновит их атрибут.
+          Форум с отфильтрованными по атрибуту %{attribute} списками . Перемещение рабочих пакетов в другие списки обновит их атрибут.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          Форум с автоматизированными колонками для подпроектов. Идеально подходит для обработки разрешений между заинтересованными сторонами.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Форум с автоматизированными колонками для подэлементов. Перетаскивание пакетов работ в другие списки обновляется родителем соответственно.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Базовая таблица стилей канбана с колонками для статуса, таких как To Do, In Progress, Done.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Форум с автоматическими колонками на основе назначенных пользователей. Идеально подходит для отправки пакетов работ.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning software releases.
+          Форум с автоматическими колонками на основе атрибутов версии, идеально подходит для планирования выпусков программного обеспечения.
         action_type:
           assignee: правопреемник
           status: статус
           version: версия
           subproject: подпроект
-          subtasks: Parent_child
+          subtasks: Родитель_потомок
         select_attribute: "Атрибут действия"
       add_list_modal:
         labels:

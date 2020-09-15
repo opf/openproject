@@ -1,7 +1,7 @@
 #English strings go here
 de:
   label_avatar: "Profilbild"
-  label_avatar_plural: "Avatars"
+  label_avatar_plural: "Avatare"
   label_current_avatar: "Aktuelles Profilbild"
   label_choose_avatar: "Profilbild aus Datei auswählen"
   message_avatar_uploaded: "Das Porfilbild wurde erfolgreich geändert."

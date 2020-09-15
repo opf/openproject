@@ -1515,7 +1515,6 @@ fi:
   label_options: "Valinnat"
   label_other: "Muut"
   label_overall_activity: "Kaikki tapahtumat"
-  label_overall_spent_time: "Käytetty kokonaisaika"
   label_overview: "Yleiskatsaus"
   label_page_title: "Page title"
   label_part_of: "osana"
