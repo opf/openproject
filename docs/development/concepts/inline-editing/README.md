@@ -56,7 +56,7 @@ The `EditableAttributeField` contains the logic to show the *display* and *edit*
 
 
 
-### **🔗 Code references
+### 🔗 Code references
 
 - [`EditForm`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/edit-form/edit-form.ts) base class
 - [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/edit-form/edit-form.component.ts#L28-L27) Angular `<edit-form>` component 
