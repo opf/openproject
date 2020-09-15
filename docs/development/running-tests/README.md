@@ -1,78 +1,221 @@
-<!---- copyright
-OpenProject is an open source project management software.
-Copyright (C) 2012-2020 the OpenProject GmbH
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License version 3.
-
-OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2013 Jean-Philippe Lang
-Copyright (C) 2010-2013 the ChiliProject Team
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-See docs/COPYRIGHT.rdoc for more details.
-
-++-->
-
 # Testing OpenProject
 
-OpenProject uses automated tests throughout the stack. Tests that are executed in the browser (npm frontend, rspec integration and cucumber tests) require to have Chrome installed.
+OpenProject uses automated tests throughout the stack. Tests that are executed in the browser (angular frontend, rspec system tests) require to have Chrome installed.
+
+You will likely start working with the OpenProject test suite through our continuous testing setup at [Travis CI](https://travis-ci.com/opf/openproject). All pull requests and commits to the core repository will be tested by Travis CI.
+
+
+
+# Continuous testing with Travis CI
+
+As part of the [development flow at OpenProject](https://docs.openproject.org/development/#development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on travis-ci.com. You will see the results of the travis test suite run as a status on your pull request. Successful test suite runs are one requirement to see your changes merged.
+
+A failing status will look like the following on your pull request. You may need to click *Show all checks* to expand all checks to see the details link.
+
+![Exemplary failing travis test suite](github-broken-tests-pr.png)
+
+
+
+Here you'll see that the *Travis CI* check has reported an error, which likely means that your pull request contains errors. It might also result from a temporary error running the test suite, or from a test that was broken in the `dev` branch.
+
+If you expand the view  by clicking on details, you will see the individual *jobs* that Travis executes. The test suite is run in parallel to save time.  The overall run time of the test suite is around *3 - 4 hours* on Travis, but with parallel test execution, this time is reduced to around 30 - 40 minutes waiting time.
+
+[Here's a link to an exemplary failed test run on GitHub](https://github.com/opf/openproject/pull/8680/checks?check_run_id=1115923361). In this case, one of the feature jobs has reported an error. 
+
+![Exemplary failed status details](github-broken-tests-pr-details1.png)
+
+
+
+You can click on each job to show the [Travis log output for this job](https://travis-ci.com/github/opf/openproject/jobs/384924028). It will contain more information about how many tests failed and will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing).
+
+In our example, Travis reports one test to be failing: `./modules/documents/spec/features/attachment_upload_spec.rb[1:1:1:1]`
+
+![Travis job log showing failing test](github-broken-tests-travis.png)
+
+
+
+You can now run this test locally to try and reproduce the failure. How to do this depends on the kind of job that failed.
+
+
+
+**Errors in the npm group**
+
+If there is an error in the npm group, you likely have broken an existing Angular component spec or added an invalid new one. Please see the [Frontend tests section](#frontend-tests) on how to run them.
+
+
+
+**Errors in the units group**
+
+An error in the *units* group means there is a failing ruby unit test. Please see the [Unit tests](#unit-tests) section on how to run these.
+
+**Errors in the features group**
+
+You will be able to run failing tests locally in a similar fashion for all errors reported in the  `units`  and `features` jobs. Please see the [System tests](#system-tests) section for more information.
+
+
+
+**Errors in the legacy specs + cukes group**
+
+For the `legacy specs + cukes` job, please [see the section on running legacy tests](#legacy-tests).
+
+
+
+**Helper to extract all failing tests**
+
+There is a small ruby script that will parse the logs of a travis run and output all `rspec` tests that failed for you to run in one command.
+
+To run that, you will first need to install the travis gem locally with `gem install travis` . Then you can run this script with:
+
+```
+./script/travis_pr_errors	
+```
+
+
+
+Note that it will output legacy specs and specs together, which need to be run separately.
+
+
+
+### Skipping test execution on Travis CI
+
+Sometimes, you know you're pushing changes to a pull request that you now are work in progress or are known to break existing or new tests.
+
+To avoid additional test executions, you can include `[CI SKIP]` in your commit message to ensure travis is not being triggered and skips your build. Please note that a successful merge of your pull request will require a green Travis CI build.
+
+
+
+# Running tests locally
+
+As there are multiple ways employed to test OpenProject, you may want to run a specific test or test group.
+
+
+
+## Prerequisites
+
+In order to be able to run tests locally, you need to have set up a local development stack.
+
+
+
+### Verifying your dependencies
+
+To ensure your local installation is up to date and prepared for development or running tests, there is a helper script `./bin/setup_dev` that installs backend and frontend dependencies. When switching branches or working on a new topic, it is recommended to run this script again.
+
+
+
+### Setting up a test database
+
+As part of the development environment guides, you will have created a development and test database and specified it under `config/database.yml`:
+
+```yaml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  username: openproject
+  password: openproject-dev-password
+
+development:
+  <<: *default
+  database: openproject_dev
+
+test:
+  <<: *default
+  database: openproject_test
+```
+
+
+
+The configuration above determines that a database called `openproject_test` is used for the backend unit and system tests. The entire contents of this database is being removed during every test suite run.
+
+
+
+Before you can start testing, you will often need to run the database migrations first on the development and the test database. You can use the following rails command for this:
+
+```bash
+RAILS_ENV=development rails db:migrate db:test:prepare
+```
+
+
+
+This migrates the _development_ database, outputting its schema to `db/schema.rb` and will copy this schema to the test database. This ensures your test database matches your current expected schema.
+
+
 
 ## Frontend tests
 
-To run JavaScript frontend tests, first ensure you have all necessary
-dependencies installed via npm (i.e. `npm install`).
+To run JavaScript frontend tests, first ensure you have all necessary dependencies installed via npm (i.e. `npm install`).
 
 You can run all frontend tests with the standard npm command:
 
     npm test
-    
-
-[For more information, check out the frontend guides](https://github.com/opf/openproject/blob/dev/frontend/doc/README.md).
-
-## Rails backend and integration tests
-
-### RSpec
-
-You can run the specs with the following commands:
-
-* `bundle exec rake spec:core` Run all core specs with a random seed
-* `bundle exec rake spec:legacy` Run all legacy specs with a random seed
-* `bundle exec rake spec:plugins` Run plugin specs with a random seed
-* `bundle exec rake spec:all` Run core and plugin specs with a random seed
-* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
-
-### Integration tests with Capybara
-
-We use Capybara for integration tests as rspec feature specs. They are automatically executed with Capybara when `js: true` is set.
-
-#### Selenium, Chrome
-
-For the javascript dependent integration tests, you have to install Chrome, to run them locally.
-
-Capybara uses Selenium to drive the browser and perform the actions we describe in each spec. Previously, we have used Firefox as the browser driven by Selenium.
-
-Due to flaky test results on Travis (`No output has been received in the last 10m0s`), we switched to using Chrome for the time being. Because most developers already employ Chrome while developing and Firefox ESR being another supported browser, we would have preferred to stick to Firefox for the tests and will try to do so as soon as test results become reproducible again.
 
 
-**Headless mode**
 
-Firefox tests through Selenium are run with Chrome as `--headless` by default. To override this and watch the Chrome instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
+Alternatively, when in the `frontend/` folder, you can also use the watch mode of Angular to automatically run tests after you changed a file in the frontend.
 
-##### Troubleshooting
+```bash
+./node_modules/.bin/ng test --watch
+```
+
+
+
+## Unit tests
+
+ After following the prerequisites, you can simply use the following command to run individual specs:
+
+```bash
+RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb
+```
+
+You can run multiple specs by separating them with space:
+
+```bash
+RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb spec/models/project_spec.rb
+```
+
+
+
+## System tests
+
+We use Capybara and Selenium for system tests, which are often also called as *rspec feature specs*. They are automatically executed with an actual browser when `js: true` is set.
+
+### Dependencies
+
+For the javascript dependent integration tests, you have to install Chrome and Firefox, to run them locally.
+
+Capybara uses Selenium to drive the browser and perform the actions we describe in each spec. We have tests that mostly depend on Chrome and Chromedriver, but some also require specific behavior that works better in automated Firefox browsers.
+
+
+
+### Running system tests
+
+Almost all system tests depend on the browser for testing, you will need to have the Angular CLI running to serve frontend assets.
+
+So with `npm run serve` running and completed in one tab, run the test using `rspec` as  for the unit tests:
+
+```bash
+RAILS_ENV=test bundle exec rspec ./modules/documents/spec/features/attachment_upload_spec.rb[1:1:1:1]
+```
+
+The tests will generally run a lot slower due to the whole application being run end-to-end, but these system tests will provide the most elaborate tests possible.
+
+
+
+You can also run *all* feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let Travis CI test the entire suite.
+
+```bash
+RAILS_ENV=test bundle exec rake parallel:features -- --group-number 1 --only-group 1
+```
+
+
+
+### Headless testing
+
+Firefox tests through Selenium are run with Chrome as `--headless` by default. This means that you do not see the browser that is being tested. Sometimes you will want to see what the test is doing to debug. To override this behavior and watch the Chrome or Firefox instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
+
+
+
+### Troubleshooting
 
 ```
 Failure/Error: raise ActionController::RoutingError, "No route matches [#{env['REQUEST_METHOD']}] #{env['PATH_INFO'].inspect}"
@@ -82,107 +225,61 @@ Failure/Error: raise ActionController::RoutingError, "No route matches [#{env['R
 ```
 
 If you get an error like this when running feature specs it means your assets have not been built.
-You can fix this either by accessing a page locally (if the rails server is running) once or by precompiling the assets like this:
+You can fix this either by accessing a page locally (if the rails server is running) once or by ensuring the `bin/setup_dev` script has been run.
 
+
+
+## Entire local RSpec suite
+
+You can run the specs with the following commands:
+
+* `bundle exec rake spec` Run all core specs and feature tests. Again ensure that the Angular CLI is running for these to work. This will take a long time locally, and it is not recommend to run the entire suite locally. Instead, wait for the test suite run to be performed on Travis CI as part of your pull request.
+
+* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that Travis CI used in their log output.
+
+  
+
+## Legacy tests
+
+**Note:** *We do not write new tests in this category. Tests are expected to be removed from these two groups whenever they break.*
+
+### Legacy specs
+
+The legacy specs use `minitest` and reside under `spec_legacy/` in the application root. No new tests are to be added here, but old ones removed whenever we refactor code.
+
+To run all legacy specs, use this command:
+
+```bash
+RAILS_ENV=test bundle exec rake spec -I spec_legacy spec_legacy/
 ```
-bundle exec rake assets:precompile
-```
+
+
 
 ### Cucumber
 
-**Note:** *We do not write new cucumber features. The current plan is to move away from
-cucumber towards regular specs using Capybara. For the time being however, please keep the existing
-cucumber features green but write feature specs in Capybara for any code that is not already
-covered by cucumber.*
+Cucumber tests are behavior driven tests written in almost plain english. They are incredibly slow and have been almost completely removed from OpenProject with the exception of the legacy backlog plugin. You will likely not need to run these locally. If you need to, run the following command:
 
-The cucumber features can be run using rake. You can run the following
-rake tasks using the command `bundle exec rake <task>`.
-
-* `cucumber` Run core features
-* `cucumber:plugins` Run plugin features
-* `cucumber:all` Run core and plugin features
-* `cucumber:custom[features]`: Run single features or folders of features
-
-    Example: `cucumber:custom[features/issues/issue.feature]`
-    * When providing multiple features, the task name and arguments must
-      be enclosed in quotation marks.
-
-      Example: `bundle exec rake "cucumber:custom[features/issues features/projects]"`
-      
-    In some development environments you might need to run single features differently as the former example results in weird error messages.
-    
-    `RAILS_ENV=test bundle exec cucumber -r features <path-to-feature-file> `
-
-
-`cucumber:plugins` and `cucumber:all` accept an optional parameter which
-allows specifying custom options to cucumber. This can be used for
-executing scenarios by name, e.g. `"cucumber:all[-n 'Adding an issue link']"`.
-Like with spaces in `cucumber:custom` arguments, task name and arguments
-have to be enclosed in quotation marks.
-
-#### Running cucumber features without rake
-
-Running cucumber features without going through `rake` is possible by using
-the following command
-
-`cucumber -r features features/my/path/to/cucumber.feature`
-
-It is also possible to run a certain cuke by passing a line number:
-
-`cucumber -r features features/my/path/to/cucumber.feature:123`
-
-You may also run cukes within a certain folder:
-
-`cucumber -r features features/my/path`
-
-**Note: `-r features` is required otherwise the step definitions cannot be found.**
-
-You can run cucumber without rake, and with all core and plugin features included
-through:
-
-```
-./bin/cucumber features/my/path/to/cucumber.feature:123
+```bash
+RAILS_ENV=test sh ./script/ci/runner.sh plugins:cucumber 1 1
 ```
 
 
-#### Shortcuts
 
-Here are two bash functions which allow using shorter commands for running
-cucumber features:
-
-    # Run OpenProject cucumber features (like arguments to the cucumber command)
-    # Example: cuke features/issues/issue.feature
-    cuke() { RAILS_ENV=test bundle exec rake "cucumber:custom[$*]"; }
-
-    # Run OpenProject cucumber scenarios by name
-    # Example: cuken Adding an issue link
-    cuken() { RAILS_ENV=test bundle exec rake "cucumber:all[-n '$*']"; }
-
-Setting `RAILS_ENV=test` allows the cucumber rake tasks to run the features
-directly in the same process, so this reduces the time until the features are
-running a bit (5-10 seconds) due to the Rails environment only being loaded
-once.
-
-#### Selenium
-
-To activate selenium as test driver to test javascript on web pages, you can add
-`@javascript above the scenario like the following example shows:
-
-    @javascript
-    Scenario: Testing something with Javascript
-      When I ...
-
-#### Debugging
-
-You can always start a debugger using the step "And I start debugging".
-
-### Parallel testing
+## Parallel testing
 
 Running tests in parallel makes usage of all available cores of the machine.
 Functionality is being provided by [parallel_tests](https://github.com/grosser/parallel_tests) gem.
-See the github page for any options like number of cpus used.
+See its GitHub page for any options like number of cpus used.
 
 #### Prepare
+
+By default, `parallel_test` will use CPU count to parallelize. This might be a bit much to handle for your system when 8 or more parallel browser instances are being run. To manually set the value of databases to create and tests to run in parallel, use this command:
+
+```bash
+export PARALLEL_TEST_PROCESSORS=4
+```
+
+
 
 Adjust `database.yml` to use different databases:
 
@@ -192,62 +289,20 @@ test: &test
   # ...
 ```
 
-Create all databases: `rake parallel:create`
+Create all databases: `RAILS_ENV=test ./bin/rails parallel:create db:migrate parallel:prepare`
 
 Prepare all databases:
 
-`RAILS_ENV=test parallel_test -e "rake db:drop db:create db:migrate"`
+First migrate and dump your current development schema with `RAILS_ENV=development ./bin/rails db:migrate db:schema:dump` (will create a db/structure.sql)
 
-**Note: Until `rake db:schema:load` works we have to use the command above. Then we
-can use `rake parallel:prepare`**
+Then you can just use `RAILS_ENV=test ./bin/rails parallel:prepare` to prepare test databases.
 
-You may also just dump your current schema with `rake db:schema:dump` (db/schema.rb)
-is not part of the repository. Then you can just use `rake parallel:prepare` to prepare
-test databases.
 
-#### RSpec legacy specs
-
-Run all legacy specs in parallel with `rake parallel:spec_legacy`
-
-Or run them manually with `parallel_test -t rspec -o '-I spec_legacy' spec_legacy`
 
 #### RSpec specs
 
-Run all specs in parallel with `rake parallel:spec`
+Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails parallel:spec`
 
-Or run them manually with `parallel_test -t rspec spec`.
-
-#### Cucumber
-
-Run all cucumber features in parallel with `rake parallel:cucumber`.
-
-Or run them manually with `parallel_test -t cucumber -o '-r features' features`.
-
-**Note:** there is also a official rake task to run cucumber features but the OpenProject cucumber
-test suite requires `-r features` to run correctly. This needs to be passed to the command
-thus it looks not very handy `rake parallel:features\[,,"-r features"\]`
-(this is zsh compatible, command takes three arguments but we just want to pass the last one here.)
-
-#### Plugins
-
-Run specs for all activated plugins with `rake parallel:plugins:spec`.
-
-Run cucumber features for all activated plugins with `rake parallel:plugins:cucumber`.
-
-#### Full test suite
-
-You may run all existing parts of OpenProject test suite in parallel with
-`rake parallel:all`
-
-**Note:** This will run core specs, core cucumber features, core legacy specs,
-plugin specs and plugin cucumber features. This task will take around 40 minutes
-on a machine with 8 parallel instances.
-
-## For the fancy programmer
-
-* We are testing on travis-ci. Look there for your pull requests.<br />
-  https://travis-ci.org/opf/openproject
-* If you have enabled the terminal bell, add `; echo -e "\a"` to the end of your test command. The terminal bell will then tell you when your tests finished.
 
 
 ## Manual acceptance tests
@@ -255,9 +310,11 @@ on a machine with 8 parallel instances.
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
 * Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
 
-If you want to access the development server of OpenProject from a VM,
-you need to work around the CSP `localhost` restrictions.
 
+
+## Accessing a local OpenProject instance from a VM
+
+If you want to access the development server of OpenProject from a VM, you need to work around the CSP `localhost` restrictions.
 
 ### Old way, fixed compilation
 
@@ -298,5 +355,5 @@ into a testing LDAP server.  Test that the ldap server can be accessed
 at 127.0.0.1 on port 389.
 
 Setting up the test ldap server is beyond the scope of this documentation.
-The OpenLDAP project provides a simple LDAP implementation that should work
+The Apache DS project provides a simple LDAP implementation that should work
 good as a test server.
