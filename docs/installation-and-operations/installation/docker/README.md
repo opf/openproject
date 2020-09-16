@@ -340,7 +340,7 @@ Where `10.0.2.77` is your swarm manager's (advertise) IP address.
 
 If your containers run distributed on multiple nodes you will need a shared network storage to store OpenProject's attachments.
 The easiest way for this would be to setup an NFS drive that is shared among all nodes and mounted to the same path on each of them.
-Say `/mnt/openproject/attachments`.
+Say `/mnt/openproject/files`.
 
 Alternatively, if using S3 is an option, you can use S3 attachments instead.
 We will show both possibilities later in the configuration.
@@ -352,6 +352,8 @@ To create a stack you need a stack file. The easiest way is to just copy OpenPro
 #### Configuring storage
 
 **Note:** This is only necessary if your swarm runs on multiple nodes.
+
+##### Attachments
 
 **NFS**
 
@@ -382,7 +384,7 @@ networks:
 
 volumes:
   pgdata:
-  opdata:/mnt/openproject/attachments
+  opdata:/mnt/openproject/files
 ```
 
 **S3**
@@ -409,6 +411,29 @@ x-op-app: &app
     - "OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY=<secret-access-key>"
     - "OPENPROJECT_FOG_CREDENTIALS_REGION=us-east-1"
 ```
+
+##### Database
+
+The database's data directory should also be shared so that the database service can be moved to another node
+in case the original node fails. The easiest way to do this would again be a shared NFS mount present on each node.
+This is also the easiest way to persist the database data so it remains even if you shutdown the whole stack.
+
+You could either use a new mounted NFS folder or use a sub-folder in the one we will use for attachments.
+Along the same lines as attachments you could adjust the volume in the `openproject-stack.yml` so it would look something like this:
+
+```
+version: "3.7"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:/mnt/openproject/files/database
+  opdata:/mnt/openproject/files
+```
+
+**Disclaimer**: This may not be the best possible solution, but it is the most straight-forward one.
 
 #### Launching
 
@@ -442,6 +467,7 @@ This is now easily done using the `docker service scale` command.
 
 We'll keep the database and memcached at 1 which should be sufficient for any but huge amounts of users (several tens of thousands of users)
 assuming that the docker hosts (swarm nodes) are powerful enough.
+Even with the database's data directory shared via NFS **you cannot scale up the database** in this setup.
 Scaling the database horizontally adds another level of complexity which we won't cover here.
 
 What we can scale is both the proxy and most importantly the web service.
@@ -473,7 +499,7 @@ The application will still be accessible as before simply under `http://0.0.0.0:
 Now as mentioned earlier you can simply use the manager node's endpoint in a reverse proxy setup and the load will be balanced among the nodes.
 But that will be a single point of failure if the manager node goes down.
 
-To make this more redunant you can use the load balancer directive in your proxy configuration.
+To make this more redundant you can use the load balancer directive in your proxy configuration.
 For instance for apache this could look like this:
 
 ```
