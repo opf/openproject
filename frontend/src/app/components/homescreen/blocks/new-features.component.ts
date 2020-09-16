@@ -30,6 +30,8 @@ import {Component} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {BcfRestApi} from "core-app/modules/bim/bcf/bcf-constants.const";
+import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import imagePath = ImageHelpers.imagePath;
 
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
 
@@ -38,10 +40,9 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
     <p class="widget-box--additional-info">
       {{ text.descriptionNewFeatures }}
     </p>
-
     <div class="widget-box--description">
       <p [innerHtml]="currentNewFeatureHtml"></p>
-
+      <img [src]="new_features_image"/>
       <a class="widget-box--teaser-image"></a>
     </div>
 
@@ -51,6 +52,7 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
   styleUrls: ['./new-features.component.sass'],
 })
 
+
 /**
  * Component for the homescreen block to promote new features.
  * When updating this for the next release, be sure to cleanup stuff is not needed any more:
@@ -58,7 +60,7 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
  */
 export class HomescreenNewFeaturesBlockComponent {
   public isStandardEdition:boolean;
-
+  new_features_image = ImageHelpers.imagePath('new_features.png');
   public text = {
     newFeatures: this.i18n.t('js.label_new_features'),
     descriptionNewFeatures: this.i18n.t('js.homescreen.blocks.new_features.text_new_features'),
