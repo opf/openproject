@@ -79,7 +79,7 @@ module OpenProject
       text = options.delete(:text) || format_revision(revision)
       rev = revision.respond_to?(:identifier) ? revision.identifier : revision
       url_opts = { controller: '/repositories', action: 'revision', project_id: project, rev: rev }
-      html_options = { title: l(:label_revision_id, format_revision(revision)) }.merge(options)
+      html_options = { title: I18n.t(:label_revision_id, value: format_revision(revision)) }.merge(options)
       link_to(h(text), url_opts, html_options)
     end
 

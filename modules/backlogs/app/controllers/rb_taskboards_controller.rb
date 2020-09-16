@@ -40,6 +40,6 @@ class RbTaskboardsController < RbApplicationController
   end
 
   def default_breadcrumb
-    l(:label_backlogs)
+    I18n.t(:label_backlogs)
   end
 end

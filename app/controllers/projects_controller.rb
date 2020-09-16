@@ -129,7 +129,7 @@ class ProjectsController < ApplicationController
 
   def types
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
-      flash[:notice] = l('notice_successful_update')
+      flash[:notice] = I18n.t('notice_successful_update')
     else
       flash[:error] = @project.errors.full_messages
     end

@@ -35,7 +35,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
   include ActionView::Helpers::NumberHelper
 
   def list
-    serialized = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
+    serialized = CSV.generate(col_sep: I18n.t(:general_csv_separator)) do |csv|
       headers = csv_headers
       csv << self.class.encode_csv_columns(headers)
 
@@ -48,7 +48,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
     yield success(serialized)
   end
 
-  def self.encode_csv_columns(columns, encoding = l(:general_csv_encoding))
+  def self.encode_csv_columns(columns, encoding = I18n.t(:general_csv_encoding))
     columns.map do |cell|
       Redmine::CodesetUtil.from_utf8(cell.to_s, encoding)
     end
@@ -65,7 +65,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
   end
 
   def title
-    title = query.new_record? ? l(:label_work_package_plural) : query.name
+    title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
 
     "#{title}.csv"
   end

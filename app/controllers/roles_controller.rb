@@ -73,7 +73,7 @@ class RolesController < ApplicationController
     @call = update_role(@role, permitted_params.role)
 
     if @call.success?
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'index'
     else
       render action: 'edit'
@@ -83,11 +83,11 @@ class RolesController < ApplicationController
   def destroy
     @role = Role.find(params[:id])
     @role.destroy
-    flash[:notice] = l(:notice_successful_delete)
+    flash[:notice] = I18n.t(:notice_successful_delete)
     redirect_to action: 'index'
     notify_changed_roles(:removed, @role)
   rescue
-    flash[:error] = l(:error_can_not_remove_role)
+    flash[:error] = I18n.t(:error_can_not_remove_role)
     redirect_to action: 'index'
   end
 
@@ -102,7 +102,7 @@ class RolesController < ApplicationController
     calls = bulk_update_roles(@roles)
 
     if calls.all?(&:success?)
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'index'
     else
       @calls = calls

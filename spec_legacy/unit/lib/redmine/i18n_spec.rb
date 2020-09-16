@@ -47,11 +47,11 @@ describe Redmine::I18n do
         refute_equal 'default', ::I18n.l(Date.today, format: :default), "date.formats.default missing in #{lang}"
         refute_equal 'time',    ::I18n.l(Time.now, format: :time),      "time.formats.time missing in #{lang}"
       }.not_to raise_error
-      assert l('date.day_names').is_a?(Array)
-      assert_equal 7, l('date.day_names').size
+      assert I18n.t('date.day_names').is_a?(Array)
+      assert_equal 7, I18n.t('date.day_names').size
 
-      assert l('date.month_names').is_a?(Array)
-      assert_equal 13, l('date.month_names').size
+      assert I18n.t('date.month_names').is_a?(Array)
+      assert_equal 13, I18n.t('date.month_names').size
     end
   end
 
@@ -111,14 +111,14 @@ describe Redmine::I18n do
   it 'should fallback' do
     ::I18n.backend.store_translations(:en, untranslated: 'Untranslated string')
     ::I18n.locale = 'en'
-    assert_equal 'Untranslated string', l(:untranslated)
+    assert_equal 'Untranslated string', I18n.t(:untranslated)
     ::I18n.locale = 'de'
-    assert_equal 'Untranslated string', l(:untranslated)
+    assert_equal 'Untranslated string', I18n.t(:untranslated)
 
     ::I18n.backend.store_translations(:de, untranslated: 'Keine Übersetzung')
     ::I18n.locale = 'en'
-    assert_equal 'Untranslated string', l(:untranslated)
+    assert_equal 'Untranslated string', I18n.t(:untranslated)
     ::I18n.locale = 'de'
-    assert_equal 'Keine Übersetzung', l(:untranslated)
+    assert_equal 'Keine Übersetzung', I18n.t(:untranslated)
   end
 end

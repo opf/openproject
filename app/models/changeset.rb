@@ -35,10 +35,19 @@ class Changeset < ApplicationRecord
 
   acts_as_journalized
 
-  acts_as_event title: Proc.new { |o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments)) },
+  acts_as_event title: Proc.new { |o|
+                  "#{I18n.t(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))
+                },
                 description: :long_comments,
                 datetime: :committed_on,
-                url: Proc.new { |o| { controller: '/repositories', action: 'revision', project_id: o.repository.project_id, rev: o.identifier } },
+                url: Proc.new { |o|
+                  {
+                    controller: '/repositories',
+                    action: 'revision',
+                    project_id: o.repository.project_id,
+                    rev: o.identifier
+                  }
+                },
                 author: Proc.new { |o| o.author }
 
   acts_as_searchable columns: 'comments',

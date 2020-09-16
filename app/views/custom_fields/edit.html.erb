@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
 
-<% local_assigns[:additional_breadcrumb] =  link_to(l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
+<% local_assigns[:additional_breadcrumb] =  link_to(I18n.t(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
                        @custom_field.name %>
 <%= breadcrumb_toolbar @custom_field.name %>
 

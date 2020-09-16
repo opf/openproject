@@ -46,7 +46,7 @@ class CategoriesController < ApplicationController
     if @category.save
       respond_to do |format|
         format.html do
-          flash[:notice] = l(:notice_successful_create)
+          flash[:notice] = I18n.t(:notice_successful_create)
           redirect_to settings_categories_project_path(@project)
         end
         format.js do
@@ -68,7 +68,7 @@ class CategoriesController < ApplicationController
   def update
     @category.attributes = permitted_params.category
     if @category.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to settings_categories_project_path(@project)
     else
       render action: 'edit'

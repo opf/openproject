@@ -50,7 +50,7 @@ class Widget::GroupBys < Widget::Base
                               :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
         out = content_tag :span, class: 'group-by--caption grid-content shrink' do
           content_tag :span do
-            l(:"label_#{type}")
+            I18n.t(:"label_#{type}")
           end
         end
 
@@ -59,17 +59,17 @@ class Widget::GroupBys < Widget::Base
         out += content_tag :span,
                            class: 'group-by--control grid-content shrink' do
           label = label_tag "group-by--add-#{type}",
-                            l(:"label_group_by_add") + ' ' +
+                            I18n.t(:"label_group_by_add") + ' ' +
                             I18n.t('js.filter.description.text_open_filter'),
                             class: 'hidden-for-sighted'
 
           label += content_tag :select, id: "group-by--add-#{type}", class: 'advanced-filters--select' do
-            content = content_tag :option, l(:label_group_by_add), value: ''
+            content = content_tag :option, I18n.t(:label_group_by_add), value: ''
 
             content += engine::GroupBy.all_grouped.sort_by do |label, _group_by_ary|
-              l(label)
+              I18n.t(label)
             end.map do |label, group_by_ary|
-              content_tag :optgroup, label: h(l(label)) do
+              content_tag :optgroup, label: h(I18n.t(label)) do
                 render_options group_by_ary
               end
             end.join.html_safe

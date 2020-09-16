@@ -92,7 +92,7 @@ module ErrorsHelper
       op_handle_error(arg[:exception] || "[Error #@status] #@message", payload: arg[:payload])
     end
 
-    @message = l(@message) if @message.is_a?(Symbol)
+    @message = I18n.t(@message) if @message.is_a?(Symbol)
     @message_details = arg[:message_details]
     respond_to do |format|
       format.html do

@@ -108,7 +108,7 @@ module ApplicationHelper
   end
 
   def format_activity_day(date)
-    date == User.current.today ? l(:label_today).titleize : format_date(date)
+    date == User.current.today ? I18n.t(:label_today).titleize : format_date(date)
   end
 
   def format_activity_description(text)
@@ -120,7 +120,7 @@ module ApplicationHelper
   def due_date_distance_in_words(date)
     if date
       label = date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in
-      l(label, distance_of_date_in_words(Date.today, date))
+      I18n.t(label, value: distance_of_date_in_words(Date.today, date))
     end
   end
 
@@ -249,11 +249,16 @@ module ApplicationHelper
 
   def authoring(created, author, options = {})
     label = options[:label] || :label_added_time_by
-    l(label, author: link_to_user(author), age: time_tag(created)).html_safe
+    I18n.t(label, author: link_to_user(author), age: time_tag(created)).html_safe
   end
 
   def authoring_at(created, author)
-    l(:'js.label_added_time_by', author: author.name, age: created, authorLink: user_path(author)).html_safe unless author.nil?
+    return unless author.nil?
+
+    I18n.t(:'js.label_added_time_by',
+           author: author.name,
+           age: created,
+           authorLink: user_path(author)).html_safe
   end
 
   def time_tag(time)
@@ -286,7 +291,7 @@ module ApplicationHelper
     formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
     unless formats.nil? || formats.strip.empty?
       content_tag 'p', class: 'other-formats' do
-        (l(:label_export_to) + formats).html_safe
+        (I18n.t(:label_export_to) + formats).html_safe
       end
     end
   end

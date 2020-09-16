@@ -102,19 +102,19 @@ module ReportingHelper
     return I18n.t(:'placeholders.default') if value.blank?
 
     case key.to_sym
-    when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
+    when :activity_id                           then mapped value, Enumeration, "<i>#{I18n.t(:caption_material_costs)}</i>"
     when :project_id                            then link_to_project Project.find(value.to_i)
     when :user_id, :assigned_to_id, :author_id  then link_to_user(User.find_by_id(value.to_i) || DeletedUser.first)
     when :tyear, :units                         then h(value.to_s)
-    when :tweek                                 then "#{l(:label_week)} ##{h value}"
+    when :tweek                                 then "#{I18n.t(:label_week)} ##{h value}"
     when :tmonth                                then month_name(value.to_i)
     when :category_id                           then h(Category.find(value.to_i).name)
-    when :cost_type_id                          then mapped value, CostType, l(:caption_labor)
+    when :cost_type_id                          then mapped value, CostType, I18n.t(:caption_labor)
     when :budget_id                             then budget_link value
     when :work_package_id                       then link_to_work_package(WorkPackage.find(value.to_i))
     when :spent_on                              then format_date(value.to_date)
     when :type_id                               then h(Type.find(value.to_i).name)
-    when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
+    when :week                                  then "#{I18n.t(:label_week)} #%s" % value.to_i.modulo(100)
     when :priority_id                           then h(IssuePriority.find(value.to_i).name)
     when :version_id                            then h(Version.find(value.to_i).name)
     when :singleton_value                       then ''
@@ -168,8 +168,8 @@ module ReportingHelper
 
   def cost_type_label(cost_type_id, cost_type_inst = nil, _plural = true)
     case cost_type_id
-    when -1 then l(:caption_labor)
-    when 0  then l(:label_money)
+    when -1 then I18n.t(:caption_labor)
+    when 0  then I18n.t(:label_money)
     else (cost_type_inst || CostType.find(cost_type_id)).name
     end
   end
@@ -192,7 +192,7 @@ module ReportingHelper
       struct
     end
     options = { fields: filters[:operators].keys, set_filter: 1, action: :drill_down }
-    link_to '[+]', filters.merge(options), class: 'drill_down', title: l(:description_drill_down)
+    link_to '[+]', filters.merge(options), class: 'drill_down', title: I18n.t(:description_drill_down)
   end
 
   ##

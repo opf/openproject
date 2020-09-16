@@ -275,13 +275,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def get_localized_field(field, label)
     if label.is_a?(Symbol)
-      l(label)
+      I18n.t(label)
     elsif label
       label
     elsif @object.class.respond_to?(:human_attribute_name)
       @object.class.human_attribute_name(field)
     else
-      l(field)
+      I18n.t(field)
     end
   end
 

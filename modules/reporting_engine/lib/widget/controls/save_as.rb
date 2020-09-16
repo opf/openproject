@@ -29,10 +29,10 @@
 class Widget::Controls::SaveAs < Widget::Controls
   def render
     if @subject.new_record?
-      link_name = l(:button_save)
+      link_name = I18n.t(:button_save)
       icon = 'icon-save'
     else
-      link_name = l(:button_save_as)
+      link_name = I18n.t(:button_save_as)
       icon = 'icon-save'
     end
     button = link_to(link_name, '#', id: 'query-icon-save-as', class: "button icon-context #{icon}")
@@ -83,13 +83,13 @@ class Widget::Controls::SaveAs < Widget::Controls
   end
 
   def render_popup_buttons
-    save = link_to(l(:button_save),
+    save = link_to(I18n.t(:button_save),
                    '#',
                    id: 'query-icon-save-button',
                    class: 'button -highlight icon-context icon-save',
                    :"data-target" => url_for(action: 'create', set_filter: '1'))
 
-    cancel = link_to(l(:button_cancel),
+    cancel = link_to(I18n.t(:button_cancel),
                      '#',
                      id: 'query-icon-save-as-cancel',
                      class: 'button icon-context icon-cancel')

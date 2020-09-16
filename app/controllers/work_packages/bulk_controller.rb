@@ -113,6 +113,6 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def default_breadcrumb
-    l(:label_work_package_plural)
+    I18n.t(:label_work_package_plural)
   end
 end

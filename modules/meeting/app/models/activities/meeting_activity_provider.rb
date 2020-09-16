@@ -109,7 +109,7 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
                    end
       end_time = start_time + event['meeting_duration'].to_f.hours
 
-      "#{l :label_meeting}: #{event['meeting_title']} (#{format_date start_time} #{format_time start_time, false}-#{format_time end_time, false})"
+      "#{I18n.t(:label_meeting)}: #{event['meeting_title']} (#{format_date start_time} #{format_time start_time, false}-#{format_time end_time, false})"
     else
       "#{event['meeting_content_type'].constantize.model_name.human}: #{event['meeting_title']}"
     end

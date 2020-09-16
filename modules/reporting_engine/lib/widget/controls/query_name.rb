@@ -32,7 +32,7 @@ class Widget::Controls::QueryName < Widget::Controls
   def render
     options = { id: 'query_saved_name', 'data-translations' => translations }
     if @subject.new_record?
-      name = l(:label_new_report)
+      name = I18n.t(:label_new_report)
       icon = ''
     else
       name = @subject.name
@@ -43,6 +43,6 @@ class Widget::Controls::QueryName < Widget::Controls
   end
 
   def translations
-    { isPublic: l(:field_is_public) }.to_json
+    { isPublic: I18n.t(:field_is_public) }.to_json
   end
 end

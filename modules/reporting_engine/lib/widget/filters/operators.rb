@@ -48,7 +48,7 @@ class Widget::Filters::Operators < Widget::Filters::Base
         end.join.html_safe
       end
       label1 = content_tag :label,
-                           h(filter_class.label) + ' ' + l(:label_operator) + ' ' + I18n.t('js.filter.description.text_open_filter'),
+                           hidden_for_sighted_label,
                            for: "operators[#{filter_class.underscore_name}]",
                            class: 'hidden-for-sighted'
       label = content_tag :label do
@@ -58,5 +58,9 @@ class Widget::Filters::Operators < Widget::Filters::Base
       end
       hide_select_box ? label1 + select_box + label : label1 + select_box
     end)
+  end
+
+  def hidden_for_sighted_label
+    h(filter_class.label) + ' ' + I18n.t(:label_operator) + ' ' + I18n.t('js.filter.description.text_open_filter')
   end
 end

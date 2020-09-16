@@ -206,7 +206,7 @@ module RbCommonHelper
   def show_burndown_link(sprint)
     ret = ''
 
-    ret += link_to(l('backlogs.show_burndown_chart'),
+    ret += link_to(I18n.t('backlogs.show_burndown_chart'),
                    {},
                    class: 'show_burndown_chart button')
 

@@ -63,8 +63,8 @@ class RepositoriesController < ApplicationController
     service = SCM::RepositoryFactoryService.new(@project, params)
     if service.build_and_save
       @repository = service.repository
-      flash[:notice] = l('repositories.create_successful')
-      flash[:notice] << (' ' + l('repositories.create_managed_delay')) if @repository.managed?
+      flash[:notice] = I18n.t('repositories.create_successful')
+      flash[:notice] << (' ' + I18n.t('repositories.create_managed_delay')) if @repository.managed?
     else
       flash[:error] = service.build_error
     end
@@ -86,7 +86,7 @@ class RepositoriesController < ApplicationController
           h[c.first] = c.last
           h
         }
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'committers', project_id: @project
     end
   end
@@ -161,7 +161,7 @@ class RepositoriesController < ApplicationController
         render layout: false if request.xhr?
       end
       format.atom do
-        render_feed(@changesets, title: "#{@project.name}: #{l(:label_revision_plural)}")
+        render_feed(@changesets, title: "#{@project.name}: #{I18n.t(:label_revision_plural)}")
       end
     end
   end
@@ -316,7 +316,7 @@ class RepositoriesController < ApplicationController
     @repository.attributes = @repository.class.permitted_params(repo_params)
 
     if @repository.save
-      flash[:notice] = l('repositories.update_settings_successful')
+      flash[:notice] = I18n.t('repositories.update_settings_successful')
     else
       flash[:error] = @repository.errors.full_messages.join('\n')
     end
@@ -355,11 +355,11 @@ class RepositoriesController < ApplicationController
   end
 
   def show_error_not_found
-    render_error message: l(:error_scm_not_found), status: 404
+    render_error message: I18n.t(:error_scm_not_found), status: 404
   end
 
   def show_error_command_failed(exception)
-    render_error l(:error_scm_command_failed, exception.message)
+    render_error I18n.t(:error_scm_command_failed, value: exception.message)
   end
 
   def graph_commits_per_month(repository)
@@ -399,18 +399,18 @@ class RepositoriesController < ApplicationController
       scale_integers: true,
       step_x_labels: 2,
       show_data_values: false,
-      graph_title: l(:label_commits_per_month),
+      graph_title: I18n.t(:label_commits_per_month),
       show_graph_title: true
     )
 
     graph.add_data(
       data: commits_by_month[0..11].reverse,
-      title: l(:label_revision_plural)
+      title: I18n.t(:label_revision_plural)
     )
 
     graph.add_data(
       data: changes_by_month[0..11].reverse,
-      title: l(:label_change_plural)
+      title: I18n.t(:label_change_plural)
     )
 
     graph.burn
@@ -451,16 +451,16 @@ class RepositoriesController < ApplicationController
       scale_integers: true,
       show_data_values: false,
       rotate_y_labels: false,
-      graph_title: l(:label_commits_per_author),
+      graph_title: I18n.t(:label_commits_per_author),
       show_graph_title: true
     )
     graph.add_data(
       data: commits_data,
-      title: l(:label_revision_plural)
+      title: I18n.t(:label_revision_plural)
     )
     graph.add_data(
       data: changes_data,
-      title: l(:label_change_plural)
+      title: I18n.t(:label_change_plural)
     )
     graph.burn
   end

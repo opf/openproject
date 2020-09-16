@@ -39,7 +39,7 @@ class Category < ApplicationRecord
   # validates that assignee is member of the issue category's project
   validates_each :assigned_to_id do |record, attr, value|
     if value # allow nil
-      record.errors.add(attr, l(:error_must_be_project_member)) unless record.project.principals.map(&:id).include? value
+      record.errors.add(attr, I18n.t(:error_must_be_project_member)) unless record.project.principals.map(&:id).include? value
     end
   end
 

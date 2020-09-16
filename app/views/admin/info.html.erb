@@ -79,7 +79,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <div class="attributes-group">
   <div class="attributes-key-value">
     <% @checklist.each do |label, result| %>
-      <div class="attributes-key-value--key"><%= l(label) %></div>
+      <div class="attributes-key-value--key"><%= I18n.t(label) %></div>
       <div class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">
           <span><%= icon_wrapper((result ? 'icon-context icon-checkmark' : 'icon-context icon-bug'), (result ? t(:general_text_Yes) : t(:general_text_No))) %></span>
