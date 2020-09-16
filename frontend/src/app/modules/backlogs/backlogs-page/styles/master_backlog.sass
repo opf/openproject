@@ -293,17 +293,19 @@
       .velocity, .add_new_story
         display: none
   .backlog .sprint.editing
-    .name.editor
-      line-height: 1.5rem
-      margin: 0
-      min-width: 15em
-      width: 57%
-    .start_date.editor, .effective_date.editor
+    .editor
       font-size: 0.9rem
       line-height: 1.5rem
+      height: 30px
       margin: 0
       padding: 0
-      width: 75px
+
+      &.name
+        min-width: 15em
+        width: calc(100% - 2 * 85px - 10px)
+      &.start_date, &.effective_date
+        width: 85px
+
   .stories .story.editing
     >
       *, .editors label
