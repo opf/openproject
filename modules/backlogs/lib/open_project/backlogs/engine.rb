@@ -103,12 +103,6 @@ module OpenProject::Backlogs
            icon: 'icon2 icon-backlogs'
     end
 
-    assets %w(
-      backlogs/backlogs.js
-      backlogs/jquery.flot/excanvas.js
-      backlogs/burndown.js
-    )
-
     # We still override version and project settings views from the core! URH
     override_core_views!
 
