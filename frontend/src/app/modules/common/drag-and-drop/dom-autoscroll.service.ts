@@ -31,9 +31,12 @@ export class DomAutoscrollService {
 
   public init() {
     jQuery(window).on('mousemove.domautoscroll touchmove.domautoscroll', (evt:any) => {
-      this.pointCB(evt);
-      this.onMove(evt);
+      if (this.down) {
+        this.pointCB(evt);
+        this.onMove(evt);
+      }
     });
+    jQuery(window).on('mousedown.domautoscroll touchstart.domautoscroll', () => this.down = true);
     jQuery(window).on('mouseup.domautoscroll touchend.domautoscroll', () => this.onUp());
     jQuery(window).on('scroll.domautoscroll', (evt:any) => this.setScroll(evt));
   }
@@ -57,6 +60,7 @@ export class DomAutoscrollService {
   }
 
   public onUp() {
+    this.down = false;
     cancelAnimationFrame(this.animationFrame);
     cancelAnimationFrame(this.windowAnimationFrame);
   }
