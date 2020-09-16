@@ -71,6 +71,15 @@ module OpenProject
         end
       end
 
+      def core_version
+        cached_or_block(:@core_version) do
+          path = Rails.root.join('config', 'CORE_VERSION')
+          if File.exists? path
+            File.read(path)
+          end
+        end
+      end
+
       ##
       # Get information on when this version was created / updated from either
       # 1. A RELEASE_DATE file
