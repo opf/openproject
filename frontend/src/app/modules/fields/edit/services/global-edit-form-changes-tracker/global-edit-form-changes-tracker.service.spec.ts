@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { GlobalEditFormChangesTrackerService } from './global-edit-form-changes-tracker.service';
+import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 
 describe('GlobalEditFormChangesTrackerService', () => {
   let service:GlobalEditFormChangesTrackerService;
@@ -18,7 +19,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
   });
 
   it('should have model changes when one form is added', () => {
-    const editForm = 'editForm';
+    const editForm = 'editForm' as FormattableEditFieldComponent;
 
     service.addToFormsWithModelChanges(editForm);
 
@@ -26,8 +27,8 @@ describe('GlobalEditFormChangesTrackerService', () => {
   });
 
   it('should have model changes while there are forms registered', () => {
-    const editForm = 'editForm';
-    const editForm2 = 'editForm2';
+    const editForm = 'editForm' as FormattableEditFieldComponent;
+    const editForm2 = 'editForm2' as FormattableEditFieldComponent;
 
     service.addToFormsWithModelChanges(editForm);
     service.addToFormsWithModelChanges(editForm2);
@@ -37,8 +38,8 @@ describe('GlobalEditFormChangesTrackerService', () => {
   });
 
   it('should not have model changes when all the form have been removed', () => {
-    const editForm = 'editForm';
-    const editForm2 = 'editForm2';
+    const editForm = 'editForm' as FormattableEditFieldComponent;
+    const editForm2 = 'editForm2' as FormattableEditFieldComponent;
 
     service.addToFormsWithModelChanges(editForm);
     service.addToFormsWithModelChanges(editForm2);
