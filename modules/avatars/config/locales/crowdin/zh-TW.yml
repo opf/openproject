@@ -1,20 +1,20 @@
 #English strings go here
 zh-TW:
-  label_avatar: "Avatar"
+  label_avatar: "頭像"
   label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
+  label_current_avatar: "目前頭像"
+  label_choose_avatar: "選擇頭像"
+  message_avatar_uploaded: "大頭照上傳成功。"
+  error_image_upload: "儲存頭像時發生錯誤"
+  error_image_size: "圖片太大。"
+  button_change_avatar: "變更個人資料相片"
   are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  avatar_deleted: "頭像刪除成功"
+  unable_to_delete_avatar: "頭像刪除失敗"
+  wrong_file_format: "允許的格式是jpg, png以及gif"
+  empty_file_error: "請上傳一個有效的圖片 （jpg, png, gif)"
   avatars:
-    label_avatar: "Avatar"
+    label_avatar: "頭像"
     label_gravatar: 'Gravatar'
     label_current_avatar: 'Current avatar'
     label_local_avatar: 'Custom avatar'
