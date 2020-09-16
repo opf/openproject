@@ -45,6 +45,7 @@ import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/
 import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
 import {ResourceChangesetCommit} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {GlobalEditFormChangesTrackerService} from "core-app/modules/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service";
+import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -215,12 +216,12 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     return this.fieldsWithModelChanges.size !== 0;
   }
 
-  public addToFieldsWithModelChanges(field:any, value:any) {
+  public addToFieldsWithModelChanges(field:FormattableEditFieldComponent, value:any) {
     this.fieldsWithModelChanges.set(field, value);
     this.globalEditFormChangesTrackerService.addToFormsWithModelChanges(this);
   }
 
-  public removeFromFieldsWithModelChanges(field:any) {
+  public removeFromFieldsWithModelChanges(field:FormattableEditFieldComponent) {
     this.fieldsWithModelChanges.delete(field);
 
     if (!this.hasModelChanges) {
