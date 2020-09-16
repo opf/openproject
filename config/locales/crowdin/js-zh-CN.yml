@@ -270,9 +270,9 @@ zh-CN:
           text_new_features: "了解新功能和产品更新。"
           learn_about: "详细了解新功能"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              该版本包含各种新功能和改进：<br><br> <ul class="%{list_styling_class}"> <li>从详细信息或列表视图在工作包上<b>更快地启动时间记录</b>。</li> <li><b>改进了表格式化</b>，可在文本编辑器中更好地配置表，例如调整单元格的宽度、颜色、对齐或边距。</li> <li>工作包的卡片视图现在也包含项目名称。</li> <li>OpenProject 现在已<b>完全翻译成斯洛文尼亚语</b>。Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >

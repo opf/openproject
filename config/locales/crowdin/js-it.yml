@@ -270,9 +270,9 @@ it:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
           learn_about: "Scopri di più sulle nuove funzionalità"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Questa versione contiene nuove funzionalità e miglioramenti: <br><br> <ul class="%{list_styling_class}"> <li><b>Registrazione più rapida dei tempi</b> sulle macro-attività dai dettagli o dalla vista elenco.</li> <li><b>Migliorata la formattazione delle tabelle</b> per configurare meglio le tabelle nell'editor di testo, ad esempio larghezza, colore, allineamento o distanziamento della cella.</li> <li>La visualizzazione delle schede delle macro-attività ora contiene anche il nome del progetto.</li> <li>OpenProject è ora al <b>100% tradotto in sloveno</b>. Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
