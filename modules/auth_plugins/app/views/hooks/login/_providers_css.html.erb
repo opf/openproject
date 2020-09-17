@@ -31,13 +31,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if pro[:icon] %>
     <style type="text/css">
       #content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-        background-image: urt('<%= image_path(pro[:icon]) %>');
+        background-image: url('<%= image_path(pro[:icon]) %>');
       }
       #top-menu #nav-login-content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-        background-image: urt('<%= image_path(pro[:icon]) %>') ;
+        background-image: url('<%= image_path(pro[:icon]) %>') ;
       }
       .modal-wrapper .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-        background-image: urt('<%= image_path(pro[:icon]) %>') ;
+        background-image: url('<%= image_path(pro[:icon]) %>') ;
       }
     </style>
   <% end -%>
