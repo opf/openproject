@@ -293,7 +293,7 @@ zh-TW:
     label_and: "和"
     label_ascending: "昇冪"
     label_author: "作者: %{user}"
-    label_avatar: "頭像"
+    label_avatar: "頭像分身"
     label_between: "介於"
     label_board: "面板"
     label_board_locked: "鎖定"

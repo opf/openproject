@@ -1,6 +1,6 @@
 #English strings go here
 zh-TW:
-  label_avatar: "頭像"
+  label_avatar: "頭像分身"
   label_avatar_plural: "Avatars"
   label_current_avatar: "目前頭像"
   label_choose_avatar: "選擇頭像"
@@ -14,7 +14,7 @@ zh-TW:
   wrong_file_format: "允許的格式是jpg, png以及gif"
   empty_file_error: "請上傳一個有效的圖片 （jpg, png, gif)"
   avatars:
-    label_avatar: "頭像"
+    label_avatar: "頭像分身"
     label_gravatar: 'Gravatar'
     label_current_avatar: 'Current avatar'
     label_local_avatar: 'Custom avatar'
@@ -25,16 +25,16 @@ zh-TW:
       A preview of your avatar will be shown before uploading, once you selected an image.
     text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      OpenProject 允許你上傳自己定義的頭像
     text_local_avatar_over_gravatar: |
-      If you set one, this custom avatar is used in precedence over the gravatar above.
+      如果你有設定，這個自己定義的頭像將會優先用於gravatar上方。
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      如果你註冊了一個gravatar圖像，OpenProject將使用你的圖像；如果沒有則會使用既有預設的圖像或圖標。
+      目前的gravatar圖像如下：
     settings:
-      enable_gravatars: 'Enable user gravatars'
+      enable_gravatars: '啟用使用者的圖像'
       gravatar_default: "預設 Gravatar 圖片"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_local_avatars: '啟用使用者的客製化分身'
 
 
 
