@@ -423,6 +423,24 @@ x-op-app: &app
 
 **Disclaimer**: This may not be the best possible solution, but it is the most straight-forward one.
 
+#### OpenProject Configuration
+
+Any additional configuration of OpenProject happens in the environment section (like for S3 above) of the app inside of the `openproject-stack.yml`.
+For instance should you want to disable an OpenProject module globally, you would add the following:
+
+```
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    # ...
+    - "OPENPROJECT_DISABLED__MODULES='backlogs meetings'"
+```
+
+Please refer to our documentation on the [configuration](https://docs.openproject.org/installation-and-operations/configuration/)
+and [environment variables](https://docs.openproject.org/installation-and-operations/configuration/environment/) for further information
+on what you can configure and how.
+
 #### Launching
 
 Once you made any necessary adjustments to the `openproject-stack.yml` you are ready to launch the stack.
@@ -461,12 +479,17 @@ assuming that the docker hosts (swarm nodes) are powerful enough.
 Even with the database's data directory shared via NFS **you cannot scale up the database** in this setup.
 Scaling the database horizontally adds another level of complexity which we won't cover here.
 
-What we can scale is both the proxy and most importantly the web service.
-For a couple of thousand users we may want to use 6 web service replicas.
-The proxy processes in front of the actual OpenProject process does not need as many. 2 are fine here.
+What we can scale is both the proxy, and most importantly the web service.
+For a couple of thousand users we may want to use 6 web service (`openproject_web`) replicas.
+The proxy processes (`openproject_proxy`) in front of the actual OpenProject process does not need as many replicas.
+2 are fine here.
+
+Also at least 2 worker (`openproject_worker`) replicas make sense to handle the increased number of background tasks.
+If you find that it takes too long for those tasks (such as sending emails or work package exports) to complete
+you may want to increase this number further.
 
 ```
-docker service scale openproject_proxy=2 openproject_web=6
+docker service scale openproject_proxy=2 openproject_web=6 openproject_worker=2
 ```
 
 This will take a moment to converge. Once done you should see something like the following when listing the services using `docker service ls`:
