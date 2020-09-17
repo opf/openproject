@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Architecture overview
+  title: Application architecture
 description: An introduction of the architecture used at OpenProject and their interplay.
 robots: index, follow
 keywords: architecture overview, hybrid application, Ruby on Rails, Angular

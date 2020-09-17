@@ -15,7 +15,7 @@ Please choose an area that you would like to read about:
 
 | Topics                                        | Description                                                                   |
 | --------------------------------------------- | :---------------------------------------------------------------------------- |
-| [Application architecture](architecture)      | An introduction of the application architecture used at OpenProject.          |
+| [Application architecture](application-architecture)      | An introduction of the application architecture used at OpenProject.          |
 | [Inline editing](inline-editing)              | How does inline editing and the edit field functionality work in OpenProject? |
 
 
