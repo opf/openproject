@@ -307,10 +307,10 @@ Here we'll cover how to scale up using the latter.
 
 ### 1) Setup Swarm
 
-Here will go through a simple setup of a Swarm with a single manager.
+Here we will go through a simple setup of a Swarm with a single manager.
 For more advanced setups and more information please consult the [docker swarm documentation](https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/).
 
-First [initialize your swarm](https://docs.docker.com/get-started/swarm-deploy/) on the host you wish to be the swarm manager(s).
+First [initialize your swarm](https://docs.docker.com/get-started/swarm-deploy/) on the host you wish to be the swarm manager.
 
 ```bash
 docker swarm init
@@ -326,9 +326,9 @@ The host will automatically also join the swarm as a node to host containers.
 
 To add worker nodes run `docker swarm join-token worker`.
 This will print the necessary command (which includes the join token) which you need to run
-on the host you wish to add as a worker. For instance:
+on the host you wish to add as a worker node. For instance:
 
-```
+```bash
 docker swarm join --token SWMTKN-1-2wnvro17w7w2u7878yflajyjfa93e8b2x58g9c04lavcee93eb-abig91iqb6e5vmupfvq2f33ni 10.0.2.77:2377
 ```
 
@@ -340,7 +340,7 @@ Where `10.0.2.77` is your swarm manager's (advertise) IP address.
 
 If your containers run distributed on multiple nodes you will need a shared network storage to store OpenProject's attachments.
 The easiest way for this would be to setup an NFS drive that is shared among all nodes and mounted to the same path on each of them.
-Say `/mnt/openproject/files`.
+Say `/mnt/openproject/`.
 
 Alternatively, if using S3 is an option, you can use S3 attachments instead.
 We will show both possibilities later in the configuration.
@@ -359,32 +359,25 @@ To create a stack you need a stack file. The easiest way is to just copy OpenPro
 
 If you are using NFS to share attachments use a mounted docker volume to share the attachments folder.
 
-Per default the YAML file will start with the following section:
+Per default the YAML file will include the following section:
+
+```yaml
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    # ... 
+  volumes:
+    - "opdata:/var/openproject/assets"
+  depends_on:
+    # ...
+```
+
+As you can see it already mounts a local directory by default.
+You can either change this to a path in your mounted NFS folder or just create a symlink:
 
 ```
-version: "3.7"
-
-networks:
-  frontend:
-  backend:
-
-volumes:
-  pgdata:
-  opdata:
-```
-
-Adjust this so that the previously created, mounted NFS drive is used.
-
-```
-version: "3.7"
-
-networks:
-  frontend:
-  backend:
-
-volumes:
-  pgdata:
-  opdata:/mnt/openproject/files
+ln -s /mnt/openproject/assets /var/openproject/assets
 ```
 
 **S3**
@@ -396,13 +389,7 @@ x-op-app: &app
   <<: *image
   <<: *restart_policy
   environment:
-    - "RAILS_CACHE_STORE=memcache"
-    - "OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211"
-    - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    - "DATABASE_URL=postgres://postgres:p4ssw0rd@db/openproject"
-    - "USE_PUMA=true"
-    # set to true to enable the email receiving feature. See ./docker/cron for more options
-    - "IMAP_ENABLED=false"
+    # ...
     # ADD THIS FOR S3 attachments substituting the respecive credentials:
     - "OPENPROJECT_ATTACHMENTS__STORAGE=fog"
     - "OPENPROJECT_FOG_DIRECTORY="<bucket-name>"
@@ -419,18 +406,19 @@ in case the original node fails. The easiest way to do this would again be a sha
 This is also the easiest way to persist the database data so it remains even if you shutdown the whole stack.
 
 You could either use a new mounted NFS folder or use a sub-folder in the one we will use for attachments.
-Along the same lines as attachments you could adjust the volume in the `openproject-stack.yml` so it would look something like this:
+Along the same lines as attachments you could adjust the `pgdata` volume in the `openproject-stack.yml` so it would look something like this:
 
-```
-version: "3.7"
-
-networks:
-  frontend:
-  backend:
-
-volumes:
-  pgdata:/mnt/openproject/files/database
-  opdata:/mnt/openproject/files
+```yaml
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    # ... 
+  volumes:
+    - "pgdata:/mnt/openproject/pgdata"
+    - "opdata:/mnt/openproject/assets"
+  depends_on:
+    # ...
 ```
 
 **Disclaimer**: This may not be the best possible solution, but it is the most straight-forward one.
@@ -460,6 +448,9 @@ canb3m7ilkjn        openproject_web      replicated          1/1                
 You can now access OpenProject under [http://0.0.0.0:8080](http://0.0.0.0:8080).
 This endpoint then can be used in a apache reverse proxy setup as shown further up, for instance.
 
+Don't worry about one of the services (openproject_seeder) having 0/1 replicas.
+That is intended. The service will only start once to initialize the seed data and then stop.
+
 #### Scaling
 
 Now the whole reason we are using swarm is to be able to scale.
@@ -471,7 +462,8 @@ Even with the database's data directory shared via NFS **you cannot scale up the
 Scaling the database horizontally adds another level of complexity which we won't cover here.
 
 What we can scale is both the proxy and most importantly the web service.
-For a couple of thousand users we may want to use 6 web services:
+For a couple of thousand users we may want to use 6 web service replicas.
+The proxy processes in front of the actual OpenProject process does not need as many. 2 are fine here.
 
 ```
 docker service scale openproject_proxy=2 openproject_web=6
@@ -506,20 +498,21 @@ For instance for apache this could look like this:
 <Proxy balancer://swarm>
     BalancerMember http://10.0.2.77:8080 # swarm node 1 (manager)
     BalancerMember http://10.0.2.78:8080 # swarm node 2
-    BalancerMember http://10.0.2.79:8080 # swarm node 3
-    BalancerMember http://10.0.2.80:8080 # swarm node 4
-    BalancerMember http://10.0.2.81:8080 # swarm node 5
-    BalancerMember http://10.0.2.82:8080 # swarm node 6
+    BalancerMember http://10.0.2.79:8080 # swarm node 3, etc.
+
     ProxySet lbmethod=bytraffic
 </Proxy>
 
 # ...
 
-ProxyPass "/"  "balancer://swarm/"
-ProxyPassReverse "/"  "balancer://swarm/"
+ProxyPass "balancer://swarm/"
+ProxyPassReverse "balancer://swarm/"
 
 # instead of
 #   ProxyPass http://127.0.0.1:8080/
 #   ProxyPassReverse http://127.0.0.1:8080/
 # shown in the reverse proxy configuration example further up
 ```
+
+The application will be accessible on any node even if the process isn't running on the node itself.
+In that case it will use swarm's [internal load balancing](https://docs.docker.com/engine/swarm/key-concepts/#load-balancing) to route the request to a node that does run the service. So feel free to put all nodes into the load balancer configuration.
