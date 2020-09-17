@@ -11,11 +11,12 @@ keywords: agile boards, Kanban, Scrum, agile project management
 
 Boards support agile project management methodologies, such as Scrum or Kanban.
 
-Boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed,  Features to be developed, Risks to be monitored, Ideas to be spread,  anything!
+Boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed,  Features to be developed, Risks to be monitored, Ideas to be spread, anything!
 
 <div class="alert alert-info" role="alert">
-**Note**: OpenProject Boards is a Premium Feature and can only be used with the [Cloud Edition]( ../../cloud-edition-guide/) or OpenProject [Enterprise Edition](../../enterprise-edition-guide/). And upgrade from the free Community Edition to the Cloud or Enterprise Edition is easily possible.
+**Note**: OpenProject Boards is a Premium Feature and can only be used with the [Cloud Edition]( ../../cloud-edition-guide/) or OpenProject [Enterprise Edition](../../enterprise-edition-guide/). An upgrade from the free Community Edition to the Cloud or Enterprise Edition is easily possible.
 </div>
+
 
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -38,7 +39,7 @@ The new Boards are tightly integrated with all other project management function
 
 ## Create a new Board
 
-You can create as many flexible boards in a project as you need and  configure them to your needs. First, you need to create a new Boards  view. 
+You can create as many flexible boards in a project as you need and configure them to your needs. First, you need to create a new Boards view. 
 If you haven't done so yet, [activate the Boards module](../projects/project-settings/modules) within your project. Also, we recommend to verify [Roles and Permissions](https://www.openproject.org/help/administration/manage-roles-permissions/) within your system's Administration.
 
 Click on the green **+Board** button to create a new Board view. 
