@@ -27,24 +27,15 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% queries ||= respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
-<ul id='<%= "report-list--#{report_type}" %>'
-    class="collapsible-menu--submenu"
-    data-update-url="<%= url_for(:action => :display_report_list, :report_type => report_type) %>">
-  <a tabindex="0"
-     class="collapsible-menu--category-icon collapsible-menu--category-toggle"
-     data-category="<% report_type %>"
-     aria-hidden="true"></a>
-  <li class="ui-autocomplete--category collapsible-menu--category-toggle ellipsis"
-      title="<%= l(:"label_#{report_type}_report_plural") %>"
-      data-category="<% report_type %>">
-    <%= l(:"label_#{report_type}_report_plural") %>
-  </li>
+<% queries = respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
+<% if queries.any? %>
   <% queries.each do |query| -%>
-    <li class="ui-menu-item collapsible-menu--item">
-      <%= link_to(h(query.name),
-                  {:controller => 'cost_reports', :action => 'show', :id => query.id},
-                  :class => 'collapsible-menu--item-link') %>
-    </li>
+    <ul class="pages-hierarchy -with-hierarchy">
+      <li class="tree-menu--item ui-menu-item collapsible-menu--item" slug="<%= query.name %>">
+        <%= link_to(h(query.name),
+                    {:controller => 'cost_reports', :action => 'show', :id => query.id},
+                     :class => 'tree-menu--title ellipsis') %>
+      </li>
+    </ul>
   <% end -%>
-</ul>
+<% end -%>

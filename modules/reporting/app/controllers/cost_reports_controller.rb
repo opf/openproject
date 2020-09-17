@@ -87,6 +87,12 @@ class CostReportsController < ApplicationController
     end unless performed?
   end
 
+  def show
+    query = CostQuery.find params[:id]
+    @subpage = query.name
+    super
+  end
+
   ##
   # Render the report. Renders either the complete index or the table only
   def table
@@ -95,7 +101,7 @@ class CostReportsController < ApplicationController
     end
   end
 
-  current_menu_item :index do |controller|
+  current_menu_item [:index, :show] do |controller|
     controller.menu_item_to_highlight_on_index
   end
 

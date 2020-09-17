@@ -27,13 +27,26 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<ul id="cost-reports-menu"
-    class="collapsible-menu--container">
-  <% [:private, :public].each do |report_type| %>
-    <% queries = respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
-    <% if queries.any? %>
-      <%= render :partial => "report_list", :locals => { :report_type => report_type } %>
-    <% end -%>
-  <% end %>
-</ul>
+<% [:private, :public].each do |report_type| %>
+    <div class="tree-menu--container" data-selected-page="<%= @subpage %>">
+      <ul class="pages-hierarchy -with-hierarchy collapsible-menu--container">
+        <li class="-hierarchy-expanded">
+          <span class="tree-menu--item">
+            <span class="tree-menu--hierarchy-span">
+              <a tabindex="0" role="button" class="tree-menu--hierarchy-indicator collapsible-menu--category-toggle">
+                <span aria-hidden="true" class="tree-menu--hierarchy-indicator-icon"></span>
+                <span class="tree-menu--hierarchy-indicator-expanded hidden-for-sighted">
+                  <%= t("label_expanded_click_to_collapse") %></span>
+                <span class="tree-menu--hierarchy-indicator-collapsed hidden-for-sighted">
+                  <%= t("label_collapsed_click_to_show") %></span>
+              </a>
+            </span>
+            <a class="tree-menu--title ellipsis ui-autocomplete--category collapsible-menu--category-toggle"><%= t(:"label_#{report_type}_report_plural") %></a>
+          </span>
+
+          <%= render :partial => "cost_reports/report_list", :locals => { :report_type => report_type } %>
+        </li>
+      </ul>
+    </div>
+<% end %>
 
