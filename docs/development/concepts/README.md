@@ -13,8 +13,9 @@ This guide will introduce some concepts and give you a big picture of the develo
 
 Please choose an area that you would like to read about:
 
-| Topics                                        | Description                                                  |
-| --------------------------------------------- | :----------------------------------------------------------- |
+| Topics                                        | Description                                                                   |
+| --------------------------------------------- | :---------------------------------------------------------------------------- |
+| [Application architecture](architecture)      | An introduction of the application architecture used at OpenProject.          |
 | [Inline editing](inline-editing)              | How does inline editing and the edit field functionality work in OpenProject? |
 
 
