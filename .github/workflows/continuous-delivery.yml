@@ -16,3 +16,4 @@ jobs:
           repository: opf/saas-openproject
           token: ${{ secrets.GH_OAUTH_TOKEN }}
           event-type: trigger_downstream_merge
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "repository": "${{ github.repository }}"}'
