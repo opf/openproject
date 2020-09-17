@@ -55,10 +55,12 @@ module OpenProject::Meeting
         search.register :meetings
       end
 
-      menu :project_menu, :meetings, { controller: '/meetings', action: 'index' },
+      menu :project_menu,
+           :meetings, { controller: '/meetings', action: 'index' },
            caption: :project_module_meetings,
            param: :project_id,
            after: :wiki,
+           before: :members,
            icon: 'icon2 icon-meetings'
 
       ActiveSupport::Inflector.inflections do |inflect|
