@@ -1,0 +1,18 @@
+name: CD
+on:
+  push:
+    branches:
+      - dev
+      - release/*
+      - test-can-be-removed/*
+jobs:
+  trigger_downstream_merge:
+    if: github.repository == 'opf/openproject'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger downstream merge
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          repository: opf/saas-openproject
+          token: ${{ secrets.GH_OAUTH_TOKEN }}
+          event-type: trigger_downstream_merge
