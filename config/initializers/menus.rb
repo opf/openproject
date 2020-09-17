@@ -372,6 +372,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/members', action: 'index' },
             param: :project_id,
             caption: :label_member_plural,
+            before: :settings,
             icon: 'icon2 icon-group'
 
   menu.push :settings,
