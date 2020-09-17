@@ -27,8 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_new)} #{l("timelines.admin_menu.color")}" %>
-<% local_assigns[:additional_breadcrumb] = l(:label_new) + ' ' + l("timelines.admin_menu.color") %>
+<% html_title t(:label_administration), "#{t(:label_new)} #{t("timelines.admin_menu.color")}" %>
+<% local_assigns[:additional_breadcrumb] = t(:label_new) + ' ' + t("timelines.admin_menu.color") %>
 
 <%= labelled_tabular_form_for @color,
             url: colors_url,

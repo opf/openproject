@@ -116,6 +116,11 @@ fr:
         manual: 'Basculer en mode source Markdown'
         wysiwyg: 'Basculer vers l''éditeur WYSIWYG'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Liens vers les pages enfants'
           include_parent: 'Inclure un parent'
@@ -265,9 +270,9 @@ fr:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br><br> <ul class="%{list_styling_class}"> <li><b>Journalisation du temps plus rapide</b> des lots de travaux à partir de la vue détaillée ou liste.</li> <li><b>Mise en forme des tableaux améliorée</b> pour mieux configurer les tableaux dans l'éditeur de texte, par exemple pour la largeur, la couleur, l'alignement ou le remplissage de la cellule.</li> <li>La vue carte pour les lots de travaux contient maintenant également le nom du projet.</li> <li>OpenProject est maintenant <b>% traduit en slovène</b>. Zabavaj se !</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -408,6 +413,7 @@ fr:
     label_total_amount: "Total : %{amount}"
     label_updated_on: "mis à jour le"
     label_value_derived_from_children: "(valeur dérivée des enfants)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Attention"
     label_work_package: "Lot de travaux"
     label_work_package_parent: "Parent work package"
@@ -497,6 +503,7 @@ fr:
       context: 'Contexte du projet'
       work_package_belongs_to: 'Ce lot de travaux appartient au projet %{projectname}.'
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Remplissage automatique du projet'
     text_are_you_sure: "Êtes-vous sûr ?"

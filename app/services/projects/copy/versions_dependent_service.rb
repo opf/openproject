@@ -30,6 +30,10 @@
 
 module Projects::Copy
   class VersionsDependentService < Dependency
+    def self.human_name
+      I18n.t(:label_version_plural)
+    end
+
     protected
 
     def copy_dependency(params:)

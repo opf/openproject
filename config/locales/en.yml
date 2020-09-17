@@ -229,6 +229,9 @@ en:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
     settings:
@@ -567,7 +570,7 @@ en:
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
-        could_not_be_copied: "could not be (fully) copied."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "does not exist."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -744,6 +747,8 @@ en:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Please check the following fields:"
         header:
@@ -1136,6 +1141,7 @@ en:
   error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
@@ -1538,6 +1544,7 @@ en:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
   label_nobody: "nobody"
+  label_not_found: 'not found'
   label_none: "none"
   label_none_parentheses: "(none)"
   label_not_contains: "doesn't contain"
@@ -1552,7 +1559,6 @@ en:
   label_options: "Options"
   label_other: "Other"
   label_overall_activity: "Overall activity"
-  label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
   label_page_title: "Page title"
   label_part_of: "part of"
@@ -1645,7 +1651,7 @@ en:
   label_search: "Search"
   label_send_information: "Send account information to the user"
   label_send_test_email: "Send a test email"
-  label_settings: "Settings"
+  label_setting_plural: "Settings"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
   label_sort: "Sort"
@@ -1818,8 +1824,8 @@ en:
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link}) 
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible. 
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
     If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
   mail_body_register_closing: "Your OpenProject team"
@@ -2219,6 +2225,7 @@ en:
   setting_emails_header: "Emails header"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2249,6 +2256,8 @@ en:
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
@@ -2288,6 +2297,9 @@ en:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"

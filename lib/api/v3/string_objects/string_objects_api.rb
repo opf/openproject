@@ -27,8 +27,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/string_objects/string_object_representer'
-
 module API
   module V3
     module StringObjects
@@ -36,11 +34,10 @@ module API
         resources :string_objects do
           params do
             requires :value, type: String
-            optional :name, type: String
           end
 
           get do
-            StringObjectRepresenter.new([params[:name], params[:value]].compact)
+            status :gone
           end
         end
       end

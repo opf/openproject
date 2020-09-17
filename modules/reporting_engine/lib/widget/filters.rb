@@ -32,7 +32,7 @@ class Widget::Filters < ::Widget::Base
     spacer = content_tag :li, '', class: 'advanced-filters--spacer hide-when-print'
 
     add_filter = content_tag :li, id: 'add_filter_block', class: 'advanced-filters--add-filter hide-when-print' do
-      add_filter_label = label_tag 'add_filter_select', l(:label_filter_add),
+      add_filter_label = label_tag 'add_filter_select', I18n.t(:label_filter_add),
                                    class: 'advanced-filters--add-filter-label'
       add_filter_label += label_tag 'add_filter_select', I18n.t('js.filter.description.text_open_filter') + ' ' +
                                    I18n.t('js.filter.description.text_close_filter'),

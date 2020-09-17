@@ -295,14 +295,17 @@ en:
           text_new_features: "Read about new features and product updates."
           learn_about: "Learn more about the new features"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br>
+              The release contains various new features and improvements: <br>
               <ul class="%{list_styling_class}">
-                <li><b>Quicker time logging</b> on work packages from the details or list view.</li>
-                <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li>
-                <li>The card view for work packages now also contains the project name.</li>
-                <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li>
+                <li><b>Top-down scheduling</b> to define all project tasks involved. The start
+                  and finish dates of the parent are unaffected by its children.</li>
+                <li><b>Versatile agile boards</b> allow you to create a work breakdown
+                  structure or to distribute tasks between subprojects.</li>
+                <li><b>Project templates</b> for easy creation of new projects.</li>
+                <li>Configuration of the projects page enabling better <b>project portfolio
+                  management.</b></li>
               </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
@@ -450,6 +453,7 @@ en:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "updated on"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
     label_work_package: "Work package"
     label_work_package_parent: "Parent work package"
@@ -547,6 +551,7 @@ en:
       context: 'Project context'
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
 
       autocompleter:
         label: 'Project autocompletion'

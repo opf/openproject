@@ -198,6 +198,9 @@ zh-CN:
       completed: "项目 %{name} 删除完成"
       completed_text: "删除项目“%{name}”的请求已完成。"
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     settings:
@@ -510,7 +513,7 @@ zh-CN:
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
-        could_not_be_copied: "不能 (完全) 复制。"
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在。"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"
@@ -554,6 +557,7 @@ zh-CN:
           not_an_integer: "(%{name}) 不是整数。"
           smaller_than_or_equal_to: "（%{name}）必须小于或等于 %{count}。"
           greater_than_or_equal_to: "（%{name}）必须大于或等于 %{count}。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -588,6 +592,15 @@ zh-CN:
               error_not_found: "未找到"
             public:
               error_unauthorized: "- 用户没有创建公公查询的权限。"
+            group_by:
+              invalid: "无法按照 %{value} 分组"
+              format: "%{message}"
+            column_names:
+              invalid: "无效的查询列：%{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "无法按照列 %{value} 排序"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的群组互相排斥。您无法将它们都激活。"
           filters:
             custom_fields:
@@ -610,8 +623,9 @@ zh-CN:
           must_not_be_ssh: "不能是 SSH url。"
           no_directory: "不是一个目录。"
         role:
-          permissions:
-            dependency_missing: "还需要包括“%{dependency}”，因为已选择“%{permission}”。"
+          attributes:
+            permissions:
+              dependency_missing: "还需要包括“%{dependency}”，因为已选择“%{permission}”。"
         time_entry:
           attributes:
             hours:
@@ -674,6 +688,8 @@ zh-CN:
               unassignable: "无法分配至项目。"
         version:
           undeletable_work_packages_attached: "无法删除该版本，因为它连接了工作包。"
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "请检查以下字段："
         header:
@@ -1061,9 +1077,6 @@ zh-CN:
   error_failed_to_delete_entry: '无法删除此条目。'
   error_in_dependent: "尝试更改依赖对象时出错：%{dependent_class} #%{related_id} - %{related_subject}：%{error}"
   error_invalid_selected_value: "选中的值无效。"
-  error_invalid_group_by: "无法按照 %{value} 分组"
-  error_invalid_query_column: "无效的查询列：%{value}"
-  error_invalid_sort_criterion: "无法按照列 %{value} 排序"
   error_journal_attribute_not_present: "日志不包含 %{attribute} 属性。"
   error_pdf_export_too_many_columns: "选择 PDF 导出的列太多。请减少列数。"
   error_pdf_failed_to_export: "无法保存被导出的 PDF 文件：%{error}"
@@ -1076,6 +1089,7 @@ zh-CN:
   error_no_default_work_package_status: "没有定义默认的工作包状态。请检查您的配置 （转到\"管理-> 工作包状态\"）。"
   error_no_type_in_project: "没有类型与此项目关联。请检查的项目设置。"
   error_omniauth_registration_timed_out: "通过外部身份验证提供程序注册超时。请再试一次。"
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "当试图访问该代码库时出现错误: %{value}"
   error_scm_not_found: "在代码库中未找到的条目或修正版本。"
   error_unable_delete_status: "不能删除工作包的状态，因为它由至少一个工作包使用。"
@@ -1465,6 +1479,7 @@ zh-CN:
   label_no_parent_page: "无上级页面"
   label_nothing_display: "不显示"
   label_nobody: "没人"
+  label_not_found: '未找到'
   label_none: "无"
   label_none_parentheses: "(无)"
   label_not_contains: "不包含"
@@ -1479,7 +1494,6 @@ zh-CN:
   label_options: "选项"
   label_other: "其他"
   label_overall_activity: "总体活动"
-  label_overall_spent_time: "花的总时间"
   label_overview: "概述"
   label_page_title: "页面标题"
   label_part_of: "一部分"
@@ -1572,7 +1586,7 @@ zh-CN:
   label_search: "搜索"
   label_send_information: "将帐户信息发送给用户"
   label_send_test_email: "发送测试电子邮件"
-  label_settings: "设置"
+  label_setting_plural: "设置"
   label_system_settings: "系统设置"
   label_show_completed_versions: "显示已完成的版本"
   label_sort: "排序"
@@ -2063,6 +2077,10 @@ zh-CN:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "搜索"
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"
@@ -2107,6 +2125,7 @@ zh-CN:
   setting_emails_header: "电子邮件标头"
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "启用Feeds"
   setting_feeds_limit: "Feed内容限制"
   setting_file_max_size_displayed: "内联显示的文本文件的最大文件大小"
@@ -2137,6 +2156,8 @@ zh-CN:
   setting_per_page_options: "每页对象选项"
   setting_plain_text_mail: "纯文本邮件 (没有 HTML)"
   setting_protocol: "协议"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "显示安全徽章"
   setting_registration_footer: "注册页脚"
   setting_repositories_automatic_managed_vendor: "自动存储库供应商类型"
@@ -2175,6 +2196,9 @@ zh-CN:
     passwords: "密码"
     session: "会话"
     brute_force_prevention: "自动化的用户阻止"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默认偏好设置"
       deletion: "删除"

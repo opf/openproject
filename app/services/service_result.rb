@@ -59,8 +59,11 @@ class ServiceResult
     !success?
   end
 
-  def merge!(other)
-    merge_success!(other)
+  ##
+  # Merge another service result into this instance
+  # allowing optionally to skip updating its service
+  def merge!(other, without_success: false)
+    merge_success!(other) unless without_success
     merge_errors!(other)
     merge_dependent!(other)
   end
@@ -89,6 +92,15 @@ class ServiceResult
 
   def all_errors
     [errors] + dependent_results.map(&:errors)
+  end
+
+  ##
+  # Test whether the returned errors respond
+  # to the search key
+  def includes_error?(attribute, error_key)
+    all_errors.any? do |error|
+      error.symbols_for(attribute).include?(error_key)
+    end
   end
 
   ##
@@ -124,10 +136,33 @@ class ServiceResult
 
   def on_success
     yield(self) if success?
+    self
   end
 
   def on_failure
     yield(self) if failure?
+    self
+  end
+
+  def each
+    yield result if success?
+    self
+  end
+
+  def map
+    return self if failure?
+
+    dup.tap do |new_result|
+      new_result.result = yield result
+    end
+  end
+
+  def to_a
+    if success?
+      [result]
+    else
+      []
+    end
   end
 
   def message

@@ -200,6 +200,9 @@ ja:
       completed: "プロジェクト%{name} の削除が完了しました"
       completed_text: "プロジェクト '%{name}'を削除要求は完了しました。"
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     settings:
@@ -511,7 +514,7 @@ ja:
         cant_link_a_work_package_with_a_descendant: "親子関係にある作業項目間で関連設定できません。"
         circular_dependency: "この関係は循環依存になります。"
         confirmation: "は%{attribute} と一致しません。"
-        could_not_be_copied: "（完全に）コピーできませんでした。"
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "は存在しません。"
         error_unauthorized: "アクセスできません。"
         error_readonly: "was attempted to be written but is not writable."
@@ -555,6 +558,7 @@ ja:
           not_an_integer: "(%{name}) が整数ではありません。"
           smaller_than_or_equal_to: "(%{name}) は %{count} 以下にする必要があります。"
           greater_than_or_equal_to: "(%{name}) は %{count} 以上にする必要があります。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -589,6 +593,15 @@ ja:
               error_not_found: "存在しません"
             public:
               error_unauthorized: "- ユーザーにはパブリックビューを作成する権限がありません。"
+            group_by:
+              invalid: "グループ化できません: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "無効なクエリ列: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "列を並べ替えできません: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
             custom_fields:
@@ -611,8 +624,9 @@ ja:
           must_not_be_ssh: "SSH url ではありません。"
           no_directory: "はファルダーではありません。"
         role:
-          permissions:
-            dependency_missing: "選択した '%{permission}' の他に '%{dependency}' も含める必要があります。"
+          attributes:
+            permissions:
+              dependency_missing: "選択した '%{permission}' の他に '%{dependency}' も含める必要があります。"
         time_entry:
           attributes:
             hours:
@@ -675,6 +689,8 @@ ja:
               unassignable: "はプロジェクトに割り当てできません。"
         version:
           undeletable_work_packages_attached: "作業パッケージが添付されているため、バージョンを削除できません。"
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "次のフィールドをチェックしてください："
         header:
@@ -1062,9 +1078,6 @@ ja:
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
-  error_invalid_group_by: "グループ化できません: %{value}"
-  error_invalid_query_column: "無効なクエリ列: %{value}"
-  error_invalid_sort_criterion: "列を並べ替えできません: %{value}"
   error_journal_attribute_not_present: "ジャーナルには属性%{attribute}は含まれていません。"
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
   error_pdf_failed_to_export: "PDFエクスポートを保存できませんでした： %{error}"
@@ -1077,6 +1090,7 @@ ja:
   error_no_default_work_package_status: "作業項目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。"
   error_no_type_in_project: "このプロジェクトには関連付けている作業項目の型がありません。プロジェクトの設定をご確認してください。"
   error_omniauth_registration_timed_out: "外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。"
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "「%{value}」リポジトリにアクセスしようとしてエラーが発生しました。"
   error_scm_not_found: "リポジトリに、エントリ/リビジョンが存在しません。"
   error_unable_delete_status: "一つ以上の作業項目によって使用されているため、作業項目のステータスを削除できません。"
@@ -1466,6 +1480,7 @@ ja:
   label_no_parent_page: "親ページはありません"
   label_nothing_display: "表示するものはありません"
   label_nobody: "無記名"
+  label_not_found: '存在しません'
   label_none: "なし"
   label_none_parentheses: "(なし)"
   label_not_contains: "含まない"
@@ -1480,7 +1495,6 @@ ja:
   label_options: "オプション"
   label_other: "その他"
   label_overall_activity: "全ての活動"
-  label_overall_spent_time: "全体の作業時間の記録"
   label_overview: "概要"
   label_page_title: "ページタイトル"
   label_part_of: "以下の一部："
@@ -1573,7 +1587,7 @@ ja:
   label_search: "検索"
   label_send_information: "アカウント情報をユーザに送信"
   label_send_test_email: "テスト電子メールを送信"
-  label_settings: "設定"
+  label_setting_plural: "設定"
   label_system_settings: "システム設定"
   label_show_completed_versions: "終了したバージョンを表示"
   label_sort: "並べ替え"
@@ -2067,6 +2081,10 @@ ja:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "検索…"
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "メールの配信方法"
   setting_sendmail_location: "Sendmail の実行可能ファイルの場所"
   setting_smtp_enable_starttls_auto: "利用可能な場合、STARTTLS を自動的に使用する"
@@ -2111,6 +2129,7 @@ ja:
   setting_emails_header: "電子メールのヘッダー"
   setting_email_login: "メールアドレスをログインに使用する"
   setting_enabled_scm: "使用するバージョン管理システム"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
@@ -2141,6 +2160,8 @@ ja:
   setting_per_page_options: "オプションページごとの項目数"
   setting_plain_text_mail: "テキストメール（HTMLなし）"
   setting_protocol: "プロトコル"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "セキュリティバッジを表示する"
   setting_registration_footer: "登録フッター"
   setting_repositories_automatic_managed_vendor: "自動リポジトリ ベンダー種類"
@@ -2179,6 +2200,9 @@ ja:
     passwords: "パスワード"
     session: "セッション"
     brute_force_prevention: "自動的にユーザをロック"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "デフォルト設定"
       deletion: "削除"

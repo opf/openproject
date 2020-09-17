@@ -202,6 +202,9 @@ nl:
       completed: "Verwijderen van project %{name} is gelukt"
       completed_text: "Het verzoek om het verwijderen van project '%{name}' is voltooid."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
     settings:
@@ -516,7 +519,7 @@ nl:
         cant_link_a_work_package_with_a_descendant: "Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken."
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid creëren."
         confirmation: "komt niet overeen met %{attribute}."
-        could_not_be_copied: "kon niet (volledig) worden gekopieerd."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "bestaat niet."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -560,6 +563,7 @@ nl:
           not_an_integer: "(%{name}) is geen geheel getal."
           smaller_than_or_equal_to: "(%{name}) moet kleiner zijn dan of gelijk aan %{count}."
           greater_than_or_equal_to: "(%{name}) moet groter zijn dan of gelijk aan %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +598,15 @@ nl:
               error_not_found: "niet gevonden"
             public:
               error_unauthorized: "-De gebruiker heeft geen toestemming om openbare overzichten te maken."
+            group_by:
+              invalid: "Kan niet groeperen op: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Ongeldige zoekopdracht kolom: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Kan niet sorteren op kolom: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
           filters:
             custom_fields:
@@ -616,8 +629,9 @@ nl:
           must_not_be_ssh: "mag geen ssh url zijn."
           no_directory: "is geen map."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -681,6 +695,8 @@ nl:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Controleer de volgende velden:"
         header:
@@ -1082,9 +1098,6 @@ nl:
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "De geselecteerde waarde is ongeldig."
-  error_invalid_group_by: "Kan niet groeperen op: %{value}"
-  error_invalid_query_column: "Ongeldige zoekopdracht kolom: %{value}"
-  error_invalid_sort_criterion: "Kan niet sorteren op kolom: %{value}"
   error_journal_attribute_not_present: "Dagboek bevat geen kenmerk %{attribute}."
   error_pdf_export_too_many_columns: "Te veel kolommen geselecteerd voor het exporteren naar PDF. Beperk het aantal kolommen."
   error_pdf_failed_to_export: "De pdf export kan niet worden opgeslagen:%{error}"
@@ -1097,6 +1110,7 @@ nl:
   error_no_default_work_package_status: "Geen standaard werkpakket status is gedefinieerd. Controleer uw configuratie (Ga naar 'Administratie-> werkpakket statussen')."
   error_no_type_in_project: "Er is geen type gekoppeld aan dit project. Controleer de projectinstellingen."
   error_omniauth_registration_timed_out: "De registratie via een externe authenticatie-provider is verlopen. Probeer het opnieuw."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Er is een fout opgetreden tijdens het proberen om toegang te krijgen tot de repository: %{value}"
   error_scm_not_found: "De vermelding of de herziening werd niet gevonden in de repository."
   error_unable_delete_status: "De status van het werkpakket kan niet worden verwijderd omdat het door minstens één werkpakket wordt gebruikt."
@@ -1486,6 +1500,7 @@ nl:
   label_no_parent_page: "Geen bovenliggende pagina"
   label_nothing_display: "Niets om weer te geven"
   label_nobody: "niemand"
+  label_not_found: 'niet gevonden'
   label_none: "geen"
   label_none_parentheses: "(geen)"
   label_not_contains: "bevat geen"
@@ -1500,7 +1515,6 @@ nl:
   label_options: "Opties"
   label_other: "Overige"
   label_overall_activity: "Totale activiteit"
-  label_overall_spent_time: "Totale verbruikte tijd"
   label_overview: "Overzicht"
   label_page_title: "Pagina titel"
   label_part_of: "onderdeel van"
@@ -1593,7 +1607,7 @@ nl:
   label_search: "Zoeken"
   label_send_information: "Accountgegevens naar de gebruiker verzenden"
   label_send_test_email: "Stuur een test e-mail"
-  label_settings: "Instellingen"
+  label_setting_plural: "Instellingen"
   label_system_settings: "Systeeminstellingen"
   label_show_completed_versions: "Toon voltooide versies"
   label_sort: "Sorteren"
@@ -2091,6 +2105,10 @@ nl:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Zoeken ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Kies verzendmethode"
   setting_sendmail_location: "Locatie van het uitvoerbare sendmail"
   setting_smtp_enable_starttls_auto: "Gebruik STARTTLS automatisch wanneer deze beschikbaar is"
@@ -2135,6 +2153,7 @@ nl:
   setting_emails_header: "Koptekst e-mails"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM Ingeschakeld"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Feeds inschakelen"
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
@@ -2165,6 +2184,8 @@ nl:
   setting_per_page_options: "Objecten per Pagina-opties"
   setting_plain_text_mail: "Tekst zonder opmaak (geen HTML)"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Toon beveiligingsbadge"
   setting_registration_footer: "Registratie voettekst"
   setting_repositories_automatic_managed_vendor: "Automatisch repostiroy leveranciers type"
@@ -2203,6 +2224,9 @@ nl:
     passwords: "Wachtwoorden"
     session: "Sessie"
     brute_force_prevention: "Automatische gebruiker blokkering"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Standaardvoorkeuren"
       deletion: "Verwijdering"

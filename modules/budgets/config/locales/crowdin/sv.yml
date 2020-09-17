@@ -23,6 +23,17 @@ sv:
   activerecord:
     attributes:
       budget:
+        author: "Upphovsman"
+        available: "Tillgängliga"
+        budget: "Planerade"
+        budget_ratio: "Spenderade (förhållande)"
+        created_on: "Skapat den"
+        description: "Beskrivning"
+        spent: "Spenderat"
+        status: "Status"
+        subject: "Ämne"
+        type: "Kostnadstyp"
+        updated_on: "Uppdaterat den"
         labor_budget: "Planerade arbetskostnader"
         material_budget: "Planerade enhetskostnader"
       work_package:
@@ -49,8 +60,9 @@ sv:
   label_budget: "Budget"
   label_budget_new: "Ny budget"
   label_budget_plural: "Budgetar"
-  label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Visa alla budgetar"
   label_yes: "Ja"
   notice_budget_conflict: "Arbetspaketen måste tillhöra samma projekt."

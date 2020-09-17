@@ -77,7 +77,7 @@ module Acts
 
         has_many :journals, -> {
           order("#{Journal.table_name}.version ASC")
-        }, journal_hash
+        }, **journal_hash
       end
 
       private

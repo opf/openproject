@@ -90,42 +90,15 @@ module Redmine
           return unless values.is_a?(Hash) && values.any?
 
           values.with_indifferent_access.each do |custom_field_id, val|
-            existing_custom_values = custom_values_for_custom_field id: custom_field_id
-            new_values = Array(val)
+            existing_cv_by_value = custom_values_for_custom_field(id: custom_field_id)
+                                     .group_by(&:value)
+                                     .transform_values(&:first)
+            new_values = Array(val).map { |v| v.respond_to?(:id) ? v.id.to_s : v.to_s }
 
-            unless existing_custom_values.empty?
-              assign_new_values! custom_field_id, existing_custom_values, new_values
-              delete_obsolete_custom_values! existing_custom_values, new_values
-            end
-          end
-        end
-
-        def assign_new_values!(custom_field_id, existing_custom_values, new_values)
-          new_values.flatten.zip(existing_custom_values).each do |new_value, custom_value|
-            if custom_value.nil?
-              new_custom_value = custom_values.build(
-                customized: self, custom_field_id: custom_field_id, value: new_value
-              )
-
-              custom_field_values.push(new_custom_value)
-            else
-              custom_value.value = new_value
-            end
-          end
-        end
-
-        def delete_obsolete_custom_values!(existing_custom_values, new_values)
-          existing_custom_values.zip(new_values).each_with_index do |(custom_value, new_value), i|
-            if new_value.nil?
-              if i.zero?
-                # leave the first value but set it to nil as that's the behaviour expected
-                # by the original acts_as_customizable
-                custom_value.value = nil
-              else
-                custom_value.destroy
-                custom_field_values.delete custom_value
-                custom_values.delete custom_value
-              end
+            if existing_cv_by_value.any?
+              assign_new_values custom_field_id, existing_cv_by_value, new_values
+              delete_obsolete_custom_values existing_cv_by_value, new_values
+              handle_minimum_custom_value custom_field_id, existing_cv_by_value, new_values
             end
           end
         end
@@ -139,9 +112,9 @@ module Redmine
             existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
 
             if existing_cvs.empty?
-              new_value = custom_values.build(
-                customized: self, custom_field: custom_field, value: nil
-              )
+              new_value = custom_values.build(customized: self,
+                                              custom_field: custom_field,
+                                              value: custom_field.default_value)
               existing_cvs.push new_value
             end
 
@@ -198,15 +171,27 @@ module Redmine
           self.custom_values = custom_field_values
         end
 
+        def reload(*args)
+          reset_custom_values_change_tracker
+
+          super
+        end
+
         def reset_custom_values_change_tracker
           @custom_field_values = nil
+          self.custom_value_destroyed = false
         end
 
         def reset_custom_values!
-          @custom_field_values = nil
+          reset_custom_values_change_tracker
           custom_values.each { |cv| cv.destroy unless custom_field_values.include?(cv) }
         end
 
+        # Builds custom values for all custom fields for which no custom value already exists.
+        # The value of that newly build value is set to the default value which can also be nil.
+        # Calling this should only be necessary if additional custom fields are made available
+        # after custom_field_values has already been called as that method will also build custom values
+        # (with their default values set) for all custom values for which no prior value existed.
         def set_default_values!
           new_values = {}
 
@@ -271,6 +256,10 @@ module Redmine
           end
         end
 
+        protected
+
+        attr_accessor :custom_value_destroyed
+
         private
 
         def for_custom_field_accessor(method_symbol)
@@ -314,8 +303,54 @@ module Redmine
           end
         end
 
+        # Explicitly touch the customizable if
+        # there where only changes to custom_values (added or removed).
+        # Particularly important for caching.
         def touch_customizable
-          touch if !saved_changes? && custom_values.loaded? && custom_values.any?(&:saved_changes?)
+          touch if !saved_changes? && custom_values.loaded? && (custom_values.any?(&:saved_changes?) || custom_value_destroyed)
+        end
+
+        def assign_new_values(custom_field_id, existing_cv_by_value, new_values)
+          (new_values - existing_cv_by_value.keys).each do |new_value|
+            add_custom_value(custom_field_id, new_value)
+          end
+        end
+
+        def delete_obsolete_custom_values(existing_cv_by_value, new_values)
+          (existing_cv_by_value.keys - new_values).each do |obsolete_value|
+            next if obsolete_value.nil?
+
+            custom_value = existing_cv_by_value[obsolete_value]
+
+            remove_custom_value(custom_value)
+          end
+        end
+
+        # The original acts_as_customizable ensured to always have a custom value
+        # for every custom field. If no value was set, the custom value would have the value of nil
+        def handle_minimum_custom_value(custom_field_id, existing_cv_by_value, new_values)
+          nil_value = existing_cv_by_value[nil]
+
+          if new_values.any?
+            remove_custom_value(nil_value)
+          elsif nil_value.nil?
+            add_custom_value(custom_field_id, nil)
+          end
+        end
+
+        def add_custom_value(custom_field_id, value)
+          new_custom_value = custom_values.build(custom_field_id: custom_field_id,
+                                                 value: value)
+
+          custom_field_values.push(new_custom_value)
+        end
+
+        def remove_custom_value(custom_value)
+          return unless custom_value
+
+          custom_value.mark_for_destruction
+          custom_field_values.delete custom_value
+          self.custom_value_destroyed = true
         end
 
         module ClassMethods

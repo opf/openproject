@@ -27,12 +27,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: "#{l(:label_revision)} #{@diff_format_revisions} #{@path}" do %>
+<%= toolbar title: "#{t(:label_revision)} #{@diff_format_revisions} #{@path}" do %>
   <li class="toolbar-item">
     <%= form_tag({repo_path: to_path_param(@path)}, method: :get) do %>
       <%= hidden_field_tag('rev', params[:rev]) if params[:rev] %>
       <%= hidden_field_tag('rev_to', params[:rev_to]) if params[:rev_to] %>
-      <%= styled_select_tag 'type', options_for_select([[l(:label_diff_inline), "inline"], [l(:label_diff_side_by_side), "sbs"]], @diff_type), id: "repository-diff-type-select" %>
+      <%= styled_select_tag 'type', options_for_select([[t(:label_diff_inline), "inline"], [t(:label_diff_side_by_side), "sbs"]], @diff_type), id: "repository-diff-type-select" %>
     <% end %>
       <%=
         content_for(:additional_js_dom_ready) do

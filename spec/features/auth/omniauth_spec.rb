@@ -63,7 +63,7 @@ describe 'Omniauth authentication', type: :feature do
   context 'sign in existing user' do
     it 'should redirect to back url' do
       visit account_lost_password_path
-      click_link("Omniauth Developer", :match => :first)
+      click_link("Omniauth Developer", match: :first, visible: :all)
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -138,6 +138,7 @@ describe 'Omniauth authentication', type: :feature do
       fill_in('email', with: user.mail)
       click_link_or_button 'Sign In'
 
+      expect(page).to have_content "Last name can't be blank"
       # on register form, we are prompted for a last name
       within('#content') do
         fill_in('user_lastname', with: user.lastname)
@@ -183,11 +184,11 @@ describe 'Omniauth authentication', type: :feature do
         click_link_or_button 'Create'
       end
 
-      expect(current_url).to eql home_url(first_time_user: true)
+      expect(page).to have_current_path home_path(first_time_user: true)
     end
 
     context 'with password login disabled',
-            with_config: { disabled_password_login: 'true' } do
+            with_config: { disable_password_login: 'true' } do
 
       it_behaves_like 'omniauth user registration'
     end

@@ -4,4 +4,5 @@ ca:
   permission_manage_board_views: "Administrar taulers"
   project_module_board_view: "Taulells"
   boards:
+    label_board: "Taulell"
     label_boards: "Taulells"

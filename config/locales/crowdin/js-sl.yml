@@ -58,7 +58,7 @@ sl:
     button_advanced_filter: "Napredni filter"
     button_list_view: "Prikaz seznama"
     button_show_view: "Celozaslonski pogled"
-    button_log_time: "Datum vpisa"
+    button_log_time: "Beleži čas"
     button_more: "več"
     button_open_details: "Prikaži pogled podrobnosti"
     button_close_details: "Zapri prikaz podrobnosti"
@@ -116,6 +116,11 @@ sl:
         manual: 'Preklopite na Markdown vir'
         wysiwyg: 'Preklopi na WYSIWYG urejevalnik'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Povezave do podrejenih strani'
           include_parent: 'Vključi nadrejen zahtevek'
@@ -264,9 +269,9 @@ sl:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Izdaja vsebuje različne nove funkcije in izboljšave: <br> <br> <ul class ="%{list_styling_class}"> <li> <b> Hitrejše beleženje časa </b> na delovnih paketih s podrobnosti ali pogleda seznama. </li> <li> <b> Izboljšano oblikovanje tabel </b> za boljšo konfiguracijo tabel v urejevalniku besedil, npr za širino, barvo, poravnavo ali oblazinjenje celice. </li> <li> Pregled kartice za delovne pakete zdaj vsebuje tudi ime projekta. </li> <li> OpenProject je <b> 100% preveden v slovenščino </b>. Zabavaj se! </li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -407,6 +412,7 @@ sl:
     label_total_amount: "Skupaj: %{amount}"
     label_updated_on: "Posodobljeno"
     label_value_derived_from_children: "(vrednost izpeljana iz podrejenih)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Opozorilo"
     label_work_package: "Zahtevek"
     label_work_package_parent: "Parent work package"
@@ -496,6 +502,7 @@ sl:
       context: 'Kontekst projekta'
       work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Samodejno dokončanje projekta'
     text_are_you_sure: "Ste prepričani?"
@@ -523,7 +530,7 @@ sl:
       duration: 'Trajanje'
       spent_on: 'Datum'
       hours: 'Ure'
-      title: 'Datum vpisa'
+      title: 'Beleži čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
     watchers:

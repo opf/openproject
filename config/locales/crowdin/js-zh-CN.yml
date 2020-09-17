@@ -116,6 +116,11 @@ zh-CN:
         manual: '切换到标记源'
         wysiwyg: '切换到 WYSIWYG 编辑器'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: '链接至子页面'
           include_parent: '包括上级'
@@ -265,9 +270,9 @@ zh-CN:
           text_new_features: "了解新功能和产品更新。"
           learn_about: "详细了解新功能"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              该版本包含各种新功能和改进：<br><br> <ul class="%{list_styling_class}"> <li>从详细信息或列表视图在工作包上<b>更快地启动时间记录</b>。</li> <li><b>改进了表格式化</b>，可在文本编辑器中更好地配置表，例如调整单元格的宽度、颜色、对齐或边距。</li> <li>工作包的卡片视图现在也包含项目名称。</li> <li>OpenProject 现在已<b>完全翻译成斯洛文尼亚语</b>。Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -408,6 +413,7 @@ zh-CN:
     label_total_amount: "总计: %{amount}"
     label_updated_on: "更新于"
     label_value_derived_from_children: "（来自子项的值）"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "警告"
     label_work_package: "工作包"
     label_work_package_parent: "Parent work package"
@@ -497,6 +503,7 @@ zh-CN:
       context: '项目上下文'
       work_package_belongs_to: '此工作包属于项目%{projectname}。'
       click_to_switch_context: '在该项目中打开此工作包。'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: '项目自动补全'
     text_are_you_sure: "是否确定？"

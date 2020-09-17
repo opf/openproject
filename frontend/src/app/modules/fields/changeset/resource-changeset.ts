@@ -158,7 +158,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * Return the ID of the resource we're editing
    */
   public get id():string {
-    return this.pristineResource.id as string;
+    return this.pristineResource.id!.toString();
   }
 
   /**

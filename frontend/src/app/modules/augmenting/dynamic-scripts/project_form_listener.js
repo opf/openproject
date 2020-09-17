@@ -82,42 +82,53 @@
       identifier = identifier.replace(/[^a-z0-9]+/gi, '-'); // remaining non-alphanumeric => hyphen
       identifier = identifier.replace(/^[-\d]*|-*$/g, ''); // remove hyphens and numbers at beginning and hyphens at end
       identifier = identifier.toLowerCase(); // to lower
-      identifier = identifier.substr(0,projectIdentifierMaxLength); // max characters
+      identifier = identifier.substr(0,window.projectIdentifierMaxLength); // max characters
       return identifier;
     }
 
+    function updateIdentifierFromName() {
+      if(!window.projectIdentifierLocked) {
+        jQuery('#project_identifier').val(generateProjectIdentifier());
+      }
+    }
+
     function observeProjectName() {
-      jQuery('#project_name').keyup(function() {
-        if(!projectIdentifierLocked) {
-          jQuery('#project_identifier').val(generateProjectIdentifier());
-        }
-      });
+      jQuery('#project_name').keyup(updateIdentifierFromName);
+      updateIdentifierFromName();
     }
 
     function observeProjectIdentifier() {
       jQuery('#project_identifier').keyup(function() {
-        if(this.value !== '' && this.value != generateProjectIdentifier()) {
-          projectIdentifierLocked = true;
-        } else {
-          projectIdentifierLocked = false;
-        }
+        window.projectIdentifierLocked = this.value !== '' && this.value != generateProjectIdentifier();
       });
     }
 
     function observeTemplateChanges() {
       jQuery('#project-select-template').on('change', function() {
-        let templateSelected = $(this).val() !== '';
-        let settings = $('#advanced-settings');
+        const name = document.getElementById('project_name');
+        const fieldset = document.getElementById('advanced-settings');
 
-        settings
-          .toggle(!templateSelected)
-          .find('input:not(#project_identifier), select, textarea')
-          .prop('disabled', templateSelected);
+        // When the advanced settings were opened once, we assume they were changed
+        // and show an alert before switching the template
+        if (!fieldset.dataset.touched || window.confirm(I18n.t('js.project.confirm_template_load'))) {
+          let params = new URLSearchParams(location.search);
+          params.set('template_project', this.value);
+          params.set('name', name.value);
+          window.location.search = params.toString();
+        }
       });
+    }
+
+    function focusOnName() {
+      const name = document.getElementById('project_name');
+      if (!name.value) {
+        name.focus();
+      }
     }
 
     observeProjectIdentifier();
     observeProjectName();
     observeTemplateChanges();
+    focusOnName();
   });
 }(jQuery));

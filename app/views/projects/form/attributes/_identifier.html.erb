@@ -34,22 +34,22 @@ See docs/COPYRIGHT.rdoc for more details.
   identifier_editable = project.new_record?
 %>
 
+<%= nonced_javascript_tag do %>
+  window.projectIdentifierMaxLength = <%= id_max_length %>;
+  window.projectIdentifierDefault = '<%= id %>';
+  window.projectIdentifierLocked = false;
+<% end %>
+
 <div class="form--field <%= identifier_editable ? '-required' : '' %>">
   <% if identifier_editable %>
     <%= form.text_field :identifier,
                         help_text: { attribute: :identifier, 'attribute-scope': :Project },
                         container_class: '-middle'%>
 
-    <%= nonced_javascript_tag do %>
-      window.projectIdentifierMaxLength = <%= id_max_length %>;
-      window.projectIdentifierDefault = '<%= id %>';
-      window.projectIdentifierLocked = false;
-    <% end %>
-
     <div class="form--field-instructions">
-      <%= l(:text_length_between, min: 1,
+      <%= t(:text_length_between, min: 1,
                                   max: Project::IDENTIFIER_MAX_LENGTH) %>
-      <%= l(:text_project_identifier_info).html_safe %>
+      <%= t(:text_project_identifier_info).html_safe %>
     </div>
   <% else %>
     <label class="form--label" title="<%= Project.human_attribute_name(:identifier) %>">
@@ -63,10 +63,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <span id="identifier">
         <%= project.identifier %>
       </span>
-      <%= link_to identifier_project_path, title: l(:button_edit), class: "icon" do %>
+      <%= link_to identifier_project_path, title: t(:button_edit), class: "icon" do %>
         <%= op_icon('icon icon-edit') %>
         <span class="hidden-for-sighted">
-          <%= l(:button_edit) %>
+          <%= t(:button_edit) %>
         </span>
       <% end %>
     </span>

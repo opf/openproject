@@ -27,14 +27,14 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), l("timelines.admin_menu.colors") %>
+<% html_title t(:label_administration), t("timelines.admin_menu.colors") %>
 
-<%= toolbar title: l('timelines.admin_menu.colors') do %>
+<%= toolbar title: t('timelines.admin_menu.colors') do %>
   <li class="toolbar-item">
     <%= link_to new_color_path,
           { class: 'button -alt-highlight',
-            aria: {label: l('timelines.new_color')},
-            title: l('timelines.new_color')} do %>
+            aria: {label: t('timelines.new_color')},
+            title: t('timelines.new_color')} do %>
       <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= t('activerecord.attributes.type.color') %></span>
     <% end %>

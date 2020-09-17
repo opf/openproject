@@ -4,4 +4,5 @@ cs:
   permission_manage_board_views: "Správa tabulí"
   project_module_board_view: "Tabule"
   boards:
+    label_board: "Tabule"
     label_boards: "Tabule"

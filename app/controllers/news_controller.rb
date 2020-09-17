@@ -54,7 +54,7 @@ class NewsController < ApplicationController
       end
       format.atom do
         render_feed(@newss,
-                    title: (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}")
+                    title: (@project ? @project.name : Setting.app_title) + ": #{I18n.t(:label_news_plural)}")
       end
     end
   end
@@ -76,7 +76,7 @@ class NewsController < ApplicationController
     @news = News.new(project: @project, author: User.current)
     @news.attributes = permitted_params.news
     if @news.save
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to controller: '/news', action: 'index', project_id: @project
     else
       render action: 'new'
@@ -88,7 +88,7 @@ class NewsController < ApplicationController
   def update
     @news.attributes = permitted_params.news
     if @news.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'show', id: @news
     else
       render action: 'edit'
@@ -97,7 +97,7 @@ class NewsController < ApplicationController
 
   def destroy
     @news.destroy
-    flash[:notice] = l(:notice_successful_delete)
+    flash[:notice] = I18n.t(:notice_successful_delete)
     redirect_to action: 'index', project_id: @project
   end
 

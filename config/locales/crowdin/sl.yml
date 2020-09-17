@@ -201,6 +201,9 @@ sl:
       completed: "Projekt %{name} izbrisan"
       completed_text: "Zahteva za izbris projekta '%{name}' je zaključena."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
     settings:
@@ -494,7 +497,7 @@ sl:
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"
-        time_entries: "Datum vpisa"
+        time_entries: "Beleži čas"
         type: "Vrsta"
         watcher: "Opazovalec"
       'doorkeeper/application':
@@ -516,7 +519,7 @@ sl:
         cant_link_a_work_package_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
         circular_dependency: "Ta povezava bi ustvarila krožno odvisnost."
         confirmation: "se ne ujema %{attribute}"
-        could_not_be_copied: "ni bilo mogoče (v celoti) kopirati."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ne obstaja"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."
@@ -560,6 +563,7 @@ sl:
           not_an_integer: "(%{name}) ni celo število."
           smaller_than_or_equal_to: "(%{name}) mora biti manjša ali enaka %{count}."
           greater_than_or_equal_to: "(%{name}) mora biti večje ali enako %{count}. "
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +598,15 @@ sl:
               error_not_found: "Ni najdeno"
             public:
               error_unauthorized: "Uporabnik nima dovoljenja za ustvarjanje javnih pogledov."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Neveljaven stolpec poizvedbe: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Ne morem razvrščati po stolpcu: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "\nse medsebojno izključuje s skupino '%{group_by}'. Ne morete aktivirati obeh."
           filters:
             custom_fields:
@@ -616,8 +629,9 @@ sl:
           must_not_be_ssh: "ne sme biti SSH url"
           no_directory: "ni imenik."
         role:
-          permissions:
-            dependency_missing: "morate vključiti '%{dependency}' kot '%{permission}' je izbrano."
+          attributes:
+            permissions:
+              dependency_missing: "morate vključiti '%{dependency}' kot '%{permission}' je izbrano."
         time_entry:
           attributes:
             hours:
@@ -683,6 +697,8 @@ sl:
               unassignable: "ni mogoče dodeliti projektu."
         version:
           undeletable_work_packages_attached: "Različice ni mogoče izbrisati, saj so nanjo priloženi delovni paketi."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Preverite naslednja polja:"
         header:
@@ -1112,9 +1128,6 @@ sl:
   error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
   error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Neveljaven stolpec poizvedbe: %{value}"
-  error_invalid_sort_criterion: "Ne morem razvrščati po stolpcu: %{value}"
   error_journal_attribute_not_present: "Dnevnik ne vsebuje atributa %{attribute}."
   error_pdf_export_too_many_columns: "Za izvoz PDF je izbranih preveč stolpcev. Zmanjšajte število stolpcev."
   error_pdf_failed_to_export: "Izvoza PDF ni bilo mogoče shraniti: %{error}"
@@ -1127,6 +1140,7 @@ sl:
   error_no_default_work_package_status: "Ni definirano privzetega stanja delovnega paketa/ zahtevka. Preverite konfiguracijo (pojdite na \"Administracija -> Stanje zahtevka/ delovnega paketa\")."
   error_no_type_in_project: "Noben tip ni povezan s tem projektom. Prosimo preverite nastavitve projekta."
   error_omniauth_registration_timed_out: "Registracija preko zunanjega avtentikacijskega ponudnika je potekla. Prosimo poskusite ponovno."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Med vzpostavljem povezave s shrambo je prišlo do napake: %{value}"
   error_scm_not_found: "Vnos ali revizija v shrambi ni bila najdena ."
   error_unable_delete_status: "Stanja delovnega paketa ni mogoče izbrisati, saj ga uporablja vsaj en delovni paket."
@@ -1516,6 +1530,7 @@ sl:
   label_no_parent_page: "Brez matične strani"
   label_nothing_display: "Ni podatkov za prikaz"
   label_nobody: "nihče"
+  label_not_found: 'Ni najdeno'
   label_none: "Brez"
   label_none_parentheses: "(brez)"
   label_not_contains: "ne vsebuje"
@@ -1530,7 +1545,6 @@ sl:
   label_options: "Možnosti"
   label_other: "Drugo"
   label_overall_activity: "Celotna aktivnost"
-  label_overall_spent_time: "Skupno porabljen čas"
   label_overview: "Pregled"
   label_page_title: "Naslov strani"
   label_part_of: "Je del"
@@ -1623,7 +1637,7 @@ sl:
   label_search: "Išči"
   label_send_information: "Uporabniku pošljite podatke o računu"
   label_send_test_email: "Pošlji testni mail"
-  label_settings: "Nastavitve"
+  label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"
   label_show_completed_versions: "Prikaži zaključene verzije"
   label_sort: "Razvrsti"
@@ -2131,6 +2145,10 @@ sl:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Iskanje..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Način dostave po e-pošti"
   setting_sendmail_location: "Lokacija izvršljive pošte"
   setting_smtp_enable_starttls_auto: "Avtomatično uporabi STARTTLS, če je možno"
@@ -2175,6 +2193,7 @@ sl:
   setting_emails_header: "Glava e-pošte"
   setting_email_login: "Uporabite e-pošto kot prijavo"
   setting_enabled_scm: "Omogočen SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Omogoči vire"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
@@ -2205,6 +2224,8 @@ sl:
   setting_per_page_options: "Možnosti predmetov na stran"
   setting_plain_text_mail: "Navadna besedilna pošta (brez HTML-ja)\n"
   setting_protocol: "Protokol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Prikaži varnostno značko"
   setting_registration_footer: "Noga za registracijo"
   setting_repositories_automatic_managed_vendor: "Samodejni tip prodajalca odlagališča"
@@ -2243,6 +2264,9 @@ sl:
     passwords: "Gesla"
     session: "Seja"
     brute_force_prevention: "Avtomatično blokiranje uporabnika"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Privzete nastavitve"
       deletion: "brisanje"

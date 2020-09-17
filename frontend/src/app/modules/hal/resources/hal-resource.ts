@@ -41,6 +41,17 @@ export interface HalResourceClass<T extends HalResource = HalResource> {
       $halType:string):T;
 }
 
+export type HalSourceLink = { href:string|null };
+
+export type HalSourceLinks = {
+  [key:string]:HalSourceLink
+};
+
+export type HalSource = {
+  [key:string]:string|number|null|HalSourceLinks,
+  _links:HalSourceLinks
+};
+
 export class HalResource {
   // TODO this is the source of many issues in the frontend
   // because it no longer properly type checks stuff
@@ -150,7 +161,7 @@ export class HalResource {
   }
 
   public get isNew():boolean {
-    return this.id === 'new';
+    return !this.id || this.id === 'new';
   }
 
   public get persisted() {

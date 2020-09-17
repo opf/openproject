@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% content_for :header_tags do %>
-  <meta name="required_script" content="project" />
+  <meta name="required_script" content="project"/>
 <% end %>
 
 <% html_title(t(:label_project_plural)) -%>
@@ -37,7 +37,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to new_project_path,
                   { class: 'button -alt-highlight',
-                    aria: {label: t(:label_project_new)},
+                    aria: { label: t(:label_project_new) },
                     title: t(:label_project_new) } do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= Project.model_name.human %></span>
@@ -51,6 +51,18 @@ See docs/COPYRIGHT.rdoc for more details.
   </li>
   <li class="toolbar-item">
     <%= link_to t(:label_overall_activity), activities_path, class: 'button' %>
+  </li>
+  <li class="toolbar-item">
+    <% gantt_project_ids = gantt_portfolio_project_ids(@projects) %>
+    <%= link_to gantt_portfolio_query_link(gantt_project_ids),
+                disabled: gantt_project_ids.empty?,
+                class: "button #{gantt_project_ids.empty? ? '-disabled' : ''}",
+                title: gantt_portfolio_title,
+                target: '_blank' do %>
+      <%= op_icon("button--icon icon-view-timeline") %>
+      <%= t('projects.index.open_as_gantt') %>
+      <%= op_icon("button--icon icon-external-link") %>
+    <% end %>
   </li>
 <% end %>
 
@@ -164,6 +176,12 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= no_results_box(no_projects_result_box_params) %>
   <% end %>
 
+
+<%= cell Projects::TableCell,
+         @projects,
+         current_user: current_user,
+         orders: @orders,
+         params: params %>
 
   <% if User.current.admin? %>
     <p class="information-section">

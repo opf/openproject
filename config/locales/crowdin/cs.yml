@@ -29,16 +29,16 @@ cs:
       no_results_title_text: V současné době nejsou k dispozici žádné pluginy.
     custom_styles:
       color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme_custom: "Vlastní"
       colors:
         alternative-color: "Alternative"
         content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
+        primary-color: "Primární"
+        primary-color-dark: "Primární (tmavé)"
+        header-bg-color: "Pozadí záhlaví"
+        header-item-bg-hover-color: "Pozadí záhlaví při přejetí myší"
+        header-item-font-color: "Písmo záhlaví"
+        header-item-font-hover-color: "Písmo záhlaví při přejetí myší"
         header-border-bottom-color: "Header border"
         main-menu-bg-color: "Main menu background"
         main-menu-bg-selected-background: "Main menu when selected"
@@ -130,7 +130,7 @@ cs:
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
+    ldap_details: 'Podrobnosti LDAP'
     user_settings: 'Attribute mapping'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
@@ -202,6 +202,9 @@ cs:
       completed: "Smazání projektu %{name} dokončeno"
       completed_text: "Požadavek na smazání projektu '%{name}' byl dokončen."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     settings:
@@ -518,7 +521,7 @@ cs:
         cant_link_a_work_package_with_a_descendant: "Pracovní balíček nemůže být propojen s jedním z jeho podúkolů."
         circular_dependency: "Tento vztah by vytvořil kruhovou závislost."
         confirmation: "neshoduje se s %{attribute}."
-        could_not_be_copied: "nelze (celé) zkopírovat."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "neexistuje."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -562,6 +565,7 @@ cs:
           not_an_integer: "(%{name}) není celé číslo."
           smaller_than_or_equal_to: "(%{name}) musí být menší než nebo rovno %{count}."
           greater_than_or_equal_to: "(%{name}) musí být větší než nebo rovno %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -596,6 +600,15 @@ cs:
               error_not_found: "nenalezeno"
             public:
               error_unauthorized: "- Uživatel nemá oprávnění k vytváření veřejných zobrazení."
+            group_by:
+              invalid: "Nelze seskupit podle: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Neplatný sloupec dotazu: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Nelze řadit podle sloupce: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
           filters:
             custom_fields:
@@ -618,8 +631,9 @@ cs:
           must_not_be_ssh: "nesmí být SSH url."
           no_directory: "není adresář."
         role:
-          permissions:
-            dependency_missing: "musí také obsahovat '%{dependency}' jako '%{permission}' je vybráno."
+          attributes:
+            permissions:
+              dependency_missing: "musí také obsahovat '%{dependency}' jako '%{permission}' je vybráno."
         time_entry:
           attributes:
             hours:
@@ -685,6 +699,8 @@ cs:
               unassignable: "nelze přiřadit k projektu."
         version:
           undeletable_work_packages_attached: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Zkontrolujte, prosím, následující pole:"
         header:
@@ -1114,9 +1130,6 @@ cs:
   error_failed_to_delete_entry: 'Nepodařilo se odstranit tento záznam.'
   error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neplatná vybraná hodnota."
-  error_invalid_group_by: "Nelze seskupit podle: %{value}"
-  error_invalid_query_column: "Neplatný sloupec dotazu: %{value}"
-  error_invalid_sort_criterion: "Nelze řadit podle sloupce: %{value}"
   error_journal_attribute_not_present: "Deník neobsahuje atribut %{attribute}."
   error_pdf_export_too_many_columns: "Příliš mnoho sloupců vybraných pro PDF export. Snižte počet sloupců."
   error_pdf_failed_to_export: "PDF export nelze uložit: %{error}"
@@ -1129,6 +1142,7 @@ cs:
   error_no_default_work_package_status: "Žádný výchozí stav pracovního balíčku není definovaný. Prosím zkontrolujte konfiguraci (v \"Administrace -> Stav pracovního balíčku\")."
   error_no_type_in_project: "Neexistuje žádný typ provázaný s tímto projektem. Prosím zkontrolujte nastavení projektu."
   error_omniauth_registration_timed_out: "Registrace prostřednictvím poskytovatele pro externí autentifikaci vypršela. Prosím zkuste to znova."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Vyskytla se chyba při pokusu o přístup k repozitáři: %{value}"
   error_scm_not_found: "Položka nebo revize nebyla v repozitáři nalezena."
   error_unable_delete_status: "Stav pracovního balíčku sa nedá odstranit, protože ho používá ještě alespoň jeden další pracovní balíček."
@@ -1518,6 +1532,7 @@ cs:
   label_no_parent_page: "Žádná nadřazená stránka"
   label_nothing_display: "Nic k zobrazení"
   label_nobody: "nikdo"
+  label_not_found: 'nenalezeno'
   label_none: "žádný"
   label_none_parentheses: "(žádný)"
   label_not_contains: "neobsahuje"
@@ -1532,7 +1547,6 @@ cs:
   label_options: "Možnosti"
   label_other: "Ostatní"
   label_overall_activity: "Celková aktivita"
-  label_overall_spent_time: "Celkem strávený čas"
   label_overview: "Přehled"
   label_page_title: "Název stránky"
   label_part_of: "část"
@@ -1625,7 +1639,7 @@ cs:
   label_search: "Vyhledávání"
   label_send_information: "Odeslat informace o účtu uživateli"
   label_send_test_email: "Odeslat testovací email"
-  label_settings: "Nastavení"
+  label_setting_plural: "Nastavení"
   label_system_settings: "Nastavení systému"
   label_show_completed_versions: "Zobrazit dokončené verze"
   label_sort: "Řadit"
@@ -2133,6 +2147,10 @@ cs:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Hledat ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Způsob zasílání emailu"
   setting_sendmail_location: "Umístění spustitelného souboru sendmail"
   setting_smtp_enable_starttls_auto: "Automaticky použít STARTTLS, pokud je dostupné"
@@ -2177,6 +2195,7 @@ cs:
   setting_emails_header: "Záhlaví emailů"
   setting_email_login: "Použít e-mail jako přihlášení"
   setting_enabled_scm: "Povolit SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Povolit kanály"
   setting_feeds_limit: "Limit obsahu kanálů"
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
@@ -2207,6 +2226,8 @@ cs:
   setting_per_page_options: "Objektů na stránku"
   setting_plain_text_mail: "Prostý text (ne HTML)"
   setting_protocol: "Protokol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Zobrazit bezpečnostní odznak"
   setting_registration_footer: "Zápatí registrace"
   setting_repositories_automatic_managed_vendor: "Automatický typ dodavatele repozitáře"
@@ -2245,6 +2266,9 @@ cs:
     passwords: "Hesla"
     session: "Relace"
     brute_force_prevention: "Automatizované blokování uživatelů"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Výchozí předvolby"
       deletion: "Odstranění"

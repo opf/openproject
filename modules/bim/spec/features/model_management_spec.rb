@@ -47,7 +47,8 @@ describe 'model management',
   let(:model) do
     FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
-                      uploader: user)
+                      uploader: user,
+                      is_default: true)
   end
 
   let(:model2) do
@@ -82,7 +83,7 @@ describe 'model management',
 
       index_page.visit!
       index_page.model_listed true, model.title
-      index_page.show_defaults
+      index_page.show_defaults([model, model2])
       index_page.bcf_buttons true
     end
   end
@@ -116,7 +117,7 @@ describe 'model management',
       index_page.visit!
       index_page.bcf_buttons false
       index_page.model_listed true, model.title
-      index_page.show_defaults
+      index_page.show_defaults([model, model2])
     end
   end
 

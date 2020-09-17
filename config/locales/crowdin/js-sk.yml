@@ -116,6 +116,11 @@ sk:
         manual: 'Prepnúť na zdroj Markdown'
         wysiwyg: 'Prepnúť na WYSIWYG editor'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Odkazy na podstránky'
           include_parent: 'Zahrnúť nadradený'
@@ -265,9 +270,9 @@ sk:
           text_new_features: "Read about new features and product updates."
           learn_about: "Learn more about the new features"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -408,6 +413,7 @@ sk:
     label_total_amount: "Celkom: %{amount}"
     label_updated_on: "aktualizované"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Upozornenie"
     label_work_package: "Pracovný balíček"
     label_work_package_parent: "Parent work package"
@@ -497,6 +503,7 @@ sk:
       context: 'Kontext projektu'
       work_package_belongs_to: 'Tento pracovný balíček patrí k projektu %{projectname}.'
       click_to_switch_context: 'Otvoriť tento pracovný balík v danom projekte.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Automatické doplňovanie projektu'
     text_are_you_sure: "Ste si istí?"

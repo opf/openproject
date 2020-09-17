@@ -26,6 +26,13 @@ AvatarHelper.class_eval do
     c.include_size_attributes = false
   end
 
+  # Override gems's method in order to avoid deprecated URI.escape
+  GravatarImageTag.define_singleton_method(:url_params) do |gravatar_params|
+    return nil if gravatar_params.keys.size == 0
+    array = gravatar_params.map { |k, v| "#{k}=#{CGI.escape(v.to_s)}" }
+    "?#{array.join('&')}"
+  end
+
   module InstanceMethods
     # Returns the avatar image tag for the given +user+ if avatars are enabled
     # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')

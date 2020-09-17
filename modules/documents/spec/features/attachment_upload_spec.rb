@@ -48,40 +48,56 @@ describe 'Upload attachment to documents', js: true do
     login_as(user)
   end
 
-  it 'can upload an image' do
-    visit project_documents_path(project)
+  shared_examples 'can upload an image' do
+    it 'can upload an image' do
+      visit project_documents_path(project)
 
-    within '.toolbar-items' do
-      click_on 'Document'
+      expect(page)
+        .to have_content I18n.t(:no_results_title_text)
+
+      within '.toolbar-items' do
+        click_on 'Document'
+      end
+
+      select(category.name, from: 'Category')
+      fill_in "Title", with: 'New documentation'
+
+      # adding an image
+      editor.drag_attachment image_fixture, 'Image uploaded on creation'
+      expect(page).to have_selector('attachment-list-item', text: 'image.png')
+
+      click_on 'Create'
+
+      expect(page).to have_selector('#content img', count: 1)
+      expect(page).to have_content('Image uploaded on creation')
+
+      click_on 'New documentation'
+
+      within '.toolbar-items' do
+        click_on 'Edit'
+      end
+
+      editor.drag_attachment image_fixture, 'Image uploaded the second time'
+      expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+
+      click_on 'Save'
+
+      expect(page).to have_selector('#content img', count: 2)
+      expect(page).to have_content('Image uploaded on creation')
+      expect(page).to have_content('Image uploaded the second time')
+      expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+    end
+  end
+
+  context 'with direct uploads (Regression #34285)', with_direct_uploads: true do
+    before do
+      allow_any_instance_of(Attachment).to receive(:diskfile).and_return Struct.new(:path).new(image_fixture.to_s)
     end
 
-    select(category.name, from: 'Category')
-    fill_in "Title", with: 'New documentation'
+    it_behaves_like 'can upload an image'
+  end
 
-    # adding an image
-    editor.drag_attachment image_fixture, 'Image uploaded on creation'
-
-    expect(page).to have_selector('attachment-list-item', text: 'image.png')
-
-    click_on 'Create'
-
-    expect(page).to have_selector('#content img', count: 1)
-    expect(page).to have_content('Image uploaded on creation')
-
-    click_on 'New documentation'
-
-    within '.toolbar-items' do
-      click_on 'Edit'
-    end
-
-    editor.drag_attachment image_fixture, 'Image uploaded the second time'
-    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
-
-    click_on 'Save'
-
-    expect(page).to have_selector('#content img', count: 2)
-    expect(page).to have_content('Image uploaded on creation')
-    expect(page).to have_content('Image uploaded the second time')
-    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+  context 'internal upload', with_direct_uploads: false do
+    it_behaves_like 'can upload an image'
   end
 end

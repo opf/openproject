@@ -26,11 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: l(:label_revision_plural) do %>
+<%= toolbar title: t(:label_revision_plural) do %>
   <%= form_tag({ action: 'revision', id: @project }, { method: :get }) do %>
     <li class="toolbar-item">
-      <%= label_tag :rev, l(:label_revision), class: 'hidden-for-sighted' %>
-      <%= text_field_tag :rev, @rev, size: 8, placeholder: l(:label_revision) %>
+      <%= label_tag :rev, t(:label_revision), class: 'hidden-for-sighted' %>
+      <%= text_field_tag :rev, @rev, size: 8, placeholder: t(:label_revision) %>
     </li>
     <li class="toolbar-item">
       <%= submit_tag 'OK', class: 'button -highlight' %>
@@ -46,4 +46,4 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
 <% end %>
 
-<% html_title(l(:label_revision_plural)) -%>
+<% html_title(t(:label_revision_plural)) -%>

@@ -86,7 +86,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                             title: t(:button_edit) %>
                   <%= link_to_if_authorized '',
                                             { controller: '/categories', action: 'destroy', id: category },
-                                            data: { confirm: l(:text_are_you_sure) },
+                                            data: { confirm: t(:text_are_you_sure) },
                                             method: :delete,
                                             class: 'icon icon-delete',
                                             title: t(:button_delete) %>

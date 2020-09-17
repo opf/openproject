@@ -95,7 +95,7 @@ export class GridAreaService {
   }
 
   public persist() {
-    this.resource.rowCount = this.numRows = (this.widgetAreas.map(area => area.endRow).sort().pop() || 2) - 1;
+    this.resource.rowCount = this.numRows = (this.widgetAreas.map(area => area.endRow).sort((a, b) => a - b).pop() || 2) - 1;
     this.resource.columnCount = this.numColumns;
 
     this.writeAreaChangesToWidgets();

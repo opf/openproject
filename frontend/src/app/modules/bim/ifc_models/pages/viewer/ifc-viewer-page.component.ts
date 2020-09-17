@@ -39,13 +39,13 @@ import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/vi
 export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
   text = {
-    title: this.I18n.t('js.ifc_models.models.default'),
+    title: this.I18n.t('js.bcf.management'),
     delete: this.I18n.t('js.button_delete'),
     edit: this.I18n.t('js.button_edit'),
     areYouSure: this.I18n.t('js.text_are_you_sure')
   };
 
-  newRoute$ = new BehaviorSubject<string>(this.state.current.data.newRoute);
+  newRoute$ = new BehaviorSubject<string | undefined>(undefined);
   transitionUnsubscribeFn:Function;
 
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
@@ -88,6 +88,14 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     }
   ];
 
+  get newRoute () {
+    // Open new work packages in full view when there
+    // is no viewer (ie: Revit)
+    return this.viewerBridgeService.shouldShowViewer ?
+      this.state.current.data.newRoute :
+      'bim.partitioned.new';
+  }
+
   constructor(readonly ifcData:IfcModelsDataService,
               readonly state:StateService,
               readonly bimView:BimViewService,
@@ -100,6 +108,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
   ngOnInit() {
     super.ngOnInit();
+    this.newRoute$.next(this.newRoute);
 
     this
       .bimView
@@ -110,7 +119,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
     // Keep the new route up to date depending on where we move to
     this.transitionUnsubscribeFn = this.transition.onSuccess({}, () => {
-      this.newRoute$.next(this.state.current.data.newRoute);
+      this.newRoute$.next(this.newRoute);
     });
   }
 
@@ -125,10 +134,8 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   updateTitle(query?:QueryResource) {
     if (this.bimView.current === bimListViewIdentifier) {
       super.updateTitle(query);
-    } else if (this.ifcData.isSingleModel()) {
-      this.selectedTitle = this.ifcData.models[0].name;
     } else {
-      this.selectedTitle = this.I18n.t('js.ifc_models.models.default');
+      this.selectedTitle = this.I18n.t('js.bcf.management');
     }
 
     // For now, disable any editing

@@ -112,7 +112,7 @@ class WorkPackagesController < ApplicationController
 
   def atom_list
     render_feed(@work_packages,
-                title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
+                title: "#{@project || Setting.app_title}: #{I18n.t(:label_work_package_plural)}")
   end
 
   private
@@ -203,7 +203,7 @@ class WorkPackagesController < ApplicationController
     @results = @query.results
     @work_packages = if @query.valid?
                        @results
-                         .sorted_work_packages
+                         .work_packages
                          .page(page_param)
                          .per_page(per_page_param)
                      else

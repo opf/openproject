@@ -123,7 +123,7 @@ class MyController < ApplicationController
   end
 
   def default_breadcrumb
-    l(:label_my_account)
+    I18n.t(:label_my_account)
   end
 
   def show_local_breadcrumb
@@ -134,7 +134,7 @@ class MyController < ApplicationController
 
   def redirect_if_password_change_not_allowed_for(user)
     unless user.change_password_allowed?
-      flash[:error] = l(:notice_can_t_change_password)
+      flash[:error] = I18n.t(:notice_can_t_change_password)
       redirect_to action: 'account'
       return true
     end
@@ -146,7 +146,7 @@ class MyController < ApplicationController
     if update_service.call(mail_notification: permitted_params.user[:mail_notification],
                            self_notified: params[:self_notified] == '1',
                            notified_project_ids: params[:notified_project_ids])
-      flash[:notice] = l(:notice_account_updated)
+      flash[:notice] = I18n.t(:notice_account_updated)
       redirect_to(action: redirect_to)
     end
   end

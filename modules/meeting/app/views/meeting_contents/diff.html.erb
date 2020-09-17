@@ -27,24 +27,24 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title "#{l(:label_meeting_diff)}: #{@meeting.title}" %>
-<%= toolbar title: l(:"label_#{@content_type}"),
+<% html_title "#{t(:label_meeting_diff)}: #{@meeting.title}" %>
+<%= toolbar title: t(:"label_#{@content_type}"),
             link_to: link_to(@meeting, @meeting) do %>
   <% if authorize_for(@content_type.pluralize, :history) %>
     <li class="toolbar-item">
       <%= link_to({controller: "/#{@content_type.pluralize}", action: 'history', meeting_id: @meeting }, class: 'button') do %>
         <%= op_icon('button--icon icon-wiki') %>
-        <span class="button--text"><%= l(:label_history) %></span>
+        <span class="button--text"><%= t(:label_history) %></span>
       <% end %>
     </li>
   <% end %>
 <% end %>
 
 <p>
-<%= l(:label_version) %> <%= link_to @diff.content_from.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_from.version) %>
+<%= t(:label_version) %> <%= link_to @diff.content_from.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_from.version) %>
 <em>(<%= link_to_user(@diff.content_from.user) %>, <%= format_time(@diff.content_from.created_at) %>)</em>
 &#8594;
-<%= l(:label_version) %> <%= link_to @diff.content_to.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_to.version) %>/<%= @content.last_journal&.version || 0 %>
+<%= t(:label_version) %> <%= link_to @diff.content_to.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_to.version) %>/<%= @content.last_journal&.version || 0 %>
 <em>(<%= link_to_user(@diff.content_to.user) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
 </p>
 

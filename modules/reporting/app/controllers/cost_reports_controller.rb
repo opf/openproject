@@ -97,7 +97,7 @@ class CostReportsController < ApplicationController
   end
 
   def menu_item_to_highlight_on_index
-    @project ? :cost_reports : :cost_reports_global
+    @project ? :costs : :cost_reports_global
   end
 
   def drill_down

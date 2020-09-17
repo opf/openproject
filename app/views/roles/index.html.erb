@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title l(:label_administration), l("label_role_plural") %>
+<% html_title t(:label_administration), t("label_role_plural") %>
 <%= toolbar title: Role.model_name.human(count: 2) do %>
   <li class="toolbar-item">
     <%= link_to({ action: 'new'},
@@ -63,7 +63,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%=l(:label_global)%>
+                  <%=t(:label_global)%>
                 </span>
               </div>
             </div>
@@ -72,7 +72,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%=l(:button_sort)%>
+                  <%=t(:button_sort)%>
                 </span>
               </div>
             </div>
@@ -97,7 +97,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <td class="buttons">
               <%= link_to('', role_path(role),
                                        method: :delete,
-                                       data: { confirm: l(:text_are_you_sure) },
+                                       data: { confirm: t(:text_are_you_sure) },
                                        class: 'icon icon-delete',
                                        title: t(:button_delete)) unless role.builtin? %>
             </td>
@@ -111,4 +111,4 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= pagination_links_full @roles %>
 
-<p><%= link_to l(:label_permissions_report), :action => 'report' %></p>
+<p><%= link_to t(:label_permissions_report), :action => 'report' %></p>

@@ -198,6 +198,9 @@ pl:
       completed: "Usunięcie projektu %{name} zostało wykonane"
       completed_text: "Żądanie usunięcia projektu „%{name}” zostało wykonane."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
     settings:
@@ -514,7 +517,7 @@ pl:
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
-        could_not_be_copied: "nie można skopiować (w całości)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "nie istnieje."
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
@@ -558,6 +561,7 @@ pl:
           not_an_integer: "(%{name}) – wartość nie jest liczbą całkowitą."
           smaller_than_or_equal_to: "(%{name}) – wartość musi być mniejsza lub równa %{count}."
           greater_than_or_equal_to: "(%{name}) – wartość musi być większa lub równa %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -592,6 +596,15 @@ pl:
               error_not_found: "nie znaleziono"
             public:
               error_unauthorized: "– Użytkownik nie ma uprawnień do tworzenia widoków publicznych."
+            group_by:
+              invalid: "Nie można grupować przez: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Nieprawidłowa kolumna zapytań: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Nie można sortować według kolumny: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
           filters:
             custom_fields:
@@ -614,8 +627,9 @@ pl:
           must_not_be_ssh: "nie może być adresem SSH."
           no_directory: "nie jest katalogiem."
         role:
-          permissions:
-            dependency_missing: "musi również uwzględniać wybór '%{dependency}' jako '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "musi również uwzględniać wybór '%{dependency}' jako '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -681,6 +695,8 @@ pl:
               unassignable: "nie można przypisać do projektu."
         version:
           undeletable_work_packages_attached: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Sprawdź następujące pola:"
         header:
@@ -1110,9 +1126,6 @@ pl:
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
   error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
-  error_invalid_group_by: "Nie można grupować przez: %{value}"
-  error_invalid_query_column: "Nieprawidłowa kolumna zapytań: %{value}"
-  error_invalid_sort_criterion: "Nie można sortować według kolumny: %{value}"
   error_journal_attribute_not_present: "Dziennik nie zawiera atrybutu %{attribute}."
   error_pdf_export_too_many_columns: "Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz liczbę kolumn."
   error_pdf_failed_to_export: "Nie można było zapisać eksportu PDF: %{error}"
@@ -1125,6 +1138,7 @@ pl:
   error_no_default_work_package_status: "Nie zdefiniowano domyślnego statusu pakietu roboczego. Proszę sprawdzić konfigurację (przejdź do „Administracja -> Statusy pakietów roboczych”)."
   error_no_type_in_project: "Żaden typ nie jest związany z tym projektem. Proszę sprawdzić ustawienia projektu."
   error_omniauth_registration_timed_out: "Upłynął limit czasu na zewnętrzną autoryzację. Spróbuj ponownie."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Wystąpił błąd podczas próby dostępu do repozytorium: %{value}"
   error_scm_not_found: "Nie znaleziono wpisu lub zmiany w repozytorium."
   error_unable_delete_status: "Status pakietu roboczego nie może zostać usunięty dopóki jest używany przynajmniej w jednym pakiecie roboczym."
@@ -1514,6 +1528,7 @@ pl:
   label_no_parent_page: "Bez strony nadrzędnej"
   label_nothing_display: "Brak danych do pokazania"
   label_nobody: "nikt"
+  label_not_found: 'nie znaleziono'
   label_none: "Brak"
   label_none_parentheses: "(brak)"
   label_not_contains: "nie zawierają"
@@ -1528,7 +1543,6 @@ pl:
   label_options: "Opcje"
   label_other: "Inne"
   label_overall_activity: "Ogólna aktywność"
-  label_overall_spent_time: "Całkowity spędzony czas"
   label_overview: "Przegląd"
   label_page_title: "Tytuł strony"
   label_part_of: "część"
@@ -1621,7 +1635,7 @@ pl:
   label_search: "Szukaj"
   label_send_information: "Wyślij Informacje o koncie do użytkownika"
   label_send_test_email: "Wyślij wiadomość testową"
-  label_settings: "Ustawienia"
+  label_setting_plural: "Ustawienia"
   label_system_settings: "Ustawienia"
   label_show_completed_versions: "Pokaż zakończone wersje"
   label_sort: "Sortowanie"
@@ -2127,6 +2141,10 @@ pl:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Wyszukaj ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Metoda dostarczenia maila"
   setting_sendmail_location: "Lokalizacja pliku wykonywalnego sendmail"
   setting_smtp_enable_starttls_auto: "Automatycznie użyj STARTTLS, jeśli jest dostępny"
@@ -2171,6 +2189,7 @@ pl:
   setting_emails_header: "Nagłówek wiadomości e-mail"
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Włącz kanały"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
@@ -2201,6 +2220,8 @@ pl:
   setting_per_page_options: "Obiektów na stronie"
   setting_plain_text_mail: "Poczta czystym tekstem (bez HTML)"
   setting_protocol: "Protokół"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Wyświetl plakietkę bezpieczeństwa"
   setting_registration_footer: "Rejestracja stopki"
   setting_repositories_automatic_managed_vendor: "Typ automatycznego producenta repozytorium"
@@ -2239,6 +2260,9 @@ pl:
     passwords: "Hasła"
     session: "Sesja"
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Ustawienia domyślne"
       deletion: "Usunięcie"

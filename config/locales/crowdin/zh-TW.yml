@@ -202,6 +202,9 @@ zh-TW:
       completed: "專案 %{name} 已完成刪除"
       completed_text: "刪除專案 \"%{name}\" 的請求已經完成。"
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
     settings:
@@ -515,7 +518,7 @@ zh-TW:
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
-        could_not_be_copied: "無法 (完全) 複製"
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
@@ -559,6 +562,7 @@ zh-TW:
           not_an_integer: "(%{name}) 不是一個整數。"
           smaller_than_or_equal_to: "(%{name}) 必須小於等於 %{count}。"
           greater_than_or_equal_to: "(%{name}) 必須大於等於 %{count}。"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -593,6 +597,15 @@ zh-TW:
               error_not_found: "未找到"
             public:
               error_unauthorized: "- 此用戶沒有建立公共查詢的權限。"
+            group_by:
+              invalid: "無法按照 %{value} 分組"
+              format: "%{message}"
+            column_names:
+              invalid: "無效的查詢欄：%{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "無法按照 %{value} 排序"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "與按照 \"%{group_by}\" 分組的群組相互排斥。不能同時啟動兩者。"
           filters:
             custom_fields:
@@ -615,8 +628,9 @@ zh-TW:
           must_not_be_ssh: "不可以是一個 SSH url"
           no_directory: "不是一個資料夾"
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -679,6 +693,8 @@ zh-TW:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "請檢查下列欄位："
         header:
@@ -1066,9 +1082,6 @@ zh-TW:
   error_failed_to_delete_entry: '刪除此項目失敗。'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "不合法的項目數值。"
-  error_invalid_group_by: "無法按照 %{value} 分組"
-  error_invalid_query_column: "無效的查詢欄：%{value}"
-  error_invalid_sort_criterion: "無法按照 %{value} 排序"
   error_journal_attribute_not_present: "Journal 不含有屬性 %{attribute}。"
   error_pdf_export_too_many_columns: "為 PDF 匯出選擇的列太多。請減少列數。"
   error_pdf_failed_to_export: "無法保存 pdf 匯出: %{error}"
@@ -1081,6 +1094,7 @@ zh-TW:
   error_no_default_work_package_status: "沒有定義預設的工作項目狀態。請檢查您的設定 (前往 \"管理 -> 工作項目狀態\")。"
   error_no_type_in_project: "這個專案沒有關聯的類型，請檢查專案設定。"
   error_omniauth_registration_timed_out: "外部身份驗證註冊逾時，請再試一次。"
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "嘗試存取版本庫的時候發生錯誤: %{value}"
   error_scm_not_found: "在版本庫中找不到項目或修訂"
   error_unable_delete_status: "工作項目狀態無法刪除，因為它被至少一個工作項目使用了。"
@@ -1470,6 +1484,7 @@ zh-TW:
   label_no_parent_page: "無上層頁面"
   label_nothing_display: "沒有可以顯示的"
   label_nobody: "沒有人"
+  label_not_found: '未找到'
   label_none: "無"
   label_none_parentheses: "（無）"
   label_not_contains: "不包含"
@@ -1484,7 +1499,6 @@ zh-TW:
   label_options: "選項"
   label_other: "其他"
   label_overall_activity: "全部活動"
-  label_overall_spent_time: "總體耗時"
   label_overview: "概要"
   label_page_title: "網頁標題"
   label_part_of: "部份於"
@@ -1577,7 +1591,7 @@ zh-TW:
   label_search: "搜尋"
   label_send_information: "傳送帳號資訊給使用者"
   label_send_test_email: "發送測試電子郵件"
-  label_settings: "設定"
+  label_setting_plural: "設定"
   label_system_settings: "系統設置"
   label_show_completed_versions: "顯示已完成的版本"
   label_sort: "排序"
@@ -2070,6 +2084,10 @@ zh-TW:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "搜尋 ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_sendmail_location: "Sendmail 的執行位置"
   setting_smtp_enable_starttls_auto: "如果可用將自動使用 STARTTLS"
@@ -2114,6 +2132,7 @@ zh-TW:
   setting_emails_header: "電子郵件標頭"
   setting_email_login: "使用信箱登入"
   setting_enabled_scm: "啟用 SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "啟用 Feed"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
@@ -2144,6 +2163,8 @@ zh-TW:
   setting_per_page_options: "每頁顯示項目個數的設置"
   setting_plain_text_mail: "純文字郵件（不含 HTML）"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "顯示安全徽章"
   setting_registration_footer: "註冊頁腳"
   setting_repositories_automatic_managed_vendor: "自動版本控制類型"
@@ -2182,6 +2203,9 @@ zh-TW:
     passwords: "密碼"
     session: "Session"
     brute_force_prevention: "自動禁止使用者"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默認偏好設置"
       deletion: "消除"

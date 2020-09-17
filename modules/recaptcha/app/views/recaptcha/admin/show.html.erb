@@ -7,7 +7,7 @@
                       method: :post,
                       id: 'update-recaptcha-settings-form') do %>
     <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= t(:label_settings) %></legend>
+      <legend class="form--fieldset-legend"><%= t(:label_setting_plural) %></legend>
       <div class="form--field">
         <label class="form--label" for='recaptcha_type'><%= t('recaptcha.settings.type') %></label>
         <div class="form--field-container">
@@ -41,6 +41,6 @@
         </div>
       </div>
     </fieldset>
-    <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
+    <%= styled_submit_tag t(:button_apply), class: '-highlight' %>
   <% end %>
 </section>

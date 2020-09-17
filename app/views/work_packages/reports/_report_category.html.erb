@@ -31,9 +31,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--fieldset-legend"><%= WorkPackage.human_attribute_name(report.report_type) %></div>
   <div class="form--toolbar">
     <span class="form--toolbar-item">
-    <%= link_to(icon_wrapper('icon icon-zoom-in',l(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type))),
+    <%= link_to(icon_wrapper('icon icon-zoom-in',t(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type))),
                 {action: 'report_details', detail: report.report_type},
-                title: l(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type)),
+                title: t(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type)),
                 class: 'no-decoration-on-hover') %></span>
   </div>
   <%= render partial: 'report', locals: { report: report } %>

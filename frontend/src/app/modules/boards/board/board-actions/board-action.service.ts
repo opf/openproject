@@ -56,6 +56,11 @@ export abstract class BoardActionService {
   description:string;
 
   /**
+   * The description used in tile
+   */
+  image:string;
+
+  /**
    * Label used to describe the values in the modal
    */
   label:string;
@@ -224,14 +229,14 @@ export abstract class BoardActionService {
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
     // Ensure attribute remains writable in the form
     if (!changeset.isWritable(this.filterName)) {
-      throw this.I18n.t(
+      throw new Error(this.I18n.t(
         'js.boards.error_attribute_not_writable',
         { attribute: changeset.humanName(this.filterName) }
-      );
+      ));
     }
 
-    const filter = new WorkPackageFilterValues(this.injector, changeset, query.filters);
-    filter.applyDefaultsFromFilters();
+    new WorkPackageFilterValues(this.injector, query.filters)
+        .applyDefaultsFromFilters(changeset);
   }
 
   /**

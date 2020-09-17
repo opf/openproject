@@ -27,10 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= validation_errors.length > 1 ? l(:error_intro_plural) : l(:error_intro_singular) %>
+<%= validation_errors.length > 1 ? t(:error_intro_plural) : t(:error_intro_singular) %>
 <ul>
   <%- validation_errors.each_full do |msg| %>
   <li><%= msg %></li>
   <%- end %>
 </ul>
-<%= l(:error_outro ) %>
+<%= t(:error_outro ) %>

@@ -154,6 +154,8 @@ describe 'work package export', type: :feature do
 
         expect(page).to have_no_content(wp_2.description) # safeguard
 
+        sleep(0.5)
+
         export!
 
         expect(subject).not_to have_text(wp_1.description)

@@ -4,4 +4,5 @@ sk:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Nástenky"
   boards:
+    label_board: "Nástenka"
     label_boards: "Nástenky"

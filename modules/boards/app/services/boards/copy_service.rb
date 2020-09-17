@@ -29,30 +29,11 @@
 #++
 
 module Boards
-  class CopyService < ::BaseServices::Copy
-
-    def initialize(user:, source:)
-      super(user: user, source: source, contract_class: ::EmptyContract)
-    end
-
+  class CopyService < ::Grids::CopyService
     protected
 
-    def copy_dependencies
-      [
-        ::Boards::Copy::WidgetsDependentService
-      ]
-    end
-
-    def initialize_copy(source, params)
-      new_board = ::Boards::Grid.new
-      new_board.attributes = source.attributes.dup.except(*skipped_attributes)
-      new_board.project = state.project || source.project
-
-      ServiceResult.new(success: new_board.save, result: new_board)
-    end
-
-    def skipped_attributes
-      %w[id created_at updated_at project_id sort_criteria]
+    def initialize_new_grid!(new_board, original_board, _params)
+      new_board.project = state.project || original_board.project
     end
   end
 end

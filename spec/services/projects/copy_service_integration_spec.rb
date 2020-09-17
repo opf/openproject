@@ -45,7 +45,7 @@ describe Projects::CopyService, 'integration', type: :model do
                       member_in_project: source,
                       member_through_role: role)
   end
-  let(:role) { FactoryBot.create :role, permissions: %i[copy_projects] }
+  let(:role) { FactoryBot.create :role, permissions: %i[copy_projects view_work_packages] }
   let(:instance) do
     described_class.new(source: source, user: current_user)
   end
@@ -255,6 +255,22 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(subject).to be_success
           expect(project_copy.queries.all?(&:valid?)).to eq(true)
           expect(project_copy.queries.count).to eq 2
+        end
+      end
+
+      context 'with a filter to be mapped' do
+        let!(:query) do
+          query = FactoryBot.build(:query, project: source)
+          query.add_filter('parent', '=', [source_wp.id.to_s])
+          # Not valid due to wp not visible
+          query.save!(validate: false)
+        end
+
+        it 'produces a valid query that is mapepd in the new project' do
+          expect(subject).to be_success
+          copied_wp = project_copy.work_packages.find_by(subject: 'source wp')
+          copied = project_copy.queries.first
+          expect(copied.filters[1].values).to eq [copied_wp.id.to_s]
         end
       end
     end
@@ -537,7 +553,7 @@ describe Projects::CopyService, 'integration', type: :model do
         end
       end
 
-      describe 'user custom field' do
+      describe 'work package user custom field' do
         let(:custom_field) do
           FactoryBot.create(:user_wp_custom_field).tap do |cf|
             source.work_package_custom_fields << cf
@@ -572,6 +588,32 @@ describe Projects::CopyService, 'integration', type: :model do
             expect(wp.send(:"custom_field_#{custom_field.id}"))
               .to be_nil
           end
+        end
+      end
+    end
+
+    describe 'project custom fields' do
+      context 'with user project CF' do
+        let(:user_custom_field) { FactoryBot.create(:user_project_custom_field) }
+        let(:user_value) do
+          FactoryBot.create(:user,
+                            member_in_project: source,
+                            member_through_role: role)
+        end
+
+        before do
+          source.custom_values << CustomValue.new(custom_field: user_custom_field, value: user_value.id.to_s)
+        end
+
+        let(:only_args) { %w[wiki] }
+
+        it 'copies the custom_field' do
+          expect(subject).to be_success
+
+          cv = project_copy.custom_values.reload.find_by(custom_field: user_custom_field)
+          expect(cv).to be_present
+          expect(cv.value).to eq user_value.id.to_s
+          expect(cv.typed_value).to eq user_value
         end
       end
     end

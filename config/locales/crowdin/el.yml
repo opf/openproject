@@ -200,6 +200,9 @@ el:
       completed: "Η διαγραφή του έργου %{name} ολοκληρώθηκε"
       completed_text: "Το αίτημα για διαγραφή του έργου %{name} έχει ολοκληρωθεί."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
     settings:
@@ -513,7 +516,7 @@ el:
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
         confirmation: "δεν ταιριάζει με %{attribute}."
-        could_not_be_copied: "δεν ήταν δυνατή η (πλήρης) αντιγραφή."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "δεν υπάρχει."
         error_unauthorized: "δεν είναι δυνατή η πρόσβαση."
         error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."
@@ -557,6 +560,7 @@ el:
           not_an_integer: "(%{name}) δεν είναι ακέραιος."
           smaller_than_or_equal_to: "(%{name}) πρέπει να είναι μικρότερο ή ίσο με %{count}."
           greater_than_or_equal_to: "(%{name}) πρέπει να είναι μεγαλύτερο ή ίσο με %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -591,6 +595,15 @@ el:
               error_not_found: "δεν βρέθηκε"
             public:
               error_unauthorized: "- Ο χρήστης δεν έχει δικαίωμα να δημιουργήσει δημόσιες προβολές."
+            group_by:
+              invalid: "Δεν μπορούν να ομαδοποιηθούν κατά: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Μη έγκυρη στήλη αναζήτησης: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Δεν είναι δυνατή η ταξινόμηση κατά στήλη: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "είναι αμοιβαία αποκλειστικό με την ομαδοποίηση κατά '%{group_by}'. Δεν μπορείτε να ενεργοποιήσετε και τα δύο."
           filters:
             custom_fields:
@@ -613,8 +626,9 @@ el:
           must_not_be_ssh: "δεν πρέπει να είναι σύνδεσμος SSH."
           no_directory: "δεν είναι κατάλογος."
         role:
-          permissions:
-            dependency_missing: "πρέπει επίσης να συμπεριληφθεί το '%{dependency}' καθώς το '%{permission}' είναι επιλεγμένο."
+          attributes:
+            permissions:
+              dependency_missing: "πρέπει επίσης να συμπεριληφθεί το '%{dependency}' καθώς το '%{permission}' είναι επιλεγμένο."
         time_entry:
           attributes:
             hours:
@@ -678,6 +692,8 @@ el:
               unassignable: "δεν μπορεί να ανατεθεί σε ένα έργο."
         version:
           undeletable_work_packages_attached: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Παρακαλούμε ελέγξτε τα ακόλουθα πεδία:"
         header:
@@ -1079,9 +1095,6 @@ el:
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
-  error_invalid_group_by: "Δεν μπορούν να ομαδοποιηθούν κατά: %{value}"
-  error_invalid_query_column: "Μη έγκυρη στήλη αναζήτησης: %{value}"
-  error_invalid_sort_criterion: "Δεν είναι δυνατή η ταξινόμηση κατά στήλη: %{value}"
   error_journal_attribute_not_present: "Το ημερολόγιο δεν περιέχει το χαρακτηριστικό %{attribute}."
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
   error_pdf_failed_to_export: "Η εξαγωγή σε PDF δεν ήταν δυνατό να αποθηκευτεί: %{error}"
@@ -1094,6 +1107,7 @@ el:
   error_no_default_work_package_status: "Δεν έχει οριστεί η προεπιλογή κατάστασης πακέτων εργασίας. Παρακαλώ ελέγξτε τις ρυθμίσεις σας (Μεταβείτε στην \"Διαχείριση -> Κατάσταση Πακέτων Εργασίας\")."
   error_no_type_in_project: "Δεν υπάρχει τύπος που σχετίζεται με αυτό το έργο. Παρακαλώ ελέγξτε τις Ρυθμίσεις του Έργου."
   error_omniauth_registration_timed_out: "Η εγγραφή μέσω ενός εξωτερικού παρόχου ταυτοποίησης έληξε. Παρακαλούμε προσπαθήστε ξανά."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια πρόσβασης στο αποθετήριο: %{value}"
   error_scm_not_found: "Η καταχώρηση ή η αναθεώρηση δεν βρέθηκε στο αποθετήριο."
   error_unable_delete_status: "Η κατάσταση του πακέτου εργασίας δεν ήταν δυνατό να διαγραφεί καθώς χρησιμοποιείται σε τουλάχιστον ένα πακέτο εργασίας."
@@ -1483,6 +1497,7 @@ el:
   label_no_parent_page: "Δεν υπάρχει σελίδα γονέα"
   label_nothing_display: "Δεν υπάρχει κάτι για εμφάνιση"
   label_nobody: "κανένας"
+  label_not_found: 'δεν βρέθηκε'
   label_none: "κανένα"
   label_none_parentheses: "(κανένα)"
   label_not_contains: "δεν περιέχει"
@@ -1497,7 +1512,6 @@ el:
   label_options: "Επιλογές"
   label_other: "Άλλο"
   label_overall_activity: "Συνολική δραστηριότητα"
-  label_overall_spent_time: "Συνολικός χρόνος που δαπανήθηκε"
   label_overview: "Επισκόπηση"
   label_page_title: "Τίτλος σελίδας"
   label_part_of: "μέρος του"
@@ -1590,7 +1604,7 @@ el:
   label_search: "Αναζήτηση"
   label_send_information: "Αποστολή πληροφοριών λογαριασμού στο χρήστη"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
-  label_settings: "Ρυθμίσεις"
+  label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"
   label_show_completed_versions: "Εμφάνιση ολοκληρωμένων εκδόσεων"
   label_sort: "Ταξινόμηση"
@@ -2088,6 +2102,10 @@ el:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Αναζήτηση ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Μέθοδος αποστολής email"
   setting_sendmail_location: "Τοποθεσία του εκτελέσιμου sendmail"
   setting_smtp_enable_starttls_auto: "Αυτόματη χρήση STARTTLS αν είναι διαθέσιμο"
@@ -2132,6 +2150,7 @@ el:
   setting_emails_header: "Επικεφαλίδα email"
   setting_email_login: "Χρησιμοποιήστε email για είσοδο"
   setting_enabled_scm: "Ενεργοποίηση SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
@@ -2162,6 +2181,8 @@ el:
   setting_per_page_options: "Αντικείμενα ανά σελίδα επιλογών"
   setting_plain_text_mail: "Email απλού κειμένου (χωρίς HTML)"
   setting_protocol: "Πρωτόκολλο"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Εμφάνιση πληροφοριών ασφαλείας"
   setting_registration_footer: "Υποσέλιδο εγγραφής"
   setting_repositories_automatic_managed_vendor: "Αυτόματος τύπος προμηθευτή αποθετηρίου"
@@ -2200,6 +2221,9 @@ el:
     passwords: "Κωδικοί πρόσβασης"
     session: "Συνεδρία"
     brute_force_prevention: "Αυτόματο μπλοκάρισμα χρήστη"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Προεπιλεγμένες προτιμήσεις"
       deletion: "Διαγραφή"

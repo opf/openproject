@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe 'Projects index page',
          type: :feature,
+         clear_cache: true,
          js: true,
          with_settings: { login_required?: false } do
   using_shared_fixtures :admin
@@ -202,7 +203,15 @@ describe 'Projects index page',
       allow_enterprise_edition
     end
 
-    scenario 'CF columns and filters are visible' do
+    scenario 'CF columns and filters are not visible by default' do
+      load_and_open_filters admin
+
+      # CF's columns are not shown due to setting
+      expect(page).to_not have_text(custom_field.name.upcase)
+    end
+
+    scenario 'CF columns and filters are visible when added to settings' do
+      Setting.enabled_projects_columns += ["cf_#{custom_field.id}", "cf_#{invisible_custom_field.id}"]
       load_and_open_filters admin
 
       # CF's column is present:
@@ -340,10 +349,6 @@ describe 'Projects index page',
 
         # value selection defaults to "active"'
         expect(page).to have_selector('li[filter-name="active"]')
-
-        # Filter has three operators 'all', 'active' and 'archived'
-        expect(page.find('li[filter-name="active"] select[name="operator"] option[value="="]')).to have_text('is')
-        expect(page.find('li[filter-name="active"] select[name="operator"] option[value="!"]')).to have_text('is not')
 
         expect(page).to have_text(parent_project.name)
         expect(page).to have_text(child_project.name)
@@ -847,6 +852,8 @@ describe 'Projects index page',
     end
 
     scenario 'allows to alter the order in which projects are displayed' do
+      Setting.enabled_projects_columns += ["cf_#{integer_custom_field.id}"]
+
       # initially, ordered by name asc on each hierarchical level
       expect_projects_in_order(development_project,
                                project,

@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= render partial: 'toolbar', locals: {title: l(:label_workflow_plural) } %>
-<% html_title l(:label_administration), l(:label_workflow_plural) -%>
+<%= render partial: 'toolbar', locals: {title: t(:label_workflow_plural) } %>
+<% html_title t(:label_administration), t(:label_workflow_plural) -%>
 <% local_assigns[:additional_breadcrumb] = t(:label_workflow_summary) %>
 
 <% if @workflow_counts.any? %>
@@ -64,7 +64,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <td><%= h type %></td>
                 <% roles.each do |role, count| -%>
                   <td>
-                    <%= link_to((count > 0 ? count : content_tag(:span, '', class: "icon-close icon-context icon-button")), {action: 'edit', role_id: role, type_id: type}, title: l(:button_edit)) %>
+                    <%= link_to((count > 0 ? count : content_tag(:span, '', class: "icon-close icon-context icon-button")), {action: 'edit', role_id: role, type_id: type}, title: t(:button_edit)) %>
                   </td>
                 <% end -%>
               </tr>

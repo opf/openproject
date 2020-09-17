@@ -23,6 +23,17 @@ uk:
   activerecord:
     attributes:
       budget:
+        author: "Автор"
+        available: "Доступно"
+        budget: "Планується"
+        budget_ratio: "Витрачено (співвідношення)"
+        created_on: "Створений"
+        description: "Опис"
+        spent: "Витрачений"
+        status: "Статус"
+        subject: "Тема"
+        type: "Тип вартості"
+        updated_on: "Оновлене"
         labor_budget: "Планові витрати праці"
         material_budget: "Планові витрати на одиницю продукції"
       work_package:
@@ -49,8 +60,9 @@ uk:
   label_budget: "Бюджет"
   label_budget_new: "Новий бюджет"
   label_budget_plural: "Бюджети"
-  label_cost_type_specific: "Бюджет #%{id}: %{name}\n"
+  label_budget_id: "Бюджет  #%{id}"
   label_deliverable: "Бюджет"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Переглянути всі бюджети"
   label_yes: "Так"
   notice_budget_conflict: "Робочі пакети повинні бути одного проекту."

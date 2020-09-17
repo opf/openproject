@@ -202,6 +202,9 @@
       completed: "Sletting av prosjektet %{name} er fullført"
       completed_text: "Forespørselen om å slette prosjektet '%{name}' er fullført."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Det er for tiden ingen prosjekter
       no_results_content_text: Opprett nytt prosjekt
     settings:
@@ -516,7 +519,7 @@
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
-        could_not_be_copied: "kunne ikke kopieres fullstendig."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finnes ikke."
         error_unauthorized: "kan ikke nås"
         error_readonly: "ble forsøkt skrevet til, men er skrivebeskyttet"
@@ -560,6 +563,7 @@
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +598,15 @@
               error_not_found: "not found"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Kan ikke gruppere av: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -616,8 +629,9 @@
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "er ikke en katalog"
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -681,6 +695,8 @@
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Kontroller følgende felter:"
         header:
@@ -1082,9 +1098,6 @@
   error_failed_to_delete_entry: 'Kan ikke slette denne oppføringen.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ugyldig valgt verdi."
-  error_invalid_group_by: "Kan ikke gruppere av: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1097,6 +1110,7 @@
   error_no_default_work_package_status: "Standard status for arbeidspakke er ikke definert. Vennligst kontrollèr innstillingene (Gå til \"Administrasjon -> Status for arbeidspakker\")."
   error_no_type_in_project: "Prosjektet mangler en tilknyttet type. Vennligst kontrollèr Prosjektinnstillinger."
   error_omniauth_registration_timed_out: "Det oppstod tidsavbrudd under registrering via ekstern autentiseringstjeneste. Vennligst forsøk igjen."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Det oppstod en feil ved forsøk på å åpne pakkebrønnen: %{value}"
   error_scm_not_found: "Oppføringen eller revisjonen ble ikke funnet i pakkebrønnen."
   error_unable_delete_status: "Arbeidspakken kan ikke bli slettet siden den benyttes av minst en annen arbeidspakke."
@@ -1486,6 +1500,7 @@
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
   label_nobody: "ingen"
+  label_not_found: 'not found'
   label_none: "ingen"
   label_none_parentheses: "(ingen)"
   label_not_contains: "inneholder ikke"
@@ -1500,7 +1515,6 @@
   label_options: "Alternativer"
   label_other: "Øvrig"
   label_overall_activity: "Samlet aktivitet"
-  label_overall_spent_time: "Samlet tidsbruk"
   label_overview: "Oversikt"
   label_page_title: "Page title"
   label_part_of: "part of"
@@ -1593,7 +1607,7 @@
   label_search: "Søk"
   label_send_information: "Send kontoinformasjon til brukeren"
   label_send_test_email: "Send en testmail"
-  label_settings: "Innstillinger"
+  label_setting_plural: "Innstillinger"
   label_system_settings: "Systeminnstillinger"
   label_show_completed_versions: "Vis fullførte versjoner"
   label_sort: "Sortèr"
@@ -2092,6 +2106,10 @@
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Søk..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Leveringsmetode for e-post"
   setting_sendmail_location: "Plasseringen av sendmail kjørbar"
   setting_smtp_enable_starttls_auto: "Bruk STARTTLS automatisk hvis tilgjengelig"
@@ -2136,6 +2154,7 @@
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM aktivert"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktiver Feeds"
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
@@ -2166,6 +2185,8 @@
   setting_per_page_options: "Alternativer for oppføringer pr. side"
   setting_plain_text_mail: "Ren tekst (ingen HTML)"
   setting_protocol: "Protokoll"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registrerings bunntekst"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
@@ -2204,6 +2225,9 @@
     passwords: "Passord"
     session: "Sesjon"
     brute_force_prevention: "Automatisk blokkering av brukere"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"

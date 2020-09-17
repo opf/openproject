@@ -104,15 +104,21 @@ module Pages
 
         expect_correct_page_loaded '.ifc-model-viewer--container'
 
-        expect(page).to have_selector('.editable-toolbar-title--fixed', text: model.title)
+        expect_model_active(model)
       end
 
-      def show_defaults
+      def expect_model_active(model, active = true)
+        expect(page).to have_field(model.id.to_s, checked: active)
+      end
+
+      def show_defaults(models = [])
         click_toolbar_button 'Show defaults'
 
         expect_correct_page_loaded '.ifc-model-viewer--container'
 
-        expect(page).to have_selector('.editable-toolbar-title--fixed', text: 'Default IFC models')
+        models.each do |model|
+          expect_model_active(model, model.is_default)
+        end
       end
 
       private

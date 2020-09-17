@@ -4,4 +4,5 @@ tr:
   permission_manage_board_views: "Panoları yönet"
   project_module_board_view: "Panolar"
   boards:
+    label_board: "Pano"
     label_boards: "Panolar"

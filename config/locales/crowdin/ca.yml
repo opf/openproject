@@ -202,6 +202,9 @@ ca:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
     settings:
@@ -516,7 +519,7 @@ ca:
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
-        could_not_be_copied: "no pot ser (completament) copiat."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "no existeix."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -560,6 +563,7 @@ ca:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +598,15 @@ ca:
               error_not_found: "not found"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -616,8 +629,9 @@ ca:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "no és un directori."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -681,6 +695,8 @@ ca:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Si us plau, revisi els camps següents:"
         header:
@@ -1082,9 +1098,6 @@ ca:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1097,6 +1110,7 @@ ca:
   error_no_default_work_package_status: "No hi ha cap estat de paquet de treball definit per defecte. Comproveu la configuració (\"Administració-> Estats dels paquets de treball\")."
   error_no_type_in_project: "Aquest projecte no té cap tipus associat. Comproveu els paràmetres del projecte."
   error_omniauth_registration_timed_out: "S'ha esgotat el temps d'espera per a la inscripció mitjançant un proveïdor d'autenticació externa. Torneu-ho a provar."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
   error_unable_delete_status: "No es pot suprimir l'estat del paquet de treball ja que és utilitzat per almenys un paquet de treball."
@@ -1486,6 +1500,7 @@ ca:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Res a mostrar"
   label_nobody: "ningú"
+  label_not_found: 'not found'
   label_none: "cap"
   label_none_parentheses: "(cap)"
   label_not_contains: "no conté"
@@ -1500,7 +1515,6 @@ ca:
   label_options: "Opcions"
   label_other: "Altres"
   label_overall_activity: "Activitat global"
-  label_overall_spent_time: "Temps total invertit"
   label_overview: "Visió general"
   label_page_title: "Page title"
   label_part_of: "part of"
@@ -1593,7 +1607,7 @@ ca:
   label_search: "Cercar"
   label_send_information: "Envia la informació del compte a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
-  label_settings: "Configuració"
+  label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"
   label_show_completed_versions: "Mostra les versions acabades"
   label_sort: "Ordena"
@@ -2090,6 +2104,10 @@ ca:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Mètode de lliurament del correu electrònic"
   setting_sendmail_location: "Localització de l'executable de sendmail"
   setting_smtp_enable_starttls_auto: "Utilitza STARTTLS automàticament si està disponible"
@@ -2134,6 +2152,7 @@ ca:
   setting_emails_header: "Encapçalament dels correus"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Activar SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Habilita els canals"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
@@ -2164,6 +2183,8 @@ ca:
   setting_per_page_options: "Opcions d'objectes per pàgina"
   setting_plain_text_mail: "Només text pla (no HTML)"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Tipus de proveïdor de repositori automàtic"
@@ -2202,6 +2223,9 @@ ca:
     passwords: "Contrasenyes"
     session: "Sessió"
     brute_force_prevention: "Bloqueig automàtic d'usuari"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"

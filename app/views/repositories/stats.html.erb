@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: l(:label_statistics) %>
+<%= toolbar title: t(:label_statistics) %>
 
 <p class="autoscroll">
   <%= tag("embed", width: 800,
@@ -50,6 +50,6 @@ See docs/COPYRIGHT.rdoc for more details.
   </p>
 <% end %>
 
-<p><%= link_to l(:button_back), action: 'show', project_id: @project.id %></p>
+<p><%= link_to t(:button_back), action: 'show', project_id: @project.id %></p>
 
-<% html_title(l(:label_repository), l(:label_statistics)) -%>
+<% html_title(t(:label_repository), t(:label_statistics)) -%>

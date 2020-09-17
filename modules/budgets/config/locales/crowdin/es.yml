@@ -23,6 +23,17 @@ es:
   activerecord:
     attributes:
       budget:
+        author: "Autor"
+        available: "Disponible"
+        budget: "Planeado"
+        budget_ratio: "Gastado (cociente)"
+        created_on: "Creado en"
+        description: "Descripción"
+        spent: "Pasado"
+        status: "Estado"
+        subject: "Asunto"
+        type: "Tipo de costo"
+        updated_on: "Actualizada el"
         labor_budget: "Costos laborales previstos"
         material_budget: "Costos unitarios previstos"
       work_package:
@@ -49,8 +60,9 @@ es:
   label_budget: "Presupuesto"
   label_budget_new: "Nuevo presupuesto"
   label_budget_plural: "Presupuestos"
-  label_cost_type_specific: "Presupuesto %{id}:%{name}"
+  label_budget_id: "Presupuesto #%{id}"
   label_deliverable: "Presupuesto"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Ver todos los presupuestos"
   label_yes: "Sí"
   notice_budget_conflict: "Paquetes de trabajo deben de estar en un mismo proyecto."

@@ -76,7 +76,7 @@ class Activities::ChangesetActivityProvider < Activities::BaseActivityProvider
 
     short_comment = split_comment(event['comments']).first
 
-    title = "#{l(:label_revision)} #{revision}"
+    title = "#{I18n.t(:label_revision)} #{revision}"
     title << (short_comment.blank? ? '' : (': ' + short_comment))
   end
 

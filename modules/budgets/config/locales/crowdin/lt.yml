@@ -23,6 +23,17 @@ lt:
   activerecord:
     attributes:
       budget:
+        author: "Autorius"
+        available: "Laisvas"
+        budget: "Suplanuotas"
+        budget_ratio: "Panaudotas (santykis)"
+        created_on: "Sukurta"
+        description: "Aprašymas"
+        spent: "Praleista"
+        status: "Būsena"
+        subject: "Tema"
+        type: "Kaštų tipas"
+        updated_on: "Atnaujinta"
         labor_budget: "Suplanuoti darbo kaštai"
         material_budget: "Suplanuoti vienetų kaštai"
       work_package:
@@ -49,8 +60,9 @@ lt:
   label_budget: "Biudžetas"
   label_budget_new: "Naujas biudžetas"
   label_budget_plural: "Biudžetai"
-  label_cost_type_specific: "Biudžetas Ę%{id}: %{name}"
+  label_budget_id: "Biudžetas #%{id}"
   label_deliverable: "Biudžetas"
+  label_example_placeholder: 't.y., %{decimal}'
   label_view_all_budgets: "Peržiūrėti visus biudžetus"
   label_yes: "Taip"
   notice_budget_conflict: "Darbų paketai turi būti tame pačiame projekte."

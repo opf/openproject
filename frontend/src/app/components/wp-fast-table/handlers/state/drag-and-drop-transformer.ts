@@ -17,6 +17,8 @@ import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {isInsideCollapsedGroup} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
+import {collapsedGroupClass} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 
 export class DragAndDropTransformer {
 
@@ -67,13 +69,25 @@ export class DragAndDropTransformer {
         const workPackage = this.states.workPackages.get(wpId).value;
         return !!workPackage && this.actionService.canPickup(workPackage);
       },
-      onMoved: async (el:HTMLElement, target:HTMLElement, source:HTMLElement) => {
+      onMoved: async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
         const wpId:string = el.dataset.workPackageId!;
-        const rowIndex = this.findRowIndex(el);
+        let rowIndex;
 
         try {
           const workPackage = await this.apiV3Service.work_packages.id(wpId).get().toPromise();
+
+          if (isInsideCollapsedGroup(sibling)) {
+            const collapsedGroupCSSClass = Array.from(sibling!.classList).find(listClass => listClass.includes(collapsedGroupClass()))!;
+            const collapsedGroupId = collapsedGroupCSSClass.replace(collapsedGroupClass(), '');
+            const collapsedGroupElements = source.getElementsByClassName(collapsedGroupClass(collapsedGroupId));
+            const collapsedGroupLastChild = collapsedGroupElements[collapsedGroupElements.length - 1];
+            rowIndex = this.findRowIndex(collapsedGroupLastChild as HTMLElement);
+          } else {
+            rowIndex = this.findRowIndex(el);
+          }
+
           const newOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
+
           await this.actionService.handleDrop(workPackage, el);
           this.updateRenderedOrder(newOrder);
           this.actionService.onNewOrder(newOrder);
@@ -86,6 +100,8 @@ export class DragAndDropTransformer {
         } catch (e) {
           this.halNotification.handleRawError(e);
 
+          // Restore original element's styles
+          this.actionService.changeShadowElement(el, true);
           // Restore element in from container
           DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
         }

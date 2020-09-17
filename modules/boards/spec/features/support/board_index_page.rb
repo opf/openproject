@@ -60,9 +60,9 @@ module Pages
       page.find('.toolbar-item a', text: 'Board').click
 
       if action == nil
-        find('.tile-block', text: 'Basic Board').click
+        find('.tile-block-title', text: 'Basic').click
       else
-        find('.tile-block', text: "Action Board (#{action.to_s})").click
+        find('.tile-block-title', text: action.to_s).click
       end
 
       if expect_empty

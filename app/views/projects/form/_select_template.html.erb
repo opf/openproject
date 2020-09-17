@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= styled_label_tag 'from_template', t('project.template.use_template') %>
   <div class="form--field-container">
     <%= styled_select_tag :from_template,
-                          options_for_select(project_options_for_templated),
+                          options_for_select(project_options_for_templated, @template_project&.id),
                           id: 'project-select-template',
                           prompt: "(#{t(:label_none)})",
                           container_class: '-wide' %>

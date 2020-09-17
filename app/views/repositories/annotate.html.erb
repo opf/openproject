@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= call_hook(:view_repositories_show_contextual, { repository: @repository, project: @project }) %>
-<% html_title(l(:button_annotate)) %>
+<% html_title(t(:button_annotate)) %>
 <%= render partial: 'repository_header', locals: { empty: false } %>
 
 <div class="repository-breadcrumbs">

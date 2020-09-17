@@ -202,6 +202,9 @@ ko:
       completed: "프로젝트 %{name} 삭제가 완료되었습니다."
       completed_text: "프로젝트 '%{name}' 삭제 요청이 완료되었습니다."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
     settings:
@@ -514,7 +517,7 @@ ko:
         cant_link_a_work_package_with_a_descendant: "작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다."
         circular_dependency: "이 연계는 순환 종속관계를 만듭니다."
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
-        could_not_be_copied: "은(는) (완전히) 복제될 수 없습니다."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "존재하지 않음"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
@@ -558,6 +561,7 @@ ko:
           not_an_integer: "(%{name})은(는) 정수가 아닙니다."
           smaller_than_or_equal_to: "(%{name})은(는) %{count}보다 작거나 같아야 합니다."
           greater_than_or_equal_to: "(%{name})은(는) %{count}보다 크거나 같아야 합니다."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -592,6 +596,15 @@ ko:
               error_not_found: "찾을 수 없음"
             public:
               error_unauthorized: "- 해당 사용자는 공용 보기를 만들 권한이 없습니다."
+            group_by:
+              invalid: "그룹화할 수 없습니다: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "잘못 된 쿼리 열: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "열로 정렬할 수 없습니다: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
             custom_fields:
@@ -614,8 +627,9 @@ ko:
           must_not_be_ssh: "SSH url이 아니어야 합니다."
           no_directory: "디텍터리가 아님"
         role:
-          permissions:
-            dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
+          attributes:
+            permissions:
+              dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
         time_entry:
           attributes:
             hours:
@@ -678,6 +692,8 @@ ko:
               unassignable: "프로젝트에 할당할 수 없습니다."
         version:
           undeletable_work_packages_attached: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "다음 필드를 확인 하십시오."
         header:
@@ -1065,9 +1081,6 @@ ko:
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
   error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."
-  error_invalid_group_by: "그룹화할 수 없습니다: %{value}"
-  error_invalid_query_column: "잘못 된 쿼리 열: %{value}"
-  error_invalid_sort_criterion: "열로 정렬할 수 없습니다: %{value}"
   error_journal_attribute_not_present: "저널에 %{attribute} 특성이 없습니다."
   error_pdf_export_too_many_columns: "PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오."
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
@@ -1080,6 +1093,7 @@ ko:
   error_no_default_work_package_status: "기본 작업 패키지 상태가 정의되지 않았습니다. 구성을 확인하세요(\"관리 -> 작업 패키지 상태\"로 이동)."
   error_no_type_in_project: "이 프로젝트에 유형이 연결되어 있지 않습니다. 프로젝트 설정을 확인하세요."
   error_omniauth_registration_timed_out: "외부 인증 공급자를 통한 등록이 시간 초과되었습니다. 다시 시도하세요."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "리포지토리에 액세스하는 중에 오류가 발생했습니다. %{value}"
   error_scm_not_found: "항목 또는 수정 사항을 리포지토리에서 찾지 못했습니다."
   error_unable_delete_status: "하나 이상의 작업 패키지에 의해 사용되므로 작업 패키지 상태를 삭제할 수 없습니다."
@@ -1469,6 +1483,7 @@ ko:
   label_no_parent_page: "부모 페이지 없음"
   label_nothing_display: "표시할 것이 없음"
   label_nobody: "아무도 없음"
+  label_not_found: '찾을 수 없음'
   label_none: "없음"
   label_none_parentheses: "(없음)"
   label_not_contains: "포함하지 않음"
@@ -1483,7 +1498,6 @@ ko:
   label_options: "옵션"
   label_other: "기타"
   label_overall_activity: "전체 작업"
-  label_overall_spent_time: "총 소요 시간"
   label_overview: "요약"
   label_page_title: "페이지 제목"
   label_part_of: "부분의"
@@ -1576,7 +1590,7 @@ ko:
   label_search: "검색"
   label_send_information: "사용자에게 계정 정보 보내기"
   label_send_test_email: "테스트 이메일 보내기"
-  label_settings: "설정"
+  label_setting_plural: "설정"
   label_system_settings: "시스템 설정"
   label_show_completed_versions: "완료된 버전 표시"
   label_sort: "분류"
@@ -2068,6 +2082,10 @@ ko:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "검색..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"
@@ -2112,6 +2130,7 @@ ko:
   setting_emails_header: "이메일 머리글"
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
@@ -2142,6 +2161,8 @@ ko:
   setting_per_page_options: "페이지당 개체 옵션"
   setting_plain_text_mail: "일반 텍스트 메일(HTML 없음)"
   setting_protocol: "프로토콜"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "보안 배지 표시"
   setting_registration_footer: "등록 꼬리말"
   setting_repositories_automatic_managed_vendor: "자동 리포지토리 공급업체 유형"
@@ -2180,6 +2201,9 @@ ko:
     passwords: "암호"
     session: "세션"
     brute_force_prevention: "자동화된 사용자 차단"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "기본 설정"
       deletion: "삭제"

@@ -28,9 +28,9 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%=l(:label_backlogs)%></legend>
+  <legend class="form--fieldset-legend"><%=t(:label_backlogs)%></legend>
   <div class="form--field">
-    <%= styled_label_tag :backlogs_task_color, l(:'backlogs.task_color') %>
+    <%= styled_label_tag :backlogs_task_color, t(:'backlogs.task_color') %>
     <%= styled_text_field_tag :'backlogs[task_color]', color, container_class: '-middle' %>
   </div>
   <div class="form--field">

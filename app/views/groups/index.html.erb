@@ -27,8 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_administration), l("label_group_plural") %>
-<%= toolbar title: l(:label_group_plural) do %>
+<% html_title t(:label_administration), t("label_group_plural") %>
+<%= toolbar title: t(:label_group_plural) do %>
   <li class="toolbar-item">
     <%= link_to new_group_path,
           { class: 'button -alt-highlight',
@@ -63,7 +63,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%=l(:label_user_plural)%>
+                    <%=t(:label_user_plural)%>
                   </span>
                 </div>
               </div>
@@ -78,7 +78,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <td><%= group.users.size %></td>
               <td class="buttons">
                 <%= link_to '', group,
-                                data: { confirm: l(:text_are_you_sure) },
+                                data: { confirm: t(:text_are_you_sure) },
                                 method: :delete,
                                 class: 'icon icon-delete',
                                 title: t(:button_delete) %>

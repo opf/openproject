@@ -23,6 +23,17 @@ cs:
   activerecord:
     attributes:
       budget:
+        author: "Autor"
+        available: "Dostupné"
+        budget: "Rozpočet"
+        budget_ratio: "Stráveno (poměr)"
+        created_on: "Vytvořeno"
+        description: "Popis"
+        spent: "Strávený čas"
+        status: "Stav"
+        subject: "Předmět"
+        type: "Typ nákladu"
+        updated_on: "Aktualizováno"
         labor_budget: "Plánované mzdové náklady"
         material_budget: "Plánované jednotkové náklady"
       work_package:
@@ -49,8 +60,9 @@ cs:
   label_budget: "Rozpočet"
   label_budget_new: "Nový rozpočet"
   label_budget_plural: "Rozpočty"
-  label_cost_type_specific: "Rozpočet č.%{id}: %{name}"
+  label_budget_id: "Rozpočet č.%{id}"
   label_deliverable: "Rozpočet"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Zobrazit všechny rozpočty"
   label_yes: "Ano"
   notice_budget_conflict: "Pracovní balíčky musí být ze stejného projektu."

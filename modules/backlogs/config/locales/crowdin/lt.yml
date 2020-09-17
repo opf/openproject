@@ -36,18 +36,12 @@ lt:
               can_only_contain_work_packages_of_current_sprint: "galima įtraukti tik dabartinio sprinto darbo paketų ID."
               must_block_at_least_one_work_package: "turi turėti bent vieną ID."
             parent_id:
+              parent_child_relationship_across_projects: "yra netinkamas, nes darbų paketas  '%{work_package_name}' yra darbų sąrašo užduotis ir todėl negali turėti tėvų už šio projekto ribų."
               type_must_be_one_of_the_following: "Tipas turi būti vienas iš šių: %{type_names}."
-        sprint:
-          cannot_end_before_it_starts: "Sprintas negali baigtis prieš prasidėdamas."
-  activemodel:
-    errors:
-      models:
-        work_package:
-          attributes:
             version_id:
               task_version_must_be_the_same_as_story_version: "turi būti tokia pati kaip ir tėvinės istorijos versija."
-            parent_id:
-              parent_child_relationship_across_projects: "yra netinkamas, nes darbų paketas  '%{work_package_name}' yra darbų sąrašo užduotis ir todėl negali turėti tėvų už šio projekto ribų."
+        sprint:
+          cannot_end_before_it_starts: "Sprintas negali baigtis prieš prasidėdamas."
   backlogs:
     add_new_story: "Nauja istorija"
     any: "bet koks"

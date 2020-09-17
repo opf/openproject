@@ -31,8 +31,6 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {BoardService} from "app/modules/boards/board/board.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
@@ -447,7 +445,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         // Only allow updates, otherwise this causes an error reloading the list
         // before the work package can be added to the query order
         filter(event => event.eventType === 'updated'),
-        map((event:HalEvent) => event.commit?.changes[this.board.actionAttribute!]),
+        map((event:HalEvent) => event.commit?.changes[this.actionService!.filterName]),
         filter(value => !!value),
         filter((value:ChangeItem) => {
 

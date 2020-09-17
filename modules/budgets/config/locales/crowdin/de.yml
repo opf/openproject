@@ -23,6 +23,17 @@ de:
   activerecord:
     attributes:
       budget:
+        author: "Autor"
+        available: "Verfügbar"
+        budget: "Geplant"
+        budget_ratio: "Verbraucht (Prozent)"
+        created_on: "Erstellt"
+        description: "Beschreibung"
+        spent: "Verbraucht"
+        status: "Status"
+        subject: "Thema"
+        type: "Kostentyp"
+        updated_on: "Aktualisiert am"
         labor_budget: "Geplante Personaleinzelkosten"
         material_budget: "Geplante Stückkosten"
       work_package:
@@ -49,8 +60,9 @@ de:
   label_budget: "Budget"
   label_budget_new: "Neues Budget"
   label_budget_plural: "Budgets"
-  label_cost_type_specific: "Kostentyp #%{id}: %{name}"
+  label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
+  label_example_placeholder: 'z. B. %{decimal}'
   label_view_all_budgets: "Alle Budgets anzeigen"
   label_yes: "Ja"
   notice_budget_conflict: "Tickets müssen im gleichen Projekt sein."

@@ -70,7 +70,7 @@ module MeetingContentsHelper
                               data: { confirm: I18n.t(:text_meeting_closing_are_you_sure) },
                               class: 'meetings--close-meeting-button button') do
           op_icon('button--icon icon-locked') +
-          content_tag('span', l(:label_meeting_close), class: 'button--text')
+            content_tag('span', I18n.t(:label_meeting_close), class: 'button--text')
         end
       end
     when 'meeting_minutes'
@@ -81,27 +81,25 @@ module MeetingContentsHelper
                               method: :put,
                               class: 'button') do
           op_icon('button--icon icon-locked') +
-          content_tag('span', l(:label_meeting_agenda_close), class: 'button--text')
+            content_tag('span', I18n.t(:label_meeting_agenda_close), class: 'button--text')
         end
       end
     end
   end
 
   def open_meeting_agenda_link(content_type, meeting)
-    case content_type
-    when 'meeting_agenda'
-      content_tag :li, '', class: 'toolbar-item' do
-        link_to_if_authorized({ controller: '/meeting_agendas',
-                                action: 'open',
-                                meeting_id: meeting },
-                              method: :put,
-                              class: 'button',
-                              data: { confirm: l(:text_meeting_agenda_open_are_you_sure) }) do
-          op_icon('button--icon icon-unlocked') +
-          content_tag('span', l(:label_meeting_open), class: 'button--text')
-        end
+    return unless content_type == 'meeting_agenda'
+
+    content_tag :li, '', class: 'toolbar-item' do
+      link_to_if_authorized({ controller: '/meeting_agendas',
+                              action: 'open',
+                              meeting_id: meeting },
+                            method: :put,
+                            class: 'button',
+                            data: { confirm: I18n.t(:text_meeting_agenda_open_are_you_sure) }) do
+        op_icon('button--icon icon-unlocked') +
+          content_tag('span', I18n.t(:label_meeting_open), class: 'button--text')
       end
-    when 'meeting_minutes'
     end
   end
 
@@ -112,7 +110,7 @@ module MeetingContentsHelper
               data: { 'content-type': content_type },
               accesskey: accesskey(:edit) do
                 op_icon('button--icon icon-edit') +
-                content_tag('span', l(:label_edit), class: 'button--text')
+                  content_tag('span', I18n.t(:label_edit), class: 'button--text')
               end
     end
   end
@@ -126,7 +124,7 @@ module MeetingContentsHelper
                             title: t(:label_history),
                             class: 'button') do
         op_icon('button--icon icon-wiki') +
-        content_tag('span', l(:label_history), class: 'button--text')
+          content_tag('span', I18n.t(:label_history), class: 'button--text')
       end
     end
   end
@@ -138,7 +136,7 @@ module MeetingContentsHelper
                             method: :put,
                             class: 'button') do
         op_icon('button--icon icon-mail1') +
-        content_tag('span', l(:label_notify), class: 'button--text')
+          content_tag('span', I18n.t(:label_notify), class: 'button--text')
       end
     end
   end
@@ -150,7 +148,7 @@ module MeetingContentsHelper
                             method: :put,
                             class: 'button') do
         op_icon('button--icon icon-calendar2') +
-        content_tag('span', l(:label_icalendar), class: 'button--text')
+          content_tag('span', I18n.t(:label_icalendar), class: 'button--text')
       end
     end
   end

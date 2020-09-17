@@ -17,12 +17,12 @@ We need an active Ruby and Node JS environment to run OpenProject. To this end, 
 
 ```bash
 sudo apt-get update
-sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libpq-dev  libreadline-dev libffi6
+sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libpq-dev libreadline-dev
 ```
 
 ## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "2.6"
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "2.7"
 
 **Install rbenv and ruby-build**
 
@@ -51,23 +51,23 @@ ruby-build is an addon to rbenv that installs ruby versions
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
-**Installing ruby-2.6**
+**Installing ruby-2.7**
 
-With both installed, we can now install the actual ruby version 2.6. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.6.6`, which we also require.
+With both installed, we can now install the actual ruby version 2.7. You can check available ruby versions with `rbenv install --list`.
+At the time of this writing, the latest stable version is `2.7.1`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 2.6.6
+rbenv install 2.7.1
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 2.6.6
+rbenv global 2.7.1
 rbenv rehash
 ```
 
@@ -149,7 +149,7 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 ruby --version
-ruby 2.6.6p114 (2019-10-01 revision 67812) [x86_64-linux]
+ruby 2.7.1p83 (2020-03-31 revision a0c7c23c9c) [x86_64-linux]
 
 bundler --version
 Bundler version 2.0.2
@@ -163,8 +163,14 @@ npm --version
 
 # Install OpenProject
 
+In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub account.
+This allows you to create branches and push changes and finally opening a pull request for us to review.
+
+To do that, go to https://github.com/opf/openproject and press "Fork" on the upper right corner.
+
 ```bash
 # Download the repository
+# If you want to create a pull request, replace the URL with your own fork as described above
 git clone https://github.com/opf/openproject.git
 cd openproject
 
@@ -226,7 +232,7 @@ however most developers end up running the tasks in separate shells for better u
 gem install foreman
 foreman start -f Procfile.dev
 ```
-The application will be available at `http://127.0.0.1:5000`. To customize bind address and port copy the `.env.sample` provided in the root of this
+The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.sample` provided in the root of this
 project as `.env` and [configure values][foreman-env] as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,

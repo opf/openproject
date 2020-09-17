@@ -32,7 +32,7 @@ require_dependency 'widget/filters/base'
 class Widget::Filters::TextBox < Widget::Filters::Base
   def render
     label = content_tag :label,
-                        "#{h(filter_class.label)} #{l(:label_filter_value)}",
+                        "#{h(filter_class.label)} #{I18n.t(:label_filter_value)}",
                         for: "#{filter_class.underscore_name}_arg_1_val",
                         class: 'hidden-for-sighted'
 

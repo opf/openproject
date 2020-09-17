@@ -73,7 +73,7 @@ class ::Widget::Table::EntryTable < ::Widget::Table
         concat content_tag(:th) {
           content_tag(:div, class: 'generic-table--sort-header-outer') do
             content_tag(:div, class: 'generic-table--sort-header') do
-              content_tag(:span, cost_type.try(:unit_plural) || l(:units))
+              content_tag(:span, cost_type.try(:unit_plural) || I18n.t(:units))
             end
           end
         }
@@ -156,18 +156,18 @@ class ::Widget::Table::EntryTable < ::Widget::Table
     with_project(result.fields['project_id']) do
       if entry_for(result).editable_by? User.current
         if controller_for(result.fields['type']) == 'costlog'
-          icons = link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
+          icons = link_to(icon_wrapper('icon-context icon-edit', I18n.t(:button_edit)),
                           action_for(result, action: 'edit'),
                           class: 'no-decoration-on-hover',
-                          title: l(:button_edit))
+                          title: I18n.t(:button_edit))
 
-          icons << link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
+          icons << link_to(icon_wrapper('icon-context icon-delete', I18n.t(:button_delete)),
                            (action_for(result, action: 'destroy')
                               .reverse_merge(authenticity_token: form_authenticity_token)),
-                           data: { confirm: l(:text_are_you_sure) },
+                           data: { confirm: I18n.t(:text_are_you_sure) },
                            method: :delete,
                            class: 'no-decoration-on-hover',
-                           title: l(:button_delete))
+                           title: I18n.t(:button_delete))
         else
           icons = content_tag(:'time-entry--trigger-actions-entry',
                               '',

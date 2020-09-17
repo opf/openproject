@@ -23,6 +23,17 @@ hu:
   activerecord:
     attributes:
       budget:
+        author: "Szerző"
+        available: "Elérhető"
+        budget: "Tervezet"
+        budget_ratio: "Elköltött (arány)"
+        created_on: "Létrehozva"
+        description: "Leírás"
+        spent: "Elköltve"
+        status: "Állapot"
+        subject: "Tárgy"
+        type: "Költségtípus"
+        updated_on: "Frissítve"
         labor_budget: "Tervezett munkaerő-költségek"
         material_budget: "Tervezett egység költség"
       work_package:
@@ -49,8 +60,9 @@ hu:
   label_budget: "Költségvetés"
   label_budget_new: "Új költségvetés"
   label_budget_plural: "Költségvetések"
-  label_cost_type_specific: "Költségvetés #%{id}: %{name}"
+  label_budget_id: "Költségvetés #%{id}"
   label_deliverable: "Költségvetés"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Minden költség megtekintése"
   label_yes: "Igen"
   notice_budget_conflict: "Munkacsomagok ugyanabból a projektből kell származzanak."

@@ -36,18 +36,12 @@ uk:
               can_only_contain_work_packages_of_current_sprint: "може містити лише ідентифікатори робочих пакетів у поточному спринті."
               must_block_at_least_one_work_package: "повинен містити ідентифікатор принаймні одного ticket-а."
             parent_id:
+              parent_child_relationship_across_projects: "є недійсним, оскільки робочий пакет '%{work_package_name}' є завданням backlog-у і тому не може мати батька поза поточним проектом."
               type_must_be_one_of_the_following: "Тип має бути одним з наступних: %{type_names}."
-        sprint:
-          cannot_end_before_it_starts: "Спринт не може закінчитися, перш ніж він почне працювати."
-  activemodel:
-    errors:
-      models:
-        work_package:
-          attributes:
             version_id:
               task_version_must_be_the_same_as_story_version: "має бути така сама як батьківська версія історії."
-            parent_id:
-              parent_child_relationship_across_projects: "є недійсним, оскільки робочий пакет '%{work_package_name}' є завданням backlog-у і тому не може мати батька поза поточним проектом."
+        sprint:
+          cannot_end_before_it_starts: "Спринт не може закінчитися, перш ніж він почне працювати."
   backlogs:
     add_new_story: "Новий сюжет"
     any: "будь-який"

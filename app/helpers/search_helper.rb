@@ -105,7 +105,7 @@ module SearchHelper
   end
 
   def link_to_previous_search_page(pagination_previous_date)
-    link_to_content_update(l(:label_previous),
+    link_to_content_update(I18n.t(:label_previous),
                            @search_params.merge(previous: 1,
                                                 project_id: @project.try(:identifier),
                                                 offset: pagination_previous_date.to_r.to_s),
@@ -113,7 +113,7 @@ module SearchHelper
   end
 
   def link_to_next_search_page(pagination_next_date)
-    link_to_content_update(l(:label_next),
+    link_to_content_update(I18n.t(:label_next),
                            @search_params.merge(previous: nil,
                                                 project_id: @project.try(:identifier),
                                                 offset: pagination_next_date.to_r.to_s),

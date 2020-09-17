@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, OnInit, NgZone} from "@angular/core";
 import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
@@ -34,10 +34,14 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   @InjectField() viewer:ViewerBridgeService;
   @InjectField() states:States;
   @InjectField() bcfApi:BcfApiService;
+  @InjectField() zone:NgZone;
+
 
   public wpTableConfiguration = {
     dragAndDropEnabled: false
   };
+
+  public showViewPointInFlight:boolean;
 
   ngOnInit() {
     super.ngOnInit();
@@ -81,14 +85,24 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   }
 
   handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
-    // Open the viewpoint if any
-    const wp = this.states.workPackages.get(event.workPackageId).value;
-    if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints) {
-      this.viewer.showViewpoint(wp, 0);
+    const {workPackageId, double} = event;
+
+    if (!this.showViewPointInFlight) {
+      this.showViewPointInFlight = true;
+
+      this.zone.runOutsideAngular(() => {
+        setTimeout(() => this.showViewPointInFlight = false, 500);
+      });
+
+      const wp = this.states.workPackages.get(workPackageId).value;
+
+      if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints) {
+        this.viewer.showViewpoint(wp, 0);
+      }
     }
 
-    if (event.double) {
-      this.goToWpDetailState(event.workPackageId, this.uIRouterGlobals.params.cards);
+    if (double) {
+      this.goToWpDetailState(workPackageId, this.uIRouterGlobals.params.cards);
     }
   }
 

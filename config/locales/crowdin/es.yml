@@ -199,6 +199,9 @@ es:
       completed: "Borrado del proyecto %{name} completado"
       completed_text: "La petición para borrar el proyecto '%{name}' se ha completado."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: No hay proyectos por el momento
       no_results_content_text: Crear un nuevo proyecto
     settings:
@@ -513,7 +516,7 @@ es:
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
-        could_not_be_copied: "No pueden ser copiados (totalmente)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "no existe."
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
@@ -557,6 +560,7 @@ es:
           not_an_integer: "(%{name}) no es un número entero."
           smaller_than_or_equal_to: "(%{name}) debe ser menor o igual que %{count}."
           greater_than_or_equal_to: "(%{name}) debe ser mayor o igual que %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -591,6 +595,15 @@ es:
               error_not_found: "no encontrado"
             public:
               error_unauthorized: "- El usuario no tiene permiso para crear vistas públicas."
+            group_by:
+              invalid: "No se puede agrupar por: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Columna no válida en la solicitud: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "No se puede ordenar por la columna: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
           filters:
             custom_fields:
@@ -613,8 +626,9 @@ es:
           must_not_be_ssh: "no debe usarse una URL de SSH."
           no_directory: "no es un directorio."
         role:
-          permissions:
-            dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
+          attributes:
+            permissions:
+              dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
         time_entry:
           attributes:
             hours:
@@ -678,6 +692,8 @@ es:
               unassignable: "no puede ser asignado a un proyecto."
         version:
           undeletable_work_packages_attached: "La versión no puede borrarse cuando tiene paquetes de trabajos adjuntos."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Por favor revise los siguientes campos:"
         header:
@@ -1079,9 +1095,6 @@ es:
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
   error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "El valor seleccionado no es válido."
-  error_invalid_group_by: "No se puede agrupar por: %{value}"
-  error_invalid_query_column: "Columna no válida en la solicitud: %{value}"
-  error_invalid_sort_criterion: "No se puede ordenar por la columna: %{value}"
   error_journal_attribute_not_present: "El diario no contiene el atributo %{attribute}."
   error_pdf_export_too_many_columns: "Demasiadas columnas seleccionadas para la exportación de PDF. Reduzca el número de columnas."
   error_pdf_failed_to_export: "No se ha podido guardar la exportación PDF: %{error}"
@@ -1094,6 +1107,7 @@ es:
   error_no_default_work_package_status: "Ningún estado del paquete trabajo predeterminado está definido. Por favor, compruebe su configuración (ir a \"Administración-> Situación del paquete de trabajo\")."
   error_no_type_in_project: "Ningún tipo se asocia a este proyecto. Por favor, Compruebe la configuración del proyecto."
   error_omniauth_registration_timed_out: "El registro mediante un proveedor de autenticación externa expiró. Por favor inténtelo nuevamente."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Se produjo un error al intentar acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada o la revisión no se encontró en el repositorio."
   error_unable_delete_status: "El estado del paquete de trabajo no se puede eliminar ya que esta siendo utilizado por al menos un paquete de trabajo."
@@ -1483,6 +1497,7 @@ es:
   label_no_parent_page: "Sin página principal"
   label_nothing_display: "Nada que mostrar"
   label_nobody: "nadie"
+  label_not_found: 'no encontrado'
   label_none: "ninguno"
   label_none_parentheses: "(ninguno)"
   label_not_contains: "no contiene"
@@ -1497,7 +1512,6 @@ es:
   label_options: "Opciones"
   label_other: "Otros"
   label_overall_activity: "Actividad general"
-  label_overall_spent_time: "Tiempo total gastado"
   label_overview: "Resumen"
   label_page_title: "Título de la página"
   label_part_of: "parte de"
@@ -1590,7 +1604,7 @@ es:
   label_search: "Buscar"
   label_send_information: "Enviar información de la cuenta del usuario"
   label_send_test_email: "Enviar un correo electrónico de prueba"
-  label_settings: "Configuración"
+  label_setting_plural: "Configuración"
   label_system_settings: "Ajustes de sistema"
   label_show_completed_versions: "Mostrar versiones terminadas"
   label_sort: "Ordenar"
@@ -2089,6 +2103,10 @@ es:
     activated: 'Habilitado'
     deactivated: 'deshabilitado'
   search_input_placeholder: "Buscar..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
   setting_smtp_enable_starttls_auto: "Usar STARTTLS automáticamente si está disponible"
@@ -2133,6 +2151,7 @@ es:
   setting_emails_header: "Encabezado de correos electrónicos"
   setting_email_login: "Usar correo electrónico como nombre de usuario"
   setting_enabled_scm: "SCM activado"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Activar Feeds"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
@@ -2163,6 +2182,8 @@ es:
   setting_per_page_options: "Objetos por página de opciones"
   setting_plain_text_mail: "Correo en texto plano (sin HTML)"
   setting_protocol: "Protocolo"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Mostrar insignia de seguridad"
   setting_registration_footer: "Pié de página de registro"
   setting_repositories_automatic_managed_vendor: "Tipo de proveedor de repositorio automático"
@@ -2201,6 +2222,9 @@ es:
     passwords: "Contraseñas"
     session: "Sesión"
     brute_force_prevention: "Bloqueo automático de usuarios"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Preferencias predeterminadas"
       deletion: "Eliminación"

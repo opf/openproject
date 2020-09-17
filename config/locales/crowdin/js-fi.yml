@@ -52,7 +52,7 @@ fi:
     button_delete: "Poista"
     button_delete_watcher: "Poista seuraaja"
     button_details_view: "Tiedot-näkymä"
-    button_duplicate: "Kahdenna"
+    button_duplicate: "Luo kopio"
     button_edit: "Muokkaa"
     button_filter: "Suodata"
     button_advanced_filter: "Edistynyt suodatin"
@@ -116,6 +116,11 @@ fi:
         manual: 'Lähdekoodi'
         wysiwyg: 'Muokkaustila'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Linkit alasivuihin'
           include_parent: 'Include parent'
@@ -265,9 +270,9 @@ fi:
           text_new_features: "Tietoa uusista ominaisuuksista ja tuotepäivityksistä."
           learn_about: "Lisätietoja uusista ominaisuuksista"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Tämä versio sisältää uusia ominaisuuksia ja parannuksia: <br><br> <ul class="%{list_styling_class}"> <li><b>Nopeampi ajan kirjaus</b> tehtäviin.</li> <li><b>Parannetut taulukot</b> jotka mahdollistavat taulukoiden muotoilut editorissa.</li> <li>Tehtävien korttinäkymä sisältää nyt myös projektien nimet.</li> <li>OpenProject on nyt <b>100% käännetty sloveniaksi</b>. Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -291,9 +296,9 @@ fi:
     label_author: "Tekijä: %{user}"
     label_avatar: "Kuva"
     label_between: "between"
-    label_board: "Board"
+    label_board: "Taulu"
     label_board_locked: "Lukittu"
-    label_board_plural: "Boards"
+    label_board_plural: "Taulut"
     label_board_sticky: "Pysyvä"
     label_create: "Uusi"
     label_create_work_package: "Uusi tehtävä"
@@ -408,6 +413,7 @@ fi:
     label_total_amount: "Yhteensä: %{amount}"
     label_updated_on: "päivitetty"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
     label_work_package: "Tehtävä"
     label_work_package_parent: "Parent work package"
@@ -497,6 +503,7 @@ fi:
       context: 'Project context'
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Project autocompletion'
     text_are_you_sure: "Oletko varma?"
@@ -538,7 +545,7 @@ fi:
       parent: "Ylätaso"
       children: "Aliriippuvuudet"
       relates: "Liittyy"
-      duplicates: "Kaksoiskappaleet"
+      duplicates: "Alkuperäinen"
       duplicated: "Päällekkäistä"
       blocks: "Estää"
       blocked: "Estetty"
@@ -564,11 +571,11 @@ fi:
       add_parent: "Lisää olemassaoleva ylätaso"
       add_new_child: "Luo uusi aliriippuvuus"
       create_new: "Create new"
-      add_existing: "Add existing"
+      add_existing: "Lisää olemassaoleva"
       add_existing_child: "Lisää olemassaoleva aliriippuvuus"
       remove_child: "Poista aliriippuvuus"
       add_new_relation: "Luo uusi riippuvuus"
-      add_existing_relation: "Add existing relation"
+      add_existing_relation: "Lisää olemassa oleva suhde"
       update_description: "Määritä tai päivitä tämän suhteen kuvaus"
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"

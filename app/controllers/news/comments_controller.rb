@@ -37,7 +37,7 @@ class News::CommentsController < ApplicationController
     @comment = Comment.new(permitted_params.comment)
     @comment.author = User.current
     if @news.comments << @comment
-      flash[:notice] = l(:label_comment_added)
+      flash[:notice] = I18n.t(:label_comment_added)
     end
 
     redirect_to news_path(@news)

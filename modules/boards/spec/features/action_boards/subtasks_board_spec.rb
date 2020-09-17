@@ -63,7 +63,7 @@ describe 'Subtasks action board', type: :feature, js: true do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Children, expect_empty: true
+      board_page = board_index.create_board action: :Parent_child, expect_empty: true
 
       # Expect we can add a work package column
       board_page.add_list option: 'Parent WP'
@@ -87,7 +87,7 @@ describe 'Subtasks action board', type: :feature, js: true do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :Children, expect_empty: true
+      board_page = board_index.create_board action: :Parent_child, expect_empty: true
 
       # Expect we can add a child 1
       board_page.add_list option: 'Parent WP'
@@ -100,7 +100,7 @@ describe 'Subtasks action board', type: :feature, js: true do
       board_page.expect_movable 'Parent WP', 'Child', movable: true
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (children)'
+        expect(board.name).to eq 'Action board (Parent_child)'
         queries = board.contained_queries
         expect(queries.count).to eq(1)
 
@@ -148,6 +148,32 @@ describe 'Subtasks action board', type: :feature, js: true do
 
       wp = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).first
       expect(wp.parent_id).to eq other_wp.id
+
+      # Reference back
+      board_page.reference('Parent WP', wp)
+
+      board_page.expect_card('Parent WP', 'Second child', present: true)
+      board_page.expect_card('Other WP', 'Second child', present: false)
+    end
+
+    it 'prevents adding a work package to its own column' do
+      board_index.visit!
+      board_page = board_index.create_board action: :Parent_child, expect_empty: true
+      board_page.add_list option: 'Parent WP'
+      board_page.expect_list 'Parent WP'
+      board_page.expect_card 'Parent WP', 'Child'
+
+      board_page.add_list option: 'Child WP'
+      board_page.expect_list 'Child WP'
+
+      # Try to move child to itself
+      board_page.move_card(0, from: 'Parent WP', to: 'Child WP')
+
+      board_page.expect_and_dismiss_notification type: :error,
+                                                 message: I18n.t('js.boards.error_cannot_move_into_self')
+
+      child.reload
+      expect(child.parent).to eq parent
     end
   end
 end

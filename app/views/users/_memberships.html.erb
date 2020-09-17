@@ -56,7 +56,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= l(:label_role_plural) %>
+                      <%= t(:label_role_plural) %>
                     </span>
                   </div>
                 </div>
@@ -98,8 +98,8 @@ See docs/COPYRIGHT.rdoc for more details.
                             </label>
                         <% end %>
                       </div>
-                      <p><%= submit_tag l(:button_change), class: 'user-memberships--edit-submit-button button -highlight -small' %>
-                        <%= link_to_function l(:button_cancel),
+                      <p><%= submit_tag t(:button_change), class: 'user-memberships--edit-submit-button button -highlight -small' %>
+                        <%= link_to_function t(:button_cancel),
                                              "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
                   class: 'button -small' %></p>
                     <% end %>
@@ -132,15 +132,15 @@ See docs/COPYRIGHT.rdoc for more details.
                                     url: user_memberships_path(user_id: @user),
                                     html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>
+          <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
           <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>
           <div class="form--field -vertical">
-            <%= styled_label_tag nil, "#{l(:label_role_plural)}:" %>
+            <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
             <div class="form--field-container -vertical">
               <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
             </div>
           </div>
-          <div><%= styled_button_tag l(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+          <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
         </fieldset>
       <% end %>
     <% end %>

@@ -202,6 +202,9 @@ fi:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Tällä hetkellä ei ole projekteja
       no_results_content_text: Luo uusi projekti
     settings:
@@ -407,7 +410,7 @@ fi:
         is_closed: "Tehtävä suljettu"
         is_readonly: "Work package read-only"
       journal:
-        notes: "Muistiinpanot"
+        notes: "Kommentit"
       member:
         roles: "Roolit"
       project:
@@ -516,7 +519,7 @@ fi:
         cant_link_a_work_package_with_a_descendant: "Tehtävää ei voida yhdistää alitehtäviin."
         circular_dependency: "Tämä riippuvuus loisi kehän."
         confirmation: "ei vastaa %{attribute}."
-        could_not_be_copied: "kopioiminen ei onnistunut (täysimääräisesti)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ei ole olemassa."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -560,6 +563,7 @@ fi:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -594,6 +598,15 @@ fi:
               error_not_found: "ei löydetty"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -616,8 +629,9 @@ fi:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "ei ole hakemisto."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -681,6 +695,8 @@ fi:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Tarkista seuraavat kentät:"
         header:
@@ -805,7 +821,7 @@ fi:
   button_decline: "Decline"
   button_delete_watcher: "Poista seuraaja %{name}"
   button_download: "Lataa"
-  button_duplicate: "Kahdenna"
+  button_duplicate: "Luo kopio"
   button_edit: "Muokkaa"
   button_edit_associated_wikipage: "Muokkaa liitettyä Wiki-sivua: %{page_title}"
   button_expand_all: "Laajenna kaikki"
@@ -833,7 +849,7 @@ fi:
   button_test: "Testaa"
   button_unarchive: "Palauta"
   button_uncheck_all: "Poista valinnat"
-  button_unlock: "Vapauta"
+  button_unlock: "Poista lukitus"
   button_unwatch: "Älä seuraa"
   button_update: "Päivitä"
   button_upgrade: "Upgrade"
@@ -1038,7 +1054,7 @@ fi:
   description_category_reassign: "Choose category"
   description_message_content: "Viestin sisältö"
   description_my_project: "You are member"
-  description_notes: "Muistiinpanot"
+  description_notes: "Kommentit"
   description_parent_work_package: "Vanhemman työ paketti nykyinen"
   description_project_scope: "Haun laajuus"
   description_query_sort_criteria_attribute: "Lajittelun perusta"
@@ -1082,9 +1098,6 @@ fi:
   error_failed_to_delete_entry: 'Tämän merkinnän poisto ei onnistunut.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Liikaa sarakkeita valittuina PDF-vientiin. Pienennä sarakkeiden määrää."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1097,6 +1110,7 @@ fi:
   error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "Ei tyyppi liittyy tähän projekti. Ole hyvä ja tarkista Projekti asetuksista."
   error_omniauth_registration_timed_out: "Rekisteröinnin kautta ulkoinen todennus perheenhuoltaja aikakatkaistiin. Ole hyvä ja yritä uudelleen."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Tietovarastoon pääsyssä tapahtui virhe: %{value}"
   error_scm_not_found: "Syötettä ja/tai versiota ei löydy tietovarastosta."
   error_unable_delete_status: "Toimia paketti tila ei voi poistaa koska se on käytössä vähintään yksi toimia paketti."
@@ -1204,7 +1218,7 @@ fi:
   label_add_edit_translations: "Lisää ja muokkaa käännöksiä"
   label_add_another_file: "Lisää uusi tiedosto"
   label_add_columns: "Lisää valitut sarakkeet"
-  label_add_note: "Lisää muistiinpano"
+  label_add_note: "Lisää kommentti"
   label_add_related_work_packages: "Lisää tehtävän riippuvuudet"
   label_add_subtask: "Lisätä alitehtävä"
   label_added: "lisätty"
@@ -1265,7 +1279,7 @@ fi:
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
   label_select_project: "Valitse projekti"
   label_required_disk_storage: "Tarvittava levytila"
-  label_send_invitation: Send invitation
+  label_send_invitation: Lähetä kutsu
   label_change_plural: "Muutokset"
   label_change_properties: "Vaihda asetuksia"
   label_change_status: "Muuta tila"
@@ -1486,6 +1500,7 @@ fi:
   label_no_parent_page: "Ei yläsivua"
   label_nothing_display: "Ei näytettävää"
   label_nobody: "ei kukaan"
+  label_not_found: 'ei löydetty'
   label_none: "ei mitään"
   label_none_parentheses: "(none)"
   label_not_contains: "ei sisällä"
@@ -1500,7 +1515,6 @@ fi:
   label_options: "Valinnat"
   label_other: "Muut"
   label_overall_activity: "Kaikki tapahtumat"
-  label_overall_spent_time: "Käytetty kokonaisaika"
   label_overview: "Yleiskatsaus"
   label_page_title: "Page title"
   label_part_of: "osana"
@@ -1593,7 +1607,7 @@ fi:
   label_search: "Haku"
   label_send_information: "Lähetä tilin tiedot käyttäjälle"
   label_send_test_email: "Lähetä testi sähköposti"
-  label_settings: "Asetukset"
+  label_setting_plural: "Asetukset"
   label_system_settings: "Järjestelmäasetukset"
   label_show_completed_versions: "Näytä valmiit versiot"
   label_sort: "Järjestä"
@@ -1879,7 +1893,7 @@ fi:
     text_show_again: "Voit käynnistää tämä videon uudelleen ohjeet-valikosta"
     welcome: "Tervetuloa OpenProjectiin"
     select_language: "Please select your language"
-  permission_add_work_package_notes: "Lisää muistiinpanoja"
+  permission_add_work_package_notes: "Lisää kommentteja"
   permission_add_work_packages: "Lisää tehtävä"
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Luo projekti"
@@ -1899,10 +1913,10 @@ fi:
   permission_delete_timelines: "Poista aikajanat"
   permission_delete_wiki_pages: "Poista wiki sivuja"
   permission_delete_wiki_pages_attachments: "Poista liitteitä"
-  permission_edit_work_package_notes: "Muokkaa muistiinpanoja"
+  permission_edit_work_package_notes: "Muokkaa kommentteja"
   permission_edit_work_packages: "Muokkaa tehtäviä"
   permission_edit_messages: "Muokkaa viestejä"
-  permission_edit_own_work_package_notes: "Muokkaa omia muistiinpanoja"
+  permission_edit_own_work_package_notes: "Muokkaa omia kommentteja"
   permission_edit_own_messages: "Muokkaa omia viestejä"
   permission_edit_own_time_entries: "Muokka omia aikamerkintöjä"
   permission_edit_project: "Muokkaa projektia"
@@ -2092,6 +2106,10 @@ fi:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Etsi..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Sähköpostiviestien toimitustapa"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2136,6 +2154,7 @@ fi:
   setting_emails_header: "Sähköpostit otsikko"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Käytössäoleva versionhallinta"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Ota syötteet käyttöön"
   setting_feeds_limit: "Syötteen sisällön raja"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2166,6 +2185,8 @@ fi:
   setting_per_page_options: "Sivun objektien määrän asetukset"
   setting_plain_text_mail: "vain muotoilematonta tekstiä (ei HTML)"
   setting_protocol: "Protokolla"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Rekisteröinnin alatunniste"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
@@ -2204,6 +2225,9 @@ fi:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"
@@ -2523,7 +2547,7 @@ fi:
     error_status_change_failed: "Muuttaminen käyttäjän tila epäonnistui koska seuraavia virheitä: %{errors}"
     invite: Invite user via email
     invited: kutsuttu
-    lock: "Lukko vakinaisesti"
+    lock: "Lukitse"
     locked: "locked permanently"
     no_login: "Tämä käyttäjä todentaa kautta kirjautuminen salasanalla. Koska se on poistettu käytöstä, he ei voi loki sisään."
     password_change_unsupported: Muutos salasana ei tueta.
@@ -2536,7 +2560,7 @@ fi:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
-    unlock: "Vapauta"
+    unlock: "Poista lukitus"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "suljettu"
   version_status_locked: "lukittu"

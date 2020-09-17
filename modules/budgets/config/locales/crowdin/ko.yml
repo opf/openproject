@@ -23,6 +23,17 @@ ko:
   activerecord:
     attributes:
       budget:
+        author: "작성자"
+        available: "사용 가능"
+        budget: "계획됨"
+        budget_ratio: "소비(비율)"
+        created_on: "작성일"
+        description: "설명"
+        spent: "소비"
+        status: "상태"
+        subject: "제목"
+        type: "비용 유형"
+        updated_on: "업데이트 날짜"
         labor_budget: "계획된 노동 비용"
         material_budget: "계획된 단위 비용"
       work_package:
@@ -49,8 +60,9 @@ ko:
   label_budget: "예산"
   label_budget_new: "새 예산"
   label_budget_plural: "예산"
-  label_cost_type_specific: "예산 #%{id}: %{name}"
+  label_budget_id: "예산 #%{id}"
   label_deliverable: "예산"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "모든 예산 보기"
   label_yes: "예"
   notice_budget_conflict: "작업 패키지는 동일한 프로젝트에 속해야 합니다."

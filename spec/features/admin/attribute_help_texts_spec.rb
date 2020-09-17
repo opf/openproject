@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Attribute help texts' do
+describe 'Attribute help texts', js: true do
   using_shared_fixtures :admin
 
   let(:instance) { AttributeHelpText.last }
@@ -46,8 +46,28 @@ describe 'Attribute help texts' do
       visit attribute_help_texts_path
     end
 
+    context 'with direct uploads (Regression #34285)', with_direct_uploads: true do
+      before do
+        allow_any_instance_of(Attachment).to receive(:diskfile).and_return Struct.new(:path).new(image_fixture.to_s)
+      end
+
+      it 'can upload an image' do
+        page.find('.attribute-help-texts--create-button').click
+        select 'Status', from: 'attribute_help_text_attribute_name'
+
+        editor.set_markdown('My attribute help text')
+        editor.drag_attachment image_fixture, 'Image uploaded on creation'
+
+        expect(page).to have_selector('attachment-list-item', text: 'image.png')
+        click_button 'Save'
+
+        expect(instance.help_text).to include 'My attribute help text'
+        expect(instance.help_text).to match /\/api\/v3\/attachments\/\d+\/content/
+      end
+    end
+
     context 'with help texts allowed by the enterprise token' do
-      it 'allows CRUD to attribute help texts', js: true do
+      it 'allows CRUD to attribute help texts' do
         expect(page).to have_selector('.generic-table--no-results-container')
 
         # Create help text

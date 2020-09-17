@@ -51,7 +51,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= styled_form_tag(members_of_group_path(@group), method: :post) do %>
 
         <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>
+          <legend class="form--fieldset-legend"><%=t(:label_user_new)%></legend>
           <div class="form--field -vertical">
             <%= hidden_field_tag :user_ids, nil  %>
             <user-autocompleter data-update-input="user_ids"
@@ -60,7 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
             </user-autocompleter>
           </div>
           <div>
-            <%= styled_button_tag l(:button_add),
+            <%= styled_button_tag t(:button_add),
                                   class: '-highlight -with-icon icon-checkmark' %>
           </div>
         </fieldset>

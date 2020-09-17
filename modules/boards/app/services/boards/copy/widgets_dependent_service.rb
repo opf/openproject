@@ -29,45 +29,15 @@
 #++
 
 module Boards::Copy
-  class WidgetsDependentService < ::Copy::Dependency
+  class WidgetsDependentService < ::Grids::Copy::WidgetsDependentService
     protected
 
-    def copy_dependency(params:)
-      copy_widgets(source, target, params)
-    end
-
-    def copy_widgets(board, new_board, params)
-      board.widgets.find_each do |widget|
-        unless widget.identifier == 'work_package_query'
-          raise "Expected widget work_package_query, got #{widget.identifier}"
-        end
-
-        new_widget = duplicate_widget(widget, new_board, params)
-
-        if new_widget && !new_widget.save
-          add_error!(new_widget, new_widget.errors)
-        end
+    def duplicate_widget(widget, _new_board, _params)
+      unless widget.identifier == 'work_package_query'
+        raise "Expected widget work_package_query, got #{widget.identifier}"
       end
-    end
 
-    def duplicate_widget(widget, new_board, params)
-      new_widget = widget.dup
-      new_widget.grid = new_board
-
-      query = Query.find widget.options['queryId']
-
-      call = ::Queries::CopyService
-        .new(user: user, source: query)
-        .with_state(state)
-        .call(params)
-
-      if call.success?
-        new_widget.options['queryId'] = call.result.id.to_s
-        new_widget
-      else
-        add_error! widget, call.errors
-        nil
-      end
+      super
     end
   end
 end

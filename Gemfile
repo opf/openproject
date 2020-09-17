@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.6.6'
+ruby '~> 2.7.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -42,7 +42,7 @@ gem 'rdoc', '>= 2.4.2'
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
-gem 'doorkeeper', '~> 5.3.1'
+gem 'doorkeeper', '~> 5.4.0'
 gem 'request_store', '~> 1.5.0'
 
 gem 'warden', '~> 1.2'
@@ -52,7 +52,7 @@ gem 'will_paginate', '~> 3.3.0'
 
 gem 'friendly_id', '~> 5.4.0'
 
-gem 'acts_as_list', '~> 0.9.9'
+gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
 gem 'awesome_nested_set', '~> 3.2.0'
 gem 'rubytree', '~> 1.0.0'
@@ -77,13 +77,13 @@ gem 'commonmarker', '~> 0.21.0'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
-gem 'html-pipeline', '~> 2.12.0'
+gem 'html-pipeline', '~> 2.14.0'
 # Tasklist parsing and renderer
 gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.17.0'
+gem 'rouge', '~> 3.23.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -113,7 +113,7 @@ gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.4'
 gem 'delayed_cron_job', '~> 0.7.2'
 
-gem 'rack-protection', '~> 2.0.8'
+gem 'rack-protection', '~> 2.1.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
@@ -135,12 +135,15 @@ gem 'gon', '~> 6.3.2'
 # Lograge to provide sane and non-verbose logging
 gem 'lograge', '~> 0.11.0'
 
+# Structured warnings to selectively disable them in production
+gem 'structured_warnings', '~> 0.4.0'
+
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 9.4.3', require: false
+gem 'airbrake', '~> 11.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'prawn-markup', '~> 0.2.1'
+gem 'prawn-markup', '~> 0.3.0'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
@@ -172,9 +175,9 @@ gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.91.0'
+gem 'aws-sdk-core', '~> 3.105.0'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.61.0'
+gem 'aws-sdk-s3', '~> 1.80.0'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -187,7 +190,7 @@ gem 'ruby-progressbar', '~> 1.10.0', require: false
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
-  gem 'shoulda-context', '~> 1.2'
+  gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
   # and other niceties
@@ -198,6 +201,8 @@ group :test do
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.9.0'
+  # TODO: replace stub_model and mock_model by calls to factory or simple double
+  # and remove this dependency
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 4.0.0', group: :development
@@ -221,15 +226,15 @@ group :test do
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.8.2', require: false
+  gem 'webmock', '~> 3.9.1', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 2.3.1'
+  gem 'puffing-billy', '~> 2.4.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 3.1', require: nil
+  gem 'shoulda-matchers', '~> 4.4', require: nil
 
   gem 'parallel_tests', '~> 3.1'
 end
@@ -284,6 +289,9 @@ end
 gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
+# Grape 1.4.0 has a bug which requires us to wait until 1.4.1 is released.
+# https://github.com/ruby-grape/grape/pull/2088
+# In 1.4.0, the Cache-Control will always be set to no-cache when sending a file.
 gem 'grape', '~> 1.3.0'
 gem 'roar', '~> 1.1.0'
 

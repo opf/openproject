@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: l(:label_information_plural) do %>
+<%= toolbar title: t(:label_information_plural) do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <li class="toolbar-item">
       <%= link_to new_project_path(parent_id: @project.id),
@@ -94,5 +94,5 @@ See docs/COPYRIGHT.rdoc for more details.
                render_custom_fields: false
              } %>
 
-  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
 <% end %>

@@ -76,10 +76,20 @@ module OpenProject
         fog_credentials[:provider] == "AWS"
       end
 
-      def remote_storage_host
+      def remote_storage_upload_host
         if remote_storage_aws?
           "#{fog_directory}.s3.amazonaws.com"
         end
+      end
+
+      def remote_storage_download_host
+        if remote_storage_aws?
+          "#{fog_directory}.s3.#{fog_credentials[:region]}.amazonaws.com"
+        end
+      end
+
+      def remote_storage_hosts
+        [remote_storage_upload_host, remote_storage_download_host].compact
       end
 
       def attachments_storage_path
@@ -146,7 +156,7 @@ module OpenProject
       # Either the value already is an array or a string with values separated by spaces.
       # In the latter case the string will be split and the values returned as an array.
       def array(value)
-        if value =~ / /
+        if value.is_a?(String) && value =~ / /
           value.split ' '
         else
           Array(value)

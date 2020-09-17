@@ -4,7 +4,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {ExternalRelationQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-relation-query-configuration.service';
 import {DomAutoscrollService} from 'core-app/modules/common/drag-and-drop/dom-autoscroll.service';
-import {DragulaService} from 'ng2-dragula';
+import {DragulaService, DrakeWithModels} from 'ng2-dragula';
 import {ConfirmDialogService} from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import {Drake} from 'dragula';
 import {GonService} from "core-app/modules/common/gon/gon.service";
@@ -60,8 +60,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
   public groups:TypeGroup[] = [];
   public inactives:TypeFormAttribute[] = [];
 
-  private attributeDrake:Drake;
-  private groupsDrake:Drake;
+  private attributeDrake:DrakeWithModels;
+  private groupsDrake:DrakeWithModels;
 
   private no_filter_query:string;
 
@@ -108,22 +108,20 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     });
 
     // Setup groups
-    this.dragula.createGroup('groups', {
-      moves: (el, source, handle:HTMLElement) => handle.classList.contains('group-handle')
-    });
+    this.groupsDrake = this
+      .dragula
+      .createGroup('groups', {
+        moves: (el, source, handle:HTMLElement) => handle.classList.contains('group-handle')
+      })
+      .drake;
 
     // Setup attributes
-    this.dragula.createGroup('attributes', {
-      moves: (el, source, handle:HTMLElement) => handle.classList.contains('attribute-handle')
-    });
-
-    this.dragula.dropModel("attributes")
-      .pipe(
-        this.untilDestroyed()
-      )
-      .subscribe((event) => {
-        console.log(event);
-      });
+    this.attributeDrake = this
+      .dragula
+      .createGroup('attributes', {
+        moves: (el, source, handle:HTMLElement) => handle.classList.contains('attribute-handle')
+      })
+      .drake;
 
     // Get attribute id
     this.groups = JSON
@@ -144,7 +142,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
         autoScroll: function (this:any) {
           const groups = that.groupsDrake && that.groupsDrake.dragging;
           const attributes = that.attributeDrake && that.attributeDrake.dragging;
-          return this.down && (groups || attributes);
+
+          return groups || attributes;
         }
       });
   }
@@ -170,11 +169,11 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
       'timelines': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled')
     };
 
-    this.externalRelationQuery.show(
-      JSON.parse(group.query),
-      (queryProps:any) => group.query = JSON.stringify(queryProps),
+    this.externalRelationQuery.show({
+      currentQuery: JSON.parse(group.query),
+      callback: (queryProps:any) => group.query = JSON.stringify(queryProps),
       disabledTabs
-    );
+    });
   }
 
   public deleteGroup(group:TypeGroup) {

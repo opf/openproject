@@ -90,8 +90,8 @@ module API
                    contract_class: process_contract }
 
           process_service
-            .new(args.compact)
-            .call(params)
+            .new(**args.compact)
+            .call(**params)
         end
 
         def render(current_user, call)

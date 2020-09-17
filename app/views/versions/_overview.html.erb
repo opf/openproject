@@ -54,12 +54,12 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= progress_bar([version.closed_percent, version.completed_percent], width: '40%', legend: ('%0.0f' % version.completed_percent)) %>
   <p class="progress-info">
     <%= link_to_if(version.closed_issues_count > 0,
-                   l(:label_x_closed_work_packages_abbr, count: version.closed_issues_count),
+                   t(:label_x_closed_work_packages_abbr, count: version.closed_issues_count),
                    project_work_packages_closed_version_path(version)) %>
     (<%= '%0.0f' % (version.closed_issues_count.to_f / version.work_packages.count * 100) %>%)
     &#160;
     <%= link_to_if(version.open_issues_count > 0,
-                   l(:label_x_open_work_packages_abbr, count: version.open_issues_count),
+                   t(:label_x_open_work_packages_abbr, count: version.open_issues_count),
                    project_work_packages_open_version_path(version)) %>
     (<%= '%0.0f' % (version.open_issues_count.to_f / version.work_packages.count * 100) %>%)
   </p>

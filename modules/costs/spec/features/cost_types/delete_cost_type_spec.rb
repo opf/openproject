@@ -43,7 +43,7 @@ describe 'deleting a cost type', type: :feature, js: true do
   it 'can delete the cost type' do
     visit cost_types_path
 
-    within ("#delete_cost_type_#{cost_type.id}") do
+    within("#delete_cost_type_#{cost_type.id}") do
       scroll_to_and_click(find('button.submit_cost_type'))
     end
 

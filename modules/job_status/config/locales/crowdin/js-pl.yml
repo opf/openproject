@@ -5,6 +5,9 @@ pl:
       click_to_download: 'lub kliknij tutaj aby pobrać'
       title: 'Status zadania w tle'
       redirect: 'Zostaniesz przekierowany.'
+      redirect_link: 'Please click here to continue.'
+      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
+      errors: 'Some errors have occurred'
       generic_messages:
         not_found: 'Nie można odnaleźć zadania.'
         in_queue: 'Zadanie zostało umieszczone w kolejce i zostanie wkrótce przetworzone.'

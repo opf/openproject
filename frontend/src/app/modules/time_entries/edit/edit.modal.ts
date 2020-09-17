@@ -18,6 +18,7 @@ export class TimeEntryEditModal extends TimeEntryBaseModal {
 
   public setModifiedEntry($event:{savedResource:HalResource, isInital:boolean}) {
     this.modifiedEntry = $event.savedResource as TimeEntryResource;
+    this.reloadWorkPackageAndClose();
   }
 
   public get saveAllowed() {

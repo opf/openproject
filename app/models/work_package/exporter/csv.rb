@@ -35,7 +35,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
   include ActionView::Helpers::NumberHelper
 
   def list
-    serialized = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
+    serialized = CSV.generate(col_sep: I18n.t(:general_csv_separator)) do |csv|
       headers = csv_headers
       csv << self.class.encode_csv_columns(headers)
 
@@ -48,7 +48,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
     yield success(serialized)
   end
 
-  def self.encode_csv_columns(columns, encoding = l(:general_csv_encoding))
+  def self.encode_csv_columns(columns, encoding = I18n.t(:general_csv_encoding))
     columns.map do |cell|
       Redmine::CodesetUtil.from_utf8(cell.to_s, encoding)
     end
@@ -65,7 +65,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
   end
 
   def title
-    title = query.new_record? ? l(:label_work_package_plural) : query.name
+    title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
 
     "#{title}.csv"
   end
@@ -95,8 +95,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
       csv_format_value(work_package, column)
     end
 
-    if !row.empty?
-
+    if row.any?
       row << if work_package.description
                work_package.description.squish
              else
@@ -118,6 +117,10 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
         format_date(value)
       when Time
         format_time(value)
+      when nil
+        # ruby 2.7.1 will return a frozen string for nil.to_s which will cause an error when e.g. trying to
+        # force an encoding
+        ''
       else
         value
       end

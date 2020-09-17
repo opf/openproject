@@ -1,6 +1,6 @@
 <%= form_tag({}, method: :get) do %>
   <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%= l(:description_filter) %></legend>
+    <legend class="form--fieldset-legend"><%= t(:description_filter) %></legend>
     <% @types.each do |type| %>
       <div class="form--field -trailing-label -no-margin">
         <%= styled_label_tag "type-#{type.id}", type.name %>
@@ -33,7 +33,7 @@
 
     <div class="form--space"></div>
 
-    <div><%= submit_tag l(:button_apply), class: 'button -small -alt-highlight', name: nil %></div>
+    <div><%= submit_tag t(:button_apply), class: 'button -small -alt-highlight', name: nil %></div>
 
   </fieldset>
 <% end %>

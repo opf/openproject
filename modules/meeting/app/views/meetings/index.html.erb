@@ -27,9 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:label_meeting_plural) %>
+<% html_title t(:label_meeting_plural) %>
 
-<%= toolbar title: l(:label_meeting_plural) do %>
+<%= toolbar title: t(:label_meeting_plural) do %>
   <% if authorize_for(:meetings, :new) %>
     <li class="toolbar-item">
       <a href="<%= new_meeting_path %>"

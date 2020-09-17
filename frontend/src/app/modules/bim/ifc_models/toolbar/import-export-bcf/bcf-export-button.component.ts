@@ -40,7 +40,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 
 @Component({
   template: `
-    <a [title]="text.export"
+    <a [title]="text.export_hover"
        class="button export-bcf-button"
        [attr.href]="exportLink"
        (click)="showDelayedExport($event)">
@@ -52,7 +52,8 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 })
 export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   public text = {
-    export: this.I18n.t('js.bcf.export')
+    export: this.I18n.t('js.bcf.export'),
+    export_hover: this.I18n.t('js.bcf.export_bcf_xml_file')
   };
   public query:QueryResource;
   public exportLink:string;

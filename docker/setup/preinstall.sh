@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -o pipefail
 
 echo " ---> PREINSTALL"
 
@@ -10,28 +11,30 @@ display_error() {
 }
 
 echo " ---> Setting up common dependencies. This will take a while..."
-apt-get update -qq
 
 (
+	set -e
+	set -o pipefail
+
 	# install node + npm
 	curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | \
 		tar xzf - -C /usr/local --strip-components=1
 
+	wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+	echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+
+	apt-get update -qq
 	apt-get install -y \
 		apt-transport-https \
-		postgresql-client \
 		pandoc \
 		poppler-utils \
 		unrtf \
 		tesseract-ocr \
 		catdoc \
-		postgresql
+		postgresql-9.6 \
+		postgresql-client-9.6
 
-	# Set up pg defaults
-	echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
-	echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
-	echo "data_directory='$PGDATA'" >> /etc/postgresql/9.6/main/postgresql.conf
-	rm -rf "$PGDATA_LEGACY" && rm -rf "$PGDATA" && mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA"
+	rm -rf "$PGDATA_LEGACY"
 
 	# Specifics for BIM edition
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -

@@ -44,6 +44,10 @@ module Queries
       new_query.sort_criteria = source.sort_criteria if source.sort_criteria
       new_query.project = state.project || source.project
 
+      ::Queries::Copy::FiltersMapper
+        .new(state, new_query.filters)
+        .map_filters!
+
       ServiceResult.new(success: new_query.save, result: new_query)
     end
 

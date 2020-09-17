@@ -116,6 +116,11 @@ ru:
         manual: 'Перейти к источнику уценок'
         wysiwyg: 'Перейти к WYSIWYG-редактору'
       macro:
+        error: 'Невозможно развернуть макрос: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'Этот текстовый сегмент динамически отображается макросом.'
+          not_found: 'Запрошенный ресурс не найден'
+          invalid_attribute: "Выбранный атрибут '%{name}' не существует."
         child_pages:
           button: 'Ссылки на дочерние страницы'
           include_parent: 'Включить родителей'
@@ -264,9 +269,9 @@ ru:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
           learn_about: "Подробнее о новых функциях"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Релиз содержит различные новые функции и улучшения: <br><br> <ul class="%{list_styling_class}"> <li><b>Более быстрое журналирование времени</b> в рабочих пакетах из подробностей или списка.</li> <li><b>Улучшение форматирования таблиц</b> для лучшей настройки таблиц в текстовом редакторе, e. . для ширины, цвета, выравнивания или отступа ячейки.</li> <li>Карточка просмотра пакетов работ теперь также содержит название проекта.</li> <li>OpenProject теперь <b>на 100% переведён на словенский</b>. Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -407,6 +412,7 @@ ru:
     label_total_amount: "Всего: %{amount}"
     label_updated_on: "Обновлено"
     label_value_derived_from_children: "(значение, полученное от потомков)"
+    label_children_derived_duration: "Продолжительность производимого пакета работ"
     label_warning: "Предупреждение"
     label_work_package: "Пакет работ"
     label_work_package_parent: "Родительский пакет работ"
@@ -496,6 +502,7 @@ ru:
       context: 'Контекст проекта'
       work_package_belongs_to: 'Этот пакет работ относится к проекту %{projectname}.'
       click_to_switch_context: 'Открыть пакет работ в этом проекте.'
+      confirm_template_load: 'При смене шаблона будет перезагружена страница, и вы потеряете все входные данные в этой форме. Продолжить?'
       autocompleter:
         label: 'Автоматическое завершение проекта'
     text_are_you_sure: "Вы уверены?"
@@ -830,9 +837,9 @@ ru:
           priority: 'Приоритет'
           type: 'Тип'
         sorting_mode:
-          description: 'Выберите режим упорядочивания пакетов работ:'
-          automatic: 'Автоматическое'
-          manually: 'Ручное'
+          description: 'Выберите режим сортировки пакетов работ:'
+          automatic: 'Автоматически'
+          manually: 'Вручную'
           warning: 'При активации режима автоматического упорядования вы потеряете свою предыдущую сортировку.'
         columns_help_text: "С помощью поля ввода выше можно добавлять столбцы в табличное представление. Для изменения порядка столбцов перетаскивайте их мышью."
         upsale:

@@ -23,6 +23,17 @@ fr:
   activerecord:
     attributes:
       budget:
+        author: "Auteur"
+        available: "Disponible"
+        budget: "Planifié"
+        budget_ratio: "Consommé (ratio)"
+        created_on: "Créé le"
+        description: "Description"
+        spent: "Consommé"
+        status: "Statut"
+        subject: "Sujet"
+        type: "Types de coût"
+        updated_on: "Mis à jour le"
         labor_budget: "Coûts de main d'œuvre planifiés"
         material_budget: "Coûts unitaires estimés"
       work_package:
@@ -49,8 +60,9 @@ fr:
   label_budget: "Budget"
   label_budget_new: "Nouveau budget"
   label_budget_plural: "Budgets"
-  label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Afficher tous les budgets"
   label_yes: "Oui"
   notice_budget_conflict: "Les lots de travaux doivent appartenir au même projet."

@@ -116,6 +116,11 @@ tr:
         manual: 'Markdown kaynağına geç'
         wysiwyg: 'WYSIWYG düzenleyiciye geç'
       macro:
+        error: 'Makro genişletilemiyor: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'Bu metin parçası bir makro tarafından dinamik olarak işleniyor.'
+          not_found: 'İstenen kaynak bulunamadı'
+          invalid_attribute: "Seçilen '%{name}' özniteliği mevcut değil."
         child_pages:
           button: 'Alt sayfalara bağlantılar'
           include_parent: 'Üst öğeyi dahil et'
@@ -265,9 +270,9 @@ tr:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Sürüm çeşitli yeni özellikler ve geliştirmeler içeriyor: <br> <br> <ul class = "%{list_styling_class}"> <li> <b> Ayrıntılar veya liste görünümünden iş paketlerinde daha hızlı zaman kaydı </b>. / li> <li> <b> Metin düzenleyicide tabloları daha iyi yapılandırmak için iyileştirilmiş tablo biçimlendirme </b>, ör. genişlik, renk, hizalama veya dolgu için. </li> <li> İş paketleri için kart görünümü artık proje adını da içeriyor. </li> <li> OpenProject <b>% 100 Slovence'ye çevrildi </ b>. Zabavaj se! </li> </ul><ul 
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -408,6 +413,7 @@ tr:
     label_total_amount: "Toplam: %{amount}"
     label_updated_on: "güncelleme tarihi"
     label_value_derived_from_children: "(çocuklardan elde edilen değer)"
+    label_children_derived_duration: "Çalışma paketinin çocuklarının türetilen süresi"
     label_warning: "Uyarı"
     label_work_package: "İş paketi"
     label_work_package_parent: "İş paketini oluştur"
@@ -497,6 +503,7 @@ tr:
       context: 'Proje içeriği'
       work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
       click_to_switch_context: 'Bu iş paketini o projede aç.'
+      confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
       autocompleter:
         label: 'Proje otomatik tamamlama'
     text_are_you_sure: "Emin misiniz?"

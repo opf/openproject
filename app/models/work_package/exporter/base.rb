@@ -73,7 +73,7 @@ class WorkPackage::Exporter::Base
   def work_packages
     @work_packages ||= query
                        .results
-                       .sorted_work_packages
+                       .work_packages
                        .page(page)
                        .per_page(Setting.work_packages_export_limit.to_i)
   end

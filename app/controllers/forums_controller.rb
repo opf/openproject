@@ -89,7 +89,7 @@ class ForumsController < ApplicationController
 
   def create
     if @forum.save
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to action: 'index'
     else
       render :new
@@ -100,7 +100,7 @@ class ForumsController < ApplicationController
 
   def update
     if @forum.update(permitted_params.forum)
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'index'
     else
       render :edit
@@ -119,7 +119,7 @@ class ForumsController < ApplicationController
 
   def destroy
     @forum.destroy
-    flash[:notice] = l(:notice_successful_delete)
+    flash[:notice] = I18n.t(:notice_successful_delete)
     redirect_to action: 'index'
   end
 

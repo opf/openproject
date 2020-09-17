@@ -81,7 +81,6 @@ class Apiv3Paths {
       '/principals?' +
       filters.toParams({ sortBy: '[["name","asc"]]', offset: '1', pageSize: '10' });
   }
-
 }
 
 @Injectable({ providedIn: 'root' })

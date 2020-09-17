@@ -100,7 +100,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                         <span>
-                          <%=l(:button_sort)%>
+                          <%=t(:button_sort)%>
                         </span>
                   </div>
                 </div>
@@ -141,7 +141,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                             title: t(:button_edit) %>
                   <%= link_to_if_authorized '',
                                             { controller: '/forums', action: 'destroy', project_id: @project, id: forum },
-                                            data: { confirm: l(:text_are_you_sure) },
+                                            data: { confirm: t(:text_are_you_sure) },
                                             method: :delete,
                                             class: 'icon icon-delete',
                                             title: t(:button_delete) %>

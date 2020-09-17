@@ -23,6 +23,17 @@ ar:
   activerecord:
     attributes:
       budget:
+        author: "المؤلف"
+        available: "متاح"
+        budget: "مُخَطَّط"
+        budget_ratio: "أنفق (النسبة)"
+        created_on: "تم الإنشاء في"
+        description: "الوصف"
+        spent: "أنفق"
+        status: "الحالة"
+        subject: "الموضوع"
+        type: "أنواع التكلفة"
+        updated_on: "تم التحديث بتاريخ"
         labor_budget: "تكاليف العمل المخطط لها"
         material_budget: "تكاليف الوحدة المخطط لها"
       work_package:
@@ -49,8 +60,9 @@ ar:
   label_budget: "الميزانية"
   label_budget_new: "الميزانية الجديدة"
   label_budget_plural: "الميزانيات"
-  label_cost_type_specific: "الميزانية #%{id}:\n%{name}"
+  label_budget_id: "الميزانية #%{id}"
   label_deliverable: "الميزانية"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "عرض جميع الميزانيات"
   label_yes: "نعم"
   notice_budget_conflict: "مجموعات العمل يجب أن تكون لنفس المشروع."

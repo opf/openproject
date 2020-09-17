@@ -81,8 +81,8 @@ module Costs
         permission :edit_cost_entries, { costlog: %i[edit update destroy] },
                    require: :member
 
-        permission :view_cost_entries, { budgets: %i[index show], costlog: [:index] }
-        permission :view_own_cost_entries, { budgets: %i[index show], costlog: [:index] }
+        permission :view_cost_entries, { costlog: [:index] }
+        permission :view_own_cost_entries, { costlog: [:index] }
       end
 
       # Menu extensions

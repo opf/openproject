@@ -202,6 +202,9 @@ fr:
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
     settings:
@@ -515,7 +518,7 @@ fr:
         cant_link_a_work_package_with_a_descendant: "Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches."
         circular_dependency: "Cette relation créerait une dépendance circulaire."
         confirmation: "ne correspond pas à %{attribute}."
-        could_not_be_copied: "n'a pas pu être copié (entièrement)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "n'existe pas."
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
@@ -559,6 +562,7 @@ fr:
           not_an_integer: "(%{name}) n’est pas un nombre entier."
           smaller_than_or_equal_to: "(%{name}) doit être inférieure ou égale à %{count}."
           greater_than_or_equal_to: "(%{name}) doit être supérieur ou égal à %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -593,6 +597,15 @@ fr:
               error_not_found: "non trouvé"
             public:
               error_unauthorized: "- L’utilisateur n'est pas autorisé à créer des vues publiques."
+            group_by:
+              invalid: "Impossible de grouper par : %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Colonne de requête invalide : %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Impossible de trier par colonne : %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
           filters:
             custom_fields:
@@ -615,8 +628,9 @@ fr:
           must_not_be_ssh: "ne doit pas être une url SSH."
           no_directory: "n'est pas un répertoire."
         role:
-          permissions:
-            dependency_missing: "doit également inclure '%{dependency}' car'%{permission}' est sélectionné."
+          attributes:
+            permissions:
+              dependency_missing: "doit également inclure '%{dependency}' car'%{permission}' est sélectionné."
         time_entry:
           attributes:
             hours:
@@ -680,6 +694,8 @@ fr:
               unassignable: "ne peut pas être assigné à un projet."
         version:
           undeletable_work_packages_attached: "La version ne peut pas être supprimée car des lots de travaux y sont attachés."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Veuillez vérifier les champs suivants :"
         header:
@@ -1081,9 +1097,6 @@ fr:
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
   error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}"
   error_invalid_selected_value: "Valeur sélectionnée invalide."
-  error_invalid_group_by: "Impossible de grouper par : %{value}"
-  error_invalid_query_column: "Colonne de requête invalide : %{value}"
-  error_invalid_sort_criterion: "Impossible de trier par colonne : %{value}"
   error_journal_attribute_not_present: "Le journal ne contient pas l’attribut %{attribute}."
   error_pdf_export_too_many_columns: "Trop de colonnes sélectionnées pour l’exportation PDF. Veuillez réduire le nombre de colonnes."
   error_pdf_failed_to_export: "L'export PDF n'a pas pu être enregistré: %{error}"
@@ -1096,6 +1109,7 @@ fr:
   error_no_default_work_package_status: "Aucun statut de lot de travaux par défaut n'est défini. Veuillez vérifier votre configuration (Allez dans \"Administration -> Statuts des lots de travaux\")."
   error_no_type_in_project: "Aucun type n'est associé à ce projet. Veuillez vérifier les réglages du projet."
   error_omniauth_registration_timed_out: "L'inscription via un fournisseur d'authentification externe a expiré. Veuillez essayer de nouveau."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Une erreur s'est produite en essayant d'accéder au dépôt: %{value}"
   error_scm_not_found: "L'entrée ou la révision n'a pas été trouvée dans le dépôt."
   error_unable_delete_status: "Le statut de lot de travaux ne peut pas être supprimé tant qu'il est utilisé par au moins un lot de travaux."
@@ -1485,6 +1499,7 @@ fr:
   label_no_parent_page: "Aucune page parente"
   label_nothing_display: "Rien à afficher"
   label_nobody: "personne"
+  label_not_found: 'non trouvé'
   label_none: "aucune"
   label_none_parentheses: "(none)"
   label_not_contains: "ne contient pas"
@@ -1499,7 +1514,6 @@ fr:
   label_options: "Options"
   label_other: "Autre"
   label_overall_activity: "Activité totale"
-  label_overall_spent_time: "Total du temps passé"
   label_overview: "Vue globale"
   label_page_title: "Titre de la page"
   label_part_of: "partie de"
@@ -1592,7 +1606,7 @@ fr:
   label_search: "Recherche"
   label_send_information: "Envoyer informations du compte à l'utilisateur"
   label_send_test_email: "Envoyer un courriel de test"
-  label_settings: "Paramètres"
+  label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"
   label_show_completed_versions: "Afficher les versions terminées"
   label_sort: "Trier"
@@ -2091,6 +2105,10 @@ fr:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Rechercher…"
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Méthode de livraison d'e-mail"
   setting_sendmail_location: "Emplacement de l’exécutable sendmail"
   setting_smtp_enable_starttls_auto: "Utiliser automatiquement STARTTLS si disponible"
@@ -2135,6 +2153,7 @@ fr:
   setting_emails_header: "En-tête des courriels"
   setting_email_login: "Utiliser l'adresse courriel comme login"
   setting_enabled_scm: "Permettre SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Permettre les flux"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
@@ -2165,6 +2184,8 @@ fr:
   setting_per_page_options: "Options des objets par page"
   setting_plain_text_mail: "Courriel au format texte (pas de HTML)"
   setting_protocol: "Protocole"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Afficher le badge de sécurité"
   setting_registration_footer: "Pied de page d’inscription"
   setting_repositories_automatic_managed_vendor: "Type de fournisseur de dépôt automatique"
@@ -2203,6 +2224,9 @@ fr:
     passwords: "Mots de passe"
     session: "Session"
     brute_force_prevention: "Blocage d'utilisateur automatique (pour éviter les pirates)"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Préférences par défaut"
       deletion: "Suppression"

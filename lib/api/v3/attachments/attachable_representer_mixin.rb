@@ -46,6 +46,9 @@ module API
           link :prepareAttachment do
             next unless OpenProject::Configuration.direct_uploads?
 
+            # We may not generate this link for new resources
+            next if represented.new_record?
+
             {
               href: attachments_by_resource + '/prepare',
               method: :post

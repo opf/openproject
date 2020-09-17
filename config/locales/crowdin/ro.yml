@@ -202,6 +202,9 @@ ro:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
     settings:
@@ -517,7 +520,7 @@ ro:
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
-        could_not_be_copied: "nu poate fi (complet) copiat(ă)."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "nu există."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -561,6 +564,7 @@ ro:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -595,6 +599,15 @@ ro:
               error_not_found: "not found"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -617,8 +630,9 @@ ro:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "nu este un director."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -683,6 +697,8 @@ ro:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Verificaţi următoarele câmpuri:"
         header:
@@ -1098,9 +1114,6 @@ ro:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "Exportul pdf nu poate fi salvat: %{error}"
@@ -1113,6 +1126,7 @@ ro:
   error_no_default_work_package_status: "Nu există un status implicit al pachetelor de lucru. Verificați configurația (\"Administrare -> Stări pachete de lucru\")."
   error_no_type_in_project: "Nu există un tip asociat cu proiectul. Verificați setările proiectului."
   error_omniauth_registration_timed_out: "Înregistrarea prin intermediul unui furnizor de autentificare extern a expirat. Vă rugăm să încercaţi din nou."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "A intervenit o eroare la accesarea repo-ului: %{value}"
   error_scm_not_found: "Nu am găsit articolul sau revizia în repo."
   error_unable_delete_status: "Starea pachetului de lucru nu poate fi ștearsă deoarece este folosită de cel puțin un pachet de lucru."
@@ -1502,6 +1516,7 @@ ro:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nimic de afișat"
   label_nobody: "nimeni"
+  label_not_found: 'not found'
   label_none: "niciunul"
   label_none_parentheses: "(nimic)"
   label_not_contains: "nu conține"
@@ -1516,7 +1531,6 @@ ro:
   label_options: "Opțiuni"
   label_other: "Altele"
   label_overall_activity: "Activitate globală"
-  label_overall_spent_time: "Timp consumat global"
   label_overview: "Vedere de ansamblu"
   label_page_title: "Page title"
   label_part_of: "part of"
@@ -1609,7 +1623,7 @@ ro:
   label_search: "Căutare"
   label_send_information: "Trimite utilizatorului informațiile despre cont"
   label_send_test_email: "Trimite e-mail de test"
-  label_settings: "Setări"
+  label_setting_plural: "Setări"
   label_system_settings: "Setări de sistem"
   label_show_completed_versions: "Afișare versiuni complete"
   label_sort: "Sortare"
@@ -2112,6 +2126,10 @@ ro:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Search ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Metoda de livrare e-mail"
   setting_sendmail_location: "Locația executabilului \"sendmail\""
   setting_smtp_enable_starttls_auto: "Utilizează automat STARTTLS dacă este disponibil"
@@ -2156,6 +2174,7 @@ ro:
   setting_emails_header: "Antet e-mail"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM activat"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Activare fluxuri"
   setting_feeds_limit: "Limită conținut flux"
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
@@ -2186,6 +2205,8 @@ ro:
   setting_per_page_options: "Opțiuni pentru obiecte pe pagină"
   setting_plain_text_mail: "Text e-mail simplu (fără HTML)"
   setting_protocol: "Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Tipul de furnizor pentru repo-urile automate"
@@ -2224,6 +2245,9 @@ ro:
     passwords: "Parole"
     session: "Sesiune"
     brute_force_prevention: "Blocare automată a utilizatorilor"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"

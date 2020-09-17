@@ -27,6 +27,8 @@
 //++
 import {Component, Input} from "@angular/core";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 
 @Component({
@@ -36,4 +38,12 @@ import {UserResource} from "core-app/modules/hal/resources/user-resource";
 })
 export class AssigneeBoardHeaderComponent {
   @Input('resource') public user:UserResource;
+
+  text = {
+    assignee: this.I18n.t('js.work_packages.properties.assignee')
+  };
+
+  constructor(readonly pathHelper:PathHelperService,
+              readonly I18n:I18nService) {
+  }
 }

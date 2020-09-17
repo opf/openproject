@@ -116,6 +116,11 @@ zh-TW:
         manual: '切換到標記源模式'
         wysiwyg: '切換到所見即所得編輯器'
       macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: '指向子頁面的連結'
           include_parent: '包括父項'
@@ -264,9 +269,9 @@ zh-TW:
           text_new_features: "Read about new features and product updates."
           learn_about: "瞭解更多新功能的資訊"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul class="%{list_styling_class}"> <li><b>Quicker time logging</b> on work packages from the details or list view.</li> <li><b>Improved table formatting</b> to better configure tables in the text editor, e.g. for width, color, alignment or padding of the cell.</li> <li>The card view for work packages now also contains the project name.</li> <li>OpenProject is now <b>100% translated into Slovenian</b>. Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -288,7 +293,7 @@ zh-TW:
     label_and: "和"
     label_ascending: "昇冪"
     label_author: "作者: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "頭像分身"
     label_between: "介於"
     label_board: "面板"
     label_board_locked: "鎖定"
@@ -407,6 +412,7 @@ zh-TW:
     label_total_amount: "總計: %{amount}"
     label_updated_on: "更新於"
     label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
     label_warning: "警告"
     label_work_package: "工作項目"
     label_work_package_parent: "Parent work package"
@@ -496,6 +502,7 @@ zh-TW:
       context: '專案內容'
       work_package_belongs_to: '此工作項目屬於專案 %{projectname}。'
       click_to_switch_context: '在該專案中打開此工作項目。'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: '專案自動完成'
     text_are_you_sure: "是否確定？"

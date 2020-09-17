@@ -26,9 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% if count > 0 %>
+<% if count.nil? || count > 0 %>
   <label class="block">
     <%= check_box_tag 'only[]', name, checked, id: "only_#{name}" %>
-    <%= "#{label} (#{count})" %>
+    <% count_label = count ? " (#{count})" : "" %>
+    <%= "#{label}#{count_label}" %>
   </label>
 <% end %>

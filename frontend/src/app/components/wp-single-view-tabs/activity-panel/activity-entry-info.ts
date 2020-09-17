@@ -55,6 +55,10 @@ export class ActivityEntryInfo {
     return this.activity.href;
   }
 
+  public get identifier() {
+    return `${this.href}-${this.version}`;
+  }
+
   public get version() {
     return this.activity.version;
   }

@@ -86,7 +86,7 @@ module API
           def initialize(schema, self_link, context)
             @base_schema_link = context.delete(:base_schema_link) || nil
             @show_lock_version = !context.delete(:hide_lock_version)
-            super(schema, self_link, context)
+            super(schema, self_link, **context)
           end
 
           link :baseSchema do
@@ -160,7 +160,10 @@ module API
           schema :spent_time,
                  type: 'Duration',
                  required: false,
-                 show_if: ->(*) { represented.project&.module_enabled?('costs') }
+                 show_if: ->(*) {
+                   current_user_allowed_to(:view_time_entries, context: represented.project) ||
+                     current_user_allowed_to(:view_own_time_entries, context: represented.project)
+                 }
 
           schema :percentage_done,
                  type: 'Integer',
@@ -281,7 +284,7 @@ module API
                                            }
                                          },
                                          show_if: ->(*) {
-                                           represented.project&.module_enabled?(:budgets)
+                                           current_user_allowed_to(:view_budgets, context: represented.project)
                                          }
 
           def attribute_groups

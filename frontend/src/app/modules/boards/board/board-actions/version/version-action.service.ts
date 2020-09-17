@@ -13,6 +13,7 @@ import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-a
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
+import {ImageHelpers} from "core-app/helpers/images/path-helper";
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {
@@ -21,15 +22,15 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
   filterName = 'version';
 
-  text = this.I18n.t('js.boards.board_type.action_by_attribute',
-  { attribute: this.I18n.t('js.boards.board_type.action_type.version')});
+  text = this.I18n.t('js.boards.board_type.action_type.version');
 
-  description = this.I18n.t('js.boards.board_type.action_text',
-  { attribute: this.I18n.t('js.boards.board_type.action_type.version')});
+  description = this.I18n.t('js.boards.board_type.action_text_version');
 
   label = this.I18n.t('js.boards.add_list_modal.labels.version');
 
   icon = 'icon-getting-started';
+
+  image = ImageHelpers.imagePath('board_creation_modal/version.svg');
 
   private writable$:Promise<boolean>;
 

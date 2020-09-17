@@ -59,6 +59,9 @@ module Accounts::AuthenticationStages
     # but don't use the referer
     session[:back_url] = params[:back_url]
 
+    # Remember the autologin cookie decision
+    session[:autologin_requested] = params[:autologin]
+
     stages
   end
 

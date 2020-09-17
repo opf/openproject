@@ -47,21 +47,21 @@ describe WorkPackage, type: :model do
 
     let(:cf_required) { true }
 
-    shared_context 'project with custom field' do
+    shared_context 'project with custom field' do |save = true|
       before do
         project.work_package_custom_fields << custom_field
         type.custom_fields << custom_field
 
-        work_package.save
+        work_package.save if save
       end
     end
 
     before do
-      def self.change_custom_field_value(work_package, value)
+      def self.change_custom_field_value(work_package, value, save: true)
         val = custom_field.custom_options.find { |co| co.value == value }.try(:id)
 
         work_package.custom_field_values = { custom_field.id => (val || value) }
-        work_package.save
+        work_package.save if save
       end
     end
 
@@ -225,28 +225,22 @@ describe WorkPackage, type: :model do
         end
 
         context 'save' do
-          before do
-            work_package.save!
-            work_package.reload
-          end
-
           subject { work_package.typed_custom_value_for(custom_field.id) }
           it { is_expected.to eq('PostgreSQL') }
         end
+      end
 
-        describe 'value change' do
-          before do
-            change_custom_field_value(work_package, 'PostgreSQL')
-            @initial_custom_value = work_package.custom_value_for(custom_field).id
-            change_custom_field_value(work_package, 'MySQL')
+      describe 'only updates when actually saving' do
+        before do
+          change_custom_field_value(work_package, 'PostgreSQL')
+          change_custom_field_value(work_package, 'MySQL', save: false)
 
-            work_package.reload
-          end
-
-          subject { work_package.custom_value_for(custom_field).id }
-
-          it { is_expected.to eq(@initial_custom_value) }
+          work_package.reload
         end
+
+        subject { work_package.typed_custom_value_for(custom_field.id) }
+
+        it { is_expected.to eql('PostgreSQL') }
       end
     end
 
@@ -349,6 +343,34 @@ describe WorkPackage, type: :model do
         end
 
         it { is_expected.to eq(value) }
+      end
+    end
+
+    describe 'default values' do
+      include_context 'project with custom field', false
+
+      context 'for a custom field with default value' do
+        before do
+          custom_field.custom_options[1].update_attribute(:default_value, true)
+        end
+
+        it 'sets the default values for custom_field_values' do
+          expect(work_package.custom_field_values.length)
+            .to eql 1
+
+          expect(work_package.custom_field_values[0].value)
+            .to eql custom_field.custom_options[1].id.to_s
+        end
+      end
+
+      context 'for a custom field without default value' do
+        it 'sets the default values for custom_field_values' do
+          expect(work_package.custom_field_values.length)
+            .to eql 1
+
+          expect(work_package.custom_field_values[0].value)
+            .to be_nil
+        end
       end
     end
 

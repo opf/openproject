@@ -80,7 +80,7 @@ module WorkPackagesHelper
 
     parts[:link] << "##{h(package.id)}" if options[:id]
 
-    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status
+    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status_id
 
     # Hidden link part
 
@@ -172,7 +172,7 @@ module WorkPackagesHelper
                                checked,
                                class: 'form--check-box')
         boxes
-      end) + l(:label_notify_member_plural)
+      end) + I18n.t(:label_notify_member_plural)
     end
   end
 
@@ -194,7 +194,7 @@ module WorkPackagesHelper
   def work_package_associations_to_address(associated)
     ret = ''.html_safe
 
-    ret += content_tag(:p, l(:text_destroy_with_associated), class: 'bold')
+    ret += content_tag(:p, I18n.t(:text_destroy_with_associated), class: 'bold')
 
     ret += content_tag(:ul) {
       associated.inject(''.html_safe) do |list, associated_class|
@@ -205,6 +205,11 @@ module WorkPackagesHelper
     }
 
     ret
+  end
+
+  def back_url_is_wp_show?
+    route = Rails.application.routes.recognize_path(params[:back_url] || request.env['HTTP_REFERER'])
+    route[:controller] == 'work_packages' && route[:action] == 'index' && route[:state]&.match?(/^\d+/)
   end
 
   private

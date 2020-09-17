@@ -96,7 +96,7 @@ class AccountController < ApplicationController
 
       # Ensure the same request is sent regardless of which email is entered
       # to avoid detecability of mails
-      flash[:notice] = l(:notice_account_lost_email_sent)
+      flash[:notice] = I18n.t(:notice_account_lost_email_sent)
 
       unless user
         # user not found in db
@@ -114,7 +114,7 @@ class AccountController < ApplicationController
       token = Token::Recovery.new(user_id: user.id)
       if token.save
         UserMailer.password_lost(token).deliver_later
-        flash[:notice] = l(:notice_account_lost_email_sent)
+        flash[:notice] = I18n.t(:notice_account_lost_email_sent)
         redirect_to action: 'login', back_url: home_url
         return
       end
@@ -172,11 +172,16 @@ class AccountController < ApplicationController
   end
 
   def handle_expired_token(token)
-    send_activation_email! Token::Invitation.create!(user: token.user)
+    send_activation_email! token.user
 
     flash[:warning] = I18n.t :warning_registration_token_expired, email: token.user.mail
 
     redirect_to home_url
+  end
+
+  def send_activation_email!(user)
+    new_token = Token::Invitation.create!(user: user)
+    UserMailer.user_signed_up(new_token).deliver_later
   end
 
   def activate_self_registered(token)
@@ -318,25 +323,52 @@ class AccountController < ApplicationController
     end
 
     if session[:auth_source_registration]
-      # on-the-fly registration via omniauth or via auth source
-      if pending_omniauth_registration?
-        register_via_omniauth(@user, session, permitted_params)
-      else
-        register_and_login_via_authsource(@user, session, permitted_params)
-      end
+      register_with_auth_source(@user)
     else
-      @user.attributes = permitted_params.user.transform_values do |val|
-        if val.is_a? String
-          val.strip!
-        end
+      register_plain_user(@user)
+    end
+  end
 
-        val
+  def register_plain_user(user)
+    user.attributes = permitted_params.user.transform_values do |val|
+      if val.is_a? String
+        val.strip!
       end
-      @user.login = params[:user][:login].strip if params[:user][:login].present?
-      @user.password = params[:user][:password]
-      @user.password_confirmation = params[:user][:password_confirmation]
 
-      register_user_according_to_setting @user
+      val
+    end
+    user.login = params[:user][:login].strip if params[:user][:login].present?
+    user.password = params[:user][:password]
+    user.password_confirmation = params[:user][:password_confirmation]
+
+    respond_for_registered_user(user)
+  end
+
+  def register_with_auth_source(user)
+    # on-the-fly registration via omniauth or via auth source
+    if pending_omniauth_registration?
+      user.assign_attributes permitted_params.user_register_via_omniauth
+      register_via_omniauth(session, user.attributes)
+    else
+      user.attributes = permitted_params.user
+      user.activate
+      user.login = session[:auth_source_registration][:login]
+      user.auth_source_id = session[:auth_source_registration][:auth_source_id]
+
+      respond_for_registered_user(user)
+    end
+  end
+
+  def respond_for_registered_user(user)
+    call = ::Users::RegisterUserService.new(user).call
+
+    if call.success?
+      flash[:notice] = call.message.presence
+      login_user_if_active(call.result, just_registered: true)
+    else
+      flash[:error] = error = call.message
+      Rails.logger.error "Registration of user #{user.login} failed: #{error}"
+      onthefly_creation_failed(user)
     end
   end
 
@@ -402,14 +434,14 @@ class AccountController < ApplicationController
     end
   end
 
-  def successful_authentication(user, reset_stages: true)
-    stages = authentication_stages reset: reset_stages
+  def successful_authentication(user, reset_stages: true, just_registered: false)
+    stages = authentication_stages after_activation: just_registered, reset: reset_stages
 
     if stages.empty?
       # setting params back_url to be used by redirect_after_login
       params[:back_url] = session.delete :back_url if session.include?(:back_url)
 
-      if session[:finish_registration]
+      if just_registered || session[:just_registered]
         finish_registration! user
       else
         login_user! user
@@ -417,6 +449,7 @@ class AccountController < ApplicationController
     else
       stage = stages.first
 
+      session[:just_registered] = just_registered
       session[:authenticated_user_id] = user.id
 
       redirect_to stage.path
@@ -424,12 +457,13 @@ class AccountController < ApplicationController
   end
 
   def login_user!(user)
-    # Valid user
-    self.logged_user = user
     # generate a key and set cookie if autologin
-    if params[:autologin] && Setting.autologin?
+    if Setting.autologin? && (params[:autologin] || session.delete(:autologin_requested))
       set_autologin_cookie(user)
     end
+
+    # Set the logged user, resetting their session
+    self.logged_user = user
 
     call_hook(:controller_account_success_authentication_after, user: user)
 
@@ -448,17 +482,19 @@ class AccountController < ApplicationController
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
   end
 
-  def login_user_if_active(user)
+  def login_user_if_active(user, just_registered:)
     if user.active?
-      successful_authentication(user)
-    else
-      account_inactive(user, flash_now: false)
-      redirect_to signin_path
+      successful_authentication(user, just_registered: just_registered)
+      return
     end
-  end
 
-  def send_activation_email!(token)
-    UserMailer.user_signed_up(token).deliver_later
+    # Show an appropriate error unless
+    # the user was just registered
+    if !(just_registered && user.registered?)
+      account_inactive(user, flash_now: false)
+    end
+
+    redirect_to signin_path(back_url: params[:back_url])
   end
 
   def pending_auth_source_registration?
@@ -469,21 +505,6 @@ class AccountController < ApplicationController
     Hash(session[:auth_source_registration])[:omniauth]
   end
 
-  def register_and_login_via_authsource(_user, session, permitted_params)
-    @user.attributes = permitted_params.user
-    @user.activate
-    @user.login = session[:auth_source_registration][:login]
-    @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-
-    if @user.save
-      session[:auth_source_registration] = nil
-      self.logged_user = @user
-      flash[:notice] = I18n.t(:notice_account_activated)
-      redirect_to controller: '/my', action: 'account'
-    end
-    # Otherwise render register view again
-  end
-
   # Onthefly creation failed, display the registration form to fill/fix attributes
   def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
@@ -491,97 +512,13 @@ class AccountController < ApplicationController
     render action: 'register'
   end
 
-  # Register a user depending on Setting.self_registration
-  def register_user_according_to_setting(user, opts = {}, &block)
-    return register_automatically(user, opts, &block) if user.invited?
-
-    if Setting::SelfRegistration.by_email?
-      register_by_email_activation(user, opts, &block)
-    elsif Setting::SelfRegistration.automatic?
-      register_automatically(user, opts, &block)
-    else
-      register_manually_by_administrator(user, opts, &block)
-    end
-  end
-
-  # Register a user for email activation.
-  #
-  # Pass a block for behavior when a user fails to save
-  def register_by_email_activation(user, _opts = {})
-    token = Token::Invitation.new(user: user)
-
-    if user.save and token.save
-      send_activation_email! token
-      flash[:notice] = I18n.t(:notice_account_register_done)
-
-      redirect_to action: 'login'
-    elsif block_given?
-      yield
-    end
-  end
-
-  # Automatically register a user
-  #
-  # Pass a block for behavior when a user fails to save
-  def register_automatically(user, opts = {})
-    if user_limit_reached?
-      show_user_limit_activation_error!
-      send_activation_limit_notification_about user
-
-      return redirect_back fallback_location: signin_path
-    end
-
-    # Automatic activation
-    user.activate
-
-    if user.save
-      stages = authentication_stages after_activation: true
-
-      run_registration_stages stages, user, opts
-    elsif block_given?
-      yield
-    end
-  end
-
-  def run_registration_stages(stages, user, opts)
-    if stages.empty?
-      finish_registration! user, opts
-    else
-      stage = stages.first
-
-      session[:authenticated_user_id] = user.id
-      session[:finish_registration] = opts
-
-      redirect_to stage.path
-    end
-  end
-
-  def finish_registration!(user, opts = Hash(session.delete(:finish_registration)))
+  def finish_registration!(user)
+    session[:just_registered] = nil
     self.logged_user = user
     user.update last_login_on: Time.now
 
-    if auth_hash = opts[:omni_auth_hash]
-      OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
-    end
-
     flash[:notice] = I18n.t(:notice_account_registered_and_logged_in)
     redirect_after_login user
-  end
-
-  # Manual activation by the administrator
-  #
-  # Pass a block for behavior when a user fails to save
-  def register_manually_by_administrator(user, _opts = {})
-    if user.save
-      # Sends an email to the administrators
-      admins = User.admin.active
-      admins.each do |admin|
-        UserMailer.account_activation_requested(admin, user).deliver_later
-      end
-      account_pending
-    elsif block_given?
-      yield
-    end
   end
 
   def self_registration_disabled
@@ -601,7 +538,7 @@ class AccountController < ApplicationController
   # Log an attempt to log in to an account in "registered" state and show a flash message.
   def account_not_activated(flash_now: true)
     flash_error_message(log_reason: 'NOT ACTIVATED', flash_now: flash_now) do
-      if Setting.self_registration == '1'
+      if Setting::SelfRegistration.by_email?
         'account.error_inactive_activation_by_mail'
       else
         'account.error_inactive_manual_activation'
@@ -613,14 +550,6 @@ class AccountController < ApplicationController
     flash_error_message(log_reason: 'invited, NOT ACTIVATED', flash_now: false) do
       'account.error_inactive_activation_by_mail'
     end
-  end
-
-  def account_pending
-    flash[:notice] = l(:notice_account_pending)
-    # Set back_url to make sure user is not redirected to an external login page
-    # when registering via the external service. This also redirects the user
-    # to the original page where the user clicked on the omniauth login link for a provider.
-    redirect_to action: 'login', back_url: params[:back_url]
   end
 
   def invited_user

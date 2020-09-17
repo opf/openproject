@@ -30,6 +30,10 @@
 
 module Projects::Copy
   class BoardsDependentService < Dependency
+    def self.human_name
+      I18n.t(:'boards.label_boards')
+    end
+
     protected
 
     # Copies boards from +project+
@@ -45,10 +49,7 @@ module Projects::Copy
         .new(source: board, user: user)
         .with_state(state)
         .call(params.merge)
-        .on_failure do |result|
-
-        add_error! board, result.errors
-      end
+        .on_failure { |result| add_error! board, result.errors }
     end
   end
 end

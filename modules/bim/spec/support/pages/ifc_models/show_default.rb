@@ -96,7 +96,7 @@ module Pages
       private
 
       def toolbar_items
-        ['Manage models']
+        ['IFC models']
       end
 
       def create_page_class_instance(type)

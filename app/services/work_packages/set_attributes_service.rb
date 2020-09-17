@@ -59,18 +59,48 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     work_package.attributes = assignable_attributes
   end
 
-  def set_default_attributes(*)
+  def set_default_attributes(attributes)
     return unless work_package.new_record?
 
-    work_package.priority ||= IssuePriority.active.default
-    work_package.author ||= user
-    work_package.status ||= Status.default
-
-    work_package.start_date ||= Date.today if Setting.work_package_startdate_is_adddate?
+    set_default_priority
+    set_default_author
+    set_default_status
+    set_default_start_date(attributes)
+    set_default_due_date(attributes)
   end
 
   def non_or_default_description?
     work_package.description.blank? || false
+  end
+
+  def set_default_author
+    work_package.author ||= user
+  end
+
+  def set_default_status
+    work_package.status ||= Status.default
+  end
+
+  def set_default_priority
+    work_package.priority ||= IssuePriority.active.default
+  end
+
+  def set_default_start_date(attributes)
+    work_package.start_date ||= if attributes.has_key?(:start_date)
+                                  nil
+                                elsif parent_start_earlier_than_due?
+                                  work_package.parent.start_date
+                                elsif Setting.work_package_startdate_is_adddate?
+                                  Date.today
+                                end
+  end
+
+  def set_default_due_date(attributes)
+    work_package.due_date ||= if attributes.has_key?(:due_date)
+                                nil
+                              elsif parent_due_later_than_start?
+                                work_package.parent.due_date
+                              end
   end
 
   def set_templated_description
@@ -248,5 +278,13 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
   def max_child_date
     (work_package.children.map(&:start_date) + work_package.children.map(&:due_date)).compact.max
+  end
+
+  def parent_start_earlier_than_due?
+    work_package.parent&.start_date && work_package.parent.start_date < (work_package.due_date || work_package.parent.due_date)
+  end
+
+  def parent_due_later_than_start?
+    work_package.parent&.due_date && work_package.parent.due_date > (work_package.start_date || work_package.parent.start_date)
   end
 end

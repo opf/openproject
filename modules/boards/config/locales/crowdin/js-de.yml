@@ -24,34 +24,47 @@ de:
         locked: 'Gesperrt'
         closed: 'Erledigt'
       new_board: 'Neues Board'
-      add_list: 'Liste hinzufügen'
+      add_list: 'Liste zum Board hinzufügen'
       add_card: 'Karte erstellen'
       error_attribute_not_writable: "Das Arbeitspaket kann nicht verschoben werden, %{attribute} ist nicht schreibbar."
       error_loading_the_list: "Fehler beim Laden der Liste: %{error_message}"
       error_permission_missing: "Die Berechtigung zur Erstellung öffentlicher Abfragen fehlt"
+      error_cannot_move_into_self: "Sie können ein Arbeitspaket nicht in seine eigene Spalte verschieben."
       click_to_remove_list: "Klicken, um diese Liste zu entfernen"
       board_type:
         text: 'Board-Typ'
-        free: 'Einfaches Board'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'Einfach'
+        select_board_type: 'Bitte wählen Sie die gewünschte Eigenschaft des Boards aus.'
         free_text: >
-          A board in which you can freely create lists and order your work packages within. Dragging work packages between lists do not change the work package itself.
+          Beginnen Sie mit einem leeren Board und fügen Sie ihm frei Karten und Spalten hinzu.
         action: 'Aktionsboard'
         action_by_attribute: 'Aktionsboard (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Ein Board mit gefilterten Listen auf dem Attribut %{attribute}. Das Verschieben von Arbeitspaketen in andere Listen verändert dieses Attribut entsprechend.
         action_text_subprojects: >
-          A board with lists of subprojects of this project and their work packages as list items. Dragging work packages to other lists will move them to the corresponding subproject.
+          Board mit dynamischen Spalten für Unterprojekte. Ideal für die Bearbeitung von Berechtigungen über Stakeholder.
         action_text_subtasks: >
-          A board with lists of selected parents and their child work packages as list items. Dragging work packages to other lists will update the parent accordingly.
+          Board mit dynamischen Spalten für Unterelemente. Verschieben von Arbeitspaketen auf andere Listen aktualisiert das Elternelement.
+        action_text_status: >
+          Kanban-ähnliches Board mit dynamischen Spalten auf Status für das Abbilden von Workflows.
+        action_text_assignee: >
+          Board mit dynamischen Spalten auf zugewiesene Nutzer von Arbeitspaketen. Ideal für die Verteilung von Aufgaben. 
+        action_text_version: >
+          Board mit dynamischen Spalten auf die zugewiesene Version von Arbeitspaketen. Ideal für die Planung von Software-Releases.
         action_type:
           assignee: Zugewiesen an
           status: Status
           version: Version
-          subproject: subproject
-          subtasks: children
+          subproject: Unterprojekt
+          subtasks: Unteraufgaben
         select_attribute: "Aktionsattribut"
       add_list_modal:
+        labels:
+          assignee: Benutzer zum Hinzufügen als neue Spalte auswählen
+          status: Status zum Hinzufügen als neue Spalte auswählen
+          version: Version zum Hinzufügen als neue Spalte auswählen
+          subproject: Unterprojekt zum Hinzufügen als neue Spalte auswählen
+          subtasks: Arbeitspaket zum Hinzufügen als neue Spalte auswählen
         warning:
           status: |
             Derzeit ist kein Status verfügbar. <br>

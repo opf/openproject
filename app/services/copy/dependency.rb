@@ -43,6 +43,12 @@ module Copy
       name.demodulize.gsub('DependentService', '').underscore
     end
 
+    ##
+    # Localizable human name used in errors
+    def self.human_name
+      identifier.capitalize
+    end
+
     def initialize(source:, target:, user:)
       @source = source
       @target = target
@@ -57,16 +63,24 @@ module Copy
     ##
     # Merge some other model's errors with the result errors
     def add_error!(model, errors)
-      result.errors.add(:base, "#{model.class.model_name.human} '#{model}': #{errors.full_messages.join(". ")}")
+      result.errors.add(:base, "#{human_model_name(model)}: #{error_messages(errors)}")
+    end
+
+    def human_model_name(model)
+      "#{model.class.model_name.human} '#{model}'"
+    end
+
+    def error_messages(errors)
+      errors.full_messages.join(". ")
     end
 
     def perform(params:)
       begin
         copy_dependency(params: params)
       rescue StandardError => e
-        Rails.logger.error { "Failed to copy dependency #{self.class.name}: #{e.message}" }
+        Rails.logger.error { "Failed to copy dependency #{self.class.identifier}: #{e.message}" }
         result.success = false
-        result.errors.add(self.class.identifier, :could_not_be_copied)
+        result.errors.add(:base, :could_not_be_copied, dependency: self.class.human_name)
       end
 
       result

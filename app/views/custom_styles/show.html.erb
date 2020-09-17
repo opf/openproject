@@ -60,7 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <div>
           <%# Don't use image_tag here due to asset host %>
           <%= tag('img', src: custom_style_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
-          <%= link_to l(:button_delete),
+          <%= link_to t(:button_delete),
           custom_style_logo_delete_path,
           method: :delete,
           class: 'icon icon-delete confirm-form-submit' %>
@@ -80,7 +80,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       </div>
 
-      <%= styled_button_tag l(@custom_style.logo.present? ? :button_replace : :button_upload),
+      <%= styled_button_tag I18n.t(@custom_style.logo.present? ? :button_replace : :button_upload),
                             class: "button #{@custom_style.logo.blank? ? '-with-icon icon-add' : ''}" %>
 
     </fieldset>
@@ -196,7 +196,7 @@ See docs/COPYRIGHT.rdoc for more details.
     var computedStyle = getComputedStyle(document.documentElement);
 
     document
-      .querySelectorAll('.design-color--variable-input')
+      .querySelectorAlt('.design-color--variable-input')
       .forEach(function(el) {
       if (!el.value || el.value === '') {
         el.placeholder = computedStyle.getPropertyValue('--' + el.dataset.variableName).trim();

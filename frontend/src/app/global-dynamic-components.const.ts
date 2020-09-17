@@ -150,6 +150,11 @@ import {
   quickInfoMacroSelector,
   WorkPackageQuickinfoMacroComponent
 } from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
+import {
+  EditableQueryPropsComponent,
+  editableQueryPropsSelector
+} from "core-app/modules/admin/editable-query-props/editable-query-props.component";
+import {SlideToggleComponent, slideToggleSelector} from "core-app/modules/common/slide-toggle/slide-toggle.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -195,6 +200,8 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },
   { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
   { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
+  { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
+  { selector: slideToggleSelector, cls: SlideToggleComponent }
 ];
 
 

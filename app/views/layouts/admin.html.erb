@@ -28,7 +28,6 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%
-  parent_node = admin_first_level_menu_entry
   if local_assigns[:additional_breadcrumb].nil?
     breadcrumb_paths(ActionController::Base.helpers.link_to(t(:label_administration), admin_index_path),
                      default_breadcrumb)
@@ -39,6 +38,6 @@ See docs/COPYRIGHT.rdoc for more details.
   end
 %>
 
-<% @page_header_title = l(:label_administration) %>
+<% @page_header_title = t(:label_administration) %>
 
 <%= render template: "layouts/base", locals: { menu_name: :admin_menu } %>

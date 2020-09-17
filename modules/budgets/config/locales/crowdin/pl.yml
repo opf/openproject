@@ -23,6 +23,17 @@ pl:
   activerecord:
     attributes:
       budget:
+        author: "Autor"
+        available: "Dostępne"
+        budget: "Zaplanowany"
+        budget_ratio: "Wydano (%)"
+        created_on: "Utworzone"
+        description: "Opis"
+        spent: "Wydatki"
+        status: "Status"
+        subject: "Temat"
+        type: "Jednostki"
+        updated_on: "Aktualizacja"
         labor_budget: "Planowane koszty pracy"
         material_budget: "Planowane koszty jednostkowe"
       work_package:
@@ -49,8 +60,9 @@ pl:
   label_budget: "Budżet"
   label_budget_new: "Nowy budżet"
   label_budget_plural: "Budżetowanie"
-  label_cost_type_specific: "Budżet #%{id}: %{name}"
+  label_budget_id: "Budżet #%{id}"
   label_deliverable: "Budżet"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "Zobacz wszystkie budżety"
   label_yes: "Tak"
   notice_budget_conflict: "Zestaw zadań musi być z tego samego projektu."

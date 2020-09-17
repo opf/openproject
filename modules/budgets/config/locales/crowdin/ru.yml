@@ -23,6 +23,17 @@ ru:
   activerecord:
     attributes:
       budget:
+        author: "Автор"
+        available: "Доступно"
+        budget: "Запланированно"
+        budget_ratio: "Отработано (коэффициент)"
+        created_on: "Создано"
+        description: "Описание"
+        spent: "Потрачено"
+        status: "Состояние"
+        subject: "Тема"
+        type: "Тип затрат"
+        updated_on: "Обновлено"
         labor_budget: "Запланированные трудозатраты"
         material_budget: "Запланированные затраты по количеству"
       work_package:
@@ -49,8 +60,9 @@ ru:
   label_budget: "Бюджет"
   label_budget_new: "Новый бюджет"
   label_budget_plural: "Бюджеты"
-  label_cost_type_specific: "Бюджет #%{id}: %{name}"
+  label_budget_id: "Бюджет #%{id}"
   label_deliverable: "Бюджет"
+  label_example_placeholder: 'например, %{decimal}'
   label_view_all_budgets: "Отобразить все бюджеты"
   label_yes: "да"
   notice_budget_conflict: "Пакет работ должен быть из того же проекта."

@@ -96,6 +96,17 @@ describe CustomValue do
     end
   end
 
+  describe 'trying to use a custom field that does not exist' do
+    subject { FactoryBot.build(:custom_value, custom_field_id: 123412341, value: 'my value') }
+
+    it 'returns an empty placeholder' do
+      expect(subject.custom_field).to be_nil
+      expect(subject.send(:strategy)).to be_kind_of CustomValue::EmptyStrategy
+      expect(subject.typed_value).to eq 'my value not found'
+      expect(subject.formatted_value).to eq 'my value not found'
+    end
+  end
+
   describe 'value/value=' do
     let(:custom_value) { FactoryBot.build_stubbed(:custom_value) }
     let(:strategy_double) { double('strategy_double') }

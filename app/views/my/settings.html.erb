@@ -27,10 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title(l(:label_my_account), l(:label_settings)) %>
+<% html_title(t(:label_my_account), t(:label_setting_plural)) %>
 
-<% breadcrumb_paths(l(:label_my_account), l(:label_settings)) %>
-<%= toolbar title: l(:label_settings) %>
+<% breadcrumb_paths(t(:label_my_account), t(:label_setting_plural)) %>
+<%= toolbar title: t(:label_setting_plural) %>
 
 <%= error_messages_for 'user' %>
 <%= labelled_tabular_form_for @user, as: :user, url: { action: 'update_settings' },
@@ -41,5 +41,5 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= render partial: 'users/preferences', locals: { input_size: :middle } %>
   </fieldset>
   <%= call_hook(:view_my_settings, user: @user, form: f) %>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

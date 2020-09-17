@@ -4,4 +4,5 @@ uk:
   permission_manage_board_views: "Керувати дошками"
   project_module_board_view: "Дошки"
   boards:
+    label_board: "Дошка"
     label_boards: "Дошки"

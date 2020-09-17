@@ -116,6 +116,11 @@ de:
         manual: 'Wechseln zu reinem Markdown-Text'
         wysiwyg: 'Wechseln zu WYSIWYG-Editor'
       macro:
+        error: 'Kann Makro nicht anzeigen: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt.'
+          not_found: 'Die angeforderte Ressource konnte nicht gefunden werden'
+          invalid_attribute: "Das ausgewählte Attribut '%{name}' existiert nicht."
         child_pages:
           button: 'Auflistung untergeordneter Seiten'
           include_parent: 'Elternseite anzeigen'
@@ -264,9 +269,9 @@ de:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br><br> <ul class="%{list_styling_class}"> <li><b>Schnellere Zeiterfassung</b> für Arbeitspakete aus der Detailansicht oder der Listenansicht.</li> <li><b>Verbesserte Tabellenformatierung</b> um Tabellen im WYSIWYG-Editor besser zu konfigurieren, z. B. für Breite, Farbe, Ausrichtung oder Padding der Zelle .</li> <li>Die Kartenansicht für Arbeitspakete enthält nun auch den Projektnamen.</li> <li>OpenProject ist jetzt <b>100% ins Slowenische übersetzt</b>. Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
             learn_about_link: "https://www.openproject.org/openproject-bim-10-5\n"
             current_new_feature_html: >
@@ -407,9 +412,10 @@ de:
     label_total_amount: "Gesamt: %{amount}"
     label_updated_on: "aktualisiert am"
     label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
+    label_children_derived_duration: "Aggregierte Dauer der Unterarbeitspakete"
     label_warning: "Warnung"
     label_work_package: "Arbeitspaket"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Übergeordnetes Arbeitspaket"
     label_work_package_plural: "Arbeitspakete"
     label_watch: "Beobachten"
     label_watch_work_package: "Arbeitspaket beobachten"
@@ -496,6 +502,7 @@ de:
       context: 'Projektkontext'
       work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
+      confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       autocompleter:
         label: 'Projekt Auto-Vervollständigung'
     text_are_you_sure: "Sind Sie sicher?"
@@ -799,8 +806,8 @@ de:
           duplicate_query_title: "Eine Ansicht mit diesem Namen existiert bereits. Trotzdem ändern?"
         text_no_results: "Keine übereinstimmenden Ansichten gefunden."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Die Termine dieses Arbeitspakets werden automatisch von seinen Kindern aggregiert. Aktivieren Sie \"Manuelle Planung\", um die Termine frei zu setzen."
+        is_switched_from_manual_to_automatic: "Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden."
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

@@ -202,6 +202,9 @@ uk:
       completed: "Видалення проекту %{name} завершено."
       completed_text: "Запит видалення проекту '%{name}' завершено."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Наразі немає проектів
       no_results_content_text: Створіть новий проект
     settings:
@@ -518,7 +521,7 @@ uk:
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"
-        could_not_be_copied: "неможливо (повністю) скопіювати."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "не існує."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -562,6 +565,7 @@ uk:
           not_an_integer: "(%{name})  не є цілим числом."
           smaller_than_or_equal_to: "(%{name})  має бути меншим або рівним   %{count}."
           greater_than_or_equal_to: "(%{name}) має бути більшим або рівним %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -596,6 +600,15 @@ uk:
               error_not_found: "не знайдено"
             public:
               error_unauthorized: "- Користувач не має дозволу на створення загальнодоступних переглядів."
+            group_by:
+              invalid: "Неможливо групувати за %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Недійсний стовпець запиту: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Неможливо сортувати за стовпцями: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
             custom_fields:
@@ -618,8 +631,9 @@ uk:
           must_not_be_ssh: "не повинна бути URL-адресою SSH."
           no_directory: "не є каталогом."
         role:
-          permissions:
-            dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
+          attributes:
+            permissions:
+              dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
         time_entry:
           attributes:
             hours:
@@ -685,6 +699,8 @@ uk:
               unassignable: "не можна призначити проекту."
         version:
           undeletable_work_packages_attached: "Версію не можна видалити, оскільки до неї приєднані робочі пакети."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "Перевірте наступні поля:"
         header:
@@ -1114,9 +1130,6 @@ uk:
   error_failed_to_delete_entry: 'Не вдалося видалити цей запис.'
   error_in_dependent: "Помилка спроби змінити залежний об'єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Недійсне вибране значення."
-  error_invalid_group_by: "Неможливо групувати за %{value}"
-  error_invalid_query_column: "Недійсний стовпець запиту: %{value}"
-  error_invalid_sort_criterion: "Неможливо сортувати за стовпцями: %{value}"
   error_journal_attribute_not_present: "Журнал не містить атрибута %{attribute}."
   error_pdf_export_too_many_columns: "Для експорту PDF-файлу вибрано занадто багато стовпців. Скоротіть кількість стовпців."
   error_pdf_failed_to_export: "Експорт PDF не вдалося зберегти: %{error}"
@@ -1129,6 +1142,7 @@ uk:
   error_no_default_work_package_status: "Не визначено статус робочого пакету за промовчанням. Перевірте конфігурацію (перейдіть до розділу \"Адміністрування -> Статуси робочих пакетів\")."
   error_no_type_in_project: "З цим проектом не асоційовано жодного типу. Перевірте налаштування проекту."
   error_omniauth_registration_timed_out: "Реєстрація через зовнішнього постачальника аутентифікації закінчилася. Будь ласка спробуйте ще раз."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "Помилка доступу до сховища: %{value}"
   error_scm_not_found: "Запис або ревізію (версію) не знайдено у репозиторії."
   error_unable_delete_status: "Робота статус пакет не може бути видалено оскільки він використовується щонайменше один пакет робіт."
@@ -1518,6 +1532,7 @@ uk:
   label_no_parent_page: "Немає початкової сторінки"
   label_nothing_display: "Нічого не відображається"
   label_nobody: "жодні"
+  label_not_found: 'не знайдено'
   label_none: "нічого"
   label_none_parentheses: "(нічого)"
   label_not_contains: "не містить"
@@ -1532,7 +1547,6 @@ uk:
   label_options: "Опції"
   label_other: "Інше"
   label_overall_activity: "Загальна активність"
-  label_overall_spent_time: "Загальний витрачений час"
   label_overview: "Огляд"
   label_page_title: "Заголовок сторінки"
   label_part_of: "частина"
@@ -1625,7 +1639,7 @@ uk:
   label_search: "Пошук"
   label_send_information: "Відправити користувачеві інформацію з облікового запису"
   label_send_test_email: "Послати email для перевірки"
-  label_settings: "Налаштування"
+  label_setting_plural: "Налаштування"
   label_system_settings: "Параметри системи"
   label_show_completed_versions: "Показати завершені версії"
   label_sort: "Сортувати"
@@ -2134,6 +2148,10 @@ uk:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "Пошук ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "Спосіб доставки електронної пошти"
   setting_sendmail_location: "Розташування виконуваного файлу sendmail"
   setting_smtp_enable_starttls_auto: "Автоматично використовуйте STARTTLS, якщо він доступний"
@@ -2178,6 +2196,7 @@ uk:
   setting_emails_header: "Заголовок листа"
   setting_email_login: "Використовуйте електронну пошту як логін"
   setting_enabled_scm: "Увімкнені SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Увімкнути канали"
   setting_feeds_limit: "Обмеження вмісту каналу"
   setting_file_max_size_displayed: "Максимальний розмір текстового файлу для відображення"
@@ -2208,6 +2227,8 @@ uk:
   setting_per_page_options: "Кількість записів на сторінку"
   setting_plain_text_mail: "Простий текстовий лист (без HTML)"
   setting_protocol: "Протокол"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Показ значка безпеки"
   setting_registration_footer: "Реєстраційний колонтитул"
   setting_repositories_automatic_managed_vendor: "Тип автоматичного сховища"
@@ -2246,6 +2267,9 @@ uk:
     passwords: "Паролі"
     session: "Сесія"
     brute_force_prevention: "Автоматизоване блокування користувачів"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Параметри за умовчанням"
       deletion: "Видалення"

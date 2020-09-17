@@ -1,4 +1,4 @@
-FROM ruby:2.6-stretch
+FROM ruby:2.7.1-buster
 MAINTAINER operations@openproject.com
 
 ENV USER=dev

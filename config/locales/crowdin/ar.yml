@@ -202,6 +202,9 @@ ar:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: لا يوجد حالياً مشاريع
       no_results_content_text: إنشاء مشروع جديد
     settings:
@@ -520,7 +523,7 @@ ar:
         cant_link_a_work_package_with_a_descendant: "حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية."
         circular_dependency: "ان هذه العلاقة خلق تبعية دائرية."
         confirmation: "لا يتطابق مع %{attribute}."
-        could_not_be_copied: "لا يمكن أن ينسخ بشكل كامل."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "غير موجود."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -564,6 +567,7 @@ ar:
           not_an_integer: "(%{name}) is not an integer."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
           greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -598,6 +602,15 @@ ar:
               error_not_found: "لم يتم العثور"
             public:
               error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -620,8 +633,9 @@ ar:
           must_not_be_ssh: "must not be an SSH url."
           no_directory: "ليس من دليل."
         role:
-          permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         time_entry:
           attributes:
             hours:
@@ -689,6 +703,8 @@ ar:
               unassignable: "cannot be assigned to a project."
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
         body: "من فضلك تحقّقْ من الحقول التالية:"
         header:
@@ -1146,9 +1162,6 @@ ar:
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
-  error_invalid_group_by: "Can't group by: %{value}"
-  error_invalid_query_column: "Invalid query column: %{value}"
-  error_invalid_sort_criterion: "Can't sort by column: %{value}"
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "تم تحديد عدد كبير جداً من الأعمدة لتصدير PDF. الرجاء تقليل عدد الأعمدة."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
@@ -1161,6 +1174,7 @@ ar:
   error_no_default_work_package_status: "لم يتم تعريف حالة افتراضية لمجموعة العمل. رجاء تحقق من اعداداتك ( من \"ادارة-->حالات مجموعة العمل\")."
   error_no_type_in_project: "هذا المشروع غير مرتبط بأي نوع. رجاء تحقق من اعدادات المشروع."
   error_omniauth_registration_timed_out: "انتهاء مهلة التسجيل عبر موفر المصادقة الخارجية. الرجاء المحاولة مرة أخرى."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
   error_scm_command_failed: "حدث خطأ عند محاولة الوصول إلى مستودع الوثائق: %{value}"
   error_scm_not_found: "لم يتم العثور على إدخال أو مراجعة في مستودع الوثائق."
   error_unable_delete_status: "لا يمكن حذف حالة حزمة العمل نظراً لأنها تستخدم من قبل مجموعة عمل واحدة على الأقل."
@@ -1550,6 +1564,7 @@ ar:
   label_no_parent_page: "No parent page"
   label_nothing_display: "لا يوجد شيء لعرضه"
   label_nobody: "لا أحد"
+  label_not_found: 'لم يتم العثور'
   label_none: "لا شيء"
   label_none_parentheses: "(بلا)"
   label_not_contains: "لا يحتوي على"
@@ -1564,7 +1579,6 @@ ar:
   label_options: "خيارات"
   label_other: "اخرى"
   label_overall_activity: "النشاط الإجمالي"
-  label_overall_spent_time: "الوقت الضائع الإجمالي"
   label_overview: "نظرة عامة"
   label_page_title: "Page title"
   label_part_of: "جزء من"
@@ -1657,7 +1671,7 @@ ar:
   label_search: "البحث"
   label_send_information: "إرسال معلومات الحساب إلى المستخدم"
   label_send_test_email: "إرسال رسالة اختبار"
-  label_settings: "إعدادات"
+  label_setting_plural: "إعدادات"
   label_system_settings: "إعدادات النظام"
   label_show_completed_versions: "عرض الإصدارات المنجزة"
   label_sort: "فرز"
@@ -2174,6 +2188,10 @@ ar:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "بحث..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_email_delivery_method: "طريقة تسليم البريد الإلكتروني"
   setting_sendmail_location: "موقع إرسال بريد إلكتروني قابل للتنفيذ"
   setting_smtp_enable_starttls_auto: "استخدم STARTTLS تلقائيًّا إذا كان متوفرًا"
@@ -2218,6 +2236,7 @@ ar:
   setting_emails_header: "رأس البريد الإلكتروني"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "تمكين SCM"
+  setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "تمكين التغذية"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
@@ -2248,6 +2267,8 @@ ar:
   setting_per_page_options: "الكائنات لكل خيارات الصفحة"
   setting_plain_text_mail: "بريد النص العادي (لا إتش تي أم ال)"
   setting_protocol: "البروتوكول Protocol"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "نوع المورد مستودع التلقائي"
@@ -2286,6 +2307,9 @@ ar:
     passwords: "كلمات المرور"
     session: "الجلسة"
     brute_force_prevention: "حجب المستخدم الآلي"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
       deletion: "Deletion"

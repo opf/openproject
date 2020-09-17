@@ -38,8 +38,8 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= simple_format instructions.instructions %>
     <% if instructions.manages_permissions? %>
       <br/>
-      <span><%= l('repositories.checkout.access_permission') %>:</span>
-      <strong><%= l("repositories.checkout.access.#{instructions.permission}") %></strong>
+      <span><%= t('repositories.checkout.access_permission') %>:</span>
+      <strong><%= t("repositories.checkout.access.#{instructions.permission}") %></strong>
     <% end %>
     </p>
   </div>
@@ -50,7 +50,7 @@ See docs/COPYRIGHT.rdoc for more details.
      class="notification-box--close icon-context icon-close">
   </a>
   <div class="notification-box--content">
-    <p><%= l('repositories.checkout.not_available') %></p>
+    <p><%= t('repositories.checkout.not_available') %></p>
   </div>
 </div>
 <% end %>

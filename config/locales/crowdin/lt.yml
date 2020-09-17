@@ -198,6 +198,9 @@ lt:
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
     index:
+      open_as_gantt: 'Atidaryti kaip Gantt diagramą'
+      open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
+      open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     settings:
@@ -513,7 +516,7 @@ lt:
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
-        could_not_be_copied: "negalima (pilnai) nukopijuoti."
+        could_not_be_copied: "%{dependency} negali (pilnai) būti nukopijuota(s)."
         does_not_exist: "neegzistuoja."
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
@@ -557,6 +560,7 @@ lt:
           not_an_integer: "(%{name}) nėra sveikasis skaičius."
           smaller_than_or_equal_to: "(%{name}) turi būti mažesnis arba lygus %{count}."
           greater_than_or_equal_to: "(%{name}) turi būti didesnis arba lygus %{count}."
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -591,6 +595,15 @@ lt:
               error_not_found: "nerasta"
             public:
               error_unauthorized: "- Naudotojas neturi teisių kurti viešus rodinius."
+            group_by:
+              invalid: "Negalima grupuoti naudojant: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Netinkamas užklausos stulpelis: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Negalima rūšiuoti pagal stulpelį: %{value}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
           filters:
             custom_fields:
@@ -613,8 +626,9 @@ lt:
           must_not_be_ssh: "neturi būti SSH URL."
           no_directory: "nėra aplankas."
         role:
-          permissions:
-            dependency_missing: "taipogi reikia įtraukti „%{dependency}“ kai parinktas „%{permission}“."
+          attributes:
+            permissions:
+              dependency_missing: "taipogi reikia įtraukti „%{dependency}“ kai parinktas „%{permission}“."
         time_entry:
           attributes:
             hours:
@@ -680,6 +694,8 @@ lt:
               unassignable: "negalima priskirti projektui."
         version:
           undeletable_work_packages_attached: "Versija negali būti pašalinta, nes prie jos yra prijungtų darbo paketų."
+        status:
+          readonly_default_exlusive: "negali būti aktyvuotas būsenoms, kurios yra pažymėtos kaip numatytosios."
       template:
         body: "Prašome patikrinti šiuos laukelius:"
         header:
@@ -1109,9 +1125,6 @@ lt:
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
   error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Netinkama parinkta reikšmė."
-  error_invalid_group_by: "Negalima grupuoti naudojant: %{value}"
-  error_invalid_query_column: "Netinkamas užklausos stulpelis: %{value}"
-  error_invalid_sort_criterion: "Negalima rūšiuoti pagal stulpelį: %{value}"
   error_journal_attribute_not_present: "Žurnale nėra atributo %{attribute}."
   error_pdf_export_too_many_columns: "PDF eksportavimui pasirinkta per daug stulpelių. Prašome sumažinti stulpelių skaičių."
   error_pdf_failed_to_export: "PDF eksportas negali būti išsaugotas: %{error}"
@@ -1124,6 +1137,7 @@ lt:
   error_no_default_work_package_status: "Numatytoji darbų paketo būsena nenustatyta. Prašome patikrinti nustatymus (Eiti į „Administravimas“->„Darbų paketų būsenos“)."
   error_no_type_in_project: "Joks tipas nepriskirtas šiam projektui. Prašome patikrinti projekto nustatymus."
   error_omniauth_registration_timed_out: "Registracijos, naudojant išorinį autentifikacijos teikėją, laikas pasibaigė. Bandykite dar kartą."
+  error_omniauth_invalid_auth: "Autentifikavimo informacija, atėjusi iš tapatybės tiekėjo, buvo neteisinga. Dėl tolesnės pagalbos prašome kreiptis į savo administratorių."
   error_scm_command_failed: "Įvyko klaida jungiantis prie repozitorijos: %{value}"
   error_scm_not_found: "Toks įrašas ar revizija nebuvo rasti repozitorijoje."
   error_unable_delete_status: "Darbų paketo būsena negali būti ištrinta tol, kol yra naudojama bent viename darbų pakete."
@@ -1513,6 +1527,7 @@ lt:
   label_no_parent_page: "Nėra tėvinio puslapio"
   label_nothing_display: "Nėra ką rodyti"
   label_nobody: "niekas"
+  label_not_found: 'nerasta'
   label_none: "joks"
   label_none_parentheses: "(nėra)"
   label_not_contains: "neturi"
@@ -1527,7 +1542,6 @@ lt:
   label_options: "Nustatymai"
   label_other: "Kita"
   label_overall_activity: "Visa veikla"
-  label_overall_spent_time: "Visas praleistas laikas"
   label_overview: "Peržiūra"
   label_page_title: "Puslapio antraštė"
   label_part_of: "dalis"
@@ -1620,7 +1634,7 @@ lt:
   label_search: "Paieška"
   label_send_information: "Nusiųsti vartotojui paskyros informaciją"
   label_send_test_email: "Siųsti bandomąjį el. laišką"
-  label_settings: "Nustatymai"
+  label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
   label_sort: "Rūšiuoti"
@@ -2127,6 +2141,10 @@ lt:
     activated: 'aktyvuotas'
     deactivated: 'deaktyvuotas'
   search_input_placeholder: "Paieška..."
+  setting_apiv3_cors_enabled: "Įgalinti CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) leidžiami kilmės domenai"
+  setting_apiv3_cors_origins_text_html: >
+    Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
   setting_email_delivery_method: "El. pašto pristatymo metodas"
   setting_sendmail_location: "Sendmail vykdomojo failo lokacija"
   setting_smtp_enable_starttls_auto: "Automatiškai naudoti STARTTLS, jei galima"
@@ -2171,6 +2189,7 @@ lt:
   setting_emails_header: "El. laiškų antraštė"
   setting_email_login: "Naudokite e-paštą prisijungimui"
   setting_enabled_scm: "Įgalinti SCM"
+  setting_enabled_projects_columns: "Matomas projektų sąraše"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
@@ -2201,6 +2220,8 @@ lt:
   setting_per_page_options: "Įrašų puslapyje nustatymai"
   setting_plain_text_mail: "Tik tekstas laiške (be HTML)"
   setting_protocol: "Protokolas"
+  setting_project_gantt_query: "Projektų portfelio Gantt diagrama"
+  setting_project_gantt_query_text: "Galite pakeisti užklausą, kuri naudojama projekto apžvalgos puslapyje rodomos Gantt'o diagramos darbo paketams atrinkti."
   setting_security_badge_displayed: "Rodyti saugumo ženkliuką"
   setting_registration_footer: "Registracijos poraštė"
   setting_repositories_automatic_managed_vendor: "Automatinis repozitorijos tiekėjo tipas"
@@ -2239,6 +2260,9 @@ lt:
     passwords: "Slaptažodžiai"
     session: "Sesija"
     brute_force_prevention: "Automatinis vartotojų blokavimas"
+    projects:
+      section_new_projects: "Naujų projektų nustatymai"
+      section_project_overview: "Nustatymai projektų peržiūros sąrašui"
     user:
       default_preferences: "Numatytosios parinktys"
       deletion: "Trynimas"

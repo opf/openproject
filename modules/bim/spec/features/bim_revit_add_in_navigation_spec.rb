@@ -35,8 +35,9 @@ describe 'BIM Revit Add-in navigation spec',
          driver: :chrome_headless_revit_add_in do
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages]) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:full_create) { ::Pages::FullWorkPackageCreate.new }
 
   let(:user) do
     FactoryBot.create :user,
@@ -85,7 +86,16 @@ describe 'BIM Revit Add-in navigation spec',
       end
     end
 
-    it 'shows workpackage details page in full view on Cards display mode' do
+    it 'opens new work package form in full view' do
+      find('.add-work-package', wait: 10).click
+      # The only type to select is 'NONE'
+      find('.menu-item', text: 'NONE', wait: 10).click
+
+      full_create.edit_field(:subject).expect_active!
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+    end
+
+    it 'shows work package details page in full view on Cards display mode' do
       card_element = page.find('.wp-card')
 
       card_element.hover
@@ -95,7 +105,7 @@ describe 'BIM Revit Add-in navigation spec',
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
 
-    it 'shows workpackage details page in full view on Table display mode' do
+    it 'shows work package details page in full view on Table display mode' do
       model_page.switch_view 'Table'
       wp_table.expect_work_package_listed work_package
       wp_table.open_split_view work_package

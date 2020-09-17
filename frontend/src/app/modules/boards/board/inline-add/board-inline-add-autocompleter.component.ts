@@ -66,7 +66,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
 
-  @Input() appendToContainer:string = '.work-packages-partitioned-query-space--container';
+  @Input() appendToContainer:string = 'body';
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
@@ -125,6 +125,17 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
           this.ngSelectComponent.close();
         });
     }
+  }
+
+  public opened() {
+    // Force reposition as a workaround for BUG
+    // https://github.com/ng-select/ng-select/issues/1259
+    setTimeout(() => {
+      const component = this.ngSelectComponent as any;
+      if (component && component.dropdownPanel) {
+        component.dropdownPanel._updatePosition();
+      }
+    }, 25);
   }
 
   private autocompleteWorkPackages(searchString:string):Observable<WorkPackageResource[]> {

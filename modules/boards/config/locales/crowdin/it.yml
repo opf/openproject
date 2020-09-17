@@ -4,4 +4,5 @@ it:
   permission_manage_board_views: "Gestisci schede"
   project_module_board_view: "Tabelloni"
   boards:
+    label_board: "Tabellone"
     label_boards: "Tabelloni"

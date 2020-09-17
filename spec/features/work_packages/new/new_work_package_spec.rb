@@ -13,7 +13,7 @@ describe 'new work package', js: true do
     FactoryBot.create(:project, types: types)
   end
 
-  let(:permissions) { [:view_work_packages, :add_work_packages, :edit_work_packages] }
+  let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages] }
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
@@ -304,6 +304,15 @@ describe 'new work package', js: true do
       click_on 'Cancel'
     end
 
+    it 'sets a default date that is readable (Regression #34291)' do
+      create_work_package_globally(type_bug, project.name)
+
+      date_field = wp_page.edit_field(:combinedDate)
+      date_field.expect_value("no start date - no end date")
+
+      click_on 'Cancel'
+    end
+
     it 'can save the work package with an assignee (Regression #32887)' do
       create_work_package_globally(type_task, project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
@@ -401,6 +410,70 @@ describe 'new work package', js: true do
         visit path
         expect(wp_page.current_url).to match /#{signin_path}\?back_url=/
       end
+    end
+  end
+
+  context 'creating child work packages' do
+    let!(:parent) do
+      FactoryBot.create(:work_package,
+                        project: project,
+                        author: user,
+                        start_date: Date.today - 5.days,
+                        due_date: Date.today + 5.days)
+    end
+    let(:context_menu) { Components::WorkPackages::ContextMenu.new }
+    let(:split_create_page) { Pages::SplitWorkPackageCreate.new(project: project) }
+    let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_subtasks] }
+    let(:wp_page) { Pages::FullWorkPackage.new(parent) }
+    let(:wp_page_create) { Pages::FullWorkPackageCreate.new(project: project) }
+
+    it 'from within the table' do
+      work_packages_page.visit_index
+
+      context_menu.open_for(parent)
+      context_menu.choose('Create new child')
+
+      # The dates are taken over from the parent by default
+      date_field = split_create_page.edit_field(:combinedDate)
+      date_field.expect_value("#{parent.start_date} - #{parent.due_date}" )
+
+      date_field.input_element.click
+      sleep 1
+      date_field.clear with_backspace: true
+      date_field.input_element.send_keys :backspace
+
+      date_field.save!
+
+      subject = split_create_page.edit_field(:subject)
+      subject.set_value 'Child'
+
+      split_create_page.save!
+
+      split_create_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_create'))
+
+      split_create_page.expect_attributes(combinedDate: "no start date - #{parent.due_date.strftime('%m/%d/%Y')}")
+
+      expect(split_create_page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{parent.subject}")
+    end
+
+    it 'from the relations tab' do
+      wp_page.visit_tab!('relations')
+
+      click_link('Create new child')
+
+      subject = EditField.new wp_page, :subject
+      subject.set_value 'Child'
+      subject.submit_by_enter
+
+      wp_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_create'))
+      sleep 1
+
+      # Move to the newly created child
+      wp_page.find("wp-children-query tbody.results-tbody tr").double_click
+
+      wp_page.expect_attributes(combinedDate: "#{parent.start_date.strftime('%m/%d/%Y')} - #{parent.due_date.strftime('%m/%d/%Y')}")
+
+      expect(wp_page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{parent.subject}")
     end
   end
 end

@@ -4,10 +4,10 @@ cs:
       webhooks/webhook:
         url: 'Payload URL'
         secret: 'Signature secret'
-        events: 'Events'
+        events: 'Události'
         projects: 'Povolit projekty'
       webhooks/log:
-        event_name: 'Event name'
+        event_name: 'Název události'
         url: 'Payload URL'
         response_code: 'Response code'
         response_body: 'Response'
@@ -18,7 +18,7 @@ cs:
     plural: Webhooks
     resources:
       time_entry:
-        name: "Time entry"
+        name: "Vstup času"
     outgoing:
       no_results_table: No webhooks have been defined yet.
       label_add_new: Add new webhook
@@ -26,7 +26,7 @@ cs:
       label_event_resources: Event resources
       events:
         created: "Vytvořeno"
-        updated: "Updated"
+        updated: "Aktualizováno"
       status:
         enabled: 'Webhook is enabled'
         disabled: 'Webhook is disabled'

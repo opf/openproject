@@ -1,9 +1,9 @@
-FROM ruby:2.6-stretch AS pgloader
+FROM ruby:2.7.1-buster AS pgloader
 RUN apt-get update -qq && apt-get install -y libsqlite3-dev make curl gawk freetds-dev libzip-dev
 COPY docker/mysql-to-postgres/bin/build /tmp/build-pgloader
 RUN /tmp/build-pgloader && rm /tmp/build-pgloader
 
-FROM ruby:2.6-stretch
+FROM ruby:2.7.1-buster
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
@@ -19,7 +19,6 @@ ENV APP_USER=app
 ENV APP_PATH=/app
 ENV APP_DATA_PATH=/var/openproject/assets
 ENV APP_DATA_PATH_LEGACY=/var/db/openproject
-ENV PGBIN="/usr/lib/postgresql/9.6/bin"
 ENV PGDATA=/var/openproject/pgdata
 ENV PGDATA_LEGACY=/var/lib/postgresql/9.6/main
 

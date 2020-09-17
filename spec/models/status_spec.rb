@@ -39,6 +39,12 @@ describe Status, type: :model do
         expect(Status.default).to eq(status)
         expect(Status.where_default.pluck(:id)).to eq([status.id])
       end
+
+      it 'can not be set read only (Regression #33750)', with_ee: %i[readonly_work_packages] do
+        status.is_readonly = true
+        expect(status.save).to eq false
+        expect(status.errors[:is_readonly]).to include(I18n.t("activerecord.errors.models.status.readonly_default_exlusive"))
+      end
     end
   end
 

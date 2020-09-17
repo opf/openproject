@@ -51,6 +51,7 @@ class BudgetsController < ApplicationController
   helper :budgets
   include BudgetsHelper
   include PaginationHelper
+  include ::Costs::NumberHelper
 
   def index
     sort_init 'id', 'desc'
@@ -121,10 +122,6 @@ class BudgetsController < ApplicationController
   end
 
   def update
-    # TODO: This was simply copied over from edit in order to have
-    # something as a starting point for separating the two
-    # Please go ahead and start removing code where necessary
-
     @budget.attributes = permitted_params.budget if params[:budget]
     if params[:budget][:existing_material_budget_item_attributes].nil?
       @budget.existing_material_budget_item_attributes = ({})
@@ -178,7 +175,7 @@ class BudgetsController < ApplicationController
     user = User.where(id: params[:user_id]).first
 
     if user && params[:hours]
-      hours = params[:hours].to_s.to_hours
+      hours = Rate.parse_number_string_to_number(params[:hours])
       @costs = hours * user.rate_at(params[:fixed_date], @project).rate rescue 0.0
     else
       @costs = 0.0
@@ -238,7 +235,7 @@ class BudgetsController < ApplicationController
 
     if current_user.allowed_to?(permission, project)
       response["#{element_id}_costs"] = number_to_currency(costs)
-      response["#{element_id}_cost_value"] = costs
+      response["#{element_id}_cost_value"] = unitless_currency_number(costs)
     end
 
     response

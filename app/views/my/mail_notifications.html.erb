@@ -27,9 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title(l(:label_my_account), I18n.t('activerecord.attributes.user.mail_notification')) -%>
+<% html_title(t(:label_my_account), I18n.t('activerecord.attributes.user.mail_notification')) -%>
 
-<% breadcrumb_paths(l(:label_my_account), I18n.t('activerecord.attributes.user.mail_notification')) %>
+<% breadcrumb_paths(t(:label_my_account), I18n.t('activerecord.attributes.user.mail_notification')) %>
 <%= toolbar title: I18n.t('activerecord.attributes.user.mail_notification') %>
 
 <%= labelled_tabular_form_for @user,
@@ -40,5 +40,5 @@ See docs/COPYRIGHT.rdoc for more details.
     <section class="form--section">
       <%= render partial: 'users/mail_notifications' %>
     </section>
-    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

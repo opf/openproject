@@ -44,7 +44,7 @@ Please choose the module you want to learn more about.
 | [Boards](agile-boards)                        | How to work with agile boards for agile project management, e.g. Kanban? |
 | [Backlogs (Scrum)](backlogs-scrum)            | How to manage a Scrum team in OpenProject with a product backlog and taskboard? |
 | [Calendar](calendar)                          | How to display your work in a calendar in OpenProject?       |
-| [News](news)                                  | How to create and mage News for your projects?               |
+| [News](news)                                  | How to create and manage News for your projects?             |
 | [Forums](forums)                              | How to manage forums to discuss and comment on topics?       |
 | [Wiki](wiki)                                  | How to create and manage a wiki to collaboratively document and share information? |
 | [Time and costs](time-and-costs)              | How to track time and costs in OpenProject and report spent time and costs? |

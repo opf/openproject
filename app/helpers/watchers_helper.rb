@@ -35,7 +35,7 @@ module WatchersHelper
     options = options.with_indifferent_access
     raise ArgumentError, 'Missing :replace option in options hash' if options['replace'].blank?
 
-    return '' unless user && user.logged? && object.respond_to?('watched_by?')
+    return '' unless user&.logged? && object.respond_to?('watched_by?')
 
     watched = object.watched_by?(user)
 
@@ -45,18 +45,11 @@ module WatchersHelper
                                                             replace: options.delete('replace'))
     html_options[:class] = html_options[:class].to_s + ' button'
 
-    method = watched ?
-      :delete :
-      :post
+    method = watched ? :delete : :post
 
-    label = watched ?
-      l(:button_unwatch) :
-      l(:button_watch)
+    label = watched ? I18n.t(:button_unwatch) : I18n.t(:button_watch)
 
     link_to(content_tag(:i,'', class: watched ? 'button--icon icon-watched' : ' button--icon icon-unwatched') + ' ' +
       content_tag(:span, label, class: 'button--text'), path, html_options.merge(method: method))
-
-
-
   end
 end

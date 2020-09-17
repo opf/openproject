@@ -23,6 +23,17 @@ zh-CN:
   activerecord:
     attributes:
       budget:
+        author: "作者"
+        available: "可用"
+        budget: "已计划"
+        budget_ratio: "已支出（比例）"
+        created_on: "创建"
+        description: "描述"
+        spent: "已支出"
+        status: "状态"
+        subject: "主题"
+        type: "成本类型"
+        updated_on: "更新于"
         labor_budget: "计划劳动力成本"
         material_budget: "计划单位成本"
       work_package:
@@ -49,8 +60,9 @@ zh-CN:
   label_budget: "预算"
   label_budget_new: "新增预算"
   label_budget_plural: "预算"
-  label_cost_type_specific: "预算 #%{id}：%{name}"
+  label_budget_id: "预算 #%{id}"
   label_deliverable: "预算"
+  label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "查看所有预算"
   label_yes: "是"
   notice_budget_conflict: "工作包必须具有相同的项目。"

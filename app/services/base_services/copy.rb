@@ -60,7 +60,8 @@ module BaseServices
       copy_dependencies.each do |service_cls|
         next if skip_dependency?(params, service_cls)
 
-        call.merge! call_dependent_service(service_cls, target: copy_instance, params: params)
+        call.merge! call_dependent_service(service_cls, target: copy_instance, params: params),
+                    without_success: true
       end
 
       call
@@ -86,9 +87,7 @@ module BaseServices
     #
     # Note that for dependent copy services to be called
     # this will already be present.
-    def prepare(params)
-      params[:copy_state] ||= {}
-    end
+    def prepare(_params); end
 
     ##
     # dependent services to copy associations

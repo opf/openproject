@@ -29,14 +29,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe PrincipalRole, type: :model do
-  describe 'ATTRIBUTES' do
-    before :each do
-    end
-
-    it { is_expected.to belong_to :principal }
-    it { is_expected.to belong_to :role }
-  end
-
   describe '#valid?' do
     before(:each) do
       @principal_role = FactoryBot.build(:principal_role)
