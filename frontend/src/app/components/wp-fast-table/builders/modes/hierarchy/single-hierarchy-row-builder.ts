@@ -126,7 +126,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
       .addClass('-with-hierarchy')
       .prepend(hierarchyElement);
 
-    // Assure that the content is still visble when the hierarchy indentation is very large
+    // Assure that the content is still visible when the hierarchy indentation is very large
     jRow.find('td.subject').css('minWidth', 125 + (hierarchyIndentation * hierarchyLevel) + 'px');
     jRow.find('td.subject .wp-table--cell-container')
       .css('width', 'calc(100% - ' + hierarchyBaseIndentation + 'px - ' + (hierarchyIndentation * hierarchyLevel) + 'px)');
