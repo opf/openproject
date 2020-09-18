@@ -160,7 +160,7 @@ module Bim::Bcf
 
       def missing_assignee(assignee_name, import_options)
         if import_options[:invalid_people_action] != 'anonymize' && assignee_name
-          User::InexistentUser.new
+          Users::InexistentUser.new
         end
       end
     end

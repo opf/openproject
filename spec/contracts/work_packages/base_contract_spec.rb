@@ -664,7 +664,7 @@ describe WorkPackages::BaseContract do
   context 'assigned_to' do
     context 'inexistent user' do
       before do
-        work_package.assigned_to = User::InexistentUser.new
+        work_package.assigned_to = Users::InexistentUser.new
 
         contract.validate
       end

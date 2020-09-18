@@ -35,7 +35,7 @@ module UsersHelper
   # @param extra [Hash] A hash containing extra entries with a count for each.
   #                     For example: { random: 42 }
   def users_status_options_for_select(selected, extra: {})
-    statuses = User::StatusOptions.user_statuses_with_count extra: extra
+    statuses = Users::StatusOptions.user_statuses_with_count extra: extra
 
     options = statuses.map do |sym, count|
       ["#{translate_user_status(sym)} (#{count})", sym]
