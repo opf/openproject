@@ -31,6 +31,8 @@
 require 'digest/sha1'
 
 class User < Principal
+  include ::Scopes::Scoped
+
   USER_FORMATS_STRUCTURE = {
     firstname_lastname:       [:firstname, :lastname],
     firstname:                [:firstname],
@@ -94,6 +96,8 @@ class User < Principal
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }
   scope :not_blocked, -> { create_blocked_scope(self, false) }
+
+  scope_classes Users::Scopes::FindByLogin
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))
