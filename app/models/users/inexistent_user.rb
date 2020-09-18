@@ -28,4 +28,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class User::InexistentUser < User; end
+class Users::InexistentUser < User; end

@@ -207,7 +207,7 @@ class User < Principal
     @name = nil
     @projects_by_role = nil
     @authorization_service = ::Authorization::UserAllowedService.new(self)
-    @project_role_cache = ::User::ProjectRoleCache.new(self)
+    @project_role_cache = ::Users::ProjectRoleCache.new(self)
 
     super
   end
@@ -776,7 +776,7 @@ class User < Principal
   end
 
   def project_role_cache
-    @project_role_cache ||= ::User::ProjectRoleCache.new(self)
+    @project_role_cache ||= ::Users::ProjectRoleCache.new(self)
   end
 
   def former_passwords_include?(password)

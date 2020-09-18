@@ -208,7 +208,7 @@ module WorkPackages
     end
 
     def validate_assigned_to_exists
-      errors.add :assigned_to, :does_not_exist if model.assigned_to&.is_a?(User::InexistentUser)
+      errors.add :assigned_to, :does_not_exist if model.assigned_to&.is_a?(Users::InexistentUser)
     end
 
     def validate_type_exists
