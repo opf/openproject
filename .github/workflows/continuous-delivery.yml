@@ -4,7 +4,6 @@ on:
     branches:
       - dev
       - release/*
-      - test-can-be-removed/*
 jobs:
   trigger_downstream_merge:
     if: github.repository == 'opf/openproject'
