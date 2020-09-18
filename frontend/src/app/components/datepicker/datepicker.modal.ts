@@ -48,6 +48,7 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {DatePickerModalHelper} from "core-components/datepicker/datepicker.modal.helper";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 
 export type DateKeys = 'date'|'start'|'end';
 
@@ -100,7 +101,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   constructor(readonly injector:Injector,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+              readonly elementRef:ElementRef,
+              readonly configurationService:ConfigurationService) {
     super(locals, cdRef, elementRef);
     this.changeset = locals.changeset;
     this.htmlId = `wp-datepicker-${locals.fieldName}`;
@@ -264,7 +266,9 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
         },
         onMonthChange: () => { this.datepickerHelper.setRangeClasses(this.dates); },
         onYearChange: () => { this.datepickerHelper.setRangeClasses(this.dates); },
-      }
+      },
+      undefined,
+      this.configurationService
     );
   }
 

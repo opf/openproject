@@ -22,6 +22,7 @@ import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-
 import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -53,7 +54,8 @@ export class OpenProjectPluginContext {
     ckEditorPreview: this.injector.get<CKEditorPreviewService>(CKEditorPreviewService),
     pathHelperService: this.injector.get<PathHelperService>(PathHelperService),
     states: this.injector.get<States>(States),
-    apiV3Service: this.injector.get<APIV3Service>(APIV3Service)
+    apiV3Service: this.injector.get<APIV3Service>(APIV3Service),
+    configurationService: this.injector.get<ConfigurationService>(ConfigurationService)
   };
 
   // Random collection of classes needed outside of angular
