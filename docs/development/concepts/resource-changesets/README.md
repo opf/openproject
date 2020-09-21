@@ -8,9 +8,7 @@ keywords: changesets, editing, HAL resources
 
 # Development Concept: Resource changesets
 
-Inline editing is a core functionality of work packages and other attributes. 
-
-![Inline editing overview in the single view of a work package](single-view-inline-editing.gif)
+Resource changesets allow to edit resources in a transparent way, tracking its changes and saving the change to the API.
 
 ## Key takeaways
 
