@@ -63,20 +63,21 @@ Also, you can click the green button **+ Project** directly on the system's home
 
 - You can either create a completely new project or create a project from a template. Therefore, choose a template using the drop-down menu.
 - Enter a **name** for your project and click the blue **Create** button.
+- The **Advanced Settings** allow for further configuration, e.g. description, URL, etc.
 
 ![image-20200921122508132](image-20200921122508132.png)
 
-Now, you can get started working in your project.
+Now, you can get started working on your project.
 
 To configure further project information, see the [advanced settings](#TODO) section in the project admin guide.
 
 ### View all projects
 
-To view all your projects where you are a member, click on the **View all projects** link on the Select a project drop-down menu.
+To view all your projects in which you are a member, click on the **View all projects** link in the **Select a project** drop-down menu.
 
 ![view all proejcts](1569490429831.png)
 
-You will see a list with all your projects and its details.
+You will see a list with all your projects and their details.
 
 ![view all projects](1569490488827.png)
 

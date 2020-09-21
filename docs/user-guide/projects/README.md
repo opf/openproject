@@ -12,17 +12,17 @@ In OpenProject you can create projects to collaborate with your team members, tr
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community nor in the Cloud or Enterprise Edition.
 
-| Topic                                                      | Content                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Select a project](../../getting-started/projects/)          | Open a project which you want to work at.                    |
 | [Create a new project](../../getting-started/projects/#create-a-new-project) | Find out how to create a new project in OpenProject.         |
-| [Create a subproject](#create-a-subproject)                      | Create a subproject of an existing project.                  |
+| [Create a subproject](#create-a-subproject)                  | Create a subproject of an existing project.                  |
 | [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent project ("subproject of"). |
-| [Set a project to public](#set-a-project-to-public)          | Set a project to public to make it accessible without signing-in. |
-| [Create a project template](#set-a-project-as-template)          | Configure a project and set it as template to copy it for future projects. |
-| [Use a project template](#copy-a-template-project)          | Create a new project based on an existing template project. |
+| [Set a project to public](#set-a-project-to-public)          | Make a project accessible for (at least) all users within your instance. |
+| [Create a project template](#set-a-project-as-template)      | Configure a project and set it as template to copy it for future projects. |
+| [Use a project template](#copy-a-template-project)           | Create a new project based on an existing template project.  |
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
@@ -115,7 +115,10 @@ Press the blue **Save** button to apply your changes.
 
 ### Set a project to public
 
-If you want to set a project to public, you can do so by selecting the option in the [project settings](project-settings).
+If you want to set a project to public, you can do so by ticking the box next to "Public" in the [project settings](project-settings) *->Information*.
+
+Setting a project to public will make it accessible to all people within your OpenProject instance. 
+(Should your instance be accessible without authentication [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your users, too)
 
 
 ### Create a project template
@@ -130,7 +133,7 @@ Set up everything that you want to have available for next projects.
 - Creating your work package templates.
 - ...
 
-Navigate to the  [project settings](project-settings) and click **Set as template** in the upper right corner.  You can remove a project from the template collection on the same spot. 
+Navigate to the [project settings](project-settings) and click **Set as template** in the upper right corner.  You can remove a project from the template collection on the same spot. 
 
 <div class="alert alert-info" role="alert">
 **Note**: The option to set a project as template is only available for Administrators.
