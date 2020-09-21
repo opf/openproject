@@ -12,7 +12,7 @@ In OpenProject you can create projects to collaborate with your team members, tr
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community nor in the Cloud or Enterprise Edition.
 
-| Feature                                                      | Documentation for                                            |
+| Topic                                                      | Content                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Select a project](../../getting-started/projects/)          | Open a project which you want to work at.                    |
 | [Create a new project](../../getting-started/projects/#create-a-new-project) | Find out how to create a new project in OpenProject.         |
@@ -21,6 +21,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent parent (subproject of). |
 | [Set a project to public](#set-a-project-to-public)          | Set a project to public to have it accessible without signing-in. |
 | [Set a project as template](#set-a-project-as-template)          | Set a project as template to copy it for future projects. |
+| [Copy a template project](#copy a template project)          | Create a new project based on an existing template project. |
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
