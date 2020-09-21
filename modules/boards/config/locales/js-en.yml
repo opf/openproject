@@ -48,7 +48,7 @@ en:
           will update their attribute.
         action_text_subprojects: >
           Board with automated columns for subprojects.
-          Ideal for handling permissions across stakeholders.
+          Dragging work packages to other lists updates the (sub-)project accordingly.
         action_text_subtasks: >
           Board with automated columns for sub-elements. 
           Dragging work packages to other lists updates the parent accordingly.
@@ -65,7 +65,7 @@ en:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent_child
+          subtasks: Parent Child
         select_attribute: "Action attribute"
 
       add_list_modal:
