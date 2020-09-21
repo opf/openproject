@@ -100,7 +100,7 @@ describe 'Subtasks action board', type: :feature, js: true do
       board_page.expect_movable 'Parent WP', 'Child', movable: true
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Action board (Parent_child)'
+        expect(board.name).to eq 'Action board (Parent Child)'
         queries = board.contained_queries
         expect(queries.count).to eq(1)
 
