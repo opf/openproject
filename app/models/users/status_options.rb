@@ -1,4 +1,4 @@
-class User
+module Users
   module StatusOptions
     module_function
 

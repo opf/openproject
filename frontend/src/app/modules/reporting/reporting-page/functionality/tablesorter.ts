@@ -26,6 +26,10 @@ function initTableSorter() {
     .not('.tablesorter')
     .tablesorter({
       sortList: [[0, 0]],
+      widgets: ['saveSort'],
+      widgetOptions: {
+        storage_storageType: 's'
+      },
       textExtraction: function (node:HTMLElement, table:any, cellIndex:any) {
         return node.getAttribute('raw-data');
       }

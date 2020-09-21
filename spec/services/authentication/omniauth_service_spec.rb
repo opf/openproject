@@ -85,7 +85,7 @@ describe Authentication::OmniauthService do
     end
   end
 
-  describe 'activiation of users' do
+  describe 'activation of users' do
     let(:call) { instance.call }
 
     context 'with an active found user' do
@@ -121,8 +121,8 @@ describe Authentication::OmniauthService do
 
         # Remap find
         expect(User)
-          .not_to(receive(:find_by))
-          .with(login: 'foo@bar.com')
+          .not_to(receive(:find_by_login))
+          .with('foo@bar.com')
 
         call
       end
@@ -141,8 +141,8 @@ describe Authentication::OmniauthService do
 
         # Remap find
         expect(User)
-          .to(receive(:find_by))
-          .with(login: 'foo@bar.com')
+          .to(receive(:find_by_login))
+          .with('foo@bar.com')
           .and_return(user)
 
         expect(Users::RegisterUserService).not_to receive(:new)

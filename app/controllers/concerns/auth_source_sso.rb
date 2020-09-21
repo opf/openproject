@@ -9,6 +9,7 @@ module AuthSourceSSO
     return user if user || sso_in_progress!
     return nil unless header_name
 
+    Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
     perform_header_sso
   end
 
@@ -23,11 +24,15 @@ module AuthSourceSSO
   end
 
   def read_sso_login
-    get_validated_login! String(request.headers[header_name])
+    get_validated_login! op_auth_header_value
   end
 
   def sso_config
     @sso_config ||= OpenProject::Configuration.auth_source_sso.try(:with_indifferent_access)
+  end
+
+  def op_auth_header_value
+    String(request.headers[header_name])
   end
 
   def header_name
@@ -55,7 +60,7 @@ module AuthSourceSSO
     end
 
     unless login.present?
-      Rails.logger.error("Secret contained in auth source SSO header #{header_name} is not valid.")
+      Rails.logger.error("Provided SSO header #{header_name} is empty or not valid.")
       return nil
     end
 

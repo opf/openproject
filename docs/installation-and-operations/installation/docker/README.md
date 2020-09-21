@@ -298,3 +298,244 @@ docker run -p 8080:80 --rm -it openproject-with-slack
 ```
 
 After which you can access OpenProject under http://localhost:8080.
+
+## Docker Swarm
+
+If you need to serve a very large number of users it's time to scale up horizontally.
+One way to do that is to use your orchestration tool of choice such as [Kubernetes](../kubernetes/) or [Swarm](https://docs.docker.com/engine/swarm/).
+Here we'll cover how to scale up using the latter.
+
+### 1) Setup Swarm
+
+Here we will go through a simple setup of a Swarm with a single manager.
+For more advanced setups and more information please consult the [docker swarm documentation](https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/).
+
+First [initialize your swarm](https://docs.docker.com/get-started/swarm-deploy/) on the host you wish to be the swarm manager.
+
+```bash
+docker swarm init
+# You may need or want to specify the advertise address.
+# Say your node manager host's IP is 10.0.2.77:
+#
+#   docker swarm init --advertise-addr=10.0.2.77
+```
+
+The host will automatically also join the swarm as a node to host containers.
+
+**Add nodes**
+
+To add worker nodes run `docker swarm join-token worker`.
+This will print the necessary command (which includes the join token) which you need to run
+on the host you wish to add as a worker node. For instance:
+
+```bash
+docker swarm join --token SWMTKN-1-2wnvro17w7w2u7878yflajyjfa93e8b2x58g9c04lavcee93eb-abig91iqb6e5vmupfvq2f33ni 10.0.2.77:2377
+```
+
+Where `10.0.2.77` is your swarm manager's (advertise) IP address.
+
+### 2) Setup shared storage
+
+**Note:** This is only relevant if you have more than 1 node in your swarm.
+
+If your containers run distributed on multiple nodes you will need a shared network storage to store OpenProject's attachments.
+The easiest way for this would be to setup an NFS drive that is shared among all nodes and mounted to the same path on each of them.
+Say `/mnt/openproject/`.
+
+Alternatively, if using S3 is an option, you can use S3 attachments instead.
+We will show both possibilities later in the configuration.
+
+### 3) Create stack
+
+To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/release/10.6/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
+
+#### Configuring storage
+
+**Note:** This is only necessary if your swarm runs on multiple nodes.
+
+##### Attachments
+
+**NFS**
+
+If you are using NFS to share attachments use a mounted docker volume to share the attachments folder.
+
+Per default the YAML file will include the following section:
+
+```yaml
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    # ... 
+  volumes:
+    - "opdata:/var/openproject/assets"
+  depends_on:
+    # ...
+```
+
+As you can see it already mounts a local directory by default.
+You can either change this to a path in your mounted NFS folder or just create a symlink:
+
+```
+ln -s /mnt/openproject/assets /var/openproject/assets
+```
+
+**S3**
+
+If you want to use S3 you will have to add the respective configuration to the `stack.yml`'s environment section for the `app`.
+
+```
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    # ...
+    # ADD THIS FOR S3 attachments substituting the respecive credentials:
+    - "OPENPROJECT_ATTACHMENTS__STORAGE=fog"
+    - "OPENPROJECT_FOG_DIRECTORY="<bucket-name>"
+    - "OPENPROJECT_FOG_CREDENTIALS_PROVIDER=AWS"
+    - "OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID=<access-key-id>"
+    - "OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY=<secret-access-key>"
+    - "OPENPROJECT_FOG_CREDENTIALS_REGION=us-east-1"
+```
+
+##### Database
+
+The database's data directory should also be shared so that the database service can be moved to another node
+in case the original node fails. The easiest way to do this would again be a shared NFS mount present on each node.
+This is also the easiest way to persist the database data so it remains even if you shutdown the whole stack.
+
+You could either use a new mounted NFS folder or use a sub-folder in the one we will use for attachments.
+Along the same lines as attachments you could adjust the `pgdata` volume in the `openproject-stack.yml` so it would look something like this:
+
+```yaml
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    # ... 
+  volumes:
+    - "pgdata:/mnt/openproject/pgdata"
+    - "opdata:/mnt/openproject/assets"
+  depends_on:
+    # ...
+```
+
+**Disclaimer**: This may not be the best possible solution, but it is the most straight-forward one.
+
+#### OpenProject Configuration
+
+Any additional configuration of OpenProject happens in the environment section (like for S3 above) of the app inside of the `openproject-stack.yml`.
+For instance should you want to disable an OpenProject module globally, you would add the following:
+
+```
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    # ...
+    - "OPENPROJECT_DISABLED__MODULES='backlogs meetings'"
+```
+
+Please refer to our documentation on the [configuration](https://docs.openproject.org/installation-and-operations/configuration/)
+and [environment variables](https://docs.openproject.org/installation-and-operations/configuration/environment/) for further information
+on what you can configure and how.
+
+#### Launching
+
+Once you made any necessary adjustments to the `openproject-stack.yml` you are ready to launch the stack.
+
+```
+docker stack deploy -c openproject-stack.yaml openproject
+```
+
+Once this has finished you should see something like this when running `docker service ls`:
+
+```
+docker service ls
+ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
+kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:10   
+cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
+uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:10   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:10   
+canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:10   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:10
+```
+
+You can now access OpenProject under [http://0.0.0.0:8080](http://0.0.0.0:8080).
+This endpoint then can be used in a apache reverse proxy setup as shown further up, for instance.
+
+Don't worry about one of the services (openproject_seeder) having 0/1 replicas.
+That is intended. The service will only start once to initialize the seed data and then stop.
+
+#### Scaling
+
+Now the whole reason we are using swarm is to be able to scale.
+This is now easily done using the `docker service scale` command.
+
+We'll keep the database and memcached at 1 which should be sufficient for any but huge amounts of users (several tens of thousands of users)
+assuming that the docker hosts (swarm nodes) are powerful enough.
+Even with the database's data directory shared via NFS **you cannot scale up the database** in this setup.
+Scaling the database horizontally adds another level of complexity which we won't cover here.
+
+What we can scale is both the proxy, and most importantly the web service.
+For a couple of thousand users we may want to use 6 web service (`openproject_web`) replicas.
+The proxy processes (`openproject_proxy`) in front of the actual OpenProject process does not need as many replicas.
+2 are fine here.
+
+Also at least 2 worker (`openproject_worker`) replicas make sense to handle the increased number of background tasks.
+If you find that it takes too long for those tasks (such as sending emails or work package exports) to complete
+you may want to increase this number further.
+
+```
+docker service scale openproject_proxy=2 openproject_web=6 openproject_worker=2
+```
+
+This will take a moment to converge. Once done you should see something like the following when listing the services using `docker service ls`:
+
+```
+docker service ls
+ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
+kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:10   
+cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
+uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:10   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:10   
+canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:10   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:10
+```
+
+Docker swarm handles the networking necessary to distribute the load among the nodes.
+The application will still be accessible as before simply under `http://0.0.0.0:8080` on each node, e.g. `http://10.0.2.77:8080`, the manager node's IP.
+
+#### Load balancer setup
+
+Now as mentioned earlier you can simply use the manager node's endpoint in a reverse proxy setup and the load will be balanced among the nodes.
+But that will be a single point of failure if the manager node goes down.
+
+To make this more redundant you can use the load balancer directive in your proxy configuration.
+For instance for apache this could look like this:
+
+```
+<Proxy balancer://swarm>
+    BalancerMember http://10.0.2.77:8080 # swarm node 1 (manager)
+    BalancerMember http://10.0.2.78:8080 # swarm node 2
+    BalancerMember http://10.0.2.79:8080 # swarm node 3, etc.
+
+    ProxySet lbmethod=bytraffic
+</Proxy>
+
+# ...
+
+ProxyPass "balancer://swarm/"
+ProxyPassReverse "balancer://swarm/"
+
+# instead of
+#   ProxyPass http://127.0.0.1:8080/
+#   ProxyPassReverse http://127.0.0.1:8080/
+# shown in the reverse proxy configuration example further up
+```
+
+The application will be accessible on any node even if the process isn't running on the node itself.
+In that case it will use swarm's [internal load balancing](https://docs.docker.com/engine/swarm/key-concepts/#load-balancing) to route the request to a node that does run the service. So feel free to put all nodes into the load balancer configuration.

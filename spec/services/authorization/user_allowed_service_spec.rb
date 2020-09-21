@@ -167,7 +167,7 @@ describe Authorization::UserAllowedService do
       before do
         auth_cache = double('auth_cache')
 
-        allow(User::ProjectAuthorizationCache)
+        allow(Users::ProjectAuthorizationCache)
           .to receive(:new)
           .and_return(auth_cache)
 

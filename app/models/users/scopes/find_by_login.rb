@@ -28,4 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class User::InexistentUser < User; end
+# Find a user account by matching case-insensitive.
+module Users::Scopes
+  class FindByLogin
+    def self.fetch(login)
+      User.where(["LOWER(login) = ?", login.to_s.downcase]).first
+    end
+  end
+end

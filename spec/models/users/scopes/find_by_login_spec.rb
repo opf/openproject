@@ -28,34 +28,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class User::ProjectRoleCache
-  attr_accessor :user
+require 'spec_helper'
 
-  def initialize(user)
-    self.user = user
-  end
+describe Users::Scopes::FindByLogin, type: :model do
+  let!(:activity) { FactoryBot.create(:time_entry_activity) }
+  let!(:project) { FactoryBot.create(:project) }
+  let!(:user) { FactoryBot.create(:user, login: login) }
+  let(:login) { 'Some string' }
+  let(:search_login) { login }
 
-  def fetch(project)
-    cache[project] ||= roles(project)
-  end
+  describe '.fetch' do
+    subject { described_class.fetch(search_login) }
 
-  private
+    context 'with the exact same login' do
+      it 'returns the user' do
+        expect(subject)
+          .to eql user
+      end
+    end
 
-  def roles(project)
-    # No role on archived projects
-    return [] unless !project || project&.active?
+    context 'with a non existing login' do
+      let(:search_login) { 'nothing' }
 
-    # Return all roles if user is admin
-    return all_givable_roles if user.admin?
+      it 'returns nil' do
+        expect(subject)
+          .to be_nil
+      end
+    end
 
-    ::Authorization.roles(user, project).eager_load(:role_permissions)
-  end
+    context 'with a lowercase login' do
+      let(:search_login) { login.downcase }
 
-  def cache
-    @cache ||= {}
-  end
-
-  def all_givable_roles
-    @all_givable_roles ||= Role.givable.to_a
+      it 'returns the user with the matching login' do
+        expect(subject)
+          .to eql user
+      end
+    end
   end
 end
