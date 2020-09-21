@@ -16,17 +16,17 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Select a project](../../getting-started/projects/)          | Open a project which you want to work at.                    |
 | [Create a new project](../../getting-started/projects/#create-a-new-project) | Find out how to create a new project in OpenProject.         |
+| [Create a subproject](#create-a-subproject)                      | Create a subproject of an existing project.                  |
 | [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
-| [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent parent (subproject of). |
-| [Set a project to public](#set-a-project-to-public)          | Set a project to public to have it accessible without signing-in. |
-| [Set a project as template](#set-a-project-as-template)          | Set a project as template to copy it for future projects. |
-| [Copy a template project](#copy a template project)          | Create a new project based on an existing template project. |
+| [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent project ("subproject of"). |
+| [Set a project to public](#set-a-project-to-public)          | Set a project to public to make it accessible without signing-in. |
+| [Create a project template](#set-a-project-as-template)          | Configure a project and set it as template to copy it for future projects. |
+| [Use a project template](#copy-a-template-project)          | Create a new project based on an existing template project. |
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
 | [View all projects](#view-all-projects)                      | Get an overview of all your projects in the project overview list. |
-| [Create a project template](#create-a-project-template)      | You can create a project template and use it for future projects. |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 ## Select a project
@@ -37,13 +37,13 @@ Find out in our Getting started guide [how to open an existing project](../../ge
 
 Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject.
 
-## Create subproject
+## Create a subproject
 
-To create a subproject for an existing project, navigate to the [project settings](#project-settings) -> *Information* and click on the green + Subproject button.
+To create a subproject for an existing project, navigate to the [project settings](#project-settings) -> *Information* and click on the green **+ Subproject** button.
 
 Follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
 
-![Create-subproject](Create-subproject.png)
+![image-20200921153208651](image-20200921153208651.png)
 
 ## Project structure
 
@@ -118,19 +118,31 @@ Press the blue **Save** button to apply your changes.
 If you want to set a project to public, you can do so by selecting the option in the [project settings](project-settings).
 
 
-### Set a project as template
+### Create a project template
 
-You can set a project as template for similiar projects in the future by navigating to the  [project settings](project-settings) and clicking **Set as template** in the upper right corner.  You can remove a project from the template collection on the same spot. 
+You can create a project template in OpenProject by [creating a new project](../../getting-started/#create-a-project) and configuring your project to your needs. Name the project so you can identify it as a template, e.g. "Project XY [template]".
+
+Set up everything that you want to have available for next projects.
+
+- Adding project members.
+- Selecting the modules.
+- Setting up a default project structure in the Gantt chart.
+- Creating your work package templates.
+- ...
+
+Navigate to the  [project settings](project-settings) and click **Set as template** in the upper right corner.  You can remove a project from the template collection on the same spot. 
+
 <div class="alert alert-info" role="alert">
-**Note**: This option is only available for Administrators.
+**Note**: The option to set a project as template is only available for Administrators.
 </div>
- 
+
+
 
 ![image-20200921120538872](image-20200921120538872.png)
 
-### Copy a template project
+### Use a template project
 
-You can create a new project by copying an existing template. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject.
+You can create a new project by using an existing template. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject. Another way for using a template project would be to copy it.
 
 
 ### Copy a project
@@ -186,7 +198,7 @@ In the view all projects overview list you can also create a multi project statu
 
 ## Create a project template
 
-You can create a project template in OpenProject by [creating a new project](../../getting-started/#create-a-project) and configure your project to your needs. Name the project so you can identify it as a template, e.g. Project template.
+You can create a project template in OpenProject by [creating a new project](../../getting-started/#create-a-project) and configuring your project to your needs. Name the project so you can identify it as a template, e.g. "Project XY [template]".
 
 Set up everything that you want to have available for next projects.
 
