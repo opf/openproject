@@ -61,9 +61,10 @@ Also, you can click the green button **+ Project** directly on the system's home
 
 ![Create-project-home-screen](Create-project-home-screen.png)
 
+- You can either create a completely new project or create a project from a template. Therefore, choose a template using the drop-down menu.
 - Enter a **name** for your project and click the blue **Create** button.
 
-![name-project](1569589387671.png)
+![image-20200921122508132](image-20200921122508132.png)
 
 Now, you can get started working in your project.
 

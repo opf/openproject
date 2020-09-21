@@ -20,6 +20,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent parent (subproject of). |
 | [Set a project to public](#set-a-project-to-public)          | Set a project to public to have it accessible without signing-in. |
+| [Set a project as template](#set-a-project-as-template)          | Set a project as template to copy it for future projects. |
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
@@ -116,9 +117,24 @@ Press the blue **Save** button to apply your changes.
 If you want to set a project to public, you can do so by selecting the option in the [project settings](project-settings).
 
 
+### Set a project as template
+
+You can set a project as template for similiar projects in the future by navigating to the  [project settings](project-settings) and clicking **Set as template** in the upper right corner.  You can remove a project from the template collection on the same spot. 
+<div class="alert alert-info" role="alert">
+**Note**: This option is only available for Administrators.
+</div>
+ 
+
+![image-20200921120538872](image-20200921120538872.png)
+
+### Copy a template project
+
+You can create a new project by copying an existing template. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject.
+
+
 ### Copy a project
 
-You can copy an existing project by navigating to the [project settings](project-settings) and click **Copy project** from the upper right of the project settings (next to the green +Subproject button).
+You can copy an existing project by navigating to the [project settings](project-settings) and clicking **Copy project** in the upper right of the project settings (next to the green +Subproject button).
 
 ![User-guide-copy-project](User-guide-copy-project.png)
 
@@ -130,21 +146,26 @@ Then click the blue **Copy** button.
 
 ### Archive a project
 
-In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button. 
+In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button. Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects.
+<div class="alert alert-info" role="alert">
+**Note**: This option is only available for Administrators.
+</div>
 
 ![User-guide-archive-project](User-guide-archive-project.png)
 
-Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects.
 
 ![archived-projects](1566219072615.png)
 
 ### Delete a project
 
-If you want to delete a project, navigate to the [project settings](project-settings). Click the button **Delete project** on the top right of the page.
+If you want to delete a project, navigate to the [project settings](project-settings). Click the button **Delete project** on the top right of the page. 
 
 ![User-guide-delete-project](User-guide-delete-project.png)
 
 Also, you can delete a project via the [projects overview](#view-all-projects).
+<div class="alert alert-info" role="alert">
+**Note**: This option is only available for Administrators.
+</div>
 
 
 
