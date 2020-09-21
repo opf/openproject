@@ -6,23 +6,41 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 Please get in touch with us using our [develompment forum](https://community.openproject.com/projects/openproject/forums/7) or send us an email to info@openproject.org.
 
+
+
 ## Issue tracking and coordination
 
 We eat our own ice cream so we use OpenProject for roadmap planning and team collaboration. Please have a look at the following pages:
 
 - [Development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=1993)
+
 - [Wish list](https://community.openproject.com/versions/26)
+
 - [Bug backlog](https://community.openproject.com/versions/136)
+
 - [Reporting a bug](https://www.openproject.org/development/report-a-bug/)
+
 - [Submit a feature idea](https://www.openproject.org/development/submit-feature-idea/)
+
+  
 
 ## Development Environment
 
 Take a look at the bottom under Additional resources to see how to setup your development environment.
 
+
+
 ## Branching model and development flow
 
 Please see this separate guide for the [git branching model and core development](git-workflow).
+
+
+
+## Development concepts
+
+We prepared a set of documentation concepts for an introduction into various backend and frontend related topics of OpenProject. Please see the [concepts main page](concepts/) for more.
+
+
 
 ## Translations
 
