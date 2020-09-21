@@ -15,7 +15,10 @@ Please choose an area that you would like to read about:
 
 | Topics                                        | Description                                                                   |
 | --------------------------------------------- | :---------------------------------------------------------------------------- |
-| [Application architecture](application-architecture)      | An introduction of the application architecture used at OpenProject.          |
+| [Application architecture](application-architecture)      | An introduction of the application architecture used at OpenProject. |
+| [Resource schemas](resource-schemas)          | What is a schema and how is it tied to an editable resource? |
+| [Resource changesets](resource-changesets)    | How is change tracked to resources in the frontend and how to save the changes? |
 | [Inline editing](inline-editing)              | How does inline editing and the edit field functionality work in OpenProject? |
+
 
 

@@ -30,9 +30,9 @@ In order to understand Inline Editing, you will need the following concepts:
 
 - [HAL resources](TODO:hal-resource)
 
-- [Schemas](TODO:schemas)
+- [Schemas](../resource-schemas)
 
-- [Changesets](#TODO:changesets)
+- [Changesets](../resource-changesets)
 
   
 
