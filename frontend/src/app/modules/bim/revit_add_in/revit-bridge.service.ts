@@ -1,12 +1,10 @@
 import {Injectable, Injector} from '@angular/core';
-import {Observable, Subject} from "rxjs";
-import {distinctUntilChanged, filter, first, mapTo} from "rxjs/operators";
+import {Observable, Subject, BehaviorSubject} from "rxjs";
+import {distinctUntilChanged, filter, first, map, mapTo} from "rxjs/operators";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import {input} from "reactivestates";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {ViewpointsService} from "core-app/modules/bim/bcf/helper/viewpoints.service";
-import {map} from "rxjs/operators";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 
@@ -19,9 +17,9 @@ declare global {
 @Injectable()
 export class RevitBridgeService extends ViewerBridgeService {
   public shouldShowViewer = false;
+  public viewerVisible$ = new BehaviorSubject<boolean>(false);
   private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:any }>();
-  private _trackingIdNumber = 0;
-  private _ready$ = input<boolean>(false);
+  private trackingIdNumber = 0;
 
   @InjectField() viewpointsService:ViewpointsService;
 
@@ -40,7 +38,7 @@ export class RevitBridgeService extends ViewerBridgeService {
   }
 
   public viewerVisible() {
-    return this._ready$.getValueOr(false);
+    return this.viewerVisible$.getValue();
   }
 
   public getViewpoint$():Observable<BcfViewpointInterface> {
@@ -96,18 +94,11 @@ export class RevitBridgeService extends ViewerBridgeService {
         messagePayload: messagePayload
       });
     };
-    this._ready$.putValue(true);
+    this.viewerVisible$.next(true);
   }
 
   newTrackingId():string {
-    this._trackingIdNumber = this._trackingIdNumber + 1;
-    return String(this._trackingIdNumber);
-  }
-
-  onLoad$():Observable<void> {
-    return this
-      ._ready$
-      .values$()
-      .pipe(mapTo(undefined));
+    this.trackingIdNumber = this.trackingIdNumber + 1;
+    return String(this.trackingIdNumber);
   }
 }
