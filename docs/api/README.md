@@ -1,18 +1,25 @@
-API Documentation
------------------
+# OpenProject API
 
-## API Version 3
+OpenProject offers two APIs. The general purpose HATEOAS API v3 and the BCF API v2.1 api targeted towards BIM use cases.
 
-_Status: under development_
+Please note that we intend to keep this specification as accurate and stable as possible, however work on the API is still ongoing
+and not all resources and actions in OpenProject are yet accessible through the API.
 
-The documentation for APIv3 is written in the [API Blueprint Format](http://apiblueprint.org/).
+This document will be subject to changes as we add more endpoints and functionality to the API. The development version of this document
+may have breaking changes while we work on new endpoints for the application.
 
-The generated APIv3 documentation is built regular on the `dev` branch and can be found at: [opf.github.io/apiv3-doc/](opf.github.io/apiv3-doc/).
+We try to keep stable releases of OpenProject with changes to this API backwards compatible whenever possible.
 
+## API v3
 
-You can also use [aglio](https://github.com/danielgtaylor/aglio) to generate HTML documentation locally, e.g. using the following command:
+The API v3 is a general purpose API supporting multiple use cases.
 
-```bash
-aglio -i apiv3-documentation.apib -o api.html
-```
+While by no means complete, a whole lot of different scenarios can be automatised which otherwise would have to be caried out by hand via the UI. 
+Examples for this include managing work packages, projects and users.
+
+## BCF v2.1
+
+This API supports BCF management in the context of BIM projects.
+
+While this API supports way less use cases than the more generic *API v3* it is compatible with the generic specification of a BCF API as [defined by the standard](https://github.com/buildingSMART/BCF-API/blob/release_2_1/README.md). This, clients implementing the specification can manage topics and viewpoints.
 
