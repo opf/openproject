@@ -13,13 +13,14 @@ This guide will introduce some concepts and give you a big picture of the develo
 
 Please choose an area that you would like to read about:
 
-| Topics                                        | Description                                                                   |
-| --------------------------------------------- | :---------------------------------------------------------------------------- |
-| [Application architecture](application-architecture)      | An introduction of the application architecture used at OpenProject. |
-| [Resource schemas](resource-schemas)          | What is a schema and how is it tied to an editable resource? |
-| [Resource changesets](resource-changesets)    | How is change tracked to resources in the frontend and how to save the changes? |
-| [Inline editing](inline-editing)              | How does inline editing and the edit field functionality work in OpenProject? |
-| [Queries and QuerySpace](queries)             | What is the Query API concept and how is it used in the frontend? |
+| Topics                                               | Description                                                  |
+| ---------------------------------------------------- | :----------------------------------------------------------- |
+| [Application architecture](application-architecture) | An introduction of the application architecture used at OpenProject. |
+| [State management](state-management)                 | How does the frontend hanble state and react to changes?     |
+| [Resource schemas](resource-schemas)                 | What is a schema and how is it tied to an editable resource? |
+| [Resource changesets](resource-changesets)           | How is change tracked to resources in the frontend and how to save the changes? |
+| [Inline editing](inline-editing)                     | How does inline editing and the edit field functionality work in OpenProject? |
+| [Queries and QuerySpace](queries)                    | What is the Query API concept and how is it used in the frontend? |
 
 
 
