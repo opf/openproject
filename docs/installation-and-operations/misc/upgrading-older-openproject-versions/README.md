@@ -1,15 +1,113 @@
 # Migrating from an old MySQL database
 
-The script described above requires at least OpenProject 8 to work properly. If you are still on an older OpenProject version you have to migrate to OpenProject 8 first.
+If you need to migrate from any older version of OpenProject, upgrading multiple versions in order to get the newest version will be cumbersome. For example, for upgrading from OpenProject 4.3 to the current stable 10.6, you will need to ugprade to OpenProject 7.2, and then to OpenProject 10.6.
 
-To make this easier there is a script which automates that too. It's included in the docker image itself but will want to run it directly on the docker host. To do that you can either copy it onto your system from `/app/script/migration/migrate-from-pre-8.sh` or simply download it [here](https://github.com/opf/openproject/tree/dev/script/migration/migrate-from-pre-8.sh).
+If you also need to migrate from MySQL to PostgreSQL during that process, the steps will become more involved.
 
-All the script needs is a docker installation. It will start containers as required for the migration and clean them up afterwards. The result of the migration will be a SQL dump of OpenProject in the current version (10.3). This can then be imported into the actual OpenProject setup.
+To make this easier there is a script which automates database migration and conversion in one simple step. The only dependency is [a docker installation](https://www.docker.com/get-started). It's included in the docker image itself but will want to run it directly on the docker host. To do that you can either copy it onto your system from `/app/script/migration/migrate-from-pre-8.sh` or simply download it [here](https://github.com/opf/openproject/tree/dev/script/migration/migrate-from-pre-8.sh).
+
+All the script needs is a docker installation. It will start containers as required for the migration and clean them up afterwards. The result of the migration will be a SQL dump of OpenProject in the current stable version. This can then be used with a fresh packaged installation, or an upgraded package.
 
 ## Usage
+
+
+
+### Create a backup
+
+First, you will need to create a backup to get the MySQL database dump. Please see our seperate guide on [Backing up](https://docs.openproject.org/installation-and-operations/operation/backing-up/). In a packaged installation, the following command will output a full backup to `/var/db/openproject/backup`:
+
+```bash
+openproject run backup
+```
+
+
+
+This will output a MySQL dump at `/var/db/openproject/backup/mysql-dump-<timestamp>.sql.gz`. You will need to gunzip this:
+
+
+```
+cp /var/db/openproject/backup/mysql-dump-<timestamp>.sql.gz /tmp/openproject-mysql.dump.gz
+gunzip /tmp/openproject/mysql.dump.gz
+```
+
+
+
+### Run the docker migration script
 
 With docker installed, use the following command to start the upgrade process on your MySQL dump.
 
 ```bash
-bash migrate-from-pre-8.sh <docker host IP> <MySQL dump>"
+bash migrate-from-pre-8.sh <docker host IP> <Path to MySQL dump file>"
 ```
+
+You will need to find the docker host IP to connect to the temporary MySQL database the docker container will start and connect to a host port. It will likely be `host.docker.internal` but you need to double-check with your docker version and OS.
+
+The script will output a `<database name>-migrated.sql` pg_dump file that will be migrated and upgrade to the current stable version.
+
+
+
+## Restoring the migrated database
+
+You now have an old packaged installation with an old database, and a separate database dump of the current version migrated to PostgreSQL.
+
+To upgrade OpenProject and use this dump, you have two options:
+
+
+
+### Upgrading your existing installation
+
+You can simply upgrade your package first and then switch to a PostgreSQL database. You will basically have to follow our [Upgrading guide](https://docs.openproject.org/installation-and-operations/operation/upgrading/).
+
+1. Upgrade the package according to the upgrade guide. Switch to the current stable package repository, and let your package manager upgrade the openproject package
+
+2. Run `openproject reconfigure` to choose to auto install a PostgreSQL database in the first step of the wizard.
+
+3. After this is completed, stop the servers to restore the database separately
+
+   `service openproject stop`
+
+   `pg_restore $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
+
+4. Execute configure script to ensure the migrations are complete and to restart the server
+
+
+
+### Re-Installing OpenProject 
+
+The alternative option is to remove your current installation, upgrade the newest package and configure a PostgreSQL database. This will ensure the package wizard will install and maintain a PostgreSQL database for you.
+
+Remove your OpenProject installation, follow our ["Migrate to a different environment"](https://docs.openproject.org/installation-and-operations/misc/migration/) guide to install OpenProject on a new server and then restore the backup you made earlier, replacing the old database backup with the migrated PostgreSQL dump file.
+
+The steps for this option is as follows:
+
+1. Remove OpenProject with your package manager, e.g., `sudo apt remove openproject` on Debian/Ubuntu systems.
+
+2. Use our [packaged installation guide](https://docs.openproject.org/installation-and-operations/installation/packaged/) for your distribution to install the newest version
+
+3. From your backup, restore the configuration and attachment files ([See our restoring guide](https://docs.openproject.org/installation-and-operations/operation/restoring/) for more information):
+
+   ​	`tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/` 
+
+   ​	`tar xzf attachments-<timestamp>.tar.gz -C /var/db/openproject/files`
+
+4. Run `openproject reconfigure` and select to install a PostgreSQL database
+
+5. This will install and migrate a new PostgreSQL database
+
+6. After this is completed, stop the servers to restore the database separately
+
+   `service openproject stop`
+
+   `pg_restore $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
+
+7. Execute configure script to ensure the migrations are complete and to restart the server
+
+   `openproject configure`
+
+
+
+## Problems with the migration?
+
+Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact-us/) with feedback and issues you experienced.
+
+We're very interested in providing a smooth upgrade at all times, and would like to document issues you experience during the upgrade.
