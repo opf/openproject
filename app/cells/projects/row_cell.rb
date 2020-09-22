@@ -31,7 +31,7 @@ module Projects
       custom_value = project.custom_value_for(cf).formatted_value
 
       if cf.field_format == 'text'
-        shorten_text(custom_value, 20)
+        custom_value.html_safe
       else
         custom_value
       end
