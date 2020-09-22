@@ -25,7 +25,6 @@ If you would like to learn more about the features of **OpenProject vs Jira** pl
 
 There is an integration between MS Project and OpenProject. However, the synch plugin is not actively maintained at this time. If you wish to find out more, please [contact us](https://www.openproject.org/contact-us/).
 To synchronize tasks from MS Project to OpenProject, you can export your MS Project file to Excel and then [synchronize it with OpenProject]( https://www.openproject.org/synchronize-excel-openproject/).
-Here are some (German) videos how to synchronize Excel with OpenProject: https://youtu.be/kL4u7ew0yHk
 
 ## Trello
 
@@ -35,12 +34,12 @@ If you would like to learn more about OpenProject's features vs Trello, please r
 
 ## Toggl
 
-We do offer an integration between OpenProject and the [time tracking app toggl](../time-and-costs/time-tracking/toggl-integration/).
+We do offer an [integration](../time-and-costs/time-tracking/toggl-integration/) between OpenProject and the time tracking app Toggl.
 
 ## Slack
 
-We do offer a rudimentary OpenProject Slack integration.
-[Get in touch to find out more](https://www.openproject.org/contact-us/).
+We do offer a rudimentary OpenProject Slack integration. It messages a configured Slack channel, every time a Work Package or Wiki site is modified.
+To activate it in the Cloud Edition please [get in touch](https://www.openproject.org/contact-us/). For the Enterprise Edition and the Cloud Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack#openproject-slack-plugin) 
 
 ## Timesheet
 Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple oush of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).
