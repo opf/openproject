@@ -50,9 +50,8 @@ import {
 } from './inline-create-row-builder';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {BehaviorSubject, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
