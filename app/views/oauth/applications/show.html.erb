@@ -109,6 +109,25 @@ See docs/COPYRIGHT.rdoc for more details.
         </span>
       </div>
     </div>
+    <% if !@application.client_credentials_user_id %>
+      <div class="attributes-key-value--key"><%= I18n.t(:'doorkeeper.auth_url') %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>
+            <%= oauth_authorization_url %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="attributes-key-value--key"><%= I18n.t(:'doorkeeper.access_token_url') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span>
+          <%= oauth_token_url %>
+        </span>
+      </div>
+    </div>
   </div>
 </div>
 
