@@ -39,6 +39,7 @@ cache:
   directories:
     - public/assets
     - frontend/src/locales
+    - ~/.webdrivers
 
 branches:
   only:
