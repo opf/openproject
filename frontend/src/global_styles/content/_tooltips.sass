@@ -72,6 +72,33 @@ $advanced-tooltip--border: 1px solid #a7cbe1
         background-color: $tooltip--background-color
         color: var(--tooltip--font-color)
 
+%tooltip--reset-styles
+  position: absolute
+  visibility: hidden
+  opacity: 0
+  z-index: 99999
+  box-sizing: content-box
+  transform: translate3d(0, 0, 0)
+
+%tooltip--before
+  content: ''
+  border: $tooltip--arrow-size solid transparent
+
+%tooltip--after
+  height: $tooltip--height
+  padding: $tooltip--height/2 $tooltip--height/2 0 $tooltip--height/2
+  font-size: 13px
+  line-height: $tooltip--height/2
+  white-space: nowrap
+  content: attr(data-tooltip)
+  border: $tooltip--border
+
+%tooltip--show
+  opacity: 1
+  visibility: visible
+
+// Note: Only use this attribute to add tooltips on elements that don't apply :before and :after CSS rules. Otherwise,
+// those get overwritten.
 [data-tooltip]
   position: relative
   display: inline-block
@@ -81,31 +108,18 @@ $advanced-tooltip--border: 1px solid #a7cbe1
   +tooltip--colorize
 
   &:before, &:after
-    position: absolute
-    visibility: hidden
-    opacity: 0
-    z-index: 99999
-    box-sizing: content-box
-    transform: translate3d(0, 0, 0)
+    @extend %tooltip--reset-styles
 
   &:before
-    content: ''
-    border: $tooltip--arrow-size solid transparent
+    @extend %tooltip--before
 
   &:after
-    height: $tooltip--height
-    padding: $tooltip--height/2 $tooltip--height/2 0 $tooltip--height/2
-    font-size: 13px
-    line-height: $tooltip--height/2
-    white-space: nowrap
-    content: attr(data-tooltip)
-    border: $tooltip--border
+    @extend %tooltip--after
 
   &:hover, &:focus
     background-color: transparent
     &::before, &::after
-      opacity: 1
-      visibility: visible
+      @extend %tooltip--show
 
   &.-multiline
     &:after
