@@ -308,7 +308,7 @@ en:
                   management.</b></li>
               </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-11-0-release
+            learn_about_link:  https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
              The release contains various new features and improvements: <br>
               <ul class="%{list_styling_class}">
