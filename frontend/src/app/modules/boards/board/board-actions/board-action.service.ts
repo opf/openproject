@@ -192,7 +192,7 @@ export abstract class BoardActionService {
    * Determines the specific warning to be shown, when there are no options to add as a list
    * @returns {the text or nothing}
    */
-  warningTextWhenNoOptionsAvailable():Promise<string|undefined> {
+  warningTextWhenNoOptionsAvailable(hasMember?:boolean):Promise<string|undefined> {
     return Promise.resolve(undefined);
   }
 
