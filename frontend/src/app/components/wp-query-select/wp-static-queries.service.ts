@@ -77,7 +77,7 @@ export class WorkPackageStaticQueriesService {
       {
         identifier: 'gantt',
         label: this.text.gantt,
-        query_props: '{"c":["id","subject","startDate","dueDate"],"tv":true,"tzl":"years","hi":true,"g":"","t":"id:asc","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}'
+        query_props: `{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":null}","hi":true,"g":"","t":"id:asc","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}`
       },
       {
         identifier: 'recently_created',
