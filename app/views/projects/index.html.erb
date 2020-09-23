@@ -32,7 +32,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% html_title(t(:label_project_plural)) -%>
 
-<%= toolbar title: t(:label_project_plural) do %>
+<%= toolbar title: t(:label_project_plural), html: { class: '-with-dropdown' } do %>
   <% if User.current.allowed_to?(:add_project, nil, global: true) %>
     <li class="toolbar-item">
       <%= link_to new_project_path,
@@ -64,6 +64,18 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= op_icon("button--icon icon-external-link") %>
     <% end %>
   </li>
+  <% if current_user.admin? %>
+  <li class="toolbar-item drop-down">
+    <a href="#" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
+      <%= op_icon('button--icon icon-show-more') %>
+    </a>
+    <ul style="display:none;" class="menu-drop-down-container">
+      <li>
+        <%= link_to t('projects.index.edit_columns'), projects_settings_path, target: '_blank', class: 'icon-context icon-settings3'  %>
+      </li>
+    </ul>
+  </li>
+  <% end %>
 <% end %>
 
 <%= render partial: 'projects/filters/form', locals: { query: @query } %>
