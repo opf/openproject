@@ -175,7 +175,7 @@ gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.105.0'
+gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.80.0'
 
