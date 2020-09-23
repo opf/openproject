@@ -72,9 +72,6 @@ en:
             categories:
               - Category 1 (to be changed in Project settings)
             queries:
-              - name: Bugs
-                status: open
-                type: :default_type_bug
               - name: Project plan
                 status: open
                 timeline: true
