@@ -84,8 +84,10 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
     return AssigneeBoardHeaderComponent;
   }
 
-  public warningTextWhenNoOptionsAvailable() {
-    let text = this.I18n.t('js.boards.add_list_modal.warning.assignee');
+  public warningTextWhenNoOptionsAvailable(hasMember?:boolean) {
+    let text = hasMember ?
+    this.I18n.t('js.boards.add_list_modal.warning.assignee'):
+    this.I18n.t('js.boards.add_list_modal.warning.no_member');
 
     return this
       .apiV3Service
