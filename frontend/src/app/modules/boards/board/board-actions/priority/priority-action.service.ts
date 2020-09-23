@@ -6,10 +6,10 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Board} from "core-app/modules/boards/board/board";
-import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ApiV3Filter, ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {ImageHelpers} from "core-app/helpers/images/path-helper";
-import imagePath = ImageHelpers.imagePath;
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class BoardPriorityActionService extends CachedBoardActionService {
@@ -84,15 +84,11 @@ export class BoardPriorityActionService extends CachedBoardActionService {
     return PriorityBoardHeaderComponent;
   }
 
-
   protected loadUncached():Promise<HalResource[]> {
-    return this
-      .apiV3Service
-      .projects
-      .id(this.currentProject.id!)
-      .priorities
-      .get()
-      .toPromise()
-      .then(collection => collection.elements);
+    let filters = new ApiV3FilterBuilder();
+    filters.add('1', '=', true);
+    return this.apiV3Service.priorities.filtered(filters).get().toPromise().then(
+      (collection:CollectionResource<HalResource>) => collection.elements
+    );
   }
 }
