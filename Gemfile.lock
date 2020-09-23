@@ -504,7 +504,7 @@ GEM
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
       ipaddress (~> 0.8)
-    fog-core (2.2.0)
+    fog-core (2.2.3)
       builder
       excon (~> 0.71)
       formatador (~> 0.2)
