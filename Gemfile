@@ -167,7 +167,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 4.3.5' # used for development and optionally for production
+gem 'puma', '~> 5.0.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.8'
 
