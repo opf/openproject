@@ -17,12 +17,15 @@
       </ngx-gallery>
     </div>
 
-    <a *ngIf="viewerVisible && createAllowed"
+    <button *ngIf="viewerVisible && createAllowed"
        [title]="text.add_viewpoint"
        class="button"
+       [class.-running]="saveViewpointRunning$ | async"
+       [disabled]="saveViewpointRunning$ | async"
        (click)="saveViewpoint(workPackage)">
       <op-icon icon-classes="button--icon icon-add"></op-icon>
       <span class="button--text"> {{text.viewpoint}} </span>
-    </a>
+      <op-icon icon-classes="button-icon icon-loading1" class="-running-indicator"></op-icon>
+    </button>
   </div>
 </ng-container>

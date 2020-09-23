@@ -71,7 +71,6 @@ a.button
     @include button-style(#fff, #f2f2f2, var(--content-link-color), var(--button-style))
     border-color: var(--content-link-color)
 
-
   &.-alt-highlight
     @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color), var(--button-style))
     @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), var(--button--alt-highlight-font-color), var(--button-style))
@@ -85,6 +84,26 @@ a.button
     border-color: var(--button--active-border-color)
     box-shadow: 0 0 3px var(--button--active-border-color) inset
 
+  &.-running
+    .-running-indicator
+      display: inline-block
+      animation-name: loading1-spin
+      animation-duration: 200ms
+      animation-iteration-count: infinite
+      animation-timing-function: linear
+
+  // The glyph for icon loading1 is not vertically centered.
+  // When spinning it 360 degrees you'd see that the circles
+  // center is not the center of the spinning. As a hack, we
+  // just animate for one tick (30 degrees).
+  @keyframes loading1-spin
+    from
+      transform: rotate(0deg)
+    to
+      transform: rotate(29deg)
+
+  .-running-indicator
+    display: none
 
   &.-transparent
     background: transparent

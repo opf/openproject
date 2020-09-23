@@ -80,6 +80,20 @@
 <input type="submit" class="button ***-active***" value="Do not connect" disabled />
 ```
 
+## Running (spinning/loading) buttons
+
+Sometimes we want to add extra emphasis that an action takes a longer time. Then it might be useful to provide some
+visual cue. This adds a spinner icon to the button.
+
+Careful, this will make the button wider and thus might cause issues with your layout.
+
+```
+<button class="button ***-running***" ***disabled=true***>
+  <span class="button--text">Save</span>
+  <i class="button--icon ***icon-loading1 -running-indicator***"></i>
+</button>
+```
+
 ## Transparent buttons
 
 ```

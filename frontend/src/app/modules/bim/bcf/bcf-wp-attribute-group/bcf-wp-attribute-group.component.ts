@@ -21,6 +21,8 @@ import {BcfAuthorizationService} from "core-app/modules/bim/bcf/api/bcf-authoriz
 import {ViewpointsService} from "core-app/modules/bim/bcf/helper/viewpoints.service";
 import {BcfViewpointItem} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {BehaviorSubject} from "rxjs";
+import Timeout = NodeJS.Timeout;
 
 
 @Component({
@@ -32,6 +34,8 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy, OnInit {
   @Input() workPackage:WorkPackageResource;
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
+
+  public saveViewpointRunning$ = new BehaviorSubject<boolean>(false);
 
   text = {
     bcf: this.I18n.t('js.bcf.label_bcf'),
@@ -191,11 +195,19 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   public saveViewpoint(workPackage:WorkPackageResource) {
+    this.saveViewpointRunning$.next(true);
+
+    // We cannot always guaranty that a viewpoint will ever come back, i.e. in the OpenProject Revit Add-in.
+    // The button for adding a viewpoint should not be disabled for ever.
+    let failToReturnTimeout:Timeout = setTimeout(() => this.saveViewpointRunning$.next(false), 20000);
+
     this.viewpointsService
       .saveViewpoint$(workPackage)
       .subscribe(viewpoint => {
         this.notifications.addSuccess(this.text.notice_successful_create);
         this.showIndex = this.viewpoints.length;
+        this.saveViewpointRunning$.next(false);
+        clearTimeout(failToReturnTimeout);
       });
   }
 
