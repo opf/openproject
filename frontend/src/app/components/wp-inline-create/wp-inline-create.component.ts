@@ -50,7 +50,6 @@ import {
 } from './inline-create-row-builder';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {Subscription} from 'rxjs';
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
@@ -88,6 +87,10 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   private $element:JQuery;
 
+  get isActive():boolean {
+    return this.mode !== 'inactive';
+  }
+
   constructor(public readonly injector:Injector,
               protected readonly elementRef:ElementRef,
               protected readonly schemaCache:SchemaCacheService,
@@ -104,24 +107,23 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+  }
 
+  ngAfterViewInit() {
     this.authorisationService
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
         this.canReference = this.hasReferenceClass && this.wpInlineCreate.canReference;
         this.canAdd = this.wpInlineCreate.canAdd;
         this.cdRef.detectChanges();
+
+        if (this.canAdd || this.canReference) {
+          // Add this row's height as a padding to the timeline
+          // so the table and the timeline keep aligned
+          const container = jQuery(this.table.timelineBody);
+          container.addClass('-inline-create-mirror');
+        }
       });
-  }
-
-  get isActive():boolean {
-    return this.mode !== 'inactive';
-  }
-
-  ngAfterViewInit() {
-    // Mirror the row height in timeline
-    const container = jQuery(this.table.timelineBody);
-    container.addClass('-inline-create-mirror');
 
     // Register callback on newly created work packages
     this.registerCreationCallback();
