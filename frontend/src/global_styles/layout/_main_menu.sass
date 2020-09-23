@@ -67,6 +67,11 @@ $menu-item-line-height: 30px
       height: calc(100% - (var(--main-menu-item-height) + 10px)) // 10px spacing
       overflow: auto
       @include styled-scroll-bar
+    
+    .main-menu-wrapper
+      display: flex
+      flex-direction: column
+      height: 100%
 
   a:focus
     color: var(--main-menu-font-color)
@@ -74,6 +79,7 @@ $menu-item-line-height: 30px
   ul
     margin: 0
     padding: 0
+    overflow-y: auto
 
     // -------------------- ALL menu items ---------------------------
     li
