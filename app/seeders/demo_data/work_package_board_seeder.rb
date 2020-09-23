@@ -176,13 +176,11 @@ module DemoData
 
     def basic_query_work_packages
       [
-        [WorkPackage.find_by(subject: 'Create a new project').id,
-         WorkPackage.find_by(subject: 'Edit a work package').id,
-         WorkPackage.find_by(subject: 'Create work packages').id,
-         WorkPackage.find_by(subject: 'Activate further modules').id],
-        [WorkPackage.find_by(subject: 'Create a project plan').id],
-        [WorkPackage.find_by(subject: 'Invite new team members').id],
-        [WorkPackage.find_by(subject: 'Customize project overview page').id]
+        [WorkPackage.find_by(subject: 'Set date and location of conference').id,
+         WorkPackage.find_by(subject: 'Party for conference supporters :-)').id],
+        [WorkPackage.find_by(subject: 'Setup conference website').id],
+        [WorkPackage.find_by(subject: 'Invite attendees to conference').id],
+        [WorkPackage.find_by(subject: 'End of project').id]
       ]
     end
   end
