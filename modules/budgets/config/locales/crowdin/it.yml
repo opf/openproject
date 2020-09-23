@@ -62,7 +62,7 @@ it:
   label_budget_plural: "Bilanci"
   label_budget_id: "Budget #%{id}"
   label_deliverable: "Bilancio"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'es. %{decimal}'
   label_view_all_budgets: "Mostra tutti i budget"
   label_yes: "Si"
   notice_budget_conflict: "La macro-attività deve essere dello stesso progetto."

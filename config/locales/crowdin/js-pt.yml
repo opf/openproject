@@ -271,7 +271,7 @@ pt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              A liberação possui vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li><b>Agendamento suspenso</b> para definir todas as tarefas de projeto envolvidas. As datas de início e término do pai não são afetadas por seu filho.</li> <li><b>Painéis versáteis e ágeis</b> permitem que você crie uma estrutura de divisão de trabalho ou para distribuir tarefas entre subprojetos.</li> <li><b>Modelos de projeto</b> para uma criação mais fácil de novos projetos.</li> <li>Configuração da página de projetos que permite uma melhor <b>gestão de portfólio de projeto.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -801,7 +801,7 @@ pt:
         public_text: >
           Publicar esta visualização, permitindo que outros usuários acessem sua visualização. Usuários com a permissão 'Gerenciar visualizações públicas' podem modificar ou remover a consulta pública. Isso não afeta a visibilidade dos resultados do pacote de trabalho nessa visualização e dependendo de suas permissões, os usuários podem ver resultados diferentes.
         errors:
-          unretrievable_query: "Não foi possível recuperar a visualização da URL"
+          unretrievable_query: "Não foi possível recuperar a visualização do URL"
           not_found: "Esta visão não existe"
           duplicate_query_title: "O nome desta visão já existe. Modificar assim mesmo?"
         text_no_results: "Nenhuma visão correspondente foi encontrada."

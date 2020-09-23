@@ -4,14 +4,14 @@ pt:
     bcf:
       label_bcf: 'BCF'
       import: 'Importar'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: 'Importar arquivo BCF XML (BCF versão 2.1)'
       export: 'Exportar'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
+      export_bcf_xml_file: 'Exportar arquivo BCF XML (BCF versão 2.1)'
       viewpoint: 'Ponto de vista'
       add_viewpoint: 'Adicionar ponto de vista'
       show_viewpoint: 'Exibir ponto de vista'
       delete_viewpoint: 'Excluir ponto de vista'
-      management: 'BCF management'
+      management: 'Gestão de BCF'
     ifc_models:
       empty_warning: "Este projeto ainda não possui nenhum modelo IFC."
       use_this_link_to_manage: "Use este link para fazer o upload e gerenciar seus modelos IFC"

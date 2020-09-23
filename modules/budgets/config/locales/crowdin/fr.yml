@@ -62,7 +62,7 @@ fr:
   label_budget_plural: "Budgets"
   label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'par ex. %{decimal}'
   label_view_all_budgets: "Afficher tous les budgets"
   label_yes: "Oui"
   notice_budget_conflict: "Les lots de travaux doivent appartenir au même projet."

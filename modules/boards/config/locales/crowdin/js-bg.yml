@@ -42,7 +42,7 @@ bg:
         action_text: >
           A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
         action_text_subtasks: >
           Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
         action_text_status: >
@@ -56,7 +56,7 @@ bg:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent_child
+          subtasks: Parent Child
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

@@ -42,7 +42,7 @@ ru:
         action_text: >
           Форум с отфильтрованными по атрибуту %{attribute} списками . Перемещение рабочих пакетов в другие списки обновит их атрибут.
         action_text_subprojects: >
-          Форум с автоматизированными колонками для подпроектов. Идеально подходит для обработки разрешений между заинтересованными сторонами.
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
         action_text_subtasks: >
           Форум с автоматизированными колонками для подэлементов. Перетаскивание пакетов работ в другие списки обновляется родителем соответственно.
         action_text_status: >
@@ -56,7 +56,7 @@ ru:
           status: статус
           version: версия
           subproject: подпроект
-          subtasks: Родитель_потомок
+          subtasks: Parent Child
         select_attribute: "Атрибут действия"
       add_list_modal:
         labels:

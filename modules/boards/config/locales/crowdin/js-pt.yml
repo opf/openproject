@@ -33,30 +33,30 @@ pt:
       click_to_remove_list: "Clique para remover esta lista"
       board_type:
         text: 'Tipo de quadro'
-        free: 'basic'
+        free: 'básico'
         select_board_type: 'Por favor, escolha o tipo de quadro que você precisa.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Comece do zero com um quadro em branco. Adicione manualmente cartões e colunas neste quadro.
         action: 'Quadro de ação'
         action_by_attribute: 'Quadro de ação (%{attribute})'
         action_text: >
           Um quadro com listas filtradas por atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Quadro com colunas automatizadas para sub-elementos. Arrastar pacotes de trabalho para outras listas atualiza os pais de acordo. 
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Quadro de estilo kanban com colunas para estados como Afazeres, Em andamento, Pronto
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Quadro com colunas automatizadas com base nos usuários designados. Ideal para despacho de pacotes de trabalho.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning software releases.
+          Quadros com colunas automatizadas com base no atributo de versão. Ideal para planejar lançamentos de software.
         action_type:
           assignee: responsável
           status: estado
           version: versão
           subproject: subprojeto
-          subtasks: Parent_child
+          subtasks: Parent Child
         select_attribute: "Atributo de ação"
       add_list_modal:
         labels:
