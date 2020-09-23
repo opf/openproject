@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 4.2.0'
+gem 'browser', '~> 5.0.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
