@@ -57,6 +57,9 @@ en:
         action_text_assignee: >
           Board with automated columns based on assigned users.
           Ideal for dispatching work packages.
+        action_text_priority: >
+          Board with automated columns based on assigned users.
+          Ideal for dispatching work packages.
         action_text_version: >
           Board with automated columns based on the version attribute.
           Ideal for planning software releases.
@@ -65,7 +68,8 @@ en:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: Parent_child
+          priority: Priority
         select_attribute: "Action attribute"
 
       add_list_modal:
@@ -75,6 +79,7 @@ en:
           version: Select version to add as a new list
           subproject: Select subproject to add as a new list
           subtasks: Select work package to add as a new list
+          priority: Select priority to add as a new list
         warning:
           status: |
             There is currently no status available. <br>

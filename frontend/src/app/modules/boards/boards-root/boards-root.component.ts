@@ -7,6 +7,7 @@ import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/q
 import {BoardAssigneeActionService} from "core-app/modules/boards/board/board-actions/assignee/assignee-action.service";
 import {BoardSubprojectActionService} from "core-app/modules/boards/board/board-actions/subproject/subproject-action.service";
 import {BoardSubtasksActionService} from "core-app/modules/boards/board/board-actions/subtasks/board-subtasks-action.service";
+import {BoardPriorityActionService} from "core-app/modules/boards/board/board-actions/priority/priority-action.service";
 
 @Component({
   selector: 'boards-entry',
@@ -19,6 +20,7 @@ import {BoardSubtasksActionService} from "core-app/modules/boards/board/board-ac
     BoardSubprojectActionService,
     BoardSubtasksActionService,
     QueryUpdatedService,
+    BoardPriorityActionService
   ]
 })
 export class BoardsRootComponent {
@@ -33,5 +35,6 @@ export class BoardsRootComponent {
     registry.add('version', injector.get(BoardVersionActionService));
     registry.add('subproject', injector.get(BoardSubprojectActionService));
     registry.add('subtasks', injector.get(BoardSubtasksActionService));
+    registry.add('priority', injector.get(BoardPriorityActionService));
   }
 }
