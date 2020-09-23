@@ -253,7 +253,7 @@ module ApplicationHelper
   end
 
   def authoring_at(created, author)
-    return unless author.nil?
+    return if author.nil?
 
     I18n.t(:'js.label_added_time_by',
            author: author.name,
