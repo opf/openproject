@@ -50,16 +50,10 @@ describe 'Upload attachment to documents', js: true do
 
   shared_examples 'can upload an image' do
     it 'can upload an image' do
-      visit project_documents_path(project)
+      visit new_project_document_path(project)
 
-      # Safeguard to ensure the page is properly loaded before clicking on the "+ Document" button
-      # which sometimes seems to come to early.
-      expect(find_field(I18n.t(:'attributes.category')))
-        .to be_checked
-
-      within '.toolbar-items' do
-        click_on 'Document'
-      end
+      # Give the page time to initialize
+      sleep(0.3)
 
       select(category.name, from: 'Category')
       fill_in "Title", with: 'New documentation'

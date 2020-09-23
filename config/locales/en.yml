@@ -2781,6 +2781,8 @@ en:
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
 
     errors:
       messages:
