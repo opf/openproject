@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 4.2.0'
+gem 'browser', '~> 5.0.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -175,9 +175,9 @@ gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.105.0'
+gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.80.0'
+gem 'aws-sdk-s3', '~> 1.80'
 
 gem 'openproject-token', '~> 2.1.1'
 
