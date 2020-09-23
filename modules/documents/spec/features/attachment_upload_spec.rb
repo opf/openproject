@@ -52,9 +52,7 @@ describe 'Upload attachment to documents', js: true do
     it 'can upload an image' do
       visit new_project_document_path(project)
 
-      # Give the page time to initialize
-      sleep(0.3)
-
+      expect(page).to have_selector('#new_document', wait: 10)
       select(category.name, from: 'Category')
       fill_in "Title", with: 'New documentation'
 
