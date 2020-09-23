@@ -16,7 +16,7 @@ State management in complex frontend applications is a topic that has been heavi
 
 *State managent in OpenProject frontend...*
 
-- is mainly controlled by `RXJS` and the reactivestates library
+- is mainly controlled by `RxJs` and the reactivestates library
 - `State` and `InputState` are mostly syntactic sugar over RXJS `Subject` and `BehaviorSubject`
 - States are used to hold and cache values with their values and non-values being observable
 
@@ -155,9 +155,12 @@ This might then look like the following, with green color for added objects, and
 ## 🔗 Code references
 
 - [`StatesService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/components/states.service.ts) Global `States` cache of MultiInputStates
+- [`IsolatedQuerySpace`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/work_packages/query-space/isolated-query-space.ts) Query space `StatesGroup`. Is instantiated multiple times whenever a work package query is loaded. See [the separate concept guide](../queries) for more information.
+- [ReactiveStates](https://github.com/ReactiveStates/reactivestates)  library we use for the StatesGroup. This was developed by Roman primarily for us during AngularJS times.
 
 
 
 ## Discussions
 
 - In contrast to a `Store` concept of redux, the States and state groups do not have any concept of data immutability. As a caller you will need to ensure that. In OpenProject, many of the states are in fact mutable due to historic reasons and the fact that complex class instances are passed around that cannot be easily shallow copied. This will need to be refactored in the future.
+- As the reactivestates library was primarily developed for us, we may need to take over its code or move to a different state management concept alltogether. The recent developments in `ngxs` look very promising.
