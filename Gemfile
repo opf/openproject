@@ -130,7 +130,7 @@ gem 'browser', '~> 5.0.0'
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
 
-gem 'gon', '~> 6.3.2'
+gem 'gon', '~> 6.4.0'
 
 # Lograge to provide sane and non-verbose logging
 gem 'lograge', '~> 0.11.0'
@@ -167,7 +167,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 4.3.5' # used for development and optionally for production
+gem 'puma', '~> 5.0.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.8'
 

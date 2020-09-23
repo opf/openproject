@@ -72,7 +72,7 @@ Click the "+ Add" button to add an application:
 
 ![OAuth2 add](./oauth2-add.png)
 
-The "Name" attribute can be freely chosen. But it naming reveals a difference in the flows used. While "Authorization code" flow is less focused on one use case per OAuth2 application, the "Client credentials" flow is more client application specific. This is because the user, and by that the permissions granted, can change for "Authorization code" but is fixed for "Client credentials" as a specific user has to be chosen when configuring the later.
+The "Name" attribute can be freely chosen. But naming reveals a difference between the way the two flows are used. While "Authorization code" flow is less focused on one use case per OAuth2 application, the "Client credentials" flow is more client application specific. This is because the user, and by that the permissions granted, can change for "Authorization code" but is fixed for "Client credentials" as a specific user has to be chosen when configuring the later.
 
 For the guide, we will focus on the "Authorization code" flow. After having selected a name, specify the callback url that the browser is redirected to, after the user has authenticated successfully. It is the end point that the credentials will be send to via POST from the OpenProject instance to the client so it is dependent on the client application. To stress the point, this is an end point within the client application, not within OpenProject.
 
