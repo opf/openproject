@@ -116,11 +116,11 @@ zh-CN:
         manual: '切换到标记源'
         wysiwyg: '切换到 WYSIWYG 编辑器'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: '无法展开宏：%{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: '此文本段正由宏动态呈现。'
+          not_found: '无法找到请求的资源'
+          invalid_attribute: "所选属性 '%{name}' 不存在。"
         child_pages:
           button: '链接至子页面'
           include_parent: '包括上级'
@@ -173,7 +173,7 @@ zh-CN:
         trial:
           confirmation: "确认电子邮件地址"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            我们在 %{date}向您的 %{email} 发送了一封电子邮件。请查看您的电子邮件并点击提供的确认链接以开始 14 天的试用。
           form:
             general_consent: >
               我同意<a target="_blank" href="%{link_terms}">服务条款</a>和<a target="_blank" href="%{link_privacy}">隐私政策</a>。
@@ -272,7 +272,7 @@ zh-CN:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              此版本包含许多新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>自上而下的计划</b>，可定义所有涉及的项目任务。父项的开始和结束日期不受其子项的影响。</li> <li><b>多功能敏捷板</b>，允许您创建一个工作细分结构或在子项目之间分配任务。</li> <li><b>项目模板</b>，可轻松创建新项目。</li> <li>可配置项目页面，从而能够更好地<b>管理项目组合</b>。</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -403,7 +403,7 @@ zh-CN:
     label_sum_for: "总和"
     label_subject: "主题"
     label_this_week: "这一周"
-    label_today: "Today"
+    label_today: "今天"
     label_time_entry_plural: "已耗时间"
     label_up: "向上"
     label_user_plural: "用户"
@@ -413,10 +413,10 @@ zh-CN:
     label_total_amount: "总计: %{amount}"
     label_updated_on: "更新于"
     label_value_derived_from_children: "（来自子项的值）"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "工作包的子项派生持续时间"
     label_warning: "警告"
     label_work_package: "工作包"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "父工作包"
     label_work_package_plural: "工作包"
     label_watch: "关注"
     label_watch_work_package: "关注工作包"
@@ -503,7 +503,7 @@ zh-CN:
       context: '项目上下文'
       work_package_belongs_to: '此工作包属于项目%{projectname}。'
       click_to_switch_context: '在该项目中打开此工作包。'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: '切换模板将重新加载页面，您将丢失此表单上的所有输入。是否继续？'
       autocompleter:
         label: '项目自动补全'
     text_are_you_sure: "是否确定？"
@@ -593,8 +593,8 @@ zh-CN:
     field_value_enter_prompt: "为'%{field}'输入值"
     project_menu_details: "详细信息"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: '手动计划'
+      automatic: '自动计划'
     sort:
       sorted_asc: '升序排列已应用， '
       sorted_dsc: '降序排列已应用， '
@@ -807,8 +807,8 @@ zh-CN:
           duplicate_query_title: "此视图的名称已存在。仍要更改？"
         text_no_results: "未找到匹配的视图。"
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "此工作包的日期会自动从其子项推导出。可激活“手动计划”来设置日期。"
+        is_switched_from_manual_to_automatic: "由于与其他工作包的关系，在从手动计划切换为自动计划后，此工作包的日期可能需要重新计算。"
       table:
         configure_button: '配置工作包表'
         summary: "行为工作包且列为工作包属性的表格。"
@@ -898,8 +898,8 @@ zh-CN:
         confirm_deletion_children: "我确认所列工作包的全部子工作包都将递归移除。"
         deletes_children: "所有子工作包及其子级也将递归删除。"
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "确认删除时间条目"
+        text: "确定要删除以下时间条目？"
     notice_no_results_to_display: "无可供显示的结果。"
     notice_successful_create: "成功创建。"
     notice_successful_delete: "成功删除。"

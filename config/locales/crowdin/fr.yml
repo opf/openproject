@@ -78,7 +78,7 @@ fr:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Tous les textes et images que vous ajoutez à ce champ sont visibles publiquement pour tous les utilisateurs connectés !'
     text_overview: 'Dans cette vue, vous pouvez créer des textes d’aide personnalisés pour l''affichage des attributs. Lorsqu''ils sont définis, ces textes peuvent être affichés en cliquant sur l’icône d’aide à côté de l''attribut correspondant.'
     label_plural: 'Attribut d’aide de texte'
     show_preview: 'Texte d’aperçu'
@@ -90,8 +90,8 @@ fr:
       no_results_content_text: Créer un nouveau mode d'authentification
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "La tâche a rencontré une erreur mais réessaie. L'erreur était : %{message}"
+      cancelled_due_to: "La tâche a été annulée en raison d'une erreur : %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ce formulaire LDAP nécessite une connaissance technique de votre configuration LDAP / Active Directory.
@@ -202,9 +202,9 @@ fr:
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
     index:
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt: 'Ouvrir comme vue Gantt'
+      open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
+      open_as_gantt_title_admin: "Vous pouvez modifier les paramètres d'affichage (comme les types de lots de travaux sélectionnés) dans l'administration dans les paramètres du projet."
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
     settings:
@@ -283,7 +283,7 @@ fr:
     overview:
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à cette version.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: La page demandée n'existe pas (encore). Vous avez été redirigé vers l'index de toutes les pages du wiki.
     no_results_title_text: Il n'y a actuellement aucune page wiki.
     index:
       no_results_content_text: Ajouter une nouvelle page wiki
@@ -420,7 +420,7 @@ fr:
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
-        templated: 'Template project'
+        templated: 'Modèle de projet'
       projects/status:
         code: 'Statut'
         explanation: 'Description du statut'
@@ -492,7 +492,7 @@ fr:
         parent_work_package: "Parent"
         priority: "Priorité"
         progress: "Progrès (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
         subproject: "Sous-projet"
@@ -518,7 +518,7 @@ fr:
         cant_link_a_work_package_with_a_descendant: "Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches."
         circular_dependency: "Cette relation créerait une dépendance circulaire."
         confirmation: "ne correspond pas à %{attribute}."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
@@ -695,7 +695,7 @@ fr:
         version:
           undeletable_work_packages_attached: "La version ne peut pas être supprimée car des lots de travaux y sont attachés."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "ne peut pas être activé pour les statuts qui sont marqués par défaut."
       template:
         body: "Veuillez vérifier les champs suivants :"
         header:
@@ -753,9 +753,9 @@ fr:
     date: "date"
     default_columns: "Colonnes par défaut"
     description: "Description"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Date de fin dérivée"
+    derived_estimated_time: "Temps estimé dérivé"
+    derived_start_date: "Date de début dérivée"
     display_sums: "Afficher les sommes"
     due_date: "Date de fin"
     estimated_hours: "Durée estimée"
@@ -905,7 +905,7 @@ fr:
       - "Oct"
       - "Nov"
       - "Déc"
-    abbr_week: 'Wk'
+    abbr_week: 'Sem'
     day_names:
       - "Dimanche"
       - "Lundi"
@@ -1109,7 +1109,7 @@ fr:
   error_no_default_work_package_status: "Aucun statut de lot de travaux par défaut n'est défini. Veuillez vérifier votre configuration (Allez dans \"Administration -> Statuts des lots de travaux\")."
   error_no_type_in_project: "Aucun type n'est associé à ce projet. Veuillez vérifier les réglages du projet."
   error_omniauth_registration_timed_out: "L'inscription via un fournisseur d'authentification externe a expiré. Veuillez essayer de nouveau."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "Les informations d'authentification retournées par le fournisseur d'identité n'étaient pas valides. Veuillez contacter votre administrateur pour plus d'aide."
   error_scm_command_failed: "Une erreur s'est produite en essayant d'accéder au dépôt: %{value}"
   error_scm_not_found: "L'entrée ou la révision n'a pas été trouvée dans le dépôt."
   error_unable_delete_status: "Le statut de lot de travaux ne peut pas être supprimé tant qu'il est utilisé par au moins un lot de travaux."
@@ -1137,8 +1137,8 @@ fr:
     work_package_edit: 'Lot de Travaux édité'
     work_package_note: 'Note de Lot de Travaux ajoutée'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Exportation de vos lots de travaux"
+    succeeded: "Export terminé avec succès"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1771,16 +1771,16 @@ fr:
   mail_body_account_information: "Informations sur votre compte"
   mail_body_account_information_external: "Vous pouvez utiliser votre compte %{value} pour vous connecter."
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "Bienvenue sur OpenProject. Veuillez activer votre compte en cliquant sur ce lien :"
+  mail_body_register_header_title: "E-mail d'invitation du membre du projet"
+  mail_body_register_user: "Chère/cher %{name}, "
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    N'hésitez pas à parcourir notre chaîne youtube (%{youtube_link}) où nous fournissons un webinaire (%{webinar_link})
+    et des vidéos de « Démarrage » (%{get_started_link}) pour rendre vos premières étapes dans OpenProject aussi faciles que possible.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    Si vous avez d'autres questions, consultez notre documentation (%{documentation_link}) ou contactez-nous (%{contact_us_link}).
+  mail_body_register_closing: "Votre équipe OpenProject"
+  mail_body_register_ending: "Restez connecté ! Cordialement,"
   mail_body_reminder: "%{count} lot(s) de travaux qui vous sont assignés arrivent à échéance dans les %{days} prochains jours:"
   mail_body_group_reminder: "%{count} lot(s) de travaux assigné(s) au groupe \"%{group}\" arrive(nt) à échéance dans %{days} jours :"
   mail_body_wiki_content_added: "La page wiki '%{id}' a été ajouté par %{author}."
@@ -1935,7 +1935,7 @@ fr:
   permission_manage_project_activities: "Gérer les activités du projet"
   permission_manage_public_queries: "Gérer les vues publiques"
   permission_manage_repository: "Gérer le dépôt"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "Gérer les hiérarchies de lots de travaux"
   permission_manage_versions: "Gérer les versions"
   permission_manage_wiki: "Gérer le wiki"
   permission_manage_wiki_menu: "Gérer le menu Wiki"
@@ -1972,10 +1972,10 @@ fr:
       title: Modifier l'identifiant du projet
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+        Votre projet est en cours de création à partir du modèle de projet sélectionné. Vous serez averti par e-mail dès que le projet sera disponible.
+      use_template: 'Utiliser le modèle'
+      make_template: 'Définir comme modèle'
+      remove_from_templates: 'Supprimer des modèles'
     archive:
       are_you_sure: "Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?"
       archived: "Archivé"
@@ -1995,8 +1995,8 @@ fr:
     assigned_to_role: "Rôle du Destinataire"
     member_of_group: "Groupe du Destinataire"
     assignee_or_group: "Cessionnaire ou groupe d’appartenance"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Inclure le sous-projet"
+    only_subproject_id: "Seulement le sous-projet"
     name_or_identifier: "Nom ou identifiant"
   repositories:
     at_identifier: '%{identifier}'
@@ -2102,13 +2102,13 @@ fr:
     warnings:
       cannot_annotate: "Ce fichier ne peut pas être annoté."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'activé'
+    deactivated: 'désactivé'
   search_input_placeholder: "Rechercher…"
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "Activer CORS"
+  setting_apiv3_cors_origins: "Origines autorisées de l'API V3 Cross-Origin Resource Sharing (CORS)"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Si CORS est activé, ce sont les origines qui sont autorisées à accéder à l'API OpenProject. <br/> Veuillez vérifier la <a href="%{origin_link}" target="_blank">documentation sur l'en-tête Origin</a> sur la façon de spécifier les valeurs attendues.
   setting_email_delivery_method: "Méthode de livraison d'e-mail"
   setting_sendmail_location: "Emplacement de l’exécutable sendmail"
   setting_smtp_enable_starttls_auto: "Utiliser automatiquement STARTTLS si disponible"
@@ -2153,7 +2153,7 @@ fr:
   setting_emails_header: "En-tête des courriels"
   setting_email_login: "Utiliser l'adresse courriel comme login"
   setting_enabled_scm: "Permettre SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Visible dans la liste des projets"
   setting_feeds_enabled: "Permettre les flux"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
@@ -2184,8 +2184,8 @@ fr:
   setting_per_page_options: "Options des objets par page"
   setting_plain_text_mail: "Courriel au format texte (pas de HTML)"
   setting_protocol: "Protocole"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Vue Gantt du portefeuille du projet"
+  setting_project_gantt_query_text: "Vous pouvez modifier la requête utilisée pour afficher le diagramme de Gantt à partir de la page d'aperçu du projet."
   setting_security_badge_displayed: "Afficher le badge de sécurité"
   setting_registration_footer: "Pied de page d’inscription"
   setting_repositories_automatic_managed_vendor: "Type de fournisseur de dépôt automatique"
@@ -2225,8 +2225,8 @@ fr:
     session: "Session"
     brute_force_prevention: "Blocage d'utilisateur automatique (pour éviter les pirates)"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Paramètres pour les nouveaux projets"
+      section_project_overview: "Paramètres de la liste des projets"
     user:
       default_preferences: "Préférences par défaut"
       deletion: "Suppression"

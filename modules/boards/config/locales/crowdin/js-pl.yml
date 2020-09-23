@@ -24,47 +24,47 @@ pl:
         locked: 'Zablokowany'
         closed: 'Zamknięte'
       new_board: 'Nowa tablica'
-      add_list: 'Add list to board'
+      add_list: 'Dodaj listę do tablicy'
       add_card: 'Dodaj kartę'
       error_attribute_not_writable: "Nie można przenieść pakietu roboczego, nie można zapisać %{attribute}."
       error_loading_the_list: "Błąd podczas ładowania listy: %{error_message}"
       error_permission_missing: "Brakuje uprawnienia do tworzenia zapytań publicznych"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "Nie możesz przenieść pakietu roboczego do jego własnej kolumny."
       click_to_remove_list: "Kliknij, aby usunąć tę listę"
       board_type:
         text: 'Typ tablicy'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'podstawowy'
+        select_board_type: 'Wybierz typ tablicy, którego potrzebujesz.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Zacznij od zera z pustą tablicą. Ręcznie dodaj karty i kolumny do tej tablicy.
         action: 'Tablica działania'
         action_by_attribute: 'Tablica działania (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Tablica z listami filtrowanymi w atrybucie %{attribute}. Przeniesienie pakietów roboczych na inne listy zaktualizuje ich atrybut.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tablica z zautomatyzowanymi kolumnami elementów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje elementy nadrzędne.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Podstawowa tablica w stylu kanban z kolumnami statusu, takimi jak Do wykonania, W toku, Gotowe.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tablica z zautomatyzowanymi kolumnami odpowiadającymi przypisanym użytkownikom. Idealna do rozsyłania pakietów roboczych.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning software releases.
+          Tablica z zautomatyzowanymi kolumnami odpowiadającymi atrybutowi wersji. Idealna do planowania wydań oprogramowania.
         action_type:
           assignee: przypisana osoba
           status: status
           version: wersja
-          subproject: subproject
-          subtasks: Parent_child
+          subproject: podprojekt
+          subtasks: Parent Child
         select_attribute: "Atrybut działania"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Wybierz użytkownika do dodania jako nową listę przypisanych
+          status: Wybierz status do dodania jako nową listę
+          version: Wybierz wersję do dodania jako nową listę
+          subproject: Wybierz podprojekt do dodania jako nową listę
+          subtasks: Wybierz pakiet roboczy do dodania jako nową listę
         warning:
           status: |
             Obecnie nie jest dostępny żaden status. <br>

@@ -116,11 +116,11 @@ it:
         manual: 'Passa alla risorsa Markdown'
         wysiwyg: 'Passa all''editor WYSIWYG'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Impossibile espandere la macro: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Questo segmento di testo viene renderizzato dinamicamente da una macro.'
+          not_found: 'Impossibile trovare la risorsa richiesta'
+          invalid_attribute: "L'attributo selezionato '%{name}' non esiste."
         child_pages:
           button: 'Collegamenti alle pagine discendenti'
           include_parent: 'Includi genitore'
@@ -173,7 +173,7 @@ it:
         trial:
           confirmation: "Conferma l'indirizzo email"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Ti abbiamo inviato un'email il %{date} su %{email}. Controlla le tue email e clicca sul link di conferma fornito per iniziare la prova di 14 giorni.
           form:
             general_consent: >
               Accetto le <a target="_blank" href="%{link_terms}">condizioni d'uso</a> e l'<a target="_blank" href="%{link_privacy}">informativa sulla privacy</a>.
@@ -272,7 +272,7 @@ it:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              Questa release contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li><b>Pianificazione top-down</b> per definire tutte le attività di progetto coinvolte. Le date di inizio e di fine del genitore non sono influenzate dai suoi figli.</li> <li><b>Board Agile versatili</b> che consentono di creare una struttura di ripartizione del lavoro o di distribuire le attività tra sottoprogetti.</li> <li><b>Modelli di progetto</b> per una facile creazione di nuovi progetti.</li> <li>Configurazione della pagina dei progetti che consente una migliore <b>gestione del portafoglio dei progetti.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -403,7 +403,7 @@ it:
     label_sum_for: "Somma per"
     label_subject: "Soggetto"
     label_this_week: "questa settimana"
-    label_today: "Today"
+    label_today: "Oggi"
     label_time_entry_plural: "Tempo speso"
     label_up: "Su"
     label_user_plural: "Utenti"
@@ -413,10 +413,10 @@ it:
     label_total_amount: "Totale: %{amount}"
     label_updated_on: "aggiornato il"
     label_value_derived_from_children: "(valore derivato dai figli)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Durata derivata dei figli della macro-attività"
     label_warning: "Attenzione"
     label_work_package: "Macro-attività"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Macro-attività genitore"
     label_work_package_plural: "Macro-attività"
     label_watch: "Osserva"
     label_watch_work_package: "Osserva macro-attività"
@@ -503,7 +503,7 @@ it:
       context: 'Contesto del progetto'
       work_package_belongs_to: 'Questa macro-attività appartiene al progetto %{projectname}.'
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Cambiare il modello ricaricherà la pagina e perderai tutti gli input in questo modulo. Continuare?'
       autocompleter:
         label: 'Autocompletamento del progetto'
     text_are_you_sure: "Sei sicuro?"
@@ -593,8 +593,8 @@ it:
     field_value_enter_prompt: "Inserisci un valore per '%{field}'"
     project_menu_details: "Dettagli"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Programmazione manuale'
+      automatic: 'Programmazione automatica'
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
       sorted_dsc: 'Ordinamento decrescente applicato, '
@@ -807,8 +807,8 @@ it:
           duplicate_query_title: "Il nome di questa vista è già esistente. Cambiarlo comunque?"
         text_no_results: "Nessuna vista corrispondente trovata."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date."
+        is_switched_from_manual_to_automatic: "Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività."
       table:
         configure_button: 'Configura la tabella della macro-attività'
         summary: "Tabella con righe di macro-attività e colonne dei loro attributi."
@@ -898,8 +898,8 @@ it:
         confirm_deletion_children: "Prendo atto che TUTTI i discendenti delle macro-attività elencate verranno eliminati in modo ricorsivo."
         deletes_children: "Tutte le macro-attività ed i relativi discendenti verranno eliminati ricorsivamente."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Conferma l'eliminazione della voce temporale"
+        text: "Eliminare la seguente voce temporale?"
     notice_no_results_to_display: "Nessun risultato visibile da mostrare."
     notice_successful_create: "Creato con successo."
     notice_successful_delete: "Cancellato con successo."

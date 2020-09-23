@@ -42,7 +42,7 @@ lt:
         action_text: >
           Lenta su filtruotomis atributo %{attribute} reikšmėmis. Perkeliant darbo paketą tarp sąrašų bus keičiama atributo reikšmė.
         action_text_subprojects: >
-          Lenta su automatiniais stulpeliais subprojektams. Ideali valdant teises tarp susijusių šalių.
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
         action_text_subtasks: >
           Lenta su automatiniais stulpeliais sub-elementams. Darbų paketo perkėlimas į kitą sąrašą atitinkamai atnaujina tėtį.
         action_text_status: >
@@ -56,7 +56,7 @@ lt:
           status: būsena
           version: versija
           subproject: sub-projektas
-          subtasks: Tėvas-vaikas
+          subtasks: Parent Child
         select_attribute: "Veiksmo atributas"
       add_list_modal:
         labels:

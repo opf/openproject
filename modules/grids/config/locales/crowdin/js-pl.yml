@@ -3,7 +3,7 @@ pl:
     grid:
       add_widget: 'Dodaj widżet'
       remove: 'Usuń widżet'
-      configure: 'Configure widget'
+      configure: 'Konfiguruj widżet'
       upsale:
         text: "Niektóre widżety, takie jak widżet wykresu pakietu roboczego, są dostępne jedynie w wersji"
         link: 'Enterprise Edition.'
@@ -40,7 +40,7 @@ pl:
           no_results: 'Brak podprojektów.'
         time_entries_current_user:
           title: 'Mój spędzony czas'
-          displayed_days: 'Days displayed in the widget:'
+          displayed_days: 'Dni wyświetlane w widżecie:'
         time_entries_list:
           title: 'Poświęcony czas (ostatnie 7 dni)'
           no_results: 'Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.'
