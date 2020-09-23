@@ -377,6 +377,8 @@ class Query < ApplicationRecord
   end
 
   def project_limiting_filter
+    return if subproject_filters_involved?
+
     subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
     subproject_filter.context = self
 
@@ -390,15 +392,22 @@ class Query < ApplicationRecord
 
   private
 
+  ##
+  # Determine whether there are explicit filters
+  # on whether work packages from subprojects are used
+  def subproject_filters_involved?
+    filters.any? do |filter|
+      filter.is_a?(::Queries::WorkPackages::Filter::SubprojectFilter)
+    end
+  end
+
   def for_all?
     @for_all ||= project.nil?
   end
 
   def statement_filters
-    if filters.any? { |filter| filter.name == :subproject_id }
-      filters
-    elsif project
-      [project_limiting_filter] + filters
+    if project
+      filters + [project_limiting_filter].compact
     else
       filters
     end
