@@ -32,6 +32,8 @@ module OpenProject::Reporting
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    config.eager_load_paths += Dir["#{config.root}/lib/"]
+
     register 'openproject-reporting',
              author_url: 'https://www.openproject.com',
              bundled: true do
@@ -81,6 +83,11 @@ module OpenProject::Reporting
     initializer "reporting.register_hooks" do
       # don't use require_dependency to not reload hooks in development mode
       require 'open_project/reporting/hooks'
+    end
+
+    initializer 'reporting.load_patches' do
+      require_relative 'patches/big_decimal_patch'
+      require_relative 'patches/to_date_patch'
     end
 
     config.to_prepare do

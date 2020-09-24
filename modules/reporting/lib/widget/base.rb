@@ -28,9 +28,8 @@
 
 require 'digest/sha1'
 
-require_dependency 'reporting_widget'
 module ::Widget
-  class Base < ::ReportingWidget
+  class Base < Widget::ReportingWidget
     attr_reader :engine, :output
     attr_accessor :request
 

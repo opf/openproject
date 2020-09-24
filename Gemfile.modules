@@ -26,7 +26,6 @@ group :opf_plugins do
 	gem 'openproject-openid_connect',            path: 'modules/openid_connect'
 	gem 'openproject-documents',                 path: 'modules/documents'
 	gem 'openproject-xls_export',                path: 'modules/xls_export'
-	gem 'reporting_engine',                      path: 'modules/reporting_engine'
 	gem 'costs',                                 path: 'modules/costs'
 	gem 'openproject-reporting',                 path: 'modules/reporting'
 	gem 'openproject-meeting',                   path: 'modules/meeting'

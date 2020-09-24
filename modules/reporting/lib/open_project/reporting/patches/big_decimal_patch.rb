@@ -26,45 +26,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Report::Validation
-  include Report::QueryUtils
+module OpenProject::Reporting::Patches::BigDecimalPatch
+  class BigDecimal
+    def to_d; self end
+  end
 
-  def register_validations(*validation_methods)
-    validation_methods.flatten.each do |val_method|
-      register_validation(val_method)
+  class Integer
+    def to_d; to_f.to_d end
+  end
+
+  class String
+    def to_d
+      BigDecimal self
     end
   end
 
-  def register_validation(val_method)
-    const_name = val_method.to_s.camelize
-    begin
-      val_module = engine::Validation.const_get const_name
-      singleton_class.send(:include, val_module)
-      val_method = 'validate_' + val_method.to_s.pluralize
-      if method(val_method)
-        validations << val_method
-      else
-        warn "#{val_module.name} does not define #{val_method}"
-      end
-    rescue NameError
-      warn "No Module #{engine}::Validation::#{const_name} found to validate #{val_method}"
-    end
-    self
-  end
-
-  def errors
-    @errors ||= Hash.new { |h, k| h[k] = [] }
-  end
-
-  def validations
-    @validations ||= []
-  end
-
-  def validate(*values)
-    errors.clear
-    return true if validations.empty?
-    validations.all? do |validation|
-      values.empty? ? true : send(validation, *values)
-    end
+  class NilClass
+    def to_d; 0 end
   end
 end
