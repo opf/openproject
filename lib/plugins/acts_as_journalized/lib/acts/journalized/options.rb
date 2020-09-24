@@ -109,7 +109,7 @@ module Acts::Journalized
         result_options = journal_options.symbolize_keys
         result_options.reverse_merge!(
           class_name: Journal.name,
-          dependent: :delete_all,
+          dependent: :destroy,
           foreign_key: :journable_id,
           as: :journable
         )
