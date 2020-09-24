@@ -264,7 +264,7 @@ module Report::Controller
   ##
   # Build the query from the passed session hash
   def build_query(filters, groups = {})
-    query = report_engine.new
+    query = report_engine.new project: @project
     query.tap do |q|
       filters[:operators].each do |filter, operator|
         unless filters[:values][filter] == ['<<inactive>>']
