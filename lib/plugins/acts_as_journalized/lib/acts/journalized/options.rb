@@ -85,55 +85,28 @@ module Acts::Journalized
       # 1. Those passed directly to the +journaled+ method
       # 2. Those specified in an initializer +configure+ block
       # 3. Default values specified in +prepare_journaled_options+
-      #
-      # The method is overridden in feature modules that require specific options outside the
-      # standard +has_many+ associations.
       def prepare_journaled_options(options)
-        result_options = options_with_defaults(options)
-
-        class_attribute :vestal_journals_options
-        self.vestal_journals_options = result_options.dup
-
-        result_options.merge!(
-          extend: Array(result_options[:extend]).unshift(Versions)
-        )
-
-        result_options
+        class_attribute :aaj_options
+        self.aaj_options = options_with_defaults(options)
       end
 
       private
 
-      def options_with_defaults(options)
-        journal_options = split_option_hashes(options)
+      # Returns all of the provided options suitable for the
+      # has_many :journals
+      # association created by aaj
+      def has_many_journals_options
+        aaj_options
+          .slice(*ActiveRecord::Associations::Builder::HasMany.send(:valid_options, {}))
+      end
 
-        result_options = journal_options.symbolize_keys
-        result_options.reverse_merge!(
+      def options_with_defaults(options)
+        {
           class_name: Journal.name,
           dependent: :destroy,
           foreign_key: :journable_id,
           as: :journable
-        )
-
-        result_options
-      end
-
-      # Splits an option has into three hashes:
-      ## => [{ options prefixed with "activity_" }, { options prefixed with "event_" }, { other options }]
-      def split_option_hashes(options)
-        journal_hash = {}
-
-        options.each_pair do |k, v|
-          case k.to_s
-          when /\Aactivity_(.+)\z/
-            raise "Configuring activity via acts_as_journalized is no longer supported."
-          when /\Aevent_(.+)\z/
-            raise "Configuring events via acts_as_journalized is no longer supported."
-          else
-            journal_hash[k.to_sym] = v
-          end
-        end
-
-        journal_hash
+        }.merge(options.symbolize_keys)
       end
     end
   end
