@@ -42,7 +42,7 @@ describe 'seeds', :with_clean_fixture do
       expect(WorkPackage.count).to eq 23
       expect(Wiki.count).to eq 2
       expect(Query.where.not(hidden: true).count).to eq 7
-      expect(Query.count).to eq 23
+      expect(Query.count).to eq 25
       expect(Projects::Status.count).to eq 2
 
       perform_enqueued_jobs
