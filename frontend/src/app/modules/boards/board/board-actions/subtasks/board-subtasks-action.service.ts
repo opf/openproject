@@ -14,7 +14,7 @@ import {ImageHelpers} from "core-app/helpers/images/path-helper";
 export class BoardSubtasksActionService extends BoardActionService {
   filterName = 'parent';
 
-  text = this.I18n.t('js.boards.board_type.action_type.subtasks');
+  text = this.I18n.t('js.boards.board_type.board_type_title.subtasks');
 
   description = this.I18n.t('js.boards.board_type.action_text_subtasks');
 

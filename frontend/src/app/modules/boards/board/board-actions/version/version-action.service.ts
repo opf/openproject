@@ -22,7 +22,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
   filterName = 'version';
 
-  text = this.I18n.t('js.boards.board_type.action_type.version');
+  text = this.I18n.t('js.boards.board_type.board_type_title.version');
 
   description = this.I18n.t('js.boards.board_type.action_text_version');
 
