@@ -75,6 +75,14 @@ en:
                 timeline: true
                 sort_by: id
                 hierarchy: true
+                columns:
+                  - id
+                  - type
+                  - subject
+                  - status
+                  - start_date
+                  - due_date
+                  - assignee
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -96,7 +104,6 @@ en:
                   - id
                   - subject
                   - priority
-                  - type
                   - status
                   - assigned_to
             boards:
