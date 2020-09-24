@@ -36,7 +36,7 @@ en:
       click_to_remove_list: "Click to remove this list"
       board_type:
         text: 'Board type'
-        free: 'basic'
+        free: 'Basic'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Start from scratch with a blank board.
@@ -61,11 +61,11 @@ en:
           Board with automated columns based on the version attribute.
           Ideal for planning software releases.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: Parent Child
+          assignee: Assignee
+          status: Status
+          version: Version
+          subproject: Subproject
+          subtasks: Parent-Child
         select_attribute: "Action attribute"
 
       add_list_modal:

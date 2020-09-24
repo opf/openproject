@@ -1,11 +1,11 @@
 <div class="tile-blocks--container">
-    <div class="tile-block button row" 
+    <div class="tile-block button" 
         [disabled]="disabled()" 
         (accessibleClick)="created(tile.attribute)"
         *ngFor="let tile of tiles">
         <img [src]="tile.image" class="tile-block-image"/>
         <div>
-          <span class="tile-block-title">{{ tile.text | titlecase}}</span> 
+          <span class="tile-block-title">{{ tile.text }}</span> 
           <p class="tile-block-description" [textContent]="tile.description"></p>
         </div>
     </div>
