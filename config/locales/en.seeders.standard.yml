@@ -90,8 +90,8 @@ en:
                 columns:
                   - id
                   - type
-                  - status
                   - subject
+                  - status
                   - start_date
                   - due_date
                 sort_by: id
