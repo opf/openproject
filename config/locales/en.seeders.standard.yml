@@ -111,6 +111,8 @@ en:
                 name: 'Kanban board'
               basic:
                 name: 'Basic board'
+              parent_child:
+                name: 'Work breakdown structure'
             work_packages:
               - :start: 4
                 :subject: Start of project

@@ -51,6 +51,12 @@ module DemoData
         seed_basic_board
         puts
       end
+
+      if project_has_data_for?(key, 'boards.parent_child')
+        print '    ↳ Creating demo parent child board'
+        seed_parent_child_board
+        puts
+      end
     end
 
     private
@@ -182,6 +188,54 @@ module DemoData
         [WorkPackage.find_by(subject: 'Invite attendees to conference').id],
         []
       ]
+    end
+
+    def seed_parent_child_board
+      board = ::Boards::Grid.new project: project
+
+      board.name = project_data_for(key, 'boards.parent_child.name')
+      board.options = { 'type' => 'action', 'attribute' => 'subtasks' }
+
+      board.widgets = seed_parent_child_board_queries.each_with_index.map do |query, i|
+        Grids::Widget.new start_row: 1, end_row: 2,
+                          start_column: i + 1, end_column: i + 2,
+                          options: { query_id: query.id,
+                                     filters: [{ parent: { operator: '=', values: query.filters[1].values } }] },
+                          identifier: 'work_package_query'
+      end
+
+      board.column_count = board.widgets.count
+      board.row_count = 1
+
+      board.save!
+
+      Setting.boards_demo_data_available = 'true'
+    end
+
+    def seed_parent_child_board_queries
+      admin = User.admin.first
+
+      parents = [WorkPackage.find_by(subject: 'Organize open source conference'),
+                 WorkPackage.find_by(subject: 'Follow-up tasks')]
+
+      parents.map do |parent|
+        Query.new_default(project: project, user: admin).tap do |query|
+          # Hide the query in the main menu
+          query.hidden = true
+
+          # Make it public so that new members can see it too
+          query.is_public = true
+
+          query.name = parent.subject
+          # Set filter by this status
+          query.add_filter('parent', '=', [parent.id])
+
+          # Set manual sort filter
+          query.sort_criteria = [[:manual_sorting, 'asc']]
+
+          query.save!
+        end
+      end
     end
   end
 end
