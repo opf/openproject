@@ -83,11 +83,14 @@ class Widget::Controls::SaveAs < Widget::Controls
   end
 
   def render_popup_buttons
+    save_url_params = { action: 'create', set_filter: '1' }
+    save_url_params[:project_id] = @subject.project.id if @subject.project
+
     save = link_to(I18n.t(:button_save),
                    '#',
                    id: 'query-icon-save-button',
                    class: 'button -highlight icon-context icon-save',
-                   :"data-target" => url_for(action: 'create', set_filter: '1'))
+                   :"data-target" => url_for(**save_url_params))
 
     cancel = link_to(I18n.t(:button_cancel),
                      '#',

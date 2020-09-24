@@ -65,10 +65,14 @@ module Report::Controller
     @query.public! if make_query_public?
     @query.send("#{user_key}=", current_user.id)
     @query.save!
+
+    redirect_params = { action: 'show', id: @query.id }
+    redirect_params[:project_id] = @project.identifier if @project
+
     if request.xhr? # Update via AJAX - return url for redirect
-      render plain: url_for(action: 'show', id: @query.id)
+      render plain: url_for(**redirect_params)
     else # Redirect to the new record
-      redirect_to action: 'show', id: @query.id
+      redirect_to **redirect_params
     end
   end
 
