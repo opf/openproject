@@ -82,7 +82,7 @@ en:
                   - status
                   - start_date
                   - due_date
-                  - assignee
+                  - assigned_to
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -115,7 +115,7 @@ en:
               - :start: 4
                 :subject: Start of project
                 :description:
-                :status: default_status_new
+                :status: default_status_closed
                 :type: default_type_milestone
                 :duration: 0
                 :schedule_manually: false
