@@ -39,10 +39,10 @@ describe 'seeds', :with_clean_fixture do
 
       expect(User.where(admin: true).count).to eq 1
       expect(Project.count).to eq 2
-      expect(WorkPackage.count).to eq 41
+      expect(WorkPackage.count).to eq 23
       expect(Wiki.count).to eq 2
-      expect(Query.where.not(hidden: true).count).to eq 8
-      expect(Query.count).to eq 24
+      expect(Query.where.not(hidden: true).count).to eq 7
+      expect(Query.count).to eq 23
       expect(Projects::Status.count).to eq 2
 
       perform_enqueued_jobs
