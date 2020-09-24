@@ -202,6 +202,7 @@
       completed: "Sletting av prosjektet %{name} er fullført"
       completed_text: "Forespørselen om å slette prosjektet '%{name}' er fullført."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -1110,7 +1111,7 @@
   error_no_default_work_package_status: "Standard status for arbeidspakke er ikke definert. Vennligst kontrollèr innstillingene (Gå til \"Administrasjon -> Status for arbeidspakker\")."
   error_no_type_in_project: "Prosjektet mangler en tilknyttet type. Vennligst kontrollèr Prosjektinnstillinger."
   error_omniauth_registration_timed_out: "Det oppstod tidsavbrudd under registrering via ekstern autentiseringstjeneste. Vennligst forsøk igjen."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Det oppstod en feil ved forsøk på å åpne pakkebrønnen: %{value}"
   error_scm_not_found: "Oppføringen eller revisjonen ble ikke funnet i pakkebrønnen."
   error_unable_delete_status: "Arbeidspakken kan ikke bli slettet siden den benyttes av minst en annen arbeidspakke."
@@ -2650,6 +2651,8 @@
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

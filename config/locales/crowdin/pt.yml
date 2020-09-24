@@ -201,6 +201,7 @@ pt:
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Abrir como uma exibição Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
       open_as_gantt_title_admin: "Você pode modificar as configurações de exibição (tais como tipos de pacotes de trabalho selecionados) em administração, nas configurações de projeto."
@@ -1108,7 +1109,7 @@ pt:
   error_no_default_work_package_status: "Nenhuma situação padrão de pacote de trabalho foi definida. Por favor, verifique sua configuração (vá em \"Administração-> Situação de pacotes de trabalho\")."
   error_no_type_in_project: "Nenhum tipo está associado a este projeto. Por favor, verifique as Configurações do Projeto."
   error_omniauth_registration_timed_out: "O registro por meio de um provedor de autenticação externo expirou. Por favor, tente novamente."
-  error_omniauth_invalid_auth: "As informações de autenticação retornadas pelo provedor de identidade eram inválidas. Por favor, entre em contato com o administrador para obter mais ajuda."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: %{value}"
   error_scm_not_found: "A entrada ou a revisão não foi encontrada no repositório."
   error_unable_delete_status: "A situação de pacote de trabalho não pode ser excluída, pois ela é usada por ao menos um pacote de trabalho."
@@ -2646,6 +2647,8 @@ pt:
   doorkeeper:
     pre_authorization:
       status: 'Pré-autorização'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

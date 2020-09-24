@@ -24,52 +24,53 @@ es:
         locked: 'Bloqueado'
         closed: 'Cerrado'
       new_board: 'Nuevo panel'
-      add_list: 'Add list to board'
+      add_list: 'Añadir lista al panel'
       add_card: 'Agregar tarjeta'
       error_attribute_not_writable: "No se puede mover el paquete de trabajo porque %{attribute} no permite la escritura."
       error_loading_the_list: "Error al cargar la lista: %{error_message}"
       error_permission_missing: "Falta el permiso para crear consultas públicas"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "No se puede mover un paquete de trabajo a su propia columna."
       click_to_remove_list: "Haga clic para quitar esta lista"
       board_type:
         text: 'Tipo de panel'
-        free: 'basic'
+        free: 'básico'
         select_board_type: 'Por favor elija el tipo de tablero que necesite.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Empiece desde cero con un panel en blanco. Añada de forma manual tarjetas y columnas a este panel.
         action: 'Panel de acciones'
         action_by_attribute: 'Panel de acciones (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Un panel con listas filtradas en el atributo %{attribute}. Al mover paquetes de trabajo a otras listas, se actualizará su atributo.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Panel con columnas automáticas para subproyectos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los (sub)proyectos en consecuencia.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Panel con columnas automáticas para subelementos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los elementos principales en consecuencia.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Panel básico estilo kanban con columnas para indicar el estado, como «Tarea pendiente», «En curso» y «Listo».
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Panel con columnas automáticas basadas en los usuarios asignados. Ideal para enviar paquetes de trabajo.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning software releases.
+          Panel con columnas automáticas basadas en el atributo de versión. Ideal para planificar versiones de software.
         action_type:
           assignee: asignado
           status: estado
           version: versión
           subproject: Subproyecto
-          subtasks: Parent Child
+          subtasks: Principal/secundaria
         select_attribute: "Atributo de acción"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Seleccione el usuario que quiera añadir como nueva lista de usuarios asignados
+          status: Seleccione el estado que quiera añadir como nueva lista
+          version: Seleccione la versión que quiera añadir como nueva lista
+          subproject: Seleccione el subproyecto que quiera añadir como nueva lista
+          subtasks: Seleccione el paquete de trabajo que quiera añadir como nueva lista
         warning:
           status: |
             No hay estados disponibles actualmente. <br>
             Puede que no haya ninguno, o bien ya se añadieron todos al panel.
-          assignee: El proyecto no tiene actualmente ningún miembro que pueda añadirse. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Añada un miembro a este proyecto</a> para volver a seleccionar usuarios.
       configuration_modal:
         title: 'Configurar este panel'

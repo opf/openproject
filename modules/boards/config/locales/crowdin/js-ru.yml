@@ -69,7 +69,8 @@ ru:
           status: |
             Статус недоступен. <br>
             Либо нет ни одного статуса, либо все они уже были добавлены на доску.
-          assignee: В настоящее время в проекте нет участников, которых можно добавить. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Добавить нового участника в этот проект</a> для повторного выбора пользователей.
       configuration_modal:
         title: 'Настроить эту доску'

@@ -202,6 +202,7 @@ fil:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -1110,7 +1111,7 @@ fil:
   error_no_default_work_package_status: "Walang default work package estado ang tinukoy. Mangyaring suriin ang iyong kumpigurasyon ( Pumunta sa \"Administration -> Work package statuses\")."
   error_no_type_in_project: "Walang uri ay nauugnay sa proyektong ito. Mangyaring suriin ang mga setting ng proyekto."
   error_omniauth_registration_timed_out: "Ang pagparehistro sa pamamagitan ng external authentication provider ay nagtime-out. Mangyaring subukan ulit."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Isang mali ang naganap nong subukam ang pag-access ng repositoryo: %{value}"
   error_scm_not_found: "Ang entry o rebisyon ay hindi natagpuan sa repositoryo."
   error_unable_delete_status: "Ang estado ng work package ay hindi pwedeng burahin dahil ginamit ito sa kahit isang work package."
@@ -2648,6 +2649,8 @@ fil:
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

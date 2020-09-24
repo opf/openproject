@@ -69,7 +69,8 @@ sl:
           status: |
             Trenutno ni na voljo nobenega statusa <br>
             Ali jih ni, ali pa so vsi že dodani na desko.
-          assignee: Ta projekt trenutno nima članov, ki bi jih lahko dodali. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">V ta projekt dodajte novega člana </a>, da znova izberete uporabnike.
       configuration_modal:
         title: 'Konfigurirajte to tabelo'

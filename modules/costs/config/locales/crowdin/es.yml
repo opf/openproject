@@ -80,7 +80,7 @@ es:
   label_costlog: "Costos unitarios registrados"
   label_cost_plural: "Costos"
   label_cost_type_plural: "Tipos de costos"
-  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_cost_type_specific: "Tipo de coste %{id}: %{name}"
   label_costs_per_page: "Costos por página"
   label_currency: "Moneda"
   label_currency_format: "Formato de moneda"
