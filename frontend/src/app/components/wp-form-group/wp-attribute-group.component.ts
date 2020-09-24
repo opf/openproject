@@ -31,22 +31,36 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FieldDescriptor, GroupDescriptor} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {fromEvent} from "rxjs";
+import {debounceTime} from "rxjs/operators";
 
 @Component({
   selector: 'wp-attribute-group',
   templateUrl: './wp-attribute-group.template.html'
 })
-export class WorkPackageFormAttributeGroupComponent implements AfterViewInit {
+export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public workPackage:WorkPackageResource;
   @Input() public group:GroupDescriptor;
 
   constructor(readonly I18n:I18nService,
               public wpEditForm:EditFormComponent,
               protected injector:Injector) {
+    super();
   }
 
   ngAfterViewInit() {
     setTimeout(() => this.fixColumns());
+
+    // Listen to resize event and fix column start again
+    fromEvent(window, 'resize', { passive: true })
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(250)
+      )
+      .subscribe(() => {
+        this.fixColumns();
+      });
   }
 
   public trackByName(_index:number, elem:{ name:string }) {
