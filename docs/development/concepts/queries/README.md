@@ -37,7 +37,7 @@ A query can be persisted by a user or created dynamically through a set of param
 
 The following guides are related:
 
-- [HAL resources](#TODO:hal-resources)
+- [HAL resources](../hal-resources)
 
 - [Backend API overview](#TODO:api-overview)
 
