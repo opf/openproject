@@ -127,3 +127,4 @@ Then you can use them as below in your template:
 
 
 
+For more information on formatting and other helpers of the `I18n.js` library, see https://github.com/fnando/i18n-js
