@@ -38,7 +38,11 @@
             </div>
           </div>
           <ng-template #workPackageItemTemplate>
-            <div tabindex="-1" class="global-search--option" (click)="redirectToWp(item.id, $event)" style="line-height: 1">
+            <a tabindex="-1"
+               class="global-search--option"
+               [href]="wpPath(item.id)"
+               (click)="redirectToWp(item.id, $event)"
+               style="line-height: 1">
               <div class="global-search--option-wrapper">
                 <user-avatar 
                 [user]="item.author"
@@ -64,7 +68,7 @@
                   </span>
                 </div>
               </div>
-            </div>
+            </a>
         </ng-template>
       </ng-template>
     </ng-select>
