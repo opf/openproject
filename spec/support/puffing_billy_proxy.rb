@@ -40,6 +40,21 @@ require 'billy/capybara/rspec'
 
 require 'table_print' # Add this dependency to your gemfile
 
+
+##
+# Patch `puffing-billy`'s proxy so that it doesn't try to stop
+# eventmachine's reactor if it's not running.
+# https://github.com/oesmith/puffing-billy/issues/253
+module BillyProxyPatch
+  def stop
+    return unless EM.reactor_running?
+
+    super
+  end
+end
+
+::Billy::Proxy.prepend(BillyProxyPatch)
+
 ##
 # To debug stubbed and proxied connections
 # uncomment this line
