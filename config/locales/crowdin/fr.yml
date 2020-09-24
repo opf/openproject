@@ -202,6 +202,7 @@ fr:
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Ouvrir comme vue Gantt'
       open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
       open_as_gantt_title_admin: "Vous pouvez modifier les paramètres d'affichage (comme les types de lots de travaux sélectionnés) dans l'administration dans les paramètres du projet."
@@ -1109,7 +1110,7 @@ fr:
   error_no_default_work_package_status: "Aucun statut de lot de travaux par défaut n'est défini. Veuillez vérifier votre configuration (Allez dans \"Administration -> Statuts des lots de travaux\")."
   error_no_type_in_project: "Aucun type n'est associé à ce projet. Veuillez vérifier les réglages du projet."
   error_omniauth_registration_timed_out: "L'inscription via un fournisseur d'authentification externe a expiré. Veuillez essayer de nouveau."
-  error_omniauth_invalid_auth: "Les informations d'authentification retournées par le fournisseur d'identité n'étaient pas valides. Veuillez contacter votre administrateur pour plus d'aide."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Une erreur s'est produite en essayant d'accéder au dépôt: %{value}"
   error_scm_not_found: "L'entrée ou la révision n'a pas été trouvée dans le dépôt."
   error_unable_delete_status: "Le statut de lot de travaux ne peut pas être supprimé tant qu'il est utilisé par au moins un lot de travaux."
@@ -2648,6 +2649,8 @@ fr:
   doorkeeper:
     pre_authorization:
       status: 'Préautorisation'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

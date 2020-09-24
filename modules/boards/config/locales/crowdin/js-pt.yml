@@ -42,7 +42,7 @@ pt:
         action_text: >
           Um quadro com listas filtradas por atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Quadro com colunas automatizadas para subprojetos. Arrastar pacotes de trabalho para outras listas atualiza os (sub)projetos de acordo. 
         action_text_subtasks: >
           Quadro com colunas automatizadas para sub-elementos. Arrastar pacotes de trabalho para outras listas atualiza os pais de acordo. 
         action_text_status: >
@@ -56,7 +56,7 @@ pt:
           status: estado
           version: versão
           subproject: subprojeto
-          subtasks: Parent Child
+          subtasks: Pai/Filho
         select_attribute: "Atributo de ação"
       add_list_modal:
         labels:
@@ -69,7 +69,8 @@ pt:
           status: |
             No momento, não há nenhum estado disponível. <br>
             Não há nenhum ou todos eles já foram adicionados ao painel.
-          assignee: Este projeto não possui nenhum membro que possa ser adicionado. 
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Adicione um novo membro a este projeto</a> para selecionar novamente usuários.
       configuration_modal:
         title: 'Configurar este quadro'

@@ -42,7 +42,7 @@ zh-CN:
         action_text: >
           一个在 %{attribute} 属性上具有筛选列表的面板。将工作包移动到其他列表会更新其属性。
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          具有子项目自动列的面板。将工作包拖动到其他列表会相应地更新（子）项目。
         action_text_subtasks: >
           具有子元素自动列的面板。将工作包拖动到其他列表会相应地更新父项。
         action_text_status: >
@@ -56,7 +56,7 @@ zh-CN:
           status: 状态
           version: 版本
           subproject: 子项目
-          subtasks: Parent Child
+          subtasks: 父子
         select_attribute: "操作属性"
       add_list_modal:
         labels:
@@ -69,7 +69,8 @@ zh-CN:
           status: |
             目前没有可用的状态。<br>
             可能没有问题，或者它们已被全部添加到问题板中。
-          assignee: 此项目当前没有可以添加的任何成员。<br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">向此项目添加一个新成员</a>以重新选择用户。
       configuration_modal:
         title: '配置此面板'

@@ -69,7 +69,8 @@ tr:
           status: |
             Şu anda kullanılabilir durum yok. <br>
             Ya yok ya da hepsi zaten tahtaya eklenmiş.
-          assignee: Bu projenin şu anda eklenebilecek üyesi yok. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: Kullanıcıları tekrar seçmek için <a href="%{link}"> bu projeye yeni bir üye ekleyin </a>.
       configuration_modal:
         title: 'Bu kartı yapılandır'

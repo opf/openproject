@@ -202,6 +202,7 @@ ko:
       completed: "프로젝트 %{name} 삭제가 완료되었습니다."
       completed_text: "프로젝트 '%{name}' 삭제 요청이 완료되었습니다."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Gantt 보기로 열기'
       open_as_gantt_title: "이 버튼을 사용하여 이 페이지에 표시되는 프로젝트에 대한 작업 패키지를 필터링하는 Gantt 보기를 생성하세요."
       open_as_gantt_title_admin: "프로젝트 설정의 관리에서 보기 설정(예: 선택한 작업 패키지 유형)을 수정할 수 있습니다."
@@ -1093,7 +1094,7 @@ ko:
   error_no_default_work_package_status: "기본 작업 패키지 상태가 정의되지 않았습니다. 구성을 확인하세요(\"관리 -> 작업 패키지 상태\"로 이동)."
   error_no_type_in_project: "이 프로젝트에 유형이 연결되어 있지 않습니다. 프로젝트 설정을 확인하세요."
   error_omniauth_registration_timed_out: "외부 인증 공급자를 통한 등록이 시간 초과되었습니다. 다시 시도하세요."
-  error_omniauth_invalid_auth: "ID 공급자로부터 반환된 인증 정보가 잘못되었습니다. 관리자에게 문의하여 추가적인 도움을 받으세요."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "리포지토리에 액세스하는 중에 오류가 발생했습니다. %{value}"
   error_scm_not_found: "항목 또는 수정 사항을 리포지토리에서 찾지 못했습니다."
   error_unable_delete_status: "하나 이상의 작업 패키지에 의해 사용되므로 작업 패키지 상태를 삭제할 수 없습니다."
@@ -2624,6 +2625,8 @@ ko:
   doorkeeper:
     pre_authorization:
       status: '사전 권한 부여'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

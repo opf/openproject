@@ -69,7 +69,8 @@ de:
           status: |
             Derzeit ist kein Status verfügbar. <br>
             Entweder gibt es keinen oder sie wurden alle bereits zum Board hinzugefügt.
-          assignee: Dieses Projekt hat derzeit keine Mitglieder, die hinzugefügt werden können. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Fügen Sie ein neues Mitglied zu diesem Projekt</a> hinzu, um Benutzer zu diesem Board hinzuzufügen.
       configuration_modal:
         title: 'Board konfigurieren'

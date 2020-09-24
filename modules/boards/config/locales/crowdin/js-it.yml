@@ -42,7 +42,7 @@ it:
         action_text: >
           Crea una board con elenchi filtrati sull'attributo %{attribute}. Spostare le macro-attività in altre liste aggiornerà il loro attributo.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Board con colonne automatiche per sotto-progetti. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il (sotto)progetto.
         action_text_subtasks: >
           Board con colonne automatiche per sotto-elementi. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il genitore.
         action_text_status: >
@@ -56,7 +56,7 @@ it:
           status: stato
           version: versione
           subproject: Sottoprogetto
-          subtasks: Parent Child
+          subtasks: Genitore figlio
         select_attribute: "Attributo azione"
       add_list_modal:
         labels:
@@ -69,7 +69,8 @@ it:
           status: |
             Al momento non sono disponibili stati. <br>
             È probabile che non ce ne siano o che siano già stati aggiunti tutti alla scheda.
-          assignee: Questo progetto al momento non ha membri che possono essere aggiunti. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Aggiungi un nuovo membro a questo progetto</a> per selezionare nuovamente gli utenti.
       configuration_modal:
         title: 'Configura questa scheda'

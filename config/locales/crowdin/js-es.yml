@@ -116,11 +116,11 @@ es:
         manual: 'Cambiar a visualización de Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'No se puede expandir la macro: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Este segmento de texto se representa dinámicamente mediante una macro.'
+          not_found: 'No se encuentra el recurso solicitado'
+          invalid_attribute: "El atributo seleccionado («%{name}») no existe."
         child_pages:
           button: 'Vínculos a páginas secundarias'
           include_parent: 'Incluir principal'
@@ -272,11 +272,11 @@ es:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Programación descendente</b> para definir todas las tareas del proyecto. Los elementos secundarios no afectan a las fechas de inicio y finalización del elemento principal.</li> <li>Los <b>paneles ágiles y versátiles</b> permiten crear una estructura de desglose del trabajo o distribuir las tareas entre subproyectos.</li> <li><b>Plantillas de proyecto</b> para crear fácilmente nuevos proyectos.</li> <li>La configuración de la página de proyectos permite <b>gestionar mejor la cartera de proyectos</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 ahora es compatible con el <b>formato de colaboración BIM (BCF)</b>: el estándar de seguimiento de incidencias sin resolver para modelos BIM.<br><br> <ul class="%{list_styling_class}"> <li>Cree y gestione fácilmente <b>incidencias de BIM</b> (como conflictos, solicitudes y preguntas) en el modelo IFC 3D interactivo y <b>compártalas con el equipo del proyecto</b>.</li> <li>Integre OpenProject con su software de BIM favorito mediante la avanzada <a target="_blank" href="%{bcf_api_link}">API de REST de BCF</a>.</li> <li>Importe y exporte archivos XML de BCF.</li> </ul>
+              La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Programación descendente</b> para definir todas las tareas del proyecto. Los elementos secundarios no afectan a las fechas de inicio y finalización del elemento principal.</li> <li>Los <b>paneles ágiles y versátiles</b> permiten crear una estructura de desglose del trabajo o distribuir las tareas entre subproyectos.</li> <li><b>Plantillas de proyecto</b> para crear fácilmente nuevos proyectos.</li> <li>La configuración de la página de proyectos permite <b>gestionar mejor la cartera de proyectos</b>.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -413,10 +413,10 @@ es:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "actualizado el"
     label_value_derived_from_children: "(valor derivado del elemento secundario)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Duración derivada de los elementos secundarios del paquete de trabajo"
     label_warning: "Alerta"
     label_work_package: "Paquete de trabajo"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Paquete de trabajo principal"
     label_work_package_plural: "Paquetes de trabajo"
     label_watch: "Controlar"
     label_watch_work_package: "Ver paquetes de trabajo"
@@ -503,7 +503,7 @@ es:
       context: 'Contexto de proyecto'
       work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
       click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
       autocompleter:
         label: 'Contexto | Solicitar contexto'
     text_are_you_sure: "¿Estás seguro?"

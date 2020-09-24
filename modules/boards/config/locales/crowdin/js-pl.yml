@@ -42,7 +42,7 @@ pl:
         action_text: >
           Tablica z listami filtrowanymi w atrybucie %{attribute}. Przeniesienie pakietów roboczych na inne listy zaktualizuje ich atrybut.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Tablica z zautomatyzowanymi kolumnami projektów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje (pod)projekt.
         action_text_subtasks: >
           Tablica z zautomatyzowanymi kolumnami elementów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje elementy nadrzędne.
         action_text_status: >
@@ -56,7 +56,7 @@ pl:
           status: status
           version: wersja
           subproject: podprojekt
-          subtasks: Parent Child
+          subtasks: Element podrzędny elementu nadrzędnego
         select_attribute: "Atrybut działania"
       add_list_modal:
         labels:
@@ -69,7 +69,8 @@ pl:
           status: |
             Obecnie nie jest dostępny żaden status. <br>
             Albo nie istnieją, albo wszystkie zostały już dodane do tablicy.
-          assignee: W tym projekcie nie ma obecnie żadnych członków, których można dodać. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Dodaj nowego członka do tego projektu</a>, aby ponownie wybrać użytkowników.
       configuration_modal:
         title: 'Skonfiguruj tę tablicę'
