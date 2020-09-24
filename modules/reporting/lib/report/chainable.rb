@@ -26,9 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Provides convinience layer and logic shared between GroupBy::Base and Filter::Base.
+# Provides convenience layer and logic shared between GroupBy::Base and Filter::Base.
 # Implements a double linked list (FIXME: is that the correct term?).
-class Report < ApplicationRecord
+module Report
   class Chainable
     include Enumerable
     include Report::QueryUtils
@@ -51,9 +51,9 @@ class Report < ApplicationRecord
     end
 
     def self.base?
-      superclass == engine::Chainable or self == engine::Chainable or
+      superclass == Report::Chainable or self == Report::Chainable or
         superclass == Chainable or self == Chainable or
-        self == engine::Filter::Base or self == engine::GroupBy::Base
+        self == Report::Filter::Base or self == Report::GroupBy::Base
     end
 
     def self.base
@@ -176,10 +176,6 @@ class Report < ApplicationRecord
       self.child, child.parent = child, self if child
       move_down until correct_position?
       clear
-    end
-
-    def to_a
-      cached :compute_to_a
     end
 
     def compute_to_a

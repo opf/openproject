@@ -26,21 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Engine
-  ##
-  # Subclass of Report to be used for constant lookup and such.
-  # It is considered public API to override this method i.e. in Tests.
-  #
-  # @return [Class] subclass
-  def engine
-    return @engine if @engine
+require 'date'
 
-    if is_a? Module
-      @engine = Object.const_get(name[/^[^:]+/] || :Report)
-    elsif respond_to? :parent and parent.respond_to? :engine
-      parent.engine
-    else
-      self.class.engine
+module OpenProject::Reporting::Patches::ToDatePatch
+  module StringAndNil
+    ::String.send(:include, self)
+    ::NilClass.send(:include, self)
+
+    def to_dateish
+      return Date.today if blank?
+      Date.parse self
+    end
+  end
+
+  module DateAndTime
+    ::Date.send(:include, self)
+    ::Time.send(:include, self)
+
+    def to_dateish
+      self
+    end
+
+    def force_utc
+      return to_time.force_utc unless respond_to? :utc_offset
+      return self if utc?
+      utc - utc_offset
     end
   end
 end

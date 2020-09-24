@@ -26,14 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# A minimal ReportingHelper module. This is included in Widget and
-# Controller and can be used to extend the specific widgets and
-# controller functionality.
-#
-# It is the default hook for translations, and calls to l() in Widgets
-# or Controllers will go to this module, first. The default behavior
-# is to pass translation work on to I18n.t() or I18n.l(), depending on
-# the type of arguments.
-module ReportingHelper
+module Engine
+  ##
+  # Subclass of Report to be used for constant lookup and such.
+  # It is considered public API to override this method i.e. in Tests.
+  #
+  # @return [Class] subclass
+  # TODO: get rid of this module
+  def engine
+    return @engine if @engine
+
+    CostQuery
+  end
 end
