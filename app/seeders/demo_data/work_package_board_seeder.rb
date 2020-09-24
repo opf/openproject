@@ -180,7 +180,7 @@ module DemoData
          WorkPackage.find_by(subject: 'Party for conference supporters :-)').id],
         [WorkPackage.find_by(subject: 'Setup conference website').id],
         [WorkPackage.find_by(subject: 'Invite attendees to conference').id],
-        [WorkPackage.find_by(subject: 'End of project').id]
+        []
       ]
     end
   end
