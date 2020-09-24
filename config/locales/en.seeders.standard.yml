@@ -110,7 +110,7 @@ en:
               kanban:
                 name: 'Kanban board'
               basic:
-                name: 'Task board'
+                name: 'Basic board'
             work_packages:
               - :start: 4
                 :subject: Start of project

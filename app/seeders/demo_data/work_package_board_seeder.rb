@@ -135,9 +135,9 @@ module DemoData
               basic_query_work_packages
             end
 
-      lists = [{ name: 'Today', wps: wps[0] },
-               { name: 'Tomorrow', wps: wps[1] },
-               { name: 'Later', wps: wps[2] },
+      lists = [{ name: 'Wish list', wps: wps[0] },
+               { name: 'Short list', wps: wps[1] },
+               { name: 'Prio list for today', wps: wps[2] },
                { name: 'Never', wps: wps[3] }]
 
       lists.map do |list|
@@ -176,9 +176,9 @@ module DemoData
 
     def basic_query_work_packages
       [
-        [WorkPackage.find_by(subject: 'Set date and location of conference').id,
-         WorkPackage.find_by(subject: 'Party for conference supporters :-)').id],
-        [WorkPackage.find_by(subject: 'Setup conference website').id],
+        [WorkPackage.find_by(subject: 'Setup conference website').id,
+         WorkPackage.find_by(subject: 'Upload presentations to website').id],
+        [WorkPackage.find_by(subject: 'Set date and location of conference').id],
         [WorkPackage.find_by(subject: 'Invite attendees to conference').id],
         []
       ]
