@@ -19,6 +19,7 @@ Please choose an area that you would like to read about:
 | [State management](state-management)                 | How does the frontend hanble state and react to changes?     |
 | [HAL resources](hal-resources)                       | What are HAL resources and how are they used in the frontend? |
 | [Permissions](permissions)                           | How are roles and permissions handled in OpenProject code ?  |
+| [Translations](translations)                         | How are translations used and built?                         |
 | [Resource schemas](resource-schemas)                 | What is a schema and how is it tied to an editable resource? |
 | [Resource changesets](resource-changesets)           | How is change tracked to resources in the frontend and how to save the changes? |
 | [Inline editing](inline-editing)                     | How does inline editing and the edit field functionality work in OpenProject? |
