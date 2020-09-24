@@ -31,7 +31,7 @@ Schema objects are the dictionary for the frontend application to identify the a
 
 The following guides are related:
 
-- [HAL resources](#TODO:hal-resources)
+- [HAL resources](../hal-resources)
 
 - [Backend API overview](#TODO:api-overview)
 

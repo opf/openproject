@@ -25,7 +25,7 @@ Resource changesets allow to edit resources in a transparent way, tracking its c
 
 In order to understand Inline Editing, you will need the following concepts:
 
-- [HAL resources](#TODO:hal-resources)
+- [HAL resources](../hal-resources)
 
 - [Schemas](../resource-schemas)
 
