@@ -54,6 +54,7 @@ import {LinkHandling} from "core-app/modules/common/link-handling/link-handling"
 import {filter, map, take, tap} from "rxjs/operators";
 import {APIV3Service} from "../../apiv3/api-v3.service";
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { IntegerDisplayField } from 'core-app/modules/fields/display/field-types/integer-display-field.module';
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -423,6 +424,13 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public blur() {
     this.ngSelectComponent.searchTerm = '';
     (<HTMLInputElement>document.activeElement).blur();
+  }
+
+  public statusHighlightClass(statusId:any) {
+    if (!statusId) {
+      return;
+    }
+    return Highlighting.backgroundClass('status', statusId!);
   }
 
   private get currentScope():string {
