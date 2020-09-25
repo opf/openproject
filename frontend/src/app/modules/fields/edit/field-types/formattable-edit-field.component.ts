@@ -32,7 +32,7 @@ import {
   ChangeDetectionStrategy,
   ElementRef,
   Inject,
-  ChangeDetectorRef, Injector, Optional, OnDestroy
+  ChangeDetectorRef, Injector, OnDestroy
 } from "@angular/core";
 import {
   EditFieldComponent,
@@ -46,7 +46,6 @@ import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-chan
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 export const formattableFieldTemplate = `
     <div class="textarea-wrapper">
@@ -94,9 +93,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
               @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
               @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
               readonly cdRef:ChangeDetectorRef,
-              readonly injector:Injector,
-              // Get parent field group from injector if we're in a form
-              @Optional() protected editForm:EditFormComponent) {
+              readonly injector:Injector) {
     super(I18n, elementRef, change, schema, handler, cdRef, injector);
   }
 
@@ -113,8 +110,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   ngOnDestroy() {
     super.ngOnDestroy();
-
-    this.editForm.removeFromFieldsWithModelChanges(this);
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance) {
@@ -136,7 +131,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     // in the changeset when no actual change has taken place.
     if (this.rawValue !== value) {
       this.rawValue = value;
-      this.editForm.addToFieldsWithModelChanges(this, this.rawValue);
     }
   }
 
@@ -144,15 +138,12 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     this.getCurrentValue()
       .then(() => {
         this.handler.handleUserSubmit();
-        this.editForm.removeFromFieldsWithModelChanges(this);
       });
 
     return false;
   }
 
   public handleUserCancel() {
-    this.editForm.removeFromFieldsWithModelChanges(this);
-
     this.handler.handleUserCancel();
   }
 
@@ -174,8 +165,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       this.editor.content = this.rawValue;
 
       this.cdRef.markForCheck();
-
-      this.editForm.removeFromFieldsWithModelChanges(this);
     }
   }
 
