@@ -135,12 +135,17 @@ class ServiceResult
   end
 
   def on_success
-    yield(self) if success?
+    tap if success?
     self
   end
 
   def on_failure
-    yield(self) if failure?
+    tap if failure?
+    self
+  end
+
+  def tap
+    yield(self)
     self
   end
 
