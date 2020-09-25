@@ -217,18 +217,21 @@ export function initializeUiRouterListeners(injector:Injector) {
     }
 
     // Abort the transition and move to the url instead
+    // Only move to the URL if we're not coming from an initial URL load
+    // (cases like /work_packages/invalid/activity which render a 403 without frontend,
+    // but trigger the ui-router state)
+    //
+    // The FirstRoute service remembers the first angular route we went to
+    // but for pages without any angular routes, this will stay empty.
+    // So we also allow routes to happen after some delay
     if (wpBase === null) {
-
-      // Only move to the URL if we're not coming from an initial URL load
-      // (cases like /work_packages/invalid/activity which render a 403 without frontend,
-      // but trigger the ui-router state)
-      const source = transition.options().source;
 
       // Get the current path and compare
       const path = window.location.pathname;
+      const pathWithSearch = path + window.location.search;
       const target = stateService.href(toState, toParams);
 
-      if (target && path !== target) {
+      if (target && path !== target && pathWithSearch !== target) {
         window.location.href = target;
         return false;
       }

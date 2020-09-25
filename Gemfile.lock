@@ -1004,7 +1004,7 @@ DEPENDENCIES
   cucumber-rails (~> 1.8.0)
   daemons
   dalli (~> 2.7.10)
-  danger (~> 8.0.4)
+  danger (~> 8.0.5)
   danger-brakeman
   dashboards!
   database_cleaner (~> 1.8)

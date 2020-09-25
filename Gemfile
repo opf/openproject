@@ -279,7 +279,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 8.0.4'
+  gem 'danger', '~> 8.0.5'
 
   # Brakeman scanner
   gem 'brakeman', '~> 4.9.0'
