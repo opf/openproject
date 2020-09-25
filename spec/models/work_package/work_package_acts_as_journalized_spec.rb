@@ -458,6 +458,52 @@ describe WorkPackage, type: :model do
     end
   end
 
+  context 'on #destroy' do
+    let(:project) { FactoryBot.create(:project) }
+    let(:type) { FactoryBot.create(:type) }
+    let(:custom_field) do
+      FactoryBot.create(:int_wp_custom_field).tap do |cf|
+        project.work_package_custom_fields << cf
+        type.custom_fields << cf
+      end
+    end
+    let(:work_package) do
+      FactoryBot.create(:work_package,
+                        project: project,
+                        type: type,
+                        custom_field_values: { custom_field.id => 5 },
+                        attachments: [attachment])
+    end
+    let(:attachment) { FactoryBot.build(:attachment) }
+    let!(:journal) { work_package.journals.first }
+    let!(:customizable_journals) { journal.customizable_journals }
+    let!(:attachable_journals) { journal.attachable_journals }
+
+    before do
+      work_package.destroy
+    end
+
+    it 'removes the journal' do
+      expect(Journal.find_by(id: journal.id))
+        .to be_nil
+    end
+
+    it 'removes the journal data' do
+      expect(Journal::WorkPackageJournal.find_by(journal_id: journal.id))
+        .to be_nil
+    end
+
+    it 'removes the customizable journals' do
+      expect(Journal::CustomizableJournal.find_by(id: customizable_journals.map(&:id)))
+        .to be_nil
+    end
+
+    it 'removes the attachable journals' do
+      expect(Journal::AttachableJournal.find_by(id: attachable_journals.map(&:id)))
+        .to be_nil
+    end
+  end
+
   describe 'Acts as journalized' do
     before(:each) do
       @type ||= FactoryBot.create(:type_feature)
