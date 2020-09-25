@@ -44,7 +44,7 @@ module Projects::Copy
         .new(source: overview, user: user)
         .with_state(state)
         .call(params.merge)
-        .on_failure { |result| add_error! overview, result.errors }
+        .tap { |call| result.merge!(call, without_success: true) }
     end
   end
 end
