@@ -53,7 +53,10 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
     this.editForm.save()
       .then(() => this.reloadWorkPackageAndClose())
-      .catch(() => this.formInFlight = false);
+      .catch(() => {
+        this.formInFlight = false;
+        this.cdRef.detectChanges();
+      });
   }
 
   public get saveText() {
@@ -79,5 +82,6 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     }
     this.service.close();
     this.formInFlight = false;
+    this.cdRef.detectChanges();
   }
 }

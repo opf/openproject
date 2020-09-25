@@ -8,7 +8,7 @@ describe 'Activity tab', js: true, selenium: true do
     work_package.update(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: at, user: attributes[:user])
+    note_journal.update(created_at: at, user: user)
   end
 
   let(:project) { FactoryBot.create :project_with_types, public: true }
