@@ -38,8 +38,6 @@ module OpenProject::GlobalRoles
              author_url: 'https://www.openproject.com',
              bundled: true
 
-    assets %w(global_roles/global_roles.js)
-
     # We still override version and project settings views from the core! URH
     override_core_views!
 
