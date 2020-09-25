@@ -385,7 +385,7 @@ module Journals
     end
 
     def journable_data_sql_addition
-      journable.class.vestal_journals_options[:data_sql]&.call(journable) || ''
+      journable.class.aaj_options[:data_sql]&.call(journable) || ''
     end
 
     def text_column_names

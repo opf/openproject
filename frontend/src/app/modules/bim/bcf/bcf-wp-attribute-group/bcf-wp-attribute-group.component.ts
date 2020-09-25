@@ -5,6 +5,7 @@ import {
   Component,
   Input,
   OnDestroy,
+  OnInit,
   ViewChild
 } from "@angular/core";
 import {StateService} from "@uirouter/core";
@@ -28,7 +29,7 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ViewpointsService]
 })
-export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy {
+export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy, OnInit {
   @Input() workPackage:WorkPackageResource;
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
 
@@ -106,7 +107,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   // Store whether viewpoint creation is allowed
   createAllowed:boolean = false;
   // Currently, this is static. Need observable if this changes over time
-  viewerVisible = this.viewerBridge.viewerVisible();
+  viewerVisible = false;
   projectId:string;
 
   constructor(readonly state:StateService,
@@ -124,6 +125,17 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   ngAfterViewInit():void {
     // Observe changes on the work package to update the viewpoints
     this.observeChanges();
+  }
+
+  ngOnInit() {
+    this.viewerBridge.viewerVisible$.subscribe((visible:boolean) => {
+      if (visible) {
+        this.viewerVisible = true;
+      } else {
+        this.viewerVisible = false;
+      }
+      this.cdRef.detectChanges();
+    });
   }
 
   protected observeChanges() {

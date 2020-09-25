@@ -112,9 +112,9 @@ module Redmine
             existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
 
             if existing_cvs.empty?
-              new_value = custom_values.build(
-                customized: self, custom_field: custom_field, value: nil
-              )
+              new_value = custom_values.build(customized: self,
+                                              custom_field: custom_field,
+                                              value: custom_field.default_value)
               existing_cvs.push new_value
             end
 
@@ -187,6 +187,11 @@ module Redmine
           custom_values.each { |cv| cv.destroy unless custom_field_values.include?(cv) }
         end
 
+        # Builds custom values for all custom fields for which no custom value already exists.
+        # The value of that newly build value is set to the default value which can also be nil.
+        # Calling this should only be necessary if additional custom fields are made available
+        # after custom_field_values has already been called as that method will also build custom values
+        # (with their default values set) for all custom values for which no prior value existed.
         def set_default_values!
           new_values = {}
 

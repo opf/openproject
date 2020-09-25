@@ -42,7 +42,7 @@ tr:
         action_text: >
           %{attribute} özniteliğinde filtrelenmiş listelere sahip bir pano. İş paketlerinin diğer listelere taşınması niteliklerini güncelleyecektir.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
         action_text_subtasks: >
           Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
         action_text_status: >
@@ -56,7 +56,7 @@ tr:
           status: durum
           version: Sürüm
           subproject: Alt proje
-          subtasks: Parent_child
+          subtasks: Parent Child
         select_attribute: "Eylem özelliği"
       add_list_modal:
         labels:
@@ -69,7 +69,8 @@ tr:
           status: |
             Şu anda kullanılabilir durum yok. <br>
             Ya yok ya da hepsi zaten tahtaya eklenmiş.
-          assignee: Bu projenin şu anda eklenebilecek üyesi yok. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: Kullanıcıları tekrar seçmek için <a href="%{link}"> bu projeye yeni bir üye ekleyin </a>.
       configuration_modal:
         title: 'Bu kartı yapılandır'

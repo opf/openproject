@@ -50,12 +50,9 @@ describe 'Upload attachment to documents', js: true do
 
   shared_examples 'can upload an image' do
     it 'can upload an image' do
-      visit project_documents_path(project)
+      visit new_project_document_path(project)
 
-      within '.toolbar-items' do
-        click_on 'Document'
-      end
-
+      expect(page).to have_selector('#new_document', wait: 10)
       select(category.name, from: 'Category')
       fill_in "Title", with: 'New documentation'
 
@@ -65,15 +62,18 @@ describe 'Upload attachment to documents', js: true do
 
       click_on 'Create'
 
+      expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
       expect(page).to have_selector('#content img', count: 1)
       expect(page).to have_content('Image uploaded on creation')
 
-      click_on 'New documentation'
+      document = ::Document.last
+      expect(document.title).to eq 'New documentation'
 
-      within '.toolbar-items' do
-        click_on 'Edit'
-      end
+      find('.document-category-elements--header a', text: 'New documentation').click
+      expect(page).to have_current_path "/documents/#{document.id}", wait: 10
+      find('.toolbar-items .button', text: 'Edit').click
 
+      expect(page).to have_current_path "/documents/#{document.id}/edit", wait: 10
       editor.drag_attachment image_fixture, 'Image uploaded the second time'
       expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 

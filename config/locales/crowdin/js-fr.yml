@@ -116,11 +116,11 @@ fr:
         manual: 'Basculer en mode source Markdown'
         wysiwyg: 'Basculer vers l''éditeur WYSIWYG'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Impossible d''étendre la macro : %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Ce segment de texte est rendu dynamiquement par une macro.'
+          not_found: 'La ressource demandée est introuvable'
+          invalid_attribute: "L'attribut « %{name} » n'existe pas."
         child_pages:
           button: 'Liens vers les pages enfants'
           include_parent: 'Inclure un parent'
@@ -173,7 +173,7 @@ fr:
         trial:
           confirmation: "Confirmation de l'adresse e-mail"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Nous vous avons envoyé un e-mail le %{date} à l'adresse %{email}. Veuillez vérifier votre boîte de réception et cliquer sur le lien de confirmation fourni pour commencer votre essai de 14 jours.
           form:
             general_consent: >
               J'accepte les <a target="_blank" href="%{link_terms}">conditions d'utilisation</a> et la <a target="_blank" href="%{link_privacy}">politique de confidentialité</a>.
@@ -270,13 +270,13 @@ fr:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br><br> <ul class="%{list_styling_class}"> <li><b>Journalisation du temps plus rapide</b> des lots de travaux à partir de la vue détaillée ou liste.</li> <li><b>Mise en forme des tableaux améliorée</b> pour mieux configurer les tableaux dans l'éditeur de texte, par exemple pour la largeur, la couleur, l'alignement ou le remplissage de la cellule.</li> <li>La vue carte pour les lots de travaux contient maintenant également le nom du projet.</li> <li>OpenProject est maintenant <b>% traduit en slovène</b>. Zabavaj se !</li> </ul>
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li><b>Planification de haut en bas</b> pour définir toutes les tâches du projet impliquées. Les dates de début et de fin du parent ne sont pas affectées par ses enfants.</li> <li><b>Les planches agiles polyvalentes</b> vous permettent de créer une structure de répartition du travail ou de répartir les tâches entre les sous-projets.</li> <li><b>Modèle de projet</b> pour faciliter la création de nouveaux projets.</li> <li>Configuration de la page des projets permettant de mieux <b>gérer le portefeuille.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 prend maintenant en charge le <b>BIM Collaboration Format (BCF)</b> – la norme ouverte de suivi des problèmes pour les modèles BIM.<br><br> <ul class="%{list_styling_class}"> <li>Créez et <b>gérez facilement les problèmes BIM</b> telles que les désaccords, demandes et questions dans le modèle interactif 3D IFC et <b>partager-ler avec l'équipe du projet.</b></li> <li>Intégrez OpenProject à votre logiciel BIM préféré en utilisant la puissante <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importez et exportez des fichiers BCF XML.</li> </ul>
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li><b>Planification de haut en bas</b> pour définir toutes les tâches du projet impliquées. Les dates de début et de fin du parent ne sont pas affectées par ses enfants.</li> <li><b>Les planches agiles polyvalentes</b> vous permettent de créer une structure de répartition du travail ou de répartir les tâches entre les sous-projets.</li> <li><b>Modèle de projet</b> pour faciliter la création de nouveaux projets.</li> <li>Configuration de la page des projets permettant de mieux <b>gérer le portefeuille.</b></li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -403,7 +403,7 @@ fr:
     label_sum_for: "Somme pour"
     label_subject: "Sujet"
     label_this_week: "cette semaine"
-    label_today: "Today"
+    label_today: "Aujourd'hui"
     label_time_entry_plural: "Temps passé"
     label_up: "Haut"
     label_user_plural: "Utilisateurs"
@@ -413,10 +413,10 @@ fr:
     label_total_amount: "Total : %{amount}"
     label_updated_on: "mis à jour le"
     label_value_derived_from_children: "(valeur dérivée des enfants)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Durée dérivée des enfants du lot de travaux"
     label_warning: "Attention"
     label_work_package: "Lot de travaux"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Lot de Travaux parent"
     label_work_package_plural: "Lots de Travaux"
     label_watch: "Suivre"
     label_watch_work_package: "Suivre le lot de travaux"
@@ -503,7 +503,7 @@ fr:
       context: 'Contexte du projet'
       work_package_belongs_to: 'Ce lot de travaux appartient au projet %{projectname}.'
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
       autocompleter:
         label: 'Remplissage automatique du projet'
     text_are_you_sure: "Êtes-vous sûr ?"
@@ -593,8 +593,8 @@ fr:
     field_value_enter_prompt: "Saisissez une valeur pour « %{field} »"
     project_menu_details: "Détails"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Planification manuelle'
+      automatic: 'Planification automatique'
     sort:
       sorted_asc: 'Tri par ordre croissant appliqué, '
       sorted_dsc: 'Tri par ordre décroissant appliqué, '
@@ -807,8 +807,8 @@ fr:
           duplicate_query_title: "Le nom de cette vue existe déjà. Changer quand même ?"
         text_no_results: "Aucune vue correspondante n'a été trouvée."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates."
+        is_switched_from_manual_to_automatic: "Les dates de ce lot de travaux peuvent avoir besoin d'être recalculées après avoir passé de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux."
       table:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."
@@ -898,8 +898,8 @@ fr:
         confirm_deletion_children: "Je reconnais que TOUS les descendants des lots de travaux de la liste seront supprimés récursivement."
         deletes_children: "Tous les lots de travaux enfants et leurs descendants seront également supprimés récursivement."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Confirmer la suppression de l’entrée de temps"
+        text: "Êtes-vous sur de vouloir supprimer l'entrée de temps suivante ?"
     notice_no_results_to_display: "Aucun résultat visible à afficher."
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."

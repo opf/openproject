@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Projects custom fields', type: :feature do
+describe 'Projects custom fields', type: :feature, js: true do
   shared_let(:current_user) { FactoryBot.create(:admin) }
   shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
   let(:identifier) { "project_custom_field_values_#{custom_field.id}" }
@@ -42,7 +42,7 @@ describe 'Projects custom fields', type: :feature do
       FactoryBot.create(:version_project_custom_field)
     end
 
-    scenario 'allows creating a new project (regression #29099)', js: true do
+    scenario 'allows creating a new project (regression #29099)' do
       visit new_project_path
 
       fill_in 'project_name', with: 'My project name'
@@ -54,13 +54,55 @@ describe 'Projects custom fields', type: :feature do
     end
   end
 
+  describe 'with default values' do
+    let!(:default_int_custom_field) do
+      FactoryBot.create(:int_project_custom_field, default_value: 123)
+    end
+    let!(:default_string_custom_field) do
+      FactoryBot.create(:string_project_custom_field, default_value: 'lorem')
+    end
+    let!(:no_default_string_custom_field) do
+      FactoryBot.create(:string_project_custom_field)
+    end
+
+    scenario 'sets the default values on custom fields and allows overwriting them' do
+      visit new_project_path
+
+      fill_in 'project_name', with: 'My project name'
+      find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+
+      expect(page)
+        .to have_field default_int_custom_field.name, with: default_int_custom_field.default_value.to_s
+      expect(page)
+        .to have_field default_string_custom_field.name, with: default_string_custom_field.default_value.to_s
+      expect(page)
+        .to have_field no_default_string_custom_field.name, with: nil
+
+      fill_in default_string_custom_field.name, with: 'Overwritten'
+
+      click_on 'Create'
+      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_create))
+
+      created_project = Project.last
+
+      visit project_settings_project_path(created_project)
+
+      expect(page)
+        .to have_field default_int_custom_field.name, with: default_int_custom_field.default_value.to_s
+      expect(page)
+        .to have_field default_string_custom_field.name, with: 'Overwritten'
+      expect(page)
+        .to have_field no_default_string_custom_field.name, with: nil
+    end
+  end
+
   describe 'with long text CF' do
     let!(:custom_field) do
       FactoryBot.create(:text_project_custom_field)
     end
     let(:editor) { ::Components::WysiwygEditor.new ".form--field.custom_field_#{custom_field.id}" }
 
-    scenario 'allows settings the project boolean CF (regression #26313)', js: true do
+    scenario 'allows settings the project boolean CF (regression #26313)' do
       visit settings_generic_project_path(project.id)
 
       # expect CF, description and status description ckeditor
@@ -87,7 +129,7 @@ describe 'Projects custom fields', type: :feature do
       FactoryBot.create(:bool_project_custom_field)
     end
 
-    scenario 'allows settings the project boolean CF (regression #26313)', js: true do
+    scenario 'allows settings the project boolean CF (regression #26313)' do
       visit settings_generic_project_path(project.id)
       expect(page).to have_no_checked_field identifier
       check identifier

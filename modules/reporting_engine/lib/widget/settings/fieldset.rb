@@ -47,7 +47,7 @@ class Widget::Settings::Fieldset < Widget::Base
                                tooltip: "#{@type}-legend-tip",
                                class: 'form--fieldset-legend',
                                id: hash.to_s) do
-              content_tag(:a, href: '#') do l(@label) end
+              content_tag(:a, href: '#') { I18n.t(@label) }
             end
             html + yield
           end)

@@ -41,6 +41,6 @@ run() {
 if [ -z "$DANGER_GITHUB_API_TOKEN" ]; then
   echo "WARNING: Missing Dangerfile token. Dangerfile cannot be executed without it!"
 else
-  run "bundle exec danger --fail-on-errors=true"
+  run "./bin/danger --fail-on-errors=true"
 fi
 

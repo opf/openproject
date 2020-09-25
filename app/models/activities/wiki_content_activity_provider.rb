@@ -51,7 +51,7 @@ class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
   protected
 
   def event_title(event)
-    "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
+    "#{I18n.t(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
   end
 
   def event_type(_event)

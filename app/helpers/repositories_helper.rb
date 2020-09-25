@@ -132,7 +132,7 @@ module RepositoriesHelper
                        show_revisions_path_project_repository_path(project_id: @project,
                                                                    repo_path: path_param,
                                                                    rev: @changeset.identifier),
-                       title: l(:label_folder))
+                       title: I18n.t(:label_folder))
 
         output << "<li class='#{style} icon icon-folder-#{calculate_folder_action(s)}'>#{text}</li>"
         output << render_changes_tree(s)
@@ -153,7 +153,7 @@ module RepositoriesHelper
         text << raw(" - #{h(c.revision)}") unless c.revision.blank?
 
         if c.action == 'M'
-          text << raw(' (' + link_to(l(:label_diff),
+          text << raw(' (' + link_to(I18n.t(:label_diff),
                                      diff_revision_project_repository_path(project_id: @project,
                                                                            repo_path: path_param,
                                                                            rev: @changeset.identifier)) + ') ')
@@ -238,7 +238,7 @@ module RepositoriesHelper
 
   def default_selected_option
     [
-      "--- #{l(:actionview_instancetag_blank_option)} ---",
+      "--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
       '',
       { disabled: true, selected: true }
     ]
@@ -282,15 +282,15 @@ module RepositoriesHelper
   def changes_tree_change_title(action)
     case action
     when 'A'
-      l(:label_added)
+      I18n.t(:label_added)
     when 'D'
-      l(:label_deleted)
+      I18n.t(:label_deleted)
     when 'C'
-      l(:label_copied)
+      I18n.t(:label_copied)
     when 'R'
-      l(:label_renamed)
+      I18n.t(:label_renamed)
     else
-      l(:label_modified)
+      I18n.t(:label_modified)
     end
   end
 

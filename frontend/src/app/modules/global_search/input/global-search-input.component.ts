@@ -165,7 +165,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.toggleTopMenuClass();
   }
 
-  public redirectToWp(id:string, event:JQuery.TriggeredEvent) {
+  public redirectToWp(id:string, event:MouseEvent) {
     event.stopImmediatePropagation();
     if (LinkHandling.isClickedWithModifier(event)) {
       return true;

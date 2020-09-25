@@ -36,11 +36,13 @@ module OpenProject::Documents
              author_url: "http://www.openproject.com",
              bundled: true do
 
-      menu :project_menu, :documents,
-                          { controller: '/documents', action: 'index' },
-                          param: :project_id,
-                          caption: :label_document_plural,
-                          icon: 'icon2 icon-notes'
+      menu :project_menu,
+           :documents,
+           { controller: '/documents', action: 'index' },
+           param: :project_id,
+           caption: :label_document_plural,
+           before: :members,
+           icon: 'icon2 icon-notes'
 
       project_module :documents do |_map|
         permission :view_documents, documents: [:index, :show, :download]

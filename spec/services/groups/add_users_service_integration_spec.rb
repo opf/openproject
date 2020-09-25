@@ -31,6 +31,7 @@ require 'spec_helper'
 describe Groups::AddUsersService, 'integration', type: :model do
   let(:projects) { FactoryBot.create_list :project, 2 }
   let(:role) { FactoryBot.create :role }
+  let(:admin) { FactoryBot.create :admin }
 
   let(:group) do
     FactoryBot.create :group,
@@ -50,7 +51,7 @@ describe Groups::AddUsersService, 'integration', type: :model do
     subject { instance.call(user_ids) }
 
     context 'as an admin user' do
-      using_shared_fixtures :admin
+      #using_shared_fixtures :admin
       let(:current_user) { admin }
 
       it 'adds the users to the group and project' do
@@ -59,6 +60,22 @@ describe Groups::AddUsersService, 'integration', type: :model do
         expect(user1.memberships.where(project_id: projects).count).to eq 2
         expect(user1.memberships.map(&:roles).flatten).to eq [role, role]
         expect(user2.memberships.map(&:roles).flatten).to eq [role, role]
+      end
+
+      context 'if the group has a failure (e.g. required cf not set)' do
+        before do
+          group
+          # The group is now invalid as it has no cv for this field
+          FactoryBot.create(:custom_field, type: 'GroupCustomField', is_required: true, field_format: 'int')
+        end
+
+        it 'adds the users to the group and project' do
+          expect(subject).to be_success
+
+          expect(user1.memberships.where(project_id: projects).count).to eq 2
+          expect(user1.memberships.map(&:roles).flatten).to eq [role, role]
+          expect(user2.memberships.map(&:roles).flatten).to eq [role, role]
+        end
       end
     end
 

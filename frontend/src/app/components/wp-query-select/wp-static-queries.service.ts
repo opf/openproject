@@ -77,7 +77,7 @@ export class WorkPackageStaticQueriesService {
       {
         identifier: 'gantt',
         label: this.text.gantt,
-        query_props: '{"c":["id","subject","startDate","dueDate"],"tv":true,"tzl":"years","hi":true,"g":"","t":"id:asc","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}'
+        query_props: `{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":null}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}`
       },
       {
         identifier: 'recently_created',
@@ -118,9 +118,10 @@ export class WorkPackageStaticQueriesService {
       let queryProps = JSON.parse(this.$state.params.query_props);
       delete queryProps.pp;
       delete queryProps.pa;
+      let queryPropsString = JSON.stringify(queryProps);
 
       const matched = _.find(this.all, item =>
-        item.query_props && item.query_props === JSON.stringify(queryProps)
+        item.query_props && item.query_props === queryPropsString
       );
 
       if (matched) {

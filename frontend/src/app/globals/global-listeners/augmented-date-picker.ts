@@ -12,15 +12,19 @@ export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
     target
       .attr('autocomplete', 'off'); // Disable autocomplete for those fields
 
-    var datePicker = new DatePicker(
-      '.-augmented-datepicker',
-      target.val(),
-      {
-        weekNumbers: true,
-        allowInput: true
-      },
-      target[0]
-    );
-    datePicker.show();
+    window.OpenProject.getPluginContext()
+      .then(context => {
+        var datePicker = new DatePicker(
+          '.-augmented-datepicker',
+          target.val(),
+          {
+            weekNumbers: true,
+            allowInput: true
+          },
+          target[0],
+          context.services.configurationService
+        );
+        datePicker.show();
+      });
   }
 }

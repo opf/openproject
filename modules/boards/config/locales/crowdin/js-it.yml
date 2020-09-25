@@ -24,52 +24,53 @@ it:
         locked: 'Chiuso'
         closed: 'Chiuso'
       new_board: 'Nuova board'
-      add_list: 'Add list to board'
+      add_list: 'Aggiungi elenco alla board'
       add_card: 'Aggiungi carta'
       error_attribute_not_writable: "Impossibile spostare il pacchetto di lavoro, %{attribute} non è scrivibile."
       error_loading_the_list: "Errore nel caricamento della lista: %{error_message}"
       error_permission_missing: "Manca l'autorizzazione per creare query pubbliche"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "Non è possibile spostare una macro-attività nella propria colonna."
       click_to_remove_list: "Clicca per rimuovere questa lista"
       board_type:
         text: 'Tipo scheda'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'base'
+        select_board_type: 'Scegli il tipo di board di cui hai bisogno.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Inizia da zero con una board vuota. Aggiungi manualmente schede e colonne a questa board.
         action: 'Scheda azione'
         action_by_attribute: 'Scheda d''azione (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Crea una board con elenchi filtrati sull'attributo %{attribute}. Spostare le macro-attività in altre liste aggiornerà il loro attributo.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          Board con colonne automatiche per sotto-progetti. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il (sotto)progetto.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Board con colonne automatiche per sotto-elementi. Trascinando le macro-attività su altre liste aggiornerà di conseguenza il genitore.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Board in stile kanban di base con colonne per stato come Da fare, In Corso, Fatto.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Board con colonne automatizzate in base agli utenti assegnati. Ideale per l'assegnazione di macro-attività.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning software releases.
+          Scheda con colonne automatizzate in base all'attributo versione. Ideale per la pianificazione dei rilasci di software.
         action_type:
           assignee: assegnatario
           status: stato
           version: versione
           subproject: Sottoprogetto
-          subtasks: Parent_child
+          subtasks: Genitore figlio
         select_attribute: "Attributo azione"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Seleziona utente da aggiungere al nuovo elenco assegnatari
+          status: Seleziona lo stato da aggiungere come nuovo elenco
+          version: Seleziona la versione da aggiungere come nuovo elenco
+          subproject: Seleziona il sottoprogetto da aggiungere come nuovo elenco
+          subtasks: Seleziona la macro-attività da aggiungere come nuovo elenco
         warning:
           status: |
             Al momento non sono disponibili stati. <br>
             È probabile che non ce ne siano o che siano già stati aggiunti tutti alla scheda.
-          assignee: Questo progetto al momento non ha membri che possono essere aggiunti. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Aggiungi un nuovo membro a questo progetto</a> per selezionare nuovamente gli utenti.
       configuration_modal:
         title: 'Configura questa scheda'

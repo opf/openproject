@@ -269,13 +269,13 @@ ru:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
           learn_about: "Подробнее о новых функциях"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Релиз содержит различные новые функции и улучшения: <br><br> <ul class="%{list_styling_class}"> <li><b>Более быстрое журналирование времени</b> в рабочих пакетах из подробностей или списка.</li> <li><b>Улучшение форматирования таблиц</b> для лучшей настройки таблиц в текстовом редакторе, e. . для ширины, цвета, выравнивания или отступа ячейки.</li> <li>Карточка просмотра пакетов работ теперь также содержит название проекта.</li> <li>OpenProject теперь <b>на 100% переведён на словенский</b>. Zabavaj se!</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 теперь поддерживает <b>BIM (BCF)</b> формат сотрудничества – стандарт открытого отслеживания ошибок для моделей BIM.<br><br> <ul class="%{list_styling_class}"> <li>Легко создавайте и <b>управляйте выпусками BIM</b> , такими как столкновения, запросы и вопросы в интерактивной 3D-модели IFC и <b>делитесь ими с командой проекта.</b></li> <li>Интегрируйте OpenProject со своим программным обеспечением BIM, используя мощный <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Импортируйте и экспортируйте BCF XML-файлы</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"

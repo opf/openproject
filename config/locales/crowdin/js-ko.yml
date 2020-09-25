@@ -116,11 +116,11 @@ ko:
         manual: 'Markdown 소스로 전환'
         wysiwyg: 'WYSIWYG 편집기로 전환'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: '매크로를 확장할 수 없습니다: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: '이 텍스트 세그먼트는 매크로에 의해 동적으로 렌더링되고 있습니다.'
+          not_found: '요청한 리소스를 찾을 수 없습니다.'
+          invalid_attribute: "선택한 특성 '%{name}'이(가) 없습니다."
         child_pages:
           button: '자식 페이지의 링크'
           include_parent: '부모 포함'
@@ -270,13 +270,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-6
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br><br> <ul class="%{list_styling_class}"> <li>세부 정보 또는 목록 보기의 작업 패키지에서 <b>보다 빠른 시간 기록</b>.</li> <li>셀의 너비, 색상, 맞춤 또는 패딩 등 텍스트 편집기에서 더욱 우수하게 테이블을 구성할 수 있도록 <b>개선된 테이블 서식 지정</b>.</li> <li>이제 작업 패키지에 대한 카드 보기에 프로젝트 이름도 포함됩니다.</li> <li>현재 OpenProject가 <b>슬로베니아어로 100% 번역되었습니다</b>. Zabavaj se!</li> </ul>
+              이 릴리스에는 다음과 같은 여러 가지 새로운 기능과 개선된 기능이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>하향식 스케줄링</b>으로 모든 관련 프로젝트 작업을 정의할 수 있습니다. 부모의 시작 날짜와 완료 날짜는 자식에 의해 영향을 받지 않습니다.</li> <li><b>다기능 애자일 보드</b>를 사용하여 작업 분류 구조를 만들거나 하위 프로젝트 간에 작업을 배포 할 수 있습니다.</li> <li><b>프로젝트 템플릿</b>으로 새 프로젝트를 손쉽게 만들 수 있습니다.</li> <li>프로젝트 페이지 구성을 통해 더욱 효과적으로 <b>프로젝트 포트폴리오 관리를 할 수 있습니다.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              이제 OpenProject 10.5는 BIM 모델에 대한 오픈 이슈 추적 표준인 <b>BIM Collaboration Format(BCF)</b>을 지원합니다.<br><br> <ul class="%{list_styling_class}"> <li>대화형 3D IFC 모델의 충돌, 요청, 질문 등 <b>BIM 이슈 관리</b> 및 생성을 손쉽게 하고 <b>프로젝트 팀과 공유</b>합니다.</li> <li>강력한 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a>를 사용하여 원하는 BIM 소프트웨어와 OpenProject를 통합합니다.</li> <li>BCF XML 파일을 가져오고 내보냅니다.</li> </ul>
+              이 릴리스에는 다음과 같은 여러 가지 새로운 기능과 개선된 기능이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>하향식 스케줄링</b>으로 모든 관련 프로젝트 작업을 정의할 수 있습니다. 부모의 시작 날짜와 완료 날짜는 자식에 의해 영향을 받지 않습니다.</li> <li><b>다기능 애자일 보드</b>를 사용하여 작업 분류 구조를 만들거나 하위 프로젝트 간에 작업을 배포 할 수 있습니다.</li> <li><b>프로젝트 템플릿</b>으로 새 프로젝트를 손쉽게 만들 수 있습니다.</li> <li>프로젝트 페이지 구성을 통해 더욱 효과적으로 <b>프로젝트 포트폴리오 관리를 할 수 있습니다.</b></li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -403,7 +403,7 @@ ko:
     label_sum_for: "합계 "
     label_subject: "제목"
     label_this_week: "이번 주"
-    label_today: "Today"
+    label_today: "오늘"
     label_time_entry_plural: "소비한 시간"
     label_up: "위"
     label_user_plural: "사용자"
@@ -413,10 +413,10 @@ ko:
     label_total_amount: "합계: %{amount}"
     label_updated_on: "업데이트 :"
     label_value_derived_from_children: "(자식에서 파생된 값)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "작업 패키지의 자식 파생 기간"
     label_warning: "경고"
     label_work_package: "작업 패키지"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "부모 작업 패키지"
     label_work_package_plural: "작업 패키지"
     label_watch: "주시"
     label_watch_work_package: "작업 패키지 주시"
@@ -503,7 +503,7 @@ ko:
       context: '프로젝트 컨텍스트'
       work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: '템플릿을 전환하면 페이지가 다시 로드되고 이 양식에 대한 모든 입력이 손실됩니다. 계속하시겠습니까?'
       autocompleter:
         label: '프로젝트 자동완성'
     text_are_you_sure: "계속하시겠습니까?"
@@ -593,8 +593,8 @@ ko:
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     project_menu_details: "세부 정보"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: '수동 스케줄링'
+      automatic: '자동 스케줄링'
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
       sorted_dsc: '내림차순 정렬이 적용됨, '
@@ -807,8 +807,8 @@ ko:
           duplicate_query_title: "이 보기의 이름이 이미 존재합니다. 그래도 변경하시겠습니까?"
         text_no_results: "일치하는 보기가 없습니다."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "이 작업 패키지의 날짜는 자식으로부터 자동으로 추정됩니다. '수동 스케줄링'을 활성화하여 날짜를 설정할 수 있습니다."
+        is_switched_from_manual_to_automatic: "다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다."
       table:
         configure_button: '작업 패키지 테이블 구성'
         summary: "작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블."

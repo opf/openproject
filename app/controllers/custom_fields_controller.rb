@@ -90,7 +90,7 @@ class CustomFieldsController < ApplicationController
     begin
       @custom_field.destroy
     rescue
-      flash[:error] = l(:error_can_not_delete_custom_field)
+      flash[:error] = I18n.t(:error_can_not_delete_custom_field)
     end
     redirect_to custom_fields_path(tab: @custom_field.class.name)
   end

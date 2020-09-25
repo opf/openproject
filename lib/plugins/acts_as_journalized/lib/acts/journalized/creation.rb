@@ -79,29 +79,6 @@ module Acts::Journalized
       end
     end
 
-    # Class methods added to ActiveRecord::Base to facilitate the creation of new journals.
-    module ClassMethods
-      # Overrides the basal +prepare_journaled_options+ method defined in VestalVersions::Options
-      # to extract the <tt>:calculate</tt> option into +vestal_journals_options+.
-      def prepare_journaled_options(options)
-        result = super(options)
-
-        assign_vestal = lambda do |key, array|
-          return unless result[key]
-
-          vestal_journals_options[key] = if array
-                                           Array(result.delete(key)).map(&:to_s).uniq
-                                         else
-                                           result.delete(key)
-                                         end
-        end
-
-        assign_vestal.call(:data_sql, false)
-
-        result
-      end
-    end
-
     module InstanceMethods
       # Returns an array of column names that are journaled.
       def journaled_columns_names

@@ -66,8 +66,8 @@ class ::Query::Results
     scope = Version
             .visible
 
-    if query.project
-      scope.where(query.project_limiting_filter.where)
+    if query.project && (limiting_filter = query.project_limiting_filter)
+      scope.where(limiting_filter.where)
     end
 
     scope

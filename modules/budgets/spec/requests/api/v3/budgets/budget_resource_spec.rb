@@ -37,7 +37,7 @@ describe 'API v3 Budget resource' do
   let(:current_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: [:view_work_packages])
+                      member_with_permissions: [:view_budgets])
   end
   subject(:response) { last_response }
 

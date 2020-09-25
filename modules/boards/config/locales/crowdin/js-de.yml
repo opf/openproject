@@ -42,7 +42,7 @@ de:
         action_text: >
           Ein Board mit gefilterten Listen auf dem Attribut %{attribute}. Das Verschieben von Arbeitspaketen in andere Listen verändert dieses Attribut entsprechend.
         action_text_subprojects: >
-          Board mit dynamischen Spalten für Unterprojekte. Ideal für die Bearbeitung von Berechtigungen über Stakeholder.
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
         action_text_subtasks: >
           Board mit dynamischen Spalten für Unterelemente. Verschieben von Arbeitspaketen auf andere Listen aktualisiert das Elternelement.
         action_text_status: >
@@ -56,7 +56,7 @@ de:
           status: Status
           version: Version
           subproject: Unterprojekt
-          subtasks: Unteraufgaben
+          subtasks: Parent Child
         select_attribute: "Aktionsattribut"
       add_list_modal:
         labels:
@@ -69,7 +69,8 @@ de:
           status: |
             Derzeit ist kein Status verfügbar. <br>
             Entweder gibt es keinen oder sie wurden alle bereits zum Board hinzugefügt.
-          assignee: Dieses Projekt hat derzeit keine Mitglieder, die hinzugefügt werden können. <br>
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           add_members: <a href="%{link}">Fügen Sie ein neues Mitglied zu diesem Projekt</a> hinzu, um Benutzer zu diesem Board hinzuzufügen.
       configuration_modal:
         title: 'Board konfigurieren'

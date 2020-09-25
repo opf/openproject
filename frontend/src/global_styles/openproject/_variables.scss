@@ -210,3 +210,7 @@
   --work-package-details--tab-height: 40px;
   --warn:#C92A2A;
 }
+
+// SCSS variables needed for foundation, but that are set in css variables now only
+// which cannot be set to sass unfortunately
+$secondary-color: #bfbfbf;

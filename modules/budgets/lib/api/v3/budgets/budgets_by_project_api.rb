@@ -34,7 +34,7 @@ module API
       class BudgetsByProjectAPI < ::API::OpenProjectAPI
         resources :budgets do
           after_validation do
-            authorize_any(%i[view_work_packages view_budgets], projects: @project)
+            authorize(:view_budgets, context: @project)
             @budgets = @project.budgets
           end
 

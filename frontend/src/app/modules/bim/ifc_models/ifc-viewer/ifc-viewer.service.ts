@@ -2,7 +2,7 @@ import {Injectable, Inject, Injector} from '@angular/core';
 import {XeokitServer} from "core-app/modules/bim/ifc_models/xeokit/xeokit-server";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
@@ -34,14 +34,14 @@ export interface BCFLoadOptions {
 @Injectable()
 export class IFCViewerService extends ViewerBridgeService {
   public shouldShowViewer = true;
+  public viewerVisible$ = new BehaviorSubject<boolean>(false);
   private _viewer:any;
-  private $loaded = new Subject<void>();
 
   @InjectField() pathHelper:PathHelperService;
   @InjectField() bcfApi:BcfApiService;
   @InjectField() viewpointsService:ViewpointsService;
 
-  constructor(readonly injector:Injector){
+  constructor(readonly injector:Injector) {
     super(injector);
   }
 
@@ -54,7 +54,7 @@ export class IFCViewerService extends ViewerBridgeService {
         alert(`IFC Name = "${event.objectName}"\nIFC class = "${event.objectType}"\nIFC GUID = ${event.objectId}`);
       });
 
-      viewerUI.on("modelLoaded", () => this.$loaded.complete());
+      viewerUI.on("modelLoaded", () => this.viewerVisible$.next(true));
 
       viewerUI.loadProject(projects[0]["id"]);
 
@@ -63,7 +63,7 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public destroy() {
-    this.$loaded.complete();
+    this.viewerVisible$.complete();
 
     if (!this.viewer) {
       return;
@@ -117,9 +117,5 @@ export class IFCViewerService extends ViewerBridgeService {
 
   public viewerVisible():boolean {
     return !!this.viewer;
-  }
-
-  public onLoad$():Observable<void> {
-    return this.$loaded;
   }
 }

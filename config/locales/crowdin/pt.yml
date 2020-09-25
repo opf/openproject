@@ -201,6 +201,7 @@ pt:
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Abrir como uma exibição Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
       open_as_gantt_title_admin: "Você pode modificar as configurações de exibição (tais como tipos de pacotes de trabalho selecionados) em administração, nas configurações de projeto."
@@ -531,7 +532,7 @@ pt:
         greater_than_start_date: "deve ser maior que a data de início."
         inclusion: "Não está definido como um dos valores permitidos."
         invalid: "é inválido."
-        invalid_url: 'não é uma URL válida.'
+        invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "deve ser menor ou igual a %{count}."
         not_a_date: "não é uma data válida."
@@ -623,8 +624,8 @@ pt:
         repository:
           not_available: "Fornecedor SCM não está disponível"
           not_whitelisted: "não é permitido pela configuração."
-          invalid_url: "não é um caminho ou URL válida do repositório."
-          must_not_be_ssh: "não deve ser uma url SSH."
+          invalid_url: "não é um caminho ou URL válido do repositório."
+          must_not_be_ssh: "não deve ser um url SSH."
           no_directory: "não é um diretório."
         role:
           attributes:
@@ -694,7 +695,7 @@ pt:
         version:
           undeletable_work_packages_attached: "A versão não pode ser excluída pois tem pacotes de trabalho anexados a ela."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "Não pode ser ativado para estados marcados como padrão."
       template:
         body: "Por favor, verifique os seguintes campos:"
         header:
@@ -1108,7 +1109,7 @@ pt:
   error_no_default_work_package_status: "Nenhuma situação padrão de pacote de trabalho foi definida. Por favor, verifique sua configuração (vá em \"Administração-> Situação de pacotes de trabalho\")."
   error_no_type_in_project: "Nenhum tipo está associado a este projeto. Por favor, verifique as Configurações do Projeto."
   error_omniauth_registration_timed_out: "O registro por meio de um provedor de autenticação externo expirou. Por favor, tente novamente."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: %{value}"
   error_scm_not_found: "A entrada ou a revisão não foi encontrada no repositório."
   error_unable_delete_status: "A situação de pacote de trabalho não pode ser excluída, pois ela é usada por ao menos um pacote de trabalho."
@@ -2007,7 +2008,7 @@ pt:
         none: 'Sem acesso de check-out, você só pode exibir o repositório através desta aplicação.'
       access_permission: 'Suas permissões neste repositório'
       url: "URL de check-out"
-      base_url_text: "A raiz da URL a ser usada para gerar URLs de check-out (ex.: https://myserver.example.org/repos/). \nNota: A raiz da URL é usada somente para reescrever URLs de check-out em repositórios gerenciados. Outros repositórios não são alterados."
+      base_url_text: "A raiz do URL a ser usada para gerar URLs de check-out (ex.: https://myserver.example.org/repos/). \nNota: A raiz do URL é usada somente para reescrever URLs de check-out em repositórios gerenciados. Outros repositórios não são alterados."
       default_instructions:
         git: |-
           Os dados contidos neste repositório podem ser baixados para o seu computador com o Git.
@@ -2018,7 +2019,7 @@ pt:
       enable_instructions_text: "Exibe instruções de check-out definidas abaixo em todas as páginas relacionadas ao repositório."
       instructions: "Instruções de check-out"
       show_instructions: "Exibir as instruções de check-out"
-      text_instructions: "Este texto é exibido junto com a URL de check-out para orientações sobre como efetuar o check-out do repositório."
+      text_instructions: "Este texto é exibido junto com o URL de check-out para orientações sobre como efetuar o check-out do repositório."
       not_available: "Instruções de check-out não estão definidas para este repositório. Peça ao seu administrador para habilitá-los para este repositório nas configurações do sistema."
     create_managed_delay: "Atenção: O repositório é gerenciado, ele será criado de forma assíncrona no disco e estará disponível em breve."
     create_successful: "O repositório foi registrado."
@@ -2052,7 +2053,7 @@ pt:
       remote_save_failed: "Não foi possível salvar o repositório com os parâmetros obtidos remotamente."
     git:
       instructions:
-        managed_url: "Esta é a URL do repositório Git gerenciado (local)."
+        managed_url: "Este é o URL do repositório Git gerenciado (local)."
         path: >-
           Especifique o caminho para seu repositório Git local (por exemplo, %{example_path}). Você também pode usar repositórios remotos que são clonados para uma cópia local usando um valor começando com http (s) :// ou file://.
         path_encoding: "Sobreescrever a codificação do Git (padrão: UTF-8)"
@@ -2061,13 +2062,13 @@ pt:
       local_introduction: "Se você tem um repositório Git local, você pode vinculá-lo com OpenProject para acessá-lo de dentro do aplicativo."
       managed_introduction: "Deixe OpenProject criar e integrar um repositório Git local automaticamente."
       managed_title: "Repositório Git integrado ao OpenProject"
-      managed_url: "URL gerenciada"
+      managed_url: "URL gerenciado"
       path: "Caminho para o repositório Git"
       path_encoding: "Codificação"
     go_to_revision: "Ir para revisão"
     managed_remote: "Repositórios gerenciados deste fornecedor são manipulados remotamente."
-    managed_remote_note: "Informações sobre a URL e o caminho deste repositório não estão disponíveis antes da sua criação."
-    managed_url: "URL gerenciada"
+    managed_remote_note: "Informações sobre o URL e o caminho deste repositório não estão disponíveis antes da sua criação."
+    managed_url: "URL gerenciado"
     settings:
       automatic_managed_repos_disabled: "Desativar criação automática"
       automatic_managed_repos: "Criação automática de repositórios gerenciados"
@@ -2086,11 +2087,11 @@ pt:
       existing_introduction: "Se você tem um repositório Subversion, você pode vinculá-lo com o OpenProject para acessá-lo de dentro do aplicativo."
       existing_url: "URL existente"
       instructions:
-        managed_url: "Esta é a URL do repositório Subversion gerenciado (local)."
-        url: "Digite a URL do repositório. Você pode apontar para um repositório local (começando com %{local_proto}) ou um repositório remoto. \nSão suportados os seguintes esquemas de URL:"
+        managed_url: "Este é o URL do repositório Subversion gerenciado (local)."
+        url: "Digite o URL do repositório. Você pode apontar para um repositório local (começando com %{local_proto}) ou um repositório remoto. \nSão suportados os seguintes esquemas de URL:"
       managed_title: "Repositório do Subversion integrado ao OpenProject"
       managed_introduction: "Deixe OpenProject criar e integrar um repositório Subversion local automaticamente."
-      managed_url: "URL gerenciada"
+      managed_url: "URL gerenciado"
       password: "Senha do repositório"
       username: "Nome de usuário do repositório"
     truncated: "Pedimos desculpa, mas tivemos que truncar este diretório em %{limit} arquivos. %{truncated} entradas foram omitidas da lista."
@@ -2646,11 +2647,13 @@ pt:
   doorkeeper:
     pre_authorization:
       status: 'Pré-autorização'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages
         invalid_request: 'A solicitação não possui um parâmetro obrigatório, tem um valor de parâmetro não suportado ou está malformada.'
-        invalid_redirect_uri: "A URI de redirecionamento solicitado está malformado ou não corresponde à URI de redirecionamento do cliente."
+        invalid_redirect_uri: "O URI de redirecionamento solicitado está malformado ou não corresponde ao URI de redirecionamento do cliente."
         unauthorized_client: 'O cliente não está autorizado a executar esta solicitação usando este método.'
         access_denied: 'O proprietário do recurso ou servidor de autorização negou o pedido.'
         invalid_scope: 'O escopo solicitado é inválido, desconhecido ou malformado.'
@@ -2686,7 +2689,7 @@ pt:
       instructions:
         name: "O nome da sua aplicação. Isto será exibido para outros usuários mediante autorização."
         redirect_uri_html: >
-          As URLs permitidas dos usuários autorizados podem ser redirecionadas para. Uma entrada por linha. <br/> Se você estiver registrando uma aplicação desktop, use a seguinte URL.
+          Os URLs permitidos dos usuários autorizados podem ser redirecionadas para. Uma entrada por linha. <br/> Se você estiver registrando uma aplicação desktop, use o seguinte URL.
         confidential: "Verifique se a aplicação será usada onde o segredo do cliente pode ser mantido em sigilo. Apps móveis nativos e aplicativos de página única são considerados não confidenciais."
         scopes: "Verifique os escopos que você quer que a aplicação conceda acesso. Se nenhum escopo estiver marcado, api_v3 é assumido."
         client_credential_user_id: "ID de usuário usado como representante quando os clientes usam esta aplicação. Deixe em branco para permitir apenas o acesso público"

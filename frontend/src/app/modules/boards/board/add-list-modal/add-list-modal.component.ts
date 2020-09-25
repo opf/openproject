@@ -128,11 +128,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
 
-    this.actionService
-      .warningTextWhenNoOptionsAvailable()
-      .then((text) => {
-        this.warningText = text;
-      });
 
     this
       .requests
@@ -141,6 +136,23 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
         this.untilDestroyed()
       )
       .subscribe((values:unknown[]) => {
+        let hasMember = false;
+        if (values.length === 0) {
+            if (this.requests.lastRequestedValue !== undefined && this.requests.lastRequestedValue !== '') {
+            hasMember = true;
+          }
+          else {
+            hasMember = false;
+          }
+        }
+        else {
+            hasMember = false;
+        }
+        this.actionService
+        .warningTextWhenNoOptionsAvailable(hasMember)
+        .then((text) => {
+          this.warningText = text;
+        });
         this.availableValues = values;
         this.showWarning = this.requests.lastRequestedValue !== undefined && (values.length === 0);
         this.cdRef.detectChanges();

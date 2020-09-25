@@ -42,7 +42,7 @@ export abstract class ViewerBridgeService {
   abstract viewerVisible():boolean;
 
   /**
-   * Load event
+   * Fires when viewer becomes visible.
    */
-  abstract onLoad$():Observable<void>;
+  abstract viewerVisible$:Observable<boolean>;
 }

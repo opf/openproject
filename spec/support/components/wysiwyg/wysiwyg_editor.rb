@@ -10,11 +10,11 @@ module Components
     end
 
     def container
-      page.find("#{context_selector} .op-ckeditor--wrapper")
+      page.find("#{context_selector} .op-ckeditor--wrapper", wait: 10)
     end
 
     def editor_element
-      page.find "#{context_selector} #{input_selector}"
+      page.find("#{context_selector} #{input_selector}", wait: 10)
     end
 
     def in_editor

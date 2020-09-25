@@ -50,8 +50,8 @@ class ExportCardConfigurationsController < ApplicationController
   def create
     @config = ExportCardConfiguration.new(export_card_configurations_params)
     if @config.save
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      flash[:notice] = I18n.t(:notice_successful_create)
+      redirect_to action: 'index'
     else
       render "new"
     end
@@ -59,41 +59,41 @@ class ExportCardConfigurationsController < ApplicationController
 
   def update
     if cannot_update_default
-      flash[:error] = l(:error_can_not_change_name_of_default_configuration)
+      flash[:error] = I18n.t(:error_can_not_change_name_of_default_configuration)
       render "edit"
     elsif @config.update(export_card_configurations_params)
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to action: 'index'
     else
       render "edit"
     end
   end
 
   def destroy
-    if !@config.is_default? && @config.destroy
-      flash[:notice] = l(:notice_successful_delete)
-    else
-      flash[:notice] = l(:error_can_not_delete_export_card_configuration)
-    end
-    redirect_to :action => 'index'
+    flash[:notice] = if !@config.is_default? && @config.destroy
+                       I18n.t(:notice_successful_delete)
+                     else
+                       I18n.t(:error_can_not_delete_export_card_configuration)
+                     end
+    redirect_to action: 'index'
   end
 
   def activate
-    if @config.activate
-      flash[:notice] = l(:notice_export_card_configuration_activated)
-    else
-      flash[:notice] = l(:error_can_not_activate_export_card_configuration)
-    end
-    redirect_to :action => 'index'
+    flash[:notice] = if @config.activate
+                       I18n.t(:notice_export_card_configuration_activated)
+                     else
+                       I18n.t(:error_can_not_activate_export_card_configuration)
+                     end
+    redirect_to action: 'index'
   end
 
   def deactivate
-    if @config.deactivate
-      flash[:notice] = l(:notice_export_card_configuration_deactivated)
-    else
-      flash[:notice] = l(:error_can_not_deactivate_export_card_configuration)
-    end
-    redirect_to :action => 'index'
+    flash[:notice] = if @config.deactivate
+                       I18n.t(:notice_export_card_configuration_deactivated)
+                     else
+                       I18n.t(:error_can_not_deactivate_export_card_configuration)
+                     end
+    redirect_to action: 'index'
   end
 
   def show_local_breadcrumb

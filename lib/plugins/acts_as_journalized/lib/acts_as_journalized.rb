@@ -73,11 +73,11 @@ module Acts
 
         include_aaj_modules
 
-        journal_hash = prepare_journaled_options(options)
+        prepare_journaled_options(options)
 
         has_many :journals, -> {
           order("#{Journal.table_name}.version ASC")
-        }, **journal_hash
+        }, **has_many_journals_options
       end
 
       private

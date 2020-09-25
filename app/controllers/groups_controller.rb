@@ -82,7 +82,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        flash[:notice] = l(:notice_successful_create)
+        flash[:notice] = I18n.t(:notice_successful_create)
         format.html do redirect_to(groups_path) end
         format.xml  do render xml: @group, status: :created, location: @group end
       else
@@ -99,7 +99,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.update(permitted_params.group)
-        flash[:notice] = l(:notice_successful_update)
+        flash[:notice] = I18n.t(:notice_successful_update)
         format.html do redirect_to(groups_path) end
         format.xml  do head :ok end
       else
@@ -115,7 +115,7 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      flash[:notice] = l(:notice_successful_delete)
+      flash[:notice] = I18n.t(:notice_successful_delete)
       format.html do redirect_to(groups_url) end
       format.xml  do head :ok end
     end

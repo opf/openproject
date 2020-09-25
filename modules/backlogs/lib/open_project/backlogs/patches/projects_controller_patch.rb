@@ -44,18 +44,18 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
       @project.done_statuses = selected_statuses
       @project.save!
 
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
 
       redirect_to_backlogs_settings
     end
 
     def rebuild_positions
       @project.rebuild_positions
-      flash[:notice] = l('backlogs.positions_rebuilt_successfully')
+      flash[:notice] = I18n.t('backlogs.positions_rebuilt_successfully')
 
       redirect_to_backlogs_settings
     rescue ActiveRecord::ActiveRecordError
-      flash[:error] = l('backlogs.positions_could_not_be_rebuilt')
+      flash[:error] = I18n.t('backlogs.positions_could_not_be_rebuilt')
 
       logger.error("Tried to rebuild positions for project #{@project.identifier.inspect} but could not...")
       logger.error($!)

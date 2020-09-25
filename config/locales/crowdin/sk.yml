@@ -202,6 +202,7 @@ sk:
       completed: "Odstránenie projektu %{name} dokončené"
       completed_text: "Požiadavka na odstránenie projektu '%{name}' bola ukončená."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -1142,7 +1143,7 @@ sk:
   error_no_default_work_package_status: "Žiadny predvolený stav pracovného balíka nieje definovaný. Prosím skontrolujte konfiguráciu (ísť do \"Správa-> pracovného balíka stavy\")."
   error_no_type_in_project: "Neexistuje žiadny typ previazaný s  týmto projektom. Prosím skontrolujte nastavenia projektu."
   error_omniauth_registration_timed_out: "Registrácia prostredníctvom poskytovateľa pre externú autentifikáciu vypršala. Prosím skúste to znova."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Vyskytla sa chyba pri pokuse o prístup k repository: %{value}"
   error_scm_not_found: "Položka alebo revízia nebola nájdená v repozitári."
   error_unable_delete_status: "Stav pracovného balíčka sa nedá odstrániť, pretože ho používa ešte najmenej jeden ďalší pracovný balíček."
@@ -2696,6 +2697,8 @@ sk:
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autorizácia'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

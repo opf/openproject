@@ -81,7 +81,6 @@ npm-debug.log*
 /Gemfile.local*
 /Gemfile.plugins*
 /.rvmrc*
-/.ruby-version
 /.ruby-gemset
 /.foreman
 /.env*

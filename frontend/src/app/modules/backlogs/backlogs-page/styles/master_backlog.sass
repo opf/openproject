@@ -67,16 +67,6 @@
   .action-index #content
     padding-bottom: 180px
 
-  .ui-dialog
-    background: #FFFFFF
-    border: 1px solid #E4E4E4
-
-/* Hide the close button since we do no longer include the necessary image for the close icon
-.controller-rb_master_backlogs,
-.controller-rb_taskboards
-  .ui-dialog-titlebar-close
-    display: none
-
 #rb
   #backlogs_container .backlog .header
     background-color: #eee
@@ -293,17 +283,19 @@
       .velocity, .add_new_story
         display: none
   .backlog .sprint.editing
-    .name.editor
-      line-height: 1.5rem
-      margin: 0
-      min-width: 15em
-      width: 57%
-    .start_date.editor, .effective_date.editor
+    .editor
       font-size: 0.9rem
       line-height: 1.5rem
+      height: 30px
       margin: 0
       padding: 0
-      width: 75px
+
+      &.name
+        min-width: 15em
+        width: calc(100% - 2 * 85px - 10px)
+      &.start_date, &.effective_date
+        width: 85px
+
   .stories .story.editing
     >
       *, .editors label

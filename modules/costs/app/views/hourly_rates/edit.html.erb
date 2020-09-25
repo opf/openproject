@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{l((@project.nil? ? :caption_default_rate_history_for : :caption_rate_history_for), user: ' ')} #{@user.name}" %>
+<% html_title t(:label_administration), "#{t(:label_edit)} #{I18n.t((@project.nil? ? :caption_default_rate_history_for : :caption_rate_history_for), user: ' ')} #{@user.name}" %>
 
 <%= toolbar title: (@project.nil? ? t(:caption_default_rate_history_for, user: @user.name) :  t(:caption_rate_history_for_project, user: @user.name, project: @project.name) ) %>
 

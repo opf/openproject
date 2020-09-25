@@ -36,7 +36,7 @@ class OnboardingController < ApplicationController
              .call(permitted_params, params)
 
     if result.success?
-      flash[:notice] = l(:notice_account_updated)
+      flash[:notice] = I18n.t(:notice_account_updated)
     end
 
     # Remove all query params:

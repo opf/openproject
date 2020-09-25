@@ -125,12 +125,12 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 4.2.0'
+gem 'browser', '~> 5.0.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
 
-gem 'gon', '~> 6.3.2'
+gem 'gon', '~> 6.4.0'
 
 # Lograge to provide sane and non-verbose logging
 gem 'lograge', '~> 0.11.0'
@@ -167,7 +167,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 4.3.5' # used for development and optionally for production
+gem 'puma', '~> 5.0.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.8'
 
@@ -175,9 +175,9 @@ gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.105.0'
+gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.80.0'
+gem 'aws-sdk-s3', '~> 1.80'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -220,7 +220,7 @@ group :test do
   gem 'capybara', '~> 3.33.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.4.1', require: false
+  gem 'webdrivers', '~> 4.4.1'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -279,7 +279,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 8.0.4'
+  gem 'danger', '~> 8.0.5'
 
   # Brakeman scanner
   gem 'brakeman', '~> 4.9.0'

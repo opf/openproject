@@ -119,9 +119,21 @@ See docs/COPYRIGHT.rdoc for more details.
         $(".burndown_chart").bind("plothover", Burndown.showTooltipOnHover);
 
         Burndown.plotAccordingToChoices();
+      },
+
+      saveInit: function() {
+        // Ensure $.plot is defined before progressing.
+        // This static page might already be ready but the webpack required
+        // jquery.flot.js file might not be loaded yet.
+
+        if ($.plot) {
+          this.init();
+        } else {
+          setTimeout(() => { this.saveInit()}, 50);
+        }
       }
     };
 
-    Burndown.init();
+    Burndown.saveInit();
   });
 <% end %>

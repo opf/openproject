@@ -48,20 +48,11 @@ class Journal < ApplicationRecord
   has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
   has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
 
+  before_destroy :destroy_data
+
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
-
-  # TODO: check if this can be removed
-  # Overrides the +user=+ method created by the polymorphic +belongs_to+ user association.
-  # Based on the class of the object given, either the +user+ association columns or the
-  # +user_name+ string column is populated.
-  def user=(value)
-    case value
-    when ActiveRecord::Base then super(value)
-    else self.user = User.find_by_login(value)
-    end
-  end
 
   # In conjunction with the included Comparable module, allows comparison of journal records
   # based on their corresponding version numbers, creation timestamps and IDs.
@@ -120,15 +111,15 @@ class Journal < ApplicationRecord
 
   private
 
+  def destroy_data
+    data.destroy
+  end
+
   def predecessor
     @predecessor ||= self.class
                      .where(journable_type: journable_type, journable_id: journable_id)
                      .where("#{self.class.table_name}.version < ?", version)
                      .order("#{self.class.table_name}.version DESC")
                      .first
-  end
-
-  def journalized_object_type
-    "#{journaled_type.gsub('Journal', '')}".constantize
   end
 end

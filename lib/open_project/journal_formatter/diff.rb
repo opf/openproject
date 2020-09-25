@@ -78,7 +78,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     if options[:no_html]
       url_for url_attr
     else
-      link_to(l(:label_details),
+      link_to(I18n.t(:label_details),
               url_attr,
               class: 'description-details')
     end

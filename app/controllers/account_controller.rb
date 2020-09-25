@@ -96,7 +96,7 @@ class AccountController < ApplicationController
 
       # Ensure the same request is sent regardless of which email is entered
       # to avoid detecability of mails
-      flash[:notice] = l(:notice_account_lost_email_sent)
+      flash[:notice] = I18n.t(:notice_account_lost_email_sent)
 
       unless user
         # user not found in db
@@ -114,7 +114,7 @@ class AccountController < ApplicationController
       token = Token::Recovery.new(user_id: user.id)
       if token.save
         UserMailer.password_lost(token).deliver_later
-        flash[:notice] = l(:notice_account_lost_email_sent)
+        flash[:notice] = I18n.t(:notice_account_lost_email_sent)
         redirect_to action: 'login', back_url: home_url
         return
       end

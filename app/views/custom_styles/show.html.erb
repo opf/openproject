@@ -80,7 +80,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       </div>
 
-      <%= styled_button_tag l(@custom_style.logo.present? ? :button_replace : :button_upload),
+      <%= styled_button_tag I18n.t(@custom_style.logo.present? ? :button_replace : :button_upload),
                             class: "button #{@custom_style.logo.blank? ? '-with-icon icon-add' : ''}" %>
 
     </fieldset>

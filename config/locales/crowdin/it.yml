@@ -78,7 +78,7 @@ it:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Qualsiasi testo o immagine che aggiungi a questo campo sarà pubblicamente visibile a tutti gli utenti registrati!'
     text_overview: 'In questa vista, puoi creare testi guida personalizzati per la visualizzazione degli attributi. Quando definiti, questi testi possono essere visualizzati facendo clic sull''icona guida accanto all''attributo relativo.'
     label_plural: 'Testi guida degli attributi'
     show_preview: 'Anteprima testo'
@@ -90,8 +90,8 @@ it:
       no_results_content_text: Crea una nuova modalità di autenticazione
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "Si è verificato un errore col lavoro ma si sta riprovando. Errore: %{message}"
+      cancelled_due_to: "Il lavoro è stato annullato a causa di un errore: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Questo form LDAP richiede una conoscenza tecnica dell'attuale setup LDAP / Active Directory. <br/>
@@ -199,9 +199,10 @@ it:
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
     index:
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      edit_columns: 'Edit columns'
+      open_as_gantt: 'Apri come vista Gantt'
+      open_as_gantt_title: "Usa questo pulsante per generare una vista Gantt che filtra le macro-attività per i progetti visibili in questa pagina."
+      open_as_gantt_title_admin: "È possibile modificare le impostazioni di visualizzazione (come i tipi di macro-attività selezionati) nell'amministrazione nelle impostazioni del progetto."
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
     settings:
@@ -280,7 +281,7 @@ it:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: La pagina richiesta non esiste (ancora). Sei stato reindirizzato all'indice di tutte le pagine wiki.
     no_results_title_text: Al momento non vi sono pagine wiki.
     index:
       no_results_content_text: Aggiungi una nuova pagina wiki
@@ -417,7 +418,7 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
-        templated: 'Template project'
+        templated: 'Progetto modello'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -489,7 +490,7 @@ it:
         parent_work_package: "Superiore"
         priority: "Priorità"
         progress: "Avanzamento (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"
@@ -515,7 +516,7 @@ it:
         cant_link_a_work_package_with_a_descendant: "Una macro-attività non può essere collegato a una delle sue sottoattività."
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare."
         confirmation: "non coincide con %{attribute}."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
@@ -692,7 +693,7 @@ it:
         version:
           undeletable_work_packages_attached: "Questa versione non può essere eliminata perché vi sono macro-attività collegate a essa."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "non può essere attivato per gli stati che sono contrassegnati come predefiniti."
       template:
         body: "Perfavore controlla i seguenti campi:"
         header:
@@ -750,9 +751,9 @@ it:
     date: "Data"
     default_columns: "Colonne predefinite"
     description: "Descrizione"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Data di fine derivata"
+    derived_estimated_time: "Tempo stimato derivato"
+    derived_start_date: "Data di inizio derivata"
     display_sums: "Visualizza somme"
     due_date: "Data di fine"
     estimated_hours: "Tempo stimato"
@@ -902,7 +903,7 @@ it:
       - "Ott"
       - "Nov"
       - "Dic"
-    abbr_week: 'Wk'
+    abbr_week: 'Sett'
     day_names:
       - "Domenica"
       - "Lunedi"
@@ -1106,7 +1107,7 @@ it:
   error_no_default_work_package_status: "Non è configurato alcuno stato predefinito per le macro-attività. Per favore controlla la tua configurazione (vai a \"Amministrazione -> Stato macro-attività\")."
   error_no_type_in_project: "Nessun tipo è associato a questo progetto. Si prega di controllare le impostazioni del progetto."
   error_omniauth_registration_timed_out: "La registrazione tramite un provider di autenticazione esterno è scaduta. Per favore riprova."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Si è verificato un errore durante il tentativo di accesso all'archivio: %{value}"
   error_scm_not_found: "La voce o la revisione non è stata trovata nell'archivio."
   error_unable_delete_status: "Lo stato della macro-attività non può essere eliminato poiché è utilizzato da almeno una macro-attività."
@@ -1134,8 +1135,8 @@ it:
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Esportazione macro-attività"
+    succeeded: "L’esportazione si è conclusa con successo."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1768,16 +1769,16 @@ it:
   mail_body_account_information: "Informazioni sul tuo account"
   mail_body_account_information_external: "Puoi usare il tuo %{value} account per accedere."
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "Benvenuto in OpenProject. Attiva il tuo account cliccando su questo link:"
+  mail_body_register_header_title: "Email di invito come membro del progetto"
+  mail_body_register_user: "Gentile %{name}, "
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Date un'occhiata al nostro canale youtube (%{youtube_link}) dove forniamo un webinar (%{webinar_link})
+    e video su “Come iniziare” (%{get_started_link}), in modo da rendere i tuoi primi passi in OpenProject più facili possibile.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    Se hai ulteriori domande, consulta la nostra documentazione (%{documentation_link}) o contattaci (%{contact_us_link}).
+  mail_body_register_closing: "Il tuo team OpenProject"
+  mail_body_register_ending: "Resta in contatto! Cordiali saluti,"
   mail_body_reminder: "%{count} macro-attività a te assegnata/e scadono nei prossimi %{days} giorni:"
   mail_body_group_reminder: "%{count} macro-attività assegnata/e al gruppo \"%{group}\" scadono nei prossimi %{days} giorni:"
   mail_body_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta da %{author}."
@@ -1932,7 +1933,7 @@ it:
   permission_manage_project_activities: "Gestire le attività del progetto"
   permission_manage_public_queries: "Gestisci viste pubbliche"
   permission_manage_repository: "Gestire gli archivi"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "Gestire le gerarchie delle macro-attività"
   permission_manage_versions: "Gestire le versioni"
   permission_manage_wiki: "Gestire le pagine wiki"
   permission_manage_wiki_menu: "Gestire i menu wiki"
@@ -1969,10 +1970,10 @@ it:
       title: Modifica l'identificatore del progetto
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+        Il tuo progetto è in fase di creazione dal progetto modello selezionato. Sarai avvisato via mail non appena il progetto sarà disponibile.
+      use_template: 'Utilizza modello'
+      make_template: 'Imposta come modello'
+      remove_from_templates: 'Rimuovi dai modelli'
     archive:
       are_you_sure: "Sicuro di voler archiviare il progetto '%{name}'?"
       archived: "Archiviato"
@@ -1992,8 +1993,8 @@ it:
     assigned_to_role: "Ruolo dell'incaricato"
     member_of_group: "Gruppo dell'incaricato"
     assignee_or_group: "Assegnatario o gruppo di appartenenza"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Compreso Il sottoprogetto"
+    only_subproject_id: "Solo sottoprogetto"
     name_or_identifier: "Nome o identificativo"
   repositories:
     at_identifier: 'presso %{identifier}'
@@ -2099,13 +2100,13 @@ it:
     warnings:
       cannot_annotate: "Questo file non può essere annotato."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'attivato'
+    deactivated: 'disattivato'
   search_input_placeholder: "Ricerca..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "Abilita CORS"
+  setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"
@@ -2150,7 +2151,7 @@ it:
   setting_emails_header: "Intestazione e-mail"
   setting_email_login: "Usa email come login"
   setting_enabled_scm: "SCM Abilitato"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
   setting_feeds_enabled: "Abilita Feed"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
@@ -2181,8 +2182,8 @@ it:
   setting_per_page_options: "Opzioni degli oggetti per pagina"
   setting_plain_text_mail: "Posta in formato testo semplice (no HTML)"
   setting_protocol: "Protocollo"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Visione Gantt portafoglio progetti"
+  setting_project_gantt_query_text: "È possibile modificare la query utilizzata per visualizzare il grafico Gantt dalla pagina di panoramica del progetto."
   setting_security_badge_displayed: "Mostra badge di sicurezza"
   setting_registration_footer: "Piè di pagina registrazione"
   setting_repositories_automatic_managed_vendor: "Tipo automatico di gestore dell'archivio di progetto"
@@ -2222,8 +2223,8 @@ it:
     session: "Sessione"
     brute_force_prevention: "Blocco automatico degli utenti"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Impostazioni per i nuovi progetti"
+      section_project_overview: "Impostazioni per l'elenco generale dei progetti"
     user:
       default_preferences: "Preferenze predefinite"
       deletion: "Eliminazione"
@@ -2646,6 +2647,8 @@ it:
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorizzazione'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

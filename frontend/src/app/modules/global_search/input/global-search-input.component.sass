@@ -124,6 +124,11 @@ $search-input-height: 30px
   min-height: 25px  // line-height + padding
   word-break: break-word
 
+.global-search--option,
+.global-search--option:hover
+  color: var(--body-font-color)
+  text-decoration: none
+
 .global-search--project-scope
   position: absolute
   right: 7px
@@ -143,11 +148,8 @@ $search-input-height: 30px
 
 .global-search--wp-content
   display: grid
-  grid-template-columns: auto 1fr auto
-  grid-template-rows: auto auto auto 1fr auto
+  grid-template-columns: 50% 1fr auto
   grid-template-areas: "project idlink status"
-  overflow: hidden
-  flex-grow: 1
   font-size: 0.8rem
   padding: 5px 0 5px 0px
  
@@ -157,12 +159,11 @@ $search-input-height: 30px
 
   .global-search--wp-id
     grid-area: idlink
-    place-self: center 
+    place-self: right 
     font-style: italic
 
   .global-search--wp-status
     grid-area: status
-    margin-right: 5px
     overflow: hidden
     font-style: italic
 

@@ -112,7 +112,7 @@ class WorkPackagesController < ApplicationController
 
   def atom_list
     render_feed(@work_packages,
-                title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
+                title: "#{@project || Setting.app_title}: #{I18n.t(:label_work_package_plural)}")
   end
 
   private

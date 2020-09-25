@@ -113,7 +113,7 @@ class WikiController < ApplicationController
 
     if @page.save
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to_show
     else
       render action: 'new'
@@ -178,14 +178,14 @@ class WikiController < ApplicationController
 
     if @page.save_with_content
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to_show
     else
       render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash.now[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = I18n.t(:notice_locking_conflict)
     render action: 'edit'
   end
 
@@ -242,7 +242,7 @@ class WikiController < ApplicationController
 
     @page.parent_id = params[:wiki_page][:parent_id]
     if @page.save
-      flash[:notice] = l(:notice_successful_update)
+      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to_show
     else
       @parent_pages = @wiki.pages.includes(:parent) - @page.self_and_descendants
@@ -289,7 +289,7 @@ class WikiController < ApplicationController
   # Children can be either set as root pages, removed or reassigned to another parent page
   def destroy
     unless editable?
-      flash[:error] = l(:error_unable_delete_wiki)
+      flash[:error] = I18n.t(:error_unable_delete_wiki)
       return render_403
     end
 
@@ -316,10 +316,10 @@ class WikiController < ApplicationController
     @page.destroy
 
     if page = @wiki.find_page(@wiki.start_page) || @wiki.pages.first
-      flash[:notice] = l(:notice_successful_delete)
+      flash[:notice] = I18n.t(:notice_successful_delete)
       redirect_to action: 'index', project_id: @project, id: page
     else
-      flash[:notice] = l(:notice_successful_delete)
+      flash[:notice] = I18n.t(:notice_successful_delete)
       redirect_to project_path(@project)
     end
   end
@@ -353,7 +353,7 @@ class WikiController < ApplicationController
   def locked?
     return false if editable?
 
-    flash[:error] = l(:error_unable_update_wiki)
+    flash[:error] = I18n.t(:error_unable_update_wiki)
     render_403
     true
   end

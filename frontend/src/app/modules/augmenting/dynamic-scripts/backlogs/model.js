@@ -151,102 +151,71 @@ RB.Model = (function ($) {
         }
       });
 
-      this.$.find('.editable').each(function (index) {
-        var field, fieldType, fieldLabel, fieldName, fieldOrder, input, newInput,
-            typeId, statusId ;
+      if (!editor.hasClass('permanent')) {
+        this.$.find('.editable').each(function (index) {
+          let field, fieldId, fieldType, fieldLabel, fieldName, fieldOrder, input, newInput,
+            typeId, statusId;
 
-        field = $(this);
-        fieldId = field.attr('field_id');
-        fieldName = field.attr('fieldname');
-        fieldLabel = field.attr('fieldlabel');
-        fieldOrder = parseInt(field.attr('fieldorder'), 10);
-        fieldType = field.attr('fieldtype') || 'input';
+          field = $(this);
+          fieldId = field.attr('field_id');
+          fieldName = field.attr('fieldname');
+          fieldLabel = field.attr('fieldlabel');
+          fieldOrder = parseInt(field.attr('fieldorder'), 10);
+          fieldType = field.attr('fieldtype') || 'input';
 
-        if (!fieldLabel) {
-          fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
-        }
+          if (!fieldLabel) {
+            fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
+          }
 
-        if (fieldType === 'select') {
-          // Special handling for status_id => they are dependent of type_id
-          if (fieldName === 'status_id') {
-            typeId = $.trim(self.$.find('.type_id .v').html());
-            // when creating stories we need to query the select directly
-            if (typeId == '') {
+          if (fieldType === 'select') {
+            // Special handling for status_id => they are dependent of type_id
+            if (fieldName === 'status_id') {
+              typeId = $.trim(self.$.find('.type_id .v').html());
+              // when creating stories we need to query the select directly
+              if (typeId === '') {
                 typeId = $('#type_id_options').val();
-            }
-            statusId = $.trim(self.$.find('.status_id .v').html());
-            input = self.findFactory(typeId, statusId, fieldName);
-          }
-          else if (fieldName === 'type_id'){
-            input = $('#' + fieldName + '_options').clone(true);
-            // if the type changes the status dropdown has to be modified
-            input.change(function(){
-              typeId = $(this).val();
+              }
               statusId = $.trim(self.$.find('.status_id .v').html());
-              newInput = self.findFactory(typeId, statusId, 'status_id');
-              newInput = self.prepareInputFromFactory(newInput,fieldId,'status_id',fieldOrder,maxTabIndex);
-              newInput = self.replaceStatusForNewType(input, newInput, $(this).parent().find('.status_id').val(), editor);
-            });
+              input = self.findFactory(typeId, statusId, fieldName);
+            } else if (fieldName === 'type_id') {
+              input = $('#' + fieldName + '_options').clone(true);
+              // if the type changes the status dropdown has to be modified
+              input.change(function () {
+                typeId = $(this).val();
+                statusId = $.trim(self.$.find('.status_id .v').html());
+                newInput = self.findFactory(typeId, statusId, 'status_id');
+                newInput = self.prepareInputFromFactory(newInput, fieldId, 'status_id', fieldOrder, maxTabIndex);
+                newInput = self.replaceStatusForNewType(input, newInput, $(this).parent().find('.status_id').val(), editor);
+              });
+            } else {
+              input = $('#' + fieldName + '_options').clone(true);
+            }
+          } else {
+            input = $(document.createElement(fieldType));
           }
-          else {
-            input = $('#' + fieldName + '_options').clone(true);
-          }
-        }
-        else {
-          input = $(document.createElement(fieldType));
-        }
 
-        input  = self.prepareInputFromFactory(input, fieldId, fieldName, fieldOrder, maxTabIndex);
+          input = self.prepareInputFromFactory(input, fieldId, fieldName, fieldOrder, maxTabIndex);
 
-        // Copy the value in the field to the input element
-        input.val(fieldType === 'select' ? field.children('.v').first().text() : field.text());
+          // Copy the value in the field to the input element
+          input.val(fieldType === 'select' ? field.children('.v').first().text() : field.text());
 
-
-        // Add a date picker if field is a date field
-        if (field.hasClass("date")) {
-          input.datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'yy-mm-dd',
-            firstDay: 1,
-            showOn: 'button',
-            onClose: function () {
-              $(this).focus();
-            },
-            selectOtherMonths: true,
-            showAnim: '',
-            showButtonPanel: true,
-            showOtherMonths: true
+          // Record in the model's root element which input field had the last focus. We will
+          // use this information inside RB.Model.refresh() to determine where to return the
+          // focus after the element has been refreshed with info from the server.
+          input.focus(function () {
+            self.$.data('focus', $(this).attr('name'));
           });
 
-          // Remove click-bindings from div - since leaving the edit modus removes the input
-          // and creates a new one
-          // Open the datepicker when you click on the div (before in edit-mode)
-          field.unbind("click");
-          field.click(function(){input.datepicker("show");});
-
-          // So that we won't need a datepicker button to re-show it
-          input.mouseup(function () {
-            $(this).datepicker("show");
+          input.blur(function () {
+            self.$.data('focus', '');
           });
-        }
 
-        // Record in the model's root element which input field had the last focus. We will
-        // use this information inside RB.Model.refresh() to determine where to return the
-        // focus after the element has been refreshed with info from the server.
-        input.focus(function () {
-          self.$.data('focus', $(this).attr('name'));
+          $("<label />").attr({
+            for: input.attr('id'),
+          }).text(fieldLabel).appendTo(editor);
+          input.appendTo(editor);
         });
-
-        input.blur(function () {
-          self.$.data('focus', '');
-        });
-
-        $("<label />").attr({
-          for: input.attr('id'),
-        }).text(fieldLabel).appendTo(editor);
-        input.appendTo(editor);
-      });
+      }
 
       this.displayEditor(editor);
       this.editorDisplayed(editor);

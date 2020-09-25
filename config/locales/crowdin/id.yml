@@ -202,6 +202,7 @@ id:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -1093,7 +1094,7 @@ id:
   error_no_default_work_package_status: "Status Paket-Penugasan default tidak didefinisikan. Silakan periksa konfigurasi (ke \"Administrasi -> Paket-Penugasan Status\")."
   error_no_type_in_project: "Tidak ada Tipe terasosiasi dengan Project ini. Silakan cek Pengaturan Project."
   error_omniauth_registration_timed_out: "Timed out. Silakan coba lagi."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Error ketika mengakses repositori: %{value}"
   error_scm_not_found: "Entri atau revisi tidak ditemukan dalam repositori."
   error_unable_delete_status: "Work package tidak dapat dihapus karena dipakai oleh work package lain."
@@ -2624,6 +2625,8 @@ id:
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

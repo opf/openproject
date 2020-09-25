@@ -37,7 +37,7 @@ module API
             after_validation do
               @budget = Budget.find(params[:id])
 
-              authorize_any(%i[view_work_packages view_budgets], projects: @budget.project)
+              authorize(:view_budgets, context: @budget.project)
             end
 
             get do

@@ -116,23 +116,26 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   }
 
   private initializeCalendar() {
-    this.calendarOptions = {
-      editable: false,
-      locale: this.i18n.locale,
-      fixedWeekCount: false,
-      firstDay: this.configuration.startOfWeek(),
-      events: this.calendarEventsFunction.bind(this),
-      plugins: [dayGridPlugin],
-      initialView: (() => {
-        if (this.static) {
-          return 'dayGridWeek';
-        } else {
-          return undefined;
-        }
-      })(),
-      height: this.calendarHeight(),
-      headerToolbar: this.buildHeader()
-    };
+    this.configuration.initialized
+      .then(() => {
+        this.calendarOptions = {
+          editable: false,
+          locale: this.i18n.locale,
+          fixedWeekCount: false,
+          firstDay: this.configuration.startOfWeek(),
+          events: this.calendarEventsFunction.bind(this),
+          plugins: [dayGridPlugin],
+          initialView: (() => {
+            if (this.static) {
+              return 'dayGridWeek';
+            } else {
+              return undefined;
+            }
+          })(),
+          height: this.calendarHeight(),
+          headerToolbar: this.buildHeader()
+        };
+      });
   }
 
   public updateTimeframe(fetchInfo:{ start:Date, end:Date, timeZone:string }) {

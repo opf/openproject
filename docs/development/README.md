@@ -6,64 +6,41 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 Please get in touch with us using our [develompment forum](https://community.openproject.com/projects/openproject/forums/7) or send us an email to info@openproject.org.
 
+
+
 ## Issue tracking and coordination
 
 We eat our own ice cream so we use OpenProject for roadmap planning and team collaboration. Please have a look at the following pages:
 
 - [Development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=1993)
+
 - [Wish list](https://community.openproject.com/versions/26)
+
 - [Bug backlog](https://community.openproject.com/versions/136)
+
 - [Reporting a bug](https://www.openproject.org/development/report-a-bug/)
+
 - [Submit a feature idea](https://www.openproject.org/development/submit-feature-idea/)
+
+  
 
 ## Development Environment
 
 Take a look at the bottom under Additional resources to see how to setup your development environment.
 
-## Branching model
 
-The main development branch for upcoming releases is `dev`. If in doubt, create your pull request against `dev`. All new features, gem updates and bugfixes for the upcoming release should go into the `dev` branch.
 
-## Development flow
+## Branching model and development flow
 
-For contributing source code, please follow the git workflow below:
+Please see this separate guide for the [git branching model and core development](git-workflow).
 
-- **Fork** OpenProject on GitHub
-- Clone your fork to your development machine:
 
-```
-git clone git@github.com/<username>/openproject
-```
 
-- Optional: Add the original OpenProject repository as a remote, so you can fetch changes:
+## Development concepts
 
-```
-git remote add upstream git@github.com:opf/openproject
-```
+We prepared a set of documentation concepts for an introduction into various backend and frontend related topics of OpenProject. Please see the [concepts main page](concepts/) for more.
 
-- Make sure you're on the right branch. The main development branch is `dev`:
 
-```
-git checkout dev
-```
-
-- Create a feature branch:
-
-```
-git checkout -b feature/<short description of your feature>
-```
-
-- Make your changes, then push the branch into your **own** repository:
-
-```
-git push origin <your feature branch>
-```
-
-- Create a pull request against a branch of of the <opf/openproject> repository, containing a **clear description** of what the pull request attempts to change and/or fix.
-
-If your pull request **does not contain a description** for what it does and what it's intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.com/projects/openproject/work_packages), please include a link to that work package in the description, so we can track your work.
-
-The core contributor team will then review your pull request according to our [code review guideline](https://www.openproject.org/open-source/development-free-project-management-software/code-review-guideliness/). Please note that you can add commits after the pull request has been created by pushing to the branch in your fork.
 
 ## Translations
 
@@ -80,10 +57,6 @@ Pull requests will be verified by TravisCI as well, but please run them locally 
 If you push to your branch in quick succession, please consider stopping the associated Travis builds, as Travis will run for each commit. This is especially true if you force push to the branch.
 
 Please also use `[ci skip]` in your commit message to suppress builds which are not necessary (e.g. after fixing a typo in the `README`).
-
-## Bugs and hotfixes
-
-Bugfixes for one of the actively supported versions of OpenProject should be issued against the respective branch. A fix for the current version (called "Hotfix" and the branch ideally being named `hotfix/XYZ`) should target `release/*` and a fix for the former version (called "Backport" and the branch ideally being named `backport/XYZ`) should target `backport/*`. We will try to merge hotfixes into dev branch but if that is no trivial task, we might ask you to create another PR for that.
 
 ## Inactive pull requests
 

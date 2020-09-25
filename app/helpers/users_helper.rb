@@ -35,7 +35,7 @@ module UsersHelper
   # @param extra [Hash] A hash containing extra entries with a count for each.
   #                     For example: { random: 42 }
   def users_status_options_for_select(selected, extra: {})
-    statuses = User::StatusOptions.user_statuses_with_count extra: extra
+    statuses = Users::StatusOptions.user_statuses_with_count extra: extra
 
     options = statuses.map do |sym, count|
       ["#{translate_user_status(sym)} (#{count})", sym]
@@ -131,10 +131,10 @@ module UsersHelper
   # Disables projects the user is already member in
   def options_for_membership_project_select(user, projects)
     options = project_tree_options_for_select(projects, disabled: user.projects.ids.to_set)
-    content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---") + options
+    content_tag('option', "--- #{I18n.t(:actionview_instancetag_blank_option)} ---") + options
   end
 
   def user_mail_notification_options(user)
-    user.valid_notification_options.map { |o| [l(o.last), o.first] }
+    user.valid_notification_options.map { |o| [I18n.t(o.last), o.first] }
   end
 end

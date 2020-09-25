@@ -31,7 +31,7 @@
 class Authorization::UserAllowedService
   attr_accessor :user
 
-  def initialize(user, role_cache: User::ProjectRoleCache.new(user))
+  def initialize(user, role_cache: Users::ProjectRoleCache.new(user))
     self.user = user
     self.project_role_cache = role_cache
   end
@@ -114,7 +114,7 @@ class Authorization::UserAllowedService
   end
 
   def project_authorization_cache
-    @project_authorization_cache ||= User::ProjectAuthorizationCache.new(user)
+    @project_authorization_cache ||= Users::ProjectAuthorizationCache.new(user)
   end
 
   def normalize_action(action)
