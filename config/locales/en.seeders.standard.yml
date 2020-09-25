@@ -84,7 +84,6 @@ en:
                   - due_date
                   - assigned_to
               - name: Milestones
-                status: open
                 type: :default_type_milestone
                 timeline: true
                 columns:
