@@ -79,11 +79,9 @@ jobs:
     - stage: prepare cache
       name: 'Prepare cache'
       script:
-        # Run the dangerfile
-        - bash script/ci/dangerfile.sh
-        # Set up caching
-        - bash script/ci/db_setup.sh
-        - bash script/ci/cache_prepare.sh
+        # Run the dangerfile and set up caching
+        # Run in one command to fail early
+        - bash script/ci/dangerfile.sh &&  bash script/ci/db_setup.sh && bash script/ci/cache_prepare.sh
     - stage: test
       name: 'npm'
       script:
