@@ -37,6 +37,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= output_title_and_meta_tags %>
   <%= csrf_meta_tags %>
   <%= render 'common/favicons' %>
+  <%# Include CLI assets (development) or prod build assets %>
+  <%= include_frontend_assets %>
 </head>
 <body>
   <div id="wrapper">
