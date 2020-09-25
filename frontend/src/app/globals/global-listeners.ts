@@ -92,8 +92,7 @@ import {detectOnboardingTour} from "core-app/globals/onboarding/onboarding_tour_
     // Global beforeunload hook
     $(window).on('beforeunload', (e:JQuery.TriggeredEvent) => {
       const event = e.originalEvent as BeforeUnloadEvent;
-      if ((window.OpenProject.pageWasEdited && !window.OpenProject.pageIsSubmitted) ||
-           window.OpenProject.editFormsContainModelChanges) {
+      if (window.OpenProject.pageWasEdited && !window.OpenProject.pageIsSubmitted) {
         // Cancel the event
         event.preventDefault();
         // Chrome requires returnValue to be set
