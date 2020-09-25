@@ -28,19 +28,17 @@
 
 class PrincipalRolesController < ApplicationController
   def create
+    Members::CreateService
+      .new(current_user)
+      .call(permitted_params.member)
+
     @principal_roles = new_principal_roles_from_params
     @global_roles = GlobalRole.all
     @user = Principal.find(principle_role_params[:principal_id])
 
-    call_hook :principal_roles_controller_create_before_save,
-              principal_roles: @principal_roles
+    @principal_roles.each(&:save)
 
-    @principal_roles.each(&:save) unless performed?
-
-    call_hook :principal_roles_controller_create_before_respond,
-              principal_roles: @principal_roles
-
-    redirect_to_edit_user(@user) unless performed?
+    redirect_to_edit_user(@user)
   end
 
   def destroy
@@ -48,13 +46,7 @@ class PrincipalRolesController < ApplicationController
     @user = Principal.find(@principal_role.principal_id)
     @global_roles = GlobalRole.all
 
-    call_hook :principal_roles_controller_destroy_before_destroy,
-              principal_role: @principal_role
-
     @principal_role.destroy unless performed?
-
-    call_hook :principal_roles_controller_destroy_before_respond,
-              principal_role: @principal_role
 
     redirect_to_edit_user(@user) unless performed?
   end
@@ -77,8 +69,6 @@ class PrincipalRolesController < ApplicationController
     end
     principal_roles
   end
-
-  private
 
   def redirect_to_edit_user(user)
     redirect_to tab_edit_user_path user, tab: 'global_roles'

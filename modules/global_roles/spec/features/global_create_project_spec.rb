@@ -64,18 +64,17 @@ describe 'Global role: Global Create project', type: :feature, js: true do
   end
 
   describe 'Create Project displayed to user' do
-    # Given there is a global role "Global"
     let!(:global_role) { FactoryBot.create(:global_role, name: 'Global', permissions: %i[add_project]) }
-    let!(:member_role) { FactoryBot.create(:role, permissions: %i[]) }
-    # And the global role "Global" may have the following rights:
-    # And the user "bob" has the global role "Global"
+
     let(:user) { FactoryBot.create :user }
-    let!(:principal_role) { FactoryBot.create(:principal_role, principal: user, role: global_role) }
-    # When I am already logged in as "bob"
+    let!(:global_member) do
+      FactoryBot.create(:global_member,
+                        principal: user,
+                        roles: [global_role])
+    end
+
     it 'does show the global permission' do
-      # And I go to the overall projects page
       visit projects_path
-      # Then I should see "Project" within ".toolbar-items
       expect(page).to have_selector('.button.-alt-highlight', text: 'Project')
 
       # Can add new project

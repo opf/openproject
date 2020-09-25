@@ -28,6 +28,8 @@
 #++
 
 class Member < ApplicationRecord
+  include ::Scopes::Scoped
+
   extend DeprecatedAlias
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true, validate: false
@@ -47,18 +49,9 @@ class Member < ApplicationRecord
   after_save :save_notification
   after_destroy :destroy_notification
 
-  scope :of, ->(project) {
-    where(project_id: project)
-  }
-
-  def self.visible(user)
-    view_members = Project.where(id: Project.allowed_to(user, :view_members))
-    manage_members = Project.where(id: Project.allowed_to(user, :manage_members))
-
-    project_scope = view_members.or(manage_members)
-
-    where(project_id: project_scope.select(:id))
-  end
+  scope_classes Members::Scopes::Global,
+                Members::Scopes::Visible,
+                Members::Scopes::Of
 
   def name
     principal.name

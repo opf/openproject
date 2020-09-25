@@ -27,22 +27,27 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% def available_additional_global_roles available_roles, user
-  (available_roles || []) - user.global_roles.reload
-end%>
+<% available_roles = GlobalRole.all - (global_member&.roles || []) %>
 
 <div class="grid-content" id="available_principal_roles">
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= Role.model_name.human(:count => 2) %></legend>
-    <% if available_additional_global_roles(global_roles, user).count == 0 %>
+    <% if available_roles.empty? %>
       <span id="no_additional_principal_roles">
         <%= no_results_box %>
       </span>
     <% else %>
       <span id="additional_principal_roles">
-        <%= form_for(:principal_roles, :url => principal_roles_path, :method => :post) do %>
-          <%= hidden_field_tag 'principal_role[principal_id]', user.id %>
-          <% available_additional_global_roles(global_roles, user).each do |role| %>
+        <%= form_for(:principal_roles, :url => user_memberships_path(user_id: user), :method => :post) do %>
+          <% if global_member %>
+            <%= hidden_field_tag(:id, global_member.id ) %>
+
+            <% global_member.roles.each do |role| %>
+              <%= hidden_field_tag('membership[role_ids][]', role.id ) %>
+            <% end %>
+          <% end %>
+
+          <% available_roles.each do |role| %>
             <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
           <% end %>
           <p><br/><%= styled_button_tag t(:button_add), class: '-with-icon icon-checkmark' %></p>

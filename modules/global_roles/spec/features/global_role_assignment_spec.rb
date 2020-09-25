@@ -33,33 +33,26 @@ describe 'Global role: Global role assignment', type: :feature, js: true do
     login_as(current_user)
   end
 
-  # @javascript
   describe 'Going to the global role assignment page' do
-    # Given there is the global permission "global1" of the module "global"
-    # And there is the global permission "global2" of the module "global"
     before do
       mock_global_permissions [['global1', project_module: :global], ['global2', project_module: :global]]
     end
-    # And there is a global role "global_role1"
     let!(:global_role1) { FactoryBot.create :global_role, name: 'global_role1', permissions: %i[global1] }
-    # And there is a global role "global_role2"
     let!(:global_role2) { FactoryBot.create :global_role, name: 'global_role2', permissions: %i[global2] }
-    #   And there is 1 User with:
-    # | Login | bob |
-    # | Firstname | Bob |
-    # | Lastname | Bobbit |
-    #   And the user "bob" has the global role "global_role1"
+
     let!(:user) { FactoryBot.create :user }
-    let!(:principal_role) { FactoryBot.create(:principal_role, principal: user, role: global_role1) }
-    # And I am already admin
+    let!(:global_member) do
+      FactoryBot.create(:global_member,
+                        principal: user,
+                        roles: [global_role1])
+    end
+
     let(:current_user) { FactoryBot.create :admin }
 
     it 'allows global roles management' do
-      # When I go to the edit page of the user called "bob"
       visit edit_user_path user
-      # And I click on "Global Roles"
       click_link 'Global Roles'
-      # Then I should see "global_role1" within "#table_principal_roles"
+
       page.within('#table_principal_roles') do
         expect(page).to have_text 'global_role1'
       end
@@ -88,7 +81,7 @@ describe 'Global role: Global role assignment', type: :feature, js: true do
       end
 
       # And I delete the assigned role "global_role"
-      page.within("#principal_role-#{principal_role.id}") do
+      page.within("#assigned_global_role_#{global_role1.id}") do
         page.find('.buttons a.icon-delete').click
       end
 

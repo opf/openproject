@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="principal_role_option form--field" id= "principal_role_option_<%= h(role.id) %>">
   <label class="form--label-with-check-box" for="principal_role_role_ids_<%= role.id %>">
-    <%= check_box_tag 'principal_role[role_ids][]',
+    <%= check_box_tag 'membership[role_ids][]',
                       role.id,
                       false,
                       id: "principal_role_role_ids_#{role.id}",

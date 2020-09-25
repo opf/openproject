@@ -5,6 +5,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
     # TODO:
     #   * on down, remove all global members
     #   * migrate existing global memberships
+    #   * remove principal_roles
     #   * rename created_on to created_at + add updated_at
   end
 end
