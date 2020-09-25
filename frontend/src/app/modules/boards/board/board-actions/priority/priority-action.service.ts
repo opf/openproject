@@ -31,35 +31,25 @@ export class BoardPriorityActionService extends CachedBoardActionService {
     name: this.I18n.t('js.filter.noneElement')
   };
 
-  /**
-   * Add a single action query
-   */
-  addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
-    let params:any = {
-      name: value.name,
-    };
 
-    let filter:ApiV3Filter;
+  public addInitialColumnsForAction(board:Board):Promise<Board> {
+    return this
+      .loadValues()
+      .toPromise()
+      .then((results) =>
+        Promise.all<unknown>(
+          results.map((status:HalResource) => {
 
-    if (value.id === null) {
-      filter = {
-        priority: {
-          operator: '!*',
-          values: []
-        }
-      };
-    } else {
-      filter = {
-        priority: {
-          operator: '=',
-          values: [value.idFromLink]
-        }
-      };
-    }
+            if (status.isDefault) {
+              return this.addColumnWithActionAttribute(board, status);
+            }
 
-    return this.boardListsService.addQuery(board, params, [filter]);
+            return Promise.resolve(board);
+          })
+        )
+          .then(() => board)
+      );
   }
-
   /**
    * Returns the current filter value if any
    * @param query
