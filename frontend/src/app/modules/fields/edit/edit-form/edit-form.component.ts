@@ -45,7 +45,6 @@ import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/
 import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
 import {ResourceChangesetCommit} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {GlobalEditFormChangesTrackerService} from "core-app/modules/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service";
-import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -59,7 +58,6 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
 
   public fields:{ [attribute:string]:EditableAttributeFieldComponent } = {};
-  private fieldsWithModelChanges = new Map();
   private registeredFields = input<string[]>();
   private unregisterListener:Function;
 
@@ -96,16 +94,18 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     });
   }
 
-  ngOnDestroy() {
-    this.unregisterListener();
-  }
-
   ngOnInit() {
     this.editMode = this.initializeEditMode;
+    this.globalEditFormChangesTrackerService.addToActiveForms(this);
 
     if (this.initializeEditMode) {
       this.start();
     }
+  }
+
+  ngOnDestroy() {
+    this.unregisterListener();
+    this.globalEditFormChangesTrackerService.removeFromActiveForms(this);
   }
 
   public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
@@ -210,22 +210,5 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     const changed = this.change.changes[fieldName];
 
     return hasDefault && !changed;
-  }
-
-  public get hasModelChanges() {
-    return this.fieldsWithModelChanges.size !== 0;
-  }
-
-  public addToFieldsWithModelChanges(field:FormattableEditFieldComponent, value:any) {
-    this.fieldsWithModelChanges.set(field, value);
-    this.globalEditFormChangesTrackerService.addToFormsWithModelChanges(this);
-  }
-
-  public removeFromFieldsWithModelChanges(field:FormattableEditFieldComponent) {
-    this.fieldsWithModelChanges.delete(field);
-
-    if (!this.hasModelChanges) {
-      this.globalEditFormChangesTrackerService.removeFromFormsWithModelChanges(this);
-    }
   }
 }
