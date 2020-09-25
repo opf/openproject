@@ -32,8 +32,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= check_box_tag 'membership[role_ids][]',
                       role.id,
                       false,
-                      id: "principal_role_role_ids_#{role.id}",
-                      disabled: !role.assignable_to?(@user) %>
+                      id: "principal_role_role_ids_#{role.id}" %>
     <%= h(role)%>
   </label>
 </div>

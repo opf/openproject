@@ -41,7 +41,6 @@ module OpenProject::GlobalRoles
     # We still override version and project settings views from the core! URH
     override_core_views!
 
-    patches %i[Principal User UsersController]
     patch_with_namespace :BasicData, :RoleSeeder
 
     add_tab_entry :user,
@@ -50,16 +49,11 @@ module OpenProject::GlobalRoles
                   path: ->(params) { tab_edit_user_path(params[:user], tab: :global_roles) },
                   label: :global_roles
 
-    initializer 'patch helper' do
-      require_relative 'patches/roles_helper_patch'
-    end
-
     global_roles_attributes = [:id, :principal_id, :role_id, role_ids: []]
     additional_permitted_attributes global_roles_principal_role: global_roles_attributes
 
     initializer 'global_roles.patch_access_control' do
       require 'open_project/global_roles/patches/access_control_patch'
-      require 'open_project/global_roles/patches/permission_patch'
     end
 
     initializer 'global_roles.register_global_permission' do

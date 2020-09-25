@@ -26,26 +26,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class GlobalRole < Role
-  has_many :principal_roles, foreign_key: :role_id, dependent: :destroy
-  has_many :principals, through: :principal_roles, dependent: :destroy
-
-  def initialize(*args)
-    super
-    self.assignable = false
-  end
-
-  def to_s
-    name
-  end
-
-  def assignable=(value)
-    fail ArgumentError if value == true
-
-    super
-  end
-
-  def assignable_to?(_user)
-    true
-  end
-end
+class GlobalRole < Role; end

@@ -31,8 +31,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe GlobalRole, type: :model do
   before { GlobalRole.create name: 'globalrole', permissions: ['permissions'] }
 
-  it { is_expected.to have_many :principals }
-  it { is_expected.to have_many :principal_roles }
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_uniqueness_of :name }
   it { is_expected.to validate_length_of(:name).is_at_most(30) }
@@ -50,14 +48,6 @@ describe GlobalRole, type: :model do
   describe 'instance methods' do
     before do
       @role = GlobalRole.new
-
-      if costs_plugin_loaded?
-        @perm = Object.new
-        allow(OpenProject::AccessControl).to receive(:permission).and_return @perm
-        allow(@perm).to receive(:inherited_by).and_return([])
-        allow(@perm).to receive(:name).and_return(:perm)
-        allow(@perm).to receive(:inherits).and_return([])
-      end
     end
 
     describe 'WITH no attributes set' do
@@ -107,31 +97,6 @@ describe GlobalRole, type: :model do
 
       describe '#to_s' do
         it { expect(@role.to_s).to eql('name') }
-      end
-    end
-
-    describe '#destroy' do
-      before { @role = GlobalRole.create name: 'global' }
-
-      it { @role.destroy }
-    end
-
-    describe '#assignable' do
-      it { expect(@role.assignable).to be_falsey }
-    end
-
-    describe '#assignable=' do
-      it { expect { @role.assignable = true }.to raise_error ArgumentError }
-      it { expect { @role.assignable = false }.not_to raise_error }
-    end
-
-    describe '#assignable_to?' do
-      before(:each) do
-        @role = FactoryBot.build(:global_role)
-        @user = FactoryBot.build(:user)
-      end
-      it 'always true global roles for now' do
-        expect(@role.assignable_to?(@user)).to be_truthy
       end
     end
   end
