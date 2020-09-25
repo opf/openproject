@@ -34,7 +34,7 @@ class Member < ApplicationRecord
   has_many :roles, through: :member_roles
   belongs_to :project
 
-  validates_presence_of :project, :principal
+  validates_presence_of :principal
   validates_uniqueness_of :user_id, scope: :project_id
 
   validate :validate_presence_of_role
