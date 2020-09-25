@@ -81,6 +81,7 @@ jobs:
       script:
         # Run the dangerfile and set up caching
         # Run in one command to fail early
+        - bundle binstubs danger --force
         - bash script/ci/dangerfile.sh &&  bash script/ci/db_setup.sh && bash script/ci/cache_prepare.sh
     - stage: test
       name: 'npm'
