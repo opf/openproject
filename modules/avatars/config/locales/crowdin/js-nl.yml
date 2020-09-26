@@ -7,9 +7,8 @@ nl:
       label_choose_avatar: "Kies Avatar van bestand"
       uploading_avatar: "Uploading your avatar."
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
-      error_image_too_large: "Image is too large."
+        Upload je eigen avatar van 128 voor 128 pixels. Grotere bestanden zullen worden geschaald en bijgesneden om overeen te komen. Een voorbeeld van je avatar wordt getoond voor het uploaden, zodra je een afbeelding hebt geselecteerd.
+      error_image_too_large: "De afbeelding is te groot."
       wrong_file_format: "Toegestane formaten zijn jpg, png, gif"
       empty_file_error: "Upload een geldige afbeelding (jpg, png, gif)"
 
