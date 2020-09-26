@@ -69,8 +69,8 @@ lt:
           status: |
             Nebėra laisvų statusų. <br>
             Arba jų nėra apskritai, arba visi jau buvo sudėti į lentą.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: Nėra jokių narių, kurie tinka jūsų filtrui.  <br>
+          no_member: Šiame projekte šiuo metu nėra narių, kurie galėtų būti pridėti. <br>
           add_members: <a href="%{link}">Pridėkite į projektą naujų narių</a> , jei norite daugiau jų pažymėti.
       configuration_modal:
         title: 'Konfigūruoti lentą'
