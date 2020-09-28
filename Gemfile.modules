@@ -20,7 +20,6 @@ group :opf_plugins do
     # included so that engines can reference OpenProject::Version
     $:.push File.expand_path("../lib", __FILE__)
 
-	gem 'openproject-global_roles',              path: 'modules/global_roles'
 	gem 'openproject-auth_plugins',              path: 'modules/auth_plugins'
 	gem 'openproject-auth_saml',                 path: 'modules/auth_saml'
 	gem 'openproject-openid_connect',            path: 'modules/openid_connect'

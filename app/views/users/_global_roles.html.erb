@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render partial: 'shared/global_roles_header' %>
+<%= render partial: 'global_roles_header' %>
 
 <% global_member = Member.global.where(principal: @user).includes(:roles).first %>
 
@@ -59,7 +59,7 @@ See docs/COPYRIGHT.rdoc for more details.
           </thead>
           <tbody id="table_principal_roles_body">
           <% global_member.roles.each do |role| %>
-            <%= render :partial => 'principal_roles/show_table_row', :locals => { :role => role, member: global_member } %>
+            <%= render :partial => 'assigned_global_role', :locals => { :role => role, member: global_member } %>
           <%end%>
           </tbody>
         </table>
