@@ -23,14 +23,13 @@ export class BoardPriorityActionService extends CachedBoardActionService {
 
   icon = 'icon-user';
 
-  image = ImageHelpers.imagePath('board_creation_modal/prioritys.svg');
+  image = ImageHelpers.imagePath('board_creation_modal/priority.svg');
 
-  readonly unassignedUser:any = {
+  readonly noPriority:any = {
     id: null,
     href: null,
     name: this.I18n.t('js.filter.noneElement')
   };
-
 
   public addInitialColumnsForAction(board:Board):Promise<Board> {
     return this
@@ -38,10 +37,10 @@ export class BoardPriorityActionService extends CachedBoardActionService {
       .toPromise()
       .then((results) =>
         Promise.all<unknown>(
-          results.map((status:HalResource) => {
+          results.map((priority:HalResource) => {
 
-            if (status.isDefault) {
-              return this.addColumnWithActionAttribute(board, status);
+            if (priority.isDefault) {
+              return this.addColumnWithActionAttribute(board, priority);
             }
 
             return Promise.resolve(board);
@@ -55,12 +54,11 @@ export class BoardPriorityActionService extends CachedBoardActionService {
    * @param query
    * @returns The loaded action reosurce
    */
+
   getLoadedActionValue(query:QueryResource):Promise<HalResource|undefined> {
     const filter = this.getActionFilter(query);
-
-    // Return the special unassigned user
     if (filter && filter.operator.id === '!*') {
-      return Promise.resolve(this.unassignedUser);
+      return Promise.resolve(this.noPriority);
     }
 
     return super.getLoadedActionValue(query);
