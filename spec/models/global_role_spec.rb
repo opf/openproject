@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe GlobalRole, type: :model do
   before { GlobalRole.create name: 'globalrole', permissions: ['permissions'] }

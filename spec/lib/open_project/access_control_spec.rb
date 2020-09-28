@@ -29,6 +29,37 @@
 require 'spec_helper'
 
 describe OpenProject::AccessControl do
+
+  def stash_access_control_permissions
+    @stashed_permissions = OpenProject::AccessControl.permissions.dup
+    OpenProject::AccessControl.permissions.clear
+  end
+
+  def restore_access_control_permissions
+    OpenProject::AccessControl.instance_variable_set(:@permissions, @stashed_permissions)
+  end
+
+  def setup_global_permissions
+    OpenProject::AccessControl.map do |map|
+      map.permission :proj0, { dont: :care }, require: :member
+      map.permission :global0, { dont: :care }, global: true
+      map.permission :proj1, { dont: :care }
+
+      map.project_module :global_module do |mod|
+        mod.permission :global1, { dont: :care }, global: true
+      end
+
+      map.project_module :project_module do |mod|
+        mod.permission :proj2, { dont: :care }
+      end
+
+      map.project_module :mixed_module do |mod|
+        mod.permission :proj3, { dont: :care }
+        mod.permission :global2, { dont: :care }, global: true
+      end
+    end
+  end
+
   describe '.remove_modules_permissions' do
     let!(:all_former_permissions) { OpenProject::AccessControl.permissions }
     let!(:former_repository_permissions) do
@@ -142,5 +173,38 @@ describe OpenProject::AccessControl do
           .to be_empty
       end
     end
+  end
+
+  describe '#global_permissions' do
+    before do
+      stash_access_control_permissions
+
+      setup_global_permissions
+    end
+
+    after do
+      restore_access_control_permissions
+    end
+
+    it { expect(OpenProject::AccessControl.global_permissions.size).to eq(3) }
+    it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global0) }
+    it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global1) }
+    it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global2) }
+  end
+
+  describe '#available_project_modules' do
+    before do
+      stash_access_control_permissions
+
+      setup_global_permissions
+    end
+
+    after do
+      restore_access_control_permissions
+    end
+
+    it { expect(OpenProject::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
+    it { expect(OpenProject::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
+    it { expect(OpenProject::AccessControl.available_project_modules.include?(:mixed_module)).to be_truthy }
   end
 end

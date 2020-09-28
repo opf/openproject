@@ -56,7 +56,8 @@ OpenProject::AccessControl.map do |map|
     map.permission :add_project,
                    { projects: %i[new create],
                      members: [:paginate_users] },
-                   require: :loggedin
+                   require: :loggedin,
+                   global: true
 
     map.permission :edit_project,
                    edit_project_hash,

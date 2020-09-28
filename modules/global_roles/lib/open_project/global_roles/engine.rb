@@ -51,13 +51,5 @@ module OpenProject::GlobalRoles
 
     global_roles_attributes = [:id, :principal_id, :role_id, role_ids: []]
     additional_permitted_attributes global_roles_principal_role: global_roles_attributes
-
-    initializer 'global_roles.patch_access_control' do
-      require 'open_project/global_roles/patches/access_control_patch'
-    end
-
-    initializer 'global_roles.register_global_permission' do
-      OpenProject::AccessControl.permission(:add_project).global = true
-    end
   end
 end

@@ -50,12 +50,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 </div>
 
-<% if role.new_record? || role.is_a?(GlobalRole) %>
-  <div id="global_attributes" style="display:none">
-    <%= render partial: "global_attributes", locals: { f: f, role: role, roles: roles&.select {|r| r.is_a?(GlobalRole)} }%>
-  </div>
-<% end %>
-
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_attributes">
     <%= render partial: "member_attributes", locals: { f: f, role: role, roles: roles&.select {|r| !r.is_a?(GlobalRole)} }%>
