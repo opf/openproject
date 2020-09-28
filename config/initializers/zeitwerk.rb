@@ -57,7 +57,8 @@ OpenProject::Inflector.inflection(
   'pop3' => 'POP3',
   'cors' => 'CORS',
   'openid_connect' => 'OpenIDConnect',
-  'pdf_export' => 'PDFExport'
+  'pdf_export' => 'PDFExport',
+  'api_controller' => 'APIController'
 )
 
 Rails.autoloaders.each do |autoloader|
