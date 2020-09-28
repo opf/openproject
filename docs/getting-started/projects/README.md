@@ -61,7 +61,7 @@ Also, you can click the green button **+ Project** directly on the system's home
 
 ![Create-project-home-screen](Create-project-home-screen.png)
 
-- You can either create a completely new project or create a project from a template. Therefore, choose a template using the drop-down menu.
+- You can either create a completely new project, create a subproject of an existing project or create a (sub)project from a template. For the latter option, choose a template using the drop-down menu.
 - Enter a **name** for your project and click the blue **Create** button.
 - The **Advanced Settings** allow for further configuration, e.g. description, URL, etc.
 
