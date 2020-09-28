@@ -199,8 +199,8 @@ module DemoData
       [
         [WorkPackage.find_by(subject: 'Setup conference website').id,
          WorkPackage.find_by(subject: 'Upload presentations to website').id],
-        [WorkPackage.find_by(subject: 'Set date and location of conference').id],
         [WorkPackage.find_by(subject: 'Invite attendees to conference').id],
+        [WorkPackage.find_by(subject: 'Set date and location of conference').id],
         []
       ]
     end
