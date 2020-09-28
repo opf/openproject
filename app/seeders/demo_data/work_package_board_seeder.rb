@@ -67,6 +67,8 @@ module DemoData
       board.name = project_data_for(key, 'boards.kanban.name')
       board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' }
 
+      set_board_filters(board)
+
       board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
@@ -81,6 +83,19 @@ module DemoData
       board.save!
 
       Setting.boards_demo_data_available = 'true'
+    end
+
+    def set_board_filters(board)
+      if project_data_for(key, 'boards.kanban.filters').present?
+        filters_conf = project_data_for(key, 'boards.kanban.filters')
+        board.options[:filters] = []
+        filters_conf.each do |filter|
+          if filter[:type]
+            type = Type.find_by(name: translate_with_base_url(filter[:type]))
+            board.options[:filters] << { type: { operator: '=', values: [type.id.to_s] } }
+          end
+        end
+      end
     end
 
     def seed_kanban_board_queries

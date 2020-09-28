@@ -108,6 +108,8 @@ en:
             boards:
               kanban:
                 name: 'Kanban board'
+                filters:
+                  - type: default_type_task
               basic:
                 name: 'Basic board'
               parent_child:
