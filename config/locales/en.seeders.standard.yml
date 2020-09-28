@@ -115,96 +115,94 @@ en:
               parent_child:
                 name: 'Work breakdown structure'
             work_packages:
-              - :start: 4
-                :subject: Start of project
-                :description:
-                :status: default_status_closed
-                :type: default_type_milestone
-                :duration: 0
-                :schedule_manually: false
-              - :start: 5
-                :subject: Organize open source conference
-                :description:
-                :status: default_status_in_progress
-                :type: default_type_phase
-                :children:
-                  - :start: 5
-                    :subject: Set date and location of conference
-                    :description: ''
-                    :status: default_status_in_progress
-                    :type: default_type_task
-                    :duration: 16
+              - start: 4
+                subject: Start of project
+                description:
+                status: default_status_closed
+                type: default_type_milestone
+                duration: 0
+                schedule_manually: false
+              - start: 5
+                subject: Organize open source conference
+                description:
+                status: default_status_in_progress
+                type: default_type_phase
+                children:
+                  - start: 5
+                    subject: Set date and location of conference
+                    description: ''
+                    status: default_status_in_progress
+                    type: default_type_task
+                    duration: 16
+                    schedule_manually: false
+                  - start: 22
+                    subject: Setup conference website
+                    description: ''
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 35
+                    relations:
+                      - to: Set date and location of conference
+                        type: follows
                     :schedule_manually: false
-                  - :start: 22
-                    :subject: Setup conference website
-                    :description: ''
-                    :status: default_status_new
-                    :type: default_type_task
-                    :duration: 35
-                    :relations:
-                      - :to: Set date and location of conference
-                        :type: follows
-                    :schedule_manually: false
-                  - :start: 22
-                    :subject: Invite attendees to conference
-                    :description: ''
-                    :status: default_status_new
-                    :type: default_type_task
-                    :duration: 16
-                    :relations:
-                      - :to: Set date and location of conference
-                        :type: follows
-                    :schedule_manually: false
-                :assigned_to: Niels Lindenthal
-                :duration: 70
-                :schedule_manually: true
-              - :start: 76
-                :subject: Conference
-                :description:
-                :status: default_status_scheduled
-                :type: default_type_milestone
-                :duration: 0
-                :relations:
-                  - :to: Organize open source conference
-                    :type: follows
-                :schedule_manually: false
-              - :start: 77
-                :subject: Follow-up tasks
-                :description:
-                :status: default_status_to_be_scheduled
-                :type: default_type_phase
-                :children:
-                  - :start: 77
-                    :subject: Upload presentations to website
-                    :description: ''
-                    :status: default_status_new
-                    :type: default_type_task
-                    :duration: 16
-                    :schedule_manually: false
-                  - :start: 77
-                    :subject: Party for conference supporters :-)
-                    :description: |-
+                  - start: 22
+                    subject: Invite attendees to conference
+                    description: ''
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 16
+                    relations:
+                      - to: Set date and location of conference
+                        type: follows
+                    schedule_manually: false
+                duration: 70
+                schedule_manually: true
+              - start: 76
+                subject: Conference
+                description:
+                status: default_status_scheduled
+                type: default_type_milestone
+                duration: 0
+                relations:
+                  - to: Organize open source conference
+                    type: follows
+                schedule_manually: false
+              - start: 77
+                subject: Follow-up tasks
+                description:
+                status: default_status_to_be_scheduled
+                type: default_type_phase
+                children:
+                  - start: 77
+                    subject: Upload presentations to website
+                    description: ''
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 16
+                    schedule_manually: false
+                  - start: 77
+                    subject: Party for conference supporters :-)
+                    description: |-
                       *   [ ] Beer
                       *   [ ] Snacks
                       *   [ ] Music
                       *   [ ] Even more beer
-                    :status: default_status_new
-                    :type: default_type_task
-                    :duration: 0
-                    :schedule_manually: false
-                :duration: 16
-                :schedule_manually: false
-              - :start: 94
-                :subject: End of project
-                :description:
-                :status: default_status_new
-                :type: default_type_milestone
-                :duration: 0
-                :relations:
-                  - :to: Follow-up tasks
-                    :type: follows
-                :schedule_manually: false
-
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 0
+                    schedule_manually: false
+                duration: 16
+                schedule_manually: false
+              - start: 94
+                subject: End of project
+                description:
+                status: default_status_new
+                type: default_type_milestone
+                duration: 0
+                relations:
+                  - to: Follow-up tasks
+                    type: follows
+                schedule_manually: false
           scrum-project:
             name: Scrum project
             identifier: your-scrum-project
