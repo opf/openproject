@@ -15,7 +15,7 @@ import {HttpClient} from "@angular/common/http";
 export class BoardPriorityActionService extends CachedBoardActionService {
   filterName = 'priority';
 
-  text = this.I18n.t('js.boards.board_type.action_type.priority');
+  text = this.I18n.t('js.boards.board_type.board_type_title.priority');
 
   description = this.I18n.t('js.boards.board_type.action_text_priority');
 

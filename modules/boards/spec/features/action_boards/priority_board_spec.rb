@@ -47,15 +47,19 @@ describe 'Priority action board', type: :feature, js: true do
        edit_work_packages view_work_packages manage_public_queries]
   }
 
-  let!(:status) { FactoryBot.create :default_status }
-  let!(:normal_priority) { FactoryBot.create :priority, name: 'Normal'  }
+  let!(:normal_priority) { FactoryBot.create :default_priority, name: 'Normal'  }
   let!(:other_priority) { FactoryBot.create :priority, name: 'Whatever' }
   let!(:low_priority) { FactoryBot.create :priority, name: 'Low' }
-  let!(:work_package) { FactoryBot.create :work_package, project: project, subject: 'Foo', priority: other_priority }
+  let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
+  let!(:work_package_normal) { FactoryBot.create :work_package, project: project, subject: 'Foo', priority: normal_priority, status: open_status }
 
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
+
   before do
+    open_status
+    normal_priority
+    work_package_normal
     with_enterprise_token :board_view
     project
     login_as(user)
@@ -66,9 +70,9 @@ describe 'Priority action board', type: :feature, js: true do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: :priority
+      board_page = board_index.create_board action: :Priority
 
-      # expect lists of default priority
+      # expect lists of Normal priority
       board_page.expect_list 'Normal'
 
       board_page.add_list option: 'Low'
@@ -105,6 +109,7 @@ describe 'Priority action board', type: :feature, js: true do
       expect(queries.count).to eq 3
       first = queries.find_by(name: 'Normal')
       second = queries.find_by(name: 'Low')
+      third = queries.find_by(name: 'Whatever')
       expect(first.ordered_work_packages.count).to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
@@ -112,7 +117,7 @@ describe 'Priority action board', type: :feature, js: true do
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :priority_id)
       expect(subjects).to match_array [['Task 1', normal_priority.id]]
 
-      # Move item to Closed
+      # Move item to Low
       board_page.move_card(0, from: 'Normal', to: 'Low')
       board_page.expect_card('Normal', 'Task 1', present: false)
       board_page.expect_card('Low', 'Task 1', present: true)
@@ -127,30 +132,23 @@ describe 'Priority action board', type: :feature, js: true do
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :priority_id)
       expect(subjects).to match_array [['Task 1', low_priority.id]]
 
-      # Try to drag to whatever, which has no workflow
       board_page.move_card(0, from: 'Low', to: 'Whatever')
-      # board_page.expect_and_dismiss_notification(
-      #   type: :error,
-      #   message: "Status is invalid because no valid transition exists from old to new status for the current user's roles."
-      # )
       board_page.expect_card('Normal', 'Task 1', present: false)
-      board_page.expect_card('Whatever', 'Task 1', present: false)
-      board_page.expect_card('Low', 'Task 1', present: true)
+      board_page.expect_card('Whatever', 'Task 1', present: true)
 
       # Add filter
       # Filter for Task
       filters.expect_filter_count 0
       filters.open
 
-      # Expect that status is not available for global filter selection
+      # Expect that priority is not available for global filter selection
       filters.expect_available_filter 'Priority', present: false
 
       filters.quick_filter 'Task'
       board_page.expect_changed
       sleep 2
 
-      board_page.expect_card('Low', 'Task 1', present: true)
-      board_page.expect_card('Whatever', work_package.subject, present: false)
+      board_page.expect_card('Whatever', 'Task 1', present: true)
 
       # Expect query props to be present
       url = URI.parse(page.current_url).query
@@ -176,35 +174,30 @@ describe 'Priority action board', type: :feature, js: true do
       board_page.expect_not_changed
 
       # Remove query
-      board_page.remove_list 'Whatever'
+      board_page.remove_list 'Normal'
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq(2)
-      expect(queries.first.name).to eq 'Normal'
-      expect(queries.last.name).to eq 'Low'
+      expect(queries.first.name).to eq 'Low'
+      expect(queries.last.name).to eq 'Whatever'
       expect(queries.first.ordered_work_packages).to be_empty
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
-      expect(subjects.pluck(:subject, :priority_id)).to match_array [['Task 1', low_priority.id]]
+      subjects = WorkPackage.where(id: third.ordered_work_packages.pluck(:work_package_id))
+      expect(subjects.pluck(:subject, :priority_id)).to match_array [['Task 1', other_priority.id]]
 
       # Open remaining in split view
-      wp = second.ordered_work_packages.first.work_package
+      wp = third.ordered_work_packages.first.work_package
       card = board_page.card_for(wp)
       split_view = card.open_details_view
       split_view.expect_subject
-      split_view.edit_field(:priority).update('Normal')
+      split_view.edit_field(:priority).update('Low')
       split_view.expect_and_dismiss_notification message: 'Successful update.'
 
       wp.reload
-      expect(wp.status).to eq(normal_priority)
+      expect(wp.priority).to eq(low_priority)
 
-      board_page.expect_card('Normal', 'Task 1', present: true)
-      board_page.expect_card('Low', 'Task 1', present: false)
-
-      # Re-add task 1 to closed
-      board_page.reference('Low', subjects.first)
-
-      board_page.expect_card('Normal', 'Task 1', present: false)
       board_page.expect_card('Low', 'Task 1', present: true)
+      board_page.expect_card('Whatever', 'Task 1', present: false)
+
     end
   end
 end
