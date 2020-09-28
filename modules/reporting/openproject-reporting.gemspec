@@ -13,5 +13,4 @@ Gem::Specification.new do |s|
   s.test_files  = Dir["spec/**/*"]
 
   s.add_dependency "costs"
-  s.add_dependency "reporting_engine"
 end

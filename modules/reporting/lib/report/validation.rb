@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,23 +26,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class OverviewDependentService < Dependency
-    protected
+module Report::Validation
+  include Report::QueryUtils
 
-    # Copies the overview from +project+
-    def copy_dependency(params)
-      ::Grids::Overview.where(project: source).find_each do |overview|
-        duplicate_overview(overview, params)
-      end
+  def register_validations(*validation_methods)
+    validation_methods.flatten.each do |val_method|
+      register_validation(val_method)
     end
+  end
 
-    def duplicate_overview(overview, params)
-      ::Overviews::CopyService
-        .new(source: overview, user: user)
-        .with_state(state)
-        .call(params.merge)
-        .tap { |call| result.merge!(call, without_success: true) }
+  def register_validation(val_method)
+    const_name = val_method.to_s.camelize
+    begin
+      val_module = Report::Validation.const_get const_name
+      singleton_class.send(:include, val_module)
+      val_method = 'validate_' + val_method.to_s.pluralize
+      if method(val_method)
+        validations << val_method
+      else
+        warn "#{val_module.name} does not define #{val_method}"
+      end
+    rescue NameError
+      warn "No Module Report::Validation::#{const_name} found to validate #{val_method}"
+    end
+    self
+  end
+
+  def errors
+    @errors ||= Hash.new { |h, k| h[k] = [] }
+  end
+
+  def validations
+    @validations ||= []
+  end
+
+  def validate(*values)
+    errors.clear
+    return true if validations.empty?
+    validations.all? do |validation|
+      values.empty? ? true : send(validation, *values)
     end
   end
 end

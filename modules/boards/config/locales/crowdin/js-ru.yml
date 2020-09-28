@@ -42,7 +42,7 @@ ru:
         action_text: >
           Форум с отфильтрованными по атрибуту %{attribute} списками . Перемещение рабочих пакетов в другие списки обновит их атрибут.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Презентация с автоматизированными колонками для подпроектов. Перетаскивание пакетов работ в другие списки обновляет соответственно (под)проект.
         action_text_subtasks: >
           Форум с автоматизированными колонками для подэлементов. Перетаскивание пакетов работ в другие списки обновляется родителем соответственно.
         action_text_status: >
@@ -56,7 +56,7 @@ ru:
           status: статус
           version: версия
           subproject: подпроект
-          subtasks: Parent Child
+          subtasks: Родительский потомок
         select_attribute: "Атрибут действия"
       add_list_modal:
         labels:
@@ -69,8 +69,8 @@ ru:
           status: |
             Статус недоступен. <br>
             Либо нет ни одного статуса, либо все они уже были добавлены на доску.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: Не найдено ни одного участника, совпадающего со значением фильтра.  <br>
+          no_member: В настоящее время в проекте нет участников, которые можно добавить.  <br>
           add_members: <a href="%{link}">Добавить нового участника в этот проект</a> для повторного выбора пользователей.
       configuration_modal:
         title: 'Настроить эту доску'

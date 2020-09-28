@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,23 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class OverviewDependentService < Dependency
-    protected
+module Engine
+  ##
+  # Subclass of Report to be used for constant lookup and such.
+  # It is considered public API to override this method i.e. in Tests.
+  #
+  # @return [Class] subclass
+  # TODO: get rid of this module
+  def engine
+    return @engine if @engine
 
-    # Copies the overview from +project+
-    def copy_dependency(params)
-      ::Grids::Overview.where(project: source).find_each do |overview|
-        duplicate_overview(overview, params)
-      end
-    end
-
-    def duplicate_overview(overview, params)
-      ::Overviews::CopyService
-        .new(source: overview, user: user)
-        .with_state(state)
-        .call(params.merge)
-        .tap { |call| result.merge!(call, without_success: true) }
-    end
+    CostQuery
   end
 end

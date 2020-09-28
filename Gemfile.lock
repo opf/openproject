@@ -169,17 +169,10 @@ PATH
       recaptcha (~> 5.5)
 
 PATH
-  remote: modules/reporting_engine
-  specs:
-    reporting_engine (1.0.0)
-      json
-
-PATH
   remote: modules/reporting
   specs:
     openproject-reporting (1.0.0)
       costs
-      reporting_engine
 
 PATH
   remote: modules/two_factor_authentication
@@ -1094,7 +1087,6 @@ DEPENDENCIES
   rails-i18n (~> 6.0.0)
   rails_12factor
   rdoc (>= 2.4.2)
-  reporting_engine!
   request_store (~> 1.5.0)
   responders (~> 3.0)
   rest-client (~> 2.0)

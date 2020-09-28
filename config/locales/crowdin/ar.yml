@@ -177,7 +177,7 @@ ar:
       no_results_title_text: لا يوجد حالياً ملفات للزبائن.
       no_results_content_text: إنشاء ملف زبون جديد
   concatenation:
-    single: 'or'
+    single: 'أو'
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"

@@ -5,7 +5,7 @@ nl:
   label_current_avatar: "Huidige Avatar"
   label_choose_avatar: "Kies Avatar van bestand"
   message_avatar_uploaded: "Avatar succesvol gewijzigd."
-  error_image_upload: "Fout bij opslaan van de afbeelding."
+  error_image_upload: "Fout bij het opslaan van de afbeelding"
   error_image_size: "De afbeelding is te groot."
   button_change_avatar: "Avatar wijzigen"
   are_you_sure_delete_avatar: "Weet je zeker dat je je avatar wilt verwijderen?"
@@ -21,16 +21,15 @@ nl:
     text_current_avatar: |
       De volgende afbeelding toont de huidige avatar.
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      Upload je eigen avatar van 128 voor 128 pixels. Grotere bestanden zullen worden geschaald en bijgesneden om overeen te komen. Een voorbeeld van je avatar wordt getoond voor het uploaden, zodra je een afbeelding hebt geselecteerd.
+    text_change_gravatar_html: 'Om de Gravatar voor je e-mailadres te wijzigen of toe te voegen, ga naar %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      Met OpenProject kun je je eigen avatar uploaden.
     text_local_avatar_over_gravatar: |
       If you set one, this custom avatar is used in precedence over the gravatar above.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject gebruikt je gravatar als je er een geregistreerd hebt, of een standaard afbeelding of pictogram als deze bestaat.
+      De huidige gravatar is als volgt:
     settings:
       enable_gravatars: 'Aangepaste avatars inschakelen'
       gravatar_default: "Standaard Gravatarafbeelding"

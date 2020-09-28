@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Settings::ApiController < SettingsController
+class Settings::APIController < SettingsController
   include AdminSettingsUpdater
 
   menu_item :settings_api

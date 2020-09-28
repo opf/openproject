@@ -38,7 +38,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     FactoryBot.create(:time_entry, work_package: work_package, project: project)
   end
 
-  describe CostQuery::Transformer do
+  describe Report::Transformer do
     it "should walk down row_first" do
       @query.group_by :work_package_id
       @query.column :tweek

@@ -102,18 +102,6 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.chain.top.type).to eq(:row)
     end
 
-    it "should place columns in front of filters" do
-      skip "This fails unreproducible on travis" if ENV['CI']
-      @query.column :project_id
-      expect(@query.chain.bottom.parent.type).to eq(:column)
-      expect(@query.chain.top.type).to eq(:column)
-
-      @query.filter :project_id
-      expect(@query.chain.bottom.parent).to be_a(CostQuery::Filter::ProjectId)
-      expect(@query.chain.top).to be_a(CostQuery::GroupBy::Base)
-      expect(@query.chain.top.type).to eq(:column)
-    end
-
     it "should return all filters, including the NoFilter" do
       @query.filter :project_id
       @query.group_by :project_id
@@ -203,7 +191,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       it "sets new top when prepending elements" do
         current = @chain
         10.times do
-          old, current = current, CostQuery::Chainable.new(current)
+          old, current = current, Report::Chainable.new(current)
           expect(old.top).to eq(current)
           expect(@chain.top).to eq(current)
         end

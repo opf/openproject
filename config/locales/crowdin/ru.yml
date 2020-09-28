@@ -201,7 +201,7 @@ ru:
       completed: "Удаление проекта %{name} завершено"
       completed_text: "Запрос на удаление проекта '%{name}' был завершен."
     index:
-      edit_columns: 'Edit columns'
+      edit_columns: 'Изменить столбцы'
       open_as_gantt: 'Открыть в виде Gantt'
       open_as_gantt_title: "Используйте эту кнопку для создания представления Гантта, фильтрующего пакеты работ, видимых на этой странице."
       open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
@@ -1142,7 +1142,7 @@ ru:
   error_no_default_work_package_status: "Пакету работ не может быть присвоен статус по умолчанию. Пожалуйста, проверьте конфигурацию («Администрирование –> Статус пакета работ»)."
   error_no_type_in_project: "Тип не связан с этим проектом. Пожалуйста, проверьте параметры проекта."
   error_omniauth_registration_timed_out: "Время регистрации через провайдера истекло. Пожалуйста, попробуйте еще раз."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "Информация аутентификации, полученная от поставщика идентификационных данных, является недействительной. Пожалуйста, обратитесь к администратору за дальнейшей помощью."
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
   error_unable_delete_status: "Состояние работы пакета удалить нельзя, так как оно используется по крайней мере одним рабочим пакетом."
@@ -2692,8 +2692,8 @@ ru:
   doorkeeper:
     pre_authorization:
       status: 'Предавторизация'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    auth_url: 'URL аутентификации'
+    access_token_url: 'URL токена доступа'
     errors:
       messages:
         #Common error messages

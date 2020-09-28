@@ -134,13 +134,18 @@ class ServiceResult
     self.dependent_results += inner_results
   end
 
-  def on_success
-    yield(self) if success?
+  def on_success(&block)
+    tap(&block) if success?
     self
   end
 
-  def on_failure
-    yield(self) if failure?
+  def on_failure(&block)
+    tap(&block) if failure?
+    self
+  end
+
+  def tap
+    yield(self)
     self
   end
 

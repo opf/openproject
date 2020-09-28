@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,23 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects::Copy
-  class OverviewDependentService < Dependency
-    protected
+require 'date'
 
-    # Copies the overview from +project+
-    def copy_dependency(params)
-      ::Grids::Overview.where(project: source).find_each do |overview|
-        duplicate_overview(overview, params)
-      end
+module OpenProject::Reporting::Patches::ToDatePatch
+  module StringAndNil
+    ::String.send(:include, self)
+    ::NilClass.send(:include, self)
+
+    def to_dateish
+      return Date.today if blank?
+      Date.parse self
+    end
+  end
+
+  module DateAndTime
+    ::Date.send(:include, self)
+    ::Time.send(:include, self)
+
+    def to_dateish
+      self
     end
 
-    def duplicate_overview(overview, params)
-      ::Overviews::CopyService
-        .new(source: overview, user: user)
-        .with_state(state)
-        .call(params.merge)
-        .tap { |call| result.merge!(call, without_success: true) }
+    def force_utc
+      return to_time.force_utc unless respond_to? :utc_offset
+      return self if utc?
+      utc - utc_offset
     end
   end
 end
