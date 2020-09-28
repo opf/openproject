@@ -26,43 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require 'date'
 
-describe CostQuery, type: :model, reporting_query_helper: true do
-  minimal_query
+module OpenProject::Reporting::Patches::ToDatePatch
+  module StringAndNil
+    ::String.send(:include, self)
+    ::NilClass.send(:include, self)
 
-  before do
-    FactoryBot.create(:admin)
-    project = FactoryBot.create(:project_with_types)
-    work_package = FactoryBot.create(:work_package, project: project)
-    FactoryBot.create(:time_entry, work_package: work_package, project: project)
+    def to_dateish
+      return Date.today if blank?
+      Date.parse self
+    end
   end
 
-  describe Report::Transformer do
-    it "should walk down row_first" do
-      @query.group_by :work_package_id
-      @query.column :tweek
-      @query.row :project_id
-      @query.row :user_id
+  module DateAndTime
+    ::Date.send(:include, self)
+    ::Time.send(:include, self)
 
-      result = @query.transformer.row_first.values.first
-      [:user_id, :project_id, :tweek].each do |field|
-        expect(result.fields).to include(field)
-        result = result.values.first
-      end
+    def to_dateish
+      self
     end
 
-    it "should walk down column_first" do
-      @query.group_by :work_package_id
-      @query.column :tweek
-      @query.row :project_id
-      @query.row :user_id
-
-      result = @query.transformer.column_first.values.first
-      [:tweek, :work_package_id].each do |field|
-        expect(result.fields).to include(field)
-        result = result.values.first
-      end
+    def force_utc
+      return to_time.force_utc unless respond_to? :utc_offset
+      return self if utc?
+      utc - utc_offset
     end
   end
 end

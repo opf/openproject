@@ -26,43 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+module Engine
+  ##
+  # Subclass of Report to be used for constant lookup and such.
+  # It is considered public API to override this method i.e. in Tests.
+  #
+  # @return [Class] subclass
+  # TODO: get rid of this module
+  def engine
+    return @engine if @engine
 
-describe CostQuery, type: :model, reporting_query_helper: true do
-  minimal_query
-
-  before do
-    FactoryBot.create(:admin)
-    project = FactoryBot.create(:project_with_types)
-    work_package = FactoryBot.create(:work_package, project: project)
-    FactoryBot.create(:time_entry, work_package: work_package, project: project)
-  end
-
-  describe Report::Transformer do
-    it "should walk down row_first" do
-      @query.group_by :work_package_id
-      @query.column :tweek
-      @query.row :project_id
-      @query.row :user_id
-
-      result = @query.transformer.row_first.values.first
-      [:user_id, :project_id, :tweek].each do |field|
-        expect(result.fields).to include(field)
-        result = result.values.first
-      end
-    end
-
-    it "should walk down column_first" do
-      @query.group_by :work_package_id
-      @query.column :tweek
-      @query.row :project_id
-      @query.row :user_id
-
-      result = @query.transformer.column_first.values.first
-      [:tweek, :work_package_id].each do |field|
-        expect(result.fields).to include(field)
-        result = result.values.first
-      end
-    end
+    CostQuery
   end
 end
