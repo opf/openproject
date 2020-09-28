@@ -45,8 +45,10 @@ run() {
 
 run "bash $(dirname $0)/db_setup.sh"
 
-# run migrations for mysql or postgres
+# run migrations for postgres
+# setup binstubs
 if [ $1 != 'npm' ]; then
+  run "bundle binstubs parallel_tests"
   run "bundle exec rake db:migrate"
 fi
 
