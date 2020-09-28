@@ -63,12 +63,13 @@ before_install:
   # Install latest bundler
   - gem install bundler
 
+  # We do not want those gem groups
+  - bundle config set without 'development production docker'
+
   # Install Node latest LTS
   # This should only be necessary when preparing the cache or for npm test runs
   # but installing later fails for unknown reasons.
   - nvm install --lts
-
-bundler_args: --binstubs --without development production docker
 
 stages:
   - prepare cache

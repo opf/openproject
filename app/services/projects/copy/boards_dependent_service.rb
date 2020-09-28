@@ -49,7 +49,7 @@ module Projects::Copy
         .new(source: board, user: user)
         .with_state(state)
         .call(params.merge)
-        .on_failure { |result| add_error! board, result.errors }
+        .tap { |call| result.merge!(call, without_success: true) }
     end
   end
 end

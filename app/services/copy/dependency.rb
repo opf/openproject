@@ -62,8 +62,8 @@ module Copy
 
     ##
     # Merge some other model's errors with the result errors
-    def add_error!(model, errors)
-      result.errors.add(:base, "#{human_model_name(model)}: #{error_messages(errors)}")
+    def add_error!(model, errors, model_name: human_model_name(model))
+      result.errors.add(:base, "#{model_name}: #{error_messages(errors)}")
     end
 
     def human_model_name(model)
