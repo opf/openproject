@@ -44,6 +44,7 @@ describe 'seeds', :with_clean_fixture do
       expect(Query.where.not(hidden: true).count).to eq 7
       expect(Query.count).to eq 25
       expect(Projects::Status.count).to eq 2
+      expect(Role.pluck(:type).uniq).to match_array ['Role']
 
       perform_enqueued_jobs
 

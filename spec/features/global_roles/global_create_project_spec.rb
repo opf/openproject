@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
 
 describe 'Global role: Global Create project', type: :feature, js: true do
   let(:user) { FactoryBot.create(:admin) }

@@ -26,7 +26,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_relative './mock_global_permissions'
 
 describe 'Global role: Global role assignment', type: :feature, js: true do
   before do

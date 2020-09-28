@@ -26,7 +26,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
+require_relative './mock_global_permissions'
 
 describe 'Global role: Global role CRUD', type: :feature, js: true do
   # Scenario: Global Role creation
