@@ -425,13 +425,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     (<HTMLInputElement>document.activeElement).blur();
   }
 
-  public statusHighlightClass(statusId:any) {
-    if (!statusId) {
-      return;
-    }
-    return Highlighting.backgroundClass('status', statusId!);
-  }
-
   private get currentScope():string {
     let serviceScope = this.globalSearchService.projectScope;
     return (serviceScope === '') ? 'current_project_and_all_descendants' : serviceScope;
