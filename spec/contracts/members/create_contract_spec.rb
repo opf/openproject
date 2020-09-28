@@ -51,8 +51,8 @@ describe Members::CreateContract do
       context 'if the project is nil' do
         let(:member_project) { nil }
 
-        it 'is invalid' do
-          expect_valid(false, project: %i(blank))
+        it 'is valid' do
+          expect_valid(true)
         end
       end
 
