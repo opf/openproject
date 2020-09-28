@@ -41,7 +41,7 @@ module Grids::Copy
         new_widget = duplicate_widget widget, new_grid, params
 
         if new_widget && !new_widget.save
-          add_error! new_widget, new_widget.errors
+          add_error! new_widget, new_widget.errors, model_name: widget_model_name(widget)
         end
       end
     end
@@ -56,11 +56,16 @@ module Grids::Copy
             new_widget.options[option] = value
           end
         else
-          add_error! widget, result.errors
+          add_error! widget, result.errors, model_name: widget_model_name(widget)
         end
       end
 
       new_widget if references.all?(&:success?)
+    end
+
+    # Provide a human readable name for the widget
+    def widget_model_name(widget)
+      I18n.t('grids.label_widget_in_grid', grid_name: widget.grid.to_s)
     end
 
     def map_references(widget, params)

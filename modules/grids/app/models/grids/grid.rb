@@ -43,6 +43,10 @@ module Grids
       false
     end
 
+    def to_s
+      name.presence || self.class.to_s.demodulize
+    end
+
     acts_as_attachable
   end
 end
