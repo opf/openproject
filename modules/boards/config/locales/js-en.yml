@@ -65,7 +65,14 @@ en:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Assignee
+          status: Status
+          version: Version
+          subproject: Subproject
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Action attribute"
 
       add_list_modal:

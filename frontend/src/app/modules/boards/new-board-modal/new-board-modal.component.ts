@@ -61,6 +61,7 @@ export class NewBoardModalComponent extends OpModalComponent {
 
     free_board: this.I18n.t('js.boards.board_type.free'),
     free_board_text: this.I18n.t('js.boards.board_type.free_text'),
+    free_board_title: this.I18n.t('js.boards.board_type.board_type_title.basic'),
     board_type: this.I18n.t('js.boards.board_type.text'),
 
     action_board: this.I18n.t('js.boards.board_type.action'),
@@ -96,7 +97,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   private initiateTiles() {
     this.available.unshift({
       attribute: 'basic',
-      text: this.text.free_board,
+      text: this.text.free_board_title,
       icon: 'icon-boards',
       description: this.text.free_board_text,
       image: imagePath('board_creation_modal/lists.svg')
