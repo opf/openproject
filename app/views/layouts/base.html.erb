@@ -84,6 +84,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= call_hook :view_layouts_base_html_head %>
   <!-- page specific tags -->
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
+  <%= render partial: "custom_styles/inline_css_logo" %>
   <% if EnterpriseToken.allows_to?(:define_custom_style) && CustomStyle.try(:current).present? %>
     <% cache(CustomStyle.current) do %>
       <%= render partial: "custom_styles/inline_css" %>
