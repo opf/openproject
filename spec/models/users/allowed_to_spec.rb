@@ -405,6 +405,8 @@ describe User, 'allowed_to?' do
 
     context 'w/ requesting a controller and action
              w/ the user being allowed the action' do
+      let(:permission) { :view_wiki_pages }
+
       before do
         role.add_permission! permission
 
@@ -414,7 +416,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'should be true' do
-        expect(user.allowed_to?({ controller: 'work_packages', action: 'new' }, project))
+        expect(user.allowed_to?({ controller: 'wiki', action: 'show' }, project))
           .to be_truthy
       end
     end
@@ -486,6 +488,8 @@ describe User, 'allowed_to?' do
     context 'w/ the user being a member in the project
              w/ inquiring for controller and action
              w/ the role having the necessary permission' do
+      let(:permission) { :view_wiki_pages }
+
       before do
         role.add_permission! permission
 
@@ -495,7 +499,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'should be true' do
-        expect(user.allowed_to?({ controller: 'work_packages', action: 'new' }, nil, global: true))
+        expect(user.allowed_to?({ controller: 'wiki', action: 'show' }, nil, global: true))
           .to be_truthy
       end
     end

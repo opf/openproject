@@ -40,6 +40,8 @@ First you will need to create a user in OpenProject that will make the comments.
 The user will have to be added to each project with a role that allows them
 to comment on work packages.
 
+The role needs two permissions and should only receive those two: "View work packages" and "Add notes" which you will find in the "Work package tracking" section.
+
 ![Github role with 'add notes' permission](github-role.png)
 
 ![Github user added as member to project with respective role](github-project-member.png)

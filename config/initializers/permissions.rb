@@ -107,42 +107,51 @@ OpenProject::AccessControl.map do |map|
                    :'work_packages/reports' => %i[report report_details]
 
     wpt.permission :add_work_packages,
-                   work_packages: %i[new new_type preview create],
-                   planning_elements: [:create]
+                   {}
 
     wpt.permission :edit_work_packages,
                    {
-                     :'work_packages/bulk' => %i[edit update],
-                     work_packages: %i[edit update new_type preview quoted],
-                     journals: :preview
+                     :'work_packages/bulk' => %i[edit update]
                    },
                    require: :member,
                    dependencies: :view_work_packages
 
     wpt.permission :move_work_packages,
                    { :'work_packages/moves' => %i[new create] },
-                   require: :loggedin
+                   require: :loggedin,
+                   dependencies: :view_work_packages
 
     wpt.permission :add_work_package_notes,
-                   work_packages: %i[edit update],
-                   journals: [:new]
+                   {
+                     # FIXME: Although the endpoint is removed, the code checking whether a user
+                     # is eligible to add work packages through the API still seems to rely on this.
+                     journals: [:new]
+                   },
+                   dependencies: :view_work_packages
 
     wpt.permission :edit_work_package_notes,
-                   { journals: %i[edit update] },
-                   require: :loggedin
+                   {},
+                   require: :loggedin,
+                   dependencies: :view_work_packages
 
     wpt.permission :edit_own_work_package_notes,
-                   { journals: %i[edit update] },
-                   require: :loggedin
+                   {},
+                   require: :loggedin,
+                   dependencies: :view_work_packages
 
     # WorkPackage categories
     wpt.permission :manage_categories,
-                   { "project_settings/categories": [:show],
-                     categories: %i[new create edit update destroy] },
+                   {
+                     "project_settings/categories": [:show],
+                     categories: %i[new create edit update destroy]
+                   },
                    require: :member
 
     wpt.permission :export_work_packages,
-                   work_packages: %i[index all]
+                   {
+                     work_packages: %i[index all],
+                   },
+                   dependencies: :view_work_packages
 
     wpt.permission :delete_work_packages,
                    {
@@ -153,10 +162,14 @@ OpenProject::AccessControl.map do |map|
                    dependencies: :view_work_packages
 
     wpt.permission :manage_work_package_relations,
-                   work_package_relations: %i[create destroy]
+                   {
+                     work_package_relations: %i[create destroy],
+                   },
+                   dependencies: :view_work_packages
 
     wpt.permission :manage_subtasks,
-                   {}
+                   {},
+                   dependencies: :view_work_packages
     # Queries
     wpt.permission :manage_public_queries,
                    {},
@@ -164,7 +177,8 @@ OpenProject::AccessControl.map do |map|
 
     wpt.permission :save_queries,
                    {},
-                   require: :loggedin
+                   require: :loggedin,
+                   dependencies: :view_work_packages
     # Watchers
     wpt.permission :view_work_package_watchers,
                    {},
@@ -179,7 +193,8 @@ OpenProject::AccessControl.map do |map|
                    dependencies: :view_work_packages
 
     wpt.permission :assign_versions,
-                   {}
+                   {},
+                   dependencies: :view_work_packages
   end
 
   map.project_module :news do |news|
