@@ -111,8 +111,7 @@ OpenProject::AccessControl.map do |map|
 
     wpt.permission :edit_work_packages,
                    {
-                     :'work_packages/bulk' => %i[edit update],
-                     work_packages: %i[edit update new_type preview quoted]
+                     :'work_packages/bulk' => %i[edit update]
                    },
                    require: :member,
                    dependencies: :view_work_packages
@@ -123,7 +122,11 @@ OpenProject::AccessControl.map do |map|
                    dependencies: :view_work_packages
 
     wpt.permission :add_work_package_notes,
-                   {},
+                   {
+                     # FIXME: Although the endpoint is removed, the code checking whether a user
+                     # is eligible to add work packages through the API still seems to rely on this.
+                     journals: [:new]
+                   },
                    dependencies: :view_work_packages
 
     wpt.permission :edit_work_package_notes,
