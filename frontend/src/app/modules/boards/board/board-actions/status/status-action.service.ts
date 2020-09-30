@@ -10,7 +10,7 @@ import {ImageHelpers} from "core-app/helpers/images/path-helper";
 export class BoardStatusActionService extends CachedBoardActionService {
   filterName = 'status';
 
-  text =  this.I18n.t('js.boards.board_type.action_type.status');
+  text =  this.I18n.t('js.boards.board_type.board_type_title.status');
 
   description = this.I18n.t('js.boards.board_type.action_text_status');
 
