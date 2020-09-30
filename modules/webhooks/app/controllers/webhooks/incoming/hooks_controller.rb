@@ -41,15 +41,6 @@ module Webhooks
       # making it available as params[:payload]
       wrap_parameters :payload
 
-      def api_request?
-        # OpenProject only allows API requests based on an Accept request header.
-        # Webhooks (at least GitHub) don't send an Accept header as they're not interested
-        # in any part of the response except the HTTP status code.
-        # Also handling requests with a application/json Content-Type as API requests
-        # should be safe regarding CSRF as browsers don't send forms as JSON.
-        super || request.content_type == "application/json"
-      end
-
       def handle_hook
         hook = OpenProject::Webhooks.find(params.require('hook_name'))
 

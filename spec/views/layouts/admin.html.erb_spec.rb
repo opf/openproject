@@ -40,7 +40,6 @@ describe 'layouts/admin', type: :view do
     allow(controller).to receive(:default_search_scope)
 
     parent_menu_item = Object.new
-    allow(view).to receive(:admin_first_level_menu_entry).and_return parent_menu_item
     allow(parent_menu_item).to receive(:name).and_return :root
 
     allow(User).to receive(:current).and_return admin

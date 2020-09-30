@@ -62,12 +62,8 @@ module PermissionSpecHelpers
         if invalid_user.logged?
           expect(response.response_code).to eq(403)
         else
-          if controller.send(:api_request?)
-            expect(response.response_code).to eq(401)
-          else
-            expect(response).to be_redirect
-            expect(response.redirect_url).to match(%r'/login')
-          end
+          expect(response).to be_redirect
+          expect(response.redirect_url).to match(%r'/login')
         end
       end
     end if test_denied

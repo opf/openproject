@@ -119,30 +119,12 @@ describe ApplicationController, type: :controller do
     end
 
     context 'for non-API resources' do
-      before do
-        allow(@controller).to receive(:api_request?).and_return(false)
-      end
-
       it_behaves_like 'handle_unverified_request resets session'
 
       it 'should give 422' do
         expect(@controller).to receive(:render_error) do |options|
           expect(options[:status]).to eql(422)
         end
-
-        @controller.send :handle_unverified_request
-      end
-    end
-
-    context 'for API resources' do
-      before do
-        allow(@controller).to receive(:api_request?).and_return(true)
-      end
-
-      it_behaves_like 'handle_unverified_request resets session'
-
-      it 'should not render an error' do
-        expect(@controller).not_to receive(:render_error)
 
         @controller.send :handle_unverified_request
       end

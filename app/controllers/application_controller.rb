@@ -72,42 +72,25 @@ class ApplicationController < ActionController::Base
   # request.
   def handle_unverified_request
     cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
+
+    # Resetting the session is enough for preventing an attacking from
+    # using a user's session to execute requests with the user's account.
     self.logged_user = nil
 
-    # Don't render an error message for requests that appear to be API requests.
-    #
-    # The api_request? method uses the format parameter or a header
-    # to determine whether a request is an API request. Unfortunately, having
-    # an API request doesn't mean we don't use a session for authentication.
-    # Also, attackers can send CSRF requests with arbitrary headers using
-    # browser plugins. For more information on this, see:
-    # http://weblog.rubyonrails.org/2011/2/8/csrf-protection-bypass-in-ruby-on-rails/
-    #
-    # Resetting the session above is enough for preventing an attacking from
-    # using a user's session to execute requests with the user's account.
-    #
     # It's not enough to prevent login CSRF, so we have to explicitly deny requests
     # with invalid CSRF token for all requests that create a session with a logged in
-    # user. This is implemented as a before filter on AccountController that disallows
-    # all requests classified as API calls by api_request (via disable_api). It's
-    # important that disable_api and handle_unverified_request both use the same method
-    # to determine whether a request is an API request to ensure that a request either
-    # has a valid CSRF token and is not classified as API request, so no error is raised
-    # here OR a request has an invalid CSRF token and is classified as API request, no error
-    # is raised here, but is denied by disable_api.
+    # user.
     #
     # See http://stackoverflow.com/a/15350123 for more information on login CSRF.
-    unless api_request?
 
-      # Check whether user have cookies enabled, otherwise they'll only be
-      # greeted with the CSRF error upon login.
-      message = I18n.t(:error_token_authenticity)
-      message << ' ' + I18n.t(:error_cookie_missing) if openproject_cookie_missing?
+    # Check whether user have cookies enabled, otherwise they'll only be
+    # greeted with the CSRF error upon login.
+    message = I18n.t(:error_token_authenticity)
+    message << ' ' + I18n.t(:error_cookie_missing) if openproject_cookie_missing?
 
-      log_csrf_failure
+    log_csrf_failure
 
-      render_error status: 422, message: message
-    end
+    render_error status: 422, message: message
   end
 
   # Ensure the default handler is listed FIRST
@@ -414,65 +397,6 @@ class ApplicationController < ActionController::Base
     request.env['HTTP_USER_AGENT'] =~ %r{(MSIE|Trident)} ? ERB::Util.url_encode(name) : name
   end
 
-  def api_request?
-    if params[:format].nil?
-      %w(application/xml application/json).include? request.format.to_s
-    else
-      %w(xml json).include? params[:format]
-    end
-  end
-
-  # Returns the API key present in the request
-  def api_key_from_request
-    if params[:key].present?
-      params[:key]
-    elsif request.headers['X-OpenProject-API-Key'].present?
-      request.headers['X-OpenProject-API-Key']
-    end
-  end
-
-  # Converts the errors on an ActiveRecord object into a common JSON format
-  def object_errors_to_json(object)
-    object.errors.map do |attribute, error|
-      { attribute => error }
-    end.to_json
-  end
-
-  # Renders API response on validation failure
-  def render_validation_errors(object)
-    options = { status: :unprocessable_entity, layout: false }
-    errors = case params[:format]
-             when 'xml'
-               { xml:  object.errors }
-             when 'json'
-               { json: { 'errors' => object.errors } } # ActiveResource client compliance
-             else
-               fail "Unknown format #{params[:format]} in #render_validation_errors"
-             end
-    options.merge! errors
-    render options
-  end
-
-  # Overrides #default_template so that the api template
-  # is used automatically if it exists
-  def default_template(action_name = self.action_name)
-    if api_request?
-      begin
-        return view_paths.find_template(default_template_name(action_name), 'api')
-      rescue ::ActionView::MissingTemplate
-        # the api template was not found
-        # fallback to the default behaviour
-      end
-    end
-    super
-  end
-
-  # Overrides #pick_layout so that #render with no arguments
-  # doesn't use the layout for api requests
-  def pick_layout(*args)
-    api_request? ? nil : super
-  end
-
   def default_breadcrumb
     label = "label_#{self.class.name.gsub('Controller', '').underscore.singularize}"
 
@@ -485,12 +409,6 @@ class ApplicationController < ActionController::Base
     false
   end
   helper_method :show_local_breadcrumb
-
-  def admin_first_level_menu_entry
-    menu_item = admin_menu_item(current_menu_item)
-    menu_item.parent
-  end
-  helper_method :admin_first_level_menu_entry
 
   def check_session_lifetime
     if session_expired?
@@ -519,7 +437,7 @@ class ApplicationController < ActionController::Base
   private
 
   def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
+    current_user.logged? && session_ttl_expired?
   end
 
   def permitted_params

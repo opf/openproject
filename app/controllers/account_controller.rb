@@ -40,7 +40,6 @@ class AccountController < ApplicationController
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
 
-  before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
 
   layout 'no_menu'
@@ -558,13 +557,6 @@ class AccountController < ApplicationController
 
       token.user
     end
-  end
-
-  def disable_api
-    # Changing this to not use api_request? to determine whether a request is an API
-    # request can have security implications regarding CSRF. See handle_unverified_request
-    # for more information.
-    head 410 if api_request?
   end
 
   def invalid_token_and_redirect

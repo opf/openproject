@@ -28,7 +28,7 @@
 #++
 
 class ColorsController < ApplicationController
-  before_action :require_admin_unless_readonly_api_request
+  before_action :require_admin
 
   layout 'admin'
 
@@ -112,10 +112,5 @@ class ColorsController < ApplicationController
 
   def show_local_breadcrumb
     true
-  end
-
-  def require_admin_unless_readonly_api_request
-    require_admin unless %w[index show].include? params[:action] and
-                         api_request?
   end
 end
