@@ -63,7 +63,12 @@ export class BackRoutingService {
           this.$state.go(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
         }
       } else {
-        this.$state.go(this.backRoute.name, this.backRoute.params);
+        if (this.backRoute.parent) {
+          this.$state.go(this.backRoute.name, this.backRoute.params).then(() => { this.$state.reload(); });
+        }
+        else {
+          this.$state.go(this.backRoute.name, this.backRoute.params);
+        }
       }
     }
   }
