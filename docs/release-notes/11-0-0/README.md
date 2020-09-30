@@ -34,7 +34,7 @@ New action board types as well as further improvements to the boards allow you e
 
 ### WBS (work-breakdown-structure) boards
 
-Now, you can create a work breakdown structure for your project by adding parent-child-elements as a board. Select the parent work packages from the list and create a board with all  corresponding child work packages.
+Now, you can create a work breakdown structure for your project by adding parent-child-elements as a board. Select the parent work packages from the list and create a board with all corresponding children work packages.
 
 ![wbs-boards](wbs-boards.png)
 
@@ -58,19 +58,19 @@ To get more information about the cards in a board and to enable  quick and easy
 
 ## Project templates for easy project creation
 
-The new project templates allow you to create projects based on  predefined templates. When setting up a project you can define whether  this project should be used as a project template. You will then have  the possibility to select a predefined project template when creating a  new project which already includes all configurations, e.g. assignee,  project plan, work breakdown structure.
+The new project templates allow you to create projects based on predefined templates. When setting up a project you can define whether this project should be used as a project template. You will then have the possibility to select a predefined project template when creating a new project which already includes all configurations, e.g. assignee, project plan, work breakdown structure.
 
 ![project-templates-creation](project-templates-creation.png)
 
 ## Improved project portfolio management
 
-The configuration of the “view all projects” page now enables better  project portfolio management. You can configure the “view all projects”  list to show relevant project information for all projects, e.g. add  custom fields for projects and remove columns which are not needed. With the link to the Gantt charts view you can directly open a global work  packages view for all projects, configured to your needs, e.g. to show  all milestones across all projects.
+The configuration of the “view all projects” page now enables better project portfolio management. You can configure the “view all projects”  list to show relevant project information for all projects, e.g. add custom fields for projects and remove columns which are not needed. With the link to the Gantt charts view you can directly open a global work  packages view for all projects, configured to your needs, e.g. to show all milestones across all projects.
 
 ![project-portfolio-management](project-portfolio-management.png)
 
 ## Harmonization of the time and costs modules
 
-Tracking spent time and costs is now much easier with the improved  and harmonized modules for time and cost reporting. The modules *Time tracking* and *Cost reporting* have been combined. Whenever you want to track time and/or costs in a project, the new module *Time and costs* needs to be activated in the project settings. It automatically adds  the time tracking and cost reporting functionality to the project.
+Tracking spent time and costs is now much easier with the improved and harmonized modules for time and cost reporting. The modules *Time tracking* and *Cost reporting* have been combined. Whenever you want to track time and/or costs in a project, the new module *Time and costs* needs to be activated in the project settings. It automatically adds the time tracking and cost reporting functionality to the project.
 
 The *Budgets* module will remain unchanged and additionally enables project budgets to be tracked.
 
@@ -78,7 +78,7 @@ The *Budgets* module will remain unchanged and additionally enables project budg
 
 ## Improvements of the WYSIWYG editor
 
-We have again added many improvements to the WYSIWYG editor, i.e. for wiki pages or the work packages description. For example, you can now  adjust the image size in the editor.
+We have again added many improvements to the WYSIWYG editor, i.e. for wiki pages or the work packages description. For example, you can now adjust the image size in the editor.
 
 ![resize-imagesshort](resize-imagesshort.gif)
 
@@ -86,13 +86,13 @@ Additionally, it is now possible to add macros to insert project or work package
 
 ## Attribute help texts for projects (premium feature)
 
-We have now also expanded the attribute help texts for projects. You  can define help text for all project attributes, such as status or  accountable or any custom field for projects. A small question mark icon will appear behind the attribute in order to make the entry of this  information easier and eliminate errors.
+We have now also expanded the attribute help texts for projects. You can define help text for all project attributes, such as status or accountable or any custom field for projects. A small question mark icon will appear behind the attribute in order to make the entry of this  information easier and eliminate errors.
 
 ![project-help-texts](project-help-texts.png)
 
 ## Copy boards and project dashboards
 
-Boards and project dashboards can now also be copied when copying a  project. This enables you to set up a default project and copy it to set up a new project.
+Boards and project dashboards can now also be copied when copying a project. This enables you to set up a default project and copy it to set up a new project.
 
 ## As always,…… there’s much more!
 
