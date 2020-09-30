@@ -10,7 +10,7 @@ keywords: manage custom fields
 
 You can **create additional custom fields for different sections**, e.g. work packages, projects, users or groups in OpenProject.
 
-Custom fields enable to to configure your OpenProject exactly to your needs, i.e. to adapt work package forms to your company specific requirements.
+Custom fields enable to configure your OpenProject exactly to your needs, i.e. to adapt work package forms to your company specific requirements.
 
 ## Add a new custom field
 
