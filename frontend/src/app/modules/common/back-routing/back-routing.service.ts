@@ -52,22 +52,24 @@ export class BackRoutingService {
     // Default: back to list
     // When coming from a deep link or a create form
     const baseRoute = this.backRoute?.baseRoute || this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
-
-    if (!this.backRoute || this.backRoute.name.includes('new')) {
-      this.$state.go(baseRoute, this.$state.params);
-    } else {
-      if (this.keepTab.isDetailsState(this.backRoute.parent)) {
-        if (preferListOverSplit) {
-          this.$state.go(baseRoute, this.backRoute.params);
-        } else {
-          this.$state.go(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
-        }
+    if (!this.backRoute) { this.$state.reload(); }
+    else {
+      if (this.backRoute.name.includes('new')) {
+        this.$state.go(baseRoute, this.$state.params);
       } else {
-        if (this.backRoute.parent) {
-          this.$state.go(this.backRoute.name, this.backRoute.params).then(() => { this.$state.reload(); });
-        }
-        else {
-          this.$state.go(this.backRoute.name, this.backRoute.params);
+        if (this.keepTab.isDetailsState(this.backRoute.parent)) {
+          if (preferListOverSplit) {
+            this.$state.go(baseRoute, this.backRoute.params);
+          } else {
+            this.$state.go(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
+          }
+        } else {
+          if (this.backRoute.parent) {
+            this.$state.go(this.backRoute.name, this.backRoute.params).then(() => { this.$state.reload(); });
+          }
+          else {
+            this.$state.go(this.backRoute.name, this.backRoute.params);
+          }
         }
       }
     }
