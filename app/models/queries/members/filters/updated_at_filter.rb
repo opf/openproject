@@ -28,10 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Members::Orders::DefaultOrder < Queries::BaseOrder
-  self.model = Member
-
-  def self.key
-    /\A(id|created_at|updated_at)\z/
+class Queries::Members::Filters::UpdatedAtFilter < Queries::Members::Filters::MemberFilter
+  def type
+    :datetime_past
   end
 end

@@ -40,6 +40,8 @@ module Queries::Members
   Queries::Register.filter query, filter_ns::GroupFilter
   Queries::Register.filter query, filter_ns::RoleFilter
   Queries::Register.filter query, filter_ns::PrincipalFilter
+  Queries::Register.filter query, filter_ns::CreatedAtFilter
+  Queries::Register.filter query, filter_ns::UpdatedAtFilter
 
   order_ns = Queries::Members::Orders
 

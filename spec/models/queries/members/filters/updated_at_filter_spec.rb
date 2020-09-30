@@ -28,10 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Members::Orders::DefaultOrder < Queries::BaseOrder
-  self.model = Member
+require 'spec_helper'
 
-  def self.key
-    /\A(id|created_at|updated_at)\z/
+describe Queries::Members::Filters::UpdatedAtFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :updated_at }
+    let(:type) { :datetime_past }
+    let(:model) { Member }
+    let(:attribute) { :updated_at }
+    let(:values) { ['3'] }
   end
 end
