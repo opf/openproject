@@ -574,6 +574,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     end
 
     let(:members) { [own_member, other_member] }
+    let!(:other_member_updated_at) { other_member.updated_at }
 
     before do
       members
@@ -588,8 +589,14 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     end
 
     it 'updates the member' do
-      expect(other_member.roles.reload)
+      other_member.reload
+
+      expect(other_member.roles)
         .to match_array [another_role]
+
+      # Assigning a new role also updates the member
+      expect(other_member.updated_at > other_member_updated_at )
+        .to be_truthy
     end
 
     it 'returns the updated membership' do
