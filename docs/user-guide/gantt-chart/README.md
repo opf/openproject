@@ -19,10 +19,10 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Activate the Gantt chart](#activate-the-gantt-chart)        | How to activate the Gantt chart in OpenProject?              |
 | [Create a new element](#create-a-new-element-in-the-gantt-chart) | How to add a new item to the Gantt chart?                    |
-| [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display relations in the Gantt chart.             |
-| [Gantt chart configuration](#gantt-chart-configuration)     | How to configure the view of your Gantt chart, e.g. add labels? |
+| [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display dependencies in the Gantt chart.          |
+| [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
 | [Synchronize data from OpenProject to Excel](#synchronize-data-from-openproject-to-excel) | How to synchronize data from OpenProject to Excel?           |
-| [Gantt chart views](#gantt-chart-views)                       | How to zoom in and out and activate the Zen mode?            |
+| [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JNRmqWwSfeU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -64,11 +64,12 @@ In the menu, choose **Add predecessor** or **Add follower**.
 
 Select the item which you want to create the dependency with. The precede and follow relation is marked with a small blue line in the Gantt chart.
 
-OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/projects/openproject/work_packages/26448/activity)for an update.
 
 ![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
 
+OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/projects/openproject/work_packages/26448/activity) for an update.
 
+To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](/scheduling).
 
 ## Gantt chart configuration
 
@@ -79,7 +80,7 @@ Here you can **adapt the Zoom level**, or choose and Auto zoom which will select
 
 Also, you have **Label Configuration**  for your Gantt chart. You can add up to three additional labels within the chart: On the left, on the right and on the far right. Just select which additional information you would need to have in the Gantt chart. This can be especially relevant if you want to print your Gantt chart.
 
-Click the **Apply** button to save your changes.
+Click the **Apply** button to save your changes.()
 
 ![configure-gantt-chart](configure-gantt-chart.gif)
 
