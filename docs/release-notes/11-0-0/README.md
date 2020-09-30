@@ -9,10 +9,96 @@ release_date: 2020-09-29
 # OpenProject 11.0.0
 
 We released [OpenProject 11.0.0](https://community.openproject.com/versions/1429).
-The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+This new release will bring all sorts of features that will improve  classical as well as agile project management. We have implemented a top-down scheduling which introduces the option to schedule tasks  manually in OpenProject. Also, we have done a lot of improvements to the agile boards, e.g. to create a work breakdown structure for your projects. Furthermore, we have developed project templates as well as  better project portfolio management.
+
+As always, the release contains many more improvements and bug fixes and we recommend updating to the newest version promptly.
+
+![openproject-11-0-release-blog](openproject-11-0-release-blog.jpg)
+
+## Top-down project scheduling with new manual planning mode
+
+Top-down scheduling enables the project team to define all tasks  involved in a project, starting with a fixed start and finish date, and  breaking it down into smaller work packages. The new manual scheduling  mode in OpenProject allows to set a start and finish date of the parent  without being affected by the start and finish dates of its children.  You can now plan a project top-down without knowing all tasks at the  start of the project.
+
+![top-down-scheduling](top-down-scheduling.png)
+
+Moving a child element in the manual scheduling mode will not move  the dates of the parent element. It will now indicate the scheduling  differences with a blue or red bracket underneath (e.g. when a child is  shorter or longer than the parent phase). Also, we have added a grey background on hover to indicate the parent-child-relationships.
+
+Now, in OpenProject you can rely on both, top-down and bottom-up planning or even a combination of both. The approach you choose depends  on your specific planning goal.
+
+![Top-down-scheduling](Top-down-scheduling.gif)
+
+## Flexible agile boards give you more options (premium feature)
+
+New action board types as well as further improvements to the boards allow you even better agile project management.
+
+### WBS (work-breakdown-structure) boards
+
+Now, you can create a work breakdown structure for your project by adding parent-child-elements as a board. Select the parent work packages from the list and create a board with all  corresponding child work packages.
+
+![wbs-boards](wbs-boards.png)
+
+### Agile boards for subprojects
+
+Also, project hierarchies can now be displayed in the boards, e.g. to distribute tasks between subprojects. Subprojects can be selected as lists in a board from the parent project, the corresponding work packages from the respective subproject will appear underneath.
+
+![subproject-boards](subproject-boards.png)
+
+### New boards creation screen to select different board types
+
+Furthermore, we have implemented more improvements to the agile  boards, such as a better board creation modal. It is now much easier to  choose a new board from the available options.
+
+![boards-creation-modal](boards-creation-modal.png)
+
+### Cards with details view in boards
+
+To get more information about the cards in a board and to enable  quick and easy updates of all work package attributes incl. custom  fields, we have enabled a split-screen view also for the boards view.  The new split screen view can be enabled via the info icon on the cards.
+
+![boards-split-screen](boards-split-screen.png)
+
+## Project templates for easy project creation
+
+The new project templates allow you to create projects based on  predefined templates. When setting up a project you can define whether  this project should be used as a project template. You will then have  the possibility to select a predefined project template when creating a  new project which already includes all configurations, e.g. assignee,  project plan, work breakdown structure.
+
+![project-templates-creation](project-templates-creation.png)
+
+## Improved project portfolio management
+
+The configuration of the “view all projects” page now enables better  project portfolio management. You can configure the “view all projects”  list to show relevant project information for all projects, e.g. add  custom fields for projects and remove columns which are not needed. With the link to the Gantt charts view you can directly open a global work  packages view for all projects, configured to your needs, e.g. to show  all milestones across all projects.
+
+![project-portfolio-management](project-portfolio-management.png)
+
+## Harmonization of the time and costs modules
+
+Tracking spent time and costs is now much easier with the improved  and harmonized modules for time and cost reporting. The modules *Time tracking* and *Cost reporting* have been combined. Whenever you want to track time and/or costs in a project, the new module *Time and costs* needs to be activated in the project settings. It automatically adds  the time tracking and cost reporting functionality to the project.
+
+The *Budgets* module will remain unchanged and additionally enables project budgets to be tracked.
+
+![time-and-costs-module](time-and-costs-module.png)
+
+## Improvements of the WYSIWYG editor
+
+We have again added many improvements to the WYSIWYG editor, i.e. for wiki pages or the work packages description. For example, you can now  adjust the image size in the editor.
+
+![resize-imagesshort](resize-imagesshort.gif)
+
+Additionally, it is now possible to add macros to insert project or work packages attributes to the wiki or work package description.
+
+## Attribute help texts for projects (premium feature)
+
+We have now also expanded the attribute help texts for projects. You  can define help text for all project attributes, such as status or  accountable or any custom field for projects. A small question mark icon will appear behind the attribute in order to make the entry of this  information easier and eliminate errors.
+
+![project-help-texts](project-help-texts.png)
+
+## Copy boards and project dashboards
+
+Boards and project dashboards can now also be copied when copying a  project. This enables you to set up a default project and copy it to set up a new project.
+
+## As always,…… there’s much more!
+
+There are lots and lots of new things we packed into 11.0 to tell you about.
+
+### All bug fixes and changes in 11.0
 
 - Fixed: Journal data is not removed upon work package deletion \[[#22048](https://community.openproject.com/wp/22048)\]
 - Fixed: warning when data will be discarded \[[#25683](https://community.openproject.com/wp/25683)\]
@@ -204,17 +290,46 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Changed: [all projects overview] (Add option to) show status-text in expanded view. \[[#34191](https://community.openproject.com/wp/34191)\]
 - Changed: Map board subtasks columns when copying projects \[[#34238](https://community.openproject.com/wp/34238)\]
 - Changed: Having meetings as a linkable resource \[[#34256](https://community.openproject.com/wp/34256)\]
-- Changed: What's new teaser OpenProject BIM 11.0 \[[#34514](https://community.openproject.com/wp/34514)\]
 - Changed: New seed data for demo project - boards \[[#34526](https://community.openproject.com/wp/34526)\]
 - Epic: Switch between automatic and manual scheduling mode \[[#25624](https://community.openproject.com/wp/25624)\]
 - Epic: Time tracking and cost control 2.0 \[[#32125](https://community.openproject.com/wp/32125)\]
 - Epic: Wiki Macro functionality to allow retrieving work package and project attributes \[[#33648](https://community.openproject.com/wp/33648)\]
 - Epic: Basic portfoliomanagement for project list \[[#34167](https://community.openproject.com/wp/34167)\]
-- Epic: Projekt Templates \[[#34468](https://community.openproject.com/wp/34468)\]
+- Epic: Project Templates \[[#34468](https://community.openproject.com/wp/34468)\]
 
-#### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+## Installation and Updates
 
-Special thanks for reporting and finding bugs go to
+To use OpenProject 11.0 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
 
-Marc Vollmer, Andy Shilton, Christian Forgács, L B, Gábor Sift, Thyago Sanabio, Daniel Narberhaus, Harpan Budi Santoso, Çağlar Yeşilyurt, Rajiv Ranjan Sinha, Freddy Trotin, xin meng, Kris M, schermi schermi, Nick Bailey, Adam Vanko, Hartwin Leen, Sergey Anikin, Petros Christopoulos, Oscar Meier, Matthias Laux, Carsten Klein, Dagyo Lee, Jonatan Zint, Gio @ Enuan, Peter Pof, Sergey Shalikin, Benoit PETIT-DEMOULIERE
+Prefer to run OpenProject 11.0 in your own infrastructure?
+Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
+
+Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition-upgrade-test-free/)
+
+Navigate to the -> *Administration*-> *Enterprise Edition* and request your trial token.
+
+## Migrating to OpenProject 11.0
+
+Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0.
+
+We update the hosted OpenProject environments (Enterprise Cloud) automatically.
+
+## Credits and contributions
+
+Special thanks go to all OpenProject contributors without whom this release would not have been possible:
+
+- All the developers, designers, project managers who have contributed to OpenProject 11.0.
+
+- The City of Cologne for sponsoring some of the open source features and thus contributing them to the Community.
+
+- Every dedicated user who has created feature request, [reported bugs](../../development/report-a-bug/) for 11.0 and also supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+
+- All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
+
+- Special thanks for reporting and finding bugs go to:
+
+  Marc Vollmer, Andy Shilton, Christian Forgács, L B, Gábor Sift, Thyago Sanabio, Daniel Narberhaus, Harpan Budi Santoso, Çağlar Yeşilyurt, Rajiv Ranjan Sinha, Freddy Trotin, xin meng, Kris M, schermi schermi, Nick Bailey, Adam Vanko, Hartwin Leen, Sergey Anikin, Petros Christopoulos, Oscar Meier, Matthias Laux, Carsten Klein, Dagyo Lee, Jonatan Zint, Gio @ Enuan, Peter Pof, Sergey Shalikin, Benoit PETIT-DEMOULIERE
+
+## What’s next?
+
+We are continuously developing new features and improvements for  OpenProject. If you’d like to preview what’s coming in the next release, be sure to check out our [development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=918).
