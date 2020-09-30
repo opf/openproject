@@ -5,98 +5,49 @@ sidebar_navigation:
 description: Use manual or automatic scheduling mode in OpenProject
 robots: index, follow
 keywords: gantt chart, automatic scheduling, manual scheduling, start date, finish date, relations
+
+
 ---
 
 # Automatic and manual scheduling mode
 
 <div class="glossary">
-
-The **Gantt chart** in OpenProject displays the work packages in a timeline. To schedule the work packages there is a automatic schduling mode (default) and a manual scheduling mode (new in release 11.0). To add relations between work packages you can set them as predecessor or follower.
+The **Gantt chart** in OpenProject displays the work packages in a timeline. To schedule the work packages there is a **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages behaviour when changing dates of other related work packages.
 
 </div>
 
-| Feature                                                      | Documentation for                                            |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Activate the Gantt chart](#activate-the-gantt-chart)        | How to activate the Gantt chart in OpenProject?              |
-| [Create a new element](#create-a-new-element-in-the-gantt-chart) | How to add a new item to the Gantt chart?                    |
-| [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display relations in the Gantt chart.             |
-| [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
-| [Synchronize data from OpenProject to Excel](#synchronize-data-from-openproject-to-excel) | How to synchronize data from OpenProject to Excel?           |
-| [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/JNRmqWwSfeU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Activate the Gantt chart
-
-A Gantt chart can be activated in any work package list, to display the work packages in a timeline view.
-
-To activate the Gantt chart, select the **Gantt** icon at the top right of the work package list.
-
-![activate-gantt](activate-gantt.gif)
-
-## Create a new element in the Gantt chart
-
-To add a work package (e.g. phase, milestone or task) to a Gantt chart, click the **+ Create new work package** link at the bottom of the work package list view.
-
-You can add a subject and make changes to type, status or more fields.
-
-In the **Gantt chart** you can schedule the work package with drag and drop and change the duration.
-
-### How to change the order of an item in the Gantt chart?
-
-To change the order the elements in the Gantt chart. Click the **drag and drop** icon at the left hand side of the work package row. Drag the item to the new position. The blue line indicated the new position to drop the element.
+| Topic                                                   | Content                                                      |
+| ------------------------------------------------------- | ------------------------------------------------------------ |
+| [Automatic scheduling mode](#automatic-scheduling-mode) | What happens to work packages, when you connect them in automatic scheduling mode? |
+| [Manual scheduling mode](#manual scheduling-mode)       | What happens to work packages, when you connect them in manual scheduling mode? |
+| [Changing modes](#changing-modes)                       | How can I change between manual and automatic scheduling mode? |
 
 
+## Automatic scheduling mode
 
-![create-new-element-gantt-chart](create-new-element-gantt-chart.gif)
+When [setting a dependency](../#relations-in-the-gantt-chart) between two work packages the **automatic scheduling mode** is set as default. This means:
 
-### How to change the duration of an element in the Gantt chart?
+- A work packages start date is automatically determined by the start date of its earliest starting child.
+- A work packages finish date is automatically determined by the finish date of its latest ending child.
+- When you move a work package past the set start date of its follower, the followers start date will be adjusted to its predecessors finish date. This is not the case the other way round. 
+  Example: Work package 1 ends on October 5th. Its follower work package 2 starts on October 13th. Now work package one gets delayed by ten days, you have to adjust the planning. When you the finish date of work package 1 to October 15th, the start date of work package 2 will automatically be set to October 16th.
 
-To change the duration of a phase in the Gantt chart view, click on the element in the Gantt chart. You can change the duration with drag and drop, shorten or prolong the duration and change start and due date.
+## Manual scheduling mode
 
-## Relations in the Gantt chart
+Changing to the manual scheduling mode makes sense if
 
-In the Gantt chart you can track dependencies of work packages (e.g. phases, milestones, tasks). This way you can get an easy overview of what needs to be done in which order, e.g. what tasks need to be completed to achieve a milestone.
+- you want to set a parent work packages date independently from the dates of its children, or
+- you don't want a parent work packages dates being updated automatically when changing the childrens dates, or
+- you don't want a follower's start date be automatically updated when you change the predecessors finish date
 
-To add a dependency make right mouse click on an element in the Gantt chart.
+## Change mode
 
-In the menu, choose **Add predecessor** or **Add follower**.
+You can **activate the manual scheduling mode** by clicking on the date of a work package and selecting the box next to "Manual scheduling". 
 
-Select the item which you want to create the dependency with. The precede and follow relation is marked with a small blue line in the Gantt chart.
+![image-20200929160916841](C:/Users/Matthias Laux/Documents/GitHub/openproject/docs/user-guide/gantt-chart/scheduling/image-20200929160916841.png)
 
-OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/projects/openproject/work_packages/26448/activity) for an update.
+The pin symbol next to the date indicates that a work package is in manual scheduling mode.
 
-![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
+![image-20200929161237109](C:/Users/Matthias Laux/Documents/GitHub/openproject/docs/user-guide/gantt-chart/scheduling/image-20200929161237109.png)
 
-
-
-## Gantt chart configuration
-
-To open the Gantt chart configuration, please open the **settings** icon with the three dots on the top right of the work package module.
-Choose **Configure view ...** and select the tab **Gantt chart**.
-
-Here you can **adapt the Zoom level**, or choose and Auto zoom which will select a Zoom level which best fits to your browser size to have optimal results on a page.
-
-Also, you have **Label Configuration**  for your Gantt chart. You can add up to three additional labels within the chart: On the left, on the right and on the far right. Just select which additional information you would need to have in the Gantt chart. This can be especially relevant if you want to print your Gantt chart.
-
-Click the **Apply** button to save your changes.
-
-![configure-gantt-chart](configure-gantt-chart.gif)
-
-### How to export data from a Gantt diagram?
-
-To export the data from your Gantt chart there are several possibilities:
-
-* [Export via the work package view](../work-packages/edit-work-package/#export-work-packages)
-* [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
-* 
-
-## Synchronize data from OpenProject to Excel
-
-
-
-## Gantt chart views
-
-### Zoom in the Gantt chart
-
-### 
+Changing back to automatic scheduling mode works the same way. Please note: When switching from manual scheduling to automatic scheduling some work packages' dates might be updated according to principles [stated above](#automatic-scheduling-mode). 
