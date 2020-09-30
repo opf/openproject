@@ -41,21 +41,21 @@ module DemoData
     def seed_data!
       # Seed only for those projects that provide a `kanban` key, i.e. 'demo-project' in standard edition.
       if project_has_data_for?(key, 'boards.kanban')
-        print '    ↳ Creating demo status board'
-        seed_kanban_board
-        puts
+        print_status '    ↳ Creating demo status board' do
+          seed_kanban_board
+        end
       end
 
       if project_has_data_for?(key, 'boards.basic')
-        print '    ↳ Creating demo basic board'
-        seed_basic_board
-        puts
+        print_status '    ↳ Creating demo basic board' do
+          seed_basic_board
+        end
       end
 
       if project_has_data_for?(key, 'boards.parent_child')
-        print '    ↳ Creating demo parent child board'
-        seed_parent_child_board
-        puts
+        print_status '    ↳ Creating demo parent child board' do
+          seed_parent_child_board
+        end
       end
     end
 

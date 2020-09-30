@@ -37,11 +37,9 @@ module DemoData
     end
 
     def seed_data!
-      print '    ↳ Creating groups'
-
-      seed_groups
-
-      puts
+      print_status '    ↳ Creating groups' do
+        seed_groups
+      end
     end
 
     def add_projects_to_groups
@@ -71,7 +69,7 @@ module DemoData
       groups = demo_data_for('groups')
       if groups.present?
         groups.each do |group_attr|
-          print '.'
+          print_status '.'
           create_group group_attr[:name]
         end
       end

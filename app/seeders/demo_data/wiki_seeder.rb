@@ -42,10 +42,10 @@ module DemoData
       user = User.admin.first
 
       if text.is_a? String
-        text = [{title: "Wiki", content: text}]
+        text = [{ title: "Wiki", content: text }]
       end
 
-      print '    ↳ Creating wikis'
+      print_status '    ↳ Creating wikis'
 
       Array(text).each do |data|
         create_wiki_page!(
@@ -60,16 +60,16 @@ module DemoData
 
     def create_wiki_page!(data, project:, user:, parent: nil)
       wiki_page = WikiPage.create!(
-        wiki:  project.wiki,
+        wiki: project.wiki,
         title: data[:title],
         parent: parent
       )
 
-      print '.'
+      print_status '.'
       WikiContent.create!(
-        page:   wiki_page,
+        page: wiki_page,
         author: user,
-        text:   data[:content]
+        text: data[:content]
       )
 
       if data[:children]
