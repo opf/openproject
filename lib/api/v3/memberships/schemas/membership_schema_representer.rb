@@ -44,6 +44,9 @@ module API
           schema :created_at,
                  type: 'DateTime'
 
+          schema :updated_at,
+                 type: 'DateTime'
+
           schema_with_allowed_link :project,
                                    has_default: false,
                                    required: true,

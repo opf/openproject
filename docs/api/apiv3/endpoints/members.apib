@@ -15,6 +15,7 @@ Users and groups can become members of a project. Such a membership will also ha
 | :---------: | --------------------------------------------- | ----------- | -----------                                        | -------------------- |
 | id          | Membership id                                 | Integer     | x > 0                                              | READ                 |
 | createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
+| updatedAt   | Time of latest update                         | DateTime    | not null                                           | READ                 |
 
 ## Membership [/api/v3/memberships/{id}]
 
@@ -60,6 +61,7 @@ Users and groups can become members of a project. Such a membership will also ha
                 "_type": "Membership",
                 "id": 11,
                 "createdAt": "2015-03-20T12:56:56Z",
+                "updatedAt": "2018-12-20T18:16:11Z",
                 "_embedded": {
                     "project": "<-- omitted for brevity -->",
                     "principal": "<-- omitted for brevity -->",
@@ -272,7 +274,8 @@ Deletes the membership.
                             },
                             "_type": "Membership",
                             "id": 11,
-                            "createdAt": "2015-03-20T12:56:56Z"
+                            "createdAt": "2015-03-20T12:56:56Z",
+                            "updatedAt": "2018-12-20T18:16:11Z"
                         },
                         {
                             "_links": {
@@ -299,7 +302,8 @@ Deletes the membership.
                             },
                             "_type": "Membership",
                             "id": 41,
-                            "createdAt": "2019-12-22T12:56:06Z"
+                            "createdAt": "2019-12-22T12:56:06Z",
+                            "updatedAt": "2020-12-20T18:16:12Z"
                         }
                     ]
                 }
@@ -424,6 +428,13 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "hasDefault": false,
                     "writable": false
                 },
+                "updatedAt": {
+                    "type": "DateTime",
+                    "name": "Updated on",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
                 "project": {
                     "type": "Project",
                     "name": "Project",
@@ -540,6 +551,13 @@ For more details and all possible responses see the general specification of [Fo
                         "createdAt": {
                             "type": "DateTime",
                             "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "updatedAt": {
+                            "type": "DateTime",
+                            "name": "Updated on",
                             "required": true,
                             "hasDefault": false,
                             "writable": false
@@ -684,6 +702,13 @@ For more details and all possible responses see the general specification of [Fo
                         "createdAt": {
                             "type": "DateTime",
                             "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "updatedAt": {
+                            "type": "DateTime",
+                            "name": "Updated on",
                             "required": true,
                             "hasDefault": false,
                             "writable": false

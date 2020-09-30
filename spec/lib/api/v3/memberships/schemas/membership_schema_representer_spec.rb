@@ -109,6 +109,17 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
       end
     end
 
+    describe 'updatedAt' do
+      let(:path) { 'updatedAt' }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:type) { 'DateTime' }
+        let(:name) { Version.human_attribute_name('updated_at') }
+        let(:required) { true }
+        let(:writable) { false }
+      end
+    end
+
     describe 'project' do
       let(:path) { 'project' }
 

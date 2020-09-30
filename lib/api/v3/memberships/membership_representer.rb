@@ -88,8 +88,8 @@ module API
                                end
                              end
 
-        date_time_property :created_on,
-                           as: 'createdAt'
+        date_time_property :created_at
+        date_time_property :updated_at
 
         self.to_eager_load = %i[principal
                                 project
