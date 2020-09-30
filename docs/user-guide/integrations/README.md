@@ -38,7 +38,7 @@ We do offer an [integration](../time-and-costs/time-tracking/toggl-integration/)
 
 ## Slack
 
-We do offer a rudimentary OpenProject Slack integration. It messages a configured Slack channel, every time a Work Package or Wiki site is modified.
+There is a rudimentary OpenProject Slack integration. It messages a configured Slack channel, every time a Work Package or Wiki site is modified. This integration is not officially supported by OpenProject.
 To activate it in the Cloud Edition please [get in touch](https://www.openproject.org/contact-us/). For the Enterprise Edition and the Cloud Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack#openproject-slack-plugin) 
 
 ## Timesheet
