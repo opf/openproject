@@ -38,18 +38,26 @@ module Members
     validate :user_allowed_to_manage
     validate :roles_grantable
 
+    private
+
     def user_allowed_to_manage
-      if model.project && !user.allowed_to?(:manage_members, model.project)
-        errors.add :base, :error_unauthorized
-      end
+      errors.add :base, :error_unauthorized unless user_allowed_to_manage?
     end
 
     def roles_grantable
       unmarked_roles = model.member_roles.reject(&:marked_for_destruction?).map(&:role)
 
-      unless unmarked_roles.all? { |r| r.builtin == Role::NON_BUILTIN && r.class == Role }
-        errors.add(:roles, :ungrantable)
-      end
+      errors.add(:roles, :ungrantable) unless unmarked_roles.all? { |r| role_grantable?(r) }
+    end
+
+    def role_grantable?(role)
+      role.builtin == Role::NON_BUILTIN &&
+        ((model.project && role.class == Role) || (!model.project && role.class == GlobalRole))
+    end
+
+    def user_allowed_to_manage?
+      (model.project && user.allowed_to?(:manage_members, model.project)) ||
+        (!model.project && user.admin?)
     end
   end
 end

@@ -31,13 +31,29 @@
 # Find all members visible to the inquiring user
 module Members::Scopes
   class Visible
-    def self.fetch(user)
-      view_members = Project.where(id: Project.allowed_to(user, :view_members))
-      manage_members = Project.where(id: Project.allowed_to(user, :manage_members))
+    class << self
+      def fetch(user)
+        if user.admin?
+          visible_for_admins
+        else
+          visible_for_non_admins(user)
+        end
+      end
 
-      project_scope = view_members.or(manage_members)
+      private
 
-      Member.where(project_id: project_scope.select(:id))
+      def visible_for_non_admins(user)
+        view_members = Project.where(id: Project.allowed_to(user, :view_members))
+        manage_members = Project.where(id: Project.allowed_to(user, :manage_members))
+
+        project_scope = view_members.or(manage_members)
+
+        Member.where(project_id: project_scope.select(:id))
+      end
+
+      def visible_for_admins
+        Member.all
+      end
     end
   end
 end

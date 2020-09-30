@@ -48,14 +48,6 @@ describe Members::CreateContract do
         end
       end
 
-      context 'if the project is nil' do
-        let(:member_project) { nil }
-
-        it 'is valid' do
-          expect_valid(true)
-        end
-      end
-
       context 'if the principal is a builtin user' do
         let(:member_principal) { FactoryBot.build_stubbed(:anonymous) }
 

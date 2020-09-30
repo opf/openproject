@@ -29,12 +29,15 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 memberhips resource', type: :request, content_type: :json do
+describe 'API v3 memberships resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
     FactoryBot.create(:user)
+  end
+  let(:admin) do
+    FactoryBot.create(:admin)
   end
   let(:own_member) do
     FactoryBot.create(:member,
@@ -45,6 +48,7 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
   let(:permissions) { %i[view_members manage_members] }
   let(:project) { FactoryBot.create(:project) }
   let(:other_role) { FactoryBot.create(:role) }
+  let(:global_role) { FactoryBot.create(:global_role) }
   let(:other_user) { FactoryBot.create(:user) }
   let(:other_member) do
     FactoryBot.create(:member,
@@ -56,11 +60,15 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
     FactoryBot.create(:member,
                       roles: [FactoryBot.create(:role)])
   end
+  let(:global_member) do
+    FactoryBot.create(:global_member,
+                      roles: [global_role])
+  end
 
   subject(:response) { last_response }
 
   describe 'GET api/v3/memberships' do
-    let(:members) { [own_member, other_member, invisible_member] }
+    let(:members) { [own_member, other_member, invisible_member, global_member] }
 
     before do
       members
@@ -95,6 +103,41 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
         expect(subject.body)
           .to be_json_eql(other_member.id.to_json)
           .at_path('_embedded/elements/1/id')
+      end
+    end
+
+    context 'as an admin' do
+      let(:current_user) { admin }
+
+      it 'responds 200 OK' do
+        expect(subject.status).to eq(200)
+      end
+
+      it 'returns a collection of memberships containing only the visible ones' do
+        expect(subject.body)
+          .to be_json_eql('Collection'.to_json)
+          .at_path('_type')
+
+        # the one membership stems from the membership the user has himself
+        expect(subject.body)
+          .to be_json_eql('4')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(own_member.id.to_json)
+          .at_path('_embedded/elements/0/id')
+
+        expect(subject.body)
+          .to be_json_eql(other_member.id.to_json)
+          .at_path('_embedded/elements/1/id')
+
+        expect(subject.body)
+          .to be_json_eql(invisible_member.id.to_json)
+          .at_path('_embedded/elements/2/id')
+
+        expect(subject.body)
+          .to be_json_eql(global_member.id.to_json)
+          .at_path('_embedded/elements/3/id')
       end
     end
 
@@ -287,6 +330,8 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
     end
 
     shared_examples_for 'successful member creation' do
+      let(:role) { defined?(expected_role) ? expected_role : other_role }
+
       it 'responds with 201' do
         expect(last_response.status).to eq(201)
       end
@@ -301,9 +346,11 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
           .to be_json_eql('Membership'.to_json)
           .at_path('_type')
 
-        expect(last_response.body)
-          .to be_json_eql(api_v3_paths.project(project.id).to_json)
-          .at_path('_links/project/href')
+        if project
+          expect(last_response.body)
+            .to be_json_eql(api_v3_paths.project(project.id).to_json)
+            .at_path('_links/project/href')
+        end
 
         expect(last_response.body)
           .to be_json_eql(principal_path.to_json)
@@ -314,7 +361,7 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
           .at_path('_links/roles')
 
         expect(last_response.body)
-          .to be_json_eql(api_v3_paths.role(other_role.id).to_json)
+          .to be_json_eql(api_v3_paths.role(role.id).to_json)
           .at_path('_links/roles/0/href')
       end
     end
@@ -343,6 +390,36 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
             ]
           }.to_json
         end
+      end
+    end
+
+    context 'for a global membership' do
+      let(:expected_role) { global_role }
+      let(:body) do
+        {
+          project: {
+            href: nil
+          },
+          principal: {
+            href: principal_path
+          },
+          roles: [
+            {
+              href: api_v3_paths.role(global_role.id)
+            }
+          ]
+        }.to_json
+      end
+      let(:project) { nil }
+
+      context 'as an admin' do
+        let(:current_user) { admin }
+
+        it_behaves_like 'successful member creation'
+      end
+
+      context 'as a non admin' do
+        it_behaves_like 'unauthorized access'
       end
     end
 
@@ -515,7 +592,7 @@ describe 'API v3 memberhips resource', type: :request, content_type: :json do
         .to match_array [another_role]
     end
 
-    it 'returns the updated version' do
+    it 'returns the updated membership' do
       expect(last_response.body)
         .to be_json_eql('Membership'.to_json)
         .at_path('_type')

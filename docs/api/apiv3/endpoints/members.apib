@@ -2,11 +2,13 @@
 
 Users and groups can become members of a project. Such a membership will also have one or more roles assigned to it. By that, memberships control the permissions a user has within a project.
 
+There are also memberships that do not govern the permissions within a certain project but rather govern global permissions. Currently, this is only relevant for the "Create project" permission. Those memberships do not have a project associated.
+
 ## Linked Properties
 |  Link               | Description                                                   | Type             | Constraints                                                    | Supported operations |
 |:-------------------:|-----------------------------------------                      | -------------    | -------------------------------------------------------------- | -------------------- |
 | self                | This membership                                               | Membership       | not null                                                       | READ                 |
-| project             | The project for which the membership is granted               | Project          | not null                                                       | READ                 |
+| project             | The project for which the membership is granted               | Project          |                                                                | READ                 |
 | roles               | The list of roles the user or group is granted in the project | RoleCollection   | not null                                                       | READ                 |
 | principal           | The user or group that was granted membership                 | User or Group    | not null                                                       | READ                 |
 

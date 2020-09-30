@@ -30,7 +30,7 @@ require 'spec_helper'
 
 shared_examples_for 'member contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
+    FactoryBot.build_stubbed(:user, admin: current_user_admin) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project|
         permissions.include?(permission) && member_project == permission_project
@@ -41,12 +41,16 @@ shared_examples_for 'member contract' do
     FactoryBot.build_stubbed(:project)
   end
   let(:member_roles) do
-    [FactoryBot.build_stubbed(:role)]
+    [role]
   end
   let(:member_principal) do
     FactoryBot.build_stubbed(:user)
   end
+  let(:role) do
+    FactoryBot.build_stubbed(:role)
+  end
   let(:permissions) { [:manage_members] }
+  let(:current_user_admin) { false }
 
   def expect_valid(valid, symbols = {})
     expect(contract.validate).to eq(valid)
@@ -88,6 +92,36 @@ shared_examples_for 'member contract' do
 
       it 'is invalid' do
         expect_valid(false, base: %i(error_unauthorized))
+      end
+    end
+
+    context 'if the project is nil (global membership)' do
+      let(:member_project) { nil }
+      let(:role) do
+        FactoryBot.build_stubbed(:global_role)
+      end
+
+      context 'if the user is no admin' do
+        it 'is invalid' do
+          expect_valid(false, base: %i(error_unauthorized))
+        end
+      end
+
+      context 'if the user is admin and the role is global' do
+        let(:current_user_admin) { true }
+
+        it_behaves_like 'is valid'
+      end
+
+      context 'if the role is not a global role' do
+        let(:current_user_admin) { true }
+        let(:role) do
+          FactoryBot.build_stubbed(:role)
+        end
+
+        it 'is invalid' do
+          expect_valid(false, roles: %i(ungrantable))
+        end
       end
     end
   end
