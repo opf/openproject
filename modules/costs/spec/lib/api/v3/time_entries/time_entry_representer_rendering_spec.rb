@@ -35,8 +35,8 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     FactoryBot.build_stubbed(:time_entry,
                              comments: 'blubs',
                              spent_on: Date.today,
-                             created_on: DateTime.now - 6.hours,
-                             updated_on: DateTime.now - 3.hours,
+                             created_at: DateTime.now - 6.hours,
+                             updated_at: DateTime.now - 3.hours,
                              hours: hours,
                              activity: activity,
                              project: project,
@@ -243,11 +243,11 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     end
 
     it_behaves_like 'datetime property', :createdAt do
-      let(:value) { time_entry.created_on }
+      let(:value) { time_entry.created_at }
     end
 
     it_behaves_like 'datetime property', :updatedAt do
-      let(:value) { time_entry.updated_on }
+      let(:value) { time_entry.updated_at }
     end
 
     context 'custom value' do
