@@ -52,9 +52,10 @@ export class BackRoutingService {
     // Default: back to list
     // When coming from a deep link or a create form
     const baseRoute = this.backRoute?.baseRoute || this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
-    if (!this.backRoute) { this.$state.reload(); }
+    // if we are in the first state
+    if (!this.backRoute && baseRoute.includes('show')) { this.$state.reload(); }
     else {
-      if (this.backRoute.name.includes('new')) {
+      if (!this.backRoute || this.backRoute.name.includes('new')) {
         this.$state.go(baseRoute, this.$state.params);
       } else {
         if (this.keepTab.isDetailsState(this.backRoute.parent)) {
