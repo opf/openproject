@@ -26,6 +26,7 @@
               "chart.js",
               "create-point-cb",
               "core-vendor/enjoyhint",
+              "core-vendor/qrcode-min",
               "tablesorter",
               "chartjs-plugin-datalabels"
             ],
