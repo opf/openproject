@@ -47,7 +47,7 @@ export function wpOnboardingTourSteps():any[] {
       'next #wp-view-toggle-button': I18n.t('js.onboarding.steps.wp.timeline_button'),
       'showSkip': false,
       'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
-      'bottom': '-100',
+      'bottom': '-64',
       onNext: function () {
         jQuery('#wp-view-context-menu .icon-view-timeline')[0].click();
       }
