@@ -39,7 +39,10 @@ fi
 
 if [ "$(id -u)" = '0' ]; then
 	mkdir -p $APP_DATA_PATH/{files,git,svn}
-	chown -R $APP_USER:$APP_USER $APP_DATA_PATH /etc/apache2/sites-enabled/
+	chown -R $APP_USER:$APP_USER $APP_DATA_PATH
+	if [ -d /etc/apache2/sites-enabled ]; then
+		chown -R $APP_USER:$APP_USER /etc/apache2/sites-enabled
+	fi
 
 	# Clean up any dangling PID file
 	rm -f $APP_PATH/tmp/pids/*
