@@ -37,7 +37,10 @@ export function boardTourSteps() {
       'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
       'containerClass': '-dark -hidden-arrow',
       onNext: function () {
-        jQuery('.main-menu--arrow-left-to-project')[0].click();
+        const backArrows = Array.from(document.getElementsByClassName('main-menu--arrow-left-to-project'));
+        const boardsBackArrow = backArrows.find((backArrow) => (backArrow.nextElementSibling as HTMLElement).innerText === 'Boards') as HTMLElement;
+
+        boardsBackArrow && boardsBackArrow.click();
       }
     }
   ];
