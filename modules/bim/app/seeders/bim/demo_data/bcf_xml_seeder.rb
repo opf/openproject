@@ -43,7 +43,7 @@ module Bim
 
         user = User.admin.first
 
-        print '    ↳ Import BCF XML file'
+        print_status '    ↳ Import BCF XML file'
 
         import_options = {
           invalid_people_action: 'anonymize',

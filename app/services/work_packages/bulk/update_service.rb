@@ -55,6 +55,11 @@ module WorkPackages
         errors = {}
 
         work_packages.each do |work_package|
+          # As updating one work package might have already saved another one,
+          # e.g. by changing the start/due date or the version
+          # we need to reload the work packages to avoid running into stale object errors.
+          work_package.reload
+
           work_package.add_journal(user, params[:notes])
 
           # filter parameters by whitelist and add defaults
@@ -76,6 +81,7 @@ module WorkPackages
         ServiceResult.new success: errors.empty?, result: saved, errors: errors
       end
 
+      # TODO: move params transformation out of here as this is not the responsibility of a service
       def parse_params_for_bulk_work_package_attributes(params, project)
         return {} unless params.has_key? :work_package
 

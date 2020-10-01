@@ -55,10 +55,6 @@
     .wp-table--cell-td
       display: none !important
 
-// Sums row background
-.wp-table--sums-row
-  background: #f6f7f8
-
 .wp-table--sum-container
   font-weight: bold
   padding: 3px 6px
@@ -88,8 +84,10 @@
 // Remove padding from grouping rows (exceeds allowed width of 41px)
 .wp-table--group-header
   height: var(--table-timeline--row-height)
+  background-color: var(--gray-light)
   td
     padding: 0 !important
+    background-color: transparent !important
 
   .group--value
     @include text-shortener

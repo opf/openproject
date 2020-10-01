@@ -43,12 +43,10 @@ module DemoData
     end
 
     def seed_data!
-      print '    ↳ Creating work_packages'
-
-      seed_demo_work_packages
-      set_workpackage_relations
-
-      puts
+      print_status '    ↳ Creating work_packages' do
+        seed_demo_work_packages
+        set_workpackage_relations
+      end
     end
 
     private
@@ -57,7 +55,7 @@ module DemoData
       work_packages_data = project_data_for(key, 'work_packages')
 
       work_packages_data.each do |attributes|
-        print '.'
+        print_status '.'
         create_or_update_work_package(attributes)
       end
     end
@@ -94,7 +92,7 @@ module DemoData
 
     def create_children!(work_package, attributes)
       Array(attributes[:children]).each do |child_attributes|
-        print '.'
+        print_status '.'
         child = create_work_package child_attributes
 
         child.parent = work_package

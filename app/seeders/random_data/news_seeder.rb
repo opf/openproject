@@ -31,10 +31,10 @@ module RandomData
       user = User.admin.first
 
       puts ''
-      print ' ↳ Creating news'
+      print_status ' ↳ Creating news'
 
       rand(30).times do
-        print '.'
+        print_status '.'
         news = News.create project: project,
                            author: user,
                            title: Faker::Lorem.characters(60),

@@ -29,10 +29,10 @@ module DevelopmentData
   class CustomFieldsSeeder < Seeder
     def seed_data!
       CustomField.transaction do
-        print '    ↳ Creating custom fields...'
+        print_status '    ↳ Creating custom fields...'
         cfs = create_cfs!
 
-        print "\n    ↳ Creating types for linking CFs"
+        print_status "\n    ↳ Creating types for linking CFs"
         create_types!(cfs)
       end
 
@@ -49,14 +49,14 @@ module DevelopmentData
       type = FactoryBot.build :type, name: 'All CFS'
       extend_group(type, ['Custom fields', non_req_cfs])
       type.save!
-      print '.'
+      print_status '.'
 
       # Create type
       req_cfs = cfs.select(&:is_required).map { |cf| "custom_field_#{cf.id}" }
       type_req = FactoryBot.build :type, name: 'Required CF'
       extend_group(type_req, ['Custom fields', req_cfs])
       type_req.save!
-      print '.'
+      print_status '.'
     end
 
     def create_cfs!
@@ -68,7 +68,7 @@ module DevelopmentData
                                    type: 'WorkPackageCustomField',
                                    is_required: false,
                                    field_format: type)
-        print '.'
+        print_status '.'
       end
 
       cfs << CustomField.create!(name: "CF DEV list",
@@ -76,7 +76,7 @@ module DevelopmentData
                                  type: 'WorkPackageCustomField',
                                  possible_values: ['A', 'B', 'C'],
                                  field_format: 'list')
-      print '.'
+      print_status '.'
 
       cfs << CustomField.create!(name: "CF DEV multilist",
                                  type: 'WorkPackageCustomField',
@@ -84,20 +84,20 @@ module DevelopmentData
                                  multi_value: true,
                                  possible_values: ['Foo', 'Bar', 'Bla'],
                                  field_format: 'list')
-      print '.'
+      print_status '.'
 
       cfs << CustomField.create!(name: "CF DEV required text",
                                  type: 'WorkPackageCustomField',
                                  is_required: true,
                                  field_format: 'text')
-      print '.'
+      print_status '.'
 
       cfs << CustomField.create!(name: "CF DEV intrange",
                                  type: 'WorkPackageCustomField',
                                  min_length: 2,
                                  max_length: 5,
                                  field_format: 'int')
-      print '.'
+      print_status '.'
 
       cfs
     rescue => e
