@@ -149,7 +149,9 @@ export function registerWorkPackageMouseHandler(this:void,
       return;
     }
 
-    if (!(wp.isLeaf && renderer.canMoveDates(wp))) {
+    const isEditable = (wp.isLeaf || wp.scheduleManually) && renderer.canMoveDates(wp);
+
+    if (!isEditable) {
       cell.style.cursor = 'not-allowed';
       return;
     }
