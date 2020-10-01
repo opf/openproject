@@ -40,7 +40,7 @@ The new Boards are tightly integrated with all other project management function
 ## Create a new Board
 
 You can create as many flexible boards in a project as you need and configure them to your needs. First, you need to create a new Boards view. 
-If you haven't done so yet, [activate the Boards module](../projects/project-settings/modules) within your project. Also, we recommend to verify [Roles and Permissions](https://www.openproject.org/help/administration/manage-roles-permissions/) within your system's Administration.
+If you haven't done so yet, [activate the Boards module](../projects/project-settings/modules) within your project. Also, we recommend to verify [Roles and Permissions](../../system-admin-guide/users-permissions/roles-permissions/) within your system's Administration.
 
 Click on the green **+Board** button to create a new Board view. 
 
