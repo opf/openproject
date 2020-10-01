@@ -12,7 +12,8 @@ keywords: gantt chart, automatic scheduling, manual scheduling, start date, fini
 # Automatic and manual scheduling mode
 
 <div class="glossary">
-The **Gantt chart** in OpenProject displays the work packages in a timeline. To schedule the work packages there is a **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages behaviour when changing dates of other related work packages.
+To schedule the work packages in the Gantt chart there is a **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages' behaviour when changing dates of other related work packages.
+
 
 </div>
 
@@ -31,6 +32,7 @@ When [setting a dependency](../#relations-in-the-gantt-chart) between two work p
 - A work packages finish date is automatically determined by the finish date of its latest ending child.
 - When you move a work package past the set start date of its follower, the followers start date will be adjusted to its predecessors finish date. This is not the case the other way round. 
   Example: Work package 1 ends on October 5th. Its follower work package 2 starts on October 13th. Now work package one gets delayed by ten days, you have to adjust the planning. When you the finish date of work package 1 to October 15th, the start date of work package 2 will automatically be set to October 16th.
+- You can't change the dates of a work package with children (if it's in automatic scheduling mode).
 
 ## Manual scheduling mode
 

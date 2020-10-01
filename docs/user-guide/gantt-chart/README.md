@@ -15,7 +15,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 
 </div>
 
-| Feature                                                      | Documentation for                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Activate the Gantt chart](#activate-the-gantt-chart)        | How to activate the Gantt chart in OpenProject?              |
 | [Create a new element](#create-a-new-element-in-the-gantt-chart) | How to add a new item to the Gantt chart?                    |
@@ -23,6 +23,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
 | [Synchronize data from OpenProject to Excel](#synchronize-data-from-openproject-to-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
+| [Understanding the colours and lines in the Gantt chart](#Understanding-the-colours-and-lines-in-the-Gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean? |
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JNRmqWwSfeU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -44,7 +45,7 @@ In the **Gantt chart** you can schedule the work package with drag and drop and 
 
 ### How to change the order of an item in the Gantt chart?
 
-To change the order the elements in the Gantt chart. Click the **drag and drop** icon at the left hand side of the work package row. Drag the item to the new position. The blue line indicated the new position to drop the element.
+Click the **drag and drop** icon (6 dots) at the left hand side of the work package row. Drag the item to the new position. The blue line indicates the new position to drop the element.
 
 
 
@@ -52,13 +53,14 @@ To change the order the elements in the Gantt chart. Click the **drag and drop**
 
 ### How to change the duration of an element in the Gantt chart?
 
-To change the duration of a phase in the Gantt chart view, click on the element in the Gantt chart. You can change the duration with drag and drop, shorten or prolong the duration and change start and due date.
+To change the duration of a work package in the Gantt chart view, hover over the work package in the Gantt chart and use the little arrows on its ends to adjust the start date or finish date. This will shorten or prolong its duration.
+To move a work package on the time line just click on it and drag and drop it to the desired point of time. This will change its startd and finish date.
 
 ## Relations in the Gantt chart
 
 In the Gantt chart you can track dependencies of work packages (e.g. phases, milestones, tasks). This way you can get an easy overview of what needs to be done in which order, e.g. what tasks need to be completed to achieve a milestone.
 
-To add a dependency make right mouse click on an element in the Gantt chart.
+To add a dependency right-click on an element in the Gantt chart.
 
 In the menu, choose **Add predecessor** or **Add follower**.
 
@@ -67,20 +69,31 @@ Select the item which you want to create the dependency with. The precede and fo
 
 ![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
 
-OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/projects/openproject/work_packages/26448/activity) for an update.
+*OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check here https://community.openproject.com/projects/openproject/work_packages/26448/activity for an update.*
 
 To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](/scheduling).
 
+## Understanding the colours and lines in the Gantt chart
+- A **blue line** connects two work packages, they are predecessor and follower.
+- The **vertical red dotted line** indicates today's date.
+- A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the end date of a work packages latest ending child.
+- A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before/after the manually scheduled dates.. The clambs are black in case the derived dates are "inside" the set dates (of this parent).
+- A **diamond symbol** stands for a milestone.
+- A **bar** stands for work packages like phases and tasks.
+
+
+
+
 ## Gantt chart configuration
 
-To open the Gantt chart configuration, please open the **settings** icon with the three dots on the top right of the work package module.
+To open the Gantt chart configuration, please open the **settings** icon with the three dots on the upper right of the work package module.
 Choose **Configure view ...** and select the tab **Gantt chart**.
 
-Here you can **adapt the Zoom level**, or choose and Auto zoom which will select a Zoom level which best fits to your browser size to have optimal results on a page.
+Here you can **adapt the Zoom level**, or choose Auto zoom which will select a Zoom level which best fits to your browser size to have optimal results on a page.
 
-Also, you have **Label Configuration**  for your Gantt chart. You can add up to three additional labels within the chart: On the left, on the right and on the far right. Just select which additional information you would need to have in the Gantt chart. This can be especially relevant if you want to print your Gantt chart.
+Also, you have **Label Configuration** for your Gantt chart. You can add up to three additional labels within the chart: On the left, on the right and on the far right. Just select which additional information you would need to have in the Gantt chart. This can be especially relevant if you want to print your Gantt chart.
 
-Click the **Apply** button to save your changes.()
+Click the **Apply** button to save your changes.
 
 ![configure-gantt-chart](configure-gantt-chart.gif)
 
@@ -118,7 +131,7 @@ For other browsers, please simply follow the browser's printing instruction to o
 
 You can synchronize your work packages data from OpenProject to Excel (and even convert from or to MS Project). You need to download an OpenProject plugin.
 
-Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](https://www.openproject.org/synchronize-excel-openproject/).
+Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](../integrations/Excel Synchronization).
 
 ## Gantt chart views
 

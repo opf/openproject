@@ -13,6 +13,15 @@ You can create work package hierarchies and relations.
 
 Hierarchies are a hierarchical relation (parent-child-relationship) vs. relations indicate any functional or timely relation (e.g. follows or proceeds, blocked by, part of, etc.)
 
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| [Work packages relations](work-package-relations)            | How can I set a relation between two work packages and which relations can I set? |
+| [Display relations in work package list](#Display-relations-in-work-package-list-(Premium-feature)) | How can I display the relations between two work packages in the work package list? |
+| [Work package hierarchies](#Work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
+| [Adding a child work package](#adding-a-child-work-package)  | What are the possibilities to add children work packages?    |
+| [Change the parent work-package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
+| [Display work package hierarchies](#display-work-package-hierarchies) | Where can I find out about a work package's children an parent? |
+
 ## Work package relations
 
 Work package relations indicate that work packages address a similar topic or create status dependencies. To create a relationship between two work packages:
@@ -20,7 +29,7 @@ Work package relations indicate that work packages address a similar topic or cr
 1. Select a work package, click on the **Relations** tab to open the relations tab and click the *+ Create new relations* link.
 2. Select the type of relationship from the dropdown menu.
 3. Enter the ID of the work package, to which the relation should be created and choose an entry from the dropdown menu.
-4. Click the check icon.
+4. Click the check mark.
 
 ![Add work package-Relations](Add-Relations-1024x507@2x.png)
 
@@ -53,13 +62,19 @@ You can click on the number to display the work packages which have the relation
 
 ## Work package hierarchies
 
-Work packages can be structured hierarchically, e.g. in order to break down a large work package into several smaller tasks.
+Work packages can be structured hierarchically, e.g. in order to break down a large work package into several smaller tasks. This means that there's a parent work package that has at least one child work package.
 
 ## Adding a child work package
 
-Open a work package and select the tab *Relations*.
+There are **three ways to create a child work package**:
 
-Click on *+ Create new child* to create a child work package. Alternatively, you can assign an existing child work package with *+ Add existing child*.
+1. Adding a child in the *Relations* tab in a work package's details view
+2. Right-clicking on a work package in the work package list and select "Create new child"
+3. Right-clicking on a work package in the work package list and select "Indent hierarchy" to add it as the child of the work package above it.
+
+### Adding a child in the *Relations* tab in a work package's details view
+
+Open a work package and select the tab *Relations*. Click on *+ Create new child* to create a child work package. Alternatively, you can assign an existing child work package with *+ Add existing child*.
 
 ![User-guide-hierarchies](User-guide-hierarchies.png)
 
@@ -67,7 +82,7 @@ Insert the name of the new work package and save the newly created work package 
 
 ![create work package children](image-20200129144540902.png)
 
-For more information on the work package creation take a look at the guideline on [creating a work package](#create-work-package).
+For more information on the work package creation take a look at the guideline on [creating a work package](../create-work-package).
 
 ## Change the parent work package
 
