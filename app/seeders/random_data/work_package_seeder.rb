@@ -39,7 +39,7 @@ module RandomData
 
     def seed!(random: true)
       puts ''
-      print ' ↳ Creating work_packages'
+      print_status ' ↳ Creating work_packages'
 
       seed_random_work_packages
     end
@@ -48,7 +48,7 @@ module RandomData
 
     def seed_random_work_packages
       rand(50).times do
-        print '.'
+        print_status '.'
         work_package = WorkPackage.create!(
           project:      project,
           author:       user,
@@ -77,7 +77,7 @@ module RandomData
 
     def add_changeset(work_package)
       2.times do |changeset_count|
-        print '.'
+        print_status '.'
         changeset = Changeset.create(
           repository:     repository,
           user:           user,
@@ -90,7 +90,7 @@ module RandomData
         )
 
         5.times do
-          print '.'
+          print_status '.'
           change = Change.create(
             action: Faker::Lorem.characters(1),
             path: Faker::Internet.url
@@ -104,7 +104,7 @@ module RandomData
         changeset.save!
 
         rand(5).times do
-          print '.'
+          print_status'.'
           changeset.reload
 
           changeset.committer = Faker::Name.name if rand(99).even?
@@ -157,7 +157,7 @@ module RandomData
 
     def make_changes(work_package)
       20.times do
-        print '.'
+        print_status '.'
         work_package.reload
 
         work_package.status = statuses.sample if rand(99).even?

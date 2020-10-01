@@ -32,11 +32,9 @@ module DemoData
     def initialize; end
 
     def seed_data!
-      print '    ↳ Creating global queries'
-
-      seed_global_queries
-
-      puts
+      print_status '    ↳ Creating global queries' do
+        seed_global_queries
+      end
     end
 
     private

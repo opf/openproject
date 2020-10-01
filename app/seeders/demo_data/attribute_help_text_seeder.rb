@@ -32,11 +32,9 @@ module DemoData
     def initialize; end
 
     def seed_data!
-      print '    ↳ Creating attribute help texts'
-
-      seed_attribute_help_texts
-
-      puts
+      print_status '    ↳ Creating attribute help texts' do
+        seed_attribute_help_texts
+      end
     end
 
     private
@@ -45,7 +43,7 @@ module DemoData
       help_texts = demo_data_for('attribute_help_texts')
       if help_texts.present?
         help_texts.each do |help_text_attr|
-          print '.'
+          print_status '.'
           create_attribute_help_text help_text_attr
         end
       end

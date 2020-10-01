@@ -41,15 +41,21 @@ module DemoData
     def seed_data!
       # Seed only for those projects that provide a `kanban` key, i.e. 'demo-project' in standard edition.
       if project_has_data_for?(key, 'boards.kanban')
-        print '    ↳ Creating demo status board'
-        seed_kanban_board
-        puts
+        print_status '    ↳ Creating demo status board' do
+          seed_kanban_board
+        end
       end
 
       if project_has_data_for?(key, 'boards.basic')
-        print '    ↳ Creating demo basic board'
-        seed_basic_board
-        puts
+        print_status '    ↳ Creating demo basic board' do
+          seed_basic_board
+        end
+      end
+
+      if project_has_data_for?(key, 'boards.parent_child')
+        print_status '    ↳ Creating demo parent child board' do
+          seed_parent_child_board
+        end
       end
     end
 
@@ -60,6 +66,8 @@ module DemoData
 
       board.name = project_data_for(key, 'boards.kanban.name')
       board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' }
+
+      set_board_filters(board)
 
       board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
@@ -75,6 +83,19 @@ module DemoData
       board.save!
 
       Setting.boards_demo_data_available = 'true'
+    end
+
+    def set_board_filters(board)
+      if project_data_for(key, 'boards.kanban.filters').present?
+        filters_conf = project_data_for(key, 'boards.kanban.filters')
+        board.options[:filters] = []
+        filters_conf.each do |filter|
+          if filter[:type]
+            type = Type.find_by(name: translate_with_base_url(filter[:type]))
+            board.options[:filters] << { type: { operator: '=', values: [type.id.to_s] } }
+          end
+        end
+      end
     end
 
     def seed_kanban_board_queries
@@ -135,9 +156,9 @@ module DemoData
               basic_query_work_packages
             end
 
-      lists = [{ name: 'Today', wps: wps[0] },
-               { name: 'Tomorrow', wps: wps[1] },
-               { name: 'Later', wps: wps[2] },
+      lists = [{ name: 'Wish list', wps: wps[0] },
+               { name: 'Short list', wps: wps[1] },
+               { name: 'Prio list for today', wps: wps[2] },
                { name: 'Never', wps: wps[3] }]
 
       lists.map do |list|
@@ -176,14 +197,60 @@ module DemoData
 
     def basic_query_work_packages
       [
-        [WorkPackage.find_by(subject: 'Create a new project').id,
-         WorkPackage.find_by(subject: 'Edit a work package').id,
-         WorkPackage.find_by(subject: 'Create work packages').id,
-         WorkPackage.find_by(subject: 'Activate further modules').id],
-        [WorkPackage.find_by(subject: 'Create a project plan').id],
-        [WorkPackage.find_by(subject: 'Invite new team members').id],
-        [WorkPackage.find_by(subject: 'Customize project overview page').id]
+        [WorkPackage.find_by(subject: 'Setup conference website').id,
+         WorkPackage.find_by(subject: 'Upload presentations to website').id],
+        [WorkPackage.find_by(subject: 'Invite attendees to conference').id],
+        [WorkPackage.find_by(subject: 'Set date and location of conference').id],
+        []
       ]
+    end
+
+    def seed_parent_child_board
+      board = ::Boards::Grid.new project: project
+
+      board.name = project_data_for(key, 'boards.parent_child.name')
+      board.options = { 'type' => 'action', 'attribute' => 'subtasks' }
+
+      board.widgets = seed_parent_child_board_queries.each_with_index.map do |query, i|
+        Grids::Widget.new start_row: 1, end_row: 2,
+                          start_column: i + 1, end_column: i + 2,
+                          options: { query_id: query.id,
+                                     filters: [{ parent: { operator: '=', values: query.filters[1].values } }] },
+                          identifier: 'work_package_query'
+      end
+
+      board.column_count = board.widgets.count
+      board.row_count = 1
+
+      board.save!
+
+      Setting.boards_demo_data_available = 'true'
+    end
+
+    def seed_parent_child_board_queries
+      admin = User.admin.first
+
+      parents = [WorkPackage.find_by(subject: 'Organize open source conference'),
+                 WorkPackage.find_by(subject: 'Follow-up tasks')]
+
+      parents.map do |parent|
+        Query.new_default(project: project, user: admin).tap do |query|
+          # Hide the query in the main menu
+          query.hidden = true
+
+          # Make it public so that new members can see it too
+          query.is_public = true
+
+          query.name = parent.subject
+          # Set filter by this status
+          query.add_filter('parent', '=', [parent.id])
+
+          # Set manual sort filter
+          query.sort_criteria = [[:manual_sorting, 'asc']]
+
+          query.save!
+        end
+      end
     end
   end
 end

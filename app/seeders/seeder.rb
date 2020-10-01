@@ -53,6 +53,15 @@ class Seeder
 
   protected
 
+  def print_status(message)
+    print message
+
+    return unless block_given?
+
+    yield
+    puts
+  end
+
   ##
   # Translate the given string with the fixed interpolation for base_url
   # Deep interpolation is required in order for interpolations on hashes to work!
