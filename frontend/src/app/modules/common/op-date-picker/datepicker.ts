@@ -37,6 +37,7 @@ export class DatePicker {
 
   private datepickerCont:JQuery = jQuery(this.datepickerElemIdentifier);
   public datepickerInstance:Instance;
+  private reshowTimeout:any;
 
   constructor(private datepickerElemIdentifier:string,
               private date:any,
@@ -77,6 +78,8 @@ export class DatePicker {
     }
 
     this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
+
+    document.addEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public clear() {
@@ -93,12 +96,12 @@ export class DatePicker {
       this.datepickerInstance.close();
     }
 
-    this.datepickerCont.scrollParent().off('scroll');
+    document.removeEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public show() {
     this.datepickerInstance.open();
-    this.hideDuringScroll();
+    document.addEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public setDates(dates:DateOption|DateOption[]) {
@@ -109,26 +112,22 @@ export class DatePicker {
     return this.datepickerInstance.isOpen;
   }
 
-  private hideDuringScroll() {
-    let reshowTimeout:any = null;
-    let scrollParent = this.datepickerCont.scrollParent();
-
-    scrollParent.scroll(() => {
+  private hideDuringScroll = () => {
       this.datepickerInstance.close();
-      if (reshowTimeout) {
-        clearTimeout(reshowTimeout);
+
+      if (this.reshowTimeout) {
+        clearTimeout(this.reshowTimeout);
       }
 
-      reshowTimeout = setTimeout(() => {
+      this.reshowTimeout = setTimeout(() => {
         if (this.visibleAndActive()) {
           this.datepickerInstance.open();
         }
       }, 50);
-    });
   }
 
   private visibleAndActive() {
-    var input = this.datepickerCont;
+    const input = this.datepickerCont;
 
     try {
       return document.elementFromPoint(input.offset()!.left, input.offset()!.top) === input[0] &&
@@ -137,5 +136,5 @@ export class DatePicker {
       console.error("Failed to test visibleAndActive " + e);
       return false;
     }
-  };
+  }
 }
