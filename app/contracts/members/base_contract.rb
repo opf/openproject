@@ -37,6 +37,8 @@ module Members
 
     validate :user_allowed_to_manage
     validate :roles_grantable
+    validate :project_set
+    validate :project_manageable
 
     private
 
@@ -50,14 +52,31 @@ module Members
       errors.add(:roles, :ungrantable) unless unmarked_roles.all? { |r| role_grantable?(r) }
     end
 
+    def project_set
+      errors.add(:project, :blank) unless project_set_or_admin?
+    end
+
+    def project_manageable
+      errors.add(:project, :invalid) unless project_manageable_or_blank?
+    end
+
     def role_grantable?(role)
       role.builtin == Role::NON_BUILTIN &&
         ((model.project && role.class == Role) || (!model.project && role.class == GlobalRole))
     end
 
     def user_allowed_to_manage?
-      (model.project && user.allowed_to?(:manage_members, model.project)) ||
-        (!model.project && user.admin?)
+      user.allowed_to?(:manage_members,
+                       model.project,
+                       global: model.project.nil?)
+    end
+
+    def project_manageable_or_blank?
+      !model.project || user.allowed_to?(:manage_members, model.project)
+    end
+
+    def project_set_or_admin?
+      model.project || user.admin?
     end
   end
 end

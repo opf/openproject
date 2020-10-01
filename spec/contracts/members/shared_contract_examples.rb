@@ -103,7 +103,7 @@ shared_examples_for 'member contract' do
 
       context 'if the user is no admin' do
         it 'is invalid' do
-          expect_valid(false, base: %i(error_unauthorized))
+          expect_valid(false, project: %i(blank))
         end
       end
 
@@ -122,6 +122,14 @@ shared_examples_for 'member contract' do
         it 'is invalid' do
           expect_valid(false, roles: %i(ungrantable))
         end
+      end
+    end
+
+    context 'if the project is set to one not being manageable by the user' do
+      let(:permissions) { [] }
+
+      it 'is invalid' do
+        expect_valid(false, project: %i(invalid))
       end
     end
   end

@@ -419,7 +419,13 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
 
       context 'as a non admin' do
-        it_behaves_like 'unauthorized access'
+        it 'responds with 422 and explains the error' do
+          expect(last_response.status).to eq(422)
+
+          expect(last_response.body)
+            .to be_json_eql("Project can't be blank.".to_json)
+            .at_path('message')
+        end
       end
     end
 

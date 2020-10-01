@@ -73,9 +73,9 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
     end
 
     context 'with empty parameters' do
-      it 'has 3 validation errors' do
-        # There are 3 validation errors instead of 2 with two duplicating each other
-        expect(subject.body).to have_json_size(3).at_path('_embedded/validationErrors')
+      it 'has 4 validation errors' do
+        # There are 4 validation errors instead of 2 with two duplicating each other
+        expect(subject.body).to have_json_size(4).at_path('_embedded/validationErrors')
       end
 
       it 'has a validation error on principal' do
@@ -84,6 +84,10 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
 
       it 'has a validation error on roles' do
         expect(subject.body).to have_json_path('_embedded/validationErrors/roles')
+      end
+
+      it 'has a validation error on project' do
+        expect(subject.body).to have_json_path('_embedded/validationErrors/project')
       end
 
       it 'has no commit link' do
