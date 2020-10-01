@@ -69,9 +69,10 @@ $menu-item-line-height: 30px
       @include styled-scroll-bar
     
     .main-menu-wrapper
-      display: flex
-      flex-direction: column
-      height: 100%
+      .menu_root.closed:nth-last-child(3)
+        display: flex
+        flex-direction: column
+        height: 100%
 
   a:focus
     color: var(--main-menu-font-color)
