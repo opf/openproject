@@ -26,11 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostQuery::Filter::UpdatedOn < Report::Filter::Base
-  db_field 'entries.updated_on'
+class CostQuery::Filter::UpdatedAt < Report::Filter::Base
+  db_field 'entries.updated_at'
   use :time_operators
 
   def self.label
-    WorkPackage.human_attribute_name(:updated_on)
+    WorkPackage.human_attribute_name(:updated_at)
   end
 end
