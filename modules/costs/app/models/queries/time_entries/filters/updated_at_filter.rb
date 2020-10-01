@@ -28,10 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::TimeEntries::Orders::DefaultOrder < Queries::BaseOrder
-  self.model = TimeEntry
-
-  def self.key
-    /\A(id|hours|spent_on|created_at|updated_at)\z/
+class Queries::TimeEntries::Filters::UpdatedAtFilter < Queries::TimeEntries::Filters::TimeEntryFilter
+  def type
+    :datetime_past
   end
 end
