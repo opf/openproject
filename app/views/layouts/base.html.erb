@@ -148,17 +148,17 @@ See docs/COPYRIGHT.rdoc for more details.
       <div id="main-menu" class="main-menu">
         <h1 class="hidden-for-sighted"><%= t(:label_main_menu) %></h1>
         <main-menu-resizer></main-menu-resizer>
-          <div id="menu-sidebar"> 
-            <div class="main-menu-wrapper">
-              <%= main_menu %>
-              <%= content_for :main_menu %>
-              <%= call_hook :view_layouts_base_main_menu %>
-              <!-- Sidebar -->
-              <div id="sidebar">
-                <%= content_for :sidebar %>
-                <%= call_hook :view_layouts_base_sidebar %>
-              </div>
+        <div id="menu-sidebar">
+          <div class="main-menu-wrapper">
+            <%= main_menu %>
+            <%= content_for :main_menu %>
+            <%= call_hook :view_layouts_base_main_menu %>
+            <!-- Sidebar -->
+            <div id="sidebar">
+              <%= content_for :sidebar %>
+              <%= call_hook :view_layouts_base_sidebar %>
             </div>
+          </div>
         </div>
       </div>
     <% end %>
