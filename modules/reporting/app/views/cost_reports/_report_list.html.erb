@@ -27,24 +27,24 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% queries = respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
+<% queries = report_type == :public ? CostQuery.public(@project) : CostQuery.private(@project, current_user) %>
 <% if queries.any? %>
-  <span class="tree-menu--item">
-    <span class="tree-menu--hierarchy-span">
-      <a tabindex="0" role="button" class="tree-menu--hierarchy-indicator collapsible-menu--category-toggle">
-        <span aria-hidden="true" class="tree-menu--hierarchy-indicator-icon"></span>
-        <span class="tree-menu--hierarchy-indicator-expanded hidden-for-sighted">
-          <%= t("label_expanded_click_to_collapse") %></span>
-        <span class="tree-menu--hierarchy-indicator-collapsed hidden-for-sighted">
-          <%= t("label_collapsed_click_to_show") %></span>
+  <% queries.each do |query| -%>
+    <span class="tree-menu--item">
+      <span class="tree-menu--hierarchy-span">
+        <a tabindex="0" role="button" class="tree-menu--hierarchy-indicator collapsible-menu--category-toggle">
+          <span aria-hidden="true" class="tree-menu--hierarchy-indicator-icon"></span>
+          <span class="tree-menu--hierarchy-indicator-expanded hidden-for-sighted">
+            <%= t("label_expanded_click_to_collapse") %></span>
+          <span class="tree-menu--hierarchy-indicator-collapsed hidden-for-sighted">
+            <%= t("label_collapsed_click_to_show") %></span>
+        </a>
+      </span>
+      <a id='<%= "#{report_type}_sidebar_report_category" %>'
+         class="tree-menu--title ellipsis ui-autocomplete--category collapsible-menu--category-toggle">
+        <%= t(:"label_#{report_type}_report_plural") %>
       </a>
     </span>
-    <a id='<%= "#{report_type}_sidebar_report_category" %>'
-       class="tree-menu--title ellipsis ui-autocomplete--category collapsible-menu--category-toggle">
-      <%= t(:"label_#{report_type}_report_plural") %>
-    </a>
-  </span>
-  <% queries.each do |query| -%>
     <ul class="pages-hierarchy -with-hierarchy">
       <li class="tree-menu--item ui-menu-item collapsible-menu--item" slug="<%= query.name %>">
         <%= link_to(h(query.name),

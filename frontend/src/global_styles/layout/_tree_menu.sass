@@ -9,10 +9,11 @@ div.wiki ul.pages-hierarchy,
   line-height: $tree-menu-item-height
   margin-left: 0
   padding-left: 0
+  overflow-x: hidden
 
   .tree-menu--title
     display: inline-block
-    width: 100%
+    width: inherit
     vertical-align: bottom
     height: $tree-menu-item-height
     line-height: $tree-menu-item-height
@@ -80,6 +81,7 @@ div.wiki ul.pages-hierarchy,
     border-radius: 3px
     line-height: $tree-menu-item-height
     padding: 0 10px
+    overflow-x: hidden
     &.-selected
       background: var(--main-menu-bg-hover-background)
       .tree-menu--title

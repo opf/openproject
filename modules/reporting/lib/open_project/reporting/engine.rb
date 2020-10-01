@@ -82,9 +82,9 @@ module OpenProject::Reporting
       menu :project_menu,
            :costs_menu,
            { controller: '/cost_reports', action: 'index' },
+           if: Proc.new { |project| project.module_enabled?(:costs) && CostQuery.exists_in?(project, User.current) },
            partial: '/cost_reports/report_menu',
            parent: :costs
-
     end
 
     initializer "reporting.register_hooks" do
