@@ -2,7 +2,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   def change
     change_column_null :members, :project_id, true
     change_column_default :members, :project_id, from: 0, to: nil
-    add_column :members, :updated_at, :timestamp
+    add_column :members, :updated_at, :timestamp, default: -> { 'CURRENT_TIMESTAMP' }
 
     reversible do |rev|
       rev.up do
