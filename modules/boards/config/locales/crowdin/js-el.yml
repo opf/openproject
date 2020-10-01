@@ -56,7 +56,14 @@ el:
           status: κατάσταση
           version: έκδοση
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Ανάθεση σε
+          status: Κατάσταση
+          version: Έκδοση
+          subproject: Υποέργο
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Χαρακτηριστικό ενέργειας"
       add_list_modal:
         labels:

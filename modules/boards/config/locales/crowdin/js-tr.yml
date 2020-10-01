@@ -56,7 +56,14 @@ tr:
           status: durum
           version: Sürüm
           subproject: Alt proje
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Atanan
+          status: Durum
+          version: Sürüm
+          subproject: Alt proje
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Eylem özelliği"
       add_list_modal:
         labels:

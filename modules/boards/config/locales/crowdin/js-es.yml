@@ -56,7 +56,14 @@ es:
           status: estado
           version: versión
           subproject: Subproyecto
-          subtasks: Principal/secundaria
+          subtasks: parent-child
+        board_type_title:
+          assignee: Asignado a
+          status: Estado
+          version: Versión
+          subproject: Subproyecto
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Atributo de acción"
       add_list_modal:
         labels:

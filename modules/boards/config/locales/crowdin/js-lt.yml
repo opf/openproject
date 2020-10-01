@@ -56,7 +56,14 @@ lt:
           status: būsena
           version: versija
           subproject: sub-projektas
-          subtasks: Tėvo Vaiko
+          subtasks: parent-child
+        board_type_title:
+          assignee: Paskirtas
+          status: Būsena
+          version: Versija
+          subproject: Sub-projektas
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Veiksmo atributas"
       add_list_modal:
         labels:

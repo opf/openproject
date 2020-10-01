@@ -56,7 +56,14 @@ vi:
           status: Trạng thái
           version: Phiên bản
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Người được giao
+          status: Trạng thái
+          version: Phiên bản
+          subproject: Dự án con
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

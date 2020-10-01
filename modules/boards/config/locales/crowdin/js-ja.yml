@@ -56,7 +56,14 @@ ja:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: 担当者
+          status: ステータス
+          version: バージョン
+          subproject: 子プロジェクト
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "アクション属性"
       add_list_modal:
         labels:

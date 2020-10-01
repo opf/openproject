@@ -56,7 +56,14 @@ ko:
           status: 상태
           version: 버전
           subproject: 하위 프로젝트
-          subtasks: 부모 자식
+          subtasks: parent-child
+        board_type_title:
+          assignee: 담당자
+          status: 상태
+          version: 버전
+          subproject: 하위 프로젝트
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "작업 특성"
       add_list_modal:
         labels:

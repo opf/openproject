@@ -56,7 +56,14 @@ ru:
           status: статус
           version: версия
           subproject: подпроект
-          subtasks: Родительский потомок
+          subtasks: parent-child
+        board_type_title:
+          assignee: Назначенный
+          status: Состояние
+          version: Стадия
+          subproject: Подпроект
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Атрибут действия"
       add_list_modal:
         labels:

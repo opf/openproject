@@ -56,7 +56,14 @@ pl:
           status: status
           version: wersja
           subproject: podprojekt
-          subtasks: Element podrzędny elementu nadrzędnego
+          subtasks: parent-child
+        board_type_title:
+          assignee: Przypisany do
+          status: Status
+          version: Wersja
+          subproject: Podprojekt
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Atrybut działania"
       add_list_modal:
         labels:

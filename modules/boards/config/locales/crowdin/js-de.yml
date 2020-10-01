@@ -56,7 +56,14 @@ de:
           status: Status
           version: Version
           subproject: Unterprojekt
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Zugewiesen an
+          status: Status
+          version: Version
+          subproject: Unterprojekt
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Aktionsattribut"
       add_list_modal:
         labels:

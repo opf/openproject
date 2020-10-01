@@ -56,7 +56,14 @@ ar:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: المُسند إليه
+          status: الحالة
+          version: الإصدار
+          subproject: مشروع فرعي
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

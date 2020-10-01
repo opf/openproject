@@ -56,7 +56,14 @@ it:
           status: stato
           version: versione
           subproject: Sottoprogetto
-          subtasks: Genitore figlio
+          subtasks: parent-child
+        board_type_title:
+          assignee: Assegnatario
+          status: Stato
+          version: Versione
+          subproject: Sottoprogetto
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Attributo azione"
       add_list_modal:
         labels:

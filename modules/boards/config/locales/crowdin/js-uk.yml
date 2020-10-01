@@ -56,7 +56,14 @@ uk:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Призначений
+          status: Статус
+          version: Версія
+          subproject: Підпроект
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

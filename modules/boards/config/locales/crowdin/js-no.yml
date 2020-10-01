@@ -56,7 +56,14 @@
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Deltaker
+          status: Status
+          version: Versjon
+          subproject: Underprosjekt
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

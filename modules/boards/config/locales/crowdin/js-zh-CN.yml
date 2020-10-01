@@ -56,7 +56,14 @@ zh-CN:
           status: 状态
           version: 版本
           subproject: 子项目
-          subtasks: 父子
+          subtasks: parent-child
+        board_type_title:
+          assignee: 指定人
+          status: 状态
+          version: 版本
+          subproject: 子项目
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "操作属性"
       add_list_modal:
         labels:

@@ -56,7 +56,14 @@ sv:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Tilldelad till
+          status: Status
+          version: Version
+          subproject: Delprojekt
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Åtgärdsattribut"
       add_list_modal:
         labels:

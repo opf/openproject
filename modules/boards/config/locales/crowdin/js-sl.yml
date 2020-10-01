@@ -56,7 +56,14 @@ sl:
           status: Stanje
           version: različica
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Prenosnik
+          status: Stanje
+          version: Različica
+          subproject: Podprojekt
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Atributi opravil"
       add_list_modal:
         labels:

@@ -56,7 +56,14 @@ hu:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Megbízott
+          status: Állapot
+          version: Verzió
+          subproject: Alprojekt
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Akció attribútum"
       add_list_modal:
         labels:

@@ -56,7 +56,14 @@ cs:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Řešitel
+          status: Stav
+          version: Verze
+          subproject: Dílčí projekt
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Atribut akce"
       add_list_modal:
         labels:

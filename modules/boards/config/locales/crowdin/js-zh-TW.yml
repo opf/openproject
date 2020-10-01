@@ -56,7 +56,14 @@ zh-TW:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: 負責執行者
+          status: 狀態
+          version: 版本
+          subproject: 子專案
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

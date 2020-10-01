@@ -56,7 +56,14 @@ id:
           status: status
           version: version
           subproject: subproject
-          subtasks: Parent Child
+          subtasks: parent-child
+        board_type_title:
+          assignee: Pelimpahan
+          status: Status
+          version: Versi
+          subproject: Sub-Project
+          subtasks: Parent-Child
+          basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:
         labels:
