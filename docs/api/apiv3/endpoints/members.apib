@@ -19,7 +19,7 @@ There are also memberships that do not govern the permissions within a certain p
 | createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
 | updatedAt   | Time of latest update                         | DateTime    | not null                                           | READ                 |
 
-## Membership [/api/v3/memberships/{id}]
+## View membership [/api/v3/memberships/{id}]
 
 + Model
     + Body
@@ -80,7 +80,7 @@ There are also memberships that do not govern the permissions within a certain p
 
 + Response 200 (application/hal+json)
 
-    [Membership][]
+    [View membership][]
 
 + Response 404 (application/hal+json)
 
@@ -100,7 +100,87 @@ There are also memberships that do not govern the permissions within a certain p
                 "message": "The requested resource could not be found."
             }
 
-## Update Membership [PATCH]
+## Create membership [/api/v3/memberships]
+
+## Create membership [POST]
+
+Creates a new membership applying the attributes provided in the body.
+
+You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+
++ Request Create memberships
+
+    + Body
+
+            {
+              "project": {
+                "href": "/api/v3/projects/1"
+              },
+              "principal": {
+                "href": "/api/v3/users/5"
+              },
+              "roles": [
+                {
+                  "href": "/api/v3/roles/5"
+                },
+                {
+                  "href": "/api/v3/roles/8"
+                }
+              ]
+            }
+
++ Response 201
+
+    [View membership][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Manage members
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Project can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "project"
+                    }
+                }
+            }
+
+## Update membership [/api/v3/memberships/{id}]
+
+## Update membership [PATCH]
 
 Updates the given membership by applying the attributes provided in the body.
 
@@ -126,7 +206,7 @@ Updates the given membership by applying the attributes provided in the body.
 
 + Response 200
 
-    [Membership][]
+    [View membership][]
 
 + Response 400 (application/hal+json)
 
@@ -191,7 +271,9 @@ Updates the given membership by applying the attributes provided in the body.
                 }
             }
 
-## Delete Membership [DELETE]
+## Delete membership [/api/v3/memberships/{id}]
+
+## Delete membership [DELETE]
 
 Deletes the membership.
 
@@ -236,7 +318,7 @@ Deletes the membership.
                 "message": "The requested resource could not be found."
             }
 
-## Memberships [/api/v3/memberships{?filters}]
+## List memberships [/api/v3/memberships{?filters}]
 
 + Model
     + Body
@@ -332,85 +414,10 @@ Returns a collection of memberships. The client can choose to filter the members
 
 + Response 200 (application/hal+json)
 
-    [Memberships][]
+    [List memberships][]
 
-## Create membership [POST]
 
-Creates a new membership applying the attributes provided in the body.
-
-You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
-
-+ Request Create memberships
-
-    + Body
-
-            {
-              "project": {
-                "href": "/api/v3/projects/1"
-              },
-              "principal": {
-                "href": "/api/v3/users/5"
-              },
-              "roles": [
-                {
-                  "href": "/api/v3/roles/5"
-                },
-                {
-                  "href": "/api/v3/roles/8"
-                }
-              ]
-            }
-
-+ Response 201
-
-    [Membership][]
-
-+ Response 400 (application/hal+json)
-
-    Occurs when the client did not send a valid JSON object in the request body.
-
-    + Body
-
-            {
-                "_type": "Error",
-                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
-                "message": "The request body was not a single JSON object."
-            }
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions.
-
-    **Required permission:** Manage members
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not authorized to access this resource."
-            }
-
-+ Response 422 (application/hal+json)
-
-    Returned if:
-
-    * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "Project can't be blank.",
-                "_embedded": {
-                    "details": {
-                        "attribute": "project"
-                    }
-                }
-            }
-
-## Membership schema [/api/v3/memberships/schemas]
+## View membership schema [/api/v3/memberships/schemas]
 
 + Model
     + Body
@@ -442,7 +449,7 @@ You can use the form and schema to be retrieve the valid attribute values and by
                 "project": {
                     "type": "Project",
                     "name": "Project",
-                    "required": true,
+                    "required": false,
                     "hasDefault": false,
                     "writable": true,
                     "_links": {}
@@ -475,7 +482,7 @@ You can use the form and schema to be retrieve the valid attribute values and by
 
 + Response 200 (application/hal+json)
 
-    [Membership schema][]
+    [View membership schema][]
 
 + Response 403 (application/hal+json)
 
@@ -569,7 +576,7 @@ For more details and all possible responses see the general specification of [Fo
                         "project": {
                             "type": "Project",
                             "name": "Project",
-                            "required": true,
+                            "required": false,
                             "hasDefault": false,
                             "writable": true,
                             "_links": {
@@ -598,7 +605,7 @@ For more details and all possible responses see the general specification of [Fo
                             "writable": true,
                             "_links": {
                                 "allowedValues": {
-                                    "href": "/api/v3/roles?filters=%5B%7B%22unit%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22project%22%5D%7D%7D%5D"
+                                    "href": "/api/v3/roles
                                 }
                             }
                         },
@@ -720,7 +727,7 @@ For more details and all possible responses see the general specification of [Fo
                         "project": {
                             "type": "Project",
                             "name": "Project",
-                            "required": true,
+                            "required": false,
                             "hasDefault": false,
                             "writable": false,
                             "_links": {}

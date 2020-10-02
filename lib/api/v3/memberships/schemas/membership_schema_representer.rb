@@ -49,7 +49,7 @@ module API
 
           schema_with_allowed_link :project,
                                    has_default: false,
-                                   required: true,
+                                   required: false,
                                    href_callback: ->(*) {
                                      allowed_projects_href
                                    }
@@ -67,7 +67,7 @@ module API
                                    has_default: false,
                                    required: true,
                                    href_callback: ->(*) {
-                                     api_v3_paths.path_for(:roles, filters: [{ unit: { operator: '=', values: ['project'] } }])
+                                     allowed_roles_href
                                    }
 
           def self.represented_class
@@ -105,6 +105,18 @@ module API
             end
 
             filters
+          end
+
+          def allowed_roles_href
+            filters = represented.new_record? ? {} : { filters: allowed_roles_filters }
+
+            api_v3_paths.path_for(:roles, **filters)
+          end
+
+          def allowed_roles_filters
+            value = represented.project ? 'project' : 'system'
+
+            [{ unit: { operator: '=', values: [value] } }]
           end
         end
       end
