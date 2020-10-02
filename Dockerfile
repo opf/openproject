@@ -23,6 +23,7 @@ ENV PGDATA=/var/openproject/pgdata
 ENV PGDATA_LEGACY=/var/lib/postgresql/9.6/main
 
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
+ENV RAILS_SERVE_STATIC_FILES=1
 ENV HEROKU=true
 ENV RAILS_ENV=production
 ENV RAILS_CACHE_STORE=memcache
