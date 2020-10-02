@@ -656,7 +656,7 @@ GEM
     parallel (1.19.2)
     parallel_tests (3.2.0)
       parallel
-    parser (2.7.1.4)
+    parser (2.7.1.5)
       ast (~> 2.4.1)
     passenger (6.0.6)
       rack
