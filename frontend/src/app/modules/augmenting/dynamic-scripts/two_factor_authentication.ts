@@ -1,4 +1,4 @@
-require('core-vendor/qrcode-min');
+import 'core-vendor/qrcode-min';
 
 declare var QRCode:any;
 

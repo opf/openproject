@@ -27,7 +27,6 @@ import {Screenfull} from "screenfull";
 declare module 'observable-array';
 declare module 'dom-autoscroller';
 declare module 'core-vendor/enjoyhint';
-declare module 'core-vendor/qrcode-min';
 
 declare global {
   const _:typeof TLodash;
