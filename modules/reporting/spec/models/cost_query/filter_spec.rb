@@ -173,13 +173,13 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "filters created_at" do
-      @query.filter :created_at, operator: 't'
+      @query.filter :created_on, operator: 't'
       # we assume that some of our fixtures set created_at to Time.now
       expect(@query.result.count).to eq(Entry.all.select { |e| e.created_at.to_date == Date.today }.count)
     end
 
     it "filters updated_at" do
-      @query.filter :updated_at, value: Date.today.years_ago(20), operator: '>d'
+      @query.filter :updated_on, value: Date.today.years_ago(20), operator: '>d'
       # we assume that our were updated in the last 20 years
       expect(@query.result.count).to eq(Entry.all.select { |e| e.updated_at.to_date > Date.today.years_ago(20) }.count)
     end

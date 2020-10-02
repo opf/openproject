@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostQuery::Filter::CreatedAt < Report::Filter::Base
+class CostQuery::Filter::CreatedOn < Report::Filter::Base
   db_field 'entries.created_at'
   use :time_operators
 

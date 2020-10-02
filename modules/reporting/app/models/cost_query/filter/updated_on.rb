@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostQuery::Filter::UpdatedAt < Report::Filter::Base
+class CostQuery::Filter::UpdatedOn < Report::Filter::Base
   db_field 'entries.updated_at'
   use :time_operators
 
