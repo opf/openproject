@@ -154,7 +154,7 @@ describe 'updating a budget', type: :feature, js: true do
       it 'retains the overridden budget when opening, but not editing (Regression #32822)' do
         material_budget_item2
         budget_page.visit!
-        click_on 'Bearbeiten'
+        click_on I18n.t(:button_update, locale: :de)
 
         budget_page.expect_planned_costs! type: :material, row: 1, expected: '150,00 EUR'
         budget_page.expect_planned_costs! type: :material, row: 2, expected: '1.000,00 EUR'
@@ -165,7 +165,7 @@ describe 'updating a budget', type: :feature, js: true do
         expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_costs_edit")
 
         click_on 'OK'
-        expect(budget_page).to have_content("Erfolgreich aktualisiert.")
+        expect(budget_page).to have_content(I18n.t(:notice_successful_update, locale: :de))
 
         expect(page).to have_selector('tbody td.currency', text: '150,00 EUR')
         expect(page).to have_selector('tbody td.currency', text: '1.000,00 EUR')
