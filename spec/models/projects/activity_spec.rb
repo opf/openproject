@@ -169,8 +169,8 @@ describe Projects::Activity, type: :model do
 
     it 'is the latest time_entry update' do
       work_package.update_attribute(:updated_at, initial_time - 60.seconds)
-      time_entry.update_attribute(:updated_on, initial_time - 10.seconds)
-      time_entry2.update_attribute(:updated_on, initial_time - 20.seconds)
+      time_entry.update_attribute(:updated_at, initial_time - 10.seconds)
+      time_entry2.update_attribute(:updated_at, initial_time - 20.seconds)
       time_entry.reload
       time_entry2.reload
 
