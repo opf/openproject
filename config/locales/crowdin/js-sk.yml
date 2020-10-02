@@ -478,7 +478,7 @@ sk:
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
           toggler: "Tu sú <b>Pracovné balíčky</b>, ktoré vám poskytnú podrobnejší pohľad na prácu vo vašom projekte."
-          list: 'Toto je zoznam dôležitých <b>Pracovných balíčkov</b> vo vašom projekte, napr. úlohy, funkcie, míľniky, chyby a oveľa viac. <br> Nové pracovné balíčky môžete vytvárať a upravovať priamo v zozname. Dvojitým kliknutím na riadok sa otvorí detailný pohľad.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'V <b>detailoch pracovného balíčku</b> nájdete všetky relevantné informácie ako popis, stav, prioritu, aktivity, náväznosti a komentáre.'
           back_button: 'Pomocou šípky sa môžete vrátiť späť na zoznam pracovných balíčkov.'
           create_button: 'Tlačidlo <b>Vytvoriť</b> pridá nový pracovný balíček pre váš projekt.'

@@ -478,7 +478,7 @@ pl:
           drag: 'Przeciągaj i upuszczaj karty w obrębie listy, aby zmienić ich kolejność lub przeciągaj je do innej listy. Dwukrotne kliknięcie otwiera widok szczegółów.'
         wp:
           toggler: "Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej szczegółowy widok Twojej pracy."
-          list: 'Jest to lista <b>Zadania</b>, zawierająca ważne zadania w projekcie, takie jak zadania robocze, funkcje, kamienie milowe, usterki i inne. <br> Możesz utworzyć lub edytować zadania bezpośrednio na tej liście. Aby wyświetlić szczegóły listy, można dwukrotnie kliknąć wiersz.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'W okienku <b>Właściwości pakietów roboczych</b> znajdziesz wszystkie istotne informacje, takie jak opis, stan i priorytet, aktywność, zależności lub komentarze.'
           back_button: 'Strzałka umożliwia powrót do listy pakietów roboczych.'
           create_button: 'Przycisk <b>Utwórz</b> doda nowy pakiet roboczy do projektu.'

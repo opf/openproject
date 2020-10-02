@@ -69,7 +69,7 @@ de:
     button_save: "Speichern"
     button_settings: "Einstellungen"
     button_uncheck_all: "Alle abwählen"
-    button_update: "Bearbeiten"
+    button_update: "Aktualisieren"
     button_export-pdf: "PDF-Download"
     button_export-atom: "Atom-Download"
     calendar:
@@ -477,7 +477,7 @@ de:
           drag: 'Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet die Detailansicht.'
         wp:
           toggler: "Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere Sicht auf die Arbeit in Ihrem Projekt geben."
-          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten oder Kommentare.'
           back_button: 'Mit dem Pfeil kommen Sie zurück in die Listenansicht.'
           create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'

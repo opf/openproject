@@ -477,7 +477,7 @@ hu:
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
           toggler: "Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására, amely részletesebb képet ad a munkáról."
-          list: 'Ez a <b>Munkacsomag</b> listázza a projekten belüli fontos munkákat, mint például task, feature, milestones, bug és így tovább.<br> A csomagban közvetlenül is létrehozhat vagy szerkeszthet egy munkacsomagot. A részletek megtekintéséhez kattintson duplán egy sorra.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
           back_button: 'A nyíl segítségével visszatérhet a munkacsomagok listájához.'
           create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'

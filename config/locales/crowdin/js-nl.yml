@@ -478,7 +478,7 @@ nl:
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
           toggler: "Laten we nu eens een kijkje op de <b>werk pakket</b> -sectie, die je een meer gedetailleerde weergave van uw werk geeft."
-          list: 'Dit is de <b>werk pakket</b> Lijst met het belangrijke werk dat binnen uw project, zoals taken, functies, mijlpalen, bugs, en meer. <br> u kunt het maken of bewerken van een werkpakket rechtstreeks vanuit deze lijst. Om de details te bekijken kunt u dubbelklikken op een rij.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'In de <b>werk pakket details</b> vindt u alle relevante informatie, zoals beschrijving, de status en de prioriteit, de activiteiten, de afhankelijkheden of de opmerkingen.'
           back_button: 'Met de pijltjestoetsen kunt u navigeren naar de pakketlijst werk.'
           create_button: 'De <b>maken</b> -knop zal een nieuw werkpakket aan uw project toevoegen.'

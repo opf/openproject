@@ -477,7 +477,7 @@ sv:
           drag: 'Dra & Släpp dina kort inom en lista för att ändra ordning, eller till en annan lista. Dubbelklick kommer att öppna detaljvyn.'
         wp:
           toggler: "Låt oss nu ta en titt på avsnittet <b>Arbetspaket</b> som ger dig en mer detaljerad bild av ditt arbete."
-          list: 'Detta är <b>arbetspaket</b> listan med det viktiga arbetet inom ditt projekt, såsom uppgifter, funktioner, milstolpar, buggar och mer. <br> Du kan skapa eller redigera ett arbetspaket direkt i den här listan. För att se dess detaljer kan du dubbelklicka på en rad.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'I <b>Arbetspaket detaljer</b> hittar du all relevant information, såsom beskrivning, status och prioritet, aktiviteter, beroenden eller kommentarer.'
           back_button: 'Med pilen kan du navigera tillbaka till listan arbetspaket.'
           create_button: '<b>Skapa</b> -knappen lägger till ett nytt arbetspaket till ditt projekt.'

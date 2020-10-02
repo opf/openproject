@@ -479,7 +479,7 @@ ja:
           drag: 'リスト内のカードをドラッグアンドドロップして並べ替えたり、別のリストに入れます。 ダブルクリックすると詳細ビューが開きます。'
         wp:
           toggler: "次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。"
-          list: 'これは、タスク、機能、マイルストーン、バグなど、プロジェクト内の重要な作業をまとめた<b>作業項目</b>リストです。 <br>このリスト内で作業パッケージを直接作成または編集できます。 詳細を見るには行をダブルクリックします。'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: '<b>作業項目の詳細</b>には、説明、ステータス、優先度、アクティビティ、依存関係、コメントなどの関連情報がすべて表示されます。'
           back_button: '矢印を使用すると作業項目リストに戻ることができます。'
           create_button: '<b>作成</b>ボタンをクリックすると、プロジェクトに新しい作業項目が追加されます。'

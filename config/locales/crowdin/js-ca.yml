@@ -478,7 +478,7 @@ ca:
           drag: 'Arrossegui les seves targetes per la llista per a reordenar-les, o moure a una altra llista. Amb doble clic obrirà la vista de detalls.'
         wp:
           toggler: "Ara fem un cop d'ull a la secció <b>Paquets de treball</b>, la qual ens dona una vista més detallada de la seva feina."
-          list: 'Aquesta es la llista <b>Paquet de treball</b> amb el treball important dintre del seu projecte, com tasques, característiques, fites, errors i mes. <br> Pot crear o editar un paquet de treball directament dintre d''aquesta llista. Per a veure els seus detalls pot fer doble clic en una fila.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'Dintre de <b>Detalls de paquet de treball</b> trobarà tota la informació rellevant, com la descripció, estat i prioritats, activitats, dependències o comentaris.'
           back_button: 'Amb la fletxa pot navegar enrrere cap a la llista de paquets de treball.'
           create_button: 'El botó <b>Crear</b> afegirà un nou paquet de treball al seu projecte.'

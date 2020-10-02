@@ -478,7 +478,7 @@ cs:
           drag: 'Přetáhněte karty do seznamu pro změnu pořadí nebo do jiného seznamu. Dvojitým kliknutím se otevře zobrazení podrobností.'
         wp:
           toggler: "Nyní se podívejme na část <b>Pracovní balíček</b> , která vám poskytne podrobnější přehled vaší práce."
-          list: 'Toto je seznam <b>pracovního balíčku</b> s důležitou prací ve vašem projektu, jako jsou úkoly, funkce, milníky, chyby a další. <br> Pracovní balíček můžete vytvořit nebo upravit přímo v tomto seznamu. Pro zobrazení podrobností můžete dvojitým kliknutím na řádek.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'V <b>detailech pracovního balíčku</b> najdete všechny relevantní informace jako popis, stav, prioritu, activity, návaznosti a komentáře.'
           back_button: 'Pomocí šipky můžete přejít zpět do seznamu pracovních balíčků.'
           create_button: 'Tlačítko <b>Vytvořit</b> přidá do vašeho projektu nový pracovní balíček.'

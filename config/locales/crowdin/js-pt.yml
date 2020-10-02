@@ -477,7 +477,7 @@ pt:
           drag: 'Arraste e solte seus cartões dentro de uma lista para reordenar ou mover para outra lista. Um clique duplo abrirá a visualização detalhada.'
         wp:
           toggler: "Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>, que lhe fornece uma visão mais detalhada do seu trabalho."
-          list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, situação e prioridade, atividades, dependências ou comentários.'
           back_button: 'Com a seta você pode navegar de volta para a lista de pacotes de trabalho.'
           create_button: 'O botão <b>Criar</b> irá adicionar um novo pacote de trabalho ao seu projeto.'

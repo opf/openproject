@@ -477,7 +477,7 @@ zh-TW:
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
           toggler: "現在, 讓我們來看看 <b>工作包</b> 部分, 它為您提供了更詳細的工作視圖。"
-          list: '這是 <b>工作包</b> 清單, 其中包含專案中的重要工作, 如任務、功能、里程碑、bug 等。 <br> 您可以直接在此清單中創建或編輯工作包。要查看其詳細資訊, 您可以按兩下一行。'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: '在 <b>工作包詳細資訊</b> 中, 您可以找到所有相關資訊, 如描述、狀態和優先順序、活動、依賴項或注釋。'
           back_button: '使用箭頭, 您可以導航回工作包清單。'
           create_button: '<b>創建</b>按鍵將新增一個工作包至您的專案'

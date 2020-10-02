@@ -2,7 +2,7 @@
 de:
   js:
     label_preview: 'Vorschau'
-    button_update: 'Bearbeiten'
+    button_update: 'Aktualisieren'
     avatars:
       label_choose_avatar: "Profilbild aus Datei auswählen"
       uploading_avatar: "Laden Sie Ihr Profilbild hoch."

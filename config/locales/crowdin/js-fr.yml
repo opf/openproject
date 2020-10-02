@@ -478,7 +478,7 @@ fr:
           drag: 'Glissez et déposez vos cartes dans une liste pour recommander ou vers une autre liste. Un double clic ouvrira l’affichage en détails.'
         wp:
           toggler: "Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>, qui vous donne une vue plus détaillée de votre travail."
-          list: 'Il s''agit de la liste <b>Paquet de Travail</b> comprenant le travail important dans votre projet, tels que les tâches, les fonctionnalités, les jalons, les bogues, et plus encore. <br> vous pouvez créer ou modifier un paquet de travail directement dans cette liste. Pour voir ses détails, vous pouvez double-cliquer sur une rangée.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'Dans les <b>détails du Paquet de Travail</b> vous trouverez toutes les informations pertinentes, telles que la description, l''état, la priorité, les activités, les dépendances ou les commentaires.'
           back_button: 'Avec la flèche, vous pouvez naviguer vers la liste de paquet de travail.'
           create_button: 'La touche <b>Créer</b> ajoutera un nouveau paquet de travail à votre projet.'
