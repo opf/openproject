@@ -1,8 +1,10 @@
-require('core-vendor/qrcode-min');
+import 'core-vendor/qrcode-min';
+
+declare var QRCode:any;
 
 jQuery(function ($) {
-  $('#submit_otp').submit(function(){
-    $('.ajax_form').find("input, radio").attr('disabled','disabled');
+  $('#submit_otp').submit(function() {
+    $('.ajax_form').find("input, radio").attr('disabled', 'disabled');
   });
 
   $('#toggle_resend_form').click(function(){
@@ -22,19 +24,19 @@ jQuery(function ($) {
     );
   });
 
-  $('.ajax_form').submit(function(){
-    $('#submit_otp').find("input").attr('disabled','disabled');
+  $('.ajax_form').submit(function() {
+    $('#submit_otp').find("input").attr('disabled', 'disabled');
     var form = $(this),
         submit_button = form.find("input[type=submit]");
     $.ajax({ url: form.attr('action'),
              type: 'post',
              data: form.serialize(),
-             beforeSend: function(){
-               submit_button.attr('disabled','disabled');
+             beforeSend: function() {
+               submit_button.attr('disabled', 'disabled');
                submit_button.toggleClass('submitting');
                $('.flash.notice').toggle();
              },
-             complete: function(response){
+             complete: function(response) {
                submit_button.removeAttr('disabled');
                $('#submit_otp').find("input").removeAttr('disabled');
                $('.flash.notice a').html(response.responseText);
