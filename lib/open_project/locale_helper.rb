@@ -39,5 +39,7 @@ module OpenProject
       I18n.locale = previous_locale
       Time.zone = previous_zone
     end
+
+    module_function :with_locale_for
   end
 end

@@ -74,7 +74,7 @@ module JobStatus
 
       # Update properties with the language of the user
       # to ensure things like the title are correct
-      User.execute_as(resource.user) do
+      OpenProject::LocaleHelper.with_locale_for(resource.user) do
         resource.attributes = build_status_attributes(args.merge(status: status))
       end
 
