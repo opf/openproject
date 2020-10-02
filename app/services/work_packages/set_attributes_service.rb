@@ -281,10 +281,16 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def parent_start_earlier_than_due?
-    work_package.parent&.start_date && work_package.parent.start_date < (work_package.due_date || work_package.parent.due_date)
+    start = work_package.parent&.start_date
+    due = work_package.due_date || work_package.parent&.due_date
+
+    (start && !due) || ((due && start) && (start < due))
   end
 
   def parent_due_later_than_start?
-    work_package.parent&.due_date && work_package.parent.due_date > (work_package.start_date || work_package.parent.start_date)
+    due = work_package.parent&.due_date
+    start = work_package.start_date || work_package.parent&.start_date
+
+    (due && !start) || ((due && start) && (due > start))
   end
 end
