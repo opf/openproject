@@ -174,7 +174,7 @@ describe Projects::Activity, type: :model do
       time_entry.reload
       time_entry2.reload
 
-      expect(latest_activity).to eql time_entry.updated_on
+      expect(latest_activity).to eql time_entry.updated_at
     end
 
     it 'takes the time stamp of the latest activity across models' do
