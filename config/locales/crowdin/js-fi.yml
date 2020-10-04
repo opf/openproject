@@ -58,7 +58,7 @@ fi:
     button_advanced_filter: "Edistynyt suodatin"
     button_list_view: "Luettelonäkymä"
     button_show_view: "Koko näytön tila"
-    button_log_time: "Kirjaa lokiin aika"
+    button_log_time: "Kirjaa työaika"
     button_more: "Lisää"
     button_open_details: "Avaa tiedot"
     button_close_details: "Sulje tarkemmat tiedot"
@@ -526,12 +526,12 @@ fi:
       project: 'Projekti'
       work_package: 'Tehtävä'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Tapahtumat'
+      activity: 'Aktiviteetti'
       comment: 'Kommentti'
       duration: 'Kesto'
       spent_on: 'Päivämäärä'
       hours: 'Tunnit'
-      title: 'Kirjaa lokiin aika'
+      title: 'Kirjaa työaika'
     two_factor_authentication:
       label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     watchers:
@@ -851,7 +851,7 @@ fi:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Yleiskatsaus
-        activity: Tapahtumat
+        activity: Aktiviteetti
         relations: Riippuvuudet
         watchers: Seuraajat
         attachments: Liitteet

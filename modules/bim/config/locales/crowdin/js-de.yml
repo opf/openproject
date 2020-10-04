@@ -4,7 +4,7 @@ de:
     bcf:
       label_bcf: 'BCF'
       import: 'Import'
-      import_bcf_xml_file: 'BCF XML-Datei importieren (BCF Version 2.1)'
+      import_bcf_xml_file: 'BCF-XML-Datei importieren (BCF-Version 2.1)'
       export: 'Exportieren'
       export_bcf_xml_file: 'BCF XML-Datei exportieren (BCF Version 2.1)'
       viewpoint: 'Viewpoint'

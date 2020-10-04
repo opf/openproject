@@ -478,7 +478,7 @@ ko:
           drag: '목록에서 카드를 끌어다 놓아 다시 정렬하거나, 다른 목록으로 끌어오십시오. 두 번 클릭하면 상세 보기가 열립니다.'
         wp:
           toggler: "이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: '작업, 마일스톤, 단계 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서 바로 작업 패키지를 만들거나 편집할 수 있습니다. 해당 세부 정보를 보려면 행을 두 번 클릭하면 됩니다.'
           full_view: '<b>작업 패키지 세부 정보</b>에서 설명, 상태 및 우선 순위, 활동, 종속성 또는 코멘트 등 모든 관련 정보를 찾아볼 수 있습니다.'
           back_button: '화살표를 사용하여 작업 패키지 목록으로 돌아갈 수 있습니다.'
           create_button: '<b>만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'

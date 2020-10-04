@@ -478,7 +478,7 @@ zh-CN:
           drag: '在列表中拖放卡片进行重新排序，或者拖放到另一个列表中。双击将打开详细信息视图。'
         wp:
           toggler: "现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。"
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: '这是<b>工作包</b>列表，包含项目中的重要工作，如任务、里程碑、阶段等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。'
           full_view: '在<b>工作包详细信息</b>中，您可以找到所有相关信息，如描述、状态与优先级、依赖项或评论。'
           back_button: '使用箭头可以导航回工作包列表。'
           create_button: '<b>创建</b>按钮将为您的项目添加一个新工作包。'

@@ -56,14 +56,14 @@ pl:
           status: status
           version: wersja
           subproject: podprojekt
-          subtasks: parent-child
+          subtasks: nadrzędny-podrzędny
         board_type_title:
           assignee: Przypisany do
           status: Status
           version: Wersja
           subproject: Podprojekt
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Nadrzędny-podrzędny 
+          basic: Podstawowa
         select_attribute: "Atrybut działania"
       add_list_modal:
         labels:
@@ -76,8 +76,8 @@ pl:
           status: |
             Obecnie nie jest dostępny żaden status. <br>
             Albo nie istnieją, albo wszystkie zostały już dodane do tablicy.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: Nie ma żadnego członka pasującego do tej wartości filtru.  <br>
+          no_member: W tym projekcie nie ma obecnie żadnych członków, których można dodać. <br>
           add_members: <a href="%{link}">Dodaj nowego członka do tego projektu</a>, aby ponownie wybrać użytkowników.
       configuration_modal:
         title: 'Skonfiguruj tę tablicę'

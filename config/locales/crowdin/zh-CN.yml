@@ -198,7 +198,7 @@ zh-CN:
       completed: "项目 %{name} 删除完成"
       completed_text: "删除项目“%{name}”的请求已完成。"
     index:
-      edit_columns: 'Edit columns'
+      edit_columns: '编辑列'
       open_as_gantt: '以甘特视图打开'
       open_as_gantt_title: "此按钮用于生成甘特视图，该视图可以过滤此页面上可见项目的工作包。"
       open_as_gantt_title_admin: "您可以在“项目设置”下的“管理”中修改视图设置（如选择的工作包类型）。"
@@ -1090,7 +1090,7 @@ zh-CN:
   error_no_default_work_package_status: "没有定义默认的工作包状态。请检查您的配置 （转到\"管理-> 工作包状态\"）。"
   error_no_type_in_project: "没有类型与此项目关联。请检查的项目设置。"
   error_omniauth_registration_timed_out: "通过外部身份验证提供程序注册超时。请再试一次。"
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "从身份提供程序返回的身份验证信息无效。请联系您的管理员获取更多帮助。"
   error_scm_command_failed: "当试图访问该代码库时出现错误: %{value}"
   error_scm_not_found: "在代码库中未找到的条目或修正版本。"
   error_unable_delete_status: "不能删除工作包的状态，因为它由至少一个工作包使用。"
@@ -2618,8 +2618,8 @@ zh-CN:
   doorkeeper:
     pre_authorization:
       status: '预授权'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    auth_url: '身份验证 URL'
+    access_token_url: '访问令牌 URL'
     errors:
       messages:
         #Common error messages

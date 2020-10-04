@@ -1,6 +1,6 @@
 ko:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "그리드 %{grid_name}에 포함된 위젯"
   activerecord:
     attributes:
       grids/grid:

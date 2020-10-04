@@ -1,6 +1,6 @@
 zh-CN:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "网格 %{grid_name} 中包含的微件"
   activerecord:
     attributes:
       grids/grid:

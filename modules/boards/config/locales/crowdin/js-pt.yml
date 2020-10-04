@@ -56,14 +56,14 @@ pt:
           status: estado
           version: versão
           subproject: subprojeto
-          subtasks: parent-child
+          subtasks: pai-filho
         board_type_title:
           assignee: Atribuição
           status: Status
           version: Versão
           subproject: Subprojeto
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Pai-Filho
+          basic: Básico
         select_attribute: "Atributo de ação"
       add_list_modal:
         labels:
@@ -76,8 +76,8 @@ pt:
           status: |
             No momento, não há nenhum estado disponível. <br>
             Não há nenhum ou todos eles já foram adicionados ao painel.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: Não há nenhum membro correspondente com seu valor de filtro.    <br>
+          no_member: Este projeto não possui nenhum membro que possa ser adicionado.  <br>
           add_members: <a href="%{link}">Adicione um novo membro a este projeto</a> para selecionar novamente usuários.
       configuration_modal:
         title: 'Configurar este quadro'

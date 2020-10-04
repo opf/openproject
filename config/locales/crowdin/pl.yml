@@ -198,7 +198,7 @@ pl:
       completed: "Usunięcie projektu %{name} zostało wykonane"
       completed_text: "Żądanie usunięcia projektu „%{name}” zostało wykonane."
     index:
-      edit_columns: 'Edit columns'
+      edit_columns: 'Edytuj kolumny'
       open_as_gantt: 'Otwórz jako widok wykresu Gantta'
       open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
       open_as_gantt_title_admin: "Możesz modyfikować ustawienia widoku (takie jak wybrane typy pakietów roboczych) w obszarze administracji w ustawieniach projektu."
@@ -1139,7 +1139,7 @@ pl:
   error_no_default_work_package_status: "Nie zdefiniowano domyślnego statusu pakietu roboczego. Proszę sprawdzić konfigurację (przejdź do „Administracja -> Statusy pakietów roboczych”)."
   error_no_type_in_project: "Żaden typ nie jest związany z tym projektem. Proszę sprawdzić ustawienia projektu."
   error_omniauth_registration_timed_out: "Upłynął limit czasu na zewnętrzną autoryzację. Spróbuj ponownie."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "Dane uwierzytelniające zwrócone od dostawcy tożsamości były nieprawidłowe. Aby uzyskać dodatkową pomoc, skontaktuj się z administratorem."
   error_scm_command_failed: "Wystąpił błąd podczas próby dostępu do repozytorium: %{value}"
   error_scm_not_found: "Nie znaleziono wpisu lub zmiany w repozytorium."
   error_unable_delete_status: "Status pakietu roboczego nie może zostać usunięty dopóki jest używany przynajmniej w jednym pakiecie roboczym."
@@ -2690,8 +2690,8 @@ pl:
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autoryzacja'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    auth_url: 'Adres URL uwierzytelniania'
+    access_token_url: 'Adres URL tokenu dostępu'
     errors:
       messages:
         #Common error messages
