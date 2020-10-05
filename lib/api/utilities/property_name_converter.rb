@@ -69,7 +69,7 @@ module API
           attribute = underscore_attribute attribute.to_s.underscore
           attribute = collapse_custom_field_name(attribute)
 
-          special_conversion = special_api_to_ar_conversions[attribute]
+          special_conversion = Constants::ARToAPIConversions.api_to_ar_conversions[attribute]
 
           if refer_to_ids
             special_conversion = denormalize_foreign_key_name(special_conversion, context)
@@ -85,13 +85,6 @@ module API
         end
 
         private
-
-        def special_api_to_ar_conversions
-          @api_to_ar_conversions ||= Constants::ARToAPIConversions.all.inject({}) do |result, (k, v)|
-            result[v.underscore] = k.to_s
-            result
-          end
-        end
 
         # Unifies different attributes refering to the same thing via a foreign key
         # e.g. status_id -> status

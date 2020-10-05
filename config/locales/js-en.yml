@@ -279,7 +279,6 @@ en:
     general_text_yes: "yes"
     general_text_No: "No"
     general_text_Yes: "Yes"
-    global_roles: Global Roles
 
     hal:
       error:
@@ -376,6 +375,7 @@ en:
     label_filename: "File"
     label_filesize: "Size"
     label_general: "General"
+    label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
     label_group: 'Group'
     label_group_by: "Group by"

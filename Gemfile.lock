@@ -110,11 +110,6 @@ PATH
       openproject-webhooks
 
 PATH
-  remote: modules/global_roles
-  specs:
-    openproject-global_roles (1.0.0)
-
-PATH
   remote: modules/grids
   specs:
     grids (1.0.0)
@@ -1049,7 +1044,6 @@ DEPENDENCIES
   openproject-boards!
   openproject-documents!
   openproject-github_integration!
-  openproject-global_roles!
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
