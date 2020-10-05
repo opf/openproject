@@ -21,7 +21,7 @@ RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     postgresql-client
 
-COPY ./backend/scripts/seed /usr/sbin/seed
+COPY ./backend/scripts/setup /usr/sbin/setup
 COPY ./backend/scripts/run-app /usr/sbin/run-app
 
 EXPOSE 3000
