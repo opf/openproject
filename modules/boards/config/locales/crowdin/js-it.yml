@@ -56,14 +56,14 @@ it:
           status: stato
           version: versione
           subproject: Sottoprogetto
-          subtasks: parent-child
+          subtasks: genitore-figlio
         board_type_title:
           assignee: Assegnatario
           status: Stato
           version: Versione
           subproject: Sottoprogetto
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Genitore-Figlio
+          basic: Base
         select_attribute: "Attributo azione"
       add_list_modal:
         labels:
@@ -76,8 +76,8 @@ it:
           status: |
             Al momento non sono disponibili stati. <br>
             È probabile che non ce ne siano o che siano già stati aggiunti tutti alla scheda.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: Non c'è nessun membro abbinato al valore del filtro.  <br>
+          no_member: Questo progetto al momento non ha membri che possono essere aggiunti.  <br>
           add_members: <a href="%{link}">Aggiungi un nuovo membro a questo progetto</a> per selezionare nuovamente gli utenti.
       configuration_modal:
         title: 'Configura questa scheda'

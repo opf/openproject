@@ -1,6 +1,6 @@
 it:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "Widget contenuto nella griglia %{grid_name}"
   activerecord:
     attributes:
       grids/grid:

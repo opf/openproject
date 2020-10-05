@@ -272,11 +272,11 @@ tr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir:  <br> <ul class="%{list_styling_class}"> <li><b> İlgili tüm proje görevlerini tanımlamak için <b> yukarıdan aşağıya planlama </b>. Ebeveynin başlangıç ve bitiş tarihleri, çocuklarından etkilenmez. </li> <li> <b> Çok yönlü çevik panolar </b>, bir iş kırılım yapısı oluşturmanıza veya görevleri alt projeler arasında dağıtmanıza olanak tanır. </li> <li> Yeni projelerin kolayca oluşturulması için <b> proje şablonları </b>. </li> <li> Daha iyi <b> proje portföy yönetimi </b> sağlayan projeler sayfasının yapılandırılması. </li> </ ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir:  <br> <ul class="%{list_styling_class}"> <li><b> İlgili tüm proje görevlerini tanımlamak için <b> yukarıdan aşağıya planlama </b>. Ebeveynin başlangıç ve bitiş tarihleri, çocuklarından etkilenmez. </li> <li> <b> Çok yönlü çevik panolar </b>, bir iş kırılım yapısı oluşturmanıza veya görevleri alt projeler arasında dağıtmanıza olanak tanır. </li> <li> Yeni projelerin kolayca oluşturulması için <b> proje şablonları </b>. </li> <li> Daha iyi <b> proje portföy yönetimi </b> sağlayan projeler sayfasının yapılandırılması. </li> </ ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -478,7 +478,7 @@ tr:
           drag: 'Yeniden sıralamak için kartlarınızı bir listede ya da başka bir listeye sürükleyip bırakın. Ayrıntılar görünümünde çift tıklatma açılacaktır.'
         wp:
           toggler: "Şimdi, size çalışmanız hakkında daha ayrıntılı bir görünüm sağlayan <b> İş paketi </b> bölümüne göz atalım."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: 'Bu, görevler, kilometre taşları, aşamalar ve daha fazlası gibi projenizdeki önemli çalışmaları içeren <b> Çalışma paketi </b> listesidir. <br> Doğrudan bu liste içinde bir iş paketi oluşturabilir veya düzenleyebilirsiniz. Ayrıntılarını görmek için bir satıra çift tıklayabilirsiniz.'
           full_view: '<b> İş paketi ayrıntıları </b> ''nda açıklama, durum ve öncelik, etkinlikler, bağımlılıklar veya yorumlar gibi tüm ilgili bilgileri bulabilirsiniz.'
           back_button: 'Ok işareti ile iş paketi listesine geri dönebilirsiniz.'
           create_button: '<b> Oluştur </b> düğmesi, projenize yeni bir iş paketi ekler.'

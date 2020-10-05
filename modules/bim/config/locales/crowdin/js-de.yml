@@ -6,7 +6,7 @@ de:
       import: 'Import'
       import_bcf_xml_file: 'BCF-XML-Datei importieren (BCF-Version 2.1)'
       export: 'Exportieren'
-      export_bcf_xml_file: 'BCF XML-Datei exportieren (BCF Version 2.1)'
+      export_bcf_xml_file: 'BCF-XML-Datei exportieren (BCF-Version 2.1)'
       viewpoint: 'Viewpoint'
       add_viewpoint: 'Viewpoint hinzufügen'
       show_viewpoint: 'Viewpoint anzeigen'
@@ -24,4 +24,4 @@ de:
         split_cards: 'Viewer und Karten'
     revit:
       revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Einstellungen des Revit Add-Ins"
+      revit_add_in_settings: "Revit Add-In Einstellungen"
