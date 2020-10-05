@@ -25,6 +25,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
 | [Understanding the colours and lines in the Gantt chart](#Understanding-the-colours-and-lines-in-the-Gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean? |
 
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JNRmqWwSfeU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Activate the Gantt chart
