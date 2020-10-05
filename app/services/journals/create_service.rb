@@ -393,7 +393,7 @@ module Journals
     end
 
     def journable_timestamp
-      journable.respond_to?(:updated_at) && journable.updated_at || journable.respond_to?(:updated_on) && journable.updated_on
+      journable.updated_at
     end
 
     def journable_type

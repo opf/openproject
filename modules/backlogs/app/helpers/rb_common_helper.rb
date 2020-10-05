@@ -162,10 +162,6 @@ module RbCommonHelper
     story.type.nil? ? '' : h(backlogs_types_by_id[story.type_id].name)
   end
 
-  def updated_on_with_milliseconds(story)
-    date_string_with_milliseconds(story.updated_on, 0.001) unless story.blank?
-  end
-
   def date_string_with_milliseconds(d, add = 0)
     return '' if d.blank?
     d.strftime('%B %d, %Y %H:%M:%S') + '.' + (d.to_f % 1 + add).to_s.split('.')[1]

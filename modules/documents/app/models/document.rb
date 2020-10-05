@@ -72,15 +72,15 @@ class Document < ApplicationRecord
     self.category ||= DocumentCategory.default if new_record?
   end
 
-  def updated_on
-    unless @updated_on
+  def updated_at
+    unless @updated_at
       # attachments has a default order that conflicts with `created_at DESC`
       # #reorder removes that default order but rather than #unscoped keeps the
       # scoping by this document
-      a = attachments.reorder(Arel.sql('created_at DESC')).first
-      @updated_on = (a && a.created_at) || created_at
+      a = attachments.reorder(created_at: :desc).first
+      @updated_at = a&.created_at || created_at
     end
-    @updated_on
+    @updated_at
   end
 
   private

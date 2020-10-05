@@ -273,7 +273,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with the outdated created_on sort by (renamed ot created_at' do
+    context 'with the outdated created_on sort by (renamed to created_at' do
       let(:path) { "#{api_v3_paths.path_for(:memberships, sort_by: [%i(created_on desc)])}&pageSize=1&offset=2" }
 
       it 'is still supported and returns a slice of the visible memberships' do

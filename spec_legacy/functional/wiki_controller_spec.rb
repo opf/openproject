@@ -354,7 +354,7 @@ describe WikiController, type: :controller do
     pages = assigns(:pages)
     refute_nil pages
     assert_equal wiki.pages.size, pages.size
-    assert_equal pages.first.content.updated_on, pages.first.updated_on
+    assert_equal pages.first.content.updated_at, pages.first.updated_at
 
     assert_select 'ul', attributes: { class: 'pages-hierarchy' },
                     child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },

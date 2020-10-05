@@ -31,7 +31,7 @@ class News < ApplicationRecord
   belongs_to :project
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   has_many :comments, -> {
-    order('created_on')
+    order(:created_at)
   }, as: :commented, dependent: :delete_all
 
   validates_presence_of :title

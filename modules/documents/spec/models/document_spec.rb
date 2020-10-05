@@ -88,7 +88,7 @@ describe Document do
 
       valid_document.reload
       expect(valid_document.attachments.size).to eql 3
-      expect(valid_document.attachments.map(&:created_at).max).to eql valid_document.updated_on
+      expect(valid_document.attachments.map(&:created_at).max).to eql valid_document.updated_at
     end
 
     it "without attachments, the updated-on-date is taken from the document's date" do

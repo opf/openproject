@@ -90,12 +90,12 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
-        let(:date) { user.created_on }
+        let(:date) { user.created_at }
         let(:json_path) { 'createdAt' }
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
-        let(:date) { user.updated_on }
+        let(:date) { user.updated_at }
         let(:json_path) { 'updatedAt' }
       end
     end
@@ -290,7 +290,7 @@ describe ::API::V3::Users::UserRepresenter do
         end
 
         it 'changes when the user is updated' do
-          user.updated_on = Time.now + 20.seconds
+          user.updated_at = Time.now + 20.seconds
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

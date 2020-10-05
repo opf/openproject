@@ -76,7 +76,7 @@ Then /^show me the list of sprints$/ do
   puts "\n"
   puts "\t| #{'id'.ljust(3)} | #{'name'.ljust(18)} | #{'start_date'.ljust(18)} | #{'effective_date'.ljust(18)} | #{'updated_on'.ljust(20)}"
   sprints.each do |sprint|
-    puts "\t| #{sprint.id.to_s.ljust(3)} | #{sprint.name.to_s.ljust(18)} | #{sprint.start_date.to_s.ljust(18)} | #{sprint.effective_date.to_s.ljust(18)} | #{sprint.updated_on.to_s.ljust(20)} |"
+    puts "\t| #{sprint.id.to_s.ljust(3)} | #{sprint.name.to_s.ljust(18)} | #{sprint.start_date.to_s.ljust(18)} | #{sprint.effective_date.to_s.ljust(18)} | #{sprint.updated_at.to_s.ljust(20)} |"
   end
   puts "\n\n"
 end
@@ -172,7 +172,7 @@ Then /^the sprint should be updated accordingly$/ do
   sprint = Sprint.find(@sprint_params['id'])
 
   sprint.attributes.each_key do |key|
-    unless ['updated_on', 'created_on'].include?(key)
+    unless ['updated_at', 'created_at'].include?(key)
       (key.include?('_date') ? sprint[key].strftime('%Y-%m-%d') : sprint[key]).should == @sprint_params[key]
     end
   end

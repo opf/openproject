@@ -33,7 +33,7 @@ class Message < ApplicationRecord
   belongs_to :forum
   has_one :project, through: :forum
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-  acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_on ASC"
+  acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_at ASC"
   acts_as_attachable after_add: :attachments_changed,
                      after_remove: :attachments_changed,
                      add_on_new_permission: :add_messages,
@@ -44,7 +44,7 @@ class Message < ApplicationRecord
 
   acts_as_event title: Proc.new { |o| "#{o.forum.name}: #{o.subject}" },
                 description: :content,
-                datetime: :created_on,
+                datetime: :created_at,
                 type: Proc.new { |o| o.parent_id.nil? ? 'message' : 'reply' },
                 url: (Proc.new do |o|
                         msg = o
@@ -59,7 +59,7 @@ class Message < ApplicationRecord
                      include: { forum: :project },
                      references: [:forums],
                      project_key: 'project_id',
-                     date_column: "#{table_name}.created_on"
+                     date_column: "#{table_name}.created_at"
 
   acts_as_watchable
 

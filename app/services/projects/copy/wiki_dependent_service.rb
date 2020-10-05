@@ -59,7 +59,7 @@ module Projects::Copy
 
         new_wiki_content = WikiContent.new(page.content.attributes.dup.except('id', 'page_id', 'updated_at'))
         attributes = page
-          .attributes.dup.except('id', 'wiki_id', 'created_on', 'parent_id')
+          .attributes.dup.except('id', 'wiki_id', 'created_at', 'parent_id')
           .merge(content: new_wiki_content)
 
         new_wiki_page = target.wiki.pages.create attributes

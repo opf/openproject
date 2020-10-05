@@ -73,12 +73,10 @@ module API
         property :name,
                  render_nil: true
 
-        date_time_property :created_on,
-                           as: 'createdAt',
+        date_time_property :created_at,
                            cache_if: -> { current_user_is_admin_or_self }
 
-        date_time_property :updated_on,
-                           as: 'updatedAt',
+        date_time_property :updated_at,
                            cache_if: -> { current_user_is_admin_or_self }
 
         def current_user_is_admin_or_self

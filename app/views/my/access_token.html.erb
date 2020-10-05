@@ -56,7 +56,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
-                  <%= User.human_attribute_name(:created_on) %>
+                  <%= User.human_attribute_name(:created_at) %>
                 </div>
               </div>
             </th>
@@ -82,8 +82,8 @@ See docs/COPYRIGHT.rdoc for more details.
               <tr>
                 <td><%= t(:label_feeds_access_key_type) %></td>
                 <td>
-                  <span title="<%= format_time(@user.rss_token.created_on) %>">
-                    <%= format_time(@user.rss_token.created_on.to_s) %>
+                  <span title="<%= format_time(@user.rss_token.created_at) %>">
+                    <%= format_time(@user.rss_token.created_at.to_s) %>
                   </span>
                 </td>
                 <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
@@ -114,8 +114,8 @@ See docs/COPYRIGHT.rdoc for more details.
               <tr>
                 <td><%= t(:label_api_access_key_type) %></td>
                 <td>
-                  <span title="<%= format_time(@user.api_token.created_on) %>">
-                    <%= format_time(@user.api_token.created_on.to_s) %>
+                  <span title="<%= format_time(@user.api_token.created_at) %>">
+                    <%= format_time(@user.api_token.created_at.to_s) %>
                   </span>
                 </td>
                 <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
