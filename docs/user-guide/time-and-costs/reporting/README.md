@@ -12,10 +12,12 @@ keywords: time and cost reporting
 You can easily report spent time and costs in OpenProject and filter, group and save the reports according to your needs.
 
 <div class="alert alert-info" role="alert">
-**Note**: If you want to use the reporting functionality,, the **Cost reports module** needs to be activated in the project settings.
+**Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
+
 </div>
 
-| Feature                                                      | Documentation for                                            |
+
+| Topic                                                      | Content                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Time and costs report](#time-and-costs-reports)             | How to open time and costs reports in OpenProject?           |
 | [Change time and costs reports](#change-time-and-costs-reports) | How to change the view of the reports, e.g. to filter, group by and select units to be displayed? |
@@ -26,10 +28,14 @@ You can easily report spent time and costs in OpenProject and filter, group and 
 
 ## Time and costs reports
 
-To open the time and costs reports in OpenProject, navigate to the **Cost reports** module in the project navigation.
+To open the time and costs reports in OpenProject, navigate to the **Time and costs** module in the project navigation.
 
-<div class="glossary">**Cost Reports** is defined as a plugin to filter cost reports on individual or multiple users across individual or multiple projects. The plugin has to be activated as a module in the project settings to be displayed in the side navigation.</div>
-![Time-costs-reports](Time-costs-reports.png)
+<div class="glossary">**Time and costs** is a plugin to filter cost reports on individual or multiple users across individual or multiple projects. The plugin has to be activated as a module in the project settings to be displayed in the side navigation.
+</div>
+
+![image-20201005145643558](image-20201005145643558.png)
+
+
 
 ## Change time and costs reports
 
@@ -39,7 +45,8 @@ You can change the view of a cost reports and adapt it to your needs.
 
 You can select and apply various filters, such as work package, author, start date or target version.
 
-Multiple projects can be selected with the **Projects** filter. Depending on your rights in the project, multiple users can also be selected. This way you can filter the time and cost entries exactly to your need, depending on the time, work or user you want to see.
+Multiple projects can be selected by adding a **Projects** filter. 
+Depending on your rights in the project, multiple users can also be selected. This way you can filter the time and cost entries exactly to your need, depending on the time, work or user you want to see.
 
 The results will the be displayed in the time and cost report below.
 
@@ -67,7 +74,7 @@ You can make changes to the order of the grouping criteria in the columns or row
 
 In the time and cost reports you can select the **units** which you want to display.
 
-You can either select **Labor** which will display the logged time to the work packages according the filter and group by criteria above.Depending on your filter, e.g. when you filter by assignee, it will give you an overview like a timesheet.
+You can either select **Labor** which will display the logged time to the work packages according the filter and group by criteria above. Depending on your filter, e.g. when you filter by assignee, it will give you an overview like a timesheet.
 
 ![Time-costs-units](Time-costs-units-1574773348146.png)
 
