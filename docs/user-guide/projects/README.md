@@ -26,7 +26,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
-| [View all projects](#view-all-projects)                      | Get an overview of all your projects in the project overview list. |
+| [View all projects](#view-all-projects)                      | Get an overview of all your projects in the projects overview list. |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 ## Select a project
@@ -71,7 +71,7 @@ Or, a project can be to separate products or customers.
   * Customer C
 
 
-OpenProject, for example, uses the projects to structured the different modules/plugin development:
+OpenProject, for example, uses the projects to structure the different modules/plugin development:
 
 ![project-structure](1566214944644.png)
 
@@ -189,17 +189,23 @@ Also, you can delete a project via the [projects overview](#view-all-projects).
 
 ## View all projects
 
-To get an overview of all your projects, select the **View all projects** option from the Select a project menu in the top left header navigation. 
+To get an overview of all your projects, select the **View all projects** option from the **Select a project** menu in the top left header navigation. 
 
 ![view all projects](1566293251039.png)
 
 You will then get a list of all your projects in OpenProject.
 
-With the **three dots** icon at the right in the list you can open further features, such as creating a new subproject, [project settings](project-settings), [archive a project](#archive-a-project), [copy](#copy-a-project) and [delete a project](#delte-a-project).
+With the **three dots** icon at the right in the list you can open further features, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archive a project](#archive-a-project), [copy](#copy-a-project) and [delete a project](#delte-a-project).
 
-![Project list](1566293423878.png)
+![image-20201005092427629](image-20201005092427629.png)
 
-In the view all projects overview list you can also create a multi project status dashboard if you include [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), such as Status, Status description, Accountable, Project duration, and more.
+With the **arrow** you can display the project description.
+
+You can **choose the columns** displayed by default in the [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration. To **edit the displayed columns** use the **vertical three dots** icon on the upper right.
+
+To **display the work packages of all your projects in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to get to the report described in the chapter below quickly. The Gantt chart view can be configured in the  [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration.
+
+In the view all projects overview list you can also **create a multi project status dashboard** if you include [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), such as Status, Status description, Accountable, Project duration, and more.
 
 ## Project overarching reports
 
