@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 5.0.0'
+gem 'browser', '~> 5.1.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -283,7 +283,7 @@ group :development, :test do
   gem 'danger', '~> 8.0.5'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.9.0'
+  gem 'brakeman', '~> 4.10.0'
   gem 'danger-brakeman'
 end
 
