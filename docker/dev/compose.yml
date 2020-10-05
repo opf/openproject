@@ -26,6 +26,7 @@ x-op-app: &app
     - "OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211"
     - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     - "DATABASE_URL=postgresql://postgres:postgres@db/openproject"
+    - "PROXY_HOSTNAME=backend"
   volumes:
     - "${OPENPROJECT_HOME:?Please set OPENPROJECT_HOME to the OpenProject root folder}:/home/dev/openproject"
     - "opdata:/var/openproject/assets"
