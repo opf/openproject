@@ -135,7 +135,7 @@
     "prebuild": "./scripts/link_plugin_placeholder.js",
     "build": "node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng build --prod --named-chunks --extract-css --source-map",
     "preserve": "./scripts/link_plugin_placeholder.js",
-    "serve": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --public-host http://localhost:4200",
+    "serve": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host http://localhost:4200",
     "pretest": "./scripts/link_plugin_placeholder.js",
     "test": "ng test --watch=false",
     "tslint_typechecks": "./node_modules/.bin/tslint -p . -c tslint_typechecks.json",
