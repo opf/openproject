@@ -3,7 +3,7 @@ title: OpenProject 11.0.0
 sidebar_navigation:
     title: 11.0.0
 release_version: 11.0.0
-release_date: 2020-09-29
+release_date: 2020-10-07
 ---
 
 # OpenProject 11.0.0
