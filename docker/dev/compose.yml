@@ -3,36 +3,25 @@ version: "3.7"
 networks:
   frontend:
   backend:
+  test:
 
 volumes:
   pgdata:
   opdata:
   bundle:
+  pgdata-test:
 
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
+x-op-build: &build
+  context: .
+  dockerfile: ./backend/Dockerfile
+  args:
+    DEV_UID: $DEV_UID
+    DEV_GID: $DEV_GID
 x-op-image: &image
-  build:
-    context: .
-    dockerfile: Dockerfile.dev
   image:
     openproject/dev:latest
-x-op-app: &app
-  <<: *image
-  <<: *restart_policy
-  environment:
-    - "RAILS_ENV=development"
-    - "RAILS_CACHE_STORE=memcache"
-    - "OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211"
-    - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    - "DATABASE_URL=postgresql://postgres:postgres@db/openproject"
-  volumes:
-    - "${OPENPROJECT_HOME:?Please set OPENPROJECT_HOME to the OpenProject root folder}:/home/dev/openproject"
-    - "opdata:/var/openproject/assets"
-    - "bundle:/usr/local/bundle"
-  depends_on:
-    - db
-    - cache
 
 services:
   db:
@@ -42,8 +31,8 @@ services:
     volumes:
       - "pgdata:/var/lib/postgresql/data"
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=openproject
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: openproject
     networks:
       - backend
 
@@ -54,29 +43,79 @@ services:
       - backend
 
   backend:
-    <<: *app
-    command: "/home/dev/bin/backend"
+    build:
+      <<: *build
+      target: develop
+    <<: *image
+    <<: *restart_policy
+    command: run-app
     ports:
       - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      RAILS_CACHE_STORE: memcache
+      OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+      OPENPROJECT_STORAGE_TMP__PATH: /tmp/op
+      DATABASE_URL: postgresql://postgres:postgres@db/openproject
+    volumes:
+      - "${OPENPROJECT_HOME:?Please set OPENPROJECT_HOME to the OpenProject root folder}:/home/dev/openproject"
+      - "opdata:/var/openproject/assets"
+      - "bundle:/usr/local/bundle"
+    depends_on:
+      - db
+      - cache
     networks:
       - backend
-    depends_on:
-      - seeder
 
   frontend:
-    <<: *app
-    command: "/home/dev/bin/frontend"
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+      args:
+        DEV_UID: $DEV_UID
+        DEV_GID: $DEV_GID
+    command: "npm run serve"
+    volumes:
+      - "${OPENPROJECT_HOME:?Please set OPENPROJECT_HOME to the OpenProject root folder}:/home/dev/openproject"
     ports:
       - "4200:4200"
+    environment:
+      PROXY_HOSTNAME: backend
     networks:
       - frontend
       - backend
     depends_on:
-      - seeder
-
-  seeder:
-    <<: *app
-    command: "/home/dev/bin/seeder"
-    restart: on-failure
-    networks:
       - backend
+
+# The containers below are for testing
+  db-test:
+    image: postgres:9
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata-test:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: openproject
+    networks:
+      - test
+
+  backend-test:
+    build:
+      <<: *build
+      target: test
+    <<: *image
+    <<: *restart_policy
+    command: run-app
+    networks:
+      - test
+    environment:
+      RAILS_ENV: test
+      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+      DATABASE_URL: postgresql://postgres:postgres@db-test/openproject
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+      OPENPROJECT_STORAGE_TMP__PATH: /tmp/op
+    volumes:
+      - "${OPENPROJECT_HOME:?Please set OPENPROJECT_HOME to the OpenProject root folder}:/home/dev/openproject"
+      - "opdata:/var/openproject/assets"
+      - "bundle:/usr/local/bundle"

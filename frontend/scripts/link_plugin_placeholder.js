@@ -5,7 +5,7 @@ const path = require('path');
 const linked_module_example_path = path.join(__dirname, '..', 'src', 'app', 'modules', 'plugins', 'linked-plugins.module.ts.example');
 const linked_module_path = path.join(__dirname, '..', 'src', 'app', 'modules', 'plugins', 'linked-plugins.module.ts');
 
-var exists = fs.existsSync(linked_module_path);
+const exists = fs.existsSync(linked_module_path);
 
 if (!exists) {
     console.log(
@@ -13,8 +13,8 @@ if (!exists) {
         `If you have active OpenProject plugins, run "rake openproject:plugins:register_frontend" to generate the file with the correct plugins being linked.`
     );
 
-    var rd = fs.createReadStream(linked_module_example_path);
-    var wr = fs.createWriteStream(linked_module_path);
+    const rd = fs.createReadStream(linked_module_example_path);
+    const wr = fs.createWriteStream(linked_module_path);
 
     return new Promise(function(resolve, reject) {
         rd.on('error', reject);
