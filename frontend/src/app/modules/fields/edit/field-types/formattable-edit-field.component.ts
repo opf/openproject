@@ -30,22 +30,12 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectionStrategy,
-  ElementRef,
-  Inject,
-  ChangeDetectorRef, Injector, OnDestroy
 } from "@angular/core";
 import {
   EditFieldComponent,
-  OpEditingPortalChangesetToken, OpEditingPortalHandlerToken,
-  OpEditingPortalSchemaToken
 } from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 
 export const formattableFieldTemplate = `
     <div class="textarea-wrapper">
@@ -61,7 +51,7 @@ export const formattableFieldTemplate = `
       <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
                            [fieldController]="field"
                            (onSave)="handleUserSubmit()"
-                           (onCancel)="handleUserCancel()"
+                           (onCancel)="handler.handleUserCancel()"
                            [saveTitle]="text.save"
                            [cancelTitle]="text.cancel">
       </edit-field-controls>
@@ -72,7 +62,7 @@ export const formattableFieldTemplate = `
   template: formattableFieldTemplate,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
+export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
   public readonly field = this;
 
   // Detect when inner component could not be initalized
@@ -87,16 +77,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public editorType = this.resource.getEditorTypeFor(this.field.name);
 
-  constructor(readonly I18n:I18nService,
-              readonly elementRef:ElementRef,
-              @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
-              @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
-              @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
-              readonly cdRef:ChangeDetectorRef,
-              readonly injector:Injector) {
-    super(I18n, elementRef, change, schema, handler, cdRef, injector);
-  }
-
   ngOnInit() {
     super.ngOnInit();
 
@@ -106,10 +86,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
       cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
     };
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance) {
@@ -141,10 +117,6 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       });
 
     return false;
-  }
-
-  public handleUserCancel() {
-    this.handler.handleUserCancel();
   }
 
   public get ckEditorContext():ICKEditorContext {
