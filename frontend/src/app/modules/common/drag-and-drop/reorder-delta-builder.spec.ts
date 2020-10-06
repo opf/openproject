@@ -40,14 +40,17 @@ describe('ReorderDeltaBuilder', () => {
     wpId:string,
     positions:QueryOrder,
     wps:string[] = work_packages,
-    fromIndex:number|null = null) {
+    fromIndex:number|null = null,
+    toIndex:number|null = null) {
     // As work_packages is already the list with moved element, simply compute the index
-    let index:number = work_packages.indexOf(wpId);
+    if (!toIndex) {
+      toIndex = work_packages.indexOf(wpId);
 
-    if (index === -1) {
-      throw "Invalid wpId given for work_packages, must be contained.";
+      if (toIndex === -1) {
+        throw "Invalid wpId given for work_packages, must be contained.";
+      }
     }
-    return new ReorderDeltaBuilder(wps, positions, wpId, index, fromIndex).buildDelta();
+    return new ReorderDeltaBuilder(wps, positions, wpId, toIndex, fromIndex).buildDelta();
   }
 
   it('Empty, inserting at beginning sets the delta for wpId 1 to the default value', () => {
@@ -260,6 +263,20 @@ describe('ReorderDeltaBuilder', () => {
       '1': 981,
       '2': 1107, // 981 + floor[(1234-981)/2]
       '3': 1233 // Due to flooring
+    });
+  });
+
+  it('reorders on incomplete positions information and moving the first (0 positioned) work package', () => {
+    // This can happen if a query is saved and the filters on it changed later on so that
+    // additional work packages are now present.
+    let delta = buildDelta('1', { '1': 0, '5': 8196 }, ['2', '3', '4', '1', '5'], 0, 3);
+
+    expect(delta).toEqual({
+      '2': 0,
+      '3': 2049,
+      '4': 4098,
+      '1': 6147,
+      '5': 8196
     });
   });
 

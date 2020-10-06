@@ -231,7 +231,8 @@ export class ReorderDeltaBuilder {
    * @param wpId
    */
   private livePosition(wpId:string):number|undefined {
-    return this.delta[wpId] || this.positions[wpId];
+    // Explicitly check for undefined here as the delta might be 0 which is falsey.
+    return this.delta[wpId] === undefined ? this.positions[wpId] : this.delta[wpId];
   }
 
   /**
