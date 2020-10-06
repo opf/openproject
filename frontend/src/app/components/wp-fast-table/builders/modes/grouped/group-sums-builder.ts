@@ -14,7 +14,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   @InjectField() readonly schemaCache:SchemaCacheService;
   @InjectField() readonly displayFieldService:DisplayFieldService;
 
-  private text = {
+  public text = {
     sum: this.I18n.t('js.label_sum')
   };
 

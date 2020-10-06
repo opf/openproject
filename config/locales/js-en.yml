@@ -445,6 +445,7 @@ en:
     label_public_query: "Public"
     label_sum: "Sum"
     label_sum_for: "Sum for"
+    label_total_sum: "Total sum"
     label_subject: "Subject"
     label_this_week: "this week"
     label_today: "Today"
