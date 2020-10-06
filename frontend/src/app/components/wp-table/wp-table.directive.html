@@ -40,19 +40,18 @@
           </th>
         </tr>
       </thead>
-
       <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && query && results.count === 0">
-        <tr id="empty-row-notification">
-          <td [attr.colspan]="columns.length + 2">
+      <tr id="empty-row-notification">
+        <td [attr.colspan]="columns.length + 2">
+          <span>
+            <op-icon icon-classes="icon-info1 icon-context"></op-icon>
             <span>
-              <op-icon icon-classes="icon-info1 icon-context"></op-icon>
-              <span>
-                <strong>{{text.noResults.title}}</strong>
-                {{text.noResults.description}}
-              </span>
+              <strong>{{text.noResults.title}}</strong>
+              {{text.noResults.description}}
             </span>
-          </td>
-        </tr>
+          </span>
+        </td>
+      </tr>
       </tbody>
 
       <tbody class="results-tbody work-package--results-tbody">
