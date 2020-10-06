@@ -25,15 +25,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ChangeDetectionStrategy,
-} from "@angular/core";
-import {
-  EditFieldComponent,
-} from "core-app/modules/fields/edit/edit-field.component";
+import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from "@angular/core";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
