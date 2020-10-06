@@ -54,17 +54,20 @@
       </tr>
       </tbody>
       <tbody class="results-tbody work-package--results-tbody"></tbody>
+
+      <tbody>
+        <tr class="wp-table--sums-row wp-table--row"
+            wpTableSumsRow
+            [wpTableSumsRow-table]="workPackageTable">
+
+        </tr>
+      </tbody>
+
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"
-             [wp-inline-create--project-identifier]="projectIdentifier"
-      >
+             [wp-inline-create--project-identifier]="projectIdentifier">
       </tbody>
-      <tfoot>
-      <tr class="wp-table--sums-row wp-table--row"
-          wpTableSumsRow
-          [wpTableSumsRow-table]="workPackageTable"></tr>
-      </tfoot>
     </table>
   </div>
 
