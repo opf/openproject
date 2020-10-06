@@ -7,9 +7,11 @@ networks:
 
 volumes:
   pgdata:
+  tmp:
   opdata:
   bundle:
   pgdata-test:
+  tmp-test:
 
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
@@ -62,6 +64,7 @@ services:
       - "${OPENPROJECT_HOME:?Please set OPENPROJECT_HOME to the OpenProject root folder}:/home/dev/openproject"
       - "opdata:/var/openproject/assets"
       - "bundle:/usr/local/bundle"
+      - "tmp:/tmp/op"
     depends_on:
       - db
       - cache
@@ -119,3 +122,4 @@ services:
       - "${OPENPROJECT_HOME:?Please set OPENPROJECT_HOME to the OpenProject root folder}:/home/dev/openproject"
       - "opdata:/var/openproject/assets"
       - "bundle:/usr/local/bundle"
+      - "tmp-test:/tmp/op"
