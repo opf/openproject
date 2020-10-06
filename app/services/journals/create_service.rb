@@ -393,7 +393,7 @@ module Journals
     end
 
     def journable_timestamp
-      journable.updated_at
+      journable.send(journable.class.aaj_options[:timestamp])
     end
 
     def journable_type

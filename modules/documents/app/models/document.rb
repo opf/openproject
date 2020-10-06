@@ -36,7 +36,6 @@ class Document < ApplicationRecord
   acts_as_journalized
   acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },
                 url: Proc.new { |o| { controller: '/documents', action: 'show', id: o.id } },
-                datetime: :created_at,
                 author: ( Proc.new do |o|
                             o.attachments.find(:first, order: "#{Attachment.table_name}.created_at ASC").try(:author)
                           end)

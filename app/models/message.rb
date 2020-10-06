@@ -44,7 +44,6 @@ class Message < ApplicationRecord
 
   acts_as_event title: Proc.new { |o| "#{o.forum.name}: #{o.subject}" },
                 description: :content,
-                datetime: :created_at,
                 type: Proc.new { |o| o.parent_id.nil? ? 'message' : 'reply' },
                 url: (Proc.new do |o|
                         msg = o

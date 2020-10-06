@@ -40,8 +40,7 @@ class News < ApplicationRecord
 
   acts_as_journalized
 
-  acts_as_event url: Proc.new { |o| { controller: '/news', action: 'show', id: o.id } },
-                datetime: :created_at
+  acts_as_event url: Proc.new { |o| { controller: '/news', action: 'show', id: o.id } }
 
   acts_as_searchable columns: ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"],
                      include: :project,
