@@ -32,7 +32,7 @@ A new form is opened, where you can log unit costs. You can edit the following i
 
 3. You can select a **user** (project member) from the drop down menu for whom you log the unit costs.
 
-4. The **cost type** field offers a range of pre-defined cost types which can be configured in the Administration. The  units and respective costs per unit category are defined for every cost type separately. Please note that you need certain privileges to be able to  create new cost types and define costs for specific units.
+4. The **cost type** field offers a range of pre-defined cost types which can be configured in the [Administration](../../../system-admin-guide/time-and-costs). The units and respective costs per unit category are defined for every cost type separately. Please note that you need certain privileges to be able to  create new cost types and define costs for specific units.
 
    <div class="glossary">**Cost Types** are defined as types of costs that can be defined by system admins (e.g. Scrum development).</div>
 

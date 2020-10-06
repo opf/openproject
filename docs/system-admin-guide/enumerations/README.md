@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Enumerations
-  priority: 790
+  priority: 780
 description: Manage enumerations in OpenProject.
 robots: index, follow
 keywords: enumerations

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: System settings
-  priority: 780
+  priority: 770
 description: System settings in OpenProject.
 robots: index, follow
 keywords: system settings
