@@ -1,40 +1,38 @@
 ---
 sidebar_navigation:
-  title: Budgets
+  title: Time and costs
   priority: 680
-description: Define budgets in OpenProject.
+description: Define cost types and change the currency in OpenProject.
 robots: index, follow
-keywords: budgets
+keywords: cost type, currency, time and costs, budget
 ---
-# Budgets
+# Time and costs
 
-You can configure costs in OpenProject and create cost types to track unit costs.
+You can configure costs in OpenProject and create cost types to track unit costs. Also, you can configure the currency you want to use for your cost reports.
 
-Navigate to -> *Administration* -> *Budgets*.
+Navigate to -> *Administration* -> *Time and costs*.
 
 ## Settings
 
-Navigate to -> *Administration* -> *Budgets* -> *Settings* to define settings for OpenProject costs.
+Navigate to -> *Administration* -> *Time and costs* -> *Settings* to define settings for OpenProject costs.
 
 1. Configure the **currency used in the system, e.g. EUR**.
 2. **Specify the format of the currency**, if the number should be before or after the currency, e.g. 10 EUR, or $ 10.
 3. Press the blue **Apply** button to save your changes.
 
-![System-admin-guide-budgets](System-admin-guide-budgets.png)
+![image-20201006155423521](image-20201006155423521.png)
 
 ## Create and manage cost types
 
 You can create and manage **cost types** to [book unit costs to work packages in OpenProject](../../user-guide/time-and-costs/cost-tracking/).
 
-Navigate to -> *Administration* -> *Budgets* -> *Cost types* to create and manage unit costs types.
+Navigate to -> *Administration* -> *Time and costs* -> *Cost types* to create and manage unit costs types.
 
 Click the green **+ Cost type** button to create a new cost type.
 
-![System-admin-guide-cost-types](System-admin-guide-cost-types.png)
-
 You can set the following options:
 
-1. Give the cost type a **name**.
+1. Enter a **name** for the cost type.
 2. Define the **unit name** for this cost type, e.g. Euro, piece, day, etc.
 3. Set the **pluralized unit name**, e.g. Euros, pieces, days, etc.
 4. Choose if the cost type should be the **default cost type** when booking new unit costs.
@@ -45,10 +43,11 @@ You can set the following options:
 
 ![Sys-admin-budgets-cost-types](Sys-admin-budgets-cost-types.png)
 
-In the overview list of all rates you can define the following.
+In the overview list of all cost types you can define the following.
 
-1. **Filter for cost types at a certain fixed date** in the list, 2. choose whether also locked cost types should be displayed and 3. press the blue apply button: This way you will get the cost types with the rate (at the chosen fixed date) displayed in the list below.
-
+1. **Filter for cost types at a certain fixed date** in the list
+2. Choose whether also locked cost types should be displayed
+3. Press the blue **apply** button: This way you will get the cost types with the rate (at the chosen fixed date) displayed in the list below.
 4. Click on the name of a cost type to **edit an existing cost type**.
 5. **Set a current rate** (for the current valid from period) and press the save icon to apply it.
 6. **Lock** a cost type.
