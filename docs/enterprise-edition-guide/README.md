@@ -42,5 +42,5 @@ To upgrade your Community installation, navigate to your system -> Administratio
 
 ### Do you have a reseller program for OpenProject?
 
-We provide a [reseller program](https://www.openproject.org/reseller-program/) exclusively for the OpenProject Enterprise Edition (currently not for the Cloud Edition) and offer a 25% discount on the regular prices as a part of this. Once you purchased the first Enterprise Edition license for a client, you receive an Enterprise Edition license for 25 users free of charge (for internal use).
+We provide a [reseller program](https://www.openproject.org/reseller-program/) exclusively for the OpenProject Enterprise Edition (currently not for the Cloud Edition) and offer a 25% discount on the regular prices as a part of this. Once you purchased the first Enterprise Edition license for a client, you receive an Enterprise Edition license for 25 users free of charge for your internal use. Please refer to the link above for more information and the conditions regarding this offer.
 Please let us know if you have a particular customer request that we can send you a quote for. 
