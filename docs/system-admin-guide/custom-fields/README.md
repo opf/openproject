@@ -53,12 +53,12 @@ Depending on the module, for which the new custom field is being  created, sligh
 
 2. Activate the custom field for a project in the [project settings](../../user-guide/projects/project-settings/custom-fields/). This is not relevant if the setting **For all projects** has been configured for the custom field.
 
-With these additional settings, you have absolute freedom which  custom fields are relevant for your projects and types. You can customize only those types that are relevant and create a whole set of  custom attributes for your work packages.
+With these additional settings, you have absolute freedom which custom fields are relevant for your projects and types. You can customize only those types that are relevant and create a whole set of custom attributes for your work packages.
 
 ## Edit or remove a custom field
 
 1. To **edit an existing custom field** select the appropriate tab and click on the custom field name.
-2. To **delete** a custom field, click on the delte icon in the list of the custom field.
+2. To **delete** a custom field, click on the delete icon in the list of the custom field.
 
 ![Sys-admin-edit-custom-fields](Sys-admin-edit-custom-fields.png)
 
@@ -75,6 +75,6 @@ To create a multi-select custom field follow the same steps as you would when [c
 
 
 
-When using multi-select custom fields, you can add as many options as required. The cross icon next to an option will remove it from the selection. The checkmark will save your changes.
+When using multi-select custom fields, you can add as many options as required. The cross icon next to an option will remove it from the selection. The check mark will save your changes.
 
 ​       ![Sys-admin-add-multi-select-custom-fields](Sys-admin-add-multi-select-custom-fields.png)

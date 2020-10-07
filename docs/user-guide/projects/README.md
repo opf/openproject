@@ -195,17 +195,31 @@ To get an overview of all your projects, select the **View all projects** option
 
 You will then get a list of all your projects in OpenProject.
 
-With the **three dots** icon at the right in the list you can open further features, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archive a project](#archive-a-project), [copy](#copy-a-project) and [delete a project](#delte-a-project).
+With the **three dots** icon at the right in the list you can open further features, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project).
 
 ![image-20201005092427629](image-20201005092427629.png)
 
 With the **arrow** you can display the project description.
 
-You can **choose the columns** displayed by default in the [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration. To **edit the displayed columns** use the **vertical three dots** icon on the upper right.
+You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
-To **display the work packages of all your projects in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to get to the report described in the chapter below quickly. The Gantt chart view can be configured in the  [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration.
+![edit-columns](image-20201007151542352.png)
+
+
+
+To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) follow the instructions here: [Displaying a project custom field](/system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
+
+
+
+To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to get to the report described in the chapter below quickly. The Gantt chart view can be configured in the  [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration.
+
+![image-20201007161248903](image-20201007161248903.png)
+
+
 
 In the view all projects overview list you can also **create a multi project status dashboard** if you include [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), such as Status, Status description, Accountable, Project duration, and more.
+
+
 
 ## Project overarching reports
 
@@ -213,7 +227,7 @@ Often you need to see more than one project in your lists and want to create pro
 
 Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
 
-Select Work packages from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
+Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
 You can group by project by clicking in the header of the work package list next to project and select Group by.
 
