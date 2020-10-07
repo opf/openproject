@@ -30,8 +30,6 @@
 
 class Notifications::JournalNotificationService
   class << self
-    include Notifications::JournalNotifier
-
     def call(journal, send_mails)
       if journal.journable_type == 'WorkPackage'
         enqueue_work_package_notification(journal, send_mails)

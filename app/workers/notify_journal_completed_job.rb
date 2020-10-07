@@ -30,8 +30,6 @@
 class NotifyJournalCompletedJob < ApplicationJob
   queue_with_priority :notification
 
-  include Notifications::JournalNotifier
-
   def perform(journal_id, send_mails)
     # This is caused by a DJ job running as ActiveJob
     @journal_id = journal_id
