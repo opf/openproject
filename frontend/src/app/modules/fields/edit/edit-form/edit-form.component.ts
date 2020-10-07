@@ -44,6 +44,7 @@ import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit
 import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
 import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
 import {ResourceChangesetCommit} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {GlobalEditFormChangesTrackerService} from "core-app/modules/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service";
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -67,7 +68,8 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
               protected readonly editingPortalService:EditingPortalService,
               protected readonly $state:StateService,
               protected readonly I18n:I18nService,
-              @Optional() protected readonly editFormRouting:EditFormRoutingService) {
+              @Optional() protected readonly editFormRouting:EditFormRoutingService,
+              private globalEditFormChangesTrackerService:GlobalEditFormChangesTrackerService) {
     super(injector);
 
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
@@ -92,16 +94,18 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     });
   }
 
-  ngOnDestroy() {
-    this.unregisterListener();
-  }
-
   ngOnInit() {
     this.editMode = this.initializeEditMode;
+    this.globalEditFormChangesTrackerService.addToActiveForms(this);
 
     if (this.initializeEditMode) {
       this.start();
     }
+  }
+
+  ngOnDestroy() {
+    this.unregisterListener();
+    this.globalEditFormChangesTrackerService.removeFromActiveForms(this);
   }
 
   public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {

@@ -45,6 +45,12 @@ export class OpenProject {
   /** Globally setable variable whether the page form is submitted.
    * Necessary to avoid a data loss warning on beforeunload */
   public pageIsSubmitted:boolean = false;
+  /** Globally setable variable whether any of the EditFormComponent
+   * contain changes.
+   * Necessary to show a data loss warning on beforeunload when clicking
+   * on a link out of the Angular app (ie: main side menu)
+   * */
+  public editFormsContainModelChanges:boolean;
 
   public getPluginContext():Promise<OpenProjectPluginContext> {
     return this.pluginContext

@@ -96,7 +96,7 @@ import {detectOnboardingTour} from "core-app/globals/onboarding/onboarding_tour_
         // Cancel the event
         event.preventDefault();
         // Chrome requires returnValue to be set
-        event.returnValue = '';
+        event.returnValue = I18n.t("js.work_packages.confirm_edit_cancel");
       }
     });
 
