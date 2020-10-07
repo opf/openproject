@@ -49,35 +49,31 @@ export class BackRoutingService {
   }
 
   private goToOtherState(route:string, params:{}):Promise<any> {
-
     return this.$state.go(route, params);
   }
 
   private goBackToDetailsState(preferListOverSplit:boolean, baseRoute:string):void {
-
     if (preferListOverSplit) {
-    this.goToOtherState(baseRoute, this.backRoute.params);
+      this.goToOtherState(baseRoute, this.backRoute.params);
     } else {
-    this.goToOtherState(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
+      this.goToOtherState(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
     }
   }
 
   private goBackNotToDetailsState():void {
-
     if (this.backRoute.parent) {
-    this.goToOtherState(this.backRoute.name, this.backRoute.params).then(() => { this.$state.reload(); });
+      this.goToOtherState(this.backRoute.name, this.backRoute.params).then(() => { this.$state.reload(); });
     }
     else {
-    this.goToOtherState(this.backRoute.name, this.backRoute.params);
+      this.goToOtherState(this.backRoute.name, this.backRoute.params);
     }
   }
 
   private goBackToPreviousState(preferListOverSplit:boolean, baseRoute:string):void {
-
     if (this.keepTab.isDetailsState(this.backRoute.parent)) {
-    this.goBackToDetailsState(preferListOverSplit, baseRoute);
+      this.goBackToDetailsState(preferListOverSplit, baseRoute);
     } else {
-    this.goBackNotToDetailsState();
+      this.goBackNotToDetailsState();
     }
   }
 
@@ -89,9 +85,9 @@ export class BackRoutingService {
     if (!this.backRoute && baseRoute.includes('show')) { this.$state.reload(); }
     else {
       if (!this.backRoute || this.backRoute.name.includes('new')) {
-      this.$state.go(baseRoute, this.$state.params);
+        this.$state.go(baseRoute, this.$state.params);
       } else {
-      this.goBackToPreviousState(preferListOverSplit, baseRoute);
+        this.goBackToPreviousState(preferListOverSplit, baseRoute);
       }
     }
   }
