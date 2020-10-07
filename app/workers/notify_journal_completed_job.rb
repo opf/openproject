@@ -27,8 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Enqueues
-class EnqueueJournalCreatedNotificationJob < ApplicationJob
+class NotifyJournalCompletedJob < ApplicationJob
   queue_with_priority :notification
 
   include Notifications::JournalNotifier
@@ -77,11 +76,9 @@ class EnqueueJournalCreatedNotificationJob < ApplicationJob
   end
 
   def notify_journal_complete(journal, send_mails)
-    OpenProject::Notifications.send(
-      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-      journal: journal,
-      send_mail: send_mails
-    )
+    OpenProject::Notifications.send(notification_event_type(journal),
+                                    journal: journal,
+                                    send_mail: send_mails)
   end
 
   def raw_journal
@@ -90,5 +87,16 @@ class EnqueueJournalCreatedNotificationJob < ApplicationJob
 
   def work_package
     @work_package ||= raw_journal.journable
+  end
+
+  def notification_event_type(journal)
+    case journal.journable_type
+    when WikiContent.name
+      OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
+    when WorkPackage.name
+      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
+    else
+      raise 'Unsupported journal created event type'
+    end
   end
 end

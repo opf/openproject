@@ -42,7 +42,7 @@ describe Notifications::JournalNotificationService do
 
       notification_set = double('notification set')
 
-      expect(EnqueueWorkPackageNotificationJob)
+      expect(NotifyJournalCompletedJob)
         .to receive(:set)
         .with(wait_until: Setting.journal_aggregation_time_minutes.to_i.minutes.from_now)
         .and_return(notification_set)
@@ -59,7 +59,7 @@ describe Notifications::JournalNotificationService do
 
   shared_examples_for 'enqueues no notification' do
     before do
-      expect(EnqueueWorkPackageNotificationJob)
+      expect(NotifyJournalCompletedJob)
         .not_to receive(:set)
     end
 

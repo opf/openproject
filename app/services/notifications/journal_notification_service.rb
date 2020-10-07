@@ -41,7 +41,7 @@ class Notifications::JournalNotificationService
     private
 
     def enqueue_work_package_notification(journal, send_mails)
-      EnqueueWorkPackageNotificationJob
+      NotifyJournalCompletedJob
         .set(wait_until: delivery_time)
         .perform_later(journal.id, send_mails)
     end
