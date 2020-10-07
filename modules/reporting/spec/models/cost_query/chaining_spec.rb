@@ -80,17 +80,6 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.chain.top.type).to eq(:row)
     end
 
-    it "should place rows in front of columns when adding a row first" do
-      skip "This fails unreproducible on travis" if ENV['CI']
-      @query.row :project_id
-      expect(@query.chain.bottom.parent.type).to eq(:row)
-      expect(@query.chain.top.type).to eq(:row)
-
-      @query.column :project_id
-      expect(@query.chain.bottom.parent.type).to eq(:column)
-      expect(@query.chain.top.type).to eq(:row)
-    end
-
     it "should place rows in front of filters" do
       @query.row :project_id
       expect(@query.chain.bottom.parent.type).to eq(:row)
@@ -100,18 +89,6 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.chain.bottom.parent).to be_a(CostQuery::Filter::ProjectId)
       expect(@query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
       expect(@query.chain.top.type).to eq(:row)
-    end
-
-    it "should place columns in front of filters" do
-      skip "This fails unreproducible on travis" if ENV['CI']
-      @query.column :project_id
-      expect(@query.chain.bottom.parent.type).to eq(:column)
-      expect(@query.chain.top.type).to eq(:column)
-
-      @query.filter :project_id
-      expect(@query.chain.bottom.parent).to be_a(CostQuery::Filter::ProjectId)
-      expect(@query.chain.top).to be_a(CostQuery::GroupBy::Base)
-      expect(@query.chain.top.type).to eq(:column)
     end
 
     it "should return all filters, including the NoFilter" do
