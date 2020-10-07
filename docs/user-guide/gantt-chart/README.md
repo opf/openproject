@@ -78,9 +78,12 @@ To find out about **how work packages behave**, when you move their predecessor 
 - A **blue line** connects two work packages, they are predecessor and follower.
 - The **vertical red dotted line** indicates today's date.
 - A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the end date of a work packages latest ending child.
-- A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before/after the manually scheduled dates.. The clambs are black in case the derived dates are "inside" the set dates (of this parent).
+- A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before or after the manually scheduled dates (of this parent work package). 
+  The clambs are black in case the derived dates are within the set dates (of this parent).
 - A **diamond symbol** stands for a milestone.
 - A **bar** stands for work packages like phases and tasks.
+
+
 
 
 
@@ -149,3 +152,7 @@ Select the **auto zoom button** on top of the Gantt chart to have the best view 
 ![Gantt-chart-autozoom](Gantt-chart-autozoom.png)
 
 ### Zen mode
+
+The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
+
+![image-20201007164653327](image-20201007164653327.png)

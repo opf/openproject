@@ -152,15 +152,20 @@ Another way for using a template project would be to [copy it](#copy-a-project).
 
 ### Copy a project
 
-You can copy an existing project by navigating to the [project settings](project-settings) and clicking **Copy project** in the upper right of the project settings (next to the green +Subproject button).
+You can copy an existing project by navigating to the [project settings](project-settings) and clicking **Copy project** in the upper right of the project settings.
 
 ![User-guide-copy-project](User-guide-copy-project.png)
 
 Give the new project a name. Select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
+You can copy existing [boards](../agile-boards) (apart from the Subproject board) and the [Project overview](../project-overview/#project-overview) dashboards along with your project, too.
+
+![copy-project-screen-11.0](image-20201007172029375.png)
+
+For further configuration open the **Advanced settings**. Here you can specify (among other things) the project's URL (identifier), its visibility and status. Furthermore you can set values for custom fields (not shown in the screenshot).
+
+![image-20201007172208540](image-20201007172208540.png)
 
 Then click the blue **Copy** button.
-
-![copy-project-settings](1566218442642.png)
 
 ### Archive a project
 

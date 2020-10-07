@@ -10,7 +10,9 @@ keywords: system settings
 
 There are various project overarching settings that are referred to as **system settings**. To adapt these system settings, navigate to your user name and select -> *Administration* -> *System settings*.
 
-![System-admin-guide-system-settings](System-admin-guide-system-settings.png)
+![System-admin-guide-system-settings-11.0](image-20201007165721023.png)
+
+
 
 ## Overview
 
