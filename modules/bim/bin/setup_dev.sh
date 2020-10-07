@@ -59,9 +59,8 @@ echo "DONE - BUT! You still need to:
 2. install your distribution's version of .NET core:
 
    Ubuntu:
-   - With snap simply install the '.NET Runtime 3.1 (LTS)'
-   - Add the DOTNET_ROOR environment variable to your .bashrc:
-     export DOTNET_ROOT=/snap/dotnet-runtime-31/current
+   - Don't use snap for installing the .NET Runtime 3.1. It's broken. Use the DPKG packages:
+   - Follow the instructions for Ubuntu installation https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
 
    Other OSes, check out and install runtime 3.1:
    https://dotnet.microsoft.com/download"
