@@ -31,9 +31,7 @@
 class Notifications::JournalNotificationService
   class << self
     def call(journal, send_mails)
-      if journal.journable_type == 'WorkPackage'
-        enqueue_work_package_notification(journal, send_mails)
-      end
+      enqueue_work_package_notification(journal, send_mails) if supported?(journal)
     end
 
     private
@@ -46,6 +44,10 @@ class Notifications::JournalNotificationService
 
     def delivery_time
       Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
+    end
+
+    def supported?(journal)
+      %w(WorkPackage WikiContent).include?(journal.journable_type)
     end
   end
 end

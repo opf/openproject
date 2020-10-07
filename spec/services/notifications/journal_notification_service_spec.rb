@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe Notifications::JournalNotificationService do
-  let(:journable) { FactoryBot.build_stubbed(:stubbed_work_package) }
   let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable) }
   let(:send_mails) { true }
 
@@ -69,6 +68,12 @@ describe Notifications::JournalNotificationService do
   end
 
   context 'for a work package journal' do
+    let(:journable) { FactoryBot.build_stubbed(:stubbed_work_package) }
+    it_behaves_like 'enqueues a notification'
+  end
+
+  context 'for a wiki content journal' do
+    let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
     it_behaves_like 'enqueues a notification'
   end
 

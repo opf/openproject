@@ -36,6 +36,10 @@ OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAG
   Notifications::JournalWpMailService.call(payload[:journal], payload[:send_mail])
 end
 
+OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
+  Notifications::JournalWikiMailService.call(payload[:journal], payload[:send_mail])
+end
+
 OpenProject::Notifications.subscribe('watcher_added') do |payload|
   WatcherAddedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
 end
