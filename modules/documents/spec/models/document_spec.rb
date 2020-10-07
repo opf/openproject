@@ -81,14 +81,19 @@ describe Document do
       }.to change { Document.count }.by 1
     end
 
-    it "with attachments should change the updated_on-date on the document to the attachment's date" do
-      3.times do
-        FactoryBot.create(:attachment, container: valid_document)
-      end
+    it "with attachments should change the updated_at-date on the document to the attachment's date" do
+      valid_document.save
 
-      valid_document.reload
-      expect(valid_document.attachments.size).to eql 3
-      expect(valid_document.attachments.map(&:created_at).max).to eql valid_document.updated_at
+      expect {
+        Attachments::CreateService
+          .new(valid_document, author: admin)
+          .call(uploaded_file: FactoryBot.attributes_for(:attachment)[:file], description: '')
+
+        expect(valid_document.attachments.size).to eql 1
+      }.to(change {
+        valid_document.reload
+        valid_document.updated_at
+      })
     end
 
     it "without attachments, the updated-on-date is taken from the document's date" do
