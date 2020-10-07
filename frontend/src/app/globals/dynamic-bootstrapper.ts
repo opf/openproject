@@ -83,9 +83,9 @@ export class DynamicBootstrapper {
    */
   public static bootstrapOptionalEmbeddable(appRef:ApplicationRef, element:HTMLElement, definitions = this.optionalBoostrapComponents) {
     // Delay the execution to avoid bootstrapping the embedded components while
-    // the app is running the Change Detection ("ApplicationRef.tick is called recursively"
-    // error) caused because of bootstrapOptionalEmbeddable and bootstrapOptionalDocument
-    // calling this.performBootstrap at the same time
+    // the app is running the Change Detection. This was throwing "ApplicationRef.tick
+    // is called recursively" error because of bootstrapOptionalEmbeddable and
+    // bootstrapOptionalDocument were called too close (ie: ckEditor macros).
     Promise.resolve().then(() => this.performBootstrap(appRef, element, true, definitions));
   }
 
