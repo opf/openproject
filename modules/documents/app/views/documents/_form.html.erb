@@ -28,9 +28,6 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= error_messages_for 'document' %>
-<% resource = ::API::V3::Documents::DocumentRepresenter.new(f.object,
-                                                            current_user: current_user,
-                                                            embed_links: true) %>
 
 <div class="form--field -required">
   <%= f.select :category_id,
@@ -45,6 +42,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= f.text_area :description,
                   container_class: '-xxwide',
                   with_text_formatting: true,
-                  resource: resource,
+                  resource: api_v3_document_resource(f.object),
                   preview_context: preview_context(f.object.project) %>
 </div>
