@@ -27,6 +27,7 @@
 
 import {ComponentType} from "@angular/cdk/portal";
 import {ApplicationRef} from "@angular/core";
+import {filter, take} from "rxjs/operators";
 
 /**
  * Optional bootstrap definition to allow selecting all matching
@@ -81,7 +82,17 @@ export class DynamicBootstrapper {
    * @param {OptionalBootstrapDefinition[]|undefined} definitions An optional set of components to bootstrap
    */
   public static bootstrapOptionalEmbeddable(appRef:ApplicationRef, element:HTMLElement, definitions = this.optionalBoostrapComponents) {
-    this.performBootstrap(appRef, element, true, definitions);
+    // Avoid bootstrapping the embedded components while the app
+    // is running the Change Detection ("ApplicationRef.tick
+    // is called recursively" error)
+    appRef
+      .isStable
+      .pipe(
+        filter(isStable => isStable),
+        take(1),
+      )
+      .toPromise()
+      .then(() => this.performBootstrap(appRef, element, true, definitions));
   }
 
   /**
