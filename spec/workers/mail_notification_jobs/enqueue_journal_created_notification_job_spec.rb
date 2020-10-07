@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe EnqueueWorkPackageNotificationJob, type: :model do
+describe EnqueueJournalCreatedNotificationJob, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:recipient) do
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:view_work_packages], login: "johndoe")
@@ -154,9 +154,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
       service = WorkPackages::UpdateService.new(user: author, model: work_package)
 
-      expect(service.call(note)).to be_success
-      expect(service.call(change)).to be_success
-      expect(service.call(note)).to be_success
+      expect(service.call(**note)).to be_success
+      expect(service.call(**change)).to be_success
+      expect(service.call(**note)).to be_success
     end
 
     let(:timeout) { Setting.journal_aggregation_time_minutes.to_i.minutes }

@@ -28,7 +28,7 @@
 #++
 
 # Enqueues
-class EnqueueWorkPackageNotificationJob < ApplicationJob
+class EnqueueJournalCreatedNotificationJob < ApplicationJob
   queue_with_priority :notification
 
   include Notifications::JournalNotifier
@@ -70,6 +70,18 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
 
     aggregated_predecessor = find_aggregated_journal_for(aggregated.predecessor)
     notify_journal_complete(aggregated_predecessor, @send_mails)
+  end
+
+  def find_aggregated_journal_for(raw_journal)
+    Journal::AggregatedJournal.with_version(raw_journal)
+  end
+
+  def notify_journal_complete(journal, send_mails)
+    OpenProject::Notifications.send(
+      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+      journal: journal,
+      send_mail: send_mails
+    )
   end
 
   def raw_journal

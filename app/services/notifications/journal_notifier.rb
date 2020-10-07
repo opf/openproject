@@ -29,17 +29,4 @@
 #++
 
 module Notifications::JournalNotifier
-  private
-
-  def find_aggregated_journal_for(raw_journal)
-    Journal::AggregatedJournal.with_version(raw_journal)
-  end
-
-  def notify_journal_complete(journal, send_mails)
-    OpenProject::Notifications.send(
-      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-      journal: journal,
-      send_mail: send_mails
-    )
-  end
 end
