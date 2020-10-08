@@ -28,5 +28,5 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WikiPage::CreateService < ::BaseServices::Create
+class WikiPages::CreateService < ::BaseServices::Create
 end

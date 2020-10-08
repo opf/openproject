@@ -62,7 +62,7 @@ describe TimeEntries::CreateContract do
       let(:time_entry_user) { other_user }
 
       it 'is invalid' do
-        expect_valid(false, user_id: %i(invalid))
+        expect_valid(false, user_id: %i(not_current_user))
       end
     end
 
@@ -71,7 +71,7 @@ describe TimeEntries::CreateContract do
       let(:changed_by_system) { %w() }
 
       it 'is invalid' do
-        expect_valid(false, user_id: %i(invalid error_readonly))
+        expect_valid(false, user_id: %i(not_current_user error_readonly))
       end
     end
 
@@ -79,7 +79,7 @@ describe TimeEntries::CreateContract do
       let(:time_entry_user) { nil }
 
       it 'is invalid' do
-        expect_valid(false, user_id: %i(blank invalid))
+        expect_valid(false, user_id: %i(blank not_current_user))
       end
     end
   end

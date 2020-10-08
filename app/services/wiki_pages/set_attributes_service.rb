@@ -28,21 +28,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntries
-  class CreateContract < BaseContract
-    validate :user_allowed_to_add
-    validate :validate_user_current_user
+# Handles setting the attributes of a wiki page.
+# The wiki page is treated as one single entity although the data layer separates
+# between the page and the content.
+#
+# In the long run, those two should probably be unified on the data layer as well.
+#
+# Attributes for both the page as well as for the content are accepted.
+class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
+  private
 
-    private
+  def set_attributes(params)
+    content_params, page_params = split_page_and_content_params(params.with_indifferent_access)
 
-    def user_allowed_to_add
-      if model.project && !user.allowed_to?(:log_time, model.project)
-        errors.add :base, :error_unauthorized
-      end
+    set_page_attributes(page_params)
+
+    set_default_attributes(params) if model.new_record?
+
+    set_content_attributes(content_params)
+  end
+
+  def set_page_attributes(params)
+    model.attributes = params
+  end
+
+  def set_default_attributes(_params)
+    change_by_system do
+      model.build_content author: user
     end
+  end
 
-    def validate_user_current_user
-      errors.add :user_id, :not_current_user if model.user != user
-    end
+  def set_content_attributes(params)
+    model.content.attributes = params
+  end
+
+  def split_page_and_content_params(params)
+    params.partition { |p, _| WikiContent.column_names.include?(p) }.map(&:to_h)
   end
 end
