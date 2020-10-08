@@ -100,7 +100,7 @@ ko:
           snapshot_data_blank: "snapshot_data를 제공해야 합니다."
           unsupported_key: "지원되지 않는 json 속성이 포함되어 있습니다."
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "동일한 GUID를 가진 다른 BCF 이슈가 있으므로 이 BCF 이슈를 가져올 수 없습니다. 이 BCF 이슈를 이미 다른 프로젝트로 가져왔을 가능성이 있습니까?"
   ifc_models:
     label_ifc_models: 'IFC 모델'
     label_new_ifc_model: '새 IFC 모델'

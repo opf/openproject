@@ -78,7 +78,7 @@ ko:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: '이 필드에 추가하는 모든 텍스트와 이미지는 로그인한 모든 사용자에게 공개됩니다!'
     text_overview: '이 보기에서 특성 보기에 대한 사용자 지정 도움말 텍스트를 작성할 수 있습니다. 이 텍스트를 정의하면 속하는 특성 옆에 있는 도움말 아이콘을 클릭하여 표시할 수 있습니다.'
     label_plural: '특성 도움말 텍스트'
     show_preview: '미리 보기 텍스트'
@@ -90,8 +90,8 @@ ko:
       no_results_content_text: 새 사용인증 모드 생성
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "작업 중에 오류가 발생했지만 다시 시도 중입니다. 오류 메시지: %{message}"
+      cancelled_due_to: "오류로 인해 작업이 취소되었습니다: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.
@@ -202,9 +202,10 @@ ko:
       completed: "프로젝트 %{name} 삭제가 완료되었습니다."
       completed_text: "프로젝트 '%{name}' 삭제 요청이 완료되었습니다."
     index:
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      edit_columns: '열 편집'
+      open_as_gantt: 'Gantt 보기로 열기'
+      open_as_gantt_title: "이 버튼을 사용하여 이 페이지에 표시되는 프로젝트에 대한 작업 패키지를 필터링하는 Gantt 보기를 생성하세요."
+      open_as_gantt_title_admin: "프로젝트 설정의 관리에서 보기 설정(예: 선택한 작업 패키지 유형)을 수정할 수 있습니다."
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
     settings:
@@ -283,7 +284,7 @@ ko:
     overview:
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: 요청한 페이지가 (아직) 존재하지 않습니다. 모든 위키 페이지의 색인으로 리디렉션되었습니다.
     no_results_title_text: 위키 페이지가 없습니다.
     index:
       no_results_content_text: 위키 페이지 추가
@@ -419,7 +420,7 @@ ko:
         types: "종류"
         versions: "버전"
         work_packages: "작업 패키지"
-        templated: 'Template project'
+        templated: '템플릿 프로젝트'
       projects/status:
         code: '상태'
         explanation: '상태 설명'
@@ -491,7 +492,7 @@ ko:
         parent_work_package: "부모"
         priority: "우선 순위"
         progress: "진행률 (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "수동 스케줄링"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
         subproject: "하위 프로젝트"
@@ -517,7 +518,7 @@ ko:
         cant_link_a_work_package_with_a_descendant: "작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다."
         circular_dependency: "이 연계는 순환 종속관계를 만듭니다."
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency}을(를) (완전히) 복사할 수 없습니다."
         does_not_exist: "존재하지 않음"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
@@ -693,7 +694,7 @@ ko:
         version:
           undeletable_work_packages_attached: "첨부된 작업 패키지가 있으므로 이 버전은 삭제할 수 없습니다."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "- 기본값으로 표시된 상태에 대해 활성화할 수 없습니다."
       template:
         body: "다음 필드를 확인 하십시오."
         header:
@@ -749,9 +750,9 @@ ko:
     date: "날짜"
     default_columns: "기본 칼럼"
     description: "설명"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "파생된 완료 날짜"
+    derived_estimated_time: "파생된 예상 시간"
+    derived_start_date: "파생된 시작 날짜"
     display_sums: "합계 표시"
     due_date: "완료 날짜"
     estimated_hours: "예상된 시간"
@@ -901,7 +902,7 @@ ko:
       - "10월"
       - "11월"
       - "12월"
-    abbr_week: 'Wk'
+    abbr_week: '주'
     day_names:
       - "일요일"
       - "월요일"
@@ -1093,7 +1094,7 @@ ko:
   error_no_default_work_package_status: "기본 작업 패키지 상태가 정의되지 않았습니다. 구성을 확인하세요(\"관리 -> 작업 패키지 상태\"로 이동)."
   error_no_type_in_project: "이 프로젝트에 유형이 연결되어 있지 않습니다. 프로젝트 설정을 확인하세요."
   error_omniauth_registration_timed_out: "외부 인증 공급자를 통한 등록이 시간 초과되었습니다. 다시 시도하세요."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "ID 공급자로부터 반환된 인증 정보가 잘못되었습니다. 관리자에게 문의하여 추가적인 도움을 받으세요."
   error_scm_command_failed: "리포지토리에 액세스하는 중에 오류가 발생했습니다. %{value}"
   error_scm_not_found: "항목 또는 수정 사항을 리포지토리에서 찾지 못했습니다."
   error_unable_delete_status: "하나 이상의 작업 패키지에 의해 사용되므로 작업 패키지 상태를 삭제할 수 없습니다."
@@ -1121,8 +1122,8 @@ ko:
     work_package_edit: '작업 패키지 편집됨'
     work_package_note: '작업 패키지 메모 추가됨'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "내 작업 패키지 내보내기"
+    succeeded: "내보내기가 성공적으로 완료되었습니다."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1751,16 +1752,16 @@ ko:
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "OpenProject입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
+  mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
+  mail_body_register_user: "%{name}님께, "
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    웨비나(%{webinar_link})가 제공되는 Youtube 채널(%{youtube_link})을 찾아보고 
+    “시작하기” 동영상(%{get_started_link})을 보고 OpenProject에서의 첫 단계를 최대한 수월하게 진행하세요.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    추가 질문이 있으시면 설명서(%{documentation_link})를 참조하거나 당사(%{contact_us_link})에 문의하세요.
+  mail_body_register_closing: "OpenProject 팀"
+  mail_body_register_ending: "계속 지켜봐 주세요! 감사합니다."
   mail_body_reminder: "사용자에게 할당된 %{count} 작업 패키지가 다음 %{days}일 후 만료됩니다."
   mail_body_group_reminder: "\"%{group}\" 그룹에 할당된 %{count}개 작업 패키지가 향후 %{days}일 후 만료됩니다."
   mail_body_wiki_content_added: "%{author}이(가) '%{id}' 위키 페이지를 추가했습니다."
@@ -1951,10 +1952,10 @@ ko:
       title: 프로젝트의 식별자 변경
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+        선택한 템플릿 프로젝트에서 프로젝트를 만들고 있습니다. 프로젝트가 사용 가능하게 되면 즉시 메일로 알려드립니다.
+      use_template: '템플릿 사용'
+      make_template: '템플릿으로 설정'
+      remove_from_templates: '템플릿에서 제거'
     archive:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
       archived: "보관됨"
@@ -1974,8 +1975,8 @@ ko:
     assigned_to_role: "담당자의 역할"
     member_of_group: "담당자의 그룹"
     assignee_or_group: "담당자 또는 소속 그룹"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "하위 프로젝트 포함"
+    only_subproject_id: "하위 프로젝트만"
     name_or_identifier: "이름 또는 식별자"
   repositories:
     at_identifier: '- %{identifier}'
@@ -2079,13 +2080,13 @@ ko:
     warnings:
       cannot_annotate: "이 파일에는 주석을 지정할 수 없습니다."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: '활성화됨'
+    deactivated: '비활성화됨'
   search_input_placeholder: "검색..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "CORS 사용"
+  setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"
@@ -2130,7 +2131,7 @@ ko:
   setting_emails_header: "이메일 머리글"
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
@@ -2161,8 +2162,8 @@ ko:
   setting_per_page_options: "페이지당 개체 옵션"
   setting_plain_text_mail: "일반 텍스트 메일(HTML 없음)"
   setting_protocol: "프로토콜"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "프로젝트 포트폴리오 Gantt 보기"
+  setting_project_gantt_query_text: "프로젝트 개요 페이지에서 Gantt 차트를 표시하는 데 사용되는 쿼리를 수정할 수 있습니다."
   setting_security_badge_displayed: "보안 배지 표시"
   setting_registration_footer: "등록 꼬리말"
   setting_repositories_automatic_managed_vendor: "자동 리포지토리 공급업체 유형"
@@ -2202,8 +2203,8 @@ ko:
     session: "세션"
     brute_force_prevention: "자동화된 사용자 차단"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "새 프로젝트의 설정"
+      section_project_overview: "프로젝트 개요 목록의 설정"
     user:
       default_preferences: "기본 설정"
       deletion: "삭제"
@@ -2624,6 +2625,8 @@ ko:
   doorkeeper:
     pre_authorization:
       status: '사전 권한 부여'
+    auth_url: '인증 URL'
+    access_token_url: '액세스 토큰 URL'
     errors:
       messages:
         #Common error messages

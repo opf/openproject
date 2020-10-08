@@ -24,52 +24,60 @@ fr:
         locked: 'Verrouillé'
         closed: 'Clôturé'
       new_board: 'Nouveau tableau'
-      add_list: 'Add list to board'
+      add_list: 'Ajouter une liste au tableau'
       add_card: 'Ajouter une carte'
       error_attribute_not_writable: "Impossible de déplacer le lot de travaux, %{attribute} n'est pas modifiable."
       error_loading_the_list: "Erreur lors du chargement de la liste : %{error_message}"
       error_permission_missing: "La permission pour créer des requêtes publiques est manquante"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "Vous ne pouvez pas déplacer un lot de travaux vers sa propre colonne."
       click_to_remove_list: "Cliquez pour supprimer cette liste"
       board_type:
         text: 'Type de tableau'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'basique'
+        select_board_type: 'Veuillez choisir le type de tableau dont vous avez besoin.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Commencez à partir de zéro avec un tableau vide. Ajoutez manuellement des cartes et des colonnes à ce tableau.
         action: 'Tableau d''action'
         action_by_attribute: 'Tableau d''action (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Un tableau avec des listes filtrées sur l'attribut %{attribute}. Déplacer des lots de travaux vers d'autres listes mettra à jour leur attribut.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          Tableau avec colonnes automatiques pour les sous-projets. Glisser les lots de travaux vers d'autres listes met à jour le (sous-)projet en conséquence.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tableau avec colonnes automatiques pour les sous-éléments. Glisser les lots de travaux vers d'autres listes met à jour le parent en conséquence.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Tableau de style de kanban de base avec des colonnes pour des statuts tels que À faire, En cours, Terminé.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tableau avec colonnes automatisées basées sur des utilisateurs assignés. Idéal pour envoyer des lots de travaux.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning software releases.
+          Tableau avec colonnes automatiques basées sur l'attribut de version. Idéal pour la planification des versions de logiciels.
         action_type:
           assignee: responsable
           status: état
           version: version
-          subproject: subproject
-          subtasks: Parent_child
+          subproject: Sous-projet
+          subtasks: parent-enfant
+        board_type_title:
+          assignee: Assigné à
+          status: Statut
+          version: Version
+          subproject: Sous-projet
+          subtasks: Parent-Enfant
+          basic: Basique
         select_attribute: "Attribut d'action"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Sélectionnez l'utilisateur à ajouter en tant que nouvelle liste de destinataires
+          status: Sélectionnez le statut à ajouter comme nouvelle liste
+          version: Sélectionnez la version à ajouter comme nouvelle liste
+          subproject: Sélectionnez le sous-projet à ajouter comme nouvelle liste
+          subtasks: Sélectionnez le lot de travaux à ajouter comme nouvelle liste
         warning:
           status: |
             Il n'y a actuellement aucun statut disponible. <br>
             Soit il n'y en a aucun ou ils ont tous déjà été ajoutés au tableau.
-          assignee: Ce projet n'a actuellement aucun membre à ajouter. <br>
+          assignee: Aucun membre ne correspond à votre valeur de filtre.  <br>
+          no_member: Ce projet n'a actuellement aucun membre à ajouter. <br>
           add_members: <a href="%{link}">Ajoutez un nouveau membre à ce projet</a> pour sélectionner à nouveau les utilisateurs.
       configuration_modal:
         title: 'Configurer ce tableau'

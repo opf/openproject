@@ -62,7 +62,7 @@ pt:
   label_budget_plural: "Orçamentos"
   label_budget_id: "Orçamento #%{id}"
   label_deliverable: "Orçamento"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'ex.: %{decimal}'
   label_view_all_budgets: "Ver os todos os orçamentos"
   label_yes: "Sim"
   notice_budget_conflict: "Pacotes de trabalho devem ser do mesmo projeto."

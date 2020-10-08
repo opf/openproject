@@ -7,50 +7,50 @@ nl:
     label_imported_failed: 'Failed imports of BCF topics'
     label_imported_successfully: 'Successfully imported BCF topics'
     issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    recommended: 'aanbevolen'
+    not_recommended: 'niet aanbevolen'
+    no_viewpoints: 'Geen standpunten'
     new_badge: "Nieuw"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BCF-bestand ongeldig"
     x_bcf_issues:
-      zero: 'No BCF issues'
+      zero: 'Geen BCF-kwesties'
       one: 'One BCF issue'
       other: '%{count} BCF issues'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'BCF XML bestand'
       import_title: 'Import'
       export: 'Exporteren'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
+      import_update_comment: '(Bijgewerkt in BCF import)'
+      import_failed: 'Kan BCF-bestand niet importeren: %{error}'
       import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Imported %{count} BCF issues'
       import_canceled: 'BCF-XML import canceled.'
       type_not_active: "The issue type is not activated for this project."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
+        num_issues_found: '%{x_bcf_issues} staan in het BCF-XML bestand, hun details staan hieronder.'
+        button_prepare: 'Import voorbereiden'
+        button_perform_import: 'Import bevestigen'
         button_proceed: 'Proceed with import'
-        button_back_to_list: 'Back to list'
+        button_back_to_list: 'Terug naar lijst'
         no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
+        contact_project_admin: 'Neem contact op met je projectbeheerder om hen als deelnemers toe te voegen en deze import opnieuw te starten.'
         continue_anyways: 'Do you want to proceed and finish the import anyways?'
         description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
         invalid_types_found: 'Invalid topic type names found'
         invalid_statuses_found: 'Invalid status names found'
         invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
+        invalid_emails_found: 'Ongeldige emailadressen gevonden'
+        unknown_emails_found: 'Onbekende emailadressen gevonden'
         unknown_property: 'Unknown property'
         non_members_found: 'Non project members found'
         import_types_as: 'Set all these types to'
         import_statuses_as: 'Set all these statuses to'
         import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
+        invite_as_members_with_role: 'Nodig hen uit als deelnemers voor het project "%{project}" met de rol'
+        add_as_members_with_role: 'Voeg hen als deelnemers toe aan het project "%{project}" met rol'
+        no_type_provided: 'Geen type opgegeven'
+        no_status_provided: 'Geen status opgegeven'
         no_priority_provided: 'No priority provided'
         perform_description: "Do you want to import or update the issues listed above?"
         replace_with_system_user: 'Replace them with "System" user'
@@ -65,7 +65,7 @@ nl:
     bcf_thumbnail: "BCF snapshot"
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
-  permission_view_linked_issues: "View BCF issues"
+  permission_view_linked_issues: "Bekijk alle BCF-kwesties"
   permission_manage_bcf: "Import and manage BCF issues"
   permission_delete_bcf: "Delete BCF issues"
   oauth:

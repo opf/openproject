@@ -177,7 +177,7 @@ ar:
       no_results_title_text: لا يوجد حالياً ملفات للزبائن.
       no_results_content_text: إنشاء ملف زبون جديد
   concatenation:
-    single: 'or'
+    single: 'أو'
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -202,6 +202,7 @@ ar:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -1174,7 +1175,7 @@ ar:
   error_no_default_work_package_status: "لم يتم تعريف حالة افتراضية لمجموعة العمل. رجاء تحقق من اعداداتك ( من \"ادارة-->حالات مجموعة العمل\")."
   error_no_type_in_project: "هذا المشروع غير مرتبط بأي نوع. رجاء تحقق من اعدادات المشروع."
   error_omniauth_registration_timed_out: "انتهاء مهلة التسجيل عبر موفر المصادقة الخارجية. الرجاء المحاولة مرة أخرى."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "حدث خطأ عند محاولة الوصول إلى مستودع الوثائق: %{value}"
   error_scm_not_found: "لم يتم العثور على إدخال أو مراجعة في مستودع الوثائق."
   error_unable_delete_status: "لا يمكن حذف حالة حزمة العمل نظراً لأنها تستخدم من قبل مجموعة عمل واحدة على الأقل."
@@ -2740,6 +2741,8 @@ ar:
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

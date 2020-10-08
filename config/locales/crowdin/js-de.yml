@@ -69,7 +69,7 @@ de:
     button_save: "Speichern"
     button_settings: "Einstellungen"
     button_uncheck_all: "Alle abwählen"
-    button_update: "Bearbeiten"
+    button_update: "Aktualisieren"
     button_export-pdf: "PDF-Download"
     button_export-atom: "Atom-Download"
     calendar:
@@ -271,11 +271,11 @@ de:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
           bim:
-            learn_about_link: "https://www.openproject.org/openproject-bim-10-5\n"
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 unterstützt nun das <b>BIM Collaboration Format (BCF)</b> – den offenen Standard für Ticketverfolgung in BIM Modellen.<br><br> <ul class="%{list_styling_class}"> <li>Einfach <b>BIM Tickets anlegen und verwalten</b> wie z. B. Konflikte, Anfragen und Fragen im interaktiven 3D-IFC-Viewer und <b>teilen der Informationen mit dem Projektteam.</b></li> <li>Integrieren Sie OpenProject mit Ihrer bevorzugten BIM Software mit der leistungsstarken <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>BCF XML-Dateien importieren und exportieren.</li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"

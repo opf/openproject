@@ -24,52 +24,60 @@ zh-CN:
         locked: '锁定'
         closed: '已关闭'
       new_board: '新建面板'
-      add_list: 'Add list to board'
+      add_list: '将列表添加到面板'
       add_card: '添加卡片'
       error_attribute_not_writable: "无法移动工作包，%{attribute} 不可写。"
       error_loading_the_list: "加载列表时出错：%{error_message}"
       error_permission_missing: "缺少创建公共查询的权限"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "您不能将工作包移动到其自己的列中。"
       click_to_remove_list: "点击以移除此列表"
       board_type:
         text: '面板类型'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: '基本'
+        select_board_type: '请选择您需要的面板类型。'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          从头开始使用空白面板，将卡片和列手动添加到此面板。
         action: '操作面板'
         action_by_attribute: '操作面板 (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          一个在 %{attribute} 属性上具有筛选列表的面板。将工作包移动到其他列表会更新其属性。
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          具有子项目自动列的面板。将工作包拖动到其他列表会相应地更新（子）项目。
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          具有子元素自动列的面板。将工作包拖动到其他列表会相应地更新父项。
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          基本看板样式的面板，包含具有“待办事项”、“正在进行”、“已完成”等状态的列。
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          具有基于指定用户的自动列的面板。适合分发工作包。
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning software releases.
+          具有基于版本属性的自动列的面板。适合规划软件版本。
         action_type:
           assignee: 指派人
           status: 状态
           version: 版本
-          subproject: subproject
-          subtasks: Parent_child
+          subproject: 子项目
+          subtasks: 父子
+        board_type_title:
+          assignee: 指定人
+          status: 状态
+          version: 版本
+          subproject: 子项目
+          subtasks: 父子
+          basic: 基本
         select_attribute: "操作属性"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: 选择要添加到新指派人列表的用户
+          status: 选择要添加到新列表的状态
+          version: 选择要添加到新列表的版本
+          subproject: 选择要添加到新列表的子项目
+          subtasks: 选择要添加到新列表的工作包
         warning:
           status: |
             目前没有可用的状态。<br>
             可能没有问题，或者它们已被全部添加到问题板中。
-          assignee: 此项目当前没有可以添加的任何成员。<br>
+          assignee: 没有任何成员与您的筛选值匹配。<br>
+          no_member: 此项目当前没有可以添加的任何成员。<br>
           add_members: <a href="%{link}">向此项目添加一个新成员</a>以重新选择用户。
       configuration_modal:
         title: '配置此面板'

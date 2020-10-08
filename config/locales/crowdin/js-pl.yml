@@ -116,11 +116,11 @@ pl:
         manual: 'Przełącz na źródło Markdown'
         wysiwyg: 'Przełącz na edytor WYSIWYG'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Nie można rozwinąć makra: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Ten segment tekstowy jest renderowany dynamicznie przez makro.'
+          not_found: 'Nie można znaleźć żądanego zasobu'
+          invalid_attribute: "Wybrany atrybut „%{name}” nie istnieje."
         child_pages:
           button: 'Łącza do stron podrzędnych'
           include_parent: 'Uwzględnij nadrzędne'
@@ -272,11 +272,11 @@ pl:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Planowanie hierarchiczne</b> w celu zdefiniowania wszystkich zadań związanych z projektem. Daty rozpoczęcia i zakończenia elementu nadrzędnego nie mają wpływu na jego elementy podrzędne.</li> <li><b>Wszechstronne tablice zwinne</b> pozwalają na utworzenie struktury podziału pracy lub rozdzielanie zadań między podprojekty.</li> <li><b>Szablony projektów</b> ułatwiające tworzenie nowych projektów.</li> <li>Konfiguracja strony projektów umożliwiająca lepsze <b>zarządzanie portfelem projektów</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 obsługuje teraz <b>BIM Collaboration Format (BCF)</b> – standard śledzenia otwartych problemów dla modeli BIM.<br><br> <ul class="%{list_styling_class}"> <li>Z łatwością twórz i <b>zarządzaj problemami BIM</b>, takimi jak kolizje, żądania i pytania w interaktywnym modelu 3D IFC i <b>udostępniaj je zespołowi projektowemu.</b></li> <li>Zintegruj OpenProject z ulubionym oprogramowaniem BIM za pomocą wszechstronnego <a target="_blank" href="%{bcf_api_link}">interfejsu API BCF REST.</a></li> <li>Importuj i eksportuj pliki BCF w formacie XML.</li> </ul>
+              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Planowanie hierarchiczne</b> w celu zdefiniowania wszystkich zadań związanych z projektem. Daty rozpoczęcia i zakończenia elementu nadrzędnego nie mają wpływu na jego elementy podrzędne.</li> <li><b>Wszechstronne tablice zwinne</b> pozwalają na utworzenie struktury podziału pracy lub rozdzielanie zadań między podprojekty.</li> <li><b>Szablony projektów</b> ułatwiające tworzenie nowych projektów.</li> <li>Konfiguracja strony projektów umożliwiająca lepsze <b>zarządzanie portfelem projektów</b></li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -403,7 +403,7 @@ pl:
     label_sum_for: "Suma dla"
     label_subject: "Temat"
     label_this_week: "ten tydzień"
-    label_today: "Today"
+    label_today: "Dzisiaj"
     label_time_entry_plural: "Czas pracy"
     label_up: "W górę"
     label_user_plural: "Użytkownicy"
@@ -413,10 +413,10 @@ pl:
     label_total_amount: "Łącznie: %{amount}"
     label_updated_on: "zaktualizowany"
     label_value_derived_from_children: "(wartość wyprowadzana z elementów podrzędnych)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Wyprowadzony czas trwania elementów podrzędnych pakietu roboczego"
     label_warning: "Ostrzeżenie"
     label_work_package: "Zadanie"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Nadrzędny pakiet roboczy"
     label_work_package_plural: "Pakiety robocze"
     label_watch: "Obserwuj"
     label_watch_work_package: "Obserwuj zadanie"
@@ -478,7 +478,7 @@ pl:
           drag: 'Przeciągaj i upuszczaj karty w obrębie listy, aby zmienić ich kolejność lub przeciągaj je do innej listy. Dwukrotne kliknięcie otwiera widok szczegółów.'
         wp:
           toggler: "Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej szczegółowy widok Twojej pracy."
-          list: 'Jest to lista <b>Zadania</b>, zawierająca ważne zadania w projekcie, takie jak zadania robocze, funkcje, kamienie milowe, usterki i inne. <br> Możesz utworzyć lub edytować zadania bezpośrednio na tej liście. Aby wyświetlić szczegóły listy, można dwukrotnie kliknąć wiersz.'
+          list: 'Jest to lista <b>Zadania</b>, zawierająca ważne zadania w projekcie, takie jak zadania robocze, kamienie milowe, etapy i inne. <br> Pakiety robocze możesz tworzyć lub edytować bezpośrednio na tej liście. Aby wyświetlić szczegóły listy, można dwukrotnie kliknąć żądany wiersz.'
           full_view: 'W okienku <b>Właściwości pakietów roboczych</b> znajdziesz wszystkie istotne informacje, takie jak opis, stan i priorytet, aktywność, zależności lub komentarze.'
           back_button: 'Strzałka umożliwia powrót do listy pakietów roboczych.'
           create_button: 'Przycisk <b>Utwórz</b> doda nowy pakiet roboczy do projektu.'
@@ -503,7 +503,7 @@ pl:
       context: 'Kontekst projektu'
       work_package_belongs_to: 'Ten pakiet roboczy należy do projektu %{projectname}.'
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Przełączenie szablonu spowoduje ponowne załadowanie strony i utracisz wszystkie dane wprowadzone do tego formularza. Kontynuować?'
       autocompleter:
         label: 'Autouzupełnianie projektu'
     text_are_you_sure: "Jesteś pewien?"
@@ -593,8 +593,8 @@ pl:
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
     project_menu_details: "Szczegóły"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Planowanie ręczne'
+      automatic: 'Planowanie automatyczne'
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '
@@ -807,8 +807,8 @@ pl:
           duplicate_query_title: "Nazwa tego widoku już istnieje. Zmienić mimo to?"
         text_no_results: "Nie znaleziono żadnych pasujących widoków."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Daty tego pakietu roboczego są automatycznie odejmowane od jego elementów podrzędnych. Włącz funkcję Planowanie ręczne, aby ustawić daty."
+        is_switched_from_manual_to_automatic: "Po przełączeniu planowania z ręcznego na automatyczne konieczne może być ponowne obliczenie dat tego pakietu roboczego ze względu na jego powiązania z innymi pakietami roboczymi."
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

@@ -199,9 +199,10 @@ es:
       completed: "Borrado del proyecto %{name} completado"
       completed_text: "La petición para borrar el proyecto '%{name}' se ha completado."
     index:
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      edit_columns: 'Editar columnas'
+      open_as_gantt: 'Abrir como diagrama de Gantt'
+      open_as_gantt_title: "Use este botón para generar un diagrama de Gantt donde se filtren los paquetes de trabajo de los proyectos visibles en esta página."
+      open_as_gantt_title_admin: "Puede modificar los ajustes de visualización (como los tipos de paquetes de trabajo seleccionados) en el apartado de administración de la configuración del proyecto."
       no_results_title_text: No hay proyectos por el momento
       no_results_content_text: Crear un nuevo proyecto
     settings:
@@ -516,7 +517,7 @@ es:
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
@@ -693,7 +694,7 @@ es:
         version:
           undeletable_work_packages_attached: "La versión no puede borrarse cuando tiene paquetes de trabajos adjuntos."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "no se puede activar para los estados marcados como predeterminados."
       template:
         body: "Por favor revise los siguientes campos:"
         header:
@@ -1107,7 +1108,7 @@ es:
   error_no_default_work_package_status: "Ningún estado del paquete trabajo predeterminado está definido. Por favor, compruebe su configuración (ir a \"Administración-> Situación del paquete de trabajo\")."
   error_no_type_in_project: "Ningún tipo se asocia a este proyecto. Por favor, Compruebe la configuración del proyecto."
   error_omniauth_registration_timed_out: "El registro mediante un proveedor de autenticación externa expiró. Por favor inténtelo nuevamente."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "La información de autenticación proporcionada por el proveedor de identidades no era válida. Póngase en contacto con el administrador para obtener ayuda."
   error_scm_command_failed: "Se produjo un error al intentar acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada o la revisión no se encontró en el repositorio."
   error_unable_delete_status: "El estado del paquete de trabajo no se puede eliminar ya que esta siendo utilizado por al menos un paquete de trabajo."
@@ -2103,10 +2104,10 @@ es:
     activated: 'Habilitado'
     deactivated: 'deshabilitado'
   search_input_placeholder: "Buscar..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "Habilitar CORS"
+  setting_apiv3_cors_origins: "Orígenes permitidos de la API de CORS (uso compartido de recursos entre orígenes) V3"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Si CORS está habilitado, estos son los orígenes que tienen permiso para acceder a la API de OpenProject. <br/> Consulte la <a href="%{origin_link}" target="_blank">documentación sobre el encabezado Origin</a> para obtener información sobre cómo especificar los valores esperados.
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
   setting_smtp_enable_starttls_auto: "Usar STARTTLS automáticamente si está disponible"
@@ -2151,7 +2152,7 @@ es:
   setting_emails_header: "Encabezado de correos electrónicos"
   setting_email_login: "Usar correo electrónico como nombre de usuario"
   setting_enabled_scm: "SCM activado"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Visible en la lista de proyectos"
   setting_feeds_enabled: "Activar Feeds"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
@@ -2182,8 +2183,8 @@ es:
   setting_per_page_options: "Objetos por página de opciones"
   setting_plain_text_mail: "Correo en texto plano (sin HTML)"
   setting_protocol: "Protocolo"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Diagrama de Gantt de la cartera de proyectos"
+  setting_project_gantt_query_text: "Puede modificar la consulta usada para mostrar el diagrama de Gantt en la página de información general del proyecto."
   setting_security_badge_displayed: "Mostrar insignia de seguridad"
   setting_registration_footer: "Pié de página de registro"
   setting_repositories_automatic_managed_vendor: "Tipo de proveedor de repositorio automático"
@@ -2223,8 +2224,8 @@ es:
     session: "Sesión"
     brute_force_prevention: "Bloqueo automático de usuarios"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Configuración para nuevos proyectos"
+      section_project_overview: "Configuración de la lista de información general del proyecto"
     user:
       default_preferences: "Preferencias predeterminadas"
       deletion: "Eliminación"
@@ -2646,6 +2647,8 @@ es:
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorización'
+    auth_url: 'URL de autenticación'
+    access_token_url: 'URL del token de acceso'
     errors:
       messages:
         #Common error messages
