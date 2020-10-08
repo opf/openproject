@@ -46,7 +46,7 @@ module Projects::Copy
       target.wiki.wiki_menu_items.delete_all
 
       copy_wiki_pages(params)
-      copy_wiki_menu_items(params)
+      copy_wiki_menu_items
     end
 
     # Copies wiki pages from +project+, requires a wiki to be already set
@@ -86,7 +86,7 @@ module Projects::Copy
     end
 
     # Copies wiki_menu_items from +project+, requires a wiki to be already set
-    def copy_wiki_menu_items(params)
+    def copy_wiki_menu_items
       wiki_menu_items_map = {}
 
       source.wiki.wiki_menu_items.each do |item|
