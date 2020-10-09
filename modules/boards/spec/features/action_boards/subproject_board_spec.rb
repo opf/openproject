@@ -171,8 +171,8 @@ describe 'Subproject action board', type: :feature, js: true do
       login_as only_parent_user
       board_page.visit!
 
-      # We will see an error for the two boards pages
-      expect(page).to have_selector('.notification-box.-error', count: 2)
+      # We wont see a wrapper for showing the error
+      expect(page).not_to have_selector('.boards-list--item')
     end
   end
 end
