@@ -50,7 +50,7 @@ ru:
         action_text_assignee: >
           Форум с автоматическими колонками на основе назначенных пользователей. Идеально подходит для отправки пакетов работ.
         action_text_version: >
-          Форум с автоматическими колонками на основе атрибутов версии, идеально подходит для планирования выпусков программного обеспечения.
+          Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
           assignee: правопреемник
           status: статус

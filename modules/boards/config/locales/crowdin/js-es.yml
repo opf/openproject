@@ -50,7 +50,7 @@ es:
         action_text_assignee: >
           Panel con columnas automáticas basadas en los usuarios asignados. Ideal para enviar paquetes de trabajo.
         action_text_version: >
-          Panel con columnas automáticas basadas en el atributo de versión. Ideal para planificar versiones de software.
+          Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
           assignee: asignado
           status: estado

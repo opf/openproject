@@ -50,7 +50,7 @@ tr:
         action_text_assignee: >
           Atanan kullanıcılara göre otomatik sütunlara sahip pano. İş paketlerini göndermek için ideal.
         action_text_version: >
-          Sürüm özelliğine göre otomatik sütunlara sahip pano. Yazılım sürümlerini planlamak için idealdir.
+          Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
           assignee: vekil
           status: durum
