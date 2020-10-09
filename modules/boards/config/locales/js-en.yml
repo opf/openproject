@@ -59,7 +59,7 @@ en:
           Ideal for dispatching work packages.
         action_text_version: >
           Board with automated columns based on the version attribute.
-          Ideal for planning software releases.
+          Ideal for planning product development.
         action_type:
           assignee: assignee
           status: status
