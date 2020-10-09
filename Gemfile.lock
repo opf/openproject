@@ -625,7 +625,7 @@ GEM
     nap (1.1.0)
     net-ldap (0.16.3)
     netrc (0.11.0)
-    newrelic_rpm (6.13.1)
+    newrelic_rpm (6.9.0.363)
     nio4r (2.5.4)
     no_proxy_fix (0.1.2)
     nokogiri (1.10.10)
@@ -1033,7 +1033,7 @@ DEPENDENCIES
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.16.0)
-  newrelic_rpm
+  newrelic_rpm (~> 6.9.0.363)
   nokogiri (~> 1.10.8)
   oj (~> 3.10.2)
   okcomputer (~> 1.18.1)
