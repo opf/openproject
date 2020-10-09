@@ -10,6 +10,7 @@
   >
     <div *ngFor="let queryWidget of board.queries; trackBy:trackByQueryId"
          class="boards-list--item"
+         id="{{queryWidget.options?.queryId}}"
          wp-isolated-query-space
          cdkDrag
          vsDragScroll
