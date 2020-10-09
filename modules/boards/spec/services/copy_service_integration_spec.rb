@@ -78,7 +78,7 @@ describe Projects::CopyService, 'integration', type: :model do
     end
 
     let(:expected_error) do
-      "Widget contained in Grid Board 'Subproject board': Only subproject Values is not set to one of the allowed values."
+      "Widget contained in Grid Board 'Subproject board': Only subproject filter has invalid values."
     end
 
     it 'will succeed to copy, but add an error for the missing subproject column (Regression #34550)' do
