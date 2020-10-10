@@ -12,7 +12,8 @@ keywords: gantt chart, automatic scheduling, manual scheduling, start date, fini
 # Automatic and manual scheduling mode
 
 <div class="glossary">
-To schedule the work packages in the Gantt chart there is a **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages' behaviour when changing dates of other related work packages.
+To schedule work packages in the Gantt chart there is an **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages' behaviour when changing dates of other related work packages.
+
 
 
 </div>
@@ -26,21 +27,23 @@ To schedule the work packages in the Gantt chart there is a **automatic scheduli
 
 ## Automatic scheduling mode
 
-When [setting a dependency](../#relations-in-the-gantt-chart) between two work packages the **automatic scheduling mode** is set as default. This means:
+The automatic scheduling mode is generally set as **the default mode** for new work packages. For [dependencies](../#relations-in-the-gantt-chart) between two work packages this means:
 
-- A work packages start date is automatically determined by the start date of its earliest starting child.
-- A work packages finish date is automatically determined by the finish date of its latest ending child.
-- When you move a work package past the set start date of its follower, the followers start date will be adjusted to its predecessors finish date. This is not the case the other way round. 
-  Example: Work package 1 ends on October 5th. Its follower work package 2 starts on October 13th. Now work package one gets delayed by ten days, you have to adjust the planning. When you the finish date of work package 1 to October 15th, the start date of work package 2 will automatically be set to October 16th.
+- A work package's start date is automatically determined by the start date of its earliest starting child.
+- A work package's finish date is automatically determined by the finish date of its latest ending child.
+- When you move a work package past the set start date of its follower, the followers start date will be adjusted to its predecessor's finish date. This is not the case the other way round. 
+  Example: Work package 1 ends on October 5th. Its follower work package 2 starts on October 13th. Now work package 1 gets delayed by ten days, you have to adjust the planning. When you set the finish date of work package 1 to October 15th, the start date of work package 2 will automatically be set to October 16th.
 - You can't change the dates of a work package with children (if it's in automatic scheduling mode).
 
 ## Manual scheduling mode
 
-Changing to the manual scheduling mode makes sense if
+The manual scheduling mode is **mostly used when creating a top-down project plan** (by defining the main phases first). You can then add child work packages without affecting the original (high-level) project schedule.
 
-- you want to set a parent work packages date independently from the dates of its children, or
-- you don't want a parent work packages dates being updated automatically when changing the childrens dates, or
-- you don't want a follower's start date be automatically updated when you change the predecessors finish date
+Changing to the **manual scheduling mode makes sense if**
+
+- you want to set a parent work package's date independently from the dates of its children, or
+- you don't want a parent work package's dates being updated automatically when changing the children's dates, or
+- you don't want a follower's start date be automatically updated when you change the predecessor's finish date
 
 ## Change mode
 

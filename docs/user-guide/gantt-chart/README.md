@@ -44,11 +44,7 @@ You can add a subject and make changes to type, status or more fields.
 
 In the **Gantt chart** you can schedule the work package with drag and drop and change the duration.
 
-### How to change the order of an item in the Gantt chart?
-
-Click the **drag and drop** icon (6 dots) at the left hand side of the work package row. Drag the item to the new position. The blue line indicates the new position to drop the element.
-
-
+To **change the order of an item** in the Gantt chart, click the **drag and drop** icon (6 dots) at the left hand side of the work package row. Drag the item to the new position. The blue horizontal line indicates the new position to drop the element.
 
 ![create-new-element-gantt-chart](create-new-element-gantt-chart.gif)
 
@@ -65,7 +61,7 @@ To add a dependency right-click on an element in the Gantt chart.
 
 In the menu, choose **Add predecessor** or **Add follower**.
 
-Select the item which you want to create the dependency with. The precede and follow relation is marked with a small blue line in the Gantt chart.
+Select the item to which you want to create a dependency. The precede and follow relation is marked with a small blue line in the Gantt chart.
 
 
 ![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
@@ -82,8 +78,6 @@ To find out about **how work packages behave**, when you move their predecessor 
   The clambs are black in case the derived dates are within the set dates (of this parent).
 - A **diamond symbol** stands for a milestone.
 - A **bar** stands for work packages like phases and tasks.
-
-
 
 
 
@@ -131,9 +125,9 @@ Press the **Print** button.
 
 For other browsers, please simply follow the browser's printing instruction to optimize results.
 
-## Synchronize data from OpenProject to Excel
+## Synchronize data between OpenProject and Excel
 
-You can synchronize your work packages data from OpenProject to Excel (and even convert from or to MS Project). You need to download an OpenProject plugin.
+You can synchronize your work package data between OpenProject and Excel (two-way synchronization). By extension you could import MS Project files – by saving them as Excel files and importing them into OpenProject. You can download a free Excel  synchronization template to do this.
 
 Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](../integrations/Excel Synchronization).
 

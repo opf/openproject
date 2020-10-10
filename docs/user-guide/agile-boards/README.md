@@ -18,8 +18,6 @@ Our Agile boards can be for anything you would like to keep track of within your
 </div>
 
 
-
-
 | Topic                                                     | Content                                                   |
 | --------------------------------------------------------- | --------------------------------------------------------- |
 | [Create new Boards](#create-a-new-board)                  | How to create a new Agile board.                          |
@@ -33,7 +31,7 @@ Our Agile boards can be for anything you would like to keep track of within your
 | [Manage boards](#manage-boards)                           | How to manage permissions for boards.                     |
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dvmS4tOHVcw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-## Agile Boards in OpenProject
+## Agile boards in OpenProject
 
 The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](#work-pages) or [Gantt charts](#gantt-charts).  This makes it so easy and practical to include the Boards in your daily  project management routines and to gain a much quicker overview of  important topics in your project.
 
@@ -41,7 +39,7 @@ The new Boards are tightly integrated with all other project management function
 
 ## Create a new Board
 
-You can create as many Agile Boards in a project as you need and configure them to your needs. First, you need to create a new Boards view. 
+You can create as many Agile boards in a project as you need and configure them to your needs. First, you need to create a new Boards view. 
 If you haven't done so yet, [activate the Boards module](../projects/project-settings/modules) within your project. Also, we recommend to verify [Roles and Permissions](../../system-admin-guide/users-permissions/roles-permissions/) within your system's Administration.
 
 Click on the green **+Board** button to create a new Board view. 
@@ -50,7 +48,7 @@ Click on the green **+Board** button to create a new Board view.
 
 ## Choose between board types
 
-Next, you need to choose which kind of Agile Board you want to create.
+Next, you need to choose which kind of Agile board you want to create.
 
 #### Basic board
 You can freely create lists, name them and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package itself. This allows you to create flexible boards for any kind of activity you would like to track, e.g. Management of Ideas.
@@ -63,7 +61,7 @@ After [adding lists to your board](#add-lists-to-your-board) they will automatic
 
 There are several **types of Action boards** available:
 
-**Status board:** Each list represents a status. That means that e.g. all work packages with the status new will be automatically displayed in the column "New". 
+**Status board:** Each list represents a status. That means that e.g. all work packages with the status "New" will be automatically displayed in the column "New". 
 When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
 Please note: You can't move work packages from or to every status. Please find out more about the workflow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
 
@@ -180,7 +178,7 @@ Freely create any kind of list you need to organize your team in OpenProject. If
 
 **Status board**
 
-The Status Action board is probably the most used agile board. Start with the three basic status “new”, “in progress” and “closed” and see what status you might need according to your way of working. With a status action board, you can implement the KANBAN principle, continuously improving the flow of work.
+The Status Action board is probably the most used Agile board. Start with the three basic status “new”, “in progress” and “closed” and see what status you might need according to your way of working. With a status action board, you can implement the KANBAN principle, continuously improving the flow of work.
 If you would for example like to map your order process in a board, you can use the status board to pass the tickets through the status. From an incoming order (new), to when it is being handled (in progress) to when it is done (closed). Accompanying work packages to the actual order process would also be shown in this board to give a good overview, e.g. adding a new payment option. Different people from different departments can work together and are up to date on where every work package stands without having to ask.
 
 ![action-board-status-docs](action-board-status-docs.png)

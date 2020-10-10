@@ -27,7 +27,7 @@ Click on one of the categories in order to proceed with the configuration.
 | [Users and permissions](./users-permissions)           | How to manage users, groups and permissions in OpenProject?  |
 | [Work packages](./manage-work-packages)                | How to configure work packages, types, status and workflows? |
 | [Custom fields](./custom-fields)                       | Set custom fields for work packages, Spent time, projects, versions, users, groups and more. |
-| [Attribute help texts](/attribute-help-texts)          | Add help texts to explain custom fields in projects and work packages. |
+| [Attribute help texts](/attribute-help-texts)          | Add help texts to explain attributes (including custom fields) in projects and work packages. |
 | [Enumerations](./enumerations)                         | Set enumerations, e.g. work package priorities, time tracking activities, document categories, and more. |
 | [System settings](./system-settings)                   | Configure your system settings, e.g. a welcome text block on the landing page, display settings, repositories, and more. |
 | [Email](./email)                                       | Configure email settings in OpenProject. How to configure email notifications and your email provider? How to set up incoming email? |
