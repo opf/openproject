@@ -612,6 +612,11 @@ fr:
             custom_fields:
               inexistent: "Il n’y a pas de champ personnalisé pour le filtre."
               invalid: "Le champ personnalisé n’est pas valide dans le contexte donné."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "La relation créée un cercle de relations."

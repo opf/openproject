@@ -611,6 +611,11 @@ ko:
             custom_fields:
               inexistent: "필터에 대한 사용자 지정 필드가 없습니다."
               invalid: "사용자 지정 필드가 지정된 컨텍스트에서 유효하지 않습니다."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "이 관계는 관계의 원을 만듭니다."

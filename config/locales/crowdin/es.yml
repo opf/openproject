@@ -610,6 +610,11 @@ es:
             custom_fields:
               inexistent: "No hay ningún campo personalizado para el filtro."
               invalid: "El campo personalizado no es válido en el contexto válido."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "La relación crea un bucle de relaciones."

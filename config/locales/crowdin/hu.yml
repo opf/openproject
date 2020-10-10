@@ -610,6 +610,11 @@ hu:
             custom_fields:
               inexistent: "Nincs egyedi mező ehhez a szűrőhöz."
               invalid: "Az egyéni mező érvénytelen az adott környezetben."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "A kapcsolat körkörös függőséget hoz létre."

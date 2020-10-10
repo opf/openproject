@@ -274,9 +274,9 @@ it:
             current_new_feature_html: >
               Questa release contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li><b>Pianificazione top-down</b> per definire tutte le attività di progetto coinvolte. Le date di inizio e di fine del genitore non sono influenzate dai suoi figli.</li> <li><b>Board Agile versatili</b> che consentono di creare una struttura di ripartizione del lavoro o di distribuire le attività tra sottoprogetti.</li> <li><b>Modelli di progetto</b> per una facile creazione di nuovi progetti.</li> <li>Configurazione della pagina dei progetti che consente una migliore <b>gestione del portafoglio dei progetti.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 ora supporta il <b>BIM Collaboration Format (BCF)</b>, lo standard di monitoraggio dei problemi aperti per i modelli BIM.<br><br> <ul class="%{list_styling_class}"> <li>Crea e <b>gestisci facilmente i problemi di BIM</b> come disaccordi, richieste e domande nel modello interattivo 3D IFC e <b>condividili con il team del progetto.</b></li> <li>Integra OpenProject con il tuo software BIM preferito utilizzando la <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importa ed esporta file BCF XML.</li> </ul>
+              Questa release contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li><b>Pianificazione top-down</b> per definire tutte le attività di progetto coinvolte. Le date di inizio e di fine del genitore non sono influenzate dai suoi figli.</li> <li><b>Board Agile versatili</b> che consentono di creare una struttura di ripartizione del lavoro o di distribuire le attività tra sottoprogetti.</li> <li><b>Modelli di progetto</b> per una facile creazione di nuovi progetti.</li> <li>Configurazione della pagina dei progetti che consente una migliore <b>gestione del portafoglio dei progetti.</b></li> </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"

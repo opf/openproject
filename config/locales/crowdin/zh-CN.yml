@@ -607,6 +607,11 @@ zh-CN:
             custom_fields:
               inexistent: "过滤器没有自定义字段"
               invalid: "自定义字段无效"
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "关系会创建关系的循环。"

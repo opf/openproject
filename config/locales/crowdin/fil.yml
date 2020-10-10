@@ -613,6 +613,11 @@ fil:
             custom_fields:
               inexistent: "Walang pasadyang patlabg para sa pag-sala."
               invalid: "Ang pasadyang patlang ay hindi balido sa ibinigay na konteksto."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Ang relasyon ay lumilikha ng mga bilog na relasyon."

@@ -611,6 +611,11 @@ pl:
             custom_fields:
               inexistent: "Brak pola niestandardowego dla tego filtra."
               invalid: "Pole niestandardowe jest nieprawidłowe w danym kontekście."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Relacja tworzy krąg relacji."

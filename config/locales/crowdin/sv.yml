@@ -612,6 +612,11 @@ sv:
             custom_fields:
               inexistent: "Det finns inget anpassat fält för filtret."
               invalid: "Det anpassade fältet är inte giltigt i detta sammanhang."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Förhållandet skapar en cirkel av relationer."

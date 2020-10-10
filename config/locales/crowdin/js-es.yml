@@ -274,9 +274,9 @@ es:
             current_new_feature_html: >
               La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Programación descendente</b> para definir todas las tareas del proyecto. Los elementos secundarios no afectan a las fechas de inicio y finalización del elemento principal.</li> <li>Los <b>paneles ágiles y versátiles</b> permiten crear una estructura de desglose del trabajo o distribuir las tareas entre subproyectos.</li> <li><b>Plantillas de proyecto</b> para crear fácilmente nuevos proyectos.</li> <li>La configuración de la página de proyectos permite <b>gestionar mejor la cartera de proyectos</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 ahora es compatible con el <b>formato de colaboración BIM (BCF)</b>: el estándar de seguimiento de incidencias sin resolver para modelos BIM.<br><br> <ul class="%{list_styling_class}"> <li>Cree y gestione fácilmente <b>incidencias de BIM</b> (como conflictos, solicitudes y preguntas) en el modelo IFC 3D interactivo y <b>compártalas con el equipo del proyecto</b>.</li> <li>Integre OpenProject con su software de BIM favorito mediante la avanzada <a target="_blank" href="%{bcf_api_link}">API de REST de BCF</a>.</li> <li>Importe y exporte archivos XML de BCF.</li> </ul>
+              La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Programación descendente</b> para definir todas las tareas del proyecto. Los elementos secundarios no afectan a las fechas de inicio y finalización del elemento principal.</li> <li>Los <b>paneles ágiles y versátiles</b> permiten crear una estructura de desglose del trabajo o distribuir las tareas entre subproyectos.</li> <li><b>Plantillas de proyecto</b> para crear fácilmente nuevos proyectos.</li> <li>La configuración de la página de proyectos permite <b>gestionar mejor la cartera de proyectos</b>.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"

@@ -617,6 +617,11 @@ ar:
             custom_fields:
               inexistent: "لا يوجد أي حقل مخصص لعامل التصفية."
               invalid: "الحقل المخصص غير صحيح في هذا السياق."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "The relationship creates a circle of relationships."

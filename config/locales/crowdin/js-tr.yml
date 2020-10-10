@@ -274,9 +274,9 @@ tr:
             current_new_feature_html: >
               Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir:  <br> <ul class="%{list_styling_class}"> <li><b> İlgili tüm proje görevlerini tanımlamak için <b> yukarıdan aşağıya planlama </b>. Ebeveynin başlangıç ve bitiş tarihleri, çocuklarından etkilenmez. </li> <li> <b> Çok yönlü çevik panolar </b>, bir iş kırılım yapısı oluşturmanıza veya görevleri alt projeler arasında dağıtmanıza olanak tanır. </li> <li> Yeni projelerin kolayca oluşturulması için <b> proje şablonları </b>. </li> <li> Daha iyi <b> proje portföy yönetimi </b> sağlayan projeler sayfasının yapılandırılması. </li> </ ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 artık BIM modelleri için açık sorun izleme standardı olan <b> BIM İşbirliği Formatını (BCF) </b> desteklemektedir. <br> <br> <ul class = "%{list_styling_class}">"> <li> Kolayca oluşturun ve etkileşimli 3D IFC modelindeki çakışmalar, istekler ve sorular gibi <b> BIM sorunlarını yönetin </b> ve <b> proje ekibiyle paylaşın. </b> </li> <li> OpenProject'i güçlü <a target="_blank" href="%{bcf_api_link}"> BCF REST API'sini kullanarak favori BIM yazılımı. </a> </li> <li> BCF XML dosyalarını içe ve dışa aktarın. </li> </ ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir:  <br> <ul class="%{list_styling_class}"> <li><b> İlgili tüm proje görevlerini tanımlamak için <b> yukarıdan aşağıya planlama </b>. Ebeveynin başlangıç ve bitiş tarihleri, çocuklarından etkilenmez. </li> <li> <b> Çok yönlü çevik panolar </b>, bir iş kırılım yapısı oluşturmanıza veya görevleri alt projeler arasında dağıtmanıza olanak tanır. </li> <li> Yeni projelerin kolayca oluşturulması için <b> proje şablonları </b>. </li> <li> Daha iyi <b> proje portföy yönetimi </b> sağlayan projeler sayfasının yapılandırılması. </li> </ ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"

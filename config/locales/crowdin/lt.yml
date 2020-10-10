@@ -610,6 +610,11 @@ lt:
             custom_fields:
               inexistent: "Filtrui nėra jokio pasirenkamo laukelio."
               invalid: "Pasirenkamas laukelis nėra tinkamas duotam kontekstui."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Ryšys sukuria ryšių ciklą."
