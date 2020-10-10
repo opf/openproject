@@ -4,14 +4,14 @@ it:
     bcf:
       label_bcf: 'BCF'
       import: 'Importazione'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: 'Importa file BCF XML (BCF versione 2.1)'
       export: 'Esporta'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
+      export_bcf_xml_file: 'Esporta file BCF XML (BCF versione 2.1)'
       viewpoint: 'Punto di vista'
       add_viewpoint: 'Aggiungi punto di vista'
       show_viewpoint: 'Mostra punto di vista'
       delete_viewpoint: 'Elimina punto di vista'
-      management: 'BCF management'
+      management: 'Gestione BCF'
     ifc_models:
       empty_warning: "Questo progetto non ha ancora nessun modello IFC."
       use_this_link_to_manage: "Usa questo link per caricare e gestire i tuoi modelli IFC"
@@ -20,8 +20,8 @@ it:
         ifc_models: 'Modelli IFC'
       views:
         viewer: 'Visualizzatore'
-        split: 'Viewer and table'
+        split: 'Visualizzatore e tabella'
         split_cards: 'Visualizzatore e schede'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Add-In Revit"
+      revit_add_in_settings: "Impostazioni dell'Add-In Revit"

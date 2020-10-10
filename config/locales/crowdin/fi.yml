@@ -202,6 +202,7 @@ fi:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -441,7 +442,7 @@ fi:
       role:
         assignable: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
       time_entry:
-        activity: "Tapahtumat"
+        activity: "Aktiviteetti"
         hours: "Tunnit"
         spent_on: "Päivämäärä"
         type: "Tyyppi"
@@ -497,7 +498,7 @@ fi:
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"
         subproject: "Aliprojekti"
-        time_entries: "Kirjaa lokiin aika"
+        time_entries: "Kirjaa työaika"
         type: "Tyyppi"
         watcher: "Seuraajat"
       'doorkeeper/application':
@@ -612,6 +613,11 @@ fi:
             custom_fields:
               inexistent: "Ei ole mukautettua kenttää suodattimelle."
               invalid: "Mukautettu kenttä ei ole kelvollinen tässä yhteydessä."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "The relationship creates a circle of relationships."
@@ -983,7 +989,7 @@ fi:
         one: "tunti"
         other: "tuntia"
   default_activity_development: "Kehitys"
-  default_activity_management: "Hallinta"
+  default_activity_management: "Työnjohto"
   default_activity_other: "Muut"
   default_activity_specification: "Määrittely"
   default_activity_support: "Tuki"
@@ -1110,7 +1116,7 @@ fi:
   error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
   error_no_type_in_project: "Ei tyyppi liittyy tähän projekti. Ole hyvä ja tarkista Projekti asetuksista."
   error_omniauth_registration_timed_out: "Rekisteröinnin kautta ulkoinen todennus perheenhuoltaja aikakatkaistiin. Ole hyvä ja yritä uudelleen."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Tietovarastoon pääsyssä tapahtui virhe: %{value}"
   error_scm_not_found: "Syötettä ja/tai versiota ei löydy tietovarastosta."
   error_unable_delete_status: "Toimia paketti tila ei voi poistaa koska se on käytössä vähintään yksi toimia paketti."
@@ -1214,7 +1220,7 @@ fi:
   label_active: "Aktiivinen"
   label_activate_user: 'Activate user'
   label_active_in_new_projects: "Active in new projects"
-  label_activity: "Tapahtumat"
+  label_activity: "Aktiviteetti"
   label_add_edit_translations: "Lisää ja muokkaa käännöksiä"
   label_add_another_file: "Lisää uusi tiedosto"
   label_add_columns: "Lisää valitut sarakkeet"
@@ -1544,7 +1550,7 @@ fi:
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Tuotteen versio"
   label_professional_support: "Ammatillinen apu"
-  label_profile: "Profile"
+  label_profile: "Käyttäjäprofiili"
   label_project_all: "Kaikki projektit"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Lähetä sähköposti-ilmoituksia projektin kopioinnin aikana"
@@ -1980,7 +1986,7 @@ fi:
     archive:
       are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
       archived: "Archived"
-  project_module_activity: "Tapahtumat"
+  project_module_activity: "Aktiviteetti"
   project_module_forums: "Keskustelupalstat"
   project_module_calendar: "Kalenteri"
   project_module_work_package_tracking: "Tehtävien seuranta"
@@ -2650,6 +2656,8 @@ fi:
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

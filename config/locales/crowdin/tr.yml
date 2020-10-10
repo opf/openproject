@@ -202,6 +202,7 @@ tr:
       completed: " %{name}  projesinin silinmesi tamamlandı"
       completed_text: "'%{name}' projesini silme isteği tamamlandı."
     index:
+      edit_columns: 'Sütunları düzenleyin'
       open_as_gantt: 'Gantt görünümü olarak aç'
       open_as_gantt_title: "Bu sayfada görünen projeler için iş paketlerini filtreleyen bir Gantt görünümü oluşturmak için bu düğmeyi kullanın."
       open_as_gantt_title_admin: "Proje ayarları altında yönetimde görünüm ayarlarını (seçilen iş paketi türleri gibi) değiştirebilirsiniz."
@@ -612,6 +613,11 @@ tr:
             custom_fields:
               inexistent: "Hiçbir özel alan filtresi yok."
               invalid: "Verilen içerikteki özel alan filitresi geçerli değil."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "İlişki, bir ilişki çemberi oluşturur."
@@ -696,7 +702,7 @@ tr:
         version:
           undeletable_work_packages_attached: "Eklenmiş iş paketleri olduğu için sürüm silinemez."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "varsayılan olarak işaretlenen durumlar için etkinleştirilemez."
       template:
         body: "Lütfen aşağıdaki alanları kontrol edin:"
         header:
@@ -1110,7 +1116,7 @@ tr:
   error_no_default_work_package_status: "Varsayılan iş paketi durumu tanımlanmadı. Lütfen yapılandırmanızı kontrol edin (\"Yönetim -> İş paketi durumu \" na gidin)."
   error_no_type_in_project: "Bu proje ile ilişkili bir tür yok. Lütfen Proje ayarlarını kontrol edin."
   error_omniauth_registration_timed_out: "Harici bir kimlik doğrulama sağlayıcısı aracılığıyla kayıt zaman aşımına uğradı. Lütfen tekrar deneyin."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "Kimlik sağlayıcısından döndürülen kimlik doğrulama bilgileri geçersizdi. Daha fazla yardım için lütfen yöneticinizle iletişime geçin."
   error_scm_command_failed: "Depoya erişmeye çalışılırken bir hata oluştu:%{value}"
   error_scm_not_found: "Depoda girme veya düzeltme bulunamadı."
   error_unable_delete_status: "İş paketi durumu en az bir tarafından kullanılır beri silinemez iş paketi."
@@ -2649,6 +2655,8 @@ tr:
   doorkeeper:
     pre_authorization:
       status: 'Ön yetkilendirme'
+    auth_url: 'Kimlik Doğrulama URL''si'
+    access_token_url: 'Erişim belirteci URL''si'
     errors:
       messages:
         #Common error messages

@@ -1,4 +1,6 @@
 de:
+  grids:
+    label_widget_in_grid: "Widget im Gitter %{grid_name} enthalten"
   activerecord:
     attributes:
       grids/grid:

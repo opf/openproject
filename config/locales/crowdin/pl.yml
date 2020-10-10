@@ -78,7 +78,7 @@ pl:
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Każdy tekst i obrazy, które dodasz do tego pola, będą publicznie widoczne dla wszystkich zalogowanych użytkowników!'
     text_overview: 'W tym widoku możesz utworzyć własny widok tekstów pomocy dla atrybutów. Gdy zostaną zdefiniowane, będą widoczna po kliknięciu w ikonę pomocy danego atrybutu.'
     label_plural: 'Teksty pomocy atrybutów'
     show_preview: 'Podgląd tekstu'
@@ -90,8 +90,8 @@ pl:
       no_results_content_text: Utwórz nowy tryb autoryzacji
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "Zadanie napotkało błąd, ale próbuje ponownie. Błąd: %{message}"
+      cancelled_due_to: "Zadanie zostało anulowane z powodu błędu: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ten formularz LDAP wymaga wiedzy technicznej na temat konfiguracji usługi LDAP / Active Directory.
@@ -198,9 +198,10 @@ pl:
       completed: "Usunięcie projektu %{name} zostało wykonane"
       completed_text: "Żądanie usunięcia projektu „%{name}” zostało wykonane."
     index:
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      edit_columns: 'Edytuj kolumny'
+      open_as_gantt: 'Otwórz jako widok wykresu Gantta'
+      open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
+      open_as_gantt_title_admin: "Możesz modyfikować ustawienia widoku (takie jak wybrane typy pakietów roboczych) w obszarze administracji w ustawieniach projektu."
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
     settings:
@@ -280,7 +281,7 @@ pl:
     overview:
       no_results_title_text: Nie ma jeszcze żadnego Zestawu zadań przypisanego do tej wersji.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: Żądana strona nie istnieje (jeszcze). Nastąpiło przekierowanie do indeksu wszystkich stron wiki.
     no_results_title_text: Nie ma jeszcze żadnych stron Wiki.
     index:
       no_results_content_text: Dodaj nową stronę Wiki
@@ -419,7 +420,7 @@ pl:
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
-        templated: 'Template project'
+        templated: 'Projekt wzorcowy'
       projects/status:
         code: 'Status'
         explanation: 'Opis statusu'
@@ -491,7 +492,7 @@ pl:
         parent_work_package: "Rodzic"
         priority: "Priorytet"
         progress: "Postęp (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Planowanie ręczne"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
         subproject: "Podprojekt"
@@ -517,7 +518,7 @@ pl:
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
@@ -610,6 +611,11 @@ pl:
             custom_fields:
               inexistent: "Brak pola niestandardowego dla tego filtra."
               invalid: "Pole niestandardowe jest nieprawidłowe w danym kontekście."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Relacja tworzy krąg relacji."
@@ -696,7 +702,7 @@ pl:
         version:
           undeletable_work_packages_attached: "Wersji nie można usunąć, ponieważ dołączone są do niej pakiety robocze."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "nie można aktywować dla statusów, które są oznaczone jako domyślne."
       template:
         body: "Sprawdź następujące pola:"
         header:
@@ -758,9 +764,9 @@ pl:
     date: "Data"
     default_columns: "Domyślne kolumny"
     description: "Opis"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Wyprowadzona data zakończenia"
+    derived_estimated_time: "Wyprowadzony szacowany czas"
+    derived_start_date: "Wyprowadzona data rozpoczęcia"
     display_sums: "Wyświetl sumy"
     due_date: "Data zakończenia"
     estimated_hours: "Szacowany czas"
@@ -910,7 +916,7 @@ pl:
       - "Paź"
       - "Lis"
       - "Gru"
-    abbr_week: 'Wk'
+    abbr_week: 'Tydz.'
     day_names:
       - "Niedziela"
       - "Poniedziałek"
@@ -1138,7 +1144,7 @@ pl:
   error_no_default_work_package_status: "Nie zdefiniowano domyślnego statusu pakietu roboczego. Proszę sprawdzić konfigurację (przejdź do „Administracja -> Statusy pakietów roboczych”)."
   error_no_type_in_project: "Żaden typ nie jest związany z tym projektem. Proszę sprawdzić ustawienia projektu."
   error_omniauth_registration_timed_out: "Upłynął limit czasu na zewnętrzną autoryzację. Spróbuj ponownie."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "Dane uwierzytelniające zwrócone od dostawcy tożsamości były nieprawidłowe. Aby uzyskać dodatkową pomoc, skontaktuj się z administratorem."
   error_scm_command_failed: "Wystąpił błąd podczas próby dostępu do repozytorium: %{value}"
   error_scm_not_found: "Nie znaleziono wpisu lub zmiany w repozytorium."
   error_unable_delete_status: "Status pakietu roboczego nie może zostać usunięty dopóki jest używany przynajmniej w jednym pakiecie roboczym."
@@ -1166,8 +1172,8 @@ pl:
     work_package_edit: 'Pakiet roboczy edytowany'
     work_package_note: 'Notatka pakietu roboczego dodana'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Eksport Twoich pakietów roboczych"
+    succeeded: "Eksport został wykonany."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1808,16 +1814,16 @@ pl:
   mail_body_account_information: "Informacje o koncie"
   mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "Witamy w OpenProject. Aktywuj swoje konto, klikając ten link:"
+  mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
+  mail_body_register_user: "Witaj %{name}, "
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Zapraszamy do przeglądania naszego kanału na YouTube (%{youtube_link}), na którym udostępniamy webinarium (%{webinar_link}).
+    i filmy „Rozpoczęcie pracy” (%{get_started_link}), aby jak najbardziej ułatwić rozpoczęcie pracy w OpenProject.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    Jeśli masz dodatkowe pytania, zapoznaj się z naszą dokumentacją (%{documentation_link}) lub skontaktuj się z nami (%{contact_us_link}).
+  mail_body_register_closing: "Twój zespół OpenProject"
+  mail_body_register_ending: "Bądźmy w kontakcie! Z poważaniem,"
   mail_body_reminder: "Termin wykonania %{count} pakietów roboczych przypisanych do Ciebie kończy się w ciągu %{days} dni:"
   mail_body_group_reminder: "Pakiety robocze (%{count}) przypisane do grupy \"%{group}\" mają termin w ciągu następnych %{days} dni:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
@@ -2010,10 +2016,10 @@ pl:
       title: Zmień identyfikator projektu
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+        Twój projekt jest tworzony z wybranego projektu wzorcowego. Gdy tylko projekt będzie dostępny, otrzymasz powiadomienie pocztą.
+      use_template: 'Użyj szablonu'
+      make_template: 'Ustaw jako szablon'
+      remove_from_templates: 'Usuń z szablonów'
     archive:
       are_you_sure: "Jesteś pewien, że chcesz zarchiwizować projekt '%{name}'?"
       archived: "Zarchiwizowano"
@@ -2033,8 +2039,8 @@ pl:
     assigned_to_role: "Przypisany do roli"
     member_of_group: "Przypisany do grupy"
     assignee_or_group: "Przypisana osoba lub przynależna grupa"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Z podprojektem włącznie"
+    only_subproject_id: "Tylko podprojekt"
     name_or_identifier: "Nazwa lub identyfikator"
   repositories:
     at_identifier: 'w %{identifier}'
@@ -2138,13 +2144,13 @@ pl:
     warnings:
       cannot_annotate: "Ten plik nie może być odnotowany."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'aktywowano'
+    deactivated: 'dezaktywowano'
   search_input_placeholder: "Wyszukaj ..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "Włącz CORS"
+  setting_apiv3_cors_origins: "Dozwolone źródła mechanizmu Cross-Origin Resource Sharing (CORS) interfejsu API V3"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Jeśli mechanizm CORS jest włączony, są to źródła, których dostęp do interfejsu API OpenProject jest dozwolony. <br/> Sprawdź w <a href="%{origin_link}" target="_blank">dokumentacji nagłówka origin</a> jak należy określić oczekiwane wartości.
   setting_email_delivery_method: "Metoda dostarczenia maila"
   setting_sendmail_location: "Lokalizacja pliku wykonywalnego sendmail"
   setting_smtp_enable_starttls_auto: "Automatycznie użyj STARTTLS, jeśli jest dostępny"
@@ -2189,7 +2195,7 @@ pl:
   setting_emails_header: "Nagłówek wiadomości e-mail"
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Widoczny na liście projektów"
   setting_feeds_enabled: "Włącz kanały"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
@@ -2220,8 +2226,8 @@ pl:
   setting_per_page_options: "Obiektów na stronie"
   setting_plain_text_mail: "Poczta czystym tekstem (bez HTML)"
   setting_protocol: "Protokół"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Widok wykresu Gantta portfolio projektu"
+  setting_project_gantt_query_text: "Możesz zmodyfikować zapytanie, które jest używane do wyświetlania wykresu Gantta na stronie przeglądu projektu."
   setting_security_badge_displayed: "Wyświetl plakietkę bezpieczeństwa"
   setting_registration_footer: "Rejestracja stopki"
   setting_repositories_automatic_managed_vendor: "Typ automatycznego producenta repozytorium"
@@ -2261,8 +2267,8 @@ pl:
     session: "Sesja"
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Ustawienia nowych projektów"
+      section_project_overview: "Ustawienia listy przeglądu projektu"
     user:
       default_preferences: "Ustawienia domyślne"
       deletion: "Usunięcie"
@@ -2689,6 +2695,8 @@ pl:
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autoryzacja'
+    auth_url: 'Adres URL uwierzytelniania'
+    access_token_url: 'Adres URL tokenu dostępu'
     errors:
       messages:
         #Common error messages

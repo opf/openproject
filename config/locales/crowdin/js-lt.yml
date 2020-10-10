@@ -274,9 +274,9 @@ lt:
             current_new_feature_html: >
               Šioje laidoje yra naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Planavimas iš viršaus į apačią</b> apibrėžia visas su projektu susijusias užduotis. Tėvinės užduoties pradžios ir pabaigos datų nebekeičia pakeitimai vaikinėse užduotyse.</li> <li><b>Universalios agile lentos</b> leidžia sukurti užduoties išdalinimo struktūrą arba paskirstyti užduotis į subprojektus.</li> <li><b>Projektų šablonai</b> lengvesniam naujų projektų kūrimui.</li> <li>Konfigūruojamas projektų puslapis, leidžiantis geresnį <b>projektų portfelio valdymą.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 jau palaiko <b>BIM Collaboration Format (BCF)</b> – atvirą BIM modelių trūkumų valdymo standartą.<br><br> <ul class="%{list_styling_class}"> <li>Lengvai kurkite ir <b>valdykite BIM trūkumus</b> tokius kaip susikirtimai, užklausos ir klausimai interaktyviame 3D IFC modelyje ir <b>dalinkitės jais su projekto komanda.</b></li> <li>Integruokite OpenProject su jūsų pasirinkta BIM programine įranga naudodami galingą <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importuokite ir eksportuokite BCF XML failus.</li> </ul>
+              Šioje laidoje yra naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Planavimas iš viršaus į apačią</b> apibrėžia visas su projektu susijusias užduotis. Tėvinės užduoties pradžios ir pabaigos datų nebekeičia pakeitimai vaikinėse užduotyse.</li> <li><b>Universalios agile lentos</b> leidžia sukurti užduoties išdalinimo struktūrą arba paskirstyti užduotis į subprojektus.</li> <li><b>Projektų šablonai</b> lengvesniam naujų projektų kūrimui.</li> <li>Konfigūruojamas projektų puslapis, leidžiantis geresnį <b>projektų portfelio valdymą.</b></li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -478,7 +478,7 @@ lt:
           drag: 'Galite pervilkti ir numesti kortelę sąrašo ribose (perrikiuoti) ar į kitą sąrašą. Dvigubas paspaudimas permes į detalių vaizdą.'
         wp:
           toggler: "Dabar žvilgtelėkime į <b>Darbų paketų</b> skyrių, kuris suteikia išsamesnį vaizdą apie jūsų darbus."
-          list: 'Tai <b>Darbų paketų</b> sąrašas su svarbiomis jūsų projektui veiksmais: tasks, features, milestones, bugs, ir pan. <br> Jūs galite kurti ir redaguoti darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart spustelkite pele ant pasirinktos eilutės.'
+          list: 'Tai <b>Darbų paketų</b> sąrašas su svarbiais jūsų projektui veiksmais: užduotimis (tasks), etapais (milestones), fazėmis (phases) ir t.t. <br> Jūs galite kurti ir redaguoti darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart spustelkite pele ant pasirinktos eilutės.'
           full_view: '<b>Darbo paketo detalių</b> lange rasite visą reikalingą informaciją, pvz., aprašymą, būseną ir prioritetą, veiklą, priklausomybes ar komentarus.'
           back_button: 'Su rodykle galite pereiti atgal į darbo paketų sąrašą.'
           create_button: 'Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.'

@@ -202,6 +202,7 @@ da:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -612,6 +613,11 @@ da:
             custom_fields:
               inexistent: "There is no custom field for the filter."
               invalid: "The custom field is not valid in the given context."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "The relationship creates a circle of relationships."
@@ -1110,7 +1116,7 @@ da:
   error_no_default_work_package_status: "Der er ikke angivet en status som standard for denne arbejdspakke. Tjek venligst din opsætning (gå til \"Administration > Status for arbejdspakker\")."
   error_no_type_in_project: "Der er ikke tilknyttet en type til dette projekt. Tjek venligst projektindstillingerne."
   error_omniauth_registration_timed_out: "Registrering via en ekstern godkendelsestjeneste er udløbet. Prøv venligst igen."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Der opstod en fejl da du forsøgte at tilgå projektarkivet: %{value}"
   error_scm_not_found: "Indholdet eller ændring findes ikke i projektarkivet."
   error_unable_delete_status: "Arbejdspakkens status kan ikke slettes da den bruges af mindst én pakke."
@@ -2648,6 +2654,8 @@ da:
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

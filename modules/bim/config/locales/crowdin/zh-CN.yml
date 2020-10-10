@@ -100,7 +100,7 @@ zh-CN:
           snapshot_data_blank: "需要提供 snapshot_data。"
           unsupported_key: "包含不受支持的 json 属性。"
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "无法导入此 BCF 问题，因为已经存在另一个具有相同 GUID 的问题。 这个 BCF 问题是否已被导入另一个项目？"
   ifc_models:
     label_ifc_models: 'IFC 模型'
     label_new_ifc_model: '新 IFC 模型'

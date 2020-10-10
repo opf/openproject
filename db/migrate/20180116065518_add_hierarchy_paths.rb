@@ -37,13 +37,5 @@ class AddHierarchyPaths < ActiveRecord::Migration[5.1]
 
       t.index :path
     end
-
-    reversible do |dir|
-      dir.up do
-        Relation.rebuild_hierarchy_paths!
-      rescue StandardError => e
-        warn "Failed to rebuild hierarchy paths. Call `Relation.rebuild_hierarchy_paths!` manually to correct this: #{e}"
-      end
-    end
   end
 end

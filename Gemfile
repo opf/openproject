@@ -322,7 +322,7 @@ group :docker, optional: true do
   gem 'passenger', '~> 6.0.1'
 
   # Used to easily precompile assets
-  gem 'newrelic_rpm', require: !!ENV['HEROKU']
+  gem 'newrelic_rpm', '~> 6.9.0.363', require: !!ENV['HEROKU']
   gem 'rails_12factor', require: !!ENV['HEROKU']
 end
 

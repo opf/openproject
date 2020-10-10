@@ -4,14 +4,14 @@ tr:
     bcf:
       label_bcf: 'BCF'
       import: 'İçeri Aktar'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: 'BCF XML dosyasını içe aktarın (BCF sürüm 2.1)'
       export: 'Dışarı aktar'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
+      export_bcf_xml_file: 'BCF XML dosyasını dışa aktar (BCF sürüm 2.1)'
       viewpoint: 'bakış açısı'
       add_viewpoint: 'Bakış açısı ekle'
       show_viewpoint: 'Bakış açısını göster'
       delete_viewpoint: 'Bakış açısını sil'
-      management: 'BCF management'
+      management: 'BCF yönetimi'
     ifc_models:
       empty_warning: "Bu projenin henüz IFC modeli yok."
       use_this_link_to_manage: "IFC modellerinizi yüklemek ve yönetmek için bu bağlantıyı kullanın"

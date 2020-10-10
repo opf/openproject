@@ -52,8 +52,5 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= format_text @document.description, attachments: @document.attachments %>
 </div>
 
-<% resource = ::API::V3::Documents::DocumentRepresenter.new(@document,
-                                                            current_user: current_user,
-                                                            embed_links: true) %>
-<%= list_attachments(resource) %>
+<%= list_attachments(api_v3_document_resource(@document)) %>
 

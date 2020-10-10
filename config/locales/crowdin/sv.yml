@@ -202,6 +202,7 @@ sv:
       completed: "Borttagning av projekt %{name} slutfört"
       completed_text: "Begäran om att ta bort projekt '%{name}' har slutförts."
     index:
+      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -611,6 +612,11 @@ sv:
             custom_fields:
               inexistent: "Det finns inget anpassat fält för filtret."
               invalid: "Det anpassade fältet är inte giltigt i detta sammanhang."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Förhållandet skapar en cirkel av relationer."
@@ -1109,7 +1115,7 @@ sv:
   error_no_default_work_package_status: "Inget standardvärde för status för arbetspaket har definieras. Vänligen kontrollera din konfiguration (gå till \"Administration-> arbetspaket status\")."
   error_no_type_in_project: "Ingen typ associerad till detta projekt. Kontrollera projektinställningarna."
   error_omniauth_registration_timed_out: "Registrering via en extern autentiseringstjänst svarade inte. Försök igen."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your adminstrator for further help."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_scm_command_failed: "Ett fel uppstod när du försökte komma åt versionsarkivet: %{value}"
   error_scm_not_found: "Den posten eller revision finns inte i versionsarkivet."
   error_unable_delete_status: "Arbetspaketsstatusen kan inte raderas eftersom det används av minst ett arbetspaket."
@@ -2646,6 +2652,8 @@ sv:
   doorkeeper:
     pre_authorization:
       status: 'Förauktorisering'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
     errors:
       messages:
         #Common error messages

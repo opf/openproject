@@ -259,9 +259,9 @@ mail_suffix_separators:
 work_package_list_default_columns:
   serialized: true
   default:
-  - type
   - id
   - subject
+  - type
   - status
   - assigned_to
   - priority

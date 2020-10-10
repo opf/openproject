@@ -198,6 +198,7 @@ lt:
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
     index:
+      edit_columns: 'Redaguoti stulpelius'
       open_as_gantt: 'Atidaryti kaip Gantt diagramą'
       open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
       open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
@@ -609,6 +610,11 @@ lt:
             custom_fields:
               inexistent: "Filtrui nėra jokio pasirenkamo laukelio."
               invalid: "Pasirenkamas laukelis nėra tinkamas duotam kontekstui."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Ryšys sukuria ryšių ciklą."
@@ -2688,6 +2694,8 @@ lt:
   doorkeeper:
     pre_authorization:
       status: 'Išankstinė autorizacija'
+    auth_url: 'Autentifikavimo URL'
+    access_token_url: 'Prieigos rakto URL'
     errors:
       messages:
         #Common error messages

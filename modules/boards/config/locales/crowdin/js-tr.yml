@@ -33,30 +33,37 @@ tr:
       click_to_remove_list: "Bu listeyi kaldırmak için tıklayın"
       board_type:
         text: 'Yazı tahtası tipi'
-        free: 'basic'
+        free: 'temel'
         select_board_type: 'Lütfen ihtiyacınız olan kart tipini seçin.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Bir boş tahta ile sıfırdan başlayın. Bu panoya manuel olarak kartlar ve sütunlar ekleyin.
         action: 'Eylem kurulu'
         action_by_attribute: 'Eylem kurulu (%{attribute})'
         action_text: >
           %{attribute} özniteliğinde filtrelenmiş listelere sahip bir pano. İş paketlerinin diğer listelere taşınması niteliklerini güncelleyecektir.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Ideal for handling permissions across stakeholders.
+          Alt projeler için otomatik sütunlara sahip pano. İş paketlerini başka listelere sürüklemek, (alt) projeyi buna göre günceller.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Alt elemanlar için otomatik sütunlu pano. İş paketlerini başka listelere sürüklemek, üst öğeyi buna göre günceller.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Yapılacak, Devam Ediyor, Bitti gibi durum için sütunlara sahip temel kanban stili pano.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Atanan kullanıcılara göre otomatik sütunlara sahip pano. İş paketlerini göndermek için ideal.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning software releases.
+          Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
           assignee: vekil
           status: durum
           version: Sürüm
           subproject: Alt proje
-          subtasks: Parent_child
+          subtasks: ebeveyn-çocuk
+        board_type_title:
+          assignee: Atanan
+          status: Durum
+          version: Sürüm
+          subproject: Alt proje
+          subtasks: Ebeveyn-Çocuk
+          basic: Temel
         select_attribute: "Eylem özelliği"
       add_list_modal:
         labels:
@@ -69,7 +76,8 @@ tr:
           status: |
             Şu anda kullanılabilir durum yok. <br>
             Ya yok ya da hepsi zaten tahtaya eklenmiş.
-          assignee: Bu projenin şu anda eklenebilecek üyesi yok. <br>
+          assignee: Filtre değerinizle eşleşen herhangi bir üye yok. <br>
+          no_member: Bu projede şu anda eklenebilecek herhangi bir üye bulunmamaktadır. <br>
           add_members: Kullanıcıları tekrar seçmek için <a href="%{link}"> bu projeye yeni bir üye ekleyin </a>.
       configuration_modal:
         title: 'Bu kartı yapılandır'

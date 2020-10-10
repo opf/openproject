@@ -41,7 +41,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </li>
   <% if @sprint.has_burndown? %>
     <li class="toolbar-item">
-      <%= show_burndown_link(@sprint) %>
+      <%= show_burndown_link(@project, @sprint) %>
     </li>
   <% end %>
 <% end %>

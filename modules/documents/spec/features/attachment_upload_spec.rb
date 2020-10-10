@@ -62,6 +62,7 @@ describe 'Upload attachment to documents', js: true do
 
       click_on 'Create'
 
+      # Expect it to be present on the index page
       expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
       expect(page).to have_selector('#content img', count: 1)
       expect(page).to have_content('Image uploaded on creation')
@@ -69,8 +70,13 @@ describe 'Upload attachment to documents', js: true do
       document = ::Document.last
       expect(document.title).to eq 'New documentation'
 
+      # Expect it to be present on the show page
       find('.document-category-elements--header a', text: 'New documentation').click
       expect(page).to have_current_path "/documents/#{document.id}", wait: 10
+      expect(page).to have_selector('#content img', count: 1)
+      expect(page).to have_content('Image uploaded on creation')
+
+      # Adding a second image
       find('.toolbar-items .button', text: 'Edit').click
 
       expect(page).to have_current_path "/documents/#{document.id}/edit", wait: 10
@@ -79,6 +85,7 @@ describe 'Upload attachment to documents', js: true do
 
       click_on 'Save'
 
+      # Expect both images to be present on the show page
       expect(page).to have_selector('#content img', count: 2)
       expect(page).to have_content('Image uploaded on creation')
       expect(page).to have_content('Image uploaded the second time')

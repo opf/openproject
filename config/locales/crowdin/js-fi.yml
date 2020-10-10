@@ -58,7 +58,7 @@ fi:
     button_advanced_filter: "Edistynyt suodatin"
     button_list_view: "Luettelonäkymä"
     button_show_view: "Koko näytön tila"
-    button_log_time: "Kirjaa lokiin aika"
+    button_log_time: "Kirjaa työaika"
     button_more: "Lisää"
     button_open_details: "Avaa tiedot"
     button_close_details: "Sulje tarkemmat tiedot"
@@ -274,9 +274,9 @@ fi:
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
     label_activate: "Aktivoi"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -478,7 +478,7 @@ fi:
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
           toggler: "Now let's have a look at the <b>Work package</b> section, which gives you a more detailed view of your work."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
           full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
           back_button: 'With the arrow you can navigate back to the work package list.'
           create_button: 'The <b>Create</b> button will add a new work package to your project.'
@@ -526,12 +526,12 @@ fi:
       project: 'Projekti'
       work_package: 'Tehtävä'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Tapahtumat'
+      activity: 'Aktiviteetti'
       comment: 'Kommentti'
       duration: 'Kesto'
       spent_on: 'Päivämäärä'
       hours: 'Tunnit'
-      title: 'Kirjaa lokiin aika'
+      title: 'Kirjaa työaika'
     two_factor_authentication:
       label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     watchers:
@@ -851,7 +851,7 @@ fi:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Yleiskatsaus
-        activity: Tapahtumat
+        activity: Aktiviteetti
         relations: Riippuvuudet
         watchers: Seuraajat
         attachments: Liitteet

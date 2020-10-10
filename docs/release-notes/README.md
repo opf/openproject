@@ -12,11 +12,33 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 11.0.0
+
+Release date: 2020-10-07
+
+#### Community features:
+
+- Top-down scheduling with manual planning mode
+- Project templates
+- Improved project portfolio management
+- Harmonization of time and cost reporting
+- Improved WYSIWYG text editor, incl. macros and resize of images
+
+#### Premium features:
+
+- Agile boards for work breakdown structure (parent-child-elements)
+- Agile boards for subprojects
+- New boards creation screen
+- Boards split-screen view
+- Help texts for projects
+
+[Read more](11-0-0/)
+
 ## 10.6.5
 
 Release date: 2020-07-21
 
-[Release Notes](10-6-5/)
+[Release notes](10-6-5/)
 
 
 ## 10.6.4

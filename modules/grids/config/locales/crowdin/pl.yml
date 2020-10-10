@@ -1,4 +1,6 @@
 pl:
+  grids:
+    label_widget_in_grid: "Widżet zawarty w siatce %{grid_name}"
   activerecord:
     attributes:
       grids/grid:

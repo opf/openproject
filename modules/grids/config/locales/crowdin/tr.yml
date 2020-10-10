@@ -1,4 +1,6 @@
 tr:
+  grids:
+    label_widget_in_grid: "Grid'de bulunan widget %{grid_name}"
   activerecord:
     attributes:
       grids/grid:

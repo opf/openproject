@@ -41,7 +41,7 @@ module Bim
         models = project_data_for(key, 'ifc_models')
         return unless models.present?
 
-        print '    ↳ Import IFC Models'
+        print_status '    ↳ Import IFC Models'
 
         models.each do |model|
           seed_model model
@@ -57,7 +57,7 @@ module Bim
         meta_data = get_file model[:file], '.json'
 
         if xkt_data.nil? || meta_data.nil?
-          print "\n    ↳ Missing converted data for ifc model"
+          print_status "\n    ↳ Missing converted data for ifc model"
         else
           create_model(model, user, xkt_data, meta_data)
         end

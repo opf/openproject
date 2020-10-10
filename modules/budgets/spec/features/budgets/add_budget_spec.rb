@@ -111,7 +111,7 @@ describe 'adding a new budget', type: :feature, js: true do
         I18n.locale = :de
         new_budget_page.visit!
 
-        fill_in 'Thema', with: 'First Aid'
+        fill_in Budget.human_attribute_name(:subject, locale: :de), with: 'First Aid'
 
         new_budget_page.add_unit_costs! '3,50', comment: 'RadAway'
         new_budget_page.add_unit_costs! '1.000,50', comment: 'Rad-X'
@@ -120,7 +120,7 @@ describe 'adding a new budget', type: :feature, js: true do
         new_budget_page.add_labor_costs! '0,5', user_name: user.name, comment: 'attendance'
 
         click_on 'Anlegen'
-        expect(page).to have_content('Erfolgreich angelegt')
+        expect(page).to have_content(I18n.t(:notice_successful_create, locale: :de))
 
         expect(new_budget_page.unit_costs_at(1)).to have_content '175,00 EUR'
         expect(new_budget_page.unit_costs_at(2)).to have_content '50.025,00 EUR'
@@ -130,7 +130,7 @@ describe 'adding a new budget', type: :feature, js: true do
         expect(new_budget_page.labor_costs_at(2)).to have_content '12,50 EUR'
         expect(new_budget_page.overall_labor_costs).to have_content '125.015,00 EUR'
 
-        click_on 'Bearbeiten'
+        click_on I18n.t(:button_update, locale: :de)
 
         budget_page.expect_planned_costs! type: :material, row: 1, expected: '175,00 EUR'
         budget_page.expect_planned_costs! type: :material, row: 2, expected: '50.025,00 EUR'

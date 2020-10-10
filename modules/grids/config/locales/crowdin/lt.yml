@@ -1,4 +1,6 @@
 lt:
+  grids:
+    label_widget_in_grid: "Valdiklis, esantis Tinklelyje %{grid_name}"
   activerecord:
     attributes:
       grids/grid:

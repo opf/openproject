@@ -271,11 +271,11 @@ pt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              A liberação possui vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li><b>Agendamento suspenso</b> para definir todas as tarefas de projeto envolvidas. As datas de início e término do pai não são afetadas por seu filho.</li> <li><b>Painéis versáteis e ágeis</b> permitem que você crie uma estrutura de divisão de trabalho ou para distribuir tarefas entre subprojetos.</li> <li><b>Modelos de projeto</b> para uma criação mais fácil de novos projetos.</li> <li>Configuração da página de projetos que permite uma melhor <b>gestão de portfólio de projeto.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              O OpenProject 10.5 agora dá suporte ao <b>BIM Colaboration Format (BCF)</b> - o padrão de rastreio de casos abertos para modelos BIM.<br><br> <ul class="%{list_styling_class}"> <li>Crie e <b>gerencie com facilidade os problemas do BIM,</b> tais como conflitos, solicitações e perguntas no modelo interativo de IFC 3D e <b>compartilhe com a equipa do projeto.</b></li> <li>Integre o OpenProject em seu software BIM favorito através do poderoso <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importe e exporte arquivos XML BCF.</li> </ul>
+              A liberação possui vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li><b>Agendamento suspenso</b> para definir todas as tarefas de projeto envolvidas. As datas de início e término do pai não são afetadas por seu filho.</li> <li><b>Painéis versáteis e ágeis</b> permitem que você crie uma estrutura de divisão de trabalho ou para distribuir tarefas entre subprojetos.</li> <li><b>Modelos de projeto</b> para uma criação mais fácil de novos projetos.</li> <li>Configuração da página de projetos que permite uma melhor <b>gestão de portfólio de projeto.</b></li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -477,7 +477,7 @@ pt:
           drag: 'Arraste e solte seus cartões dentro de uma lista para reordenar ou mover para outra lista. Um clique duplo abrirá a visualização detalhada.'
         wp:
           toggler: "Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>, que lhe fornece uma visão mais detalhada do seu trabalho."
-          list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
+          list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, marcos, fases e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
           full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, situação e prioridade, atividades, dependências ou comentários.'
           back_button: 'Com a seta você pode navegar de volta para a lista de pacotes de trabalho.'
           create_button: 'O botão <b>Criar</b> irá adicionar um novo pacote de trabalho ao seu projeto.'
@@ -801,7 +801,7 @@ pt:
         public_text: >
           Publicar esta visualização, permitindo que outros usuários acessem sua visualização. Usuários com a permissão 'Gerenciar visualizações públicas' podem modificar ou remover a consulta pública. Isso não afeta a visibilidade dos resultados do pacote de trabalho nessa visualização e dependendo de suas permissões, os usuários podem ver resultados diferentes.
         errors:
-          unretrievable_query: "Não foi possível recuperar a visualização da URL"
+          unretrievable_query: "Não foi possível recuperar a visualização do URL"
           not_found: "Esta visão não existe"
           duplicate_query_title: "O nome desta visão já existe. Modificar assim mesmo?"
         text_no_results: "Nenhuma visão correspondente foi encontrada."
