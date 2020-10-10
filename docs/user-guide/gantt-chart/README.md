@@ -127,7 +127,7 @@ For other browsers, please simply follow the browser's printing instruction to o
 
 ## Synchronize data between OpenProject and Excel
 
-You can synchronize your work package data between OpenProject and Excel (two-way synchronization). By extension you could import MS Project files – by saving them as Excel files and importing them into OpenProject. You can download a free Excel  synchronization template to do this.
+You can synchronize your work package data between OpenProject and Excel (two-way synchronization). By extension you could import MS Project files – by saving them as Excel files and importing them into OpenProject. You can download a free Excel synchronization template to do this.
 
 Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](../integrations/Excel Synchronization).
 
