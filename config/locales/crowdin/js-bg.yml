@@ -116,11 +116,11 @@ bg:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Не може да се разгъне макроса: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Този текстов сегмент се визуализира динамично от макрос.'
+          not_found: 'Заявеният ресурс не можа да бъде намерен'
+          invalid_attribute: "Избраният атрибут „%{name}“ не съществува."
         child_pages:
           button: 'Links to child pages'
           include_parent: 'Include parent'
@@ -272,11 +272,11 @@ bg:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              Изданието съдържа различни нови функции и подобрения: <br> <ul class = "%{list_styling_class}"> <li> <b> Планиране отгоре надолу </b> за дефиниране на всички участващи задачи на проекта. Датите на начало и край на родителя не се влияят от неговите деца. </li> <li> <b> Универсалните agile-дъски </b> ви позволяват да създадете структура на разбивка на работата или да разпределите задачи между подпроектите. </li> <li> <b> Шаблони за проекти </b> за лесно създаване на нови проекти. </li> <li> Конфигуриране на страницата с проекти, позволяваща по-добро управление на портфолиото на проекти. </b> </li> </ ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              Изданието съдържа различни нови функции и подобрения: <br> <ul class = "%{list_styling_class}"> <li> <b> Планиране отгоре надолу </b> за дефиниране на всички участващи задачи на проекта. Датите на начало и край на родителя не се влияят от неговите деца. </li> <li> <b> Универсалните agile-дъски </b> ви позволяват да създадете структура на разбивка на работата или да разпределите задачи между подпроектите. </li> <li> <b> Шаблони за проекти </b> за лесно създаване на нови проекти. </li> <li> Конфигуриране на страницата с проекти, позволяваща по-добро управление на портфолиото на проекти. </b> </li> </ ul>
     label_activate: "Activate"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -403,7 +403,7 @@ bg:
     label_sum_for: "Сума за"
     label_subject: "Заглавие"
     label_this_week: "тази седмица"
-    label_today: "Today"
+    label_today: "Днес"
     label_time_entry_plural: "Отработено време"
     label_up: "Up"
     label_user_plural: "Потребители"
@@ -413,10 +413,10 @@ bg:
     label_total_amount: "Total: %{amount}"
     label_updated_on: "актуализиран на"
     label_value_derived_from_children: "(value derived from children)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Извлечена продължителност на децата от работния пакет"
     label_warning: "Предупреждение"
     label_work_package: "Работен пакет"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Родителски работен пакет"
     label_work_package_plural: "Работни пакети"
     label_watch: "Наблюдавай"
     label_watch_work_package: "Наблюдавай работния пакет"
@@ -478,7 +478,7 @@ bg:
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
           toggler: "Now let's have a look at the <b>Work package</b> section, which gives you a more detailed view of your work."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: 'Това е списъкът <b> Работен пакет </b> с важната работа във вашия проект, като задачи, етапи, фази и др. <br> Можете да създадете или редактирате работен пакет директно в този списък. За да видите подробностите, можете да щракнете двукратно върху ред.'
           full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
           back_button: 'With the arrow you can navigate back to the work package list.'
           create_button: 'The <b>Create</b> button will add a new work package to your project.'
@@ -503,7 +503,7 @@ bg:
       context: 'Project context'
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Превключването на шаблона ще презареди страницата и ще загубите всички данни за този формуляр. Ще продължите ли?'
       autocompleter:
         label: 'Project autocompletion'
     text_are_you_sure: "Сигурни ли сте?"
@@ -593,8 +593,8 @@ bg:
     field_value_enter_prompt: "Въведете стойност за '%{field}'"
     project_menu_details: "Подробности"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Ръчно планиране'
+      automatic: 'Автоматично планиране'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -807,8 +807,8 @@ bg:
           duplicate_query_title: "Name of this view already exists. Change anyway?"
         text_no_results: "No matching views were found."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Датите на този работен пакет се извеждат автоматично от неговите деца. Активирайте „Ръчно планиране“, за да зададете датите."
+        is_switched_from_manual_to_automatic: "Датите на този работен пакет може да се наложи да бъдат преизчислени след преминаване от ръчно към автоматично планиране поради връзки с други работни пакети."
       table:
         configure_button: 'Configure work package table'
         summary: "Таблица с атрибути от редове и колони на работен пакет."

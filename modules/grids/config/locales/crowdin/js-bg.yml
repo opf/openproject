@@ -3,7 +3,7 @@ bg:
     grid:
       add_widget: 'Add widget'
       remove: 'Remove widget'
-      configure: 'Configure widget'
+      configure: 'Конфигурирайте приспособление'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'
@@ -40,7 +40,7 @@ bg:
           no_results: 'Няма подпроекти.'
         time_entries_current_user:
           title: 'Мое употребено време'
-          displayed_days: 'Days displayed in the widget:'
+          displayed_days: 'Дни, показани в приспособлението:'
         time_entries_list:
           title: 'Употребено време (последните 7 дни)'
           no_results: 'No time entries for the last 7 days.'
