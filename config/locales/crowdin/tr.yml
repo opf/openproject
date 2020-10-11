@@ -613,6 +613,11 @@ tr:
             custom_fields:
               inexistent: "Hiçbir özel alan filtresi yok."
               invalid: "Verilen içerikteki özel alan filitresi geçerli değil."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "İlişki, bir ilişki çemberi oluşturur."

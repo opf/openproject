@@ -608,6 +608,11 @@ ja:
             custom_fields:
               inexistent: "フィルターのカスタムフィールドはありません。"
               invalid: "カスタムフィールドは、指定されたコンテキストでは無効です。"
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "関係が、関係のループを作ります。"

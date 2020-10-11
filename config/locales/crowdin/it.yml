@@ -609,6 +609,11 @@ it:
             custom_fields:
               inexistent: "Nessun campo personalizzato per il filtro."
               invalid: "Il campo personalizzato non è valido nel contesto dato."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "La relazione crea un riferimento circolare."

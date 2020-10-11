@@ -610,6 +610,11 @@ el:
             custom_fields:
               inexistent: "Δεν υπάρχει προσαρμοσμένο πεδίο για το φίλτρο."
               invalid: "Το προσαρμοσμένο πεδίο δεν είναι έγκυρο στο δοσμένο πλαίσιο."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Η σχέση αυτή δημιουργεί έναν κύκλο σχέσεων."

@@ -613,6 +613,11 @@ sl:
             custom_fields:
               inexistent: "Za filter ni polja po meri."
               invalid: "Polje po meri v danem kontekstu ni veljavno."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Odnos ustvarja krog odnosov."

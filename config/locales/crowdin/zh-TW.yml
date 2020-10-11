@@ -612,6 +612,11 @@ zh-TW:
             custom_fields:
               inexistent: "篩選器沒有自訂欄位。"
               invalid: "自訂欄位在指定的上下文中無效。"
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "無限迴圈的關聯。"

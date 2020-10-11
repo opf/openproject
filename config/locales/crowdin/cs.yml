@@ -615,6 +615,11 @@ cs:
             custom_fields:
               inexistent: "Pro filtr neexistuje žádné vlastní pole."
               invalid: "Vlastní pole není v daném kontextu platné."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Vztah vytvoří cyklický vztah."

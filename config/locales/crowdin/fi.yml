@@ -613,6 +613,11 @@ fi:
             custom_fields:
               inexistent: "Ei ole mukautettua kenttää suodattimelle."
               invalid: "Mukautettu kenttä ei ole kelvollinen tässä yhteydessä."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "The relationship creates a circle of relationships."

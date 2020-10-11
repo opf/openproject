@@ -608,6 +608,11 @@ de:
             custom_fields:
               inexistent: "Es existiert kein benutzerdefiniertes Feld für diesen Filter."
               invalid: "Das benutzerdefinierte Feld ist in diesem Kontext ungültig."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Die Beziehung erzeugt eine zirkuläre Abhängigkeit."

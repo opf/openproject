@@ -614,6 +614,11 @@ ru:
             custom_fields:
               inexistent: "Для этого фильтра нет настраиваемого поля."
               invalid: "В этом контексте настраиваемое поле неприменимо."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Зацикливание зависимостей."

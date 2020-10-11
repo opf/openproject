@@ -613,6 +613,11 @@ nl:
             custom_fields:
               inexistent: "Er is geen aangepast veld voor dit filter."
               invalid: "Het aangepaste veld is niet geldig in deze context."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "De relatie wordt gemaakt van een kring van relaties."

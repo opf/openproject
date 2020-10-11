@@ -615,6 +615,11 @@ uk:
             custom_fields:
               inexistent: "Немає спеціального поля для фільтра."
               invalid: "Спеціальне поле не є дійсним у даному контексті."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Відносини створюють коло відносин."

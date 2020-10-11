@@ -615,6 +615,11 @@ sk:
             custom_fields:
               inexistent: "Neexistuje žiadne vlastné pole pre filter."
               invalid: "Vlastné pole je v tomto kontexte neplatné."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Vzťah vytvorí kruh vzťahov."
