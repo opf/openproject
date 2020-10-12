@@ -11,8 +11,10 @@ keywords: forum
 
 In the forum in OpenProject you can discuss topics in a project with the team: post questions, comment on it and document answers.
 
-<div class="glossary"> **Forum** is defined as a module used to display forums and forum entries. The module has to be activated in the project settings and a forum has to be created in the forums tab in the project settings to be displayed in the side navigation.</div> 
-| Feature                                                  | Documentation for                                            |
+<div class="glossary"> **Forum** is defined as a module used to display forums and forum entries. The module has to be activated in the project settings and a forum has to be created in the forums tab in the project settings to be displayed in the side navigation.
+</div>
+
+| Topic                                                    | Content                                                      |
 | -------------------------------------------------------- | ------------------------------------------------------------ |
 | [Open a forum](#open-a-forum)                            | How to open an existing forum?                               |
 | [Create a new message](#create-a-new-message-in-a-forum) | How to create a new message in a forum?                      |
@@ -21,7 +23,7 @@ In the forum in OpenProject you can discuss topics in a project with the team: p
 | [Edit a forum message](#edit-a-forum-message)            | How to edit a message in a forum?                            |
 | [Delete a forum message](#delete-a-forum-message)        | How to delete a message within a forum?                      |
 | [Create a new forum](#create-a-new-forum)                | How to create a new forum?                                   |
-| Manage forums                                            | How to sort, edit or delete a forum?                         |
+| [Manage forums](#manage-forums)                          | How to sort, edit or delete a forum?                         |
 
 ## Open a forum
 
