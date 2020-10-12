@@ -14,11 +14,11 @@ The Enterprise Edition builds on top of the free Community Edition. An upgrade i
 
 | Popular Topics                                               | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Enterprise Edition trial](#create-an-enterprise-edition-trial) | Can I test the Enterprise Edition for free?                  |
-| [Activate the Enterprise Edition](#activate-the-enterprise-edition) | How can I upgrade my Community Edition to an Enterprise Edition? |
-| [Installation support](#installation-support)                 | How can I get installation support?                          |
+| [Enterprise Edition trial](/enterprise-trial)                | Can I test the Enterprise Edition for free?                  |
+| [Activate the Enterprise Edition](/activate-enterprise-edition) | How can I upgrade my Community Edition to an Enterprise Edition? |
+| [Installation support](/support)                             | How can I get installation support?                          |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YRF_bavXBts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/YRF_bavXBts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 

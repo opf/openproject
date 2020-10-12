@@ -27,14 +27,14 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Work packages views](work-package-views)                    | What is the difference between the work packages views: list view, split screen view, details view? |
-| [Create a work package](#create-work-packages)               | How to create a new work package in OpenProject?             |
+| [Create a work package](/create-work-package)                | How to create a new work package in OpenProject?             |
 | [Edit work package](edit-work-package)                       | How to edit a work package in OpenProject?                   |
 | [Copy, move, delete](copy-move-delete)                       | How to copy, move, delete a work package?                    |
 | [Work package table configuration](work-package-table-configuration) | How to configure the work package table (columns, filters, group by, etc.)? |
 | [Exporting](exporting)                                       | How to export work packages for other tools such as Microsoft Excel? |
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies?        |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/R6-p8HgFmm8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/R6-p8HgFmm8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ## Frequently asked questions (FAQ)
 
 ### How to copy work package hierarchies with their relations?
