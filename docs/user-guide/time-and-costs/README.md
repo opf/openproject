@@ -15,7 +15,7 @@ Create budgets, log time and costs on specific work packages and  create time an
 
 ## Overview
 
-| Popular Topics                        | Description                                 |
+| Topic                 | Content                                     |
 | ------------------------------------- | :------------------------------------------ |
 | [Time tracking](time-tracking)       | How to log time to work packages?           |
 | [Cost tracking](cost-tracking)       | How to track unit costs spent in a project? |
@@ -30,4 +30,4 @@ Watch this short video to get a first overview about time and cost reporting in 
 
 ### Does OpenProject provide resource management?
 
-Please note that OpenProject currently does not yet support resource management. However, this is scheduled as our main topic for 2020. You can check out our roadmap [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993)
+Please note that OpenProject currently does not yet support resource management. However, this is scheduled as one of our main topics. You can check out our roadmap [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).

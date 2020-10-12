@@ -26,7 +26,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
-| [View all projects](#view-all-projects)                      | Get an overview of all your projects in the project overview list. |
+| [View all projects](#view-all-projects)                      | Get an overview of all your projects in the projects overview list. |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 ## Select a project
@@ -71,7 +71,7 @@ Or, a project can be to separate products or customers.
   * Customer C
 
 
-OpenProject, for example, uses the projects to structured the different modules/plugin development:
+OpenProject, for example, uses the projects to structure the different modules/plugin development:
 
 ![project-structure](1566214944644.png)
 
@@ -152,15 +152,20 @@ Another way for using a template project would be to [copy it](#copy-a-project).
 
 ### Copy a project
 
-You can copy an existing project by navigating to the [project settings](project-settings) and clicking **Copy project** in the upper right of the project settings (next to the green +Subproject button).
+You can copy an existing project by navigating to the [project settings](project-settings) and clicking **Copy project** in the upper right of the project settings.
 
 ![User-guide-copy-project](User-guide-copy-project.png)
 
 Give the new project a name. Select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
+You can copy existing [boards](../agile-boards) (apart from the Subproject board) and the [Project overview](../project-overview/#project-overview) dashboards along with your project, too.
+
+![copy-project-screen-11.0](image-20201007172029375.png)
+
+For further configuration open the **Advanced settings**. Here you can specify (among other things) the project's URL (identifier), its visibility and status. Furthermore you can set values for custom fields (not shown in the screenshot).
+
+![image-20201007172208540](image-20201007172208540.png)
 
 Then click the blue **Copy** button.
-
-![copy-project-settings](1566218442642.png)
 
 ### Archive a project
 
@@ -189,17 +194,37 @@ Also, you can delete a project via the [projects overview](#view-all-projects).
 
 ## View all projects
 
-To get an overview of all your projects, select the **View all projects** option from the Select a project menu in the top left header navigation. 
+To get an overview of all your projects, select the **View all projects** option from the **Select a project** menu in the top left header navigation. 
 
 ![view all projects](1566293251039.png)
 
 You will then get a list of all your projects in OpenProject.
 
-With the **three dots** icon at the right in the list you can open further features, such as creating a new subproject, [project settings](project-settings), [archive a project](#archive-a-project), [copy](#copy-a-project) and [delete a project](#delte-a-project).
+With the **three dots** icon at the right in the list you can open further features, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project).
 
-![Project list](1566293423878.png)
+![image-20201005092427629](image-20201005092427629.png)
 
-In the view all projects overview list you can also create a multi project status dashboard if you include [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), such as Status, Status description, Accountable, Project duration, and more.
+With the **arrow** you can display the project description.
+
+You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
+
+![edit-columns](image-20201007151542352.png)
+
+
+
+To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) follow the instructions here: [Displaying a project custom field](/system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
+
+
+
+To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to get to the report described in the chapter below quickly. The Gantt chart view can be configured in the  [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration.
+
+![image-20201007161248903](image-20201007161248903.png)
+
+
+
+In the view all projects overview list you can also **create a multi project status dashboard** if you include [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), such as Status, Status description, Accountable, Project duration, and more.
+
+
 
 ## Project overarching reports
 
@@ -207,7 +232,7 @@ Often you need to see more than one project in your lists and want to create pro
 
 Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
 
-Select Work packages from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
+Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
 You can group by project by clicking in the header of the work package list next to project and select Group by.
 

@@ -51,7 +51,13 @@ The new work package form will open in the split screen view. Enter all informat
 
 Click the green **Save** button.
 
-![create-work-package-split-screen](1566303947314.png)
+![](1566303947314.png)
+
+
+
+To find out **how to create a child work package** please click [here](../work-package-relations-hierachies/#adding-a-child-work-package).
+
+
 
 ## Add attachments to work packages
 
