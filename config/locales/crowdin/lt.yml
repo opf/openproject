@@ -613,7 +613,7 @@ lt:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "filtras turi neteisingas reikšmes."
               format: "%{message}"
         relation:
           typed_dag:

@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 4.2.0'
+gem 'browser', '~> 5.1.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -175,9 +175,9 @@ gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.105.0'
+gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.80.0'
+gem 'aws-sdk-s3', '~> 1.80'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -236,7 +236,8 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 4.4', require: nil
 
-  gem 'parallel_tests', '~> 3.1'
+  # For unknown reasons, parallel_tests 3.3 fails on travis.
+  gem 'parallel_tests', '~> 3.1', '< 3.3.0'
 end
 
 group :ldap do
@@ -282,7 +283,7 @@ group :development, :test do
   gem 'danger', '~> 8.0.5'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.9.0'
+  gem 'brakeman', '~> 4.10.0'
   gem 'danger-brakeman'
 end
 
