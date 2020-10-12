@@ -1,0 +1,152 @@
+# Group Priorities
+
+## Linked Properties
+|  Link     | Description                                 | Type          | Constraints           | Supported operations |
+|:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+| self      | This priority                               | Priority      | not null              | READ                 |
+
+## Local Properties
+| Property    | Description                                 | Type       | Constraints | Supported operations |
+| :---------: | ------------------------------------------- | ---------- | ----------- | -------------------- |
+| id          | Priority id                                 | Integer    | x > 0       | READ                 |
+| name        | Priority name                               | String     | not empty   | READ                 |
+| position    | Sort index of the priority                  | Integer    | x > 0       | READ                 |
+| isDefault   | Indicates whether this is the default value | Boolean    |             | READ                 |
+| isActive    | Indicates whether the priority is available | Boolean    |             | READ                 |
+
+## Priorities [/api/v3/priorities]
+
++ Model
+    + Body
+
+            {
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/priorities"
+                    }
+                },
+                "_type" : "Collection",
+                "total" : 4,
+                "count" : 4,
+                "_embedded" : {
+                    "elements" : [{
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/1",
+                                    "title" : "Low"
+                                }
+                            },
+                            "id" : 1,
+                            "name" : "Low",
+                            "position" : 1,
+                            "isDefault" : false,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/2",
+                                    "title" : "Normal"
+                                }
+                            },
+                            "id" : 2,
+                            "name" : "Normal",
+                            "position" : 2,
+                            "isDefault" : true,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/3",
+                                    "title" : "High"
+                                }
+                            },
+                            "id" : 3,
+                            "name" : "High",
+                            "position" : 3,
+                            "isDefault" : false,
+                            "isActive" : true
+                        }, {
+                            "_type" : "Priority",
+                            "_links" : {
+                                "self" : {
+                                    "href" : "/api/v3/priorities/4",
+                                    "title" : "Immediate"
+                                }
+                            },
+                            "id" : 4,
+                            "name" : "Immediate",
+                            "position" : 5,
+                            "isDefault" : false,
+                            "isActive" : true
+                        }
+                    ]
+                }
+            }
+
+
+## List all Priorities [GET]
+
++ Response 200 (application/hal+json)
+
+    [Priorities][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the priorities."
+            }
+
+## Priority [/api/v3/priorities/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type" : "Priority",
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/priorities/1",
+                        "title" : "Low"
+                    }
+                },
+                "id" : 1,
+                "name" : "Low",
+                "position" : 1,
+                "isDefault" : false,
+                "isActive" : true
+            }
+
+
+## View Priority [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Priority id
+
++ Response 200 (application/hal+json)
+
+    [Priority][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this priority."
+            }

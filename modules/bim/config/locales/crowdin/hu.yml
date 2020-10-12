@@ -1,0 +1,132 @@
+#English strings go here for Rails i18n
+hu:
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Hiba a BCF topocs importálásakor'
+    label_imported_successfully: 'Sikeres BCF import'
+    issues: "Feladat"
+    recommended: 'Ajánlott'
+    not_recommended: 'nem ajánlott'
+    no_viewpoints: 'Nincsenek "látható pontok"'
+    new_badge: "Új"
+    exceptions:
+      file_invalid: "BCF fájl érvénytelen"
+    x_bcf_issues:
+      zero: 'Nincs BCF feladat'
+      one: 'One BCF issue'
+      other: '%{count} BCF issues'
+    bcf_xml:
+      xml_file: 'BCF XML fájl'
+      import_title: 'Importálás'
+      export: 'Exportálás'
+      import_update_comment: 'Frissítve a BCF import'
+      import_failed: 'Nem lehet importálni a BCF fájlt! %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_successful: 'Importálva %{count} BCF eredmény'
+      import_canceled: 'BCF-XML import megszakítva.'
+      type_not_active: "Ez az eredmény típus nincs aktiválva ebben a projektben. "
+      import:
+        num_issues_found: '%{x_bcf_issues} tartalmazza a BCF-XML file, az alábbi részletekkel a lista szerint.'
+        button_prepare: 'Import előkészítése'
+        button_perform_import: 'Import megerősítése'
+        button_proceed: 'Proceed with import'
+        button_back_to_list: 'Vissza a listához'
+        no_permission_to_add_members: 'Nincs elég jogod ezt hozzáadni a projekthez.'
+        contact_project_admin: 'Vegye fel a kapcsolatot a projekt adminisztrátorával, hogy felvegye őket tagokként, és indítsa újra az importálást.'
+        continue_anyways: 'Akarod folytatni és befejezni az importálást?'
+        description: "Adjon meg egy BCF-XML v2.1 fájlt a projektbe történő importáláshoz. Az importálás előtt megvizsgálhatja annak tartalmát."
+        invalid_types_found: 'Érvénytelen topic típus nevet találtam'
+        invalid_statuses_found: 'Érvénytelen status neveket találtam'
+        invalid_priorities_found: 'Érvénytelen prioritás nevek'
+        invalid_emails_found: 'Érvénytelen e-mail cím'
+        unknown_emails_found: 'Ismeretlen e-mail cím'
+        unknown_property: 'Ismeretlen beállítás'
+        non_members_found: 'Nem "projekt tagokat" találtam'
+        import_types_as: 'Állítsd az összes típust '
+        import_statuses_as: 'Állítsd az összes státust '
+        import_priorities_as: 'Állítsd az összes mutatót'
+        invite_as_members_with_role: 'Hívd meg m int tagot a "%{project}" projektbe a következő  jogokkal'
+        add_as_members_with_role: 'Add tagként a "%{project}" projekthez, a következő joggal.'
+        no_type_provided: 'Nincs típus megadva'
+        no_status_provided: 'Nincs státus megadva'
+        no_priority_provided: 'Nincs prioritás megadva'
+        perform_description: "Importálni vagy frissíteni szeretné a fent felsorolt problémákat?"
+        replace_with_system_user: 'Cserélje le őket a "Rendszer" felhasználóra'
+        import_as_system_user: 'Importálja őket "Rendszer" felhasználóként.'
+        what_to_do: "Mit szeretne tenni?"
+        work_package_has_newer_changes: "Elavult! Ezt a témát nem frissítették, mivel a szerver legutóbbi változásai újabbak voltak, mint az importált téma \"ModifiedDate\". A témához fűzött megjegyzéseket azonban importálták."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF Képernyőfotó"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Nézd BCF eredmény"
+  permission_manage_bcf: "Import és manage BCF eredmények"
+  permission_delete_bcf: "Delete BCF issues"
+  oauth:
+    scopes:
+      bcf_v2_1: "Teljes hozzáférés a BCF v2.1 API-hoz"
+      bcf_v2_1_text: "Az alkalmazás teljes olvasási és írási hozzáférést kap az OpenProject BCF API v2.1 verzióhoz az Ön nevében végzett műveletek elvégzéséhez."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC modell"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC fájl"
+        is_default: "Alapértelmezett IFC modell"
+        attachments: "IFC fájl"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Nincs IFC fájl csatolva"
+              invalid_ifc_file: "A megadott fájl nem érvényes IFC képfájl."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "A bittérképek nem írhatók, mivel még nem valósultak meg."
+          index_not_integer: "index nem egész szám."
+          invalid_clipping_planes: "clipping_planes érvénytelen"
+          invalid_components: "A komponensek érvénytelenek"
+          invalid_lines: "vonalak érvénytelenek"
+          invalid_orthogonal_camera: "orthogonal_camera érvénytelen"
+          invalid_perspective_camera: "perspective_camera érvénytelen"
+          mismatching_guid: "A json_viewpoint útmutatója nem felel meg a modell útmutatójának."
+          no_json: "Nem jól felépített json."
+          snapshot_type_unsupported: "snapshot_type legyen egy 'png' vagy 'jpg'."
+          snapshot_data_blank: "A pillanatkép_adatokat meg kell adni."
+          unsupported_key: "Nem támogatott json tulajdonság van benne."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+  ifc_models:
+    label_ifc_models: 'IFC modell'
+    label_new_ifc_model: 'Új IFC modell'
+    label_show_defaults: 'Részletek megjelenítése'
+    label_default_ifc_models: 'Alapértelmezett IFC modell'
+    label_edit_defaults: 'Részletek beállítása'
+    no_defaults_warning:
+      title: 'Nincs alapértelmeztett IFC modell megadva ehhez a projekthez'
+      check_1: 'Ellenőrizze, hogy feltöltött legalább egy IFC-modellt.'
+      check_2: 'Ellenőrizze, hogy legalább egy IFC modell "Alapértelmezett" -re van-e állítva'
+    no_results: "A projektbe nem töltöttek fel IFC modelleket."
+    processing_state:
+      label: 'Indulhat a feldolgozás?'
+      in_progress: 'Folyamatban'
+      completed: 'Befejeződött'
+    processing_notice:
+      processing_default: 'A következő alapértelmezett IFC modellek továbbra is feldolgozás alatt állnak, így ezek még nem állnak rendelkezésre:'
+    flash_messages:
+      upload_successful: 'A feltöltés sikeres. Most már feldolgozásra kerül, és néhány perc alatt készen áll a használatra.'
+    conversion:
+      missing_commands: "A következő IFC konverter parancsok hiányzik a rendszeren: %{names}"
+  project_module_ifc_models: "IFC modell"
+  permission_view_ifc_models: "IFC modellek megjelenítése"
+  permission_manage_ifc_models: "Import és manage IFC models"
+  extraction:
+    available:
+      ifc_convert: "IFC konverzió folyamat elérhető"
+

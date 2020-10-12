@@ -1,0 +1,33 @@
+<% html_title(t(:label_administration), t('ldap_groups.synchronized_groups.plural'), h(@group.dn)) -%>
+
+<%= error_messages_for @group %>
+
+<%= breadcrumb_toolbar(link_to(t('ldap_groups.synchronized_groups.plural'), { action: :index}), h(@group.dn)) %>
+<section class="admin--edit-section">
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key"><%= @group.class.human_attribute_name('dn') %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value">
+          <span><%= @group.dn %></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= @group.class.human_attribute_name('auth_source') %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value">
+          <%= link_to @group.auth_source.name, edit_auth_source_path(@group.auth_source) %>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= t(:label_group) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value">
+          <%= link_to @group.group, edit_group_path(@group.group) %>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="admin--edit-section">
+  <h2><%=  t :label_user_plural %></h2>
+  <%= cell ::LdapGroups::Memberships::TableCell, @group.users %>
+</section>
+

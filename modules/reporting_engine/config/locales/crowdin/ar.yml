@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ar:
+  description_drill_down: "أظهر التفاصيل"
+  label_click_to_edit: "اضغط للتعديل."
+  label_columns: "الأعمدة"
+  label_count: "العد"
+  label_filter: "فلترة"
+  label_filter_add: "إضافة عامل تصفية"
+  label_filter_plural: "عوامل التصفية"
+  label_greater: ">"
+  label_group_by: "مجموعة من"
+  label_group_by_add: "أضِف مجموعة بحسب السّمة"
+  label_inactive: "<<غير فعّال>>"
+  label_less: "<"
+  label_no: "لا"
+  label_none: "(لا توجد بيانات)"
+  label_progress_bar_explanation: "جاري إعداد التقرير..."
+  label_really_delete_question: "هل أنت متأكد من أنك تريد حذف هذا التقرير؟"
+  label_report: "تقرير"
+  label_rows: "الصفوف"
+  label_saving: "جاري الحفظ ..."
+  label_sum: "المجموع"
+  label_yes: "نعم"
+  load_query_question: "سيكون للتقرير %{size} من خلايا الجدول، وقد يستغرق بعض الوقت للتقديم. هل ما زلت تريد المحاولة لتقديمه؟"
+  units: "الوحدات"
+  validation_failure_date: "ليس تاريخًا صالحًا"
+  validation_failure_integer: "ليس عددًا صحيحًا صالحًا"
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

@@ -1,0 +1,11 @@
+@include breakpoint(680px down)
+  .grid--container
+    grid-template-columns: auto !important
+    grid-template-rows: auto !important
+    grid-gap: 15px
+    padding: 15px 2px
+
+  .grid--area
+    &.-widgeted
+      grid-column: 1/2 !important
+      grid-row: unset !important

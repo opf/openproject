@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+require 'pathname'
+require 'travis/pro'
+require 'travis/pro/auto_login'
+require 'rest-client'
+require 'parallel'
+require 'ruby-progressbar'
+
+# current branch
+branch_name = `git rev-parse --abbrev-ref HEAD`.strip
+
+pr_number = nil
+
+begin
+  response = RestClient.get "https://api.github.com/repos/opf/openproject/pulls?state=open&head=opf:#{branch_name}"
+  json = JSON.parse(response)
+  pr_number = json.first['number']
+rescue => e
+  warn "Failed to get PR number from #{branch_name}: #{e} #{e.message}"
+end
+
+puts "Looking for PR #{pr_number}"
+build = Travis::Pro::Repository.find('opf/openproject')
+          .each_build
+          .detect { |b| b.pull_request_number == pr_number.to_i }
+
+raise "No build found for PR#{pr_number}" unless build
+
+results = Parallel.map(build.jobs, progress: 'Searching logs') do |job|
+  # internal log access seems broken
+  errors = []
+
+  log = job.log.session.get_raw("jobs/#{job.id}/log")
+
+  if log.is_a?(Hash)
+    log = log['log']['body']
+  end
+
+  log.scan(/^rspec (\S+) #.+$/) do |match|
+    errors << match
+  end
+
+  errors
+end
+
+specs = results.flatten.join(" ")
+
+puts "Errors\n\n#{specs}"
+

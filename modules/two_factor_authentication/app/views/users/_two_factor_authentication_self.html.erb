@@ -1,0 +1,13 @@
+<% default_device = @user.otp_devices.get_default %>
+
+<section class="admin--edit-section">
+    <%= render partial: 'two_factor_authentication/my/two_factor_devices/two_factor_status', locals: { device: default_device }%>
+</section>
+
+<section class="admin--edit-section">
+  <p>
+    <% self_link = link_to t('two_factor_authentication.admin.self_edit_link_name'), my_2fa_devices_path %>
+    <%= t('two_factor_authentication.admin.self_edit_path', self_edit_link:  self_link).html_safe %>
+  </p>
+
+</section>

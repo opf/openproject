@@ -1,0 +1,93 @@
+/*
+  Cards
+
+  Structure:
+
+  titles
+  lists
+*/
+
+/// @Foundation.settings
+// Card
+$card-background: #fff !default;
+$card-color: isitlight($card-background) !default;
+$card-border: 1px solid smartscale($card-background, 7%) !default;
+$card-radius: $global-radius !default;
+$card-shadow: 0 1px 2px rgba(#000, 0.2) !default;
+$card-padding: $global-padding !default;
+$card-margin: 0.5rem !default;
+
+$card-divider-background: smartscale($card-background, 7%) !default;
+///
+
+@mixin card-container(
+  $background: $card-background,
+  $color: $card-color,
+  $border: $card-border,
+  $radius: $card-radius,
+  $shadow: $card-shadow,
+  $padding: $card-padding,
+  $margin: $card-margin
+) {
+  border: $border;
+  margin-bottom: $margin;
+  background: $background;
+  color: $color;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  overflow: hidden;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+  }
+
+  ul {
+    margin-bottom: 0;
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+@mixin card-divider(
+  $background: $card-divider-background,
+  $padding: $card-padding
+) {
+  background: $background;
+  padding: $padding;
+}
+
+@mixin card-section(
+  $padding: $card-padding
+) {
+  padding: $padding;
+}
+
+@include exports(card) {
+  .card {
+    @include card-container;
+
+    @each $color in map-keys($foundation-colors) {
+      &.#{$color} {
+        $color-value: map-get($foundation-colors, $color);
+        @include card-container(
+          $background: $color-value,
+          $color: isitlight($color-value),
+          $border: 0
+        );
+        .card-divider {
+          @include card-divider(
+            $background: smartscale($color-value, 7%)
+          );
+        }
+      }
+    }
+  }
+    .card-divider {
+      @include card-divider;
+    }
+    .card-section {
+      @include card-section;
+    }
+}

@@ -1,0 +1,13 @@
+<div class="work-packages-embedded-view--container loading-indicator--location" #graphContainer [ngStyle]="{height: chartHeight}">
+  <canvas baseChart
+          [datasets]="chartData"
+          [labels]="chartLabels"
+          [chartType]="chartType"
+          [options]="chartOptions"
+          *ngIf="hasDataToDisplay">
+  </canvas>
+  <no-results *ngIf="!hasDataToDisplay && initialized"
+              [title]="text.noResults">
+  </no-results>
+</div>
+

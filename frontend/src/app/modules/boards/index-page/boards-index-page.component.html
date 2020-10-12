@@ -1,0 +1,132 @@
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2 [textContent]="text.boards">
+      </h2>
+    </div>
+    <ul class="toolbar-items"
+        *ngIf="showBoardIndexView()">
+      <li *ngIf="canAdd"
+          class="toolbar-item">
+        <a class="button -alt-highlight"
+           (click)="newBoard()">
+          <op-icon icon-classes="button--icon icon-add">
+          </op-icon>
+          <span class="button--text"
+                [textContent]="text.board">
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="boards--listing-group loading-indicator--location"
+     data-indicator-name="boards-module">
+  <div *ngIf="showBoardIndexView() && (boards$ | async) as boards"
+       class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                 <span [textContent]="text.name">
+                 </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                 <span [textContent]="text.type">
+                 </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                 <span [textContent]="text.createdAt">
+                 </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--empty-header">
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="boards.length === 0" id="empty-row-notification">
+          <td colspan="4">
+            <span>
+              <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+              <span>
+                <strong [textContent]="text.noResults"></strong>
+              </span>
+            </span>
+          </td>
+        </tr>
+        <tr *ngFor="let board of boards">
+          <td class="name">
+           <a [textContent]="board.name"
+              uiSref="boards.partitioned.show"
+              [uiParams]="{ board_id: board.id }">
+           </a>
+          </td>
+          <td>
+            <span *ngIf="board.isFree" [textContent]="text.type_free"></span>
+            <span *ngIf="board.isAction" [textContent]="text.action_by_attribute(board.actionAttribute)"></span>
+          </td>
+          <td>
+            <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>
+          </td>
+          <td class="buttons">
+            <accessible-by-keyboard *ngIf="board.editable"
+                                    (execute)="destroyBoard(board)"
+                                    linkClass="icon icon-delete">
+              {{ text.delete }}
+            </accessible-by-keyboard>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!showBoardIndexView()"
+     class="boards--teaser-container">
+  <p>{{ text.teaser_text }}</p>
+  <p>{{ text.enterprise }}</p>
+
+  <a class="button -alt-highlight -with-icon icon-checkmark"
+     [href]="eeLink()"
+     target='blank'>
+    {{ text.upgrade }}
+  </a>
+
+  <a class="button -highlight-inverted"
+     [href]="demoLink()" >
+    {{ text.personal_demo }}
+  </a>
+
+  <div class="boards--teaser-video-container">
+    <iframe [src]="teaserVideoURL"
+            class="boards--teaser-video"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+    </iframe>
+  </div>
+</div>

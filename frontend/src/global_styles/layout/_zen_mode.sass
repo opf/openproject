@@ -1,0 +1,22 @@
+body.zen-mode
+  #top-menu,
+  #main-menu
+    display: none
+  #content-wrapper
+    margin-left: 0px
+    height: 100vh
+    width: 100vw
+
+  #main
+    top: 0px
+    height: 100%
+    grid-template-columns: auto
+    
+  &.controller-wiki #content
+    margin: 0 auto
+
+    @media only screen and (max-width: 1280px)
+      max-width: 90vw
+
+    @media only screen and (min-width: 1281px)
+      max-width: 60vw

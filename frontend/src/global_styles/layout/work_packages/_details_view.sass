@@ -1,0 +1,124 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+// Right part of the split view
+// Visible only in the details ui-view
+body.router--work-packages-partitioned-split-view-details,
+body.router--work-packages-partitioned-split-view-new
+
+  .work-packages-partitioned-page--content-right
+    overflow: auto
+    position: relative
+    border-left: 2px solid #eee
+    border-top: 2px solid #eee
+    padding: 0
+
+    // Will eventually be overridden by the resizer
+    flex-basis: 580px
+
+    &.-can-have-columns
+      .-columns-2
+        @include two-column-layout
+
+.work-packages--details
+  height: 100%
+  position: relative
+  width: 100%
+  // Min-width is actually 530px but the border already needs 2px
+  min-width: 528px
+
+  @media only screen and (max-width: 1280px)
+    @at-root
+      .detailsViewMenuItem
+        display: none
+
+  .tabrow
+    padding-left: 20px
+
+.work-packages--details-toolbar-container
+  position:   absolute
+  bottom:     0
+  height:     55px
+  width:      100%
+  background: #F8F8F8
+  border:     1px solid #eeeeee
+  padding:    0 1rem 10px
+
+  .button
+    margin: .5rem .5rem 0 0
+
+.work-packages--details-content
+  position:   absolute
+  top:        50px
+  bottom:     55px
+  width:      100%
+  overflow-x: hidden
+  overflow-y: scroll
+  padding:    0 5px 0 20px
+
+  @include styled-scroll-bar
+
+.work-packages--details
+
+  // Fix height of subject row
+  .work-packages--subject-element,
+  .work-packages--details--subject .inline-edit--field
+    font-size: 1.125rem
+    font-weight: bold
+
+  .work-packages--details--subject
+    line-height: 24px
+    overflow: hidden
+
+    .inline-edit--field
+      height: 38px
+      line-height: 36px
+
+    // Style edit field to look like the display field.
+    // Thus we avoid a visual jump when editing the subject.
+    &.-active input
+      height: 34px
+      line-height: 34px
+      padding: 5px 0 5px 5px
+      font-size: 18px
+
+.work-packages--type-selector
+  flex-shrink: 0
+
+.work-packages--details
+  .work-packages--attachments
+    margin-bottom: 25px
+
+.work-package--new-state
+  margin-bottom: 55px
+
+  .title-container
+    overflow: visible
+
+  .work-packages--attachments
+    margin-bottom: 25px

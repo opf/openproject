@@ -1,0 +1,150 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div id="add-message" style="display:none;">
+  <% if authorize_for('messages', 'new') %>
+    <h2><%= link_to h(@forum.name), project_forum_path(@project, @forum) %> &#187; <%= t(:label_message_new) %></h2>
+    <%= labelled_tabular_form_for Message.new(project: @project),
+                                  url: forum_topics_path(@forum),
+                                  html: {multipart: true,
+                                         id: 'message-form',
+                                         class: 'form'} do |f| %>
+      <%= render partial: 'messages/form', locals: {f: f} %>
+
+      <hr class="form--separator"/>
+      <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+      <%= link_to t(:button_cancel), '', class: 'cancel-add-message-button button -with-icon icon-cancel' %>
+      <% csp_onclick('jQuery("#add-message").hide();', '.cancel-add-message-button') %>
+    <% end %>
+    <div id="preview"></div>
+  <% end %>
+</div>
+
+<%= toolbar title: @forum.name, subtitle: format_text(@forum.description) do %>
+  <% if authorize_for(:messages, :new) %>
+    <li class="toolbar-item">
+      <%= link_to({controller: '/messages', action: 'new', forum_id: @forum},
+                  {class: 'add-message-button button -alt-highlight',
+                   aria: {label: t(:label_message_new)},
+                   title: t(:label_message_new)}) do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_message) %></span>
+      <% end %>
+      <% csp_onclick('jQuery("#add-message").show(); jQuery("#message_subject").focus();', '.add-message-button') %>
+    </li>
+  <% end %>
+  <% unless User.current.anonymous? %>
+    <li class="toolbar-item">
+      <%= watcher_link(@forum, User.current) %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if @topics.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                  <span>
+                    <%= Message.human_attribute_name(:subject) %>
+                  </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                  <span>
+                    <%= Message.human_attribute_name(:author) %>
+                  </span>
+              </div>
+            </div>
+          </th>
+          <%= sort_header_tag("created_on", caption: Message.human_attribute_name(:created_on)) %>
+          <%= sort_header_tag("replies", caption: t(:label_reply_plural)) %>
+          <%= sort_header_tag("updated_on", caption: t(:label_message_last)) %>
+        </tr>
+        </thead>
+        <tbody>
+        <% @topics.each do |message| %>
+          <tr>
+            <td class="subject">
+              <% if message.sticky? %>
+                <%= op_icon('icon-wiki', title: I18n.t('js.label_board_sticky')) %>
+              <% end %>
+              <% if message.locked? %>
+                <%= op_icon('icon-locked', title: I18n.t('js.label_board_locked')) %>
+              <% end %>
+              <%= link_to message.subject, topic_path(message) %>
+            </td>
+            <td class="author">
+              <% if message.author %>
+                <%= link_to message.author.name, user_path(message.author) %>
+              <% end %>
+            </td>
+            <td class="created_on">
+              <%= format_time message.created_on %>
+            </td>
+            <td class="replies"><%= message.replies_count %></td>
+            <td class="last_message">
+              <% if message.last_reply %>
+                <%= authoring message.last_reply.created_on, message.last_reply.author %><br/>
+                <br/>
+                <%= link_to_message message.last_reply, no_root: true %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= pagination_links_full @topics %>
+<% else %>
+  <%= no_results_box %>
+<% end %>
+
+<%= other_formats_links do |f| %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
+<% end %>
+<% html_title h(@forum.name) %>
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {format: 'atom', key: User.current.rss_key}, title: "#{@project}: #{@forum}") %>
+<% end %>

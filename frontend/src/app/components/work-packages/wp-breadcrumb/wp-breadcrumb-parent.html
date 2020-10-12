@@ -1,0 +1,31 @@
+<ng-container *ngIf="!active">
+  <a *ngIf="parent"
+    [attr.title]="parent.name"
+    uiSref="work-packages.show.activity"
+    [uiParams]="{workPackageId: parent.id}"
+    class="wp-breadcrumb-parent breadcrumb-project-title nocut">
+    <span [textContent]="parent.name"></span>
+  </a>
+  <accessible-by-keyboard
+    (execute)="open()"
+    *ngIf="canModifyParent()"
+    [linkTitle]="parent ? text.edit_parent : text.set_parent"
+    linkClass="wp-relation--parent-change -no-decoration hide-when-print icon-small {{ parent ? 'icon-edit icon5' : 'icon-add icon4' }}">
+    <span *ngIf="!parent" [textContent]="text.set_parent"></span>
+  </accessible-by-keyboard>
+  <accessible-by-keyboard
+      (execute)="updateParent(null)"
+      *ngIf="canModifyParent() && parent"
+      [linkTitle]="text.remove_parent"
+      linkClass="wp-relation--parent-remove hide-when-print -no-decoration icon-small icon-remove icon4">
+  </accessible-by-keyboard>
+</ng-container>
+
+<wp-relations-autocomplete
+  *ngIf="active"
+  [inputPlaceholder]="text.set_or_remove_parent"
+  [workPackage]="workPackage"
+  (onCancel)="close()"
+  (onSelected)="updateParent($event)"
+  filterCandidatesFor="parent">
+</wp-relations-autocomplete>

@@ -1,0 +1,60 @@
+<div class="generic-table--sort-header-outer" [ngSwitch]="columnType">
+
+  <span class="generic-table--sort-header" *ngSwitchCase="'hierarchy'">
+    <span
+        class="hierarchy-header--icon"
+        *ngIf="displayHierarchyIcon"
+        (click)="toggleHierarchy($event)"
+        [attr.title]="text.toggleHierarchy"
+        tabindex="-1"
+        aria-hidden="true">
+      <op-icon icon-classes="icon {{ hierarchyIcon }}"></op-icon>
+    </span>
+
+    <!--suppress XmlDuplicatedId -->
+    <a href="#"
+       *ngIf="sortable"
+       [ngClass]="[directionClass && 'sort', directionClass]"
+       lang-attribute
+       lang="{{locale}}"
+       id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
+    <a *ngIf="!sortable">{{headerColumn.name}}</a>
+
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
+  </span>
+
+  <span class="generic-table--sort-header" *ngSwitchCase="'relation'">
+    <a [attr.title]="headerColumn.name">
+      <op-icon icon-classes="icon-context icon-relations relations-header--icon"></op-icon>
+      {{columnName}}
+    </a>
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
+  </span>
+
+  <span class="draggable-table--sort-header"
+        [attr.title]="text.sortColumn"
+        *ngSwitchCase="'sort'">
+  </span>
+
+  <span class="generic-table--sort-header" *ngSwitchDefault>
+
+    <!--suppress XmlDuplicatedId -->
+    <a href="#"
+       *ngIf="sortable"
+       [ngClass]="[directionClass && 'sort', directionClass]"
+       lang-attribute
+       lang="{{locale}}"
+       id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
+
+    <a *ngIf="!sortable">{{headerColumn.name}}</a>
+
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
+  </span>
+
+</div>

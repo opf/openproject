@@ -1,0 +1,19 @@
+Description:
+    Creates a new plugin with the given name in the specified directory
+
+Usage:
+    rails generate open_project:plugin NAME DIRECTORY
+
+Example:
+    rails generate open_project:plugin stuff ~/
+
+    This will create:
+        ~/openproject-stuff
+        ~/openproject-stuff/CHANGELOG.md
+        ~/openproject-stuff/openproject-stuff.gemspec
+        ~/openproject-stuff/lib
+        ~/openproject-stuff/lib/openproject-stuff.rb
+        ~/openproject-stuff/lib/open_project
+        ~/openproject-stuff/lib/open_project/stuff.rb
+        ~/openproject-stuff/lib/open_project/stuff
+        ~/openproject-stuff/lib/open_project/stuff/engine.rb

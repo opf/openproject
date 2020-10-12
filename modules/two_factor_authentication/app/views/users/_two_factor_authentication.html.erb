@@ -1,0 +1,9 @@
+<%= render partial: '/two_factor_authentication/header_tags' %>
+
+<%=
+  if current_user.id == @user.id
+    render partial: 'two_factor_authentication_self'
+  else
+    render partial: 'two_factor_authentication_admin'
+  end
+%>

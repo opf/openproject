@@ -1,0 +1,24 @@
+.wp-show--back-button
+  min-width: 90px
+  height: 34px
+  a
+    padding: 0
+    line-height: 32px
+    margin: 0
+    width: 75px
+    height: 34px
+
+    .button--icon:before
+      font-size: 1rem
+      line-height: 22px
+
+  @media only screen and (max-width: 679px)
+    .router--work-packages-base &
+      // Move button in the current reverse order to front
+      position: absolute
+      top: 0
+      left: 0
+      z-index: 1
+
+      a
+        width: 100%

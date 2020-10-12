@@ -1,0 +1,101 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+$filters--background-color: $gray-light !default
+$filters--border-color: $gray !default
+
+%filters--container
+  background-color: $filters--background-color
+  border: 1px solid $filters--border-color
+
+  legend
+    @extend .hidden-for-sighted
+
+%filters-grid
+  display:          grid
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+  grid-gap:         10px 40px
+  list-style-type:  none
+  margin:           10px 0 0 0
+
+.simple-filters--container
+  @extend %filters--container
+  padding: 1rem 1rem 1rem 1rem
+  margin: 0.6em 0
+  position: relative
+
+  .simple-filter--trailing-labels
+    @extend %filters-grid
+    grid-column: 1 / -1
+
+    > .-trailing-label.form--field
+      grid-column: 1 / -1
+      margin-bottom: 0
+
+  &.collapsed
+    display: none
+
+  .simple-filters--close
+    position: absolute
+    top: 5px
+    right: 5px
+    width: 1rem
+    z-index: 2
+
+.simple-filters--filters
+  @extend %filters-grid
+
+  > li:not(.simple-filters--controls)
+    display: grid
+    grid-template-columns: repeat(auto-fill, 50%)
+    align-items: center
+
+    button,
+    .button
+      margin: 0 10px 10px 0
+
+  .simple-filters--filter.-with-radio-buttons
+    grid-template-columns: 10% repeat(auto-fit, minmax(45%, 1fr))
+    grid-template-rows: repeat(auto-fill, 35px)
+    grid-gap: 10px 0
+
+    .simple-filters--filter-name.form--label
+      grid-column: 2
+
+  .simple-filters--controls
+    grid-column: 1 / -1
+    margin-top: 1rem
+
+  .simple-filters--filter-name
+    @include text-shortener
+    margin: auto 0
+
+@include breakpoint(680px down)
+  .simple-filters--filter:not(.-with-radio-buttons)
+    .simple-filters--filter-value
+      grid-column: 1 / -1

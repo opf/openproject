@@ -1,0 +1,54 @@
+ru:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        auth_source: 'LDAP-подключение'
+      ldap_groups/synchronized_filter:
+        filter_string: 'Фильтр LDAP'
+        auth_source: 'LDAP-подключение'
+        group_name_attribute: "Атрибут имени группы"
+    models:
+      ldap_groups/synchronized_group: 'Синхронизированная LDAP-группа'
+      ldap_groups/synchronized_filter: 'Фильтр синхронизации групп LDAP'
+  ldap_groups:
+    label_menu_item: 'Синхронизация LDAP-группы'
+    label_group_key: 'Ключ фильтра LDAP-группы'
+    label_synchronize: 'Синхронизировать'
+    settings:
+      name_attribute: 'Атрибут имени группы LDAP'
+      name_attribute_text: 'Атрибут LDAP, используемый для именования группы OpenProject при создании фильтром'
+    synchronized_filters:
+      add_new: 'Добавить синхронизированный LDAP фильтр'
+      singular: 'Фильтр синхронизации групп LDAP'
+      plural: 'Фильтры синхронизации группы LDAP'
+      destroy:
+        title: 'Удалить синхронизированный фильтр %{name}'
+        confirmation: "Если вы продолжите, синхронизированный фильтр %{name} и все группы %{groups_count} , созданные через него, будут удалены."
+        removed_groups: "Предупреждение: Это удалит следующие группы из OpenProject и удалит их из всех проектов!"
+        verification: "Введите имя фильтра %{name} для проверки удаления."
+      form:
+        group_name_attribute_text: 'Введите атрибут группы LDAP, используемой для установки имени группы OpenProject.'
+        filter_string_text: 'Введите фильтр RFC4515 LDAP, который возвращает группы в ваш LDAP для синхронизации с OpenProject.'
+    synchronized_groups:
+      add_new: 'Добавить синхронизированную LDAP-группу'
+      destroy:
+        title: 'Удалить синхронизированную группу %{name}'
+        confirmation: "Если продолжите, синхронизированная группа %{name} и все %{users_count} пользователи синхронизированые через нее будут удалены."
+        info: "Примечание: сама группа OpenProject и члены, добавленные за пределами этой синхронизации LDAP, удалены не будут."
+        verification: "Введите имя группы %{name} для проверки удаления."
+      help_text_html: |
+        Этот модуль позволяет настроить синхронизацию между группами LDAP и OpenProject.
+        Для работы с OpenProject в зависимости от групп LDAP необходимо использовать набор атрибутов <em>groupOfNames / memberOf</em>.
+        <br/>
+        Группы синхронизируются раз в час заданием cron.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Пожалуйста, ознакомьтесь с нашей документацией по этой теме</a>.
+      no_results: 'Синхронизированные группы не найдены.'
+      no_members: 'У этой группы пока нет синхронизированных участников.'
+      plural: 'Синхронизированные LDAP-группы'
+      singular: 'Синхронизированная LDAP-группа'
+      form:
+        auth_source_text: 'Выберите, какое соединение LDAP должно использоваться.'
+        dn_text: 'Введите полный DN группы в LDAP'
+        group_text: 'Выберите существующую группу OpenProject, с которой должны синхронизироваться члены LDAP-группы'
+

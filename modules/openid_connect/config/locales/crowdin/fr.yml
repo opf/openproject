@@ -1,0 +1,19 @@
+fr:
+  logout_warning: >
+    Vous avez été déconnecté. Le contenu de tout formulaire que vous soumettez peut être perdu. Veuillez [vous connecter].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nom
+        display_name: Nom d'affichage
+        identifier: Identifiant
+        secret: Secret
+        scope: Portée
+  openid_connect:
+    menu_title: Fournisseurs OpenID
+    providers:
+      label_add_new: Ajouter un nouveau fournisseur OpenID
+      label_edit: Modifier le fournisseur OpenID %{name}
+      no_results_table: Aucun fournisseur n'a encore été défini.
+      plural: Fournisseurs OpenID
+      singular: Fournisseur OpenID

@@ -1,0 +1,31 @@
+<div class="work-package-details-activities-activity-contents"
+     *ngIf="workPackage">
+  <div class="comments-number">
+    <activity-link [workPackage]="workPackage"
+                   [activityNo]="activityNo">
+    </activity-link>
+  </div>
+
+  <user-avatar *ngIf="activity.author && userName"
+               [attr.data-user-name]="userName"
+               [attr.data-user-id]="userId"
+               data-class-list="avatar">
+  </user-avatar>
+
+  <user-avatar *ngIf="!activity.author && userName"
+               [attr.data-user-name]="userName"
+               [attr.data-use-fallback]="true"
+               data-class-list="avatar">
+  </user-avatar>
+
+  <span class="user" *ngIf="userActive">
+    <a [attr.href]="userPath"
+       [attr.aria-label]="userLabel"
+       [textContent]="userName"></a>
+  </span>
+  <span class="user" *ngIf="!userActive" [textContent]="userName"></span>
+  <span class="revision-activity--revision-link date" [innerHtml]="revisionLink"></span>
+  <span class="user-comment wiki">
+    <span class="message" [innerHtml]="message"></span>
+  </span>
+</div>

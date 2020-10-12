@@ -1,0 +1,161 @@
+# Notifications
+
+```
+<div class="notification-box">
+  <div class="notification-box--content">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia laudantium ea delectus incidunt accusantium repudiandae deserunt excepturi non esse vero distinctio et reprehenderit, cupiditate quidem consectetur rerum iste magnam voluptatibus.</p>
+  </div>
+</div>
+```
+
+## Info
+
+```
+<div class="notification-box -info">
+  <div class="notification-box--content">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia laudantium ea delectus incidunt accusantium repudiandae deserunt excepturi non esse vero distinctio et reprehenderit, cupiditate quidem consectetur rerum iste magnam voluptatibus.</p>
+  </div>
+</div>
+```
+
+## Error
+
+```
+<div class="notification-box -error">
+  <a href="#" title="close" class="notification-box--close icon-context icon-close"></a>
+  <div class="notification-box--content">
+    <p>An error occured, here are the facts:</p>
+    <ul>
+      <li>Fact 1: You made a mistake</li>
+      <li>Fact 2: You <em>really</em> made a mistake</li>
+      <li>Fact 3: You <strong>should fix it</strong></li>
+    </ul>
+    <button class="button">continue editing</button>
+  </div>
+</div>
+```
+
+## Warning
+
+```
+<div class="notification-box -warning">
+  <a href="#" title="close" class="notification-box--close icon-context icon-close"></a>
+  <div class="notification-box--content">
+    <p>This is a warning. You may ignore it, but bad things might happen.</p>
+  </div>
+</div>
+```
+
+## Success
+
+```
+<div class="notification-box -success">
+  <a href="#" title="close" class="notification-box--close icon-context icon-close"></a>
+  <div class="notification-box--content">
+    <p>Successful update. <a href="#">A link to the past</a></p>
+  </div>
+</div>
+```
+
+## Stackable
+
+
+```
+<div class="controls">
+  <button class="button stuck-message" id="test-notifier">click</button>
+</div>
+<div class="notification-box--wrapper">
+  <div class="notification-box--casing"></div>
+</div>
+
+<script type="text\template" id="warning-message-zx00x">
+  <div class="notification-box -warning">
+    <a href="#" class="notification-box--close">&times;</a>
+    <div class="notification-box--content">
+      <p>This is a warning. You may ignore it, but bad things might happen. notificationNo {{number}}</p>
+    </div>
+  </div>
+</script>
+```
+
+```
+@javascript
+(function($){
+
+  var viewArea = $('.notification-box--casing');
+  var notificationMessageTemplate = {
+    notificationNumber: 0,
+    printNotification: function(){
+      this.notificationNumber++;
+      return $('#warning-message-zx00x').html()
+        .replace(/{{number}}/g, this.notificationNumber);
+    }
+  };
+
+  $('#test-notifier').on('click', function(e){
+    e.preventDefault();
+    viewArea.prepend(notificationMessageTemplate.printNotification());
+  });
+
+  $(document).on('click', '.notification-box--close', function(e){
+    e.preventDefault();
+    $(this).closest('.notification-box').animate({
+                'padding-top': 0,
+                'padding-bottom': 0,
+                'height': 0,
+                'opacity': 0
+            }, 'fast', function() {
+                $(this).remove();
+            });
+  });
+
+})(jQuery);
+```
+
+## Upload notifications
+
+### Upload progress
+
+```
+<div class="notification-box -upload">
+  <div class="notification-box--content">
+    <span>Uploading files...</span>
+    <ul class="notification-box--uploads">
+      <notifications-upload-progress>
+        <li>
+          <span class="filename">Awesome_Landscape.png</span>
+          <progress max="100" value="70">70%</progress>
+        </li>
+      </notifications-upload-progress>
+    </ul>
+  </div>
+</div>
+```
+
+
+### Upload progress done
+
+```
+<div class="notification-box -upload">
+  <div class="notification-box--content">
+    <span>Uploading files...</span>
+    <div>
+      <div>
+        <ul class="notification-box--uploads">
+          <notifications-upload-progress>
+            <li>
+              <span class="filename">Awesome_Landscape.png</span>
+              <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
+            </li>
+            <li>
+              <span class="filename">Awesome_Landscape2.png</span>
+              <span class="upload-completed"><i class="icon-close -error"></i></span>
+              <p class="notification-box--notice -error">Something went wrong!...</p>
+            </li>
+          </notifications-upload-progress>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+```

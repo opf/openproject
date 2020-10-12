@@ -1,0 +1,198 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :auth_source %>
+
+<% if @auth_source.new_record? %>
+  <div class="notification-box -info">
+    <a title="close" class="notification-box--close icon-context icon-close"></a>
+    <div class="notification-box--content">
+      <%= t('ldap_auth_sources.technical_warning_html') %>
+    </div>
+  </div>
+<% end %>
+
+<section class="form--section">
+  <div class="form--field -required">
+    <%= f.text_field 'name', required: true, container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.name') %>
+    </span>
+  </div>
+  <div class="form--field -required">
+    <%= f.text_field 'host', required: true, container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.host') %>
+    </span>
+  </div>
+  <div class="form--field -required"><%= f.text_field 'port', required: true, size: 6, container_class: '-xslim' %></div>
+
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t('ldap_auth_sources.connection_encryption') %></legend>
+    <p>
+      <%= t 'ldap_auth_sources.tls_mode.section_more_info_link_html',
+            link: OpenProject::Static::Links[:ldap_encryption_documentation][:href]  %>
+    </p>
+    <div class="form--field">
+        <%= f.radio_button :tls_mode,
+                          'plain_ldap',
+                          label: t('ldap_auth_sources.tls_mode.plain'),
+                          container_class: '-wide' %>
+      <p class="form--field-instructions">
+        <%= t('ldap_auth_sources.tls_mode.plain_description') %>
+      </p>
+    </div>
+    <div class="form--field">
+        <%= f.radio_button :tls_mode,
+                          'simple_tls',
+                          label: t('ldap_auth_sources.tls_mode.simple_tls'),
+                          container_class: '-wide' %>
+      <p class="form--field-instructions">
+        <%= t('ldap_auth_sources.tls_mode.simple_tls_description') %>
+      </p>
+    </div>
+    <div class="form--field">
+        <%= f.radio_button :tls_mode,
+                          'start_tls',
+                          label: t('ldap_auth_sources.tls_mode.start_tls'),
+                          container_class: '-wide' %>
+      <p class="form--field-instructions">
+        <%= t('ldap_auth_sources.tls_mode.start_tls_description') %>
+      </p>
+    </div>
+  </fieldset>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t('ldap_auth_sources.system_account') %></legend>
+    <p><%= t 'ldap_auth_sources.system_account_legend' %></p>
+
+    <div class="form--field">
+      <%= f.text_field 'account', container_class: '-middle'  %>
+      <span class="form--field-instructions">
+        <%= t('ldap_auth_sources.attribute_texts.system_user_dn_html') %>
+      </span>
+    </div>
+    <div class="form--field">
+      <%= f.password_field 'account_password',
+                           label: AuthSource.human_attribute_name(:password),
+                           placeholder: ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('●'*15)),
+                           autocomplete: 'off',
+                           container_class: '-middle' %>
+      <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.system_user_password') %>
+    </span>
+    </div>
+  </fieldset>
+</section>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%=t('ldap_auth_sources.ldap_details')%></legend>
+  <div class="form--field">
+    <%= f.text_field :base_dn, size: 60, container_class: '-wide' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.base_dn') %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_area :filter_string,
+                    rows: 10,
+                    placeholder: "#{t(:label_default)}: (objectClass=*)",
+                    container_class: '-wide' %>
+    <div class="form--field-instructions">
+      <p><%= t('ldap_auth_sources.attribute_texts.filter_string') %></p>
+      <p><%= t('ldap_auth_sources.attribute_texts.filter_string_concat') %></p>
+    </div>
+  </div>
+  <div class="form--field">
+    <%= f.check_box 'onthefly_register', label: AuthSource.human_attribute_name(:onthefly) %>
+    <div class="form--field-instructions">
+      <p><%= t('ldap_auth_sources.attribute_texts.onthefly_register') %></p>
+      <% if EnterpriseToken.allows_to?(:ldap_groups) %>
+        <p><%= t('ldap_auth_sources.attribute_texts.onthefly_group_sync') %></p>
+      <% end %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%=t('ldap_auth_sources.user_settings')%></legend>
+  <p><%= t 'ldap_auth_sources.user_settings_legend' %></p>
+
+  <div class="form--field -required">
+    <%= f.text_field 'attr_login',
+                     label: AuthSource.human_attribute_name(:login),
+                     required: true,
+                     size: 20,
+                     placeholder: 'uid',
+                     container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.login_map') %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'attr_firstname',
+                     label: AuthSource.human_attribute_name(:firstname),
+                     size: 20,
+                     placeholder: 'givenName',
+                     container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:firstname)) %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'attr_lastname',
+                     label: AuthSource.human_attribute_name(:lastname),
+                     size: 20,
+                     placeholder: 'sn',
+                     container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:lastname)) %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'attr_mail',
+                     label: AuthSource.human_attribute_name(:mail),
+                     size: 20,
+                     placeholder: 'mail',
+                     container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:mail)) %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'attr_admin', label: AuthSource.human_attribute_name(:admin), size: 20, container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.admin_map_html') %>
+    </span>
+  </div>
+</fieldset>

@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+cs:
+  description_drill_down: "Zobrazit detaily"
+  label_click_to_edit: "Kliekněte pro editaci."
+  label_columns: "Sloupce"
+  label_count: "Počet"
+  label_filter: "Filtr"
+  label_filter_add: "Přidat filtr"
+  label_filter_plural: "Filtry"
+  label_greater: ">"
+  label_group_by: "Seskupit podle"
+  label_group_by_add: "Add Group-by Attribute"
+  label_inactive: "«inactive»"
+  label_less: "<"
+  label_no: "Ne"
+  label_none: "(žádná data)"
+  label_progress_bar_explanation: "Generování sestavy..."
+  label_really_delete_question: "Are you sure you want to delete this report?"
+  label_report: "Hlášení"
+  label_rows: "Řádky"
+  label_saving: "Saving ..."
+  label_sum: "Sum"
+  label_yes: "Ano"
+  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
+  units: "Jednotky"
+  validation_failure_date: "není platné datum"
+  validation_failure_integer: "není platné číslo"
+  reporting:
+    group_by:
+      selected_columns: "Vybrané sloupce"
+      selected_rows: "Vybrané řádky"

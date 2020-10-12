@@ -1,0 +1,11 @@
+<button *ngIf="displayWatchButton"
+        (click)="toggleWatch()"
+        [attr.title]="buttonTitle"
+        [disabled]="disabled"
+        [ngClass]="buttonClass"
+        class="button toolbar-icon"
+        [id]="buttonId">
+
+  <op-icon icon-classes="button--icon {{watchIconClass}}"></op-icon>
+  <span class="button--text" *ngIf="showText" [textContent]="buttonText"></span>
+</button>

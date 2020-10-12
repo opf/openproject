@@ -1,0 +1,25 @@
+<% title =  @current_token.present? ? t('admin.enterprise.replace_token') : t('admin.enterprise.add_token')  %>
+<%= augmented_collapsible_section initiallyExpanded: !@current_token.present?,
+                                  title: title do %>
+  <%= labelled_tabular_form_for @token,
+               url: { action: :create },
+               html: { class: 'token-form form -vertical' },
+               method: :post do |f|%>
+
+    <div class="form--space"></div>
+
+    <%= f.text_area :encoded_token,
+                    value: nil,
+                    cols: 60,
+                    rows: 15,
+                    placeholder: t('admin.enterprise.paste'),
+                    autocomplete: "off",
+                    autocorrect: "off",
+                    autocapitalize: "off",
+                    spellcheck: false %>
+
+    <div class="form--space"></div>
+    <%= styled_button_tag t(:button_save), id: 'token-submit-button', class: '-highlight -with-icon icon-checkmark' %>
+    <%= link_to t(:button_cancel), { action: :show }, class: 'button -with-icon icon-cancel' %>
+  <% end %>
+<% end %>

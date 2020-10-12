@@ -1,0 +1,15 @@
+de:
+  print_with_description: "Druckvorschau mit Beschreibung"
+  export_to_excel: "Exportieren als Excel Spreadsheet"
+  sentence_separator_or: "oder"
+  different_formats: Andere Formate
+
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS mit Beschreibungen"
+      xls_with_relations: "XLS mit Beziehungen"
+
+  xls_export:
+    child_of: untergeordnetes AP von
+    parent_of: übergeordnetes AP von

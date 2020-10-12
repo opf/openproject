@@ -1,0 +1,11 @@
+<h1><%= link_to(@meeting.project.name, project_url(@meeting.project)) %>: <%= link_to(@meeting.title, meeting_url(@meeting)) %></h1>
+<em><%= @meeting.author %></em>
+
+<p><%= t(:text_notificiation_invited) %></p>
+
+<ul>
+<li><%=t :label_meeting_date_time %>: <%= format_date @meeting.start_time %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %> <%= Time.zone %></li>
+<li><%=Meeting.human_attribute_name(:location) %>: <%= @meeting.location %></li>
+<li><%=Meeting.human_attribute_name(:participants_invited) %>: <%= @meeting.participants.invited.sort.join("; ") %></li>
+<li><%=Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %></li>
+</ul>

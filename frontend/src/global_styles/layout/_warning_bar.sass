@@ -1,0 +1,28 @@
+.warning-bar--wrapper
+  position: fixed
+  bottom: 0
+  z-index: 1001
+  width: 100%
+
+.warning-bar--item
+  background-color: #f4f4aa
+  padding: 10px
+  display: flex
+  align-items: center
+
+  h1
+    font-size: 12px
+    font-weight: bold
+
+  p
+    font-size: 0.9rem
+    margin: 0
+
+  a
+    font-weight: bold
+
+.warning-bar--disable-on-hover
+  cursor: pointer
+
+  .warning-bar--item:hover &:before
+    @include icon-mixin-close

@@ -1,0 +1,221 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+---
+PEARL PE-8007:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 297mm
+  down: 1
+  papersize: A4
+  top_margin: 0mm
+  horizontal_pitch: 210mm
+  height: 297mm
+  source: glabel
+  width: 210mm
+  left_margin: 0mm
+Avery 8435B:
+  across: 1
+  inner_margin: 2mm
+  vertical_pitch: 122mm
+  down: 1
+  papersize: A4
+  top_margin: 21mm
+  horizontal_pitch: 155mm
+  height: 122mm
+  source: glabel
+  width: 155mm
+  left_margin: 27.5mm
+PEARL VM-5513-1:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 130mm
+  down: 1
+  papersize: A4
+  top_margin: 24mm
+  horizontal_pitch: 130mm
+  height: 120mm
+  source: glabel
+  width: 120mm
+  left_margin: 61mm
+PEARL VM-5513-2:
+  across: 1
+  inner_margin: 1mm
+  vertical_pitch: 127.5mm
+  down: 1
+  papersize: A4
+  top_margin: 154.5mm
+  horizontal_pitch: 160mm
+  height: 117.5mm
+  source: glabel
+  width: 150mm
+  left_margin: 30.5mm
+PEARL PE-8350:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 297mm
+  down: 1
+  papersize: A4
+  top_margin: 0mm
+  horizontal_pitch: 210mm
+  height: 297mm
+  source: glabel
+  width: 210mm
+  left_margin: 0mm
+PEARL PE-8351:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 297mm
+  down: 1
+  papersize: A4
+  top_margin: 0mm
+  horizontal_pitch: 210mm
+  height: 297mm
+  source: glabel
+  width: 210mm
+  left_margin: 0mm
+Zweckform J8435A:
+  across: 1
+  inner_margin: 2mm
+  vertical_pitch: 125mm
+  down: 1
+  papersize: A4
+  top_margin: 22mm
+  horizontal_pitch: 155mm
+  height: 125mm
+  source: glabel
+  width: 155mm
+  left_margin: 27.5mm
+Zweckform J8435B:
+  across: 1
+  inner_margin: 2mm
+  vertical_pitch: 122mm
+  down: 1
+  papersize: A4
+  top_margin: 21mm
+  horizontal_pitch: 155mm
+  height: 122mm
+  source: glabel
+  width: 155mm
+  left_margin: 27.5mm
+PEARL VM-5220:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 297mm
+  down: 1
+  papersize: A4
+  top_margin: 0mm
+  horizontal_pitch: 210mm
+  height: 297mm
+  source: glabel
+  width: 210mm
+  left_margin: 0mm
+PEARL VM-5081:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 297mm
+  down: 1
+  papersize: A4
+  top_margin: 0mm
+  horizontal_pitch: 210mm
+  height: 297mm
+  source: glabel
+  width: 210mm
+  left_margin: 0mm
+PEARL VM-6206:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 297mm
+  down: 1
+  papersize: A4
+  top_margin: 0mm
+  horizontal_pitch: 210mm
+  height: 297mm
+  source: glabel
+  width: 210mm
+  left_margin: 0mm
+PEARL VM-6630:
+  across: 1
+  inner_margin: 1mm
+  vertical_pitch: 286mm
+  down: 1
+  papersize: A4
+  top_margin: 10.5mm
+  horizontal_pitch: 192mm
+  height: 276mm
+  source: glabel
+  width: 182mm
+  left_margin: 14mm
+PEARL VM-6096:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 148mm
+  down: 1
+  papersize: A6
+  top_margin: 0mm
+  horizontal_pitch: 105mm
+  height: 148mm
+  source: glabel
+  width: 105mm
+  left_margin: 0mm
+Neato 69143:
+  across: 1
+  inner_margin: 0.125in
+  vertical_pitch: 9.5in
+  down: 1
+  papersize: Letter
+  top_margin: 0.75in
+  horizontal_pitch: 4.75in
+  height: 9.5in
+  source: glabel
+  width: 4.75in
+  left_margin: 1.875in
+PEARL VM-6097:
+  across: 1
+  inner_margin: 3.2mm
+  vertical_pitch: 210mm
+  down: 1
+  papersize: A5
+  top_margin: 0mm
+  horizontal_pitch: 148mm
+  height: 210mm
+  source: glabel
+  width: 148mm
+  left_margin: 0mm
+Avery 8435A:
+  across: 1
+  inner_margin: 2mm
+  vertical_pitch: 125mm
+  down: 1
+  papersize: A4
+  top_margin: 22mm
+  horizontal_pitch: 155mm
+  height: 125mm
+  source: glabel
+  width: 155mm
+  left_margin: 27.5mm

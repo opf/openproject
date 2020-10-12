@@ -1,0 +1,49 @@
+<%= error_messages_for 'page' %>
+
+<% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
+
+<%= f.fields_for :page, @page do |page_form| %>
+  <%= editable_toolbar(form: page_form, field_name: :title) do %>
+      <li class="toolbar-item">
+        <zen-mode-toggle-button></zen-mode-toggle-button>
+      </li>
+  <% end %>
+<% end %>
+
+<div class="attributes-group wiki--content--attribute ckeditor--content-scrollable form--field -visible-overflow">
+  <%= f.text_area :text,
+                  cols: 100,
+                  rows: 25,
+                  class: 'wiki-edit',
+                  accesskey: accesskey(:edit),
+                  with_text_formatting: true,
+                  resource: resource,
+                  label_options: { class: 'hidden-for-sighted' },
+                  preview_context: preview_context(@page, @project) %>
+</div>
+
+<div class="form--field -required">
+  <%= f.fields_for :page, @page do |page_fields| %>
+    <%= page_fields.hidden_field :parent_id %>
+    <%= page_fields.select :parent_id,
+                           wiki_page_options_for_select(@wiki.pages),
+                           { label: WikiPage.human_attribute_name(:parent_title), include_blank: false, container_class: '-wide' } %>
+  <% end%>
+</div>
+
+<div class="form--field">
+  <%= f.text_field :comments,
+                   class: '-border-on-hover-only -hide-placeholder-on-focus',
+                   label_options: { class: 'hidden-for-sighted' },
+                   autocomplete: 'off',
+                   container_class: '-wide',
+                   placeholder: t(:text_what_did_you_change_click_to_add_comment) %>
+</div>
+
+<%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+
+<%= link_to t(:button_cancel),
+            { controller: '/wiki', action: 'show', project_id: @project, id: (@page.new_record? ? nil : @page) },
+            data: { confirm: t(:text_are_you_sure) },
+            class: 'button -with-icon icon-cancel' %>
+

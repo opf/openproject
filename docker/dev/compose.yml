@@ -1,0 +1,82 @@
+version: "3.7"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:
+  opdata:
+  bundle:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-image: &image
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  image:
+    openproject/dev:latest
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    - "RAILS_ENV=development"
+    - "RAILS_CACHE_STORE=memcache"
+    - "OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211"
+    - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    - "DATABASE_URL=postgresql://postgres:postgres@db/openproject"
+  volumes:
+    - "${OPENPROJECT_HOME:?Please set OPENPROJECT_HOME to the OpenProject root folder}:/home/dev/openproject"
+    - "opdata:/var/openproject/assets"
+    - "bundle:/usr/local/bundle"
+  depends_on:
+    - db
+    - cache
+
+services:
+  db:
+    image: postgres:9
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=openproject
+    networks:
+      - backend
+
+  cache:
+    image: memcached
+    <<: *restart_policy
+    networks:
+      - backend
+
+  backend:
+    <<: *app
+    command: "/home/dev/bin/backend"
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+    depends_on:
+      - seeder
+
+  frontend:
+    <<: *app
+    command: "/home/dev/bin/frontend"
+    ports:
+      - "4200:4200"
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - seeder
+
+  seeder:
+    <<: *app
+    command: "/home/dev/bin/seeder"
+    restart: on-failure
+    networks:
+      - backend

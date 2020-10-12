@@ -1,0 +1,86 @@
+<div class="op-modal--portal">
+  <div id="wp_destroy_modal"
+       class="op-modal--modal-container wp-table--configuration-modal loading-indicator--location -highlight -danger-zone"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i class="icon-close"
+           (click)="closeMe($event)"
+           [attr.title]="text.close">
+        </i>
+      </a>
+      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
+    </div>
+
+    <div class="op-modal--modal-body">
+      <ng-container *ngIf="singleWorkPackage">
+        <p>
+          <span [textContent]="text.text"></span>
+          <br/>
+          <strong>
+            {{ singleWorkPackage.type.name }}
+            #{{ singleWorkPackage.id }}
+            {{ singleWorkPackage.subject }}
+          </strong>
+        </p>
+        <div *ngIf="singleWorkPackageChildren && singleWorkPackageChildren.length > 0">
+          <p class="danger-zone--warning">
+            <span class="icon-context icon-error"></span>
+            <strong [textContent]="text.warning"></strong>:
+            <span [textContent]="text.hasChildren(singleWorkPackage)"></span>
+          </p>
+          <ul>
+            <li *ngFor="let child of singleWorkPackageChildren">
+              #<span [textContent]="child.id"></span>
+              <span [textContent]="child.subject || ''"></span>
+            </li>
+          </ul>
+          <p>
+            <span [textContent]="text.deletesChildren"></span>
+          </p>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="workPackages.length > 1">
+        <p class="danger-zone--warning">
+          <span class="icon-context icon-error"></span>
+          <strong [textContent]="text.text"></strong>
+        </p>
+        <ul>
+          <li *ngFor="let wp of workPackages">
+            #<span [textContent]="wp.id"></span>
+            &ngsp;
+            <span [textContent]="wp.subject"></span>
+            <strong *ngIf="children(wp).length > 0">
+              (+ {{ text.childCount(wp) }})
+            </strong>
+          </li>
+        </ul>
+      </ng-container>
+      <div *ngIf="mustConfirmChildren">
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox"
+                   name="confirm-children-deletion"
+                   id="confirm-children-deletion"
+                   [(ngModel)]="childrenDeletionConfirmed"
+                   class="form--check-box" />
+          </div>
+          {{ text.label_confirm_children_deletion }}
+        </label>
+      </div>
+    </div>
+
+    <div class="op-modal--modal-footer">
+      <button class="button -danger"
+              [textContent]="text.confirm"
+              [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
+              (click)="confirmDeletion($event)">
+      </button>
+      <button class="button"
+              [textContent]="text.cancel"
+              (click)="closeMe($event)">
+      </button>
+    </div>
+  </div>
+</div>

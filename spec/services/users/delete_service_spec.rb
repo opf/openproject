@@ -1,0 +1,99 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+require 'spec_helper'
+
+describe ::Users::DeleteService, type: :model do
+  let(:input_user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+
+  let(:instance) { described_class.new(input_user, actor) }
+
+  subject { instance.call }
+
+  shared_examples 'deletes the user' do
+    it do
+      expect(input_user).to receive(:lock!)
+      expect(DeleteUserJob).to receive(:perform_later).with(input_user)
+      expect(subject).to eq true
+    end
+  end
+
+  shared_examples 'does not delete the user' do
+    it do
+      expect(input_user).not_to receive(:lock!)
+      expect(DeleteUserJob).not_to receive(:perform_later)
+      expect(subject).to eq false
+    end
+  end
+
+
+  context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
+    context 'with admin user' do
+      let(:actor) { FactoryBot.build_stubbed(:admin) }
+
+      it_behaves_like 'deletes the user'
+    end
+
+    context 'with unprivileged system user' do
+      let(:actor) { User.system }
+
+      before do
+        allow(actor).to receive(:admin?).and_return false
+      end
+
+      it_behaves_like 'does not delete the user'
+    end
+
+    context 'with privileged system user' do
+      let(:actor) { User.system }
+
+      it 'performs deletion' do
+        actor.run_given do
+          expect(input_user).to receive(:lock!)
+          expect(DeleteUserJob).to receive(:perform_later).with(input_user)
+          expect(subject).to eq true
+        end
+      end
+    end
+  end
+
+  context 'if deletion by admins NOT allowed', with_settings: { users_deletable_by_admins: false } do
+    context 'with admin user' do
+      let(:actor) { FactoryBot.build_stubbed(:admin) }
+
+      it_behaves_like 'does not delete the user'
+    end
+
+    context 'with system user' do
+      let(:actor) { User.system }
+
+      it_behaves_like 'does not delete the user'
+    end
+  end
+end

@@ -1,0 +1,43 @@
+<ng-select #ngSelectComponent
+           [(ngModel)]="model"
+           [items]="availableValues"
+           [ngClass]="classes"
+           [addTag]="createAllowed"
+           [virtualScroll]="true"
+           [required]="required"
+           [clearable]="!required"
+           [disabled]="disabled"
+           [typeahead]="typeahead"
+           [clearOnBackspace]="false"
+           [appendTo]="appendTo"
+           [hideSelected]="hideSelected"
+           [loading]="finishedLoading | async"
+           [id]="id"
+           (change)="changeModel($event)"
+           (open)="opened()"
+           (close)="closed()"
+           (keydown)="keyPressed($event)"
+           bindLabel="name">
+  <ng-template ng-header-tmp>
+    <div class="scrollable-tabs -narrow">
+      <ul class="tabrow">
+        <li [ngClass]="{'selected': mode === 'all'}"
+            (click)="setMode('all')">
+          <a href="#" [textContent]="text.all">
+          </a>
+        </li>
+        <li [ngClass]="{'selected': mode === 'recent'}"
+            (click)="setMode('recent')">
+          <a href="#" [textContent]="text.recent">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  <ng-template ng-tag-tmp let-search="searchTerm">
+    <b [textContent]="text.add_new_action"></b>: {{search}}
+  </ng-template>
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
+  </ng-template>
+</ng-select>

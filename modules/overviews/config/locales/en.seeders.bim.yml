@@ -1,0 +1,314 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+en:
+  seeders:
+    bim:
+      demo_data:
+        projects:
+          demo-construction-project:
+            project-overview:
+              row_count: 5
+              column_count: 2
+              widgets:
+                - identifier: 'custom_text'
+                  start_row: 1
+                  end_row: 2
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Welcome'
+                    text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
+                  attachments:
+                    - demo_project_teaser_bim.jpg
+                - identifier: 'custom_text'
+                  start_row: 2
+                  end_row: 5
+                  start_column: 1
+                  end_column: 2
+                  options:
+                    name: 'Getting started'
+                    text: |
+                      We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                      But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+
+                      1.  [Construction project](%{base_url}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
+                      2.  [Creating BIM Model](%{base_url}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+
+                      _Try the following steps:_
+
+                      1.  _Invite new members to your project_: → Go to [Members](%{base_url}/projects/demo-construction-project/members) in the project navigation.
+                      2.  _View the work in your projects_: → Go to [Work packages](%{base_url}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+                      3.  _Create a new work package_: → Go to [Work packages → Create](%{base_url}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                      4.  _Create and update a Gantt chart_: → Go to [Gantt chart](%{base_url}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+                      5.  _Activate further modules_: → Go to [Project settings → Modules](%{base_url}/projects/demo-construction-project/settings/modules).
+                      6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages](%{base_url}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                      7.  _Agile working? Check out our brand new boards:_ → Go to [Boards](%{base_url}/projects/demo-construction-project/boards)
+
+                      Here you will find our [User Guides](https://docs.openproject.org/user-guide/).
+                      Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                - identifier: 'project_status'
+                  start_row: 2
+                  end_row: 3
+                  start_column: 2
+                  end_column: 3
+                - identifier: 'project_description'
+                  start_row: 3
+                  end_row: 4
+                  start_column: 2
+                  end_column: 3
+                - identifier: 'members'
+                  start_row: 4
+                  end_row: 5
+                  start_column: 2
+                  end_column: 3
+                  options:
+                    name: 'Members'
+                - identifier: 'work_packages_overview'
+                  start_row: 5
+                  end_row: 6
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Work packages'
+                - identifier: 'work_packages_table'
+                  start_row: 6
+                  end_row: 7
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Milestones'
+                    queryId: '##query.id:"Milestones"'
+          demo-planning-constructing-project:
+            project-overview:
+              row_count: 5
+              column_count: 2
+              widgets:
+                - identifier: 'custom_text'
+                  start_row: 1
+                  end_row: 2
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Welcome'
+                    text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
+                  attachments:
+                    - demo_project_teaser_bim.jpg
+                - identifier: 'custom_text'
+                  start_row: 2
+                  end_row: 5
+                  start_column: 1
+                  end_column: 2
+                  options:
+                    name: 'Getting started'
+                    text: |
+                      We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                      Here you will find the classical roles, some workflows and work packages for your construction project.
+
+                      _Try the following steps:_
+
+                      1.  _Invite new members to your project:_ → Go to [Members](%{base_url}/projects/demo-planning-constructing-project/members) in the project navigation.
+                      2.  _View the work in your projects:_ → Go to [Work packages](%{base_url}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+                      3.  _Create a new work package:_ → Go to [Work packages → Create](%{base_url}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                      4.  _Create and update a Gantt chart:_ → Go to [Gantt chart](%{base_url}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+                      5.  _Activate further modules:_ → Go to [Project settings → Modules](%{base_url}/projects/demo-planning-constructing-project/settings/modules).
+                      6.  _Working agile? Create a new board:_ → Go to [Boards](%{base_url}/projects/demo-planning-constructing-project/boards)
+
+                      Here you will find our [User Guides](https://docs.openproject.org/user-guide/).
+                      Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                - identifier: 'project_status'
+                  start_row: 2
+                  end_row: 3
+                  start_column: 2
+                  end_column: 3
+                - identifier: 'project_description'
+                  start_row: 3
+                  end_row: 4
+                  start_column: 2
+                  end_column: 3
+                - identifier: 'members'
+                  start_row: 4
+                  end_row: 5
+                  start_column: 2
+                  end_column: 3
+                  options:
+                    name: 'Members'
+                - identifier: 'work_packages_overview'
+                  start_row: 5
+                  end_row: 6
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Work packages'
+                - identifier: 'work_packages_table'
+                  start_row: 6
+                  end_row: 7
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Milestones'
+                    queryId: '##query.id:"Milestones"'
+          demo-bim-project:
+            project-overview:
+              row_count: 5
+              column_count: 2
+              widgets:
+                - identifier: 'custom_text'
+                  start_row: 1
+                  end_row: 2
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Welcome'
+                    text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
+                  attachments:
+                    - demo_project_teaser_bim.jpg
+                - identifier: 'custom_text'
+                  start_row: 2
+                  end_row: 5
+                  start_column: 1
+                  end_column: 2
+                  options:
+                    name: 'Getting started'
+                    text: |
+                      We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                      This demo project offers roles, workflows and work packages that are specificialized for BIM.
+
+                      _Try the following steps:_
+
+                      1.  _Invite new members to your project:_ → Go to [Members](%{base_url}/projects/demo-bim-project/members) in the project navigation.
+                      2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF](%{base_url}/projects/demo-bim-project/bcf) in the project navigation.
+                      3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF](%{base_url}/projects/demo-bim-project/bcf) → Create.
+                      4.  _View the work in your projects:_ → Go to [Work packages](%{base_url}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+                      5.  _Create a new work package:_ → Go to [Work packages → Create](%{base_url}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                      6.  _Create and update a Gantt chart:_ → Go to [Gantt chart](%{base_url}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+                      7.  _Activate further modules:_ → Go to [Project settings → Modules](%{base_url}/projects/demo-bim-project/settings/modules).
+                      8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages](%{base_url}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                      9.  _Working agile? Create a new board:_ → Go to [Boards](%{base_url}/projects/demo-bim-project/boards)
+
+                      Here you will find our [User Guides](https://docs.openproject.org/user-guide/).
+                      Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                - identifier: 'project_status'
+                  start_row: 2
+                  end_row: 3
+                  start_column: 2
+                  end_column: 3
+                - identifier: 'project_description'
+                  start_row: 3
+                  end_row: 4
+                  start_column: 2
+                  end_column: 3
+                - identifier: 'members'
+                  start_row: 4
+                  end_row: 5
+                  start_column: 2
+                  end_column: 3
+                  options:
+                    name: 'Members'
+                - identifier: 'work_packages_overview'
+                  start_row: 5
+                  end_row: 6
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Work packages'
+                - identifier: 'work_packages_table'
+                  start_row: 6
+                  end_row: 7
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Milestones'
+                    queryId: '##query.id:"Milestones"'
+          demo-bcf-management-project:
+            project-overview:
+              row_count: 4
+              column_count: 2
+              widgets:
+                - identifier: 'custom_text'
+                  start_row: 1
+                  end_row: 2
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Welcome'
+                    text: '![Teaser](##attachment:"demo_project_teaser_bim.jpg")'
+                  attachments:
+                    - demo_project_teaser_bim.jpg
+                - identifier: 'custom_text'
+                  start_row: 2
+                  end_row: 5
+                  start_column: 1
+                  end_column: 2
+                  options:
+                    name: 'Getting started'
+                    text: |
+                      We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                      This demo project shows BCF management functionalities.
+
+                      _Try the following steps:_
+
+                      1.  _Invite new members to your project:_ → Go to [Members](%{base_url}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
+                      2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF](%{base_url}/projects/demo-bim-project/bcf) in the project navigation.
+                      3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF](%{base_url}/projects/demo-bim-project/bcf) → Create.
+                      4.  _View the BCF files in your project:_ → Go to [BCF](%{base_url}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
+                      5.  _Load your BCF files:_ → Go to [BCF → Import.](%{base_url}/projects/demo-bcf-management-project/issues/upload)
+                      6.  _Create and update a Gantt chart:_ → Go to [Gantt chart](%{base_url}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
+                      7.  _Activate further modules:_ → Go to [Project settings → Modules.](%{base_url}/projects/demo-bcf-management-project/settings/modules)
+                      8.  _You love the agile approach? Create a board:_ → Go to [Boards](%{base_url}/projects/demo-bcf-management-project/boards).
+
+                      Here you will find our [User Guides](https://docs.openproject.org/user-guide/).
+                      Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                - identifier: 'project_status'
+                  start_row: 2
+                  end_row: 3
+                  start_column: 2
+                  end_column: 3
+                - identifier: 'project_description'
+                  start_row: 3
+                  end_row: 4
+                  start_column: 2
+                  end_column: 3
+                - identifier: 'members'
+                  start_row: 4
+                  end_row: 5
+                  start_column: 2
+                  end_column: 3
+                  options:
+                    name: 'Members'
+                - identifier: 'work_packages_overview'
+                  start_row: 5
+                  end_row: 6
+                  start_column: 1
+                  end_column: 3
+                  options:
+                    name: 'Work packages'
+

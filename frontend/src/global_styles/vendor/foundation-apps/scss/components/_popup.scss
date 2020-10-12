@@ -1,0 +1,68 @@
+/*
+  POPUP
+  -----
+
+  A floating container that can anchor to any other on-screen element, and contain any content, including grid blocks or panels.
+*/
+
+/// @Foundation.settings
+// Popup
+$popup-width: rem-calc(300) !default;
+$popup-background: #fff !default;
+$popup-border: 0 !default;
+$popup-radius: 0 !default;
+$popup-shadow: 0 0 10px rgba(#000, 0.25) !default;
+///
+
+%popup {
+  position: absolute;
+  z-index: 1000;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 0.25s ease-out;
+  pointer-events: none;
+
+  &.tether-enabled {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@mixin popup-layout(
+  $width: $popup-width
+) {
+  width: $popup-width;
+}
+@mixin popup-style(
+  $background: $popup-background,
+  $color: #000,
+  $radius: $popup-radius,
+  $shadow: $popup-shadow,
+  $border: $popup-border
+) {
+  background: $background;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  border: $border;
+}
+
+@mixin popup(
+  $width: $popup-width,
+  $background: $popup-background,
+  $radius: $popup-radius,
+  $shadow: $popup-shadow,
+  $border: $popup-border
+) {
+  @extend %popup;
+  @include popup-layout($width);
+  @include popup-style($background, isitlight($background), $radius, $shadow, $border);
+}
+
+@include exports(popup) {
+  .popup {
+    @include popup;
+
+    &.dark    { @include popup-style($dark-color, #fff); }
+    &.primary { @include popup-style($primary-color, isitlight($primary-color)); }
+  }
+}

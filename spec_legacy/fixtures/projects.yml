@@ -1,0 +1,96 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+---
+projects_001:
+  created_at: 2006-07-19 19:13:59 +02:00
+  name: eCookbook
+  updated_at: 2006-07-19 22:53:01 +02:00
+  id: 1
+  description: Recipes management application
+  public: true
+  identifier: ecookbook
+  parent_id:
+  lft: 1
+  rgt: 10
+projects_002:
+  created_at: 2006-07-19 19:14:19 +02:00
+  name: OnlineStore
+  updated_at: 2006-07-19 19:14:19 +02:00
+  id: 2
+  description: E-commerce web site
+  public: false
+  identifier: onlinestore
+  parent_id:
+  lft: 11
+  rgt: 12
+projects_003:
+  created_at: 2006-07-19 19:15:21 +02:00
+  name: eCookbook Subproject 1
+  updated_at: 2006-07-19 19:18:12 +02:00
+  id: 3
+  description: eCookBook Subproject 1
+  public: true
+  identifier: subproject1
+  parent_id: 1
+  lft: 6
+  rgt: 7
+projects_004:
+  created_at: 2006-07-19 19:15:51 +02:00
+  name: eCookbook Subproject 2
+  updated_at: 2006-07-19 19:17:07 +02:00
+  id: 4
+  description: eCookbook Subproject 2
+  public: true
+  identifier: subproject2
+  parent_id: 1
+  lft: 8
+  rgt: 9
+projects_005:
+  created_at: 2006-07-19 19:15:51 +02:00
+  name: Private child of eCookbook
+  updated_at: 2006-07-19 19:17:07 +02:00
+  id: 5
+  description: This is a private subproject of a public project
+  public: false
+  identifier: private-child
+  parent_id: 1
+  lft: 2
+  rgt: 5
+projects_006:
+  created_at: 2006-07-19 19:15:51 +02:00
+  name: Child of private child
+  updated_at: 2006-07-19 19:17:07 +02:00
+  id: 6
+  description: This is a public subproject of a private project
+  public: true
+  identifier: project6
+  parent_id: 5
+  lft: 3
+  rgt: 4
+

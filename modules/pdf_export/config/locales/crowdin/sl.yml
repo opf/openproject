@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+sl:
+  error_can_not_delete_export_card_configuration: "Te konfiguracije ni mogoče izbrisati."
+  error_can_not_change_name_of_default_configuration: "Imena te privzete konfiguracije ni mogoče spremeniti."
+  label_backlogs_export_card_config_select: "Izberite izvozno cartico konfiguracije."
+  label_backlogs_export_card_export: "Izvozi"
+  label_export_card_configuration_new: "Nova izvozna kartica konfiguracije"
+  label_export_card_configuration: "Izvozna kartica konfiguracije"
+  label_export_card_configuration_plural: "Izvozne kartice konfiguracije"
+  label_export_card_activate: "Aktiviraj"
+  label_export_card_deactivate: "Onemogoči"
+  notice_export_card_configuration_activated: "Konfiguracija je uspešno aktivirana"
+  notice_export_card_configuration_deactivated: "Konfiguracija je uspešno onemogočena"
+  error_can_not_activate_export_card_configuration: "Te konfiguracije ni mogoče aktivirati"
+  error_can_not_deactivate_export_card_configuration: "Te konfiguracije ni mogoče onemogočiti"
+  validation_error_required_keys_not_present: "Potrebni ključ(i) ne obstaja(jo):"
+  validation_error_yaml_is_badly_formed: "ni veljavnega YAML formata."
+  validation_error_uknown_key: "Nepoznan ključ:"
+  yaml_error: "YAML napaka:"
+  help_link_rows_format: "Oblikovanje Vrstic"
+  export_config_per_page: "na stran"
+  export_config_page_size: "Velikost strani"
+  export_config_orientation: "Usmerjenost"
+  export_config_rows: "Vrstice"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Vrstice"
+        per_page: "na stran"
+        page_size: "Velikost strani"
+        orientation: "Usmerjenost"

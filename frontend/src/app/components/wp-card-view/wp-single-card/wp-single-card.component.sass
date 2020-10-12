@@ -1,0 +1,97 @@
+@import 'helpers'
+
+.wp-card
+  display: flex
+  user-select: none
+  width: 100%
+  border: 1px solid var(--widget-box-block-border-color)
+  border-radius: 2px
+  padding: 10px
+  position: relative
+  box-shadow: 1px 1px 3px 0px lightgrey
+  background: var(--body-background)
+  font-size: var(--card-font-size)
+
+  &:hover
+    box-shadow: 0px 0px 10px lightgrey
+
+  &.-new
+    padding-right: 25px
+
+  &.-checked
+    background-color: var(--table-row-highlighting-color)
+
+  &.-horizontal
+    height: 100%
+    
+  &.-vertical
+    margin-top: 10px
+    // Take care that the shadow of the last element is still visible
+    &:last-of-type
+      margin-bottom: 5px
+
+  // Style shadow element while dragging
+  wp-single-card:host.gu-transit &
+    @include modifying--placeholder
+
+.wp-card--content:not(.-new)
+  display: grid
+  grid-template-columns: auto 1fr auto
+  grid-template-rows: auto auto auto 1fr auto
+  grid-row-gap: 10px
+  grid-template-areas: "project project project" "type type type" "subject subject subject" "image image image" "attributeTag avatar idlink"
+  overflow: hidden
+  flex-grow: 1
+
+  .wp-card--project-name
+    grid-area: project
+    font-style: italic
+    color: var(--gray-dark)
+    font-size: 12px
+    @include text-shortener(false)
+  .wp-card--type
+    grid-area: type
+  .wp-card--subject
+    grid-area: subject
+    @include text-shortener(false)
+  .wp-card--assignee
+    grid-area: avatar
+    place-self: center left
+  .wp-card--id
+    grid-area: idlink
+    place-self: center right
+  .wp-card--status
+    grid-area: attributeTag
+    max-width: 120px
+    margin-right: 5px
+    overflow: hidden
+  .wp-card--cover-image
+    grid-area: image
+    max-height: 350px
+
+    @media screen and (max-width: 679px)
+      max-height: 250px
+
+.wp-card--highlighting
+  width: 5px
+  height: 100%
+  position: absolute
+  top: 0
+  left: 0
+  border-radius: 2px 0 0 2px
+
+.wp-card--inline-buttons
+  position: absolute
+  right: 0
+  top: 5px
+  opacity: 0
+
+  &.-show, .wp-card:hover &
+    opacity: 1
+
+@media only screen and (max-width: 679px)
+  .wp-card
+    &.-shrink
+      border: none
+      box-shadow: none
+      padding: 15px

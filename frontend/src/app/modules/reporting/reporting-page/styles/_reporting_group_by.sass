@@ -1,0 +1,121 @@
+
+// -------------------------- Group by --------------------------
+
+#group-by--area
+  margin: 5px 0 10px 0
+
+#group-by--area fieldset
+  border: none
+  padding: 0px
+  margin-bottom: 1em
+
+.in_row
+  display: inline-block
+  list-style: none
+  border-width: 0px
+
+.group-by--selected-element
+  cursor: move
+  position: relative
+  background-color: #767676
+  padding-left: 14px
+  margin-left: 18px
+  min-width: 145px
+
+fieldset.collapsible.header_collapsible legend.in_row
+  width: inherit
+  background-image: inherit
+
+.group-by--container
+  overflow: hidden
+
+.group-by--label
+  margin: 0px
+  padding: 0px 18px 0 0
+  min-width: 60px
+  text-align: center
+  white-space: nowrap
+  font-weight: bold
+  color: #fff
+  height: 36px
+  line-height: 36px
+  cursor: move
+
+.group-by--selected-element:after, .group-by--selected-element:before
+  border: solid transparent
+  content: " "
+  height: 0
+  width: 0
+  position: absolute
+  pointer-events: none
+  top: 50%
+  border-width: 30px 0px 30px 14px
+  margin-top: -30px
+
+.group-by--selected-element:after
+  border-color: rgba(118, 118, 118, 0)
+  border-left-color: rgba(118, 118, 118, 1)
+  left: 100%
+
+.group-by--selected-element:before
+  border-color: rgba(118, 118, 118, 1)
+  border-left-color: rgba(118, 118, 118, 0)
+  left: -14px
+
+.group-by--selected-element:hover:after
+  border-color: rgba(52, 147, 179, 0)
+  border-left-color: rgba(52, 147, 179, 1)
+
+.group-by--selected-element:hover:before
+  border-color: rgba(52, 147, 179, 1)
+  border-left-color: rgba(52, 147, 179, 0)
+
+.group-by--selected-element:hover
+  background-color: #3493B3
+
+.group-by--remove
+  line-height: normal
+  cursor: pointer
+  color: #FFFFFF
+
+.group-by--remove:hover
+  background-color: #3493B3 !important
+  text-decoration: none
+  color: #FFFFFF
+
+.group-by--control
+  margin: 0
+  padding: 0
+
+.group-by--selected-elements
+  background-color: #EEE
+  overflow: hidden
+
+.group-by--caption
+  position: relative
+  color: #FFFFFF
+  background-color: #4B4B4B
+  font-weight: bold
+  padding: 0 7px
+  margin: 0
+  height: inherit
+  line-height: 36px
+  min-width: 55px
+  overflow: visible
+
+.group-by--caption:after
+  left: 100%
+  top: 50%
+  border: solid transparent
+  content: " "
+  height: 0
+  width: 0
+  position: absolute
+  pointer-events: none
+
+.group-by--caption:after
+  border-color: rgba(75, 75, 75, 0)
+  border-left-color: #4B4B4B
+  border-width: 30px 0px 30px 14px
+  margin-top: -30px
+  z-index: 10

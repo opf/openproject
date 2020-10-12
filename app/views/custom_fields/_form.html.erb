@@ -1,0 +1,141 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<section class="form--section" id="custom_field_form">
+  <div class="form--field -required" id="custom_field_name_attributes">
+    <%= f.text_field :name, required: true, container_class: '-middle' %>
+  </div>
+  <div class="form--field">
+    <%= f.select :field_format,
+                 custom_field_formats_for_select(@custom_field),
+                 { container_class: '-slim' },
+                 disabled: !@custom_field.new_record? %>
+  </div>
+  <div class="form--grouping" id="custom_field_length">
+    <div class="form--grouping-label">
+      <%= t(:label_min_max_length) %> <br>
+      <small>(<%= t(:text_min_max_length_info ) %>)</small>
+    </div>
+    <div class="form--grouping-row">
+      <div class="form--field -wide-label">
+        <%= f.number_field :min_length, container_class: '-xslim' %>
+      </div>
+      <div class="form--field -wide-label">
+        <%= f.number_field :max_length, container_class: '-xslim' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :regexp,
+                     size: 50,
+                     container_class: '-wide' %>
+    <span class="form--field-instructions">
+      <%= t(:text_regexp_info) %>
+    </span>
+  </div>
+
+  <% if @custom_field.class.name == 'WorkPackageCustomField' %>
+    <div class="form--field" id="custom_field_multi_select">
+      <% if EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
+        <%= f.check_box :multi_value %>
+      <% else %>
+        <label class="form--label" for="custom_field_multi_value_disabled"><%= CustomField.human_attribute_name('multi_value') %></label>
+        <span class="form--field-container">
+          <span class="form--check-box-container">
+            <input disabled="disabled" class="-cf-ignore-disabled form--check-box" type="checkbox" name="custom_field_multi_value_disabled">
+            <%= render partial: 'enterprise/locked_note' %>
+          </span>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
+    <fieldset class="form--fieldset" id="custom_field_possible_values_attributes">
+      <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>
+      <div class="form--field">
+        <%= render partial: "custom_fields/custom_options", locals: { custom_field: @custom_field, f: f } %>
+        <a id="add-custom-option" href="#" class="icon icon-add"><%= t(:button_add) %></a>
+      </div>
+    </fieldset>
+  <% end %>
+  <div id="custom_field_default_value_attributes">
+    <div class="form--field" id="default_value_text">
+      <% if @custom_field.new_record? || !%w[text bool].include?(@custom_field.field_format) %>
+        <%= f.text_field :default_value,
+                         id: 'custom_fields_default_value_text',
+                         for: 'custom_fields_default_value_text',
+                         container_class: '-wide' %>
+      <% end %>
+    </div>
+    <div class="form--field" style="display:none" id="default_value_bool">
+      <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
+        <%= f.check_box :default_value,
+                        id: 'custom_fields_default_value_bool',
+                        for: 'custom_fields_default_value_bool' %>
+      <% end %>
+    </div>
+    <div class="form--field" style="display:none" id="default_value_long_text">
+      <% if @custom_field.new_record? || @custom_field.field_format == 'text' %>
+        <%= f.text_area :default_value,
+                        id: 'custom_fields_default_value_longtext',
+                        for: 'custom_fields_default_value_longtext',
+                        cols: 100,
+                        rows: 20,
+                        class: 'wiki-edit',
+                        with_text_formatting: true %>
+    <% end %>
+    </div>
+  </div>
+  <%= call_hook(:view_custom_fields_form_upper_box, custom_field: @custom_field, form: f) %>
+</section>
+
+<section class="form--section">
+  <% case @custom_field.class.name
+     when "WorkPackageCustomField" %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+    <div class="form--field"><%= f.check_box :is_for_all %></div>
+    <div class="form--field"><%= f.check_box :is_filter %></div>
+    <div class="form--field" id="searchable_container"><%= f.check_box :searchable %></div>
+    <div class="form--field" id="custom_field_text_orientation"><%= f.check_box :content_right_to_left %></div>
+  <% when "UserCustomField" %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+    <div class="form--field"><%= f.check_box :visible %></div>
+    <div class="form--field"><%= f.check_box :editable %></div>
+  <% when "ProjectCustomField" %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+    <div class="form--field"><%= f.check_box :visible %></div>
+    <div class="form--field" id="searchable_container"><%= f.check_box :searchable %></div>
+  <% when "TimeEntryCustomField" %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+  <% else %>
+    <div class="form--field"><%= f.check_box :is_required %></div>
+  <% end %>
+  <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", custom_field: @custom_field, form: f) %>
+</section>

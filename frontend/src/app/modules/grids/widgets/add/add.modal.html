@@ -1,0 +1,32 @@
+<div class="op-modal--portal ngdialog-theme-openproject">
+  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.close_popup">
+        </i>
+      </a>
+      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
+    </div>
+
+    <div class="ngdialog-body op-modal--modal-body">
+      <div *ngFor="let widget of selectable;trackBy: trackWidgetBy"
+           (click)="select($event, widget)"
+           [id]="widget.identifier"
+           [textContent]="widget.title"
+           class="grid--addable-widget" >
+      </div>
+
+      <enterprise-banner *ngIf="eeShowBanners"
+                         [linkMessage]="text.upsale_link"
+                         [textMessage]="text.upsale_text"
+                         class="grid--add-widget-ee"
+                         opReferrer="grids#add-widget">
+      </enterprise-banner>
+    </div>
+  </div>
+</div>

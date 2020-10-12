@@ -1,0 +1,6 @@
+<slide-toggle [active]="value"
+              containerId="div-values-{{filter.id}}"
+              inputId="values-{{filter.name}}"
+              inputName="v[{{filter.name}}]"
+              (valueChanged)="onFilterUpdated($event)">
+</slide-toggle>

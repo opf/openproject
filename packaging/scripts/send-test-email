@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require 'net/smtp'
+require 'time'
+require 'securerandom'
+require 'tempfile'
+
+admin_email = ENV.fetch('ADMIN_EMAIL') { fail "no ADMIN_EMAIL set" }
+smtp_domain = ENV.fetch('SMTP_DOMAIN') { "example.net" }
+from = "no-reply@#{smtp_domain}"
+delivery_method = ENV.fetch('EMAIL_DELIVERY_METHOD') { "sendmail" }
+
+msgstr = <<END_OF_MESSAGE
+From: OpenProject <#{from}>
+To: #{admin_email}
+Subject: Test message
+Date: #{Time.now.httpdate}
+Message-Id: <#{SecureRandom.hex}@#{smtp_domain}>
+
+This is a test message to verify your OpenProject settings.
+If you see this, this means OpenProject email settings are working properly.
+END_OF_MESSAGE
+
+if delivery_method == "sendmail"
+  puts "sending test email using sendmail..."
+  tmpfile = Tempfile.new("mail-test")
+  File.open(tmpfile.path, "w+") {|f| f << msgstr}
+  system("cat #{tmpfile.path} | sendmail -i -t") || exit(1)
+else
+  smtp_authentication = ENV.fetch('SMTP_AUTHENTICATION', "none").to_sym
+  #set authentication to nil because :none is not supported by SMTP module
+  smtp_authentication = nil if smtp_authentication == :none
+  puts "sending test email using SMTP..."
+  smtp = Net::SMTP.new(
+    ENV.fetch('SMTP_HOST'),
+    ENV.fetch('SMTP_PORT')
+  )
+  smtp.enable_starttls_auto if ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', 'false') == 'true'
+  smtp.start(
+    ENV.fetch('SMTP_DOMAIN'),
+    ENV.fetch('SMTP_USERNAME',nil),
+    ENV.fetch('SMTP_PASSWORD',nil),
+    smtp_authentication
+  )
+  smtp.send_message msgstr, from, admin_email
+  smtp.finish
+end
+

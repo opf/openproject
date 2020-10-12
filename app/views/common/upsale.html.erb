@@ -1,0 +1,35 @@
+<div class="notification-box upsale-notification">
+  <div class="notification-box--content">
+    <h3><%= t('admin.enterprise.upgrade_to_ee') %></h3>
+    <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+
+
+    <p class="upsale--feature-reference">
+      <strong><%= feature_title %></strong>
+      <br/>
+      <%= feature_description %>
+    </p>
+
+    <p><%= t('js.admin.enterprise.upsale.benefits.description') %></p>
+
+    <ul class="">
+      <li>
+        <%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %>
+      </li>
+      <li>
+        <%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %>
+      </li>
+    </ul>
+    <p>
+      <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
+    </p>
+    <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=#{feature_reference}",
+                 { class: 'button -alt-highlight',
+                   aria: {label: t('admin.enterprise.order')},
+                   target: '_blank',
+                   title: t('admin.enterprise.order')}) do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('admin.enterprise.order') %></span>
+    <% end %>
+  </div>
+</div>

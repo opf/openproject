@@ -1,0 +1,115 @@
+# Group Activities
+
+## Local Properties
+| Property    | Description      | Type                 | Constraints | Supported operations |
+| :---------: | -------------    | ----                 | ----------- | -------------------- |
+| id          | Activity id      | Integer              | x > 0       | READ                 |
+| version     | Activity version | Integer              | x > 0       | READ                 |
+| comment     |                  | Formattable          |             | READ / WRITE         |
+| details     |                  | Array of Formattable |             | READ                 |
+| createdAt   | Time of creation | DateTime             |             | READ                 |
+
+Activity can be either _type Activity or _type Activity::Comment.
+
+## Activity [/api/v3/activities/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Activity::Comment",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/activity/1",
+                        "title": "Priority changed from High to Low"
+                    },
+                    "workPackage": {
+                        "href": "/api/v3/work_packages/1",
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "id": 1,
+                "details": [
+                    {
+                        "format": "markdown",
+                        "raw": "Lorem ipsum dolor sit amet.",
+                        "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                    }
+                ],
+                "comment": {
+                    "format": "markdown",
+                    "raw": "Lorem ipsum dolor sit amet.",
+                    "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                },
+                "createdAt": "2014-05-21T08:51:20Z",
+                "version": 31
+            }
+
+## View activity [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Activity id
+
++ Response 200 (application/hal+json)
+
+    [Activity][]
+
+## Update activity [PATCH]
+
+Updates an activity's comment and, on success, returns the updated activity.
+
++ Parameters
+    + id (required, integer, `1`) ... Activity id
+
++ Request (application/json)
+
+        {
+          "comment": { "raw": "The updated comment" }
+        }
+
++ Response 200 (application/hal+json)
+
+    [Activity][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit journals
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit the comment of this journal entry."
+            }
+
+
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to modify a read-only property.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
+                "message": "The ID of an activity can't be changed."
+            }

@@ -1,0 +1,15 @@
+<div class="wp-create-button">
+  <button class="button -alt-highlight add-work-package"
+          [disabled]="disabled"
+          [attr.aria-label]="text.explanation"
+          opTypesCreateDropdown
+          [projectIdentifier]="projectIdentifier"
+          [stateName]="stateName$ | async"
+          [dropdownActive]="allowed">
+    <op-icon icon-classes="button--icon icon-add"></op-icon>
+    <span class="button--text"
+          [textContent]="text.createWithDropdown"
+          aria-hidden="true"></span>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown hidden-for-mobile"></op-icon>
+  </button>
+</div>

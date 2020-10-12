@@ -1,0 +1,140 @@
+# Group Categories
+
+## Linked Properties
+|  Link           | Description                                         | Type          | Constraints | Supported operations |
+|:---------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+| self            | This category                                       | Category      | not null    | READ                 |
+| project         | The project of this category                        | Project       | not null    | READ                 |
+| defaultAssignee | Default assignee for work packages of this category | User          |             | READ                 |
+
+## Local Properties
+| Property   | Description   | Type    | Constraints | Supported operations |
+| :--------: | ------------- | ------- | ----------- | -------------------- |
+| id         | Category id   | Integer | x > 0       | READ                 |
+| name       | Category name | String  |             | READ                 |
+
+## Categories by Project [/api/v3/projects/{project_id}/categories]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/categories" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/categories/10",
+                                    "title": "Category with assignee"
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/11",
+                                    "title": "Example project"
+                                },
+                                "defaultAssignee": {
+                                    "href": "/api/v3/users/42",
+                                    "title": "John Sheppard"
+                                }
+                            },
+                            "_type": "Category",
+                            "id": 10,
+                            "name": "Foo"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/categories/11" },
+                                "project": { "href": "/api/v3/projects/11" }
+                            },
+                            "_type": "Category",
+                            "id": 11,
+                            "name": "Bar"
+                        }
+                    ]
+                }
+            }
+
+## List categories of a project [GET]
+
++ Parameters
+    + project_id (required, integer, `1`) ... ID of the project whoose categories will be listed
+
++ Response 200 (application/hal+json)
+
+    [Categories by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Category [/api/v3/categories/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/categories/10",
+                        "title": "Category with assignee"
+                     },
+                    "project": {
+                        "href": "/api/v3/projects/11",
+                        "title": "Example project"
+                    },
+                    "defaultAssignee": {
+                        "href": "/api/v3/users/42",
+                        "title": "John Sheppard"
+                    }
+                },
+                "_type": "Category",
+                "id": 10,
+                "name": "Foo"
+            }
+
+## View Category [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... category id
+
++ Response 200 (application/hal+json)
+
+    [Category][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the category does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view project (defining the category)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a category. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified category does not exist."
+            }

@@ -1,0 +1,1293 @@
+# Group Versions
+
+Work Packages can be assigned to a version. As such, versions serve to group Work Packages into logical units where each group comprises all the work packages that needs to be finished in order for the version to be finished.
+
+## Actions
+
+| Link                | Description                                                              | Condition                              |
+|:-------------------:|--------------------------------------------------------------------------| ---------------------------------------|
+| update              | Form endpoint that aids in preparing and performing edits on the version | **Permission**: manage versions        |
+| updateImmediately   | Directly perform edits on the version                                    | **Permission**: manage versions        |
+
+## Linked Properties
+|  Link               | Description                              | Type          | Constraints                                                    | Supported operations |
+|:-------------------:|----------------------------------------- | ------------- | -------------------------------------------------------------- | -------------------- |
+| self                | This version                             | Version       | not null                                                       | READ                 |
+| definingProject     | The project to which the version belongs | Project       | only present if the project is visible for the current user    | READ                 |
+| availableInProjects | Projects where this version can be used  | Projects      | not null                                                       | READ                 |
+
+Depending on custom fields defined for versions, additional linked properties might exist.
+
+## Local Properties
+| Property    | Description                                   | Type        | Constraints                                        | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | -----------                                        | -------------------- |
+| id          | Version id                                    | Integer     | x > 0                                              | READ                 |
+| name        | Version name                                  | String      | not null, may not exceed 60 characters             | READ / WRITE         |
+| description |                                               | Formattable |                                                    | READ / WRITE         |
+| startDate   |                                               | Date        |                                                    | READ / WRITE         |
+| endDate     |                                               | Date        |                                                    | READ / WRITE         |
+| status      | The current status of the version             | String      | not null, only 'open', 'finished', 'closed'        | READ / WRITE         |
+| sharing     | The current status of the version             | String      | not null, limited to fixed set as defined by form  | READ / WRITE         |
+| createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
+| updatedAt   | Time of the most recent change to the version | DateTime    | not null                                           | READ                 |
+
+Depending on custom fields defined for versions, additional properties might exist.
+
+## Version [/api/v3/versions/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/versions/11" },
+                    "update": { "href": "/api/v3/versions/11/form", "method": "POST" }
+                    "updateImmediately": { "href": "/api/v3/versions/11", "method": "PATCH" }
+                    "definingProject": { "href": "/api/v3/projects/11" },
+                    "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                    "customField4": {
+                        "href": "/api/v3/custom_options/5",
+                        "title" "Custom field option"
+                },
+                "_type": "Version",
+                "id": 11,
+                "name": "v3.0 Alpha",
+                "description": {
+                    "format": "plain",
+                    "raw": "This version has a description",
+                    "html": "This version has a description"
+                },
+                "startDate": "2014-11-20",
+                "endDate": null,
+                "status": "open",
+                "sharing": "system",
+                "customField14": "1234567890",
+            }
+
+## View version [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... version id
+
++ Response 200 (application/hal+json)
+
+    [Version][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+## Update Versions [PATCH]
+
+Updates the given version by applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a version's attributes and are accepted by the endpoint.
+
+
++ Parameters
+    + id (required, integer, `1`) ... Version id
+
++ Request Update version
+
+    + Body
+
+            {
+                "endDate": "2018-01-10",
+                "startDate": "2018-01-01",
+                "status": "closed",
+                "sharing": "system",
+                "customField14": "blubs",
+                "_links": {
+                    "definingProject": {
+                        "href": "/api/v3/projects/1"
+                    }
+                }
+            }
+
++ Response 200
+
+    [Version][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Manage versions in the version's project.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name cannot be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute"=>"name"
+                    }
+                }
+            }
+
+## Delete Version [DELETE]
+
+Deletes the version. Work packages associated to the version will no longer be assigned to it.
+
++ Parameters
+    + id (required, integer, `1`) ... Version id
+
++ Response 204 (application/hal+json)
+
+    Returned if the version was successfully deleted
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage versions
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the version does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (any project where the version is available)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+
+## Versions [/api/v3/versions{?filters}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/versions" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/11" },
+                                "definingProject": { "href": "/api/v3/projects/12" },
+                                "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 11,
+                            "name": "v3.0 Alpha",
+                            "description": {
+                                "format": "plain",
+                                "raw": "This version has a description",
+                                "html": "This version has a description"
+                            },
+                            "startDate": "2014-11-20",
+                            "endDate": null,
+                            "status": "Open"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/12" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/12/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 12,
+                            "name": "v2.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Closed"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/10" },
+                                "definingProject": { "href": "/api/v3/projects/13" },
+                                "availableInProjects": { "href": "/api/v3/versions/13/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 10,
+                            "name": "v1.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Open"
+                        }
+                    ]
+                }
+            }
+
+## List versions [GET]
+
+Returns a collection of versions. The client can choose to filter the versions similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain versions, for which the requesting client has sufficient permissions (*view_work_packages*).
+
++ Parameters
+    + filters (optional, string, `[{ "sharing": { "operator": "*", "values": ["system"] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + sharing: filters versions by how they are shared within the server (*none*, *descendants*, *hierarchy*, *tree*, *system*).
+
++ Response 200 (application/hal+json)
+
+    [Versions][]
+
+## Create versions [POST]
+
+Creates a new version applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a version's attributes and are accepted by the endpoint.
+
+You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+
++ Request Create version
+
+    + Body
+
+            {
+                "_links": {
+                    "definingProject": { "href": "/api/v3/projects/11" },
+                    "customField4": {
+                        "href": "/api/v3/custom_options/5",
+                        "title" "Custom field option"
+                },
+                "name": "v3.0 Alpha",
+                "description": {
+                    "raw": "This version has a description",
+                },
+                "startDate": "2014-11-20",
+                "endDate": null,
+                "status": "Open",
+                "customField14": "1234567890",
+            }
+
++ Response 201
+
+    [Version][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Manage versions
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "name cannot be empty.",
+                "_embedded": {
+                    "details": {
+                        "attribute"=>"name"
+                    }
+                }
+            }
+
+## Version schema [/api/v3/versions/schemas]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_dependencies": [],
+                "id": {
+                    "type": "Integer",
+                    "name": "ID",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "name": {
+                    "type": "String",
+                    "name": "Name",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "minLength": 1,
+                    "maxLength": 60
+                },
+                "description": {
+                    "type": "Formattable",
+                    "name": "Description",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true
+                },
+                "startDate": {
+                    "type": "Date",
+                    "name": "Start date",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true
+                },
+                "endDate": {
+                    "type": "Date",
+                    "name": "Finish date",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "status": {
+                    "type": "String",
+                    "name": "Status",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default",
+                    "_links": {}
+                },
+                "sharing": {
+                    "type": "String",
+                    "name": "Sharing",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default",
+                    "_links": {}
+                },
+                "createdAt": {
+                    "type": "DateTime",
+                    "name": "Created on",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "updatedAt": {
+                    "type": "DateTime",
+                    "name": "Updated on",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "definingProject": {
+                    "type": "Project",
+                    "name": "Project",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "_links": {}
+                },
+                "customField14": {
+                    "type": "String",
+                    "name": "text CF",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default"
+                },
+                "customField40": {
+                    "type": "CustomOption",
+                    "name": "List CF",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true,
+                    "visibility": "default",
+                    "_links": {}
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/versions/schema"
+                    }
+                }
+            }
+
+## View version schema [GET]
+
++ Response 200 (application/hal+json)
+
+    [Version schema][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see the schema.
+
+    **Required permission:** view work packages or manage versions on any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Version create form [/api/v3/versions/form]
+
+This endpoint returns a form allowing a guided creation of new versions.
+The returned payload part of the form will be pre-filled with default values for every property (e.g. 'status' and 'sharing'), if available.
+
+For more details and all possible responses see the general specification of [Forms](/api/forms).
+
+## Version create form [POST]
+
++ Request Create version form
+
+    + Body
+
+            {
+                "endDate": "2018-01-10",
+                "startDate": "2018-01-01",
+                "status": "closed",
+                "sharing": "system",
+                "customField14": "blubs",
+                "_links": {
+                    "definingProject": {
+                        "href": "/api/v3/projects/1"
+                    }
+                }
+            }
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_type": "Form",
+                "_embedded": {
+                    "payload": {
+                        "name": "",
+                        "description": {
+                            "format": "plain",
+                            "raw": "",
+                            "html": ""
+                        },
+                        "startDate": "2018-01-01",
+                        "endDate": "2018-01-10",
+                        "status": "closed",
+                        "sharing": "system",
+                        "customField14": "blubs",
+                        "_links": {
+                            "definingProject": {
+                                "href": "/api/v3/projects/1",
+                                "title": "Seeded Project"
+                            },
+                            "customField40": {
+                                "href": null,
+                                "title": null
+                            }
+                        }
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_dependencies": [],
+                        "id": {
+                            "type": "Integer",
+                            "name": "ID",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "name": {
+                            "type": "String",
+                            "name": "Name",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "minLength": 1,
+                            "maxLength": 60
+                        },
+                        "description": {
+                            "type": "Formattable",
+                            "name": "Description",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true
+                        },
+                        "startDate": {
+                            "type": "Date",
+                            "name": "Start date",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true
+                        },
+                        "endDate": {
+                            "type": "Date",
+                            "name": "Finish date",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "status": {
+                            "type": "String",
+                            "name": "Status",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    "open",
+                                    "locked",
+                                    "closed"
+                                ]
+                            },
+                            "_links": {}
+                        },
+                        "sharing": {
+                            "type": "String",
+                            "name": "Sharing",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    "none",
+                                    "descendants",
+                                    "hierarchy",
+                                    "tree",
+                                    "system"
+                                ]
+                            },
+                            "_links": {}
+                        },
+                        "createdAt": {
+                            "type": "DateTime",
+                            "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "updatedAt": {
+                            "type": "DateTime",
+                            "name": "Updated on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "definingProject": {
+                            "type": "Project",
+                            "name": "Project",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "_embedded": {
+                                "allowedValues": [
+                                    {
+                                        -- List of projects; abbreviated --
+                                    }
+                                ]
+                            },
+                            "_links": {
+                                "allowedValues": [
+                                    {
+                                        "href": "/api/v3/projects/19",
+                                        "title": "aaaaa"
+                                    },
+                                    {
+                                        "href": "/api/v3/projects/3",
+                                        "title": "bbbb"
+                                    },
+                                    {
+                                        "href": "/api/v3/projects/7",
+                                        "title": "zzzz"
+                                    }
+                                ]
+                            }
+                        },
+                        "customField14": {
+                            "type": "String",
+                            "name": "text CF",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default"
+                        },
+                        "customField40": {
+                            "type": "CustomOption",
+                            "name": "List CF",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 516,
+                                        "value": "First option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/516",
+                                                "title": "First option"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 517,
+                                        "value": "Second option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/517",
+                                                "title": "Second option"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 518,
+                                        "value": "Third option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/518",
+                                                "title": "Third option"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "_links": {
+                                "allowedValues": [
+                                    {
+                                        "href": "/api/v3/custom_options/516",
+                                        "title": "First option"
+                                    },
+                                    {
+                                        "href": "/api/v3/custom_options/517",
+                                        "title": "Second option"
+                                    },
+                                    {
+                                        "href": "/api/v3/custom_options/518",
+                                        "title": "Third option"
+                                    }
+                                ]
+                            }
+                        },
+                        "_links": {}
+                    },
+                    "validationErrors": {
+                        "name": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                            "message": "Name can't be blank.",
+                            "_embedded": {
+                                "details": {
+                                    "attribute": "name"
+                                }
+                            }
+                        }
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/versions/form",
+                        "method": "post"
+                    },
+                    "validate": {
+                        "href": "/api/v3/versions/form",
+                        "method": "post"
+                    }
+                }
+            }
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage versions in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Version update form [/api/v3/versions/{id}/form]
+
+This endpoint returns a form allowing a guided modification of existing versions.
+The returned payload part of the form will be contain a merge between the already existing properties' values (as long as they are writeable) and the provided values with the later having precedence.
+
+For more details and all possible responses see the general specification of [Forms](/api/forms).
+
+## Version update form [POST]
+
++ Request Update version form
+
+    + Body
+
+            {
+                "name": ""
+                "endDate": "2018-01-10",
+                "startDate": "2018-01-01",
+                "status": "closed",
+                "sharing": "system",
+                "customField14": "blubs"
+            }
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_type": "Form",
+                "_embedded": {
+                    "payload": {
+                        "name": "",
+                        "description": {
+                            "raw": "",
+                        },
+                        "startDate": "2018-01-01",
+                        "endDate": "2018-01-10",
+                        "status": "closed",
+                        "sharing": "system",
+                        "customField14": "blubs",
+                        "_links":
+                            "customField40": {
+                                "href": null,
+                                "title": null
+                            }
+                        }
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_dependencies": [],
+                        "id": {
+                            "type": "Integer",
+                            "name": "ID",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "name": {
+                            "type": "String",
+                            "name": "Name",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "minLength": 1,
+                            "maxLength": 60
+                        },
+                        "description": {
+                            "type": "Formattable",
+                            "name": "Description",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true
+                        },
+                        "startDate": {
+                            "type": "Date",
+                            "name": "Start date",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true
+                        },
+                        "endDate": {
+                            "type": "Date",
+                            "name": "Finish date",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "status": {
+                            "type": "String",
+                            "name": "Status",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    "open",
+                                    "locked",
+                                    "closed"
+                                ]
+                            },
+                            "_links": {}
+                        },
+                        "sharing": {
+                            "type": "String",
+                            "name": "Sharing",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    "none",
+                                    "descendants",
+                                    "hierarchy",
+                                    "tree",
+                                    "system"
+                                ]
+                            },
+                            "_links": {}
+                        },
+                        "createdAt": {
+                            "type": "DateTime",
+                            "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "updatedAt": {
+                            "type": "DateTime",
+                            "name": "Updated on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "definingProject": {
+                            "type": "Project",
+                            "name": "Project",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false,
+                            "_links": {}
+                        },
+                        "customField14": {
+                            "type": "String",
+                            "name": "text CF",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default"
+                        },
+                        "customField40": {
+                            "type": "CustomOption",
+                            "name": "List CF",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "visibility": "default",
+                            "_embedded": {
+                                "allowedValues": [
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 516,
+                                        "value": "First option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/516",
+                                                "title": "First option"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 517,
+                                        "value": "Second option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/517",
+                                                "title": "Second option"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "_type": "CustomOption",
+                                        "id": 518,
+                                        "value": "Third option",
+                                        "_links": {
+                                            "self": {
+                                                "href": "/api/v3/custom_options/518",
+                                                "title": "Third option"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "_links": {
+                                "allowedValues": [
+                                    {
+                                        "href": "/api/v3/custom_options/516",
+                                        "title": "First option"
+                                    },
+                                    {
+                                        "href": "/api/v3/custom_options/517",
+                                        "title": "Second option"
+                                    },
+                                    {
+                                        "href": "/api/v3/custom_options/518",
+                                        "title": "Third option"
+                                    }
+                                ]
+                            }
+                        },
+                        "_links": {}
+                    },
+                    "validationErrors": {
+                        "name": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                            "message": "Name can't be blank.",
+                            "_embedded": {
+                                "details": {
+                                    "attribute": "name"
+                                }
+                            }
+                        }
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/versions/form",
+                        "method": "post"
+                    },
+                    "validate": {
+                        "href": "/api/v3/versions/form",
+                        "method": "post"
+                    }
+                }
+            }
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage versions in the version's project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Versions by Project [/api/v3/projects/{project_id}/versions]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/11/versions" }
+                },
+                "total": 3,
+                "count": 3,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/11" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 11,
+                            "name": "v3.0 Alpha",
+                            "description": {
+                                "format": "plain",
+                                "raw": "This version has a description",
+                                "html": "This version has a description"
+                            },
+                            "startDate": "2014-11-20",
+                            "endDate": null,
+                            "status": "Open"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/12" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/12/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 12,
+                            "name": "v2.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Closed"
+                        },
+                        {
+                            "_links": {
+                                "self": { "href": "/api/v3/versions/10" },
+                                "definingProject": { "href": "/api/v3/projects/11" },
+                                "availableInProjects": { "href": "/api/v3/versions/10/projects" }
+                            },
+                            "_type": "Version",
+                            "id": 10,
+                            "name": "v1.0",
+                            "description": {
+                                "format": "plain",
+                                "raw": "",
+                                "html": ""
+                            },
+                            "startDate": null,
+                            "endDate": null,
+                            "status": "Open"
+                        }
+                    ]
+                }
+            }
+
+
+## List versions available in a project [GET]
+
+This endpoint lists the versions that are *available* in a given project.
+Note that due to sharing this might be more than the versions *defined* by that project.
+
++ Parameters
+    + project_id (required, integer, `1`) ... ID of the project whoose versions will be listed
+
++ Response 200 (application/hal+json)
+
+    [Versions by Project][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work packages **or** manage versions (on given project)
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified project does not exist."
+            }
+
+## Available projects for versions [/api/v3/versions/available_projects]
+
++ Model
+    + Body
+
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/v3/versions/available_projects"
+                }
+              },
+              "_type": "Collection",
+              "total": 2,
+              "count": 2,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/6",
+                        "title": "A project"
+                      },
+                      "editWorkPackage": {
+                        "href": "/api/v3//work_packages/{work_package_id}/form",
+                        "templated": true,
+                        "method": "post"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/6/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/6/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/6/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/6/versions"
+                      }
+                    },
+                    "id": 6,
+                    "identifier": "a_project",
+                    "name": "A project",
+                    "description": "Eveniet molestias omnis quis aut qui eum adipisci. Atque aut aut in exercitationem adipisci amet. Nisi asperiores quia ratione veritatis enim exercitationem magnam. Aut fuga architecto adipisci nihil. Et repellat pariatur. Aliquam et sed perferendis nostrum quaerat. Fugit doloremque voluptatem.",
+                    "createdAt": "2015-07-06T13:28:14+00:00",
+                    "updatedAt": "2015-10-01T09:55:02+00:00",
+                    "type": "Customer Project"
+                  },
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/14",
+                        "title": "Another project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/14/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/14/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/14/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/14/versions"
+                      }
+                    },
+                    "id": 14,
+                    "identifier": "another_project",
+                    "name": "Another project",
+                    "description": "",
+                    "createdAt": "2016-02-29T12:50:20+00:00",
+                    "updatedAt": "2016-02-29T12:50:20+00:00",
+                    "type": null
+                  }]
+                }
+              }
+            }
+
+## Available projects for versions [GET]
+
+Gets a list of projects in which a version can be created in. The list contains all projects in which the user issuing the request has the manage versions permissions.
+
++ Response 200 (application/hal+json)
+
+    [Available projects for versions][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage versions
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }

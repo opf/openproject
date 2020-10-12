@@ -1,0 +1,13 @@
+<div *ngIf="(boards$ | async) as boards">
+  <ul class="main-menu--children boards--menu-items">
+    <li *ngFor="let board of boards;trackBy:trackById">
+      <a [textContent]="board.name"
+         uiSref="boards.partitioned.show"
+         [uiOptions]="{ reload: true }"
+         [uiParams]="{ board_id: board.id, query_props: '', projects: 'projects', projectPath: currentProjectIdentifier }"
+         class="main-menu--children-sub-item ellipsis"
+         [ngClass]=" {'selected': selectedBoardId === board.id }">
+      </a>
+    </li>
+  </ul>
+</div>

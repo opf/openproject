@@ -1,0 +1,17 @@
+<button class="button -small advanced-filters--toggle"
+        (click)="wpFiltersService.toggleVisibility()"
+        [class.-active]="visible$ | async"
+        *ngIf="showFilterButton">
+  <i class="button--icon icon-filter"></i>
+  <span class="button--text" [textContent]="filterButtonText"></span>
+</button>
+
+<div class="work-packages--filters-optional-container"
+     [ngClass]="{ '-loaded': loaded }">
+  <div id="query_form_content" class="hide-when-print" *ngIf="visible$ | async">
+    <query-filters *ngIf="!!filters"
+                   [filters]="filters"
+                   [showCloseFilter]="true"
+                   (filtersChanged)="replaceIfComplete($event)"></query-filters>
+  </div>
+</div>

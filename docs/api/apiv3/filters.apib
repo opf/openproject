@@ -1,0 +1,130 @@
+# Group Filters
+
+Filter objects can be added to a number of endpoints in the OpenProject APIv3. With them, you can create powerful queries to endpoints to return the data that you want.
+
+They all share the following basic properties:
+
+- They consist of three items: A property to filter or a specific filter name, one or more values, and a filter operator that defines what query to produce with the given values
+- You can combine any number of distinct filters can be added to the endpoint definitions in this API documentation
+- A combination of filter objects are treated as an AND filter. OR filters are not yet possible in a single query, but this feature is tracked in https://community.openproject.com/wp/26837
+
+
+
+## Filter syntax
+
+The filter syntax is a JSON object that can be passed as a GET parameter to the endpoints as an URL-encoded JSON string looks like the following:
+
+
+
+```
+[
+  { "<filter name>": { "operator": "<operator>", "values": [<value>, ...] },
+  ...
+]
+```
+
+
+
+**Example**
+
+Filtering the work packages API endpoint for a work package that matches the subject or ID "12" and has a status with the ID=5.
+
+```
+[
+  { "subjectOrId": { "operator": "**", values: ["12"] } },
+  { "status": { "operator": "=", values: ["5"] } }
+]
+```
+
+
+
+With the above JSON stringified and URL-encoded, this can be added to the `/api/v3/work_packages` endpoint using the `filter` parameter to form the URL:
+
+```
+https://community.openproject.com/api/v3/work_packages?filters=%5B%7B%22subjectOrId%22:%7B%22operator%22:%22**%22,%22values%22:%5B%2212%22%5D%7D%7D,%7B%22status%22:%7B%22operator%22:%22=%22,%22values%22:%5B%225%22%5D%7D%7D%5D
+```
+
+## Compression
+
+As the above can become quite long, especially if a lot of filter values are included, the API offers to wrap all query props into a zlib compressed and base64 encoded property (`eprops`).
+The property will then not only include the filter but the complete query props set (e.g. `pageSize`, `offset` and `columns`. So `eprops` is then a JSON object that is compressed and encoded.
+
+**Example**
+
+Instead of the request
+
+```
+https://community.openproject.com/api/v3/work_packages?filters=[%7B%22subjectOrId%22:%7B%22operator%22:%22**%22,%22values%22:[%2212%22]%7D%7D,%7B%22status%22:%7B%22operator%22:%22=%22,%22values%22:[%225%22]%7D%7D]&pageSize=10&sortBy=[[%22id%22,%20%22asc%22]]
+```
+
+Which in a non URL encoded style would be
+
+```
+https://community.openproject.com/api/v3/work_packages?filters=[{"subjectOrId":{"operator":"**","values":["12"]}},{"status":{"operator":"=","values":["5"]}}]&pageSize=10&sortBy=[["id", "asc"]]
+```
+
+All of the props can be put inside a json object
+
+```
+{
+  "filters": "[{\"subjectOrId\":{\"operator\":\"**\",\"values\":[\"12\"]}},{\"status\":{\"operator\":\"=\",\"values\":[\"5\"]}}]",
+  "sortBy": "[[\"id\",\"asc\"]]",
+  "pageSize": 10
+}
+```
+
+Please note, that all objects that have to be json (e.g `filters`) will be double encoded.
+
+That json object can then be compressed and encoded and the result sent over as the combined `eprops` parameter:
+
+```
+https://community.openproject.com/api/v3/work_packages?eprops=eJxtjTELwjAUhP%2FLjSWDFVwCLt2cHBz7OsT2VSKFlLwXQUv%2Bu0lXHe%2B7%2B7gN%0As1%2BUo8Ci3wiS7k8e9RovE8EWEFaOTkMsidA0BEN4uSWxFNIT2iNhyNlUV50m%0A%2BaOdf6zTLg0wkBC1e9f3gv20L52Mpa%2Ft6h588x%2BGbQ%2F5C12YN%2BM%3D%0A
+```
+
+## Available filters
+
+The availaibility of filters depend on the endpoint you're querying and will be listed in each endpoint definition. For work packages, you can also [start using filters in the work packages module](https://community.openproject.com/projects/openproject/work_packages) to build your query and then simply copy the URL from your browser to get the resulting filter values and their operators.
+
+
+
+## Available operators
+
+The following table is a list of all available operators. Not all endpoints and parameters support all values, but this list serves as a lookup table for identifying and using the operators. When building a filter object, you use the **symbol** listed below.
+
+
+
+| Symbol | Description of filtered properties                           | Values array contains      |
+| ------ | ------------------------------------------------------------ | -------------------------- |
+| `=`    | are equal to one of the given value(s)                       | At least one typed value   |
+| `!`    | are not equal one of the given value(s)                      | At least one typed value   |
+| `>=`   | are greater or equal than the given value                    | One numerical value        |
+| `<=`   | are lesser or equal than the given value                     | One numerical value        |
+| `t-`   | are the given number of days in the past                     | 1 integer (days)           |
+| `t+`   | are the given number of days in the future                   | 1 integer (days)           |
+| `<t+`  | are *less than* the given number of days in the future       | 1 integer (days)           |
+| `>t+`  | are *more than* the given number of days in the futre        | 1 integer (days)           |
+| `>t-`  | are *less than* the given number of days in the past         | 1 integer (days)           |
+| `<t-`  | are *more than* the given number of days in the past         | 1 integer (days)           |
+| `*`    | are not NULL                                                 | *nothing, values is empty* |
+| `!*`   | are NULL                                                     | *nothing, values is empty* |
+| `**`   | searches the given string in all string-based attributes     | One string value           |
+| `=d`   | are on the given date                                        | 1 ISO8601 date/datetime    |
+| `<>d`  | are between the two given dates.                             | 2 ISO8601 date/datetimes   |
+| `w`    | are in this week                                             | *nothing, values is empty* |
+| `t`    | are today                                                    | *nothing, values is empty* |
+| `~`    | are containing the given words (SQL LIKE) in that order      | At least one string value  |
+| `!~`   | are *not* containing the given words (SQL LIKE) in that order | At least one string value  |
+
+​	
+
+**Special operators for work packages**
+
+There are some additional operators only in use for work packages:
+
+| Symbol | Description of filtered properties         | Values array contains      |
+| ------ | ------------------------------------------ | -------------------------- |
+| `o`    | the status of the work package is *open*   | *nothing, values is empty* |
+| `c`    | the status of the work package is *closed* | *nothing, values is empty* |
+| `ow`   | the work packages have a manual sort order | *nothing, values is empty* |
+
+There are also relation filters for work packages that have the symbols `blocks/blocked` `children/parent` `follows/precedes` `duplicates/duplicated` `partof/includes` `relates` `requires/required` depending on the direction of the relation and take as value the work package ID that is the target node of the relation.

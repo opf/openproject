@@ -1,0 +1,119 @@
+//
+//***** Media print specific styles for the WP VIEWS *****/
+// Since the print view has similarities to the mobile view
+// there are further styles defined in the _work_package_mobile.sass
+//
+@media print
+  // -------------------- Work Package views --------------------
+  .router--work-packages-partitioned-split-view,
+  .router--work-packages-full-view,
+  .router--work-packages-full-create
+    #wrapper
+      overflow: visible !important
+
+    #main
+      top: 0
+      padding: 0
+      border: none
+      overflow: visible !important
+      position: relative
+      grid-template-columns: auto
+
+      #content-wrapper,
+      #content
+        margin: 0
+        width: 100%
+        height: 100%
+        overflow: visible !important
+        position: relative
+
+        .work-packages-partitioned-page--content-right
+          .work-packages--details-toolbar-container
+            display: none
+
+        .work-packages-partitioned-query-space--container
+          padding-left: 0
+
+          .work-packages-split-view--tabletimeline-side
+            .work-packages-split-view--tabletimeline-content
+              height: 100%
+              .wp-table--hierarchy-aditional-row,
+              tr.-checked,
+              .row-hovered
+                // Remove highlighting of first and selected rows:
+                background-color: transparent
+
+          .work-packages-tabletimeline--table-side
+            contain: initial // For printing in Chrome
+            overflow: visible
+
+            &:not(.-timeline-visible)
+              // Only repeat table header when only table visible and no
+              // timelines.
+              thead.-sticky th
+                position: initial
+
+            &.-timeline-visible
+              // Do not show table on timelines print outs.
+              display: none
+
+          .work-packages-tabletimeline--timeline-side
+            contain: initial // For printing in Chrome
+            border-left: none
+            flex-basis: 100% !important
+
+    .work-package-table--container,
+    .generic-table--results-container
+      overflow: hidden
+
+  // -------------------- Sepcial Rules for FF --------------------
+  body.-browser-firefox
+    #wrapper,
+    #main,
+    .work-packages-partitioned-query-space--container,
+    .work-packages-partitioned-page--content-container,
+    .work-packages-split-view--tabletimeline-side,
+    .work-packages-split-view--tabletimeline-content
+      display: block !important
+
+    .router--work-packages-partitioned-split-view,
+    .router--work-packages-full-view,
+    .router--work-packages-full-create
+      .work-packages-partitioned-query-space--container
+        .toolbar-container
+          display: none
+
+    .work-packages-partitioned-page--content-right
+      .work-packages--details-content
+        position: relative
+
+  body.-browser-firefox,
+  body.-browser-edge
+    .work-packages--show-view,
+    .work-packages-full-view--split-container
+      display: block
+
+  // ------------------Only WP full screen view ------------------
+  .router--work-packages-full-view
+    // Since there is no toolbar and WP-back button the header can span 100%
+    .wp-show--header-container
+      flex-basis: 100%
+    .work-packages-full-view--split-right
+      overflow: visible
+      flex-basis: initial !important
+
+    // Ensure left side is not set to overflow: hidden
+    .work-packages-full-view--split-left
+      overflow: visible
+
+    // decrease padding under subject
+    .work-packages--show-view > .toolbar-container
+      min-height: 42px
+      margin-bottom: 0
+
+    // Overwrite "click to add description" placeholder with a simple dash.
+    .inline-edit--active-field.description.-placeholder
+      .read-value--html
+        display: none
+      &:after
+        content: '-'

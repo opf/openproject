@@ -1,0 +1,134 @@
+/*
+  Label
+*/
+
+/// @Foundation.settings
+// Label
+$label-fontsize: 0.8rem !default;
+$label-padding: ($global-padding / 3) ($global-padding / 2) !default;
+$label-radius: 0 !default;
+$label-background: $primary-color !default;
+$label-color: isitlight($primary-color) !default;
+
+$badge-fontsize: 0.8em !default;
+$badge-diameter: 1.5rem !default;
+$badge-background: $primary-color !default;
+$badge-color: #fff !default;
+///
+
+%label {
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-block;
+  cursor: default;
+}
+
+@mixin label-layout(
+  $fontsize: $label-fontsize,
+  $padding: $label-padding
+) {
+  font-size: $fontsize;
+  padding: $padding;
+}
+
+@mixin label-style(
+  $background: $label-background,
+  $color: $label-color,
+  $radius: $label-radius
+) {
+  background: $background;
+  border-radius: $radius;
+
+  @if $color == auto {
+    color: isitlight($background);
+  }
+  @else {
+    color: $color;
+  }
+}
+
+@mixin label(
+  $background: $label-background,
+  $color: $label-color,
+  $radius: $label-radius,
+  $fontsize: $label-fontsize,
+  $padding: $label-padding
+) {
+  @extend %label;
+  @include label-layout($fontsize, $padding);
+  @include label-style($background, $color, $radius);
+}
+
+@include exports(label) {
+  .label {
+    @include label;
+
+    @each $color in map-keys($foundation-colors) {
+      &.#{$color} {
+        $color-value: map-get($foundation-colors, $color);
+        @include label-style($color-value, auto);
+      }
+    }
+  }
+}
+
+/*
+  Badge
+*/
+
+%badge {
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+  border-radius: 1000px;
+}
+
+@mixin badge-layout(
+  $fontsize: $badge-fontsize,
+  $diameter: $badge-diameter
+) {
+  font-size: $fontsize;
+  width: $diameter;
+  height: $diameter;
+}
+
+@mixin badge-style(
+  $background: $badge-background,
+  $color: $badge-font-color
+) {
+  background: $background;
+
+  @if $color == auto {
+    color: isitlight($background);
+  }
+  @else {
+    color: $color;
+  }
+}
+
+@mixin badge(
+  $background: $badge-background,
+  $color: $badge-color,
+  $diameter: $badge-diameter,
+  $fontsize: $badge-fontsize
+) {
+  @extend %badge;
+  @include badge-layout($fontsize, $diameter);
+  @include badge-style($background, $color);
+}
+
+@include exports(badge) {
+  .badge {
+    @include badge;
+
+    &.secondary {
+      @include badge-style($secondary-color, auto);
+    }
+    @each $color in map-keys($foundation-colors) {
+      &.#{$color} {
+        $color-value: map-get($foundation-colors, $color);
+        @include badge-style($color-value, auto);
+      }
+    }
+  }
+}

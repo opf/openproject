@@ -1,0 +1,23 @@
+<select [(ngModel)]="groupBy"
+        (ngModelChange)="setQueryProps()">
+    <option [ngValue]="option.key" *ngFor="let option of availableGroupBy">{{option.label}}</option>
+</select>
+
+<div *ngIf="error"
+    class="notification-box -error">
+    <div class="notification-box--content"
+         [textContent]="error">
+    </div>
+</div>
+
+<wp-embedded-graph #wpEmbeddedGraphMulti
+                 [datasets]="datasets"
+                 [chartOptions]="chartOptions"
+                 *ngIf="displayMulti">
+</wp-embedded-graph>
+
+<wp-embedded-graph #wpEmbeddedGraphSingle
+                 [datasets]="datasets"
+                 [chartOptions]="chartOptions"
+                 *ngIf="displaySingle">
+</wp-embedded-graph>

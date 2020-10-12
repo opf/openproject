@@ -1,0 +1,207 @@
+/*
+  NOTIFICATION
+  ------------
+
+  An alert that pins to the corner of the screen when triggered by JavaScript. It can be set to disappear after a certain period of time, or to stay put until the user clicks on it. A custom action can be asigned to a notification as well.
+
+  Optionally, the notifications directive can also tap into the browser's native notification support, if it exists.
+*/
+
+/// @Foundation.settings
+// Notification
+$notification-default-position: right top !default;
+$notification-width: rem-calc(400) !default;
+$notification-offset: $global-padding !default;
+
+$notification-background: $primary-color !default;
+$notification-color: white !default;
+$notification-padding: $global-padding !default;
+$notification-radius: 4px !default;
+
+$notification-icon-size: 60px !default;
+$notification-icon-margin: $global-padding !default;
+$notification-icon-align: top !default;
+
+///
+
+%notification {
+  z-index: 1000;
+  display: flex;
+  position: relative;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  display: none;
+
+  h1 {
+    font-size: 1.25em;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+
+  // Placeholder animation
+  // transition: opacity 1s ease-out;
+
+  &.is-active {
+    display: flex;
+  }
+
+  .close-button {
+    color: white;
+  }
+}
+
+%notification-container {
+  z-index: 3000;
+  position: fixed;
+
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin notification-layout(
+  $x: nth($notification-default-position, 1),
+  $y: nth($notification-default-position, 2),
+  $size: $notification-width,
+  $offset: $notification-offset
+) {
+  width: $size;
+
+  @if $x == right {
+    right: $offset;
+  }
+  @else if $x == left {
+    left: $offset;
+  }
+  @else if $x == middle {
+    left: 50%;
+    margin-left: -($size / 2);
+  }
+
+  @if $y == top {
+    top: $offset;
+  }
+  @else if $y == bottom {
+    top: auto;
+    bottom: $offset;
+  }
+
+  // On small screens, notifications are full width but maintain their vertical orientation
+  @include breakpoint(small only) {
+    width: auto;
+    left: $offset;
+    right: $offset;
+    margin-left: 0;
+  }
+}
+@mixin notification-style(
+  $background: $notification-background,
+  $color: $notification-color,
+  $padding: $notification-padding,
+  $radius: $notification-radius
+) {
+  background: $background;
+  padding: $padding;
+  border-radius: $radius;
+
+  &, h1, h2, h3, h4, h5, h6 {
+    color: $color;
+  }
+}
+
+@mixin notification(
+  $background: $notification-background,
+  $color: $notification-color,
+  $padding: $notification-padding,
+  $radius: $notification-radius
+) {
+  @extend %notification;
+  @include notification-style($background, $color, $padding, $radius);
+}
+
+@mixin notification-container(
+  $x: nth($notification-default-position, 1),
+  $y: nth($notification-default-position, 2),
+  $size: $notification-width,
+  $offset: $notification-offset
+) {
+  @extend %notification-container;
+  @include notification-layout($x, $y, $size, $offset);
+}
+
+@mixin notification-icon(
+  $size: $notification-icon-size,
+  $margin: $notification-icon-margin,
+  $align: $notification-icon-align
+) {
+  $alignments: (
+    top: flex-start,
+    middle: middle,
+    bottom: flex-end,
+  );
+  flex: 0 0 $size;
+  margin-right: $global-padding;
+  align-self: map-get($alignments, $align);
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/*
+  CSS Output
+*/
+
+@include exports(notification) {
+  .notification {
+    @include notification;
+
+    &.success   { @include notification-style($success-color) }
+    &.warning   { @include notification-style($warning-color) }
+    &.alert     { @include notification-style($alert-color) }
+    &.dark      { @include notification-style($dark-color, #fff) }
+
+
+  }
+
+  .static-notification {
+    @include notification;
+
+    position: fixed !important;
+    
+    &.top-right     { @include notification-layout(right, top); }
+    &.top-left      { @include notification-layout(left, top); }
+    &.top-middle    { @include notification-layout(middle, top); }
+
+    &.bottom-right  { @include notification-layout(right, bottom); }
+    &.bottom-left   { @include notification-layout(left, bottom); }
+    &.bottom-middle { @include notification-layout(middle, bottom); }
+
+    &.success   { @include notification-style($success-color) }
+    &.warning   { @include notification-style($warning-color) }
+    &.alert     { @include notification-style($alert-color) }
+    &.dark      { @include notification-style($dark-color, #fff) }
+  }
+
+  .notification-container {
+    @include notification-container;
+
+    &.top-right     { @include notification-layout(right, top); }
+    &.top-left      { @include notification-layout(left, top); }
+    &.top-middle    { @include notification-layout(middle, top); }
+
+    &.bottom-right  { @include notification-layout(right, bottom); }
+    &.bottom-left   { @include notification-layout(left, bottom); }
+    &.bottom-middle { @include notification-layout(middle, bottom); }
+  }
+
+  .notification-icon {
+    @include notification-icon;
+  }
+  .notification-content {
+    flex: 1;
+  }
+
+}

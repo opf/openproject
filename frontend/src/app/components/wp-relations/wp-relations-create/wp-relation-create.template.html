@@ -1,0 +1,58 @@
+<div class="wp-relations-create">
+  <div class="wp-relations-create-button hide-when-print"
+       *ngIf="!showRelationsCreateForm">
+    <div class="grid-block">
+      <div class="grid-content collapse wp-inline-create-button">
+        <a class="wp-inline-create--add-link relation-create"
+           autoFocus
+           (accessibleClick)="toggleRelationsCreateForm()"
+           href
+           id="relation--add-relation">
+          <op-icon icon-classes="icon icon-add"></op-icon>
+          <span [textContent]="text.addNewRelation"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="loading-indicator--location"
+       data-indicator-name="relationAddDynamic">
+    <div class="v-align wp-relations-create--form"
+         *ngIf="showRelationsCreateForm">
+      <div class="grid-content collapse medium-3">
+        <label class="hidden-for-sighted"
+               for="relation-type--select"
+               [textContent]="text.relationType"></label>
+        <select class="form--select relationTypeSelect"
+                id="relation-type--select"
+                role="listbox"
+                [(ngModel)]="selectedRelationType"
+                focus>
+          <option *ngFor="let type of relationTypes"
+                  [textContent]="type.label"
+                  [value]="type.name"></option>
+        </select>
+      </div>
+      <div class="grid-content medium-8">
+        <wp-relations-autocomplete
+            [workPackage]="workPackage"
+            (onSelected)="onSelected($event)"
+            (onCancel)="toggleRelationsCreateForm()"
+            [hiddenOverflowContainer]="'.work-packages-tab-view--overflow'"
+            [selectedRelationType]="selectedRelationType">
+        </wp-relations-autocomplete>
+      </div>
+      <div class="grid-content medium-1 collapse wp-relations-controls-section relation-row">
+        <accessible-by-keyboard
+            (execute)="toggleRelationsCreateForm()"
+            linkClass="wp-create-relation--cancel"
+            aria-hidden="false">
+          <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
+        </accessible-by-keyboard>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

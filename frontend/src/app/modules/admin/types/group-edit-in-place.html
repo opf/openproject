@@ -1,0 +1,16 @@
+<div *ngIf="!editing"
+      (click)="startEditing()"
+      [textContent]="name"
+      class="group-edit-handler">
+</div>
+<input
+    #nameInput
+    *ngIf="editing"
+    class="group-edit-in-place--input"
+    type="text"
+    autoFocus
+    [(ngModel)]="editedName"
+    [attr.placeholder]="placeholder"
+    (blur)="saveEdition($event)"
+    (keydown.escape)="reset()"
+    (keydown.enter)="saveEdition($event)">

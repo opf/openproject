@@ -1,0 +1,80 @@
+<fieldset id="filters" *ngIf="filters" class="advanced-filters--container">
+  <legend [textContent]="text.selected_filter_list"></legend>
+
+  <a *ngIf="showCloseFilter"
+     [attr.title]="text.close_form"
+     class="advanced-filters--close icon-context icon-close"
+     (click)="closeFilter()">
+  </a>
+
+  <ul class="advanced-filters--filters">
+    <li id="filter_search"
+        class="advanced-filters--filter --without-operator">
+      <label for="filter-by-text-input"
+             class="advanced-filters--filter-name"
+             [textContent]="text.filter_by_text"
+             [attr.title]="text.filter_by_text">
+      </label>
+
+      <div class="advanced-filters--filter-value">
+        <wp-filter-by-text-input
+          (deactivateFilter)="deactivateFilter($event)">
+        </wp-filter-by-text-input>
+      </div>
+    </li>
+
+    <li class="advanced-filters--spacer"></li>
+
+    <ng-container *ngFor="let filter of filters; trackBy: trackByName ; let index = index">
+      <li *ngIf="isFilterAvailable(filter.id)"
+          id="filter_{{filter.id}}"
+          query-filter
+          [shouldFocus]="index == focusElementIndex"
+          [filter]="filter"
+          (deactivateFilter)="deactivateFilter($event)"
+          (filterChanged)="filtersChanged.emit(filters)"
+          [hidden]="isHiddenFilter(filter)"
+          class="advanced-filters--filter">
+      </li>
+    </ng-container>
+
+    <li class="advanced-filters--spacer" *ngIf="isSecondSpacerVisible"></li>
+
+    <li class="advanced-filters--add-filter">
+      <!-- Add filters -->
+      <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label">
+        <op-icon icon-classes="icon-add icon4"></op-icon>
+        {{ text.label_filter_add }}:
+      </label>
+      <label for="add_filter_select" class="hidden-for-sighted">
+        {{ text.label_filter_add }}
+        {{ text.open_filter }}
+        {{ text.close_filter }}
+      </label>
+
+      <div class="advanced-filters--add-filter-value">
+        <ng-select #ngSelectComponent
+                   [items]="remainingFilters"
+                   [clearSearchOnAdd]="true"
+                   [multiple]="false"
+                   [clearable]="true"
+                   [clearOnBackspace]="true"
+                   [closeOnSelect]="true"
+                   [virtualScroll]="true"
+                   [placeholder]="text.please_select"
+                   (open)="onOpen()"
+                   (change)="onFilterAdded($event)"
+                   id="add_filter_select"
+                   bindLabel="name"
+                   appendTo="body">
+        </ng-select>
+      </div>
+    </li>
+  </ul>
+  <enterprise-banner class="advanced-filters--add-filter-info"
+                     *ngIf="eeShowBanners"
+                     [linkMessage]="text.upsale_link"
+                     [textMessage]="text.upsale_for_more"
+                     opReferrer="wp-filter#filters">
+  </enterprise-banner>
+</fieldset>

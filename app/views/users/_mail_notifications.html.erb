@@ -1,0 +1,79 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% active_sections = if @user.mail_notification == 'selected'
+                      [{key: 'notified_projects'}]
+                     else
+                      []
+                     end %>
+
+<%= initialize_hide_sections_with [{key: 'notified_projects'}],  active_sections %>
+
+
+<div class="form--field">
+  <%= styled_label_tag "user_mail_notification", t(:'user.settings.mail_notifications') %>
+  <div class="form--field-container">
+    <div class="form--select-container">
+      <%= styled_select_tag 'user[mail_notification]',
+                            options_for_select(user_mail_notification_options(@user), @user.mail_notification),
+                            container_class: '-wide' %>
+      <show-section-dropdown data-opt-value="selected"
+                             data-hide-sec-with-name="notified_projects">
+      </show-section-dropdown>
+    </div>
+  </div>
+</div>
+
+<section class="hide-section" data-section-name="notified_projects" <%= @user.mail_notification == 'selected' ? '' : 'hidden' %>>
+  <div id="notified-projects" class="form--field -no-label">
+      <div class="form--field-container -vertical">
+        <% @user.projects.each do |project| %>
+          <label class="form--label-with-check-box">
+            <%= styled_check_box_tag 'notified_project_ids[]',
+                                     project.id,
+                                     @user.notified_projects_ids.include?(project.id),
+                                     id: "notified_project_ids_#{project.id}" %>
+            <%= project.name %>
+          </label>
+        <% end %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t(:'user.settings.mail_project_explanaition') %>
+      </div>
+  </div>
+</section>
+
+<div class="form--field">
+  <%= styled_label_tag 'self_notified', t(:'user.settings.mail_self_notified') %>
+  <div class="form--field-container">
+    <div class="form--check-box-container">
+      <%= styled_check_box_tag 'self_notified', 1, @user.pref.self_notified? %>
+    </div>
+  </div>
+</div>

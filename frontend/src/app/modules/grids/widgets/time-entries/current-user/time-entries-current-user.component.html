@@ -1,0 +1,21 @@
+<widget-header
+  [name]="widgetName"
+  [editable]="isEditable">
+
+  <widget-time-entries-current-user-menu
+    slot="menu"
+    [resource]="resource"
+    (onConfigured)="updateConfiguration($event)">
+  </widget-time-entries-current-user-menu>
+</widget-header>
+
+<te-calendar
+  (entries)="updateEntries($event)"
+  [displayedDays]="displayedDays"
+></te-calendar>
+
+<ng-container>
+  <div class="total-hours">
+    <p>Total: <span [textContent]="total"></span></p>
+  </div>
+</ng-container>

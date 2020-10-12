@@ -1,0 +1,16 @@
+<fieldset class="form--fieldset" *ngIf="showAttachments()">
+  <legend class="form--fieldset-legend">
+    {{ text.attachments }}
+  </legend>
+  <div id="attachments_fields">
+    <attachment-list *ngIf="resource.attachments"
+                     [resource]="resource"
+                     [destroyImmediately]="destroyImmediately">
+    </attachment-list>
+    <attachments-upload [resource]="resource"
+                        class="hide-when-print"
+                        *ngIf="allowUploading">
+    </attachments-upload>
+  </div>
+</fieldset>
+

@@ -1,0 +1,73 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+
+#members_add_form
+  display: none
+  margin-bottom: 1rem
+  .-flex
+    display: flex
+    align-items: flex-end
+
+    .form--field,
+    #member-add-submit-button--container
+      margin-bottom: 1px
+      flex-basis: 50%
+
+    &:not(.-with-button)
+      .form--field
+        overflow: hidden
+
+  // Override default margin to allow correct vertical alignment
+  #add-member--submit-button
+    margin-bottom: 0
+    margin-left: 1rem
+    // Neccessary so that button and select box have the same height
+    line-height: 0.6rem
+
+@include breakpoint(680px down)
+  #members_add_form .-flex
+    align-items: flex-start
+
+    &.-with-button
+      flex-direction: column
+      // Workaround for safari and IE
+      // They are not able to get the correct height with flex-direction: column
+      height: 120px
+
+    #add-member--submit-button
+      margin-left: 0
+    .form--field
+      margin-bottom: 1rem
+
+@media screen and (max-width: 87rem) and (min-width: 681px)
+  #members_add_form .-flex.-with-button
+    .form--field
+      max-width: 60%
+      select
+        max-width: 60%

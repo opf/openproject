@@ -1,0 +1,11 @@
+<div id="div-values-{{filter.id}}">
+  <op-date-picker (onChange)="value = parser($event)"
+                  [initialDate]="formatter(value)"
+                  [focus]="shouldFocus"
+                  required="true"
+                  [id]="'values-' + filter.id"
+                  [name]="'v[' + filter.id + ']'"
+                  classes="advanced-filters--date-field"
+                  size="10">
+  </op-date-picker>
+</div>

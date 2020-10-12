@@ -1,0 +1,59 @@
+<div class="work-package-details-activities-activity-contents"
+     *ngIf="workPackage"
+     (mouseenter)="focus()"
+     (mouseleave)="blur()">
+  <user-avatar *ngIf="userName"
+               [attr.data-user-name]="userName"
+               [attr.data-user-id]="userId"
+               data-class-list="avatar">
+  </user-avatar>
+
+  <span class="user">
+    <user-link [user]="user"></user-link>
+  </span>
+  <span class="date">
+    {{ isInitial ? text.label_created_on : text.label_updated_on }}
+    <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>
+  </span>
+  <div class="comments-number">
+    <activity-link [workPackage]="workPackage"
+                   [activityNo]="activityNo">
+    </activity-link>
+    <div class="comments-icons"
+         [hidden]="shouldHideIcons()">
+      <accessible-by-keyboard *ngIf="userCanQuote"
+                              (execute)="quoteComment()"
+                              [linkTitle]="text.quote_comment">
+        <op-icon icon-classes="action-icon icon-quote" [icon-title]="text.quote_comment"></op-icon>
+      </accessible-by-keyboard>
+      <accessible-by-keyboard *ngIf="userCanEdit"
+                              (execute)="activate()"
+                              [linkTitle]="text.edit_comment"
+                              class="edit-activity--{{activityNo}}">
+        <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit_comment"></op-icon>
+      </accessible-by-keyboard>
+    </div>
+  </div>
+  <img *ngIf="bcfSnapshotUrl"
+       [src]="bcfSnapshotUrl"
+       class="activity-thumbnail">
+  <div class="user-comment" >
+    <div *ngIf="active" class="inplace-edit">
+      <div class="user-comment--form inplace-edit--write-value">
+        <edit-form-portal [changeInput]="change"
+                          [schemaInput]="schema"
+                          [editFieldHandler]="handler">
+        </edit-form-portal>
+      </div>
+    </div>
+    <div *ngIf="!active && (isComment || isBcfComment)"
+          class="message wiki"
+          [innerHtml]="postedComment">
+    </div>
+    <ul class="work-package-details-activities-messages" *ngIf="!isInitial">
+      <li *ngFor="let detail of details">
+        <span class="message" [innerHtml]="detail"></span>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div
+  class="work-packages--details work-packages--new"
+  *ngIf="newWorkPackage"
+>
+  <edit-form [resource]="newWorkPackage"
+             [skippedFields]="['status', 'type']"
+             [inEditMode]="true"
+             (onSaved)="onSaved($event)">
+    <div class="work-packages--details-content -create-mode">
+      <div class="work-packages--new-details-header">
+        <wp-type-status [workPackage]="newWorkPackage"></wp-type-status>
+      </div>
+      <wp-single-view [workPackage]="newWorkPackage"
+                      [showProject]="copying">
+      </wp-single-view>
+    </div>
+
+    <div class="work-packages--details-toolbar-container">
+      <wp-edit-actions-bar
+        (onCancel)="cancelAndBackToList()">
+      </wp-edit-actions-bar>
+    </div>
+  </edit-form>
+</div>

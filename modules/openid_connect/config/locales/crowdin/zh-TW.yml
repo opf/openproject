@@ -1,0 +1,19 @@
+zh-TW:
+  logout_warning: >
+    你已被登出，你嘗試送出的內容可能都會遺失。請登入。
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: 名稱
+        display_name: 顯示名稱
+        identifier: 識別碼
+        secret: 金鑰
+        scope: 範圍
+  openid_connect:
+    menu_title: OpenID 提供者
+    providers:
+      label_add_new: 新增 OpenID 提供者
+      label_edit: 編輯 OpenID 提供者：%{name}
+      no_results_table: 尚未定義任何提供者。
+      plural: OpenID 提供者
+      singular: OpenID 提供者

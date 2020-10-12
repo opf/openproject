@@ -1,0 +1,357 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "057815832d3c4ed7f59dad14c0a63d85c46016409b4db94be1bc21dc31e7803a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/project/storage.rb",
+      "line": 69,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Project.from(\"#{Project.table_name} projects\").joins(\"LEFT JOIN (#{wiki_storage_sql}) wiki ON projects.id = wiki.project_id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Project::Storage::StorageMethods",
+        "method": "with_required_storage"
+      },
+      "user_input": "wiki_storage_sql",
+      "confidence": "Medium",
+      "note": "static SQL string"
+    },
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 76,
+      "fingerprint": "062a691c8a6ad25d8015bebfcc329af2e3132ed88a646c5cc8ff797312de84a9",
+      "check_name": "RegexDoS",
+      "message": "Model attribute used in regular expression",
+      "file": "app/models/mail_handler.rb",
+      "line": 307,
+      "link": "https://brakemanscanner.org/docs/warning_types/denial_of_service/",
+      "code": "/^(#{\"#{attr.to_s.humanize}|#{all_attribute_translations(user.language)[attr]}|#{all_attribute_translations(Setting.default_language)[attr]}\"})[ \\t]*:[ \\t]*(#{\".+\"})\\s*$/i",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MailHandler",
+        "method": "extract_keyword!"
+      },
+      "user_input": "Setting.default_language",
+      "confidence": "Weak",
+      "note": "Settings provided user-input, ignoring DOS aspect"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "0a7846a219566627938cc3c69924f53dbbcc6973e21081aef5572ffbcedd77d3",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/project/activity.rb",
+      "line": 57,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Project.select(\"projects.*\").select(\"activity.latest_activity_at\").joins(\"LEFT JOIN (#{latest_activity_sql}) activity ON projects.id = activity.project_id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Project::Activity::Scopes",
+        "method": "with_latest_activity"
+      },
+      "user_input": "latest_activity_sql",
+      "confidence": "Medium",
+      "note": "static SQL string"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "17b434f459d32ad7cb67e8623cb0bb8a220368cfded118582167787985739fcd",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/custom_styles_controller.rb",
+      "line": 129,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(CustomStyle.current.send(path_method))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CustomStylesController",
+        "method": "file_download"
+      },
+      "user_input": "CustomStyle.current.send(path_method)",
+      "confidence": "Medium",
+      "note": "False positive (confirmed by oliverguenther): No user input in access to file name"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "1c92e9a787695c1f3012dd1309fa7c034e1c47aaa6a7704dbda2f108421d85cf",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/open_project/nested_set/rebuild_patch.rb",
+      "line": 164,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"#{quoted_parent_column_name} IS NULL\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OpenProject::NestedSet::RebuildPatch::ClassMethods",
+        "method": "rebuild_silently!"
+      },
+      "user_input": "quoted_parent_column_name",
+      "confidence": "Medium",
+      "note": "Never called with user input"
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "3d0ae98ed047bde3475cd8a4afa84dbc2de8845bef18ca9abf5e25c8673057a9",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `const_get` called with model attribute",
+      "file": "app/controllers/attribute_help_texts_controller.rb",
+      "line": 112,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "AttributeHelpText.const_get(AttributeHelpText.available_types.find do\n (mod == params.fetch(:name, \"WorkPackage\"))\n end)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttributeHelpTextsController",
+        "method": "find_type_scope"
+      },
+      "user_input": "AttributeHelpText.available_types.find",
+      "confidence": "Medium",
+      "note": "const_get is only used from whitelisted set of types"
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "832b63f1ec3fc61eb6af8dde0f593224153cb02f9c0a05e7f2b72525ef35d832",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/settings/plugin.html.erb",
+      "line": 32,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(partial => Redmine::Plugin.find(params[:id]).settings[:partial], { :locals => ({ :settings => Setting[\"plugin_#{Redmine::Plugin.find(params[:id]).id}\"] }) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "SettingsController",
+          "method": "plugin",
+          "line": 71,
+          "file": "app/controllers/settings_controller.rb",
+          "rendered": {
+            "name": "settings/plugin",
+            "file": "app/views/settings/plugin.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "settings/plugin"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": "partial variable is from static plugin definition"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "93744fda90965d5e7e3bddb92e755986a62d2b92fc3a8f646cb753a76e52051a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/journal/aggregated_journal.rb",
+      "line": 47,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Journal::AggregatedJournal.query_aggregated_journals(:journable => pure_journal.journable).where(\"#{version_projection} >= ?\", pure_journal.version)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Journal::AggregatedJournal",
+        "method": "for_journal"
+      },
+      "user_input": "version_projection",
+      "confidence": "Weak",
+      "note": "version_projection is static"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "9482cd863a566bce3c2fb623ba0fcb66c6850f2a2b1b9d3e0c25875a99376d1a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/application_record.rb",
+      "line": 25,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.select_all(\"      SELECT MAX(union_query.max_updated_at)\\n      FROM (#{record_classes.map do\n column_name = (clz.timestamp_attributes_for_update_in_model.first or \"updated_at\")\n\"(SELECT MAX(#{(clz.timestamp_attributes_for_update_in_model.first or \"updated_at\")}) AS max_updated_at FROM #{clz.table_name})\"\n end.join(\" UNION \")})\\n      AS union_query\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationRecord",
+        "method": "ApplicationRecord.most_recently_changed"
+      },
+      "user_input": "record_classes.map do\n column_name = (clz.timestamp_attributes_for_update_in_model.first or \"updated_at\")\n\"(SELECT MAX(#{(clz.timestamp_attributes_for_update_in_model.first or \"updated_at\")}) AS max_updated_at FROM #{clz.table_name})\"\n end.join(\" UNION \")",
+      "confidence": "Medium",
+      "note": "Fixed internal references to columns and tables"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "9a92548d9b0e0531f76138ad8db70e6d9c4375f7dcd3d7173cc3cd37cb50911d",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/journal/aggregated_journal.rb",
+      "line": 383,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "self.class.query_aggregated_journals(:journable => journable).where(\"#{self.class.version_projection} > ?\", version)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Journal::AggregatedJournal",
+        "method": "successor"
+      },
+      "user_input": "self.class.version_projection",
+      "confidence": "Weak",
+      "note": "version_projection is static"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "a3c07dcfb1cc7221e7c2e2faacc431e982161342f91962c468296b6eae966345",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/open_project/scm/adapters/subversion.rb",
+      "line": 228,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "popen3([\"blame\", \"#{target(path)}@#{(identifier.to_i or \"HEAD\")}\"])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OpenProject::SCM::Adapters::Subversion",
+        "method": "annotate"
+      },
+      "user_input": "target(path)",
+      "confidence": "Medium",
+      "note": "open3 does not spawn a shell with array-args, each input is escaped individually"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "b522e98782d4808b1ee7c9349197e49d916c136f8817bf5311ce6a83818568f8",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work_package.rb",
+      "line": 529,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.select_all(\"select    s.id as status_id,\\n        s.is_closed as closed,\\n        i.project_id as project_id,\\n        count(i.id) as total\\n      from\\n        #{WorkPackage.table_name} i, #{Status.table_name} s\\n      where\\n        i.status_id=s.id\\n        and i.project_id IN (#{project.descendants.active.map(&:id).join(\",\")})\\n      group by s.id, s.is_closed, i.project_id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "WorkPackage",
+        "method": "WorkPackage.by_subproject"
+      },
+      "user_input": "project.descendants.active.map(&:id).join(\",\")",
+      "confidence": "Medium",
+      "note": "no user input"
+    },
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 76,
+      "fingerprint": "c1448e5550005717fd0491975352fdc389aaf9987f7cfd32cdad1460f5a6a86c",
+      "check_name": "RegexDoS",
+      "message": "Model attribute used in regular expression",
+      "file": "app/models/changeset.rb",
+      "line": 138,
+      "link": "https://brakemanscanner.org/docs/warning_types/denial_of_service/",
+      "code": "/([\\s\\(\\[,-]|^)((#{(Setting.commit_ref_keywords.downcase.split(\",\").map(&:strip) + Setting.commit_fix_keywords.downcase.split(\",\").map(&:strip)).map do\n Regexp.escape(kw)\n end.join(\"|\")})[\\s:]+)?(#\\d+(\\s+@#{/\n    (\n    ((\\d+)(h|hours?))((\\d+)(m|min)?)?\n    |\n    ((\\d+)(h|hours?|m|min))\n    |\n    (\\d+):(\\d+)\n    |\n    (\\d+([\\.,]\\d+)?)h?\n    )\n    /x})?([\\s,;&]+#\\d+(\\s+@#{/\n    (\n    ((\\d+)(h|hours?))((\\d+)(m|min)?)?\n    |\n    ((\\d+)(h|hours?|m|min))\n    |\n    (\\d+):(\\d+)\n    |\n    (\\d+([\\.,]\\d+)?)h?\n    )\n    /x})?)*)(?=[[:punct:]]|\\s|<|$)/i",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Changeset",
+        "method": "scan_comment_for_work_package_ids"
+      },
+      "user_input": "Setting.commit_fix_keywords.downcase",
+      "confidence": "Weak",
+      "note": "Settings provided user-input, ignoring DOS aspect"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "c32ddd1c0df52a694ffe3d11b879524af6b93d5f8b98785e7d346d62e58455ac",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/open_project/nested_set/rebuild_patch.rb",
+      "line": 139,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where([\"#{quoted_parent_column_name} = ? #{(lambda do\n \n end or lambda do\n scope_column_names.inject(\"\") do\n (str << \"AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} \")\n end\n end).call(node)}\", node])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OpenProject::NestedSet::RebuildPatch::ClassMethods",
+        "method": "rebuild_silently!"
+      },
+      "user_input": "quoted_parent_column_name",
+      "confidence": "Medium",
+      "note": "Never called with user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "cd1b3c94dc92e20efe2c696ee1c086a4da2491b5d839a44617f828359fcd42f2",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work_package.rb",
+      "line": 625,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"id IN (SELECT common_id FROM (#{[Relation.hierarchy.where(:from_id => Relation.where(:to => work_packages).hierarchy_or_follows.select(:from_id)).select(\"to_id common_id\"), Relation.where(:to => work_packages).hierarchy_or_follows.select(\"from_id common_id\")].map(&:to_sql).join(\" UNION \")}) following_relations)\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "WorkPackage",
+        "method": "WorkPackage.hierarchy_tree_following"
+      },
+      "user_input": "Relation.where(:to => work_packages).hierarchy_or_follows",
+      "confidence": "High",
+      "note": "static SQL"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d03d7e36092caec9c4d2782d06af3c842ffe37b96fcc605b0279b02066a90e98",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/open_project/nested_set/rebuild_patch.rb",
+      "line": 55,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "joins((\"LEFT OUTER JOIN #{quoted_table_name} AS parent ON \" + \"#{quoted_table_name}.#{quoted_parent_column_name} = parent.#{primary_key}\")).where(((((((\"#{quoted_table_name}.#{quoted_left_column_name} IS NULL OR \" + \"#{quoted_table_name}.#{quoted_right_column_name} IS NULL OR \") + \"#{quoted_table_name}.#{quoted_left_column_name} >= \") + \"#{quoted_table_name}.#{quoted_right_column_name} OR \") + \"(#{quoted_table_name}.#{quoted_parent_column_name} IS NOT NULL AND \") + \"(#{quoted_table_name}.#{quoted_left_column_name} <= parent.#{quoted_left_column_name} OR \") + \"#{quoted_table_name}.#{quoted_right_column_name} >= parent.#{quoted_right_column_name}))\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OpenProject::NestedSet::RebuildPatch",
+        "method": "s(:self).included"
+      },
+      "user_input": "quoted_right_column_name",
+      "confidence": "Weak",
+      "note": "Never called with user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "e497644b0cc6aee100769edd7ea17ef770f3bbe763aa7b212f09f26390b72494",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/projects_controller.rb",
+      "line": 120,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "WorkPackage.visible.group(:type).includes(:project, :status, :type).where([\"(#{Project.find(params[:project_id]).project_condition(Setting.display_subprojects_work_packages?)}) AND #{Status.table_name}.is_closed=?\", false])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProjectsController",
+        "method": "show"
+      },
+      "user_input": "Project.find(params[:project_id]).project_condition(Setting.display_subprojects_work_packages?)",
+      "confidence": "High",
+      "note": "Static SQL built from `project_condition`"
+    }
+  ],
+  "updated": "2019-06-28 07:49:05 +0200",
+  "brakeman_version": "4.5.1"
+}

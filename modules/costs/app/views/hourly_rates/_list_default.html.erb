@@ -1,0 +1,91 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<div class="user-rate-history-list">
+<div class="contextual">
+  <%= link_to t(:button_update), edit_hourly_rate_path(@user), :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+</div>
+<h3><%= User.human_attribute_name(:default_rates) %></h3>
+<% if @rates_default.blank? %>
+  <%= no_results_box %>
+<% else %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table rates">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.human_attribute_name(:valid_from) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= User.human_attribute_name(:current_rate) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="rates_body">
+        <% current_rate = @user.current_default_rate() %>
+        <%- @rates_default.each do |rate| -%>
+          <tr>
+            <td style="padding-right: 1em;"><%= rate.valid_from %></td>
+            <td class="currency"><%= number_to_currency(rate.rate) %></td>
+            <td><%= rate == current_rate ? icon_wrapper('icon-context icon-checkmark',I18n.t(:general_text_Yes)) : "" %></td>
+          </tr>
+        <%- end -%>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+<% end %>
+</div>

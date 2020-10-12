@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ca:
+  description_drill_down: "Mostra els detalls"
+  label_click_to_edit: "Feu clic per editar."
+  label_columns: "Columnes"
+  label_count: "Recompte"
+  label_filter: "Filtre"
+  label_filter_add: "Afegir filtre"
+  label_filter_plural: "Filtres"
+  label_greater: ">"
+  label_group_by: "Agrupa per"
+  label_group_by_add: "Afegir grup per atribut"
+  label_inactive: "«inactiu»"
+  label_less: "<"
+  label_no: "No"
+  label_none: "(no hi ha dades)"
+  label_progress_bar_explanation: "Generant informe..."
+  label_really_delete_question: "Esteu segur que voleu suprimir aquest informe?"
+  label_report: "Informe"
+  label_rows: "Files"
+  label_saving: "Desant ..."
+  label_sum: "Suma"
+  label_yes: "Sí"
+  load_query_question: "L'informe tindrà %{size} de cel·les i pot trigar algun temps per generar-se. Encara voleu intentar la generació?"
+  units: "Unitats"
+  validation_failure_date: "no és una data vàlida"
+  validation_failure_integer: "no és un enter vàlid"
+  reporting:
+    group_by:
+      selected_columns: "Columnes seleccionades"
+      selected_rows: "Files seleccionades"

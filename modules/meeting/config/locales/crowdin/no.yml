@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+"no":
+  activerecord:
+    attributes:
+      meeting:
+        location: "Sted"
+        duration: "Varighet"
+        participants: "Deltagere"
+        participants_attended: "Tilsluttete"
+        participants_invited: "Inviterte"
+        start_time: "Tidspunkt"
+        start_time_hour: "Starting time"
+    errors:
+      messages:
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
+    models:
+      meeting_agenda: "Saksliste"
+      meeting_minutes: "Referat"
+  description_attended: "deltok"
+  description_invite: "invitert"
+  events:
+    meeting: Møtet endret
+    meeting_agenda: Saksliste endret
+    meeting_agenda_closed: Saksliste ferdiggjort
+    meeting_agenda_opened: Saksliste opprettet
+    meeting_minutes: Møtereferater endret
+    meeting_minutes_created: Møtereferater opprettet
+  error_notification_with_errors: "Kan ikke sende påminning. Følgende mottakere kan ikke varsles: %{recipients}"
+  label_meeting: "Møte"
+  label_meeting_plural: "Møter"
+  label_meeting_new: "Nytt møte"
+  label_meeting_edit: "Redigere møte"
+  label_meeting_agenda: "Saksliste"
+  label_meeting_minutes: "Referat"
+  label_meeting_close: "Lukk"
+  label_meeting_open: "Åpne"
+  label_meeting_agenda_close: "Lukk sakslisten for å begynne referatet"
+  label_meeting_date_time: "Dato/klokkeslett"
+  label_meeting_diff: "Forskjell"
+  label_notify: "Send till gjennomgang"
+  label_icalendar: "Send iCalendar"
+  label_version: "Versjon"
+  label_time_zone: "Tidssone"
+  label_start_date: "Startdato"
+  notice_successful_notification: "Påminning sendt"
+  notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
+  permission_create_meetings: "Opprett møter"
+  permission_edit_meetings: "Rediger møter"
+  permission_delete_meetings: "Slett møter"
+  permission_view_meetings: "Vis møter"
+  permission_create_meeting_agendas: "Håndter sakslister"
+  permission_close_meeting_agendas: "Lukk sakslister"
+  permission_send_meeting_agendas_notification: "Send påminning om gjennomgang av sakslister"
+  permission_create_meeting_minutes: "Håndter referater"
+  permission_send_meeting_minutes_notification: "Send påminning om gjennomgang av referater"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "Møter"
+  text_duration_in_hours: "Duration in hours"
+  text_in_hours: "i timer"
+  text_meeting_agenda_for_meeting: 'saksliste for møtet "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'referat for møtet "%{meeting}"'
+  text_review_meeting_agenda: "%{author} har lagt opp %{link} for gjennomgang."
+  text_review_meeting_minutes: "%{author} har lagt opp %{link} for gjennomgang."
+  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"

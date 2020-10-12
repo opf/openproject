@@ -1,0 +1,96 @@
+<div *ngIf="workPackage && relatedWorkPackage"
+     class="relation-row relation-row-{{ relatedWorkPackage.id }}"
+     focus-within="'.wp-relations-controls-section accessible-by-keyboard'">
+  <div class="grid-block hierarchy-item">
+
+    <div class="grid-content medium-2 collapse">
+            <span class="relation-row--type"
+                  (accessibleClick)="activateRelationTypeEdit()"
+                  tabindex="0"
+                  *ngIf="!userInputs.showRelationTypesForm">
+
+
+              <span *ngIf="groupByWorkPackageType"
+                    [textContent]="normalizedRelationType"></span>
+              <span *ngIf="!groupByWorkPackageType"
+                    [textContent]="relatedWorkPackage.type.name"></span>
+              <span class="hidden-for-sighted" [textContent]="text.updateRelation"></span>
+            </span>
+      <div class="inline-edit--container inplace-edit"
+           *ngIf="userInputs.showRelationTypesForm">
+        <select class="inline-edit--field form--select"
+                [(ngModel)]="selectedRelationType"
+                (change)="saveRelationType()"
+                role="listbox"
+                focus
+                (keydown.escape)="cancelRelationTypeEditOnEscape($event)">
+          <option *ngFor="let relationType of availableRelationTypes"
+                  [textContent]="relationType.label"
+                  [ngValue]="relationType"></option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid-content medium-5 collapse"
+         *ngIf="relatedWorkPackage">
+      <a uiSref="work-packages.show.relations"
+         [uiParams]="{ workPackageId: relatedWorkPackage.id }"
+         class="wp-relations--subject-field"
+         [textContent]="relatedWorkPackage.subjectWithId()"
+         [attr.aria-label]="normalizedRelationType + ' ' + relatedWorkPackage.subjectWithId()">
+      </a>
+    </div>
+
+    <div class="grid-content medium-3 collapse wp-relations-status-field">
+      <edit-form *ngIf="relatedWorkPackage" [resource]="relatedWorkPackage">
+        <editable-attribute-field [resource]="relatedWorkPackage" fieldName="status"></editable-attribute-field>
+      </edit-form>
+    </div>
+
+    <div class="grid-content medium-2 collapse wp-relations-controls-section"
+         ng-class="{'-expanded': userInputs.showRelationInfo }">
+      <accessible-by-keyboard [linkAriaLabel]="text.description_label"
+                              [linkTitle]="text.description_label"
+                              linkClass="wp-relations--description-btn"
+                              [ngClass]="{'-visible': showDescriptionInfo }"
+                              (execute)="userInputs.showRelationInfo = !userInputs.showRelationInfo">
+        <op-icon icon-classes="icon-info1 -padded wp-relations--icon wp-relations--description-icon"
+                 icon-title="text.toggleDescription"></op-icon>
+      </accessible-by-keyboard>
+      <accessible-by-keyboard *ngIf="relation.delete"
+                              (execute)="removeRelation(relation)"
+                              aria-hidden="false"
+                              [linkAriaLabel]="text.removeButton"
+                              [linkTitle]="text.removeButton"
+                              linkClass="relation-row--remove-btn">
+        <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
+      </accessible-by-keyboard>
+    </div>
+  </div>
+
+  <div class="grid-block hierarchy-item description-container"
+       *ngIf="userInputs.showRelationInfo">
+    <div class="wp-relation--description-read-value"
+         [ngClass]="{'-placeholder': !relation.description }"
+         (accessibleClick)="startDescriptionEdit()"
+         *ngIf="!userInputs.showDescriptionEditForm"
+         [textContent]="relation.description || text.placeholder.description">
+    </div>
+    <div class="wp-relation--description-wrapper textarea-wrapper"
+         *ngIf="userInputs.showDescriptionEditForm">
+          <textarea
+              #relationDescriptionTextarea
+              autofocus
+              class="wp-relation--description-textarea"
+              name="description"
+              (keyup)="handleDescriptionKey($event)"
+              [(ngModel)]="userInputs.newRelationText"></textarea>
+      <edit-field-controls [fieldController]="fieldController"
+                           (onSave)="saveDescription()"
+                           (onCancel)="cancelDescriptionEdit()"
+                           [saveTitle]="text.save"
+                           [cancelTitle]="text.cancel">
+      </edit-field-controls>
+    </div>
+  </div>
+</div>

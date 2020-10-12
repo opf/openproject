@@ -1,0 +1,15 @@
+#English strings go here
+id:
+  js:
+    label_preview: 'Preview'
+    button_update: 'Update'
+    avatars:
+      label_choose_avatar: "Pilih avatar dari file"
+      uploading_avatar: "Uploading your avatar."
+      text_upload_instructions: |
+        Unggah avatar khusus Anda sendiri sebesar 128 x 128 pixel. File yang lebih besar akan diubah ukurannya dan dipotong agar sesuai.
+        Pratinjau avatar Anda akan ditampilkan sebelum mengunggah, setelah Anda memilih gambar
+      error_image_too_large: "Image is too large."
+      wrong_file_format: "Format yang diperbolehkan adalah jpg, png, gif"
+      empty_file_error: "Unggah gambar yang valid (jpg, png, gif)"
+

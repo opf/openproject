@@ -1,0 +1,542 @@
+# Group Users
+
+## Actions
+| Link                | Description                                                          | Condition                                                        |
+|:-------------------:| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator                        |
+| show                | Link to the OpenProject user page (HTML)                             |                                                                  |
+| unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator                            |
+| updateImmediately   | Updates the user's attributes.                                       | **Permission**: Administrator                                    |
+| delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete                       |
+
+## Linked Properties
+|  Link       | Description                                                                                                                                                          | Type              | Constraints           | Supported operations | Condition                                                     |
+|:-----------:|--------------------------------------------------------------                                                                                                        | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
+| self        | This user                                                                                                                                                            | User              | not null              | READ                 |                                                               |
+| auth_source | Link to the user's auth source (endpoint not yet implemented)                                                                                                        | AuthSource        |                       | READ / WRITE         | **Permission**: Administrator                                 |
+| members     | Link ot collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
+
+## Local Properties
+| Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                           |
+| :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                         |
+| id           | User's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                     |
+| login        | User's login name                                         | String   | unique, 256 max length                               | READ / WRITE         | **Permission**: Administrator                                                       |
+| firstName    | User's first name                                         | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator                                                       |
+| lastName     | User's last name                                          | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator                                                       |
+| name         | User's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                     |
+| email        | User's email address                                     | String   | unique, 60 max length                                | READ / WRITE         | E-Mail address not hidden, **Permission**: Administrator                            |
+| admin        | Flag indicating whether or not the user is an admin       | Boolean  | in: [true, false]                                    | READ / WRITE         | **Permission**: Administrator                                                       |
+| avatar       | URL to user's avatar                                      | Url      |                                                      | READ                 |                                                                                     |
+| status       | The current activation status of the user (see below)     | String   | in: ["active", "registered", "locked", "invited"]    | READ                 |                                                                                     |
+| language     | User's language                                           | String   | ISO 639-1                                            | READ / WRITE         | **Permission**: Administrator                                                       |
+| password     | User's password for the default password authentication   | String   |                                                      | WRITE                | **Permission**: Administrator                                                       |
+| identity_url | User's identity_url for OmniAuth authentication           | String   |                                                      | READ / WRITE         | **Permission**: Administrator                                                       |
+| createdAt    | Time of creation                                          | DateTime |                                                      | READ                 |                                                                                     |
+| updatedAt    | Time of the most recent change to the user                | DateTime |                                                      | READ                 |                                                                                     |
+
+The `status` of a user can be one of:
+
+* `active` - the user can log in with the account right aways
+* `invited` - the user is invited and is pending registration
+
+If the user's `status` is set to `active` during creation a means of authentication
+has to be provided which is one of the following:
+
+* `password` - The password with which the user logs in.
+* `auth_source` - Link to an LDAP auth source.
+* `identity_url` - The identity URL of an OmniAuth authentication provider.
+
+If all of these are missing the creation will fail with an "missing password" error.
+
+The `language` is limited to those activated in the system.
+
+Due to data privacy, the user's properties are limited to reveal as little about the user as possible.
+Thus `login`, `firstName`, `lastName`, `language`, `createdAt` and `updatedAt` are hidden for all
+users except for admins or the user themselves.
+
+Please note that custom fields are not yet supported by the api although the backend supports them.
+
+## User [/api/v3/users/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "User",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/users/1",
+                        "title": "j.sheppard"
+                    },
+                    "show": {
+                        "href": "/users/1",
+                        "type": 'text/html'
+                    },
+                    "lock": {
+                        "href": "/api/v3/users/1/lock",
+                        "method": "POST"
+                    },
+                    "updateImmediately": {
+                        "href": "/api/v3/users/1",
+                        "method": "PATCH"
+                    },
+                    "delete": {
+                        "href": "/api/v3/users/1",
+                        "method": "DELETE"
+                    },
+                },
+                "id": 1,
+                "login": "j.sheppard",
+                "firstName": "John",
+                "lastName": "Sheppard",
+                "email": "shep@mail.com",
+                "admin": true,
+                "avatar": "https://example.org/users/1/avatar",
+                "status": "active",
+                "language": "en",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
+            }
+
+## View user [GET]
+
++ Parameters
+    + id (required, integer or `me`, `1`) ... User id. Use `me` to reference current user, if any.
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist or if the API user does not have permission to view them.
+
+    **Required permission** The user needs to be locked in if the installation is configured to prevent anonymous access
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist or you do not have permission to view them."
+            }
+
+## Update user [PATCH]
+
+Updates the user's writable attributes.
+When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Request Update User (application/json)
+
+    + Body
+
+            {
+                "login": "h.wurst",
+                "email": "h.wurst@openproject.com",
+                "firstName": "Hans",
+                "lastName": "Wurst",
+                "admin": true,
+                "language": "en"
+            }
+
++ Response 200
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to update the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist or if the API user does not have the necessary permissions to update it.
+
+    **Required permission:** Administrators only (exception: users may update their own accounts)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist or you do not have permission to view them."
+            }
+
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "The email address is already taken.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "email"
+                    }
+                }
+            }
+
+## Delete user [DELETE]
+
+Permanently deletes the specified user account.
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 202
+
+    Returned if the account was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned, indicating the progress of deletion.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions or if deletion of users was disabled in the instance wide settings.
+
+    **Required permission:** Administrators only (exception: users might be able to delete their own accounts)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+
+## User Account Locking [/api/v3/users/{id}/lock]
+
+## Set Lock [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to lock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for locking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to lock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Remove Lock [DELETE]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client tries to unlock a user account whose current status does not allow this transition.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidUserStatusTransition",
+                "message": "The current user account status does not allow this operation."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions for unlocking a user.
+
+    **Required permission:** Administrators only
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to unlock the account of this user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Users [/api/v3/users{?offset,pageSize,filters,sortBy}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/users" }
+                },
+                "total": 2,
+                "count": 1,
+                "_type": "Collection",
+                "_embedded": {
+                    "elements": [
+                        {
+                            "_type": "User",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "John Sheppard - j.sheppard"
+                                },
+                                "showUser": {
+                                    "href": "/users/1",
+                                    "type": 'text/html'
+                                },
+                                "lock": {
+                                    "href": "/api/v3/users/1/lock",
+                                    "title": "Set lock on j.sheppard"
+                                    "method": "POST"
+                                },
+                                "update": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "Update j.sheppard"
+                                    "method": "PATCH"
+                                },
+                                "delete": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "Delete j.sheppard"
+                                    "method": "DELETE"
+                                }
+                            },
+                            "id": 1,
+                            "login": "j.sheppard",
+                            "firstName": "John",
+                            "lastName": "Sheppard",
+                            "email": "shep@mail.com",
+                            "admin": true,
+                            "avatar": "https://example.org/users/1/avatar",
+                            "status": "active",
+                            "language": "en",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List Users [GET]
+
+Lists users. Only administrators have permission to do this.
+
++ Parameters
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filters (optional, string, `[{ "status": { "operator": "=", "values": ["invited"] } }, { "group": { "operator": "=", "values": ["1"] } }, { "name": { "operator": "=", "values": ["h.wurst@openproject.com"] } }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+      + status: Status the user has
+      + group: Name of the group in which to-be-listed users are members.
+      + name: Filter users in whose first or last names, or email addresses the given string occurs.
+      + login: User's login
+
+    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
++ Response 200 (application/hal+json)
+
+    [Users][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends an unknown sort column.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": "Unknown sort column."
+            }
+
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrator
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to list users."
+            }
+
+## Create User [POST]
+
+Creates a new user. Only administrators have permission to do so.
+When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+
+Valid values for `status`:
+
+1) "active" - In this case a password has to be provided in addition to the other attributes.
+2) "invited" - In this case nothing but the email address is required. The rest is optional. An invitation will be sent to the user.
+
++ Request Create User (application/json)
+
+    + Body
+
+            {
+                "login": "h.wurst",
+                "email": "h.wurst@openproject.com",
+                "firstName": "Hans",
+                "lastName": "Wurst",
+                "admin": false,
+                "language": "de",
+                "status": "active",
+                "password": "hunter5"
+            }
+
++ Request Invite User (application/json)
+
+    + Body
+
+            {
+                "email": "h.wurst@openproject.com",
+                "firstName": "Hanz",
+                "status": "invited"
+            }
+
++ Response 201
+
+    [User][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrator
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to create new users."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "The email address is already taken.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "email"
+                    }
+                }
+            }

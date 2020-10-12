@@ -1,0 +1,54 @@
+ja:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        auth_source: 'LDAP 接続'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP filter'
+        auth_source: 'LDAP 接続'
+        group_name_attribute: "Group name attribute"
+    models:
+      ldap_groups/synchronized_group: '同期済 LDAP グループ'
+      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+  ldap_groups:
+    label_menu_item: 'LDAP グループの同期'
+    label_group_key: 'LDAP グループ フィルターキー'
+    label_synchronize: 'Synchronize'
+    settings:
+      name_attribute: 'LDAP groups name attribute'
+      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+    synchronized_filters:
+      add_new: 'Add synchronized LDAP filter'
+      singular: 'LDAP Group synchronization filter'
+      plural: 'LDAP Group synchronization filters'
+      destroy:
+        title: 'Remove synchronized filter %{name}'
+        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
+        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
+        verification: "Enter the filter name %{name} to verify the deletion."
+      form:
+        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
+        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+    synchronized_groups:
+      add_new: '同期済 LDAP グループを追加'
+      destroy:
+        title: '同期済グループ %{name} を削除'
+        confirmation: "続行すると、同期済グループ %{name} と、それを通じて同期された %{users_count} ユーザーがすべて削除されます。"
+        info: "注: OpenProject グループ自体と、この LDAP 同期外で追加されたメンバーは削除されません。"
+        verification: "削除を確認するため、グループの名前 %{name} を入力してください。"
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
+      no_results: '同期されたグループが見つかりません。'
+      no_members: 'このグループはまだ同期済のメンバーがありません。'
+      plural: '同期済 LDAP グループ'
+      singular: '同期済 LDAP グループ'
+      form:
+        auth_source_text: 'Select which LDAP connection should be used.'
+        dn_text: 'Enter the full DN of the group in LDAP'
+        group_text: 'LDAP グループのメンバーを同期する既存の OpenProject グループを選択'
+

@@ -1,0 +1,108 @@
+# Widget Boxes
+
+```
+@full-width
+
+<form>
+  <section class="widget-boxes -flex">
+
+    <!-- Widget box with arrows: Single-line -->
+    <div class="widget-box">
+      <h3 class="widget-box--header">
+        <div class="widget-box--header-title title-container">
+          <h2 class="editable-toolbar-title--fixed">Widget Box</h2>
+        </div>
+      </h3>
+      <p class="widget-box--additional-info">This widget box can be used to display content belonging to one subject.</p>
+      <ul class="widget-box--arrow-links">
+        <li>
+          <a>Go to Link 1</a>
+        </li>
+        <li>
+          <a>Go to link 2</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Widget box with arrows: Multiline -->
+    <div class="widget-box">
+      <h3 class="widget-box--header">
+        <div class="widget-box--header-title title-container">
+          <h2 class="editable-toolbar-title--fixed">Widget Box 2</h2>
+        </div>
+      </h3>
+      <ul class="widget-box--arrow-links">
+        <li class="-widget-box--arrow-multiline">
+          <div>
+            <img class="avatar-mini" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/jamesslock/128.jpg" alt="Avatar">
+            <a href="">Demo project</a>:
+            <a href="">Important news</a>
+            <br>
+            <p class="widget-box--additional-info">Added by
+              <a title="User OpenProject Admin" href="">OpenProject Admin</a>
+              <time title="10/31/2018 09:15 AM" class="timestamp">3 months</time> ago
+            </p>
+          </div>
+        </li>
+        <li class="-widget-box--arrow-multiline">
+          <div>
+            <img class="avatar-mini" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg" alt="Avatar">
+            <a href="">Demo project</a>:
+            <a href="">Great news !!!</a>
+            <br>
+            <p class="widget-box--additional-info">Added by
+              <a title="User OpenProject Admin" href="">OpenProject Admin</a>
+              <time title="08/14/2018 11:04 AM" class="timestamp">5 months</time> ago
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Widget box with button -->
+    <div class="widget-box">
+      <h3 class="widget-box--header">
+        <div class="widget-box--header-title title-container">
+          <h2 class="editable-toolbar-title--fixed">Widget Box 3</h2>
+        </div>
+      </h3>
+      <div class="overview">
+        <p>
+          Lorem ipsum dolor sit amet, his ei propriae suscipit.
+          Sit in atqui accumsan ponderum, eum ut luptatum lobortis, has ei tota illud detraxit.
+        </p>
+      </div>
+      <div class="widget-box--buttons">
+        <a class="button -highlight" href="">
+          <i class="button--icon icon-edit"></i>
+          <span class="button--text">Edit</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Widget box with enumeration and multiple buttons -->
+    <div class="widget-box">
+      <h3 class="widget-box--header">
+        <div class="widget-box--header-title title-container">
+          <h2 class="editable-toolbar-title--fixed">Widget Box 4</h2>
+        </div>
+      </h3>
+      <ul class="widget-box--enumeration">
+        <li>Enum1</li>
+        <li>Enum2</li>
+        <li>Enum3</li>
+      </ul>
+      <div class="widget-box--buttons">
+        <a class="button -alt-highlight" title="Add" href="">
+            <i class="button--icon icon-add"></i>
+            <span class="button--text">Add</span>
+        </a>
+        <a class="button -highlight-inverted" title="View all" href="">
+            <span class="button--text">View all</span>
+        </a>
+      </div>
+    </div>
+
+  </section>
+</form>
+```

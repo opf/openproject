@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ro:
+  description_drill_down: "Afișare detalii"
+  label_click_to_edit: "Click pentru editare."
+  label_columns: "Coloane"
+  label_count: "Count"
+  label_filter: "Filtrare"
+  label_filter_add: "Add Filter"
+  label_filter_plural: "Filtre"
+  label_greater: ">"
+  label_group_by: "Grupare după"
+  label_group_by_add: "Add Group-by Attribute"
+  label_inactive: "«inactive»"
+  label_less: "<"
+  label_no: "Nu"
+  label_none: "(no data)"
+  label_progress_bar_explanation: "Raport în curs de generare..."
+  label_really_delete_question: "Sunteți sigur că doriți să ștergeți acest raport?"
+  label_report: "Raportare"
+  label_rows: "Rânduri"
+  label_saving: "Salvare în curs..."
+  label_sum: "Sumă"
+  label_yes: "Da"
+  load_query_question: "Raportul va avea %{size} de celule şi e posibil ca generarea să dureze un timp. Sunteți sigur că doriți generarea?"
+  units: "Unități"
+  validation_failure_date: "nu e o dată validă"
+  validation_failure_integer: "nu e un întreg valid"
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

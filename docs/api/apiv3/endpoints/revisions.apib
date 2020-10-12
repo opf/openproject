@@ -1,0 +1,82 @@
+# Group Revisions
+
+Revisions are sets of updates to files in the context of repositories linked in OpenProject.
+
+## Linked Properties
+|  Link            | Description                                                                                       | Type          | Constraints | Supported operations |
+|:----------------:| --------------------------------------------------------------------------------------------------| ------------- | ----------- | -------------------- |
+| self             | This revision                                                                                     | Revision      | not null    | READ                 |
+| project          | The project to which the revision belongs                                                         | Project       | not null    | READ                 |
+| author           | The user that added this revision, if the authorName was mapped to a user in OpenProject          | User          |             | READ                 |
+| showRevision     | A URL to the repository view (outside APIv3) showing this revision                                | -             | not null    | READ                 |
+
+
+## Local Properties
+| Property                | Description                                                                                                                                                 | Type        | Constraints | Supported operations |
+|:-----------------------:| ------------------------------------------------------------------------------------------------------------------------------------------------------------| ----------- | ----------- | -------------------- |
+| id                      | Revision's id, assigned by OpenProject                                                                                                                      | Integer     | x > 0       | READ                 |
+| identifier              | The raw SCM identifier of the revision (e.g. full SHA hash)                                                                                                 | String      | not null    | READ                 |
+| formattedIdentifier     | The SCM identifier of the revision, formatted (e.g. shortened unambiguous SHA hash). May be identical to identifier in many cases                           | String      | not null    | READ                 |
+| authorName              | The name of the author that committed this revision. Note that this name is retrieved from the repository and does not identify a user in OpenProject.      | String      | not null    | READ                 |
+| message                 | The commit message of the revision                                                                                                                          | Formattable | not null    | READ                 |
+| createdAt               | The time this revision was committed to the repository                                                                                                      | DateTime    | not null    | READ                 |
+
+## Revision [/api/v3/revisions/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Revision",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/revisions/1"
+                    },
+                    "project" {
+                        "href": "/api/v3/projects/1"
+                    },
+                    "author": {
+                        "href": "/api/v3/users/1"
+                    },
+                    "showRevision": {
+                        "href": "/projects/identifier/repository/revision/11f4b07"
+                    }
+                },
+                "id": 1,
+                "identifier": "11f4b07dff4f4ce9548a52b7d002daca7cd63ec6",
+                "formattedIdentifier": "11f4b07",
+                "authorName": "Some Developer",
+                "message": {
+                    "format": "plain",
+                    "raw": "This revision provides new features\n\nAn elaborate description",
+                    "html": "<p>This revision provides new features<br/><br/>An elaborate description</p>"
+                },
+                "createdAt": "2015-07-21T13:36:59Z"
+            }
+
+## View revision [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Revision id
+
++ Response 200 (application/hal+json)
+
+    [Revision][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the revision does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view changesets for the project the repository is created in.
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a revision.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified revision does not exist."
+            }

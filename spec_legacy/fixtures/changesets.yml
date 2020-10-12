@@ -1,0 +1,132 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+---
+changesets_001:
+  commit_date: 2007-04-11
+  committed_on: 2007-04-11 15:14:44 +02:00
+  revision: 1
+  id: 100
+  comments: My very first commit
+  repository_id: 10
+  committer: dlopper
+  user_id: 3
+changesets_002:
+  commit_date: 2007-04-12
+  committed_on: 2007-04-12 15:14:44 +02:00
+  revision: 2
+  id: 101
+  comments: 'This commit fixes #1, #2 and references #1 & #3'
+  repository_id: 10
+  committer: dlopper
+  user_id: 3
+changesets_003:
+  commit_date: 2007-04-12
+  committed_on: 2007-04-12 15:14:44 +02:00
+  revision: 3
+  id: 102
+  comments: |-
+    A commit with wrong issue ids
+    IssueID #666 #3
+  repository_id: 10
+  committer: dlopper
+  user_id: 3
+changesets_004:
+  commit_date: 2007-04-12
+  committed_on: 2007-04-12 15:14:44 +02:00
+  revision: 4
+  id: 103
+  comments: |-
+    A commit with an issue id of an other project
+    IssueID 4 2
+  repository_id: 10
+  committer: dlopper
+  user_id: 3
+changesets_005:
+  commit_date: "2007-09-10"
+  comments: Modified one file in the folder.
+  committed_on: 2007-09-10 19:01:08
+  revision: "5"
+  id: 104
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+changesets_006:
+  commit_date: "2007-09-10"
+  comments: Moved helloworld.rb from / to /folder.
+  committed_on: 2007-09-10 19:01:47
+  revision: "6"
+  id: 105
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+changesets_007:
+  commit_date: "2007-09-10"
+  comments: Removed one file.
+  committed_on: 2007-09-10 19:02:16
+  revision: "7"
+  id: 106
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+changesets_008:
+  commit_date: "2007-09-10"
+  comments: |-
+    This commits references an issue.
+    Refs #2
+  committed_on: 2007-09-10 19:04:35
+  revision: "8"
+  id: 107
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+changesets_009:
+  commit_date: "2009-09-10"
+  comments: One file added.
+  committed_on: 2009-09-10 19:04:35
+  revision: "9"
+  id: 108
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+changesets_010:
+  commit_date: "2009-09-10"
+  comments: Same file modified.
+  committed_on: 2009-09-10 19:04:35
+  revision: "10"
+  id: 109
+  scmid:
+  user_id: 3
+  repository_id: 10
+  committer: dlopper
+

@@ -1,0 +1,87 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+---
+en:
+  button_save_as: "Save report as..."
+
+  comments: "Comment"
+  cost_reports_title: "Time and costs"
+  label_cost_report: "Cost report"
+  label_cost_report_plural: "Cost reports"
+
+  description_drill_down: "Show details"
+  description_filter_selection: "Selection"
+  description_multi_select: "Show multiselect"
+  description_remove_filter: "Remove filter"
+
+  information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
+
+  label_click_to_edit: "Click to edit."
+  label_closed: "closed"
+  label_columns: "Columns"
+  label_cost_entry_attributes: "Cost entry attributes"
+  label_days_ago: "during the last days"
+  label_entry: "Cost entry"
+  label_filter_text: "Filter text"
+  label_filter_value: "Value"
+  label_filters: "Filter"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "is not (includes subprojects)"
+  label_is_project_with_subprojects: "is (includes subprojects)"
+  label_work_package_attributes: "Work package attributes"
+  label_less: "<"
+  label_money: "Cash value"
+  label_month_reporting: "Month (Spent)"
+  label_new_report: "New cost report"
+  label_open: "open"
+  label_operator: "Operator"
+  label_private_report_plural: "Private cost reports"
+  label_progress_bar_explanation: "Generating report..."
+  label_public_report_plural: "Public cost reports"
+  label_really_delete_question: "Are you sure you want to delete this report?"
+  label_rows: "Rows"
+  label_saving: "Saving ..."
+  label_spent_on_reporting: "Date (Spent)"
+  label_sum: "Sum"
+  label_units: "Units"
+  label_week_reporting: "Week (Spent)"
+  label_year_reporting: "Year (Spent)"
+  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
+
+  permission_save_cost_reports: "Save public cost reports"
+  permission_save_private_cost_reports: "Save private cost reports"
+  project_module_reporting_module: "Cost reports"
+
+  text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
+  toggle_multiselect: "activate/deactivate multiselect"
+
+  units: "Units"
+
+  validation_failure_date: "is not a valid date"
+  validation_failure_integer: "is not a valid integer"

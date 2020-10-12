@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for :status %>
+
+<section class="form--section">
+  <div class="form--field -required"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <% if WorkPackage.use_status_for_done_ratio? %>
+    <div class="form--field"><%= f.select :default_done_ratio,
+                    ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }),
+                    include_blank: true,
+                    label: WorkPackage.human_attribute_name(:done_ratio) %></div>
+  <% end %>
+  <div class="form--field"><%= f.check_box 'is_closed' %></div>
+  <% unless @status.is_default? %>
+    <div class="form--field"><%= f.check_box 'is_default' %></div>
+  <% end %>
+
+  <div class="form--field">
+    <% disabled = !EnterpriseToken.allows_to?(:readonly_work_packages)  %>
+    <%= f.check_box :is_readonly, disabled: disabled %>
+    <div class="form--field-instructions">
+      <p><%= t('statuses.edit.status_readonly_html') %></p>
+      <% if disabled %>
+        <p><%= render(partial: 'enterprise/locked_note') %></p>
+      <% end  %>
+    </div>
+  </div>
+
+  <%= render partial: '/colors/color_autocomplete_field',
+             locals: {
+               form: f,
+               object: @status,
+               type: 'status',
+               allow_bright_colors: true,
+               label: t('statuses.edit.status_color_text')
+            } %>
+
+  <%= call_hook(:view_statuses_form, status: @status) %>
+</section>

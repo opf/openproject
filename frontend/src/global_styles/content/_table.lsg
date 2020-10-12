@@ -1,0 +1,405 @@
+# Table component
+
+## style emulation from
+[WP tables](http://localhost:8080/assets/css/styleguide.html#with-work-packages)
+
+```
+<div class="generic-table--container">
+  <div class="generic-table--results-container" style="max-height: 340px;">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  First
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  Second
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Third
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fourth
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fifth
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</div>
+
+```
+
+## Text overflow / ellipse styles
+
+Use `-no-ellipse` class to a TD element to disable the text-overflow applied usually.
+
+```
+<div class="generic-table--container">
+  <div class="generic-table--results-container" style="max-height: 340px;">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  Content wraps in new lines
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                clipped
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Third
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fourth
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fifth
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="-no-ellipsis">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta lorem congue lacus euismod egestas. Mauris odio orci, semper sed molestie viverra, vestibulum et nisi.
+          </td>
+          <td>Nullam a sem et metus congue placerat. Text will overflow once max-width is exceeded</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+```
+
+
+## with footer
+
+```
+
+<div class="generic-table--container -with-footer">
+  <div class="generic-table--results-container" style="max-height: 340px;">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  First
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  Second
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Third
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fourth
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fifth
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum1
+            </div>
+          </td>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum2
+            </div>
+          </td>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum3
+            </div>
+          </td>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum4
+            </div>
+          </td>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum5
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+    
+    <div class="generic-table--footer-background"></div>
+  </div>
+</div>
+
+```
+
+
+## with buttons
+
+```
+<table class="generic-table">
+<thead>
+      <tr>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span class="sort asc">
+                Email
+              </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              Roles
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              Status
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--empty-header"></div>
+        </th>
+      </tr>
+    </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a href="#">member@example.net</a>
+      </td>
+      <td>Member</td>
+      <td>active</td>
+      <td class="buttons">
+        <a href="#" class="icon icon-edit" title="Edit"></a>
+        <a href="#" class="icon icon-delete" title="Remove"></a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#">verylongemail_example@example.com</a>
+      </td>
+      <td>Member</td>
+      <td>active</td>
+      <td class="buttons">
+        <a href="#" class="icon icon-edit" title="Edit"></a>
+        <a href="#" class="icon icon-delete" title="Remove"></a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#">member@example.net</a>
+      </td>
+      <td>Admin</td>
+      <td>active</td>
+      <td class="buttons">
+        <a href="#" class="icon icon-edit" title="Edit"></a>
+        <a href="#" class="icon icon-delete" title="Remove"></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+```
+
+
+## with no content
+
+```
+<div class="generic-table--container" style="height:150px">
+  <div class="generic-table--no-results-container">
+    <i class="icon-info1"></i>
+    <h2 class="generic-table--no-results-title">
+      Nothing to display
+    </h2>
+    <div class="generic-table--no-results-description">
+      <p>Either nothing have been created or everything is filtered out.</p>
+    </div>
+  </div>
+</div>
+```

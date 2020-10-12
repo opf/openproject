@@ -1,0 +1,434 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+# = OpenProject configuration file
+#
+# Each environment has it's own configuration options.  If you are only
+# running in production, only the production block needs to be configured.
+# Environment specific configuration options override the default ones.
+#
+# Note that this file needs to be a valid YAML file.
+#
+# Instead of using a configuration.yml file, you can configure OpenProject via
+# environment variables. See doc/CONFIGURATION.md for more information.
+#
+#
+# == Outgoing email settings (email_delivery setting)
+#
+# === Common configurations
+#
+# ==== Sendmail command
+#
+# production:
+#   email_delivery_method: :sendmail
+#
+# ==== Simple SMTP server at localhost
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_address: "localhost"
+#   smtp_port: 25
+#
+# ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_address: "example.com"
+#   smtp_port: 25
+#   smtp_authentication: :login
+#   smtp_domain: 'foo.com'
+#   smtp_user_name: 'myaccount'
+#   smtp_password: 'password'
+#
+# ==== SMTP server at example.com using PLAIN authentication
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_address: "example.com"
+#   smtp_port: 25
+#   smtp_authentication: :plain
+#   smtp_domain: 'example.com'
+#   smtp_user_name: 'myaccount'
+#   smtp_password: 'password'
+#
+# ==== SMTP server at using TLS (GMail)
+#
+# This requires some additional configuration. See the article at:
+# http://redmineblog.com/articles/setup-redmine-to-send-email-using-gmail/
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_enable_starttls_auto: true
+#   smtp_address: "smtp.gmail.com"
+#   smtp_port: 587
+#   smtp_domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+#   smtp_authentication: :plain
+#   smtp_user_name: "your_email@gmail.com"
+#   smtp_password: "your_password"
+#
+# ==== SMTP server at using SSL
+#
+# production:
+#   email_delivery_method: "smtp"
+#   smtp_enable_starttls_auto: false
+#   smtp_ssl: true
+#   smtp_address: "smtp.gmail.com"
+#   smtp_port: 587
+#   smtp_domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+#   smtp_authentication: :plain
+#   smtp_user_name: "your_email@gmail.com"
+#   smtp_password: "your_password"
+#
+# === More configuration options
+#
+# See following page:
+#
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+#
+# Disable default module:
+#
+# By default user may choose which modules can be disabled,
+# they should be listed as an array in yml format more information
+# regarding yml format you can find here:
+# http://symfony.com/doc/current/components/yaml/yaml_format.html
+#
+# disabled_modules:
+#   - module_name_1
+#   - module_name_2
+#
+# Hide menu items:
+#
+# By default user may choose which menu items can be disabled,
+# they should be listed as an array in yml format more information
+# regarding yml format you can find here:
+# http://symfony.com/doc/current/components/yaml/yaml_format.html
+#
+# production:
+#   hidden_menu_items:
+#     admin_menu:
+#       - roles
+#       - types
+#       - statuses
+#       - workflows
+#       - enumerations
+#       - settings
+#       - ldap_authentication
+#       - colors
+#       - export_card_configurations
+#       - plugins
+#       - info
+#
+# Also there is a posibility to specify which routes are forbidden,
+# they should be listed as an array in yml format more information
+# regarding yml format you can find here:
+# http://symfony.com/doc/current/components/yaml/yaml_format.html
+# You can also use wildcards (*) in your url
+#
+# production:
+#   blacklisted_routes:
+#     - 'admin/info'
+#     - 'admin/plugins'
+#     - 'export_card_configurations'
+#     - 'colors'
+#     - 'settings'
+#     - 'admin/enumerations'
+#     - 'workflows/*'
+#     - 'statuses'
+#     - 'types'
+#     - 'admin/roles'
+
+
+# default configuration options for all environments
+default:
+  log_level: info
+
+  # Outgoing emails configuration (see examples above)
+  email_delivery_method: :smtp
+  smtp_address: smtp.example.net
+  smtp_port: 25
+  smtp_domain: example.net
+  smtp_authentication: :login
+  smtp_user_name: "openproject@example.net"
+  smtp_password: "my_openproject_password"
+
+  # Prefix to the url-path. This path is then prepended to all
+  # the routes and is used to correclty identify the path to the assets.
+  # Defaults to having no prefix.
+  # Examples:
+  # For OpenProject to be reachable as
+  # https://example.org/open_project
+  # the setting has o be:
+  # rails_relative_url_root: "/open_project"
+  #
+  # rails_relative_url_root: ""
+
+  # whether to force ssl in production
+  rails_force_ssl: false
+
+  # Absolute path to the directory where attachments are stored.
+  # The default is the 'files' directory in your OpenProject instance.
+  # Your OpenProject instance needs to have write permission on this
+  # directory.
+  # Examples:
+  # attachments_storage_path: /var/openproject/files
+  # attachments_storage_path:
+
+  # Grace period until uploaded but unassigned (i.e. to a container like work packages,
+  # wiki pages) attachments are deleted (in minutes)
+  # attachment_grace_period: 180
+
+  # Configuration of the autologin cookie.
+  # autologin_cookie_name: the name of the cookie (default: autologin)
+  # autologin_cookie_path: the cookie path (default: /)
+  # autologin_cookie_secure: true sets the cookie secure flag (default: false)
+  # autologin_cookie_name:
+  # autologin_cookie_path:
+  # autologin_cookie_secure:
+
+  # Configuration of the session cookie
+  # session_cookie_name: the name of the OpenProject cookie (default: _open_project_session)
+
+  # disable browser cache for security reasons
+  # see: https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
+  # disable_browser_cache: true
+
+  # use memcache for performance, memcached must be installed
+  # rails_cache_store: :memcache
+
+  # defines where session data is stored
+  # possible values are :cookie_store, :cache_store, :active_record_store
+  session_store: :cache_store
+
+  # Default comment sorting for new users
+  # Note, does not change saved preferences of existing users
+  # default_comment_sort_order: 'asc'
+
+  # If the session store is :active_record_store, the following configuration settings
+  # are available
+
+  # Delete old sessions for the same user when logging in
+  # Disabled by default to allow multiple concurrent sessions.
+  # drop_old_sessions_on_login: false
+
+  # Delete old sessions for the same user when logging out. (Enabled by default)
+  # drop_old_sessions_on_logout: true
+
+  # define your airbrake api key. optionally provide a different host and port
+  # to connect to a different backend (e.g. a self-hosted errbit)
+  # airbrake:
+  #   api_key: <your_api_key>
+  #   host: errbit.example.org
+  #   port: 443 (default)
+
+
+  ##
+  # Overriding the appearance of the help menu
+  #
+  # You can set a custom help link to appear in stead of the built-in help dropdown.
+  # Users clicking on the help icon will be referred to the given page.
+  # To enable, uncomment this line and set your URL.
+  # force_help_link: https://my-custom-domain.example/my-help-url
+
+  ##
+  # Overriding the text formatting help link
+  # In each WYSIWYG editor, there is a help button that by default shows OpenProject's
+  # own formatting text help. You can override that to show a custom page.
+  # force_formatting_help_link: https://my-custom-domain/my-formatting-help-url
+
+  ##
+  # Overriding the existence of community back links
+  # By default, the homescreen will have some links towards our community pages
+  # To disable it, uncomment this line
+  # show_community_links: false
+
+  # Configuration of Source control vendors
+  # client_command:
+  #   Use this command to the default SCM vendor command (taken from path).
+  #   Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
+  #   On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+  # manages:
+  #   Enable managed repositories for this vendor.
+  #   You may either specify a local path on the filesystem or an absolute URL to call when
+  #   repositories are to be created or deleted.
+  #   This allows OpenProject to take control over the given path to create and delete repositories
+  #   directly when created in the frontend.
+  #
+  #   When entering a URL, OpenProject will POST to this resource when repositories are created
+  #   using the following JSON-encoded payload:
+  #     - action: The action to perform (create, delete, relocate)
+  #     - identifier: The repository identifier name
+  #     - vendor: The SCM vendor of the repository to create
+  #     - project: identifier, name and ID of the associated project
+  #     - old_identifier: The identifier to the old repository (used only during relocate)
+  #
+  #   NOTE: Disabling :managed repositories using disabled_types takes precedence over this setting.
+  #
+  # insecure:
+  #   Only applies when the manages: key is set to a URL
+  #   If the given URL uses SSL, certificate checking will be disabled.
+  #   This key is set for a packaged installation by default, since it communicates locally and
+  #   these installations may often include a snakeoil certificate.
+  # mode:
+  #   The octal file mode to set the repository folder to (defaults to 0700).
+  # group:
+  #   The group that should own the repository folder.
+  #   Important: The user running OpenProject must be a member of this group in order to have the
+  #   privilege to set the group ownership.
+  #   Note: The owner is always the user that runs OpenProject!
+  #
+  # disabled_types:
+  #   Disable specific repository types for this particular vendor. This allows
+  #   to restrict the available choices a project administrator has for creating repositories
+  #   May be set as a YAML list of types or several types, separated by comma.
+  #    See the example below for available types.
+  #
+  #   Available types for git:
+  #     - :local (Local repositories, registered using a local path)
+  #     - :managed (Managed repositores, available IF :manages path is set below)
+  #   Available types for subversion:
+  #     - :existing (Existing subversion repositories by URL - local using file:/// or remote
+  #                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
+  #     - :managed (Managed repositores, available IF :manages path is set below)
+  #
+  # Exemplary configuration
+  #
+  # scm:
+  #   git:
+  #     client_command: /usr/local/bin/git
+  #     disabled_types:
+  #       - :local
+  #     manages: /opt/repositories/git
+  #   subversion:
+  #     client_command: /usr/local/bin/svn
+  #     trustedssl: true
+  #     disabled_types:
+  #       - :existing
+  #     manages: /opt/repositories/svn
+
+  # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
+  # If you don't want to enable data encryption, just leave it blank.
+  # WARNING: losing/changing this key will make encrypted data unreadable.
+  #
+  # If you want to encrypt existing passwords in your database:
+  # * set the cipher key here in your configuration file
+  # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
+  #
+  # If you have encrypted data and want to change this key, you have to:
+  # * decrypt data using 'rake db:decrypt RAILS_ENV=production' first
+  # * change the cipher key here in your configuration file
+  # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
+  # database_cipher_key:
+  #
+  # Omniauth direct login:
+  #
+  # Per default the user may choose the usual password login as well as several omniauth providers
+  # on the login page and in the login drop down menu.
+  #
+  # With his configuration option you can set a specific omniauth provider to be
+  # used for direct login. Meaning that the login provider selection is skipped and
+  # the configured provider is used directly instead.
+  #
+  # If this option is active /login will lead directly to the configured omniauth provider
+  # and so will a click on 'Sign in' (as opposed to opening the drop down menu).
+  #
+  # Note that this does not stop a user from manually navigating to any other
+  # omniauth provider if additional ones are configured.
+  # omniauth_direct_login_provider: developer
+  #
+  # disable_password_login: true
+
+  # If enabled a user's password cannot be set to an arbitrary value.
+  # The respective form elements will be removed from the user edit view.
+  # Instead, if the password needs to be changed, a random, temporary password can be
+  # generated and sent to the user who then has to change their password upon login.
+  disable_password_choice: false
+
+  # You can configure a global set of credentials to authenticate towards
+  # API v3 via basic auth. Note that this will grant admin access. Use with care
+  # and make sure the password does not leak.
+  # authentication:
+  #   global_basic_auth:
+  #     user: admin
+  #     password: admin
+
+  # Overriding LDAP TLS configuration
+  # You can set other TLS options for the LDAP auth source connection
+  # They are passed as the `tls_options` to the Net::LDAP gem
+  # see the following resources for more information
+  # https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb
+  # https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html
+  # For example, to specify a CA file
+  # ldap_tls_options:
+  #   ca_file: "/path/to/the/root-ca.crt"
+
+  # By default, the APIv3 allows authentication through basic auth.
+  # Uncomment the following line to restrict APIv3 access to session.
+  # apiv3_enable_basic_auth: false
+
+  # You can configure where users should be sent after the login
+  # after_login_default_redirect_url: '/my/page'
+  # after_first_login_redirect_url: '/projects/demo'
+
+  # For filtering work packages based on their attachments (name, content) it's worth to specify the main language that
+  # is used in those documents. This improves the full text search features of PostgreSQL. Currently PostgreSQL shipps
+  # with the following languages pre-installed:
+  #
+  # danish
+  # dutch
+  # english
+  # finnish
+  # french
+  # german
+  # hungarian
+  # italian
+  # norwegian
+  # portuguese
+  # romanian
+  # russian
+  # simple
+  # spanish
+  # swedish
+  # turkish
+  #
+  # main_content_language: 'english'
+
+
+
+# specific configuration options for production environment
+# that overrides the default ones
+production:
+  log_level: warn
+
+# specific configuration options for development environment
+# that overrides the default ones
+development:
+  email_delivery_method: :letter_opener
+
+# Configuration for the test environment
+test:
+  email_delivery_method: :test

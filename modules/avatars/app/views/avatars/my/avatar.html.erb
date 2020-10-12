@@ -1,0 +1,11 @@
+<% breadcrumb_paths(t(:label_my_account), t(:button_change_avatar)) %>
+
+<%= toolbar title: t(:button_change_avatar) %>
+<% html_title t(:label_my_account), t(:button_change_avatar) %>
+
+
+<% @manager = ::OpenProject::Avatars::AvatarManager %>
+<% @target_avatar_path = edit_my_avatar_path %>
+<%= form_tag(edit_my_avatar_path, method: :put, name: 'avatar_form', multipart: true) do %>
+    <%= render partial: 'avatars/users/avatar' %>
+<% end %>

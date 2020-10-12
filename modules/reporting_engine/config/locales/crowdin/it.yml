@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+it:
+  description_drill_down: "Mostra dettagli"
+  label_click_to_edit: "Premi per modificare."
+  label_columns: "Colonne"
+  label_count: "Conteggio"
+  label_filter: "Filtro"
+  label_filter_add: "Aggiungi filtro"
+  label_filter_plural: "Filtri"
+  label_greater: ">"
+  label_group_by: "Raggruppa per"
+  label_group_by_add: "Aggiungi l'attributo Group-by"
+  label_inactive: "«inattivo»"
+  label_less: "<"
+  label_no: "No"
+  label_none: "(nessun dato)"
+  label_progress_bar_explanation: "Generazione Report..."
+  label_really_delete_question: "Sei sicuro di voler cancellare questa segnalazione?"
+  label_report: "Segnalano"
+  label_rows: "Righe"
+  label_saving: "Salvataggio in corso ..."
+  label_sum: "Somma"
+  label_yes: "Si"
+  load_query_question: "Il report avrà le celle della tabella del %{size} e potrebbe essere necessario del tempo per eseguire il rendering. Vuoi ancora tentare di eseguirne il rendering?"
+  units: "Unità di misura"
+  validation_failure_date: "non è una data valida"
+  validation_failure_integer: "non è un numero intero valido"
+  reporting:
+    group_by:
+      selected_columns: "Colonne selezionate"
+      selected_rows: "Righe selezionate"

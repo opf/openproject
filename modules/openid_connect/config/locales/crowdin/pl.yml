@@ -1,0 +1,19 @@
+pl:
+  logout_warning: >
+    Wylogowano cię. Zawartość każdego przesłanego formularza może zostać utracona. [Zaloguj się].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nazwa
+        display_name: Nazwa wyświetlana
+        identifier: Identyfikator
+        secret: Tajny klucz
+        scope: Zakres
+  openid_connect:
+    menu_title: Dostawcy OpenID
+    providers:
+      label_add_new: Dodaj nowego dostawcę OpenID
+      label_edit: Edytuj dostawcę OpenID %{name}
+      no_results_table: Jeszcze nie określono żadnych dostawców.
+      plural: Dostawcy OpenID
+      singular: Dostawca OpenID

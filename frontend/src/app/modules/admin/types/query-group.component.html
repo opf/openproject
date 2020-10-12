@@ -1,0 +1,17 @@
+<div class="type-form-conf-group type-form-query-group">
+    <div class="group-head">
+        <span class="group-handle icon-drag-handle"></span>
+        <group-edit-in-place
+                [name]="group.name"
+                (onValueChange)="rename($event)"
+                class="group-name">
+        </group-edit-in-place>
+        <span class="delete-group icon-small icon-close" (click)="deleteGroup.emit()"></span>
+    </div>
+    <div class="type-form-query">
+        <span class="type-form-query-group--edit-button" (click)="editQuery.emit()">
+          <op-icon icon-classes="button--icon icon-edit"></op-icon>
+            {{ text.edit_query }}
+        </span>
+    </div>
+</div> <!-- END query group -->

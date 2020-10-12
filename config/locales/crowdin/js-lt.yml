@@ -1,0 +1,965 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+lt:
+  js:
+    ajax:
+      hide: "Paslėpti"
+      loading: "Įkeliama ..."
+    attachments:
+      draggable_hint: |
+        Paveiksliukus ir nuorodas į priedus užvilkite ant redagavimo lauko. Uždaryti redagavimo laukai vilkimo metu bus atidaryti.
+    autocomplete_select:
+      placeholder:
+        multi: "Pridėti „%{name}“"
+        single: "Pasirinkti „%{name}“"
+      remove: "Pašalinti %{name}"
+      active: "Aktyvus %{label} %{name}"
+    close_popup_title: "Užverti iškylantį langą"
+    close_filter_title: "Užverti filtrą"
+    close_form_title: "Užverti formą"
+    button_add_watcher: "Pridėti stebėtojų"
+    button_add: "Pridėti"
+    button_back: "Atgal"
+    button_back_to_list_view: "Atgal į sąrašo peržiūrą"
+    button_cancel: "Atšaukti"
+    button_close: "Uždaryti"
+    button_change_project: "Keisti projektą"
+    button_check_all: "Žymėti visus"
+    button_configure-form: "Konfigūruoti formą"
+    button_confirm: "Patvirtinti"
+    button_continue: "Tęsti"
+    button_copy: "Kopijuoti"
+    button_custom-fields: "Pritaikyti laukai"
+    button_delete: "Ištrinti"
+    button_delete_watcher: "Naikinti stebėtoją"
+    button_details_view: "Detali peržiūra"
+    button_duplicate: "Dublikuoti"
+    button_edit: "Redaguoti"
+    button_filter: "Filtras"
+    button_advanced_filter: "Sudėtingesnis filtras"
+    button_list_view: "Sąrašo rodinys"
+    button_show_view: "Viso ekrano rodinys"
+    button_log_time: "Registruoti laiką"
+    button_more: "Daugiau"
+    button_open_details: "Atidaryti detalesnį vaizdą"
+    button_close_details: "Uždaryti detalų vaizdavimą"
+    button_open_fullscreen: "Atidaryti viso ekrano rodinį"
+    button_show_cards: "Rodyti kortelių rodinį"
+    button_show_list: "Rodyti sąrašo rodinį"
+    button_quote: "Cituoti"
+    button_save: "Išsaugoti"
+    button_settings: "Nustatymai"
+    button_uncheck_all: "Atžymėti visus"
+    button_update: "Atnaujinti"
+    button_export-pdf: "Parsisiųsti PDF"
+    button_export-atom: "Parsiųsti Atom"
+    calendar:
+      title: 'Kalendorius'
+      too_many: 'Iš viso yra %{count} darbo paketų, bet tik %{max} gali būti rodomi.'
+    card:
+      add_new: 'Pridėti naują kortelę'
+      highlighting:
+        inline: 'Paryškinti eilutėje:'
+        entire_card_by: 'Visa kortelė pagal'
+      remove_from_list: 'Išimti kortelę iš sąrašo'
+    caption_rate_history: "Koeficiento istorija"
+    clipboard:
+      browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome pažymėtą tekstą nukopijuoti rankiniu būdu."
+      copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
+    chart:
+      type: 'Grafiko tipas'
+      axis_criteria: 'Ašies kriterijus'
+      modal_title: 'Darbo paketo grafo konfigūracija'
+      types:
+        line: 'Linija'
+        horizontal_bar: 'Horizontali juosta'
+        bar: 'Stulpeliai'
+        pie: 'Pyragas'
+        doughnut: 'Spurga'
+        radar: 'Radaras'
+        polar_area: 'Skritulinis'
+      tabs:
+        graph_settings: 'Bendra'
+        dataset: 'Duomenų aibė %{number}'
+      errors:
+        could_not_load: 'Nepavyko įkelti duomenų rodymui. Galbūt trūksta reikiamų teisių.'
+    description_available_columns: "Galimi stulpeliai"
+    description_current_position: "Jūs esate čia: "
+    description_select_work_package: "Pasirinkite darbų paketą #%{id}"
+    description_selected_columns: "Pasirinkti stulpeliai"
+    description_subwork_package: "Darbų paketo vaikas #%{id}"
+    editor:
+      preview: 'Perjungti peržiūros režimą'
+      source_code: 'Perjungti Markdown išeities kodo režimą'
+      error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
+      error_initialization_failed: 'Nepavyko inicijuoti CKEditor!'
+      mode:
+        manual: 'Perjungti į Markdown išeities kodą'
+        wysiwyg: 'Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių'
+      macro:
+        error: 'Negaliu išskleisti makrokomandos: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.'
+          not_found: 'Reikalaujamas resursas nerastas.'
+          invalid_attribute: "Pasirinktas atributas '%{name}' neegzistuoja."
+        child_pages:
+          button: 'Nuorodos į vaikų puslapius'
+          include_parent: 'Įtraukti tėvus'
+          text: '[Placeholder] Nuorodos į vaikų puslapius'
+          page: 'Wiki puslapis'
+          this_page: 'šis puslapis'
+          hint: |
+            Palikus šį lauką tuščią bus pateikiamas visų šio puslapio vaikų sąrašas. Jei norite nuorodos į kitą puslapį, pateikite jo pavadinimą arba techninį adresą (slug).
+        code_block:
+          button: 'Įterpkite kodo fragmentą'
+          title: 'Įterpkite / redaguokite kodo fragmentą'
+          language: 'Formatavimo kalba'
+          language_hint: 'Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma).'
+        dropdown:
+          macros: 'Makrokomandos'
+          chose_macro: 'Pasirinkite makrokomandą'
+        toc: 'Turinys'
+        toolbar_help: 'Spauskite, kad parinktum4te valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
+        wiki_page_include:
+          button: 'Įterpti kito wiki puslapio turinį'
+          text: '[Placeholder] Įterptas wiki puslapis'
+          page: 'Wiki puslapis'
+          not_set: '(Puslapis dar nenustatytas)'
+          hint: |
+            Įtraukite kito wiki puslapio turinį nurodydami jo pavadinimą arba techninį adresą (slug).
+            Galite įtraukti kito projekto turinį naudodami dvitaškį kaip toliau esančiame pavyzdyje.
+        work_package_button:
+          button: 'Įterpti „sukurti darbų paketą“ mygtuką'
+          type: 'Darbų paketo tipas'
+          button_style: 'Naudoti mygtukų stilių'
+          button_style_hint: 'Pasirinktinai: įjunkite, kad makro būtų rodomas kaip mygtukas, o ne kaip nuoroda.'
+          without_type: 'Kurti darbo paketą'
+          with_type: 'Kurti darbo paketą (Tipas: %{typename})'
+        embedded_table:
+          button: 'Įterpti darbo paketų lentelę'
+          text: '[Placeholder] Įterpta darbo paketų lentelė'
+        embedded_calendar:
+          text: '[Placeholder] Įterptinis kalendorius'
+    admin:
+      type_form:
+        custom_field: 'Kliento laukelis'
+        inactive: 'Neaktyvus'
+        drag_to_activate: "Vilkite laukelius iš čia, kad juos aktyvuotumėte"
+        add_group: "Pridėti atributų grupę"
+        add_table: "Pridėti susijusių darbų paketų lentelę"
+        edit_query: 'Keisti užklausą'
+        new_group: 'Nauja grupė'
+        reset_to_defaults: 'Atkurti į numatytuosius'
+      enterprise:
+        trial:
+          confirmation: "Patvirtinti el. pašto adresą"
+          confirmation_info: >
+            Mes %{date} išsiuntėme jums el. laišką adresu %{email}. Prašome patikrinti savo laiškų dėžutę ir spustelėti ant patvirtinimo nuorodos, kad pradėtumėte savo 14 dienų bandomąjį periodą.
+          form:
+            general_consent: >
+              Sutinku su <a target="_blank" href="%{link_terms}">paslaugos sąlygomis</a> ir <a target="_blank" href="%{link_privacy}">privatumo taisyklėmis</a>.
+            invalid_email: "Neteisingas el. pašto adresas"
+            label_company: "Kompanija"
+            label_first_name: "Vardas"
+            label_last_name: "Pavardė"
+            label_email: "El. paštas"
+            label_domain: "Domenas"
+            label_subscriber: "Prenumeruotojas"
+            label_maximum_users: "Maksimalus aktyvių vartotojų skaičius"
+            label_starts_at: "Prasideda nuo"
+            label_expires_at: "Nustoja galioti"
+            receive_newsletter: Noriu gauti OpenProject <a target="_blank" href="%{link}">naujienlaiškį</a>.
+            taken_domain: Gali būti tik vienas aktyvus bandomasis periodas domenui.
+            taken_email: Kiekvienas vartotojas gali sukurti tik vieną bandomąjį periodą.
+          email_not_received: "Negavote el. laiško? Galite pakartotinai išsiųsti laišką naudodami nuorodą dešinėje."
+          try_another_email: "Arba bandykite su kitu el. pašto adresu."
+          next_steps: "Kiti žingsniai"
+          resend_link: "Siųsti iš naujo"
+          resend_success: "El. laiškas buvo pakartotinai išsiųstas. Prašome patikrinti savo pašto dėžutę ir paspausti ant pateiktos patvirtinimo nuorodos."
+          resend_warning: "Negalima pakartotinai išsiųsti el. laiško."
+          session_timeout: "Jūsų sesijos laikas baigėsi. Pabandykite perkrauti puslapį ar išsiųsti el. laišką pakartotinai."
+          status_label: "Būsena:"
+          status_confirmed: "patvirtinta"
+          status_waiting: "laiškas išsiųstas -- laukiame patvirtinimo"
+          test_ee: "Išbandykite Enterprise Edition 14 dienų nemokamai"
+          quick_overview: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "Tapti didvyriu!"
+          benefits:
+            description: "Kokie privalumai?"
+            high_security: "Saugumo funkcijos"
+            high_security_text: "Vienas prisijungimas (naudojant SAML, OpenID Connect, CAS), dviejų lygių autentifikacija ir automatinis LDAP grupių sinchronizavimas."
+            installation: "Instaliavimo pagalba"
+            installation_text: "Patyręs programų inžinierius ves jus per visą instaliavimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
+            premium_features: "„Premium“ funkcijos"
+            premium_features_text: "Agile lentos, savo tema ir logotipas, grafai, protingi darbo scenarijai su apibrėžtais veiksmais, pilna teksto paieška darbo paketų prieduose ir galimybė pasirinkti daugiau nei vieną reikšmę pritaikytuose laukuose."
+            professional_support: "Profesionali pagalba"
+            professional_support_text: "Gaukite patikimą, artimą pagalbą iš vyresnių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
+          button_start_trial: "Pradėti bandomąjį laikotarpį"
+          button_book_now: "Užsakyti dabar"
+          confidence: >
+            Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
+          link_quote: "Gauti pasiūlymą"
+          text: >
+            OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėta „premium“ savybės ir profesionalus aptarnavimas, pagrindinai orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
+          unlimited: "Neribota"
+          you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
+    custom_actions:
+      date:
+        specific: 'įjungta'
+        current_date: 'Dabartinė data'
+    error:
+      internal: "Įvyko vidinė klaida."
+      cannot_save_changes_with_message: "Nepavyko įrašyti jūsų pakeitimų dėl šios klaidos: %{error}"
+      query_saving: "Nepavyko įrašyti rodinio."
+      embedded_table_loading: "Nepavyko įkelti įdėti rodinio: %{message}"
+    enumeration_activities: "Veikla (laiko sekimas)"
+    enumeration_doc_categories: "Dokumentų kategorijos"
+    enumeration_work_package_priorities: "Darbų paketo prioritetai"
+    filter:
+      description:
+        text_open_filter: "Atverkite šį filtrą su 'ALT' ir krypčių klavišais."
+        text_close_filter: "Kad pasirinktumėte įrašą, palikite dėmesio režimą paspausdami Enter. Režimo palikimui be filtro pasirinkite pirmąjį (tuščią) įrašą."
+      noneElement: "(nėra)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} pagal Jūsų vietinį laiką."
+        only_start: "Nuo %{from} pagal Jūsų vietinį laiką."
+        only_end: "Iki %{to} pagal Jūsų vietinį laiką."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "Pirmasis rikiavimo kriterijus"
+          two: "Antrasis rikiavimo kriterijus"
+          three: "Trečiasis rikiavimo kriterijus"
+      upsale_for_more: "Norėdami naudoti daugiau papildomų filtrų, patikrinkite"
+      upsale_link: '„Enterprise Edition“.'
+    general_text_no: "ne"
+    general_text_yes: "taip"
+    general_text_No: "Ne"
+    general_text_Yes: "Taip"
+    global_roles: Globalios rolės
+    hal:
+      error:
+        update_conflict_refresh: "Spauskite čia resurso atnaujinimui iki naujausios versijos."
+        edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas atsiradęs iš ryšių (pvz., vaiko ryšio), arba jis nėra galimas konfigūruoti."
+        format:
+          date: "%{attribute} nėra tinkama data - YYYY-MM-DD tikimasi."
+        general: "Įvyko klaida."
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
+          learn_about: "Sužinokite apie naujas galimybes"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            current_new_feature_html: >
+              Šioje laidoje yra naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Planavimas iš viršaus į apačią</b> apibrėžia visas su projektu susijusias užduotis. Tėvinės užduoties pradžios ir pabaigos datų nebekeičia pakeitimai vaikinėse užduotyse.</li> <li><b>Universalios agile lentos</b> leidžia sukurti užduoties išdalinimo struktūrą arba paskirstyti užduotis į subprojektus.</li> <li><b>Projektų šablonai</b> lengvesniam naujų projektų kūrimui.</li> <li>Konfigūruojamas projektų puslapis, leidžiantis geresnį <b>projektų portfelio valdymą.</b></li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            current_new_feature_html: >
+              Šioje laidoje yra naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Planavimas iš viršaus į apačią</b> apibrėžia visas su projektu susijusias užduotis. Tėvinės užduoties pradžios ir pabaigos datų nebekeičia pakeitimai vaikinėse užduotyse.</li> <li><b>Universalios agile lentos</b> leidžia sukurti užduoties išdalinimo struktūrą arba paskirstyti užduotis į subprojektus.</li> <li><b>Projektų šablonai</b> lengvesniam naujų projektų kūrimui.</li> <li>Konfigūruojamas projektų puslapis, leidžiantis geresnį <b>projektų portfelio valdymą.</b></li> </ul>
+    label_activate: "Aktyvuoti"
+    label_add_column_after: "Pridėti stulpelį po"
+    label_add_column_before: "Pridėti stulpelį prieš"
+    label_add_columns: "Pridėti stulpelių"
+    label_add_comment: "Pridėti komentarą"
+    label_add_comment_title: "Komentuokite ir įveskite @, kad praneštumėte kitiems žmonėms"
+    label_add_row_after: "Pridėti eilutę po"
+    label_add_row_before: "Pridėti eilutę prieš"
+    label_add_selected_columns: "Pridėti pažymėtus stulpelius"
+    label_added_by: "pridėta"
+    label_added_time_by: "Pridėjo <a href=%{authorLink}>%{author}</a> prieš %{age}"
+    label_ago: "dienų prieš"
+    label_all: "visi"
+    label_all_work_packages: "visi darbų paketai"
+    label_and: "ir"
+    label_ascending: "Didėjančia tvarka"
+    label_author: "Autorius: %{user}"
+    label_avatar: "Nuotrauka"
+    label_between: "tarp"
+    label_board: "Lenta"
+    label_board_locked: "Užrakinta"
+    label_board_plural: "Lentos"
+    label_board_sticky: "Lipnus"
+    label_create: "Sukurti"
+    label_create_work_package: "Sukurti naują darbų paketą"
+    label_created_by: "Sukurta"
+    label_date: "Data"
+    label_date_with_format: "Įveskite %{date_attribute} naudodami šį formatą: %{format}"
+    label_deactivate: "Išjungti"
+    label_descending: "Mažėjančiai"
+    label_description: "Aprašymas"
+    label_details: "Detali informacija"
+    label_display: "Rodymas"
+    label_cancel_comment: "Atšaukti komentarą"
+    label_closed_work_packages: "uždarytas"
+    label_collapse: "Sutraukti"
+    label_collapsed: "suskleistas"
+    label_collapse_all: "Sutraukti visus"
+    label_comment: "Komentaras"
+    label_committed_at: "%{committed_revision_link} %{date}"
+    label_committed_link: "patvirtinta laida %{revision_identifier}"
+    label_contains: "turi"
+    label_created_on: "sukurta"
+    label_edit_comment: "Redaguoti šį komentarą"
+    label_edit_status: "Redaguoti darbų paketo būsena"
+    label_equals: "yra"
+    label_expand: "Išskleisti"
+    label_expanded: "išskleistas"
+    label_expand_all: "Išskleisti visus"
+    label_expand_project_menu: "Išplėsti projekto meniu"
+    label_export: "Eksportuoti"
+    label_export_preparing: "Eksportas ruošiamas ir greitai bus parsiųstas."
+    label_filename: "Byla"
+    label_filesize: "Dydis"
+    label_general: "Bendra"
+    label_greater_or_equal: ">="
+    label_group: 'Grupė'
+    label_group_by: "Grupuoti pagal"
+    label_group_plural: "Grupės"
+    label_hide_attributes: "Rodyti mažiau"
+    label_hide_column: "Slėpti stulpelį"
+    label_hide_project_menu: "Sutraukti projekto meniu"
+    label_in: " "
+    label_in_less_than: "mažiau nei"
+    label_in_more_than: "daugiau nei"
+    label_incoming_emails: "Gauti el. laiškai"
+    label_information_plural: "Informacija"
+    label_import: "Importuoti"
+    label_latest_activity: "Paskutinė veikla"
+    label_last_updated_on: "Paskiausias atnaujinimas"
+    label_learn_more_link: "Sužinoti daugiau"
+    label_less_or_equal: "<="
+    label_less_than_ago: "mažiau nei prieš dieną"
+    label_loading: "Įkeliama..."
+    label_mail_notification: "El. pašto priminimai"
+    label_me: "aš"
+    label_meeting_agenda: "Dienotvarkė"
+    label_meeting_minutes: "Minutės"
+    label_menu_collapse: "suskleisti"
+    label_menu_expand: "išskleisti"
+    label_more_than_ago: "daugiau nei prieš dieną"
+    label_next: "Kitas"
+    label_no_color: "Be spalvų"
+    label_no_data: "Nėra rodytinų duomenų"
+    label_no_due_date: "nėra pabaigos datos"
+    label_no_start_date: "nėra pradžios datos"
+    label_no_value: "Nenurodytas dydis"
+    label_none: "joks"
+    label_not_contains: "neturi"
+    label_not_equals: "nėra"
+    label_on: "įjungta"
+    label_open_menu: "Atidaryti meniu"
+    label_open_context_menu: "Atverti kontekstinį meniu"
+    label_open_work_packages: "atidarytas"
+    label_password: "Slaptažodis"
+    label_previous: "Ankstesnis"
+    label_per_page: "Puslapyje:"
+    label_please_wait: "Prašome palaukti"
+    label_project_plural: "Projektai"
+    label_visibility_settings: "Matomumo nustatymai"
+    label_quote_comment: "Cituoti šį komentarą"
+    label_recent: "Paskutiniai"
+    label_reset: "Nustatyti iš naujo"
+    label_remove_column: "Išimti stulpelį"
+    label_remove_columns: "Pašalinti pažymėtus stulpelius"
+    label_remove_row: "Išimti eilutę"
+    label_report: "Ataskaita"
+    label_repository_plural: "Repozitorijos"
+    label_save_as: "Išsaugoti kaip"
+    label_select_watcher: "Parinkti stebėtoją..."
+    label_selected_filter_list: "Parinkti filtrus"
+    label_show_attributes: "Rodyti visus atributus"
+    label_show_in_menu: "Rodyti rodinį meniu"
+    label_sort_by: "Rūšiuoti pagal"
+    label_sorted_by: "surikiuota pagal"
+    label_sort_higher: "Perkelti aukštyn"
+    label_sort_lower: "Perkelti žemyn"
+    label_sorting: "Rūšiavimas"
+    label_spent_time: "Praleista laiko"
+    label_star_query: "Mėgiamiausi"
+    label_press_enter_to_save: "Saugojimui spauskite enter."
+    label_public_query: "Viešas"
+    label_sum: "Suma"
+    label_sum_for: "Suma"
+    label_subject: "Tema"
+    label_this_week: "ši savaitė"
+    label_today: "Šiandien"
+    label_time_entry_plural: "Praleista laiko"
+    label_up: "Aukštyn"
+    label_user_plural: "Vartotojai"
+    label_activity_show_only_comments: "Rodyti veiklą tik su komentarais"
+    label_activity_show_all: "Rodyti visus atributus"
+    label_total_progress: "%{percent} % įvykdyta"
+    label_total_amount: "Iš viso: %{amount}"
+    label_updated_on: "atnaujintas"
+    label_value_derived_from_children: "(reikšmė išvesta iš vaikų)"
+    label_children_derived_duration: "Darbų paketo vaikų išvestinė trukmė"
+    label_warning: "Įspėjimas"
+    label_work_package: "Darbų paketas"
+    label_work_package_parent: "Tėvinis darbų paketas"
+    label_work_package_plural: "Darbų paketai"
+    label_watch: "Stebėti"
+    label_watch_work_package: "Stebėti darbų paketą"
+    label_watcher_added_successfully: "Stebėtojas sėkmingai pridėtas!"
+    label_watcher_deleted_successfully: "Stebėtojas sėkmingai ištrintas!"
+    label_work_package_details_you_are_here: "Esate %{type} %{subject} %{tab} skirtuke."
+    label_unwatch: "Nestebėti"
+    label_unwatch_work_package: "Nebestebėti darbų paketo"
+    label_uploaded_by: "Įkėlė"
+    label_default_queries: "Numatytasis vaizdas"
+    label_starred_queries: "Mėgiamiausias vaizdas"
+    label_global_queries: "Viešasis vaizdas"
+    label_custom_queries: "Asmeninis vaizdas"
+    label_columns: "Stulpeliai"
+    label_attachments: Failai
+    label_drop_files: Numeskite failus čia
+    label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
+    label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
+    label_add_attachments: "Prisegti priedus"
+    label_formattable_attachment_hint: "Prisegti ir susieti failus užvelkant ant šio laukelio arba įklijuojant į iškarpinę."
+    label_remove_file: "Naikinti %{fileName}"
+    label_remove_watcher: "Pašalinti stebėtoją vardu %{name}"
+    label_remove_all_files: Ištrinti visus failus
+    label_add_description: "Pridėti %{file} aprašymą"
+    label_upload_notification: "Įkeliu failus..."
+    label_work_package_upload_notification: "Įkelti failus darbų paketui #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} pridėjo %{author}"
+    label_files_to_upload: "Šie failai bus įkelti:"
+    label_rejected_files: "Negalima įkelti šių failų:"
+    label_rejected_files_reason: "Šių failų neįmanoma nusiųsti, nes jų dydis yra didesnis nei %{maximumFilesize}"
+    label_wait: "Vyksta konfigūracija. Palaukite..."
+    label_upload_counter: "%{done} iš %{count} failų sudoroti"
+    label_validation_error: "Darbų paketas negali būti įrašyti dėl šių klaidų:"
+    label_version_plural: "Versijos"
+    label_view_has_changed: "Šiame rodinyje yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
+    help_texts:
+      show_modal: 'Rodyti atributo pagalbos teksto įrašą'
+    onboarding:
+      buttons:
+        skip: 'Praleisti'
+        next: 'Kitas'
+        got_it: 'Supratau'
+      steps:
+        help_menu: 'Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos šaltinius. <br>Mėgaukitės darbu su OpenProject!'
+        members: 'Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.'
+        project_selection: 'Prašome paspausti ant vieno iš projektų su įdėtais naudingais demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
+        sidebar_arrow: "Rodykle galite pereiti atgal į projekto <b>Pagrindinį meniu</b>."
+        welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
+        wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
+        backlogs:
+          overview: "Valdykite savo darbus <b>Darbų sąrašo</b> vaizde. <br> Kairėje jūs matote Produktų darbų sąrašą arba Klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioretizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
+          task_board_arrow: 'Norėdami matyti jūsų <b>Užduočių lentą</b>, atverkite Sprinto iškrentantį meniu...'
+          task_board_select: '... ir pasirinkite <b>Task board</b> elementą.'
+          task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite naujas užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija. Naudodami drag'n'drop, jūs galite pakeisti būseną."
+        boards:
+          overview: 'Valdykite savo darbus intuityviame <b>Lentų</b> vaizde.'
+          lists: 'Galite sukurti keletą sąrašų (stulpelių) viename Lentos vaizde, t.y. sukurti KANBAN lentą.'
+          add: 'Paspaudus + <b>pridės naują kortelę</b> sąraše Lentoje.'
+          drag: 'Galite pervilkti ir numesti kortelę sąrašo ribose (perrikiuoti) ar į kitą sąrašą. Dvigubas paspaudimas permes į detalių vaizdą.'
+        wp:
+          toggler: "Dabar žvilgtelėkime į <b>Darbų paketų</b> skyrių, kuris suteikia išsamesnį vaizdą apie jūsų darbus."
+          list: 'Tai <b>Darbų paketų</b> sąrašas su svarbiais jūsų projektui veiksmais: užduotimis (tasks), etapais (milestones), fazėmis (phases) ir t.t. <br> Jūs galite kurti ir redaguoti darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart spustelkite pele ant pasirinktos eilutės.'
+          full_view: '<b>Darbo paketo detalių</b> lange rasite visą reikalingą informaciją, pvz., aprašymą, būseną ir prioritetą, veiklą, priklausomybes ar komentarus.'
+          back_button: 'Su rodykle galite pereiti atgal į darbo paketų sąrašą.'
+          create_button: 'Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.'
+          timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
+          timeline: 'Čia jūs galite redaguoti savo projekto planą. Kurti naujus etapus, etapai, ir pridėti priklausomybių. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+    password_confirmation:
+      field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
+      title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'
+    pagination:
+      no_other_page: "Jūs esate vieninteliame puslapyje."
+      pages:
+        next: "Į sekantį puslapį"
+        previous: "Į ankstesnį puslapį"
+    placeholders:
+      default: '-'
+      subject: 'Įveskite temą čia'
+      selection: 'Prašome pasirinkti'
+      relation_description: 'Paspauskite, kad pridėtumėte šio ryšio aprašymą'
+    project:
+      required_outside_context: >
+        Prašau pasirinkti projektą, kuriame turi būti sukurtas darbo paketas, kad matytumėte visus atributus. Jūs galite pasirinkti tik tuos projektus, kurie turi aukščiau nurodytą tipą.
+      context: 'Projekto kontekstas'
+      work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
+      click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
+      confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvesta informaciją. Tęsti?'
+      autocompleter:
+        label: 'Projekto autoužpildymas'
+    text_are_you_sure: "Ar esate įsitikinę?"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau nei kartą. Grupių pavadinimai privalo būti unikalūs."
+        error_no_table_configured: "Prašome sukonfigūruoti lentelę, skirtą grupei %{group}."
+        reset_title: "Nustatyti iš naujo formos konfigūraciją"
+        confirm_reset: >
+          Įspėjimas: Ar tikrai norite grįžti prie pradinės formos konfigūracijos? Atributai bus perkelti į jų numatytąsias grupes ir išjungs VISUS pritaikytus laukelius.
+        upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
+        upgrade_to_ee_text: "Vau! Jei Jums reikia šios funkcijos, esate super pro! Ar nenorėtumėte paremti mus, OpenSource (atviro kodo) kūrėjus, tapdami Enterprise Edition klientu?"
+        more_information: "Daugiau informacijos"
+        nevermind: "Nekreipti dėmesio"
+      edit:
+        form_configuration: "Formos konfigūracija"
+        projects: "Projektai"
+        settings: "Nustatymai"
+    time_entry:
+      project: 'Projektas'
+      work_package: 'Darbų paketas'
+      work_package_required: 'Reikia pirma pasirinkti darbo paketą.'
+      activity: 'Veikla'
+      comment: 'Komentaras'
+      duration: 'Trukmė'
+      spent_on: 'Data'
+      hours: 'Valandų'
+      title: 'Registruoti laiką'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
+    watchers:
+      label_loading: Įkeliami stebėtojai...
+      label_error_loading: Įkeliant stebėtojus įvyko klaida
+      label_search_watchers: Ieškoti stebėtojų
+      label_add: Pridėti stebėtojus
+      label_discard: Atsisakyti pasirinkimo
+      typeahead_placeholder: Ieškoti galimų stebėtojų
+    relation_labels:
+      parent: "Tėvas"
+      children: "Pasekėjai"
+      relates: "Susiję su"
+      duplicates: "Dublikatai"
+      duplicated: "Dubliuotas"
+      blocks: "Blokai"
+      blocked: "Blokuojamas"
+      precedes: "Ankstesnė"
+      follows: "Seka"
+      includes: "Turi savyje"
+      partof: "Dalis"
+      requires: "Reikalingas"
+      required: "Reikalingas (pagal ką)"
+      relation_type: "ryšio tipas"
+    relations_hierarchy:
+      parent_headline: "Tėvas"
+      hierarchy_headline: "Hierarchija"
+      children_headline: "Pasekėjai"
+    relation_buttons:
+      set_parent: "Priskirti tėvą"
+      change_parent: "Keisti pirmtaką"
+      remove_parent: "Pašalinti tėvą"
+      hierarchy_indent: "Paslinkti hierarchiją"
+      hierarchy_outdent: "Atslinkti hierarchiją"
+      group_by_wp_type: "Grupuoti pagal darbų paketo tipą"
+      group_by_relation_type: "Grupuoti pagal ryšio tipą"
+      add_parent: "Pridėti jau esamą tėvą"
+      add_new_child: "Sukurti naują vaiką"
+      create_new: "Sukurti naują"
+      add_existing: "Pridėti esamą"
+      add_existing_child: "Pridėti jau esamą vaiką"
+      remove_child: "Pašalinti vaiką"
+      add_new_relation: "Sukurti naują ryšį"
+      add_existing_relation: "Pridėti esamą sąryšį"
+      update_description: "Nustatyti arba atnaujinti šio ryšio aprašymą"
+      toggle_description: "Įjungti/išjungti ryšio aprašymą"
+      update_relation: "Paspauskite, jei norite pakeisti ryšio tipą"
+      add_follower: "Pridėti pasekėją"
+      add_predecessor: "Pridėti pirmtaką"
+      remove: "Pašalinti pavaldumą"
+      save: "Išsaugoti ryšį"
+      abort: "Nutraukti"
+    relations_autocomplete:
+      placeholder: "Paieškai pradėkite rinkti tekstą"
+      parent_placeholder: "Pasirinkite naują tėvą arba spauskite Escape atšaukimui."
+    repositories:
+      select_tag: 'Pasirinkti žymę'
+      select_branch: 'Parinkti padalinį'
+    field_value_enter_prompt: "Įveskite \"%{field}\" reikšmę "
+    project_menu_details: "Detali informacija"
+    scheduling:
+      manual: 'Rankinis laiko parinkimas'
+      automatic: 'Automatinis laiko parinkimas'
+    sort:
+      sorted_asc: 'Pritaikyta didėjimo tvarka, '
+      sorted_dsc: 'Pritaikyta mažėjimo tvarka, '
+      sorted_no: 'Rūšiavimas nėra taikomas, '
+      sorting_disabled: 'rūšiavimas išjungtas'
+      activate_asc: 'aktyvuoti, kad būtų pritaikyta didėjimo tvarka'
+      activate_dsc: 'aktyvuoti, kad būtų pritaikyta mažėjimo tvarka'
+      activate_no: 'aktyvuoti, kad rūšiavimas būtų pašalintas'
+    text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
+    text_query_destroy_confirmation: "Ar tikrai norite panaikinti pasirinktą vaizdą?"
+    text_attachment_destroy_confirmation: "Ar tikrai norite panaikinti priedą?"
+    timelines:
+      quarter_label: 'Q%{quarter_number}'
+      gantt_chart: 'Ganto grafikas'
+      labels:
+        title: 'Žymės konfigūracija'
+        bar: 'Juostelės etiketės'
+        left: 'Kairė'
+        right: 'Dešinė'
+        farRight: 'Toli dešinėje'
+        showNone: '-- Be etiketės --'
+        description: >
+          Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
+      button_activate: 'Parodyti Gantto diagramą'
+      button_deactivate: 'Paslėpti Gantto diagramą'
+      cancel: Atšaukti
+      change: "Pakeisti planavime"
+      due_date: "Pabaigos data"
+      empty: "(tuščia)"
+      error: "Įvyko klaida."
+      errors:
+        not_implemented: "Laiko juostos nepavyko atvaizduoti, nes reikalinga funkcija dar neįdiegta."
+        report_comparison: "Pagal nustatytus palyginimus laiko juosta negali būti atvaizduota. Prašome patikrinti atitinkamus parametrus nustatymuose, jų gražinimas į numatytąją būseną gali išspręsti šią problemą."
+        report_epicfail: "Laiko juosta negalėjo būti įkelta dėl nenumatytų priežasčių."
+        report_timeout: "Laiko juosta negalėjo būti įkelta per priimtiną laiką."
+      filter:
+        grouping_other: "Kita"
+        noneSelection: "(nėra)"
+      name: "Vardas"
+      outline: "Atnaujinti planą"
+      outlines:
+        aggregation: "Rodyti tik masėmis"
+        level1: "Išplėtimo lygis 1"
+        level2: "Išplėtimo lygis 2"
+        level3: "Išplėtimo lygis 3"
+        level4: "Išplėtimo lygis 4"
+        level5: "Išplėtimo lygis 5"
+        all: "Rodyti viską"
+      project_status: "Projekto būsena"
+      really_close_dialog: "Ar tikrai norite uždaryti dialogo langą ir prarasti įvestus duomenis?"
+      responsible: "Atsakingas asmuo/grupė"
+      save: Išsaugoti
+      start_date: "Pradžios data"
+      tooManyProjects: "Daugiau nei %{count} projektų. Prašome naudoti geresnį filtrą!"
+      selection_mode:
+        notification: 'Paspauskite ant bet kurio pažymėto darbų paketo, kad sukurtumėte ryšį. Paspauskite Esc, jei norite atšaukti.'
+      zoom:
+        in: "Priartinti"
+        out: "Nutolinti"
+        auto: "Automatinis priartinimas"
+        days: "Dienos(-ų)"
+        weeks: "Savaitės(-ių)"
+        months: "Mėnesiai(-ių)"
+        quarters: "Ketvirčiai"
+        years: "Metai(-ų)"
+        slider: "Didinimo slankiklis"
+        description: >
+          Pasirinkite pradinį pritraukimo lygį, kuris bus rodomas kai automatinis pritraukimas negalimas.
+    tl_toolbar:
+      zooms: "Didinimo lygis"
+      outlines: "Hierarchinis lygmuo"
+    upsale:
+      ee_only: 'Galimybė tik Enterprise Edition'
+    wiki_formatting:
+      strong: "Paryškintas"
+      italic: "Pasvirasis"
+      underline: "Pabrauktas"
+      deleted: "Panaikintas"
+      code: "Įterptas kodas"
+      heading1: "Antraštė 1"
+      heading2: "Antraštė 2"
+      heading3: "Antraštė 3"
+      unordered_list: "Nesurikiuotas sąrašas"
+      ordered_list: "Surikiuotas sąrašas"
+      quote: "Cituoti"
+      unquote: "Pašalinti kabutes"
+      preformatted_text: "Iš anksto suformatuotas tekstas"
+      wiki_link: "Nuoroda į Wiki puslapį"
+      image: "Paveikslėlis"
+    work_packages:
+      bulk_actions:
+        move: 'Masinis projekto pakeitimas'
+        edit: 'Masinis redagavimas'
+        copy: 'Masinis kopijavimas'
+        delete: 'Masinis trynimas'
+      button_clear: "Išvalyti"
+      comment_added: "Atsiliepimas buvo sėkmingai pridėtas."
+      comment_send_failed: "Įvyko klaida. Neįmanoma pateikti komentaro."
+      comment_updated: "Atsiliepimas buvo sėkmingai atnaujintas."
+      confirm_edit_cancel: "Ar Jūs tikrai norite atšaukti darbo paketo redagavimą?"
+      description_filter: "Filtras"
+      description_enter_text: "Įveskite tekstą"
+      description_options_hide: "Slėpti parinktis"
+      description_options_show: "Rodyti parinktis"
+      edit_attribute: "%{attribute} -Taisyti"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "Įgalinti daugybinį pažymėjimą"
+      label_disable_multi_select: "Išjungti daugybinį pažymėjimą"
+      label_filter_add: "Pridėti filtrą"
+      label_filter_by_text: "Filtruoti pagal tekstą"
+      label_options: "Nustatymai"
+      label_column_multiselect: "Kombinuotas išplečiamojo sąrašo laukas: pasirinkite rodyklių mygtukais, patvirtinkite pasirinkimą su Enter mygtuku, ištrinkite su Backspace"
+      message_error_during_bulk_delete: Įvyko klaida bandant naikinti darbų paketą.
+      message_successful_bulk_delete: Darbų paketai sėkmingai ištrinti.
+      message_successful_show_in_fullscreen: "Paspauskite čia, kad atvertumėte darbų paketą pilno lango režime."
+      message_view_spent_time: "Rodyti praleistą laiką su šiuo darbų paketu"
+      message_work_package_read_only: "Šioje būsenoje darbų paketas yra užrakintas. Negali būti keičiamas joks atributas, išskyrus būseną."
+      message_work_package_status_blocked: "Darbų paketo statusas negali būti keičiamas, nes dabar yra uždarytas ir uždaryta versija yra priskirta."
+      placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
+      inline_create:
+        title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
+      create:
+        title: 'Naujas darbų paketas'
+        header: 'Naujas %{type}'
+        header_no_type: 'Naujas darbų paketas (tipas dar nenurodytas)'
+        header_with_parent: 'Naujas %{type} (%{parent_type} #%{id} tėvo vaikas)'
+        button: 'Sukurti'
+      copy:
+        title: 'Nukopijuoti darbų paketą'
+      hierarchy:
+        show: "Rodyti hierarchijos režimą"
+        hide: "Slėpti hierarchijos režimą"
+        toggle_button: 'Paspauskite, kad perjungtumėte hierarchijos režimą.'
+        leaf: 'Darbų paketo skaidos lygis yra %{level}.'
+        children_collapsed: 'Hierarchijos lygis %{level} susiskleidė. Paspauskite, kad pamatytumėte išfiltruotus vaikus'
+        children_expanded: 'Hierarchijos lygis %{level} išsikleidė. Paspauskite, kad sutrauktumėte išfiltruotus vaikus'
+      faulty_query:
+        title: Nepavyko įkelti darbų paketų.
+        description: Jūsų vaizdas yra klaidingas ir negalėjo būti apdorotas.
+      no_results:
+        title: Nėra rodytinų darbų paketų.
+        description: Arba nebuvo niekas sukurta, arba visi darbų paketai buvo išfiltruoti.
+      limited_results: Rankinio rikiavimo režime gali būti rodomi tik %{count} darbo paketai. Prašome sumažinti rezultatų skaičių filtruojant.
+      property_groups:
+        details: "Detali informacija"
+        people: "Žmonės"
+        estimatesAndTime: "Sąmatos ir laikas"
+        other: "Kita"
+      properties:
+        assignee: "Paskirtas"
+        author: "Autorius"
+        createdAt: "Sukurta"
+        description: "Aprašymas"
+        date: "Data"
+        dueDate: "Pabaigos data"
+        estimatedTime: "Numatyta trukmė"
+        spentTime: "Praleista laiko"
+        category: "Kategorija"
+        percentageDone: "Atlikta procentinė dalis"
+        priority: "Pirmenybė"
+        projectName: "Projektas"
+        responsible: "Atsakingas asmuo/grupė"
+        startDate: "Pradžios data"
+        status: "Būsena"
+        subject: "Tema"
+        subproject: "Sub-projektas"
+        title: "Pavadinimas"
+        type: "Tipas"
+        updatedAt: "Atnaujinta"
+        versionName: "Versija"
+        version: "Versija"
+      default_queries:
+        latest_activity: "Paskutinė veikla"
+        created_by_me: "Sukūriau pats"
+        assigned_to_me: "Priskirti man"
+        recently_created: "Neseniai sukurti"
+        all_open: "Visi atviri"
+        summary: "Santrauka"
+      jump_marks:
+        pagination: "Pereiti į lentelės laužymą puslapiais"
+        label_pagination: "Paspauskite čia, kad praleistumėte darbų paketų lentelės peržiūrą ir patektumėte į atvaizdavimą puslapiais"
+        content: "Peršokti prie turinio"
+        label_content: "Paspauskite čia, kad praleistumėte meniu ir pereitumėte prie turinio"
+      placeholders:
+        default: "-"
+        formattable: "%{name}: Redagavimui spustelėkite..."
+      query:
+        column_names: "Stulpeliai"
+        group_by: "Grupuoti rezultatus pagal"
+        group: "Grupuoti pagal"
+        group_by_disabled_by_hierarchy: "Grupė yra išjungta dėl aktyvaus hierarchijos režimo."
+        hierarchy_disabled_by_group_by: "Hierarchijos režimas išjungtas dėl rezultatų, kurie sugrupuoti pagal stulpelį, pavadinimu %{column}."
+        sort_ascending: "Rūšiuoti didėjimo tvarka"
+        sort_descending: "Rūšiuoti mažėjančiai"
+        move_column_left: "Perkelti stulpelį į kairę"
+        move_column_right: "Perkelti stulpelį į dešinę"
+        hide_column: "Slėpti stulpelį"
+        insert_columns: "Įterpti stulpelius ..."
+        filters: "Filtrai"
+        display_sums: "Rodyti suvestines"
+        confirm_edit_cancel: "Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą."
+        click_to_edit_query_name: "Paspauskite norėdami keisti vaizdo pavadinimą."
+        rename_query_placeholder: "Vaizdo pavadinimas"
+        star_text: "Pažymėti šį rodinį kaip mėgstamiausią ir pridėti į įrašytų rodinių dėklą kairėje."
+        public_text: >
+          Publikuoti šį rodinį, leidžiant kitiems naudotojams prieigą prie jūsų rodinio. Naudotojai su teise „Valdyti viešus rodinius“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo rodinyje ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
+        errors:
+          unretrievable_query: "Nepavyksta gauti vaizdo iš URL"
+          not_found: "Nėra tokio vaizdo"
+          duplicate_query_title: "Toks vaizdo vardas jau yra. Vis tiek keisti?"
+        text_no_results: "Atitinkančių vaizdų nerasta."
+      scheduling:
+        is_parent: "Šio darbų paketo datos yra automatiškai nustatomos pagal jo vaikų datas. Norėdami nustatyti kitokias datas įjunkite „Rankinį tvarkaraščio parinkimą“"
+        is_switched_from_manual_to_automatic: "Po perjungimo iš rankinio į automatinį tvarkaraščio parinkimą šio darbų paketo datas gali reikėti perskaičiuoti, nes yra sąryšių su kitais darbų paketais."
+      table:
+        configure_button: 'Sukonfigūruokite darbų paketo lentelę'
+        summary: "Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų."
+        text_inline_edit: "Dauguma langelių šioje lentelėje yra mygtukai, kurie aktyvuoja to atributo redagavimą eilutėje."
+        text_sort_hint: "Su nuorodomis lentelės antraštėje galima rikiavimo, grupuoti, perdėlioti, šalinti ir pridėti lentelės stulpelius."
+        text_select_hint: "Pažymėjimo langeliai turi būti atidaryti nuspaudus 'Alt' ir krypčių rodykles."
+      table_configuration:
+        button: 'Sukonfigūruokite šią darbų paketo lentelę'
+        choose_display_mode: 'Parodyti darbų paketą kaip'
+        modal_title: 'Darbų paketų lentelės konfigūracija'
+        embedded_tab_disabled: "Šis konfigūracijos lapas nerodomas įterpiamam vaizdui, kurį jūs redaguojate."
+        default: "numatytasis"
+        display_settings: 'Rodymo nustatymai'
+        default_mode: "Paprastas sąrašas"
+        hierarchy_mode: "Hierarchija"
+        hierarchy_hint: "Visi filtruoti lentelės rezultatai bus papildyti savo tėvais. Hierarchijas galima išplėsti ir sutraukti."
+        display_sums_hint: "Rodyti visų sumuotinų atributų sumas eilutėje lentelės apačioje po rezultatais."
+        show_timeline_hint: "Parodyti interaktyvią gantt schemą dešinėje lentelės pusėje. Jūs galite keisti šios schemos plotį stumdydami skyriklį tarp lentelės ir schemos."
+        highlighting: 'Paryškinimai'
+        highlighting_mode:
+          description: "Spalviniai paryškinimai"
+          none: "Be paryškinimų"
+          inline: 'Paryškinti atributai'
+          inline_all: 'Visi atributai'
+          entire_row_by: 'Visa eilutė pagal'
+          status: 'Būsena'
+          priority: 'Pirmenybė'
+          type: 'Tipas'
+        sorting_mode:
+          description: 'Parinkite režimą, kuriuo pradėti jūsų Darbo paketus:'
+          automatic: 'Automatinis'
+          manually: 'Rankinis'
+          warning: 'Aktyvuojant automatinį rikiavimo režimą jūs prarasite savo ankstesnį rikiavimą.'
+        columns_help_text: "Aukščiau esančioje įvedimo eilutėje pridėkite stulpelius į lentelės vaizdą. Galite pele perkelti stulpelius, jei reikalinga kita jų tvarka."
+        upsale:
+          attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
+          relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
+          check_out_link: 'Patikrinkite Enterprise Edition.'
+        relation_filters:
+          filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
+      tabs:
+        overview: Peržiūra
+        activity: Veikla
+        relations: Ryšiai
+        watchers: Stebėtojai
+        attachments: Priedai
+      time_relative:
+        days: "dienas(-ų)"
+        weeks: "savaitės(-ių)"
+        months: "mėnesiai(-ių)"
+    toolbar:
+      settings:
+        configure_view: "Konfigūruokite vaizdą..."
+        columns: "Stulpeliai ..."
+        sort_by: "Rūšiuoti pagal ..."
+        group_by: "Grupuoti pagal ..."
+        display_sums: "Rodyti suvestines"
+        display_hierarchy: "Rodyti hierarchiją"
+        hide_hierarchy: "Slėpti hierarchiją"
+        hide_sums: "Slėpti suvestines"
+        save: "Išsaugoti"
+        save_as: "Išsaugoti kaip ..."
+        export: "Eksportuoti ..."
+        visibility_settings: "Matomumo nustatymai..."
+        page_settings: "Pervardinti vaizdą ..."
+        delete: "Ištrinti"
+      filter: "Filtras"
+      unselected_title: "Darbų paketas"
+      search_query_label: "Išsaugotų vaizdų paieška"
+      search_query_title: "Paspauskite išsaugotų vaizdų paieškai"
+      placeholder_query_title: "Suteikite šiam vaizdui pavadinimą"
+    modals:
+      label_settings: "Pervardinti vaizdą"
+      label_name: "Vardas"
+      label_delete_page: "Naikinti dabartinį puslapį"
+      button_apply: "Taikyti"
+      button_save: "Išsaugoti"
+      button_submit: "Siųsti"
+      button_cancel: "Atšaukti"
+      form_submit:
+        title: 'Norėdami tęsti, patvirtinkite'
+        text: 'Ar tikrai norite atlikti šį veiksmą?'
+      destroy_work_package:
+        title: "Patvirtinkite, jog %{label} ištrinamas"
+        text: "Ar Jūs tikrai norite, kad %{label} būtų ištrintas?"
+        has_children: "Darbų paketas turi %{childUnits}:"
+        confirm_deletion_children: "Aš sutinku, kad VISI šio darbų paketo palikuoniai bus rekursiškai ištrinti."
+        deletes_children: "Visi darbų paketo vaikai ir jų palikuoniai taip pat bus rekursiškai ištrinti."
+      destroy_time_entry:
+        title: "Patvirtinkite laiko įrašo trynimą."
+        text: "Ar Jūs tikrai norite ištrinti šį laiko įrašą?"
+    notice_no_results_to_display: "Nėra rezultatų."
+    notice_successful_create: "Sėkmingas sukūrimas."
+    notice_successful_delete: "Sėkmingas panaikinimas."
+    notice_successful_update: "Sėkmingas atnaujinimas."
+    notice_bad_request: "Netinkama užklausa."
+    relations:
+      empty: Nėra jokių ryšių
+      remove: Pašalinti pavaldumą
+    inplace:
+      button_edit: "%{attribute}: Taisyti"
+      button_save: "%{attribute}: Išsaugoti"
+      button_cancel: "%{attribute}: Atšaukti"
+      button_save_all: "Išsaugoti"
+      button_cancel_all: "Atšaukti"
+      link_formatting_help: "Teksto formatavimo pagalba"
+      btn_preview_enable: "Peržiūra"
+      btn_preview_disable: "Išjungti peržiūrą"
+      null_value_label: "Nenurodytas dydis"
+      clear_value_label: "-"
+      errors:
+        required: '%{field} negali būti tuščias'
+        number: '%{field} nėra leistinas skaičius'
+        maxlength: '%{field} laukelis negali turėti daugiau nei %{maxLength} skaitmenų'
+        minlength: '%{field} negali turėti mažiau nei %{minLength} skaitmenų'
+        messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
+    error_could_not_resolve_version_name: "Nepavyko nustatyti versijos pavadinimo"
+    error_could_not_resolve_user_name: "Nepavyko nustatyti vartotojo vardo"
+    error_attachment_upload: "Nepavyko įkelti: %{error}"
+    error_attachment_upload_permission: "Jūs neturite teisės įkelti failus į šį resursą."
+    units:
+      workPackage:
+        one: "darbų paketas"
+        few: "darbų paketai"
+        many: "darbų paketai"
+        other: "darbų paketai"
+      child_work_packages:
+        one: "darbų paketas su vienu vaiku"
+        few: "%{count} darbų paketo vaikai"
+        many: "%{count} darbų paketo vaikai"
+        other: "%{count} darbų paketo vaikai"
+      hour:
+        zero: "0 h"
+        one: "1 val"
+        few: "%{count} val"
+        many: "%{count} val"
+        other: "%{count} val"
+    zen_mode:
+      button_activate: 'Įjungti Zen režimą'
+      button_deactivate: 'Išjungti Zen režimą'
+    global_search:
+      all_projects: "Visuose projektuose"
+      search: "Paieška"
+      close_search: "Uždaryti paiešką"
+      current_project: "Šiame projekte"
+      current_project_and_all_descendants: "Šiame projekte + subprojektuose"
+      title:
+        all_projects: "visi projektai"
+        project_and_subprojects: "ir visi subprojektai"
+        search_for: "Ieškoti"
+    views:
+      card: 'Kortelės'
+      list: 'Stalas'
+      timeline: 'Gantt'

@@ -1,0 +1,29 @@
+.menu-blocks--container
+  display: grid
+  grid-template: repeat(auto-fit, 200px) / repeat(auto-fit, 200px)
+  grid-auto-rows: 200px
+  grid-column-gap: 30px
+  grid-row-gap: 30px
+
+  .menu-block
+    border-radius: 3px
+    display: grid
+    grid-template: 110px 1fr / 1fr
+    grid-row-gap: 5px
+    justify-items: center
+    background: #cccccc30
+
+    &:hover
+      outline: 1px solid grey
+      text-decoration: none
+
+  .menu-block--icon
+    font-size: 50px
+    align-self: end
+    &:before
+      padding-left: 10px
+
+@include breakpoint(680px down)
+  .menu-blocks--container
+    grid-template: unset
+    grid-gap: 15px

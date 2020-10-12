@@ -1,0 +1,7 @@
+<select [id]="htmlId"
+        class="form--select"
+        (change)="show($event.target.value)">
+  <option #fallbackOption value='' [textContent]="placeholder" selected disabled></option>
+  <option *ngFor="let entry of selectable; trackByKey" [value]="entry.key" [textContent]="entry.label"></option>
+</select>
+

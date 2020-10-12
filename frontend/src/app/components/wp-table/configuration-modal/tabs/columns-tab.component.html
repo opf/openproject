@@ -1,0 +1,20 @@
+<div class="columns-modal--content">
+  <label
+    [textContent]="text.selectedColumns"
+    class="hidden-for-sighted">
+  </label>
+
+  <draggable-autocompleter [options]="availableColumnsOptions"
+                           [selected]="selectedColumns"
+                           (onChange)="updateSelected($event)">
+  </draggable-autocompleter>
+
+  <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>
+</div>
+
+<enterprise-banner class="ee-relation-columns-upsale"
+                   *ngIf="eeShowBanners"
+                   [linkMessage]="text.upsaleCheckOutLink"
+                   [textMessage]="text.upsaleRelationColumns"
+                   opReferrer="wp-list-columns#relations">
+</enterprise-banner>

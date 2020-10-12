@@ -1,0 +1,47 @@
+<div class="notification-box -{{ type }}" tabindex="0">
+  <div class="notification-box--content" role="alert" aria-atomic="true">
+    <p>
+      <span [textContent]="notification.message"></span>
+      <span [textContent]="' '"></span>
+      <a class="notification-box--target-link"
+         *ngIf="notification.link"
+         (click)="executeTarget($event)"
+         [textContent]="notification.link!.text">
+      </a>
+    </p>
+    <div [ngSwitch]="type">
+      <div *ngSwitchCase="'upload'">
+        <div *ngIf="canBeHidden()">
+          <a (click)="show = true" [hidden]="show">
+            <op-icon icon-classes="icon-arrow-right2"></op-icon>
+          </a>
+          <a (click)="show = false" [hidden]="!show">
+            <op-icon icon-classes="icon-arrow-down1"></op-icon>
+          </a>
+          <span [textContent]="uploadText"></span>
+        </div>
+        <div [ngClass]="{ '-hidden': !show && canBeHidden() }">
+          <ul class="notification-box--uploads" *ngIf="data && data.length > 0">
+            <notifications-upload-progress
+                *ngFor="let upload of data"
+                [upload]="upload"
+                (onSuccess)="onUploadSuccess()"
+                (onError)="onUploadError($event)">
+            </notifications-upload-progress>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'success'"></div>
+      <div *ngSwitchCase="'error'">
+        <ul class="notification-box--errors">
+          <li *ngFor="let error of data" [textContent]="error"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <accessible-by-keyboard *ngIf="removable()"
+                          (execute)="remove()"
+                          [linkTitle]="text.close_popup"
+                          linkClass="notification-box--close icon-context icon-close">
+  </accessible-by-keyboard>
+</div>

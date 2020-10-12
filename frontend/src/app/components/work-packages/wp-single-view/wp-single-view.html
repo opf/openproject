@@ -1,0 +1,144 @@
+<div *ngIf="workPackage"
+     class="work-package--single-view"
+     [ngClass]="{'-can-have-columns' : enableTwoColumnLayout }">
+  <div class="wp-new--subject-wrapper"
+       *ngIf="workPackage.isNew">
+    <editable-attribute-field [resource]="workPackage"
+                   [wrapperClasses]="'-no-label'"
+                   [fieldName]="'subject'"></editable-attribute-field>
+  </div>
+
+  <div class="wp-info-wrapper">
+    <wp-status-button *ngIf="!workPackage.isNew"
+                      [workPackage]="workPackage">
+    </wp-status-button>
+    <attribute-help-text [attribute]="'status'"
+                         [attributeScope]="'WorkPackage'"
+                         *ngIf="!workPackage.isNew"></attribute-help-text>
+
+    <div class="work-packages--info-row"
+         *ngIf="!workPackage.isNew">
+      <span [textContent]="idLabel"></span>:
+      <span [textContent]="text.infoRow.createdBy"></span>
+      <!-- The space has to be in an extra span
+      because otherwise the browser would add a second space after it -->
+      <span>&nbsp;</span>
+      <user-link class="user-link"
+                 [user]="workPackage.author"></user-link>.
+      <span [textContent]="text.infoRow.lastUpdatedOn"></span>
+      <span>&nbsp;</span>
+      <op-date-time [dateTimeValue]="workPackage.updatedAt"></op-date-time>.
+     </div>
+
+    <wp-custom-actions [workPackage]="workPackage" class="custom-actions"></wp-custom-actions>
+  </div>
+
+  <div class="attributes-group -project-context __overflowing_element_container __overflowing_project_context"
+       *ngIf="projectContext && projectContext.field"
+       data-overflowing-identifier=".__overflowing_project_context">
+    <div>
+      <p class="wp-project-context--warning" [textContent]="text.project.required"></p>
+      <div class="attributes-key-value"
+           [ngClass]="{'-span-all-columns': descriptor.spanAll }"
+           *ngFor="let descriptor of projectContext.field; trackBy:trackByName">
+        <div class="attributes-key-value--key">
+          <wp-replacement-label [fieldName]="descriptor.name">
+            {{ descriptor.label }}
+            <span class="required"
+                  *ngIf="descriptor.field.required && descriptor.field.writable">*</span>
+          </wp-replacement-label>
+          <attribute-help-text [attribute]="descriptor.name"
+                               [attributeScope]="'WorkPackage'"></attribute-help-text>
+        </div>
+        <div class="attributes-key-value--value-container">
+          <editable-attribute-field [resource]="workPackage"
+                         [fieldName]="descriptor.name"></editable-attribute-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="attributes-group -project-context hide-when-print" *ngIf="!workPackage.isNew && projectContext && !projectContext.matches">
+    <div>
+      <p>
+        <span [innerHTML]="projectContextText"></span>
+        <br/>
+        <a [attr.href]="projectContext.href"
+           class="project-context--switch-link"
+           [textContent]="text.project.switchTo">
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <ng-container *ngFor="let component of prependedAttributeGroupComponents()">
+    <ndc-dynamic [ndcDynamicComponent]="component"
+                 [ndcDynamicInputs]="{ workPackage: workPackage }">
+    </ndc-dynamic>
+  </ng-container>
+
+  <div class="attributes-group description-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            [textContent]="text.fields.description"></h3>
+      </div>
+    </div>
+    <div class="single-attribute work-packages--details--description">
+      <editable-attribute-field [fieldName]="'description'"
+                     [resource]="workPackage"
+                     [isDropTarget]="true"
+                     [wrapperClasses]="'-no-label'">
+      </editable-attribute-field>
+    </div>
+  </div>
+
+  <div *ngFor="let group of groupedFields; trackBy:trackByName"
+       [hidden]="shouldHideGroup(group)"
+       [attr.data-group-name]="group.name"
+       [ngClass]="'__overflowing_' + group.id"
+       [attr.data-overflowing-identifier]="'.__overflowing_' + group.id"
+       class="attributes-group __overflowing_element_container">
+
+    <ng-container wp-isolated-query-space *ngIf="group.isolated">
+      <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
+                   [ndcDynamicInputs]="{ workPackage: workPackage,
+                                         group: group,
+                                         query: group.query }" >
+      </ndc-dynamic>
+    </ng-container>
+
+    <ng-container *ngIf="!group.isolated">
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text"
+              [textContent]="group.name"></h3>
+        </div>
+      </div>
+
+      <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
+                   [ndcDynamicInjector]="injector"
+                   [ndcDynamicInputs]="{ workPackage: workPackage, group: group }">
+      </ndc-dynamic>
+    </ng-container>
+  </div>
+</div>
+
+<div class="work-packages--attachments attributes-group">
+  <div class="work-packages--attachments-container">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text" [textContent]="text.attachments.label"></h3>
+      </div>
+    </div>
+
+    <ndc-dynamic [ndcDynamicComponent]="attachmentListComponent()"
+                 [ndcDynamicInputs]="{ resource: workPackage }">
+    </ndc-dynamic>
+
+    <ndc-dynamic [ndcDynamicComponent]="attachmentUploadComponent()"
+                 [ndcDynamicInputs]="{ resource: workPackage }"
+                 *ngIf="workPackage.canAddAttachments">
+    </ndc-dynamic>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+@mixin timeline-label
+  display: flex
+  align-items: center
+  height: 16px
+  min-width: 20px
+  width: max-content
+  font-size: 14px
+  white-space: nowrap
+  vertical-align: middle
+  pointer-events: none
+
+.timeline-element
+  // Label style
+  .-label-style.not-empty
+    background-color: white
+    border: 1px solid #d4d4d4
+    border-radius: 5px
+    height: 16px
+    font-size: 12px
+    padding: 2px 5px
+    // Ensure line-height is normal
+    line-height: 1
+
+  .labelLeft.not-empty
+    @include timeline-label
+
+  .labelHoverLeft.not-empty
+    pointer-events: none
+    white-space: nowrap
+
+  .labelLeft.not-empty,
+  .labelHoverLeft.not-empty
+    // Position container left of bar
+    position: absolute
+    left: 0px
+    top: 0px
+    // Then translate by its own width + some margin
+    transform: translateX(calc(-100% - 15px))
+    // Ensure line-height is normal
+    line-height: 1
+
+  .containerRight
+    @include timeline-label
+    position: absolute
+    top: 0px
+    margin: 0
+    padding: 0
+    left: 100%
+
+  .labelRight.not-empty
+    @include timeline-label
+    margin-left: 20px
+
+  .labelFarRight
+    @include timeline-label
+    font-style: italic
+    margin-left: 15px
+
+  // label hover right needs different position
+  // since its not part of containerRight
+  .labelHoverRight
+    pointer-events: none
+    display: none
+    top: 0
+    white-space: nowrap
+    // Position container right of bar
+    position: absolute
+    right: 0px
+    // Then translate by its own width + some margin
+    transform: translateX(calc(100% + 10px))
+    font-size: 12px
+
+  &.-editable
+    cursor: ew-resize
+
+  .show-on-hover
+    display: none
+
+// Hide or show elements on hover
+.wp-timeline-cell.row-hovered
+  .show-on-hover
+    display: inline-block
+
+  .hide-on-hover
+    display: none
+
+

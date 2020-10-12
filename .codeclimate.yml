@@ -1,0 +1,73 @@
+---
+version: "2"
+languages:
+  Ruby: true
+  JavaScript: true
+checks:
+  file-lines:
+    enabled: false
+  method-count:
+    enabled: false
+  method-lines:
+    enabled: false
+  method-complexity:
+    enabled: true
+    config:
+      threshold: 10
+  complex-logic:
+      enabled: true
+      config:
+        threshold: 10
+  # Similar codes trips up at the long TS/angular injection
+  # constructors all the time, which are similar by nature.
+  similar-code:
+    enabled: false
+  identical-code:
+    enabled: true
+plugins:
+  rubocop:
+    enabled: true
+    channel: rubocop-0-90
+  # Codeclimate uses brakeman 4.3.1 which does not support rails 6
+  # Check https://docs.codeclimate.com/docs/brakeman for updates.
+  brakeman:
+    enabled: false
+  # as long as bundler-audit does not support bundler 2.0 we disable it
+  bundler-audit:
+    enabled: false
+  eslint:
+    enabled: true
+    checks:
+      no-unused-expressions:
+        enabled: false
+  csslint:
+    enabled: true
+  scsslint:
+    enabled: true
+  tslint:
+    enabled: true
+    config: tslint.json
+    checks:
+      # Disable whitespace due to 3.7 incompatibiltiy with ? navigation
+      whitespace:
+        enabled: false
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - app/**
+  - config/**
+  - features/**
+  - frontend/**
+  - lib/**
+  - spec/**
+exclude_paths:
+  - .bundle/**/*
+  - lib/plugins/rfpdf/**/*
+  - app/assets/javascripts/vendor/**/*
+  - frontend/vendor/**/*
+  - frontend/src/vendor/**/*
+  - "**/*.d.ts"
+  - "**/node_modules/"
+  - spec/**
+  - spec_legacy/**/*

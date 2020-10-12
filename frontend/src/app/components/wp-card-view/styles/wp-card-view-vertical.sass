@@ -1,0 +1,12 @@
+@import 'helpers'
+
+.wp-cards-container.-vertical
+  // Ensure 100% height for drag & drop area
+  height: 100%
+  // Some minor left/right padding
+  padding: 0 15px
+  border-radius: 2px
+  // We let the scrollbar be always there, so that we can align the button above with the card view
+  // independently of whether we scroll or not.
+  overflow-y: scroll
+  @include styled-scroll-bar

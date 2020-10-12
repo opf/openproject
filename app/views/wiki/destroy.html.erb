@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= toolbar title: @page.title %>
+<% html_title t(:button_delete), @page.title %>
+<%= form_tag({}, method: :delete, class: 'form') do %>
+  <p><strong><%= t(:text_wiki_page_destroy_question, descendants: @descendants_count) %></strong></p>
+
+  <div class="form--field">
+    <label class="form--label" for="todo_nullify"><%= t(:text_wiki_page_nullify_children) %></label>
+    <div class="form--field-container">
+      <%= styled_radio_button_tag 'todo', 'nullify', true %>
+    </div>
+  </div>
+  <div class="form--field">
+    <label class="form--label" for="todo_destroy"><%= t(:text_wiki_page_destroy_children) %></label>
+    <div class="form--field-container">
+      <%= styled_radio_button_tag 'todo', 'destroy', false %>
+    </div>
+  </div>
+
+  <% if @reassignable_to.any? %>
+    <div class="form--field">
+      <label class="form--label" for="todo_reassign"><%= t(:text_wiki_page_reassign_children) %></label>
+      <div class="form--field-container">
+        <%= styled_radio_button_tag 'todo', 'reassign', false %>
+      </div>
+
+      <%= label_tag "reassign_to_id", t(:description_wiki_subpages_reassign), class: "hidden-for-sighted" %>
+      <%= styled_select_tag 'reassign_to_id',
+                     options_for_select(wiki_page_options_for_select(@reassignable_to)),
+                     { container_class: '-wide'} %>
+      <% csp_onclick("jQuery('#todo_reassign').attr('checked', true)", '#reassign_to_id') %>
+    </div>
+  <% end %>
+
+  <%= submit_tag t(:button_apply), class: 'button -highlight' %>
+  <%= link_to t(:button_cancel),
+      { controller: '/wiki', action: 'show', project_id: @project, id: @page },
+      class: 'button' %>
+<% end %>

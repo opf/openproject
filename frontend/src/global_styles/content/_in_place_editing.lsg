@@ -1,0 +1,217 @@
+# In place editing
+
+## In place editing: Title
+
+```
+<div class="toolbar-container -editable">
+    <div class="toolbar">
+        <editable-toolbar-title class="title-container">
+          <div class="editable-toolbar-title--container">
+            <input class="wp-query--selectable-title -border-on-hover-only toolbar--editable-toolbar ellipsis"
+                    placeholder="Page title"
+                    aria-label="Page title"
+                    type="text"
+                    name="foobar" />
+          </div>
+        </editable-toolbar-title>
+    </div>
+</div>
+```
+
+
+## In place editing: Attributes
+
+```
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">
+        Details
+      </h3>
+    </div>
+  </div>
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key">
+      Custom Field
+    </div>
+    <div class="attributes-key-value--value-container">
+      <editable-attribute-field>
+        <div class="inline-edit--container -small">
+          <span title="Editable text field" class="inline-edit--display-field inplace-edit -editable">
+            Editable text field
+          </span>
+        </div>
+      </editable-attribute-field>
+    </div>
+  </div>
+</div>
+```
+
+## In place editing: Single line of text
+
+### Read mode
+
+```
+<div class="work-package--details--long-field work-packages--activity--add-comment">
+  <div class="inplace-edit--read">
+    <accessible-by-keyboard class="inplace-editing--trigger-container">
+      <a href="" class="inplace-editing--trigger-link">
+        <span class="inplace-editing--container inline-edit--display-field">
+          <span>Comment and type @ to notify other people</span>
+          <span class="inplace-editing--trigger-icon">
+            <op-icon class="op-icon--wrapper">
+              <i aria-hidden="true" class="icon-edit" title="Comment and type @ to notify other people"></i>
+            </op-icon>
+          </span>
+        </span>
+      </a>
+    </accessible-by-keyboard>
+  </div>
+</div>
+  ```
+
+
+## In place editing: Multiple lines of text
+
+### Read mode
+
+```
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">Description</h3>
+      </div>
+    </div>
+  </div>
+  <editable-attribute-field>
+    <div class="inline-edit--container description -no-label">
+      <div>
+        <span class="inline-edit--display-field inplace-edit -editable">
+          <div class="read-value--html wiki highlight -multiline">
+            <p>
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+              Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+              Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim
+            </p>
+          </div>
+        </span>
+      </div>
+    </div>
+  </editable-attribute-field>
+</div>
+```
+
+### Edit mode
+
+```
+<div class="attributes-group ">
+
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text ">
+        Description
+      </h3>
+    </div>
+  </div>
+
+  <div class="single-attribute wiki">
+    <span inplace-editor="" placeholder="Click to enter description..." autocomplete-path="/work_packages/auto_complete.json?project_id=undefined" >
+      <div class="inplace-edit type-wiki_textarea attribute-description textarea-wrapper"  aria-busy="false" >
+
+        <div class="inplace-edit--write " >
+          <form class="inplace-edit--form " name="editForm"  novalidate="">
+            <div class="inplace-edit--write-value">
+              <div class="jstElements">
+                <button type="button" class="jstb_strong" title="Strong">
+                  <span>Strong</span>
+                </button>
+                <button type="button" class="jstb_em" title="Italic">
+                  <span>Italic</span>
+                </button>
+                <button type="button" class="jstb_ins" title="Underline">
+                  <span>Underline</span>
+                </button>
+                <button type="button" class="jstb_del" title="Deleted">
+                  <span>Deleted</span></button><button type="button" class="jstb_code" title="Inline Code">
+                  <span>Inline Code</span></button><span id="space1" class="jstSpacer">&nbsp;</span>
+                <button type="button" class="jstb_h1" title="Heading 1">
+                  <span>Heading 1</span>
+                </button>
+                <button type="button" class="jstb_h2" title="Heading 2">
+                  <span>Heading 2</span>
+                </button>
+                <button type="button" class="jstb_h3" title="Heading 3">
+                  <span>Heading 3</span>
+                </button>
+                <span id="space2" class="jstSpacer">&nbsp;</span>
+                <button type="button" class="jstb_ul" title="Unordered List">
+                  <span>Unordered List</span>
+                </button>
+                <button type="button" class="jstb_ol" title="Ordered List">
+                  <span>Ordered List</span>
+                </button>
+                <span id="space3" class="jstSpacer">&nbsp;</span>
+                <button type="button" class="jstb_bq" title="Quote">
+                  <span>Quote</span></button>
+                <button type="button" class="jstb_unbq" title="Unquote">
+                  <span>Unquote</span>
+                </button>
+                <button type="button" class="jstb_pre" title="Preformatted Text">
+                  <span>Preformatted Text</span></button><span id="space4" class="jstSpacer">&nbsp;</span>
+                <button type="button" class="jstb_link" title="Link to a Wiki page">
+                  <span>Link to a Wiki page</span>
+                </button>
+                <button type="button" class="jstb_img" title="Image">
+                  <span>Image</span>
+                </button>
+                <div class="jstb_help">
+                  <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help1">
+                    <span class="hidden-for-sighted">
+                      Text formatting
+                    </span>
+                  </a>
+                </div>
+                <button class="jstb_preview icon-preview" type="button" title="Preview">
+                </button>
+              </div>
+
+              <div class="jstEditor">
+                <textarea wiki-toolbar="" class="focus-input inplace-edit--textarea " name="value"   title="Description: Edit" aria-multiline="true" tabindex="0" aria-hidden="false" aria-disabled="false" aria-invalid="false" rows="5">
+                </textarea>
+              </div>
+
+              <div class="jstHandle"></div>
+            </div>
+            <div class="inplace-edit--dashboard">
+              <div class="inplace-edit--controls">
+                <accessible-by-keyboard class="inplace-edit--control inplace-edit--control--save">
+                  <a href="" role="link" title="Description: Save">
+                    <span>
+                      <op-icon class="op-icon--wrapper">
+                        <i class="icon-checkmark" title="Description: Save"></i>
+                        <span class="hidden-for-sighted">Description: Save</span>
+                      </op-icon>
+                    </span>
+                  </a>
+                </accessible-by-keyboard>
+                <accessible-by-keyboard class="inplace-edit--control inplace-edit--control--cancel">
+                  <a href="" role="link" title="Description: Cancel">
+                    <span>
+                      <op-icon class="op-icon--wrapper">
+                        <i class="icon-close" title="Description: Cancel"></i>
+                        <span class="hidden-for-sighted">Description: Cancel</span>
+                      </op-icon>
+                    </span>
+                  </a>
+                </accessible-by-keyboard>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+```

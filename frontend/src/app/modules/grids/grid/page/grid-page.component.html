@@ -1,0 +1,25 @@
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2 [textContent]="text.title"></h2>
+    </div>
+
+    <ul class="toolbar-items hidden-for-mobile">
+      <li class="toolbar-item hidden-for-mobile">
+        <zen-mode-toggle-button></zen-mode-toggle-button>
+      </li>
+      <li class="toolbar-item">
+        <button class="button"
+                *ngIf="addWidget.isAllowed"
+                [title]="addWidget.addText"
+                (click)="areas.toggleHelpMode()"
+                [ngClass]="{'-active': areas.inHelpMode}">
+          <op-icon icon-classes="button--icon icon-add">
+          </op-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<grid *ngIf="grid" [grid]="grid"></grid>

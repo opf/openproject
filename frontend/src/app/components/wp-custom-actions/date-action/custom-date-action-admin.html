@@ -1,0 +1,24 @@
+<div class="form--field-container">
+  <span class="form--select-container">
+      <select class="form--select"
+              [attr.id]="fieldId"
+              [(ngModel)]="selectedOperator"
+              (change)="toggleValueVisibility()">
+             <option *ngFor="let operator of operators"
+                     [textContent]="operator.label"
+                     [ngValue]="operator">
+             </option>
+      </select>
+  </span>
+  <span class="form--text-field-container -slim" *ngIf="valueVisible">
+    <op-date-picker (onChange)="updateField($event)"
+                    [id]="fieldId + '_visible'"
+                    [name]="fieldId + '_input'"
+                    [initialDate]="fieldValue"
+                    classes="form--text-field">
+    </op-date-picker>
+  </span>
+  <input type="hidden"
+         [name]="fieldName"
+         [value]="fieldValue" />
+</div>

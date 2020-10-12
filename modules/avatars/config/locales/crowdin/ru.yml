@@ -1,0 +1,40 @@
+#English strings go here
+ru:
+  label_avatar: "Аватар"
+  label_avatar_plural: "Аватары"
+  label_current_avatar: "Текущий аватар"
+  label_choose_avatar: "Выбрать аватар из файла"
+  message_avatar_uploaded: "Аватар успешно изменен."
+  error_image_upload: "Ошибка сохранения изображения."
+  error_image_size: "Изображение слишком большое."
+  button_change_avatar: "Сменить аватар"
+  are_you_sure_delete_avatar: "Вы уверены, что хотите удалить свой аватар?"
+  avatar_deleted: "Аватар успешно удален."
+  unable_to_delete_avatar: "Аватар не может быть удален."
+  wrong_file_format: "Допустимые форматы — jpg, png, gif"
+  empty_file_error: "Пожалуйста, загрузите допустимое изображение (jpg, png, gif)"
+  avatars:
+    label_avatar: "Аватар"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Текущий аватар'
+    label_local_avatar: 'Пользовательский аватар'
+    text_current_avatar: |
+      Следующее изображение показывает текущий аватар.
+    text_upload_instructions: |
+      Загрузите свой собственный пользовательский аватар 128 на 128 пикселей. Большие файлы будут изменены и обрезаны соответственно.
+      Предпросмотр вашего аватара будет показан перед загрузкой, после того как вы выбрали изображение.
+    text_change_gravatar_html: 'Чтобы изменить или добавить Gravatar для вашего адреса электронной почты, перейдите на %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject позволяет вам загружать свой собственный аватар.
+    text_local_avatar_over_gravatar: |
+      Выбранный аватар будет использоваться в приоритете над Gravatar, представленным выше.
+    text_your_current_gravatar: |
+      OpenProject использует зарегистрированный вами Gravatar, либо изображение/иконку по умолчанию, если таковые существуют.
+      Текущий Gravatar выглядит следующим образом:
+    settings:
+      enable_gravatars: 'Использовать Gravatar'
+      gravatar_default: "Картинка Gravitar по умолчанию"
+      enable_local_avatars: 'Включить пользовательские аватары'
+
+
+

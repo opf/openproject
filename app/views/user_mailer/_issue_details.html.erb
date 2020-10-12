@@ -1,0 +1,53 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<h1><%= link_to issue.to_s, work_package_url(issue) %></h1>
+
+<ul>
+  <li><%= WorkPackage.human_attribute_name(:author)        %>: <%= issue.author        %></li>
+  <li><%= WorkPackage.human_attribute_name(:status)        %>: <%= issue.status        %></li>
+  <li><%= WorkPackage.human_attribute_name(:priority)      %>: <%= issue.priority      %></li>
+  <li><%= WorkPackage.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %></li>
+  <li><%= WorkPackage.human_attribute_name(:responsible)   %>: <%= issue.responsible   %></li>
+  <li><%= WorkPackage.human_attribute_name(:category)      %>: <%= issue.category      %></li>
+  <li><%= WorkPackage.human_attribute_name(:version) %>: <%= issue.version %></li>
+  <li><%= WorkPackage.human_attribute_name(:start_date)    %>: <%= issue.start_date    %></li>
+  <li><%= WorkPackage.human_attribute_name(:due_date)      %>: <%= issue.due_date      %></li>
+  <li><%= WorkPackage.human_attribute_name(:estimated_hours)%>: <%= issue.estimated_hours %></li>
+
+  <% if Setting.work_package_done_ratio != 'disabled' %>
+    <li><%= WorkPackage.human_attribute_name(:done_ratio)    %>: <%= issue.done_ratio    %></li>
+  <% end %>
+
+  <% issue.custom_field_values.each do |value| %>
+    <li><%= value.custom_field.name %>: <%= show_value(value) %></li>
+  <% end %>
+</ul>
+
+<%= format_text(issue.description, attribute: :description, only_path: false, object: issue, project: issue.project) %>

@@ -1,0 +1,62 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+---
+news_001:
+  created_at: 2006-07-19 22:40:26 +02:00
+  updated_at: 2006-07-19 22:40:26 +02:00
+  project_id: 1
+  title: eCookbook first release !
+  id: 1
+  description: |-
+    eCookbook 1.0 has been released.
+
+    Visit http://ecookbook.somenet.foo/
+  summary: First version was released...
+  author_id: 2
+  comments_count: 1
+news_002:
+  created_at: 2006-07-19 22:42:58 +02:00
+  updated_at: 2006-07-19 22:42:58 +02:00
+  project_id: 1
+  title: 100,000 downloads for eCookbook
+  id: 2
+  description: eCookbook 1.0 have downloaded 100,000 times
+  summary: eCookbook 1.0 have downloaded 100,000 times
+  author_id: 2
+  comments_count: 0
+news_003:
+  created_at: 2006-07-19 22:42:58 +02:00
+  updated_at: 2006-07-19 22:42:58 +02:00
+  project_id: 2
+  title: News on a private project
+  id: 3
+  description: This is a private news
+  summary:
+  author_id: 2
+  comments_count: 0

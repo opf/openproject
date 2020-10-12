@@ -1,0 +1,11 @@
+<div class="work-package--attachments--files" *ngIf="resource">
+  <ul class="form--selected-value--list"
+      *ngFor="let attachment of attachments; trackBy:trackByHref; let i = index;">
+    <attachment-list-item [attachment]="attachment"
+                          [resource]="resource"
+                          [index]="i"
+                          [destroyImmediately]="destroyImmediately"
+                          (removeAttachment)="removeAttachment(attachment)">
+    </attachment-list-item>
+  </ul>
+</div>

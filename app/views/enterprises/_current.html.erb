@@ -1,0 +1,16 @@
+<enterprise-active-saved-trial
+  data-subscriber="<%= @current_token.subscriber %>"
+  data-email="<%= @current_token.mail %>"
+  data-company="<%= @current_token.try(:company) %>"
+  data-domain="<%= @current_token.try(:domain) %>"
+  data-user-count="<%= @current_token.restrictions.nil? ? t('js.admin.enterprise.upsale.unlimited') : @current_token.restrictions[:active_user_count] %>"
+  data-starts-at="<%= format_date @current_token.starts_at %>"
+  data-expires-at="<%= (!@current_token.will_expire?) ? t('js.admin.enterprise.upsale.unlimited') : (format_date @current_token.expires_at) %>">
+</enterprise-active-saved-trial>
+
+<%= form_tag({}, method: :delete) do %>
+  <confirm-form-submit></confirm-form-submit>
+  <%= styled_button_tag t(:button_delete),
+                        method: :delete,
+                        class: '-with-icon icon-delete' %>
+<% end %>

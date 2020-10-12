@@ -1,0 +1,26 @@
+<div class="type-form-conf-group">
+  <div class="group-head">
+    <span class="group-handle icon-drag-handle"></span>
+    <group-edit-in-place
+        [name]="group.name"
+        (onValueChange)="rename($event)"
+        class="group-name">
+    </group-edit-in-place>
+    <span class="delete-group icon-small icon-close" (click)="deleteGroup.emit()"></span>
+  </div>
+  <div class="attributes" dragula="attributes" [(dragulaModel)]="group.attributes">
+    <div *ngFor="let attribute of group.attributes"
+         class="type-form-conf-attribute"
+         [attr.data-key]="attribute.key">
+      <span class="attribute-handle icon-drag-handle"></span>
+      <span class="attribute-name">
+        {{ attribute.translation }}
+        <span class="attribute-cf-label"
+              *ngIf="attribute.is_cf"
+              [textContent]="text.custom_field">
+          </span>
+      </span>
+      <span class="delete-attribute icon-small icon-close" (click)="removeFromGroup(attribute)"></span>
+    </div>
+  </div>
+</div> <!-- END attribute group -->

@@ -1,0 +1,60 @@
+Message-ID: <001101ca9762$293d68c0$0600a8c0@osiris>
+From: "jsmith" <jsmith@somenet.foo>
+To: <redmine@somenet.foo>
+Subject: Japanese Character pattern matching
+Date: Sun, 17 Jan 2010 11:45:18 +0100
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_000E_01CA976A.8AF5E9E0"
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.2869
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_000E_01CA976A.8AF5E9E0
+Content-Type: text/plain;
+	charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
+
+It should be noted that I am receiving emails using pop and the patch in =
+Issue #2420 but I don't think the problem lies with this.
+
+When I try and send emails to the redmine server with Japanese =
+characters in them it appears to work apart from the pattern matching.
+
+For example if I send an email with the following keywords.
+
+Type: =1B$B3+H/=1B(B
+
+------=_NextPart_000_000E_01CA976A.8AF5E9E0
+Content-Type: text/html;
+	charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META content=3D"text/html; charset=3Diso-2022-jp" =
+http-equiv=3DContent-Type>
+<META name=3DGENERATOR content=3D"MSHTML 8.00.6001.18702">
+<STYLE></STYLE>
+</HEAD>
+<BODY bgColor=3D#ffffff>
+<DIV><FONT size=3D2 face=3DArial>
+<P>It should be noted that I am receiving emails using pop and the patch =
+in=20
+Issue <A class=3D"issue status-1 priority-2"=20
+title=3D"Fetching emails from an POP server (New)"=20
+href=3D"http://www.redmine.org/issues/2420">#2420</A> but I don't think =
+the=20
+problem lies with this.</P>
+<P>When I try and send emails to the redmine server with Japanese =
+characters in=20
+them it appears to work apart from the pattern matching.</P>
+<P>For example if I send an email with the following keywords.</P>
+<P>Type: =
+=1B$B3+H/=1B(B</P></FONT></DIV></BODY></HTML>
+
+------=_NextPart_000_000E_01CA976A.8AF5E9E0--
+

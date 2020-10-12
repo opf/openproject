@@ -1,0 +1,163 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= form_tag({controller: '/repositories', action: 'diff', project_id: @project, repo_path: to_path_param(path)}, method: :get) do %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table changesets">
+        <colgroup>
+          <col highlight-col>
+          <col>
+          <col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <caption class="hidden-for-sighted">
+          <span>
+            <%= t(:text_table_difference_description, entries: t(:label_changeset) + ' ' + t(:label_version_plural)) %>
+          </span>
+        </caption>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span aria-describedby="revision-id--description">
+                    #
+                  </span>
+                  <label id="revision-id--description" class="hidden-for-sighted">
+                    <%= t(:label_changeset_id) %>
+                  </label>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--empty-header">
+                <div class="generic-table--header">
+                  <span>
+                    <%= t(:description_compare_from) + ' ' + t(:label_changeset) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--empty-header">
+                <div class="generic-table--header">
+                  <span>
+                    <%= t(:description_compare_to) + ' ' + t(:label_changeset) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= t(:label_date) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Changeset.human_attribute_name(:author) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Changeset.human_attribute_name(:comments) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% show_diff = revisions.size > 1 %>
+          <% line_num = 1 %>
+          <% revisions.each do |changeset| %>
+            <tr class="changeset">
+              <td class="id">
+                <%= link_to_revision(changeset, project) %>
+              </td>
+              <td class="checkbox">
+                <%= label_tag "cb-#{line_num}", t(:description_compare_from) + ' ' + t(:label_changeset), class: 'hidden-for-sighted' %>
+                <% if show_diff && (line_num < revisions.size) %>
+                <%= radio_button_tag 'rev',
+                                     changeset.identifier,
+                                     (line_num==1),
+                                     id: "cb-#{line_num}" %>
+                <% csp_onclick("jQuery('#cbto-#{line_num+1}').attr('checked', true);",
+                               "cb-#{line_num}") %>
+                <% end %>
+              </td>
+              <td class="checkbox">
+                <%= label_tag "cbto-#{line_num}", t(:description_compare_to) + ' ' + t(:label_changeset), class: 'hidden-for-sighted' %>
+                <% if show_diff && (line_num > 1) %>
+                <%= radio_button_tag 'rev_to',
+                                     changeset.identifier,
+                                     (line_num==2),
+                                     id: "cbto-#{line_num}" %>
+                  <% csp_onclick("if (jQuery('#cb-#{line_num}').attr('checked')) {jQuery('#cb-#{line_num-1}').attr('checked', true)}",
+                                 "cbto-#{line_num}") %>
+                <% end %>
+              </td>
+              <td class="committed_on">
+                <%= format_time(changeset.committed_on) %>
+              </td>
+              <td class="author">
+                <%=h changeset.author %>
+              </td>
+              <td class="comments">
+                <%= format_revision_text(truncate_at_line_break(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding))) %>
+              </td>
+            </tr>
+            <% line_num += 1 %>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+  <% if show_diff %>
+    <div class="generic-table--action-buttons">
+      <button type="submit" class="button">
+        <%= op_icon('button--icon icon-compare2') %>
+        <span class="button--text"><%= t(:label_view_diff) %></span>
+      </button>
+    </div>
+  <% end %>
+<% end %>

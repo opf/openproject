@@ -1,0 +1,135 @@
+/*
+  TITLE BAR
+  ---------
+
+  A navigational component which can display the current screen the user is on, along with additional controls or menu items.
+
+  The title bar includes classes to create center, left, and right sections, which can be used in any combination. However, in the markup, the sections must come in this order:
+   - Center
+   - Left
+   - Right
+*/
+
+/// @Foundation.settings
+// Title Bar
+$titlebar-center-width: 50% !default;
+$titlebar-side-width: (100% - $titlebar-center-width) / 2 !default;
+$titlebar-background: #eee !default;
+$titlebar-color: #000 !default;
+$titlebar-border: 1px solid #ccc !default;
+$titlebar-padding: $global-padding !default;
+$titlebar-item-classes: (
+  center: 'center',
+  left: 'left',
+  right: 'right',
+  title: 'title',
+) !default;
+///
+
+%title-bar {
+  $center: map-get($titlebar-item-classes, center);
+  $left: map-get($titlebar-item-classes, left);
+  $right: map-get($titlebar-item-classes, right);
+  $title: map-get($titlebar-item-classes, title);
+
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: visible;
+
+  // Denotes the title of the bar
+  .#{$title} {
+    font-weight: bold;
+  }
+
+  // Denotes left, right, and center sections of the bar
+  .#{$left}, .#{$center}, .#{$right} {
+    display: block;
+    white-space: nowrap;
+    overflow: visible;
+
+    // If only one section is in use, stretch it all the way out
+    &:first-child:last-child {
+      flex: 1;
+      margin: 0;
+    }
+  }
+
+  // Left always comes first, then center, then right
+  // The left and right sections have the same width
+  .#{$left} {
+    order: 1;
+    flex: 0 0 $titlebar-side-width;
+  }
+  .#{$center} {
+    order: 2;
+    flex: 0 0 $titlebar-center-width;
+    text-align: center;
+  }
+  .#{$right} {
+    order: 3;
+    flex: 0 0 $titlebar-side-width;
+    text-align: right;
+  }
+
+  // If only left and right are in use, stretch them both out equally
+  .#{$left}:first-child {
+    flex: 1 1 auto;
+  }
+  .#{$left}:first-child + .#{$right}:last-child {
+    flex: 1 1 auto;
+  }
+
+  // If only center and right are in use, shift the center section into the right position
+  .#{$center}:first-child:not(:last-child) {
+    margin-left: $titlebar-side-width;
+  }
+  // If only center and left are in use, override the above style
+  .#{$center} + .#{$left} {
+    margin-right: -($titlebar-side-width);
+  }
+}
+
+@mixin title-bar-style(
+  $background: $titlebar-background,
+  $color: $titlebar-color,
+  $border: $titlebar-border,
+  $padding: $titlebar-padding
+) {
+  background: $background;
+  color: $color;
+  padding: $padding;
+  border-bottom: $border;
+}
+
+@mixin title-bar(
+  $background: $titlebar-background,
+  $color: $titlebar-color,
+  $border: $titlebar-border,
+  $padding: $titlebar-padding
+) {
+  @extend %title-bar;
+  @include title-bar-style($background, $color, $border, $padding);
+}
+
+@include exports(title-bar) {
+  .title-bar {
+    @include title-bar;
+
+    &.primary {
+      @include title-bar-style($primary-color, isitlight($primary-color));
+      a, a:hover { color: isitlight($primary-color); }
+      @if using(iconic) { .iconic { @include color-icon(isitlight($primary-color)); } }
+    }
+    &.dark {
+      @include title-bar-style($dark-color, #fff);
+      a, a:hover { color: #fff; }
+      @if using(iconic) { .iconic { @include color-icon(#fff); } }
+    }
+  }
+    .title-bar-bottom {
+      border-bottom: 0;
+      border-top: $titlebar-border;
+    }
+}

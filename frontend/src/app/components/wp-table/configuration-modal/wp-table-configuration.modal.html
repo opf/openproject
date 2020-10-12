@@ -1,0 +1,49 @@
+<div class="op-modal--portal ">
+  <div class="op-modal--modal-container -wide wp-table--configuration-modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <h3 [textContent]="text.title"></h3>
+
+      <a class="op-modal--modal-close-button">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.closePopup">
+        </i>
+      </a>
+    </div>
+
+    <ng-container *ngIf="!!prependModalComponent">
+      <ng-container *ngComponentOutlet="prependModalComponent; injector: injector"></ng-container>
+    </ng-container>
+
+    <div *ngIf="!!tabPortalHost"
+         class="content--tabs scrollable-tabs">
+      <ul class="tabrow">
+        <li *ngFor="let tab of availableTabs"
+            [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name, '-disabled': tab.disableBecause != null }">
+          <a class="tab-show"
+             role="button"
+             [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name }"
+             [attr.title]="tab.disableBecause || tab.title"
+             [textContent]="tab.title"
+             (click)="switchTo(tab.name)"
+             href>
+          </a>
+      </ul>
+    </div>
+
+    <div class="tab-content" #tabContentOutlet></div>
+    <div class="modal--form-actions">
+      <button class="button -highlight"
+              [textContent]="text.applyButton"
+              (click)="saveChanges()">
+      </button>
+      <button class="button"
+              [textContent]="text.cancelButton"
+              (click)="closeMe($event)">
+      </button>
+    </div>
+  </div>
+</div>

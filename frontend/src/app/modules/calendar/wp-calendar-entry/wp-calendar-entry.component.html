@@ -1,0 +1,27 @@
+<div class="work-packages-calendar-view--container loading-indicator--location"
+     data-indicator-name="calendar-entry">
+    <div class="toolbar-container -editable">
+        <div class="toolbar">
+            <div class="title-container">
+                <h2>
+                   {{ I18n.t('js.calendar.title') }}
+                </h2>
+            </div>
+
+            <ul class="toolbar-items hide-when-print">
+                <li class="toolbar-item hidden-for-mobile">
+                    <wp-filter-button>
+                    </wp-filter-button>
+                </li>
+                <li class="toolbar-item hidden-for-mobile">
+                    <zen-mode-toggle-button>
+                    </zen-mode-toggle-button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <filter-container></filter-container>
+
+    <wp-calendar [projectIdentifier]="projectIdentifier"></wp-calendar>
+</div>

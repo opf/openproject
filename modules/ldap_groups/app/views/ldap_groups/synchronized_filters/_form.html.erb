@@ -1,0 +1,49 @@
+<%= error_messages_for @filter %>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= @filter.class.human_attribute_name :name %></legend>
+
+  <div class="form--field -required">
+    <%= f.text_field :name,
+                     required: true,
+                     container_class: '-middle' %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :group_name_attribute,
+                     required: true,
+                     placeholder: 'cn',
+                     container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= t('ldap_groups.synchronized_filters.form.group_name_attribute_text') %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= @filter.class.human_attribute_name :auth_source %></legend>
+
+  <div class="form--field -required">
+    <%= f.select :auth_source_id,
+                 LdapAuthSource.pluck(:name, :id),
+                 required: true,
+                 include_blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
+                 container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= t('ldap_groups.synchronized_groups.form.auth_source_text') %>
+    </div>
+  </div>
+</fieldset>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= @filter.class.human_attribute_name :filter_string %></legend>
+  <div class="form--field -required">
+    <%= f.text_area :filter_string,
+                    required: true,
+                    cols: 200,
+                    rows: 10,
+                    container_class: '-large' %>
+    <div class="form--field-instructions">
+      <%= t('ldap_groups.synchronized_filters.form.filter_string_text') %>
+    </div>
+  </div>
+</fieldset>

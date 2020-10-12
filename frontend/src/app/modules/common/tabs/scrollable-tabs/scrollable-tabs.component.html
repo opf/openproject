@@ -1,0 +1,19 @@
+<div #scrollContainer [ngClass]="classes">
+  <ul #scrollPane class="tabrow" (scroll)="onScroll($event)">
+    <li *ngFor="let tab of tabs"
+        [class.selected]="tab.id === currentTabId"
+        [attr.tab-id]="tab.id">
+      <a [href]="tab.path" (click)="clickTab(tab.id)" [textContent]="tab.name"></a>
+    </li>
+  </ul>
+  <div #scrollLeftBtn [hidden]="hideLeftButton"
+                      class="scrollable-tabs--button -left"
+                      (click)="scrollLeft()">
+    <span class="icon-arrow-left2"></span>
+  </div>
+  <div #scrollRightBtn [hidden]="hideRightButton"
+                       class="scrollable-tabs--button -right"
+                       (click)="scrollRight()">
+    <span class="icon-arrow-right2"></span>
+  </div>
+</div>

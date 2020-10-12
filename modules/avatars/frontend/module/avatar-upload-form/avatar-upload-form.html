@@ -1,0 +1,32 @@
+<div class="form--field">
+    <label class="form--label"
+           [ngClass]="{ '-error':  fileInvalid }"
+           [textContent]="text.label_choose_avatar"
+           for="avatar_file_input">
+    </label>
+    <div class="form--field-container">
+        <input #avatarFilePicker
+               type="file"
+               accept="image/jpeg,image/png,image/gif"
+               id="avatar_file_input"
+               name="avatar_file_input"
+               (change)="onFilePickerChanged($event)" />
+    </div>
+    <div class="form--field-instructions">
+        <span [textContent]="text.upload_instructions"></span>
+          <div class="avatars--error-pane">
+            <span *ngIf="fileInvalid" [textContent]="text.wrong_file_format"></span>
+          </div>
+    </div>
+</div>
+<fieldset class="preview" *ngIf="avatarPreviewUrl">
+    <legend class="preview--legend" [textContent]="text.preview"></legend>
+    <img [src]="avatarPreviewUrl" class="avatars--local-avatar-preview" />
+</fieldset>
+
+<button type="submit"
+        (click)="uploadAvatar($event)"
+        [attr.disabled]="!avatarFile || busy || undefined"
+        [textContent]="text.button_update"
+        class="button -highlight -with-icon icon-checkmark">
+</button>

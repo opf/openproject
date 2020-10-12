@@ -1,0 +1,871 @@
+# Group Memberships
+
+Users and groups can become members of a project. Such a membership will also have one or more roles assigned to it. By that, memberships control the permissions a user has within a project.
+
+## Linked Properties
+|  Link               | Description                                                   | Type             | Constraints                                                    | Supported operations |
+|:-------------------:|-----------------------------------------                      | -------------    | -------------------------------------------------------------- | -------------------- |
+| self                | This membership                                               | Membership       | not null                                                       | READ                 |
+| project             | The project for which the membership is granted               | Project          | not null                                                       | READ                 |
+| roles               | The list of roles the user or group is granted in the project | RoleCollection   | not null                                                       | READ                 |
+| principal           | The user or group that was granted membership                 | User or Group    | not null                                                       | READ                 |
+
+## Local Properties
+| Property    | Description                                   | Type        | Constraints                                        | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | -----------                                        | -------------------- |
+| id          | Membership id                                 | Integer     | x > 0                                              | READ                 |
+| createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
+
+## Membership [/api/v3/memberships/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                    "self": {
+                        "href": "/api/v3/memberships/11",
+                        "title": "Some user"
+                    },
+                    "schema": {
+                        "href": "/api/v3/memberships/schema"
+                    },
+                    "update": {
+                        "href": "/api/v3/memberships/11/form",
+                        "method": "post"
+                    },
+                    "updateImmediately": {
+                        "href": "/api/v3/memberships/11",
+                        "method": "patch"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/3",
+                        "title": "A project"
+                    },
+                    "principal": {
+                        "href": "/api/v3/users/4",
+                        "title": "Some user"
+                    },
+                    "roles": [
+                        {
+                            "href": "/api/v3/roles/5",
+                            "title": "Member"
+                        },
+                        {
+                            "href": "/api/v3/roles/4",
+                            "title": "Reader"
+                        }
+                    ]
+                },
+                "_type": "Membership",
+                "id": 11,
+                "createdAt": "2015-03-20T12:56:56Z",
+                "_embedded": {
+                    "project": "<-- omitted for brevity -->",
+                    "principal": "<-- omitted for brevity -->",
+                    "roles": [
+                        "<-- omitted for brevity -->"
+                    ]
+                }
+            }
+
+## View membership [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... membership id
+
++ Response 200 (application/hal+json)
+
+    [Membership][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the membership does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view members **or** manage members
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a membership. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+## Update Membership [PATCH]
+
+Updates the given membership by applying the attributes provided in the body.
+
++ Parameters
+    + id (required, integer, `1`) ... Membership id
+
++ Request Update membership
+
+    + Body
+
+            {
+                "_links": {
+                    "roles": [
+                      {
+                        "href": "/api/v3/roles/3"
+                      },
+                      {
+                        "href": "/api/v3/roles/8"
+                      }
+                    ]
+                }
+            }
+
++ Response 200
+
+    [Membership][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Manage members in the membership's project.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the membership does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view member
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Roles has an unassignable role.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "roles"
+                    }
+                }
+            }
+
+## Delete Membership [DELETE]
+
+Deletes the membership.
+
++ Parameters
+    + id (required, integer, `1`) ... Membership id
+
++ Response 204 (application/hal+json)
+
+    Returned if the membership was successfully deleted
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage members
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the membership does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view members
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+## Memberships [/api/v3/memberships{?filters}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/memberships" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links": {
+                                "self": {
+                                      "href": "/api/v3/memberships/11"
+                                 },
+                                 "schema": {
+                                     "href": "/api/v3/memberships/schema"
+                                 },
+                                 "project": {
+                                     "href": "/api/v3/projects/3",
+                                     "title": "A Project"
+                                 },
+                                 "principal": {
+                                     "href": "/api/v3/users/5",
+                                     "title": "A user"
+                                 },
+                                 "roles": [
+                                     {
+                                         "href": "/api/v3/roles/4",
+                                         "title": "Reader"
+                                     }
+                                 ]
+                            },
+                            "_type": "Membership",
+                            "id": 11,
+                            "createdAt": "2015-03-20T12:56:56Z"
+                        },
+                        {
+                            "_links": {
+                                "self": {
+                                      "href": "/api/v3/memberships/41"
+                                 },
+                                 "schema": {
+                                     "href": "/api/v3/memberships/schema"
+                                 },
+                                 "project": {
+                                     "href": "/api/v3/projects/6",
+                                     "title": "Another Project"
+                                 },
+                                 "principal": {
+                                     "href": "/api/v3/groups/5",
+                                     "title": "A group"
+                                 },
+                                 "roles": [
+                                     {
+                                         "href": "/api/v3/roles/8",
+                                         "title": "Project admin"
+                                     }
+                                 ]
+                            },
+                            "_type": "Membership",
+                            "id": 41,
+                            "createdAt": "2019-12-22T12:56:06Z"
+                        }
+                    ]
+                }
+            }
+
+## List memberships [GET]
+
+Returns a collection of memberships. The client can choose to filter the memberships similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain memberships, for which the requesting client has sufficient permissions (*view_members*, *manage_members*).
+
++ Parameters
+    + filters (optional, string, `[{ "name": { "operator": "=", "values": ["A User"] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + any_name_attribute: filters memberships based on the name of the principal. All possible name variants (and also email and login) are searched.
+      + blocked: reduces the result set to all memberships that are temporarily blocked or that are not blocked temporarily.
+      + group: filters memberships based on the name of a group. The group however is not the principal used for filtering. Rather, the memberships of the group are used as the filter values.
+      + name: filters memberships based on the name of the principal. Note that only the name is used which depends on a setting in the OpenProject instance.
+      + principal: filters memberships based on the id of the principal.
+      + project: filters memberships based on the id of the project.
+      + role: filters memberships based on the id of any role assigned to the membership.
+      + status: filters memberships based on the status of the principal.
+
++ Response 200 (application/hal+json)
+
+    [Memberships][]
+
+## Create membership [POST]
+
+Creates a new membership applying the attributes provided in the body.
+
+You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+
++ Request Create memberships
+
+    + Body
+
+            {
+              "project": {
+                "href": "/api/v3/projects/1"
+              },
+              "principal": {
+                "href": "/api/v3/users/5"
+              },
+              "roles": [
+                {
+                  "href": "/api/v3/roles/5"
+                },
+                {
+                  "href": "/api/v3/roles/8"
+                }
+              ]
+            }
+
++ Response 201
+
+    [Membership][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Manage members
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Project can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "project"
+                    }
+                }
+            }
+
+## Membership schema [/api/v3/memberships/schemas]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_dependencies": [],
+                "id": {
+                    "type": "Integer",
+                    "name": "ID",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "createdAt": {
+                    "type": "DateTime",
+                    "name": "Created on",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": false
+                },
+                "project": {
+                    "type": "Project",
+                    "name": "Project",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "_links": {}
+                },
+                "principal": {
+                    "type": "Principal",
+                    "name": "Principal",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "_links": {}
+                },
+                "roles": {
+                    "type": "[]Role",
+                    "name": "Role",
+                    "required": true,
+                    "hasDefault": false,
+                    "writable": true,
+                    "_links": {}
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/memberships/schema"
+                    }
+                }
+            }
+
+
+## View membership schema [GET]
+
++ Response 200 (application/hal+json)
+
+    [Membership schema][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see the schema.
+
+    **Required permission:** manage members or view memberships on any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Membership create form [/api/v3/memberships/form]
+
+This endpoint returns a form allowing a guided creation of new memberships.
+
+For more details and all possible responses see the general specification of [Forms](/api/forms).
+
+## Membership create form [POST]
+
++ Request Create membership form
+
+    + Body
+
+            {
+                "project": {
+                    "href": "/api/v3/projects/1"
+                },
+                "principal": {
+                    "href": "/api/v3/users/5"
+                },
+                "roles": [
+                    {
+                        "href": "/api/v3/roles/2"
+                    }
+                ]
+            }
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_type": "Form",
+                "_embedded": {
+                    "payload": {
+                        "_links": {
+                            "project": {
+                                "href": "/api/v3/projects/1",
+                                "title": "A project"
+                            },
+                            "principal": {
+                                "href": "/api/v3/users/5",
+                                "title": "A User"
+                            },
+                            "roles": [
+                                {
+                                    "href": "/api/v3/roles/2",
+                                    "title": "Manager"
+                                }
+                            ]
+                        }
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_dependencies": [],
+                        "id": {
+                            "type": "Integer",
+                            "name": "ID",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "createdAt": {
+                            "type": "DateTime",
+                            "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "project": {
+                            "type": "Project",
+                            "name": "Project",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/memberships/available_projects?filters=%5B%7B%22principal%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%225%22%5D%7D%7D%5D"
+                                }
+                            }
+                        },
+                        "principal": {
+                            "type": "Principal",
+                            "name": "Principal",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/principals?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%220%22%2C%223%22%5D%7D%7D%2C%7B%22member%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D"
+                                }
+                            }
+                        },
+                        "roles": {
+                            "type": "[]Role",
+                            "name": "Role",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/roles?filters=%5B%7B%22unit%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22project%22%5D%7D%7D%5D"
+                                }
+                            }
+                        },
+                        "_links": {}
+                    },
+                    "validationErrors": {
+                        "user": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                            "message": "User has already been taken.",
+                            "_embedded": {
+                                "details": {
+                                    "attribute": "user"
+                                }
+                            }
+                        }
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/memberships/form",
+                        "method": "post"
+                    },
+                    "validate": {
+                        "href": "/api/v3/memberships/form",
+                        "method": "post"
+                    }
+                }
+            }
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage memberships in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Membership update form [/api/v3/memberships/{id}/form]
+
+This endpoint returns a form allowing a guided modification of existing memberships.
+The returned payload part of the form will be contain a merge between the already existing properties' values (as long as they are writeable) and the provided values with the later having precedence.
+
+For more details and all possible responses see the general specification of [Forms](/api/forms).
+
+## Membership update form [POST]
+
++ Request Update membership form
+
+    + Body
+
+            {
+                "_links": [
+                  {
+                    "href": "/api/v3/roles/4"
+                  }
+                ]
+            }
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_type": "Form",
+                "_embedded": {
+                    "payload": {
+                        "_links": {
+                            "roles": [
+                                {
+                                    "href": "/api/v3/roles/4",
+                                    "title": "A role"
+                                }
+                            ]
+                        }
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_dependencies": [],
+                        "id": {
+                            "type": "Integer",
+                            "name": "ID",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "createdAt": {
+                            "type": "DateTime",
+                            "name": "Created on",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false
+                        },
+                        "project": {
+                            "type": "Project",
+                            "name": "Project",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false,
+                            "_links": {}
+                        },
+                        "principal": {
+                            "type": "Principal",
+                            "name": "Principal",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": false,
+                            "_links": {}
+                        },
+                        "roles": {
+                            "type": "[]Role",
+                            "name": "Role",
+                            "required": true,
+                            "hasDefault": false,
+                            "writable": true,
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/roles?filters=%5B%7B%22unit%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22project%22%5D%7D%7D%5D"
+                                }
+                            }
+                        },
+                        "_links": {}
+                    },
+                    "validationErrors": {}
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/memberships/5/form",
+                        "method": "post"
+                    },
+                    "validate": {
+                        "href": "/api/v3/memberships/5/form",
+                        "method": "post"
+                    },
+                    "commit": {
+                        "href": "/api/v3/memberships/5",
+                        "method": "patch"
+                    }
+                }
+            }
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage versions in the version's project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+
+## Available projects for memberships [/api/v3/memberships/available_projects]
+
++ Model
+    + Body
+
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/v3/memberships/available_projects"
+                }
+              },
+              "_type": "Collection",
+              "total": 2,
+              "count": 2,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/6",
+                        "title": "A project"
+                      },
+                      "editWorkPackage": {
+                        "href": "/api/v3//work_packages/{work_package_id}/form",
+                        "templated": true,
+                        "method": "post"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/6/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/6/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/6/categories"
+                      },
+                      "memberships": {
+                        "href": "/api/v3/projects/6/memberships"
+                      }
+                    },
+                    "id": 6,
+                    "identifier": "a_project",
+                    "name": "A project",
+                    "description": "Eveniet molestias omnis quis aut qui eum adipisci. Atque aut aut in exercitationem adipisci amet. Nisi asperiores quia ratione veritatis enim exercitationem magnam. Aut fuga architecto adipisci nihil. Et repellat pariatur. Aliquam et sed perferendis nostrum quaerat. Fugit doloremque voluptatem.",
+                    "createdAt": "2015-07-06T13:28:14+00:00",
+                    "updatedAt": "2015-10-01T09:55:02+00:00",
+                    "type": "Customer Project"
+                  },
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/14",
+                        "title": "Another project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/14/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/14/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/14/categories"
+                      },
+                      "memberships": {
+                        "href": "/api/v3/projects/14/memberships"
+                      }
+                    },
+                    "id": 14,
+                    "identifier": "another_project",
+                    "name": "Another project",
+                    "description": "",
+                    "createdAt": "2016-02-29T12:50:20+00:00",
+                    "updatedAt": "2016-02-29T12:50:20+00:00",
+                    "type": null
+                  }]
+                }
+              }
+            }
+
+## Available projects for memberships [GET]
+
+Gets a list of projects in which a membership can be created in. The list contains all projects in which the user issuing the request has the manage members permissions.
+
++ Response 200 (application/hal+json)
+
+    [Available projects for memberships][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage members
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }

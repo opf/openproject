@@ -1,0 +1,115 @@
+# Group Help texts
+
+## Linked Properties
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This help text            | HelpText      | not null    | READ                 |
+| editText      | Edit the help text entry  | text/htm      | Admin       | READ                 |
+
+## Local Properties
+| Property           | Description                 | Type                 | Constraints | Supported operations |
+| :---------:        | --------------------------- | -------------------- | ----------- | -------------------- |
+| id                 | Help text id                | Integer              | x > 0       | READ                 |
+| attribute          | Attribute name              | String               |             | READ                 |
+| attributeCaption   | Attribute caption           | String               |             | READ                 |
+| helpText           | Help text content           | Formattable          |             | READ                 |
+
+## Help texts [/api/v3/help_texts]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/help_texts"
+                    }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "HelpText",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/help_texts/1",
+                                }
+                            },
+                            "id": 1,
+                            "attribute": 'id',
+                            "attributeCaption": 'ID',
+                            "scope": 'WorkPackage',
+                            "helpText": {
+                                "format": "markdown",
+                                "raw": "Help text for id attribute.",
+                                "html": "<p>Help text for id attribute.</p>"
+                            }
+                        },
+                        {
+                            "_type": "HelpText",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/help_texts/2",
+                                }
+                            },
+                            "id": 2,
+                            "attribute": 'status',
+                            "attributeCaption": 'Status',
+                            "scope": 'WorkPackage',
+                            "helpText": {
+                                "format": "markdown",
+                                "raw": "Help text for status attribute.",
+                                "html": "<p>Help text for status attribute.</p>"
+                            }
+                        }
+                    ]
+                }
+            }
+
+## List all help texts [GET]
+
++ Response 200 (application/hal+json)
+
+    [Help texts][]
+
+
+## Help text [/api/v3/help_texts/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "HelpText",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/help_texts/1",
+                    },
+                    "editText": {
+                        "type": "text/html",
+                        "href": "/admin/attribute_help_texts/1/edit",
+                    }
+                },
+                "id": 1,
+                "attribute": 'id',
+                "attributeCaption": 'ID',
+                "scope": 'WorkPackage',
+                "helpText": {
+                    "format": "markdown",
+                    "raw": "Help text for id attribute.",
+                    "html": "<p>Help text for id attribute.</p>"
+                }
+            }
+
+## View help text [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Help text id
+
++ Response 200 (application/hal+json)
+
+    [Help text][]

@@ -1,0 +1,33 @@
+<ul id="work-packages-timeline-mode-selection"
+    class="toolbar-button-group">
+
+  <li *ngIf="isActive">
+    <button id="work-packages-timeline-zoom-auto-button"
+            class="button timeline-toolbar--button toolbar-icon"
+            [ngClass]="getAutoZoomToggleClass()"
+            [attr.title]="text.zoomAuto"
+            (click)="enableAutoZoom()">
+      <op-icon icon-classes="icon-zoom-auto button--icon"></op-icon>
+    </button>
+  </li>
+
+  <li *ngIf="isActive">
+    <button id="work-packages-timeline-zoom-out-button"
+            class="button timeline-toolbar--button toolbar-icon"
+            [attr.title]="text.zoomOut"
+            [disabled]="isMaxLevel"
+            (click)="updateZoomWithDelta(1)">
+      <op-icon icon-classes="icon-zoom-out button--icon"></op-icon>
+    </button>
+  </li>
+
+  <li *ngIf="isActive">
+    <button id="work-packages-timeline-zoom-in-button"
+            class="button timeline-toolbar--button toolbar-icon"
+            [attr.title]="text.zoomIn"
+            [disabled]="isMinLevel"
+            (click)="updateZoomWithDelta(-1)">
+      <op-icon icon-classes="icon-zoom-in button--icon"></op-icon>
+    </button>
+  </li>
+</ul>

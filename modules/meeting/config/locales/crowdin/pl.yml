@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+pl:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Lokalizacja"
+        duration: "Czas trwania"
+        participants: "Uczestnicy"
+        participants_attended: "Uczestnicy"
+        participants_invited: "Zaproszone osoby"
+        start_time: "Czas"
+        start_time_hour: "Czas rozpoczęcia"
+    errors:
+      messages:
+        invalid_time_format: "nie jest prawidłowy. Wymagany format to: GG:MM"
+    models:
+      meeting_agenda: "Plan spotkania"
+      meeting_minutes: "Protokół ze spotkania"
+  description_attended: "Obecny"
+  description_invite: "zaproszony"
+  events:
+    meeting: Spotkanie zmienione
+    meeting_agenda: Zmieniono plan spotkania
+    meeting_agenda_closed: Zamknięto plan spotkania
+    meeting_agenda_opened: Otwarto plan spotkania
+    meeting_minutes: Protokół ze spotkania edytowany
+    meeting_minutes_created: Protokół ze spotkania utworzony
+  error_notification_with_errors: "Nie udało się wysłać powiadomienie do adresatów: %{recipients}"
+  label_meeting: "Spotkanie"
+  label_meeting_plural: "Spotkania"
+  label_meeting_new: "Nowe spotkanie"
+  label_meeting_edit: "Edycja spotkania"
+  label_meeting_agenda: "Plan spotkania"
+  label_meeting_minutes: "Protokół ze spotkania"
+  label_meeting_close: "Zamknij"
+  label_meeting_open: "Otwórz"
+  label_meeting_agenda_close: "Zamknij agendę aby zacząć protokół ze spotkania"
+  label_meeting_date_time: "Data/Czas"
+  label_meeting_diff: "Różnice"
+  label_notify: "Wyślij do przeglądu"
+  label_icalendar: "Wyślij iCalendar"
+  label_version: "Wersja"
+  label_time_zone: "Strefa czasowa"
+  label_start_date: "Data rozpoczęcia"
+  notice_successful_notification: "Powiadomienia wysłane pomyślnie"
+  notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
+  permission_create_meetings: "Utwórz spotkanie"
+  permission_edit_meetings: "Modyfikuj spotkania"
+  permission_delete_meetings: "Usuń spotkania"
+  permission_view_meetings: "Zobacz spotkania"
+  permission_create_meeting_agendas: "Zarządzaj planami"
+  permission_close_meeting_agendas: "Zamknij plany"
+  permission_send_meeting_agendas_notification: "Wyślij powiadomienie o przeglądzie planów"
+  permission_create_meeting_minutes: "Zarządzaj protokołami ze spotkań"
+  permission_send_meeting_minutes_notification: "Wyślij przegląd uwag do protokołu ze spotkania"
+  permission_meetings_send_invite: "Zaproś użytkowników na spotkania"
+  permission_send_meeting_agendas_icalendar: "Wyślij plan spotkania jako wpis kalendarza"
+  project_module_meetings: "Spotkania"
+  text_duration_in_hours: "Czas trwania w godzinach"
+  text_in_hours: "w godzinach"
+  text_meeting_agenda_for_meeting: 'agenda spotkania "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Czy na pewno chcesz zamknąć spotkanie?"
+  text_meeting_agenda_open_are_you_sure: "To zastąpił wszystkie zmiany w protokołach! Czy chcesz kontynuować?"
+  text_meeting_minutes_for_meeting: 'protokół ze spotkania "%{meeting}"'
+  text_review_meeting_agenda: "%{author} umieścił %{link} do przeglądu."
+  text_review_meeting_minutes: "%{author} umieścił %{link} do przeglądu."
+  text_notificiation_invited: "Ten mail zawiera element ics dla poniższego spotkania:"

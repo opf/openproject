@@ -1,0 +1,10 @@
+<button class="button {{ buttonClass }}"
+        type="button"
+        [ngClass]="{ '-active': isActive }"
+        [disabled]="disabled || (!isToggle() && isActive)"
+        [attr.id]="buttonId"
+        [attr.title]="label"
+        [attr.accesskey]="accessKey"
+        (accessibleClick)="performAction($event)">
+  <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
+</button>

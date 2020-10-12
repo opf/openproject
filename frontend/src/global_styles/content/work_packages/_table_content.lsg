@@ -1,0 +1,171 @@
+# Work packages table
+
+## with work packages
+
+```
+<div class="generic-table--container work-package-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
+                ID
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
+              </span>
+            </div>
+          </th>
+          <th class="active-column">
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
+                Subject
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
+              </span>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
+                Type
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
+              </span>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
+                Status
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
+              </span>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
+                Priority
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
+              </span>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <span class="generic-table--sort-header">
+                Assignee
+                <op-icon>
+                  <i class="dropdown-indicator icon-pulldown icon-small"></i>
+                </op-icon>
+              </span>
+            </div>
+          </th>
+          <th class="wp-table--configuration-modal--trigger">
+            <div class="generic-table--sort-header-outer">
+              <a href="" title="Configure view">
+                    <i class="icon-settings icon-small"></i>
+              </a>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="wp-table--row issue -checked">
+          <td class="id">
+            <a href="#">1234</a>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">Lorem ipsum</span>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">User Story</span>
+            <div class="active-column"></div>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">In Progress</span>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">Normal</span>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">John Doe</span>
+          </td>
+          <td class="wp-table--context-menu-td">
+            <span>
+              <a href="#" class="wp-table--details-link wp-table-context-menu-icon" title="Open details view">
+                <i class="icon icon-info2"></i>
+              </a>
+              <a href="#" class="wp-table-context-menu-link wp-table-context-menu-icon" title="Open context menu">
+                <i class="icon icon-show-more-horizontal"></i>
+              </a>
+            </span>
+          </td>
+        </tr>
+        <tr class="wp-table--row issue">
+          <td class="id">
+            <a href="#">1234</a>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">Lorem ipsum</span>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">User Story</span>
+            <div class="active-column"></div>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">In Progress</span>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">Normal</span>
+          </td>
+          <td>
+            <span class="inline-edit--display-field -editable">John Doe</span>
+          </td>
+          <td class="wp-table--context-menu-td">
+            <span>
+              <a href="#" class="wp-table--details-link wp-table-context-menu-icon" title="Open details view">
+                <i class="icon icon-info2"></i>
+              </a>
+              <a href="#" class="wp-table-context-menu-link wp-table-context-menu-icon" title="Open context menu">
+                <i class="icon icon-show-more-horizontal"></i>
+              </a>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+```
+
+## with no work packages
+
+```
+<div class="generic-table--container work-package-table--container" style="height:150px">
+  <div class="generic-table--no-results-container">
+    <i class="icon-info1"></i>
+    <h2 class="generic-table--no-results-title">
+      No work packages to display
+    </h2>
+    <div class="generic-table--no-results-description">
+      <p>Either none have been created or all work packages are filtered out.</p>
+    </div>
+  </div>
+</div>
+```

@@ -1,0 +1,134 @@
+#English strings go here for Rails i18n
+uk:
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Failed imports of BCF topics'
+    label_imported_successfully: 'Successfully imported BCF topics'
+    issues: "Задачі"
+    recommended: 'рекомендовано'
+    not_recommended: 'не рекомендується'
+    no_viewpoints: 'No viewpoints'
+    new_badge: "Новий"
+    exceptions:
+      file_invalid: "BCF file invalid"
+    x_bcf_issues:
+      zero: 'No BCF issues'
+      one: 'One BCF issue'
+      few: '%{count} BCF issues'
+      many: '%{count} BCF issues'
+      other: '%{count} BCF issues'
+    bcf_xml:
+      xml_file: 'BCF XML File'
+      import_title: 'Імпортувати'
+      export: 'Експорт'
+      import_update_comment: '(Updated in BCF import)'
+      import_failed: 'Не вдалося імпортувати файл BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_successful: 'Imported %{count} BCF issues'
+      import_canceled: 'BCF-XML import canceled.'
+      type_not_active: "The issue type is not activated for this project."
+      import:
+        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        button_prepare: 'Підготувати імпорт'
+        button_perform_import: 'Підтвердити імпортування'
+        button_proceed: 'Proceed with import'
+        button_back_to_list: 'Повернутися до списку'
+        no_permission_to_add_members: 'У вас недостатньо прав, щоб додати їх до проекту учасниками.'
+        contact_project_admin: 'Зверніться до адміністратора проекту, щоб додати їх в якості членів і почати імпорт знову.'
+        continue_anyways: 'Ви все ще хочете завершити імпорт?'
+        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
+        invalid_types_found: 'Invalid topic type names found'
+        invalid_statuses_found: 'Invalid status names found'
+        invalid_priorities_found: 'Invalid priority names found'
+        invalid_emails_found: 'Invalid email addresses found'
+        unknown_emails_found: 'Unknown email addresses found'
+        unknown_property: 'Unknown property'
+        non_members_found: 'Non project members found'
+        import_types_as: 'Set all these types to'
+        import_statuses_as: 'Set all these statuses to'
+        import_priorities_as: 'Set all these priorities to'
+        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
+        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
+        no_type_provided: 'Тип не вказано'
+        no_status_provided: 'Cтатус не вказано'
+        no_priority_provided: 'Пріоритет не вказано'
+        perform_description: "Do you want to import or update the issues listed above?"
+        replace_with_system_user: 'Replace them with "System" user'
+        import_as_system_user: 'Import them as "System" user.'
+        what_to_do: "Що ти хочеш зробити?"
+        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "Снапшот BCF"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Проглянути BCF помилки"
+  permission_manage_bcf: "Import and manage BCF issues"
+  permission_delete_bcf: "Delete BCF issues"
+  oauth:
+    scopes:
+      bcf_v2_1: "Повний доступ до BCF v2.1 API"
+      bcf_v2_1_text: "Програма отримає повний доступ для читання та запису від вашого імені через OpenProject BCF v2.1 API."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC file"
+        is_default: "Default model"
+        attachments: "IFC file"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "No ifc file attached."
+              invalid_ifc_file: "The provided file is not a valid IFC file."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "растрові зображення недоступні для запису, оскільки це ще не реалізовано."
+          index_not_integer: "індекс не є цілим числом."
+          invalid_clipping_planes: "clipping_plans невірне."
+          invalid_components: "components невірне."
+          invalid_lines: "lines невірне."
+          invalid_orthogonal_camera: "orthogonal_camera невірне."
+          invalid_perspective_camera: "perspective_camera невірне."
+          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
+          no_json: "Погано структурований json."
+          snapshot_type_unsupported: "snapshot_type повинен бути або 'png' або 'jpg'."
+          snapshot_data_blank: "snapshot_data має бути заповненим."
+          unsupported_key: "An unsupported json property is included."
+        bim/bcf/issue:
+          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+  ifc_models:
+    label_ifc_models: 'IFC models'
+    label_new_ifc_model: 'New IFC model'
+    label_show_defaults: 'Show defaults'
+    label_default_ifc_models: 'Default IFC models'
+    label_edit_defaults: 'Edit defaults'
+    no_defaults_warning:
+      title: 'No IFC model was set as default for this project.'
+      check_1: 'Check that you have uploaded at least one IFC model.'
+      check_2: 'Check that at least one IFC model is set to "Default".'
+    no_results: "No IFC models have been uploaded in this project."
+    processing_state:
+      label: 'Processing?'
+      in_progress: 'У процесі'
+      completed: 'Completed'
+    processing_notice:
+      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+    flash_messages:
+      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
+    conversion:
+      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
+  project_module_ifc_models: "IFC models"
+  permission_view_ifc_models: "View IFC models"
+  permission_manage_ifc_models: "Import and manage IFC models"
+  extraction:
+    available:
+      ifc_convert: "IFC conversion pipeline available"
+

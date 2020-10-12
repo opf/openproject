@@ -1,0 +1,160 @@
+/*
+  UTILITIES
+  ---------
+
+  Responsive helper classes to assist you in quickly doing basic formatting and layout.
+
+  Features:
+   - Vertical alignment
+   - Visibility
+   - Text alignment
+   - Floating
+*/
+
+$block-selector: '[class*="grid-block"]';
+
+@mixin show-for($size, $prop: block) {
+  &:not(.ng-hide) {
+    display: none !important;
+    @include breakpoint($size) {
+      display: $prop !important;
+    }
+  }
+}
+
+@mixin show-for-only($size, $prop: block) {
+  &:not(.ng-hide) {
+    display: none !important;
+    @include breakpoint($size only) {
+      display: $prop !important;
+    }
+  }
+}
+
+@mixin hide-for($size, $prop: block) {
+  &:not(.ng-hide) {
+    display: $prop !important;
+    @include breakpoint($size) {
+      display: none !important;
+    }
+  }
+}
+
+@mixin hide-for-only($size, $prop: block) {
+  &:not(.ng-hide) {
+    display: $prop !important;
+    @include breakpoint($size only) {
+      display: none !important;
+    }
+  }
+}
+
+@include exports(utilities) {
+  // Vertical alignment
+  .v-align {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    $align-values: (
+      'top': flex-start,
+      'center': center,
+      'bottom': flex-end,
+    );
+
+    @each $orient in (top, center, bottom) {
+      .align-#{$orient} {
+        align-self: map-get($align-values, $orient);
+      }
+    }
+
+    @each $size in $breakpoint-classes {
+      @each $orient in (top, center, bottom) {
+        @include breakpoint($size) {
+          .#{$size}-align-#{$orient} {
+            align-self: map-get($align-values, $orient);
+          }
+        }
+      }
+    }
+  }
+
+  // Visibility
+  .hide { display: none !important; }
+
+  .invisible { visibility: hidden; }
+
+  @each $size in $breakpoint-classes {
+    .hide-for-#{$size} {
+      @include hide-for($size);
+      &#{$block-selector} { @include hide-for($size, flex); }
+    }
+
+    .show-for-#{$size} {
+      @include show-for($size);
+      &#{$block-selector} { @include show-for($size, flex); }
+    }
+
+    .hide-for-#{$size}-only {
+      @include hide-for-only($size);
+      &#{$block-selector} { @include hide-for-only($size, flex); }
+    }
+
+    .show-for-#{$size}-only {
+      @include show-for-only($size);
+      &#{$block-selector} { @include show-for-only($size, flex); }
+    }
+  }
+
+  @each $orientation in (portrait, landscape) {
+    .hide-for-#{$orientation} {
+      @include breakpoint($orientation) {
+        display: none !important;
+        &#{$block-selector} { display: flex !important; }
+      }
+    }
+
+    .show-for-#{$orientation} {
+      display: none !important;
+      
+      @include breakpoint($orientation) {
+        display: block !important;
+        &#{$block-selector} { display: flex !important; }
+      }
+    }
+  }
+
+  /*
+    Text alignment
+  */
+  @each $align in (left, right, center, justify) {
+    .text-#{$align} {
+      text-align: $align;
+    }
+    
+    @each $size in $breakpoint-classes {
+      @include breakpoint($size) {
+        .#{$size}-text-#{$align} {
+          text-align: $align;
+        }
+      }
+
+      @include breakpoint($size only) {
+        .#{$size}-only-text-#{$align} {
+          text-align: $align;
+        }
+      }
+    }
+  }
+
+  /*
+    Floating
+  */
+  .clearfix { @include clearfix; }
+
+  @each $float in (left, right, none) {
+    .float-#{$float} {
+      float: #{$float};
+    }
+  }
+}

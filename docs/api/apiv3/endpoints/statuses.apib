@@ -1,0 +1,203 @@
+# Group Statuses
+
+## Linked Properties
+|  Link         | Description               | Type          | Constraints | Supported operations |
+|:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+| self          | This status               | Status        | not null    | READ                 |
+
+## Local Properties
+| Property         | Description                                                   | Type    | Constraints   | Supported operations |
+| :--------:       | -------------                                                 | ------- | -----------   | -------------------- |
+| id               | Status id                                                     | Integer | x > 0         | READ                 |
+| name             | Status name                                                   | String  |               | READ                 |
+| position         | Sort index of the status                                      | Integer |               | READ                 |
+| isDefault        |                                                               | Boolean |               | READ                 |
+| isClosed         | are tickets of this status considered closed?                 | Boolean |               | READ                 |
+| isReadonly       | are tickets of this status read only?                         | Boolean |               | READ                 |
+| defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | READ                 |
+
+## Statuses [/api/v3/statuses]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/statuses"
+                    }
+                },
+                "total": 6,
+                "count": 6,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/1"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 1,
+                            "name": "New",
+                            "position": 1,
+                            "isDefault": true,
+                            "isClosed": false,
+                            "defaultDoneRatio": 0
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/3"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 3,
+                            "name": "Resolved",
+                            "position": 3,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "isReadonly": false,
+                            "defaultDoneRatio": 75
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/4"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 4,
+                            "name": "Feedback",
+                            "position": 4,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "defaultDoneRatio": 25
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/5"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 5,
+                            "name": "Closed",
+                            "position": 5,
+                            "isDefault": false,
+                            "isClosed": true,
+                            "defaultDoneRatio": 100
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/6"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 6,
+                            "name": "Rejected",
+                            "position": 6,
+                            "isDefault": false,
+                            "isClosed": true,
+                            "defaultDoneRatio": 100
+                        },
+                        {
+                            "_links":
+                            {
+                                "self":
+                                {
+                                    "href": "/api/v3/statuses/2"
+                                }
+                            },
+                            "_type": "Status",
+                            "id": 2,
+                            "name": "In Progress",
+                            "position": 3,
+                            "isDefault": false,
+                            "isClosed": false,
+                            "defaultDoneRatio": 50
+                        }
+                    ]
+                }
+            }
+
+## List all Statuses [GET]
+
++ Response 200 (application/hal+json)
+
+    [Statuses][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see the statuses."
+            }
+
+## Status [/api/v3/statuses/{id}]
+
++ Model
+    + Body
+
+            {
+                "_links":
+                {
+                    "self":
+                    {
+                        "href": "/api/v3/statuses/1"
+                    }
+                },
+                "_type": "Status",
+                "id": 1,
+                "name": "New",
+                "position": 1,
+                "isDefault": true,
+                "isClosed": false,
+                "defaultDoneRatio": 0
+            }
+
+## View Status [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... status id
+
++ Response 200 (application/hal+json)
+
+    [Status][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work package (on any project)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to see this status."
+            }
+

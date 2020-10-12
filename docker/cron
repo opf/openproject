@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+IMAP_SSL=${IMAP_SSL:="true"}
+IMAP_PORT=${IMAP_PORT:="993"}
+IMAP_ENABLED="${IMAP_ENABLED:="true"}"
+IMAP_CHECK_INTERVAL="${IMAP_CHECK_INTERVAL:=600}"
+
+while true; do
+	if [ "$IMAP_ENABLED" = "true" ]; then
+		echo "[cron] Checking for new emails from IMAP"
+		bundle exec rake redmine:email:receive_imap \
+			host="${IMAP_HOST}" \
+			username="${IMAP_USERNAME}" \
+			password="${IMAP_PASSWORD}" \
+			ssl=${IMAP_SSL} \
+			port=${IMAP_PORT} \
+			unknown_user="${IMAP_UNKNOWN_USER}" \
+			no_permission_check="${IMAP_NO_PERMISSION_CHECK}" \
+			move_on_success="${IMAP_MOVE_ON_SUCCESS}" \
+			move_on_failure="${IMAP_MOVE_ON_FAILURE}" \
+			allow_override="${IMAP_ALLOW_OVERRIDE}" || true
+	else
+		echo "[cron] IMAP email checking is disabled"
+	fi
+
+	echo "[cron] Rescheduling in ${IMAP_CHECK_INTERVAL}s"
+	sleep ${IMAP_CHECK_INTERVAL}s
+done

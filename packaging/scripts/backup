@@ -1,0 +1,73 @@
+#!/bin/bash
+
+set -e
+
+TARGET="/var/db/${APP_NAME}/backup"
+
+mkdir -p "${TARGET}"
+
+timestamp=$(date +"%Y%m%d%H%M%S")
+
+echo -n "* Generating database backup..." >&2
+dst="${TARGET}/postgresql-dump-${timestamp}.pgdump"
+touch "$dst" && chmod 0640 "$dst"
+pg_dump -Fc $DATABASE_URL > $dst
+
+echo " done" >&2
+echo "$dst"
+
+if [ -d "$SVN_REPOSITORIES" ]; then
+  dst="${TARGET}/svn-repositories-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Generating SVN repositories backup..." >&2
+  if tar czf "$dst" -C "${SVN_REPOSITORIES}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No SVN repositories folder. Ignoring." >&2
+fi
+
+if [ -d "$GIT_REPOSITORIES" ]; then
+  dst="${TARGET}/git-repositories-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Generating Git repositories backup..." >&2
+  if tar czf "$dst" -C "${GIT_REPOSITORIES}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No Git repositories folder. Ignoring." >&2
+fi
+
+if [ -d "$ATTACHMENTS_STORAGE_PATH" ]; then
+  dst="${TARGET}/attachments-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Generating attachments backup..." >&2
+  if tar czf "$dst" -C "${ATTACHMENTS_STORAGE_PATH}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No attachments folder. Ignoring." >&2
+fi
+
+if [ -d "/etc/${APP_NAME}/conf.d" ]; then
+  dst="${TARGET}/conf-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Saving configuration..." >&2
+  if tar czf "$dst" -C /etc/${APP_NAME}/conf.d . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* no configuration folder. Ignoring." >&2
+fi

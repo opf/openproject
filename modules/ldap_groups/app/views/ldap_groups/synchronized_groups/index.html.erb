@@ -1,0 +1,41 @@
+<% html_title(t(:label_administration), t('ldap_groups.synchronized_groups.plural')) -%>
+
+<%= breadcrumb_toolbar t('ldap_groups.synchronized_groups.plural') do %>
+  <li class="toolbar-item">
+    <%= link_to new_ldap_groups_synchronized_filter_path,
+                { class: 'button',
+                  aria: {label: t('ldap_groups.synchronized_filters.singular')},
+                  title: t('ldap_groups.synchronized_filters.add_new')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('ldap_groups.synchronized_filters.singular') %></span>
+    <% end %>
+  </li>
+
+  <li class="toolbar-item">
+    <%= link_to new_ldap_groups_synchronized_group_path,
+                { class: 'button',
+                  aria: {label: t('ldap_groups.synchronized_groups.singular')},
+                  title: t('ldap_groups.synchronized_groups.add_new')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('ldap_groups.synchronized_groups.singular') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<div class="notification-box -info">
+  <div class="notification-box--content">
+    <strong><%= t('note') %></strong>
+    <%= t('ldap_groups.synchronized_groups.help_text_html') %>
+  </div>
+</div>
+
+<section class="admin--edit-section">
+  <h3 class="form--section-title"><%= t('ldap_groups.synchronized_filters.plural') %></h3>
+  <%= cell ::LdapGroups::SynchronizedFilters::TableCell, @filters %>
+</section>
+
+<section class="admin--edit-section">
+  <h3 class="form--section-title"><%= t('ldap_groups.synchronized_groups.plural') %></h3>
+  <%= cell ::LdapGroups::SynchronizedGroups::TableCell, @groups %>
+</section>
+

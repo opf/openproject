@@ -1,0 +1,72 @@
+@import 'helpers'
+
+$board-list-max-width: 300px
+
+.board-list--query-container
+  // 100% - board header height
+  max-width: inherit
+  overflow: hidden
+  height: 100%
+
+  // Ensure grid is only applied if button is visible
+  &.-with-create-button
+    display: grid
+    // In order to enable automatic scrolling within the card view,
+    // it is important that second container is limited in the height, so that it is scrollable.
+    grid-template: 34px minmax(0, 1fr) / 1fr
+
+// Make the button sticky so that it does not scroll,
+// Unfortunately we cannot let the card container scroll because there seem to be a Chrome bug,
+// which takes the scrollbar sometimes into the width calculation and sometimes not.
+// Thus, the button is sometimes wider than the cards, and sometimes not.
+.board-list--button-container
+  background-color: var(--body-background)
+  position: sticky
+  top: 0px
+  z-index: 1
+
+.board-list--container
+  height: 100%
+  max-width: $board-list-max-width
+  display: flex
+  flex-direction: column
+
+  &:hover
+    .board-list--menu
+      visibility: visible
+
+.board-list--action-bar
+  width: calc(100% - 30px)
+  height: 5px
+  margin: auto
+
+.board-list--header
+  padding: 5px 15px
+  display: flex
+  align-items: center
+  max-height: 52px
+
+  editable-toolbar-title
+    flex: 1
+    margin-bottom: 0
+    margin-right: 0.25rem
+
+.notification-box
+  margin-top: 0
+  // Avoids having to hide the drag&drop handle of the list
+  z-index: 100
+
+.board-list--add-button
+  background-color: var(--body-background)
+  width: calc(100% - 30px - #{$scrollbar-size})
+  margin: 0 15px
+  box-shadow: 1px 1px 3px 0px lightgrey
+
+  &:hover
+    background-color: #eeeeee50
+
+  &:disabled
+    background-color: #cccccc50
+
+.board-list--menu
+  visibility: hidden

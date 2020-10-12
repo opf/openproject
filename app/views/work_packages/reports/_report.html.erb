@@ -1,0 +1,109 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% if report.statuses.try(:empty?) and report.rows.try(:empty?) %>
+  <div class="generic-table--container">
+    <% title = t("work_packages.summary.reports.#{report.report_type.downcase}.no_results_title_text") %>
+    <%= no_results_box(custom_title: title) %>
+  </div>
+<% else %>
+  <% column_names = report.statuses.map(&:name) + [t(:label_open_work_packages), t(:label_closed_work_packages), t(:label_total)] %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+         <% column_names.each do |name| %>
+            <col highlight-col>
+          <% end %>
+        </colgroup>
+      <thead>
+        <tr>
+          <th><div class="generic-table--empty-header"></div></th>
+          <% column_names.each do |name| %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= name %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for row in report.rows %>
+          <tr>
+            <td>
+              <%= link_to h(row.name),
+                  project_report_property_path((row.is_a?(Project) ? row : @project),
+                                               "#{report.field}",
+                                               row.id) %>
+            </td>
+            <% for status in report.statuses %>
+              <td>
+                <%= aggregate_link report.data,
+                         { report.field => row.id, "status_id" => status.id },
+                         project_report_property_status_path((row.is_a?(Project) ? row : @project),
+                                                             status.id,
+                                                             "#{report.field}",
+                                                             row.id) %>
+              </td>
+            <% end %>
+            <td>
+              <%= aggregate_link report.data,
+                         { report.field => row.id, "closed" => 0 },
+                           project_report_property_open_path((row.is_a?(Project) ? row : @project),
+                                                             "#{report.field}",
+                                                             row.id) %>
+            </td>
+            <td>
+              <%= aggregate_link report.data,
+                         { report.field => row.id, "closed" => 1 },
+                           project_report_property_closed_path((row.is_a?(Project) ? row : @project),
+                                                               "#{report.field}",
+                                                               row.id) %>
+            </td>
+            <td align="center">
+              <%= aggregate_link report.data,
+                         { report.field => row.id },
+                         project_report_property_path((row.is_a?(Project) ? row : @project),
+                                                                 "#{report.field}",
+                                                                 row.id) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+ </div>
+<% end
+  reset_cycle %>

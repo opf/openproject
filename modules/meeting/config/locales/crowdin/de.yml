@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+de:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Ort/Raum"
+        duration: "Dauer"
+        participants: "Teilnehmer"
+        participants_attended: "Anwesend"
+        participants_invited: "Eingeladen"
+        start_time: "Anfangszeit"
+        start_time_hour: "Beginn"
+    errors:
+      messages:
+        invalid_time_format: "ist keine gültige Zeit. Erforderliches Format: HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Protokoll"
+  description_attended: "teilgenommen"
+  description_invite: "eingeladen"
+  events:
+    meeting: Besprechung bearbeitet
+    meeting_agenda: Agenda bearbeitet
+    meeting_agenda_closed: Agenda abgeschlossen
+    meeting_agenda_opened: Agenda geöffnet
+    meeting_minutes: Protokoll bearbeitet
+    meeting_minutes_created: Protokoll erstellt
+  error_notification_with_errors: "Benachrichtigungversenden fehlgeschlagen. Folgende Empfänger konnten nicht benachrichtigt werden: %{recipients}"
+  label_meeting: "Besprechung"
+  label_meeting_plural: "Besprechungen"
+  label_meeting_new: "Neue Besprechung"
+  label_meeting_edit: "Besprechung bearbeiten"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Protokoll"
+  label_meeting_close: "Schließen"
+  label_meeting_open: "Offene"
+  label_meeting_agenda_close: "Agenda schließen um mit dem Protokoll zu beginnen"
+  label_meeting_date_time: "Datum/Uhrzeit"
+  label_meeting_diff: "Differenz"
+  label_notify: "Zur Einsicht verschicken"
+  label_icalendar: "ICalendar senden"
+  label_version: "Version"
+  label_time_zone: "Zeitzone"
+  label_start_date: "Anfangstermin"
+  notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
+  notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
+  permission_create_meetings: "Besprechungen erstellen"
+  permission_edit_meetings: "Besprechungen bearbeiten"
+  permission_delete_meetings: "Besprechungen löschen"
+  permission_view_meetings: "Besprechungen ansehen"
+  permission_create_meeting_agendas: "Agenden anlegen/bearbeiten"
+  permission_close_meeting_agendas: "Agenden schließen"
+  permission_send_meeting_agendas_notification: "Benachrichtigungen für Agenden verschicken"
+  permission_create_meeting_minutes: "Protokolle anlegen/bearbeiten"
+  permission_send_meeting_minutes_notification: "Benachrichtigungen für Protokolle verschicken"
+  permission_meetings_send_invite: "Benutzer zu Besprechungen einladen"
+  permission_send_meeting_agendas_icalendar: "Besprechungsagenda als Kalendereintrag senden"
+  project_module_meetings: "Besprechungen"
+  text_duration_in_hours: "Dauer in Stunden"
+  text_in_hours: "in Stunden"
+  text_meeting_agenda_for_meeting: 'Agenda für die Besprechung "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Möchten Sie dieses Meeting wirklich schließen?"
+  text_meeting_agenda_open_are_you_sure: "Es werden alle Änderungen im Protokoll überschrieben! Wollen Sie fortfahren?"
+  text_meeting_minutes_for_meeting: 'Protokoll für die Besprechung "%{meeting}"'
+  text_review_meeting_agenda: "%{author} hat das %{link} zur Einsicht freigegeben."
+  text_review_meeting_minutes: "%{author} hat das %{link} zur Einsicht freigegeben."
+  text_notificiation_invited: "Diese Email enthält einen ics Eintrag für die untenstehende Besprechung:"

@@ -1,0 +1,5 @@
+cs:
+  dashboards:
+    label: 'Nástěnky'
+    menu_badge: 'Alfa'
+  project_module_dashboards: 'Nástěnky'

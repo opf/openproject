@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+el:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Τοποθεσία"
+        duration: "Διάρκεια"
+        participants: "Συμμετέχοντες"
+        participants_attended: "Παρευρισκόμενοι"
+        participants_invited: "Προσκεκλημένοι"
+        start_time: "Ώρα"
+        start_time_hour: "Ώρα έναρξης"
+    errors:
+      messages:
+        invalid_time_format: "δεν είναι έγκυρη ώρα. Απαιτούμενη μορφοποίηση: ΩΩ:ΛΛ"
+    models:
+      meeting_agenda: "Ατζέντα"
+      meeting_minutes: "Πρακτικά"
+  description_attended: "παρευρέθηκε"
+  description_invite: "προσκεκλημένος"
+  events:
+    meeting: Η συνάντηση επεξεργάστηκε
+    meeting_agenda: Η ατζέντα συνάντησης επεξεργάστηκε
+    meeting_agenda_closed: Η ατζέντα συνάντησης έκλεισε
+    meeting_agenda_opened: Η ατζέντα συνάντησης άνοιξε
+    meeting_minutes: Τα πρακτικά της συνάντησης επεξεργάστηκαν
+    meeting_minutes_created: Δημιουργήθηκαν τα πρακτικά της συνάντησης
+  error_notification_with_errors: "Αποτυχία αποστολής ειδοποίησης. Οι ακόλουθοι παραλήπτες δεν ήταν δυνατό να ειδοποιηθούν: %{recipients}"
+  label_meeting: "Συνάντηση"
+  label_meeting_plural: "Συναντήσεις"
+  label_meeting_new: "Νέα Συνάντηση"
+  label_meeting_edit: "Επεξεργασία Συνάντησης"
+  label_meeting_agenda: "Ατζέντα"
+  label_meeting_minutes: "Πρακτικά"
+  label_meeting_close: "Κλείσιμο"
+  label_meeting_open: "Ανοιχτό"
+  label_meeting_agenda_close: "Κλείστε την ατζέντα για να ξεκινήσετε τα Πρακτικά"
+  label_meeting_date_time: "Ημερομηνία/Ώρα"
+  label_meeting_diff: "Διαφορά"
+  label_notify: "Αποστολή για αναθεώρηση"
+  label_icalendar: "Αποστολή στο iCalendar"
+  label_version: "Έκδοση"
+  label_time_zone: "Ζώνη Ώρας"
+  label_start_date: "Ημερομηνία έναρξης"
+  notice_successful_notification: "Η ειδοποίηση απεστάλη επιτυχώς"
+  notice_timezone_missing: Δεν έχει οριστεί ζώνη ώρας και θεωρήθηκε η %{zone}. Για να επιλέξετε την ζώνη ώρας σας, παρακαλούμε κάντε κλικ εδώ.
+  permission_create_meetings: "Δημιουργία συναντήσεων"
+  permission_edit_meetings: "Επεξεργασία συναντήσεων"
+  permission_delete_meetings: "Διαγραφή συναντήσεων"
+  permission_view_meetings: "Εμφάνιση συναντήσεων"
+  permission_create_meeting_agendas: "Διαχείριση ατζέντας"
+  permission_close_meeting_agendas: "Κλείσιμο ατζέντας"
+  permission_send_meeting_agendas_notification: "Αποστολή ειδοποίηση αναθεώρησης για ατζέντες"
+  permission_create_meeting_minutes: "Διαχείριση πρακτικών"
+  permission_send_meeting_minutes_notification: "Αποστολή ειδοποίηση αναθεώρησης για τα πρακτικά"
+  permission_meetings_send_invite: "Προσκαλέστε χρήστες στις συναντήσεις"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "Συναντήσεις"
+  text_duration_in_hours: "Διάρκεια σε ώρες"
+  text_in_hours: "σε ώρες"
+  text_meeting_agenda_for_meeting: 'ατζέντα για τη συνάντηση "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Είστε βέβαιοι ότι θέλετε να κλείσετε τη συνάντηση;"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'πρακτικά για τη συνάντηση "%{meeting}"'
+  text_review_meeting_agenda: "Ο/Η %{author} έχει βάλει το %{link} για αναθεώρηση."
+  text_review_meeting_minutes: "Ο/Η %{author} έχει βάλει το %{link} για αναθεώρηση."
+  text_notificiation_invited: "Αυτό το mail περιέχει μια καταχώρηση ics για την παρακάτω συνάντηση:"

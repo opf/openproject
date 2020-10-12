@@ -1,0 +1,15 @@
+#English strings go here
+lt:
+  js:
+    label_preview: 'Peržiūra'
+    button_update: 'Atnaujinti'
+    avatars:
+      label_choose_avatar: "Parinkite nuotrauką iš failo"
+      uploading_avatar: "Įkeliamas jūsų avataras"
+      text_upload_instructions: |
+        Įkelkite savo 128x128 taškų nuotrauką. Didesni failai bus sumažinti ir apkarpyti, kad atitiktų.
+        Nuotraukos peržiūra bus prieš įkeliant parodyta parinkus piešinuką.
+      error_image_too_large: "Paveikslo failas per didelis."
+      wrong_file_format: "Leidžiami formatai yra jpg, png, gif"
+      empty_file_error: "Prašome įkelti tinkamą piešinį (jpg, png, gif)"
+

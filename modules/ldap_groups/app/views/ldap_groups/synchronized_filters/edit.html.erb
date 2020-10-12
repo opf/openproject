@@ -1,0 +1,19 @@
+<% local_assigns[:additional_breadcrumb] = h(@filter.name) %>
+<% html_title(t(:label_administration), t(:label_edit_x, x: @filter.name)) -%>
+
+<%= error_messages_for @filter %>
+
+<%= toolbar title: t(:label_edit_x, x: @filter.name) %>
+
+<%= labelled_tabular_form_for @filter,
+                              as: :synchronized_filter,
+                              url: { action: :update } do |f| %>
+
+  <%= render partial: 'form', locals: { f: f } %>
+
+  <p>
+    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <%= link_to t(:button_cancel), { action: :show }, class: 'button -with-icon icon-cancel' %>
+  </p>
+<% end %>
+

@@ -1,0 +1,106 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for_contract @application, @errors %>
+
+<section class="form--section">
+  <div class="form--field -required">
+    <%= f.text_field :name, required: true, size: 25, container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('oauth.application.instructions.name') %>
+    </span>
+  </div>
+  <div class="form--field -required">
+    <%= f.text_area :redirect_uri, required: true, container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('oauth.application.instructions.redirect_uri_html') %>
+      <br/>
+      <code><%= ::Doorkeeper.configuration.native_redirect_uri %></code>
+    </span>
+  </div>
+
+  <% if Doorkeeper.configuration.scopes.all.length > 1 %>
+    <div class="form--field">
+      <label class="form--label">Scopes:</label>
+      <% Doorkeeper.configuration.scopes.each do |scope| %>
+        <div class="form--field-container -vertical">
+          <label class="form--label-with-check-box">
+            <div class="form--check-box-container">
+              <%= styled_check_box_tag 'application[scopes][]', scope, f.object.scopes.include?(scope) %>
+            </div>
+            <%= scope %>
+          </label>
+        </div>
+      <% end %>
+      <span class="form--field-instructions">
+        <%= t('oauth.application.instructions.scopes') %>
+      </span>
+    </div>
+  <% end %>
+
+  <div class="form--field">
+    <%= f.check_box :confidential %>
+    <span class="form--field-instructions">
+      <%= t('oauth.application.instructions.confidential') %>
+    </span>
+  </div>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend">Client credentials</legend>
+    <p>
+      <%= t('oauth.client_credentials_impersonation_html',
+            client_credentials_flow_link: static_link_to(:client_credentials_code_flow),
+            authorization_code_flow_link: static_link_to(:oauth_authorization_code_flow))  %>
+    </p>
+
+    <div class="form--field -visible-overflow">
+      <label class="form--label"> <%= t('doorkeeper.application.client_credentials_user_id') %>
+      </label>
+      <div class="form--field-container">
+        <div class="form--text-field-container -middle">
+          <%= f.hidden_field :client_credentials_user_id,  value: @application.client_credentials_user_id %>
+          <user-autocompleter data-allow-empty="true"
+                              data-update-input="application[client_credentials_user_id]"></user-autocompleter>
+        </div>
+      </div>
+      <p class="form--field-instructions">
+        <%= t('oauth.application.instructions.client_credential_user_id') %>
+        <br/>
+        <strong><%= t('oauth.client_credentials_impersonation_warning') %></strong>
+      </p>
+      <% if @application.client_credentials_user_id %>
+        <p class="form--field-instructions">
+          <% user = User.find(@application.client_credentials_user_id) %>
+          <span><%= t('oauth.client_credentials_impersonation_set_to') %></span>
+          <%= link_to_user user %>
+        </p>
+      <% end %>
+    </div>
+  </fieldset>
+</section>
+

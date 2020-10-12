@@ -1,0 +1,234 @@
+# Group Documents
+
+A document is a file containing a list of attachments.
+
+*Please note, that the endpoint is only a stub for now.*
+
+## Actions
+
+None yet
+
+## Linked Properties
+| Link          | Description                               | Type           | Constraints           | Supported operations | Condition                                 |
+| :-----------: | -------------------------------------     | -------------  | --------------------- | -------------------- | ----------------------------------------- |
+| self          | This document                             | Document       | not null              | READ                 |                                           |
+| project       | The project the document is in            | Project        | not null              | READ / WRITE         |                                           |
+| attachments   | The attachments belonging to the document | []Attachment   | not null              | READ / WRITE         |                                           |
+
+## Local Properties
+
+| Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                   |
+| :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+| id           | Document's id                                             | Integer  | x > 0                                                | READ                 |                                                             |
+| title        | The title chosen for the collection of documents          | String   | max 60 characters                                    | READ                 |                                                             |
+| description  | A text describing the documents                           | String   |                                                      | READ                 |                                                             |
+| createdAt    | The time the document was created at                      | DateTime |                                                      | READ                 |                                                             |
+
+## Document [/api/v3/documents/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Document",
+                "id": 1,
+                "title": "Some other document",
+                "description": {
+                    "format": "markdown",
+                    "raw": "Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.",
+                    "html": "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+                },
+                "createdAt": "2018-12-10T20:53:39Z",
+                "_links": {
+                    "attachments": {
+                        "href": "/api/v3/documents/1/attachments"
+                    },
+                    "addAttachment": {
+                        "href": "/api/v3/documents/1/attachments",
+                        "method": "post"
+                    },
+                    "self": {
+                        "href": "/api/v3/documents/1",
+                        "title": "Some document",
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/19",
+                        "title": "Some project"
+                    }
+                },
+                "_embedded": {
+                    "project": {
+                        "_type": "Project",
+                        <-- omitted for brevity -->
+                        }
+                    },
+                    attachments": {
+                        "_type": "Collection",
+                        "total": 2,
+                        "count": 2,
+                        "_embedded": {
+                            <-- omitted for brevity -->
+                        },
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/documents/1/attachments"
+                            }
+                        }
+                    },
+                }
+            }
+
+## View document [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... document id
+
++ Response 200 (application/hal+json)
+
+    [Document][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the document does not exist or if the user does not have permission to view it.
+
+    **Required permission** `view documents` in the project the document belongs to
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+
+
+## Documents [/api/v3/documents{?offset,pageSize,sortBy}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Collection",
+                "total": 2,
+                "count": 2,
+                "pageSize": 30,
+                "offset": 1,
+                "_embedded": {
+                    "elements": [
+                        {
+                            "description": {
+                                "format": "markdown",
+                                "raw": "Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.",
+                                "html": "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+                            },
+                            "_type": "Document",
+                            "id": 1,
+                            "title": "Some other document",
+                            "createdAt": "2018-12-10T20:53:39Z",
+                            "_links": {
+                                "attachments": {
+                                    "href": "/api/v3/documents/1/attachments"
+                                },
+                                "addAttachment": {
+                                    "href": "/api/v3/documents/1/attachments",
+                                    "method": "post"
+                                },
+                                "self": {
+                                    "href": "/api/v3/documents/1",
+                                    "title": "Some document",
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/19",
+                                    "title": "Some project"
+                                }
+                            }
+                        },
+                        {
+                            "description": {
+                                "format": "markdown",
+                                "raw": "Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.",
+                                "html": "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+                            },
+                            "_type": "Document",
+                            "id": 2,
+                            "title": "Some other document",
+                            "createdAt": "2018-12-10T20:55:54Z",
+                            "_links": {
+                                "attachments": {
+                                    "href": "/api/v3/documents/2/attachments"
+                                },
+                                "addAttachment": {
+                                    "href": "/api/v3/documents/2/attachments",
+                                    "method": "post"
+                                },
+                                "self": {
+                                    "href": "/api/v3/documents/2",
+                                    "title": "Some other document"
+                                },
+                                "project": {
+                                    "href": "/api/v3/projects/29",
+                                    "title": "Some other project"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/documents?offset=1&pageSize=30"
+                    },
+                    "jumpTo": {
+                        "href": "/api/v3/documents?offset=%7Boffset%7D&pageSize=30",
+                        "templated": true
+                    },
+                    "changeSize": {
+                        "href": "/api/v3/documents?offset=1&pageSize=%7Bsize%7D",
+                        "templated": true
+                    }
+                }
+            }
+
+## List Documents [GET]
+
+The documents returned depend on the provided parameters and also on the requesting user's permissions.
+
++ Parameters
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + sortBy (optional, string, `[["created_at", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      + id: Sort by primary key
+      + created_on: Sort by document creation datetime
+
++ Response 200 (application/hal+json)
+
+    [Documents][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends invalid request parameters e.g. filters
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": [
+                  "Filters Invalid filter does not exist."
+                ]
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client is not logged in and login is required.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to view this resource."
+            }

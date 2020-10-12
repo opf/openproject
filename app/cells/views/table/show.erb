@@ -1,0 +1,82 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <% headers.each do |_name, _options| %>
+          <col highlight-col>
+        <% end %>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <% headers.each do |name, options| %>
+            <% if sortable_column?(name) %>
+              <%= sort_header_tag name, options %>
+            <% else %>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= options[:caption] %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            <% end %>
+          <% end %>
+          <th>
+            <%# last column for buttons %>
+            <div class="generic-table--empty-header"></div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if rows.empty? %>
+        <tr class="generic-table--empty-row">
+          <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
+        </tr>
+        <% end %>
+        <% for row in rows do -%>
+          <%= render_row row %>
+        <% end -%>
+      </tbody>
+    </table>
+    <% if inline_create_link && show_inline_create %>
+      <div class="wp-inline-create-button">
+        <%= inline_create_link %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<% if paginated? %>
+  <%= pagination_links_full rows %>
+<% end %>

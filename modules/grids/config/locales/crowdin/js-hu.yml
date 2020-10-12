@@ -1,0 +1,63 @@
+hu:
+  js:
+    grid:
+      add_widget: 'Widget hozzáadása'
+      remove: 'Widget eltávolítása'
+      configure: 'Configure widget'
+      upsale:
+        text: "Néhány kütyü, például a munkacsomag-grafikon-kütyü, csak a"
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Egyéni szöveg'
+        documents:
+          title: 'Dokumentumok'
+          no_results: 'Még nincs dokumentum.'
+        members:
+          title: 'Tagok'
+          no_results: 'Nincsenek látható tagok.'
+          view_all_members: 'Az összes tag megtekintése'
+          add: 'Tag'
+          too_many: 'Megjelenítve %{count} tag %{total} az összesből.'
+        news:
+          title: 'Hírek'
+          at: '-kor'
+          no_results: 'Semmi új jelenteni való.'
+        project_description:
+          title: 'Projekt leírása'
+          no_results: "Még nem írt leírást. Az egyik megtalálható a 'Projekt beállításai' részben."
+        project_details:
+          title: 'Projekt részletei'
+          no_results: 'A projektekhez nem definiáltak egyedi mezőket.'
+        project_status:
+          title: 'Projekt állapot'
+          on_track: 'Terv szerint'
+          off_track: 'Kisiklott'
+          at_risk: 'Veszélyben'
+          not_set: 'Nincs beállítva'
+        subprojects:
+          title: 'Alprojektek'
+          no_results: "Nincsenek alprojektek\n"
+        time_entries_current_user:
+          title: 'Eltöltött idő rögzítése'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Eltöltött idő (elmúlt 7 nap)'
+          no_results: 'Az elmúlt 7 napra nincs bejegyzés.'
+        work_packages_accountable:
+          title: "Feladatcsoportok, amelyért én vagyok a felelős"
+        work_packages_assigned:
+          title: 'Magamhoz rendelt feladatcsoportok'
+        work_packages_created:
+          title: 'Általam készített munkacsomagok'
+        work_packages_watched:
+          title: 'Megfigyelt munkacsomagok'
+        work_packages_table:
+          title: 'Munka-csomag tábla'
+        work_packages_graph:
+          title: 'Munka-csomag grafikon'
+        work_packages_calendar:
+          title: 'Naptár'
+        work_packages_overview:
+          title: 'Munkacsomag áttekintés'
+          placeholder: 'Kattints ide, hogy szerkeszthess…'

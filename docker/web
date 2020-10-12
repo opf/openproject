@@ -1,0 +1,37 @@
+#!/bin/bash -e
+
+BIND="${BIND:=0.0.0.0}"
+PORT="${PORT:=8080}"
+RAILS_ENV="${RAILS_ENV:="development"}"
+MIGRATE="${MIGRATE:="false"}"
+MIN_INSTANCES="${PASSENGER_MIN_INSTANCES:=1}"
+MAX_INSTANCES="${PASSENGER_MAX_INSTANCES:=3}"
+SPAWN_METHOD="${PASSENGER_SPAWN_METHOD:=smart}"
+
+USE_PUMA="${USE_PUMA:="false"}"
+
+if [ "$RAILS_ENV" = "production" ] && [ "$USE_PUMA" = "true" ]; then
+	# @TODO Add apache config to serve the assets. Until then we have Puma serve
+	#       them which is slower. This is ok if an asset host is used (SaaS).
+	#       But for self-hosted installations we may want to fix that.
+	#       Passenger does include a config to have nginx serve the assets.
+	export OPENPROJECT_ENABLE__INTERNAL__ASSETS__SERVER=true
+fi
+
+if [ "$MIGRATE" = "true" ]; then
+	echo "Migrating database..."
+	bundle exec rake db:migrate
+fi
+
+if [ "$USE_PUMA" = "true" ]; then
+	# see `config/puma.rb` for configuration
+	bundle exec rails server puma -b $BIND -p $PORT
+else
+	exec bundle exec passenger start \
+		-p $PORT \
+		-a "${BIND}" \
+		--min-instances "$MIN_INSTANCES" \
+		--max-pool-size "$MAX_INSTANCES" \
+		--spawn-method "$SPAWN_METHOD" \
+		--max-preloader-idle-time 0
+fi

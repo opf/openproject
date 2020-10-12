@@ -1,0 +1,134 @@
+/*
+  PANEL
+  -----
+
+  The friendly panel is an all-purpose container for hiding content off-screen.
+
+  Features:
+   - Position at top, right, bottom, or left
+   - Anchor to grid block or window
+   - Define max width or height
+   - Transform into grid block depending on screen size
+*/
+
+/// @Foundation.settings
+// Panel
+$panel-size-horizontal: 300px !default;
+$panel-size-vertical: 300px !default;
+$panel-padding: 0 !default;
+
+$panel-background: #fff !default;
+$panel-shadow: 3px 0 10px rgba(black, 0.25) !default;
+
+// DEPRECATED: these variables will be removed in a future version.
+$panel-animation-speed: 0.25s !default;
+///
+
+%panel-base {
+  display: block;
+  position: absolute;
+  z-index: 100;
+  overflow-y: auto;
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
+}
+
+@mixin panel-layout(
+  $position: left,
+  $size: default,
+  $shadow: $panel-shadow
+) {
+  @if $size == default {
+    @if $position == left or $position == right {
+      $size: $panel-size-horizontal;
+    }
+    @if $position == top or $position == bottom {
+      $size: $panel-size-vertical;
+    }
+  }
+
+  /*
+    Direction
+  */
+  @if $position == top {
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  @else if $position == right {
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+  @else if $position == bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  @else if $position == left {
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+
+  /*
+    Sizing
+  */
+  // Horizontal panels are always all the way tall and have a set width
+  @if $position == left or $position == right {
+    @if unit($size) == '%' {
+      width: $size;
+    }
+    @else {
+      width: 100%;
+      @include breakpoint($size) {
+        width: $size;
+      }
+    }
+  }
+  // (For now) vertical panels don't change size
+  @if $position == top or $position == bottom {
+    height: $size;
+  }
+
+  /*
+    Shadows
+  */
+  $shadow-distance: get-shadow-value($shadow, x);
+  $shadow-size: get-shadow-value($shadow, size);
+  $shadow-color: get-shadow-value($shadow, color);
+  &.is-active {
+    @if $position == left        { box-shadow: $shadow-distance 0 $shadow-size $shadow-color; }
+    @else if $position == right  { box-shadow: (-$shadow-distance) 0 $shadow-size $shadow-color; }
+    @else if $position == top    { box-shadow: 0 $shadow-distance $shadow-size $shadow-color; }
+    @else if $position == bottom { box-shadow: 2px (-$shadow-distance) $shadow-size $shadow-color; }
+  }
+}
+
+@mixin panel-style(
+  $padding: $panel-padding,
+  $background: $panel-background
+) {
+  /*
+    Basic styles
+  */
+  padding: $padding;
+  background: $background;
+}
+
+@include exports(panel) {
+  .panel {
+    @extend %panel-base;
+    @include panel-style;
+  }
+
+  .panel-top    { @include panel-layout(top); }
+  .panel-right  { @include panel-layout(right); }
+  .panel-bottom { @include panel-layout(bottom); }
+  .panel-left   { @include panel-layout(left); }
+
+  .panel-fixed  { position: fixed; }
+}

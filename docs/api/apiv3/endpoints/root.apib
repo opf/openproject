@@ -1,0 +1,71 @@
+# Group Root
+
+The root resource contains links to available resources in the API. By following these links
+a client should be able to discover further resources in the API.
+
+*Note: Currently there is no list action for projects available.*
+*A client will therefore have to know links to projects and can't (yet) discover them.*
+
+| Link                  | Description                                      | Type            | Nullable | Supported operations | Condition                                        |
+| :-------------------: | ------------------------------------------------ | --------------- | -------- | -------------------- | ---------                                        |
+| configuration         | The configuration of this OpenProject instance   | Configuration   |          | READ                 |                                                  |
+| user                  | The user currently logged-in                     | User            |          | READ                 | logged in                                        |
+| userPreferences       | The preferences of the logged-in user            | UserPreference  |          | READ                 | logged in                                        |
+| priorities            | List of available priorities                     | Collection      |          | READ                 | **Permission** View work packages in any project |
+| statuses              | List of available work package statuses          | Collection      |          | READ                 | **Permission** View work packages in any project |
+| types                 | List of available work package types             | Collection      |          | READ                 | **Permission** View work packages in any project |
+| workPackages          | List of all work packages                        | Collection      |          | READ                 | **Permission** View work packages in any project |
+| users                 | List of all users                                | Collection      |          | READ                 | **Permission** Administrator                     |
+
+## Local Properties
+
+| Property                  | Description                                          | Type       | Condition                                | Supported operations |
+| :-----------------------: | ---------------------------------------------------- | ---------- | ---------------------------------        | -------------------- |
+| instanceName              | The name of the OpenProject instance                 | String     |                                          | READ                 |
+| coreVersion               | The OpenProject core version number for the instance | String     | **Permission** requires admin privileges | READ                 |
+
+## Root [/api/v3]
+
++ Model
+    + Body
+
+            {
+                "_links" : {
+                    "configuration" : {
+                        "href" : "/api/v3/configuration"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard"
+                    };
+                    "userPreferences" : {
+                        "href" : "/api/v3/my_preferences"
+                    },
+                    "priorities" : {
+                        "href" : "/api/v3/priorities"
+                    },
+                    "relations" : {
+                        "href" : "/api/v3/relations"
+                    },
+                    "statuses" : {
+                        "href" : "/api/v3/statuses"
+                    },
+                    "types" : {
+                        "href" : "/api/v3/types"
+                    },
+                    "workPackages" : {
+                        "href" : "/api/v3/work_packages"
+                    },
+                    "users": {
+                        "href" : "/api/v3/users"
+                    }
+                },
+                "instanceName" : "My own OpenProject",
+                "coreVersion" : "10.3.0"
+            }
+
+## View root [GET]
+
++ Response 200 (application/hal+json)
+
+    [Root][]

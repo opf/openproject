@@ -1,0 +1,151 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "OpenProject": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "allowedCommonJsDependencies": [
+              "core-app/init-vendors",
+              "core-app/init-globals",
+              "dom-plane",
+              "pako",
+              "moment-timezone",
+              "observable-array",
+              "dragula",
+              "jquery",
+              "contra/emitter",
+              "crossvent",
+              "chart.js",
+              "create-point-cb",
+              "core-vendor/enjoyhint",
+              "tablesorter",
+              "chartjs-plugin-datalabels"
+            ],
+            "preserveSymlinks": true,
+            "aot": true,
+            "deployUrl": "/assets/frontend/",
+            "outputPath": "../public/assets/frontend/",
+            "index": "src/index2.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "polyfills": "src/polyfills.ts",
+            "assets": [
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/jquery-ui/themes/base/core.css",
+              "node_modules/jquery-ui/themes/base/datepicker.css",
+              "node_modules/jquery-ui/themes/base/dialog.css",
+              "node_modules/@fullcalendar/common/main.css",
+              "node_modules/@fullcalendar/daygrid/main.css",
+              "node_modules/@fullcalendar/timegrid/main.css",
+              "node_modules/flatpickr/dist/flatpickr.min.css"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass/"
+              ]
+            },
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "preserveSymlinks": true,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "OpenProject:build",
+            "proxyConfig": "cli_to_rails_proxy.js",
+            "deployUrl": "/assets/frontend/",
+            "aot": true
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "OpenProject:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "OpenProject:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "tsConfig": "src/tsconfig.spec.json",
+            "scripts": [],
+            "styles": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/sass/"
+              ]
+            },
+            "assets": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "OpenProject",
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "app",
+      "style": "css"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "app"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

@@ -1,0 +1,13 @@
+<div id="div-values-{{filter.name}}">
+  <input [(ngModel)]="value"
+         [focus]="shouldFocus"
+         requried="true"
+         class="advanced-filters--text-field"
+         id="values-{{filter.name}}"
+         name="v[{{filter.name}}]"
+         type="text" />
+  <label for="values-{{filter.name}}"
+         [textContent]="text.enter_text"
+         class="hidden-for-sighted">
+  </label>
+</div>

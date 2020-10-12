@@ -1,0 +1,17 @@
+<ng-container>
+  <div class="op-ckeditor--wrapper">
+    <op-ckeditor [context]="context"
+                 [content]="initialContent"
+                 [ckEditorType]="editorType"
+                 (onInitialized)="setup($event)"
+                 (onContentChange)="markEdited()">
+    </op-ckeditor>
+  </div>
+
+  <ng-container *ngIf="resource && resource.attachments">
+    <attachments [resource]="resource"
+                 data-allow-uploading="true"
+                 data-destroy-immediately="false">
+    </attachments>
+  </ng-container>
+</ng-container>

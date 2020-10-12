@@ -1,0 +1,110 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= CustomField.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= t('custom_fields.enabled_in_project') %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= t('custom_fields.contained_in_type') %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% all_custom_fields = @project.all_work_package_custom_fields.pluck(:id) %>
+          <% work_package_custom_fields.includes(:types).each do |custom_field| %>
+          <%
+            options = {
+              lang: custom_field.name_locale,
+              label_options: { class: 'hidden-for-sighted' }
+            }
+          %>
+            <tr class="custom-field-<%= custom_field.id %>">
+              <td>
+                <% if current_user.admin? %>
+                <%= link_to custom_field.name, edit_custom_field_path(custom_field.id) %>
+                <% else %>
+                <%= custom_field.name %>
+                <% end %>
+              </td>
+              <td>
+                <% if custom_field.is_for_all? %>
+                  <%= t('custom_fields.is_enabled_globally') %>
+                <% else %>
+                <%= form.collection_check_box :work_package_custom_field_ids,
+                                              custom_field.id,
+                                              all_custom_fields.include?(custom_field.id),
+                                              custom_field.name,
+                                              options %>
+                <% end %>
+              </td>
+              <td>
+                <% if current_user.admin? %>
+                  <% type_links = custom_field.types.map { |t| link_to(t.name, edit_type_tab_path(id: t.id, tab: 'form_configuration')) } %>
+                  <%= safe_join type_links, ', '.html_safe %>
+                <% else %>
+                  <%= custom_field.types.map(&:name).join(', ') %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+  </div>
+</div>

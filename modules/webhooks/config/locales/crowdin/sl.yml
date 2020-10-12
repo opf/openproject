@@ -1,0 +1,59 @@
+sl:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL obremenitve'
+        secret: 'Podpis skrivnost'
+        events: 'Dogodki'
+        projects: 'Omogočeni projekti'
+      webhooks/log:
+        event_name: 'Ime dogodka'
+        url: 'URL obremenitve'
+        response_code: 'Odzivna koda'
+        response_body: 'Odziv'
+    models:
+      webhooks/outgoing_webhook: "Odhodna spletna kljuka"
+  webhooks:
+    singular: Spletna kljuka
+    plural: Spletne kljuke
+    resources:
+      time_entry:
+        name: "Vnos časa"
+    outgoing:
+      no_results_table: Še ni definirano nobeno spletno brskanje.
+      label_add_new: Dodajte nov webhook
+      label_edit: Uredite webhook
+      label_event_resources: Viri dogodka
+      events:
+        created: "Ustvarjen"
+        updated: "Posodobljen"
+      status:
+        enabled: 'Webhook je omogočen'
+        disabled: 'Webhook je onemogočen'
+        enabled_text: 'Webhook bo oddal koristne obremenitve za spodaj opredeljene dogodke.'
+        disabled_text: 'Kliknite gumb za urejanje, da aktivirate webhook.'
+      deliveries:
+        no_results_table: Za ta webhook ni bilo opravljenih nobenih dobav.
+        title: 'Nedavne dostave'
+        time: 'Čas dostave'
+      form:
+        introduction: >
+          Pošljite zahtevo POST na spodnji URL obremenitve za vse dogodke v projektu, na katere ste naročeni. Payload bo ustrezal predstavitvi APIv3 spremenjenega predmeta.
+        apiv3_doc_url: Za več informacij obiščite API dokumentacijo
+        description:
+          placeholder: 'Neobvezen opis webhook.'
+        enabled:
+          description: >
+            Če je označeno, se bo webhook sprožil na izbranih dogodkih. Počistite polje, da onemogočite webhook. 
+        events:
+          title: 'Omogočeni dogodki'
+        project_ids:
+          title: 'Omogočeni projekti'
+          description: 'Izberite, za katere projekte naj se izvede ta webhook. '
+          all: 'Vsi projekti'
+          selected: 'Samo izbrani projekti'
+        selected_project_ids:
+          title: 'Izbrani projekti'
+        secret:
+          description: >
+            Če je nastavljeno, OpenProject to skrivno vrednost uporabi za podpis uporabnega bremena webhook. 

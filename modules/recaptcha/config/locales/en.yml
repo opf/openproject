@@ -1,0 +1,22 @@
+# English strings go here for Rails i18n
+en:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Please wait ...'
+    verify_account: "Verify your account"
+    error_captcha: "Your account could not be verified. Please contact an administrator."
+    settings:
+      website_key: 'Website key'
+      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+      secret_key: 'Secret key'
+      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
+      type: 'Use reCAPTCHA'
+      type_disabled: 'Disable reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance.
+        If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet.
+        <br/>
+        Please see the following link for more details on reCAPTCHA and their versions, and how
+        to create the website and secret keys: %{recaptcha_link}

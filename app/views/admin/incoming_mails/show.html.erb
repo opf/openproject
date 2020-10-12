@@ -1,0 +1,51 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:label_incoming_emails) -%>
+
+<%= toolbar title: t(:label_incoming_emails) %>
+
+<%= styled_form_tag(admin_incoming_mails_path, method: :patch) do %>
+  <section class="form--section">
+    <div class="form--field">
+      <%= setting_text_area :mail_handler_body_delimiters, rows: 5, container_class: '-wide' %>
+      <div class="form--field-instructions"><%= t(:text_line_separated) %></div>
+    </div>
+    <div class="form--field">
+      <%= setting_text_field :mail_handler_body_delimiter_regex, container_class: '-wide' %>
+      <div class="form--field-instructions"><%= t(:text_regexp_multiline) %></div>
+    </div>
+    <div class="form--field">
+      <%= setting_text_area :mail_handler_ignore_filenames, rows: 5, container_class: '-wide' %>
+      <div class="form--field-instructions"><%= t('incoming_mails.ignore_filenames') %></div>
+    </div>
+  </section>
+
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

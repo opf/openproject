@@ -1,0 +1,72 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<div class="form--field -required">
+  <%= form.text_field(:url,
+                      label: t('repositories.url'),
+                      required: true,
+                      size: 60,
+                      disabled: !repository.new_record?
+      ) %>
+  <div class="form--field-instructions">
+    <%= raw simple_format t('repositories.subversion.instructions.url', local_proto: "<code>file://</code>") %>
+    <code>file://</code>
+    <code>http://</code>
+    <code>https://</code>
+    <code>svn://</code>
+    <code>svn+[tunnelscheme]://</code>
+    <br/>
+  </div>
+</div>
+<hr/>
+<div class="form--field">
+  <%= form.text_field(:login,
+                      size: 30,
+                      label: t('repositories.subversion.username'),
+                      container_class: '-middle') %>
+  <div class="form--field-instructions">
+  </div>
+</div>
+<div class="form--field">
+  <%= form.password_field(:password,
+                          size: 30,
+                          label: t('repositories.subversion.password'),
+                          name: 'ignore',
+                          id: 'repository-password-placeholder',
+                          value: ((repository.new_record? || repository.password.blank?) ? '' : ('x' * 15)),
+                          container_class: '-middle')
+  %>
+  <%=
+    content_for(:additional_js_dom_ready) do
+      "jQuery('#repository-password-placeholder')
+        .change(function() { this.name = 'repository[password]'; })
+        .focus(function() { this.value = ''; this.name = 'repository[password]'; });
+        ".html_safe
+    end
+  %>
+</div>

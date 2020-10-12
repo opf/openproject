@@ -1,0 +1,93 @@
+# Group Previewing
+
+Throughout OpenProject user input for many properties can be formatted using *Markdown*.
+Using the appropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
+receive a preview of the rendered text.
+
+The request to a rendering endpoint must always have a MIME-Type of `text/plain`.
+The request body is the actual string that shall be rendered as HTML string.
+
+## Markdown [/api/v3/render/markdown{?context}]
+
++ Model
+    + Body
+
+            <p>Hello world! <a href="http://example.com">This</a> <strong>is</strong> markdown!</p>
+
+## Preview Markdown document [POST]
+
++ Parameters
+    + context (optional, string, `/api/v3/work_packages/42`)
+        API-Link to the context in which the rendering occurs, for example a specific work package.
+
+        If left out only context-agnostic rendering takes place.
+        Please note that OpenProject features markdown-extensions on top of the extensions GitHub Flavored Markdown (gfm) already
+        provides that can only work given a context (e.g. display attached images).
+
+        **Supported contexts:**
+
+        * `/api/v3/work_packages/{id}` - an existing work package
+
++ Request (text/plain)
+
+            Hello world! "This":http://example.com **is** markdown!
+
++ Response 200 (text/html)
+
+    [Markdown][]
+
++ Response 400 (application/json)
+
+    Returned if the context passed by the client is not valid (e.g. unknown).
+
+    Note that this response will also occur when the requesting user
+    is not allowed to see the context resource (e.g. limited work package visibility).
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRenderContext",
+                "message": "Could not render markdown string in the given context."
+            }
+
++ Response 415 (application/json)
+
+    Returned if the Content-Type indicated in the request is not `text/plain`.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:TypeNotSupported",
+                "message": "Expected Content-Type to be 'text/plain' but got 'application/json'."
+            }
+
+## Plain Text [/api/v3/render/plain]
+
++ Model
+    + Body
+
+            <p>Hello world! This *is* plain text!</p>
+
+## Preview plain document [POST]
+
++ Request (text/plain)
+
+            Hello world! This *is* plain text!
+
++ Response 200 (text/html)
+
+    [Plain Text][]
+
++ Response 415 (application/json)
+
+    Returned if the Content-Type indicated in the request is not `text/plain`.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:TypeNotSupported",
+                "message": "Expected Content-Type to be 'text/plain' but got 'application/json'."
+            }

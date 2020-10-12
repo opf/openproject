@@ -1,0 +1,20 @@
+<ng-select [items]="availableStatuses"
+           [(ngModel)]="currentStatusCode"
+           bindLabel="name"
+           bindValue="code"
+           class="project-status"
+           (open)="onOpen()"
+           (close)="onClose()"
+           (change)="onChange()"
+           [appendTo]="appendToContainer"
+           [hideSelected]="true"
+           [disabled]="inFlight">
+  <ng-template ng-label-tmp let-item="item">
+    <span class="project-status--bulb" [ngClass]="item.colorClass"></span>
+    <span class="project-status--name" [ngClass]="item.colorClass">{{item.name}}</span>
+  </ng-template>
+  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+    <span class="project-status--bulb" [ngClass]="item.colorClass"></span>
+    <span class="project-status--name" [ngClass]="item.colorClass">{{item.name}}</span>
+  </ng-template>
+</ng-select>

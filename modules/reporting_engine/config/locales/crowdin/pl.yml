@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+pl:
+  description_drill_down: "Pokaż szczegóły"
+  label_click_to_edit: "Kliknij aby edytować."
+  label_columns: "Kolumny"
+  label_count: "Ilość"
+  label_filter: "Filtr"
+  label_filter_add: "Dodaj filtr"
+  label_filter_plural: "Filtry"
+  label_greater: ">"
+  label_group_by: "Grupuj według"
+  label_group_by_add: "Dodaj grupowanie po atrybucie"
+  label_inactive: "«nieaktywne»"
+  label_less: "<"
+  label_no: "Nie"
+  label_none: "(brak danych)"
+  label_progress_bar_explanation: "Generuj raport..."
+  label_really_delete_question: "Czy na pewno chcesz usunąć ten raport?"
+  label_report: "Raport"
+  label_rows: "Wiersze"
+  label_saving: "Zapisywanie ..."
+  label_sum: "Suma"
+  label_yes: "Tak"
+  load_query_question: "Raport będzie zawierał %{size} komórek tabeli. Eksport może zająć trochę czasu. Czy nadal chcesz wygenerować raport?"
+  units: "Jednostki"
+  validation_failure_date: "nie jest poprawną datą"
+  validation_failure_integer: "nie jest prawidłową liczbą całkowitą"
+  reporting:
+    group_by:
+      selected_columns: "Wybrane kolumny"
+      selected_rows: "Wybrane wiersze"

@@ -1,0 +1,17 @@
+<div *ngIf="workPackage"
+     class="work-packages--subject-type-row __overflowing_element_container"
+     [ngClass]="'__overflowing_' + uniqueElementIdentifier"
+     [attr.data-overflowing-identifier]="'.__overflowing_' + uniqueElementIdentifier">
+  <div class="work-packages--type-selector work-packages--subject-element">
+    <editable-attribute-field [resource]="workPackage"
+                   [wrapperClasses]="'work-packages--type-selector work-packages--subject-element -no-label'"
+                   [fieldName]="'type'">
+    </editable-attribute-field>
+  </div>
+  <div class="work-packages--details--subject work-packages--subject-element">
+    <editable-attribute-field [resource]="workPackage"
+                   [wrapperClasses]="'work-packages--details--subject work-packages--subject-element -no-label'"
+                   [fieldName]="'subject'">
+    </editable-attribute-field>
+  </div>
+</div>

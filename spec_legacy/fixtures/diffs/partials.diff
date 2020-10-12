@@ -1,0 +1,46 @@
+--- partials.txt	Wed Jan 19 12:06:17 2011
++++ partials.1.txt	Wed Jan 19 12:06:10 2011
+@@ -1,31 +1,31 @@
+-Lorem ipsum dolor sit amet, consectetur adipiscing elit
++Lorem ipsum dolor sit amet, consectetur adipiscing xx
+ Praesent et sagittis dui. Vivamus ac diam diam
+-Ut sed auctor justo
++xxx auctor justo
+ Suspendisse venenatis sollicitudin magna quis suscipit
+-Sed blandit gravida odio ac ultrices
++Sed blandit gxxxxa odio ac ultrices
+ Morbi rhoncus est ut est aliquam tempus
+-Morbi id nisi vel felis tincidunt tempus
++Morbi id nisi vel felis xx tempus
+ Mauris auctor sagittis ante eu luctus
+-Fusce commodo felis sed ligula congue molestie
++Fusce commodo felis sed ligula congue
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit
+-Praesent et sagittis dui. Vivamus ac diam diam
++et sagittis dui. Vivamus ac diam diam
+ Ut sed auctor justo
+ Suspendisse venenatis sollicitudin magna quis suscipit
+ Sed blandit gravida odio ac ultrices
+ 
+-Lorem ipsum dolor sit amet, consectetur adipiscing elit
+-Praesent et sagittis dui. Vivamus ac diam diam
++Lorem ipsum dolor sit amet, xxxx adipiscing elit
+ Ut sed auctor justo
+ Suspendisse venenatis sollicitudin magna quis suscipit
+ Sed blandit gravida odio ac ultrices
+-Morbi rhoncus est ut est aliquam tempus
++Morbi rhoncus est ut est xxxx tempus
++New line
+ Morbi id nisi vel felis tincidunt tempus
+ Mauris auctor sagittis ante eu luctus
+ Fusce commodo felis sed ligula congue molestie
+ 
+-Lorem ipsum dolor sit amet, consectetur adipiscing elit
+-Praesent et sagittis dui. Vivamus ac diam diam
+-Ut sed auctor justo
++Lorem ipsum dolor sit amet, xxxxtetur adipiscing elit
++Praesent et xxxxx. Vivamus ac diam diam
++Ut sed auctor
+ Suspendisse venenatis sollicitudin magna quis suscipit
+ Sed blandit gravida odio ac ultrices
+ Morbi rhoncus est ut est aliquam tempus

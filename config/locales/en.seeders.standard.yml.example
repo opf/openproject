@@ -1,0 +1,155 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+en:
+  seeders:
+    standard:
+      demo_data:
+        attribute_help_texts:
+          - attribute_name: 'assignee'
+            help_text: |
+              ### Tasks of an assignee
+
+              * Doing the job
+              * Tracking the time
+              * Update ticket status
+        default_description_for_types:
+          - type: :default_type_bug
+            description: |
+              ### Steps to reproduce
+        global_queries:
+          - name: My cool query
+            status: open
+            timeline: false
+            sort_by: id
+            hidden: true
+            public: false
+        type_configuration:
+          - type: :default_type_bug
+            description: |
+              ### Steps to reproduce
+
+              ### Actual behavior
+            form_configuration:
+              - group_name: Custom query
+                query_name: My cool query
+        groups:
+          - name: 'Project Admins'
+            projects:
+              - name: 'demo-project'
+                role: 'Project admin'
+        welcome:
+          title: "Welcome to OpenProject!"
+          text: |
+            Select one of the demo projects to get started with some demo data we have prepared for you.
+        projects:
+          demo-project:
+            name: Demo project
+            identifier: demo-project
+            status:
+              code: off_track
+              description: Everything is behind the deadline. We will never make it.
+            description: >
+              **This is a demo project**. You can edit the description in
+              the [Project settings -> Description](%{base_url}/projects/demo-project/settings).
+            timeline:
+              name: Timeline
+            modules:
+              - work_package_tracking
+              - news
+              - wiki
+              - board_view
+            news:
+              - title: Welcome to your demo project
+                summary: >
+                  We are glad you joined.
+                  In this module you can communicate project news to your team members.
+                description: The actual news
+            types:
+              - :default_type_task
+              - :default_type_milestone
+            categories:
+              - Category 1 (to be changed in Project settings)
+            queries:
+              - name: Milestones
+                status: open
+                type: :default_type_milestone
+                timeline: true
+                columns:
+                  - id
+                  - type
+                  - status
+                  - subject
+                  - start_date
+                  - due_date
+                sort_by: id
+            boards:
+              kanban:
+                name: 'Kanban board'
+            work_packages:
+              - subject: Project planning
+                description: |
+                  Please execute the related tasks:
+
+                  * ##child:1
+                status: :default_status_new
+                type: :default_type_task
+                priority: :default_priority_high
+                estimated_hours: 8
+                start: 0
+                duration: 3
+                assignee: 'Project Admins'
+                children:
+                  - subject: Create a new project
+                    description: |
+                      Please [create a new project](%{base_url}/projects/new) from the project drop down menu in the left hand header navigation.
+                    status: :default_status_in_progress
+                    type: :default_type_task
+                    start: 0
+                    duration: 0
+                    attachments:
+                      - new_project.jpg
+              - subject: Develop v1.0
+                status: :default_status_scheduled
+                type: :default_type_phase
+                start: 7
+                duration: 17
+                accountable: 'Project Admins'
+                relations:
+                  - to: Project planning
+                    type: follows
+            wiki:
+              - title: Wiki
+                content: |
+                  In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki.
+                children:
+                  - title: Project documentation
+                    content: |
+                      This is a sub-page of the wiki. You can change this by editing the Parent page (Click the _EDIT_ button and see bottom of the page).
+                    children:
+                      - title: Project manual
+                        content: ''

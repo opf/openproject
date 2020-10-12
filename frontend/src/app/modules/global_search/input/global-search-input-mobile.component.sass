@@ -1,0 +1,61 @@
+@import "helpers"
+
+$search-input-height-mobile: 36px
+
+@media only screen and (max-width: 679px)
+  #top-menu
+    &.-global-search-expanded
+      #account-nav-right,
+      #account-nav-left,
+      #main-menu-toggle
+        display: none
+
+      .top-menu-search
+        width: 100vw
+        margin: 0
+        padding-right: 15px
+
+        .top-menu-search--button
+          display: none
+          color: var(--header-item-font-color)
+
+    #global-search-input
+      display: none
+      &.-expanded
+        display: block
+        width: calc(100vw - 50px)
+        min-width: unset
+        position: unset
+
+        .scroll-host
+          max-height: calc(100vh - #{var(--header-height)})
+
+        .ng-clear-wrapper
+          width: 40px
+          right: 0
+
+        .ng-select-bottom
+          height: calc(100vh - #{var(--header-height)})
+          overflow-y: auto
+          margin: 0
+
+        .ng-select-container
+          height: $search-input-height-mobile !important
+          border-radius: 4px
+
+        .ng-input input
+          height: 36px
+
+    .top-menu-search--back-button
+      display: initial
+      width: 50px
+      text-align: center
+      color: var(--header-item-font-color)
+      &:hover, &:focus, &:active
+        text-decoration: none
+
+    .top-menu-search--loading
+      top: var(--header-height) + 1px
+
+    .top-menu-search--button.-input-focused
+      color: var(--header-item-font-color)

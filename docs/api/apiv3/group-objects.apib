@@ -1,0 +1,229 @@
+# Group Collections
+
+Whenever a client calls a resource that can return more than one element, it will receive a collection of elements.
+However as collections can become quite large, the API will **not** simply return a JSON array, but a special collection
+object that will contain the actual elements in its embedded property `elements`.
+
+Collections *may* be paginated, this means that a single response from the server will not contain all elements of the collection,
+but only a subset. In this case the client can issue further requests to retrieve the remaining elements.
+There are two ways to access the result pages of a paginated collection:
+
+* offset based pagination
+* cursor based pagination
+
+The available ways of pagination depend on the collection queried. Some collections feature no pagination at all, meaning they
+will always return all elements. Others might only offer one of the two pagination methods or both of them.
+An explanation of [offset](#collections-offset-based-pagination) and [cursor](#collections-cursor-based-pagination) based
+pagination can be found below the links table.
+
+A collection also carries meta information like the total count of elements in the collection or - in case of a paginated collection -
+the amount of elements returned in this response and action links to retrieve the remaining elements.
+
+## Local Properties
+
+| Property | Description                                                     | Type    | Availability                |
+|:--------:| --------------------------------------------------------------- | ------- | --------------------------- |
+| total    | The total amount of elements available in the collection        | Integer | always                      |
+| pageSize | Amount of elements that a response will hold                    | Integer | when paginated              |
+| count    | Actual amount of elements in this response                      | Integer | always                      |
+| offset   | The page number that is requested from paginated collection     | Integer | when offset based available |
+| groups   | Summarized information about aggregation groups                 | Object  | when grouping               |
+| totalSums| Aggregations of supported values for elements of the collection | Object  | when showing sums           |
+
+## Links
+
+| Link             | Description                                                              | Availability                |
+|:----------------:| ------------------------------------------------------------------------ | --------------------------- |
+| self             | Link to the current page in the collection                               | always                      |
+| changeSize       | Templated link to change the page size, might change relative position   | when paginated              |
+| jumpTo           | Templated link to jump to a specified offset                             | when offset based available |
+| nextByOffset     | Link to retrieve the following page of elements (offset based)           | when offset based available |
+| previousByOffset | Link to retrieve the preceding page of elements (offset based)           | when offset based available |
+| nextByCursor     | Link to retrieve the elements following the current page (cursor based)  | when cursor based available |
+| previousByCursor | Link to retrieve the elements preceding the current page (cursor based)  | when cursor based available |
+
+## Offset based pagination [/api/v3/examples{?offset,pageSize}]
+
+Offset based pagination works by specifying two values: the **offset** and the **pageSize**. The page size determines how many items there will
+be in a single response at most. The offset determines which page is returned as response, with 1 being the first page (one-indexed).
+Note that the server might not allow arbitrarily large page sizes, a client should therefore always check the page size accepted by the server
+using the **pageSize** property of the response.
+
+The benefit of offset based pagination is that the total number of pages can be easily determined and that it is possible to jump
+to arbitrary pages within the collection. Offset based pagination is therefore well suited when a result is displayed to the end user
+in the form of multiple pages anyway.
+
+A drawback of offset based pagination comes with concurrent modification of the collection. If the collection is modified
+between two page requests, it is possible that the client receives elements close to the page boundaries twice or does not see them at all.
+
+## view offset based [GET]
+
++ Parameters
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?offset=25&pageSize=25" },
+                    "jumpTo": {
+                        "href": "/api/v3/examples?offset={offset}&pageSize=25",
+                        "templated": true
+                    },
+                    "changeSize": {
+                        "href": "/api/v3/examples?offset=25&pageSize={size}",
+                        "templated": true
+                    },
+                    "previousByOffset": { "href": "/api/v3/examples?offset=0&pageSize=25" },
+                    "previousByCursor": { "href": "/api/v3/examples?before=bar&pageSize=25" }
+                },
+                "_type": "Collection",
+                "total": 27,
+                "pageSize": 25,
+                "count": 2,
+                "offset": 25,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar" },
+                        { "foo": "baz" }
+                    ]
+                }
+            }
+
+## Cursor based pagination [/api/v3/examples{?before,after,pageSize}]
+
+Cursor based pagination is intended to be used, when the client needs a consistent and complete (sub-) range of the collection,
+e.g. in infinite scrolling scenarios. In cursor based pagination the client will receive a link to the next and
+the previous page in the result set. The guarantee is, that the boundaries of that page will align with the boundaries of the current page,
+regardless of changes to the collection.
+
+The drawback for cursor based pagination is, that it is not immediately determinable how many "next" and how many "previous" pages there are.
+Cursor based pagination is therefore less suited for use cases where you want to directly "jump" to an arbitrary page.
+
+## view cursor based [GET]
+
++ Parameters
+    + before (optional, string, `bar`) ... Display the elements preceding the given element.
+    Note that the value of this parameter is very specific to the collection, a client should not
+    try to infer values, but use the **previous** link offered by the collection.
+
+    + after (optional, string, `buz`) ... Display the elements succeeding the given element.
+    Note that the value of this parameter is very specific to the collection, a client should not
+    try to infer values, but use the **next** link offered by the collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?after=buz&pageSize=25" },
+                    "changeSize": {
+                        "href": "/api/v3/examples?after=buz&pageSize={size}",
+                        "templated": true
+                    },
+                    "previousByCursor": { "href": "/api/v3/examples?before=bar&pageSize=25" }
+                },
+                "_type": "Collection",
+                "total": 27,
+                "pageSize": 25,
+                "count": 2,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar" },
+                        { "foo": "baz" }
+                    ]
+                }
+            }
+
+## Aggregations [/api/v3/examples{?groupBy,showSums}]
+
+Collections may support different kinds of aggregations.
+Some properties can be summed up. If requested the collection will include the `totalSums` property,
+which is a dictionary, where the keys represent the names of the summed properties and the values represent their sums.
+Note that you have to mark a column as summable in the instance settings, to be able to retrieve its sums.
+
+It is also possible to group the contents of a collection. In this case:
+
+* the `elements` will be ordered by the specified group key (so that the client receives one group after another)
+* The `groups` property will contain a collection of group objects
+
+A group object contains aggregation data for the elements of a group:
+
+### Local Properties
+
+| Property | Description                                                         | Type       | Availability                |
+|:--------:| ------------------------------------------------------------------- | ---------- | --------------------------- |
+| value    | The value to which the group belongs (e.g. the Status' name)        | String     | always                      |
+| count    | Actual amount of elements in this response                          | Integer    | always                      |
+| sums     | A dictionary with property sums inside this group (see `totalSums`) | Dictionary | when sums requested         |
+
+## Links
+
+| Link             | Description                                                 | Availability                          |
+|:----------------:| ------------------------------------------------------------| ------------------------------------- |
+| valueLink        | Link to the corresponding grouping object (e.g. the Status) | only if grouping by a linkable object |
+
+Note that you will always receive a `value`, but only receive a `valueLink` if the grouping was performed
+on a linkable property.
+
+## view aggregated result [GET]
+
++ Parameters
+    + groupBy (optional, string, `status`) ... The column to group by.
+    Note: Aggregation is as of now only supported by the work package collection.
+    You can pass any column name as returned by the [queries](#queries) endpoint.
+
+    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/examples?groupBy=foo&showSums=true" },
+                    "changeSize": {
+                        "href": "/api/v3/examples?after=buz&pageSize={size}",
+                        "templated": true
+                    }
+                },
+                "_type": "Collection",
+                "total": 5,
+                "pageSize": 25,
+                "count": 5,
+                "_embedded": {
+                    "elements": [
+                        { "foo": "bar", "i": 1 },
+                        { "foo": "bar", "i": 2 },
+                        { "foo": "bar", "i": 3 },
+                        { "foo": "baz", "i": 4 },
+                        { "foo": "baz", "i": 5 }
+                    ],
+                    "groups": [
+                        {
+                            "value : "bar",
+                            "count": 3,
+                            "sums": {
+                                "i": 6
+                            }
+                        },
+                        {
+                            "value : "baz",
+                            "count": 2,
+                            "sums": {
+                                "i": 9
+                            }
+                        }
+                    ],
+                    "totalSums": {
+                        "i": 15
+                    }
+                }
+            }

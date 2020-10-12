@@ -1,0 +1,63 @@
+el:
+  js:
+    grid:
+      add_widget: 'Προσθήκη widget'
+      remove: 'Αφαίρεση widget'
+      configure: 'Configure widget'
+      upsale:
+        text: "Ορισμένα γραφικά στοιχεία (widget), όπως το γραφικό στοιχείο πακέτων εργασίας, είναι διαθέσιμα μόνο στην "
+        link: 'έκδοση για επιχειρήσεις.'
+      widgets:
+        custom_text:
+          title: 'Προσαρμοσμένο κείμενο'
+        documents:
+          title: 'Έγγραφα'
+          no_results: 'Δεν υπάρχουν έγγραφα.'
+        members:
+          title: 'Μέλη'
+          no_results: 'Δεν υπάρχουν ορατά μέλη.'
+          view_all_members: 'Δείτε όλα τα μέλη'
+          add: 'Μέλος'
+          too_many: 'Προβολή %{count} απο %{total} μέλη.'
+        news:
+          title: 'Νέα'
+          at: 'στο'
+          no_results: 'Τίποτα νέο για αναφορά.'
+        project_description:
+          title: 'Περιγραφή έργου'
+          no_results: "Δεν έχει γραφτεί ακόμα περιγραφή. Μπορεί να παρασχεθεί μια στις 'Ρυθμίσεις έργου'."
+        project_details:
+          title: 'Λεπτομέρειες έργου'
+          no_results: 'Δεν έχουν οριστεί προσαρμοσμένα πεδία για έργα.'
+        project_status:
+          title: 'Κατάσταση έργου'
+          on_track: 'Eντός πορείας'
+          off_track: 'Eκτός πορείας'
+          at_risk: 'Σε κίνδυνο'
+          not_set: 'Μη ορισμένο'
+        subprojects:
+          title: 'Υποέργα'
+          no_results: 'Δεν υπάρχουν υποέργα.'
+        time_entries_current_user:
+          title: 'Ο δικός μου χρόνος που δαπανήθηκε'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Χρόνος που δαπανήθηκε (τις τελευταίες 7 ημέρες)'
+          no_results: 'Δεν υπάρχουν καταχωρήσεις χρόνου για τις τελευταίες 7 ημέρες.'
+        work_packages_accountable:
+          title: "Πακέτα εργασίας για τα οποία είμαι υπεύθυνος"
+        work_packages_assigned:
+          title: 'Πακέτα εργασίας που έχουν ανατεθεί σε μένα'
+        work_packages_created:
+          title: 'Εργασίες που δημιούργησα'
+        work_packages_watched:
+          title: 'Εργασίες που παρακολουθώ'
+        work_packages_table:
+          title: 'Πίνακας πακέτων εργασίας'
+        work_packages_graph:
+          title: 'Γράφημα πακέτων εργασίας'
+        work_packages_calendar:
+          title: 'Ημερολόγιο'
+        work_packages_overview:
+          title: 'Επισκόπηση των πακέτων εργασίας'
+          placeholder: 'Κάντε κλικ για επεξεργασία ...'

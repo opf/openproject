@@ -1,0 +1,557 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+---
+role_permission001:
+  id: 1
+  role_id: 1
+  permission: 'add_project'
+role_permission002:
+  id: 2
+  role_id: 1
+  permission: 'edit_project'
+role_permission003:
+  id: 3
+  role_id: 1
+  permission: 'select_project_modules'
+role_permission004:
+  id: 4
+  role_id: 1
+  permission: 'manage_members'
+role_permission005:
+  id: 5
+  role_id: 1
+  permission: 'manage_versions'
+role_permission006:
+  id: 6
+  role_id: 1
+  permission: 'manage_categories'
+role_permission007:
+  id: 7
+  role_id: 1
+  permission: 'view_work_packages'
+role_permission008:
+  id: 8
+  role_id: 1
+  permission: 'add_work_packages'
+role_permission009:
+  id: 9
+  role_id: 1
+  permission: 'edit_work_packages'
+role_permission010:
+  id: 10
+  role_id: 1
+  permission: 'manage_work_package_relations'
+role_permission011:
+  id: 11
+  role_id: 1
+  permission: 'manage_subtasks'
+role_permission012:
+  id: 12
+  role_id: 1
+  permission: 'add_work_package_notes'
+role_permission013:
+  id: 13
+  role_id: 1
+  permission: 'move_work_package'
+role_permission014:
+  id: 14
+  role_id: 1
+  permission: 'move_work_packages'
+role_permission015:
+  id: 15
+  role_id: 1
+  permission: 'delete_work_packages'
+role_permission016:
+  id: 16
+  role_id: 1
+  permission: 'view_work_package_watchers'
+role_permission017:
+  id: 17
+  role_id: 1
+  permission: 'add_work_package_watchers'
+role_permission018:
+  id: 18
+  role_id: 1
+  permission: 'delete_work_package_watchers'
+role_permission019:
+  id: 19
+  role_id: 1
+  permission: 'manage_public_queries'
+role_permission020:
+  id: 20
+  role_id: 1
+  permission: 'save_queries'
+role_permission021:
+  id: 21
+  role_id: 1
+  permission: 'view_calendar'
+role_permission022:
+  id: 22
+  role_id: 1
+  permission: 'log_time'
+role_permission023:
+  id: 23
+  role_id: 1
+  permission: 'view_time_entries'
+role_permission024:
+  id: 24
+  role_id: 1
+  permission: 'edit_time_entries'
+role_permission025:
+  id: 25
+  role_id: 1
+  permission: 'delete_time_entries'
+role_permission026:
+  id: 26
+  role_id: 1
+  permission: 'manage_news'
+role_permission027:
+  id: 27
+  role_id: 1
+  permission: 'comment_news'
+role_permission028:
+  id: 28
+  role_id: 1
+  permission: 'view_wiki_pages'
+role_permission029:
+  id: 29
+  role_id: 1
+  permission: 'export_wiki_pages'
+role_permission030:
+  id: 30
+  role_id: 1
+  permission: 'view_wiki_edits'
+role_permission031:
+  id: 31
+  role_id: 1
+  permission: 'edit_wiki_pages'
+role_permission032:
+  id: 32
+  role_id: 1
+  permission: 'delete_wiki_pages_attachments'
+role_permission033:
+  id: 33
+  role_id: 1
+  permission: 'protect_wiki_pages'
+role_permission034:
+  id: 34
+  role_id: 1
+  permission: 'delete_wiki_pages'
+role_permission035:
+  id: 35
+  role_id: 1
+  permission: 'rename_wiki_pages'
+role_permission036:
+  id: 36
+  role_id: 1
+  permission: 'add_messages'
+role_permission037:
+  id: 37
+  role_id: 1
+  permission: 'edit_messages'
+role_permission038:
+  id: 38
+  role_id: 1
+  permission: 'delete_messages'
+role_permission039:
+  id: 39
+  role_id: 1
+  permission: 'manage_forums'
+role_permission040:
+  id: 40
+  role_id: 1
+  permission: 'browse_repository'
+role_permission041:
+  id: 41
+  role_id: 1
+  permission: 'manage_repository'
+role_permission042:
+  id: 42
+  role_id: 1
+  permission: 'view_changesets'
+role_permission043:
+  id: 43
+  role_id: 1
+  permission: 'manage_project_activities'
+role_permission044:
+  id: 44
+  role_id: 1
+  permission: 'export_work_packages'
+role_permission045:
+  id: 45
+  role_id: 1
+  permission: 'list_attachments'
+
+role_permission100:
+  id: 100
+  role_id: 2
+  permission: 'edit_project'
+role_permission101:
+  id: 101
+  role_id: 2
+  permission: 'manage_members'
+role_permission102:
+  id: 102
+  role_id: 2
+  permission: 'manage_versions'
+role_permission103:
+  id: 103
+  role_id: 2
+  permission: 'manage_categories'
+role_permission104:
+  id: 104
+  role_id: 2
+  permission: 'view_work_packages'
+role_permission105:
+  id: 105
+  role_id: 2
+  permission: 'add_work_packages'
+role_permission106:
+  id: 106
+  role_id: 2
+  permission: 'edit_work_packages'
+role_permission107:
+  id: 107
+  role_id: 2
+  permission: 'manage_work_package_relations'
+role_permission108:
+  id: 108
+  role_id: 2
+  permission: 'manage_subtasks'
+role_permission109:
+  id: 109
+  role_id: 2
+  permission: 'add_work_package_notes'
+role_permission110:
+  id: 110
+  role_id: 2
+  permission: 'move_work_packages'
+role_permission111:
+  id: 111
+  role_id: 2
+  permission: 'delete_work_packages'
+role_permission112:
+  id: 112
+  role_id: 2
+  permission: 'view_work_package_watchers'
+role_permission113:
+  id: 113
+  role_id: 2
+  permission: 'save_queries'
+role_permission114:
+  id: 114
+  role_id: 2
+  permission: 'view_calendar'
+role_permission115:
+  id: 115
+  role_id: 2
+  permission: 'log_time'
+role_permission116:
+  id: 116
+  role_id: 2
+  permission: 'view_time_entries'
+role_permission117:
+  id: 117
+  role_id: 2
+  permission: 'edit_own_time_entries'
+role_permission118:
+  id: 118
+  role_id: 2
+  permission: 'manage_news'
+role_permission119:
+  id: 119
+  role_id: 2
+  permission: 'comment_news'
+role_permission120:
+  id: 120
+  role_id: 2
+  permission: 'view_wiki_pages'
+role_permission121:
+  id: 121
+  role_id: 2
+  permission: 'view_wiki_edits'
+role_permission122:
+  id: 122
+  role_id: 2
+  permission: 'edit_wiki_pages'
+role_permission123:
+  id: 123
+  role_id: 2
+  permission: 'protect_wiki_pages'
+role_permission124:
+  id: 124
+  role_id: 2
+  permission: 'delete_wiki_pages'
+role_permission125:
+  id: 125
+  role_id: 2
+  permission: 'add_messages'
+role_permission126:
+  id: 126
+  role_id: 2
+  permission: 'edit_own_messages'
+role_permission127:
+  id: 127
+  role_id: 2
+  permission: 'delete_own_messages'
+role_permission128:
+  id: 128
+  role_id: 2
+  permission: 'manage_forums'
+role_permission129:
+  id: 129
+  role_id: 2
+  permission: 'browse_repository'
+role_permission130:
+  id: 130
+  role_id: 2
+  permission: 'view_changesets'
+role_permission131:
+  id: 131
+  role_id: 2
+  permission: 'list_attachments'
+role_permission132:
+  id: 132
+  role_id: 2
+  permission: 'assign_versions'
+
+role_permission200:
+  id: 200
+  role_id: 3
+  permission: 'edit_project'
+role_permission201:
+  id: 201
+  role_id: 3
+  permission: 'manage_members'
+role_permission202:
+  id: 202
+  role_id: 3
+  permission: 'manage_versions'
+role_permission203:
+  id: 203
+  role_id: 3
+  permission: 'manage_categories'
+role_permission204:
+  id: 204
+  role_id: 3
+  permission: 'view_work_packages'
+role_permission205:
+  id: 205
+  role_id: 3
+  permission: 'add_work_packages'
+role_permission206:
+  id: 206
+  role_id: 3
+  permission: 'edit_work_packages'
+role_permission207:
+  id: 207
+  role_id: 3
+  permission: 'manage_work_package_relations'
+role_permission208:
+  id: 208
+  role_id: 3
+  permission: 'add_work_package_notes'
+role_permission209:
+  id: 209
+  role_id: 3
+  permission: 'move_work_packages'
+role_permission210:
+  id: 210
+  role_id: 3
+  permission: 'view_work_package_watchers'
+role_permission211:
+  id: 211
+  role_id: 3
+  permission: 'save_queries'
+role_permission212:
+  id: 212
+  role_id: 3
+  permission: 'view_calendar'
+role_permission213:
+  id: 213
+  role_id: 3
+  permission: 'log_time'
+role_permission214:
+  id: 214
+  role_id: 3
+  permission: 'view_time_entries'
+role_permission215:
+  id: 215
+  role_id: 3
+  permission: 'manage_news'
+role_permission216:
+  id: 216
+  role_id: 3
+  permission: 'comment_news'
+role_permission217:
+  id: 217
+  role_id: 3
+  permission: 'view_wiki_pages'
+role_permission218:
+  id: 218
+  role_id: 3
+  permission: 'view_wiki_edits'
+role_permission219:
+  id: 219
+  role_id: 3
+  permission: 'edit_wiki_pages'
+role_permission220:
+  id: 220
+  role_id: 3
+  permission: 'delete_wiki_pages'
+role_permission221:
+  id: 221
+  role_id: 3
+  permission: 'add_messages'
+role_permission222:
+  id: 222
+  role_id: 3
+  permission: 'manage_boards'
+role_permission223:
+  id: 223
+  role_id: 3
+  permission: 'browse_repository'
+role_permission224:
+  id: 224
+  role_id: 3
+  permission: 'view_changesets'
+role_permission225:
+  id: 225
+  role_id: 3
+  permission: 'list_attachments'
+
+role_permission226:
+  id: 226
+  role_id: 4
+  permission: 'view_work_packages'
+role_permission227:
+  id: 227
+  role_id: 4
+  permission: 'add_work_packages'
+role_permission228:
+  id: 228
+  role_id: 4
+  permission: 'edit_work_packages'
+role_permission229:
+  id: 229
+  role_id: 4
+  permission: 'manage_work_package_relations'
+role_permission230:
+  id: 230
+  role_id: 4
+  permission: 'add_work_package_notes'
+role_permission231:
+  id: 231
+  role_id: 4
+  permission: 'move_work_packages'
+role_permission232:
+  id: 232
+  role_id: 4
+  permission: 'save_queries'
+role_permission233:
+  id: 233
+  role_id: 4
+  permission: 'view_calendar'
+role_permission234:
+  id: 234
+  role_id: 4
+  permission: 'log_time'
+role_permission235:
+  id: 235
+  role_id: 4
+  permission: 'view_time_entries'
+role_permission236:
+  id: 236
+  role_id: 4
+  permission: 'comment_news'
+role_permission237:
+  id: 237
+  role_id: 4
+  permission: 'view_wiki_pages'
+role_permission238:
+  id: 238
+  role_id: 4
+  permission: 'view_wiki_edits'
+role_permission239:
+  id: 239
+  role_id: 4
+  permission: 'edit_wiki_pages'
+role_permission240:
+  id: 240
+  role_id: 4
+  permission: 'add_messages'
+role_permission241:
+  id: 241
+  role_id: 4
+  permission: 'browse_repository'
+role_permission242:
+  id: 242
+  role_id: 4
+  permission: 'view_changesets'
+role_permission243:
+  id: 243
+  role_id: 4
+  permission: 'list_attachments'
+
+role_permission500:
+  id: 500
+  role_id: 5
+  permission: 'view_work_packages'
+role_permission501:
+  id: 501
+  role_id: 5
+  permission: 'add_work_package_notes'
+role_permission502:
+  id: 502
+  role_id: 5
+  permission: 'view_calendar'
+role_permission503:
+  id: 503
+  role_id: 5
+  permission: 'view_time_entries'
+role_permission504:
+  id: 504
+  role_id: 5
+  permission: 'view_wiki_pages'
+role_permission505:
+  id: 505
+  role_id: 5
+  permission: 'view_wiki_edits'
+role_permission506:
+  id: 506
+  role_id: 5
+  permission: 'browse_repository'
+role_permission507:
+  id: 507
+  role_id: 5
+  permission: 'view_changesets'
+role_permission508:
+  id: 508
+  role_id: 5
+  permission: 'list_attachments'

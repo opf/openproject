@@ -1,0 +1,101 @@
+# News
+
+## News: Overview
+
+```
+<div class="news">
+  <h3 class="news--header">
+    <img class="avatar" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/jamesslock/128.jpg" alt="Avatar">
+    <a href="/news/5-important-news">More news</a>
+  </h3>
+  <p class="author additional-information">Added by <a title="User OpenProject Admin" href="">OpenProject Admin</a>
+    <a title="10/31/2018 09:15 AM" href="/projects/demo-project/activity?from=2018-10-31">3 months</a> ago
+  </p>
+  <div class="wiki">
+    <p>
+      Lorem ipsum dolor sit amet, choro atomorum dissentias sit ea, duo labores eleifend ei, pri habeo latine cu.
+    </p>
+  </div>
+
+  <h3 class="news--header">
+    <img class="avatar" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/5key/128.jpg" alt="Avatar">
+    <a href="/news/4-terrible-news">News</a>
+  </h3>
+  <p class="author">Added by <a title="User OpenProject Admin" href="">OpenProject Admin</a>
+    <a title="06/31/2018 09:15 AM" href="">7 months</a> ago
+  </p>
+  <div class="wiki">
+    <p>
+      Lorem ipsum dolor sit amet, choro atomorum dissentias sit ea, duo labores eleifend ei, pri habeo latine cu.
+      Cu nam fabellas apeirian patrioque. Has cu indoctum consulatu, nam invidunt nominati id.
+    </p>
+  </div>
+</div>
+```
+
+## News: Detailed view
+
+```
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2>
+        <img class="avatar" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/ateneupopular/128.jpg" alt="Avatar">
+        Latest news
+      </h2>
+    </div>
+    <ul class="toolbar-items"></ul>
+  </div>
+</div>
+
+<p>
+  Lorem ipsum dolor sit amet, choro atomorum dissentias sit ea, duo labores eleifend ei, pri habeo latine cu.
+  Cu nam fabellas apeirian patrioque. Has cu indoctum consulatu, nam invidunt nominati id.
+</p>
+<p class="author additional-information">Added by
+  <a title="User OpenProject Admin" href="">OpenProject Admin</a>
+  <a title="10/31/2018 09:15 AM" href="">3 months</a> ago
+</p>
+
+<div class="comments">
+  <h3 class="icon-context icon-quote">Comments</h3>
+
+  <div class="comment">
+    <div class="contextual">
+      <a data-confirm="Are you sure?" class="no-decoration-on-hover" title="Delete" alt="Delete" href="">
+        <i class="icon-context icon-delete"></i>
+      </a>
+    </div>
+    <h4 class="author additional-information">
+      <img class="avatar-mini" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/5key/128.jpg" alt="Avatar">Added by
+      <a title="User OpenProject Admin" href="">OpenProject Admin</a>
+      <a title="01/28/2019 01:15 PM" href="/projects/demo-project/activity?from=2019-01-28">1 minute</a> ago
+    </h4>
+    <p>
+      Lorem ipsum dolor sit amet, his ei propriae suscipit.
+      Sit in atqui accumsan ponderum, eum ut luptatum lobortis, has ei tota illud detraxit.
+    </p>
+  </div>
+
+  <div class="comment">
+    <div class="contextual">
+      <a data-confirm="Are you sure?" class="no-decoration-on-hover" title="Delete" alt="Delete" href="">
+        <i class="icon-context icon-delete"></i>
+      </a>
+    </div>
+    <h4 class="author additional-information">
+      <img class="avatar-mini" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/jamesslock/128.jpg" alt="Avatar">Added by
+      <a title="User OpenProject Admin" href="">OpenProject Admin</a>
+      <a title="01/28/2019 01:15 PM" href="/projects/demo-project/activity?from=2019-01-28">1 minute</a> ago
+    </h4>
+    <p>
+      Lorem ipsum dolor sit amet, his ei propriae suscipit.
+    </p>
+  </div>
+
+  <p>
+    <a href="">Add a comment</a>
+  </p>
+
+</div>
+```

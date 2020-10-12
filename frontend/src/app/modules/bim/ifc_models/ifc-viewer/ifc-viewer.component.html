@@ -1,0 +1,35 @@
+<div #outerContainer
+     class="ifc-model-viewer">
+
+  <div *ngIf="modelCount === 0" class="notification-box -info">
+    <div class="notification-box--content">
+      <p>
+        {{ text.empty_warning }}
+        <br/>
+        <a *ngIf="canManage"
+           [href]="ifcData.manageIFCPath"
+           target="_blank"
+           [textContent]="text.use_this_link_to_manage">
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="ifc-model-viewer--container xeokit-busy-modal-backdrop">
+    <div *ngIf="modelCount && !keyboardEnabled"
+         class="ifc-model-viewer--focus-warning">
+      <a class="ifc-model-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
+         (mousedown)="enableFromIcon($event)"
+         [attr.title]="text.keyboard_input_disabled">
+      </a>
+    </div>
+
+    <div class="ifc-model-viewer--toolbar-container"></div>
+    <canvas #modelCanvas
+            class="ifc-model-viewer--model-canvas"
+            tabindex="0">
+    </canvas>
+  </div>
+
+  <canvas class="ifc-model-viewer--nav-cube-canvas"></canvas>
+</div>

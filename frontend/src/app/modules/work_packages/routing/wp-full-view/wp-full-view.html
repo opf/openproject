@@ -1,0 +1,89 @@
+<div edit-form
+     [resource]="workPackage"
+     *ngIf="workPackage"
+     class="work-packages--show-view">
+
+    <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
+
+    <div class="toolbar-container">
+      <div id="toolbar">
+        <div class="wp-show--header-container">
+
+          <back-button linkClass="work-packages-back-button"></back-button>
+
+          <div class="subject-header">
+            <wp-subject></wp-subject>
+          </div>
+        </div>
+        <ul id="toolbar-items" class="toolbar-items hide-when-print">
+          <li class="toolbar-item hidden-for-mobile">
+            <wp-create-button
+              [allowed]="['work_package.addChild', 'work_package.copy']"
+              [stateName$]="stateName$">
+            </wp-create-button>
+          </li>
+          <li class="toolbar-item" *ngIf="displayWatchButton">
+            <wp-watcher-button [workPackage]="workPackage"
+                               [showText]="false">
+            </wp-watcher-button>
+          </li>
+          <li class="toolbar-item hidden-for-mobile">
+            <zen-mode-toggle-button>
+            </zen-mode-toggle-button>
+          </li>
+          <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
+            <button class="button dropdown-relative toolbar-icon"
+                    [attr.title]="text.full_view.button_more"
+                    wpSingleContextMenu
+                    [wpSingleContextMenu-workPackage]="workPackage">
+              <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="work-packages-full-view--split-container">
+      <div class="work-packages-full-view--split-left">
+        <div class="work-packages--panel-inner">
+          <wp-single-view [workPackage]="workPackage"></wp-single-view>
+        </div>
+      </div>
+      <div class="work-packages-full-view--split-right work-packages-tab-view--overflow">
+        <div class="work-packages--panel-inner">
+          <span class="hidden-for-sighted" tabindex="-1" focus [textContent]="focusAnchorLabel"></span>
+          <div id="tabs">
+            <ul class="tabrow">
+              <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+              properly. Thus, don't remove the hrefs or the empty URLs! -->
+              <li uiSref="work-packages.show.activity"
+                  [uiParams]="{workPackageId: workPackage.id}"
+                  uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.activity"></a>
+              </li>
+              <li uiSref="work-packages.show.relations"
+                  [uiParams]="{workPackageId: workPackage.id}"
+                  uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.relations"></a>
+                <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
+              </li>
+              <li *ngIf="canViewWorkPackageWatchers()"
+                  uiSref="work-packages.show.watchers"
+                  [uiParams]="{workPackageId: workPackage.id}"
+                  uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.watchers"></a>
+                <wp-watchers-count [wpId]="workPackage.id"></wp-watchers-count>
+              </li>
+            </ul>
+          </div>
+          <div class="tabcontent" ui-view>
+          </div>
+        </div>
+
+        <div class="work-packages-full-view--resizer hidden-for-mobile hide-when-print">
+          <wp-resizer [elementClass]="'work-packages-full-view--split-right'"
+                      [localStorageKey]="'openProject-fullViewFlexBasis'"></wp-resizer>
+        </div>
+      </div>
+    </div>
+</div>

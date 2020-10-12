@@ -1,0 +1,31 @@
+<%= hidden_field :import_options, :unknown_types_action,      :value => params.dig(:import_options, :unknown_types_action) %>
+<%= hidden_field :import_options, :unknown_statuses_action,   :value => params.dig(:import_options, :unknown_statuses_action) %>
+<%= hidden_field :import_options, :unknown_priorities_action, :value => params.dig(:import_options, :unknown_priorities_action) %>
+<%= hidden_field :import_options, :invalid_people_action,     :value => params.dig(:import_options, :invalid_people_action) %>
+<%= hidden_field :import_options, :unknown_mails_action,      :value => params.dig(:import_options, :unknown_mails_action) %>
+
+<% if params.dig(:import_options, :unknown_types_chose_ids)&.any? %>
+  <% params.dig(:import_options, :unknown_types_chose_ids).each do |id| %>
+    <%= hidden_field :import_options, 'unknown_types_chose_ids[]', :name => 'import_options[unknown_types_chose_ids][]', :value => id %>
+  <% end %>
+<% end %>
+<% if params.dig(:import_options, :unknown_statuses_chose_ids)&.any? %>
+  <% params.dig(:import_options, :unknown_statuses_chose_ids).each do |id| %>
+    <%= hidden_field :import_options, 'unknown_statuses_chose_ids[]', :name => 'import_options[unknown_statuses_chose_ids][]', :value => id %>
+  <% end %>
+<% end %>
+<% if params.dig(:import_options, :unknown_priorities_chose_ids)&.any? %>
+  <% params.dig(:import_options, :unknown_priorities_chose_ids).each do |id| %>
+    <%= hidden_field :import_options, 'unknown_priorities_chose_ids[]', :name => 'import_options[unknown_priorities_chose_ids][]', :value => id %>
+  <% end %>
+<% end %>
+<% if params.dig(:import_options, :unknown_mails_invite_role_ids)&.any? %>
+  <% params.dig(:import_options, :unknown_mails_invite_role_ids).each do |id| %>
+    <%= hidden_field :import_options, 'unknown_mails_invite_role_ids[]', :name => 'import_options[unknown_mails_invite_role_ids][]', :value => id %>
+  <% end %>
+<% end %>
+<% if params.dig(:import_options, :non_members_chose_role_ids)&.any? %>
+  <% params.dig(:import_options, :non_members_chose_role_ids).each do |id| %>
+    <%= hidden_field :import_options, 'non_members_chose_role_ids[]', :name => 'import_options[non_members_chose_role_ids][]', :value => id %>
+  <% end %>
+<% end %>

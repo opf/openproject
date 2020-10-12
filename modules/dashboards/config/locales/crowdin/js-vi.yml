@@ -1,0 +1,4 @@
+vi:
+  js:
+    dashboards:
+      label: 'Dashboard'

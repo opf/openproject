@@ -1,0 +1,60 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<section class="form--section">
+  <div class="grid-block wrap">
+    <div class="grid-content small-12 large-6">
+      <% if @projects.any? %>
+        <fieldset class="form--fieldset" id="type_project_ids">
+          <legend class="form--fieldset-legend" >
+            <%= t('types.edit.enabled_projects') %>
+          </legend>
+            <div class="form--toolbar">
+              <span class="form--toolbar-item">
+                (<%= check_all_links 'type_project_ids' %>)
+              </span>
+            </div>
+            <%= project_nested_ul(@projects) do |p|
+              content_tag('label',
+                check_box_tag('type[project_ids][]', p.id, @type.projects.include?(p), id: nil) +
+                  ' ' + h(p), class: 'form--label-with-check-box')
+            end %>
+            <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
+        </fieldset>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<div class="grid-block">
+  <div class="generic-table--action-buttons">
+  <%= styled_button_tag t(@type.new_record? ? :button_create : :button_save),
+      class: '-highlight -with-icon icon-checkmark' %>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="work-packages-partitioned-query-space--container"
+      [ngClass]="currentPartition">
+  <div class="toolbar-container -editable">
+    <div class="toolbar">
+      <back-button *ngIf="backButtonCallback"
+                   linkClass="back-button"
+                   [customBackMethod]="backButtonCallback">
+      </back-button>
+
+      <editable-toolbar-title [title]="selectedTitle"
+                              [inFlight]="toolbarDisabled"
+                              [showSaveCondition]="showToolbarSaveButton"
+                              (onSave)="changeChangesFromTitle($event)"
+                              (onEmptySubmit)="updateTitleName('')"
+                              [editable]="titleEditingEnabled">
+      </editable-toolbar-title>
+
+      <ul class="toolbar-items hide-when-print"
+          *ngIf="showToolbar">
+
+        <ng-container *ngFor="let definition of toolbarButtonComponents">
+          <li class="toolbar-item"
+              *ngIf="!definition.show || definition.show()"
+              [ngClass]="definition.containerClasses">
+            <ndc-dynamic [ndcDynamicComponent]="definition.component"
+                         [ndcDynamicInputs]="definition.inputs"
+                         [ndcDynamicInjector]="injector"
+                         [ndcDynamicOutputs]="definition.outputs">
+            </ndc-dynamic>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+
+  <div class="work-packages-partitioned-query-space--filter-area">
+    <ndc-dynamic [ndcDynamicComponent]="filterContainerDefinition.component"
+                 [ndcDynamicInputs]="filterContainerDefinition.inputs"
+                 [ndcDynamicOutputs]="filterContainerDefinition.outputs"
+                 [ndcDynamicInjector]="injector">
+    </ndc-dynamic>
+  </div>
+
+  <div class="work-packages-partitioned-page--content-container">
+    <!-- Left content view -->
+    <div class="work-packages-partitioned-page--content-left loading-indicator--location"
+         data-indicator-name="table"
+         ui-view="content-left">
+    </div>
+
+    <!-- Right content view -->
+    <div class="work-packages-partitioned-page--content-right"
+         ui-view="content-right"></div>
+  </div>
+</div>

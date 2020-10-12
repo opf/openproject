@@ -1,0 +1,59 @@
+tr:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'Taşıma kapasitesi URL'
+        secret: 'İmza sırrı'
+        events: 'Etkinlikler'
+        projects: 'Etkin projeler'
+      webhooks/log:
+        event_name: 'Etkinlik ismi'
+        url: 'Taşıma kapasitesi URL'
+        response_code: 'Cevap kodu'
+        response_body: 'Tepki'
+    models:
+      webhooks/outgoing_webhook: "Giden web kancası"
+  webhooks:
+    singular: Webhook
+    plural: Web Kancaları
+    resources:
+      time_entry:
+        name: "Zaman girişi"
+    outgoing:
+      no_results_table: Henüz bir web kancası tanımlanmadı.
+      label_add_new: Yeni web kancası ekle
+      label_edit: Web kancasını düzenle
+      label_event_resources: Etkinlik kaynakları
+      events:
+        created: "Oluşturuldu"
+        updated: "Güncellenmiş"
+      status:
+        enabled: 'Web kancası etkin'
+        disabled: 'Web kancası devre dışı'
+        enabled_text: 'Web kancası, aşağıda tanımlanan etkinlikler için yük taşıyacaktır.'
+        disabled_text: 'Web kancasını etkinleştirmek için düzenle düğmesine tıklayın.'
+      deliveries:
+        no_results_table: Bu web kancası için teslimat yapılmamıştır.
+        title: 'Son teslimatlar'
+        time: 'Teslimat süresi'
+      form:
+        introduction: >
+          Abone olduğunuz projedeki herhangi bir olay için aşağıdaki taşıma yükü URL'sine bir POST isteği gönderin. Yük, değiştirilen nesnenin APIv3 temsiline karşılık gelir.
+        apiv3_doc_url: Daha fazla bilgi için API belgelerini ziyaret edin
+        description:
+          placeholder: 'Web kancası için isteğe bağlı açıklama.'
+        enabled:
+          description: >
+            İşaretlendiğinde, web kancası seçilen olaylarda tetiklenir. Web kancasını devre dışı bırakmak için işaretini kaldırın.
+        events:
+          title: 'Etkin etkinlikler'
+        project_ids:
+          title: 'Etkin projeler'
+          description: 'Bu web kancasının hangi projeler için yürütüleceğini seçin.'
+          all: 'Tüm projeler'
+          selected: 'Sadece seçilen projeler'
+        selected_project_ids:
+          title: 'Seçilmiş projeler'
+        secret:
+          description: >
+            Ayarlanırsa, bu gizli değer OpenProject tarafından web kancası yükünü imzalamak için kullanılır.

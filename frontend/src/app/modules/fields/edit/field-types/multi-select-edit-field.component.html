@@ -1,0 +1,31 @@
+<div class="textarea-wrapper">
+  <ng-select [(ngModel)]="selectedOption"
+             [ngClass]="'inline-edit--field -multi-select'"
+             [required]="required"
+             [clearable]="!required"
+             [disabled]="inFlight"
+             [id]="handler.htmlId"
+             [items]="valueOptions"
+             bindLabel="name"
+             [virtualScroll]="true"
+             [clearSearchOnAdd]="true"
+             (keydown)="handler.handleUserKeydown($event, true)"
+             (open)="onOpen()"
+             (close)="onClose()"
+             (add)="repositionDropdown()"
+             (remove)="repositionDropdown()"
+             [multiple]="true"
+             [closeOnSelect]="false"
+             [appendTo]="appendTo"
+             [dropdownPosition]="'top'"
+             [hideSelected]="true">
+  </ng-select>
+
+  <edit-field-controls [fieldController]="self"
+                       *ngIf="!handler.inEditMode"
+                       (onSave)="handler.handleUserSubmit()"
+                       (onCancel)="handler.handleUserCancel()"
+                       [saveTitle]="text.save"
+                       [cancelTitle]="text.cancel">
+  </edit-field-controls>
+</div>

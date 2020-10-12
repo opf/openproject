@@ -1,0 +1,143 @@
+# Toolbar
+
+A toolbar that can and should be used for actions on the current view. Initially designed for the Work package list, this can be reused throughout the application.
+
+## Standard Button Bar
+
+```
+@full-width
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2>Title of the page</h2>
+    </div>
+    <ul class="toolbar-items">
+      <li class="toolbar-item">
+        <a href="#" class="button -highlight">An important button</a>
+      </li>
+      <li class="toolbar-item">
+        <button class="button">Normal button</button>
+      </li>
+      <li class="toolbar-item">
+        <button class="button">
+          <i class="button--icon icon-star"></i>
+          <span class="button--text">Favourite button</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+```
+
+## Toolbar with form elements
+
+```
+@full-width
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2>Dragonball Z characters</h2>
+    </div>
+    <ul class="toolbar-items">
+      <li class="toolbar-item">
+        <select name="attribue">
+          <option value="" selected></option>
+          <option value="super">Super</option>
+        </select>
+      </li>
+      <li class="toolbar-item">
+        <input type="text" name="race" placeholder="Race">
+      </li>
+      <li class="toolbar-item">
+        <input type="number" id="level" placeholder="Level">
+      </li>
+      <li class="toolbar-item">
+        <select>
+          <option value="" selected></option>
+          <option value="vegeta">Vegeta</option>
+          <option value="kakarotto">Kakarotto</option>
+          <option value="gohan">Gohan</option>
+          <option value="piccolo">Piccolo</option>
+          <option value="oob">Boo</option>
+        </select>
+      </li>
+      <li class="toolbar-item -icon-only">
+        <a href="#" class="button -highlight" aria-label="Add" title="Add">
+          <i class="button--icon icon-add"></i>
+          <span class="button--text">Add</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <p class="subtitle">now with extremeley long subtitle: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste consequatur doloribus suscipit nemo temporibus deserunt alias incidunt doloremque officia rerum, nobis fuga, recusandae voluptatibus voluptatem tenetur repellendus itaque et. Eum.</p>
+</div>
+```
+
+## Toolbar with affix form elements
+
+```
+@full-width
+<div class="toolbar-container ">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2 title="Checkout information">Checkout information</h2>
+    </div>
+    <ul class="toolbar-items">
+      <li class="toolbar-item toolbar-input-group">
+        <div class="toolbar-input-group--affix -prepend">
+          <span>git clone</span>
+        </div>
+        <input type="text" class="-clickable" size="40" readonly="readonly" value="https://zerberus.example.org/git/asdf.git">
+      </li>
+      <li class="toolbar-item toolbar-input-group">
+        <input type="text" class="-clickable" size="40" readonly="readonly" value="https://zerberus.example.org/git/asdf.git">
+        <div class="toolbar-input-group--affix -append">
+          <span>Read + Write</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+```
+
+## Toolbar with labelled form elements
+
+```
+@full-width
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2>Dragonball Z characters</h2>
+    </div>
+    <ul class="toolbar-items">
+      <li class="toolbar-item toolbar-input-group">
+        <div>
+          <label for="name">Name</label>
+        </div>
+        <select name="name">
+          <option value="" selected></option>
+          <option value="vegeta">Vegeta</option>
+          <option value="kakarotto">Kakarotto</option>
+          <option value="gohan">Gohan</option>
+          <option value="piccolo">Piccolo</option>
+          <option value="oob">Boo</option>
+        </select>
+      </li>
+      <li class="toolbar-item toolbar-input-group">
+        <div>
+          <label for="haircolor">Hair color</label>
+        </div>
+        <select name="haircolor">
+          <option value="" selected></option>
+          <option value="black">black</option>
+          <option value="green">green</option>
+          <option value="red">red</option>
+          <option value="yellow">yellow</option>
+          <option value="grey">grey</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+  <p class="subtitle">now with extremeley long subtitle: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste consequatur doloribus suscipit nemo temporibus deserunt alias incidunt doloremque officia rerum, nobis fuga, recusandae voluptatibus voluptatem tenetur repellendus itaque et. Eum.</p>
+</div>
+```

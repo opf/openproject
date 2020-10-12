@@ -1,0 +1,13 @@
+<h3 class="widget-box--header"
+    [ngClass]="{ '-editable': isRenameable }">
+
+  <ng-content select="[slot=prepend]"></ng-content>
+
+  <editable-toolbar-title [title]="name"
+                          (onSave)="renamed($event)"
+                          [editable]="isRenameable"
+                          class="widget-box--header-title">
+  </editable-toolbar-title>
+
+  <ng-content select="[slot=menu]"></ng-content>
+</h3>

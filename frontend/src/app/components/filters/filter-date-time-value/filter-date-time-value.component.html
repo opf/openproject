@@ -1,0 +1,16 @@
+<div class="inline-label" id="div-values-{{filter.id}}">
+  <op-date-picker (onChange)="value = isoDateParser($event)"
+                  [initialDate]="isoDateFormatter(value)"
+                  [focus]="shouldFocus"
+                  required="true"
+                  [id]="'values-' + filter.id"
+                  [name]="'v[' + filter.id + ']'"
+                  classes="advanced-filters--date-field"
+                  size="10">
+  </op-date-picker>
+  <span class="advanced-filters--tooltip-trigger -multiline"
+        [attr.data-tooltip]="timeZoneText"
+        *ngIf="isTimeZoneDifferent">
+    <op-icon icon-classes="icon icon-warning"></op-icon>
+  </span>
+</div>

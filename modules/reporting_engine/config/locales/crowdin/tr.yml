@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+tr:
+  description_drill_down: "Ayrıntıları görüntüle"
+  label_click_to_edit: "Düzenlemek için tıklayınız."
+  label_columns: "Sütunlar"
+  label_count: "Sayı"
+  label_filter: "Filtre"
+  label_filter_add: "Süzgeç ekle"
+  label_filter_plural: "Filtreler"
+  label_greater: ">"
+  label_group_by: "Grupla"
+  label_group_by_add: "Grubu Özelliklere Ekleyin"
+  label_inactive: "«etkin olmayan»"
+  label_less: "<"
+  label_no: "Hayır"
+  label_none: "(veri yok)"
+  label_progress_bar_explanation: "Rapor oluşturuluyor..."
+  label_really_delete_question: "Bu raporu silmek istediğinizden emin misiniz?"
+  label_report: "Rapor"
+  label_rows: "Satırlar"
+  label_saving: "Kaydediliyor ..."
+  label_sum: "Toplam"
+  label_yes: "Evet"
+  load_query_question: "Rapor %{size} tablo hücreleri içeriyor ve işlenmesi biraz zaman alabilir. Raporu yine de çalıştırmayı denemek ister misin?"
+  units: "Birimler"
+  validation_failure_date: "geçerli bir tarih değil"
+  validation_failure_integer: "geçerli bir tamsayı değil"
+  reporting:
+    group_by:
+      selected_columns: "Seçili sütunlar"
+      selected_rows: "Seçili satırlar"

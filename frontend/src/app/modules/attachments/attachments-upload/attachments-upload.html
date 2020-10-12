@@ -1,0 +1,27 @@
+<div
+  *ngIf="resource.canAddAttachments"
+  class="wp-attachment-upload hide-when-print"
+  (drop)="onDropFiles($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  [attr.aria-label]="text.uploadLabel">
+  <input #hiddenFileInput
+         type="file"
+         id="attachment_files"
+         name="attachment_files"
+         (change)="onFilePickerChanged()"
+         hidden
+         multiple />
+  <div class="work-package--attachments--drop-box"
+       tabindex="0"
+       (accessibleClick)="triggerFileInput($event)"
+       [ngClass]="{ '-dragging': draggingOver }">
+    <div class="work-package--attachments--label">
+      <op-icon icon-classes="icon-attachment"></op-icon>
+      <label for="attachment_files">
+        {{ text.dropFiles }} <br>
+        {{ text.dropFilesHint }}
+      </label>
+    </div>
+  </div>
+</div>

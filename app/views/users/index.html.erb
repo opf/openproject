@@ -1,0 +1,58 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% html_title t(:label_administration), t(:label_user_plural) -%>
+<%
+  user_limit = begin
+    token = OpenProject::Enterprise.token
+    limit = token && Hash(token.restrictions)[:active_user_count]
+
+    limit if limit && limit > 0
+  end
+%>
+<% users_info = user_limit && content_tag(:div) do %>
+  <%= t(:label_enterprise_active_users, current: OpenProject::Enterprise.active_user_count, limit: user_limit) %>
+  &nbsp;
+  <a href="<%= OpenProject::Enterprise.upgrade_path %>" class="display-inline button -tiny -highlight" title="<%= t(:title_enterprise_upgrade) %>"><%= t(:button_upgrade) %></a>
+<% end %>
+<%= toolbar title: t(:label_user_plural), title_class: 'no-padding-bottom', subtitle: users_info do %>
+  <li class="toolbar-item">
+    <%= link_to new_user_path,
+        { class: 'button -alt-highlight',
+          aria: {label: t(:label_user_new)},
+          title: t(:label_user_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('activerecord.models.user') %></span>
+    <% end %>
+  </li>
+  <%= call_hook(:user_admin_action_menu) %>
+<% end %>
+
+<%= cell Users::UserFilterCell, params, groups: @groups, status: @status %>
+&nbsp;
+<%= cell Users::TableCell, @users, project: @project, current_user: current_user %>

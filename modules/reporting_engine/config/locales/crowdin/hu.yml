@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+hu:
+  description_drill_down: "Részletek megjelenítése"
+  label_click_to_edit: "Szerkesztéséhez kattintson ide."
+  label_columns: "Oszlopok"
+  label_count: "Darabszám"
+  label_filter: "Szűrő"
+  label_filter_add: "Szűrő hozzáadása"
+  label_filter_plural: "Szürő"
+  label_greater: ">"
+  label_group_by: "Csoportosítás"
+  label_group_by_add: "Csoportosítási tulajdonság hozzáadása"
+  label_inactive: "«inaktív»"
+  label_less: "<"
+  label_no: "Nem"
+  label_none: "(nincs adat)"
+  label_progress_bar_explanation: "Jelentés létrehozása..."
+  label_really_delete_question: "Biztosan törli ezt a jelentést?"
+  label_report: "Jelentés"
+  label_rows: "Sorok"
+  label_saving: "Mentés..."
+  label_sum: "Össz."
+  label_yes: "Igen"
+  load_query_question: "A jelentés %{size} cellát fog tartalmazni, így eltarthat egy ideig az elkészítése. Továbbra is el szeretné készíteni?"
+  units: "Egységek"
+  validation_failure_date: "nem érvényes dátum"
+  validation_failure_integer: "nem érvényes egész szám"
+  reporting:
+    group_by:
+      selected_columns: "A kijelölt oszlopok"
+      selected_rows: "A kijelölt sorok"

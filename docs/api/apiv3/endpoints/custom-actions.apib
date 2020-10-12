@@ -1,0 +1,176 @@
+# Group Custom actions
+
+Custom actions are a preconfigured set of changes that are applied to a work package.
+
+Currently, this resource is a stub. The conditions and changes defined for the custom action are not yet present in the resource.
+
+## Actions
+
+| Link                | Description                                                          | Condition                                                                                                                        |
+|:-------------------:|----------------------------------------------------------------------| ---------------------------------------                                                                                          |
+| executeImmediately  | Apply the action to a work package                                   |
+
+## Linked Properties
+
+| Property         | Description                                               | Type                  | Constraints                      | Supported operations |
+| :--------------: | ------------------------------------------------------    | -----------           | -------------------------------- | -------------------- |
+| self             | This custom action                                        | CustomAction          | not null                         | READ                 |
+
+## Local Properties
+
+| Property         | Description                                              | Type                  | Constraints  | Supported operations |
+| :--------------: | ------------------------------------------------------   | -----------           | ------------ | -------------------- |
+| id               | Custom action id                                         | Integer               | x > 0        | READ                 |
+| name             | The user selected name of the custom action              | String                |              | READ                 |
+| description      | A text describing the custom action                      | String                |              | READ                 |
+
+## Custom Action [/api/v3/custom_actions/{custom_action_id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "CustomAction",
+                "name": "Change project and type",
+                "description": "Changes project and type in one go",
+                "_links": {
+                    "executeImmediately": {
+                        "href": "/apiChanges project and type in one go",
+                        "title": "Execute Change project and type",
+                        "method": "post"
+                    },
+                    "self": {
+                        "href": "/api/v3/custom_actions/2",
+                        "title": "Change project and type"
+                    }
+                }
+            }
+
+## View custom action [GET]
+
++ Parameters
+    + custom_action_id (required, integer, `1`) ... The id of the custom action to fetch
+
++ Response 200 (application/hal+json)
+
+    [Custom Action][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit work packages in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the custom action does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+## Execute custom action [/api/v3/custom_actions/{custom_action_id}/execute]
+
+## Execute custom action [POST]
+
+A POST to this end point executes the custom action on the work package provided in the payload. The altered work package will be returned. In order to avoid executing
+ the custom action unbeknown to a change that has already taken place, the client has to provide the work package's current lockVersion.
+
++ Parameters
+    + custom_action_id (required, integer, `1`) ... The id of the custom action to execute
+
++ Request Execute custom action (application/json)
+
+    + Body
+
+            {
+                "lockVersion": "3",
+                "_links": {
+                    "workPackage": {
+                        "href": "/api/v3/work_packages/42"
+                    }
+                }
+            }
+
++ Response 200 (application/hal+json)
+
+    Returns the work package resource that was updated. See [Work packages](work-packages) section for details.
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit work packages - Additional permissions might be required based on the custom action.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the custom action does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
++ Response 409 (application/hal+json)
+
+    Returned if the client provided an outdated lockVersion or no lockVersion at all.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
+                "message": "Couldn't update the resource because of conflicting modifications."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if the custom action was not executed successfully e.g. when a constraint on a work package property was violated.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Delay must be a number greater than or equal to 0",
+                "_embedded": {
+                    "details": {
+                        "attribute": "delay"
+                    }
+                }
+            }

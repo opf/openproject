@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+hr:
+  description_drill_down: "Prikaži detalje"
+  label_click_to_edit: "Kliknite za uređivanje."
+  label_columns: "Stupci"
+  label_count: "Zbroji"
+  label_filter: "Filter"
+  label_filter_add: "Dodaj filter"
+  label_filter_plural: "Filteri"
+  label_greater: ">"
+  label_group_by: "Grupiraj po"
+  label_group_by_add: "Dodaj grupu - po Atributu"
+  label_inactive: "«neaktivan»"
+  label_less: "<"
+  label_no: "Ne"
+  label_none: "(nema podataka)"
+  label_progress_bar_explanation: "Generiranje izvješća..."
+  label_really_delete_question: "Da li ste sigurni da želite izbrisati ovo izvješće?"
+  label_report: "Izvješće"
+  label_rows: "Redci"
+  label_saving: "Spremanje ..."
+  label_sum: "Zbroj"
+  label_yes: "Da"
+  load_query_question: "Izvješće će imati %{size} veličinu tablice te će biti potrebno određeno vrijeme za prikaz. Da li želite prikazati ga i dalje?"
+  units: "Jedinice"
+  validation_failure_date: "nije valjan datum"
+  validation_failure_integer: "nije valjan cijeli broj"
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

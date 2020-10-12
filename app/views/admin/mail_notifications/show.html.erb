@@ -1,0 +1,99 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:'activerecord.attributes.user.mail_notification') -%>
+
+<%= toolbar title: t(:'activerecord.attributes.user.mail_notification') %>
+
+<%= styled_form_tag(admin_mail_notifications_path, method: :patch) do %>
+  <% if @deliveries %>
+    <section class="form--section">
+      <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>
+      <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
+      <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
+      <div class="form--field"><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [t(o.last), o.first.to_s]}, container_class: '-middle') %></div>
+    </section>
+
+    <fieldset id="notified_events" class="form--fieldset">
+      <legend class="form--fieldset-legend">
+        <%= t(:text_select_mail_notifications) %>
+      </legend>
+      <div class="form--toolbar">
+        <span class="form--toolbar-item">
+          (<%= check_all_links 'notified_events' %>)
+        </span>
+      </div>
+      <%= hidden_field_tag 'settings[notified_events][]', '' %>
+      <div class="form--field">
+        <div class="form--field-container -vertical">
+          <% @notifiables.each do |notifiable| %>
+            <%= notification_field notifiable %>
+          <% end %>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_emails_header) %> & <%= t(:setting_emails_footer) %></legend>
+      <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>
+      <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_footer" %>
+    </fieldset>
+  <% else %>
+    <div class="nodata">
+      <%= simple_format(t(:text_email_delivery_not_configured)) %>
+    </div>
+  <% end %>
+
+  <%= content_tag :fieldset, id: "mail_configuration", class: "form--fieldset" do %>
+    <legend class="form--fieldset-legend"><%=t(:text_setup_mail_configuration)%></legend>
+    <div class="form--field"><%= setting_select(:email_delivery_method, [:smtp, :sendmail], id: "email_delivery_method_switch", container_class: '-xslim') %></div>
+    <div id="email_delivery_method_smtp" class="email_delivery_method_settings">
+      <div class="form--field"><%= setting_text_field :smtp_address, container_class: '-middle' %></div>
+      <div class="form--field"><%= setting_text_field :smtp_port, size: 6, container_class: '-xslim' %></div>
+      <div class="form--field"><%= setting_text_field :smtp_domain, container_class: '-middle' %></div>
+      <div class="form--field"><%= setting_select(:smtp_authentication, [:none, :plain, :login, :cram_md5], container_class: '-slim') %></div>
+      <div class="form--field"><%= setting_text_field :smtp_user_name, container_class: '-middle' %></div>
+      <div class="form--field"><%= setting_password :smtp_password, container_class: '-middle' %></div>
+      <div class="form--field"><%= setting_check_box :smtp_enable_starttls_auto %></div>
+      <div class="form--field"><%= setting_check_box :smtp_ssl %></div>
+    </div>
+    <div id="email_delivery_method_sendmail" class="email_delivery_method_settings">
+      <div class="form--field"><%= setting_text_field :sendmail_location %></div>
+    </div>
+  <% end unless OpenProject::Configuration['email_delivery_configuration'] == 'legacy' %>
+
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+  <% if @deliveries %>
+    <div style="float:none;display:inline-block;font-weight:bold;">
+      <%= link_to t(:label_send_test_email),
+                  { controller: '/admin', action: 'test_email' },
+                  method: :post %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,169 @@
+/*
+	Off-canvas menu
+  ---------------
+
+  A generic container that stays fixed to the left, top, right, or bottom of the screen, and is summoned when needed. When an off-canvas panel is open, the app frame shifts over to reveal the menu.
+*/
+
+/// @Foundation.settings
+// Off-canvas
+$offcanvas-size-horizontal: 250px !default;
+$offcanvas-size-vertical: 250px !default;
+
+$offcanvas-background: #fff !default;
+$offcanvas-color: isitlight($offcanvas-background) !default;
+$offcanvas-padding: 0 !default;
+$offcanvas-shadow: 3px 0 10px rgba(black, 0.25) !default;
+$offcanvas-animation-speed: 0.25s !default;
+
+$offcanvas-frame-selector: '.grid-frame' !default;
+///
+
+%off-canvas {
+  position: fixed;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: transform $offcanvas-animation-speed ease-out;
+  z-index: 2;
+
+  // Active state
+  &.is-active {
+    transform: translate(0,0) !important;
+  }
+
+  // Frame styles
+  & ~ #{$offcanvas-frame-selector} {
+    transform: translate(0,0,0);
+    transition: transform 0.25s ease-out;
+    backface-visibility: hidden;
+    background: white;
+  }
+}
+@mixin off-canvas-detached {
+  z-index: 0;
+  box-shadow: none;
+
+  &, &.is-active {
+    transform: none;
+  }
+
+  & ~ #{$offcanvas-frame-selector} {
+    z-index: 1;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  }
+}
+
+@mixin off-canvas-layout(
+  $position: left,
+  $size: default,
+  $shadow: $offcanvas-shadow
+) {
+  /*
+    Get shadow values for later use
+  */
+  $shadow-length: '';
+  $shadow-size: '';
+  $shadow-color: '';
+  @if hasvalue($shadow) {
+    $shadow-length: get-shadow-value($shadow, x);
+    $shadow-size: get-shadow-value($shadow, size);
+    $shadow-color: get-shadow-value($shadow, color);
+  }
+
+  /*
+    Sizing
+  */
+  @if $position == left or $position == right {
+    @if $size == default {
+      $size: $offcanvas-size-horizontal;
+    }
+    width: $size;
+    height: 100%;
+  }
+  @else {
+    @if $size == default {
+      $size: $offcanvas-size-vertical;
+    }
+    height: $size;
+    width: 100%;
+  }
+
+  /*
+    Positioning
+  */
+  @if $position == left {
+    top: 0;
+    left: 0;
+    @if hasvalue($shadow) { box-shadow: inset (-$shadow-length) 0 $shadow-size $shadow-color; }
+    transform: translateX(-100%);
+    &.is-active {
+      & ~ #{$offcanvas-frame-selector} { transform: translateX($size) !important; }
+    }
+  }
+  @else if $position == right {
+    left: auto;
+    top: 0;
+    right: 0;
+    @if hasvalue($shadow) { box-shadow: inset $shadow-length 0 $shadow-size $shadow-color; }
+    transform: translateX(100%);
+    &.is-active {
+      & ~ #{$offcanvas-frame-selector} { transform: translateX(-$size) !important; }
+    }
+  }
+  @else if $position == top {
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    @if hasvalue($shadow) { box-shadow: inset 0 (-$shadow-length) $shadow-size $shadow-color; }
+    &.is-active {
+      & ~ #{$offcanvas-frame-selector} { transform: translateY($size) !important; }
+    }
+  }
+  @else if $position == bottom {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: translateY(100%);
+    @if hasvalue($shadow) { box-shadow: inset 0 $shadow-length $shadow-size $shadow-color; }
+    &.is-active {
+      & ~ #{$offcanvas-frame-selector} { transform: translateY(-$size) !important; }
+    }
+  }
+}
+
+@mixin off-canvas-style(
+  $background: $offcanvas-background,
+  $color: $offcanvas-color,
+  $padding: $offcanvas-padding
+) {
+  background: $background;
+
+  @if $color == auto {
+    color: isitlight($background, #000, #fff);
+  }
+  @else {
+    color: $color;
+  }
+
+  @if hasvalue($padding) {
+    padding: $padding;
+  }
+}
+
+@include exports(off-canvas) {
+  .off-canvas {
+    @extend %off-canvas;
+    @include off-canvas-layout;
+    @include off-canvas-style;
+
+    &.top    { @include off-canvas-layout(top); }
+    &.right  { @include off-canvas-layout(right); }
+    &.bottom { @include off-canvas-layout(bottom); }
+    &.left   { @include off-canvas-layout(left); }
+
+    &.detached { @include off-canvas-detached; }
+
+    &.primary { @include off-canvas-style($primary-color, auto); }
+    &.dark    { @include off-canvas-style($dark-color, auto); }
+  }
+}

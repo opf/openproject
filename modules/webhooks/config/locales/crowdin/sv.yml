@@ -1,0 +1,59 @@
+sv:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'Payload-URL'
+        secret: 'Signeringshemlighet'
+        events: 'Händelser'
+        projects: 'Aktiverade projekt'
+      webhooks/log:
+        event_name: 'Händelsenamn'
+        url: 'Payload-URL'
+        response_code: 'Svarskod'
+        response_body: 'Svar'
+    models:
+      webhooks/outgoing_webhook: "Utgående webhook"
+  webhooks:
+    singular: Webhook
+    plural: Webbhookar
+    resources:
+      time_entry:
+        name: "Tidspost"
+    outgoing:
+      no_results_table: Inga webhooks har definierats ännu.
+      label_add_new: Lägg till ny webhook
+      label_edit: Redigera webhook
+      label_event_resources: Händelseresurser
+      events:
+        created: "Skapad"
+        updated: "Uppdaterad"
+      status:
+        enabled: 'Webbhook är aktiverad'
+        disabled: 'Webbhook är inaktiverad'
+        enabled_text: 'Webhook kommer att sända ut payloads för de definierade händelserna nedan.'
+        disabled_text: 'Klicka på redigeringsknappen för att aktivera webhook.'
+      deliveries:
+        no_results_table: Inga leveranser har gjorts för denna webhook.
+        title: 'Senaste leveranserna'
+        time: 'Leveranstid'
+      form:
+        introduction: >
+          Skicka en POST begäran till payload URL nedan för alla händelser i projektet din prenumeration. Payload kommer att motsvara APIv3-representationen av objektet som ändras.
+        apiv3_doc_url: För mer information, besök API-dokumentationen
+        description:
+          placeholder: 'Valfri beskrivning för webhook.'
+        enabled:
+          description: >
+            När markerad, kommer webhooken att utlösas på de valda händelserna. Avmarkera för att inaktivera webhook.
+        events:
+          title: 'Aktiverade händelser'
+        project_ids:
+          title: 'Aktiverade projekt'
+          description: 'Välj för vilka projekt denna webhook ska köras för.'
+          all: 'Alla projekt'
+          selected: 'Endast utvalda projekt'
+        selected_project_ids:
+          title: 'Valda projekt'
+        secret:
+          description: >
+            Om angiven används detta hemliga värde av OpenProject för att signera webhook-nyttolasten.

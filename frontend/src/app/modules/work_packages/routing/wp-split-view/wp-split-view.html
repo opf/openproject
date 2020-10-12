@@ -1,0 +1,75 @@
+<div class="work-packages--details loading-indicator--location"
+      data-indicator-name="wpDetails"
+      *ngIf="workPackage">
+    <div id="tabs">
+      <ul class="tabrow">
+        <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+        properly. Thus, don't remove the hrefs or the empty URLs! -->
+        <li uiSref=".overview"
+            uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.overview"></a>
+        </li>
+        <li uiSref=".activity"
+            uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.activity"></a>
+        </li>
+        <li uiSref=".relations"
+                    uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.relations"></a>
+          <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
+        </li>
+        <li *ngIf="canViewWorkPackageWatchers()"
+            uiSref=".watchers"
+            uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.watchers"></a>
+          <wp-watchers-count [wpId]="workPackage.id"></wp-watchers-count>
+        </li>
+        <li class="tab-icon">
+          <accessible-by-keyboard (execute)="switchToFullscreen()"
+                                  [linkAriaLabel]="text.goTofullScreen"
+                                  [linkTitle]="text.goTofullScreen"
+                                  linkClass="work-packages--details-fullscreen-icon"
+                                  spanClass="icon-context icon-to-fullscreen">
+          </accessible-by-keyboard>
+        </li>
+        <li class="tab-icon">
+          <accessible-by-keyboard (execute)="close()"
+                                  [linkAriaLabel]="text.closeDetailsView"
+                                  [linkTitle]="text.closeDetailsView"
+                                  linkClass="work-packages--details-close-icon"
+                                  spanClass="icon-context icon-close">
+          </accessible-by-keyboard>
+        </li>
+      </ul>
+    </div>
+    <div class="work-packages--details-content work-packages-tab-view--overflow" *ngIf="workPackage">
+    <span class="hidden-for-sighted" tabindex="-1" focus="shouldFocus" [textContent]="focusAnchorLabel">
+      </span>
+
+      <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
+
+      <edit-form [resource]="workPackage">
+        <div class="wp-show--header-container">
+          <back-button *ngIf="showBackButton()"
+                       linkClass="work-packages-back-button"
+                       [customBackMethod]="backToList.bind(this)">
+          </back-button>
+
+          <div class="subject-header">
+            <wp-subject></wp-subject>
+          </div>
+        </div>
+
+        <div class="work-package-details-tab" ui-view></div>
+      </edit-form>
+    </div>
+
+    <div class="work-packages--details-toolbar-container" *ngIf="workPackage">
+      <wp-details-toolbar [workPackage]="workPackage"></wp-details-toolbar>
+    </div>
+
+    <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">
+      <wp-resizer [elementClass]="'work-packages-partitioned-page--content-right'"
+                  [localStorageKey]="'openProject-splitViewFlexBasis'"></wp-resizer>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+@mixin inline-list($alignment){
+	list-style-type: none;
+	text-align: $alignment;
+	li, dt, dd {
+		display: inline-block;
+		margin-left: -2px;
+		margin-right: -2px;
+	}
+}
+
+@include exports(list) {
+  .inline-list {
+    @include inline-list(left);
+    li {
+      margin-right: 1rem;
+      margin-left: 0;
+    }
+  }
+}

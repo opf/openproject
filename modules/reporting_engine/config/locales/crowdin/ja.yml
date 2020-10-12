@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ja:
+  description_drill_down: "詳細を表示"
+  label_click_to_edit: "クリックして編集"
+  label_columns: "列"
+  label_count: "回数"
+  label_filter: "フィルタ"
+  label_filter_add: "フィルタを追加"
+  label_filter_plural: "フィルタ"
+  label_greater: ">"
+  label_group_by: "グループ化"
+  label_group_by_add: "グループ化属性を追加"
+  label_inactive: "«非活動»"
+  label_less: "<"
+  label_no: "いいえ"
+  label_none: "(データなし)"
+  label_progress_bar_explanation: "レポートを生成中..."
+  label_really_delete_question: "このレポートを削除してもよろしいですか？"
+  label_report: "レポート"
+  label_rows: "行"
+  label_saving: "保存中…"
+  label_sum: "合計"
+  label_yes: "はい"
+  load_query_question: "レポートは%{size}つセルを持つために、描画するに時間がかかる場合があります。描画してもよろしいですか?"
+  units: "単位"
+  validation_failure_date: "は有効な日付ではありません。"
+  validation_failure_integer: "は有効な整数ではありません。"
+  reporting:
+    group_by:
+      selected_columns: "選択された列"
+      selected_rows: "選択された行"

@@ -1,0 +1,67 @@
+# Group Groups
+
+Groups are collections of users. They support assigning/unassigning multiple users to/from a project in one operation.
+
+This resource is currently a stub.
+
+## Actions
+
+None
+
+## Linked Properties
+|  Link       | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                     |
+|:-----------:|--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
+| self        | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                               |
+| members     | Link ot collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
+
+## Local Properties
+| Property     | Description                                                | Type     | Constraints                                          | Supported operations | Condition                                                                           |
+| :----------: | ---------------------------------------------------------  | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                         |
+| id           | Group's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                     |
+| name         | Group's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                     |
+| createdAt    | Time of creation                                           | DateTime |                                                      | READ                 |                                                                                     |
+| updatedAt    | Time of the most recent change to the user                 | DateTime |                                                      | READ                 |                                                                                     |
+
+## Group [/api/v3/groups/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Group",
+                "id": 9,
+                "name": "The group",
+                "createdAt": "2015-09-23T11:06:36Z",
+                "updatedAt": "2015-09-23T11:06:36Z",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/groups/9",
+                        "title": "The group"
+                    }
+                }
+            }
+
+## View group [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Group id.
+
++ Response 200 (application/hal+json)
+
+    [Group][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the group does not exist or if the API user does not have permission to view them.
+
+    **Required permission** If the user has the *manage members* permission in at least one project the user will be able to query all groups. If not, the user
+    will be able to query all groups which are members in projects, he has the *view members* permission in.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+

@@ -1,0 +1,89 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= form_tag(filter_path, method: :get) do %>
+   <% collapsed_class =  initially_visible? ? '' : 'collapsed' %>
+  <fieldset class="simple-filters--container <%= collapsed_class %>">
+    <legend><%= t(:label_filter_plural) %></legend>
+    <% if has_close_icon? %>
+      <a title="<%= t('js.close_form_title') %>"
+         class="toggle-member-filter-link simple-filters--close icon-context icon-close">
+      </a>
+    <% end %>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+          <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>
+          <%= select_tag 'status', user_status_options, class: 'simple-filters--filter-value' %>
+      </li>
+      <% if groups.present? %>
+        <li class="simple-filters--filter">
+          <label class='simple-filters--filter-name' for='group_id'><%= Group.model_name.human %>:</label>
+          <%= collection_select :group,
+                              :id,
+                              groups,
+                              :id,
+                              :name,
+                              { include_blank: true,
+                                selected: params[:group_id].to_i },
+                              { name: "group_id",
+                                class: 'simple-filters--filter-value' } %>
+        </li>
+      <% end %>
+      <% if roles.present? %>
+        <li class="simple-filters--filter">
+          <label class='simple-filters--filter-name' for='role_id'><%= Role.model_name.human %>:</label>
+          <%=
+            collection_select(
+              :role,
+              :id,
+              roles,
+              :id,
+              :name,
+              {
+                include_blank: true,
+                selected: params[:role_id].to_i
+              },
+              {
+                name: "role_id",
+                class: 'simple-filters--filter-value'
+              })
+            %>
+        </li>
+      <% end %>
+      <li class="simple-filters--filter">
+        <label class='simple-filters--filter-name' for='name'><%= User.human_attribute_name :name %>:</label>
+        <%= text_field_tag 'name', params[:name], class: 'simple-filters--filter-value' %>
+      </li>
+      <li class="simple-filters--controls">
+        <%= submit_tag t(:button_apply), class: 'button -highlight -small', name: nil %>
+        <%= link_to t(:button_clear), clear_url, class: 'button -small -with-icon icon-undo' %>
+      </li>
+    </ul>
+  </fieldset>
+<% end %>

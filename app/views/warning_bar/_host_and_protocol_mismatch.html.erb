@@ -1,0 +1,28 @@
+<div id="pending-migrations-warning" class="warning-bar--item unsupported-browser-warning--pane">
+  <span class="icon3 icon-warning"></span>
+
+  <% if setting_protocol_mismatched? %>
+    <p>
+      <strong><%= t 'warning_bar.protocol_mismatch.title' %></strong>
+      <br/>
+      <%= t 'warning_bar.protocol_mismatch.text_html',
+            set_protocol: Setting.protocol,
+            actual_protocol: request.ssl? ? 'https' : 'http',
+            setting_path: general_settings_path
+      %>
+    </p>
+  <% end %>
+
+  <% if setting_hostname_mismatched? %>
+    <p>
+      <strong><%= t 'warning_bar.hostname_mismatch.title' %></strong>
+      <br/>
+      <%= t 'warning_bar.hostname_mismatch.text_html',
+            set_hostname: Setting.host_name,
+            actual_hostname: request.host,
+            setting_path: general_settings_path
+      %>
+    </p>
+  <% end %>
+
+</div>

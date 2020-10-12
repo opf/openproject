@@ -1,0 +1,22 @@
+<%= render 'homescreen/blocks/header', title: t(:label_news_latest) %>
+<% unless @news.empty? %>
+  <ul class="widget-box--arrow-links">
+  <% @news.each do |news| %>
+    <li class="-widget-box--arrow-multiline">
+      <div>
+        <%= avatar(news.author, {class: 'avatar news-author-avatar hidden-for-mobile'}) %>
+        <div class="news-project">
+          <%= link_to_project(news.project) + ': ' %>
+          <%= link_to h(news.title), news_path(news) %>
+        </div>
+        <div class="news-author">
+         <span><%= authoring_at Date.strptime(news.created_at.to_s), news.author %></span>
+        </div>
+       <div> 
+        <p class="widget-box--additional-info"><%=  news.summary %></p>
+       </div>
+      </div>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
