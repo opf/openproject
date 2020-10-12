@@ -21,7 +21,7 @@ The **Project overview** page is a dashboard with important project information.
 
 ## What is the project overview?
 
-The project overview is a single dashboard page where all important project information can be displayed. The idea is to have it centrally available for the whole project team.
+The project overview is a single dashboard page where all important information of the selected project can be displayed. The idea is to have it centrally available for the whole project team.
 
 You can add project information as widgets to the dashboard and not only order but also re-size the widgets according to your needs.
 

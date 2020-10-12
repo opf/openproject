@@ -32,7 +32,7 @@ A module in OpenProject encapsulates a specific set of collaboration functionali
 
 
 
-Please choose the module you want to learn more about.
+Please choose the module or topic you want to learn more about.
 
 | Popular Topics                                | Description                                                  |
 | --------------------------------------------- | :----------------------------------------------------------- |
