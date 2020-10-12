@@ -274,9 +274,9 @@ zh-CN:
             current_new_feature_html: >
               此版本包含许多新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>自上而下的计划</b>，可定义所有涉及的项目任务。父项的开始和结束日期不受其子项的影响。</li> <li><b>多功能敏捷板</b>，允许您创建一个工作细分结构或在子项目之间分配任务。</li> <li><b>项目模板</b>，可轻松创建新项目。</li> <li>可配置项目页面，从而能够更好地<b>管理项目组合</b>。</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              此版本包含许多新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>自上而下的计划</b>，可定义所有涉及的项目任务。父项的开始和结束日期不受其子项的影响。</li> <li><b>多功能敏捷板</b>，允许您创建一个工作细分结构或在子项目之间分配任务。</li> <li><b>项目模板</b>，可轻松创建新项目。</li> <li>可配置项目页面，从而能够更好地<b>管理项目组合</b>。</li> </ul>
+              OpenProject 10.5 现在支持 <b>BIM Collaboration Format (BCF)</b> - BIM 模型的开放式问题跟踪标准。<br><br> <ul> <ul class="%{list_styling_class}"> <li>轻松创建并<b>管理 BIM 问题</b>（如交互式 3D IFC 模型中的冲突、请求和问题），并<b>与项目团队共享</b>。</li> <li>使用强大的 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a> 将 OpenProject 与您最喜欢的 BIM 软件集成。</li> <li>导入和导出 BCF XML 文件。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
