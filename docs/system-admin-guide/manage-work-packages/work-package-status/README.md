@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Status
   priority: 970
-description: Manage work package status.
+description: Manage Work package status.
 robots: index, follow
 keywords: work package status
 ---

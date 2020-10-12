@@ -21,7 +21,7 @@ To schedule work packages in the Gantt chart there is an **automatic scheduling 
 | Topic                                                   | Content                                                      |
 | ------------------------------------------------------- | ------------------------------------------------------------ |
 | [Automatic scheduling mode](#automatic-scheduling-mode) | What happens to work packages, when you connect them in automatic scheduling mode? |
-| [Manual scheduling mode](#manual scheduling-mode)       | What happens to work packages, when you connect them in manual scheduling mode? |
+| [Manual scheduling mode](#manual-scheduling-mode)       | What happens to work packages, when you connect them in manual scheduling mode? |
 | [Changing modes](#changing-modes)                       | How can I change between manual and automatic scheduling mode? |
 
 
@@ -45,18 +45,18 @@ Changing to the **manual scheduling mode makes sense if**
 - you don't want a parent work package's dates being updated automatically when changing the children's dates, or
 - you don't want a follower's start date be automatically updated when you change the predecessor's finish date
 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=Me4cMULZKRM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Me4cMULZKRM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 
-## Change mode
+## Changing mode
 
 You can **activate the manual scheduling mode** by clicking on the date of a work package and selecting the box next to "Manual scheduling". 
 
-![image-20200929160916841](C:/Users/Matthias Laux/Documents/GitHub/openproject/docs/user-guide/gantt-chart/scheduling/image-20200929160916841.png)
+![image-20200929160916841](image-20200929160916841.png)
 
 The pin symbol next to the date indicates that a work package is in manual scheduling mode.
 
-![image-20200929161237109](C:/Users/Matthias Laux/Documents/GitHub/openproject/docs/user-guide/gantt-chart/scheduling/image-20200929161237109.png)
+![image-20200929161237109](image-20200929161237109.png)
 
 Changing back to automatic scheduling mode works the same way. Please note: When switching from manual scheduling to automatic scheduling some work packages' dates might be updated according to principles [stated above](#automatic-scheduling-mode). 
