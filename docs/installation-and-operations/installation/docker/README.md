@@ -26,7 +26,7 @@ OpenProject with Docker can be launched in two ways:
 First, you must clone the OpenProject repository:
 
 ```bash
-git clone --depth=1 --branch=stable/10 https://github.com/opf/openproject
+git clone --depth=1 --branch=stable/11 https://github.com/opf/openproject
 ```
 
 Then, go into the OpenProject folder and you can launch all the services required by OpenProject with docker-compose:
@@ -53,7 +53,7 @@ The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
 ```bash
-docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:10
+docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
 ```
 
 This will take a bit of time the first time you launch it, but after a few
@@ -71,7 +71,7 @@ For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
 ```bash
-docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:10
+docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
 ```
 
 ### Recommended usage
@@ -94,7 +94,7 @@ sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
-  openproject/community:10
+  openproject/community:11
 ```
 
 **Note**: Make sure to replace `secret` with a random string. One way to generate one is to run `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo ''` if you are on Linux.
@@ -259,14 +259,14 @@ For instance:
 
 ```
 group :opf_plugins do
-  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/10.0"
+  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/11.0"
 end
 ```
 
 **3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
 
 ```
-FROM openproject/community:10
+FROM openproject/community:11
 
 COPY Gemfile.plugins /app/
 
@@ -290,7 +290,7 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 **5. Run the image**
 
 You can run the image just like the normal OpenProject image (as shown earlier).
-You just have to use your chosen tag instead of `openproject/community:10`.
+You just have to use your chosen tag instead of `openproject/community:11`.
 To just give it a quick try you can run this:
 
 ```
@@ -366,7 +366,7 @@ x-op-app: &app
   <<: *image
   <<: *restart_policy
   environment:
-    # ... 
+    # ...
   volumes:
     - "opdata:/var/openproject/assets"
   depends_on:
@@ -413,7 +413,7 @@ x-op-app: &app
   <<: *image
   <<: *restart_policy
   environment:
-    # ... 
+    # ...
   volumes:
     - "pgdata:/mnt/openproject/pgdata"
     - "opdata:/mnt/openproject/assets"
@@ -455,12 +455,12 @@ Once this has finished you should see something like this when running `docker s
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:10   
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:11   
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
-uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:10   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:10   
-canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:10   
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:10
+uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:11   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:11   
+canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:11   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:11
 ```
 
 You can now access OpenProject under [http://0.0.0.0:8080](http://0.0.0.0:8080).
@@ -498,12 +498,12 @@ This will take a moment to converge. Once done you should see something like the
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:10   
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:11   
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
-uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:10   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:10   
-canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:10   
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:10
+uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:11   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:11   
+canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:11   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:11
 ```
 
 Docker swarm handles the networking necessary to distribute the load among the nodes.
