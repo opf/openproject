@@ -27,7 +27,7 @@ ENV RAILS_SERVE_STATIC_FILES=1
 ENV HEROKU=true
 ENV RAILS_ENV=production
 ENV RAILS_CACHE_STORE=memcache
-ENV RAILS_GROUPS="production docker opf_plugins"
+ENV RAILS_GROUPS=production,docker,opf_plugins
 ENV RAILS_LOG_TO_STDOUT=1
 ENV OPENPROJECT_INSTALLATION__TYPE=docker
 # Valid values are: standard,bim
