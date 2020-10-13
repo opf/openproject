@@ -767,11 +767,6 @@ GEM
     rails-i18n (6.0.0)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 7)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
-    rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.5)
     railties (6.0.3.4)
       actionpack (= 6.0.3.4)
       activesupport (= 6.0.3.4)
@@ -1094,7 +1089,6 @@ DEPENDENCIES
   rails (~> 6.0.3.2)
   rails-controller-testing (~> 1.0.2)
   rails-i18n (~> 6.0.0)
-  rails_12factor
   rdoc (>= 2.4.2)
   reporting_engine!
   request_store (~> 1.5.0)
