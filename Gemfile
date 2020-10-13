@@ -314,15 +314,15 @@ platforms :mri, :mingw, :x64_mingw do
   gem 'with_advisory_lock', '~> 4.6.0'
 end
 
-group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
-end
+gem 'openproject-translations',
+  git: 'https://github.com/opf/openproject-translations.git',
+  branch: 'dev'
 
+gem 'newrelic_rpm', '~> 6.9.0.363'
+
+# remove once we no longer use passenger
 group :docker, optional: true do
   gem 'passenger', '~> 6.0.1'
-
-  # Used to easily precompile assets
-  gem 'newrelic_rpm', '~> 6.9.0.363'
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
