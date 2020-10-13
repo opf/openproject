@@ -321,11 +321,6 @@ gem 'openproject-translations',
 
 gem 'newrelic_rpm', '~> 6.9.0.363'
 
-# remove once we no longer use passenger
-group :docker, optional: true do
-  gem 'passenger', '~> 6.0.1'
-end
-
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
                                      __FILE__)
