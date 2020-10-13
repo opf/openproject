@@ -24,7 +24,8 @@ import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-c
 import {OpTitleService} from "core-components/html/op-title.service";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {CalendarOptions, EventApi, EventInput} from '@fullcalendar/core';
-import {take} from 'rxjs/operators';
+import {Subject} from "rxjs";
+import {take, debounceTime} from 'rxjs/operators';
 import {ToolbarInput} from '@fullcalendar/common';
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
@@ -41,25 +42,41 @@ interface CalendarViewEvent {
   selector: 'wp-calendar',
 })
 export class WorkPackagesCalendarController extends UntilDestroyedMixin implements OnInit {
+  private resizeObserver:ResizeObserver;
+  private resizeSubject = new Subject<any>();
   private ucCalendar:FullCalendarComponent;
   @ViewChild(FullCalendarComponent)
-    set container(v:FullCalendarComponent|undefined) {
-      // ViewChild reference may be undefined initially
-      // due to ngIf
-      if (v !== undefined) {
-        this.ucCalendar = v;
-
-        // The full-calendar component's outputs do not seem to work
-        // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
-        // Therefore, setting the outputs via the underlying API
-        this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
-          this.addTooltip(event);
-        });
-        this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
-          this.toWPFullView(event);
-        });
-      }
+  set container(v:FullCalendarComponent|undefined) {
+    // ViewChild reference may be undefined initially
+    // due to ngIf
+    if (!v) {
+      return;
     }
+
+    this.ucCalendar = v;
+
+    // The full-calendar component's outputs do not seem to work
+    // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
+    // Therefore, setting the outputs via the underlying API
+    this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
+      this.addTooltip(event);
+    });
+    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
+      this.toWPFullView(event);
+    });
+  }
+  @ViewChild('ucCalendar', { read: ElementRef })
+  set ucCalendarElement(v:ElementRef|undefined) {
+    if (!v) {
+      return;
+    }
+
+    if (!this.resizeObserver) {
+      this.resizeObserver = new ResizeObserver(() => this.resizeSubject.next());
+    }
+
+    this.resizeObserver.observe(v.nativeElement);
+  }
 
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
@@ -88,6 +105,12 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   }
 
   ngOnInit() {
+    this.resizeSubject
+      .pipe(debounceTime(50))
+      .subscribe(() => {
+        this.ucCalendar.getApi().updateSize();
+      });
+
     // Clear any old subscribers
     this.querySpace.stopAllSubscriptions.next();
 
