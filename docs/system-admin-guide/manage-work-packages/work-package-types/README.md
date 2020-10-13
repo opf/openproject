@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Types
   priority: 980
-description: Configure work package types in OpenProject.
+description: Configure Work package types in OpenProject.
 robots: index, follow
 keywords: work package types
 ---

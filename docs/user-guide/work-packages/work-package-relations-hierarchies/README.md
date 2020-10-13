@@ -2,9 +2,9 @@
 sidebar_navigation:
   title: Work package relations and hierarchies
   priority: 600
-description: How to add or configure work package relations?
+description: How to add or configure Work package relations?
 robots: index, follow
-keywords: work package relations, hierarchies
+keywords: work package relations, hierarchies, child, parent
 ---
 
 # Work package relations and hierarchies
@@ -15,11 +15,11 @@ Hierarchies are a hierarchical relation (parent-child-relationship) vs. relation
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Work packages relations](work-package-relations)            | How can I set a relation between two work packages and which relations can I set? |
-| [Display relations in work package list](#Display-relations-in-work-package-list-(Premium-feature)) | How can I display the relations between two work packages in the work package list? |
-| [Work package hierarchies](#Work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
+| [Work packages relations](#work-package-relations)           | How can I set a relation between two work packages and which relations can I set? |
+| [Display relations in work package list](#display-relations-in-work-package-list-(premium-feature)) | How can I display the relations between two work packages in the work package list? |
+| [Work package hierarchies](#work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
 | [Adding a child work package](#adding-a-child-work-package)  | What are the possibilities to add children work packages?    |
-| [Change the parent work-package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
+| [Change the parent work package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
 | [Display work package hierarchies](#display-work-package-hierarchies) | Where can I find out about a work package's children and parent? |
 
 ## Work package relations

@@ -20,9 +20,9 @@ Users can book their time or units spent on an activity within a project directl
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                            |
 | [Track time with Toggl](./toggl-integration)                 | How to stop spent time with Toggl integration?               |
-| [Logging time via commit message](#logging-time-via-a-commit message) | How to log time via a commit message to a work package?      |
+| [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package?      |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
-| [Delete time entries](#delte-time-entires)                   | How to delete time entries logged to a work package?         |
+| [Delete time entries](#delete-time-entires)                  | How to delete time entries logged to a work package?         |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
 
 ## Logging time in the work package view
@@ -45,7 +45,7 @@ The aggregated time spent on a work package is shown in the work package details
 
 ![spent-time-work-package](spent-time-work-package.png)
 
-## Logging time via a commit message
+## Logging time via commit message
 
 Note: the “enable time logging” option must be activated under system settings in order to log time via a commit message.
 
