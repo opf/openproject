@@ -53,11 +53,7 @@ class WikiPages::CopyService
   def copy(attribute_override)
     attributes = copied_attributes(attribute_override)
 
-    copied = create(attributes)
-
-    #copied.state.copied_from_work_package_id = work_package&.id
-
-    copied
+    create(attributes)
   end
 
   def create(attributes)
@@ -68,8 +64,7 @@ class WikiPages::CopyService
   end
 
   def copied_attributes(override)
-    model
-      .attributes
+    (model.attributes.merge(model.content.attributes))
       .slice(*writable_attributes)
       .merge(override)
   end
@@ -78,10 +73,4 @@ class WikiPages::CopyService
     instantiate_contract(model, user)
       .writable_attributes
   end
-
-  #def copy_watchers(copied)
-  #  work_package.watchers.each do |watcher|
-  #    copied.add_watcher(watcher.user) if watcher.user.active?
-  #  end
-  #end
 end

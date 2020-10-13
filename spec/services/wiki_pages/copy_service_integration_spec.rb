@@ -85,6 +85,10 @@ describe WikiPages::CopyService, 'integration', type: :model do
       it 'copies the content' do
         expect(copy.content.text).to eq(wiki_page.content.text)
       end
+
+      it 'sets the author to be the current user' do
+        expect(copy.content.author).to eq(user)
+      end
     end
 
     describe 'to a different wiki' do
