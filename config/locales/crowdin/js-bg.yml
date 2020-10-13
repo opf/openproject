@@ -274,9 +274,9 @@ bg:
             current_new_feature_html: >
               Изданието съдържа различни нови функции и подобрения: <br> <ul class = "%{list_styling_class}"> <li> <b> Планиране отгоре надолу </b> за дефиниране на всички участващи задачи на проекта. Датите на начало и край на родителя не се влияят от неговите деца. </li> <li> <b> Универсалните agile-дъски </b> ви позволяват да създадете структура на разбивка на работата или да разпределите задачи между подпроектите. </li> <li> <b> Шаблони за проекти </b> за лесно създаване на нови проекти. </li> <li> Конфигуриране на страницата с проекти, позволяваща по-добро управление на портфолиото на проекти. </b> </li> </ ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              Изданието съдържа различни нови функции и подобрения: <br> <ul class = "%{list_styling_class}"> <li> <b> Планиране отгоре надолу </b> за дефиниране на всички участващи задачи на проекта. Датите на начало и край на родителя не се влияят от неговите деца. </li> <li> <b> Универсалните agile-дъски </b> ви позволяват да създадете структура на разбивка на работата или да разпределите задачи между подпроектите. </li> <li> <b> Шаблони за проекти </b> за лесно създаване на нови проекти. </li> <li> Конфигуриране на страницата с проекти, позволяваща по-добро управление на портфолиото на проекти. </b> </li> </ ul>
     label_activate: "Activate"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"

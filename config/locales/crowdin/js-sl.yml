@@ -273,9 +273,9 @@ sl:
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              OpenProject 10.5 zdaj podpira <b> BIM Format sodelovanja (BCF) </b> - standard za sledenje odprtih vprašanj za modele BIM.<br><br> <ul class="%{list_styling_class}"> <li>Preprosto ustvarite in <b> upravljajte težave BIM </b>, kot so spopadi, zahteve in vprašanja v interaktivnem 3D-IFC modelu in ga <b> dajte v skupno rabo s projektno skupino. </b> </li> <li> Integracija OpenProject z vašo najljubšo programsko opremo BIM z uporabo zmogljive <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Uvozite in izvozite BCF XML datoteke.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
