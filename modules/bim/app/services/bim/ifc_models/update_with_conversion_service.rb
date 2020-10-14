@@ -28,14 +28,8 @@
 
 module Bim
   module IfcModels
-    class UpdateService < ::BaseServices::Update
+    class UpdateWithConversionService < ::BaseServices::Update
       protected
-
-      def before_perform(params)
-        super.tap do |_service_result|
-          @ifc_attachment_replaced = model.ifc_attachment.new_record?
-        end
-      end
 
       def after_perform(service_result)
         if service_result.success?
@@ -43,9 +37,7 @@ module Bim
           # attachments ourselves
           model.attachments.select(&:marked_for_destruction?).each(&:destroy)
 
-          if @ifc_attachment_replaced
-            IfcConversionJob.perform_later(service_result.result)
-          end
+          IfcConversionJob.perform_later(service_result.result)
         end
 
         service_result
