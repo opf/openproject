@@ -83,10 +83,9 @@ module WorkPackages::Scopes
             #{paths_sql(work_packages)}
 
             SELECT id
-            FROM clean_paths
+            FROM to_schedule
             WHERE
-              NOT clean_paths.manually
-              AND NOT clean_paths.descendants_manually
+              NOT to_schedule.manually
         SQL
 
         WorkPackage
@@ -105,7 +104,6 @@ module WorkPackages::Scopes
       # The CTE starts from the provided work package and for that returns:
       #   * the id of the work package
       #   * the information, that the starting work package is not manually scheduled.
-      #   * the information, that the starting work package's descendants are not manually scheduled.
       # Whether the starting work package is manually scheduled or in fact automatically scheduled does make no
       # difference but we need those four columns later on.
       #
@@ -113,39 +111,38 @@ module WorkPackages::Scopes
       # packages by a hierarchy (up or down) or follows relationship (only successors). For each such work package
       # the statement returns:
       #   * id of the work package that is currently at the end of a path.
-      #   * the flag indicating whether the added work package is automatically or manually scheduled.
-      #   * the flag indicating whether *all* of the added work package's descendants are automatically or manually scheduled.
+      #   * the flag indicating whether the added work package is automatically or manually scheduled. This also includes
+      #     whether *all* of the added work package's descendants are automatically or manually scheduled.
       #
       # Paths whose ending work package is marked to be manually scheduled are not joined with any more.
       def paths_sql(work_packages)
-        values = work_packages.map { |wp| "(#{wp.id}, false, false)" }.join(', ')
+        values = work_packages.map { |wp| "(#{wp.id}, false)" }.join(', ')
 
         <<~SQL
-          clean_paths (id, manually, descendants_manually) AS (
-            SELECT * FROM (VALUES#{values}) AS t(id, manually, descendants_manually)
+          to_schedule (id, manually) AS (
+            SELECT * FROM (VALUES#{values}) AS t(id, manually)
 
             UNION
 
             SELECT
               CASE
-                WHEN relations.to_id = clean_paths.id
+                WHEN relations.to_id = to_schedule.id
                 THEN relations.from_id
                 ELSE relations.to_id
               END id,
-              work_packages.schedule_manually manually,
-              COALESCE(descendants.schedule_manually, false) descendants_manually
+              (work_packages.schedule_manually OR COALESCE(descendants.schedule_manually, false)) manually
             FROM
-              clean_paths
+              to_schedule
             JOIN
               relations
-              ON NOT clean_paths.manually AND NOT clean_paths.descendants_manually
+              ON NOT to_schedule.manually
               AND (#{relations_condition_sql})
               AND
-                ((relations.to_id = clean_paths.id)
-                OR (relations.from_id = clean_paths.id AND relations.follows = 0))
+                ((relations.to_id = to_schedule.id)
+                OR (relations.from_id = to_schedule.id AND relations.follows = 0))
             LEFT JOIN work_packages
               ON (CASE
-                WHEN relations.to_id = clean_paths.id
+                WHEN relations.to_id = to_schedule.id
                 THEN relations.from_id
                 ELSE relations.to_id
                 END) = work_packages.id
