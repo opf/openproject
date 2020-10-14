@@ -32,23 +32,23 @@ module Bim
       protected
 
       def before_perform(params)
-        super.tap do |call|
-          @ifc_attachment_replaced = call.success? && model.ifc_attachment.new_record?
+        super.tap do |_service_result|
+          @ifc_attachment_replaced = model.ifc_attachment.new_record?
         end
       end
 
-      def after_perform(call)
-        if call.success?
+      def after_perform(service_result)
+        if service_result.success?
           # As the attachments association does not have the autosave option, we need to remove the
           # attachments ourselves
           model.attachments.select(&:marked_for_destruction?).each(&:destroy)
 
           if @ifc_attachment_replaced
-            IfcConversionJob.perform_later(call.result)
+            IfcConversionJob.perform_later(service_result.result)
           end
         end
 
-        call
+        service_result
       end
     end
   end
