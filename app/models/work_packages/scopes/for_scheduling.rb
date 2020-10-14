@@ -114,11 +114,9 @@ module WorkPackages::Scopes
         sql = <<~SQL
           WITH
             RECURSIVE
-            #{paths_sql(work_packages)},
-            #{paths_without_manual_hierarchy_sql},
-            #{paths_without_gaps_sql}
+            #{paths_sql(work_packages)}
 
-            SELECT id FROM eligible_paths_without_gaps
+            SELECT id FROM clean_paths WHERE NOT clean_paths.manually AND NOT clean_paths.descendants_manually
         SQL
 
         WorkPackage
@@ -173,11 +171,11 @@ module WorkPackages::Scopes
       #  * The current paths all end in manually scheduled work packages
       # Both conditions can also stop the recursion together.
       def paths_sql(work_packages)
-        values = work_packages.map { |wp| "(#{wp.id},ARRAY[#{wp.id}], ARRAY[#{wp.id}], false)" }.join(', ')
+        values = work_packages.map { |wp| "(#{wp.id},ARRAY[#{wp.id}], false, false)" }.join(', ')
 
         <<~SQL
-          clean_paths (id, path, root_path, manually) AS (
-            SELECT * FROM (VALUES#{values}) AS t(id, path, root_path, manually)
+          clean_paths (id, path, manually, descendants_manually) AS (
+            SELECT * FROM (VALUES#{values}) AS t(id, path, manually, descendants_manually)
 
             UNION ALL
 
@@ -192,17 +190,13 @@ module WorkPackages::Scopes
                 THEN array_append(path, relations.from_id)
                 ELSE array_append(path, relations.to_id)
               END path,
-              CASE
-                WHEN relations.to_id = clean_paths.id AND relations.follows = 1
-                THEN array_append(path, relations.from_id)
-                ELSE clean_paths.root_path
-              END root_path,
-              work_packages.schedule_manually manually
+              work_packages.schedule_manually manually,
+              COALESCE(descendants.schedule_manually, false) descendants_manually
             FROM
               clean_paths
             JOIN
               relations
-              ON NOT clean_paths.manually
+              ON NOT clean_paths.manually AND NOT clean_paths.descendants_manually
               AND (#{relations_condition_sql})
               AND
                 ((relations.to_id = clean_paths.id AND NOT relations.from_id = any(clean_paths.path))
@@ -213,6 +207,26 @@ module WorkPackages::Scopes
                 THEN relations.from_id
                 ELSE relations.to_id
                 END) = work_packages.id
+            LEFT JOIN relations hierarchy_relations
+ON work_packages.id = hierarchy_relations.from_id AND (hierarchy_relations.follows = 0 AND "hierarchy_relations"."relates" = 0 AND "hierarchy_relations"."duplicates" = 0 AND "hierarchy_relations"."blocks" = 0 AND "hierarchy_relations"."includes" = 0 AND "hierarchy_relations"."requires" = 0
+AND (hierarchy_relations.hierarchy + hierarchy_relations.relates + hierarchy_relations.duplicates + hierarchy_relations.follows + hierarchy_relations.blocks + hierarchy_relations.includes + hierarchy_relations.requires = 1))
+LEFT JOIN work_packages descendants
+ON hierarchy_relations.to_id = descendants.id
+/*
+GROUP BY (CASE
+WHEN relations.to_id = clean_paths.id
+THEN relations.from_id
+ELSE relations.to_id
+END,
+
+CASE
+                WHEN relations.to_id = clean_paths.id
+                THEN array_append(path, relations.from_id)
+                ELSE array_append(path, relations.to_id)
+              END
+)
+ */
+
           )
         SQL
       end
