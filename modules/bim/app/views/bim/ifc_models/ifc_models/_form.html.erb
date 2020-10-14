@@ -64,7 +64,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <%# When creating a new model, there is no titleField. %>
       var titleFieldValue = '';
-      if (titleField) {
+      if (titleField.length > 0) {
         titleFieldValue = jQuery("#bim_ifc_models_ifc_model_title").val();
       };
 
