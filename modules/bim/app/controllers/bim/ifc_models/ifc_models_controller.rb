@@ -201,9 +201,15 @@ module Bim
       end
 
       def permitted_model_params
-        params
-          .require(:bim_ifc_models_ifc_model)
-          .permit('title', 'ifc_attachment', 'is_default')
+        require_params.permit('title', 'ifc_attachment', 'is_default')
+      end
+
+      def require_params
+        if OpenProject::Configuration.direct_uploads?
+          params
+        else
+          params.require(:bim_ifc_models_ifc_model)
+        end
       end
 
       def find_ifc_model_object
