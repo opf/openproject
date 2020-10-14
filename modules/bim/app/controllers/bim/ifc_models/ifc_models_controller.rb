@@ -106,24 +106,24 @@ module Bim
           ifc_model = Bim::IfcModels::IfcModel.find_by id: session[:pending_ifc_model_ifc_model_id]
           new_model = false
 
-          call = ::Bim::IfcModels::UpdateService
+          service_result = update_service_class
             .new(user: current_user, model: ifc_model)
             .call(params.with_indifferent_access)
 
-          @ifc_model = call.result
+          @ifc_model = service_result.result
         else
-          call = ::Bim::IfcModels::CreateService
+          service_result = ::Bim::IfcModels::CreateService
             .new(user: current_user)
             .call(params.with_indifferent_access)
 
-          @ifc_model = call.result
+          @ifc_model = service_result.result
         end
 
         session.delete :pending_ifc_model_title
         session.delete :pending_ifc_model_is_default
         session.delete :pending_ifc_model_ifc_model_id
 
-        if call.success?
+        if service_result.success?
           ::Attachments::FinishDirectUploadJob.perform_later attachment.id
 
           if new_model
@@ -136,7 +136,7 @@ module Bim
         else
           attachment.destroy
 
-          flash[:error] = call.errors.full_messages.join(" ")
+          flash[:error] = service_result.errors.full_messages.join(" ")
 
           redirect_to action: :new
         end
@@ -147,17 +147,17 @@ module Bim
           .to_h
           .reverse_merge(project: @project)
 
-        call = ::Bim::IfcModels::CreateService
+        service_result = ::Bim::IfcModels::CreateService
           .new(user: current_user)
           .call(combined_params)
 
-        @ifc_model = call.result
+        @ifc_model = service_result.result
 
-        if call.success?
+        if service_result.success?
           flash[:notice] = t('ifc_models.flash_messages.upload_successful')
           redirect_to action: :index
         else
-          @errors = call.errors
+          @errors = service_result.errors
           render action: :new
         end
       end
@@ -167,17 +167,17 @@ module Bim
           .to_h
           .reverse_merge(project: @project)
 
-        call = ::Bim::IfcModels::UpdateService
+        service_result = update_service_class
           .new(user: current_user, model: @ifc_model)
           .call(combined_params)
 
-        @ifc_model = call.result
+        @ifc_model = service_result.result
 
-        if call.success?
+        if service_result.success?
           flash[:notice] = t(:notice_successful_update)
           redirect_to action: :index
         else
-          @errors = call.errors
+          @errors = service_result.errors
           render action: :edit
         end
       end
@@ -208,6 +208,14 @@ module Bim
 
       def find_ifc_model_object
         @ifc_model = Bim::IfcModels::IfcModel.find_by(id: params[:id])
+      end
+
+      def update_service_class
+        if permitted_model_params[:ifc_attachment].present?
+          ::Bim::IfcModels::UpdateWithConversionService
+        else
+          ::Bim::IfcModels::UpdateWithoutConversionService
+        end
       end
     end
   end
