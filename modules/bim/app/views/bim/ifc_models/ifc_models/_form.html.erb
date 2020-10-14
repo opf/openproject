@@ -62,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
       var fileNameField = jQuery('input[type=file]')
       var fileName = '';
-      if (fileNameField.length > 0) {
+      if (fileNameField.length > 0 && fileNameField[0].files && fileNameField[0].files[0]) {
         fileName = fileNameField[0].files[0].name;
       }
 
