@@ -59,7 +59,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= nonced_javascript_tag do %>
   jQuery(document).ready(function() {
     var setDirectUploadFileName = function () {
-      var fileName = jQuery('input[type=file]')[0].files[0].name;
+
+      var fileNameField = jQuery('input[type=file]')
+      var fileName = '';
+      if (fileNameField.length > 0) {
+        fileName = fileNameField[0].files[0].name;
+      }
+
       var titleField = jQuery("#bim_ifc_models_ifc_model_title");
 
       <%# When creating a new model, there is no titleField. %>
