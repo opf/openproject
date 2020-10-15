@@ -614,7 +614,7 @@ pt:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "o filtro tem valores inválidos."
               format: "%{message}"
         relation:
           typed_dag:
