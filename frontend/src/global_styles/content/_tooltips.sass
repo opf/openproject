@@ -130,47 +130,47 @@ $advanced-tooltip--border: 1px solid #a7cbe1
       white-space: normal
       text-align: left
 
-  &.tooltip--right
-    @extend %tooltip--left-right
-    &:before, &:after
-      left: 100%
-    &:before
-      margin-left: -2px
-    &:after
-      margin-left: 10px
+.tooltip--right
+  @extend %tooltip--left-right
+  &:before, &:after
+    left: 100%
+  &:before
+    margin-left: -2px
+  &:after
+    margin-left: 10px
 
-  &.tooltip--left
-    @extend %tooltip--left-right
-    &:before, &:after
-      right: 100%
-    &:before
-      margin-right: -2px
-    &:after
-      margin-right: 10px
+.tooltip--left
+  @extend %tooltip--left-right
+  &:before, &:after
+    right: 100%
+  &:before
+    margin-right: -2px
+  &:after
+    margin-right: 10px
 
-  &.tooltip--top
-    @extend %tooltip--top-bottom
+.tooltip--top
+  @extend %tooltip--top-bottom
+  &:before, &:after
+    bottom: 100%
+  &:before
+    margin-bottom: $tooltip--arrow-size * -1 + 1
+  &:after
+    margin-bottom: 7px
+  &:hover
     &:before, &:after
-      bottom: 100%
-    &:before
-      margin-bottom: $tooltip--arrow-size * -1 + 1
-    &:after
-      margin-bottom: 7px
-    &:hover
-      &:before, &:after
-        transform: translate(-50%, 0px)
+      transform: translate(-50%, 0px)
 
-  &.tooltip--bottom
-    @extend %tooltip--top-bottom
+.tooltip--bottom
+  @extend %tooltip--top-bottom
+  &:before, &:after
+    top: 100%
+  &:before
+    margin-top: $tooltip--arrow-size * -1 + 1
+  &:after
+    margin-top: 7px
+  &:hover
     &:before, &:after
-      top: 100%
-    &:before
-      margin-top: $tooltip--arrow-size * -1 + 1
-    &:after
-      margin-top: 7px
-    &:hover
-      &:before, &:after
-        transform: translate(-50%, 0)
+      transform: translate(-50%, 0)
 
 // tooltips for table content (TODO: legacy?)
 table
