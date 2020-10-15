@@ -4,4 +4,4 @@ set -e
 set -u
 
 rm -rf "${OPENPROJECT_STORAGE_TMP__PATH:-tmp}/*"
-bundle exec rails server thin -b 0.0.0.0
+exec bundle exec rails server -u puma -b 0.0.0.0
