@@ -6,7 +6,7 @@ If you also need to migrate from MySQL to PostgreSQL during that process, the st
 
 To make this easier there is a script which automates database migration and conversion in one simple step. The only dependency is [a docker installation](https://www.docker.com/get-started). It's included in the docker image itself but will want to run it directly on the docker host. To do that you can either copy it onto your system from `/app/script/migration/migrate-from-pre-8.sh` or simply download it [here](https://github.com/opf/openproject/tree/dev/script/migration/migrate-from-pre-8.sh).
 
-All the script needs is a docker and the mysql command installed. It will start containers as required for the migration and clean them up afterwards. The result of the migration will be a SQL dump of OpenProject in the current stable version. This can then be used with a fresh packaged installation, or an upgraded package.
+All the script needs is docker and the mysql command installed. It will start containers as required for the migration and clean them up afterwards. The result of the migration will be a SQL dump of OpenProject in the current stable version. This can then be used with a fresh packaged installation, or an upgraded package.
 
 ## Usage
 
