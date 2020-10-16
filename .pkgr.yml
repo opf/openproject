@@ -5,7 +5,6 @@ targets:
     build_dependencies:
       - libsqlite3-dev
     dependencies:
-      - unzip
       - poppler-utils
       - unrtf
       - tesseract-ocr
@@ -19,8 +18,7 @@ targets:
   ubuntu-20.04:
     <<: *debian9
   centos-8:
-    dependencies:
-      - unzip
+   dependencies:
       - epel-release
   centos-7:
    dependencies:
@@ -35,7 +33,6 @@ services:
 installer: https://github.com/pkgr/installer.git
 wizards:
   - https://github.com/pkgr/addon-legacy-installer.git
-  - https://github.com/opf/addon-openproject-edition.git
   - https://github.com/pkgr/addon-postgres
   - https://github.com/pkgr/addon-apache2.git
   - https://github.com/finnlabs/addon-repositories.git
