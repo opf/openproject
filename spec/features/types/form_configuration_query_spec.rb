@@ -211,7 +211,7 @@ describe 'form query configuration', type: :feature, js: true do
         modal.expect_open
         modal.switch_to 'Filters'
         # the templated filter should be hidden in the Filters tab
-        filters.expect_filter_count 1
+        filters.expect_filter_count 2
         filters.add_filter_by('Type', 'is', type_task.name)
         filters.save
 
@@ -253,7 +253,7 @@ describe 'form query configuration', type: :feature, js: true do
         # Expect filter still there
         modal.expect_open
         modal.switch_to 'Filters'
-        filters.expect_filter_count 2
+        filters.expect_filter_count 3
         filters.expect_filter_by 'Type', 'is', type_task.name
 
         # Remove the filter again
