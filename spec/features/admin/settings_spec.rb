@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,21 +26,40 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+require 'spec_helper'
 
-# Add new inflection rules using the following format. Inflections
-# are locale specific, and you may define rules for as many different
-# locales as you wish. All of these examples are active by default:
-# ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
+describe 'Settings', type: :feature do
+  let(:admin) { FactoryBot.create(:admin) }
 
-# These inflection rules are supported but not enabled by default:
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym "API"
-  inflect.acronym 'OAuth'
-  inflect.acronym 'OpenID'
+  describe 'subsection' do
+    before do
+      login_as(admin)
+
+      visit '/settings/api'
+    end
+
+    shared_examples "it can be visited" do
+      let(:section) { raise "define me" }
+
+      before do
+        visit "/settings/#{section}"
+      end
+
+      it "can be visited" do
+        expect(page).to have_content(/#{section}/i)
+      end
+    end
+
+    describe "general" do
+      it_behaves_like "it can be visited" do
+        let(:section) { "general" }
+      end
+    end
+
+    describe "API (regression #34938)" do
+      it_behaves_like "it can be visited" do
+        let(:section) { "api" }
+      end
+    end
+  end
 end
