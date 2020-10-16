@@ -90,7 +90,7 @@ module Bim
           ifc_model = Bim::IfcModels::IfcModel.find_by id: session[:pending_ifc_model_ifc_model_id]
           new_model = false
 
-          service_result = update_service_class(params)
+          service_result = ::Bim::IfcModels::UpdateService
                                .new(user: current_user, model: ifc_model)
                                .call(params.with_indifferent_access)
         else
@@ -149,7 +149,7 @@ module Bim
                               .to_h
                               .reverse_merge(project: @project)
 
-        service_result = update_service_class(combined_params)
+        service_result = ::Bim::IfcModels::UpdateService
                              .new(user: current_user, model: @ifc_model)
                              .call(combined_params)
 
@@ -201,14 +201,6 @@ module Bim
 
       def find_ifc_model_object
         @ifc_model = Bim::IfcModels::IfcModel.find_by(id: params[:id])
-      end
-
-      def update_service_class(params)
-        if params[:ifc_attachment].present?
-          ::Bim::IfcModels::UpdateWithConversionService
-        else
-          ::Bim::IfcModels::UpdateWithoutConversionService
-        end
       end
     end
   end
