@@ -526,7 +526,7 @@ fi:
       project: 'Projekti'
       work_package: 'Tehtävä'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktiviteetti'
+      activity: 'Tapahtumat'
       comment: 'Kommentti'
       duration: 'Kesto'
       spent_on: 'Päivämäärä'
@@ -851,7 +851,7 @@ fi:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Yleiskatsaus
-        activity: Aktiviteetti
+        activity: Tapahtumat
         relations: Riippuvuudet
         watchers: Seuraajat
         attachments: Liitteet

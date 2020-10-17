@@ -611,7 +611,7 @@ de:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "Filter enthält ungültige Werte."
               format: "%{message}"
         relation:
           typed_dag:
