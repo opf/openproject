@@ -469,7 +469,7 @@ fi:
         hide_mail: "Piiloita sähköpostiosoite"
         impaired: "Helppokäyttötoimintojen tila"
         time_zone: "Aikavyöhyke"
-        auto_hide_popups: "Piilota automaattisesti ilmoitukset onnistuneista toiminnoista"
+        auto_hide_popups: "Piilota ilmoitukset onnistuneista toiminnoista"
         warn_on_leaving_unsaved: "Varoita tallentamattomista muutoksista"
       version:
         effective_date: "Päättymispäivä"
@@ -1373,7 +1373,7 @@ fi:
   label_enterprise_edition: "Yritysversio"
   label_environment: "Ympäristö"
   label_estimates_and_time: "Arviot ja ajankäyttö"
-  label_equals: "sama kuin"
+  label_equals: "on"
   label_everywhere: "everywhere"
   label_example: "Esimerkki"
   label_import: "Import"
@@ -1510,7 +1510,7 @@ fi:
   label_none: "ei mitään"
   label_none_parentheses: "(none)"
   label_not_contains: "ei sisällä"
-  label_not_equals: "eri kuin"
+  label_not_equals: "ei ole"
   label_notify_member_plural: "Lähetä päivitykset sähköpostilla"
   label_on: "päälle"
   label_open_menu: "Avaa valikko"
@@ -2258,7 +2258,7 @@ fi:
       sentence_connector: "and"
       skip_last_comma: "false"
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
-  text_access_token_hint: "Käyttövaltuuksien avulla voit tuoda ulkoisia sovelluksia pääsyn resursseja sisään OpenProject."
+  text_access_token_hint: "API-salasanojen avulla voit sallia integraatioiden pääsyn OpenProject rajapintoihin."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Oletko varma?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
@@ -2343,7 +2343,7 @@ fi:
   text_tip_work_package_begin_day: "toimia paketti alusta tähän päivään"
   text_tip_work_package_begin_end_day: "toimia paketti alkaa ja päättyy tähän päivään"
   text_tip_work_package_end_day: "work package ending this day"
-  text_type_no_workflow: "Ei työnkulun määritetty tämä tyyppi"
+  text_type_no_workflow: "Ei työnkulkua määritetty tälle tyypille"
   text_unallowed_characters: "Kiellettyjä merkkejä"
   text_user_invited: Käyttäjä on kutsuttu ja on vireillä rekisteröinti.
   text_user_wrote: "%{value} kirjoitti:"
@@ -2562,7 +2562,7 @@ fi:
     settings:
       mail_notifications: "Sähköposti-ilmoitukset"
       mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
-      mail_self_notified: "Haluan ilmoituksen muutoksista jotka teen itse"
+      mail_self_notified: "Ilmoitukset omista muutoksista"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2571,7 +2571,7 @@ fi:
   version_status_closed: "suljettu"
   version_status_locked: "lukittu"
   version_status_open: "avoin"
-  note: Note
+  note: Huomautus
   note_password_login_disabled: "Password login has been disabled by %{configuration}."
   warning: Warning
   warning_attachments_not_saved: "%{count} tiedostoa ei voitu tallentaa."
