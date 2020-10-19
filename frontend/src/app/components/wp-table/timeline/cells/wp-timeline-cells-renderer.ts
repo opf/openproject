@@ -148,4 +148,16 @@ export class WorkPackageTimelineCellsRenderer {
       change: this.halEditing.changeFor(wp) as WorkPackageChangeset
     };
   }
+
+  public buildCellsAndRenderOnRow(workPackageIds:string[], rowClassIdentifier:string, avoidDuplicatedCells:boolean):WorkPackageTimelineCell[] {
+    const cells = workPackageIds.map(workPackageId => this.buildCell(rowClassIdentifier, workPackageId!));
+
+    cells.forEach((cell:WorkPackageTimelineCell) => {
+      const renderInfo = this.renderInfoFor(cell.workPackageId);
+      cell.refreshView(renderInfo, avoidDuplicatedCells);
+    });
+
+    return cells;
+  }
 }
+
