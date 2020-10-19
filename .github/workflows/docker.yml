@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Prepare docker files
+        run: |
+          cp ./docker/prod/Dockerfile ./Dockerfile
       - name: Build & Push
         id: build_and_push
         uses: elgohr/Publish-Docker-Github-Action@master

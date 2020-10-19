@@ -140,10 +140,5 @@
     "test": "ng test --watch=false",
     "tslint_typechecks": "./node_modules/.bin/tslint -p . -c tslint_typechecks.json",
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
-  },
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Safari versions",
-    "last 2 Firefox versions"
-  ]
+  }
 }

@@ -17,12 +17,42 @@ This will checkout the dev branch in `openproject`. **Change into that directory
 If you have OpenProject checked out already make sure that you do not have a `config/database.yml`
 as that will interfere with the database connection inside of the docker containers.
 
-### 2) Execute the setup
+### 3) Configure environment
+
+Copy the env example to `.env`
 
 ```
-export OPENPROJECT_HOME=`pwd`
+cp .env.example .env
+```
 
-bin/compose up frontend backend
+Afterwards, set the environment variables to your liking. `DEV_UID` and `DEV_GID` are required to be set so your project
+directory will not end up with files owned by root.
+
+### 2) Setup database and install dependencies
+
+```
+# Start the database. It needs to be running to run migrations and seeders
+docker-compose up -d db
+
+# Install frontend dependencies
+docker-compose run frontend npm i
+
+# Install backend dependencies, migrate, and seed
+docker-compose run backend setup
+```
+
+### 3) Start the stack
+
+The docker compose file also has the test containers defined. The easiest way to start only the development stack, use
+
+```
+docker-compose up frontend
+```
+
+To see the backend logs as well, use
+
+```
+docker-compose up frontend backend
 ```
 
 This starts only the frontend and backend containers and their dependencies. This excludes the testing containers, which
@@ -33,7 +63,7 @@ However, these are cached in a docker volume. Meaning that from the 2nd run onwa
 
 Wait until you see `frontend_1  | : Compiled successfully.` and `backend_1   | => Rails 6.0.2.2 application starting in development http://0.0.0.0:3000` in the logs.
 This means both frontend and backend have come up successfully.
-You can now access OpenProject under http://localhost:3000.
+You can now access OpenProject under http://localhost:3000, and via the live-reloaded under http://localhost:4200.
 
 Again the first request to the server can take some time too.
 But subsequent requests will be a lot faster.

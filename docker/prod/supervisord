@@ -136,4 +136,4 @@ echo "-----> Database setup finished."
 echo "       On first installation, the default admin credentials are login: admin, password: admin"
 
 echo "-----> Launching supervisord..."
-exec /usr/bin/supervisord -c $APP_PATH/docker/supervisord.conf -e ${SUPERVISORD_LOG_LEVEL}
+exec /usr/bin/supervisord -c $APP_PATH/docker/prod/supervisord.conf -e ${SUPERVISORD_LOG_LEVEL}
