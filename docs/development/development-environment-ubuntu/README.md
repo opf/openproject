@@ -180,6 +180,10 @@ bundle install
 
 # Install node_modules
 npm install
+
+# Install frontend node_modules
+cd frontend
+npm install
 ```
 
 Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in the `dev` branch (there is no `master` branch).
