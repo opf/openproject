@@ -127,7 +127,7 @@ export class WorkPackageTimelineCell {
     return this.cellContainer.find(`.${this.classIdentifier}`);
   }
 
-  private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo):Promise<void> {
+  private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo, avoidDuplicatedCells = true):Promise<void> {
     const body = this.workPackageTimeline.timelineBody[0];
     const cell = this.cellElement;
 
@@ -138,12 +138,12 @@ export class WorkPackageTimelineCell {
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
 
     // If already rendered with correct shape, ignore
-    if (wasRendered && (this.elementShape === renderer.type)) {
+    if (wasRendered && (this.elementShape === renderer.type && avoidDuplicatedCells)) {
       return Promise.resolve();
     }
 
     // Remove the element first if we're redrawing
-    this.clear();
+    avoidDuplicatedCells && this.clear();
 
     // Render the given element
     this.wpElement = renderer.render(renderInfo);
@@ -183,12 +183,18 @@ export class WorkPackageTimelineCell {
     return this.renderers.generic;
   }
 
-  public refreshView(renderInfo:RenderInfo) {
-    this.latestRenderInfo = renderInfo;
+  public refreshView(renderInfo:RenderInfo, avoidDuplicatedCells = true) {
+    // Keeping track of the latestRenderInfo only makes sense when the cell is unique so
+    // we skip it if we are duplicating a cell, for example when rendering an cell out
+    // of its wpTable row (ie: rendering a milestone in a collapsed project row).
+    if (avoidDuplicatedCells) {
+      this.latestRenderInfo = renderInfo;
+    }
+
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
-    this.lazyInit(renderer, renderInfo)
+    this.lazyInit(renderer, renderInfo, avoidDuplicatedCells)
       .then(() => {
         // Render the upgrade from renderInfo
         const shouldBeDisplayed = renderer.update(

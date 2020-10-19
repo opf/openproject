@@ -92,6 +92,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private refreshRequest = input<void>();
 
+  private collapsedCellsMap:{[key:string]:WorkPackageTimelineCell[]} = {};
+
+  public orderedRows:RenderedWorkPackage[] = [];
+
   constructor(public readonly injector:Injector,
               private elementRef:ElementRef,
               private states:States,
@@ -136,8 +140,41 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       .subscribe(([orderedRows, changes, timelineState]) => {
         // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
+        this.orderedRows = orderedRows;
         this.refreshView();
       });
+
+    this.querySpace
+          .collapsedGroups
+          .changes$()
+          .pipe(
+            takeUntil(this.querySpace.stopAllSubscriptions),
+            filter(groups => groups != null),
+          )
+          .subscribe(groups => {
+            const allGroups = this.querySpace.groups.value;
+            const changedGroupIdentifier = Object.keys(groups!).find(groupKey => {
+              const currentCollapsedGroupValue = groups![groupKey];
+              const storedCollapsedGroupValue = allGroups!.find(group => group.identifier === groupKey)!.collapsed;
+
+              return storedCollapsedGroupValue !== currentCollapsedGroupValue;
+            });
+            const changedGroupIsCollapsed = groups![changedGroupIdentifier!];
+
+            if (changedGroupIsCollapsed) {
+              const changedGroupId = changedGroupIdentifier!.split('-').pop();
+              const tableWorkPackages = this.querySpace.results.value!.elements;
+              const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
+              const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => tableWorkPackage.type.id === '2');
+              const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
+              
+              this.collapsedCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, false);
+            } else {
+              if (this.collapsedCellsMap[changedGroupIdentifier!]) {
+                this.collapsedCellsMap[changedGroupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
+              }
+            }
+          });
   }
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
@@ -319,7 +356,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     let changed = false;
 
     // Calculate view parameters
-    this.workPackageIdOrder.forEach((renderedRow) => {
+    this.orderedRows.forEach((renderedRow) => {
       const wpId = renderedRow.workPackageId;
 
       if (!wpId) {
