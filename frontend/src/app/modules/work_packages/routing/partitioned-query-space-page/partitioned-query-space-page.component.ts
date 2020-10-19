@@ -246,10 +246,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
 
     if (visibly) {
-      return this.loadingIndicator = promise.then((loadedQuery:QueryResource) => {
-        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return this.additionalLoadingTime();
-      });
+      return this.loadingIndicator = promise.then(() => this.additionalLoadingTime());
     }
 
     return promise.then((loadedQuery:QueryResource) => {
