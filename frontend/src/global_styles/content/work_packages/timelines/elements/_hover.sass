@@ -1,5 +1,16 @@
-.wp-timeline-cell:hover
+.wp-timeline-cell:not(.project-row):hover
   .show-on-hover.not-empty
     display: inline-block !important
 
+.wp-timeline-cell.project-row
+  .timeline-element:hover
+    z-index: 1
 
+    .show-on-hover
+      display: inline-block
+
+    .diamond
+      border: 1px solid var(--table-row-border-color)
+
+  .hide-on-hover
+    display: none
