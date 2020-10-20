@@ -10,6 +10,7 @@ import {
   classNameFarRightLabel,
   classNameHideOnHover,
   classNameHoverStyle,
+  classNameLeftHoverLabel,
   classNameLeftLabel,
   classNameRightContainer,
   classNameRightHoverLabel,
@@ -207,14 +208,20 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     labelHoverRight.classList.add(classNameRightHoverLabel, classNameShowOnHover, classNameHoverStyle);
     element.appendChild(labelHoverRight);
 
-    const labels = new WorkPackageCellLabels(null, labelLeft, null, labelRight, labelHoverRight, labelFarRight);
+    // Create left hover label
+    const labelHoverLeft = document.createElement('div');
+    labelHoverLeft.classList.add(classNameLeftHoverLabel, classNameShowOnHover, classNameHoverStyle);
+    element.appendChild(labelHoverLeft);
+
+    const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight);
     this.updateLabels(false, labels, renderInfo.change);
 
     return labels;
   }
 
   protected renderHoverLabels(labels:WorkPackageCellLabels, change:WorkPackageChangeset) {
-    this.renderLabel(change, labels, 'rightHover', 'date');
+    this.renderLabel(change, labels, 'leftHover', 'date');
+    this.renderLabel(change, labels, 'rightHover', 'subject');
   }
 
   protected updateLabels(activeDragNDrop:boolean,
