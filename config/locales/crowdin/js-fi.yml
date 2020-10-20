@@ -322,7 +322,7 @@ fi:
     label_created_on: "luotu"
     label_edit_comment: "Muokkaa tätä kommenttia"
     label_edit_status: "Edit the status of the work package"
-    label_equals: "sama kuin"
+    label_equals: "on"
     label_expand: "Laajenna"
     label_expanded: "laajennettu"
     label_expand_all: "Laajenna kaikki"
@@ -366,7 +366,7 @@ fi:
     label_no_value: "Ei arvoa"
     label_none: "ei mitään"
     label_not_contains: "ei sisällä"
-    label_not_equals: "eri kuin"
+    label_not_equals: "ei ole"
     label_on: "päälle"
     label_open_menu: "Avaa valikko"
     label_open_context_menu: "Avaa valikko"
@@ -501,8 +501,8 @@ fi:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+      work_package_belongs_to: 'Tämä tehtävä kuuluu projektiin %{projectname}.'
+      click_to_switch_context: 'Avaa tehtävä kyseisessä projektissa.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       autocompleter:
         label: 'Project autocompletion'
@@ -526,7 +526,7 @@ fi:
       project: 'Projekti'
       work_package: 'Tehtävä'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktiviteetti'
+      activity: 'Tapahtumat'
       comment: 'Kommentti'
       duration: 'Kesto'
       spent_on: 'Päivämäärä'
@@ -543,7 +543,7 @@ fi:
       typeahead_placeholder: Etsi mahdollisia seuraajia
     relation_labels:
       parent: "Ylätaso"
-      children: "Aliriippuvuudet"
+      children: "Alitehtävä"
       relates: "Liittyy"
       duplicates: "Alkuperäinen"
       duplicated: "Päällekkäistä"
@@ -559,7 +559,7 @@ fi:
     relations_hierarchy:
       parent_headline: "Ylätaso"
       hierarchy_headline: "Hierarkia"
-      children_headline: "Aliriippuvuudet"
+      children_headline: "Alitehtävä"
     relation_buttons:
       set_parent: "Aseta ylätehtävä"
       change_parent: "Vaihda pääkohdetta"
@@ -569,11 +569,11 @@ fi:
       group_by_wp_type: "Ryhmittele tehtävät tyypeittäin"
       group_by_relation_type: "Ryhmittele suhteen tyypin mukaan"
       add_parent: "Lisää olemassaoleva ylätaso"
-      add_new_child: "Luo uusi aliriippuvuus"
+      add_new_child: "Luo uusi alitehtävä"
       create_new: "Create new"
       add_existing: "Lisää olemassaoleva"
-      add_existing_child: "Lisää olemassaoleva aliriippuvuus"
-      remove_child: "Poista aliriippuvuus"
+      add_existing_child: "Lisää alitehtävä"
+      remove_child: "Poista alitehtävä"
       add_new_relation: "Luo uusi riippuvuus"
       add_existing_relation: "Lisää olemassa oleva suhde"
       update_description: "Määritä tai päivitä tämän suhteen kuvaus"
@@ -851,7 +851,7 @@ fi:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Yleiskatsaus
-        activity: Aktiviteetti
+        activity: Tapahtumat
         relations: Riippuvuudet
         watchers: Seuraajat
         attachments: Liitteet
@@ -941,8 +941,8 @@ fi:
         one: "1 h"
         other: "%{count} h"
     zen_mode:
-      button_activate: 'Activate zen mode'
-      button_deactivate: 'Deactivate zen mode'
+      button_activate: 'Koko näyttö'
+      button_deactivate: 'Sulje koko näyttö'
     global_search:
       all_projects: "Kaikista projekteista"
       search: "Haku"
