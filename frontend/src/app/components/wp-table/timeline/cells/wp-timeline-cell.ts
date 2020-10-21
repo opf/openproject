@@ -184,12 +184,7 @@ export class WorkPackageTimelineCell {
   }
 
   public refreshView(renderInfo:RenderInfo, avoidDuplicatedCells = true) {
-    // Keeping track of the latestRenderInfo only makes sense when the cell is unique so
-    // we skip it if we are duplicating a cell, for example when rendering an cell out
-    // of its wpTable row (ie: rendering a milestone in a collapsed project row).
-    if (avoidDuplicatedCells) {
-      this.latestRenderInfo = renderInfo;
-    }
+    this.latestRenderInfo = renderInfo;
 
     const renderer = this.cellRenderer(renderInfo.workPackage);
 

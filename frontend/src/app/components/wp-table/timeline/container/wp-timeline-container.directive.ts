@@ -60,6 +60,7 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 import {combineLatest} from "rxjs";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
+import {GroupObject} from "core-app/modules/hal/resources/wp-collection-resource";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -92,7 +93,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private refreshRequest = input<void>();
 
-  private collapsedCellsMap:{[key:string]:WorkPackageTimelineCell[]} = {};
+  private collapsedGroupsCellsMap:IGroupCellsMap = {};
 
   public orderedRows:RenderedWorkPackage[] = [];
 
@@ -149,32 +150,9 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
           .changes$()
           .pipe(
             takeUntil(this.querySpace.stopAllSubscriptions),
-            filter(groups => groups != null),
+            filter(collapsedGroupsChange => collapsedGroupsChange != null),
           )
-          .subscribe(groups => {
-            const allGroups = this.querySpace.groups.value;
-            const changedGroupIdentifier = Object.keys(groups!).find(groupKey => {
-              const currentCollapsedGroupValue = groups![groupKey];
-              const storedCollapsedGroupValue = allGroups!.find(group => group.identifier === groupKey)!.collapsed;
-
-              return storedCollapsedGroupValue !== currentCollapsedGroupValue;
-            });
-            const changedGroupIsCollapsed = groups![changedGroupIdentifier!];
-
-            if (changedGroupIsCollapsed) {
-              const changedGroupId = changedGroupIdentifier!.split('-').pop();
-              const tableWorkPackages = this.querySpace.results.value!.elements;
-              const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
-              const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => tableWorkPackage.type.id === '2');
-              const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
-              
-              this.collapsedCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, false);
-            } else {
-              if (this.collapsedCellsMap[changedGroupIdentifier!]) {
-                this.collapsedCellsMap[changedGroupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
-              }
-            }
-          });
+          .subscribe(collapsedGroupsChange => this.manageCollapsedGroups(this.querySpace.groups.value!, collapsedGroupsChange!));
   }
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
@@ -239,6 +217,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         debugLog(`Refreshing timeline member ${key}`);
         cb(this._viewParameters);
       });
+
+      this.refreshCollapsedGroupsCells(this.collapsedGroupsCellsMap, this.cellsRenderer);
 
       // Calculate overflowing width to set to outer container
       // required to match width in all child divs.
@@ -452,5 +432,38 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         return;
       }
     }
+  }
+
+  manageCollapsedGroups(allGroups:GroupObject[], collapsedGroupsChange:{[key:string]:boolean}) {
+    const changedGroupIdentifier = Object.keys(collapsedGroupsChange!).find(groupKey => {
+      const currentCollapsedGroupValue = collapsedGroupsChange![groupKey];
+      const storedCollapsedGroupValue = allGroups!.find(group => group.identifier === groupKey)!.collapsed;
+
+      return storedCollapsedGroupValue !== currentCollapsedGroupValue;
+    });
+    const changedGroupIsCollapsed = collapsedGroupsChange![changedGroupIdentifier!];
+
+    if (changedGroupIsCollapsed) {
+      const changedGroupId = changedGroupIdentifier!.split('-').pop();
+      const tableWorkPackages = this.querySpace.results.value!.elements;
+      const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
+      const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => tableWorkPackage.type.id === '2');
+      const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
+
+      this.collapsedGroupsCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, false);
+    } else {
+      if (this.collapsedGroupsCellsMap[changedGroupIdentifier!]) {
+        this.collapsedGroupsCellsMap[changedGroupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
+        this.collapsedGroupsCellsMap[changedGroupIdentifier!] = [];
+      }
+    }
+  }
+
+  refreshCollapsedGroupsCells(collapsedGroupsCellsMap:IGroupCellsMap, cellsRenderer:WorkPackageTimelineCellsRenderer) {
+    Object.keys(collapsedGroupsCellsMap).forEach(collapsedGroupKey => {
+      const collapsedGroupCells = collapsedGroupsCellsMap[collapsedGroupKey];
+
+      collapsedGroupCells.forEach(cell => cellsRenderer.refreshSingleCell(cell));
+    });
   }
 }
