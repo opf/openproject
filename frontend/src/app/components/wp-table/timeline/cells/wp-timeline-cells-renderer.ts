@@ -80,11 +80,11 @@ export class WorkPackageTimelineCellsRenderer {
     _.each(this.getCellsFor(wpId), (cell) => this.refreshSingleCell(cell));
   }
 
-  public refreshSingleCell(cell:WorkPackageTimelineCell) {
+  public refreshSingleCell(cell:WorkPackageTimelineCell, avoidDuplicatedCells?:boolean) {
     const renderInfo = this.renderInfoFor(cell.workPackageId);
 
     if (renderInfo.workPackage) {
-      cell.refreshView(renderInfo);
+      cell.refreshView(renderInfo, avoidDuplicatedCells);
     }
   }
 
@@ -152,10 +152,7 @@ export class WorkPackageTimelineCellsRenderer {
   public buildCellsAndRenderOnRow(workPackageIds:string[], rowClassIdentifier:string, avoidDuplicatedCells:boolean):WorkPackageTimelineCell[] {
     const cells = workPackageIds.map(workPackageId => this.buildCell(rowClassIdentifier, workPackageId!));
 
-    cells.forEach((cell:WorkPackageTimelineCell) => {
-      const renderInfo = this.renderInfoFor(cell.workPackageId);
-      cell.refreshView(renderInfo, avoidDuplicatedCells);
-    });
+    cells.forEach((cell:WorkPackageTimelineCell) => this.refreshSingleCell(cell, avoidDuplicatedCells));
 
     return cells;
   }
