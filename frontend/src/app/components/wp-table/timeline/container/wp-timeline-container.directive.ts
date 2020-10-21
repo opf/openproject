@@ -97,6 +97,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   public orderedRows:RenderedWorkPackage[] = [];
 
+  public wpIconTypesToShowInCollapsedGroups = ['2'];
+
+  public groupTypesToShowWpIconsOnWhenCollapsed = ['project'];
+
   constructor(public readonly injector:Injector,
               private elementRef:ElementRef,
               private states:States,
@@ -149,10 +153,12 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
           .collapsedGroups
           .changes$()
           .pipe(
+            this.untilDestroyed(),
             takeUntil(this.querySpace.stopAllSubscriptions),
+            filter(() => this.initialized && this.wpTableTimeline.isVisible),
             filter(collapsedGroupsChange => collapsedGroupsChange != null),
           )
-          .subscribe(collapsedGroupsChange => this.manageCollapsedGroups(this.querySpace.groups.value!, collapsedGroupsChange!));
+          .subscribe(collapsedGroupsChange => this.manageWpIconsOnCollapsedGroupRows(this.querySpace.groups.value!, collapsedGroupsChange!, this.querySpace.results.value!.elements));
   }
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
@@ -434,20 +440,29 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     }
   }
 
-  manageCollapsedGroups(allGroups:GroupObject[], collapsedGroupsChange:{[key:string]:boolean}) {
-    const changedGroupIdentifier = Object.keys(collapsedGroupsChange!).find(groupKey => {
-      const currentCollapsedGroupValue = collapsedGroupsChange![groupKey];
-      const storedCollapsedGroupValue = allGroups!.find(group => group.identifier === groupKey)!.collapsed;
+  manageWpIconsOnCollapsedGroupRows(allGroups:GroupObject[], collapsedGroupsChange:{[key:string]:boolean}, tableWorkPackages:WorkPackageResource[]) {
+    const collapsedGroupsChangesToManage = Object.keys(collapsedGroupsChange!).filter(groupKey => {
+      const keyGroupType = groupKey.split('-')[0];
 
-      return storedCollapsedGroupValue !== currentCollapsedGroupValue;
+      return this.groupTypesToShowWpIconsOnWhenCollapsed.includes(keyGroupType);
     });
+    const changedGroupIdentifier = collapsedGroupsChangesToManage.find(groupKey => {
+      const currentGroupCollapsedValue = collapsedGroupsChange![groupKey];
+      const storedGroup = allGroups!.find(group => group.identifier === groupKey);
+
+      return storedGroup && storedGroup.collapsed !== currentGroupCollapsedValue;
+    });
+
+    if (!changedGroupIdentifier) {
+      return;
+    }
+
     const changedGroupIsCollapsed = collapsedGroupsChange![changedGroupIdentifier!];
 
     if (changedGroupIsCollapsed) {
       const changedGroupId = changedGroupIdentifier!.split('-').pop();
-      const tableWorkPackages = this.querySpace.results.value!.elements;
       const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
-      const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => tableWorkPackage.type.id === '2');
+      const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => this.wpIconTypesToShowInCollapsedGroups.includes(tableWorkPackage.type.id!));
       const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
 
       this.collapsedGroupsCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, false);
