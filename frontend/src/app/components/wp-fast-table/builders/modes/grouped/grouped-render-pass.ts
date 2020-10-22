@@ -11,7 +11,7 @@ import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource
 import {collapsedRowClass} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {GroupSumsBuilder} from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
 
-export const projectRowClass = 'project-row';
+export const groupRowClass = 'group-row';
 
 export class GroupedRenderPass extends PlainRenderPass {
 
@@ -46,7 +46,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       if (nextGroup && groupsChanged) {
         const groupClass = groupClassNameFor(nextGroup);
         let rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
-        this.appendNonWorkPackageRow(rowElement, groupClass, [projectRowClass]);
+        this.appendNonWorkPackageRow(rowElement, groupClass, [groupRowClass]);
         currentGroup = nextGroup;
       }
 
