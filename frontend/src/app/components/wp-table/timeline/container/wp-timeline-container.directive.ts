@@ -95,11 +95,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private collapsedGroupsCellsMap:IGroupCellsMap = {};
 
+  public wpTypesToShowInCollapsedGroupRows = ['2'];
+
+  public groupTypesWithWpIconsOnCollapsedRow = ['project'];
+
   public orderedRows:RenderedWorkPackage[] = [];
-
-  public wpIconTypesToShowInCollapsedGroups = ['2'];
-
-  public groupTypesToShowWpIconsOnWhenCollapsed = ['project'];
 
   constructor(public readonly injector:Injector,
               private elementRef:ElementRef,
@@ -342,7 +342,17 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     let changed = false;
 
     // Calculate view parameters
-    this.orderedRows.forEach((renderedRow) => {
+    // Include rows from work packages that are show in collapsed rows
+    // into the calculation, if not they could be rendered out of the
+    // timeline. (ie: milestones are shown on collapsed row groups)
+    const tableWorkPackages = this.querySpace.results.value!.elements;
+    const workPackagesToAdd = tableWorkPackages
+                                .filter(tableWorkPackage => this.wpTypesToShowInCollapsedGroupRows.includes(tableWorkPackage.type.id!))
+                                .map(tableWorkPackage => tableWorkPackage.id);
+    const rowsToAdd = this.orderedRows.filter(row => workPackagesToAdd.includes(row.workPackageId!) && !this.workPackageIdOrder.includes(row));
+    const rowsToCalculateTimelineWidthFrom = [...this.workPackageIdOrder, ...rowsToAdd];
+
+    rowsToCalculateTimelineWidthFrom.forEach((renderedRow) => {
       const wpId = renderedRow.workPackageId;
 
       if (!wpId) {
@@ -444,7 +454,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const collapsedGroupsChangesToManage = Object.keys(collapsedGroupsChange!).filter(groupKey => {
       const keyGroupType = groupKey.split('-')[0];
 
-      return this.groupTypesToShowWpIconsOnWhenCollapsed.includes(keyGroupType);
+      return this.groupTypesWithWpIconsOnCollapsedRow.includes(keyGroupType);
     });
     const changedGroupIdentifier = collapsedGroupsChangesToManage.find(groupKey => {
       const currentGroupCollapsedValue = collapsedGroupsChange![groupKey];
@@ -462,7 +472,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     if (changedGroupIsCollapsed) {
       const changedGroupId = changedGroupIdentifier!.split('-').pop();
       const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
-      const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => this.wpIconTypesToShowInCollapsedGroups.includes(tableWorkPackage.type.id!));
+      const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => this.wpTypesToShowInCollapsedGroupRows.includes(tableWorkPackage.type.id!));
       const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
 
       this.collapsedGroupsCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, false);
