@@ -161,7 +161,7 @@ module OpenProject::Bim
           entry['color'] = "##{entry['color']}"
 
           # Fix items name
-          entry['components'] = entry.delete('component')
+          entry['components'] = Array.wrap(entry.delete('component'))
           entry
         end
       end
