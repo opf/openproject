@@ -17,7 +17,7 @@ fi:
               error_phone_number_format: "on oltava muodossa + XX XXXXXXXXX"
     models:
       two_factor_authentication/device: "Tunnistuslaite"
-      two_factor_authentication/device/sms: "Kännykkä"
+      two_factor_authentication/device/sms: "Matkapuhelin"
       two_factor_authentication/device/totp: "Kaksivaiheisen kirjautumisen salasanasovellus"
   two_factor_authentication:
     error_2fa_disabled: "2FA-toimitus on poistettu käytöstä."
@@ -50,7 +50,7 @@ fi:
       current_configuration: 'Current configuration'
       label_active_strategies: 'Aktiiviset kaksivaiheisen tunnistautumisen strategiat'
       label_enforced: 'Vaadi kaksivaiheinen kirjautuminen'
-      label_remember: 'Muista kaksivaiheinen kirjautuminen'
+      label_remember: 'Muista kaksivaiheinen tunnistautuminen'
       text_configuration: |
         Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
       text_configuration_guide: For more information, check the configuration guide.
@@ -102,7 +102,7 @@ fi:
       button_complete_registration: 'Viimeistele tunnistuslaitteen rekisteröinti'
       text_confirm_to_complete_html: "Vahvista laitteen <strong>%{identifier}</strong> rekisteröinti antamalla kertakäyttösalasana."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: 'You can give the device a custom identifier using this field.'
+      text_identifier: 'Voit antaa laitteelle mukautetun tunnisteen käyttämällä tätä kenttää.'
       failed_to_delete: 'Tunnistuslaitteen poistaminen epäonnistui'
       is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
       not_existing: 'Käyttäjätilillesi ei ole rekisteröity tunnistuslaitetta.'
@@ -123,11 +123,11 @@ fi:
         description: |
           Rekisteröi varmennussovellus kaksivaiheisen kirjautumisen todennusvälineeksi kertakäyttösalasanoja varten. Yleisin sovellus tähän tarkoitukseen on esimerkiksi Google Authenticator, jonka voit ladata puhelimeesi sovelluskaupasta.
       sms:
-        title: 'Use your mobile phone'
-        redacted_identifier: 'Mobile device (%{redacted_number})'
+        title: 'Käytä matkapuhelinta'
+        redacted_identifier: 'Matkapuhelin (%{redacted_number})'
         request_2fa_identifier: '%{redacted_identifier}, lähetimme sinulle tunnistautumiskoodin %{delivery_channel} kautta'
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          Rekisteröi matkapuhelimesi kertakäyttösalasanojen toimitusta varten.
     sns:
       delivery_failed: 'SNS delivery failed:'
     message_bird:
@@ -150,7 +150,7 @@ fi:
       label: 'Muista'
       clear_cookie: 'Poista kaikki  muistissa olevat kaksivaiheiset tunnistautumiset.'
       cookie_removed: 'Kaikki muistissa olevat kaksivaiheiset todennusistunnot poistettu.'
-      dont_ask_again: "Muista kaksivaiheinen tunnistaminen tällä laitteella seuraavat %{days} päivää."
+      dont_ask_again: "Muista tunnistautuminen tällä laitteella seuraavat %{days} päivää."
   field_phone: "Matkapuhelin"
   field_otp: "Kertakäyttösalasana"
   notice_account_otp_invalid: "Virheellinen kertakäyttösalasana."
@@ -165,7 +165,7 @@ fi:
   button_make_default: 'Merkitse oletusarvo'
   label_unverified_phone: "Cell phone not yet verified"
   notice_phone_number_format: "Anna numero seuraavalla tavalla: + XX XXXXXXXX."
-  text_otp_not_receive: "Muut vahvistusmenetelmät"
+  text_otp_not_receive: "Muut tunnistustavat"
   text_send_otp_again: "Kertamerkin antaminen uudelleen:"
   button_resend_otp_form: "Uudelleen lähettää"
   button_otp_by_voice: "Äänipuhelu"
