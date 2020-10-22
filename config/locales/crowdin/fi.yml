@@ -2619,7 +2619,7 @@ fi:
       code_401: "Kirjaudu käyttääksesi tätä resurssia."
       code_401_wrong_credentials: "Et ole antanut oikeita käyttäjätietoja."
       code_403: "Sinulla ei ole oikeutta käyttää tätä resurssia."
-      code_404: "The requested resource could not be found."
+      code_404: "Sivua ei löydy"
       code_409: "Could not update the resource because of conflicting modifications."
       code_500: "An internal error has occured."
       expected:
