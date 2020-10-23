@@ -38,7 +38,13 @@
   </div>
 
   <!-- Values -->
-  <ng-container *ngIf="showValuesInput && valueType">
+  <div class="advanced-filters--filter-value" *ngIf="filter.name==='Parent'">
+    <wp-filter-searchable-multiselect-value
+                    (filterChanged)="onFilterUpdated($event)"
+                    [shouldFocus]="shouldFocus"
+                    [filter]="filter"></wp-filter-searchable-multiselect-value>
+  </div>
+  <ng-container *ngIf="showValuesInput && valueType && filter.name!=='Parent'">
     <div class="advanced-filters--filter-value" [ngSwitch]="valueType">
       <filter-integer-value *ngSwitchCase="'[1]Integer'"
                             (filterChanged)="onFilterUpdated($event)"
@@ -74,7 +80,6 @@
                            (filterChanged)="onFilterUpdated($event)"
                            [shouldFocus]="shouldFocus"
                            [filter]="filter"></filter-string-value>
-
 
       <filter-toggled-multiselect-value *ngSwitchDefault
                                         (filterChanged)="onFilterUpdated($event)"
