@@ -3,6 +3,7 @@ import {FilterSearchableMultiselectValueComponent} from 'core-components/filters
 import {HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import {ApiV3FilterBuilder } from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import {map } from 'rxjs/operators';
+import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -14,7 +15,7 @@ import {
     selector: 'wp-filter-searchable-multiselect-value',
     changeDetection: ChangeDetectionStrategy.OnPush
   })
-  export class WorkPackageFilterSearchableMultiselectValueComponent extends FilterSearchableMultiselectValueComponent implements AfterViewInit {
+  export class WorkPackageFilterSearchableMultiselectValueComponent extends FilterSearchableMultiselectValueComponent {
 
     public loadAvailable(matching:string):Observable<HalResource[]> {
       let filters = new ApiV3FilterBuilder();

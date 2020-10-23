@@ -2,7 +2,6 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -16,15 +15,11 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {CurrentUserService} from "core-components/user/current-user.service";
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/helpers/rxjs/debounced-input-switchmap';
-import { ApiV3FilterBuilder } from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import { ValueOption } from 'core-app/modules/fields/edit/field-types/select-edit-field.component';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
 
@@ -33,7 +28,7 @@ import { CurrentProjectService } from 'core-app/components/projects/current-proj
   changeDetection: ChangeDetectionStrategy.OnPush,
   template:''
 })
-export abstract class FilterSearchableMultiselectValueComponent implements OnInit, AfterViewInit {
+export abstract class FilterSearchableMultiselectValueComponent implements OnInit {
   @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
@@ -51,9 +46,7 @@ export abstract class FilterSearchableMultiselectValueComponent implements OnIni
 
    constructor(readonly halResourceService:HalResourceService,
               readonly halSorting:HalResourceSortingService,
-              readonly PathHelper:PathHelperService,
               readonly apiV3Service:APIV3Service,
-              readonly currentUser:CurrentUserService,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
               protected currentProject:CurrentProjectService,
@@ -77,17 +70,12 @@ export abstract class FilterSearchableMultiselectValueComponent implements OnIni
       this.cdRef.detectChanges();
     });
   }
+
   ngOnInit() {
     this.initialization();
 
   // Request an empty value to load warning early on
   this.requests.input$.next('');
-  }
-
-  ngAfterViewInit():void {
-    if (this.ngSelectInstance && this.shouldFocus) {
-        this.ngSelectInstance.focus();
-    }
   }
 
   public get value() {
