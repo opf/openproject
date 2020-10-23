@@ -1069,7 +1069,7 @@ fi:
   description_select_work_package: "Select work package"
   description_selected_columns: "Valitut sarakkeet"
   description_sub_work_package: "Osa työstä paketti nykyinen"
-  description_toc_toggle: "Show/Hide table of contents"
+  description_toc_toggle: "Näytä/piilota sisällysluettelo"
   description_wiki_subpages_reassign: "Valitse uusi pääsivun"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
@@ -1642,7 +1642,7 @@ fi:
   label_summary: "Yhteenveto"
   label_system: "Järjestelmä"
   label_system_storage: "Tallennustila"
-  label_table_of_contents: "Table of contents"
+  label_table_of_contents: "Sisällysluettelo"
   label_tag: "Tunniste"
   label_text: "Pitkä merkkijono"
   label_this_month: "tässä kuussa"
@@ -1697,7 +1697,7 @@ fi:
   label_wiki_content_added: "Wiki-sivu lisätty"
   label_wiki_content_updated: "Wiki-sivu päivitetty"
   label_wiki_toc: "Sisällysluettelo"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "Sisältötaulukko on tyhjä, koska otsikkoja ei ole."
   label_wiki_dont_show_menu_item: "Älä näytä tätä Wiki-sivua projektin navigoinnissa"
   label_wiki_edit: "Wikin muokkaus"
   label_wiki_edit_plural: "Wikin muokkaukset"
@@ -1715,7 +1715,7 @@ fi:
   label_work_package_added: "Tehtävä lisätty"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Uusi luokka"
-  label_work_package_category_plural: "Tehtäväluokat"
+  label_work_package_category_plural: "Kategoriat"
   label_work_package_hierarchy: "Tehtävähierarkia"
   label_work_package_new: "Uusi tehtävä"
   label_work_package_note_added: "Kommentti lisätty tehtävään"
@@ -1842,7 +1842,7 @@ fi:
   notice_failed_to_save_members: "Jäsentä tai jäseniä ei voitu tallentaa: %{errors}."
   notice_file_not_found: "Hakemaasi sivua ei löytynyt tai se on poistettu."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
-  notice_internal_server_error: "On tapahtunut virhe sivu jota yritit käyttää. Jos sinulla on edelleen ongelmia ota yhteyttä %{app_title} hallintomies sillä apua."
+  notice_internal_server_error: "Tapahtui virhe. Jos ongelma jatkuu, ota yhteys %{app_title} ylläpitoon."
   notice_work_package_done_ratios_updated: "Work package done ratios updated."
   notice_locking_conflict: "Vähintään yksi muu käyttäjä on päivitetty tiedot sillä välin."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
@@ -1981,7 +1981,7 @@ fi:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
       use_template: 'Use template'
-      make_template: 'Set as template'
+      make_template: 'Aseta malliksi'
       remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
@@ -2619,7 +2619,7 @@ fi:
       code_401: "Kirjaudu käyttääksesi tätä resurssia."
       code_401_wrong_credentials: "Et ole antanut oikeita käyttäjätietoja."
       code_403: "Sinulla ei ole oikeutta käyttää tätä resurssia."
-      code_404: "The requested resource could not be found."
+      code_404: "Sivua ei löydy"
       code_409: "Could not update the resource because of conflicting modifications."
       code_500: "An internal error has occured."
       expected:
