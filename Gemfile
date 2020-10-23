@@ -282,6 +282,7 @@ group :development, :test do
   # Brakeman scanner
   gem 'brakeman', '~> 4.9.0'
   gem 'danger-brakeman'
+  gem 'thin'
 end
 
 gem 'bootsnap', '~> 1.4.5', require: false
