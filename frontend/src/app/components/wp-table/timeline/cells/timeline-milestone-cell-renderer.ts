@@ -116,7 +116,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return direction;
   }
 
-  public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo, isDuplicatedCell?:boolean):boolean {
+  public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo, withCustomLabels?:boolean):boolean {
     const viewParams = renderInfo.viewParams;
     const date = moment(renderInfo.change.projectedResource.date);
 
@@ -140,7 +140,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     // Update labels if any
     if (labels) {
-      this.updateLabels(false, labels, renderInfo.change, isDuplicatedCell);
+      this.updateLabels(false, labels, renderInfo.change, withCustomLabels);
     }
 
     this.checkForActiveSelectionMode(renderInfo, diamond);
@@ -182,7 +182,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return element;
   }
 
-  createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement, isDuplicatedCell?:boolean):WorkPackageCellLabels {
+  createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement, withCustomLabels?:boolean):WorkPackageCellLabels {
     // create left label
     const labelLeft = document.createElement('div');
     labelLeft.classList.add(classNameLeftLabel, classNameHideOnHover);
@@ -214,13 +214,13 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     element.appendChild(labelHoverLeft);
 
     const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight);
-    this.updateLabels(false, labels, renderInfo.change, isDuplicatedCell);
+    this.updateLabels(false, labels, renderInfo.change, withCustomLabels);
 
     return labels;
   }
 
-  protected renderHoverLabels(labels:WorkPackageCellLabels, change:WorkPackageChangeset, isDuplicatedCell?:boolean) {
-    if (isDuplicatedCell) {
+  protected renderHoverLabels(labels:WorkPackageCellLabels, change:WorkPackageChangeset, withCustomLabels?:boolean) {
+    if (withCustomLabels) {
       this.renderLabel(change, labels, 'leftHover', 'date');
       this.renderLabel(change, labels, 'rightHover', 'subject');
     } else {
@@ -231,7 +231,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   protected updateLabels(activeDragNDrop:boolean,
                          labels:WorkPackageCellLabels,
                          change:WorkPackageChangeset,
-                         isDuplicatedCell?:boolean) {
+                         withCustomLabels?:boolean) {
 
     const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(change.projectedResource);
 
@@ -251,7 +251,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     }
 
     // Update hover labels
-    this.renderHoverLabels(labels, change, isDuplicatedCell);
+    this.renderHoverLabels(labels, change, withCustomLabels);
   }
 
   protected renderLabel(change:WorkPackageChangeset,

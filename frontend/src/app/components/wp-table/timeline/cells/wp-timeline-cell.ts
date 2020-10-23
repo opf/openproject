@@ -127,7 +127,7 @@ export class WorkPackageTimelineCell {
     return this.cellContainer.find(`.${this.classIdentifier}`);
   }
 
-  private lazyInit(renderer:TimelineCellRenderer | TimelineMilestoneCellRenderer, renderInfo:RenderInfo, isDuplicatedCell?:boolean):Promise<void> {
+  private lazyInit(renderer:TimelineCellRenderer | TimelineMilestoneCellRenderer, renderInfo:RenderInfo, isDuplicatedCell?:boolean, withCustomLabels?:boolean):Promise<void> {
     const body = this.workPackageTimeline.timelineBody[0];
     const cell = this.cellElement;
 
@@ -138,7 +138,7 @@ export class WorkPackageTimelineCell {
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
 
     // If already rendered with correct shape, ignore
-    if (wasRendered && (this.elementShape === renderer.type && !isDuplicatedCell)) {
+    if (wasRendered && this.elementShape === renderer.type) {
       return Promise.resolve();
     }
 
@@ -147,7 +147,7 @@ export class WorkPackageTimelineCell {
 
     // Render the given element
     this.wpElement = renderer.render(renderInfo);
-    this.labels = renderer.createAndAddLabels(renderInfo, this.wpElement, isDuplicatedCell);
+    this.labels = renderer.createAndAddLabels(renderInfo, this.wpElement, withCustomLabels);
     this.elementShape = renderer.type;
 
     // Register the element
@@ -183,20 +183,20 @@ export class WorkPackageTimelineCell {
     return this.renderers.generic;
   }
 
-  public refreshView(renderInfo:RenderInfo, isDuplicatedCell?:boolean) {
+  public refreshView(renderInfo:RenderInfo, isDuplicatedCell?:boolean, withCustomLabels?:boolean) {
     this.latestRenderInfo = renderInfo;
 
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
-    this.lazyInit(renderer, renderInfo, isDuplicatedCell)
+    this.lazyInit(renderer, renderInfo, isDuplicatedCell, withCustomLabels)
       .then(() => {
         // Render the upgrade from renderInfo
         const shouldBeDisplayed = renderer.update(
           this.wpElement as HTMLDivElement,
           this.labels,
           renderInfo,
-          isDuplicatedCell);
+          withCustomLabels);
 
         if (!shouldBeDisplayed) {
           this.clear();
