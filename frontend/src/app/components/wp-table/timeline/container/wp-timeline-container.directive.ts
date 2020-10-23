@@ -488,7 +488,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     Object.keys(collapsedGroupsCellsMap).forEach(collapsedGroupKey => {
       const collapsedGroupCells = collapsedGroupsCellsMap[collapsedGroupKey];
 
-      collapsedGroupCells.forEach(cell => cellsRenderer.refreshSingleCell(cell, true));
+      collapsedGroupCells.forEach(cell => cellsRenderer.refreshSingleCell(cell, false, true));
     });
   }
 }

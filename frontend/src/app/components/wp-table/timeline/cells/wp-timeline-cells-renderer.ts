@@ -80,11 +80,11 @@ export class WorkPackageTimelineCellsRenderer {
     _.each(this.getCellsFor(wpId), (cell) => this.refreshSingleCell(cell));
   }
 
-  public refreshSingleCell(cell:WorkPackageTimelineCell, isDuplicatedCell?:boolean) {
+  public refreshSingleCell(cell:WorkPackageTimelineCell, isDuplicatedCell?:boolean, withCustomLabels?:boolean) {
     const renderInfo = this.renderInfoFor(cell.workPackageId);
 
     if (renderInfo.workPackage) {
-      cell.refreshView(renderInfo, isDuplicatedCell);
+      cell.refreshView(renderInfo, isDuplicatedCell, withCustomLabels);
     }
   }
 
