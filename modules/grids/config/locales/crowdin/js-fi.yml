@@ -34,7 +34,7 @@ fi:
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
-          not_set: 'Not set'
+          not_set: 'Määrittelemätön'
         subprojects:
           title: 'Aliprojektit'
           no_results: 'Ei aliprojekteja.'

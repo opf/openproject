@@ -137,7 +137,7 @@ fi:
         dropdown:
           macros: 'Makrot'
           chose_macro: 'Valitse makro'
-        toc: 'Table of contents'
+        toc: 'Sisällysluettelo'
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
         wiki_page_include:
           button: 'Include content of another wiki page'
@@ -818,7 +818,7 @@ fi:
       table_configuration:
         button: 'Configure this work package table'
         choose_display_mode: 'Näytä tehtävät'
-        modal_title: 'Work package table configuration'
+        modal_title: 'Tehtävien taulukkonäkymän konfigurointi'
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
         default: "default"
         display_settings: 'Näyttöasetukset'
