@@ -67,29 +67,6 @@ export abstract class FilterSearchableMultiselectValueComponent implements OnIni
   public active:Set<string>;
 
   public abstract loadAvailable(matching:string):Observable<HalResource[]> ;
-//   {
-//     let filters = new ApiV3FilterBuilder();
-//     filters.add('is_milestone', '=', false);
-//     filters.add('project', '=', [this.currentProject.id]);
-
-//     if (matching) {
-//       filters.add('subjectOrId', '**', [matching]);
-//     }
-
-//     let filteredData = this
-//       .apiV3Service
-//       .work_packages
-//       .filtered(filters)
-//       .get()
-//       .pipe(
-//         map(collection => collection.elements)
-//       );
-
-//     return filteredData
-//       .pipe(
-//         map(items => items
-//       ));
-//   }
 
   initialization() {
     this
@@ -109,7 +86,7 @@ export abstract class FilterSearchableMultiselectValueComponent implements OnIni
 
   ngAfterViewInit():void {
     if (this.ngSelectInstance && this.shouldFocus) {
-      this.ngSelectInstance.focus();
+        this.ngSelectInstance.focus();
     }
   }
 
