@@ -80,11 +80,11 @@ export class WorkPackageTimelineCellsRenderer {
     _.each(this.getCellsFor(wpId), (cell) => this.refreshSingleCell(cell));
   }
 
-  public refreshSingleCell(cell:WorkPackageTimelineCell, avoidDuplicatedCells?:boolean) {
+  public refreshSingleCell(cell:WorkPackageTimelineCell, isDuplicatedCell?:boolean) {
     const renderInfo = this.renderInfoFor(cell.workPackageId);
 
     if (renderInfo.workPackage) {
-      cell.refreshView(renderInfo, avoidDuplicatedCells);
+      cell.refreshView(renderInfo, isDuplicatedCell);
     }
   }
 
@@ -149,10 +149,10 @@ export class WorkPackageTimelineCellsRenderer {
     };
   }
 
-  public buildCellsAndRenderOnRow(workPackageIds:string[], rowClassIdentifier:string, avoidDuplicatedCells:boolean):WorkPackageTimelineCell[] {
+  public buildCellsAndRenderOnRow(workPackageIds:string[], rowClassIdentifier:string, isDuplicatedCell?:boolean):WorkPackageTimelineCell[] {
     const cells = workPackageIds.map(workPackageId => this.buildCell(rowClassIdentifier, workPackageId!));
 
-    cells.forEach((cell:WorkPackageTimelineCell) => this.refreshSingleCell(cell, avoidDuplicatedCells));
+    cells.forEach((cell:WorkPackageTimelineCell) => this.refreshSingleCell(cell, isDuplicatedCell));
 
     return cells;
   }
