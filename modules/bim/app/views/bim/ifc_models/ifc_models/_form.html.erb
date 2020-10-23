@@ -59,7 +59,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= nonced_javascript_tag do %>
   jQuery(document).ready(function() {
     var setDirectUploadFileName = function () {
-
       var fileNameField = jQuery('input[type=file]')
       var fileName = '';
       if (fileNameField.length > 0 && fileNameField[0].files && fileNameField[0].files[0]) {
@@ -81,13 +80,23 @@ See doc/COPYRIGHT.rdoc for more details.
         title = fileName;
       }
 
-      return jQuery.post(
-        "<%= set_direct_upload_file_name_bcf_project_ifc_models_path %>",
-        {
+      return jQuery.ajax({
+        type: "post",
+        url: "<%= set_direct_upload_file_name_bcf_project_ifc_models_path %>",
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
+        data: {
           title: title,
           isDefault: jQuery("#bim_ifc_models_ifc_model_is_default").is(":checked") ? 1 : 0
+        },
+        statusCode: {
+          401: function(resp, status, error) {
+            document.location.reload(); // reload to make user login again
+          }
         }
-      );
+      });
     };
     jQuery("input[type=file]").change(function(e){
       setDirectUploadFileName();
