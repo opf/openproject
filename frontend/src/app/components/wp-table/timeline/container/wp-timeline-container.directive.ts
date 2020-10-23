@@ -475,7 +475,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => this.wpTypesToShowInCollapsedGroupRows.includes(tableWorkPackage.type.id!));
       const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
 
-      this.collapsedGroupsCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, false);
+      this.collapsedGroupsCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, true);
     } else {
       if (this.collapsedGroupsCellsMap[changedGroupIdentifier!]) {
         this.collapsedGroupsCellsMap[changedGroupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
@@ -488,7 +488,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     Object.keys(collapsedGroupsCellsMap).forEach(collapsedGroupKey => {
       const collapsedGroupCells = collapsedGroupsCellsMap[collapsedGroupKey];
 
-      collapsedGroupCells.forEach(cell => cellsRenderer.refreshSingleCell(cell));
+      collapsedGroupCells.forEach(cell => cellsRenderer.refreshSingleCell(cell, true));
     });
   }
 }
