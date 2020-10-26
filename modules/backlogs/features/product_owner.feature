@@ -57,8 +57,7 @@ Feature: Product Owner
       And there is 1 project with:
           | name  | ecookbook |
       And I am working in project "ecookbook"
-      And there is a default issuepriority with:
-          | name   | Normal |
+      And there is a default issuepriority
       And the project uses the following modules:
           | backlogs |
       And the project uses the following types:
