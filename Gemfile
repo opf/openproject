@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.23.0'
+gem 'rouge', '~> 3.24.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -159,7 +159,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'i18n-js', '~> 3.7.0'
+gem 'i18n-js', '~> 3.8.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -278,7 +278,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 8.0.5'
+  gem 'danger', '~> 8.2.0'
 
   # Brakeman scanner
   gem 'brakeman', '~> 4.10.0'
@@ -303,7 +303,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.4.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.5.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
@@ -314,7 +314,7 @@ gem 'openproject-translations',
   git: 'https://github.com/opf/openproject-translations.git',
   branch: 'dev'
 
-gem 'newrelic_rpm', '~> 6.9.0.363'
+gem 'newrelic_rpm'
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
