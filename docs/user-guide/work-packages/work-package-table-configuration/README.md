@@ -72,6 +72,7 @@ The results will be displayed accordingly in the work package list.
 
 ## Sort the work package list
 
+### Automatic sorting of the work package list
 By default, the work package list will be sorted by work package ID. 
 
 <div class="glossary">
@@ -98,6 +99,13 @@ Therefore, the results may differ if you sort in a flat list or in a hierarchy m
 The same filter applied in the hierarchy mode.
 
 ![sort-hierarchy-mode](sort-hierarchy-mode.png)
+
+### Manual sorting of the work package list
+
+You can sort the work package list manually, using the icon with 6 dots on the left of each work package to drag and drop it. 
+
+Moving a work package will change its attributes, depending on the kind of list displayed, e.g. hierarchy changes or priority.
+
 
 ## How to switch from flat list to hierarchy mode?
 
