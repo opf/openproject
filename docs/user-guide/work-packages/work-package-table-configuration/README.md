@@ -106,6 +106,8 @@ You can sort the work package list manually, using the icon with 6 dots on the l
 
 Moving a work package will change its attributes, depending on the kind of list displayed, e.g. hierarchy changes or priority.
 
+To keep the sorting it is necessary to [save the work package view](#save-work-package-views).
+
 
 ## How to switch from flat list to hierarchy mode?
 
