@@ -316,7 +316,7 @@ Navigate to the -> *Administration*-> *Enterprise Edition* and request your tria
 
 ## Migrating to OpenProject 11.0
 
-Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0.
+Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0. Please note the blue box on top of the page.
 
 We update the hosted OpenProject environments (Enterprise Cloud) automatically.
 

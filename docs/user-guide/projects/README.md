@@ -206,7 +206,7 @@ With the **three dots** icon at the right in the list you can open further featu
 
 With the **arrow** you can display the project description.
 
-You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
+You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
 ![edit-columns](image-20201007151542352.png)
 
