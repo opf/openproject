@@ -42,7 +42,7 @@ bash migrate-from-pre-8.sh <docker host IP> <Path to MySQL dump file>"
 
 You will need to find the docker host IP to connect to the temporary MySQL database the docker container will start and connect to a host port. It will likely be `host.docker.internal` but you need to double-check with your docker version and OS.
 
-The script will output a `<database name>-migrated.sql` pg_dump file that will be migrated and upgrade to the current stable version.
+The script will output a `<database name>-migrated.dump` pg_dump file which has been migrated and upgraded to the current stable version.
 
 
 
@@ -72,7 +72,7 @@ You can simply upgrade your package first and then switch to a PostgreSQL databa
 
 
 
-### Re-Installing OpenProject 
+### Re-Installing OpenProject
 
 The alternative option is to remove your current installation, upgrade the newest package and configure a PostgreSQL database. This will ensure the package wizard will install and maintain a PostgreSQL database for you.
 
@@ -86,7 +86,7 @@ The steps for this option is as follows:
 
 3. From your backup, restore the configuration and attachment files ([See our restoring guide](https://docs.openproject.org/installation-and-operations/operation/restoring/) for more information):
 
-   ​	`tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/` 
+   ​	`tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/`
 
    ​	`tar xzf attachments-<timestamp>.tar.gz -C /var/db/openproject/files`
 
