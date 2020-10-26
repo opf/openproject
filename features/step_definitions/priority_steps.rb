@@ -29,14 +29,8 @@
 
 InstanceFinder.register(IssuePriority, Proc.new { |name| IssuePriority.find_by(name: name) })
 
-Given /^there is a(?:n)? (default )?issuepriority with:$/ do |default, table|
-  name = table.raw.find { |ary| ary.include? 'name' }[table.raw.first.index('name') + 1].to_s
-  project = get_project
-  FactoryBot.build(:priority).tap do |prio|
-    prio.name = name
-    prio.is_default = !!default
-    prio.project = project
-  end.save!
+Given /^there is a(?:n)? (default )?issuepriority$/ do |default|
+  FactoryBot.create(:priority, is_default: !!default, project: get_project)
 end
 
 Given /^there are the following priorities:$/ do |table|

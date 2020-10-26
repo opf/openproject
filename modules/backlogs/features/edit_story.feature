@@ -73,8 +73,7 @@ Feature: Edit story on backlogs view
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
     And the type "Story" has the default workflow for the role "team member"
-    And there is a default issuepriority with:
-        | name   | Normal |
+    And there is a default issuepriority
     And the project has the following stories in the following owner backlogs:
         | subject | backlog         |
         | Story 1 | Product Backlog |
