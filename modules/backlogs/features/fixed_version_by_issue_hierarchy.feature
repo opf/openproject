@@ -57,8 +57,7 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
         | Resolved    | false      | false       |
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
-    And there is a default issuepriority with:
-        | name   | Normal |
+    And there is a default issuepriority
     And the backlogs module is initialized
     And the following types are configured to track stories:
         | Story |
