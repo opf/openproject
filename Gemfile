@@ -314,7 +314,7 @@ gem 'openproject-translations',
   git: 'https://github.com/opf/openproject-translations.git',
   branch: 'dev'
 
-gem 'newrelic_rpm', '~> 6.9.0.363'
+gem 'newrelic_rpm'
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
