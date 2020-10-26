@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,31 +24,41 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#+
+#++
 
-module Bim
-  module IfcModels
-    class UpdateService < ::BaseServices::Update
-      protected
+require 'spec_helper'
 
-      def before_perform(params)
-        @ifc_attachment_updated = params[:ifc_attachment].present?
+describe 'Settings', type: :feature do
+  let(:admin) { FactoryBot.create(:admin) }
 
-        super
+  describe 'subsection' do
+    before do
+      login_as(admin)
+
+      visit '/settings/api'
+    end
+
+    shared_examples "it can be visited" do
+      let(:section) { raise "define me" }
+
+      before do
+        visit "/settings/#{section}"
       end
 
-      def after_perform(service_result)
-        if service_result.success?
-          # As the attachments association does not have the autosave option, we need to remove the
-          # attachments ourselves
-          model.attachments.select(&:marked_for_destruction?).each(&:destroy)
+      it "can be visited" do
+        expect(page).to have_content(/#{section}/i)
+      end
+    end
 
-          if @ifc_attachment_updated
-            IfcConversionJob.perform_later(service_result.result)
-          end
-        end
+    describe "general" do
+      it_behaves_like "it can be visited" do
+        let(:section) { "general" }
+      end
+    end
 
-        service_result
+    describe "API (regression #34938)" do
+      it_behaves_like "it can be visited" do
+        let(:section) { "api" }
       end
     end
   end

@@ -161,7 +161,7 @@ module OpenProject::Bim
           entry['color'] = "##{entry['color']}"
 
           # Fix items name
-          entry['components'] = entry.delete('component')
+          entry['components'] = Array.wrap(entry.delete('component'))
           entry
         end
       end
@@ -173,7 +173,7 @@ module OpenProject::Bim
 
         # Hoist exceptions components up from the nested XML node
         exceptions = visibility.dig('exceptions', 'component')
-        visibility['exceptions'] = Array(exceptions) if exceptions
+        visibility['exceptions'] = Array.wrap(exceptions) if exceptions
 
         # Move view_setup_hints
         view_setup_hints = hash.dig('components', 'view_setup_hints')
