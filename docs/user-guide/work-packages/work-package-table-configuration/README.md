@@ -102,7 +102,7 @@ The same filter applied in the hierarchy mode.
 
 ### Manual sorting of the work package list
 
-You can sort the work package list manually, using the icon with 6 dots on the left of each work package to drag and drop it. 
+You can sort the work package list manually, using the icon with the 6 dots on the left of each work package to drag and drop it. 
 
 Moving a work package will change its attributes, depending on the kind of list displayed, e.g. hierarchy changes or priority.
 
