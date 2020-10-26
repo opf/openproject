@@ -1,22 +1,17 @@
 # Force the latest version of geckodriver using the webdriver gem
 require 'webdrivers/geckodriver'
 
+::Webdrivers.logger.level = :DEBUG
+
 if ENV['CI']
-  ::Webdrivers.logger.level = :DEBUG
   ::Webdrivers::Geckodriver.update
 end
 
 
-def register_firefox_headless(language, name: :"firefox_headless_#{language}")
+def register_firefox(language, name: :"firefox_#{language}")
   require 'selenium/webdriver'
 
   Capybara.register_driver name do |app|
-    Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-      Selenium::WebDriver::Firefox::Binary.path
-
-    client = Selenium::WebDriver::Remote::Http::Default.new
-    client.timeout = 180
-
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile['intl.accept_languages'] = language
     profile['browser.download.dir'] = DownloadedFile::PATH.to_s
@@ -46,16 +41,12 @@ def register_firefox_headless(language, name: :"firefox_headless_#{language}")
       options.args << "--headless"
     end
 
-    # If you need to trace the webdriver commands, un-comment this line
-    # Selenium::WebDriver.logger.level = :info
-
     driver = Capybara::Selenium::Driver.new(
       app,
-      browser: :firefox,
-      options: options,
+      browser: :remote,
+      url: ENV['SELENIUM_GRID_URL'],
       desired_capabilities: capabilities,
-
-      http_client: client,
+      options: options
     )
 
     Capybara::Screenshot.register_driver(name) do |driver, path|
@@ -66,12 +57,12 @@ def register_firefox_headless(language, name: :"firefox_headless_#{language}")
   end
 end
 
-register_firefox_headless 'en'
+register_firefox 'en'
 # Register german locale for custom field decimal test
-register_firefox_headless 'de'
+register_firefox 'de'
 
 # Register mocking proxy driver
-register_firefox_headless 'en', name: :headless_firefox_billy do |profile, options, capabilities|
+register_firefox 'en', name: :firefox_billy do |profile, options, capabilities|
   profile.assume_untrusted_certificate_issuer = false
   profile.proxy = Selenium::WebDriver::Proxy.new(
     http: "#{Billy.proxy.host}:#{Billy.proxy.port}",
@@ -83,7 +74,7 @@ end
 
 # Resize window if firefox
 RSpec.configure do |config|
-  config.before(:each, driver: Proc.new { |val| val.to_s.start_with? 'firefox_headless_' }) do
+  config.before(:each, driver: Proc.new { |val| val.to_s.start_with? 'firefox_' }) do
     Capybara.page.driver.browser.manage.window.maximize
   end
 end

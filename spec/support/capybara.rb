@@ -6,7 +6,8 @@ require 'action_dispatch'
 
 RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
-  Capybara.javascript_driver = :chrome_headless_en
+  Capybara.javascript_driver = :chrome_en
+  Capybara.app_host = ENV.fetch('CAPYBARA_APP_HOST', 'http://localhost:3000')
 end
 
 ##

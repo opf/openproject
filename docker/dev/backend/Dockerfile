@@ -45,6 +45,8 @@ USER root
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    chromium 
+    jq
 
 USER $USER
+COPY ./docker/dev/backend/scripts/run-test /usr/sbin/run-test
+ENTRYPOINT [ "/usr/sbin/run-test" ]

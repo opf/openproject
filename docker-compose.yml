@@ -1,8 +1,7 @@
 version: "3.7"
 
 networks:
-  frontend:
-  backend:
+  network:
   test:
 
 volumes:
@@ -37,13 +36,13 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
     networks:
-      - backend
+      - network
 
   cache:
     image: memcached
     <<: *restart_policy
     networks:
-      - backend
+      - network
 
   backend:
     build:
@@ -69,7 +68,7 @@ services:
       - db
       - cache
     networks:
-      - backend
+      - network
 
   frontend:
     build:
@@ -86,12 +85,12 @@ services:
     environment:
       PROXY_HOSTNAME: backend
     networks:
-      - frontend
-      - backend
+      - network
     depends_on:
       - backend
 
-# The containers below are for testing
+######### Testing stuff below ############
+
   db-test:
     image: postgres:9
     stop_grace_period: "3s"
@@ -106,20 +105,75 @@ services:
 
   backend-test:
     build:
-      <<: *build
+      context: .
+      dockerfile: ./docker/dev/backend/Dockerfile
+      args:
+        DEV_UID: $DEV_UID
+        DEV_GID: $DEV_GID
       target: test
-    <<: *image
-    <<: *restart_policy
     command: run-app
     networks:
       - test
+    depends_on:
+      - db-test
+      - selenium-hub
     environment:
       RAILS_ENV: test
       OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
       DATABASE_URL: postgresql://openproject:openproject@db-test/openproject
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+      SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
+      CAPYBARA_APP_HOST: http://backend-test:3000
     volumes:
       - ".:/home/dev/openproject"
       - "opdata:/var/openproject/assets"
       - "bundle:/usr/local/bundle"
       - "tmp-test:/home/dev/openproject/tmp"
+
+  selenium-hub:
+    image: selenium/hub:latest
+    container_name: selenium-hub
+    depends_on:
+      - chrome
+      - firefox
+      - opera
+    networks:
+      - test
+    ports:
+      - "4444:4444"
+
+  chrome:
+    image: selenium/node-chrome-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - test
+    ports:
+      - 5900:5900
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+
+  firefox:
+    image: selenium/node-firefox-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - test
+    ports:
+      - 5901:5900
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+
+  opera:
+    image: selenium/node-opera-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - test
+    ports:
+      - 5902:5900
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
