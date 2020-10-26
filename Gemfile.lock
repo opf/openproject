@@ -883,7 +883,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    stackprof (0.2.15)
+    stackprof (0.2.16)
     stringex (2.8.5)
     structured_warnings (0.4.0)
     svg-graph (2.2.0)
