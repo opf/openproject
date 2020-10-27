@@ -321,13 +321,10 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       group_by.enable_via_menu 'Project'
 
       # Collapse Foo section
-      header = find('.wp-table--group-header', text: 'My Project No. 1')
+      header = find('.wp-table--group-header', text: 'My Project No.')
       header.find('.expander').click
 
-      timeline_group_row = find('.group-row')
-      milestone = timeline_group_row.find('.timeline-element.milestone')
-
-      expect(milestone).to be_truthy
+      expect(page).to have_selector('.group-row .timeline-element.milestone')
     end
 
     it 'does not show icons on expanded project group rows' do
@@ -335,15 +332,34 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
       group_by.enable_via_menu 'Project'
 
-      # Collapse Foo section
-      header = find('.wp-table--group-header', text: 'My Project No. 1')
+      # Collapse Group rows
+      header = find('.wp-table--group-header', text: 'My Project No.')
       header_expander = header.find('.expander')
       header_expander.click
       header_expander.click
 
-      timeline_group_row = find('.group-row')
+      expect(page).to have_no_selector('.group-row .timeline-element')
+    end
 
-      expect(timeline_group_row).to have_no_selector('.timeline-element')
+    it 'shows correct labels when hovering milestone icons on collapsed group rows' do
+      wp_table.visit_query(query)
+
+      group_by.enable_via_menu 'Project'
+
+      # Collapse Group rows
+      header = find('.wp-table--group-header', text: 'My Project No.')
+      header_expander = header.find('.expander')
+      header_expander.click
+
+      # Check hover labels (milestone)
+      milestone = find('.timeline-element.milestone')
+      milestone.hover
+
+      expect(milestone).to have_selector(".labelHoverLeft.not-empty")
+      expect(milestone).to have_selector(".labelHoverRight.not-empty", text: milestone_work_package.subject)
+      expect(milestone).to have_selector(".labelLeft", visible: false)
+      expect(milestone).to have_selector(".labelRight", visible: false)
+      expect(milestone).to have_selector(".labelFarRight", visible: false)
     end
   end
 end

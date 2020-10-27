@@ -33,7 +33,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import * as moment from 'moment';
 import {Moment} from 'moment';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
 import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
@@ -57,10 +57,11 @@ import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {combineLatest} from "rxjs";
+import {combineLatest, merge} from "rxjs";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 import {GroupObject} from "core-app/modules/hal/resources/wp-collection-resource";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -95,11 +96,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private collapsedGroupsCellsMap:IGroupCellsMap = {};
 
-  public wpTypesToShowInCollapsedGroupRows = ['2'];
+  private wpTypesToShowInCollapsedGroupHeaders:Function[];
 
-  public groupTypesWithWpIconsOnCollapsedRow = ['project'];
+  private groupTypesWithHeaderCellsWhenCollapsed = ['project'];
 
-  public orderedRows:RenderedWorkPackage[] = [];
+  private orderedRows:RenderedWorkPackage[] = [];
 
   constructor(public readonly injector:Injector,
               private elementRef:ElementRef,
@@ -112,11 +113,13 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private halEvents:HalEventsService,
               private querySpace:IsolatedQuerySpace,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              private schemaCacheService:SchemaCacheService) {
     super();
   }
 
   ngAfterViewInit() {
+    this.wpTypesToShowInCollapsedGroupHeaders = [this.isMilestone];
     this.$element = jQuery(this.elementRef.nativeElement);
 
     this.text = {
@@ -142,23 +145,34 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       takeUntil(this.querySpace.stopAllSubscriptions),
       filter(() => this.initialized && this.wpTableTimeline.isVisible)
     )
-      .subscribe(([orderedRows, changes, timelineState]) => {
-        // Remember all visible rows in their order of appearance.
-        this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
-        this.orderedRows = orderedRows;
-        this.refreshView();
-      });
+    .subscribe(([orderedRows, changes, timelineState]) => {
+      // Remember all visible rows in their order of appearance.
+      this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
+      this.orderedRows = orderedRows;
+      this.refreshView();
+    });
 
-    this.querySpace
-          .collapsedGroups
-          .changes$()
-          .pipe(
-            this.untilDestroyed(),
-            takeUntil(this.querySpace.stopAllSubscriptions),
-            filter(() => this.initialized && this.wpTableTimeline.isVisible),
-            filter(collapsedGroupsChange => collapsedGroupsChange != null),
-          )
-          .subscribe(collapsedGroupsChange => this.manageWpIconsOnCollapsedGroupRows(this.querySpace.groups.value!, collapsedGroupsChange!, this.querySpace.results.value!.elements));
+    merge(
+      // Refresh the only last collapsed/expanded group cells when its collapsed state changes
+      this.querySpace.collapsedGroups.changes$().pipe(filter(collapsedGroupsChange => collapsedGroupsChange != null)),
+      // Refresh all the collapsed group header cells whenever the query changes
+      this.querySpace.initialized.values$().pipe(switchMap(() => this.querySpace.tableRendered.values$().pipe(take(1), map(() => false)))),
+    )
+    .pipe(
+      this.untilDestroyed(),
+      takeUntil(this.querySpace.stopAllSubscriptions),
+      filter(() => this.initialized && this.wpTableTimeline.isVisible),
+    )
+    .subscribe((change:{[identifier:string]:boolean} | false) => {
+      const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
+      const updateAllHeaderCells = !collapsedGroupsChange;
+
+      this.manageCollapsedGroupHeaderCells(this.querySpace.groups.value!,
+                                            collapsedGroupsChange,
+                                            this.querySpace.results.value!.elements,
+                                            this.collapsedGroupsCellsMap,
+                                            updateAllHeaderCells);
+    });
   }
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
@@ -224,7 +238,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         cb(this._viewParameters);
       });
 
-      this.refreshCollapsedGroupsCells(this.collapsedGroupsCellsMap, this.cellsRenderer);
+      this.refreshCollapsedGroupsHeaderCells(this.collapsedGroupsCellsMap, this.cellsRenderer);
 
       // Calculate overflowing width to set to outer container
       // required to match width in all child divs.
@@ -347,7 +361,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     // timeline. (ie: milestones are shown on collapsed row groups)
     const tableWorkPackages = this.querySpace.results.value!.elements;
     const workPackagesToAdd = tableWorkPackages
-                                .filter(tableWorkPackage => this.wpTypesToShowInCollapsedGroupRows.includes(tableWorkPackage.type.id!))
+                                .filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage))
                                 .map(tableWorkPackage => tableWorkPackage.id);
     const rowsToAdd = this.orderedRows.filter(row => workPackagesToAdd.includes(row.workPackageId!) && !this.workPackageIdOrder.includes(row));
     const rowsToCalculateTimelineWidthFrom = [...this.workPackageIdOrder, ...rowsToAdd];
@@ -450,45 +464,75 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     }
   }
 
-  manageWpIconsOnCollapsedGroupRows(allGroups:GroupObject[], collapsedGroupsChange:{[key:string]:boolean}, tableWorkPackages:WorkPackageResource[]) {
-    const collapsedGroupsChangesToManage = Object.keys(collapsedGroupsChange!).filter(groupKey => {
-      const keyGroupType = groupKey.split('-')[0];
-
-      return this.groupTypesWithWpIconsOnCollapsedRow.includes(keyGroupType);
-    });
-    const changedGroupIdentifier = collapsedGroupsChangesToManage.find(groupKey => {
-      const currentGroupCollapsedValue = collapsedGroupsChange![groupKey];
-      const storedGroup = allGroups!.find(group => group.identifier === groupKey);
-
-      return storedGroup && storedGroup.collapsed !== currentGroupCollapsedValue;
-    });
-
-    if (!changedGroupIdentifier) {
+  manageCollapsedGroupHeaderCells(allGroups:GroupObject[],
+                                  collapsedGroupsChange:{[key:string]:boolean}|undefined,
+                                  tableWorkPackages:WorkPackageResource[],
+                                  collapsedGroupsCellsMap:IGroupCellsMap,
+                                  updateAllHeaderCells?:boolean) {
+    if (!collapsedGroupsChange) {
       return;
     }
 
-    const changedGroupIsCollapsed = collapsedGroupsChange![changedGroupIdentifier!];
+    const groupCollapseChangesToManage = Object.keys(collapsedGroupsChange!).filter(groupKey => {
+      const keyGroupType = groupKey.split('-')[0];
 
-    if (changedGroupIsCollapsed) {
-      const changedGroupId = changedGroupIdentifier!.split('-').pop();
-      const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
-      const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => this.wpTypesToShowInCollapsedGroupRows.includes(tableWorkPackage.type.id!));
-      const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
+      return this.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType);
+    });
+    let groupsToUpdate:string[];
 
-      this.collapsedGroupsCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, true);
+    if (updateAllHeaderCells) {
+      groupsToUpdate = groupCollapseChangesToManage;
     } else {
-      if (this.collapsedGroupsCellsMap[changedGroupIdentifier!]) {
-        this.collapsedGroupsCellsMap[changedGroupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
-        this.collapsedGroupsCellsMap[changedGroupIdentifier!] = [];
+      groupsToUpdate = groupCollapseChangesToManage.filter(groupKey => {
+        const currentGroupCollapsedValue = collapsedGroupsChange![groupKey];
+        const storedGroup = allGroups!.find(group => group.identifier === groupKey);
+
+        return storedGroup && storedGroup.collapsed !== currentGroupCollapsedValue;
+      });
+    }
+
+    groupsToUpdate.forEach(groupIdentifier => {
+      const groupIsCollapsed = collapsedGroupsChange![groupIdentifier!];
+
+      if (groupIsCollapsed) {
+        this.createCollapsedGroupHeaderCells(groupIdentifier!, tableWorkPackages, collapsedGroupsCellsMap);
+      } else {
+        this.removeCollapsedGroupHeaderCells(groupIdentifier!, collapsedGroupsCellsMap);
       }
+    });
+  }
+
+  createCollapsedGroupHeaderCells(changedGroupIdentifier:string, tableWorkPackages:WorkPackageResource[], collapsedGroupsCellsMap:IGroupCellsMap) {
+    this.removeCollapsedGroupHeaderCells(changedGroupIdentifier, collapsedGroupsCellsMap);
+
+    const changedGroupId = changedGroupIdentifier!.split('-').pop();
+    const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
+    const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage));
+    const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
+
+    this.collapsedGroupsCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, true);
+  }
+
+  removeCollapsedGroupHeaderCells(changedGroupIdentifier:string, collapsedGroupsCellsMap:IGroupCellsMap) {
+    if (collapsedGroupsCellsMap[changedGroupIdentifier!]) {
+      collapsedGroupsCellsMap[changedGroupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
+      collapsedGroupsCellsMap[changedGroupIdentifier!] = [];
     }
   }
 
-  refreshCollapsedGroupsCells(collapsedGroupsCellsMap:IGroupCellsMap, cellsRenderer:WorkPackageTimelineCellsRenderer) {
+  refreshCollapsedGroupsHeaderCells(collapsedGroupsCellsMap:IGroupCellsMap, cellsRenderer:WorkPackageTimelineCellsRenderer) {
     Object.keys(collapsedGroupsCellsMap).forEach(collapsedGroupKey => {
       const collapsedGroupCells = collapsedGroupsCellsMap[collapsedGroupKey];
 
       collapsedGroupCells.forEach(cell => cellsRenderer.refreshSingleCell(cell, false, true));
     });
+  }
+
+  shouldBeShownInCollapsedGroupHeaders(workPackage:WorkPackageResource) {
+    return this.wpTypesToShowInCollapsedGroupHeaders.some(wpTypeFunction => wpTypeFunction(workPackage));
+  }
+
+  isMilestone = (workPackage:WorkPackageResource) => {
+    return this.schemaCacheService.of(workPackage)?.isMilestone;
   }
 }
