@@ -152,7 +152,7 @@ export class WorkPackageTimelineCellsRenderer {
   public buildCellsAndRenderOnRow(workPackageIds:string[], rowClassIdentifier:string, isDuplicatedCell?:boolean):WorkPackageTimelineCell[] {
     const cells = workPackageIds.map(workPackageId => this.buildCell(rowClassIdentifier, workPackageId!));
 
-    cells.forEach((cell:WorkPackageTimelineCell) => this.refreshSingleCell(cell, isDuplicatedCell));
+    cells.forEach((cell:WorkPackageTimelineCell) => this.refreshSingleCell(cell, isDuplicatedCell, true));
 
     return cells;
   }
