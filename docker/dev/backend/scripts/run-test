@@ -5,11 +5,20 @@ set -u
 
 cmd="$@"
 
+echo 'Waiting for the Grid...'
 while ! curl -sSL "${SELENIUM_GRID_URL}/status" 2>&1 \
-        | jq -r '.value.ready' 2>&1 | grep "true" >/dev/null; do
-    echo 'Waiting for the Grid'
+        | jq -r '.value.ready' 2>&1 | grep "true" > /dev/null; do
     sleep 1
 done
 
->&2 echo "Selenium Grid is up - executing $cmd"
+echo 'Waiting for the Frontend...'
+while ! curl -sSL "${OPENPROJECT_CLI_PROXY}" 2>&1  > /dev/null; do
+    sleep 1
+done
+
+bundle binstubs parallel_tests
+bundle exec rake db:migrate
+bundle exec rake i18n:js:export openproject:plugins:register_frontend assets:rebuild_manifest assets:clean
+cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
+
 exec $cmd

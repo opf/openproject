@@ -2,7 +2,7 @@ version: "3.7"
 
 networks:
   network:
-  test:
+  testing:
 
 volumes:
   pgdata:
@@ -11,6 +11,7 @@ volumes:
   bundle:
   pgdata-test:
   tmp-test:
+  fedata-test:
 
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
@@ -23,10 +24,16 @@ x-op-build: &build
 x-op-image: &image
   image:
     openproject/dev:latest
+x-op-frontend-build: &frontend-build
+  context: .
+  dockerfile: ./docker/dev/frontend/Dockerfile
+  args:
+    DEV_UID: $DEV_UID
+    DEV_GID: $DEV_GID
 
 services:
   db:
-    image: postgres:9
+    image: postgres:10
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
@@ -72,11 +79,7 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: ./docker/dev/frontend/Dockerfile
-      args:
-        DEV_UID: $DEV_UID
-        DEV_GID: $DEV_GID
+      <<: *frontend-build
     command: "npm run serve"
     volumes:
       - ".:/home/dev/openproject"
@@ -92,7 +95,7 @@ services:
 ######### Testing stuff below ############
 
   db-test:
-    image: postgres:9
+    image: postgres:10
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
@@ -101,31 +104,45 @@ services:
       POSTGRES_USER: openproject
       POSTGRES_PASSWORD: openproject
     networks:
-      - test
+      - testing
+
+  frontend-test:
+    build:
+      <<: *frontend-build
+    command: "npm run serve-test"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+    environment:
+      PROXY_HOSTNAME: backend-test
+    networks:
+      - testing
 
   backend-test:
     build:
-      context: .
-      dockerfile: ./docker/dev/backend/Dockerfile
-      args:
-        DEV_UID: $DEV_UID
-        DEV_GID: $DEV_GID
+      <<: *build
       target: test
-    command: run-app
+    command: sh -c 'echo "No tests specified"; exit 0;'
+    hostname: backend-test
     networks:
-      - test
+      - testing
     depends_on:
       - db-test
       - selenium-hub
+      - frontend-test
     environment:
       RAILS_ENV: test
       OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
       DATABASE_URL: postgresql://openproject:openproject@db-test/openproject
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
-      CAPYBARA_APP_HOST: http://backend-test:3000
+      CAPYBARA_SERVER_PORT: 3000
+      CAPYBARA_DYNAMIC_HOSTNAME: 0
+      CAPYBARA_APP_HOSTNAME: backend-test
+      OPENPROJECT_CLI_PROXY: http://frontend-test:4200
     volumes:
       - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
       - "opdata:/var/openproject/assets"
       - "bundle:/usr/local/bundle"
       - "tmp-test:/home/dev/openproject/tmp"
@@ -133,12 +150,13 @@ services:
   selenium-hub:
     image: selenium/hub:latest
     container_name: selenium-hub
+    hostname: selenium-hub
     depends_on:
       - chrome
       - firefox
       - opera
     networks:
-      - test
+      - testing
     ports:
       - "4444:4444"
 
@@ -147,33 +165,40 @@ services:
     volumes:
       - /dev/shm:/dev/shm
     networks:
-      - test
+      - testing
     ports:
       - 5900:5900
     environment:
-      - HUB_HOST=selenium-hub
-      - HUB_PORT=4444
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
 
   firefox:
     image: selenium/node-firefox-debug:latest
     volumes:
       - /dev/shm:/dev/shm
     networks:
-      - test
+      - testing
     ports:
       - 5901:5900
     environment:
-      - HUB_HOST=selenium-hub
-      - HUB_PORT=4444
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
 
   opera:
     image: selenium/node-opera-debug:latest
     volumes:
       - /dev/shm:/dev/shm
     networks:
-      - test
+      - testing
     ports:
       - 5902:5900
     environment:
-      - HUB_HOST=selenium-hub
-      - HUB_PORT=4444
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+

@@ -62,7 +62,7 @@ OpenProject::Application.routes.draw do
   # forward requests to the proxy
   if FrontendAssetHelper.assets_proxied?
     match '/assets/frontend/*appendix',
-          to: redirect("http://localhost:4200/assets/frontend/%{appendix}", status: 307),
+          to: redirect(FrontendAssetHelper.cli_proxy + "/assets/frontend/%{appendix}", status: 307),
           format: false,
           via: :all
   end

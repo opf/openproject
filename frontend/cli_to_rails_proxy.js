@@ -4,7 +4,7 @@ const PROXY_CONFIG = [
   {
     "context": ['/**'],
     "target": `http://${PROXY_HOSTNAME}:3000`,
-    "secure": false
+    "secure": false,
     // "bypass": function (req, res, proxyOptions) {
     // }
   }

@@ -40,11 +40,16 @@ def register_chrome(language, name: :"chrome_#{language}")
 
     yield(options, capabilities) if block_given?
 
+    client = Selenium::WebDriver::Remote::Http::Default.new
+    client.read_timeout = 180
+    client.open_timeout = 180
+
     driver = Capybara::Selenium::Driver.new(
       app,
       browser: :remote,
       url: ENV['SELENIUM_GRID_URL'],
       desired_capabilities: capabilities,
+      http_client: client,
       options: options
     )
 
