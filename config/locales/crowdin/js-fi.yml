@@ -193,7 +193,7 @@ fi:
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
           next_steps: "Next steps"
-          resend_link: "Uudelleen lähettää"
+          resend_link: "Lähetä uudelleen"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
