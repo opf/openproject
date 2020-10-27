@@ -30,8 +30,8 @@
 
 class MembersController < ApplicationController
   model_object Member
-  before_action :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
-  before_action :find_project_by_project_id, only: [:autocomplete_for_member, :paginate_users]
+  before_action :find_model_object_and_project, except: [:autocomplete_for_member]
+  before_action :find_project_by_project_id, only: [:autocomplete_for_member]
   before_action :authorize
 
   include Pagination::Controller
@@ -102,19 +102,9 @@ class MembersController < ApplicationController
   end
 
   def autocomplete_for_member
-    size = params[:page_limit].to_i || 10
-    page = params[:page]
-
-    if page
-      page = page.to_i
-      @principals = Principal.paginate_scope!(Principal.search_scope_without_project(@project, params[:q]),
-                                              page: page, page_limit: size)
-      # we always get all the items on a page, so just check if we just got the last
-      @more = @principals.total_pages > page
-      @total = @principals.total_entries
-    else
-      @principals = Principal.possible_members(params[:q], 100) - @project.principals
-    end
+    @principals = Principal
+                  .possible_members(params[:q], 100)
+                  .where.not(id: @project.principals)
 
     @email = suggest_invite_via_email? current_user,
                                        params[:q],
@@ -122,12 +112,6 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.json
-      format.html do
-        render partial: 'members/autocomplete_for_member',
-               locals: { project: @project,
-                         principals: @principals,
-                         roles: Role.givable }
-      end
     end
   end
 
