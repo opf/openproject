@@ -47,7 +47,9 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
     <div class="form--field">
       <%= setting_check_box :sys_api_enabled %>
-      <% csp_onclick("jQuery('#settings_sys_api_key').prop('disabled', !this.checked)", '#settings_sys_api_enabled') %>
+      <% csp_onclick("jQuery('#settings_sys_api_key').prop('disabled', !this.checked)",
+                     '#settings_sys_api_enabled',
+                     prevent_default: false) %>
       <div class="form--field-instructions">
         <%= t(:setting_sys_api_description) %>
       </div>

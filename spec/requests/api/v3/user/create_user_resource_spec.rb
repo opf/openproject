@@ -91,7 +91,8 @@ describe ::API::V3::Users::UsersAPI, type: :request do
         login: 'myusername',
         firstName: 'Foo',
         lastName: 'Bar',
-        email: 'foobar@example.org'
+        email: 'foobar@example.org',
+        language: 'de'
       }
     }
 
