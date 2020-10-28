@@ -14,7 +14,7 @@ fi:
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "on oltava muodossa + XX XXXXXXXXX"
+              error_phone_number_format: "on oltava muodossa +358 40 1234567"
     models:
       two_factor_authentication/device: "Tunnistuslaite"
       two_factor_authentication/device/sms: "Matkapuhelin"
@@ -164,7 +164,7 @@ fi:
   button_continue: 'Jatka'
   button_make_default: 'Merkitse oletusarvo'
   label_unverified_phone: "Cell phone not yet verified"
-  notice_phone_number_format: "Anna numero seuraavalla tavalla: + XX XXXXXXXX."
+  notice_phone_number_format: "Anna numero esim. +358 40 1234567."
   text_otp_not_receive: "Muut tunnistustavat"
   text_send_otp_again: "Lähetä kertakäyttösalasana uudelleen:"
   button_resend_otp_form: "Lähetä uudelleen"

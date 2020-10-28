@@ -15,7 +15,7 @@ fi:
           no_results: 'No documents yet.'
         members:
           title: 'Jäsenet'
-          no_results: 'No visible members.'
+          no_results: 'Ei nähtävissä olevia jäseniä.'
           view_all_members: 'Kaikki jäsenet'
           add: 'Jäsen'
           too_many: 'Displaying %{count} of %{total} members.'

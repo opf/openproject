@@ -203,7 +203,7 @@ fi:
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
       edit_columns: 'Edit columns'
-      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt: 'Avaa Gantt-näkymässä'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Tällä hetkellä ei ole projekteja
@@ -1180,7 +1180,7 @@ fi:
   homescreen:
     additional:
       projects: "Uusimmat projektit."
-      no_visible_projects: "There are no visible projects in this instance."
+      no_visible_projects: "Ei nähtävissä olevia projekteja."
       users: "Uusimmat rekisteröityneet käyttäjät."
     blocks:
       community: "OpenProject yhteisö"
