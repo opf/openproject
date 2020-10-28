@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,34 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module AuthenticationHelpers
-  def with_enterprise_token(*features)
-    allow(EnterpriseToken)
-      .to receive(:allows_to?)
-      .and_return(false)
-
-    if features.compact.length > 0
-      features.each do |feature|
-        allow(EnterpriseToken)
-          .to receive(:allows_to?)
-          .with(feature)
-          .and_return(true)
-      end
-
-      allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
-    else
-      allow(EnterpriseToken).to receive(:show_banners?).and_return(true)
-    end
-
-    allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
+module CustomStylesHelper
+  def apply_custom_styles?(skip_ee_check: OpenProject::Configuration.bim?)
+    # Apply custom styles either if EE allows OR we are on a BIM edition with the BIM theme active.
+    CustomStyle.current.present? &&
+      (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
   end
 
-  def without_enterprise_token
-    # Calling without params means no EE features are allowed.
-    with_enterprise_token
+  # The default favicon and touch icons are both the same for normal OP and BIM.
+  def apply_custom_favicon?
+    apply_custom_styles?(skip_ee_check: false) && CustomStyle.current.favicon.present?
   end
-end
 
-RSpec.configure do |config|
-  config.include AuthenticationHelpers
+  # The default favicon and touch icons are both the same for normal OP and BIM.
+  def apply_custom_touch_icon?
+    apply_custom_styles?(skip_ee_check: false) && CustomStyle.current.touch_icon.present?
+  end
 end
