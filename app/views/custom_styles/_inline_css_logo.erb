@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% cache(CustomStyle.current) do %>
   <style type="text/css">
     <% logo_url = asset_path("logo_openproject_white_big.png") %>
-    <% if EnterpriseToken.allows_to?(:define_custom_style) && CustomStyle.try(:current).present? %>
+    <% if apply_custom_styles? %>
       <%
         if CustomStyle.current.logo.present?
           logo_url = custom_style_logo_path(digest: CustomStyle.current.digest, filename: CustomStyle.current.logo_identifier)
