@@ -38,7 +38,7 @@ The [docker-based installation](../installation/docker) requires a system with D
 
 Both the package and docker based installations will install and setup the following dependencies that are required by OpenProject to run:
 
-* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.6.x
+* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.7.x
 * __Webserver:__ [Apache](http://httpd.apache.org/)
   or [nginx](http://nginx.org/en/docs/)
 * __Application server:__ [Puma](https://puma.io/)
@@ -48,7 +48,7 @@ Both the package and docker based installations will install and setup the follo
 
 OpenProject supports the latest versions of the major browsers. 
 
-* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 68.6.0)
+* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 78.3.1)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 * [Apple Safari](https://www.apple.com/safari/)

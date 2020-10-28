@@ -1,5 +1,13 @@
 class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
   def up
+    if primary_key_index_name(:cost_objects) != 'cost_objects_pkey'
+      warn "Found unexpected primary key name. Fixing primary key names..."
+
+      require "./db/migrate/20190502102512_ensure_postgres_index_names.rb"
+
+      EnsurePostgresIndexNames.new.up
+    end
+
     remove_column :cost_objects, :type
     rename_table :cost_objects, :budgets
 
@@ -146,5 +154,13 @@ class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
       SET serialized = REGEXP_REPLACE(serialized, '#{old}', '#{new}')
       WHERE serialized LIKE '%#{old}%'
     SQL
+  end
+
+  def primary_key_index_name(table_name)
+    connection = ActiveRecord::Base.connection
+    table = connection.quote table_name
+    sql = "SELECT indexname FROM pg_indexes WHERE tablename = #{table} AND indexdef LIKE '%(id)';"
+
+    connection.execute(sql).map { |row| row['indexname'] }.compact.first
   end
 end

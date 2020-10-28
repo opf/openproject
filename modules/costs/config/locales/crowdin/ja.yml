@@ -129,7 +129,7 @@ ja:
   permission_view_own_cost_entries: "自分が予約したコストの表示"
   permission_view_own_hourly_rate: "自分の時給の表示"
   permission_view_own_time_entries: "自分の使用済み時間の表示"
-  project_module_costs: "Time and costs"
+  project_module_costs: "時間とコスト"
   text_assign_time_and_cost_entries_to_project: "報告された時間とコストをプロジェクトに割り当てる"
   text_destroy_cost_entries_question: "削除しようとしている作業項目が%{cost_entries} 件報告されました。どうしますか？"
   text_destroy_time_and_cost_entries: "報告された時間とコストを削除する"
