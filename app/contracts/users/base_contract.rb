@@ -39,6 +39,7 @@ module Users
     attribute :name
     attribute :mail
     attribute :admin
+    attribute :language
 
     attribute :auth_source_id
     attribute :identity_url
