@@ -153,7 +153,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     });
 
     merge(
-      // Refresh the only last collapsed/expanded group cells when its collapsed state changes
+      // Refresh the last collapsed/expanded group cells when its collapsed state changes
       this.querySpace.collapsedGroups.changes$().pipe(filter(collapsedGroupsChange => collapsedGroupsChange != null)),
       // Refresh all the collapsed group header cells whenever the query changes
       this.querySpace.initialized.values$().pipe(switchMap(() => this.querySpace.tableRendered.values$().pipe(take(1), map(() => false)))),
@@ -165,13 +165,13 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     )
     .subscribe((change:{[identifier:string]:boolean} | false) => {
       const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
-      const updateAllHeaderCells = !collapsedGroupsChange;
+      const refreshAllGroupHeaderCells = !collapsedGroupsChange;
 
       this.manageCollapsedGroupHeaderCells(this.querySpace.groups.value!,
                                             collapsedGroupsChange,
                                             this.querySpace.results.value!.elements,
                                             this.collapsedGroupsCellsMap,
-                                            updateAllHeaderCells);
+                                            refreshAllGroupHeaderCells);
     });
   }
 
@@ -356,15 +356,15 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     let changed = false;
 
     // Calculate view parameters
-    // Include rows from work packages that are show in collapsed rows
-    // into the calculation, if not they could be rendered out of the
-    // timeline. (ie: milestones are shown on collapsed row groups)
+    // Include rows from work packages that are show in collapsed row
+    // headers into the calculation, if not they could be rendered out
+    // of the timeline (ie: milestones are shown on collapsed row groups).
     const tableWorkPackages = this.querySpace.results.value!.elements;
-    const workPackagesToAdd = tableWorkPackages
+    const workPackagesWithGroupHeaderCell = tableWorkPackages
                                 .filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage))
                                 .map(tableWorkPackage => tableWorkPackage.id);
-    const rowsToAdd = this.orderedRows.filter(row => workPackagesToAdd.includes(row.workPackageId!) && !this.workPackageIdOrder.includes(row));
-    const rowsToCalculateTimelineWidthFrom = [...this.workPackageIdOrder, ...rowsToAdd];
+    const rowsToAddToTheWidthCalculation = this.orderedRows.filter(row => workPackagesWithGroupHeaderCell.includes(row.workPackageId!) && !this.workPackageIdOrder.includes(row));
+    const rowsToCalculateTimelineWidthFrom = [...this.workPackageIdOrder, ...rowsToAddToTheWidthCalculation];
 
     rowsToCalculateTimelineWidthFrom.forEach((renderedRow) => {
       const wpId = renderedRow.workPackageId;
@@ -473,7 +473,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       return;
     }
 
-    const groupCollapseChangesToManage = Object.keys(collapsedGroupsChange!).filter(groupKey => {
+    const collapsedGroupChangesToManage = Object.keys(collapsedGroupsChange).filter(groupKey => {
       const keyGroupType = groupKey.split('-')[0];
 
       return this.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType);
@@ -481,42 +481,42 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     let groupsToUpdate:string[];
 
     if (updateAllHeaderCells) {
-      groupsToUpdate = groupCollapseChangesToManage;
+      groupsToUpdate = collapsedGroupChangesToManage;
     } else {
-      groupsToUpdate = groupCollapseChangesToManage.filter(groupKey => {
-        const currentGroupCollapsedValue = collapsedGroupsChange![groupKey];
-        const storedGroup = allGroups!.find(group => group.identifier === groupKey);
+      groupsToUpdate = collapsedGroupChangesToManage.filter(groupKey => {
+        const currentGroupCollapsedValue = collapsedGroupsChange[groupKey];
+        const storedGroup = allGroups.find(group => group.identifier === groupKey);
 
         return storedGroup && storedGroup.collapsed !== currentGroupCollapsedValue;
       });
     }
 
     groupsToUpdate.forEach(groupIdentifier => {
-      const groupIsCollapsed = collapsedGroupsChange![groupIdentifier!];
+      const groupIsCollapsed = collapsedGroupsChange[groupIdentifier];
 
       if (groupIsCollapsed) {
-        this.createCollapsedGroupHeaderCells(groupIdentifier!, tableWorkPackages, collapsedGroupsCellsMap);
+        this.createCollapsedGroupHeaderCells(groupIdentifier, tableWorkPackages, collapsedGroupsCellsMap);
       } else {
-        this.removeCollapsedGroupHeaderCells(groupIdentifier!, collapsedGroupsCellsMap);
+        this.removeCollapsedGroupHeaderCells(groupIdentifier, collapsedGroupsCellsMap);
       }
     });
   }
 
-  createCollapsedGroupHeaderCells(changedGroupIdentifier:string, tableWorkPackages:WorkPackageResource[], collapsedGroupsCellsMap:IGroupCellsMap) {
-    this.removeCollapsedGroupHeaderCells(changedGroupIdentifier, collapsedGroupsCellsMap);
+  createCollapsedGroupHeaderCells(groupIdentifier:string, tableWorkPackages:WorkPackageResource[], collapsedGroupsCellsMap:IGroupCellsMap) {
+    this.removeCollapsedGroupHeaderCells(groupIdentifier, collapsedGroupsCellsMap);
 
-    const changedGroupId = changedGroupIdentifier!.split('-').pop();
+    const changedGroupId = groupIdentifier!.split('-').pop();
     const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
-    const changedGroupMilestones = changedGroupTableWorkPackages.filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage));
-    const changedGroupMilestonesIds = changedGroupMilestones.map(workPackage => workPackage.id!);
+    const changedGroupWpsWithHeaderCells = changedGroupTableWorkPackages.filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage));
+    const changedGroupWpsWithHeaderCellsIds = changedGroupWpsWithHeaderCells.map(workPackage => workPackage.id!);
 
-    this.collapsedGroupsCellsMap[changedGroupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupMilestonesIds, `group-${changedGroupIdentifier}-timeline`, true);
+    this.collapsedGroupsCellsMap[groupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupWpsWithHeaderCellsIds, `group-${groupIdentifier}-timeline`, true);
   }
 
-  removeCollapsedGroupHeaderCells(changedGroupIdentifier:string, collapsedGroupsCellsMap:IGroupCellsMap) {
-    if (collapsedGroupsCellsMap[changedGroupIdentifier!]) {
-      collapsedGroupsCellsMap[changedGroupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
-      collapsedGroupsCellsMap[changedGroupIdentifier!] = [];
+  removeCollapsedGroupHeaderCells(groupIdentifier:string, collapsedGroupsCellsMap:IGroupCellsMap) {
+    if (collapsedGroupsCellsMap[groupIdentifier!]) {
+      collapsedGroupsCellsMap[groupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
+      collapsedGroupsCellsMap[groupIdentifier!] = [];
     }
   }
 
