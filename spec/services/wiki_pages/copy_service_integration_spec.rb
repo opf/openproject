@@ -49,7 +49,7 @@ describe WikiPages::CopyService, 'integration', type: :model do
   end
 
   let(:permissions) do
-    %i(view_wiki edit_wiki_page)
+    %i(view_wiki edit_wiki_pages)
   end
   let(:source_wiki) { FactoryBot.create(:wiki) }
   let(:source_project) { source_wiki.project }
@@ -78,7 +78,13 @@ describe WikiPages::CopyService, 'integration', type: :model do
 
   describe '#call' do
     shared_examples_for 'copied wiki page' do
-      it 'is a new wiki page' do
+      it 'is a success' do
+        expect(service_result)
+          .to be_success
+      end
+
+      it 'is a new, persisted wiki page' do
+        expect(copy).to be_persisted
         expect(copy.id).not_to eq(wiki_page.id)
       end
 

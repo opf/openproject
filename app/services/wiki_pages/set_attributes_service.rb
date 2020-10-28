@@ -65,4 +65,8 @@ class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
   def split_page_and_content_params(params)
     params.partition { |p, _| WikiContent.column_names.include?(p) }.map(&:to_h)
   end
+
+  def changed_attributes
+    super + (model.content&.changed || [])
+  end
 end

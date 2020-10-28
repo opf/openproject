@@ -54,16 +54,7 @@ module Projects::Copy
       wiki_pages_map = {}
 
       source.wiki.pages.find_each do |page|
-        # Skip pages without content
-        next if page.content.nil?
-
-        new_wiki_content = WikiContent.new(page.content.attributes.dup.except('id', 'page_id', 'updated_at'))
-        attributes = page
-          .attributes.dup.except('id', 'wiki_id', 'created_on', 'parent_id')
-          .merge(content: new_wiki_content)
-
-        new_wiki_page = target.wiki.pages.create attributes
-        wiki_pages_map[page] = new_wiki_page
+        wiki_pages_map[page] = copy_wiki_page(page)
       end
 
       # Save the wiki
@@ -82,6 +73,28 @@ module Projects::Copy
         wiki_pages_map.each do |old_page, new_page|
           copy_attachments(old_page.id, new_page.id, new_page.class.name)
         end
+      end
+    end
+
+    def copy_wiki_page(source_page)
+      # Skip pages without content
+      return if source_page.content.nil?
+
+      # Relying on ActionMailer::Base.perform_deliveries is violating cohesion
+      # but the value is currently not otherwise provided
+      service_call = WikiPages::CopyService
+                     .new(user: User.current, model: source_page)
+                     .call(wiki: target.wiki, send_notifications: ActionMailer::Base.perform_deliveries)
+
+      if service_call.success?
+        service_call.result
+      else
+        add_error!(source_page, service_call.errors)
+        Rails.logger.warn do
+          "Project#copy_wiki_page: wiki_page ##{source_page.id} could not be copied: #{service_call.message}"
+        end
+
+        nil
       end
     end
 

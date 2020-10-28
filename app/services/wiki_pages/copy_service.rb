@@ -63,8 +63,11 @@ class WikiPages::CopyService
       .call(attributes.symbolize_keys)
   end
 
+  # Copy the wiki page attributes together with the wiki page content attributes
   def copied_attributes(override)
-    (model.attributes.merge(model.content.attributes))
+    model
+      .attributes
+      .merge(model.content.attributes)
       .slice(*writable_attributes)
       .merge(override)
   end

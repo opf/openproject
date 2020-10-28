@@ -44,7 +44,7 @@ shared_examples_for 'wiki page contract' do
   let(:page_protected) { false }
   let(:page_parent) { nil }
   let(:page_text) { 'Wiki text' }
-  let(:permissions) { %i[view_wiki edit_wiki_page] }
+  let(:permissions) { %i[view_wiki edit_wiki_pages] }
 
   def expect_valid(valid, symbols = {})
     expect(contract.validate).to eq(valid)
@@ -145,7 +145,7 @@ shared_examples_for 'wiki page contract' do
     end
 
     context 'if the page is protected and the user has permission to protect pages' do
-      let(:permissions) { %i[view_wiki edit_wiki_page protect_wiki_pages] }
+      let(:permissions) { %i[view_wiki edit_wiki_pages protect_wiki_pages] }
       let(:page_protected) { true }
 
       it_behaves_like 'is valid'

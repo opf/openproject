@@ -46,7 +46,7 @@ module WikiPages
     private
 
     def validate_user_edit_allowed
-      if model.project && !user.allowed_to?(:edit_wiki_page, model.project) ||
+      if model.project && !user.allowed_to?(:edit_wiki_pages, model.project) ||
          (model.protected_was && !user.allowed_to?(:protect_wiki_pages))
         errors.add :base, :error_unauthorized
       end
