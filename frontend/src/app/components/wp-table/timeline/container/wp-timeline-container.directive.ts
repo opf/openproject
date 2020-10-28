@@ -153,7 +153,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     });
 
     merge(
-      // Refresh the last collapsed/expanded group cells when its collapsed state changes
+      // Refresh the last collapsed/expanded group header cells when its collapsed state changes
       this.querySpace.collapsedGroups.changes$().pipe(filter(collapsedGroupsChange => collapsedGroupsChange != null)),
       // Refresh all the collapsed group header cells whenever the query changes
       this.querySpace.initialized.values$().pipe(switchMap(() => this.querySpace.tableRendered.values$().pipe(take(1), map(() => false)))),
@@ -165,7 +165,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     )
     .subscribe((change:{[identifier:string]:boolean} | false) => {
       const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
-      const refreshAllGroupHeaderCells = !collapsedGroupsChange;
+      const refreshAllGroupHeaderCells = !change;
 
       this.manageCollapsedGroupHeaderCells(this.querySpace.groups.value!,
                                             collapsedGroupsChange,
