@@ -20,7 +20,9 @@ import {
     public loadAvailable(matching:string):Observable<HalResource[]> {
       let filters = new ApiV3FilterBuilder();
           filters.add('is_milestone', '=', false);
-          filters.add('project', '=', [this.currentProject.id]);
+          if (this.currentProject.id) {
+            filters.add('project', '=', [this.currentProject.id]);
+          }
           if (matching) {
             filters.add('subjectOrId', '**', [matching]);
           }
