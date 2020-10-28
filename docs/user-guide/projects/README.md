@@ -144,7 +144,7 @@ Navigate to the [project settings](project-settings) and click **Set as template
 
 ![image-20200921120538872](image-20200921120538872.png)
 
-### Use a template project
+### Use a project template
 
 You can create a new project by using an existing template. This causes the properties of the project template to be copied to the new project. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject. 
 Another way for using a template project would be to [copy it](#copy-a-project).
@@ -206,7 +206,7 @@ With the **three dots** icon at the right in the list you can open further featu
 
 With the **arrow** you can display the project description.
 
-You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
+You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
 ![edit-columns](image-20201007151542352.png)
 

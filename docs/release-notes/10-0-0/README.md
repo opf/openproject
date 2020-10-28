@@ -228,7 +228,7 @@ You will find useful information in the OpenProject [FAQ]() or you can post your
 
 If you're using the OpenProject Cloud Edition, you are already running on the latest version of OpenProject 10.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
-[Please visit our upgrade guides for more information]().
+[Please visit our upgrade guides for more information](../../installation-and-operations/operation/upgrading).
 
 
 

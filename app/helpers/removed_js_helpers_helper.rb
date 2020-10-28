@@ -42,9 +42,9 @@ module RemovedJsHelpersHelper
 
   ##
   # Execute the callback on click
-  def csp_onclick(callback_str, selector)
+  def csp_onclick(callback_str, selector, prevent_default: true)
     content_for(:additional_js_dom_ready) do
-      "jQuery('#{selector}').click(function() { #{callback_str}; return false; });\n".html_safe
+      "jQuery('#{selector}').click(function() { #{callback_str}; #{prevent_default ? 'return false;' : ''} });\n".html_safe
     end
   end
 end

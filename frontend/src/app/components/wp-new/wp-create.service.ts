@@ -315,7 +315,16 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     let links:string[] = [];
 
     Object.keys(schema.$source).forEach(attribute => {
-      if (!['Integer', 'Float', 'Date', 'DateTime', 'Duration', 'Formattable', 'Boolean', undefined].includes(schema.$source[attribute].type)) {
+      if (!['Integer',
+            'Float',
+            'Date',
+            'DateTime',
+            'Duration',
+            'Formattable',
+            'Boolean',
+            'String',
+            'Text',
+            undefined].includes(schema.$source[attribute].type)) {
         links.push(attribute);
       }
     });

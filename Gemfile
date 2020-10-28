@@ -260,8 +260,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.2'
-
   # Require factory_bot for usage with openproject plugins testing
   gem 'factory_bot', '~> 6.1.0'
   # require factory_bot_rails for convenience in core development
@@ -314,17 +312,11 @@ platforms :mri, :mingw, :x64_mingw do
   gem 'with_advisory_lock', '~> 4.6.0'
 end
 
-group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
-end
+gem 'openproject-translations',
+  git: 'https://github.com/opf/openproject-translations.git',
+  branch: 'dev'
 
-group :docker, optional: true do
-  gem 'passenger', '~> 6.0.1'
-
-  # Used to easily precompile assets
-  gem 'newrelic_rpm', '~> 6.9.0.363', require: !!ENV['HEROKU']
-  gem 'rails_12factor', require: !!ENV['HEROKU']
-end
+gem 'newrelic_rpm', '~> 6.9.0.363'
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',

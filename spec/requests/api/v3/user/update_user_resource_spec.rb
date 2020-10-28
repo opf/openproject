@@ -69,8 +69,8 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'attribute change' do
-    let(:parameters) { { email: 'foo@example.org' } }
-    it_behaves_like 'successful update', mail: 'foo@example.org'
+    let(:parameters) { { email: 'foo@example.org', language: 'de' } }
+    it_behaves_like 'successful update', mail: 'foo@example.org', language: 'de'
   end
 
   describe 'password update' do
