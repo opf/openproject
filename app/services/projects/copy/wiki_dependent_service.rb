@@ -53,30 +53,24 @@ module Projects::Copy
     def copy_wiki_pages(params)
       wiki_pages_map = {}
 
-      source.wiki.pages.find_each do |page|
-        wiki_pages_map[page] = copy_wiki_page(page)
-      end
-
-      # Save the wiki
-      target.wiki.save
-
-      # Reproduce page hierarchy
-      source.project.wiki.pages.each do |page|
-        if page.parent_id && wiki_pages_map[page]
-          wiki_pages_map[page].parent = wiki_pages_map[page.parent]
-          wiki_pages_map[page].save
-        end
+      # Copying top down so that the hierarchy (parent attribute)
+      # can be rewritten along the way.
+      pages_top_down do |page|
+        new_parent = wiki_pages_map[page.parent]
+        wiki_pages_map[page] = copy_wiki_page(page, new_parent)
       end
 
       # Copy attachments
       if should_copy?(params, :wiki_page_attachments)
         wiki_pages_map.each do |old_page, new_page|
+          next unless old_page && new_page
+
           copy_attachments(old_page.id, new_page.id, new_page.class.name)
         end
       end
     end
 
-    def copy_wiki_page(source_page)
+    def copy_wiki_page(source_page, new_parent)
       # Skip pages without content
       return if source_page.content.nil?
 
@@ -84,7 +78,9 @@ module Projects::Copy
       # but the value is currently not otherwise provided
       service_call = WikiPages::CopyService
                      .new(user: User.current, model: source_page, contract_class: WikiPages::CopyContract)
-                     .call(wiki: target.wiki, send_notifications: ActionMailer::Base.perform_deliveries)
+                     .call(wiki: target.wiki,
+                           parent: new_parent,
+                           send_notifications: ActionMailer::Base.perform_deliveries)
 
       if service_call.success?
         service_call.result
@@ -95,6 +91,22 @@ module Projects::Copy
         end
 
         nil
+      end
+    end
+
+    def pages_top_down(&block)
+      id_by_parent = source.wiki.pages.pluck(:parent_id, :id).inject(Hash.new { [] }) { |h, (k, v)| h[k] += [v]; h }
+
+      yield_downwards(id_by_parent, nil, &block)
+    end
+
+    def yield_downwards(map, current, &block)
+      map[current].each do |child_id|
+        child = source.wiki.pages.find(child_id)
+
+        yield child
+
+        yield_downwards(map, child_id, &block)
       end
     end
 
