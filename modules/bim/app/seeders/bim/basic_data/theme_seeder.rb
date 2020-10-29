@@ -30,7 +30,7 @@ module Bim
   module BasicData
     class ThemeSeeder < Seeder
       def seed_data!
-        theme = OpenProject::CustomStyles::ColorThemes.themes.find { |t| t[:theme] == 'OpenProject BIM' }
+        theme = OpenProject::CustomStyles::ColorThemes.themes.find { |t| t[:theme] == OpenProject::CustomStyles::ColorThemes::BIM_THEME_NAME }
 
         ::Design::UpdateDesignService
           .new(theme)

@@ -38,7 +38,7 @@ default:
   smtp_password: <%= ENV['SMTP_PASSWORD'] %>
   smtp_enable_starttls_auto: <%= ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO') { "false" } %>
   smtp_ssl: <%= ENV.fetch('SMTP_SSL') { "false" } %>
-  attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/openproject/files" } %>
+  attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/_APP_NAME_/files" } %>
 <% git_configured = ENV['GIT_REPOSITORIES'].present? %>
 <% svn_configured = ENV['SVN_REPOSITORIES'].present? %>
 <% if git_configured || svn_configured %>

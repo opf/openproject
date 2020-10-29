@@ -95,7 +95,7 @@ module OpenProject::Bim::BcfXml
     def treat_unknown_mails(options)
       if treat_unknown_mails?(options)
         raise StandardError.new 'For inviting new users you need admin privileges.' unless User.current.admin?
-        
+        raise StandardError.new 'Enterprise Edition user limit reached.' unless enterprise_allow_new_users?
 
         aggregations.unknown_mails.each do |mail|
           add_unknown_mail(mail, options)
@@ -185,6 +185,8 @@ module OpenProject::Bim::BcfXml
       zip.select { |entry| entry.name.end_with?('markup.bcf') }
     end
 
-
+    def enterprise_allow_new_users?
+      !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
+    end
   end
 end

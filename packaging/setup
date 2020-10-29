@@ -12,5 +12,5 @@ sed -i "s|config.public_file_server.enabled = false|config.public_file_server.en
 # Specific npmrc used for packaging
 cp -f packaging/.npmrc .npmrc
 
-# replace every occurrence of openproject with the corresponding application name we're packaging
-find packaging/ -type f -print0 | xargs -0 sed -i "s|openproject|${APP_NAME}|"
+# replace every occurrence of _APP_NAME_ with the corresponding application name we're packaging
+find packaging/ -type f -print0 | xargs -0 sed -i "s|_APP_NAME_|${APP_NAME}|"

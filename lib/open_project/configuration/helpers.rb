@@ -55,15 +55,6 @@ module OpenProject
         direct_uploads
       end
 
-      # Augur connect host
-      def enterprise_trial_creation_host
-        #if Rails.env.production?
-        #  self['enterprise_trial_creation_host']
-        #else
-        #  'https://augur.openproject-edge.com'
-        #end
-      end
-
       def file_storage?
         attachments_storage == :file
       end

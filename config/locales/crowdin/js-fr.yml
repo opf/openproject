@@ -274,9 +274,9 @@ fr:
             current_new_feature_html: >
               La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li><b>Planification de haut en bas</b> pour définir toutes les tâches du projet impliquées. Les dates de début et de fin du parent ne sont pas affectées par ses enfants.</li> <li><b>Les planches agiles polyvalentes</b> vous permettent de créer une structure de répartition du travail ou de répartir les tâches entre les sous-projets.</li> <li><b>Modèle de projet</b> pour faciliter la création de nouveaux projets.</li> <li>Configuration de la page des projets permettant de mieux <b>gérer le portefeuille.</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li><b>Planification de haut en bas</b> pour définir toutes les tâches du projet impliquées. Les dates de début et de fin du parent ne sont pas affectées par ses enfants.</li> <li><b>Les planches agiles polyvalentes</b> vous permettent de créer une structure de répartition du travail ou de répartir les tâches entre les sous-projets.</li> <li><b>Modèle de projet</b> pour faciliter la création de nouveaux projets.</li> <li>Configuration de la page des projets permettant de mieux <b>gérer le portefeuille.</b></li> </ul>
+              OpenProject 10.5 prend maintenant en charge le <b>BIM Collaboration Format (BCF)</b> – la norme ouverte de suivi des problèmes pour les modèles BIM.<br><br> <ul class="%{list_styling_class}"> <li>Créez et <b>gérez facilement les problèmes BIM</b> telles que les désaccords, demandes et questions dans le modèle interactif 3D IFC et <b>partager-ler avec l'équipe du projet.</b></li> <li>Intégrez OpenProject à votre logiciel BIM préféré en utilisant la puissante <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importez et exportez des fichiers BCF XML.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"

@@ -612,7 +612,7 @@ it:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "il filtro ha valori non validi."
               format: "%{message}"
         relation:
           typed_dag:

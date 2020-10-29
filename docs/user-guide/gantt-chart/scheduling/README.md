@@ -48,6 +48,7 @@ Changing to the **manual scheduling mode makes sense if**
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Me4cMULZKRM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
+
 ## Changing mode
 
 You can **activate the manual scheduling mode** by clicking on the date of a work package and selecting the box next to "Manual scheduling".

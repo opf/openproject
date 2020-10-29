@@ -31,6 +31,9 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   u = User.find_by_login(user)
   r = Role.find_by(name: role)
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
+
+  next if Member.where(principal: u, project: p).exists?
+
   as_admin do
     Member.new.tap do |m|
       m.principal = u

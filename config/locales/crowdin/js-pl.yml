@@ -274,9 +274,9 @@ pl:
             current_new_feature_html: >
               Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Planowanie hierarchiczne</b> w celu zdefiniowania wszystkich zadań związanych z projektem. Daty rozpoczęcia i zakończenia elementu nadrzędnego nie mają wpływu na jego elementy podrzędne.</li> <li><b>Wszechstronne tablice zwinne</b> pozwalają na utworzenie struktury podziału pracy lub rozdzielanie zadań między podprojekty.</li> <li><b>Szablony projektów</b> ułatwiające tworzenie nowych projektów.</li> <li>Konfiguracja strony projektów umożliwiająca lepsze <b>zarządzanie portfelem projektów</b></li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Planowanie hierarchiczne</b> w celu zdefiniowania wszystkich zadań związanych z projektem. Daty rozpoczęcia i zakończenia elementu nadrzędnego nie mają wpływu na jego elementy podrzędne.</li> <li><b>Wszechstronne tablice zwinne</b> pozwalają na utworzenie struktury podziału pracy lub rozdzielanie zadań między podprojekty.</li> <li><b>Szablony projektów</b> ułatwiające tworzenie nowych projektów.</li> <li>Konfiguracja strony projektów umożliwiająca lepsze <b>zarządzanie portfelem projektów</b></li> </ul>
+              OpenProject 10.5 obsługuje teraz <b>BIM Collaboration Format (BCF)</b> – standard śledzenia otwartych problemów dla modeli BIM.<br><br> <ul class="%{list_styling_class}"> <li>Z łatwością twórz i <b>zarządzaj problemami BIM</b>, takimi jak kolizje, żądania i pytania w interaktywnym modelu 3D IFC i <b>udostępniaj je zespołowi projektowemu.</b></li> <li>Zintegruj OpenProject z ulubionym oprogramowaniem BIM za pomocą wszechstronnego <a target="_blank" href="%{bcf_api_link}">interfejsu API BCF REST.</a></li> <li>Importuj i eksportuj pliki BCF w formacie XML.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
