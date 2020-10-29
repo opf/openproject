@@ -92,15 +92,13 @@ If you want to reset the data you can delete the docker volumes via `docker volu
 
 ## Running tests 
 
-Not all tests are functional within the docker containers yet, so it is recommended to run tests outside of Docker.
-However, you can run tests by executing
-
 ```
-export OPENPROJECT_HOME=`pwd`
-
-./bin/compose up -d
-./bin/compose exec backend-test bundle exec rspec
+./bin/compose run backend-test bundle exec rspec
 ```
+
+Tests are ran within Selenium containers, on a small local Selenium grid. You can connect to the containers via VNC if
+you want to see what the browsers are doing. `gvncviewer` on Linux is a good tool for this. Check out the docker-compose
+file to see which port each browser container is exposed on.
 
 ## Local files
 
