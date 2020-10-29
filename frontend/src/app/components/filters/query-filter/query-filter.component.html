@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="!(fromConfigTable && filter.name==='Parent')">
   <!-- Name -->
   <label for="operators-{{filter.id}}"
          class="advanced-filters--filter-name"

@@ -52,6 +52,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
   @Input() public filters:QueryFilterInstanceResource[];
   @Input() public showCloseFilter:boolean = false;
+  @Input() public fromConfigTable:boolean = false;
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
 

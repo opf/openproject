@@ -24,20 +24,19 @@
     </li>
 
     <li class="advanced-filters--spacer"></li>
-
     <ng-container *ngFor="let filter of filters; trackBy: trackByName ; let index = index">
       <li *ngIf="isFilterAvailable(filter.id)"
           id="filter_{{filter.id}}"
           query-filter
           [shouldFocus]="index == focusElementIndex"
           [filter]="filter"
+          [fromConfigTable]="fromConfigTable"
           (deactivateFilter)="deactivateFilter($event)"
           (filterChanged)="filtersChanged.emit(filters)"
           [hidden]="isHiddenFilter(filter)"
           class="advanced-filters--filter">
       </li>
     </ng-container>
-
     <li class="advanced-filters--spacer" *ngIf="isSecondSpacerVisible"></li>
 
     <li class="advanced-filters--add-filter">

@@ -1,3 +1,5 @@
 <query-filters *ngIf="!!filters"
                (filtersChanged)="filters = $event"
-               [filters]="filters"></query-filters>
+               [filters]="filters"
+               [fromConfigTable]="true"
+               ></query-filters>

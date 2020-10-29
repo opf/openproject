@@ -41,6 +41,7 @@ import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 })
 export class QueryFilterComponent implements OnInit {
   @Input() public shouldFocus:boolean = false;
+  @Input() public fromConfigTable:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterResource>();
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
