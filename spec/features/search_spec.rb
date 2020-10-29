@@ -167,7 +167,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     end
   end
 
-  describe 'work package search' do
+  describe 'search for work packages' do
     context 'search in all projects' do
       let(:params) { [project, { q: query, work_packages: 1 }] }
 
@@ -338,6 +338,29 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         filters.expect_open
         # As the current project (the subproject) has no subprojects, the filter for subprojectId is expected to be unavailable.
         filters.expect_no_filter_by 'subprojectId', 'subprojectId'
+      end
+    end
+  end
+
+  describe 'search for projects' do
+    let!(:searched_for_project) { FactoryBot.create(:project, name: 'Searched for project') }
+    let!(:other_project) { FactoryBot.create(:project, name: 'Other project') }
+
+    context 'globally' do
+      it 'finds the project' do
+        select_autocomplete(page.find('.top-menu-search--input'),
+                            query: "Searched",
+                            select_text: "In all projects ↵")
+
+        within '.global-search--tabs' do
+          click_on 'Projects'
+        end
+
+        expect(page)
+          .to have_link(searched_for_project.name)
+
+        expect(page)
+          .to have_no_link(other_project.name)
       end
     end
   end
