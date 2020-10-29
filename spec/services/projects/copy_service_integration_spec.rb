@@ -45,7 +45,7 @@ describe Projects::CopyService, 'integration', type: :model do
                       member_in_project: source,
                       member_through_role: role)
   end
-  let(:role) { FactoryBot.create :role, permissions: %i[copy_projects view_work_packages edit_wiki_pages] }
+  let(:role) { FactoryBot.create :role, permissions: %i[copy_projects view_work_packages] }
   let(:instance) do
     described_class.new(source: source, user: current_user)
   end

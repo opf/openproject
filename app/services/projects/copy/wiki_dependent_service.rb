@@ -83,7 +83,7 @@ module Projects::Copy
       # Relying on ActionMailer::Base.perform_deliveries is violating cohesion
       # but the value is currently not otherwise provided
       service_call = WikiPages::CopyService
-                     .new(user: User.current, model: source_page)
+                     .new(user: User.current, model: source_page, contract_class: WikiPages::CopyContract)
                      .call(wiki: target.wiki, send_notifications: ActionMailer::Base.perform_deliveries)
 
       if service_call.success?
