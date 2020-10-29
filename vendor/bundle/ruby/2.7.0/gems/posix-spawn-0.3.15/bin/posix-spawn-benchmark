@@ -1,0 +1,117 @@
+#!/usr/bin/env ruby
+#/ Usage: posix-spawn-benchmark [-n <count>] [-m <mem-size>]
+#/ Run posix-spawn (Ruby extension) benchmarks and report to standard output.
+#/
+#/ Options:
+#/   -n, --count=NUM         total number of processes to spawn.
+#/   -m, --mem-size=MB       RES size to bloat to before performing benchmarks.
+#/   -g, --graph             benchmark at 10MB itervals up to RES and graph results.
+#/
+#/ Benchmarks run with -n 1000 -m 100 by default.
+require 'optparse'
+require 'posix-spawn'
+require 'benchmark'
+include Benchmark
+
+allocate   = 100 * (1024 ** 2)
+iterations = 1_000
+graphmode  = false
+ARGV.options do |o|
+  o.set_summary_indent('  ')
+  o.on("-n", "--count=num")   { |val| iterations = val.to_i }
+  o.on("-m", "--mem-size=MB") { |val| allocate   = val.to_i * (1024 ** 2) }
+  o.on("-g", "--graph")       { graphmode = true }
+  o.on_tail("-h", "--help")   { exec "grep ^#/ <'#{__FILE__}' |cut -c4-" }
+  o.parse!
+end
+
+if graphmode
+  bloat = []
+  data  = {}
+  chunk = allocate / 10
+  max   = 0
+
+  10.times do
+    puts "allocating #{chunk / (1024 ** 2)}MB (#{(bloat.size+1) * chunk / (1024 ** 2)}MB total)"
+    bloat << ('x' * chunk)
+    # size = bloat.size / (1024 ** 2)
+
+    %w[ fspawn pspawn ].each do |type|
+      print " - benchmarking #{type}... "
+      time = Benchmark.realtime do
+        iterations.times do
+          pid = POSIX::Spawn.send(type, 'true')
+          Process.wait(pid)
+        end
+      end
+      puts "done (#{time})"
+
+      data[type] ||= []
+      data[type] << time
+      max = time if time > max
+    end
+  end
+
+  max = max < 0.5 ? (max * 10).round / 10.0 : max.ceil
+  minmb, maxmb = chunk/(1024**2), allocate/(1024**2)
+  series = %w[ fspawn pspawn ].map{|name| data[name].map{|d| "%.2f" % d }.join(',') }
+
+  chart = {
+    :chs  => '900x200',
+    :cht  => 'bvg', # grouped vertical bar chart
+    :chtt => "posix-spawn-benchmark --graph --count #{iterations} --mem-size #{maxmb} (#{RUBY_PLATFORM})",
+
+    :chf  => 'bg,s,f8f8f8', # background
+    :chbh => 'a,5,25', # 25px between bar groups
+
+    :chd  => "t:#{series.join('|')}", # data
+    :chds => "0,#{max}", # scale
+    :chdl => 'fspawn (fork+exec)|pspawn (posix_spawn)', # legend
+    :chco => '1f77b4,ff7f0e', # colors
+
+    :chxt => 'x,y',
+    :chxr => "1,0,#{max},#{max/5}", # y labels up to max time
+    :chxs => '1N** secs', # y labels are +=' secs'
+    :chxl => "0:|#{minmb.step(maxmb, maxmb/10).map{ |mb| "#{mb} MB"}.join('|')}", # x bucket labels
+  }
+
+  url  = "https://chart.googleapis.com/chart?"
+  url += chart.map do |key, val|
+    "#{key}=#{val.gsub(' ','%20').gsub('(','%28').gsub(')','%29').gsub('+','%2B')}"
+  end.join('&')
+  url += '#.png'
+
+  puts url
+
+  exit!
+end
+
+puts "benchmarking fork/exec vs. posix_spawn over #{iterations} runs" +
+     " at #{allocate / (1024 ** 2)}M res"
+
+# bloat the process
+bloat = 'x' * allocate
+
+# run the benchmarks
+bm 40 do |x|
+  x.report("fspawn (fork/exec):") do
+    iterations.times do
+      pid = POSIX::Spawn.fspawn('true')
+      Process.wait(pid)
+    end
+  end
+  x.report("pspawn (posix_spawn):") do
+    iterations.times do
+      pid = POSIX::Spawn.pspawn('true')
+      Process.wait(pid)
+    end
+  end
+  if Process.respond_to?(:spawn)
+    x.report("spawn (native):") do
+      iterations.times do
+        pid = Process.spawn('true')
+        Process.wait(pid)
+      end
+    end
+  end
+end

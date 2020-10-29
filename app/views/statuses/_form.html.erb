@@ -43,13 +43,11 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <div class="form--field">
-    <% disabled = !EnterpriseToken.allows_to?(:readonly_work_packages)  %>
+
     <%= f.check_box :is_readonly, disabled: disabled %>
     <div class="form--field-instructions">
       <p><%= t('statuses.edit.status_readonly_html') %></p>
-      <% if disabled %>
-        <p><%= render(partial: 'enterprise/locked_note') %></p>
-      <% end  %>
+
     </div>
   </div>
 

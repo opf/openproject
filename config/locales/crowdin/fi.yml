@@ -210,7 +210,7 @@ fi:
       no_results_content_text: Luo uusi projekti
     settings:
       activities:
-        no_results_title_text: Ei tapahtumia.
+        no_results_title_text: Tällä hetkellä ei ole aktiviteetteja.
       forums:
         no_results_title_text: There are currently no forums for the project.
         no_results_content_text: Create a new forum
@@ -256,10 +256,10 @@ fi:
   statuses:
     edit:
       status_readonly_html: |
-        Valitse tämä valinta, jos haluat merkitä tehtävät tällä tilalla vain luku tilaan.
-        Attribuutteja ei voi muuttaa lukuunottamatta tilaa.
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
         <br/>
-        <strong>Huomautus</strong>: Perittyjä arvoja (esim. alitehtehtäviltä tai riippuvuuksista) sovelletaan.
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -299,7 +299,7 @@ fi:
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
     move:
-      no_common_statuses_exists: "Kaikkien valittujen tehtävien tilaa ei ole saatavilla. Niiden tilaa ei voi muuttaa."
+      no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Massasiirto tai -kopiointi ei ole sallittu eri projektien tehtäville'
     summary:
       reports:
@@ -442,7 +442,7 @@ fi:
       role:
         assignable: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
       time_entry:
-        activity: "Tapahtumat"
+        activity: "Aktiviteetti"
         hours: "Tunnit"
         spent_on: "Päivämäärä"
         type: "Tyyppi"
@@ -457,19 +457,19 @@ fi:
         admin: "Järjestelmänvalvoja"
         auth_source: "Todennustila"
         current_password: "Nykyinen salasana"
-        force_password_change: "Pakota salasanan vaihto seuraavan kirjautumisen yhteydessä"
+        force_password_change: "Pakota salasanan vaihto seuraavan sisäänkirjautumisen yhteydessä"
         language: "Kieli"
         last_login_on: "Edellinen kirjautuminen"
         mail_notification: "Sähköposti-ilmoitukset"
         new_password: "Uusi salasana"
         password_confirmation: "Vahvistus"
-        consented_at: "Hyväksytty"
+        consented_at: "Consented at"
       user_preference:
         comments_sorting: "Näytä kommentit"
         hide_mail: "Piiloita sähköpostiosoite"
         impaired: "Helppokäyttötoimintojen tila"
         time_zone: "Aikavyöhyke"
-        auto_hide_popups: "Piilota ilmoitukset onnistuneista toiminnoista"
+        auto_hide_popups: "Piilota automaattisesti ilmoitukset onnistuneista toiminnoista"
         warn_on_leaving_unsaved: "Varoita tallentamattomista muutoksista"
       version:
         effective_date: "Päättymispäivä"
@@ -550,7 +550,7 @@ fi:
         taken: "on jo käytössä."
         too_long: "on liian pitkä (maksimi on %{count} merkkiä)."
         too_short: "on liian lyhyt (minimi on %{count} merkkiä)."
-        unchangeable: "ei voi muuttaa."
+        unchangeable: "cannot be changed."
         unremovable: "cannot be removed."
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
@@ -824,7 +824,7 @@ fi:
   button_create: "Uusi"
   button_create_and_continue: "Luo ja jatka"
   button_delete: "Poista"
-  button_decline: "Hylkää"
+  button_decline: "Decline"
   button_delete_watcher: "Poista seuraaja %{name}"
   button_download: "Lataa"
   button_duplicate: "Luo kopio"
@@ -867,17 +867,17 @@ fi:
   button_configure_menu_entry: "Muokkaa valikkovaihtoehtoa"
   button_delete_menu_entry: "Poista valikkovaihtoehto"
   consent:
-    checkbox_label: Olen lukenut ja ymmärtänyt yllä olevan suostumuksen ja hyväksyn sen ehdot.
-    failure_message: Suostumuksen antaminen epäonnistui, ei voida jatkaa.
-    title: Käyttäjän suostumus
-    decline_warning_message: Et hyväksynyt ehtoja ja sinut on kirjattu ulos järjestelmästä.
-    user_has_consented: Käyttäjä on antanut suostumuksen konfiguroituun ilmoitukseen ilmoitettuna ajankohtana.
-    not_yet_consented: Käyttäjä ei ole vielä antanut suostumusta, pyydetään seuraavan kirjautumisen yhteydessä.
-    contact_mail_instructions: Määritä sähköpostiosoite, jonka käyttäjät voivat tavoittaa rekisterinpitäjän suorittamaan tietojen muutos- tai poistopyyntöjä.
-    contact_your_administrator: Ota yhteyttä järjestelmänvalvojaan mikäli haluat että tilisi poistetaan.
-    contact_this_mail_address: Ota yhteyttä %{mail_address} mikäli haluat että tilisi poistetaan.
-    text_update_consent_time: Valitse tämä ruutu pakottaaksesi käyttäjät hyväksymään suostumus uudelleen. Ota käyttöön kun olet muuttanut yllä olevia ehtoja.
-    update_consent_last_time: "Suostumuksen viimeisin päivitys: %{update_time}"
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
     started: "Projektin \"%{source_project_name}\" kopiointi uudeksi projektiksi \"%{target_project_name}\" alkoi. Sinulle ilmoitetaan sähköpostitse, kun \"%{target_project_name}\" on saatavilla."
     failed: "Ei voi kopioida projektia %{source_project_name}"
@@ -1069,7 +1069,7 @@ fi:
   description_select_work_package: "Select work package"
   description_selected_columns: "Valitut sarakkeet"
   description_sub_work_package: "Osa työstä paketti nykyinen"
-  description_toc_toggle: "Näytä/piilota sisällysluettelo"
+  description_toc_toggle: "Show/Hide table of contents"
   description_wiki_subpages_reassign: "Valitse uusi pääsivun"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
@@ -1081,7 +1081,7 @@ fi:
         rename_groups: "Rename attributes groups"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Ajanseurannan tapahtumat"
+  enumeration_activities: "Työajanseurannan aktiviteetit"
   enumeration_work_package_priorities: "Work package priorities"
   enumeration_reported_project_statuses: "Reported project status"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
@@ -1220,7 +1220,7 @@ fi:
   label_active: "Aktiivinen"
   label_activate_user: 'Activate user'
   label_active_in_new_projects: "Active in new projects"
-  label_activity: "Tapahtumat"
+  label_activity: "Aktiviteetti"
   label_add_edit_translations: "Lisää ja muokkaa käännöksiä"
   label_add_another_file: "Lisää uusi tiedosto"
   label_add_columns: "Lisää valitut sarakkeet"
@@ -1280,7 +1280,7 @@ fi:
   label_calendar: "Kalenteri"
   label_calendar_show: "Näytä kalenteri"
   label_category: "Kategoria"
-  label_consent_settings: "Käyttäjän suostumus"
+  label_consent_settings: "User Consent"
   label_wiki_menu_item: Wiki-valikkovaihtoehto
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
   label_select_project: "Valitse projekti"
@@ -1362,7 +1362,7 @@ fi:
   label_enable_multi_select: "Vaihda monivalinta"
   label_enabled_project_custom_fields: 'Käytössä olevat mukautetut kentät'
   label_enabled_project_modules: 'Käytössä olevat moduulit'
-  label_enabled_project_activities: 'Käytössä olevat työajanseurannan tapahtumat'
+  label_enabled_project_activities: 'Käytössä olevat työajanseurannan aktiviteetit'
   label_end_to_end: "lopusta loppuun"
   label_end_to_start: "lopusta alkuun"
   label_enumeration_new: "Uusi arvo"
@@ -1373,7 +1373,7 @@ fi:
   label_enterprise_edition: "Yritysversio"
   label_environment: "Ympäristö"
   label_estimates_and_time: "Arviot ja ajankäyttö"
-  label_equals: "on"
+  label_equals: "sama kuin"
   label_everywhere: "everywhere"
   label_example: "Esimerkki"
   label_import: "Import"
@@ -1510,7 +1510,7 @@ fi:
   label_none: "ei mitään"
   label_none_parentheses: "(none)"
   label_not_contains: "ei sisällä"
-  label_not_equals: "ei ole"
+  label_not_equals: "eri kuin"
   label_notify_member_plural: "Lähetä päivitykset sähköpostilla"
   label_on: "päälle"
   label_open_menu: "Avaa valikko"
@@ -1572,7 +1572,7 @@ fi:
   label_register: "Rekisteröidy"
   label_register_with_developer: "Rekisteröidy kehittäjänä"
   label_registered_on: "Rekisteröitynyt"
-  label_registration_activation_by_email: "tilin aktivointi sähköpostilla"
+  label_registration_activation_by_email: "tilin aktivointi sähköpostitse"
   label_registration_automatic_activation: "automaattinen tilin aktivointi"
   label_registration_manual_activation: "manuaalinen tilin aktivointi"
   label_related_work_packages: "Tehtävän riippuvuudet"
@@ -1642,7 +1642,7 @@ fi:
   label_summary: "Yhteenveto"
   label_system: "Järjestelmä"
   label_system_storage: "Tallennustila"
-  label_table_of_contents: "Sisällysluettelo"
+  label_table_of_contents: "Table of contents"
   label_tag: "Tunniste"
   label_text: "Pitkä merkkijono"
   label_this_month: "tässä kuussa"
@@ -1697,7 +1697,7 @@ fi:
   label_wiki_content_added: "Wiki-sivu lisätty"
   label_wiki_content_updated: "Wiki-sivu päivitetty"
   label_wiki_toc: "Sisällysluettelo"
-  label_wiki_toc_empty: "Sisältötaulukko on tyhjä, koska otsikkoja ei ole."
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Älä näytä tätä Wiki-sivua projektin navigoinnissa"
   label_wiki_edit: "Wikin muokkaus"
   label_wiki_edit_plural: "Wikin muokkaukset"
@@ -1715,7 +1715,7 @@ fi:
   label_work_package_added: "Tehtävä lisätty"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Uusi luokka"
-  label_work_package_category_plural: "Kategoriat"
+  label_work_package_category_plural: "Tehtäväluokat"
   label_work_package_hierarchy: "Tehtävähierarkia"
   label_work_package_new: "Uusi tehtävä"
   label_work_package_note_added: "Kommentti lisätty tehtävään"
@@ -1775,26 +1775,26 @@ fi:
   mail:
     actions: 'Toiminnot'
   mail_body_account_activation_request: "Uusi käyttäjä (%{value}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
-  mail_body_account_information: "Kirjautumistiedot"
+  mail_body_account_information: "Sinun tilin tiedot"
   mail_body_account_information_external: "Voit nyt käyttää %{value} tiliäsi kirjautuaksesi järjestelmään."
   mail_body_lost_password: "Vaihtaaksesi salasanasi, napsauta seuraavaa linkkiä:"
-  mail_body_register: "Ole hyvä ja aktivoi tilisi alla olevalla linkillä:"
-  mail_body_register_header_title: "Kutsu projektin jäseneksi"
-  mail_body_register_user: "Hyvä %{name},"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
     If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "OpenProject tiimisi"
-  mail_body_register_ending: "Ystävällisin terveisin,"
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "'%{id}' wiki-sivu on lisätty %{author}."
   mail_body_wiki_content_updated: "'%{id}' wiki-sivu on päivitetty %{author}."
-  mail_subject_account_activation_request: "%{value} käyttäjätiedot"
+  mail_subject_account_activation_request: "%{value} tilin aktivointipyyntö"
   mail_subject_lost_password: "Sinun %{value} salasanasi"
-  mail_subject_register: "%{value} käyttäjätiedot"
+  mail_subject_register: "%{value} tilin aktivointi"
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
   mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
@@ -1842,7 +1842,7 @@ fi:
   notice_failed_to_save_members: "Jäsentä tai jäseniä ei voitu tallentaa: %{errors}."
   notice_file_not_found: "Hakemaasi sivua ei löytynyt tai se on poistettu."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
-  notice_internal_server_error: "Tapahtui virhe. Jos ongelma jatkuu, ota yhteys %{app_title} ylläpitoon."
+  notice_internal_server_error: "On tapahtunut virhe sivu jota yritit käyttää. Jos sinulla on edelleen ongelmia ota yhteyttä %{app_title} hallintomies sillä apua."
   notice_work_package_done_ratios_updated: "Work package done ratios updated."
   notice_locking_conflict: "Vähintään yksi muu käyttäjä on päivitetty tiedot sillä välin."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
@@ -1865,7 +1865,7 @@ fi:
   notice_successful_update: "Päivitys onnistui."
   notice_to_many_principals_to_display: "On liian paljon tuloksia.\nRajata hakua kirjoittamalla nimi uuden jäsenen (tai ryhmä)."
   notice_user_missing_authentication_method: Käyttäjä on vielä valita salasana tai toinen tapa kirjautua sisään.
-  notice_user_invitation_resent: Kutsu lähetetty %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
@@ -1981,12 +1981,12 @@ fi:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
       use_template: 'Use template'
-      make_template: 'Aseta malliksi'
+      make_template: 'Set as template'
       remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Oletko varma, että haluat arkistoida projektin \"%{name}\"?"
       archived: "Archived"
-  project_module_activity: "Tapahtumat"
+  project_module_activity: "Aktiviteetti"
   project_module_forums: "Keskustelupalstat"
   project_module_calendar: "Kalenteri"
   project_module_work_package_tracking: "Tehtävien seuranta"
@@ -2144,10 +2144,10 @@ fi:
   setting_commit_logtime_activity_id: "Tapahtuma kirjatulle ajalle"
   setting_commit_logtime_enabled: "Mahdollista ajan kirjaaminen"
   setting_commit_ref_keywords: "Viittaavat hakusanat"
-  setting_consent_time: "Suostumuksen aika"
-  setting_consent_info: "Suostumuksen teksti"
-  setting_consent_required: "Suostumus vaaditaan"
-  setting_consent_decline_mail: "Suostumukseen liittyvien lisätietojen sähköpostiosoite"
+  setting_consent_time: "Consent time"
+  setting_consent_info: "Consent information text"
+  setting_consent_required: "Consent required"
+  setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Salli projektien väliset tehtävien riippuvuudet"
   setting_date_format: "Päivän muoto"
   setting_default_language: "Vakiokieli"
@@ -2158,7 +2158,7 @@ fi:
   setting_display_subprojects_work_packages: "Oletuksena näytä aliprojektien tehtävät pääprojektissa"
   setting_emails_footer: "Sähköpostin alatunniste"
   setting_emails_header: "Sähköpostit otsikko"
-  setting_email_login: "Käytä sähköpostiosoitetta kirjautumiseen"
+  setting_email_login: "Use email as login"
   setting_enabled_scm: "Käytössäoleva versionhallinta"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Ota syötteet käyttöön"
@@ -2174,7 +2174,7 @@ fi:
   setting_work_package_properties: "Tehtävän ominaisuudet"
   setting_work_package_startdate_is_adddate: "Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä"
   setting_work_packages_export_limit: "Tehtävien viennin enimmäismäärä"
-  setting_journal_aggregation_time_minutes: "Yhdistä peräkkäiset tapahtumat seuraavan ajan sisällä"
+  setting_journal_aggregation_time_minutes: "Yhdistele aktiviteettiuutiset yhdeksi jos ne tapahtuvat tämän ajan sisään"
   setting_log_requesting_user: "Kirjaa lokiin käyttäjien kirjautumiset, nimet ja sähköpostiosoitteet kaikista pyynnöistä"
   setting_login_required: "Pakollinen kirjautuminen"
   setting_mail_from: "Lähettäjän sähköpostiosoite"
@@ -2187,7 +2187,7 @@ fi:
   setting_password_count_former_banned: "Numero viimeksi käytetyt salasanat kielletty sillä uudelleenkäyttö"
   setting_password_days_valid: "Maksimiaika, jonka jälkeen salasana täytyy vaihtaa"
   setting_password_min_length: "Vähimmäispituus"
-  setting_password_min_adhered_rules: "Luokkien vähimmäismäärä"
+  setting_password_min_adhered_rules: "Minimum number of required classes"
   setting_per_page_options: "Sivun objektien määrän asetukset"
   setting_plain_text_mail: "vain muotoilematonta tekstiä (ei HTML)"
   setting_protocol: "Protokolla"
@@ -2210,10 +2210,10 @@ fi:
   setting_session_ttl: "Istunnon vanhentumisaika jälkeen toimettomuus"
   setting_session_ttl_hint: "Arvo alle 5 toimii kuten käytöstä"
   setting_session_ttl_enabled: "Istunto päättyy"
-  setting_start_of_week: "Viikko alkaa"
+  setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Salli WS tietovaraston hallintaan"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Ajan esitysmuoto"
+  setting_time_format: "Aikakormaatti"
   setting_accessibility_mode_for_anonymous: "Ota helppokäyttötila anonyymeille käyttäjille"
   setting_user_format: "Käyttäjien esitysmuoto"
   setting_user_default_timezone: "Users default time zone"
@@ -2228,9 +2228,9 @@ fi:
   settings:
     general: "Yleinen"
     other: "Muut"
-    passwords: "Salasana"
-    session: "Istunto"
-    brute_force_prevention: "Automaattinen käyttäjän estäminen"
+    passwords: "Passwords"
+    session: "Session"
+    brute_force_prevention: "Automated user blocking"
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2258,7 +2258,7 @@ fi:
       sentence_connector: "and"
       skip_last_comma: "false"
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
-  text_access_token_hint: "API-salasanojen avulla voit sallia integraatioiden pääsyn OpenProject rajapintoihin."
+  text_access_token_hint: "Käyttövaltuuksien avulla voit tuoda ulkoisia sovelluksia pääsyn resursseja sisään OpenProject."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Oletko varma?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
@@ -2310,7 +2310,7 @@ fi:
   text_journal_changed: "%{label} päivitetty arvosta %{old} <br/><strong>arvoon</strong> %{new}"
   text_journal_changed_plain: "%{label} päivitetty arvosta %{old} \narvoon %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
-  text_journal_changed_with_diff: "%{label} muutettu (%{link})"
+  text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} poistettu (%{old})"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_set_to: "%{label} muutettu %{value}"
@@ -2343,7 +2343,7 @@ fi:
   text_tip_work_package_begin_day: "toimia paketti alusta tähän päivään"
   text_tip_work_package_begin_end_day: "toimia paketti alkaa ja päättyy tähän päivään"
   text_tip_work_package_end_day: "work package ending this day"
-  text_type_no_workflow: "Ei työnkulkua määritetty tälle tyypille"
+  text_type_no_workflow: "Ei työnkulun määritetty tämä tyyppi"
   text_unallowed_characters: "Kiellettyjä merkkejä"
   text_user_invited: Käyttäjä on kutsuttu ja on vireillä rekisteröinti.
   text_user_wrote: "%{value} kirjoitti:"
@@ -2521,9 +2521,9 @@ fi:
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >
-    Oletus aikavyöhyke uusille käyttäjille. Voidaan muuttaa käyttäjän asetuksista.
+    The default time zone for new users. Can be changed in a user's settings.
   tooltip_resend_invitation: >
-    Lähettää toisen kutsusähköpostin tuoreella tunnisteella, jos vanha sähköpostiosoite on vanhentunut tai käyttäjä ei saanut alkuperäistä sähköpostia. Voidaan myös käyttää aktiivisille käyttäjille uuden todennusmenetelmän valitsemiseen. Aktiivisten käyttäjien kanssa käytettynä heidän tilansa muutetaan 'kutsuksi'.
+    Sends another invitation email with a fresh token in case the old one expired or the user did not get the original email. Can also be used for active users to choose a new authentication method. When used with active users their status will be changed to 'invited'.
   tooltip:
     setting_email_login: >
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
@@ -2543,7 +2543,7 @@ fi:
     authentication_settings_disabled_due_to_external_authentication: >
       Tämä käyttäjä autentikoi kautta ulkoisen autentikointi perheenhuoltaja, joten ei ole salasana OpenProject olla muutettu.
     authorization_rejected: "You are not allowed to sign in."
-    assign_random_password: "Satunnainen salasana (lähetetään sähköpostilla käyttäjälle)"
+    assign_random_password: "Assign random password (sent to user via email)"
     blocked: "locked temporarily"
     blocked_num_failed_logins:
       one: "locked temporarily (one failed login attempt)"
@@ -2562,16 +2562,16 @@ fi:
     settings:
       mail_notifications: "Sähköposti-ilmoitukset"
       mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
-      mail_self_notified: "Ilmoitukset omista muutoksista"
+      mail_self_notified: "Haluan ilmoituksen muutoksista jotka teen itse"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
-    text_change_disabled_for_provider_login: "Nimi on määritetty kirjautumispalveluntarjoajallasi, joten sitä ei voi muuttaa."
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Poista lukitus"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "suljettu"
   version_status_locked: "lukittu"
   version_status_open: "avoin"
-  note: Huomautus
+  note: Note
   note_password_login_disabled: "Password login has been disabled by %{configuration}."
   warning: Warning
   warning_attachments_not_saved: "%{count} tiedostoa ei voitu tallentaa."
@@ -2619,7 +2619,7 @@ fi:
       code_401: "Kirjaudu käyttääksesi tätä resurssia."
       code_401_wrong_credentials: "Et ole antanut oikeita käyttäjätietoja."
       code_403: "Sinulla ei ole oikeutta käyttää tätä resurssia."
-      code_404: "Sivua ei löydy"
+      code_404: "The requested resource could not be found."
       code_409: "Could not update the resource because of conflicting modifications."
       code_500: "An internal error has occured."
       expected:

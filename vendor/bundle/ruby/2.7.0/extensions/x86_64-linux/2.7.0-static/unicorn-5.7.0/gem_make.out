@@ -1,0 +1,33 @@
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/unicorn-5.7.0/ext/unicorn_http
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/bin/ruby -I /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib/ruby/2.7.0 -r ./siteconf20201012-1502-1n4f2oh.rb extconf.rb
+checking for SIZEOF_OFF_T in ruby.h... yes
+checking for SIZEOF_SIZE_T in ruby.h... yes
+checking for SIZEOF_LONG in ruby.h... yes
+checking for rb_str_set_len() in ruby.h... yes
+checking for rb_hash_clear() in ruby.h... yes
+checking for gmtime_r() in time.h... yes
+checking if String#-@ (str_uminus) dedupes... yes
+checking if Hash#[]= (rb_hash_aset) dedupes... yes
+creating Makefile
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/unicorn-5.7.0/ext/unicorn_http
+make "DESTDIR=" clean
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/unicorn-5.7.0/ext/unicorn_http
+make "DESTDIR="
+compiling httpdate.c
+compiling unicorn_http.c
+unicorn_http.c:340:18: warning: ‘http_parser_en_main’ defined but not used [-Wunused-const-variable=]
+ static const int http_parser_en_main = 1;
+                  ^~~~~~~~~~~~~~~~~~~
+unicorn_http.c:338:18: warning: ‘http_parser_en_ChunkedBody_chunk_chunk_end’ defined but not used [-Wunused-const-variable=]
+ static const int http_parser_en_ChunkedBody_chunk_chunk_end = 105;
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+linking shared-object unicorn_http.so
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/unicorn-5.7.0/ext/unicorn_http
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 unicorn_http.so ./.gem.20201012-1502-k3kkdf

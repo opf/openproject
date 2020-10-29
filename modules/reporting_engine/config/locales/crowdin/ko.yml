@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ko:
+  description_drill_down: "세부 정보 표시"
+  label_click_to_edit: "편집하려면 클릭하세요."
+  label_columns: "컬럼"
+  label_count: "카운트"
+  label_filter: "필터"
+  label_filter_add: "필터 추가"
+  label_filter_plural: "필터"
+  label_greater: ">"
+  label_group_by: "그룹화 기준"
+  label_group_by_add: "그룹화 기준 특성 추가"
+  label_inactive: "«비활성»"
+  label_less: "<"
+  label_no: "아니요"
+  label_none: "(데이터 없음)"
+  label_progress_bar_explanation: "보고서 생성 중..."
+  label_really_delete_question: "이 보고서를 삭제하시겠습니까?"
+  label_report: "보고서"
+  label_rows: "행"
+  label_saving: "저장 중..."
+  label_sum: "합계"
+  label_yes: "예"
+  load_query_question: "보고서에는 %{size}개 테이블 셀이 있고 렌더링하는 데 시간이 걸릴 수 있습니다. 렌더링하시겠습니까?"
+  units: "단위"
+  validation_failure_date: "은(는) 유효한 날짜가 아닙니다."
+  validation_failure_integer: "은(는) 유효한 정수가 아닙니다."
+  reporting:
+    group_by:
+      selected_columns: "선택된 열"
+      selected_rows: "선택된 행"

@@ -1,0 +1,40 @@
+#! /usr/bin/ruby
+
+require 'optparse'
+require 'ole/storage'
+
+def oletool
+	opts = {:verbose => false, :action => :tree}
+	op = OptionParser.new do |op|
+		op.banner = "Usage: oletool [options] [files]"
+		op.separator ''
+		op.on('-t', '--tree', 'Dump ole trees for files (default)') { opts[:action] = :tree }
+		op.on('-r', '--repack', 'Repack the ole files in canonical form') { opts[:action] = :repack }
+		op.on('-m', '--mimetype', 'Print the guessed mime types') { opts[:action] = :mimetype }
+		op.on('-y', '--metadata', 'Dump the internal meta data as YAML') { opts[:action] = :metadata }
+		op.separator ''
+		op.on('-v', '--[no-]verbose', 'Run verbosely') { |v| opts[:verbose] = v }
+		op.on_tail('-h', '--help', 'Show this message') { puts op; exit }
+	end
+	files = op.parse ARGV
+	if files.empty?
+		puts 'Must specify 1 or more msg files.'
+		puts op
+		exit 1
+	end
+	Ole::Log.level = opts[:verbose] ? Logger::WARN : Logger::FATAL
+	files.each do |file|
+		case opts[:action]
+		when :tree
+			Ole::Storage.open(file) { |ole| puts ole.root.to_tree }
+		when :repack
+			Ole::Storage.open file, 'rb+', &:repack
+		when :metadata
+			Ole::Storage.open(file) { |ole| y ole.meta_data.to_h }
+		when :mimetype
+			puts Ole::Storage.open(file) { |ole| ole.meta_data.mime_type }
+		end
+	end
+end
+
+oletool

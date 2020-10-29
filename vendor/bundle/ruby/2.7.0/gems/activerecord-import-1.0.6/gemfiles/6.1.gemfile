@@ -1,0 +1,1 @@
+gem 'activerecord', '~> 6.1.0.alpha', github: "rails/rails"

@@ -1,0 +1,10 @@
+zh-CN:
+  grape:
+    errors:
+      format: ! '%{attributes}%{message}'
+      attributes:
+        age: 年龄
+      messages:
+        coerce: '格式不正确'
+        presence: '请填写'
+        regexp: '格式不正确'

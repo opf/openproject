@@ -76,18 +76,9 @@
   &.-collapsed
     display: none
 
-// Add margin (row's height) to the timeline on split view
-// to compensate the 'wpTableSumsRow' row that the work
-// packages table has. If not, when scrolling down the last
-// rows are misaligned.
-.wp-table-timeline--body
-  margin-bottom: var(--table-timeline--row-height)
-
-// Add an extra margin (row's height) to the timeline when the
-// wpInlineCreate row is shown in work packages table. If not, when
-// scrolling down the last rows are misaligned.
+// Add margin to timeline when inline-create link is showing in table
 .wp-table-timeline--body.-inline-create-mirror
-  margin-bottom: calc(var(--table-timeline--row-height) * 2)
+  margin-bottom: var(--table-timeline--row-height)
 
 .children-duration-bar
   position: absolute

@@ -1,0 +1,12 @@
+# Sample localization file for Afrikaans. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale for starting points.
+af:
+  errors:
+    messages:
+      not_a_date: "is nie 'n datum nie"
+      date_after: "moet na %{date} wees"
+      date_after_or_equal_to: "moet na of op %{date} wees"
+      date_before: "moet voor %{date} wees"
+      date_before_or_equal_to: "moet voor of op %{date} wees"
+      date_equal_to: "moet gelyk aan %{date} wees"
+      cannot_be_in_the_future: "kan nie in die toekoms wees nie"

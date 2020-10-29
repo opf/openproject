@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+fi:
+  description_drill_down: "Näytä tiedot"
+  label_click_to_edit: "Muokkaa napsauttamalla tätä."
+  label_columns: "Sarakkeet"
+  label_count: "Määrä"
+  label_filter: "Suodata"
+  label_filter_add: "Lisää suodatin"
+  label_filter_plural: "Suodattimet"
+  label_greater: ">"
+  label_group_by: "Ryhmittely"
+  label_group_by_add: "Lisää ryhmittely-valinta"
+  label_inactive: "«passiivinen»"
+  label_less: "<"
+  label_no: "Ei"
+  label_none: "(ei tietoja)"
+  label_progress_bar_explanation: "Luodaan raporttia..."
+  label_really_delete_question: "Haluat varmasti poistaa tämän raportin?"
+  label_report: "Raportti"
+  label_rows: "Rivit"
+  label_saving: "Tallennetaan..."
+  label_sum: "Yhteensä"
+  label_yes: "Kyllä"
+  load_query_question: "Raportissa tulee olemaan %{size} solua ja sen luominen voi kentää jonkin aikaa. Haluatko silti kokeilla sen luomista?"
+  units: "Yksiköt"
+  validation_failure_date: "ei ole kelvollinen päivämäärä"
+  validation_failure_integer: "ei ole kelvollinen kokonaisluku"
+  reporting:
+    group_by:
+      selected_columns: "Valitut sarakkeet"
+      selected_rows: "Valitut rivit"

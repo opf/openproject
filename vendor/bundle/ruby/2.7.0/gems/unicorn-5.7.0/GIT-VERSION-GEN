@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+DEF_VER = "v5.7.0"
+CONSTANT = "Unicorn::Const::UNICORN_VERSION"
+RVF = "lib/unicorn/version.rb"
+GVF = "GIT-VERSION-FILE"
+vn = DEF_VER
+
+# First see if there is a version file (included in release tarballs),
+# then try git-describe, then default.
+if File.exist?(".git")
+  describe = `git describe --abbrev=4 HEAD 2>/dev/null`.strip
+  case describe
+  when /\Av[0-9]*/
+    vn = describe
+    system(*%w(git update-index -q --refresh))
+    unless `git diff-index --name-only HEAD --`.chomp.empty?
+      vn << "-dirty"
+    end
+    vn.tr!('-', '.')
+  end
+end
+
+vn = vn.sub!(/\Av/, "")
+
+# generate the Ruby constant
+new_ruby_version = "#{CONSTANT} = '#{vn}'\n"
+cur_ruby_version = File.read(RVF) rescue nil
+if new_ruby_version != cur_ruby_version
+  File.open(RVF, "w") { |fp| fp.write(new_ruby_version) }
+end
+
+# generate the makefile snippet
+new_make_version = "GIT_VERSION = #{vn}\n"
+cur_make_version = File.read(GVF) rescue nil
+if new_make_version != cur_make_version
+  File.open(GVF, "w") { |fp| fp.write(new_make_version) }
+end
+
+puts vn if $0 == __FILE__

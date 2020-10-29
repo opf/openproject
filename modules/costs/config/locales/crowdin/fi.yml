@@ -130,7 +130,7 @@ fi:
   permission_view_own_cost_entries: "Omien kustannuskirjausten tarkasteleminen"
   permission_view_own_hourly_rate: "Oman tuntinnan tarkasteleminen"
   permission_view_own_time_entries: "Oman aikakirjauksen tarkistelu"
-  project_module_costs: "Työaika ja kustannukset"
+  project_module_costs: "Työaika ja kulut"
   text_assign_time_and_cost_entries_to_project: "Raportoitujen tunti- ja kustannuskirjausten liittäminen projektiin"
   text_destroy_cost_entries_question: "%{cost_entries} on raportoitu projektille, jota olet poistamassa. Mitä haluat tehdä?"
   text_destroy_time_and_cost_entries: "Poista raportoidut tunnit ja kustannukset"

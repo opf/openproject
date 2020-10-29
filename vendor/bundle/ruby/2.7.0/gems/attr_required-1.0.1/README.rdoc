@@ -1,0 +1,81 @@
+= attr_required
+
+This gem provide <code>attr_required</code> and <code>attr_optional</code> like <code>attr_accessor</code>.
+
+{<img src="https://secure.travis-ci.org/nov/attr_required.png" />}[http://travis-ci.org/nov/attr_required]
+
+REQUIRED and OPTIONAL are common terminology in RFCs, and used for protocol parameters.
+This gem helps RFC library developers to define which parameters (attributes in Ruby world) are REQUIRED and which are OPTIONAL.
+It might be also helpful for other developers.
+
+I've developed this gem to use for rack-oauth2, a Rack-based OAuth 2.0 library.
+http://github.com/nov/rack-oauth2
+
+== Installation
+
+  gem install attr_required
+
+== Usage
+
+# Attributes Definitions
+
+  require 'attr_required'
+  require 'attr_optional'
+
+  class A
+    include AttrRequired, AttrOptional
+    attr_required :required_a
+    attr_optional :optional_a
+  end
+
+  class B < A
+    attr_required :required_b
+    attr_optional :optional_b
+  end
+
+# Class Methods
+
+  A.required_attributes #=> [:required_a]
+  B.required_attributes #=> [:required_a, :required_b]
+  A.optional_attributes #=> [:optional_a]
+  B.optional_attributes #=> [:optional_a, :optional_b]
+
+  A.attr_required?(:required_a) #=> true
+  B.attr_optional?(:optional_b) #=> true
+
+# Instance Methods
+
+  @a = A.new
+  @b = B.new
+
+  @a.required_attributes #=> [:required_a]
+  @b.required_attributes #=> [:required_a, :required_b]
+  @a.optional_attributes #=> [:optional_a]
+  @b.optional_attributes #=> [:optional_a, :optional_b]
+
+  @a.attr_required?(:required_a) #=> true
+  @a.attr_optional?(:optiona_a)  #=> true
+
+  @a.attr_missing? #=> true
+  @a.attr_missing  #=> [:required_a]
+  @a.attr_missing! #=> raise AttrRequired::AttrMissing
+  @a.required_a = "foo"
+  @a.attr_missing? #=> false
+  @a.attr_missing  #=> []
+  @a.attr_missing! #=> do nothing
+
+Check spec/attr_(required|optional).rb for more details.
+
+== Note on Patches/Pull Requests
+
+* Fork the project.
+* Make your feature addition or bug fix.
+* Add tests for it. This is important so I don't break it in a
+  future version unintentionally.
+* Commit, do not mess with rakefile, version, or history.
+  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+* Send me a pull request. Bonus points for topic branches.
+
+== Copyright
+
+Copyright (c) 2010 nov matake. See LICENSE for details.

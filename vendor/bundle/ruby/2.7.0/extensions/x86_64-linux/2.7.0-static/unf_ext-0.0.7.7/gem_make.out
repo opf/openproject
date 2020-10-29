@@ -1,0 +1,16 @@
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/bin/ruby -I /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib/ruby/2.7.0 -r ./siteconf20201012-1502-1ah8pqm.rb extconf.rb
+checking for -lstdc++... yes
+creating Makefile
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR=" clean
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR="
+compiling unf.cc
+linking shared-object unf_ext.so
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/unf_ext-0.0.7.7/ext/unf_ext
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 unf_ext.so ./.gem.20201012-1502-1n3b5sz

@@ -1,0 +1,183 @@
+<%= javascript_include_tag 'js.cookie-1.5.1.min' %>
+
+<%#
+    We're defining all this Javascript here as we are using URL helpers in it which
+    won't work in a .js.erb file without cheating.
+ %>
+
+<script type="text/javascript">
+    Cookies.json = true;
+
+    window.parent.OpenIDConnect = new function() {
+        var self = this;
+        var locallyLoggedIn = <%= logged_in %>;
+
+        this.clientId = "<%= LobbyBoy.provider.client_id %>";
+        this.targetOrigin = "<%= LobbyBoy.provider.issuer %>";
+        this.loggedIn = (window.parent.OpenIDConnect && window.parent.OpenIDConnect.loggedIn)
+                          || locallyLoggedIn;
+        this.timerIntervalMs = <%= LobbyBoy.client.refresh_interval %> * 1000;
+
+        this.getIFrame = function(id) {
+            return window.parent.document.getElementById(id).contentWindow;
+        }
+
+        this.checkSession = function() {
+            if (document.hidden === true) {
+              return; // don't check session if window/tab is inactive
+            }
+
+            var provider = self.getIFrame("openid_connect_provider");
+
+            var message = function(state) {
+                return self.clientId + " " + state;
+            };
+
+            /**
+             * Checking the state has two possible outcomes depending on the user's
+             * global login state. Either the user is logged in in which case
+             * their ID token is refreshed, or they aren't in which case they
+             * are logged out of the application and notified about the logout.
+             */
+            var checkState = function(state) {
+                provider.postMessage(message(state), self.targetOrigin);
+            };
+
+            var state = Cookies.get("oidc_rp_state");
+            var time = new Date().getTime() / 1000;
+            var offset = <%= LobbyBoy.client.refresh_offset %>;
+
+            if (state || locallyLoggedIn) {
+                self.loggedIn = true;
+                var expire = state && (state.expires_at - time <= offset);
+
+                if (state && !expire) {
+                    checkState(state.state);
+                } else if (expire || (!state && locallyLoggedIn)) {
+                    /**
+                     * This branch is executed in two cases:
+                     *
+                     * 1) The state cookie is not set but the user is logged into the application
+                     *
+                     *    This can happen if the previous state cookie expired but the user's normal
+                     *    application session hasn't. At this point we don't know the user's
+                     *    global login status. Hence we force a re-authentication to sync the state.
+                     *
+                     * 2) The state is set but is about to expire.
+                     *
+                     *    We prematurely 'expire' the session state to ensure that the user
+                     *    remains logged in constantly. Otherwise it could happen that the
+                     *    user is logged out briefly between the time the old ID token expired
+                     *    and the time it takes to re-authenticate.
+                     */
+                    checkState("refresh.please");
+                }
+            } else {
+                // not logged in
+            }
+        };
+
+        this.startTimer = function() {
+            if (self.timerID) {
+                self.stopTimer(); // stop previous timer if present
+            }
+
+            self.timerID = setInterval(self.checkSession, self.timerIntervalMs);
+        };
+
+        this.stopTimer = function() {
+            clearInterval(self.timerID);
+            self.timerID = undefined;
+        };
+
+        this.reauthenticate = function() {
+            console.log("I ought to re-authenticate");
+
+            var check_session_iframe = self.getIFrame("openid_connect_relying_party");
+
+            check_session_iframe.document.location.href = "<%= session_refresh_url %>";
+        };
+
+        this.onReauthenticationSuccess = function() {
+            console.log("Re-authenticated successfully.");
+
+            /**
+             * The login status will only be updated with the next call of checkSession
+             * which is why it may still be false at this point.
+             *
+             * If it is false it means the user may be seeing a sign-in button in the menu.
+             * So reload the page to have them see that they are now logged in.
+             */
+            if (self.loggedIn === false) {
+                self.onLogin();
+            }
+        };
+
+        this.onReauthenticationFailure = function() {
+            if (self.loggedIn !== false) {
+                self.loggedIn = false;
+                self.logout();
+            }
+        };
+
+        this.onLogin = function() {
+            <% if LobbyBoy.client.on_login_js_partial %>
+                <%= render partial: LobbyBoy.client.on_login_js_partial, formats: [:js] %>
+            <% else %>
+                console.log("User has logged in at OP.");
+            <% end %>
+        };
+
+        this.onLogout = function() {
+            <% if LobbyBoy.client.on_logout_js_partial %>
+                <%= render partial: LobbyBoy.client.on_logout_js_partial, formats: [:js] %>
+            <% else %>
+                alert("You've been logged out.");
+            <% end %>
+        };
+
+        this.logout = function(callback) {
+            console.log("I ought to log out.");
+
+            var check_session_iframe = self.getIFrame("openid_connect_relying_party");
+
+            check_session_iframe.document.location.href = "<%= session_end_url %>";
+        };
+
+        this.receiveMessage = function(e) {
+            if (e.origin !== self.targetOrigin ) {
+                return;
+            }
+
+            self.state = e.data;
+
+            if (self.state == "changed") {
+                self.reauthenticate();
+            } else if (self.state == "error") {
+                console.log("error checking session state");
+            }
+        };
+
+        window.addEventListener("message", self.receiveMessage, false);
+
+        <% if state == 'authenticated' %>
+            self.onReauthenticationSuccess();
+        <% elsif state == 'unauthenticated' %>
+            self.onReauthenticationFailure();
+        <% elsif state == 'logout' %>
+            self.onLogout();
+        <% else %>
+            document.addEventListener("DOMContentLoaded", function(event) {
+              setTimeout(self.checkSession, 1000);
+            });
+
+            window.addEventListener('load', function () {
+              window.addEventListener('focus', self.checkSession);
+              window.addEventListener('focus', self.startTimer);
+              window.addEventListener('blur', self.stopTimer);
+            });
+        <% end %>
+
+        self.startTimer();
+    };
+</script>

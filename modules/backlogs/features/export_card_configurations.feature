@@ -67,7 +67,8 @@ Feature: Export sprint stories as PDF on the Backlogs view
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
     And the type "Story" has the default workflow for the role "team member"
-    And there is a default issuepriority
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the project has the following stories in the following sprints:
         | subject | sprint     | story_points |
         | Story A | Sprint 001 | 10           |

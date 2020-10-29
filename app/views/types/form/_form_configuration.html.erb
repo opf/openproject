@@ -41,37 +41,7 @@ See docs/COPYRIGHT.rdoc for more details.
           </div>
         </div>
 
-        <% if EnterpriseToken.show_banners? %>
-          <div class="notification-box upsale-notification">
-            <div class="notification-box--content">
-              <h3><%= t('admin.enterprise.upgrade_to_ee') %></h3>
-              <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
 
-              <p><%= t('ee.upsale.form_configuration.description') %></p>
-
-              <ul class="">
-                <li>
-                  <%= t('ee.upsale.form_configuration.add_groups') %>
-                </li>
-                <li>
-                  <%= t('ee.upsale.form_configuration.rename_groups') %>
-                </li>
-              </ul>
-              <p>
-                <br/>
-                <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
-              </p>
-              <%= link_to("#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration",
-                          { class: 'button -alt-highlight',
-                            aria: { label: t('admin.enterprise.order') },
-                            target: '_blank',
-                            title: t('admin.enterprise.order') }) do %>
-                <%= op_icon('button--icon icon-add') %>
-                <span class="button--text"><%= t('admin.enterprise.order') %></span>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
         <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
         <%= f.hidden_field :attribute_groups, value: '', class: 'admin-type-form--hidden-field'  %>
         <%= content_tag('admin-type-form-configuration',

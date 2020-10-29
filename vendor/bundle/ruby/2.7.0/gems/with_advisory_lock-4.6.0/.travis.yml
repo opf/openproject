@@ -1,0 +1,38 @@
+language: ruby
+
+services:
+  - postgresql
+  - mysql
+
+addons:
+  postgresql: "10"
+
+rvm:
+  - 2.6.4
+  - 2.5.6
+  - 2.4.7
+
+gemfile:
+  - gemfiles/activerecord_6.0.gemfile
+  - gemfiles/activerecord_5.2.gemfile
+  - gemfiles/activerecord_5.1.gemfile
+  - gemfiles/activerecord_5.0.gemfile
+  - gemfiles/activerecord_4.2.gemfile
+
+env:
+  global:
+    - WITH_ADVISORY_LOCK_PREFIX=$TRAVIS_JOB_ID
+  matrix:
+    - DB=postgresql
+    - DB=mysql MYSQL_VERSION=5.7
+    - DB=sqlite
+matrix:
+  exclude:
+    - rvm: 2.4.7
+      gemfile: gemfiles/activerecord_6.0.gemfile
+
+before_install:
+  - mysql -e 'create database with_advisory_lock_test'
+  - psql -c 'create database with_advisory_lock_test' -U postgres
+
+script: bundle exec rake --trace

@@ -1,0 +1,9 @@
+ca:
+  errors:
+    messages:
+      not_a_date: "no és una data"
+      date_after: "ha de ser posterior a %{date}"
+      date_after_or_equal_to: "ha de ser posterior o igual a %{date}"
+      date_before: "ha de ser abans de %{date}"
+      date_before_or_equal_to: "ha de ser abans de o igual a %{date}"
+      date_equal_to: "ha de ser igual a %{date}"

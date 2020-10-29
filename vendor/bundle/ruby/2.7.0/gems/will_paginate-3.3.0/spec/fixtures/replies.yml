@@ -1,0 +1,29 @@
+witty_retort:
+  id: 1
+  topic_id: 1
+  content: Birdman is better!
+  created_at: <%= 6.hours.ago.utc.to_s(:db) %>
+  
+another:
+  id: 2
+  topic_id: 2
+  content: Nuh uh!
+  created_at: <%= 1.hour.ago.utc.to_s(:db) %>
+  
+spam:
+  id: 3
+  topic_id: 1
+  content: Nice site!
+  created_at: <%= 1.hour.ago.utc.to_s(:db) %>
+
+decisive:
+  id: 4
+  topic_id: 4
+  content: "I'm getting to the bottom of this"
+  created_at: <%= 30.minutes.ago.utc.to_s(:db) %>
+
+brave:
+  id: 5
+  topic_id: 4
+  content: "AR doesn't scare me a bit"
+  created_at: <%= 10.minutes.ago.utc.to_s(:db) %>

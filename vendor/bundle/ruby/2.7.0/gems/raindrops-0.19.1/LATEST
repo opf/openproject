@@ -1,0 +1,14 @@
+=== raindrops 0.19.1 / 2020-01-08 09:31 UTC
+
+  This release fixes some warnings on newer Rubies.
+
+  We're no longer on bogomips.org since it's due
+  for expiry and I can't pay extortionists for a .org, so
+  s/bogomips.org/yhbt.net/ for now, and be prepared to move again
+  when extortionists move onto extorting the .net TLD.
+
+        doc: switch homepage to dark216
+        ext/raindrops/extconf: fix cflags reset on ancient CC
+        fixes for newer rubies
+        replace bogomips.org with yhbt.net
+

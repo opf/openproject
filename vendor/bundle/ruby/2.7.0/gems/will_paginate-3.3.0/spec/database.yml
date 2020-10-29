@@ -1,0 +1,29 @@
+sqlite3:
+  database: ":memory:"
+  adapter: sqlite3
+  timeout: 500
+
+mysql: &mysql
+  adapter: mysql
+  database: will_paginate
+  username: root
+  encoding: utf8
+<% if File.exist?("/var/run/mysql5/mysqld.sock") %>
+  host: localhost
+  socket: /var/run/mysql5/mysqld.sock
+<% elsif File.exist? "/tmp/mysql.sock" %>
+  host: localhost
+  socket: /tmp/mysql.sock
+<% else %>
+  host: 127.0.0.1
+<% end %>
+
+mysql2:
+  <<: *mysql
+  adapter: mysql2
+
+postgres:
+  adapter: postgresql
+  database: will_paginate
+  username: <%= "postgres" if ENV["TRAVIS"] %>
+  min_messages: warning

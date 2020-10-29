@@ -1,0 +1,5 @@
+These tests require the "unicorn" executable script to be installed in
+PATH and rack being directly "require"-able ("rubygems" will not be
+loaded for you).  The tester is responsible for setting up RUBYLIB and
+PATH environment variables (or running tests via GNU Make instead of
+Rake).

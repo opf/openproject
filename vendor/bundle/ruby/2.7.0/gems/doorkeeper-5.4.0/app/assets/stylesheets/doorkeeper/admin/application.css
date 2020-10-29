@@ -1,0 +1,10 @@
+/*
+ *= require doorkeeper/bootstrap.min
+ *
+ *= require_self
+ *= require_tree .
+*/
+
+.doorkeeper-admin .form-group > .field_with_errors {
+  width: 16.66667%;
+}

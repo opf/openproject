@@ -1,0 +1,78 @@
+= WebFinger
+
+An Ruby WebFinger client library.
+
+{<img src="https://secure.travis-ci.org/nov/webfinger.png" />}[http://travis-ci.org/nov/webfinger]
+
+Following the latest WebFinger spec discussed at IETF WebFinger WG.
+http://tools.ietf.org/html/draft-ietf-appsawg-webfinger
+
+If you found something different from the latest spec, open an issue please.
+
+== Installation
+
+Add this line to your application's Gemfile:
+
+  gem 'webfinger'
+
+And then execute:
+
+  $ bundle
+
+Or install it yourself as:
+
+  $ gem install webfinger
+
+== Usage
+
+=== Basic
+
+You can discover resource metadata.
+
+  WebFinger.discover! 'acct:nov@connect-op.heroku.com'
+  WebFinger.discover! 'connect-op.heroku.com'
+  WebFinger.discover! 'http://connect-op.heroku.com'
+
+You can also specify link relations via "rel" option.
+
+  WebFinger.discover! 'acct:nov@connect-op.heroku.com', rel: 'http://openid.net/specs/connect/1.0/issuer'
+  WebFinger.discover! 'acct:nov@connect-op.heroku.com', rel: ['http://openid.net/specs/connect/1.0/issuer', 'vcard']
+
+=== Caching
+
+Caching is important in HTTP-based discovery.
+
+If you set your own cache object to <code>WebFinger.cache</code>, this gem caches the discovery result until it expires.
+(the expiry is calculated based on the "expires" value in JRD response)
+
+  # Set Cache
+  WebFinger.cache = Rails.cache
+
+  WebFinger.discover! 'acct:nov@connect-op.heroku.com' # do HTTP request
+  WebFinger.discover! 'acct:nov@connect-op.heroku.com' # use cache, no HTTP request
+
+=== Debugging
+
+Once you turn-on debugging, you can see all HTTP request/response in your log.
+
+  # Turn on debugging
+  WebFinger.debug!
+
+  # Set logger (OPTIONAL, ::Logger.new(STDOUT) is used as default)
+  WebFinger.logger = Rails.logger
+
+You can also specify URL builder to force non-HTTPS access. (NOTE: allow non-HTTPS access only for debugging, not on your production.)
+
+  WebFinger.url_builder = URI::HTTP # default URI::HTTPS
+
+== Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+== Copyright
+
+Copyright (c) 2012 nov matake. See LICENSE for details.

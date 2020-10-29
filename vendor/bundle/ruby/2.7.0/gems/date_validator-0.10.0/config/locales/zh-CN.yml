@@ -1,0 +1,9 @@
+zh-CN:
+  errors:
+    messages:
+      not_a_date: "不是一个日期"
+      after: "必须晚于 %{date}"
+      after_or_equal_to: "必须早于或等于 %{date}"
+      before: "必须早于 %{date}"
+      before_or_equal_to: "必须晚于或等于 %{date}"
+      equal_to: "必须等于 %{date}"

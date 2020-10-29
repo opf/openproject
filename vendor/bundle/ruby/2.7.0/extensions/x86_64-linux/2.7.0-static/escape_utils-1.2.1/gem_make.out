@@ -1,0 +1,32 @@
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/escape_utils-1.2.1/ext/escape_utils
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/bin/ruby -I /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib/ruby/2.7.0 -r ./siteconf20201012-1502-1l6e0y7.rb extconf.rb
+creating Makefile
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/escape_utils-1.2.1/ext/escape_utils
+make "DESTDIR=" clean
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/escape_utils-1.2.1/ext/escape_utils
+make "DESTDIR="
+compiling buffer.c
+buffer.c: In function ‘gh_buf_vprintf’:
+buffer.c:159:3: warning: function ‘gh_buf_vprintf’ might be a candidate for ‘gnu_printf’ format attribute [-Wsuggest-attribute=format]
+   );
+   ^
+buffer.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling escape_utils.c
+compiling houdini_href_e.c
+compiling houdini_html_e.c
+compiling houdini_html_u.c
+compiling houdini_js_e.c
+compiling houdini_js_u.c
+compiling houdini_uri_e.c
+compiling houdini_uri_u.c
+compiling houdini_xml_e.c
+linking shared-object escape_utils/escape_utils.so
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/escape_utils-1.2.1/ext/escape_utils
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 escape_utils.so ./.gem.20201012-1502-1st8hvb/escape_utils

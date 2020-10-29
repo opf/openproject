@@ -1,0 +1,20 @@
+language: ruby
+rvm:
+  - 2.5.0
+  - 2.4.3
+  - 2.3
+  - 2.2
+  - 2.1
+  - 2.0.0
+  - 1.9.3
+  - jruby-19mode
+env:
+  - "RAILS_VERSION=4.2"
+  - "RAILS_VERSION=5.0"
+matrix:
+  fast_finish: true
+  exclude:
+    - rvm: 2.1.10
+      env: "RAILS_VERSION=5.0"
+    - rvm: 2.4.0
+      env: "RAILS_VERSION=4.2"

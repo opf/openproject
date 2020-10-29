@@ -22,7 +22,7 @@
 ja:
   button_save_as: "名前を付けてレポートの保存"
   comments: "コメント"
-  cost_reports_title: "時間とコスト"
+  cost_reports_title: "Time and costs"
   label_cost_report: "コストレポート"
   label_cost_report_plural: "コストレポート"
   description_drill_down: "詳細を表示"

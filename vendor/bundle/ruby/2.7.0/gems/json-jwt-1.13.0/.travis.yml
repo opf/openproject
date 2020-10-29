@@ -1,0 +1,11 @@
+before_install:
+  - gem install bundler
+  - git submodule update --init --recursive
+
+rvm:
+  - 2.5.8
+  - 2.6.6
+  - 2.7.1
+
+jdk:
+  - openjdk11

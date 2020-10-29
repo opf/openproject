@@ -1,0 +1,39 @@
+# Send builds to container-based infrastructure
+# http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+language: ruby
+cache:
+  bundler: true
+  yarn: true
+  directories:
+  - node_modules
+rvm:
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
+  - ruby-head
+before_install:
+# Needed to test JS
+- yarn install
+gemfile:
+  - gemfiles/i18n_0_6.gemfile
+  - gemfiles/i18n_0_7.gemfile
+  - gemfiles/i18n_0_8.gemfile
+  - gemfiles/i18n_0_9.gemfile
+  - gemfiles/i18n_1_0.gemfile
+  - gemfiles/i18n_1_1.gemfile
+  - gemfiles/i18n_1_2.gemfile
+  - gemfiles/i18n_1_3.gemfile
+  - gemfiles/i18n_1_4.gemfile
+  - gemfiles/i18n_1_5.gemfile
+  - gemfiles/i18n_1_6.gemfile
+  - gemfiles/i18n_1_7.gemfile
+  - gemfiles/i18n_1_8.gemfile
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: ruby-head
+notifications:
+  webhooks: https://www.travisbuddy.com/?insertMode=update

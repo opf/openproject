@@ -1,0 +1,77 @@
+# NOTE: Some translation keys make use of matches from regular expressions
+# to manipulate whitespace and order. Please consult the source code for
+# Stringex::Localization::ConversionExpressions to see what those
+# regular expressions look like if you need to manipulate the order
+# differently than the usage below.
+de:
+  stringex:
+    characters:
+      and: und
+      at: um
+      divide: geteilt durch
+      degrees: Grad
+      dot: \1 Punkt \2
+      ellipsis: Punkt Punkt Punkt
+      equals: gleich
+      number: Nummer
+      percent: Prozent
+      plus: plus
+      slash: Strich
+      star: Stern
+    currencies:
+      generic: \1 Euro
+      dollars: \1 Dollar
+      dollars_cents: \1 Dollar \2 Cent
+      pounds: \1 Pfund
+      pounds_pence: \1 Pfund \2 Pence
+      euros: \1 Euro
+      euros_cents: \1 Euro \2 Cent
+      yen: \1 Yen
+      reais: \1 Reais
+      reais_cents: \1 Reais \2 Cent
+    html_entities:
+      amp: und
+      cent: " Cent"
+      copy: (C)
+      deg: " Grad "
+      divide: " geteilt durch "
+      double_quote: '"'
+      ellipsis: "..."
+      en_dash: "-"
+      em_dash: "--"
+      frac14: ein Viertel
+      frac12: halbe(r)
+      frac34: drei Viertel
+      gt: ">"
+      lt: <
+      nbsp: " "
+      pound: " Pfund "
+      reg: (R)
+      single_quote: "'"
+      times: x
+      trade: (TM)
+      yen: " Yen "
+    vulgar_fractions:
+      half: halbe(r)
+      one_third: ein Drittel
+      two_thirds: zwei Drittel
+      one_fourth: ein Viertel
+      three_fourths: drei Viertel
+      one_fifth: ein Fünftel
+      two_fifths: zwei Fünftel
+      three_fifths: drei Fünftel
+      four_fifths: vier Fünftel
+      one_sixth: ein Sechstel
+      five_sixths: fünf Sechstel
+      one_eighth: ein Achtel
+      three_eighths: drei Achtel
+      five_eighths: fünf Achtel
+      seven_eighths: sieben Achtel
+    transliterations:
+      Ä: AE
+      Ö: OE
+      Ü: UE
+      ß: ss
+      ä: ae
+      ö: oe
+      ü: ue

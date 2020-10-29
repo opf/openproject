@@ -1,0 +1,13 @@
+---
+cgit_url: https://yhbt.net/raindrops.git/
+rdoc_url: https://yhbt.net/raindrops/
+public_email: raindrops-public@yhbt.net
+ml_url:
+- https://yhbt.net/raindrops-public/
+- http://ou63pmih66umazou.onion/raindrops-public
+nntp_url:
+- nntp://news.public-inbox.org/inbox.comp.lang.ruby.raindrops
+- nntp://ou63pmih66umazou.onion/inbox.comp.lang.ruby.raindrops
+source_code:
+- git clone https://yhbt.net/raindrops.git
+- torsocks git clone http://ou63pmih66umazou.onion/raindrops.git

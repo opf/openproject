@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+id:
+  description_drill_down: "Lihat detail"
+  label_click_to_edit: "Klik untuk mengubah."
+  label_columns: "Kolom"
+  label_count: "Count"
+  label_filter: "Filter"
+  label_filter_add: "Add Filter"
+  label_filter_plural: "Filter"
+  label_greater: ">"
+  label_group_by: "Pengelompokan"
+  label_group_by_add: "Add Group-by Attribute"
+  label_inactive: "«inactive»"
+  label_less: "<"
+  label_no: "No"
+  label_none: "(no data)"
+  label_progress_bar_explanation: "Membuat laporan..."
+  label_really_delete_question: "Laporan akan dihapus, anda yakin?"
+  label_report: "Laporan"
+  label_rows: "Baris"
+  label_saving: "Menyimpan ..."
+  label_sum: "Total"
+  label_yes: "Yes"
+  load_query_question: "Proses laporan memiliki %{size} cell dan akan memakan waktu yang relatif lama. Apakah anda ingin melanjutkan?"
+  units: "Unit"
+  validation_failure_date: "validasi tanggal gagal"
+  validation_failure_integer: "validasi bilangan bulat gagal"
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

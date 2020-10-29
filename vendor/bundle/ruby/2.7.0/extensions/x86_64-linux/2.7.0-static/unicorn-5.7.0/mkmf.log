@@ -1,0 +1,137 @@
+have_macro: checking for SIZEOF_OFF_T in ruby.h... -------------------- yes
+
+"gcc -o conftest -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/x86_64-linux -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/backward -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0 -I.    -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable conftest.c  -L. -L/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -Wl,-rpath,/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -L. -fstack-protector-strong -rdynamic -Wl,-export-dynamic     -Wl,-rpath,/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -lruby-static -lz -lpthread -lrt -lrt -lgmp -ldl -lcrypt -lm   -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+"gcc -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/x86_64-linux -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/backward -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0 -I.    -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: /*top*/
+5: #ifndef SIZEOF_OFF_T
+6: # error
+7: |:/ === SIZEOF_OFF_T undefined === /:|
+8: #endif
+/* end */
+
+--------------------
+
+have_macro: checking for SIZEOF_SIZE_T in ruby.h... -------------------- yes
+
+"gcc -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/x86_64-linux -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/backward -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0 -I.    -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: /*top*/
+5: #ifndef SIZEOF_SIZE_T
+6: # error
+7: |:/ === SIZEOF_SIZE_T undefined === /:|
+8: #endif
+/* end */
+
+--------------------
+
+have_macro: checking for SIZEOF_LONG in ruby.h... -------------------- yes
+
+"gcc -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/x86_64-linux -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/backward -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0 -I.    -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: /*top*/
+5: #ifndef SIZEOF_LONG
+6: # error
+7: |:/ === SIZEOF_LONG undefined === /:|
+8: #endif
+/* end */
+
+--------------------
+
+have_func: checking for rb_str_set_len() in ruby.h... -------------------- yes
+
+"gcc -o conftest -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/x86_64-linux -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/backward -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0 -I.    -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable conftest.c  -L. -L/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -Wl,-rpath,/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -L. -fstack-protector-strong -rdynamic -Wl,-export-dynamic     -Wl,-rpath,/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -lruby-static -lz -lpthread -lrt -lrt -lgmp -ldl -lcrypt -lm   -lm   -lc"
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <ruby.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int main(int argc, char **argv)
+ 8: {
+ 9:   if (argc > 1000000) {
+10:     int (* volatile tp)(void)=(int (*)(void))&t;
+11:     printf("%d", (*tp)());
+12:   }
+13: 
+14:   return !!argv[argc];
+15: }
+16: int t(void) { void ((*volatile p)()); p = (void ((*)()))rb_str_set_len; return !p; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_hash_clear() in ruby.h... -------------------- yes
+
+"gcc -o conftest -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/x86_64-linux -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/backward -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0 -I.    -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable conftest.c  -L. -L/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -Wl,-rpath,/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -L. -fstack-protector-strong -rdynamic -Wl,-export-dynamic     -Wl,-rpath,/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -lruby-static -lz -lpthread -lrt -lrt -lgmp -ldl -lcrypt -lm   -lm   -lc"
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <ruby.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int main(int argc, char **argv)
+ 8: {
+ 9:   if (argc > 1000000) {
+10:     int (* volatile tp)(void)=(int (*)(void))&t;
+11:     printf("%d", (*tp)());
+12:   }
+13: 
+14:   return !!argv[argc];
+15: }
+16: int t(void) { void ((*volatile p)()); p = (void ((*)()))rb_hash_clear; return !p; }
+/* end */
+
+--------------------
+
+have_func: checking for gmtime_r() in time.h... -------------------- yes
+
+"gcc -o conftest -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/x86_64-linux -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/backward -I/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0 -I.    -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable conftest.c  -L. -L/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -Wl,-rpath,/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -L. -fstack-protector-strong -rdynamic -Wl,-export-dynamic     -Wl,-rpath,/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib -lruby-static -lz -lpthread -lrt -lrt -lgmp -ldl -lcrypt -lm   -lm   -lc"
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <time.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int main(int argc, char **argv)
+ 8: {
+ 9:   if (argc > 1000000) {
+10:     int (* volatile tp)(void)=(int (*)(void))&t;
+11:     printf("%d", (*tp)());
+12:   }
+13: 
+14:   return !!argv[argc];
+15: }
+16: int t(void) { void ((*volatile p)()); p = (void ((*)()))gmtime_r; return !p; }
+/* end */
+
+--------------------
+

@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.24.0'
+gem 'rouge', '~> 3.23.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 5.1.0'
+gem 'browser', '~> 4.2.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -159,7 +159,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'i18n-js', '~> 3.8.0'
+gem 'i18n-js', '~> 3.7.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -175,9 +175,9 @@ gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.107'
+gem 'aws-sdk-core', '~> 3.105.0'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.80'
+gem 'aws-sdk-s3', '~> 1.80.0'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -236,8 +236,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 4.4', require: nil
 
-  # For unknown reasons, parallel_tests 3.3 fails on travis.
-  gem 'parallel_tests', '~> 3.1', '< 3.3.0'
+  gem 'parallel_tests', '~> 3.1'
 end
 
 group :ldap do
@@ -261,6 +260,8 @@ group :development do
 end
 
 group :development, :test do
+  gem 'thin', '~> 1.7.2'
+
   # Require factory_bot for usage with openproject plugins testing
   gem 'factory_bot', '~> 6.1.0'
   # require factory_bot_rails for convenience in core development
@@ -278,17 +279,20 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 8.2.0'
+  gem 'danger', '~> 8.0.5'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.10.0'
+  gem 'brakeman', '~> 4.9.0'
   gem 'danger-brakeman'
 end
 
 gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
-gem 'grape', '~> 1.5.0'
+# Grape 1.4.0 has a bug which requires us to wait until 1.4.1 is released.
+# https://github.com/ruby-grape/grape/pull/2088
+# In 1.4.0, the Cache-Control will always be set to no-cache when sending a file.
+gem 'grape', '~> 1.3.0'
 gem 'roar', '~> 1.1.0'
 
 # CORS for API
@@ -303,18 +307,24 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.5.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.4.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
   gem 'with_advisory_lock', '~> 4.6.0'
 end
 
-gem 'openproject-translations',
-  git: 'https://github.com/opf/openproject-translations.git',
-  branch: 'dev'
+group :opf_plugins do
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
+end
 
-gem 'newrelic_rpm'
+group :docker, optional: true do
+  gem 'passenger', '~> 6.0.1'
+
+  # Used to easily precompile assets
+  gem 'newrelic_rpm', '~> 6.9.0.363', require: !!ENV['HEROKU']
+  gem 'rails_12factor', require: !!ENV['HEROKU']
+end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',

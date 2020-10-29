@@ -75,11 +75,20 @@ module Bim::Bcf::API::V2_1
             raise NotImplementedError, 'Bitmaps are not yet implemented.'
           end
 
-          namespace :snapshot, &::API::Helpers::AttachmentRenderer.content_endpoint(&-> {
-            snapshot = @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid]).snapshot
+          namespace :snapshot do
+            helpers ::API::Helpers::AttachmentRenderer
 
-            snapshot || raise(ActiveRecord::RecordNotFound)
-          })
+            get do
+              viewpoint = @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid])
+              if snapshot = viewpoint.snapshot
+                # Cache that value at max 604799 seconds, which is the max
+                # allowed expiry time for AWS generated links
+                respond_with_attachment snapshot, cache_seconds: 604799
+              else
+                raise ActiveRecord::RecordNotFound
+              end
+            end
+          end
         end
       end
     end

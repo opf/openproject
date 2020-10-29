@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+# -*- encoding: binary -*-
+# this is to remain compatible with the unused_port function in the
+# Unicorn test/test_helper.rb file
+require 'socket'
+require 'tmpdir'
+
+default_port = 8080
+addr = ENV['UNICORN_TEST_ADDR'] || '127.0.0.1'
+retries = 100
+base = 5000
+port = sock = lock_path = nil
+
+begin
+  begin
+    port = base + rand(32768 - base)
+    while port == default_port
+      port = base + rand(32768 - base)
+    end
+
+    sock = Socket.new(Socket::AF_INET, Socket::SOCK_STREAM, 0)
+    sock.bind(Socket.pack_sockaddr_in(port, addr))
+    sock.listen(5)
+  rescue Errno::EADDRINUSE, Errno::EACCES
+    sock.close rescue nil
+    retry if (retries -= 1) >= 0
+  end
+
+  # since we'll end up closing the random port we just got, there's a race
+  # condition could allow the random port we just chose to reselect itself
+  # when running tests in parallel with gmake.  Create a lock file while
+  # we have the port here to ensure that does not happen.
+  lock_path = "#{Dir::tmpdir}/unicorn_test.#{addr}:#{port}.lock"
+  lock = File.open(lock_path, File::WRONLY|File::CREAT|File::EXCL, 0600)
+rescue Errno::EEXIST
+  sock.close rescue nil
+  retry
+end
+sock.close rescue nil
+puts %Q(listen=#{addr}:#{port} T_RM_LIST="$T_RM_LIST #{lock_path}")

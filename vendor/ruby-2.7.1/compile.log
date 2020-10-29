@@ -1,0 +1,2053 @@
+-> [ruby] -> Building ruby 2.7.1...
+-> [ruby]   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-> [ruby]                                  Dload  Upload   Total   Spent    Left  Speed
+-> [ruby]   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 16.0M  100 16.0M    0     0  28.4M      0 --:--:-- --:--:-- --:--:-- 28.4M
+-> [ruby] -> [libyaml] -> Building libyaml 0.1.7...
+-> [ruby] -> [libyaml] /tmp/tmp.rY1Uo9sqBx /app
+-> [ruby] -> [libyaml] checking for a BSD-compatible install... /usr/bin/install -c
+-> [ruby] -> [libyaml] checking whether build environment is sane... yes
+-> [ruby] -> [libyaml] checking for a thread-safe mkdir -p... /bin/mkdir -p
+-> [ruby] -> [libyaml] checking for gawk... no
+-> [ruby] -> [libyaml] checking for mawk... mawk
+-> [ruby] -> [libyaml] checking whether make sets $(MAKE)... yes
+-> [ruby] -> [libyaml] checking whether make supports nested variables... yes
+-> [ruby] -> [libyaml] checking for gcc... gcc
+-> [ruby] -> [libyaml] checking whether the C compiler works... yes
+-> [ruby] -> [libyaml] checking for C compiler default output file name... a.out
+-> [ruby] -> [libyaml] checking for suffix of executables... 
+-> [ruby] -> [libyaml] checking whether we are cross compiling... no
+-> [ruby] -> [libyaml] checking for suffix of object files... o
+-> [ruby] -> [libyaml] checking whether we are using the GNU C compiler... yes
+-> [ruby] -> [libyaml] checking whether gcc accepts -g... yes
+-> [ruby] -> [libyaml] checking for gcc option to accept ISO C89... none needed
+-> [ruby] -> [libyaml] checking whether gcc understands -c and -o together... yes
+-> [ruby] -> [libyaml] checking for style of include used by make... GNU
+-> [ruby] -> [libyaml] checking dependency style of gcc... gcc3
+-> [ruby] -> [libyaml] checking how to run the C preprocessor... gcc -E
+-> [ruby] -> [libyaml] checking whether ln -s works... yes
+-> [ruby] -> [libyaml] checking whether make sets $(MAKE)... (cached) yes
+-> [ruby] -> [libyaml] checking build system type... x86_64-unknown-linux-gnu
+-> [ruby] -> [libyaml] checking host system type... x86_64-unknown-linux-gnu
+-> [ruby] -> [libyaml] checking how to print strings... printf
+-> [ruby] -> [libyaml] checking for a sed that does not truncate output... /bin/sed
+-> [ruby] -> [libyaml] checking for grep that handles long lines and -e... /bin/grep
+-> [ruby] -> [libyaml] checking for egrep... /bin/grep -E
+-> [ruby] -> [libyaml] checking for fgrep... /bin/grep -F
+-> [ruby] -> [libyaml] checking for ld used by gcc... /usr/bin/ld
+-> [ruby] -> [libyaml] checking if the linker (/usr/bin/ld) is GNU ld... yes
+-> [ruby] -> [libyaml] checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+-> [ruby] -> [libyaml] checking the name lister (/usr/bin/nm -B) interface... BSD nm
+-> [ruby] -> [libyaml] checking the maximum length of command line arguments... 1572864
+-> [ruby] -> [libyaml] checking whether the shell understands some XSI constructs... yes
+-> [ruby] -> [libyaml] checking whether the shell understands "+="... yes
+-> [ruby] -> [libyaml] checking how to convert x86_64-unknown-linux-gnu file names to x86_64-unknown-linux-gnu format... func_convert_file_noop
+-> [ruby] -> [libyaml] checking how to convert x86_64-unknown-linux-gnu file names to toolchain format... func_convert_file_noop
+-> [ruby] -> [libyaml] checking for /usr/bin/ld option to reload object files... -r
+-> [ruby] -> [libyaml] checking for objdump... objdump
+-> [ruby] -> [libyaml] checking how to recognize dependent libraries... pass_all
+-> [ruby] -> [libyaml] checking for dlltool... no
+-> [ruby] -> [libyaml] checking how to associate runtime and link libraries... printf %s\n
+-> [ruby] -> [libyaml] checking for ar... ar
+-> [ruby] -> [libyaml] checking for archiver @FILE support... @
+-> [ruby] -> [libyaml] checking for strip... strip
+-> [ruby] -> [libyaml] checking for ranlib... ranlib
+-> [ruby] -> [libyaml] checking command to parse /usr/bin/nm -B output from gcc object... ok
+-> [ruby] -> [libyaml] checking for sysroot... no
+-> [ruby] -> [libyaml] checking for mt... no
+-> [ruby] -> [libyaml] checking if : is a manifest tool... no
+-> [ruby] -> [libyaml] checking for ANSI C header files... yes
+-> [ruby] -> [libyaml] checking for sys/types.h... yes
+-> [ruby] -> [libyaml] checking for sys/stat.h... yes
+-> [ruby] -> [libyaml] checking for stdlib.h... yes
+-> [ruby] -> [libyaml] checking for string.h... yes
+-> [ruby] -> [libyaml] checking for memory.h... yes
+-> [ruby] -> [libyaml] checking for strings.h... yes
+-> [ruby] -> [libyaml] checking for inttypes.h... yes
+-> [ruby] -> [libyaml] checking for stdint.h... yes
+-> [ruby] -> [libyaml] checking for unistd.h... yes
+-> [ruby] -> [libyaml] checking for dlfcn.h... yes
+-> [ruby] -> [libyaml] checking for objdir... .libs
+-> [ruby] -> [libyaml] checking if gcc supports -fno-rtti -fno-exceptions... no
+-> [ruby] -> [libyaml] checking for gcc option to produce PIC... -fPIC -DPIC
+-> [ruby] -> [libyaml] checking if gcc PIC flag -fPIC -DPIC works... yes
+-> [ruby] -> [libyaml] checking if gcc static flag -static works... yes
+-> [ruby] -> [libyaml] checking if gcc supports -c -o file.o... yes
+-> [ruby] -> [libyaml] checking if gcc supports -c -o file.o... (cached) yes
+-> [ruby] -> [libyaml] checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+-> [ruby] -> [libyaml] checking dynamic linker characteristics... GNU/Linux ld.so
+-> [ruby] -> [libyaml] checking how to hardcode library paths into programs... immediate
+-> [ruby] -> [libyaml] checking whether stripping libraries is possible... yes
+-> [ruby] -> [libyaml] checking if libtool supports shared libraries... yes
+-> [ruby] -> [libyaml] checking whether to build shared libraries... no
+-> [ruby] -> [libyaml] checking whether to build static libraries... yes
+-> [ruby] -> [libyaml] checking for doxygen... false
+-> [ruby] -> [libyaml] checking for ANSI C header files... (cached) yes
+-> [ruby] -> [libyaml] checking for stdlib.h... (cached) yes
+-> [ruby] -> [libyaml] checking for an ANSI C-conforming const... yes
+-> [ruby] -> [libyaml] checking for size_t... yes
+-> [ruby] -> [libyaml] checking that generated files are newer than configure... done
+-> [ruby] -> [libyaml] configure: creating ./config.status
+-> [ruby] -> [libyaml] config.status: creating yaml-0.1.pc
+-> [ruby] -> [libyaml] config.status: creating include/Makefile
+-> [ruby] -> [libyaml] config.status: creating src/Makefile
+-> [ruby] -> [libyaml] config.status: creating Makefile
+-> [ruby] -> [libyaml] config.status: creating tests/Makefile
+-> [ruby] -> [libyaml] config.status: creating win32/Makefile
+-> [ruby] -> [libyaml] config.status: creating config.h
+-> [ruby] -> [libyaml] config.status: executing depfiles commands
+-> [ruby] -> [libyaml] config.status: executing libtool commands
+-> [ruby] -> [libyaml] make  all-recursive
+-> [ruby] -> [libyaml] make[1]: Entering directory '/tmp/tmp.rY1Uo9sqBx'
+-> [ruby] -> [libyaml] Making all in include
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx/include'
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'all'.
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/include'
+-> [ruby] -> [libyaml] Making all in src
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx/src'
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT api.lo -MD -MP -MF .deps/api.Tpo -c -o api.lo api.c
+-> [ruby] -> [libyaml] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I../include -fPIC -MT api.lo -MD -MP -MF .deps/api.Tpo -c api.c -o api.o
+-> [ruby] -> [libyaml] mv -f .deps/api.Tpo .deps/api.Plo
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT reader.lo -MD -MP -MF .deps/reader.Tpo -c -o reader.lo reader.c
+-> [ruby] -> [libyaml] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I../include -fPIC -MT reader.lo -MD -MP -MF .deps/reader.Tpo -c reader.c -o reader.o
+-> [ruby] -> [libyaml] mv -f .deps/reader.Tpo .deps/reader.Plo
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT scanner.lo -MD -MP -MF .deps/scanner.Tpo -c -o scanner.lo scanner.c
+-> [ruby] -> [libyaml] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I../include -fPIC -MT scanner.lo -MD -MP -MF .deps/scanner.Tpo -c scanner.c -o scanner.o
+-> [ruby] -> [libyaml] mv -f .deps/scanner.Tpo .deps/scanner.Plo
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT parser.lo -MD -MP -MF .deps/parser.Tpo -c -o parser.lo parser.c
+-> [ruby] -> [libyaml] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I../include -fPIC -MT parser.lo -MD -MP -MF .deps/parser.Tpo -c parser.c -o parser.o
+-> [ruby] -> [libyaml] mv -f .deps/parser.Tpo .deps/parser.Plo
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT loader.lo -MD -MP -MF .deps/loader.Tpo -c -o loader.lo loader.c
+-> [ruby] -> [libyaml] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I../include -fPIC -MT loader.lo -MD -MP -MF .deps/loader.Tpo -c loader.c -o loader.o
+-> [ruby] -> [libyaml] mv -f .deps/loader.Tpo .deps/loader.Plo
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT writer.lo -MD -MP -MF .deps/writer.Tpo -c -o writer.lo writer.c
+-> [ruby] -> [libyaml] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I../include -fPIC -MT writer.lo -MD -MP -MF .deps/writer.Tpo -c writer.c -o writer.o
+-> [ruby] -> [libyaml] mv -f .deps/writer.Tpo .deps/writer.Plo
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT emitter.lo -MD -MP -MF .deps/emitter.Tpo -c -o emitter.lo emitter.c
+-> [ruby] -> [libyaml] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I../include -fPIC -MT emitter.lo -MD -MP -MF .deps/emitter.Tpo -c emitter.c -o emitter.o
+-> [ruby] -> [libyaml] mv -f .deps/emitter.Tpo .deps/emitter.Plo
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT dumper.lo -MD -MP -MF .deps/dumper.Tpo -c -o dumper.lo dumper.c
+-> [ruby] -> [libyaml] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I../include -fPIC -MT dumper.lo -MD -MP -MF .deps/dumper.Tpo -c dumper.c -o dumper.o
+-> [ruby] -> [libyaml] mv -f .deps/dumper.Tpo .deps/dumper.Plo
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC -release 0 -version-info 2:5:0  -o libyaml.la -rpath /usr/local/lib api.lo reader.lo scanner.lo parser.lo loader.lo writer.lo emitter.lo dumper.lo  
+-> [ruby] -> [libyaml] libtool: link: ar cru .libs/libyaml.a  api.o reader.o scanner.o parser.o loader.o writer.o emitter.o dumper.o
+-> [ruby] -> [libyaml] ar: `u' modifier ignored since `D' is the default (see `U')
+-> [ruby] -> [libyaml] libtool: link: ranlib .libs/libyaml.a
+-> [ruby] -> [libyaml] libtool: link: ( cd ".libs" && rm -f "libyaml.la" && ln -s "../libyaml.la" "libyaml.la" )
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/src'
+-> [ruby] -> [libyaml] Making all in .
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx'
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx'
+-> [ruby] -> [libyaml] Making all in tests
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx/tests'
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT run-scanner.o -MD -MP -MF .deps/run-scanner.Tpo -c -o run-scanner.o run-scanner.c
+-> [ruby] -> [libyaml] mv -f .deps/run-scanner.Tpo .deps/run-scanner.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o run-scanner run-scanner.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o run-scanner run-scanner.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT run-parser.o -MD -MP -MF .deps/run-parser.Tpo -c -o run-parser.o run-parser.c
+-> [ruby] -> [libyaml] mv -f .deps/run-parser.Tpo .deps/run-parser.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o run-parser run-parser.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o run-parser run-parser.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT run-loader.o -MD -MP -MF .deps/run-loader.Tpo -c -o run-loader.o run-loader.c
+-> [ruby] -> [libyaml] mv -f .deps/run-loader.Tpo .deps/run-loader.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o run-loader run-loader.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o run-loader run-loader.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT run-emitter.o -MD -MP -MF .deps/run-emitter.Tpo -c -o run-emitter.o run-emitter.c
+-> [ruby] -> [libyaml] mv -f .deps/run-emitter.Tpo .deps/run-emitter.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o run-emitter run-emitter.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o run-emitter run-emitter.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT run-dumper.o -MD -MP -MF .deps/run-dumper.Tpo -c -o run-dumper.o run-dumper.c
+-> [ruby] -> [libyaml] mv -f .deps/run-dumper.Tpo .deps/run-dumper.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o run-dumper run-dumper.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o run-dumper run-dumper.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT example-reformatter.o -MD -MP -MF .deps/example-reformatter.Tpo -c -o example-reformatter.o example-reformatter.c
+-> [ruby] -> [libyaml] mv -f .deps/example-reformatter.Tpo .deps/example-reformatter.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o example-reformatter example-reformatter.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o example-reformatter example-reformatter.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT example-reformatter-alt.o -MD -MP -MF .deps/example-reformatter-alt.Tpo -c -o example-reformatter-alt.o example-reformatter-alt.c
+-> [ruby] -> [libyaml] mv -f .deps/example-reformatter-alt.Tpo .deps/example-reformatter-alt.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o example-reformatter-alt example-reformatter-alt.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o example-reformatter-alt example-reformatter-alt.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT example-deconstructor.o -MD -MP -MF .deps/example-deconstructor.Tpo -c -o example-deconstructor.o example-deconstructor.c
+-> [ruby] -> [libyaml] mv -f .deps/example-deconstructor.Tpo .deps/example-deconstructor.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o example-deconstructor example-deconstructor.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o example-deconstructor example-deconstructor.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] gcc -DHAVE_CONFIG_H -I. -I..  -I../include   -fPIC -MT example-deconstructor-alt.o -MD -MP -MF .deps/example-deconstructor-alt.Tpo -c -o example-deconstructor-alt.o example-deconstructor-alt.c
+-> [ruby] -> [libyaml] mv -f .deps/example-deconstructor-alt.Tpo .deps/example-deconstructor-alt.Po
+-> [ruby] -> [libyaml] /bin/bash ../libtool  --tag=CC   --mode=link gcc  -fPIC   -o example-deconstructor-alt example-deconstructor-alt.o ../src/libyaml.la 
+-> [ruby] -> [libyaml] libtool: link: gcc -fPIC -o example-deconstructor-alt example-deconstructor-alt.o  ../src/.libs/libyaml.a
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/tests'
+-> [ruby] -> [libyaml] Making all in win32
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx/win32'
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'all'.
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/win32'
+-> [ruby] -> [libyaml] make[1]: Leaving directory '/tmp/tmp.rY1Uo9sqBx'
+-> [ruby] -> [libyaml] Making install in include
+-> [ruby] -> [libyaml] make[1]: Entering directory '/tmp/tmp.rY1Uo9sqBx/include'
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx/include'
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'install-exec-am'.
+-> [ruby] -> [libyaml]  /bin/mkdir -p '/usr/local/include'
+-> [ruby] -> [libyaml]  /usr/bin/install -c -m 644  yaml.h '/usr/local/include/.'
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/include'
+-> [ruby] -> [libyaml] make[1]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/include'
+-> [ruby] -> [libyaml] Making install in src
+-> [ruby] -> [libyaml] make[1]: Entering directory '/tmp/tmp.rY1Uo9sqBx/src'
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx/src'
+-> [ruby] -> [libyaml]  /bin/mkdir -p '/usr/local/lib'
+-> [ruby] -> [libyaml]  /bin/bash ../libtool   --mode=install /usr/bin/install -c   libyaml.la '/usr/local/lib'
+-> [ruby] -> [libyaml] libtool: install: /usr/bin/install -c .libs/libyaml.lai /usr/local/lib/libyaml.la
+-> [ruby] -> [libyaml] libtool: install: /usr/bin/install -c .libs/libyaml.a /usr/local/lib/libyaml.a
+-> [ruby] -> [libyaml] libtool: install: chmod 644 /usr/local/lib/libyaml.a
+-> [ruby] -> [libyaml] libtool: install: ranlib /usr/local/lib/libyaml.a
+-> [ruby] -> [libyaml] libtool: finish: PATH="/app/bin:/bin:/usr/local/bin:/usr/bin:/sbin" ldconfig -n /usr/local/lib
+-> [ruby] -> [libyaml] ----------------------------------------------------------------------
+-> [ruby] -> [libyaml] Libraries have been installed in:
+-> [ruby] -> [libyaml]    /usr/local/lib
+-> [ruby] -> [libyaml] 
+-> [ruby] -> [libyaml] If you ever happen to want to link against installed libraries
+-> [ruby] -> [libyaml] in a given directory, LIBDIR, you must either use libtool, and
+-> [ruby] -> [libyaml] specify the full pathname of the library, or use the `-LLIBDIR'
+-> [ruby] -> [libyaml] flag during linking and do at least one of the following:
+-> [ruby] -> [libyaml]    - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+-> [ruby] -> [libyaml]      during execution
+-> [ruby] -> [libyaml]    - add LIBDIR to the `LD_RUN_PATH' environment variable
+-> [ruby] -> [libyaml]      during linking
+-> [ruby] -> [libyaml]    - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
+-> [ruby] -> [libyaml]    - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+-> [ruby] -> [libyaml] 
+-> [ruby] -> [libyaml] See any operating system documentation about shared libraries for
+-> [ruby] -> [libyaml] more information, such as the ld(1) and ld.so(8) manual pages.
+-> [ruby] -> [libyaml] ----------------------------------------------------------------------
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'install-data-am'.
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/src'
+-> [ruby] -> [libyaml] make[1]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/src'
+-> [ruby] -> [libyaml] Making install in .
+-> [ruby] -> [libyaml] make[1]: Entering directory '/tmp/tmp.rY1Uo9sqBx'
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx'
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'install-exec-am'.
+-> [ruby] -> [libyaml]  /bin/mkdir -p '/usr/local/lib/pkgconfig'
+-> [ruby] -> [libyaml]  /usr/bin/install -c -m 644 yaml-0.1.pc '/usr/local/lib/pkgconfig'
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx'
+-> [ruby] -> [libyaml] make[1]: Leaving directory '/tmp/tmp.rY1Uo9sqBx'
+-> [ruby] -> [libyaml] Making install in tests
+-> [ruby] -> [libyaml] make[1]: Entering directory '/tmp/tmp.rY1Uo9sqBx/tests'
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx/tests'
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'install-exec-am'.
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'install-data-am'.
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/tests'
+-> [ruby] -> [libyaml] make[1]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/tests'
+-> [ruby] -> [libyaml] Making install in win32
+-> [ruby] -> [libyaml] make[1]: Entering directory '/tmp/tmp.rY1Uo9sqBx/win32'
+-> [ruby] -> [libyaml] make[2]: Entering directory '/tmp/tmp.rY1Uo9sqBx/win32'
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'install-exec-am'.
+-> [ruby] -> [libyaml] make[2]: Nothing to be done for 'install-data-am'.
+-> [ruby] -> [libyaml] make[2]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/win32'
+-> [ruby] -> [libyaml] make[1]: Leaving directory '/tmp/tmp.rY1Uo9sqBx/win32'
+-> [ruby] -> [libyaml] /app
+-> [ruby] -> [libyaml] -> DONE
+-> [ruby] -> [libffi] -> Building libffi 3.2.1...
+-> [ruby] -> [libffi] /tmp/tmp.KlusukUJrx /app
+-> [ruby] -> [libffi] checking build system type... x86_64-unknown-linux-gnu
+-> [ruby] -> [libffi] checking host system type... x86_64-unknown-linux-gnu
+-> [ruby] -> [libffi] checking target system type... x86_64-unknown-linux-gnu
+-> [ruby] -> [libffi] continue configure in default builddir "./debian:10"
+-> [ruby] -> [libffi] ....exec /bin/bash .././configure "--srcdir=.." "--enable-builddir=debian:10" "linux
+-> [ruby] -> [libffi] gnu"
+-> [ruby] -> [libffi] checking build system type... x86_64-unknown-linux-gnu
+-> [ruby] -> [libffi] checking host system type... x86_64-unknown-linux-gnu
+-> [ruby] -> [libffi] checking target system type... x86_64-unknown-linux-gnu
+-> [ruby] -> [libffi] checking for gsed... sed
+-> [ruby] -> [libffi] checking for a BSD-compatible install... /usr/bin/install -c
+-> [ruby] -> [libffi] checking whether build environment is sane... yes
+-> [ruby] -> [libffi] checking for a thread-safe mkdir -p... /bin/mkdir -p
+-> [ruby] -> [libffi] checking for gawk... no
+-> [ruby] -> [libffi] checking for mawk... mawk
+-> [ruby] -> [libffi] checking whether make sets $(MAKE)... yes
+-> [ruby] -> [libffi] checking whether make supports nested variables... yes
+-> [ruby] -> [libffi] checking for gcc... gcc
+-> [ruby] -> [libffi] checking whether the C compiler works... yes
+-> [ruby] -> [libffi] checking for C compiler default output file name... a.out
+-> [ruby] -> [libffi] checking for suffix of executables... 
+-> [ruby] -> [libffi] checking whether we are cross compiling... no
+-> [ruby] -> [libffi] checking for suffix of object files... o
+-> [ruby] -> [libffi] checking whether we are using the GNU C compiler... yes
+-> [ruby] -> [libffi] checking whether gcc accepts -g... yes
+-> [ruby] -> [libffi] checking for gcc option to accept ISO C89... none needed
+-> [ruby] -> [libffi] checking for style of include used by make... GNU
+-> [ruby] -> [libffi] checking dependency style of gcc... gcc3
+-> [ruby] -> [libffi] checking for g++... g++
+-> [ruby] -> [libffi] checking whether we are using the GNU C++ compiler... yes
+-> [ruby] -> [libffi] checking whether g++ accepts -g... yes
+-> [ruby] -> [libffi] checking dependency style of g++... gcc3
+-> [ruby] -> [libffi] checking dependency style of gcc... gcc3
+-> [ruby] -> [libffi] checking whether gcc and cc understand -c and -o together... yes
+-> [ruby] -> [libffi] checking how to print strings... printf
+-> [ruby] -> [libffi] checking for a sed that does not truncate output... /bin/sed
+-> [ruby] -> [libffi] checking for grep that handles long lines and -e... /bin/grep
+-> [ruby] -> [libffi] checking for egrep... /bin/grep -E
+-> [ruby] -> [libffi] checking for fgrep... /bin/grep -F
+-> [ruby] -> [libffi] checking for ld used by gcc... /usr/bin/ld
+-> [ruby] -> [libffi] checking if the linker (/usr/bin/ld) is GNU ld... yes
+-> [ruby] -> [libffi] checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+-> [ruby] -> [libffi] checking the name lister (/usr/bin/nm -B) interface... BSD nm
+-> [ruby] -> [libffi] checking whether ln -s works... yes
+-> [ruby] -> [libffi] checking the maximum length of command line arguments... 1572864
+-> [ruby] -> [libffi] checking whether the shell understands some XSI constructs... yes
+-> [ruby] -> [libffi] checking whether the shell understands "+="... yes
+-> [ruby] -> [libffi] checking how to convert x86_64-unknown-linux-gnu file names to x86_64-unknown-linux-gnu format... func_convert_file_noop
+-> [ruby] -> [libffi] checking how to convert x86_64-unknown-linux-gnu file names to toolchain format... func_convert_file_noop
+-> [ruby] -> [libffi] checking for /usr/bin/ld option to reload object files... -r
+-> [ruby] -> [libffi] checking for objdump... objdump
+-> [ruby] -> [libffi] checking how to recognize dependent libraries... pass_all
+-> [ruby] -> [libffi] checking for dlltool... no
+-> [ruby] -> [libffi] checking how to associate runtime and link libraries... printf %s\n
+-> [ruby] -> [libffi] checking for ar... ar
+-> [ruby] -> [libffi] checking for archiver @FILE support... @
+-> [ruby] -> [libffi] checking for strip... strip
+-> [ruby] -> [libffi] checking for ranlib... ranlib
+-> [ruby] -> [libffi] checking command to parse /usr/bin/nm -B output from gcc object... ok
+-> [ruby] -> [libffi] checking for sysroot... no
+-> [ruby] -> [libffi] checking for mt... no
+-> [ruby] -> [libffi] checking if : is a manifest tool... no
+-> [ruby] -> [libffi] checking how to run the C preprocessor... gcc -E
+-> [ruby] -> [libffi] checking for ANSI C header files... yes
+-> [ruby] -> [libffi] checking for sys/types.h... yes
+-> [ruby] -> [libffi] checking for sys/stat.h... yes
+-> [ruby] -> [libffi] checking for stdlib.h... yes
+-> [ruby] -> [libffi] checking for string.h... yes
+-> [ruby] -> [libffi] checking for memory.h... yes
+-> [ruby] -> [libffi] checking for strings.h... yes
+-> [ruby] -> [libffi] checking for inttypes.h... yes
+-> [ruby] -> [libffi] checking for stdint.h... yes
+-> [ruby] -> [libffi] checking for unistd.h... yes
+-> [ruby] -> [libffi] checking for dlfcn.h... yes
+-> [ruby] -> [libffi] checking for objdir... .libs
+-> [ruby] -> [libffi] checking if gcc supports -fno-rtti -fno-exceptions... no
+-> [ruby] -> [libffi] checking for gcc option to produce PIC... -fPIC -DPIC
+-> [ruby] -> [libffi] checking if gcc PIC flag -fPIC -DPIC works... yes
+-> [ruby] -> [libffi] checking if gcc static flag -static works... yes
+-> [ruby] -> [libffi] checking if gcc supports -c -o file.o... yes
+-> [ruby] -> [libffi] checking if gcc supports -c -o file.o... (cached) yes
+-> [ruby] -> [libffi] checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+-> [ruby] -> [libffi] checking dynamic linker characteristics... GNU/Linux ld.so
+-> [ruby] -> [libffi] checking how to hardcode library paths into programs... immediate
+-> [ruby] -> [libffi] checking whether stripping libraries is possible... yes
+-> [ruby] -> [libffi] checking if libtool supports shared libraries... yes
+-> [ruby] -> [libffi] checking whether to build shared libraries... no
+-> [ruby] -> [libffi] checking whether to build static libraries... yes
+-> [ruby] -> [libffi] checking how to run the C++ preprocessor... g++ -E
+-> [ruby] -> [libffi] checking for ld used by g++... /usr/bin/ld -m elf_x86_64
+-> [ruby] -> [libffi] checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
+-> [ruby] -> [libffi] checking whether the g++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+-> [ruby] -> [libffi] checking for g++ option to produce PIC... -fPIC -DPIC
+-> [ruby] -> [libffi] checking if g++ PIC flag -fPIC -DPIC works... yes
+-> [ruby] -> [libffi] checking if g++ static flag -static works... yes
+-> [ruby] -> [libffi] checking if g++ supports -c -o file.o... yes
+-> [ruby] -> [libffi] checking if g++ supports -c -o file.o... (cached) yes
+-> [ruby] -> [libffi] checking whether the g++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+-> [ruby] -> [libffi] checking dynamic linker characteristics... (cached) GNU/Linux ld.so
+-> [ruby] -> [libffi] checking how to hardcode library paths into programs... immediate
+-> [ruby] -> [libffi] checking size of size_t... 8
+-> [ruby] -> [libffi] checking for C compiler vendor... gnu
+-> [ruby] -> [libffi] checking CFLAGS for maximum warnings... -Wall
+-> [ruby] -> [libffi] checking whether to enable maintainer-specific portions of Makefiles... no
+-> [ruby] -> [libffi] checking sys/mman.h usability... yes
+-> [ruby] -> [libffi] checking sys/mman.h presence... yes
+-> [ruby] -> [libffi] checking for sys/mman.h... yes
+-> [ruby] -> [libffi] checking for mmap... yes
+-> [ruby] -> [libffi] checking for mkostemp... yes
+-> [ruby] -> [libffi] checking for sys/mman.h... (cached) yes
+-> [ruby] -> [libffi] checking for mmap... (cached) yes
+-> [ruby] -> [libffi] checking whether read-only mmap of a plain file works... yes
+-> [ruby] -> [libffi] checking whether mmap from /dev/zero works... yes
+-> [ruby] -> [libffi] checking for MAP_ANON(YMOUS)... yes
+-> [ruby] -> [libffi] checking whether mmap with MAP_ANON(YMOUS) works... yes
+-> [ruby] -> [libffi] checking for ANSI C header files... (cached) yes
+-> [ruby] -> [libffi] checking for memcpy... yes
+-> [ruby] -> [libffi] checking for size_t... yes
+-> [ruby] -> [libffi] checking for working alloca.h... yes
+-> [ruby] -> [libffi] checking for alloca... yes
+-> [ruby] -> [libffi] checking size of double... 8
+-> [ruby] -> [libffi] checking size of long double... 16
+-> [ruby] -> [libffi] checking whether byte ordering is bigendian... no
+-> [ruby] -> [libffi] checking assembler .cfi pseudo-op support... yes
+-> [ruby] -> [libffi] checking assembler supports pc related relocs... yes
+-> [ruby] -> [libffi] checking assembler .ascii pseudo-op support... yes
+-> [ruby] -> [libffi] checking assembler .string pseudo-op support... yes
+-> [ruby] -> [libffi] checking for _ prefix in compiled symbols... no
+-> [ruby] -> [libffi] checking toolchain supports unwind section type... yes
+-> [ruby] -> [libffi] checking whether .eh_frame section should be read-only... yes
+-> [ruby] -> [libffi] checking for __attribute__((visibility("hidden")))... yes
+-> [ruby] -> [libffi] checking that generated files are newer than configure... done
+-> [ruby] -> [libffi] configure: creating ./config.status
+-> [ruby] -> [libffi] config.status: creating include/Makefile
+-> [ruby] -> [libffi] config.status: creating include/ffi.h
+-> [ruby] -> [libffi] config.status: creating Makefile
+-> [ruby] -> [libffi] config.status: creating testsuite/Makefile
+-> [ruby] -> [libffi] config.status: creating man/Makefile
+-> [ruby] -> [libffi] config.status: creating libffi.pc
+-> [ruby] -> [libffi] config.status: creating fficonfig.h
+-> [ruby] -> [libffi] config.status: linking ../src/x86/ffitarget.h to include/ffitarget.h
+-> [ruby] -> [libffi] config.status: executing buildir commands
+-> [ruby] -> [libffi] config.status: create top_srcdir/Makefile guessed from local Makefile
+-> [ruby] -> [libffi] config.status: build in debian:10 (HOST=)
+-> [ruby] -> [libffi] config.status: executing depfiles commands
+-> [ruby] -> [libffi] config.status: executing libtool commands
+-> [ruby] -> [libffi] config.status: executing include commands
+-> [ruby] -> [libffi] config.status: executing src commands
+-> [ruby] -> [libffi] MAKE x86_64-unknown-linux-gnu : 0 * all-all
+-> [ruby] -> [libffi] make[1]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] make 'AR_FLAGS=' 'CC_FOR_BUILD=' 'CFLAGS=-fPIC  -Wall -fexceptions' 'CXXFLAGS=-g -O2' 'CFLAGS_FOR_BUILD=' 'CFLAGS_FOR_TARGET=' 'INSTALL=/usr/bin/install -c' 'INSTALL_DATA=/usr/bin/install -c -m 644' 'INSTALL_PROGRAM=/usr/bin/install -c' 'INSTALL_SCRIPT=/usr/bin/install -c' 'JC1FLAGS=' 'LDFLAGS=' 'LIBCFLAGS=' 'LIBCFLAGS_FOR_TARGET=' 'MAKE=make' 'MAKEINFO=/bin/bash /tmp/tmp.KlusukUJrx/missing makeinfo ' 'PICFLAG=' 'PICFLAG_FOR_TARGET=' 'RUNTESTFLAGS=' 'SHELL=/bin/bash' 'exec_prefix=/usr/local' 'infodir=/usr/local/share/info' 'libdir=/usr/local/lib' 'mandir=/usr/local/share/man' 'prefix=/usr/local' 'AR=ar' 'AS=as' 'CC=gcc' 'CXX=g++' 'LD=/usr/bin/ld -m elf_x86_64' 'NM=/usr/bin/nm -B' 'RANLIB=ranlib' 'DESTDIR=' all-recursive
+-> [ruby] -> [libffi] make[2]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] Making all in include
+-> [ruby] -> [libffi] make[3]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/include'
+-> [ruby] -> [libffi] make[3]: Nothing to be done for 'all'.
+-> [ruby] -> [libffi] make[3]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/include'
+-> [ruby] -> [libffi] Making all in testsuite
+-> [ruby] -> [libffi] make[3]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/testsuite'
+-> [ruby] -> [libffi] make[3]: Nothing to be done for 'all'.
+-> [ruby] -> [libffi] make[3]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/testsuite'
+-> [ruby] -> [libffi] Making all in man
+-> [ruby] -> [libffi] make[3]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/man'
+-> [ruby] -> [libffi] make[3]: Nothing to be done for 'all'.
+-> [ruby] -> [libffi] make[3]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/man'
+-> [ruby] -> [libffi] make[3]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] depbase=`echo src/prep_cif.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -fPIC  -Wall -fexceptions -MT src/prep_cif.lo -MD -MP -MF $depbase.Tpo -c -o src/prep_cif.lo ../src/prep_cif.c &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -fPIC -Wall -fexceptions -MT src/prep_cif.lo -MD -MP -MF src/.deps/prep_cif.Tpo -c ../src/prep_cif.c -o src/prep_cif.o
+-> [ruby] -> [libffi] depbase=`echo src/types.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -fPIC  -Wall -fexceptions -MT src/types.lo -MD -MP -MF $depbase.Tpo -c -o src/types.lo ../src/types.c &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -fPIC -Wall -fexceptions -MT src/types.lo -MD -MP -MF src/.deps/types.Tpo -c ../src/types.c -o src/types.o
+-> [ruby] -> [libffi] depbase=`echo src/raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -fPIC  -Wall -fexceptions -MT src/raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/raw_api.lo ../src/raw_api.c &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -fPIC -Wall -fexceptions -MT src/raw_api.lo -MD -MP -MF src/.deps/raw_api.Tpo -c ../src/raw_api.c -o src/raw_api.o
+-> [ruby] -> [libffi] depbase=`echo src/java_raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -fPIC  -Wall -fexceptions -MT src/java_raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/java_raw_api.lo ../src/java_raw_api.c &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -fPIC -Wall -fexceptions -MT src/java_raw_api.lo -MD -MP -MF src/.deps/java_raw_api.Tpo -c ../src/java_raw_api.c -o src/java_raw_api.o
+-> [ruby] -> [libffi] depbase=`echo src/closures.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -fPIC  -Wall -fexceptions -MT src/closures.lo -MD -MP -MF $depbase.Tpo -c -o src/closures.lo ../src/closures.c &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -fPIC -Wall -fexceptions -MT src/closures.lo -MD -MP -MF src/.deps/closures.Tpo -c ../src/closures.c -o src/closures.o
+-> [ruby] -> [libffi] depbase=`echo src/x86/ffi64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -fPIC  -Wall -fexceptions -MT src/x86/ffi64.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/ffi64.lo ../src/x86/ffi64.c &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -fPIC -Wall -fexceptions -MT src/x86/ffi64.lo -MD -MP -MF src/x86/.deps/ffi64.Tpo -c ../src/x86/ffi64.c -o src/x86/ffi64.o
+-> [ruby] -> [libffi] depbase=`echo src/x86/unix64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool    --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src  -I. -I../include -Iinclude -I../src -fPIC -MT src/x86/unix64.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/unix64.lo ../src/x86/unix64.S &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -I. -I../include -Iinclude -I../src -fPIC -MT src/x86/unix64.lo -MD -MP -MF src/x86/.deps/unix64.Tpo -c ../src/x86/unix64.S -o src/x86/unix64.o
+-> [ruby] -> [libffi] depbase=`echo src/x86/ffi.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src   -fPIC  -Wall -fexceptions -MT src/x86/ffi.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/ffi.lo ../src/x86/ffi.c &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -fPIC -Wall -fexceptions -MT src/x86/ffi.lo -MD -MP -MF src/x86/.deps/ffi.Tpo -c ../src/x86/ffi.c -o src/x86/ffi.o
+-> [ruby] -> [libffi] depbase=`echo src/x86/sysv.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+-> [ruby] -> [libffi] /bin/bash ./libtool    --mode=compile gcc -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src  -I. -I../include -Iinclude -I../src -fPIC -MT src/x86/sysv.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/sysv.lo ../src/x86/sysv.S &&\
+-> [ruby] -> [libffi] mv -f $depbase.Tpo $depbase.Plo
+-> [ruby] -> [libffi] libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -I. -I../include -Iinclude -I../src -fPIC -MT src/x86/sysv.lo -MD -MP -MF src/x86/.deps/sysv.Tpo -c ../src/x86/sysv.S -o src/x86/sysv.o
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=link gcc  -fPIC  -Wall -fexceptions   -o libffi_convenience.la  src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo                                src/x86/ffi64.lo src/x86/unix64.lo src/x86/ffi.lo src/x86/sysv.lo          
+-> [ruby] -> [libffi] libtool: link: ar cru .libs/libffi_convenience.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/x86/ffi64.o src/x86/unix64.o src/x86/ffi.o src/x86/sysv.o
+-> [ruby] -> [libffi] ar: `u' modifier ignored since `D' is the default (see `U')
+-> [ruby] -> [libffi] libtool: link: ranlib .libs/libffi_convenience.a
+-> [ruby] -> [libffi] libtool: link: ( cd ".libs" && rm -f "libffi_convenience.la" && ln -s "../libffi_convenience.la" "libffi_convenience.la" )
+-> [ruby] -> [libffi] /bin/bash ./libtool  --tag=CC   --mode=link gcc  -fPIC  -Wall -fexceptions -no-undefined -version-info `grep -v '^#' ../libtool-version`    -o libffi.la -rpath /usr/local/lib/../lib src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo                                src/x86/ffi64.lo src/x86/unix64.lo src/x86/ffi.lo src/x86/sysv.lo          
+-> [ruby] -> [libffi] libtool: link: ar cru .libs/libffi.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/x86/ffi64.o src/x86/unix64.o src/x86/ffi.o src/x86/sysv.o
+-> [ruby] -> [libffi] ar: `u' modifier ignored since `D' is the default (see `U')
+-> [ruby] -> [libffi] libtool: link: ranlib .libs/libffi.a
+-> [ruby] -> [libffi] libtool: link: ( cd ".libs" && rm -f "libffi.la" && ln -s "../libffi.la" "libffi.la" )
+-> [ruby] -> [libffi] make[3]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] make[2]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] make[1]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] MAKE x86_64-unknown-linux-gnu : 0 * install
+-> [ruby] -> [libffi] make[1]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] Making install in include
+-> [ruby] -> [libffi] make[2]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/include'
+-> [ruby] -> [libffi] make[3]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/include'
+-> [ruby] -> [libffi] make[3]: Nothing to be done for 'install-exec-am'.
+-> [ruby] -> [libffi]  /bin/mkdir -p '/usr/local/lib/libffi-3.2.1/include'
+-> [ruby] -> [libffi]  /usr/bin/install -c -m 644 ffi.h ffitarget.h '/usr/local/lib/libffi-3.2.1/include'
+-> [ruby] -> [libffi] make[3]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/include'
+-> [ruby] -> [libffi] make[2]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/include'
+-> [ruby] -> [libffi] Making install in testsuite
+-> [ruby] -> [libffi] make[2]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/testsuite'
+-> [ruby] -> [libffi] make[3]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/testsuite'
+-> [ruby] -> [libffi] make[3]: Nothing to be done for 'install-exec-am'.
+-> [ruby] -> [libffi] make[3]: Nothing to be done for 'install-data-am'.
+-> [ruby] -> [libffi] make[3]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/testsuite'
+-> [ruby] -> [libffi] make[2]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/testsuite'
+-> [ruby] -> [libffi] Making install in man
+-> [ruby] -> [libffi] make[2]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/man'
+-> [ruby] -> [libffi] make[3]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10/man'
+-> [ruby] -> [libffi] make[3]: Nothing to be done for 'install-exec-am'.
+-> [ruby] -> [libffi]  /bin/mkdir -p '/usr/local/share/man/man3'
+-> [ruby] -> [libffi]  /usr/bin/install -c -m 644 ../../man/ffi.3 ../../man/ffi_call.3 ../../man/ffi_prep_cif.3 ../../man/ffi_prep_cif_var.3 '/usr/local/share/man/man3'
+-> [ruby] -> [libffi] make[3]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/man'
+-> [ruby] -> [libffi] make[2]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10/man'
+-> [ruby] -> [libffi] make[2]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] make[3]: Entering directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi]  /bin/mkdir -p '/usr/local/lib/../lib'
+-> [ruby] -> [libffi]  /bin/bash ./libtool   --mode=install /usr/bin/install -c   libffi.la '/usr/local/lib/../lib'
+-> [ruby] -> [libffi] libtool: install: /usr/bin/install -c .libs/libffi.lai /usr/local/lib/../lib/libffi.la
+-> [ruby] -> [libffi] libtool: install: /usr/bin/install -c .libs/libffi.a /usr/local/lib/../lib/libffi.a
+-> [ruby] -> [libffi] libtool: install: chmod 644 /usr/local/lib/../lib/libffi.a
+-> [ruby] -> [libffi] libtool: install: ranlib /usr/local/lib/../lib/libffi.a
+-> [ruby] -> [libffi] libtool: finish: PATH="/app/bin:/bin:/usr/local/bin:/usr/bin:/sbin" ldconfig -n /usr/local/lib/../lib
+-> [ruby] -> [libffi] ----------------------------------------------------------------------
+-> [ruby] -> [libffi] Libraries have been installed in:
+-> [ruby] -> [libffi]    /usr/local/lib/../lib
+-> [ruby] -> [libffi] 
+-> [ruby] -> [libffi] If you ever happen to want to link against installed libraries
+-> [ruby] -> [libffi] in a given directory, LIBDIR, you must either use libtool, and
+-> [ruby] -> [libffi] specify the full pathname of the library, or use the `-LLIBDIR'
+-> [ruby] -> [libffi] flag during linking and do at least one of the following:
+-> [ruby] -> [libffi]    - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+-> [ruby] -> [libffi]      during execution
+-> [ruby] -> [libffi]    - add LIBDIR to the `LD_RUN_PATH' environment variable
+-> [ruby] -> [libffi]      during linking
+-> [ruby] -> [libffi]    - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
+-> [ruby] -> [libffi]    - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+-> [ruby] -> [libffi] 
+-> [ruby] -> [libffi] See any operating system documentation about shared libraries for
+-> [ruby] -> [libffi] more information, such as the ld(1) and ld.so(8) manual pages.
+-> [ruby] -> [libffi] ----------------------------------------------------------------------
+-> [ruby] -> [libffi]  /bin/mkdir -p '/usr/local/share/info'
+-> [ruby] -> [libffi]  /usr/bin/install -c -m 644 ../doc/libffi.info '/usr/local/share/info'
+-> [ruby] -> [libffi]  /bin/mkdir -p '/usr/local/lib/pkgconfig'
+-> [ruby] -> [libffi]  /usr/bin/install -c -m 644 libffi.pc '/usr/local/lib/pkgconfig'
+-> [ruby] -> [libffi] make[3]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] make[2]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] make[1]: Leaving directory '/tmp/tmp.KlusukUJrx/debian:10'
+-> [ruby] -> [libffi] /app
+-> [ruby] -> [libffi] -> DONE
+-> [ruby] /app/ruby-2.7.1 /app
+-> [ruby] checking for ruby... false
+-> [ruby] checking build system type... x86_64-pc-linux-gnu
+-> [ruby] checking host system type... x86_64-pc-linux-gnu
+-> [ruby] checking target system type... x86_64-pc-linux-gnu
+-> [ruby] checking for gcc... gcc
+-> [ruby] checking whether the C compiler works... yes
+-> [ruby] checking for C compiler default output file name... a.out
+-> [ruby] checking for suffix of executables... 
+-> [ruby] checking whether we are cross compiling... no
+-> [ruby] checking for suffix of object files... o
+-> [ruby] checking whether we are using the GNU C compiler... yes
+-> [ruby] checking whether gcc accepts -g... yes
+-> [ruby] checking for gcc option to accept ISO C89... none needed
+-> [ruby] checking for gcc option to accept ISO C99... none needed
+-> [ruby] checking how to run the C preprocessor... gcc -E
+-> [ruby] checking for g++... g++
+-> [ruby] checking whether we are using the GNU C++ compiler... yes
+-> [ruby] checking whether g++ accepts -g... yes
+-> [ruby] checking for grep that handles long lines and -e... /bin/grep
+-> [ruby] checking for egrep... /bin/grep -E
+-> [ruby] checking whether gcc needs -traditional... no
+-> [ruby] checking for ld... ld
+-> [ruby] checking whether the linker is GNU ld... yes
+-> [ruby] checking whether gcc -E accepts -o... yes
+-> [ruby] checking for gcc... /usr/bin/gcc
+-> [ruby] checking for ranlib... ranlib
+-> [ruby] checking for ar... ar
+-> [ruby] checking for ar flags... rcD
+-> [ruby] checking for as... as
+-> [ruby] checking for objdump... objdump
+-> [ruby] checking for objcopy... objcopy
+-> [ruby] checking for nm... nm
+-> [ruby] checking whether ln -s works... yes
+-> [ruby] checking whether make sets $(MAKE)... yes
+-> [ruby] checking for a BSD-compatible install... /usr/bin/install -c
+-> [ruby] checking for a thread-safe mkdir -p... /bin/mkdir -p
+-> [ruby] checking for dtrace... no
+-> [ruby] checking for dot... no
+-> [ruby] checking for doxygen... no
+-> [ruby] checking for pkg-config... pkg-config
+-> [ruby] checking for ANSI C header files... yes
+-> [ruby] checking for sys/types.h... yes
+-> [ruby] checking for sys/stat.h... yes
+-> [ruby] checking for stdlib.h... yes
+-> [ruby] checking for string.h... yes
+-> [ruby] checking for memory.h... yes
+-> [ruby] checking for strings.h... yes
+-> [ruby] checking for inttypes.h... yes
+-> [ruby] checking for stdint.h... yes
+-> [ruby] checking for unistd.h... yes
+-> [ruby] checking minix/config.h usability... no
+-> [ruby] checking minix/config.h presence... no
+-> [ruby] checking for minix/config.h... no
+-> [ruby] checking whether it is safe to define __EXTENSIONS__... yes
+-> [ruby] checking for cd using physical directory... cd -P
+-> [ruby] checking whether CFLAGS is valid... yes
+-> [ruby] checking whether LDFLAGS is valid... yes
+-> [ruby] checking whether -Wl,-R. is accepted as LDFLAGS... yes
+-> [ruby] checking whether -Wl,-rpath,. is accepted as LDFLAGS... yes
+-> [ruby] checking whether -Wdeprecated-declarations is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wdivision-by-zero is accepted as CFLAGS... no
+-> [ruby] checking whether -Wduplicated-cond is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wimplicit-function-declaration is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wimplicit-int is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wmisleading-indentation is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wpointer-arith is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wshorten-64-to-32 is accepted as CFLAGS... no
+-> [ruby] checking whether -Wwrite-strings is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wimplicit-fallthrough=0 is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wmissing-noreturn is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-cast-function-type is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-constant-logical-operand is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-long-long is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-missing-field-initializers is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-overlength-strings is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-packed-bitfield-compat is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-parentheses-equality is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-self-assign is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-tautological-compare is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-unused-parameter is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wno-unused-value is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wsuggest-attribute=format is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wsuggest-attribute=noreturn is accepted as CFLAGS... yes
+-> [ruby] checking whether -Wunused-variable is accepted as CFLAGS... yes
+-> [ruby] checking whether -diag-disable=175,188,2259 is accepted as CFLAGS... no
+-> [ruby] checking whether -Wextra-tokens is accepted as CFLAGS... no
+-> [ruby] checking whether -Wall -Wextra is accepted as CFLAGS... yes
+-> [ruby] checking whether -Qunused-arguments is accepted as CFLAGS... no
+-> [ruby] checking whether -D_FORTIFY_SOURCE=2 is accepted as CFLAGS... yes
+-> [ruby] checking whether -fstack-protector-strong is accepted as CFLAGS... yes
+-> [ruby] checking whether -fstack-protector-strong is accepted as LDFLAGS... yes
+-> [ruby] checking whether -Wl,--compress-debug-sections=zlib is accepted as LDFLAGS... yes
+-> [ruby] checking whether -std=gnu99 is accepted as CFLAGS... yes
+-> [ruby] checking whether -fno-strict-overflow is accepted as CFLAGS... yes
+-> [ruby] checking whether -fvisibility=hidden is accepted as CFLAGS... yes
+-> [ruby] checking whether -fno-fast-math is accepted as CFLAGS... yes
+-> [ruby] checking whether -fexcess-precision=standard is accepted as CFLAGS... yes
+-> [ruby] checking whether -fp-model precise is accepted as CFLAGS... no
+-> [ruby] checking whether compiler has statement and declarations in expressions... yes
+-> [ruby] checking for crypt in -lcrypt... yes
+-> [ruby] checking for dlopen in -ldl... yes
+-> [ruby] checking for shl_load in -ldld... no
+-> [ruby] checking for shutdown in -lsocket... no
+-> [ruby] checking for dirent.h that defines DIR... yes
+-> [ruby] checking for library containing opendir... none required
+-> [ruby] checking for stdbool.h that conforms to C99... yes
+-> [ruby] checking for _Bool... yes
+-> [ruby] checking for sys/wait.h that is POSIX.1 compatible... yes
+-> [ruby] checking a.out.h usability... yes
+-> [ruby] checking a.out.h presence... yes
+-> [ruby] checking for a.out.h... yes
+-> [ruby] checking atomic.h usability... no
+-> [ruby] checking atomic.h presence... no
+-> [ruby] checking for atomic.h... no
+-> [ruby] checking copyfile.h usability... no
+-> [ruby] checking copyfile.h presence... no
+-> [ruby] checking for copyfile.h... no
+-> [ruby] checking direct.h usability... no
+-> [ruby] checking direct.h presence... no
+-> [ruby] checking for direct.h... no
+-> [ruby] checking grp.h usability... yes
+-> [ruby] checking grp.h presence... yes
+-> [ruby] checking for grp.h... yes
+-> [ruby] checking fcntl.h usability... yes
+-> [ruby] checking fcntl.h presence... yes
+-> [ruby] checking for fcntl.h... yes
+-> [ruby] checking float.h usability... yes
+-> [ruby] checking float.h presence... yes
+-> [ruby] checking for float.h... yes
+-> [ruby] checking ieeefp.h usability... no
+-> [ruby] checking ieeefp.h presence... no
+-> [ruby] checking for ieeefp.h... no
+-> [ruby] checking intrinsics.h usability... no
+-> [ruby] checking intrinsics.h presence... no
+-> [ruby] checking for intrinsics.h... no
+-> [ruby] checking langinfo.h usability... yes
+-> [ruby] checking langinfo.h presence... yes
+-> [ruby] checking for langinfo.h... yes
+-> [ruby] checking limits.h usability... yes
+-> [ruby] checking limits.h presence... yes
+-> [ruby] checking for limits.h... yes
+-> [ruby] checking locale.h usability... yes
+-> [ruby] checking locale.h presence... yes
+-> [ruby] checking for locale.h... yes
+-> [ruby] checking malloc.h usability... yes
+-> [ruby] checking malloc.h presence... yes
+-> [ruby] checking for malloc.h... yes
+-> [ruby] checking malloc/malloc.h usability... no
+-> [ruby] checking malloc/malloc.h presence... no
+-> [ruby] checking for malloc/malloc.h... no
+-> [ruby] checking malloc_np.h usability... no
+-> [ruby] checking malloc_np.h presence... no
+-> [ruby] checking for malloc_np.h... no
+-> [ruby] checking net/socket.h usability... no
+-> [ruby] checking net/socket.h presence... no
+-> [ruby] checking for net/socket.h... no
+-> [ruby] checking process.h usability... no
+-> [ruby] checking process.h presence... no
+-> [ruby] checking for process.h... no
+-> [ruby] checking pwd.h usability... yes
+-> [ruby] checking pwd.h presence... yes
+-> [ruby] checking for pwd.h... yes
+-> [ruby] checking sanitizer/asan_interface.h usability... yes
+-> [ruby] checking sanitizer/asan_interface.h presence... yes
+-> [ruby] checking for sanitizer/asan_interface.h... yes
+-> [ruby] checking sanitizer/msan_interface.h usability... no
+-> [ruby] checking sanitizer/msan_interface.h presence... no
+-> [ruby] checking for sanitizer/msan_interface.h... no
+-> [ruby] checking setjmpex.h usability... no
+-> [ruby] checking setjmpex.h presence... no
+-> [ruby] checking for setjmpex.h... no
+-> [ruby] checking stdalign.h usability... yes
+-> [ruby] checking stdalign.h presence... yes
+-> [ruby] checking for stdalign.h... yes
+-> [ruby] checking sys/attr.h usability... no
+-> [ruby] checking sys/attr.h presence... no
+-> [ruby] checking for sys/attr.h... no
+-> [ruby] checking sys/eventfd.h usability... yes
+-> [ruby] checking sys/eventfd.h presence... yes
+-> [ruby] checking for sys/eventfd.h... yes
+-> [ruby] checking sys/fcntl.h usability... yes
+-> [ruby] checking sys/fcntl.h presence... yes
+-> [ruby] checking for sys/fcntl.h... yes
+-> [ruby] checking sys/file.h usability... yes
+-> [ruby] checking sys/file.h presence... yes
+-> [ruby] checking for sys/file.h... yes
+-> [ruby] checking sys/id.h usability... no
+-> [ruby] checking sys/id.h presence... no
+-> [ruby] checking for sys/id.h... no
+-> [ruby] checking sys/ioctl.h usability... yes
+-> [ruby] checking sys/ioctl.h presence... yes
+-> [ruby] checking for sys/ioctl.h... yes
+-> [ruby] checking sys/mkdev.h usability... no
+-> [ruby] checking sys/mkdev.h presence... no
+-> [ruby] checking for sys/mkdev.h... no
+-> [ruby] checking sys/param.h usability... yes
+-> [ruby] checking sys/param.h presence... yes
+-> [ruby] checking for sys/param.h... yes
+-> [ruby] checking sys/prctl.h usability... yes
+-> [ruby] checking sys/prctl.h presence... yes
+-> [ruby] checking for sys/prctl.h... yes
+-> [ruby] checking sys/resource.h usability... yes
+-> [ruby] checking sys/resource.h presence... yes
+-> [ruby] checking for sys/resource.h... yes
+-> [ruby] checking sys/select.h usability... yes
+-> [ruby] checking sys/select.h presence... yes
+-> [ruby] checking for sys/select.h... yes
+-> [ruby] checking sys/sendfile.h usability... yes
+-> [ruby] checking sys/sendfile.h presence... yes
+-> [ruby] checking for sys/sendfile.h... yes
+-> [ruby] checking sys/socket.h usability... yes
+-> [ruby] checking sys/socket.h presence... yes
+-> [ruby] checking for sys/socket.h... yes
+-> [ruby] checking sys/syscall.h usability... yes
+-> [ruby] checking sys/syscall.h presence... yes
+-> [ruby] checking for sys/syscall.h... yes
+-> [ruby] checking sys/sysmacros.h usability... yes
+-> [ruby] checking sys/sysmacros.h presence... yes
+-> [ruby] checking for sys/sysmacros.h... yes
+-> [ruby] checking sys/time.h usability... yes
+-> [ruby] checking sys/time.h presence... yes
+-> [ruby] checking for sys/time.h... yes
+-> [ruby] checking sys/times.h usability... yes
+-> [ruby] checking sys/times.h presence... yes
+-> [ruby] checking for sys/times.h... yes
+-> [ruby] checking sys/uio.h usability... yes
+-> [ruby] checking sys/uio.h presence... yes
+-> [ruby] checking for sys/uio.h... yes
+-> [ruby] checking sys/utime.h usability... no
+-> [ruby] checking sys/utime.h presence... no
+-> [ruby] checking for sys/utime.h... no
+-> [ruby] checking syscall.h usability... yes
+-> [ruby] checking syscall.h presence... yes
+-> [ruby] checking for syscall.h... yes
+-> [ruby] checking time.h usability... yes
+-> [ruby] checking time.h presence... yes
+-> [ruby] checking for time.h... yes
+-> [ruby] checking ucontext.h usability... yes
+-> [ruby] checking ucontext.h presence... yes
+-> [ruby] checking for ucontext.h... yes
+-> [ruby] checking utime.h usability... yes
+-> [ruby] checking utime.h presence... yes
+-> [ruby] checking for utime.h... yes
+-> [ruby] checking gmp.h usability... yes
+-> [ruby] checking gmp.h presence... yes
+-> [ruby] checking for gmp.h... yes
+-> [ruby] checking for library containing __gmpz_init... -lgmp
+-> [ruby] checking for special C compiler options needed for large files... no
+-> [ruby] checking for _FILE_OFFSET_BITS value needed for large files... no
+-> [ruby] checking whether byte ordering is bigendian... no
+-> [ruby] checking for an ANSI C-conforming const... yes
+-> [ruby] checking whether char is unsigned... no
+-> [ruby] checking for inline... inline
+-> [ruby] checking for working volatile... yes
+-> [ruby] checking for typeof syntax and keyword spelling... typeof
+-> [ruby] checking for C/C++ restrict keyword... __restrict
+-> [ruby] checking for long long... yes
+-> [ruby] checking for off_t... yes
+-> [ruby] checking char bit... 8
+-> [ruby] checking size of int... 4
+-> [ruby] checking size of short... 2
+-> [ruby] checking size of long... 8
+-> [ruby] checking size of long long... 8
+-> [ruby] checking size of __int64... 0
+-> [ruby] checking size of __int128... 16
+-> [ruby] checking size of off_t... 8
+-> [ruby] checking size of void*... 8
+-> [ruby] checking size of float... 4
+-> [ruby] checking size of double... 8
+-> [ruby] checking size of time_t... 8
+-> [ruby] checking size of clock_t... 8
+-> [ruby] checking packed struct attribute... x __attribute__((packed))
+-> [ruby] checking whether -Wno-address-of-packed-member is accepted as CFLAGS... yes
+-> [ruby] checking for printf prefix for long long... ll
+-> [ruby] checking for pid_t... yes
+-> [ruby] checking for convertible type of pid_t... INT
+-> [ruby] checking for uid_t... yes
+-> [ruby] checking for convertible type of uid_t... UINT
+-> [ruby] checking for gid_t... yes
+-> [ruby] checking for convertible type of gid_t... UINT
+-> [ruby] checking for time_t... yes
+-> [ruby] checking for convertible type of time_t... LONG
+-> [ruby] checking for dev_t... yes
+-> [ruby] checking for convertible type of dev_t... ULONG
+-> [ruby] checking for mode_t... yes
+-> [ruby] checking for convertible type of mode_t... UINT
+-> [ruby] checking for rlim_t... yes
+-> [ruby] checking for convertible type of rlim_t... ULONG
+-> [ruby] checking for off_t... (cached) yes
+-> [ruby] checking for convertible type of off_t... LONG
+-> [ruby] checking for clockid_t... yes
+-> [ruby] checking for convertible type of clockid_t... INT
+-> [ruby] checking for prototypes... yes
+-> [ruby] checking token paste string... ansi
+-> [ruby] checking stringization... #expr
+-> [ruby] checking string literal concatenation... yes
+-> [ruby] checking for variable length prototypes and stdarg.h... yes
+-> [ruby] checking for variable length macro... yes
+-> [ruby] checking for alignas() syntax... __attribute__((__aligned__(x)))
+-> [ruby] checking for alignof() syntax... alignof
+-> [ruby] checking for CONSTFUNC function attribute... __attribute__ ((__const__)) x
+-> [ruby] checking for PUREFUNC function attribute... __attribute__ ((__pure__)) x
+-> [ruby] checking for NORETURN function attribute... __attribute__ ((__noreturn__)) x
+-> [ruby] checking for DEPRECATED function attribute... __attribute__ ((__deprecated__)) x
+-> [ruby] checking for DEPRECATED_BY function attribute... __attribute__ ((__deprecated__("by "#n))) x
+-> [ruby] checking for DEPRECATED_TYPE type attribute... __attribute__ ((__deprecated__ mesg)) x
+-> [ruby] checking for NOINLINE function attribute... __attribute__ ((__noinline__)) x
+-> [ruby] checking for ALWAYS_INLINE function attribute... __attribute__ ((__always_inline__)) x
+-> [ruby] checking for NO_SANITIZE function attribute... __attribute__ ((__no_sanitize__(san))) x
+-> [ruby] checking for NO_SANITIZE_ADDRESS function attribute... __attribute__ ((__no_sanitize_address__)) x
+-> [ruby] checking for NO_ADDRESS_SAFETY_ANALYSIS function attribute... __attribute__ ((__no_address_safety_analysis__)) x
+-> [ruby] checking for WARN_UNUSED_RESULT function attribute... __attribute__ ((__warn_unused_result__)) x
+-> [ruby] checking for MAYBE_UNUSED function attribute... __attribute__ ((__unused__)) x
+-> [ruby] checking for ERRORFUNC function attribute... __attribute__ ((__error__ mesg)) x
+-> [ruby] checking for WARNINGFUNC function attribute... __attribute__ ((__warning__ mesg)) x
+-> [ruby] checking for WEAK function attribute... __attribute__ ((__weak__)) x
+-> [ruby] checking for __attribute__((__depreacted__(msg))) in C++... yes
+-> [ruby] checking for FUNC_STDCALL function attribute... x
+-> [ruby] checking for FUNC_CDECL function attribute... x
+-> [ruby] checking for FUNC_FASTCALL function attribute... x
+-> [ruby] checking for FUNC_UNOPTIMIZED function attribute... __attribute__ ((__optimize__("O0"))) x
+-> [ruby] checking for FUNC_MINIMIZED function attribute... __attribute__ ((__optimize__("-Os","-fomit-frame-pointer"))) x
+-> [ruby] checking for function alias... alias
+-> [ruby] checking for __atomic builtins... yes
+-> [ruby] checking for __sync builtins... yes
+-> [ruby] checking for __builtin_unreachable... yes
+-> [ruby] checking for exported function attribute... __attribute__ ((__visibility__("default")))
+-> [ruby] checking for RUBY_FUNC_NONNULL function attribute... __attribute__ ((__nonnull__(n))) x
+-> [ruby] checking for function name string predefined identifier... __func__
+-> [ruby] checking if enum over int is allowed... yes
+-> [ruby] checking whether sys_nerr is declared... yes
+-> [ruby] checking whether getenv is declared... yes
+-> [ruby] checking for size_t... yes
+-> [ruby] checking size of size_t... 8
+-> [ruby] checking size of ptrdiff_t... 8
+-> [ruby] checking for printf prefix for size_t... z
+-> [ruby] checking for printf prefix for ptrdiff_t... t
+-> [ruby] checking for struct stat.st_blksize... yes
+-> [ruby] checking for struct stat.st_blocks... yes
+-> [ruby] checking for struct stat.st_rdev... yes
+-> [ruby] checking size of struct stat.st_size... SIZEOF_OFF_T
+-> [ruby] checking size of struct stat.st_blocks... SIZEOF_OFF_T
+-> [ruby] checking size of struct stat.st_ino... SIZEOF_LONG
+-> [ruby] checking for struct stat.st_atim... yes
+-> [ruby] checking for struct stat.st_atimespec... no
+-> [ruby] checking for struct stat.st_atimensec... no
+-> [ruby] checking for struct stat.st_mtim... yes
+-> [ruby] checking for struct stat.st_mtimespec... no
+-> [ruby] checking for struct stat.st_mtimensec... no
+-> [ruby] checking for struct stat.st_ctim... yes
+-> [ruby] checking for struct stat.st_ctimespec... no
+-> [ruby] checking for struct stat.st_ctimensec... no
+-> [ruby] checking for struct stat.st_birthtimespec... no
+-> [ruby] checking for struct statx.stx_btime... yes
+-> [ruby] checking for struct timeval... yes
+-> [ruby] checking size of struct timeval.tv_sec... SIZEOF_TIME_T
+-> [ruby] checking for struct timespec... yes
+-> [ruby] checking for struct timezone... yes
+-> [ruby] checking for fd_mask... yes
+-> [ruby] checking for int8_t... yes
+-> [ruby] checking size of int8_t... 1
+-> [ruby] checking for uint8_t... yes
+-> [ruby] checking size of uint8_t... 1
+-> [ruby] checking for int16_t... yes
+-> [ruby] checking size of int16_t... 2
+-> [ruby] checking for uint16_t... yes
+-> [ruby] checking size of uint16_t... 2
+-> [ruby] checking for int32_t... yes
+-> [ruby] checking size of int32_t... 4
+-> [ruby] checking for uint32_t... yes
+-> [ruby] checking size of uint32_t... 4
+-> [ruby] checking for int64_t... yes
+-> [ruby] checking size of int64_t... 8
+-> [ruby] checking for uint64_t... yes
+-> [ruby] checking size of uint64_t... 8
+-> [ruby] checking for int128_t... __int128
+-> [ruby] checking for uint128_t... unsigned __int128
+-> [ruby] checking for intptr_t... yes
+-> [ruby] checking size of intptr_t... 8
+-> [ruby] checking for uintptr_t... yes
+-> [ruby] checking size of uintptr_t... 8
+-> [ruby] checking for printf prefix for intptr_t... NONE
+-> [ruby] checking for ssize_t... yes
+-> [ruby] checking size of ssize_t... 8
+-> [ruby] checking for printf prefix for int64_t... NONE
+-> [ruby] checking for stack end address... __libc_stack_end
+-> [ruby] checking for uid_t in sys/types.h... (cached) yes
+-> [ruby] checking type of array argument to getgroups... gid_t
+-> [ruby] checking return type of signal handlers... void
+-> [ruby] checking for working alloca.h... yes
+-> [ruby] checking for alloca... yes
+-> [ruby] checking for dynamic size alloca... ok
+-> [ruby] checking for working memcmp... yes
+-> [ruby] checking for acosh... yes
+-> [ruby] checking for cbrt... yes
+-> [ruby] checking for crypt... yes
+-> [ruby] checking for dup2... yes
+-> [ruby] checking for erf... yes
+-> [ruby] checking for explicit_bzero... yes
+-> [ruby] checking for ffs... yes
+-> [ruby] checking for flock... yes
+-> [ruby] checking for hypot... yes
+-> [ruby] checking for lgamma_r... yes
+-> [ruby] checking for memmove... yes
+-> [ruby] checking for nan... yes
+-> [ruby] checking for nextafter... yes
+-> [ruby] checking for setproctitle... no
+-> [ruby] checking for strchr... yes
+-> [ruby] checking for strerror... yes
+-> [ruby] checking for strlcat... no
+-> [ruby] checking for strlcpy... no
+-> [ruby] checking for strstr... yes
+-> [ruby] checking for tgamma... yes
+-> [ruby] checking whether finite is declared... yes
+-> [ruby] checking whether isinf is declared... yes
+-> [ruby] checking whether isnan is declared... yes
+-> [ruby] checking sys/pstat.h usability... no
+-> [ruby] checking sys/pstat.h presence... no
+-> [ruby] checking for sys/pstat.h... no
+-> [ruby] checking for signbit... yes
+-> [ruby] checking for pid_t... (cached) yes
+-> [ruby] checking vfork.h usability... no
+-> [ruby] checking vfork.h presence... no
+-> [ruby] checking for vfork.h... no
+-> [ruby] checking for fork... yes
+-> [ruby] checking for vfork... yes
+-> [ruby] checking for working fork... yes
+-> [ruby] checking for working vfork... (cached) yes
+-> [ruby] checking for __syscall... no
+-> [ruby] checking for _longjmp... yes
+-> [ruby] checking for arc4random_buf... no
+-> [ruby] checking for atan2l... yes
+-> [ruby] checking for atan2f... yes
+-> [ruby] checking for chroot... yes
+-> [ruby] checking for chsize... no
+-> [ruby] checking for clock_gettime... yes
+-> [ruby] checking for copy_file_range... yes
+-> [ruby] checking for cosh... yes
+-> [ruby] checking for crypt_r... yes
+-> [ruby] checking for daemon... (cached) no
+-> [ruby] checking for dirfd... yes
+-> [ruby] checking for dl_iterate_phdr... yes
+-> [ruby] checking for dlopen... yes
+-> [ruby] checking for dladdr... yes
+-> [ruby] checking for dup... yes
+-> [ruby] checking for dup3... yes
+-> [ruby] checking for eaccess... yes
+-> [ruby] checking for endgrent... yes
+-> [ruby] checking for eventfd... yes
+-> [ruby] checking for explicit_memset... no
+-> [ruby] checking for fcopyfile... no
+-> [ruby] checking for fchmod... yes
+-> [ruby] checking for fchown... yes
+-> [ruby] checking for fcntl... yes
+-> [ruby] checking for fdatasync... yes
+-> [ruby] checking for fdopendir... yes
+-> [ruby] checking for fgetattrlist... no
+-> [ruby] checking for fmod... yes
+-> [ruby] checking for fstatat... yes
+-> [ruby] checking for fsync... yes
+-> [ruby] checking for ftruncate... yes
+-> [ruby] checking for ftruncate64... yes
+-> [ruby] checking for getattrlist... no
+-> [ruby] checking for getcwd... yes
+-> [ruby] checking for getgidx... no
+-> [ruby] checking for getgrnam... yes
+-> [ruby] checking for getgrnam_r... yes
+-> [ruby] checking for getgroups... yes
+-> [ruby] checking for getpgid... yes
+-> [ruby] checking for getpgrp... yes
+-> [ruby] checking for getpriority... yes
+-> [ruby] checking for getpwnam_r... yes
+-> [ruby] checking for getrandom... yes
+-> [ruby] checking for getresgid... yes
+-> [ruby] checking for getresuid... yes
+-> [ruby] checking for getrlimit... yes
+-> [ruby] checking for getsid... yes
+-> [ruby] checking for gettimeofday... yes
+-> [ruby] checking for getuidx... no
+-> [ruby] checking for gmtime_r... yes
+-> [ruby] checking for grantpt... yes
+-> [ruby] checking for initgroups... yes
+-> [ruby] checking for ioctl... yes
+-> [ruby] checking for isfinite... no
+-> [ruby] checking for issetugid... no
+-> [ruby] checking for killpg... yes
+-> [ruby] checking for lchmod... no
+-> [ruby] checking for lchown... yes
+-> [ruby] checking for link... yes
+-> [ruby] checking for llabs... yes
+-> [ruby] checking for lockf... yes
+-> [ruby] checking for log2... yes
+-> [ruby] checking for lstat... yes
+-> [ruby] checking for lutimes... yes
+-> [ruby] checking for malloc_usable_size... yes
+-> [ruby] checking for malloc_size... no
+-> [ruby] checking for mblen... yes
+-> [ruby] checking for memalign... yes
+-> [ruby] checking for memset_s... no
+-> [ruby] checking for writev... yes
+-> [ruby] checking for memrchr... yes
+-> [ruby] checking for memmem... yes
+-> [ruby] checking for mkfifo... yes
+-> [ruby] checking for mknod... yes
+-> [ruby] checking for mktime... yes
+-> [ruby] checking for openat... yes
+-> [ruby] checking for pipe2... yes
+-> [ruby] checking for poll... yes
+-> [ruby] checking for posix_fadvise... yes
+-> [ruby] checking for posix_memalign... yes
+-> [ruby] checking for ppoll... yes
+-> [ruby] checking for pread... yes
+-> [ruby] checking for pwrite... yes
+-> [ruby] checking for qsort_r... yes
+-> [ruby] checking for qsort_s... no
+-> [ruby] checking for readlink... yes
+-> [ruby] checking for realpath... yes
+-> [ruby] checking for round... yes
+-> [ruby] checking for sched_getaffinity... yes
+-> [ruby] checking for seekdir... yes
+-> [ruby] checking for select_large_fdset... no
+-> [ruby] checking for sendfile... yes
+-> [ruby] checking for setegid... yes
+-> [ruby] checking for setenv... yes
+-> [ruby] checking for seteuid... yes
+-> [ruby] checking for setgid... yes
+-> [ruby] checking for setgroups... yes
+-> [ruby] checking for setpgid... yes
+-> [ruby] checking for setpgrp... yes
+-> [ruby] checking for setregid... yes
+-> [ruby] checking for setresgid... yes
+-> [ruby] checking for setresuid... yes
+-> [ruby] checking for setreuid... yes
+-> [ruby] checking for setrgid... no
+-> [ruby] checking for setrlimit... yes
+-> [ruby] checking for setruid... no
+-> [ruby] checking for setsid... yes
+-> [ruby] checking for setuid... yes
+-> [ruby] checking for shutdown... yes
+-> [ruby] checking for sigaction... yes
+-> [ruby] checking for sigaltstack... yes
+-> [ruby] checking for sigprocmask... yes
+-> [ruby] checking for sinh... yes
+-> [ruby] checking for spawnv... no
+-> [ruby] checking for symlink... yes
+-> [ruby] checking for syscall... yes
+-> [ruby] checking for sysconf... yes
+-> [ruby] checking for tanh... yes
+-> [ruby] checking for telldir... yes
+-> [ruby] checking for timegm... yes
+-> [ruby] checking for times... yes
+-> [ruby] checking for truncate... yes
+-> [ruby] checking for truncate64... yes
+-> [ruby] checking for unsetenv... yes
+-> [ruby] checking for utimensat... yes
+-> [ruby] checking for utimes... yes
+-> [ruby] checking for wait4... yes
+-> [ruby] checking for waitpid... yes
+-> [ruby] checking for statx... yes
+-> [ruby] checking if getcwd allocates buffer if NULL is given... yes
+-> [ruby] checking crypt.h usability... yes
+-> [ruby] checking crypt.h presence... yes
+-> [ruby] checking for crypt.h... yes
+-> [ruby] checking for struct crypt_data.initialized... yes
+-> [ruby] checking for __builtin_alloca_with_align... yes
+-> [ruby] checking for __builtin_assume_aligned... yes
+-> [ruby] checking for __builtin_bswap16... yes
+-> [ruby] checking for __builtin_bswap32... yes
+-> [ruby] checking for __builtin_bswap64... yes
+-> [ruby] checking for __builtin_popcount... yes
+-> [ruby] checking for __builtin_popcountll... yes
+-> [ruby] checking for __builtin_clz... yes
+-> [ruby] checking for __builtin_clzl... yes
+-> [ruby] checking for __builtin_clzll... yes
+-> [ruby] checking for __builtin_ctz... yes
+-> [ruby] checking for __builtin_ctzll... yes
+-> [ruby] checking for __builtin_add_overflow... yes
+-> [ruby] checking for __builtin_sub_overflow... yes
+-> [ruby] checking for __builtin_mul_overflow... yes
+-> [ruby] checking for __builtin_mul_overflow_p... yes
+-> [ruby] checking for __builtin_constant_p... yes
+-> [ruby] checking for __builtin_choose_expr... yes
+-> [ruby] checking for __builtin_choose_expr_constant_p... yes
+-> [ruby] checking for __builtin_types_compatible_p... yes
+-> [ruby] checking for __builtin_trap... yes
+-> [ruby] checking whether qsort_r is GNU version... yes
+-> [ruby] checking whether qsort_r is BSD version... no
+-> [ruby] checking whether atan2 handles Inf as C99... yes
+-> [ruby] checking for clock_getres... yes
+-> [ruby] checking for timer_create in -lrt... yes
+-> [ruby] checking for timer_settime in -lrt... yes
+-> [ruby] checking for unsetenv returns a value... yes
+-> [ruby] checking whether struct tm is in sys/time.h or time.h... time.h
+-> [ruby] checking for struct tm.tm_zone... yes
+-> [ruby] checking for struct tm.tm_gmtoff... yes
+-> [ruby] checking for external int daylight... yes
+-> [ruby] checking for negative time_t for gmtime(3)... yes
+-> [ruby] checking for localtime(3) overflow correctly... yes
+-> [ruby] checking for sig_t... yes
+-> [ruby] checking whether right shift preserve sign bit... yes
+-> [ruby] checking whether _SC_CLK_TCK is supported... yes
+-> [ruby] checking stack growing direction on x86_64... -1
+-> [ruby] checking native coroutine implementation for x86_64-linux... amd64
+-> [ruby] checking for pthread_create in -lthr... no
+-> [ruby] checking for pthread_create in -lpthread... yes
+-> [ruby] checking for pthread_np.h... no
+-> [ruby] checking whether pthread_t is scalar type... yes
+-> [ruby] checking for sched_yield... yes
+-> [ruby] checking for pthread_attr_setinheritsched... yes
+-> [ruby] checking for pthread_attr_get_np... no
+-> [ruby] checking for pthread_attr_getstack... yes
+-> [ruby] checking for pthread_attr_getguardsize... yes
+-> [ruby] checking for pthread_get_stackaddr_np... no
+-> [ruby] checking for pthread_get_stacksize_np... no
+-> [ruby] checking for thr_stksegment... no
+-> [ruby] checking for pthread_stackseg_np... no
+-> [ruby] checking for pthread_getthrds_np... no
+-> [ruby] checking for pthread_condattr_setclock... yes
+-> [ruby] checking for pthread_sigmask... yes
+-> [ruby] checking for pthread_setname_np... yes
+-> [ruby] checking for pthread_set_name_np... no
+-> [ruby] checking for pthread_getattr_np... yes
+-> [ruby] checking arguments of pthread_setname_np... (pthread_self(), name)
+-> [ruby] checking if mcontext_t is a pointer... no
+-> [ruby] checking for getcontext... yes
+-> [ruby] checking for setcontext... yes
+-> [ruby] checking if fork works with pthread... yes
+-> [ruby] checking whether ELF binaries are produced... yes
+-> [ruby] checking elf.h usability... yes
+-> [ruby] checking elf.h presence... yes
+-> [ruby] checking for elf.h... yes
+-> [ruby] checking elf_abi.h usability... no
+-> [ruby] checking elf_abi.h presence... no
+-> [ruby] checking for elf_abi.h... no
+-> [ruby] checking for uncompress in -lz... yes
+-> [ruby] checking mach-o/loader.h usability... no
+-> [ruby] checking mach-o/loader.h presence... no
+-> [ruby] checking for mach-o/loader.h... no
+-> [ruby] checking whether OS depend dynamic link works... yes
+-> [ruby] checking for backtrace... yes
+-> [ruby] checking for broken backtrace... no
+-> [ruby] checking valgrind/memcheck.h usability... no
+-> [ruby] checking valgrind/memcheck.h presence... no
+-> [ruby] checking for valgrind/memcheck.h... no
+-> [ruby] checking for strip... strip
+-> [ruby] checking whether -fPIE is accepted as CFLAGS... yes
+-> [ruby] checking whether -pie is accepted as LDFLAGS... yes
+-> [ruby] checking whether wrapper for LD_LIBRARY_PATH is needed... no
+-> [ruby] checking whether dtrace USDT is available... no
+-> [ruby] checking for __builtin_setjmp... yes with cast ()
+-> [ruby] checking for _setjmpex as a macro or function... no
+-> [ruby] checking for _setjmp as a macro or function... yes
+-> [ruby] checking for sigsetjmp as a macro or function... no
+-> [ruby] checking for setjmp type... __builtin_setjmp
+-> [ruby] checking for prefix of external symbols... NONE
+-> [ruby] checking pthread.h usability... yes
+-> [ruby] checking pthread.h presence... yes
+-> [ruby] checking for pthread.h... yes
+-> [ruby] checking if make is GNU make... yes
+-> [ruby] .ext/include/x86_64-linux/ruby/config.h updated
+-> [ruby] configure: ruby library version = 2.7.0
+-> [ruby] configure: creating ./config.status
+-> [ruby] config.status: creating GNUmakefile
+-> [ruby] config.status: creating Makefile
+-> [ruby] config.status: creating ruby-2.7.pc
+-> [ruby] ---
+-> [ruby] Configuration summary for ruby version 2.7.1
+-> [ruby] 
+-> [ruby]    * Installation prefix: /usr/local
+-> [ruby]    * exec prefix:         ${prefix}
+-> [ruby]    * arch:                x86_64-linux
+-> [ruby]    * site arch:           ${arch}
+-> [ruby]    * RUBY_BASE_NAME:      ruby
+-> [ruby]    * ruby lib prefix:     ${libdir}/${RUBY_BASE_NAME}
+-> [ruby]    * site libraries path: ${rubylibprefix}/${sitearch}
+-> [ruby]    * vendor path:         ${rubylibprefix}/vendor_ruby
+-> [ruby]    * target OS:           linux
+-> [ruby]    * compiler:            gcc
+-> [ruby]    * with pthread:        yes
+-> [ruby]    * with coroutine:      amd64
+-> [ruby]    * enable shared libs:  no
+-> [ruby]    * dynamic library ext: so
+-> [ruby]    * CFLAGS:              ${optflags} ${debugflags} ${warnflags}
+-> [ruby]    * LDFLAGS:             -L. -fstack-protector-strong -rdynamic \
+-> [ruby]                           -Wl,-export-dynamic
+-> [ruby]    * DLDFLAGS:            -Wl,--compress-debug-sections=zlib
+-> [ruby]    * optflags:            -O3
+-> [ruby]    * debugflags:          -g
+-> [ruby]    * warnflags:           -Wall -Wextra -Wdeprecated-declarations \
+-> [ruby]                           -Wduplicated-cond -Wimplicit-function-declaration \
+-> [ruby]                           -Wimplicit-int -Wmisleading-indentation \
+-> [ruby]                           -Wpointer-arith -Wwrite-strings \
+-> [ruby]                           -Wimplicit-fallthrough=0 -Wmissing-noreturn \
+-> [ruby]                           -Wno-cast-function-type \
+-> [ruby]                           -Wno-constant-logical-operand -Wno-long-long \
+-> [ruby]                           -Wno-missing-field-initializers \
+-> [ruby]                           -Wno-overlength-strings \
+-> [ruby]                           -Wno-packed-bitfield-compat \
+-> [ruby]                           -Wno-parentheses-equality -Wno-self-assign \
+-> [ruby]                           -Wno-tautological-compare -Wno-unused-parameter \
+-> [ruby]                           -Wno-unused-value -Wsuggest-attribute=format \
+-> [ruby]                           -Wsuggest-attribute=noreturn -Wunused-variable
+-> [ruby]    * strip command:       strip -S -x
+-> [ruby]    * install doc:         no
+-> [ruby]    * JIT support:         yes
+-> [ruby]    * man page type:       man
+-> [ruby] 
+-> [ruby] ---
+-> [ruby] 	BASERUBY = echo executable host ruby is required.  use --with-baseruby option.; false
+-> [ruby] 	CC = gcc
+-> [ruby] 	LD = ld
+-> [ruby] 	LDSHARED = gcc -shared
+-> [ruby] 	CFLAGS = -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable -std=gnu99 
+-> [ruby] 	XCFLAGS = -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fno-strict-overflow -fvisibility=hidden -fexcess-precision=standard -DRUBY_EXPORT -fPIE -DCANONICALIZATION_FOR_MATHN -I. -I.ext/include/x86_64-linux -I./include -I. -I./enc/unicode/12.1.0
+-> [ruby] 	CPPFLAGS =   
+-> [ruby] 	DLDFLAGS = -Wl,--compress-debug-sections=zlib -fstack-protector-strong -pie  
+-> [ruby] 	SOLIBS = -lz -lpthread -lrt -lrt -lgmp -ldl -lcrypt -lm 
+-> [ruby] 	LANG = en_US.utf8
+-> [ruby] 	LC_ALL = 
+-> [ruby] 	LC_CTYPE = 
+-> [ruby] 	MFLAGS = -s -j8 --jobserver-auth=4,5
+-> [ruby] gcc (Debian 8.3.0-6) 8.3.0
+-> [ruby] Copyright (C) 2018 Free Software Foundation, Inc.
+-> [ruby] This is free software; see the source for copying conditions.  There is NO
+-> [ruby] warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-> [ruby] 
+-> [ruby] compiling ./main.c
+-> [ruby] compiling dmydln.c
+-> [ruby] compiling miniinit.c
+-> [ruby] compiling dmyext.c
+-> [ruby] making dummy probes.h
+-> [ruby] compiling ast.c
+-> [ruby] compiling bignum.c
+-> [ruby] compiling class.c
+-> [ruby] compiling compar.c
+-> [ruby] compiling compile.c
+-> [ruby] compiling complex.c
+-> [ruby] compiling cont.c
+-> [ruby] compiling debug.c
+-> [ruby] compiling debug_counter.c
+-> [ruby] compiling dir.c
+-> [ruby] compiling dln_find.c
+-> [ruby] compiling encoding.c
+-> [ruby] compiling enum.c
+-> [ruby] compiling enumerator.c
+-> [ruby] compiling error.c
+-> [ruby] compiling eval.c
+-> [ruby] compiling file.c
+-> [ruby] compiling gc.c
+-> [ruby] compiling hash.c
+-> [ruby] compiling inits.c
+-> [ruby] compiling io.c
+-> [ruby] compiling iseq.c
+-> [ruby] compiling load.c
+-> [ruby] compiling marshal.c
+-> [ruby] compiling math.c
+-> [ruby] making mjit_config.h
+-> [ruby] compiling mjit_compile.c
+-> [ruby] compiling node.c
+-> [ruby] compiling numeric.c
+-> [ruby] compiling object.c
+-> [ruby] compiling pack.c
+-> [ruby] compiling parse.c
+-> [ruby] compiling proc.c
+-> [ruby] compiling process.c
+-> [ruby] compiling random.c
+-> [ruby] compiling range.c
+-> [ruby] compiling rational.c
+-> [ruby] compiling re.c
+-> [ruby] compiling regcomp.c
+-> [ruby] compiling regenc.c
+-> [ruby] compiling regerror.c
+-> [ruby] compiling regexec.c
+-> [ruby] compiling regparse.c
+-> [ruby] compiling regsyntax.c
+-> [ruby] compiling ruby.c
+-> [ruby] compiling safe.c
+-> [ruby] compiling signal.c
+-> [ruby] compiling sprintf.c
+-> [ruby] compiling st.c
+-> [ruby] compiling strftime.c
+-> [ruby] compiling string.c
+-> [ruby] compiling struct.c
+-> [ruby] compiling symbol.c
+-> [ruby] compiling thread.c
+-> [ruby] compiling time.c
+-> [ruby] compiling transcode.c
+-> [ruby] compiling transient_heap.c
+-> [ruby] compiling util.c
+-> [ruby] compiling variable.c
+-> [ruby] compiling vm.c
+-> [ruby] compiling vm_backtrace.c
+-> [ruby] compiling vm_dump.c
+-> [ruby] compiling vm_trace.c
+-> [ruby] compiling ./missing/setproctitle.c
+-> [ruby] compiling ./missing/strlcat.c
+-> [ruby] compiling ./missing/strlcpy.c
+-> [ruby] compiling addr2line.c
+-> [ruby] compiling dmyenc.c
+-> [ruby] compiling dln.c
+-> [ruby] compiling localeinit.c
+-> [ruby] compiling array.c
+-> [ruby] compiling mjit.c
+-> [ruby] ./revision.h unchanged
+-> [ruby] assembling coroutine/amd64/Context.S
+-> [ruby] compiling enc/ascii.c
+-> [ruby] compiling enc/us_ascii.c
+-> [ruby] compiling enc/unicode.c
+-> [ruby] compiling enc/utf_8.c
+-> [ruby] compiling enc/trans/newline.c
+-> [ruby] compiling version.c
+-> [ruby] building rb_mjit_header.h
+-> [ruby] linking miniruby
+-> [ruby] rb_mjit_header.h updated
+-> [ruby] generating encdb.h
+-> [ruby] building .ext/include/x86_64-linux/rb_mjit_min_header-2.7.1.h
+-> [ruby] compiling builtin.c
+-> [ruby] encdb.h updated
+-> [ruby] rbconfig.rb updated
+-> [ruby] generating enc.mk
+-> [ruby] creating verconf.h
+-> [ruby] verconf.h updated
+-> [ruby] compiling loadpath.c
+-> [ruby] making srcs under enc
+-> [ruby] generating transdb.h
+-> [ruby] linking static-library libruby-static.a
+-> [ruby] transdb.h updated
+-> [ruby] generating makefiles ext/configure-ext.mk
+-> [ruby] making enc
+-> [ruby] making trans
+-> [ruby] compiling ./enc/encdb.c
+-> [ruby] compiling ./enc/trans/transdb.c
+-> [ruby] compiling ./enc/big5.c
+-> [ruby] compiling ./enc/cesu_8.c
+-> [ruby] compiling ./enc/trans/big5.c
+-> [ruby] compiling ./enc/trans/cesu_8.c
+-> [ruby] ext/configure-ext.mk updated
+-> [ruby] compiling ./enc/cp949.c
+-> [ruby] compiling ./enc/trans/chinese.c
+-> [ruby] compiling ./enc/emacs_mule.c
+-> [ruby] compiling ./enc/trans/ebcdic.c
+-> [ruby] compiling ./enc/euc_jp.c
+-> [ruby] compiling ./enc/trans/emoji.c
+-> [ruby] configuring psych
+-> [ruby] compiling ./enc/trans/emoji_iso2022_kddi.c
+-> [ruby] compiling ./enc/euc_kr.c
+-> [ruby] compiling ./enc/euc_tw.c
+-> [ruby] compiling ./enc/trans/emoji_sjis_docomo.c
+-> [ruby] compiling ./enc/gb2312.c
+-> [ruby] 
+-> [ruby] Transforming external functions to static:
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_lvar_exposed' static inline
+-> [ruby] transform_mjit_header: making external definition of 'Init_vm_stack_canary' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_opt_struct_aset' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_opt_struct_aref' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_eql_opt' static inline
+-> [ruby] transform_mjit_header: changing definition of 'rb_equal_opt' to declaration
+-> [ruby] transform_mjit_header: changing definition of 'rb_vm_search_method_slowpath' to declaration
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_rewrite_cref' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_block_ep_update' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_cref_new_toplevel' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_frame_block_handler' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_cframe_empty_keyword_p' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_cframe_keyword_p' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_vm_ep_local_ep' static inline
+-> [ruby] transform_mjit_header: making declaration of 'rb_vm_lvar_exposed' static inline
+-> [ruby] transform_mjit_header: making declaration of 'rb_vm_rewrite_cref' static inline
+-> [ruby] transform_mjit_header: making declaration of 'rb_vm_frame_block_handler' static inline
+-> [ruby] transform_mjit_header: making declaration of 'rb_vm_block_ep_update' static inline
+-> [ruby] transform_mjit_header: making declaration of 'rb_vm_ep_local_ep' static inline
+-> [ruby] transform_mjit_header: making declaration of 'Init_vm_stack_canary' static inline
+-> [ruby] transform_mjit_header: making declaration of 'rb_eql_opt' static inline
+-> [ruby] transform_mjit_header: making external definition of 'rb_scan_args_set' static inline
+-> [ruby] transform_mjit_header: making declaration of 'rb_scan_args_set' static inline
+-> [ruby] transform_mjit_header: SKIPPED to transform getlogin_r
+-> [ruby] transform_mjit_header: SKIPPED to transform pread64
+-> [ruby] transform_mjit_header: SKIPPED to transform pread
+-> [ruby] transform_mjit_header: SKIPPED to transform read
+-> [ruby] transform_mjit_header: SKIPPED to transform bsearch
+-> [ruby] transform_mjit_header: SKIPPED to transform fread_unlocked
+-> [ruby] transform_mjit_header: SKIPPED to transform fgets_unlocked
+-> [ruby] transform_mjit_header: SKIPPED to transform fread
+-> [ruby] transform_mjit_header: SKIPPED to transform fgets
+-> [ruby] transform_mjit_header: SKIPPED to transform vdprintf
+-> [ruby] transform_mjit_header: SKIPPED to transform dprintf
+-> [ruby] transform_mjit_header: SKIPPED to transform vfprintf
+-> [ruby] transform_mjit_header: SKIPPED to transform vprintf
+-> [ruby] transform_mjit_header: SKIPPED to transform printf
+-> [ruby] transform_mjit_header: SKIPPED to transform fprintf
+-> [ruby] transform_mjit_header: SKIPPED to transform getline
+-> [ruby] transform_mjit_header: SKIPPED to transform putchar_unlocked
+-> [ruby] transform_mjit_header: SKIPPED to transform putc_unlocked
+-> [ruby] transform_mjit_header: SKIPPED to transform fputc_unlocked
+-> [ruby] transform_mjit_header: SKIPPED to transform putchar
+-> [ruby] transform_mjit_header: SKIPPED to transform getchar_unlocked
+-> [ruby] transform_mjit_header: SKIPPED to transform getc_unlocked
+-> [ruby] transform_mjit_header: SKIPPED to transform fgetc_unlocked
+-> [ruby] transform_mjit_header: SKIPPED to transform getchar
+-> [ruby] compiling ./enc/gb18030.c
+-> [ruby] compiling ./enc/gbk.c
+-> [ruby] compiling ./enc/iso_8859_1.c
+-> [ruby] compiling ./enc/iso_8859_2.c
+-> [ruby] configuring nkf
+-> [ruby] ln -sf ../../../.ext/include/x86_64-linux/rb_mjit_min_header-2.7.1.h include/ruby-2.7.0/x86_64-linux/rb_mjit_min_header-2.7.1.h
+-> [ruby] compiling ./enc/iso_8859_3.c
+-> [ruby] configuring objspace
+-> [ruby] configuring socket
+-> [ruby] compiling ./enc/iso_8859_4.c
+-> [ruby] compiling ./enc/trans/emoji_sjis_kddi.c
+-> [ruby] configuring continuation
+-> [ruby] compiling ./enc/iso_8859_5.c
+-> [ruby] compiling ./enc/trans/emoji_sjis_softbank.c
+-> [ruby] compiling ./enc/iso_8859_6.c
+-> [ruby] configuring -test-/arith_seq/extract
+-> [ruby] compiling ./enc/trans/escape.c
+-> [ruby] configuring -test-/array/resize
+-> [ruby] configuring -test-/bignum
+-> [ruby] configuring -test-/bug-14834
+-> [ruby] configuring -test-/bug-3571
+-> [ruby] configuring -test-/bug-5832
+-> [ruby] configuring -test-/bug_reporter
+-> [ruby] configuring -test-/class
+-> [ruby] configuring -test-/cxxanyargs
+-> [ruby] compiling ./enc/iso_8859_7.c
+-> [ruby] compiling ./enc/trans/gb18030.c
+-> [ruby] configuring coverage
+-> [ruby] configuring syslog
+-> [ruby] compiling ./enc/iso_8859_8.c
+-> [ruby] compiling ./enc/iso_8859_9.c
+-> [ruby] configuring -test-/debug
+-> [ruby] configuring -test-/dln/empty
+-> [ruby] configuring -test-/enumerator_kw
+-> [ruby] configuring -test-/exception
+-> [ruby] configuring -test-/fatal
+-> [ruby] configuring -test-/file
+-> [ruby] compiling ./enc/iso_8859_10.c
+-> [ruby] compiling ./enc/trans/gbk.c
+-> [ruby] compiling ./enc/trans/iso2022.c
+-> [ruby] compiling ./enc/iso_8859_11.c
+-> [ruby] compiling ./enc/iso_8859_13.c
+-> [ruby] compiling ./enc/trans/japanese.c
+-> [ruby] compiling ./enc/iso_8859_14.c
+-> [ruby] compiling ./enc/trans/japanese_euc.c
+-> [ruby] compiling ./enc/trans/japanese_sjis.c
+-> [ruby] compiling ./enc/iso_8859_15.c
+-> [ruby] compiling ./enc/iso_8859_16.c
+-> [ruby] configuring bigdecimal
+-> [ruby] compiling ./enc/koi8_r.c
+-> [ruby] compiling ./enc/trans/korean.c
+-> [ruby] compiling ./enc/koi8_u.c
+-> [ruby] compiling ./enc/shift_jis.c
+-> [ruby] compiling ./enc/trans/single_byte.c
+-> [ruby] compiling ./enc/trans/utf8_mac.c
+-> [ruby] compiling ./enc/utf_16be.c
+-> [ruby] configuring -test-/float
+-> [ruby] configuring -test-/funcall
+-> [ruby] configuring -test-/gvl/call_without_gvl
+-> [ruby] configuring -test-/hash
+-> [ruby] configuring -test-/integer
+-> [ruby] configuring -test-/iseq_load
+-> [ruby] configuring -test-/iter
+-> [ruby] configuring -test-/load/dot.dot
+-> [ruby] compiling ./enc/utf_16le.c
+-> [ruby] configuring -test-/load/protect
+-> [ruby] configuring -test-/marshal/compat
+-> [ruby] configuring -test-/marshal/internal_ivar
+-> [ruby] configuring -test-/marshal/usr
+-> [ruby] configuring -test-/memory_status
+-> [ruby] configuring -test-/method
+-> [ruby] configuring -test-/notimplement
+-> [ruby] configuring -test-/num2int
+-> [ruby] configuring -test-/path_to_class
+-> [ruby] configuring -test-/popen_deadlock
+-> [ruby] configuring -test-/postponed_job
+-> [ruby] configuring -test-/printf
+-> [ruby] configuring -test-/proc
+-> [ruby] configuring -test-/rational
+-> [ruby] configuring -test-/rb_call_super_kw
+-> [ruby] configuring -test-/recursion
+-> [ruby] configuring -test-/regexp
+-> [ruby] configuring -test-/scan_args
+-> [ruby] configuring -test-/st/foreach
+-> [ruby] configuring -test-/st/numhash
+-> [ruby] configuring -test-/st/update
+-> [ruby] configuring -test-/string
+-> [ruby] configuring -test-/struct
+-> [ruby] configuring -test-/symbol
+-> [ruby] compiling ./enc/utf_32be.c
+-> [ruby] compiling ./enc/trans/utf_16_32.c
+-> [ruby] compiling ./enc/utf_32le.c
+-> [ruby] configuring -test-/thread_fd_close
+-> [ruby] configuring -test-/time
+-> [ruby] configuring -test-/tracepoint
+-> [ruby] configuring -test-/typeddata
+-> [ruby] configuring -test-/vm
+-> [ruby] configuring -test-/wait_for_single_fd
+-> [ruby] compiling ./enc/windows_31j.c
+-> [ruby] linking transcoder transdb.so
+-> [ruby] linking transcoder big5.so
+-> [ruby] compiling ./enc/windows_1250.c
+-> [ruby] linking transcoder cesu_8.so
+-> [ruby] linking transcoder chinese.so
+-> [ruby] linking transcoder ebcdic.so
+-> [ruby] linking transcoder emoji.so
+-> [ruby] linking transcoder emoji_iso2022_kddi.so
+-> [ruby] linking transcoder emoji_sjis_docomo.so
+-> [ruby] linking transcoder emoji_sjis_kddi.so
+-> [ruby] linking transcoder emoji_sjis_softbank.so
+-> [ruby] compiling ./enc/windows_1251.c
+-> [ruby] linking transcoder escape.so
+-> [ruby] linking transcoder gb18030.so
+-> [ruby] linking transcoder gbk.so
+-> [ruby] linking transcoder iso2022.so
+-> [ruby] linking transcoder japanese.so
+-> [ruby] linking transcoder japanese_euc.so
+-> [ruby] linking transcoder japanese_sjis.so
+-> [ruby] compiling ./enc/windows_1252.c
+-> [ruby] linking transcoder korean.so
+-> [ruby] configuring cgi/escape
+-> [ruby] linking transcoder single_byte.so
+-> [ruby] configuring strscan
+-> [ruby] linking transcoder utf_16_32.so
+-> [ruby] configuring readline
+-> [ruby] configuring dbm
+-> [ruby] compiling ./enc/windows_1253.c
+-> [ruby] configuring fiber
+-> [ruby] linking transcoder utf8_mac.so
+-> [ruby] configuring pathname
+-> [ruby] compiling ./enc/windows_1254.c
+-> [ruby] configuring gdbm
+-> [ruby] compiling ./enc/windows_1257.c
+-> [ruby] linking encoding encdb.so
+-> [ruby] linking encoding big5.so
+-> [ruby] linking encoding cesu_8.so
+-> [ruby] linking encoding cp949.so
+-> [ruby] linking encoding emacs_mule.so
+-> [ruby] linking encoding euc_jp.so
+-> [ruby] linking encoding euc_kr.so
+-> [ruby] linking encoding euc_tw.so
+-> [ruby] configuring racc/cparse
+-> [ruby] linking encoding gb2312.so
+-> [ruby] linking encoding gb18030.so
+-> [ruby] linking encoding gbk.so
+-> [ruby] linking encoding iso_8859_1.so
+-> [ruby] linking encoding iso_8859_2.so
+-> [ruby] linking encoding iso_8859_3.so
+-> [ruby] linking encoding iso_8859_4.so
+-> [ruby] linking encoding iso_8859_5.so
+-> [ruby] linking encoding iso_8859_6.so
+-> [ruby] configuring etc
+-> [ruby] linking encoding iso_8859_7.so
+-> [ruby] linking encoding iso_8859_8.so
+-> [ruby] linking encoding iso_8859_9.so
+-> [ruby] linking encoding iso_8859_10.so
+-> [ruby] configuring fiddle
+-> [ruby] linking encoding iso_8859_11.so
+-> [ruby] linking encoding iso_8859_13.so
+-> [ruby] linking encoding iso_8859_14.so
+-> [ruby] linking encoding iso_8859_15.so
+-> [ruby] linking encoding iso_8859_16.so
+-> [ruby] linking encoding koi8_r.so
+-> [ruby] linking encoding koi8_u.so
+-> [ruby] linking encoding shift_jis.so
+-> [ruby] linking encoding utf_16be.so
+-> [ruby] linking encoding utf_16le.so
+-> [ruby] linking encoding utf_32be.so
+-> [ruby] linking encoding utf_32le.so
+-> [ruby] linking encoding windows_31j.so
+-> [ruby] configuring io/console
+-> [ruby] linking encoding windows_1250.so
+-> [ruby] linking encoding windows_1251.so
+-> [ruby] linking encoding windows_1252.so
+-> [ruby] linking encoding windows_1253.so
+-> [ruby] linking encoding windows_1254.so
+-> [ruby] linking encoding windows_1257.so
+-> [ruby] making encs
+-> [ruby] configuring date
+-> [ruby] configuring io/nonblock
+-> [ruby] configuring io/wait
+-> [ruby] configuring monitor
+-> [ruby] configuring rbconfig/sizeof
+-> [ruby] configuring fcntl
+-> [ruby] configuring sdbm
+-> [ruby] configuring rubyvm
+-> [ruby] configuring ripper
+-> [ruby] configuring digest
+-> [ruby] configuring digest/bubblebabble
+-> [ruby] configuring digest/md5
+-> [ruby] configuring zlib
+-> [ruby] configuring openssl
+-> [ruby] configuring pty
+-> [ruby] configuring json
+-> [ruby] configuring json/generator
+-> [ruby] configuring json/parser
+-> [ruby] configuring stringio
+-> [ruby] configuring digest/rmd160
+-> [ruby] configuring digest/sha1
+-> [ruby] configuring digest/sha2
+-> [ruby] generating makefile exts.mk
+-> [ruby] exts.mk updated
+-> [ruby] compiling psych.c
+-> [ruby] compiling psych_emitter.c
+-> [ruby] compiling nkf.c
+-> [ruby] compiling object_tracing.c
+-> [ruby] compiling init.c
+-> [ruby] compiling extract.c
+-> [ruby] compiling resize.c
+-> [ruby] compiling continuation.c
+-> [ruby] linking shared-object -test-/array/resize.so
+-> [ruby] linking shared-object -test-/arith_seq/extract.so
+-> [ruby] linking shared-object continuation.so
+-> [ruby] compiling constants.c
+-> [ruby] compiling mul.c
+-> [ruby] compiling objspace.c
+-> [ruby] compiling bug-14384.c
+-> [ruby] linking shared-object -test-/bug_14834.so
+-> [ruby] compiling str2big.c
+-> [ruby] compiling psych_parser.c
+-> [ruby] compiling bug.c
+-> [ruby] compiling bug.c
+-> [ruby] compiling div.c
+-> [ruby] linking shared-object -test-/bug_3571.so
+-> [ruby] linking shared-object -test-/bug_5832.so
+-> [ruby] compiling basicsocket.c
+-> [ruby] compiling bug_reporter.c
+-> [ruby] compiling socket.c
+-> [ruby] compiling init.c
+-> [ruby] linking shared-object -test-/bug_reporter.so
+-> [ruby] compiling bigzero.c
+-> [ruby] compiling init.c
+-> [ruby] compiling psych_to_ruby.c
+-> [ruby] compiling class2name.c
+-> [ruby] compiling intpack.c
+-> [ruby] compiling psych_yaml_tree.c
+-> [ruby] linking shared-object -test-/class.so
+-> [ruby] compiling ipsocket.c
+-> [ruby] compiling objspace_dump.c
+-> [ruby] compiling cxxanyargs.cpp
+-> [ruby] compiling big2str.c
+-> [ruby] linking shared-object psych.so
+-> [ruby] linking shared-object -test-/bignum.so
+-> [ruby] compiling init.c
+-> [ruby] compiling empty.c
+-> [ruby] linking shared-object -test-/dln/empty.so
+-> [ruby] compiling enumerator_kw.c
+-> [ruby] compiling inspector.c
+-> [ruby] compiling tcpsocket.c
+-> [ruby] compiling profile_frames.c
+-> [ruby] linking shared-object objspace.so
+-> [ruby] linking shared-object -test-/enumerator_kw.so
+-> [ruby] compiling dataerror.c
+-> [ruby] installing default nkf libraries
+-> [ruby] compiling ensured.c
+-> [ruby] compiling rb_fatal.c
+-> [ruby] compiling init.c
+-> [ruby] linking shared-object -test-/debug.so
+-> [ruby] compiling init.c
+-> [ruby] compiling init.c
+-> [ruby] linking shared-object -test-/cxxanyargs.so
+-> [ruby] compiling funcall.c
+-> [ruby] linking shared-object -test-/fatal/rb_fatal.so
+-> [ruby] compiling stat.c
+-> [ruby] compiling tcpserver.c
+-> [ruby] compiling nextafter.c
+-> [ruby] compiling enc_raise.c
+-> [ruby] compiling sockssocket.c
+-> [ruby] compiling call_without_gvl.c
+-> [ruby] linking shared-object -test-/funcall.so
+-> [ruby] compiling fs.c
+-> [ruby] compiling init.c
+-> [ruby] linking shared-object -test-/float.so
+-> [ruby] linking shared-object -test-/exception.so
+-> [ruby] compiling udpsocket.c
+-> [ruby] compiling my_integer.c
+-> [ruby] linking shared-object -test-/gvl/call_without_gvl.so
+-> [ruby] compiling iseq_load.c
+-> [ruby] compiling unixsocket.c
+-> [ruby] compiling delete.c
+-> [ruby] linking shared-object -test-/file.so
+-> [ruby] compiling yield.c
+-> [ruby] compiling unixserver.c
+-> [ruby] compiling core_ext.c
+-> [ruby] linking shared-object -test-/hash.so
+-> [ruby] compiling init.c
+-> [ruby] linking shared-object -test-/iseq_load.so
+-> [ruby] compiling option.c
+-> [ruby] compiling dot.dot.c
+-> [ruby] linking shared-object -test-/load/dot.dot.so
+-> [ruby] compiling init.c
+-> [ruby] compiling ancdata.c
+-> [ruby] compiling break.c
+-> [ruby] compiling protect.c
+-> [ruby] compiling raddrinfo.c
+-> [ruby] linking shared-object -test-/integer.so
+-> [ruby] linking shared-object -test-/iter.so
+-> [ruby] compiling ifaddr.c
+-> [ruby] compiling usrcompat.c
+-> [ruby] installing default socket libraries
+-> [ruby] compiling internal_ivar.c
+-> [ruby] linking shared-object -test-/load/protect.so
+-> [ruby] compiling usrmarshal.c
+-> [ruby] linking shared-object -test-/marshal/compat.so
+-> [ruby] linking shared-object -test-/marshal/internal_ivar.so
+-> [ruby] compiling init.c
+-> [ruby] compiling bug.c
+-> [ruby] linking shared-object -test-/marshal/usr.so
+-> [ruby] compiling num2int.c
+-> [ruby] compiling path_to_class.c
+-> [ruby] compiling arity.c
+-> [ruby] linking shared-object -test-/notimplement.so
+-> [ruby] compiling infinite_loop_dlsym.c
+-> [ruby] linking shared-object -test-/path_to_class.so
+-> [ruby] linking shared-object -test-/method.so
+-> [ruby] linking shared-object -test-/num2int.so
+-> [ruby] compiling postponed_job.c
+-> [ruby] compiling printf.c
+-> [ruby] compiling receiver.c
+-> [ruby] compiling rat.c
+-> [ruby] linking shared-object -test-/popen_deadlock/infinite_loop_dlsym.so
+-> [ruby] compiling rb_call_super_kw.c
+-> [ruby] linking shared-object -test-/postponed_job.so
+-> [ruby] compiling init.c
+-> [ruby] compiling super.c
+-> [ruby] linking shared-object -test-/rational.so
+-> [ruby] linking shared-object -test-/rb_call_super_kw.so
+-> [ruby] compiling recursion.c
+-> [ruby] compiling init.c
+-> [ruby] compiling scan_args.c
+-> [ruby] compiling foreach.c
+-> [ruby] linking shared-object -test-/printf.so
+-> [ruby] linking shared-object -test-/proc.so
+-> [ruby] compiling numhash.c
+-> [ruby] compiling update.c
+-> [ruby] linking shared-object -test-/recursion.so
+-> [ruby] compiling parse_depth_limit.c
+-> [ruby] compiling normalize.c
+-> [ruby] linking shared-object -test-/st/foreach.so
+-> [ruby] linking shared-object -test-/st/update.so
+-> [ruby] linking shared-object -test-/regexp.so
+-> [ruby] linking shared-object nkf.so
+-> [ruby] linking shared-object -test-/st/numhash.so
+-> [ruby] compiling duplicate.c
+-> [ruby] compiling enc_str_buf_cat.c
+-> [ruby] compiling type.c
+-> [ruby] compiling thread_fd_close.c
+-> [ruby] compiling member.c
+-> [ruby] compiling init.c
+-> [ruby] compiling init.c
+-> [ruby] compiling fstring.c
+-> [ruby] linking shared-object -test-/thread_fd_close.so
+-> [ruby] compiling len.c
+-> [ruby] compiling qsort.c
+-> [ruby] linking shared-object -test-/symbol.so
+-> [ruby] compiling leap_second.c
+-> [ruby] compiling gc_hook.c
+-> [ruby] compiling nofree.c
+-> [ruby] compiling tracepoint.c
+-> [ruby] linking shared-object -test-/struct.so
+-> [ruby] compiling init.c
+-> [ruby] compiling new.c
+-> [ruby] linking shared-object socket.so
+-> [ruby] compiling rb_str_dup.c
+-> [ruby] compiling typeddata.c
+-> [ruby] compiling modify.c
+-> [ruby] linking shared-object -test-/tracepoint.so
+-> [ruby] compiling at_exit.c
+-> [ruby] compiling wait_for_single_fd.c
+-> [ruby] linking shared-object -test-/time.so
+-> [ruby] compiling coderange.c
+-> [ruby] compiling init.c
+-> [ruby] linking shared-object -test-/typeddata.so
+-> [ruby] compiling new.c
+-> [ruby] compiling coverage.c
+-> [ruby] compiling syslog.c
+-> [ruby] linking shared-object -test-/vm/at_exit.so
+-> [ruby] linking shared-object -test-/wait_for_single_fd.so
+-> [ruby] compiling capacity.c
+-> [ruby] compiling bigdecimal.c
+-> [ruby] installing default bigdecimal libraries
+-> [ruby] installing default syslog libraries
+-> [ruby] compiling escape.c
+-> [ruby] compiling strscan.c
+-> [ruby] compiling readline.c
+-> [ruby] compiling set_len.c
+-> [ruby] compiling cstr.c
+-> [ruby] linking shared-object syslog.so
+-> [ruby] linking shared-object cgi/escape.so
+-> [ruby] compiling fiber.c
+-> [ruby] installing default coverage libraries
+-> [ruby] linking shared-object coverage.so
+-> [ruby] linking shared-object fiber.so
+-> [ruby] compiling pathname.c
+-> [ruby] compiling enc_associate.c
+-> [ruby] compiling cparse.c
+-> [ruby] installing default pathname libraries
+-> [ruby] compiling ellipsize.c
+-> [ruby] compiling etc.c
+-> [ruby] linking shared-object -test-/string.so
+-> [ruby] compiling closure.c
+-> [ruby] linking shared-object strscan.so
+-> [ruby] linking shared-object readline.so
+-> [ruby] compiling console.c
+-> [ruby] compiling nonblock.c
+-> [ruby] linking shared-object -test-/scan_args.so
+-> [ruby] linking shared-object racc/cparse.so
+-> [ruby] compiling conversions.c
+-> [ruby] compiling wait.c
+-> [ruby] installing default console libraries
+-> [ruby] compiling fiddle.c
+-> [ruby] linking shared-object etc.so
+-> [ruby] linking shared-object io/nonblock.so
+-> [ruby] compiling date_core.c
+-> [ruby] compiling monitor.c
+-> [ruby] compiling function.c
+-> [ruby] compiling handle.c
+-> [ruby] linking shared-object io/wait.so
+-> [ruby] compiling sizes.c
+-> [ruby] installing default monitor libraries
+-> [ruby] linking shared-object monitor.so
+-> [ruby] compiling fcntl.c
+-> [ruby] compiling limits.c
+-> [ruby] compiling _sdbm.c
+-> [ruby] compiling pointer.c
+-> [ruby] linking shared-object fcntl.so
+-> [ruby] installing default libraries
+-> [ruby] compiling ripper.c
+-> [ruby] linking shared-object rbconfig/sizeof.so
+-> [ruby] compiling digest.c
+-> [ruby] linking shared-object io/console.so
+-> [ruby] compiling zlib.c
+-> [ruby] compiling init.c
+-> [ruby] linking shared-object pathname.so
+-> [ruby] installing default fiddle libraries
+-> [ruby] compiling openssl_missing.c
+-> [ruby] installing default digest libraries
+-> [ruby] linking shared-object digest.so
+-> [ruby] installing digest libraries
+-> [ruby] linking shared-object fiddle.so
+-> [ruby] compiling pty.c
+-> [ruby] compiling ossl.c
+-> [ruby] installing default pty libraries
+-> [ruby] compiling stringio.c
+-> [ruby] linking shared-object pty.so
+-> [ruby] compiling bubblebabble.c
+-> [ruby] linking shared-object sdbm.so
+-> [ruby] compiling md5init.c
+-> [ruby] compiling ossl_asn1.c
+-> [ruby] linking shared-object digest/bubblebabble.so
+-> [ruby] compiling rmd160init.c
+-> [ruby] linking shared-object digest/md5.so
+-> [ruby] linking shared-object digest/rmd160.so
+-> [ruby] compiling sha1init.c
+-> [ruby] compiling sha2init.c
+-> [ruby] linking shared-object digest/sha1.so
+-> [ruby] linking shared-object digest/sha2.so
+-> [ruby] compiling generator.c
+-> [ruby] installing default sha2 libraries
+-> [ruby] compiling parser.c
+-> [ruby] compiling ossl_bio.c
+-> [ruby] linking shared-object stringio.so
+-> [ruby] compiling ossl_bn.c
+-> [ruby] compiling ossl_cipher.c
+-> [ruby] linking shared-object bigdecimal.so
+-> [ruby] compiling ossl_config.c
+-> [ruby] linking shared-object json/ext/parser.so
+-> [ruby] compiling ossl_digest.c
+-> [ruby] compiling ossl_engine.c
+-> [ruby] linking shared-object zlib.so
+-> [ruby] compiling ossl_hmac.c
+-> [ruby] compiling ossl_kdf.c
+-> [ruby] compiling ossl_ns_spki.c
+-> [ruby] compiling ossl_ocsp.c
+-> [ruby] compiling ossl_pkcs12.c
+-> [ruby] compiling ossl_pkcs7.c
+-> [ruby] linking shared-object json/ext/generator.so
+-> [ruby] compiling ossl_pkey.c
+-> [ruby] compiling ossl_pkey_dh.c
+-> [ruby] compiling ossl_pkey_dsa.c
+-> [ruby] compiling ossl_pkey_ec.c
+-> [ruby] compiling ossl_pkey_rsa.c
+-> [ruby] compiling ossl_rand.c
+-> [ruby] compiling ossl_ssl.c
+-> [ruby] compiling ossl_ssl_session.c
+-> [ruby] compiling ossl_x509.c
+-> [ruby] compiling ossl_x509attr.c
+-> [ruby] compiling ossl_x509cert.c
+-> [ruby] compiling ossl_x509crl.c
+-> [ruby] compiling ossl_x509ext.c
+-> [ruby] compiling ossl_x509name.c
+-> [ruby] compiling ossl_x509req.c
+-> [ruby] compiling ossl_x509revoked.c
+-> [ruby] compiling ossl_x509store.c
+-> [ruby] compiling date_parse.c
+-> [ruby] checking ../.././parse.y and ../.././ext/ripper/eventids2.c
+-> [ruby] compiling date_strftime.c
+-> [ruby] compiling date_strptime.c
+-> [ruby] installing default date_core libraries
+-> [ruby] linking shared-object openssl.so
+-> [ruby] linking shared-object date_core.so
+-> [ruby] linking shared-object ripper.so
+-> [ruby] ./revision.h unchanged
+-> [ruby] linking ruby
+-> [ruby] *** Following extensions are not compiled:
+-> [ruby] dbm:
+-> [ruby] 	Could not be configured. It will not be installed.
+-> [ruby] 	Check ext/dbm/mkmf.log for more details.
+-> [ruby] gdbm:
+-> [ruby] 	Could not be configured. It will not be installed.
+-> [ruby] 	Check ext/gdbm/mkmf.log for more details.
+-> [ruby] *** Fix the problems, then remove these directories and try again if you want.
+-> [ruby] ./revision.h unchanged
+-> [ruby] generating x86_64-linux-fake.rb
+-> [ruby] x86_64-linux-fake.rb updated
+-> [ruby] 	BASERUBY = echo executable host ruby is required.  use --with-baseruby option.; false
+-> [ruby] 	CC = gcc
+-> [ruby] 	LD = ld
+-> [ruby] 	LDSHARED = gcc -shared
+-> [ruby] 	CFLAGS = -O3 -g -Wall -Wextra -Wdeprecated-declarations -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wmisleading-indentation -Wpointer-arith -Wwrite-strings -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable -std=gnu99 
+-> [ruby] 	XCFLAGS = -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fno-strict-overflow -fvisibility=hidden -fexcess-precision=standard -DRUBY_EXPORT -fPIE -DCANONICALIZATION_FOR_MATHN -I. -I.ext/include/x86_64-linux -I./include -I. -I./enc/unicode/12.1.0
+-> [ruby] 	CPPFLAGS =   
+-> [ruby] 	DLDFLAGS = -Wl,--compress-debug-sections=zlib -fstack-protector-strong -pie  
+-> [ruby] 	SOLIBS = -lz -lpthread -lrt -lrt -lgmp -ldl -lcrypt -lm 
+-> [ruby] 	LANG = en_US.utf8
+-> [ruby] 	LC_ALL = 
+-> [ruby] 	LC_CTYPE = 
+-> [ruby] 	MFLAGS = -s
+-> [ruby] gcc (Debian 8.3.0-6) 8.3.0
+-> [ruby] Copyright (C) 2018 Free Software Foundation, Inc.
+-> [ruby] This is free software; see the source for copying conditions.  There is NO
+-> [ruby] warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-> [ruby] 
+-> [ruby] generating enc.mk
+-> [ruby] making srcs under enc
+-> [ruby] generating transdb.h
+-> [ruby] transdb.h unchanged
+-> [ruby] generating makefiles ext/configure-ext.mk
+-> [ruby] ext/configure-ext.mk updated
+-> [ruby] generating makefile exts.mk
+-> [ruby] exts.mk unchanged
+-> [ruby] linking shared-object -test-/marshal/compat.so
+-> [ruby] linking shared-object -test-/marshal/internal_ivar.so
+-> [ruby] linking shared-object io/nonblock.so
+-> [ruby] linking shared-object json/ext/parser.so
+-> [ruby] ./revision.h unchanged
+-> [ruby] *** Following extensions are not compiled:
+-> [ruby] dbm:
+-> [ruby] 	Could not be configured. It will not be installed.
+-> [ruby] 	Check ext/dbm/mkmf.log for more details.
+-> [ruby] gdbm:
+-> [ruby] 	Could not be configured. It will not be installed.
+-> [ruby] 	Check ext/gdbm/mkmf.log for more details.
+-> [ruby] *** Fix the problems, then remove these directories and try again if you want.
+-> [ruby] making enc
+-> [ruby] making trans
+-> [ruby] making encs
+-> [ruby] installing binary commands:         /usr/local/bin
+-> [ruby] installing base libraries:          /usr/local/lib
+-> [ruby] installing arch files:              /usr/local/lib/ruby/2.7.0/x86_64-linux
+-> [ruby] installing pkgconfig data:          /usr/local/lib/pkgconfig
+-> [ruby] installing extension objects:       /usr/local/lib/ruby/2.7.0/x86_64-linux
+-> [ruby] installing extension objects:       /usr/local/lib/ruby/site_ruby/2.7.0/x86_64-linux
+-> [ruby] installing extension objects:       /usr/local/lib/ruby/vendor_ruby/2.7.0/x86_64-linux
+-> [ruby] installing extension headers:       /usr/local/include/ruby-2.7.0/x86_64-linux
+-> [ruby] installing extension scripts:       /usr/local/lib/ruby/2.7.0
+-> [ruby] installing extension scripts:       /usr/local/lib/ruby/site_ruby/2.7.0
+-> [ruby] installing extension scripts:       /usr/local/lib/ruby/vendor_ruby/2.7.0
+-> [ruby] installing extension headers:       /usr/local/include/ruby-2.7.0/ruby
+-> [ruby] installing command scripts:         /usr/local/bin
+-> [ruby] installing library scripts:         /usr/local/lib/ruby/2.7.0
+-> [ruby] installing common headers:          /usr/local/include/ruby-2.7.0
+-> [ruby] installing manpages:                /usr/local/share/man (man1, man5)
+-> [ruby] installing default gems from lib:   /usr/local/lib/ruby/gems/2.7.0 (build_info, cache, doc, extensions, gems, specifications)
+-> [ruby]                                     benchmark 0.1.0
+-> [ruby]                                     bundler 2.1.4
+-> [ruby]                                     cgi 0.1.0
+-> [ruby]                                     csv 3.1.2
+-> [ruby]                                     delegate 0.1.0
+-> [ruby]                                     did_you_mean 1.4.0
+-> [ruby]                                     fileutils 1.4.1
+-> [ruby]                                     forwardable 1.3.1
+-> [ruby]                                     getoptlong 0.1.0
+-> [ruby]                                     ipaddr 1.2.2
+-> [ruby]                                     irb 1.2.3
+-> [ruby]                                     logger 1.4.2
+-> [ruby]                                     matrix 0.2.0
+-> [ruby]                                     mutex_m 0.1.0
+-> [ruby]                                     net-pop 0.1.0
+-> [ruby]                                     net-smtp 0.1.0
+-> [ruby]                                     observer 0.1.0
+-> [ruby]                                     open3 0.1.0
+-> [ruby]                                     ostruct 0.2.0
+-> [ruby]                                     prime 0.1.1
+-> [ruby]                                     pstore 0.1.0
+-> [ruby]                                     racc 1.4.16
+-> [ruby]                                     rdoc 6.2.1
+-> [ruby]                                     readline 0.0.2
+-> [ruby]                                     reline 0.1.3
+-> [ruby]                                     rexml 3.2.3
+-> [ruby]                                     rss 0.2.8
+-> [ruby]                                     singleton 0.1.0
+-> [ruby]                                     timeout 0.1.0
+-> [ruby]                                     tracer 0.1.0
+-> [ruby]                                     uri 0.10.0
+-> [ruby]                                     webrick 1.6.0
+-> [ruby]                                     yaml 0.1.0
+-> [ruby] installing default gems from ext:   /usr/local/lib/ruby/gems/2.7.0 (build_info, cache, doc, extensions, gems, specifications)
+-> [ruby]                                     bigdecimal 2.0.0
+-> [ruby]                                     date 3.0.0
+-> [ruby]                                     etc 1.1.0
+-> [ruby]                                     fcntl 1.0.0
+-> [ruby]                                     fiddle 1.0.0
+-> [ruby]                                     io-console 0.5.6
+-> [ruby]                                     json 2.3.0
+-> [ruby]                                     openssl 2.1.2
+-> [ruby]                                     psych 3.1.0
+-> [ruby]                                     readline-ext 0.1.0
+-> [ruby]                                     sdbm 1.0.0
+-> [ruby]                                     stringio 0.1.0
+-> [ruby]                                     strscan 1.0.3
+-> [ruby]                                     zlib 1.1.0
+-> [ruby] installing bundled gems:            /usr/local/lib/ruby/gems/2.7.0 (build_info, cache, doc, extensions, gems, specifications)
+-> [ruby]                                     power_assert 1.1.7
+-> [ruby]                                     minitest 5.13.0
+-> [ruby]                                     rake 13.0.1
+-> [ruby]                                     xmlrpc 0.3.0
+-> [ruby]                                     test-unit 3.3.4
+-> [ruby]                                     net-telnet 0.2.0
+-> [ruby] /app
+-> [ruby] -> DONE

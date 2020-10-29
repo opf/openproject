@@ -1,0 +1,13 @@
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/json-2.3.1/ext/json
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/bin/ruby -I /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib/ruby/2.7.0 -r ./siteconf20201012-1502-m8xb6q.rb extconf.rb
+creating Makefile
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/json-2.3.1/ext/json
+make "DESTDIR=" clean
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/json-2.3.1/ext/json
+make "DESTDIR="
+make: Nothing to be done for 'all'.
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/json-2.3.1/ext/json
+make "DESTDIR=" install

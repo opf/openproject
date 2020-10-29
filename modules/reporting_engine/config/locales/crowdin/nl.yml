@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+nl:
+  description_drill_down: "Details weergeven"
+  label_click_to_edit: "Klik om te bewerken."
+  label_columns: "Kolommen"
+  label_count: "Aantal"
+  label_filter: "Filter"
+  label_filter_add: "Filter Toevoegen"
+  label_filter_plural: "Filters"
+  label_greater: ">"
+  label_group_by: "Groeperen op"
+  label_group_by_add: "Groep, toevoegen aan Attribuut"
+  label_inactive: "«inactief»"
+  label_less: "<"
+  label_no: "Nee"
+  label_none: "(geen gegevens)"
+  label_progress_bar_explanation: "Rapport aan het genereren..."
+  label_really_delete_question: "Weet u zeker dat u dit rapport wilt verwijderen?"
+  label_report: "Rapport"
+  label_rows: "Rijen"
+  label_saving: "Opslaan..."
+  label_sum: "Som"
+  label_yes: "Ja"
+  load_query_question: "Het rapport bevat %{size} tabelcellen en kan enige tijd kosten om te renderen. Wilt u proberen het rapport toch uit te voeren?"
+  units: "Eenheden"
+  validation_failure_date: "is geen geldige datum"
+  validation_failure_integer: "is geen geldig geheel getal"
+  reporting:
+    group_by:
+      selected_columns: "Geselecteerde kolommen"
+      selected_rows: "Geselecteerde rijen"

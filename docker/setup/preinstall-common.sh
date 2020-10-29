@@ -32,7 +32,7 @@ tmpdir=$(mktemp -d)
 cd $tmpdir
 
 # Install XKT converter
-npm install @xeokit/xeokit-gltf-to-xkt@0.0.3 -g
+npm install xeokit/xeokit-gltf-to-xkt -g
 
 # Install COLLADA2GLTF
 wget --quiet https://github.com/KhronosGroup/COLLADA2GLTF/releases/download/v2.1.5/COLLADA2GLTF-v2.1.5-linux.zip

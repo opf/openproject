@@ -57,11 +57,11 @@ module OpenProject
 
       # Augur connect host
       def enterprise_trial_creation_host
-        if Rails.env.production?
-          self['enterprise_trial_creation_host']
-        else
-          'https://augur.openproject-edge.com'
-        end
+        #if Rails.env.production?
+        #  self['enterprise_trial_creation_host']
+        #else
+        #  'https://augur.openproject-edge.com'
+        #end
       end
 
       def file_storage?

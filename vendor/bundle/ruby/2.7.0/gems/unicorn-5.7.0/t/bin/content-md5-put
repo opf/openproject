@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+# -*- encoding: binary -*-
+# simple chunked HTTP PUT request generator (and just that),
+# it reads stdin and writes to stdout so socat can write to a
+# UNIX or TCP socket (or to another filter or file) along with
+# a Content-MD5 trailer.
+require 'digest/md5'
+$stdout.sync = $stderr.sync = true
+$stdout.binmode
+$stdin.binmode
+
+bs = ENV['bs'] ? ENV['bs'].to_i : 4096
+
+if ARGV.grep("--no-headers").empty?
+  $stdout.write(
+      "PUT / HTTP/1.1\r\n" \
+      "Host: example.com\r\n" \
+      "Transfer-Encoding: chunked\r\n" \
+      "Trailer: Content-MD5\r\n" \
+      "\r\n"
+    )
+end
+
+digest = Digest::MD5.new
+if buf = $stdin.readpartial(bs)
+  begin
+    digest.update(buf)
+    $stdout.write("%x\r\n" % [ buf.size ])
+    $stdout.write(buf)
+    $stdout.write("\r\n")
+  end while $stdin.read(bs, buf)
+end
+
+digest = [ digest.digest ].pack('m').strip
+$stdout.write("0\r\n")
+$stdout.write("Content-MD5: #{digest}\r\n\r\n")

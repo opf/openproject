@@ -1,0 +1,2 @@
+* obsolete kgio by improving *_nonblock methods in Ruby itself
+  (Done for *_nonblock in Ruby 2.3.x, not sure for poll and writev support)

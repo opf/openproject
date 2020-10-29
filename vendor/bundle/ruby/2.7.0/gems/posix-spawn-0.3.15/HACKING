@@ -1,0 +1,26 @@
+Clone the project:
+
+   git clone http://github.com/rtomayko/posix-spawn.git
+   cd posix-spawn
+   bundle install
+
+Rake tasks can be run without further setup:
+
+   rake build
+   rake test
+   rake benchmark
+
+Just `rake' builds the extension and runs the tests.
+
+If you want to run the benchmark scripts or tests directly out of a
+working copy, first setup your PATH and RUBYLIB environment:
+
+    PATH="$(pwd)/bin:$PATH"
+    RUBYLIB="$(pwd)/lib:$(pwd)/ext:$RUBYLIB"
+    export RUBYLIB
+
+Or, use the following rbdev script to quickly setup your PATH and
+RUBYLIB environment for this and other projects adhering to the
+Ruby Packaging Standard:
+
+    https://github.com/rtomayko/dotfiles/blob/rtomayko/bin/rbdev

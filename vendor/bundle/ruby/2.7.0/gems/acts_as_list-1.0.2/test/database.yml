@@ -1,0 +1,16 @@
+sqlite:
+  adapter: sqlite3
+  database: "file:memdb1?mode=memory&cache=shared"
+
+mysql:
+  adapter: mysql2
+  username: root
+  password:
+  database: acts_as_list
+
+postgresql:
+  adapter: postgresql
+  username: postgres
+  password:
+  database: acts_as_list
+  min_messages: ERROR

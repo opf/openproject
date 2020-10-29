@@ -1,0 +1,35 @@
+Unicorn developers (let us know if we forgot you):
+* Eric Wong (BDFL, BOFH)
+* Suraj N. Kurapati
+* Andrey Stikheev
+* Wayne Larsen
+* Iñaki Baz Castillo
+* Augusto Becciu
+* Hongli Lai
+* ... (help wanted)
+
+We would like to thank following folks for helping make Unicorn possible:
+
+* Ezra Zygmuntowicz - for helping Eric decide on a sane configuration
+  format and reasonable defaults.
+* Christian Neukirchen - for Rack, which let us put more focus on the server
+  and drastically cut down on the amount of code we have to maintain.
+* Zed A. Shaw - for Mongrel, without which Unicorn would not be possible
+
+The original Mongrel contributors:
+
+* Luis Lavena
+* Wilson Bilkovich
+* why the lucky stiff
+* Dan Kubb
+* MenTaLguY
+* Filipe Lautert
+* Rick Olson
+* Wayne E. Seguin
+* Kirk Haines
+* Bradley Taylor
+* Matt Pelletier
+* Ry Dahl
+* Nick Sieger
+* Evan Weaver
+* Marc-André Cournoyer

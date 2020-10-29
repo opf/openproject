@@ -1,0 +1,5 @@
+{
+  "client_id": "client.example.com",
+  "client_secret": "new_client_secret",
+  "expires_in": 3600
+}

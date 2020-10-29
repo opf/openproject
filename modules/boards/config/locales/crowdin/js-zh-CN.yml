@@ -50,7 +50,7 @@ zh-CN:
         action_text_assignee: >
           具有基于指定用户的自动列的面板。适合分发工作包。
         action_text_version: >
-          基于版本属性的自动列面板。用于产品开发规划。
+          Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
           assignee: 指派人
           status: 状态

@@ -1,0 +1,60 @@
+= Performance
+
+Unicorn is pretty fast, and we want it to get faster.  Unicorn strives
+to get HTTP requests to your application and write HTTP responses back
+as quickly as possible.  Unicorn does not do any background processing
+while your app runs, so your app will get all the CPU time provided to
+it by your OS kernel.
+
+A gentle reminder: Unicorn is NOT for serving clients over slow network
+connections.  Use nginx (or something similar) to complement Unicorn if
+you have slow clients.
+
+== dd.ru
+
+This is a pure I/O benchmark.  In the context of Unicorn, this is the
+only one that matters.  It is a standard rackup-compatible .ru file and
+may be used with other Rack-compatible servers.
+
+  unicorn -E none dd.ru
+
+You can change the size and number of chunks in the response with
+the "bs" and "count" environment variables.   The following command
+will cause dd.ru to return 4 chunks of 16384 bytes each, leading to
+65536 byte response:
+
+  bs=16384 count=4 unicorn -E none dd.ru
+
+Or if you want to add logging (small performance impact):
+
+  unicorn -E deployment dd.ru
+
+Eric runs then runs clients on a LAN it in several different ways:
+
+  client@host1 -> unicorn@host1(tcp)
+  client@host2 -> unicorn@host1(tcp)
+  client@host3 -> nginx@host1 -> unicorn@host1(tcp)
+  client@host3 -> nginx@host1 -> unicorn@host1(unix)
+  client@host3 -> nginx@host2 -> unicorn@host1(tcp)
+
+The benchmark client is usually httperf.
+
+Another gentle reminder: performance with slow networks/clients
+is NOT our problem.  That is the job of nginx (or similar).
+
+== ddstream.ru
+
+Standalone Rack app intended to show how BAD we are at slow clients.
+See usage in comments.
+
+== readinput.ru
+
+Standalone Rack app intended to show how bad we are with slow uploaders.
+See usage in comments.
+
+== Contributors
+
+This directory is intended to remain stable.  Do not make changes
+to benchmarking code which can change performance and invalidate
+results across revisions.  Instead, write new benchmarks and update
+coments/documentation as necessary.

@@ -1,0 +1,222 @@
+.TH "UNICORN" "1" "September 15, 2009" "Unicorn User Manual" ""
+.hy
+.SH NAME
+.PP
+unicorn \- a rackup\-like command to launch the Unicorn HTTP server
+.SH SYNOPSIS
+.PP
+unicorn [\-c CONFIG_FILE] [\-E RACK_ENV] [\-D] [RACKUP_FILE]
+.SH DESCRIPTION
+.PP
+A rackup(1)\-like command to launch Rack applications using Unicorn.
+It is expected to be started in your application root (APP_ROOT),
+but the "working_directory" directive may be used in the CONFIG_FILE.
+.PP
+While unicorn takes a myriad of command\-line options for
+compatibility with ruby(1) and rackup(1), it is recommended to stick
+to the few command\-line options specified in the SYNOPSIS and use
+the CONFIG_FILE as much as possible.
+.SH RACKUP FILE
+.PP
+This defaults to "config.ru" in APP_ROOT.  It should be the same
+file used by rackup(1) and other Rack launchers, it uses the
+\f[I]Rack::Builder\f[] DSL.
+.PP
+Embedded command\-line options are mostly parsed for compatibility
+with rackup(1) but strongly discouraged.
+.SH UNICORN OPTIONS
+.TP
+.B \-c, \-\-config\-file CONFIG_FILE
+Path to the Unicorn\-specific config file.  The config file is
+implemented as a Ruby DSL, so Ruby code may executed.
+See the RDoc/ri for the \f[I]Unicorn::Configurator\f[] class for the full
+list of directives available from the DSL.
+Using an absolute path for for CONFIG_FILE is recommended as it
+makes multiple instances of Unicorn easily distinguishable when
+viewing ps(1) output.
+.RS
+.RE
+.TP
+.B \-D, \-\-daemonize
+Run daemonized in the background.  The process is detached from
+the controlling terminal and stdin is redirected to "/dev/null".
+Unlike many common UNIX daemons, we do not chdir to "/"
+upon daemonization to allow more control over the startup/upgrade
+process.
+Unless specified in the CONFIG_FILE, stderr and stdout will
+also be redirected to "/dev/null".
+.RS
+.RE
+.TP
+.B \-E, \-\-env RACK_ENV
+Run under the given RACK_ENV.  See the RACK ENVIRONMENT section
+for more details.
+.RS
+.RE
+.TP
+.B \-l, \-\-listen ADDRESS
+Listens on a given ADDRESS.  ADDRESS may be in the form of
+HOST:PORT or PATH, HOST:PORT is taken to mean a TCP socket
+and PATH is meant to be a path to a UNIX domain socket.
+Defaults to "0.0.0.0:8080" (all addresses on TCP port 8080)
+For production deployments, specifying the "listen" directive in
+CONFIG_FILE is recommended as it allows fine\-tuning of socket
+options.
+.RS
+.RE
+.TP
+.B \-N, \-\-no\-default\-middleware
+Disables loading middleware implied by RACK_ENV.  This bypasses the
+configuration documented in the RACK ENVIRONMENT section, but still
+allows RACK_ENV to be used for application/framework\-specific purposes.
+.RS
+.RE
+.SH RACKUP COMPATIBILITY OPTIONS
+.TP
+.B \-o, \-\-host HOST
+Listen on a TCP socket belonging to HOST, default is
+"0.0.0.0" (all addresses).
+If specified multiple times on the command\-line, only the
+last\-specified value takes effect.
+This option only exists for compatibility with the rackup(1) command,
+use of "\-l"/"\-\-listen" switch is recommended instead.
+.RS
+.RE
+.TP
+.B \-p, \-\-port PORT
+Listen on the specified TCP PORT, default is 8080.
+If specified multiple times on the command\-line, only the last\-specified
+value takes effect.
+This option only exists for compatibility with the rackup(1) command,
+use of "\-l"/"\-\-listen" switch is recommended instead.
+.RS
+.RE
+.TP
+.B \-s, \-\-server SERVER
+No\-op, this exists only for compatibility with rackup(1).
+.RS
+.RE
+.SH RUBY OPTIONS
+.TP
+.B \-e, \-\-eval LINE
+Evaluate a LINE of Ruby code.  This evaluation happens
+immediately as the command\-line is being parsed.
+.RS
+.RE
+.TP
+.B \-d, \-\-debug
+Turn on debug mode, the $DEBUG variable is set to true.
+.RS
+.RE
+.TP
+.B \-w, \-\-warn
+Turn on verbose warnings, the $VERBOSE variable is set to true.
+.RS
+.RE
+.TP
+.B \-I, \-\-include PATH
+specify $LOAD_PATH.  PATH will be prepended to $LOAD_PATH.
+The \[aq]:\[aq] character may be used to delimit multiple directories.
+This directive may be used more than once.  Modifications to
+$LOAD_PATH take place immediately and in the order they were
+specified on the command\-line.
+.RS
+.RE
+.TP
+.B \-r, \-\-require LIBRARY
+require a specified LIBRARY before executing the application.  The
+"require" statement will be executed immediately and in the order
+they were specified on the command\-line.
+.RS
+.RE
+.SH SIGNALS
+.PP
+The following UNIX signals may be sent to the master process:
+.IP \[bu] 2
+HUP \- reload config file, app, and gracefully restart all workers
+.IP \[bu] 2
+INT/TERM \- quick shutdown, kills all workers immediately
+.IP \[bu] 2
+QUIT \- graceful shutdown, waits for workers to finish their
+current request before finishing.
+.IP \[bu] 2
+USR1 \- reopen all logs owned by the master and all workers
+See Unicorn::Util.reopen_logs for what is considered a log.
+.IP \[bu] 2
+USR2 \- reexecute the running binary.  A separate QUIT
+should be sent to the original process once the child is verified to
+be up and running.
+.IP \[bu] 2
+WINCH \- gracefully stops workers but keep the master running.
+This will only work for daemonized processes.
+.IP \[bu] 2
+TTIN \- increment the number of worker processes by one
+.IP \[bu] 2
+TTOU \- decrement the number of worker processes by one
+.PP
+See the SIGNALS (https://yhbt.net/unicorn/SIGNALS.html) document for
+full description of all signals used by Unicorn.
+.SH RACK ENVIRONMENT
+.PP
+Accepted values of RACK_ENV and the middleware they automatically load
+(outside of RACKUP_FILE) are exactly as those in rackup(1):
+.IP \[bu] 2
+development \- loads Rack::CommonLogger, Rack::ShowExceptions, and
+              Rack::Lint middleware
+.IP \[bu] 2
+deployment \- loads Rack::CommonLogger middleware
+.IP \[bu] 2
+none \- loads no middleware at all, relying entirely on RACKUP_FILE
+.PP
+All unrecognized values for RACK_ENV are assumed to be
+"none".  Production deployments are strongly encouraged to use
+"deployment" or "none" for maximum performance.
+.PP
+As of Unicorn 0.94.0, RACK_ENV is exported as a process\-wide environment
+variable as well.  While not current a part of the Rack specification as
+of Rack 1.0.1, this has become a de facto standard in the Rack world.
+.PP
+Note the Rack::ContentLength and Rack::Chunked middlewares are also
+loaded by "deployment" and "development", but no other values of
+RACK_ENV.  If needed, they must be individually specified in the
+RACKUP_FILE, some frameworks do not require them.
+.SH ENVIRONMENT VARIABLES
+.PP
+The RACK_ENV variable is set by the aforementioned \-E switch.
+All application or library\-specific environment variables (e.g. TMPDIR)
+may always be set in the Unicorn CONFIG_FILE in addition to the spawning
+shell.  When transparently upgrading Unicorn, all environment variables
+set in the old master process are inherited by the new master process.
+Unicorn only uses (and will overwrite) the UNICORN_FD environment
+variable internally when doing transparent upgrades.
+.PP
+UNICORN_FD is a comma\-delimited list of one or more file descriptors
+used to implement USR2 upgrades.  Init systems may bind listen sockets
+itself and spawn unicorn with UNICORN_FD set to the file descriptor
+numbers of the listen socket(s).
+.PP
+As of unicorn 5.0, LISTEN_PID and LISTEN_FDS are used for socket
+activation as documented in the sd_listen_fds(3) manpage.  Users
+relying on this feature do not need to specify a listen socket in
+the unicorn config file.
+.SH SEE ALSO
+.IP \[bu] 2
+\f[I]Rack::Builder\f[] ri/RDoc
+.IP \[bu] 2
+\f[I]Unicorn::Configurator\f[] ri/RDoc
+.UR https://yhbt.net/unicorn/Unicorn/Configurator.html
+.UE
+.IP \[bu] 2
+unicorn RDoc
+.UR https://yhbt.net/unicorn/
+.UE
+.IP \[bu] 2
+Rack RDoc
+.UR https://www.rubydoc.info/github/rack/rack/
+.UE
+.IP \[bu] 2
+Rackup HowTo
+.UR https://github.com/rack/rack/wiki/(tutorial)-rackup-howto
+.UE
+.SH AUTHORS
+The Unicorn Community <unicorn-public@yhbt.net>.

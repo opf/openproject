@@ -39,7 +39,7 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Whether any active strategy exists
       def enabled?
-        !active_strategies.empty? && EnterpriseToken.allows_to?(:two_factor_authentication)
+        !active_strategies.empty?
       end
 
       ##

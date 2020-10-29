@@ -1,0 +1,79 @@
+= Known Issues
+
+Occasionally odd {issues}[link:ISSUES.html] arise without a transparent or
+acceptable solution.  Those issues are documented here.
+
+* Some libraries/applications may install signal handlers which conflict
+  with signal handlers unicorn uses.  Leaving "preload_app false"
+  (the default) will allow unicorn to always override existing signal
+  handlers.
+
+* Issues with FreeBSD jails can be worked around as documented by Tatsuya Ono:
+  https://yhbt.net/unicorn-public/CAHBuKRj09FdxAgzsefJWotexw-7JYZGJMtgUp_dhjPz9VbKD6Q@mail.gmail.com/
+
+* PRNGs (pseudo-random number generators) loaded before forking
+  (e.g. "preload_app true") may need to have their internal state
+  reset in the after_fork hook.  Starting with unicorn 3.6.1, we
+  have builtin workarounds for Kernel#rand and OpenSSL::Random users,
+  but applications may use other PRNGs.
+
+* For notes on sandboxing tools such as Bundler or Isolate,
+  see the {Sandbox}[link:Sandbox.html] page.
+
+* nginx with "sendfile on" under FreeBSD 8 is broken when
+  uploads are buffered to disk.  Disabling sendfile is required to
+  work around this bug which should be fixed in newer versions of FreeBSD.
+
+* When using "preload_app true", with apps using background threads
+  need to restart them in the after_fork hook because threads are never
+  shared with child processes.  Additionally, any synchronization
+  primitives (Mutexes, Monitors, ConditionVariables) should be
+  reinitialized in case they are held during fork time to avoid
+  deadlocks.  The core Ruby Logger class needlessly uses a MonitorMutex
+  which can be disabled with a {monkey patch}[link:examples/logger_mp_safe.rb]
+
+== Known Issues (Old)
+
+* Under some versions of Ruby 1.8, it is necessary to call +srand+ in an
+  after_fork hook to get correct random number generation.  We have a builtin
+  workaround for this starting with unicorn 3.6.1
+
+  See http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-core/36450
+
+* On Ruby 1.8 prior to Ruby 1.8.7-p248, *BSD platforms have a broken
+  stdio that causes failure for file uploads larger than 112K.  Upgrade
+  your version of Ruby or continue using unicorn 1.x/3.4.x.
+
+* Under Ruby 1.9.1, methods like Array#shuffle and Array#sample will
+  segfault if called after forking.  Upgrade to Ruby 1.9.2 or call
+  "Kernel.rand" in your after_fork hook to reinitialize the random
+  number generator.
+
+  See http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-core/28655
+
+* Rails 2.3.2 bundles its own version of Rack.  This may cause subtle
+  bugs when simultaneously loaded with the system-wide Rack Rubygem
+  which unicorn depends on.  Upgrading to Rails 2.3.4 (or later) is
+  strongly recommended for all Rails 2.3.x users for this (and security
+  reasons).  Rails 2.2.x series (or before) did not bundle Rack and are
+  should be unnaffected.  If there is any reason which forces your
+  application to use Rails 2.3.2 and you have no other choice, then
+  you may edit your unicorn gemspec and remove the Rack dependency.
+
+  ref: https://yhbt.net/unicorn-public/20091014221552.GA30624@dcvr.yhbt.net/
+  Note: the workaround described in the article above only made
+  the issue more subtle and we didn't notice them immediately.
+
+* WONTFIX: code reloading and restarts with Sinatra 0.3.x (and likely older
+  versions) apps is broken.  The workaround is to force production
+  mode to disable code reloading as well as disabling "run" in your
+  Sinatra application:
+    set :env, :production
+    set :run, false
+  Since this is no longer an issue with Sinatra 0.9.x apps, this will not be
+  fixed on our end.  Since unicorn is itself the application launcher, the
+  at_exit handler used in old Sinatra always caused Mongrel to be launched
+  whenever a unicorn worker was about to exit.
+
+  Also remember we're capable of replacing the running binary without dropping
+  any connections regardless of framework :)

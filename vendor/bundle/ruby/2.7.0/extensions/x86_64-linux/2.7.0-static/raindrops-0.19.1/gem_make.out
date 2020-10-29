@@ -1,0 +1,126 @@
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/raindrops-0.19.1/ext/raindrops
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/bin/ruby -I /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib/ruby/2.7.0 -r ./siteconf20201012-1502-s5axmy.rb extconf.rb
+checking for mmap() in sys/mman.h... yes
+checking for munmap() in sys/mman.h... yes
+checking for mremap() in sys/mman.h... yes
+checking for linux/tcp.h... yes
+checking for struct tcp_info in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_state in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_ca_state in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_retransmits in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_probes in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_backoff in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_options in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_snd_wscale in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_rcv_wscale in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_rto in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_ato in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_snd_mss in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_rcv_mss in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_unacked in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_sacked in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_lost in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_retrans in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_fackets in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_last_data_sent in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_last_ack_sent in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_last_data_recv in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_last_ack_recv in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_pmtu in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_rcv_ssthresh in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_rtt in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_rttvar in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_snd_ssthresh in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_snd_cwnd in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_advmss in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_reordering in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_rcv_rtt in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_rcv_space in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_total_retrans in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... yes
+checking for struct tcp_info.tcpi_snd_wnd in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_snd_bwnd in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_snd_nxt in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_rcv_nxt in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_toe_tid in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_snd_rexmitpack in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_rcv_ooopack in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for struct tcp_info.tcpi_snd_zerowin in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_ESTABLISHED in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_ESTABLISHED in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_SYN_SENT in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_SYN_SENT in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_SYN_RECV in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_SYN_RECEIVED in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_FIN_WAIT1 in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_FIN_WAIT_1 in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_FIN_WAIT2 in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_FIN_WAIT_2 in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_TIME_WAIT in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_TIME_WAIT in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_CLOSE in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_CLOSED in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_CLOSE_WAIT in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_CLOSE_WAIT in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_LAST_ACK in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_LAST_ACK in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_LISTEN in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_LISTEN in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCP_CLOSING in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for TCPS_CLOSING in sys/types.h,netdb.h,string.h,sys/socket.h,netinet/in.h,linux/tcp.h... no
+checking for getpagesize() in unistd.h... yes
+checking for rb_thread_call_without_gvl()... yes
+checking for rb_thread_blocking_region()... no
+checking for rb_thread_io_blocking_region()... yes
+checking for GCC 4+ atomic builtins... yes
+creating extconf.h
+creating Makefile
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/raindrops-0.19.1/ext/raindrops
+make "DESTDIR=" clean
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/raindrops-0.19.1/ext/raindrops
+make "DESTDIR="
+compiling linux_inet_diag.c
+In file included from /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdio.h:27,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/defines.h:126,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:29,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from linux_inet_diag.c:1:
+/usr/include/features.h:184:3: warning: #warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Wcpp]
+ # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE"
+   ^~~~~~~
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling raindrops.c
+In file included from /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdio.h:27,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/defines.h:126,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:29,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from raindrops.c:1:
+/usr/include/features.h:184:3: warning: #warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Wcpp]
+ # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE"
+   ^~~~~~~
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling tcp_info.c
+In file included from /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdio.h:27,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/defines.h:126,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:29,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from tcp_info.c:1:
+/usr/include/features.h:184:3: warning: #warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Wcpp]
+ # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE"
+   ^~~~~~~
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+linking shared-object raindrops_ext.so
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/raindrops-0.19.1/ext/raindrops
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 raindrops_ext.so ./.gem.20201012-1502-zvr6lt

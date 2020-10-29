@@ -1,0 +1,71 @@
+= rack-oauth2
+
+OAuth 2.0 Server & Client Library.
+Both Bearer and MAC token type are supported.
+
+{<img src="https://secure.travis-ci.org/nov/rack-oauth2.png" />}[http://travis-ci.org/nov/rack-oauth2]
+
+The OAuth 2.0 Authorization Framework (RFC 6749)
+http://www.rfc-editor.org/rfc/rfc6749.txt
+
+The OAuth 2.0 Authorization Framework: Bearer Token Usage (RFC 6750)
+http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-06
+
+HTTP Authentication: MAC Access Authentication (draft 01)
+http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-01
+
+== Installation
+
+  gem install rack-oauth2
+
+== Resources
+
+* View Source on GitHub (https://github.com/nov/rack-oauth2)
+* Docs on GitHub (https://github.com/nov/rack-oauth2/wiki)
+* Report Issues on GitHub (https://github.com/nov/rack-oauth2/issues)
+
+== Sample Server Application (Rails3)
+
+=== Bearer
+
+Source on GitHub
+https://github.com/nov/rack-oauth2-sample
+
+=== MAC
+
+Source on GitHub
+https://github.com/nov/rack-oauth2-sample-mac
+
+== Sample Client
+
+=== Common between Bearer and MAC
+
+Authorization Request (request_type: 'code' and 'token')
+https://gist.github.com/862393
+
+Token Request (grant_type: 'client_credentials', 'password', 'authorization_code' and 'refresh_token')
+https://gist.github.com/883541
+
+=== Bearer
+
+Resource Request (request both for resource owner resource and for client resource)
+https://gist.github.com/883575
+
+=== MAC
+
+Resource Request (request both for resource owner resource and for client resource)
+https://gist.github.com/933885
+
+== Note on Patches/Pull Requests
+
+* Fork the project.
+* Make your feature addition or bug fix.
+* Add tests for it. This is important so I don't break it in a
+  future version unintentionally.
+* Commit, do not mess with rakefile, version, or history.
+  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+* Send me a pull request. Bonus points for topic branches.
+
+== Copyright
+
+Copyright (c) 2010 nov matake. See LICENSE for details.

@@ -1,0 +1,32 @@
+engines:
+  rubocop:
+    enabled: true
+    checks:
+      Rubocop/Metrics/LineLength:
+        enabled: true
+        max: 120
+      Rubocop/Style/Documentation:
+        enabled: false
+      Rubocop/Lint/HandleExceptions:
+        enabled: true
+        exclude:
+          - rakelib/*.rake
+      Rubocop/Lint/NestedMethodDefinition:
+        enabled: true
+        exclude:
+          - lib/dry/container/mixin.rb
+      Rubocop/Metrics/MethodLength:
+        enabled: true
+        exclude:
+          - lib/dry/container/mixin.rb
+      Rubocop/Style/FileName:
+        enabled: true
+        exclude:
+          - lib/dry-container.rb
+
+ratings:
+  paths:
+    - lib/**/*.rb
+  exclude_paths:
+    - spec/**/*
+    - examples/**/*

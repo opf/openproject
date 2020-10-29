@@ -1,0 +1,78 @@
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogumbo-2.0.2/ext/nokogumbo
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/bin/ruby -I /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib/ruby/2.7.0 -r ./siteconf20201012-1502-16oxs7q.rb extconf.rb
+checking for xmlNewDoc() in -lxml2... yes
+checking for nokogiri.h in /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogiri-1.10.10/ext/nokogiri... yes
+creating Makefile
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogumbo-2.0.2/ext/nokogumbo
+make "DESTDIR=" clean
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogumbo-2.0.2/ext/nokogumbo
+make "DESTDIR="
+compiling nokogumbo.c
+In file included from nokogumbo.c:53:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogiri-1.10.10/ext/nokogiri/nokogiri.h:13: warning: "_GNU_SOURCE" redefined
+ #define _GNU_SOURCE
+ 
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:24,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from nokogumbo.c:22:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/x86_64-linux/ruby/config.h:16: note: this is the location of the previous definition
+ #define _GNU_SOURCE 1
+ 
+nokogumbo.c: In function ‘parse’:
+nokogumbo.c:505:20: warning: passing argument 1 of ‘rb_ensure’ from incompatible pointer type [-Wincompatible-pointer-types]
+   return rb_ensure(parse_continue, (VALUE)&args, parse_cleanup, (VALUE)&args);
+                    ^~~~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from nokogumbo.c:22:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:1990:17: note: expected ‘VALUE (*)(VALUE)’ {aka ‘long unsigned int (*)(long unsigned int)’} but argument is of type ‘VALUE (*)(ParseArgs *)’ {aka ‘long unsigned int (*)(struct <anonymous> *)’}
+ VALUE rb_ensure(VALUE(*)(VALUE),VALUE,VALUE(*)(VALUE),VALUE);
+                 ^~~~~~~~~~~~~~~
+nokogumbo.c:505:50: warning: passing argument 3 of ‘rb_ensure’ from incompatible pointer type [-Wincompatible-pointer-types]
+   return rb_ensure(parse_continue, (VALUE)&args, parse_cleanup, (VALUE)&args);
+                                                  ^~~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from nokogumbo.c:22:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:1990:39: note: expected ‘VALUE (*)(VALUE)’ {aka ‘long unsigned int (*)(long unsigned int)’} but argument is of type ‘VALUE (*)(ParseArgs *)’ {aka ‘long unsigned int (*)(struct <anonymous> *)’}
+ VALUE rb_ensure(VALUE(*)(VALUE),VALUE,VALUE(*)(VALUE),VALUE);
+                                       ^~~~~~~~~~~~~~~
+nokogumbo.c: In function ‘fragment’:
+nokogumbo.c:695:13: warning: passing argument 1 of ‘rb_ensure’ from incompatible pointer type [-Wincompatible-pointer-types]
+   rb_ensure(fragment_continue, (VALUE)&args, parse_cleanup, (VALUE)&args);
+             ^~~~~~~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from nokogumbo.c:22:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:1990:17: note: expected ‘VALUE (*)(VALUE)’ {aka ‘long unsigned int (*)(long unsigned int)’} but argument is of type ‘VALUE (*)(ParseArgs *)’ {aka ‘long unsigned int (*)(struct <anonymous> *)’}
+ VALUE rb_ensure(VALUE(*)(VALUE),VALUE,VALUE(*)(VALUE),VALUE);
+                 ^~~~~~~~~~~~~~~
+nokogumbo.c:695:46: warning: passing argument 3 of ‘rb_ensure’ from incompatible pointer type [-Wincompatible-pointer-types]
+   rb_ensure(fragment_continue, (VALUE)&args, parse_cleanup, (VALUE)&args);
+                                              ^~~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from nokogumbo.c:22:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:1990:39: note: expected ‘VALUE (*)(VALUE)’ {aka ‘long unsigned int (*)(long unsigned int)’} but argument is of type ‘VALUE (*)(ParseArgs *)’ {aka ‘long unsigned int (*)(struct <anonymous> *)’}
+ VALUE rb_ensure(VALUE(*)(VALUE),VALUE,VALUE(*)(VALUE),VALUE);
+                                       ^~~~~~~~~~~~~~~
+compiling ./../../gumbo-parser/src/ascii.c
+compiling ./../../gumbo-parser/src/foreign_attrs.c
+compiling ./../../gumbo-parser/src/util.c
+compiling ./../../gumbo-parser/src/vector.c
+compiling ./../../gumbo-parser/src/attribute.c
+compiling ./../../gumbo-parser/src/utf8.c
+compiling ./../../gumbo-parser/src/svg_tags.c
+compiling ./../../gumbo-parser/src/svg_attrs.c
+compiling ./../../gumbo-parser/src/tag.c
+compiling ./../../gumbo-parser/src/token_buffer.c
+compiling ./../../gumbo-parser/src/string_piece.c
+compiling ./../../gumbo-parser/src/tag_lookup.c
+compiling ./../../gumbo-parser/src/error.c
+compiling ./../../gumbo-parser/src/char_ref.c
+compiling ./../../gumbo-parser/src/string_buffer.c
+compiling ./../../gumbo-parser/src/parser.c
+compiling ./../../gumbo-parser/src/tokenizer.c
+linking shared-object nokogumbo/nokogumbo.so
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogumbo-2.0.2/ext/nokogumbo
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 nokogumbo.so ./.gem.20201012-1502-1muwxhu/nokogumbo

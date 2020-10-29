@@ -1,0 +1,507 @@
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogiri-1.10.10/ext/nokogiri
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/bin/ruby -I /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/lib/ruby/2.7.0 -r ./siteconf20201012-1502-1tbcric.rb extconf.rb
+checking if the C compiler accepts ... yes
+Building nokogiri using system libraries.
+checking for xmlParseDoc() in libxml/parser.h... yes
+checking for xsltParseStylesheetDoc() in libxslt/xslt.h... yes
+checking for exsltFuncRegister() in libexslt/exslt.h... yes
+checking for xmlHasFeature()... yes
+checking for xmlFirstElementChild()... yes
+checking for xmlRelaxNGSetParserStructuredErrors()... yes
+checking for xmlRelaxNGSetParserStructuredErrors()... yes
+checking for xmlRelaxNGSetValidStructuredErrors()... yes
+checking for xmlSchemaSetValidStructuredErrors()... yes
+checking for xmlSchemaSetParserStructuredErrors()... yes
+creating Makefile
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogiri-1.10.10/ext/nokogiri
+make "DESTDIR=" clean
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogiri-1.10.10/ext/nokogiri
+make "DESTDIR="
+compiling html_document.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./html_document.h:4,
+                 from html_document.c:1:
+html_document.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+html_document.c:16:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "0*", &rest);
+   ^~~~~~~~~~~~
+html_document.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling html_element_description.c
+compiling html_entity_lookup.c
+compiling html_sax_parser_context.c
+compiling html_sax_push_parser.c
+compiling nokogiri.c
+compiling xml_attr.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_attr.h:4,
+                 from xml_attr.c:1:
+xml_attr.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_attr.c:61:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "2*", &document, &name, &rest);
+   ^~~~~~~~~~~~
+xml_attr.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_attribute_decl.c
+compiling xml_cdata.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_cdata.h:4,
+                 from xml_cdata.c:1:
+xml_cdata.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_cdata.c:23:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "2*", &doc, &content, &rest);
+   ^~~~~~~~~~~~
+xml_cdata.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_comment.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_comment.h:4,
+                 from xml_comment.c:1:
+xml_comment.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_comment.c:21:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "2*", &document, &content, &rest);
+   ^~~~~~~~~~~~
+xml_comment.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_document.c
+xml_document.c: In function ‘dealloc’:
+xml_document.c:49:25: warning: passing argument 2 of ‘rb_st_foreach’ from incompatible pointer type [-Wincompatible-pointer-types]
+   st_foreach(node_hash, dealloc_node_i, (st_data_t)doc);
+                         ^~~~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/intern.h:39,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2148,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_document.h:4,
+                 from xml_document.c:1:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/st.h:141:31: note: expected ‘int (*)(st_data_t,  st_data_t,  st_data_t)’ {aka ‘int (*)(long unsigned int,  long unsigned int,  long unsigned int)’} but argument is of type ‘int (*)(xmlNode *, xmlNode *, xmlDoc *)’ {aka ‘int (*)(struct _xmlNode *, struct _xmlNode *, struct _xmlDoc *)’}
+ int rb_st_foreach(st_table *, st_foreach_callback_func *, st_data_t);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_document.h:4,
+                 from xml_document.c:1:
+xml_document.c: In function ‘duplicate_document’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_document.c:330:6: note: in expansion of macro ‘rb_scan_args’
+   if(rb_scan_args(argc, argv, "01", &level) == 0)
+      ^~~~~~~~~~~~
+xml_document.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_document.c:357:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "0*", &rest);
+   ^~~~~~~~~~~~
+xml_document.c: In function ‘create_entity’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_document.c:436:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "14", &name, &type, &external_id, &system_id,
+   ^~~~~~~~~~~~
+xml_document.c: In function ‘canonicalize’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_document.c:511:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "03", &mode, &incl_ns, &with_comments);
+   ^~~~~~~~~~~~
+xml_document.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_document_fragment.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_document_fragment.h:4,
+                 from xml_document_fragment.c:1:
+xml_document_fragment.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_document_fragment.c:17:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "1*", &document, &rest);
+   ^~~~~~~~~~~~
+xml_document_fragment.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_dtd.c
+xml_dtd.c: In function ‘entities’:
+xml_dtd.c:47:47: warning: passing argument 2 of ‘xmlHashScan’ from incompatible pointer type [-Wincompatible-pointer-types]
+   xmlHashScan((xmlHashTablePtr)dtd->entities, element_copier, (void *)hash);
+                                               ^~~~~~~~~~~~~~
+In file included from /usr/include/libxml2/libxml/parser.h:18,
+                 from ./nokogiri.h:19,
+                 from ./xml_dtd.h:4,
+                 from xml_dtd.c:1:
+/usr/include/libxml2/libxml/hash.h:210:22: note: expected ‘xmlHashScanner’ {aka ‘void (*)(void *, void *, unsigned char *)’} but argument is of type ‘void (*)(void *, void *, const xmlChar *)’ {aka ‘void (*)(void *, void *, const unsigned char *)’}
+       xmlHashScanner f,
+       ~~~~~~~~~~~~~~~^
+xml_dtd.c: In function ‘notations’:
+xml_dtd.c:69:48: warning: passing argument 2 of ‘xmlHashScan’ from incompatible pointer type [-Wincompatible-pointer-types]
+   xmlHashScan((xmlHashTablePtr)dtd->notations, notation_copier, (void *)hash);
+                                                ^~~~~~~~~~~~~~~
+In file included from /usr/include/libxml2/libxml/parser.h:18,
+                 from ./nokogiri.h:19,
+                 from ./xml_dtd.h:4,
+                 from xml_dtd.c:1:
+/usr/include/libxml2/libxml/hash.h:210:22: note: expected ‘xmlHashScanner’ {aka ‘void (*)(void *, void *, unsigned char *)’} but argument is of type ‘void (*)(void *, void *, const xmlChar *)’ {aka ‘void (*)(void *, void *, const unsigned char *)’}
+       xmlHashScanner f,
+       ~~~~~~~~~~~~~~~^
+xml_dtd.c: In function ‘attributes’:
+xml_dtd.c:91:49: warning: passing argument 2 of ‘xmlHashScan’ from incompatible pointer type [-Wincompatible-pointer-types]
+   xmlHashScan((xmlHashTablePtr)dtd->attributes, element_copier, (void *)hash);
+                                                 ^~~~~~~~~~~~~~
+In file included from /usr/include/libxml2/libxml/parser.h:18,
+                 from ./nokogiri.h:19,
+                 from ./xml_dtd.h:4,
+                 from xml_dtd.c:1:
+/usr/include/libxml2/libxml/hash.h:210:22: note: expected ‘xmlHashScanner’ {aka ‘void (*)(void *, void *, unsigned char *)’} but argument is of type ‘void (*)(void *, void *, const xmlChar *)’ {aka ‘void (*)(void *, void *, const unsigned char *)’}
+       xmlHashScanner f,
+       ~~~~~~~~~~~~~~~^
+xml_dtd.c: In function ‘elements’:
+xml_dtd.c:113:47: warning: passing argument 2 of ‘xmlHashScan’ from incompatible pointer type [-Wincompatible-pointer-types]
+   xmlHashScan((xmlHashTablePtr)dtd->elements, element_copier, (void *)hash);
+                                               ^~~~~~~~~~~~~~
+In file included from /usr/include/libxml2/libxml/parser.h:18,
+                 from ./nokogiri.h:19,
+                 from ./xml_dtd.h:4,
+                 from xml_dtd.c:1:
+/usr/include/libxml2/libxml/hash.h:210:22: note: expected ‘xmlHashScanner’ {aka ‘void (*)(void *, void *, unsigned char *)’} but argument is of type ‘void (*)(void *, void *, const xmlChar *)’ {aka ‘void (*)(void *, void *, const unsigned char *)’}
+       xmlHashScanner f,
+       ~~~~~~~~~~~~~~~^
+xml_dtd.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_element_content.c
+compiling xml_element_decl.c
+compiling xml_encoding_handler.c
+compiling xml_entity_decl.c
+compiling xml_entity_reference.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_entity_reference.h:4,
+                 from xml_entity_reference.c:1:
+xml_entity_reference.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_entity_reference.c:18:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "2*", &document, &name, &rest);
+   ^~~~~~~~~~~~
+xml_entity_reference.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_io.c
+xml_io.c: In function ‘io_read_callback’:
+xml_io.c:20:22: warning: passing argument 1 of ‘rb_rescue’ from incompatible pointer type [-Wincompatible-pointer-types]
+   string = rb_rescue(read_check, (VALUE)args, read_failed, 0);
+                      ^~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_io.h:4,
+                 from xml_io.c:1:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:1987:17: note: expected ‘VALUE (*)(VALUE)’ {aka ‘long unsigned int (*)(long unsigned int)’} but argument is of type ‘VALUE (*)(VALUE *)’ {aka ‘long unsigned int (*)(long unsigned int *)’}
+ VALUE rb_rescue(VALUE(*)(VALUE),VALUE,VALUE(*)(VALUE,VALUE),VALUE);
+                 ^~~~~~~~~~~~~~~
+xml_io.c:20:47: warning: passing argument 3 of ‘rb_rescue’ from incompatible pointer type [-Wincompatible-pointer-types]
+   string = rb_rescue(read_check, (VALUE)args, read_failed, 0);
+                                               ^~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_io.h:4,
+                 from xml_io.c:1:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:1987:39: note: expected ‘VALUE (*)(VALUE,  VALUE)’ {aka ‘long unsigned int (*)(long unsigned int,  long unsigned int)’} but argument is of type ‘VALUE (*)(void)’ {aka ‘long unsigned int (*)(void)’}
+ VALUE rb_rescue(VALUE(*)(VALUE),VALUE,VALUE(*)(VALUE,VALUE),VALUE);
+                                       ^~~~~~~~~~~~~~~~~~~~~
+xml_io.c: In function ‘io_write_callback’:
+xml_io.c:47:20: warning: passing argument 1 of ‘rb_rescue’ from incompatible pointer type [-Wincompatible-pointer-types]
+   size = rb_rescue(write_check, (VALUE)args, write_failed, 0);
+                    ^~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_io.h:4,
+                 from xml_io.c:1:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:1987:17: note: expected ‘VALUE (*)(VALUE)’ {aka ‘long unsigned int (*)(long unsigned int)’} but argument is of type ‘VALUE (*)(VALUE *)’ {aka ‘long unsigned int (*)(long unsigned int *)’}
+ VALUE rb_rescue(VALUE(*)(VALUE),VALUE,VALUE(*)(VALUE,VALUE),VALUE);
+                 ^~~~~~~~~~~~~~~
+xml_io.c:47:46: warning: passing argument 3 of ‘rb_rescue’ from incompatible pointer type [-Wincompatible-pointer-types]
+   size = rb_rescue(write_check, (VALUE)args, write_failed, 0);
+                                              ^~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_io.h:4,
+                 from xml_io.c:1:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:1987:39: note: expected ‘VALUE (*)(VALUE,  VALUE)’ {aka ‘long unsigned int (*)(long unsigned int,  long unsigned int)’} but argument is of type ‘VALUE (*)(void)’ {aka ‘long unsigned int (*)(void)’}
+ VALUE rb_rescue(VALUE(*)(VALUE),VALUE,VALUE(*)(VALUE,VALUE),VALUE);
+                                       ^~~~~~~~~~~~~~~~~~~~~
+xml_io.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_libxml2_hacks.c
+compiling xml_namespace.c
+compiling xml_node.c
+xml_node.c: In function ‘reparent_node_with’:
+xml_node.c:304:29: warning: passing argument 1 of ‘xmlFree’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+       xmlFree(reparentee->ns->prefix);
+               ~~~~~~~~~~~~~~^~~~~~~~
+xml_node.c:304:29: note: expected ‘void *’ but argument is of type ‘const xmlChar *’ {aka ‘const unsigned char *’}
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_node.h:4,
+                 from xml_node.c:1:
+xml_node.c: In function ‘duplicate_node’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_node.c:550:12: note: in expansion of macro ‘rb_scan_args’
+   n_args = rb_scan_args(argc, argv, "02", &r_level, &r_new_parent_doc);
+            ^~~~~~~~~~~~
+xml_node.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_node.c:1393:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "2*", &name, &document, &rest);
+   ^~~~~~~~~~~~
+xml_node.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_node_set.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_node_set.h:4,
+                 from xml_node_set.c:1:
+xml_node_set.c: In function ‘slice’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_node_set.c:294:5: note: in expansion of macro ‘rb_scan_args’
+     rb_scan_args(argc, argv, "11", NULL, NULL);
+     ^~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_node_set.h:4,
+                 from xml_node_set.c:1:
+xml_node_set.c: In function ‘init_xml_node_set’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2799:117: warning: passing argument 3 of ‘rb_define_method0’ from incompatible pointer type [-Wincompatible-pointer-types]
+ #define rb_define_method(klass, mid, func, arity) rb_define_method_choose_prototypem3((arity),(func))((klass),(mid),(func),(arity));
+                                                                                                                     ^~~~~~
+xml_node_set.c:479:3: note: in expansion of macro ‘rb_define_method’
+   rb_define_method(klass, "to_a", to_array, 0);
+   ^~~~~~~~~~~~~~~~
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2148,
+                 from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_node_set.h:4,
+                 from xml_node_set.c:1:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2775:27: note: expected ‘VALUE (*)(VALUE)’ {aka ‘long unsigned int (*)(long unsigned int)’} but argument is of type ‘VALUE (*)(VALUE,  VALUE)’ {aka ‘long unsigned int (*)(long unsigned int,  long unsigned int)’}
+ RB_METHOD_DEFINITION_DECL(rb_define_method, (2,3), (VALUE klass, const char *name), (klass, name))
+                           ^~~~~~~~~~~~~~~~
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/intern.h:1042:82: note: in definition of macro ‘RB_METHOD_DEFINITION_DECL_C’
+     __attribute__((__unused__,__weakref__(#def),__nonnull__ nonnull))static void defname(RB_UNWRAP_MACRO decl,VALUE(*func)funcargs,int arity);
+                                                                                  ^~~~~~~
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/intern.h:1074:1: note: in expansion of macro ‘RB_METHOD_DEFINITION_DECL_1’
+ RB_METHOD_DEFINITION_DECL_1(def,nonnull,def##0 ,0 ,decl,vars,(VALUE)) \
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2775:1: note: in expansion of macro ‘RB_METHOD_DEFINITION_DECL’
+ RB_METHOD_DEFINITION_DECL(rb_define_method, (2,3), (VALUE klass, const char *name), (klass, name))
+ ^~~~~~~~~~~~~~~~~~~~~~~~~
+xml_node_set.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_processing_instruction.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_processing_instruction.h:4,
+                 from xml_processing_instruction.c:1:
+xml_processing_instruction.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_processing_instruction.c:20:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "3*", &document, &name, &content, &rest);
+   ^~~~~~~~~~~~
+xml_processing_instruction.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_reader.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_reader.h:4,
+                 from xml_reader.c:1:
+xml_reader.c: In function ‘from_memory’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_reader.c:533:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "13", &rb_buffer, &rb_url, &encoding, &rb_options);
+   ^~~~~~~~~~~~
+xml_reader.c: In function ‘from_io’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_reader.c:577:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "13", &rb_io, &rb_url, &encoding, &rb_options);
+   ^~~~~~~~~~~~
+xml_reader.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_relax_ng.c
+compiling xml_sax_parser.c
+compiling xml_sax_parser_context.c
+compiling xml_sax_push_parser.c
+compiling xml_schema.c
+compiling xml_syntax_error.c
+compiling xml_text.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_text.h:4,
+                 from xml_text.c:1:
+xml_text.c: In function ‘new’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_text.c:18:3: note: in expansion of macro ‘rb_scan_args’
+   rb_scan_args(argc, argv, "2*", &string, &document, &rest);
+   ^~~~~~~~~~~~
+xml_text.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xml_xpath_context.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xml_xpath_context.h:4,
+                 from xml_xpath_context.c:1:
+xml_xpath_context.c: In function ‘evaluate’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xml_xpath_context.c:200:6: note: in expansion of macro ‘rb_scan_args’
+   if(rb_scan_args(argc, argv, "11", &search_path, &xpath_handler) == 1)
+      ^~~~~~~~~~~~
+xml_xpath_context.c: At top level:
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+compiling xslt_stylesheet.c
+In file included from /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby.h:33,
+                 from ./nokogiri.h:33,
+                 from ./xslt_stylesheet.h:4,
+                 from xslt_stylesheet.c:1:
+xslt_stylesheet.c: In function ‘transform’:
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2508:48: warning: cast discards ‘const’ qualifier from pointer target type [-Wcast-qual]
+        (rb_scan_args_verify(fmt, varc), vars), (char *)fmt, varc)
+                                                ^
+/tmp/d20201012-48-1yvahnn/opt/openproject/vendor/ruby-2.7.1/include/ruby-2.7.0/ruby/ruby.h:2340:9: note: in expansion of macro ‘rb_scan_args0’
+         rb_scan_args0(argc,argvp,fmt,\
+         ^~~~~~~~~~~~~
+xslt_stylesheet.c:141:5: note: in expansion of macro ‘rb_scan_args’
+     rb_scan_args(argc, argv, "11", &xmldoc, &paramobj);
+     ^~~~~~~~~~~~
+At top level:
+xslt_stylesheet.c:112:13: warning: ‘swallow_superfluous_xml_errors’ defined but not used [-Wunused-function]
+ static void swallow_superfluous_xml_errors(void * userdata, xmlErrorPtr error, ...)
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: warning: unrecognized command line option ‘-Wno-self-assign’
+cc1: warning: unrecognized command line option ‘-Wno-parentheses-equality’
+cc1: warning: unrecognized command line option ‘-Wno-constant-logical-operand’
+linking shared-object nokogiri/nokogiri.so
+Cleaning files only used during build.
+rm -rf /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogiri-1.10.10/ports/archives
+
+current directory: /tmp/d20201012-48-1yvahnn/opt/openproject/vendor/bundle/ruby/2.7.0/gems/nokogiri-1.10.10/ext/nokogiri
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 nokogiri.so ./.gem.20201012-1502-15799sa/nokogiri

@@ -65,7 +65,8 @@ Feature: The work_package hierarchy between backlogs stories and backlogs tasks 
         | Resolved    | false      | false       |
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
-    And there is a default issuepriority
+    And there is a default issuepriority with:
+        | name   | Normal |
     And there is 1 user with:
         | login | markus |
         | firstname | Markus |

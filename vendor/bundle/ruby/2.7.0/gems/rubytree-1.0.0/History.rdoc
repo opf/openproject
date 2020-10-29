@@ -1,0 +1,303 @@
+= History of Changes
+
+=== 0.9.7 / 2015-12-31
+
+* Released 0.9.6. This is a minor bug-fix release.
+
+* This release allows the {Tree::TreeNode#print_tree} method to be used on
+  non-root nodes. Thanks to {https://github.com/ojab Ojab}.
+
+* The spaceship operator ('<=>') now returns 'nil' if the object being compared
+  to is itself 'nil' or not another {Tree::TreeNode}.
+
+=== 0.9.6 / 2015-05-30
+
+* Released 0.9.6, which is same as 0.9.5, except for an update to the Gem release date.
+
+=== 0.9.5 / 2015-05-30
+
+* Released 0.9.5.
+
+=== 0.9.5pre7 / 2015-05-30
+
+* Added new methods for getting the path of a node as a string. These have been
+  added as a new mixin {Tree::Utils::TreePathHandler}. Thanks to
+  {https://github.com/MZic Marco Ziccardi}.
+
+=== 0.9.5pre5 / 2015-01-01
+
+* Fixed {issue 32}[https://github.com/evolve75/RubyTree/issues/32] and enabled
+  'move' semantics on the {Tree::TreeNode#add} method, so that a child being
+  added, that has an existing parent, will be removed from its old parent, prior
+  to being added to the new location.
+
+=== 0.9.5pre4 / 2014-12-17
+
+* Added performance improvements to {Tree::TreeNode#is_root?} and
+  {Tree::Utils::TreeMetricsHandler#node_depth}.
+  Thanks to {https://github.com/aidansteele Aidan Steel}.
+
+=== 0.9.5pre3 / 2014-12-16
+
+* Minor fix to correct the release date. This release is otherwise identical to
+  0.9.5pre2.
+
+=== 0.9.5pre2 / 2014-12-16
+
+* Added {Tree::TreeNode#rename} and {Tree::TreeNode#rename_child} methods by
+  merging in code from {https://github.com/evolve75/RubyTree/pull/35}. Thanks to
+  {http://github.com/packetmonkey Evan Sharp}.
+
+=== 0.9.5pre / 2014-11-01
+
+* Fixed {issue 13}[https://github.com/evolve75/RubyTree/issues/13] with the
+  patch provided by {Jen Hamon}[http://www.github.com/jhamon].
+
+* Fixed a bug in {Tree::TreeNode#print_tree} with the patch provided by
+  {https://github.com/packetmonkey Evan Sharp}.
+
+* Fixed {issue 31}[https://github.com/evolve75/RubyTree/issues/31], which was
+  causing incorrect behavior n {Tree::TreeNode#postordered_each} and
+  {Tree::TreeNode#breadth_each} methods when a block was not provided.
+
+=== 0.9.4 / 2014-07-04
+
+* Changed all references to {http://rubyforge.org}.
+
+=== 0.9.3 / 2014-02-01
+
+* Fixed the issue with globally unique node names. See Github issue #24.
+
+=== 0.9.2 / 2014-01-03
+
+* Yanked R0.9.1 as the History file was not updated.
+
+* Updated the gem description.
+
+* Changed the travis-ci build to include coverall support.
+
+=== 0.9.1 / 2014-01-03
+
+* Updated the Gem description.
+
+* Incorporated code coverage using the coverall gem.
+
+=== 0.9.0 / 2014-01-02
+
+This is a feature and bug-fix release.
+
+==== The Features
+
+* Rubytree now supports +postordered+ traversal via the
+  {Tree::TreeNode#postordered_each} method. Thanks to
+  {https://github.com/pdecourcel Paul de Courcel} for this.
+
+* The Binary tree now supports +inorder+ traversal via the
+  {Tree::BinaryTreeNode#inordered_each} method.
+
+* Ability to merge in another tree at a chosen node, or merge two trees to
+  create a third tree. Thanks to {https://github.com/dazoakley Darren Oakley}
+  for this ({https://github.com/evolve75/RubyTree/pull/2 pull request #2})
+
+* RubyTree now mixes in the {http://ruby-doc.org/core-1.8.7/Comparable.html
+  Comparable} module.
+
+==== The Fixes
+
+* (Partial) fix for preventing cyclic graphs in the tree
+
+* Refactored the {Tree::TreeNode#each} method to prevent stack errors while
+  navigating deep trees
+  ({https://github.com/evolve75/RubyTree/issues/12 issue #12})
+
+* Check to ensure that the added node's name is unique to the destination tree
+  ({https://github.com/evolve75/RubyTree/pull/9 merge #9}). Thanks to
+  {https://github.com/ysf Youssef Rebahi-Gilbert} for the idea and the initial
+  code
+
+* Fix for {issue 23}[https://github.com/evolve75/RubyTree/issues/23], where the
+  tree traversal on a binary tree would fail if the _left_ child was +nil+
+
+* The traversal methods ({Tree::TreeNode#each},
+  {Tree::TreeNode#preordered_each}, {Tree::TreeNode#postordered_each} and
+  {Tree::TreeNode#breadth_each}) now correctly return an
+  {http://ruby-doc.org/core-1.8.7/Enumerable.html Enumerator} as the
+  return value when no block is given, and return the receiver node if a block was
+  provided. This is consistent with how the standard Ruby collections work.
+
+==== Other Changes
+
+* Structural changes in the code to refactor out the non-core functions into
+  modules (mostly by extracting out non-core code as mixins).
+
+* Significant refactoring of the documentation. The {http://yardoc.org Yardoc}
+  tags are now extensively used.
+
+* Basic support built-in for including example code in the Gem. This will be
+  fully expanded in the next release.
+
+* Various changes to the {http://bundler.io bundler}, {https://travis-ci.org
+  travis-ci} and other Rakefile related changes.
+
+=== 0.8.3 / 2012-08-21
+
+This is a primarily a bug-fix release, with some packaging changes.
+
+* Have removed the dependency on Hoe[https://github.com/seattlerb/hoe]. The
+  build is now vanilla
+  {gemspec}[http://guides.rubygems.org/specification-reference/] based.
+
+* Included support for {gem-testers}[http://test.rubygems.org/].
+
+* Included support for {Bundler}[http://gembundler.com/].
+
+* Implemented the {Tree::Utils::JSONConverter#as_json} method to support Rails'
+  JSON encoding, by pulling in the changes by Eric Cline
+  (https://github.com/escline).
+
+* Partial fix for {Github Bug
+  #5}[https://github.com/evolve75/RubyTree/issues/5]. This is to
+  prevent infinite looping is an existing node is added again
+  elsewhere in the tree.
+
+* Fixed the issue with using +integers+ as node names, and its
+  interaction with the +Tree::TreeNode#[]+ access method as documented in
+  {Github Bug #6}[https://github.com/evolve75/RubyTree/issues/6].
+
+* Clarified the need to have unique node names {Github Bug
+  #7}[https://github.com/evolve75/RubyTree/issues/7] (documentation).
+
+* Fixed {Tree::TreeNode#siblings} method to return an empty array for the
+  root node as well (it returned +nil+ earlier).
+
+=== 0.8.2 / 2011-12-15
+
+* Minor bug-fix release to address bug #1215 ({Tree::TreeNode#to_s}
+  breaks if +@content+ or +@parent.name+ is not a string).
+
+=== 0.8.1 / 2010-10-02
+
+* This is the public release of +R0.8.0+, with additional bug-fixes.
+  Note that +R0.8.0+ will not be released separately as a publicly
+  available Rubygem. All changes as listed for +R0.8.0+ are available in
+  this release.
+
+* The main change in +R0.8.0+/+R0.8.1+ is conversion of all CamelCase
+  method names to snake_case. The old CamelCase method names will
+  still work (to ensure backwards compatibility), but will also
+  display a warning.
+
+* The {Tree::TreeNode#add} method now accepts an optional child insertion
+  point.
+
+* The subtree from the current node can now be cloned in its entirety
+  using the {Tree::TreeNode#detached_subtree_copy} method.
+
+* A major bug-fix for {bug #28613}[http://rubyforge.org/tracker/index.php?func=detail&aid=28613&group_id=1215&atid=4793]
+  which impacted the Binarytree implementation.
+
+* Minor code re-factoring driven by the code-smell checks using
+  {reek}[https://github.com/troessner/reek].
+
+* Inclusion of the +reek+ code-smell detection tool in the Rakefile.
+
+=== 0.8.0 / 2010-05-04
+
+* Updated the {Tree::TreeNode#add} method to allow the optional specification
+  of an insertion position in the child array.
+
+* Added a new method {Tree::TreeNode#detached_subtree_copy} to allow cloning
+  the entire tree (this method is also aliased as +dup+).
+
+* Converted all +CamelCase+ method names to the canonical +ruby_method_names+
+  (underscore separated). The +CamelCase+ methods _can still_ be invoked, but will
+  throw a {http://rug-b.rubyforge.org/structured_warnings/rdoc/ Deprecated
+  warning}.
+  The support for old CamelCase methods will go away some time in the future,
+  so the user is advised to convert all current method invocations
+  to the new names.
+
+=== 0.7.0 / 2010-05-03
+
+* Added new methods to report the degree statistics of a node.
+
+* Added a convenience method alias
+  {Tree::Utils::TreeMetricsHandler#level Tree::TreeNode#level} to +nodeDepth+.
+
+* Converted the exceptions thrown on invalid arguments to
+  {http://www.ruby-doc.org/core-2.0.0/ArgumentError.html ArgumentError}
+  instead of {http://www.ruby-doc.org/core-2.0.0/RuntimeError.html RuntimeError}.
+
+* Converted the documentation to {http://yardoc.org Yard} format.
+
+* Added new methods for converting from/to {http://www.json.org JSON} formats.
+  Thanks to Dirk Breuer[http://github.com/railsbros-dirk] for this
+  fork[http://github.com/galaxycats/].
+
+* Added a separate {file:API-CHANGES.rdoc} documentation file.
+
+* Added fixes for root related edge conditions to {Tree::TreeNode#is_only_child?
+  isOnlyChild?}, {Tree::TreeNode#next_sibling nextSibling},
+  {Tree::TreeNode#previous_sibling previousSibling} and
+  {Tree::TreeNode#remove! remove!} methods.
+
+* Removed the 'ChangeLog' file as this can now be generated from the git logs.
+
+* Other minor code cleanup.
+
+=== 0.6.2 / 2010-01-30
+
+* Updated the documentation.
+
+=== 0.6.1 / 2010-01-04
+
+* Changed the hard-dependency on the 'structured_warnings' RubyGem to a
+  soft-dependency - which lets Rubytree still work if this RubyGem is not
+  available. The rationale for this is that we should not require the user to
+  install a separate library just for one single edge-case function (in this
+  case, to indicate a deprecated method). However, if the library _is_ available
+  on the user's system, then it will get used.
+
+=== 0.6.0 / 2010-01-03
+
+* Fixed the
+  bug#22535[http://rubyforge.org/tracker/index.php?func=detail&aid=22535&group_id=1215&atid=4793]
+  where the {Tree::Utils::TreeMetricsHandler#depth Tree::TreeNode#depth} method
+  was actually returning height+1 (not the depth).
+
+* Marked the {Tree::Utils::TreeMetricsHandler#depth Tree::TreeNode#depth}
+  method as *deprecated* (and introduced the run-time dependency on
+  structured-warnings[http://github.com/schmidt/structured_warnings] gem).
+
+=== 0.5.3 / 2009-12-31
+
+* Cleanup of the build system to exclusively use Hoe.
+* Modifications and reformatting to the documentation.
+* No user visible changes.
+
+=== 0.5.2 / 2007-12-21
+
+* Added more test cases and enabled
+  {https://github.com/seattlerb/zentest ZenTest} compatibility for the test case
+  names.
+
+=== 0.5.1 / 2007-12-20
+
+* Minor code refactoring.
+
+=== 0.5.0 / 2007-12-18
+
+* Fixed the marshalling code to correctly handle non-string content.
+
+=== 0.4.3 / 2007-10-09
+
+* Changes to the build mechanism (now uses
+{http://www.zenspider.com/projects/hoe.html Hoe}).
+
+=== 0.4.2 / 2007-10-01
+
+* Minor code refactoring. Changes in the Rakefile.
+
+;; Local Variables:
+;; mode: rdoc
+;; End:

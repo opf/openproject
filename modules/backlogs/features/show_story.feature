@@ -54,7 +54,8 @@ Feature: Show story
       | Task  |
     And there is a default status with:
       | name | new |
-    And there is a default issuepriority
+    And there is a default issuepriority with:
+      | name | Normal |
     And the type "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
       | login     | markus |

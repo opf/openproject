@@ -1,0 +1,26 @@
+# This list is used by "git shortlog" to fixup the ugly faux email addresses
+# "<username@UGLY-UUID>" that the "git svn" tool creates by default.
+
+# Eric Wong started this .mailmap file (and is the maintainer of it...)
+Eric Wong <normalperson@yhbt.net> normalperson <normalperson@19e92222-5c0b-0410-8929-a290d50e31e9>
+
+# This also includes all the Mongrel contributors that committed to the
+# Rubyforge SVN repo.  Some real names were looked up on rubyforge.org
+# (http://rubyforge.org/users/$user), but we're not going expose any email
+# addresses here without their permission.
+
+Austin Godber godber <godber> godber <godber@19e92222-5c0b-0410-8929-a290d50e31e9>
+Bradley Taylor <bktaylor> bktaylor <bktaylor@19e92222-5c0b-0410-8929-a290d50e31e9>
+Ezra Zygmuntowicz <ezmobius> ezmobius <ezmobius@19e92222-5c0b-0410-8929-a290d50e31e9>
+Filipe Lautert <filipe> filipe <filipe@19e92222-5c0b-0410-8929-a290d50e31e9>
+Luis Lavena <luislavena> luislavena <luislavena@19e92222-5c0b-0410-8929-a290d50e31e9>
+Matt Pelletier <bricolage> bricolage <bricolage@19e92222-5c0b-0410-8929-a290d50e31e9>
+MenTaLguY <mental> mental <mental@19e92222-5c0b-0410-8929-a290d50e31e9>
+Nick Sieger <nicksieger> nicksieger <nicksieger@19e92222-5c0b-0410-8929-a290d50e31e9>
+Rick Olson <technoweenie> technoweenie <technoweenie@19e92222-5c0b-0410-8929-a290d50e31e9>
+Wayne E. Seguin <wayneeseguin> wayneeseguin <wayneeseguin@19e92222-5c0b-0410-8929-a290d50e31e9>
+Zed A. Shaw <zedshaw> <zedshaw@19e92222-5c0b-0410-8929-a290d50e31e9>
+why the lucky stiff <whytheluckystiff> <why@19e92222-5c0b-0410-8929-a290d50e31e9>
+
+# Evan had his email address in the git history we branched from anyways
+Evan Weaver <eweaver@twitter.com> evanweaver <evanweaver@19e92222-5c0b-0410-8929-a290d50e31e9>

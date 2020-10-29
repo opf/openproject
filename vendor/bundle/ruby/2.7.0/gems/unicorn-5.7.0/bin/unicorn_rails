@@ -1,0 +1,209 @@
+#!/this/will/be/overwritten/or/wrapped/anyways/do/not/worry/ruby
+# -*- encoding: binary -*-
+require 'unicorn/launcher'
+require 'optparse'
+require 'fileutils'
+
+ENV['RAILS_ENV'] ||= "development"
+rackup_opts = Unicorn::Configurator::RACKUP
+options = rackup_opts[:options]
+
+op = OptionParser.new("", 24, '  ') do |opts|
+  cmd = File.basename($0)
+  opts.banner = "Usage: #{cmd} " \
+                "[ruby options] [#{cmd} options] [rackup config file]"
+  opts.separator "Ruby options:"
+
+  lineno = 1
+  opts.on("-e", "--eval LINE", "evaluate a LINE of code") do |line|
+    eval line, TOPLEVEL_BINDING, "-e", lineno
+    lineno += 1
+  end
+
+  opts.on("-d", "--debug", "set debugging flags (set $DEBUG to true)") do
+    $DEBUG = true
+  end
+
+  opts.on("-w", "--warn", "turn warnings on for your script") do
+    $-w = true
+  end
+
+  opts.on("-I", "--include PATH",
+          "specify $LOAD_PATH (may be used more than once)") do |path|
+    $LOAD_PATH.unshift(*path.split(':'))
+  end
+
+  opts.on("-r", "--require LIBRARY",
+          "require the library, before executing your script") do |library|
+    require library
+  end
+
+  opts.separator "#{cmd} options:"
+
+  # some of these switches exist for rackup command-line compatibility,
+
+  opts.on("-o", "--host HOST",
+          "listen on HOST (default: #{Unicorn::Const::DEFAULT_HOST})") do |h|
+    rackup_opts[:host] = h
+    rackup_opts[:set_listener] = true
+  end
+
+  opts.on("-p", "--port PORT", Integer,
+          "use PORT (default: #{Unicorn::Const::DEFAULT_PORT})") do |port|
+    rackup_opts[:port] = port
+    rackup_opts[:set_listener] = true
+  end
+
+  opts.on("-E", "--env RAILS_ENV",
+          "use RAILS_ENV for defaults (default: development)") do |e|
+    ENV['RAILS_ENV'] = e
+  end
+
+  opts.on("-D", "--daemonize", "run daemonized in the background") do |d|
+    rackup_opts[:daemonize] = !!d
+  end
+
+  # Unicorn-specific stuff
+  opts.on("-l", "--listen {HOST:PORT|PATH}",
+          "listen on HOST:PORT or PATH",
+          "this may be specified multiple times",
+          "(default: #{Unicorn::Const::DEFAULT_LISTEN})") do |address|
+    options[:listeners] << address
+  end
+
+  opts.on("-c", "--config-file FILE", "Unicorn-specific config file") do |f|
+    options[:config_file] = f
+  end
+
+  opts.on("-P PATH", "DEPRECATED") do |v|
+    warn %q{Use of -P is ambiguous and discouraged}
+    warn %q{Use --path or RAILS_RELATIVE_URL_ROOT instead}
+    ENV['RAILS_RELATIVE_URL_ROOT'] = v
+  end
+
+  opts.on("--path PATH", "Runs Rails app mounted at a specific path.",
+          "(default: /)") do |v|
+    ENV['RAILS_RELATIVE_URL_ROOT'] = v
+  end
+
+  # I'm avoiding Unicorn-specific config options on the command-line.
+  # IMNSHO, config options on the command-line are redundant given
+  # config files and make things unnecessarily complicated with multiple
+  # places to look for a config option.
+
+  opts.separator "Common options:"
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts.to_s.gsub(/^.*DEPRECATED.*$/s, '')
+    exit
+  end
+
+  opts.on_tail("-v", "--version", "Show version") do
+    puts "#{cmd} v#{Unicorn::Const::UNICORN_VERSION}"
+    exit
+  end
+
+  opts.parse! ARGV
+end
+
+def rails_dispatcher
+  if ::Rails::VERSION::MAJOR >= 3 && ::File.exist?('config/application.rb')
+    if ::File.read('config/application.rb') =~ /^module\s+([\w:]+)\s*$/
+      app_module = Object.const_get($1)
+      begin
+        result = app_module::Application
+      rescue NameError
+      end
+    end
+  end
+
+  if result.nil? && defined?(ActionController::Dispatcher)
+    result = ActionController::Dispatcher.new
+  end
+
+  result || abort("Unable to locate the application dispatcher class")
+end
+
+def rails_builder(ru, op, daemonize)
+  return Unicorn.builder(ru, op) if ru
+
+  # allow Configurator to parse cli switches embedded in the ru file
+  Unicorn::Configurator::RACKUP.update(:file => :rails, :optparse => op)
+
+  # this lambda won't run until after forking if preload_app is false
+  # this runs after config file reloading
+  lambda do |x, server|
+    # Rails 3 includes a config.ru, use it if we find it after
+    # working_directory is bound.
+    ::File.exist?('config.ru') and
+      return Unicorn.builder('config.ru', op).call(x, server)
+
+    # Load Rails and (possibly) the private version of Rack it bundles.
+    begin
+      require ::File.expand_path('config/boot')
+      require ::File.expand_path('config/environment')
+    rescue LoadError => err
+      abort "#$0 must be run inside RAILS_ROOT: #{err.inspect}"
+    end
+
+    defined?(::Rails::VERSION::STRING) or
+      abort "Rails::VERSION::STRING not defined by config/{boot,environment}"
+    # it seems Rails >=2.2 support Rack, but only >=2.3 requires it
+    old_rails = case ::Rails::VERSION::MAJOR
+    when 0, 1 then true
+    when 2 then Rails::VERSION::MINOR < 3 ? true : false
+    else
+      false
+    end
+
+    Rack::Builder.new do
+      map_path = ENV['RAILS_RELATIVE_URL_ROOT'] || '/'
+      if old_rails
+        if map_path != '/'
+          # patches + tests welcome, but I really cbf to deal with this
+          # since all apps I've ever dealt with just use "/" ...
+          warn "relative URL roots may not work for older Rails"
+        end
+        warn "LogTailer not available for Rails < 2.3" unless daemonize
+        warn "Debugger not available" if $DEBUG
+        require 'unicorn/app/old_rails'
+        map(map_path) do
+          use Unicorn::App::OldRails::Static
+          run Unicorn::App::OldRails.new
+        end
+      else
+        use Rails::Rack::LogTailer unless daemonize
+        use Rails::Rack::Debugger if $DEBUG
+        map(map_path) do
+          unless defined?(ActionDispatch::Static)
+            use Rails::Rack::Static
+          end
+          run rails_dispatcher
+        end
+      end
+    end.to_app
+  end
+end
+
+app = rails_builder(ARGV[0], op, rackup_opts[:daemonize])
+op = nil
+
+if $DEBUG
+  require 'pp'
+  pp({
+    :unicorn_options => options,
+    :app => app,
+    :daemonize => rackup_opts[:daemonize],
+  })
+end
+
+# ensure Rails standard tmp paths exist
+options[:after_reload] = lambda do
+  FileUtils.mkdir_p(%w(cache pids sessions sockets).map! { |d| "tmp/#{d}" })
+end
+
+if rackup_opts[:daemonize]
+  options[:pid] = "tmp/pids/unicorn.pid"
+  Unicorn::Launcher.daemonize!(options)
+end
+Unicorn::HttpServer.new(app, options).start.join

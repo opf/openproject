@@ -1,0 +1,76 @@
+# NOTE: Some translation keys make use of matches from regular expressions
+# to manipulate whitespace and order. Please consult the source code for
+# Stringex::Localization::ConversionExpressions to see what those
+# regular expressions look like if you need to manipulate the order
+# differently than the usage below.
+sv:
+  stringex:
+    characters:
+      and: och
+      at: snabel-a
+      divide: delat med
+      degrees: grader
+      dot: \1 punkt \2
+      ellipsis: punkt punkt punkt
+      equals: lika med
+      number: nummer
+      percent: procent
+      plus: plus
+      slash: slash
+      star: stjärna
+    currencies:
+      generic: \1 kronor
+      dollars: \1 dollar
+      dollars_cents: \1 dollar \2 cent
+      pounds: \1 pund
+      pounds_pence: \1 pund \2 pence
+      euros: \1 euro
+      euros_cents: \1 euro \2 cent
+      yen: \1 yen
+      reais: \1 reais
+      reais_cents: \1 reais \2 cent
+    html_entities:
+      amp: och
+      cent: " cents"
+      copy: (c)
+      deg: " grader "
+      divide: " delat med "
+      double_quote: '"'
+      ellipsis: "..."
+      en_dash: "-"
+      em_dash: "--"
+      frac14: en fjärdedel
+      frac12: halv
+      frac34: tre fjärdedelar
+      gt: ">"
+      lt: <
+      nbsp: " "
+      pound: " pund "
+      reg: (r)
+      single_quote: "'"
+      times: x
+      trade: (tm)
+      yen: " yen "
+    vulgar_fractions:
+      half: halv
+      one_third: en tredjedel
+      two_thirds: två tredjedelar
+      one_fourth: en fjärdedel
+      three_fourths: tre fjärdedelar
+      one_fifth: en femtedel
+      two_fifths: två femtedelar
+      three_fifths: tre femtedelar
+      four_fifths: fyra femtedelar
+      one_sixth: en sjättedel
+      five_sixths: fem sjättedelar
+      one_eighth: en åttondel
+      three_eighths: tre åttondelar
+      five_eighths: fem åttondelar
+      seven_eighths: sju åttondelar
+    transliterations:
+      Å: A
+      Ä: AE
+      Ö: OE
+      å: a
+      ä: ae
+      ö: oe

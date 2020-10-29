@@ -1,0 +1,61 @@
+= kgio - kinder, gentler I/O for Ruby
+
+This is a legacy project, do not use it for new projects.  Ruby
+2.3 and later should make this obsolete.  kgio provides
+non-blocking I/O methods for Ruby without raising exceptions on
+EAGAIN and EINPROGRESS.
+
+== Features
+
+* Can avoid expensive exceptions on common EAGAIN/EINPROGRESS errors,
+  returning :wait_readable or :wait_writable instead.
+  These exceptions got more expensive to hit under Ruby 1.9.2
+  (but were fixed in Ruby 1.9.3 and later to 1.9.1 performance levels,
+  which were still bad)
+
+* Returns the unwritten portion of the string on partial writes,
+  making it ideal for buffering unwritten data.
+
+* May call any method defined to be "kgio_wait_writable" or
+  "kgio_wait_readable" methods to allow socket/pipe objects to make custom
+  callbacks (such as adding the file descriptor to a poll set and yielding
+  the current Fiber).
+
+* Uses {accept4}[http://man7.org/linux/man-pages/man2/accept4.2.html]
+  on newer GNU/Linux systems to avoid unnecessary fcntl() calls
+
+* Uses MSG_DONTWAIT on GNU/Linux to further avoid unnecessary fcntl() calls
+
+* Compatible with existing Ruby IO objects and Ruby threading.
+
+== Install
+
+The library consists of a C extension so you'll need a Unix-like system
+with a C compiler and Ruby development libraries/headers.
+You may install it via RubyGems.org:
+
+  gem install kgio
+
+You can get the latest source via git from the following locations
+(these versions may not be stable):
+
+  git://yhbt.net/kgio.git
+  git://repo.or.cz/kgio.git (mirror)
+
+You may browse the code from the web and download the latest snapshot
+tarballs here:
+
+* https://yhbt.net/kgio.git
+* http://repo.or.cz/w/kgio.git (gitweb)
+
+See the HACKING guide on how to contribute and build prerelease gems
+from git.
+
+== Contact
+
+All feedback (bug reports, user/development dicussion, patches, pull
+requests) go to the mailing list/newsgroup.  See the ISSUES document for
+information on the {kgio mailing list}[mailto:kgio-public@yhbt.net]
+
+For the latest on kgio releases, you may check our NEWS page (and
+subscribe to our Atom feed).

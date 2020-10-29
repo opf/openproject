@@ -1,0 +1,57 @@
+language: ruby
+rvm:
+  - 2.0.0
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
+  - jruby-9.2
+  # optional
+  - ruby-head
+  - jruby-19mode
+  - jruby-9.2
+  - jruby-head
+
+addons:
+  hosts:
+    - ldap.example.org # needed for TLS verification
+
+services:
+  - docker
+
+env:
+  - INTEGRATION=openldap
+
+before_install:
+  - gem update bundler
+
+install:
+  - >
+    docker run \
+      --hostname ldap.example.org \
+      --env LDAP_TLS_VERIFY_CLIENT=try \
+      -p 389:389 \
+      -p 636:636 \
+      -v "$(pwd)"/test/fixtures/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom \
+      --name openldap \
+      --detach \
+      osixia/openldap:1.3.0 \
+        --copy-service \
+        --loglevel debug \
+  - bundle install
+
+script: bundle exec rake ci
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-19mode
+    - rvm: jruby-9.2
+    - rvm: jruby-head
+  fast_finish: true
+
+notifications:
+  email: false

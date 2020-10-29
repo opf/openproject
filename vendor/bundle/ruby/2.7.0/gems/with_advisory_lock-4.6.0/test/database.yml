@@ -1,0 +1,17 @@
+sqlite:
+  adapter: <%= "jdbc" if defined? JRUBY_VERSION %>sqlite3
+  database: test/sqlite.db
+  timeout: 500
+  pool: 50
+postgresql:
+  adapter: postgresql
+  username: postgres
+  database: with_advisory_lock_test
+  min_messages: ERROR
+  pool: 50
+mysql:
+  adapter: mysql2
+  host: localhost
+  username: root
+  database: with_advisory_lock_test
+  pool: 50

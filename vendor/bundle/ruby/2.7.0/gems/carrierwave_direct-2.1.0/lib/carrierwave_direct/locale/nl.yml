@@ -1,0 +1,9 @@
+nl:
+  errors:
+    messages:
+      carrierwave_direct_filename_taken: bestandsnaam is reeds in gebruik
+      carrierwave_direct_upload_missing: geüpload bestand ontbreekt
+      carrierwave_direct_attachment_missing: bestand ontbreekt
+      carrierwave_direct_filename_invalid: "is ongeldig. "
+      carrierwave_direct_allowed_extensions: Toegestane bestandstypen zijn %{extensions}
+      carrierwave_direct_allowed_schemes: "Toegestane schema's zijn %{schemes}"

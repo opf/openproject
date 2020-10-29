@@ -1,0 +1,11 @@
+---
+cgit_url: https://yhbt.net/kgio.git
+git_url: git://yhbt.net/kgio.git
+ml_url: https://yhbt.net/kgio-public/
+rdoc_url: https://yhbt.net/kgio/
+public_email: kgio-public@yhbt.net
+noindex:
+- LATEST
+- TODO
+nntp_url:
+  - nntp://news.public-inbox.org/inbox.comp.lang.ruby.kgio

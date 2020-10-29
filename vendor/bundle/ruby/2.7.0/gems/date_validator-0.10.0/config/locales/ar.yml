@@ -1,0 +1,9 @@
+ar:
+  errors:
+    messages:
+      not_a_date: "ليس بتاريخ"
+      date_after: "يجب أن يكون بعد %{date}"
+      date_after_or_equal_to: "يجب أن يكون مساوي أو بعد %{date}"
+      date_before: "يجب أن يكون قبل %{date}"
+      date_before_or_equal_to: "يجب أن يكون مساوي أو قبل %{date}"
+      date_equal_to: "يجب أن يساوي %{date}"

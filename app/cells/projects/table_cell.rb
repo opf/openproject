@@ -96,12 +96,7 @@ module Projects
 
     def project_custom_fields
       @project_custom_fields ||= begin
-        fields =
-          if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-            ProjectCustomField.visible(current_user).order(:position)
-          else
-            ProjectCustomField.none
-          end
+        fields = ProjectCustomField.visible(current_user).order(:position)
 
         fields
           .map { |cf| [:"cf_#{cf.id}", cf] }

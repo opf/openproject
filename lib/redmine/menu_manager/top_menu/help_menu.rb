@@ -87,9 +87,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   class: 'drop-down--help-headline',
                   title: I18n.t('top_menu.help_and_support')
     end
-    if EnterpriseToken.show_banners?
-      result << static_link_item(:upsale, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsale-help-menu")
-    end
+
     result << static_link_item(:user_guides)
     result << content_tag(:li) {
       link_to I18n.t('label_videos'),

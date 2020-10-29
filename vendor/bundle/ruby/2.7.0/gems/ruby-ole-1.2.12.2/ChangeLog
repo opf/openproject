@@ -1,0 +1,157 @@
+== 1.2.12.2 / 2019-03-12
+
+- Fix to work with frozen string literals (github #24, taichi-ishitani).
+
+== 1.2.12.1 / 2017-03-12
+
+- Integer unification for ruby 2.4.0+ (github #19, koic).
+
+== 1.2.12 / 2015-12-29
+
+- Change project homepage to github.
+- Add MIT licence to the gemspec (github #17, reiz).
+
+== 1.2.11.8 / 2014-12-30
+
+- Fix duplicate key warning (github #15 and googlecode #12).
+
+== 1.2.11.7 / 2013-06-24
+
+- Various encoding fixes to make tests pass on current rubies.
+- Fix RangesIO#write behaviour when passed an encoded string (github #14,
+  romuloceccon).
+- Fix Dirent#each_child attempting iteration on file children (github #13).
+- Unused variable fixes to avoid warnings (github #12, kachick).
+
+== 1.2.11.6 / 2012-12-10
+
+- Fix breakage of writable IO stream detection on Windows (github #11).
+
+== 1.2.11.5 / 2012-11-06
+
+- Fix breakage of IO.parse_mode on Rubinius (issue #10).
+- Make tests pass on rubinius (issue #11).
+- Improve RangesIO test coverage.
+- Don't warn when mbat_start is AVAIL instead of EOC (github #9).
+
+== 1.2.11.4 / 2012-07-03
+
+- Embed PropertySet meta data GUIDs and field lists, to avoid hitting the
+  filesystem and remove dependency on YAML.
+- Update Rakefile to avoid warnings about both deprecated tasks and space
+  before parentheses.
+- Remove Dirent#children=.
+
+== 1.2.11.3 / 2012-02-25
+
+- Various fixes for ruby 1.9.3 - handle iconv deprecation and
+  fix FileTime.from_time (github #7, brawnski).
+- Avoid constant redefinition warning in gemspec.
+
+== 1.2.11.2 / 2011-09-07
+
+- Remove empty dirents after constructing tree (fixes non-contiguous
+  allocation table usage).
+- Fix fallback Symbol#to_proc to match activesupport definition in case
+  we get loaded first (github #2, lazylester).
+- Use method_defined? for fallback guards to support newer versions of
+  ruby (jocker).
+- Add guard on FileTime#initialize to skip for newer versions of ruby.
+  Missing required methods, but optimization no longer relevant
+  anyway (github #4, sagmor).
+
+== 1.2.11.1 / 2010-10-24
+
+- Add gemspec and docs to packages so tests can pass again.
+- Build tarballs again in package task.
+
+== 1.2.11 / 2010-10-17
+
+- Add COPYING for packaging (issue #7)
+- Make tests pass using home_run (github #1)
+- Make tests pass using mathn.
+- Updates to suppress warnings on 1.9.2.
+- Split out gemspec into separate file and use for Rakefile.
+
+== 1.2.10.1 / 2010-03-19
+
+- Avoid use of DateTime#new! (issue #4)
+- Remove warning about unexpected root names (issue #5)
+
+== 1.2.10 / 2009-07-20
+
+- Mostly more performance enhancements, significantly faster for
+  certain operations.
+- Using lots of files is faster due to new hash lookup for dirents by name.
+- Writes of many files are faster now too as Dirent & FileTime serialization
+  has been improved.
+- Certain operations from the filesystem api have been profiled and sped up.
+- Don't use syswrite on jruby to avoid the buffered stream warnings.
+
+== 1.2.9 / 2009-07-14
+
+- Lots of performance enhancements for RangesIO.
+
+== 1.2.8.2 / 2009-01-01
+
+- Update code to support ruby 1.9.1
+
+== 1.2.8.1 / 2008-10-22
+
+- Fix a couple of breakages when using $KCODE = 'UTF8'
+
+== 1.2.8 / 2008-10-08
+
+- Check in the new fixes to the mbat support.
+- Update README to be a bit more useful.
+
+== 1.2.7 / 2008-08-12
+
+- Prepare Ole::Types::PropertySet for write support.
+- Introduce Ole::Storage#meta_data as an easy interface to meta data stored
+  within various property sets.
+- Add new --metadata action to oletool to dump said metadata.
+- Add new --mimetype action to oletool, and corresponding Ole::Storage#mime_type
+  function to try to guess mime type of a file based on some simple heuristics.
+- Restructure project files a bit, and pull in file_system & meta_data support
+  by default.
+- More tests - now have 100% coverage.
+
+== 1.2.6 / 2008-07-21
+
+- Fix FileClass#expand_path to work properly on darwin (issue #2)
+- Guard against Enumerable#sum clash with active support (issue #3)
+
+== 1.2.5 / 2008-02-16
+
+- Make all tests pass on ruby 1.9.
+
+== 1.2.4 / 2008-01-09
+
+- Make all tests pass on windows (issue #1).
+- Make all tests pass on a power pc (running ubuntu).
+- Property set convenience access functions.
+
+== 1.2.3 / 2007-12-28
+
+- MBAT write support re-implmented. Can now write files over ~8mb again.
+- Minor fixes (truncation in #flush, file modification timestamps)
+- More test coverage
+- Initial (read-only) property set support.
+- Complete filesystem api, to pass most of the rubyzip tests.
+- Add a ChangeLog :).
+
+== 1.2.2 / 2007-11-05
+
+- Lots of test updates, 90% coverage.
+- Fix +to_tree+ method to be more efficient, and stream output.
+- Optimizations from benchmarks and profiling, mostly for writes. Fixed
+  AllocationTable#resize_chain, RangesIOResizable#truncate and
+  AllocationTable#free_block.
+- Add in filesystem test file from rubyzip, and start working on a
+  filesystem api.
+
+== 1.2.1 / 2007-08-20
+
+- Separate out from ruby-msg as new project.
+

@@ -50,7 +50,7 @@ it:
         action_text_assignee: >
           Board con colonne automatizzate in base agli utenti assegnati. Ideale per l'assegnazione di macro-attività.
         action_text_version: >
-          Scheda con colonne automatizzate in base all'attributo versione. Ideale per la pianificazione dei rilasci di software.
+          Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
           assignee: assegnatario
           status: stato

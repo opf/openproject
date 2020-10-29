@@ -66,7 +66,8 @@ Feature: Edit story type and status
         | Resolved | false     | false      |
         | Closed   | true      | false      |
         | Rejected | true      | false      |
-    And there is a default issuepriority
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the project has the following stories in the following sprints:
         | subject | sprint     | type  | status | story_points |
         | Story A | Sprint 001 | Bug   | New    | 10           |

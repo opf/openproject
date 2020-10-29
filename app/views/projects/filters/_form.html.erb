@@ -83,11 +83,5 @@
         <%= submit_tag t('button_apply'), class: 'button -small -highlight', name: nil %>
       </li>
     </ul>
-    <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>
-      <enterprise-banner-bootstrap
-        text-message="<%= t('ee.upsale.project_filters.description_html') %>"
-        referrer="project-list-filter">
-      </enterprise-banner-bootstrap>
-    <% end %>
   </fieldset>
 <% end %>

@@ -1,0 +1,4 @@
+files:
+  excluded:
+    - lib/dry/core.rb
+    - lib/dry/core/version.rb

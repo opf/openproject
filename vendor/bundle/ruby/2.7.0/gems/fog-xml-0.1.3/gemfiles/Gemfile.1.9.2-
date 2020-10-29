@@ -1,0 +1,8 @@
+source "https://rubygems.org"
+
+gem 'mime-types', '< 2.0'
+gem 'nokogiri', '< 1.6'
+gem 'rest-client', '~> 1.6.8'
+gem 'fog-core'
+
+gemspec :path => '../'

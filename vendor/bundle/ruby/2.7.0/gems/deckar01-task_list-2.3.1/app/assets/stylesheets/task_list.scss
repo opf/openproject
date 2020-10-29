@@ -1,0 +1,20 @@
+// Requires use of `.markdown-body` to override default markdown list styles
+.markdown-body .task-list {
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+.task-list-item {
+  padding-left: 20px;
+}
+.task-list-item label {
+  font-weight: normal;
+}
+.task-list-item + .task-list-item {
+  margin-top: 3px;
+}
+.task-list-item-checkbox {
+  float: left;
+  margin-left: -20px;
+  margin-top: 4px;
+}

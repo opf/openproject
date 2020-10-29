@@ -1,0 +1,268 @@
+# -*- mode: org; coding: utf-8-unix; fill-column: 120; -*-
+#+OPTIONS: ^:{}
+#+TODO: TODO(t) STARTED(s) | DONE(d) CANCELED(c)
+#+LINK: Issue https://github.com/evolve75/RubyTree/issues/%s
+#+LINK: Pull https://github.com/evolve75/RubyTree/pull/%s
+
+* R0.7.0                                                                                  :ARCHIVE:
+*** DONE Start using signed tags from R0.7.0                                              :ARCHIVE:
+*** DONE Add a check in the Tree::TreeNode.add method to prevent addition of nil child nodes :ARCHIVE:
+    CLOSED: [2010-02-23 Tue 23:07]
+*** DONE Fix the edge condition for Tree::TreeNode.isOnlyChild? when the root node is the receiver. :ARCHIVE:
+    CLOSED: [2010-02-23 Tue 22:03]
+    There really is no good default to this situation.  We will return 'true' simply because there is no other sibling
+    to a root.  However, a good case can be made that a root node does not have any parent either.
+*** DONE Add a convenience 'level' method to the TreeNode class (will be an alias to nodeDepth) :ARCHIVE:
+    CLOSED: [2010-02-21 Sun 01:02]
+*** DONE Add a API-CHANGES file to document the various API changes made till date        :ARCHIVE:
+    CLOSED: [2010-01-31 Sun 00:52]
+*** DONE Add new methods to return the degree counts of the receiver node (in-degree and out-degree) :ARCHIVE:
+    CLOSED: [2010-01-30 Sat 23:56]
+
+
+* R0.8.0                                                                                  :ARCHIVE:
+*** DONE Convert all method names to the canonical /^[_a-z<>=\[|+-\/\*`]+[_a-z0-9_<>=~@\[\]]*[=!\?]?$/ pattern :ARCHIVE:
+    See Roodi report at http://getcaliper.com/caliper/tool?tool=roodi&repo=git://github.com/evolve75/RubyTree.git
+*** DONE Integrate the subtree cloning patch submitted by Vincenzo Farrugia.              :ARCHIVE:
+
+
+
+* R0.8.1                                                                                  :ARCHIVE:
+*** DONE Fix [[http://rubyforge.org/tracker/index.php?func%3Ddetail&aid%3D28613&group_id%3D1215&atid%3D4793][bug #28613]] which was affecting the `leftChild=' and `rightChild=' methods for binary trees. :ARCHIVE:
+
+
+* R0.8.3                                                                                  :ARCHIVE:
+
+  This is a bugfix release.
+
+*** DONE Make Rubytree compatible with Bundler                                            :ARCHIVE:
+    CLOSED: [2012-08-21 Tue 21:04]
+
+*** DONE Make Rubytree compatible wth gem-testers                                         :ARCHIVE:
+    CLOSED: [2012-08-21 Tue 21:04]
+
+*** DONE Remove the dependency on Hoe                                                     :ARCHIVE:
+    CLOSED: [2012-08-21 Tue 21:05]
+*** DONE Resolve the _tree.rb_ file conflict with the [[http://netaddr.rubyforge.org/][netaddr gem]]                           :ARCHIVE:
+    CLOSED: [2012-08-20 Mon 01:03]
+    Issue https://github.com/evolve75/RubyTree/issues/8
+
+*** DONE Update documentation to be more explicit about duplicate node names              :ARCHIVE:
+    CLOSED: [2012-08-19 Sun 21:46]
+    Issue https://github.com/evolve75/RubyTree/issues/7
+    Update documentation for :name attribute in tree.rb.  There is no
+    specific code fix needed.
+
+*** DONE Allow integers to be used as node names (clarify the scenario). Fixed issue #6.  :ARCHIVE:
+    CLOSED: [2012-08-19 Sun 15:17]
+    Issue https://github.com/evolve75/RubyTree/issues/6
+    We will need to warn the user when an Integer is used as a name
+    for the node (but still allow the usage),
+    and
+    also add an optional flag to the TreeNode#[] method to allow the
+    user to explicitly indicate use of the Integer parameter as a
+    literal name, and not as an /index/ to the children array.
+
+*** DONE Clarify (or fix) the scenario whether a root node without children is a leaf     :ARCHIVE:
+    CLOSED: [2012-08-19 Sun 15:09]
+    Issue http://rubyforge.org/tracker/index.php?func=detail&aid=29549&group_id=1215&atid=4793
+
+#+begin_src ruby -n :eval no
+  tree.each_leaf do |tree_leaf|
+    tree_leaf_parent = tree_leaf.parent
+    tree_leaf.remove_from_parent!
+    puts tree_leaf_parent.is_leaf?
+  end
+#+end_src
+
+    will return ~false~, while technically ~tree_leaf_parent~ becomes leaf itself when ~tree_leaf~ is removed.
+
+    The problem here is that the code above is trying to concurrently modify the collection over which the ~each_leaf~
+    iterator is looping, which has unpredicable results.  As an example, try this with an array:
+
+#+begin_src ruby -n
+    a = Array(1..5)
+    a.each do |e|
+      a.delete(e)
+    end
+    a
+#+end_src
+
+#+RESULTS:
+| 2 | 4 |
+
+    The result is surprising, as not all elements are being deleted.  A good explanation is available in [[https://groups.google.com/forum/?fromgroups#!topic/ruby-talk-google/iEDF8qhojss%255B1-25%255D][this thread]] on
+    Ruby-Talk @ Google.
+
+    The correct way to handle the original need is:
+
+#+begin_src ruby -n :eval no
+  leafs = @root.each_leaf
+  parents = leafs.collect {|leaf| leaf.parent }
+  leafs.each {|leaf| leaf.remove_from_parent!}
+  parents.each {|parent| assert(parent.is_leaf?) if not parent.has_children?}
+#+end_src
+
+    Basically, the parent removal is done in a separate block, and *then* the check for the parents becoming leafs is done.
+
+*** DONE Fix the ~first_sibling~ and ~last_sibling~ for the root                              :ARCHIVE:
+    CLOSED: [2012-08-19 Sun 21:01]
+    The current behavior is correct, and has been left as is.
+*** DONE Fix the ~siblings~ method to return an empty array for root                        :ARCHIVE:
+    CLOSED: [2012-08-19 Sun 21:03]
+*** DONE Fix the TreeNode#root method to return nil for root's root.                      :ARCHIVE:
+    CLOSED: [2012-08-19 Sun 21:13]
+
+    Left the code as-is, since we need some way to un-ambiguously find the root, regardless of the node given.
+
+
+
+* R0.9.0                                                                                  :ARCHIVE:
+  DEADLINE: <2013-02-24 Sun>
+
+  This release contains the following features and fixes:
+
+  1. Ability to merge in another tree at a chosen node
+  2. Support for the [[http://ruby-doc.org/core-1.8.7/Comparable.html][Comparable]] mixin module
+  3. Ability to export the tree to a hash, and create a new tree from
+     another existing hash
+  4. Fix (partial) for preventing cyclic graphs in the tree
+  5. Refactored =each= method to prevent stack errors while navigating
+     deep trees
+  6. Check to ensure that the added node's name is unique to the destination tree
+  7. Fix for the issue where tree traversal would fail if the binary-tree's left child was nil
+  8. Fixed the return type for the iterator methods (each, postordered_each, breadth_each, etc.). They now return an
+     Enumerator if *no* block is provided, or else return the receiver node itself, if a block *was* provided. This is
+     consistent with how Ruby's standard collections work
+  9. Structural changes in the code to refactor out the non-core functions into modules
+  10. Massive documentation updates
+  11. Addition of the examples directory (only a bare-bones placeholder for now, with the basic example code)
+  12. Ability to run the examples from the Rakefile
+  13. Various bundler and travis-ci related changes
+
+
+*** DONE Fix the stack exhaustion issue due to deep recursion on very large unbalanced trees :ARCHIVE:
+    CLOSED: [2013-12-28 Sat 10:59]
+    See [[Issue:12][Issue #12.]]  The following methods need fixes:
+    - [X] [[file:lib/tree.rb::def%20each(][each]]
+    - [X] [[file:lib/tree.rb::def%20postordered_each][postordered_each]]
+
+*** DONE Extract non-essential methods from Tree::TreeNode into separate files.           :ARCHIVE:
+    CLOSED: [2013-12-31 Tue 21:55]
+    - [X] Handling of CamelCase methods
+    - [X] Convertion to and from [[http://flori.github.com/json/][JSON]]
+    - [X] The merge feature
+    - [X] The metrics measurements
+
+*** DONE Fix the documentation strings for the methods (the Yard attributes)              :ARCHIVE:
+    CLOSED: [2013-12-31 Tue 21:55] DEADLINE: <2013-12-28 Sat>
+
+*** DONE Implement an `inordered_each` method for the [[file:lib/tree/b][BinaryTree]]                          :ARCHIVE:
+    CLOSED: [2013-12-28 Sat 16:32] DEADLINE: <2013-12-28 Sat>
+*** DONE Add some example code to the Gem                                                 :ARCHIVE:
+    CLOSED: [2013-12-28 Sat 12:12]
+*** DONE Pull in the unique node name validation from [[Pull:9][ysf]]                                 :ARCHIVE:
+    CLOSED: [2013-02-21 Thu 20:29]
+    Will need to make this configurable.
+
+*** DONE Pull in the tree merge feature from [[Pull:9][Dazoakley]]                                    :ARCHIVE:
+    CLOSED: [2013-02-21 Thu 20:26]
+
+*** DONE Rename the [[file:COPYING.rdoc][COPYING.rdoc]] file to LICENSING.rdoc                                   :ARCHIVE:
+    CLOSED: [2012-08-25 Sat 21:19]
+
+*** CANCELED Fix the inconsistency of returning root as its first sibling, and returning a nil instead.  Ditto for last sibling. :ARCHIVE:
+    CLOSED: [2012-08-25 Sat 20:49]
+    This is actually consistent.
+*** CANCELED fix the inconsistency of returning nil for the root, and an empty array for nodes which have no siblings. :ARCHIVE:
+    CLOSED: [2012-08-25 Sat 20:51]
+    Already fixed in [[R0.8.3]].
+
+*** CANCELED We should perhaps return nil as root's root. (Scrapped).                     :ARCHIVE:
+    CLOSED: [2012-08-25 Sat 20:35]
+    This proposed change does make sense at one level (since the root node does not have any parent), but returning root
+    as root's root (no pun intended) makes accessing the root from anywhere in the tree much easier.
+
+
+
+
+* R0.9.5
+** DONE Add the `#get_path_as_string` method from feature request #48                     :ARCHIVE:
+   CLOSED: [2015-05-30 Sat 15:55]
+** DONE Fix [[Issue:32][Issue #32]] and enable move semantics on the TreeNode#add method.               :ARCHIVE:
+   CLOSED: [2015-01-01 Thu 16:05]
+** DONE Check the lazy initialization of =@node_depth= and changes in parent nodes          :ARCHIVE:
+   CLOSED: [2014-12-18 Thu 11:05]
+** DONE Pull the performance improvements from Aidan [[Pull:37][#37]]                                  :ARCHIVE:
+   CLOSED: [2014-12-18 Thu 10:27]
+** DONE Pull the =hash= converter code from [[https://github.com/markthomas/RubyTree/commits/master][Mark Thomas]] ([[Issue:13][Issue #13]]).                        :ARCHIVE:
+   CLOSED: [2014-11-01 Sat 20:10]
+   This was contributed by @jhamon.
+** DONE Misc. bug fixes                                                                   :ARCHIVE:
+   CLOSED: [2014-11-01 Sat 20:11]
+
+
+
+
+* Next Release
+  DEADLINE: <2014-12-01 Mon>
+** STARTED [#A] Resolve the infinite loop bug if a node is added to itself as a child     :Partial:
+   [[Issue:5][Issue #5.]]
+
+   This is a subtle problem to resolve.  The specific case of a node
+   being added to itself is trivial to resolve, and the fix has been
+   put in for 0.8.3.
+
+   However, the general problem is that in the current code, a node
+   can be added as a child to any portion of the tree down the
+   hierarchy (e.g., as a grandchild), which will need a more thorough
+   detection code in the ~TreeNode#add~ method, if it is to be done at
+   runtime.
+
+   The issue is really to prevent the tree becoming a graph.  Note
+   that the issue is with duplicate nodes, /not/ duplicated content.
+
+   A few options exist:
+   1. Perform a runtime check in the ~TreeNode#add~ method.  This will
+      cause a performance hit as the tree becomes larger.
+   2. Allow the additions to go through, but create a new ~validate~
+      method that checks for such cycles.
+   3. Create separate configuration object which can be attached to
+      the root of the tree, which allows per-tree configuration of
+      the behavior - this does allow for the user to take control,
+      but also introduces complications during tree mergers and
+      spitting subtrees.
+   4. Create a registry (to be maintained at the root?) of all nodes,
+      and use this for validating the node additions (and preventing
+      duplicates).  This needs to be a hash (to allow O(1) access),
+      and will sacrifice memory.  There might be a need to
+      restructure the internals to make better use of memory.
+** STARTED Convert all documentation to markdown mode.
+** TODO Expand the examples section, and add supporting documentation
+
+* Unplanned / Not assigned to any release
+*** DONE [#A] Migrate the website and references from http://rubyforge.org/               :ARCHIVE:
+    CLOSED: [2014-07-04 Fri 22:18]
+*** DONE Revert the forced install of rubygem 2.1.11 from [[file:.travis.yml][.travis.yml]]                     :ARCHIVE:
+    CLOSED: [2014-01-12 Sun 19:06]
+    The issue seems to have been resolved with the 2.2.1 release of Rubygems.
+*** TODO Create a cycle-detection/validation mechanism to prevent cyclic graphs of nodes.
+*** TODO Create a generic validation method to check for various issues in the created tree.
+*** TODO Add a FAQ document to the project.
+*** TODO The semantic of length is probably unclear.  Should return the node_depth instead (or remove the method)
+    The current equivalence of length to size should also be removed.
+
+*** TODO Create the basic UML diagrams and upload to the Site
+    DEADLINE: <2010-01-04 Mon>
+
+*** TODO Add a YAML export method to the TreeNode class.
+
+*** TODO marshal_load method probably should be a class method.  It currently clobbers self.
+*** DONE Fix bug # [[http://rubyforge.org/tracker/index.php%3Ffunc%3Ddetail&aid%3D22535&group_id%3D1215&atid%3D4793][22535]]: The method Tree::TreeNode#depth is a misnomer.  The current definition actually provides the height function. :ARCHIVE:
+    DEADLINE: <2010-01-09 Sat> CLOSED: [2010-01-03 Sun 22:15]
+
+*** DONE Get the version control moved from CVS to Subversion (request submitted to RubyForge) :ARCHIVE:
+    CLOSED: [2010-01-02 Sat 17:58]
+
+*** DONE Add logic in Rakefile to read the file list from Manifest.txt file.              :ARCHIVE:
+  CLOSED: [2009-12-31 Thu 23:37]

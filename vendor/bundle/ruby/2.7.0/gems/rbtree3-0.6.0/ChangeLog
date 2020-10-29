@@ -1,0 +1,510 @@
+2020-01-21  Brian Hawley
+
+        * version 0.6.0 released.
+
+        * test.rb: improved 1.8.7 compatibility
+
+        * rbtree.c: made RBTREE(rbtree) do the type conversion, like RARRAY and
+        such do
+
+        * rbtree.c: Used Data_Make_Struct instead of doing the same thing that
+        it used to do, in order to be compatible with MJIT and compaction GC.
+
+        * rbtree.c: restored to_hash default preservation removed in 0.5.0 and
+        made it compatible with newer Rubies
+
+        * rbtree.c: made code compatible with Ruby 2.7 and fixed warnings about
+        deprecated taint mechanism
+
+2019-02-07  Kyrylo Silin
+
+        * version 0.5.0 released.
+
+        * rbtree.c: (rbtree_dump): fixed 'TypeError: instance of IO needed'
+
+        * rbtree.c: (RHASH_IFNONE): removed. Fixes compilation error
+        'expression is not assignable'
+
+2009-01-27  OZAWA Takuma
+
+	* version 0.2.1 released.
+
+	* README: fixed documents.
+
+	* rbtree.c: ditto.
+
+2009-01-23  OZAWA Takuma
+
+	* rbtree.c (RETURN_ENUMERATOR): do nothing if rb_enumeratorize not
+	defined.
+
+	* rbtree.c (RBTREE_IN_ITERATION): removed. it has been not used.
+
+	* rbtree.c (HAVE_RB_MARSHAL_LOAD, HAVE_RB_OBJ_INIT_COPY,
+	HAVE_OBJECT_ALLOCATE, HAVE_RB_BLOCK_PROC, HAVE_RB_YIELD_VALUES):
+	removed macros for Ruby 1.6.x.
+
+	* extconf.rb (HAVE_RB_MARSHAL_LOAD, HAVE_RB_OBJ_INIT_COPY,
+	HAVE_OBJECT_ALLOCATE, HAVE_RB_BLOCK_PROC, HAVE_RB_YIELD_VALUES):
+	ditto.
+
+	* rbtree.c (cmpint): removed a few codes for Ruby 1.6.x.
+
+	* test.rb: ditto.
+
+	* test.rb: (assert_raise): removed an alias for RubyUnit. use
+	assert_raises.
+
+	* extconf.rb: removed checking for inline keyword.
+
+2009-01-21  OZAWA Takuma
+
+	* extconf.rb: removed gcc options for portability. Thanks to
+	Masatoshi SEKI.
+
+2008-12-26  OZAWA Takuma
+
+	* rbtree.c (rbtree_each, rbtree_each_pair, rbtree_each_key,
+	rbtree_each_value, rbtree_reverse_each, rbtree_delete_if,
+	rbtree_reject_bang, rbtree_select): Return an enumerator if no
+	block is given.
+
+2008-12-24  OZAWA Takuma
+
+	* rbtree.c (rbtree_s_create): check and convert argument inner arrays (assocs) using #to_ary.
+
+	* rbtree.c (rbtree_s_create): check and convert argument hash using #to_hash.
+
+	* rbtree.c (rbtree_s_create): RBTree#[] now takes assocs as source of rbtree conversion.
+
+	* rbtree.c (rbtree_to_hash): can't convert MultiRBTree to Hash.
+
+	* rbtree.c (rbtree_s_create): can't convert MultiRBTree to RBTree.
+
+	* rbtree.c (rbtree_s_create, rbtree_values_at): use long for loop counter instead of int.
+
+2007-09-21  OZAWA Takuma
+
+	* extconf.rb: no gcc options for mswin32.
+
+2007-02-01  OZAWA Takuma
+
+	* version 0.2.0 released.
+
+2007-01-25  OZAWA Takuma
+
+	* rbtree.c (rbtree_readjust): remove a warning.
+
+	* rbtree.c (rbtree_default): should not call default procedure if
+	no key is given.
+
+	* rbtree.c (rbtree_equal): returns true if two rbtrees have same
+	set of key-value set.
+
+2004-10-27  OZAWA Takuma
+
+	* version 0.1.3 released.
+
+2004-07-29  OZAWA Takuma
+
+	* rbtree.c (rbtree_bound): RBTree#bound(lower, upper = lower).
+
+2004-07-11  OZAWA Takuma
+
+	* rbtree.c (MultiRBTree): new class. MultiRBTree allows duplicates
+	of keys.
+
+	* rbtree.c (rbtree_dump, rbtree_s_load): use Array as a storage
+	for performance improvement.
+
+	* rbtree.c (rbtree_equal, rbtree_initialize_copy, rbtree_update):
+	should use rb_obj_is_kind_of.
+
+	* rbtree.c (iter_lev): added to count iterator level for nesting
+	and thread-safety.
+
+2004-06-29  OZAWA Takuma
+
+	* dict.c: remove codes Ruby/RBTree doesn't need. now not supposed
+	to use dict.c with other program.
+
+	* dict.h: ditto.
+
+	* dict.c (dict_equal): remove key_eql argument. use
+	dict->dict_compare to compare keys.
+
+2004-06-20  OZAWA Takuma
+
+	* rbtree.c (rbtree_cmp): use rb_str_cmp if the type of keys is
+	string.
+
+	* rbtree.c (rbtree_cmp): use rb_cmpint.
+
+	* rbtree.c (rbtree_user_cmp): ditto.
+
+2004-06-12  OZAWA Takuma
+
+	* version 0.1.2 release.
+
+2004-05-31  OZAWA Takuma
+
+	* rbtree.c (rbtree_initialize_copy): if an exception is raised in
+	the method rbtree is not modified.
+
+	* rbtree.c (rbtree_delete_if): if an exception is raised in the
+	block rbtree is not modified(no keys are deleted).
+
+	* rbtree.c (rbtree_readjust): use rb_gc_force_recycle.
+
+2004-05-24  OZAWA Takuma
+
+	* rbtree.c (rbtree_initialize_copy): use aset_i. duplicating a key
+	of string is fast because of copy-on-write.
+
+	* rbtree.c (rbtree_readjust): ditto.
+
+	* rbtree.c (rbtree_update): ditto.
+
+	* rbtree.c (rbtree_aset): no dict_lookup for better performance.
+
+	* rbtree.c (rbtree_update): was same whether a block is given or not.
+
+2004-05-23  OZAWA Takuma
+
+	* rbtree.c (inspect_rbtree): add OBJ_INFECTs.
+
+	* rbtree.c (inspect_rbtree): change ``compare'' to ``cmp_proc''.
+
+	* rbtree.c (pp_block): ditto.
+
+2004-04-26  OZAWA Takuma
+
+	* rbtree.c (rbtree_s_create): accept Hash argument.
+
+	* rbtree.c (rbtree_s_create): should just copy keys and values.
+
+2004-02-19  OZAWA Takuma
+
+	* rbtree.c (pp_object_group): use id_object_group.
+
+2004-02-16  OZAWA Takuma
+
+	* version 0.1.1 release.
+
+2004-02-13  OZAWA Takuma
+
+	* README: rewritten.
+
+	* rbtree.c (document): incomplete document for rdoc.
+
+2004-02-08  OZAWA Takuma
+
+	* test.rb (test_pp): add pretty printing test.
+
+2004-02-07  OZAWA Takuma
+
+	* rbtree.c (rbtree_mark): should check rbtree and dict is
+	initialized. Thanks to Neil Spring.
+
+2004-02-05  OZAWA Takuma
+
+	* rbtree.c (prettyprint): polish code.
+
+	* test.rb (assert_raise): alias of assert_raises for Ruby 1.6.x.
+
+2004-02-02  OZAWA Takuma
+
+	* test.rb: clean code. no more RUnit support. use Test::Unit.
+
+2004-01-29  OZAWA Takuma
+
+	* rbtree.c (rbtree_dump): optimization.
+
+	* rbtree.c (rbtree_s_load): ditto.
+
+2004-01-27  OZAWA Takuma
+
+	* rbtree.c (readjust): RBTree#readjust() just readjusts elements
+	using current comparison block. use RBTree#readjust(nil) to set
+	default comparison block.
+
+	* extconf.rb (assertion): removed.
+
+2004-01-14  OZAWA Takuma
+
+	* ctest/test.c: removed.
+
+	* ctest/testlib.c: ditto.
+
+	* ctest/testlib.h: ditto.
+
+	* ctest/Makefile: ditto.
+
+2004-01-04  OZAWA Takuma
+
+	* version 0.1.0 release.
+
+2004-01-03  OZAWA Takuma
+
+	* rbtree.c (rbtree_to_rbtree): new method.
+
+	* rbtree.c (each_pair_i, rbtree_bound_body, rbtree_delete_if_body,
+	  select_i, update_block_i): use rb_yield_values.
+
+	* rbtree.c (rbtree_each): RBTree#each should yield single value.
+
+	* rbtree.c (rbtree_select): select(key..) is removed.
+
+	* rbtree.c (rbtree_fetch): always warn if default argument and a
+	  block are supplied at the same time.
+
+2003-08-12  takuma ozawa
+
+	* version 0.0.7 release.
+
+2003-08-11  takuma ozawa
+
+	* rbtree.c (rbtree_to_hash): copy default value.
+
+	* rbtree.c (rbtree_readjust): takes a Proc argument.
+
+	* rbtree.c (to_hash_i): optimization.
+
+2003-08-09  takuma ozawa
+
+	* rbtree.c (rbtree_merge): new method.
+
+	* rbtree.c (rbtree_select): select(key..) is deprecated.
+
+	* rbtree.c (rbtree_values_at): new method.
+
+	* rbtree.c (rbtree_initialized_copy): rbtree_copy_object changed to.
+
+2003-07-27  takuma ozawa
+
+	* rbtree.c (rbtree_dump): new method based on Ara Howard's code.
+	Thanks.
+
+	* rbtree.c (rbtree_s_load): ditto.
+
+2003-03-25  takuma ozawa
+
+	* version 0.0.6 release.
+
+2003-02-26  takuma ozawa
+
+	* rbtree.c (rbtree_readjust): rbtree_modify.
+
+2003-02-23  takuma ozawa
+
+	* rbtree.c (rbtree_copy_object): use copy_i.
+
+	* rbtree.c (rbtree_readjust): ditto.
+
+	* rbtree.c (rbtree_aset): not freeze a key.
+
+2003-01-24  takuma ozawa
+
+	* rbtree.c (rbtree_aset): optimization.
+
+2003-01-18  takuma ozawa
+
+	* rbtree.c (rbtree_aset): not raise an exception if a dict is
+	full and the key has been contained.
+
+2003-01-16  takuma ozawa
+
+	* version 0.0.5 release.
+
+2002-12-26  takuma ozawa
+
+	* rbtree.c (rbtree_alloc): new allocation framework.
+
+	* rbtree.c (rbtree_copy_object): changed become to copy_object.
+
+	* rbtree.c (rbtree_cmp): use NUM2INT in case nil returned.
+
+	* extconf.rb (assertion): assertion is off by default.
+
+	* rbtree.c (rbtree_aset): fixed a memory leak occured if the
+	comparison block raises an exception.
+
+2002-11-24  takuma ozawa
+
+	* rbtree.c (rbtree_pretty_print): new method.
+
+	* rbtree.c (rbtree_pretty_print_cycle): new method.
+
+2002-11-22  takuma ozawa
+
+	* rbtree.c (rbtree_inspect): format changed.
+
+	* rbtree.c (rbtree_user_cmp): use NUM2INT.
+
+2002-10-29  takuma ozawa
+
+	* version 0.0.4 release.
+
+2002-10-18  takuma ozawa
+
+	* extconf.rb (assertion): change name to assertion.
+
+2002-10-12  takuma ozawa
+
+	* rbtree.c (rbtree_readjust): assign Qnil to other's dict_context
+	after swap.
+
+	* rbtree.c (rbtree_bound): use dict_compare for range check.
+
+2002-10-10  takuma ozawa
+
+	* rbtree.c (rbtree_readjust): empty dict check.
+
+	* rbtree.c (rbtree_readjust): not use dict_readjust for better
+	readability.
+
+	* rbtree.c (rbtree_become): must copy dict_compare and
+	dict_context before copying nodes.
+
+	* rbtree.c (rbtree_delete_if): rbtree_modify.
+
+	* rbtree.c (rbtree_shift_pop): ditto.
+
+	* rbtree.c (rbtree_update): ditto.
+
+	* test.rb: Test::Unit.
+
+	* rbtree.c (rbtree_readjust): clear other's nodes after swap.
+
+	* rbtree.c (rbtree_readjust): assign Qnil to other's ifnone after
+	swap.
+
+2002-10-07  takuma ozawa
+
+	* rbtree.c (rbtree_update): self assignment check.
+
+	* rbtree.c (rbtree_update): replace duplicate value by return
+	value of block if given.
+
+2002-10-03  takuma ozawa
+
+	* rbtree.c (rbtree_become): self assignment check.
+
+2002-09-24  takuma ozawa
+
+	* rbtree.c (rbtree_cmp_proc): new method.
+
+	* rbtree.c (rbtree_readjust): if no block given, must assign Qnil
+	to context.
+
+	* rbtree.c (rbtree_inspect): format changed.
+
+2002-09-23  takuma ozawa
+
+	* dict.c (dict_equal): empty test must be after similar test.
+
+2002-09-22  takuma ozawa
+
+	* rbtree.c (rbtree_update): convert argument to RBTree.
+
+	* rbtree.c (rbtree_become): ditto.
+
+	* rbtree.c (rbtree_eq): use rb_equal.
+
+	* rbtree.c (rbtree_eql): change name to rbtree_eq.
+
+2002-09-20  takuma ozawa
+
+	* rbtree.c (RBTREE_FL_COPY): removed.
+
+	* ctest/test.c: rewritten in C. CppUnit is not required.
+
+2002-09-18  takuma ozawa
+
+	* depend: new file.
+
+	* rbtree.c (rbtree_equal): no need to check RBTREE_PROC_DEFAULT.
+
+	* extconf.rb (inline) check for inline keyword.
+
+2002-09-17  takuma ozawa
+
+	* version 0.0.3 release.
+
+2002-09-16  takuma ozawa
+
+	* rbtree.c (rbtree_reverse_each): new method.
+
+2002-09-12  takuma ozawa
+
+	* rbtree.c (rbtree_s_create): unset RBTREE_PROC_DEFAULT if the
+	argument is RBTree.
+
+	* rbtree.c (rbtree_clone): use rbtree_become.
+
+	* rbtree.c (version.h): not included.
+
+2002-09-11  takuma ozawa
+
+	* rbtree.c (rbtree_to_a): use OBJ_INFECT.
+
+	* rbtree.c (rbtree_to_hash): ditto.
+
+	* rbtree.c (rbtree_become): replaced by rbtree_replace.
+
+	* rbtree.c (rbtree_replace): removed. replace is implemented
+	useing rbtree_become.
+
+	* rbtree.c (rbtree_first_last): first or pop from empty tree
+	should not return its default proc.
+
+2002-09-09  takuma ozawa
+
+	* rbtree.c (rbtree_become): new method.
+
+	* rbtree.c (rbtree_clone): unset RBTREE_IN_ITERATION.
+
+	* rbtree.c (rbtree_replace): should copy ifnone.
+
+	* rbtree.c (rbtree_shift_pop): shift or pop from empty tree should
+	not return its default proc.
+
+	* rbtree.c (rbtree_default_proc): new method.
+
+	* rbtree.c (rbtree_equal): should check default values and
+	RBTREE_PROC_DEFAULT.
+
+2002-07-19  takuma ozawa
+
+	* dict.c (alloc_node): must return NULL if a memory allocation
+	fails.
+
+2002-07-13  takuma ozawa
+
+	* version 0.0.2 release.
+
+2002-07-11  takuma ozawa
+
+	* rbtree.c (rbtree_readjust): new method.
+
+2002-07-10  takuma ozawa
+
+	* dict.c (dict_clone): clone object must copy must_unfreeze
+	variable.
+
+2002-06-25  takuma ozawa
+
+	* dict.h (dnode_t): add must_freeze flag not to unfreeze already
+	freezed object.
+
+2002-06-22  takuma ozawa
+
+	* rbtree.c (rbtree_first): new method.
+
+	* rbtree.c (rbtree_last): new method.
+
+	* rbtree.c (rbtree_pop): new method.
+
+2002-06-14  takuma ozawa
+
+	* initial release.

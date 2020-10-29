@@ -123,7 +123,7 @@ module SearchHelper
   private
 
   def attachment_strings_for(attribute_name, event)
-    if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv? && event.respond_to?(:attachments)
+    if OpenProject::Database.allows_tsv? && event.respond_to?(:attachments)
       event.attachments&.map(&attribute_name)&.join(' ')
     end
   end

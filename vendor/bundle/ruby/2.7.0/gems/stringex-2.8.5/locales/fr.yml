@@ -1,0 +1,72 @@
+# NOTE: Some translation keys make use of matches from regular expressions
+# to manipulate whitespace and order. Please consult the source code for
+# Stringex::Localization::ConversionExpressions to see what those
+# regular expressions look like if you need to manipulate the order
+# differently than the usage below.
+fr:
+  stringex:
+    characters:
+      and: et
+      at: arobase
+      divide: divisé par
+      degrees: degrés
+      dot: \1 point \2
+      ellipsis: point point point
+      equals: égal
+      number: numéro
+      percent: pourcent
+      plus: plus
+      slash: slash
+      star: étoile
+    currencies:
+      generic: \1 livres
+      dollars: \1 dollars
+      dollars_cents: \1 dollars \2 cents
+      pounds: \1 livres
+      pounds_pence: \1 livres \2 pennies
+      euros: \1 euros
+      euros_cents: \1 euros \2 cents
+      yen: \1 yen
+      reais: \1 reais
+      reais_cents: \1 reais \2 cents
+    html_entities:
+      amp: et
+      cent: " cents"
+      copy: (c)
+      deg: " degrés "
+      divide: " divisé par "
+      double_quote: '"'
+      ellipsis: "..."
+      en_dash: "-"
+      em_dash: "--"
+      frac14: un quart
+      frac12: un demi
+      frac34: trois quarts
+      gt: ">"
+      lt: <
+      nbsp: " "
+      pound: " livres "
+      reg: (r)
+      single_quote: "'"
+      times: x
+      trade: (tm)
+      yen: " yen "
+    vulgar_fractions:
+      half: un demi
+      one_third: un tiers
+      two_thirds: deux tiers
+      one_fourth: un quart
+      three_fourths: trois quarts
+      one_fifth: un cinquième
+      two_fifths: deux cinquièmes
+      three_fifths: trois cinquièmes
+      four_fifths: quatre cinquièmes
+      one_sixth: un sixième
+      five_sixths: cinq sixièmes
+      one_eighth: un huitième
+      three_eighths: trois huitièmes
+      five_eighths: cinq huitièmes
+      seven_eighths: sept huitièmes
+    transliterations:
+      é: e
+      è: e

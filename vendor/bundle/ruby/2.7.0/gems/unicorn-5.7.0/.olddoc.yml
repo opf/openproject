@@ -1,0 +1,22 @@
+---
+cgit_url: https://yhbt.net/unicorn.git
+rdoc_url: https://yhbt.net/unicorn/
+ml_url:
+- https://yhbt.net/unicorn-public/
+- http://ou63pmih66umazou.onion/unicorn-public/
+merge_html:
+  unicorn_1: Documentation/unicorn.1.html
+  unicorn_rails_1: Documentation/unicorn_rails.1.html
+noindex:
+- Unicorn::Const
+- LATEST
+- TODO
+- unicorn_rails_1
+public_email: unicorn-public@yhbt.net
+nntp_url:
+- nntp://news.public-inbox.org/inbox.comp.lang.ruby.unicorn
+- nntp://ou63pmih66umazou.onion/inbox.comp.lang.ruby.unicorn
+- nntp://news.gmane.io/gmane.comp.lang.ruby.unicorn.general
+source_code:
+- git clone https://yhbt.net/unicorn.git
+- torsocks git clone http://ou63pmih66umazou.onion/unicorn.git

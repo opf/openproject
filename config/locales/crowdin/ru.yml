@@ -617,7 +617,7 @@ ru:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "у фильтра недопустимые значения."
+              inclusion: "filter has invalid values."
               format: "%{message}"
         relation:
           typed_dag:

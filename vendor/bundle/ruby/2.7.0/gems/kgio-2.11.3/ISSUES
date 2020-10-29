@@ -1,0 +1,29 @@
+= Issues
+
+The kgio {mailing list}[mailto:kgio-public@yhbt.net] is the best
+place to report bugs, submit patches and/or obtain support after you
+have searched the mailing list archives at https://yhbt.net/kgio-public/
+and {documentation}[https://yhbt.net/kgio/].
+
+* Do not {top post}[http://catb.org/jargon/html/T/top-post.html] in replies
+* Quote only the relevant portions of the message you're replying to
+* Do not send any HTML mail at all
+
+If you don't get a response within a few days, we may have forgotten
+about it so feel free to ask again.
+
+== Submitting Patches
+
+See the HACKING document (and additionally, the
+Documentation/SubmittingPatches document distributed with git) on
+guidelines for patch submission.
+
+== Mailing List Info
+
+* subscribe: mailto:kgio-public+subscribe@yhbt.net
+* post: mailto:kgio-public@yhbt.net
+
+== Mailing List Archives
+
+* https://yhbt.net/kgio-public/
+* nntp://news.public-inbox.org/inbox.comp.lang.ruby.kgio

@@ -1,0 +1,9 @@
+ja:
+  errors:
+    messages:
+      not_a_date: "は日付ではありません"
+      date_after: "は%{date}より後に設定してください"
+      date_after_or_equal_to: "は%{date}以後に設定してください"
+      date_before: "は%{date}より前に設定してください"
+      date_before_or_equal_to: "は%{date}以前に設定してください"
+      date_equal_to: "は%{date}にしてください"

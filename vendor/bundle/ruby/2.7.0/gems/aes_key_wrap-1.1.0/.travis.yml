@@ -1,0 +1,22 @@
+script: bundle exec ruby test/aes_key_wrap.rb
+language: ruby
+
+# test on old rubies
+rvm:
+  - 2.3.8
+  - 2.4.10
+  - 2.5.8
+  - 2.6.6
+
+# run latest ruby differently (run codeclimate)
+matrix:
+  include:
+  - rvm: 2.7.1
+    # code climate config
+    env: CC_TEST_REPORTER_ID=112d90dacd3bbf36bbf39282309a52581175ae544be2cf8ef3b8c0c0221515f5
+    before_script:
+      - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      - chmod +x ./cc-test-reporter
+      - ./cc-test-reporter before-build
+    after_script:
+      - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

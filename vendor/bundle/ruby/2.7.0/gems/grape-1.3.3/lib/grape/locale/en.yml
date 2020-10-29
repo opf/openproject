@@ -1,0 +1,54 @@
+en:
+  grape:
+    errors:
+      format: ! '%{attributes} %{message}'
+      messages:
+        coerce: 'is invalid'
+        presence: 'is missing'
+        regexp: 'is invalid'
+        blank: 'is empty'
+        values: 'does not have a valid value'
+        except_values: 'has a value not allowed'
+        same_as: 'is not the same as %{parameter}'
+        missing_vendor_option:
+          problem: 'missing :vendor option.'
+          summary: 'when version using header, you must specify :vendor option. '
+          resolution: "eg: version 'v1', using: :header, vendor: 'twitter'"
+        missing_mime_type:
+          problem: 'missing mime type for %{new_format}'
+          resolution:
+            "you can choose existing mime type from Grape::ContentTypes::CONTENT_TYPES
+            or add your own with content_type :%{new_format}, 'application/%{new_format}'
+            "
+        invalid_with_option_for_represent:
+          problem: 'You must specify an entity class in the :with option.'
+          resolution: 'eg: represent User, :with => Entity::User'
+        missing_option: 'You must specify :%{option} options.'
+        invalid_formatter: 'cannot convert %{klass} to %{to_format}'
+        invalid_versioner_option:
+          problem: 'Unknown :using for versioner: %{strategy}'
+          resolution: 'available strategy for :using is :path, :header, :accept_version_header, :param'
+        unknown_validator: 'unknown validator: %{validator_type}'
+        unknown_options: 'unknown options: %{options}'
+        unknown_parameter: 'unknown parameter: %{param}'
+        incompatible_option_values: '%{option1}: %{value1} is incompatible with %{option2}: %{value2}'
+        mutual_exclusion: 'are mutually exclusive'
+        at_least_one: 'are missing, at least one parameter must be provided'
+        exactly_one: 'are missing, exactly one parameter must be provided'
+        all_or_none: 'provide all or none of parameters'
+        missing_group_type: 'group type is required'
+        unsupported_group_type: 'group type must be Array, Hash, JSON or Array[JSON]'
+        invalid_message_body:
+          problem: "message body does not match declared format"
+          resolution:
+            "when specifying %{body_format} as content-type, you must pass valid
+            %{body_format} in the request's 'body'
+            "
+        invalid_accept_header:
+          problem: 'Invalid accept header'
+          resolution: '%{message}'
+        invalid_version_header:
+          problem: 'Invalid version header'
+          resolution: '%{message}'
+        invalid_response: 'Invalid response'
+

@@ -1,0 +1,2 @@
+gem 'activerecord', '~> 5.1.0'
+gem 'composite_primary_keys', '~> 10.0'

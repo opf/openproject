@@ -1,0 +1,119 @@
+= Unicorn Hacker's Guide
+
+== Polyglot Infrastructure
+
+Like Mongrel, we use Ruby where it makes sense, and Ragel with C where
+it helps performance.  All of the code that actually runs your Rack
+application is written Ruby, Ragel or C.
+
+As far as tests and documentation goes, we're not afraid to embrace Unix
+and use traditional Unix tools where they make sense and get the job
+done.
+
+=== Tests
+
+Tests are good, but slow tests make development slow, so we make tests
+faster (in parallel) with GNU make (instead of Rake) and avoiding
+RubyGems.
+
+Users of GNU-based systems (such as GNU/Linux) usually have GNU make
+installed as "make" instead of "gmake".
+
+Running the entire test suite with 4 tests in parallel:
+
+  gmake -j4 check
+
+Running just one unit test:
+
+  gmake test/unit/test_http_parser.rb
+
+Running just one test case in a unit test:
+
+  gmake test/unit/test_http_parser.rb--test_parse_simple.n
+
+=== HttpServer
+
+We strive to write as little code as possible while still maintaining
+readability.  However, readability and flexibility may be sacrificed for
+performance in hot code paths.  For Ruby, less code generally means
+faster code.
+
+Memory allocation should be minimized as much as practically possible.
+Buffers for IO#readpartial are preallocated in the hot paths to avoid
+building up garbage.  Hash assignments use frozen strings to avoid the
+duplication behind-the-scenes.
+
+We spend as little time as possible inside signal handlers and instead
+defer handling them for predictability and robustness.  Most of the
+Unix-specific things are in the Unicorn::HttpServer class.  Unix systems
+programming experience will come in handy (or be learned) here.
+
+=== Documentation
+
+Due to the lack of RDoc-to-manpage converters we know about, we're
+writing manpages in Markdown and converting to troff/HTML with Pandoc.
+
+Please wrap documentation at 72 characters-per-line or less (long URLs
+are exempt) so it is comfortably readable from terminals.
+
+When referencing mailing list posts, use
+<tt>https://yhbt.net/unicorn-public/$MESSAGE_ID/</tt> if possible
+since the Message-ID remains searchable even if a particular site
+becomes unavailable.
+
+=== Ruby/C Compatibility
+
+We target mainline Ruby 1.9.3 and later.  We need the Ruby
+implementation to support fork, exec, pipe, UNIX signals, access to
+integer file descriptors and ability to use unlinked files.
+
+All of our C code is OS-independent and should run on compilers
+supported by the versions of Ruby we target.
+
+=== Ragel Compatibility
+
+We target the latest released version of Ragel and will update our code
+to keep up with new releases.  Packaged tarballs and gems include the
+generated source code so they will remain usable if compatibility is
+broken.
+
+== Contributing
+
+Contributions are welcome in the form of patches, pull requests, code
+review, testing, documentation, user support or any other feedback is
+welcome.  The mailing list is the central coordination point for all
+user and developer feedback and bug reports.
+
+=== Submitting Patches
+
+Follow conventions already established in the code and do not exceed 80
+characters per line.
+
+Inline patches (from "git format-patch -M") to the mailing list are
+preferred because they allow code review and comments in the reply to
+the patch.
+
+We will adhere to mostly the same conventions for patch submissions as
+git itself.  See the
+{SubmittingPatches}[https://git.kernel.org/cgit/git/git.git/tree/Documentation/SubmittingPatches]
+document
+distributed with git on on patch submission guidelines to follow.  Just
+don't email the git mailing list or maintainer with Unicorn patches :)
+
+== Building a Gem
+
+In order to build the gem, you must install the following components:
+
+ * pandoc
+
+You can build the Unicorn gem with the following command:
+
+  gmake gem
+
+== Running Development Versions
+
+It is easy to install the contents of your git working directory:
+
+Via RubyGems
+
+  gmake install-gem

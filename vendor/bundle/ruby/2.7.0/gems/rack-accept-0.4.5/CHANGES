@@ -1,0 +1,27 @@
+## 0.4.3 / July 29, 2010
+
+  * Added support for Ruby 1.9.2
+
+## 0.4 / April 5, 2010
+
+  * Added support for media type queries with multiple range parameters
+  * Changed Rack::Accept::Header#sort method to return only single values
+    and moved previous functionality to Rack::Accept::Header#sort_with_qvalues
+
+## 0.3 / April 3, 2010
+
+  * Enhanced Rack middleware component to be able to automatically send a 406
+    response when the request is not acceptable
+
+## 0.2 / April 2, 2010
+
+  * Moved all common header methods into Rack::Accept::Header module
+  * Many improvements to the documentation
+
+## 0.1.1 / April 1, 2010
+
+  * Whoops, forgot to require Rack. :]
+
+## 0.1 / April 1, 2010
+
+  * Initial release

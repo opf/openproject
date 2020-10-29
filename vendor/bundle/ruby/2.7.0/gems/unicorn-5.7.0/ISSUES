@@ -1,0 +1,99 @@
+= Issues
+
+mailto:unicorn-public@yhbt.net is the best place to report bugs,
+submit patches and/or obtain support after you have searched the
+{email archives}[https://yhbt.net/unicorn-public/] and
+{documentation}[https://yhbt.net/unicorn/].
+
+* No subscription will ever be required to email us
+* Cc: all participants in a thread or commit, as subscription is optional
+* Do not {top post}[http://catb.org/jargon/html/T/top-post.html] in replies
+* Quote as little as possible of the message you're replying to
+* Do not send HTML mail or images,
+  they hurt reader privacy and will be flagged as spam
+* Anonymous and pseudonymous messages will ALWAYS be welcome
+* The email submission port (587) is enabled on the yhbt.net MX:
+  https://yhbt.net/unicorn-public/20141004232241.GA23908@dcvr.yhbt.net/t/
+
+We will never have a centralized or formal bug tracker.  Instead we
+can interoperate with any bug tracker which can Cc: us plain-text to
+mailto:unicorn-public@yhbt.net   This includes the Debian BTS
+at https://bugs.debian.org/unicorn and possibly others.
+
+If your issue is of a sensitive nature or you're just shy in public,
+use anonymity tools such as Tor or Mixmaster; and rely on the public
+mail archives for responses.  Be sure to scrub sensitive log messages
+and such.
+
+If you don't get a response within a few days, we may have forgotten
+about it so feel free to ask again.
+
+== Bugs in related projects
+
+unicorn is sometimes affected by bugs in its dependencies.  Bugs
+triggered by unicorn in mainline Ruby, rack, GNU C library (glibc),
+or the Linux kernel will be reported upstream and fixed.
+
+For bugs in Ruby itself, we may forward bugs to
+https://bugs.ruby-lang.org/ and discuss+fix them on the ruby-core
+list at mailto:ruby-core@ruby-lang.org
+Subscription to post is required to ruby-core, unfortunately:
+mailto:ruby-core-request@ruby-lang.org?subject=subscribe
+Unofficial archives are available at: https://public-inbox.org/ruby-core/
+
+For uncommon bugs in Rack, we may forward bugs to
+mailto:rack-devel@googlegroups.com and discuss there.
+Subscription (without any web UI or Google account) is possible via:
+mailto:rack-devel+subscribe@googlegroups.com
+Note: not everyone can use the proprietary bug tracker used by Rack,
+but their mailing list remains operational.
+Unofficial archives are available at: https://public-inbox.org/rack-devel/
+
+Uncommon bugs we encounter in the Linux kernel should be Cc:-ed to the
+Linux kernel mailing list (LKML) at mailto:linux-kernel@vger.kernel.org
+and subsystem maintainers such as mailto:netdev@vger.kernel.org
+(for networking issues).  It is expected practice to Cc: anybody
+involved with any problematic commits (including those in the
+Signed-off-by: and other trailer lines).  No subscription is necessary,
+and the our mailing list follows the same conventions as LKML for
+interopability. Archives are available at https://lore.kernel.org/lkml/
+There is a kernel.org Bugzilla instance, but it is ignored by most.
+
+Likewise for any rare glibc bugs we might encounter, we should Cc:
+mailto:libc-alpha@sourceware.org
+Unofficial archives are available at: https://public-inbox.org/libc-alpha/
+Keep in mind glibc upstream does use Bugzilla for tracking bugs:
+https://sourceware.org/bugzilla/
+
+== Submitting Patches
+
+See the HACKING document (and additionally, the
+{SubmittingPatches}[https://git.kernel.org/cgit/git/git.git/tree/Documentation/SubmittingPatches]
+document distributed with git) on guidelines for patch submission.
+
+== Contact Info
+
+* public: mailto:unicorn-public@yhbt.net
+* nntp://news.gmane.io/gmane.comp.lang.ruby.unicorn.general
+* nntp://news.public-inbox.org/inbox.comp.lang.ruby.unicorn
+* imaps://news.public-inbox.org/inbox.comp.lang.ruby.unicorn.0
+* https://yhbt.net/unicorn-public/
+* http://ou63pmih66umazou.onion/unicorn-public/
+
+Mailing list subscription is optional, so Cc: all participants.
+
+You can follow along via NNTP or IMAP (read-only):
+
+	nntp://news.public-inbox.org/inbox.comp.lang.ruby.unicorn
+	nntp://news.gmane.io/gmane.comp.lang.ruby.unicorn.general
+	imaps://news.public-inbox.org/inbox.comp.lang.ruby.unicorn.0
+	imap://ou63pmih66umazou.onion/inbox.comp.lang.ruby.unicorn.0
+
+Or Atom feeds:
+
+	https://yhbt.net/unicorn-public/new.atom
+	http://ou63pmih66umazou.onion/unicorn-public/new.atom
+
+	The HTML archives at https://yhbt.net/unicorn-public/
+	also has links to per-thread Atom feeds and downloadable
+	mboxes.

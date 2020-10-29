@@ -178,7 +178,6 @@ echo "2.2) Migrating from MySQL to Postgres (and 8 to 10)"
 
 docker run \
   --rm \
-  -v $PWD:/data \
   --name migrate8to10 \
   -e MYSQL_DATABASE_URL="mysql2://$MYSQL_USER:$MYSQL_PWD@$DOCKER_HOST_IP:$MYSQL_PORT/$DATABASE" \
   -e DATABASE_URL="postgresql://postgres:postgres@$DOCKER_HOST_IP:$POSTGRES_PORT/$DATABASE" \
@@ -229,7 +228,7 @@ else
 fi
 
 echo
-echo "2.4) Dumping migrated database to $DATABASE-migrated.dump"
+echo "2.4) Dumping migrated database to $DATABASE-migrated.sql"
 
 # using the running docker image to dump the database to ensure we use the same
 # postgres client version and also so that a postgres client is not necessary to run this script
@@ -238,8 +237,7 @@ docker exec -e PGPASSWORD=postgres -it migrate8to10 pg_dump \
   -p $POSTGRES_PORT \
   -U postgres \
   -d $DATABASE \
-  -F custom \
-  -f /data/$DATABASE-migrated.dump
+  > $DATABASE-migrated.sql
 
 if [[ $? -gt 0 ]]; then
   echo "  Could not dump database"

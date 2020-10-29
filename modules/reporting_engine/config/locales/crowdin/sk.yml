@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+sk:
+  description_drill_down: "Zobraziť Podrobnosti"
+  label_click_to_edit: "Kliknite pre úpravu."
+  label_columns: "Stĺpce"
+  label_count: "Počet"
+  label_filter: "Filtrovať"
+  label_filter_add: "Pridať filter"
+  label_filter_plural: "Filtre"
+  label_greater: ">"
+  label_group_by: "Zoskupiť podľa"
+  label_group_by_add: "Pridať atribút \"zoskupiť podľa\""
+  label_inactive: "«neaktívny»"
+  label_less: "<"
+  label_no: "Nie"
+  label_none: "(žiadne údaje)"
+  label_progress_bar_explanation: "Prebieha tvorba tlačovej zostavy..."
+  label_really_delete_question: "Určite chcete odstrániť túto tlačovú zostavu?"
+  label_report: "Report"
+  label_rows: "Riadky"
+  label_saving: "Ukladanie ..."
+  label_sum: "Súčet"
+  label_yes: "Áno"
+  load_query_question: "Výsledná tlačová zostava bude obsahovať %{size} buniek a jej vytvorenie môže trvať dlhšie. Želáte si ju aj napriek tomu vygenerovať?"
+  units: "Jednotky"
+  validation_failure_date: "nie je platný dátum"
+  validation_failure_integer: "nie je platné celé číslo"
+  reporting:
+    group_by:
+      selected_columns: "Vybrané stĺpce"
+      selected_rows: "Vybrané riadky"

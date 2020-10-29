@@ -1,0 +1,13 @@
+source "https://rubygems.org"
+
+gem "carrierwave"
+gem "fog-aws"
+
+group :test do
+  gem "rspec", '~> 3.0'
+  gem "timecop"
+  gem "rails", "~>5.1.0"
+  gem "sqlite3", :platform => [:ruby, :mswin, :mingw]
+  gem "capybara"
+  # gem "activerecord-jdbcsqlite3-adapter", :platform => :jruby
+end

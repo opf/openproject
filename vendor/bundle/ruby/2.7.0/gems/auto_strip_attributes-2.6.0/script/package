@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Usage: script/package
+# Updates the gemspec and builds a new gem in the pkg directory.
+
+mkdir -p pkg
+chmod -R a+r *
+gem build *.gemspec
+mv *.gem pkg

@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+sl:
+  description_drill_down: "Pokaži podrobnosti"
+  label_click_to_edit: "Kliknite za urejanje."
+  label_columns: "Stolpci"
+  label_count: "Šteti"
+  label_filter: "Filtriraj"
+  label_filter_add: "Dodajte filter"
+  label_filter_plural: "Filtri"
+  label_greater: ">"
+  label_group_by: "Razvrsti po"
+  label_group_by_add: "Dodajte atribut Group-by"
+  label_inactive: "«neaktiven»"
+  label_less: "<"
+  label_no: "Ne"
+  label_none: "(ni podatkov)"
+  label_progress_bar_explanation: "Generiram poročilo..."
+  label_really_delete_question: "Ali ste prepričani, da bi radi izbrisali to poročilo?"
+  label_report: "Poročilo"
+  label_rows: "Vrstice"
+  label_saving: "Shranjevanje..."
+  label_sum: "Vsota"
+  label_yes: "Da"
+  load_query_question: "Poročilo bo imelo %{size} celice tabel zato lahko traja nekaj časa, da se upodobi. \nAli še vedno želite poskusiti upodabljanje?"
+  units: "Enote"
+  validation_failure_date: "ni veljaven datum"
+  validation_failure_integer: "ni veljavno število"
+  reporting:
+    group_by:
+      selected_columns: "Izbrani stolpci"
+      selected_rows: "Izbrane vrstice"

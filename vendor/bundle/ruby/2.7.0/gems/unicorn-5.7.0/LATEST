@@ -1,0 +1,23 @@
+=== unicorn 5.5.0 / 2019-03-04 00:41 UTC
+
+  Mostly identical to 5.5.0.pre1, which I didn't hear any feedback
+  from:
+
+    https://bogomips.org/unicorn-public/20181220222842.GA27382@dcvr/
+
+  > Jeremy Evans contributed the "default_middleware" configuration option:
+  >
+  >   https://bogomips.org/unicorn-public/20180913192055.GD48926@jeremyevans.local/
+  >
+  > Jeremy also contributed the ability to use separate groups for the process
+  > and log files:
+  >
+  >   https://bogomips.org/unicorn-public/20180913192449.GE48926@jeremyevans.local/
+  >
+  > There's also a couple of uninteresting minor optimizations and
+  > documentation additions.
+
+  Otherwise, there's one extra change to use
+  rb_gc_register_mark_object which is finally a documented part of
+  the Ruby C-API, but has existed since the 1.9 days.
+

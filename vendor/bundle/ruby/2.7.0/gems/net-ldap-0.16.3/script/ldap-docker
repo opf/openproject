@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Usage: script/ldap-docker
+#
+# Starts a openldap docker container ready for integration tests
+
+docker run --rm -ti \
+  --hostname ldap.example.org \
+  --env LDAP_TLS_VERIFY_CLIENT=try \
+  -p 389:389 -p 636:636 \
+  -v "$(pwd)"/test/fixtures/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom \
+  --name my-openldap-container \
+  osixia/openldap:1.3.0 --copy-service --loglevel debug

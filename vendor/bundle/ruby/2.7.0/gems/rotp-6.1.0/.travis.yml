@@ -1,0 +1,9 @@
+language: ruby
+before_install: gem install bundler -v '<2'
+rvm:
+  - 2.7
+  - 2.6
+  - 2.5
+  - 2.3
+script:
+  - bundle exec rspec

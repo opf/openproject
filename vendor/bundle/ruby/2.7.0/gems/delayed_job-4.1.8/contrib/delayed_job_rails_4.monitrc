@@ -1,0 +1,14 @@
+# an example Monit configuration file for delayed_job
+# See: http://stackoverflow.com/questions/1226302/how-to-monitor-delayedjob-with-monit/1285611
+#
+# To use:
+# 1. copy to /var/www/apps/{app_name}/shared/delayed_job.monitrc
+# 2. replace {app_name} as appropriate
+# 3. add this to your /etc/monit/monitrc
+#
+#   include /var/www/apps/{app_name}/shared/delayed_job.monitrc
+
+check process delayed_job
+  with pidfile /var/www/apps/{app_name}/shared/pids/delayed_job.pid
+  start program = "/usr/bin/env RAILS_ENV=production /var/www/apps/{app_name}/current/bin/delayed_job start"
+  stop program = "/usr/bin/env RAILS_ENV=production /var/www/apps/{app_name}/current/bin/delayed_job stop"

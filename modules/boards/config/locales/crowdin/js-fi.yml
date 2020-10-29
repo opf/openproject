@@ -52,9 +52,9 @@ fi:
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
-          assignee: vastuu
-          status: tila
-          version: versio
+          assignee: assignee
+          status: status
+          version: version
           subproject: subproject
           subtasks: parent-child
         board_type_title:

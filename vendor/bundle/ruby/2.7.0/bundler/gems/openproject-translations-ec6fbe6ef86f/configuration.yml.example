@@ -1,0 +1,9 @@
+---
+:plugins:
+  'OpenProject-Backlogs':
+    :uri: 'git@github.com:finnlabs/openproject-backlogs'
+    :api_key: '<api-key>'
+    :project_id: 'openproject-backlogs'
+    :version: '4.2.0-alpha'
+    :branch: 'release/4.2'
+    :previous_branch: 'release/4.1'

@@ -1,0 +1,99 @@
+# @markup rdoc
+
+= API Changes in RubyTree
+
+This file documents various API level changes that have been made to the
+RubyTree package.
+
+Note: API level changes are expected to reduce dramatically after the 1.x
+release. In most cases, an alternative will be provided to ensure relatively
+smooth transition to the new APIs.
+
+== Release 0.9.5 Changes
+
+- The {Tree::TreeNode#add} method now provides 'move' semantics, if a child
+  which is on an existing tree is added to another tree, or location on the same
+  tree. In this situation, the child node is removed from its old position, and
+  added to the new parent node. After the add operation is complete, the child
+  no longer exists on the old tree/location.
+
+== Release 0.9.3 Changes
+
+- The validation for unique node names has changed in the {Tree::TreeNode#add}
+  method. RubyTree no longer enforces globally unique names. The node-names need
+  to be unique only between the sibling nodes.
+
+== Release 0.9.0 Changes
+
+- New post-ordered traversal via the {Tree::TreeNode#postordered_each} method.
+
+- The Binary Tree implementation now supports in-order traversal via the
+  {Tree::BinaryTreeNode#inordered_each} method.
+
+- RubyTree now mixes in the {http://ruby-doc.org/core-1.8.7/Comparable.html
+  Comparable} module.
+
+- The traversal methods ({Tree::TreeNode#each},
+  {Tree::TreeNode#preordered_each}, {Tree::TreeNode#postordered_each} and
+  {Tree::TreeNode#breadth_each}) now correctly return an
+  {http://ruby-doc.org/core-1.8.7/Enumerable.html Enumerator} as the return
+  value when no block is given, and return the receiver node if a block was
+  provided. This is consistent with how the standard Ruby collections work.
+
+== Release 0.8.3 Changes
+
+- {Tree::TreeNode#siblings} will now return an empty array for the root node.
+
+== Release 0.8.0 Changes
+
+- Added the ability to specify an optional insertion position in the
+  {Tree::TreeNode#add} method. Idea and original code contributed by Dirk.
+
+- Added a new method {Tree::TreeNode#detached_subtree_copy} to allow cloning
+  the entire tree. This method is also aliased to {Tree::TreeNode#dup}. Idea
+  and original code contributed by Vincenzo Farruggia.
+
+- Converted all CamelCase method names to the canonical ruby_method_names
+  (underscore separated). The CamelCase methods can still be invoked, but will
+  throw a Deprecated warning.
+
+== Release 0.7.0 Changes
+
+- Converted all exceptions thrown on invalid method arguments to from
+  'RuntimeError' to 'ArgumentError'. This impacts the following methods:
+
+  - {Tree::TreeNode#initialize}
+  - {Tree::TreeNode#add}
+  - {Tree::TreeNode#[]}
+  - {Tree::BinaryTreeNode#add}
+
+- Added {Tree::Utils::TreeMetricsHandler#level Tree::TreeNode#level} as an alias
+  for {Tree::Utils::TreeMetricsHandler#node_depth Tree::TreeNode#node_depth}
+
+- Added new methods {Tree::Utils::TreeMetricsHandler#in_degree
+  Tree::TreeNode#in_degree} and {Tree::Utils::TreeMetricsHandler#out_degree
+  Tree::TreeNode#out_degree} to report the node's degree stats
+
+- {Tree::TreeNode#is_only_child?} now returns +true+ for a root node.
+
+- {Tree::TreeNode#next_sibling} and {Tree::TreeNode#previous_sibling} now
+  return +nil+ for a root node.
+
+- {Tree::TreeNode#add} and {Tree::TreeNode#<<} now throw an ArgumentError
+  exception if a +nil+ node is passed as an argument.
+
+- Added new methods {Tree::Utils::JSONConverter#to_json Tree::TreeNode#to_json}
+  and {Tree::Utils::JSONConverter::ClassMethods#json_create
+  Tree::TreeNode#json_create} to convert to/from the JSON format. Thanks to
+  Dirk[http://github.com/railsbros-dirk] for this change.
+
+== Release 0.6.1 Changes
+
+- Deprecated the {Tree::Utils::TreeMetricsHandler#depth} method as it was
+  returning an incorrect depth value. Have introduced a new replacement method
+  {Tree::Utils::TreeMetricsHandler#node_depth} which returns the correct result.
+
+# Local Variables:
+# mode: rdoc
+# coding: utf-8-unix
+# End:

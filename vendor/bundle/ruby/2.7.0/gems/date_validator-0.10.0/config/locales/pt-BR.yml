@@ -1,0 +1,8 @@
+pt-BR:
+  errors:
+    messages:
+      not_a_date: "não é uma data válida"
+      date_after: "deve ser após %{date}"
+      date_after_or_equal_to: "deve ser após ou igual a %{date}"
+      date_before: "deve ser antes de %{date}"
+      date_before_or_equal_to: "deve ser antes ou igual a %{date}"

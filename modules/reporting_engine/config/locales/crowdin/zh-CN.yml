@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+zh-CN:
+  description_drill_down: "显示详情"
+  label_click_to_edit: "点击编辑。"
+  label_columns: "列"
+  label_count: "数量"
+  label_filter: "筛选器"
+  label_filter_add: "添加筛选器"
+  label_filter_plural: "筛选器"
+  label_greater: ">"
+  label_group_by: "分组依据"
+  label_group_by_add: "添加分组依据属性"
+  label_inactive: "«不活动»"
+  label_less: "<"
+  label_no: "否"
+  label_none: "（无数据）"
+  label_progress_bar_explanation: "生成报告中..."
+  label_really_delete_question: "您是否确定想要删除此报告？"
+  label_report: "报告"
+  label_rows: "行"
+  label_saving: "正在保存..."
+  label_sum: "总计"
+  label_yes: "是"
+  load_query_question: "报告有 %{size} 个表格单元格，可能需要一些时间渲染。您仍然想要尝试渲染它吗？"
+  units: "单位"
+  validation_failure_date: "不是有效的日期"
+  validation_failure_integer: "不是有效的整数"
+  reporting:
+    group_by:
+      selected_columns: "选定的列"
+      selected_rows: "选定的行"

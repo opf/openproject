@@ -3,7 +3,6 @@ module ::TwoFactorAuthentication
 
     before_action :require_admin
     before_action :check_enabled
-    before_action :check_ee
 
     layout 'admin'
     menu_item :two_factor_authentication
@@ -47,12 +46,6 @@ module ::TwoFactorAuthentication
 
     def check_enabled
       render_403 unless manager.configurable_by_ui?
-    end
-
-    def check_ee
-      unless EnterpriseToken.allows_to?(:two_factor_authentication)
-        render template: 'two_factor_authentication/upsale'
-      end
     end
 
     def manager

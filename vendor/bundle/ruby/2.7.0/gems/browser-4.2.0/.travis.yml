@@ -1,0 +1,23 @@
+---
+language: ruby
+cache: bundler
+rvm:
+  - 2.7
+  - 2.6
+  - 2.5
+gemfile:
+  - Gemfile
+  - gemfiles/rails5.gemfile
+  - gemfiles/rails6.gemfile
+script: bundle exec rake
+notifications:
+  email: false
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - "./cc-test-reporter before-build"
+after_script:
+  - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+env:
+  global:
+    secure: LrxynbbiJMX5vy/UVPfQsnT21oUpqpuHbUM9YOy0+ZYfDCjprvM/UGxFgjM+unRzyPI0mrNyU65ohpj8R1//tvdFW+xYau6QmFgSTU6OAQrckW/n+jqwQZV37a38wEGV0QvA6A0HW9pTrJfatUBmpaAeHAxcaBMk51tEgX/8poA=

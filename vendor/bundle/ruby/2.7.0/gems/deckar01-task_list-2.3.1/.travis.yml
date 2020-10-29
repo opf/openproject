@@ -1,0 +1,16 @@
+language: ruby
+sudo: false
+addons:
+  chrome: stable
+install:
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+  - ./script/bootstrap
+script: ./script/cibuild
+rvm:
+  - 2.0
+  - 2.1
+  - 2.2
+env:
+  - TRAVIS_NODE_VERSION="11"
+notifications:
+  email: false

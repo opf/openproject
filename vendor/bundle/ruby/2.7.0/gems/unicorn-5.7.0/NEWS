@@ -1,0 +1,2758 @@
+=== unicorn 5.5.0 / 2019-03-04 00:41 UTC
+
+  Mostly identical to 5.5.0.pre1, which I didn't hear any feedback
+  from:
+
+    https://bogomips.org/unicorn-public/20181220222842.GA27382@dcvr/
+
+  > Jeremy Evans contributed the "default_middleware" configuration option:
+  >
+  >   https://bogomips.org/unicorn-public/20180913192055.GD48926@jeremyevans.local/
+  >
+  > Jeremy also contributed the ability to use separate groups for the process
+  > and log files:
+  >
+  >   https://bogomips.org/unicorn-public/20180913192449.GE48926@jeremyevans.local/
+  >
+  > There's also a couple of uninteresting minor optimizations and
+  > documentation additions.
+
+  Otherwise, there's one extra change to use
+  rb_gc_register_mark_object which is finally a documented part of
+  the Ruby C-API, but has existed since the 1.9 days.
+
+=== unicorn 5.5.0.pre1 / 2018-12-20 20:11 UTC
+
+  Jeremy Evans contributed the "default_middleware" configuration option:
+
+    https://bogomips.org/unicorn-public/20180913192055.GD48926@jeremyevans.local/
+
+  Jeremy also contributed the ability to use separate groups for the process
+  and log files:
+
+    https://bogomips.org/unicorn-public/20180913192449.GE48926@jeremyevans.local/
+
+  There's also a couple of uninteresting minor optimizations and
+  documentation additions.
+
+  Eric Wong (10):
+        remove random seed reset atfork
+        use IO#wait instead of kgio_wait_readable
+        Merge branch '5.4-stable'
+        shrink pipes under Linux
+        socket_helper: add hint for FreeBSD users for accf_http(9)
+        tests: ensure -N/--no-default-middleware not supported in config.ru
+        doc: update more URLs to use HTTPS and avoid redirects
+        deduplicate strings VM-wide in Ruby 2.5+
+        doc/ISSUES: add links to git clone-able mail archives of our dependencies
+        README: minor updates and additional disclaimer
+
+  Jeremy Evans (2):
+        Make Worker#user support different process primary group and log file group
+        Support default_middleware configuration option
+
+=== unicorn 5.4.1 / 2018-07-23 17:13 UTC
+
+  This release quiets some warnings for Ruby 2.6 preview releases
+  and enables tests to pass under Ruby 1.9.3.  Otherwise, nothing
+  interesting for Ruby 2.0..2.5 users.  *YAWN*
+
+  Eric Wong (1):
+        quiet some mismatched indentation warnings
+
+  Fumiaki MATSUSHIMA (1):
+        Use IO#wait instead to fix test for Ruby 1.9
+
+=== unicorn 5.4.0 / 2017-12-23 23:33 UTC
+
+  Rack hijack support improves as the app code can capture and use
+  the Rack `env' privately without copying it (to avoid clobbering
+  by another client).  Thanks to Sam Saffron for reporting and
+  testing this new feature:
+    https://bogomips.org/unicorn-public/CAAtdryPG3nLuyo0jxfYW1YHu1Q+ZpkLkd4KdWC8vA46B5haZxw@mail.gmail.com/T/
+
+  We also now support $DEBUG being set by the Rack app (instead of
+  relying on the "-d" CLI switch).  Thanks to James P Robinson Jr
+  for reporting this bug:
+    https://bogomips.org/unicorn-public/D6324CB4.7BC3E%25james.robinson3@cigna.com/T/
+    (Coincidentally, this fix will be irrelevant for Ruby 2.5
+     which requires 'pp' by default)
+
+  There's a few minor test cleanups and documentation updates, too.
+
+  All commits since v5.3.1 (2017-10-03):
+
+      reduce method calls with String#start_with?
+      require 'pp' if $DEBUG is set by Rack app
+      avoid reusing env on hijack
+      tests: cleanup some unused variable warnings
+      ISSUES: add a note about Debian BTS interopability
+
+  Roughly all mailing discussions since the last release:
+
+    https://bogomips.org/unicorn-public/?q=d:20171004..20171223
+
+=== unicorn 5.3.1 / 2017-10-03 19:03 UTC
+
+  This release fixes an occasional GC problem introduced in v5.3.0
+  to reduce global variable overhead (commit 979ebcf91705709b)
+
+  Thanks to Xuanzhong Wei for the patch which lead to this release:
+
+  https://bogomips.org/unicorn-public/20171003182054.76392-1-azrlew@gmail.com/T/#u
+  https://bogomips.org/unicorn-public/20171003145718.30404-1-azrlew@gmail.com/T/#u
+
+  Xuanzhong Wei (1):
+        fix GC issue on rb_global_variable array
+
+=== unicorn 5.3.0 / 2017-04-01 08:03 UTC
+
+  A couple of portability fixes from Dylan Thacker-Smith and
+  Jeremy Evans since 5.3.0.pre1 over a week ago, but this looks
+  ready for a stable release, today.
+
+  When I started this over 8 years ago, I wondered if this would
+  just end up being an April Fools' joke.  Guess not.  I guess I
+  somehow tricked people into using a terribly marketed web server
+  that cannot talk directly to untrusted clients :x  Anyways,
+  unicorn won't be able to handle slow clients 8 years from now,
+  either, or 80 years from now.  And I vow never to learn to use
+  new-fangled things like epoll, kqueue, or threads :P
+
+  Anyways, this is a largish release with several new features,
+  and no backwards incompatibilities.
+
+  Simon Eskildsen contributed heavily using TCP_INFO under Linux
+  to implement the (now 5 year old) check_client_connection feature:
+
+    https://bogomips.org/unicorn/Unicorn/Configurator.html#method-i-check_client_connection
+    https://bogomips.org/unicorn-public/?q=s:check_client_connection&d:..20170401&x=t
+
+  This also led to FreeBSD and OpenBSD portability improvements in
+  one of our dependencies, raindrops:
+
+     https://bogomips.org/raindrops-public/20170323024829.GA5190@dcvr/T/#u
+
+  Jeremy Evans contributed several new features.  First he
+  implemented after_worker_exit to aid debugging:
+
+    https://bogomips.org/unicorn/Unicorn/Configurator.html#method-i-after_worker_exit
+    https://bogomips.org/unicorn-public/?q=s:after_worker_exit&d:..20170401&x=t#t
+
+  And then security-related features to isolate workers.  Workers
+  may now chroot to drop access to the master filesystem, and the
+  new after_worker_ready configuration hook now exists to aid with
+  chroot support in workers:
+
+    https://bogomips.org/unicorn/Unicorn/Configurator.html#method-i-after_worker_ready
+    https://bogomips.org/unicorn/Unicorn/Worker.html#method-i-user
+    https://bogomips.org/unicorn-public/?q=s:after_worker_ready&d:..20170401&x=t#t
+    https://bogomips.org/unicorn-public/?q=s:chroot&d:..20170401&x=t#t
+
+  Additionally, workers may run in a completely different VM space
+  (nullifying preload_app and any CoW savings) with the new
+  worker_exec option:
+
+    https://bogomips.org/unicorn/Unicorn/Configurator.html#method-i-worker_exec
+    https://bogomips.org/unicorn-public/?q=s:worker_exec&d:..20170401&x=t#t
+
+  There are also several improvements to FreeBSD and OpenBSD
+  support with the addition of these features.
+
+  shortlog of changes since v5.2.0 (2016-10-31):
+
+  Dylan Thacker-Smith (1):
+        Check for Socket::TCP_INFO constant before trying to get TCP_INFO
+
+  Eric Wong (30):
+        drop rb_str_set_len compatibility replacement
+        TUNING: document THP caveat for Linux users
+        tee_input: simplify condition for IO#write
+        remove response_start_sent
+        http_request: freeze constant strings passed IO#write
+        Revert "remove response_start_sent"
+        t/t0012-reload-empty-config.sh: access ivars directly if needed
+        t0011-active-unix-socket.sh: fix race condition in test
+        new test for check_client_connection
+        revert signature change to HttpServer#process_client
+        support "struct tcp_info" on non-Linux and Ruby 2.2+
+        unicorn_http: reduce rb_global_variable calls
+        oob_gc: rely on opt_aref_with optimization on Ruby 2.2+
+        http_request: reduce insn size for check_client_connection
+        freebsd: avoid EINVAL when setting accept filter
+        test-lib: expr(1) portability fix
+        tests: keep disabled tests defined
+        test_exec: SO_KEEPALIVE value only needs to be true
+        doc: fix links to raindrops project
+        http_request: support proposed Raindrops::TCP states on non-Linux
+        ISSUES: expand on mail archive info + subscription disclaimer
+        test_ccc: use a pipe to synchronize test
+        doc: remove private email support address
+        input: update documentation and hide internals.
+        http_server: initialize @pid ivar
+        gemspec: remove olddoc from build dependency
+        doc: add version annotations for new features
+        unicorn 5.3.0.pre1
+        doc: note after_worker_exit is also 5.3.0+
+        test_exec: SO_KEEPALIVE value only needs to be true (take #2)
+
+  Jeremy Evans (7):
+        Add after_worker_exit configuration option
+        Fix code example in after_worker_exit documentation
+        Add support for chroot to Worker#user
+        Add after_worker_ready configuration option
+        Add worker_exec configuration option
+        Don't pass a block for fork when forking workers
+        Check for SocketError on first ccc attempt
+
+  Simon Eskildsen (1):
+        check_client_connection: use tcp state on linux
+
+=== unicorn 5.3.0.pre1 / 2017-03-24 00:25 UTC
+
+  A largish release with several new features.
+
+  Simon Eskildsen contributed heavily using TCP_INFO under Linux
+  to implement the (now 5 year old) check_client_connection feature:
+
+    https://bogomips.org/unicorn/Unicorn/Configurator.html#method-i-check_client_connection
+    https://bogomips.org/unicorn-public/?q=s:check_client_connection&d:..20170324&x=t
+
+  This also led to FreeBSD and OpenBSD portability improvements in
+  one of our dependencies, raindrops:
+
+     https://bogomips.org/raindrops-public/20170323024829.GA5190@dcvr/T/#u
+
+  Jeremy Evans contributed several new features.  First he
+  implemented after_worker_exit to aid debugging:
+
+    https://bogomips.org/unicorn/Unicorn/Configurator.html#method-i-after_worker_exit
+    https://bogomips.org/unicorn-public/?q=s:after_worker_exit&d:..20170324&x=t#t
+
+  And then security-related features to isolate workers.  Workers
+  may now chroot to drop access to the master filesystem, and the
+  new after_worker_ready configuration hook now exists to aid with
+  chroot support in workers:
+
+    https://bogomips.org/unicorn/Unicorn/Configurator.html#method-i-after_worker_ready
+    https://bogomips.org/unicorn/Unicorn/Worker.html#method-i-user
+    https://bogomips.org/unicorn-public/?q=s:after_worker_ready&d:..20170324&x=t#t
+    https://bogomips.org/unicorn-public/?q=s:chroot&d:..20170324&x=t#t
+
+  Additionally, workers may run in a completely different VM space
+  (nullifying preload_app and any CoW savings) with the new
+  worker_exec option:
+
+    https://bogomips.org/unicorn/Unicorn/Configurator.html#method-i-worker_exec
+    https://bogomips.org/unicorn-public/?q=s:worker_exec&d:..20170324&x=t#t
+
+  There are also several improvements to FreeBSD and OpenBSD
+  support with the addition of these features.
+
+  34 changes since 5.2.0 (2016-10-31):
+
+  Eric Wong (27):
+        drop rb_str_set_len compatibility replacement
+        TUNING: document THP caveat for Linux users
+        tee_input: simplify condition for IO#write
+        remove response_start_sent
+        http_request: freeze constant strings passed IO#write
+        Revert "remove response_start_sent"
+        t/t0012-reload-empty-config.sh: access ivars directly if needed
+        t0011-active-unix-socket.sh: fix race condition in test
+        new test for check_client_connection
+        revert signature change to HttpServer#process_client
+        support "struct tcp_info" on non-Linux and Ruby 2.2+
+        unicorn_http: reduce rb_global_variable calls
+        oob_gc: rely on opt_aref_with optimization on Ruby 2.2+
+        http_request: reduce insn size for check_client_connection
+        freebsd: avoid EINVAL when setting accept filter
+        test-lib: expr(1) portability fix
+        tests: keep disabled tests defined
+        test_exec: SO_KEEPALIVE value only needs to be true
+        doc: fix links to raindrops project
+        http_request: support proposed Raindrops::TCP states on non-Linux
+        ISSUES: expand on mail archive info + subscription disclaimer
+        test_ccc: use a pipe to synchronize test
+        doc: remove private email support address
+        input: update documentation and hide internals.
+        http_server: initialize @pid ivar
+        gemspec: remove olddoc from build dependency
+        doc: add version annotations for new features
+
+  Jeremy Evans (6):
+        Add after_worker_exit configuration option
+        Fix code example in after_worker_exit documentation
+        Add support for chroot to Worker#user
+        Add after_worker_ready configuration option
+        Add worker_exec configuration option
+        Don't pass a block for fork when forking workers
+
+  Simon Eskildsen (1):
+        check_client_connection: use tcp state on linux
+
+=== unicorn 5.2.0 / 2016-10-31 20:00 UTC
+
+  Most notably, this release allows us to support requests with
+  lines delimited by LF-only, as opposed to the standard CRLF
+  pair and allowed by RFC 2616 sec 19.3.
+
+  Thanks to Mishael A Sibiryakov for the explanation and change:
+
+    https://bogomips.org/unicorn-public/1476954332.1736.156.camel@junki.org/
+
+  Thanks to Let's Encrypt, the website also moves to HTTPS
+  <https://bogomips.org/unicorn/> to improve reader privacy.  The
+  "unicorn.bogomips.org" subdomain will be retired soon to reduce
+  subjectAltName bloat and speed up certificate renewals.
+
+  There's also the usual round of documentation and example
+  updates, too.
+
+  Eric Wong (7):
+        examples/init.sh: update to reduce upgrade raciness
+        doc: systemd should only kill master in example
+        examples/logrotate.conf: update example for systemd
+        doc: update gmane URLs to point to our own archives
+        relocate website to https://bogomips.org/unicorn/
+        TODO: remove Rack 2.x item
+        build: "install-gem" target avoids network
+
+  Mishael A Sibiryakov (1):
+        Add some tolerance (RFC2616 sec. 19.3)
+
+=== unicorn 5.1.0 - rack is optional, again / 2016-04-01 00:35 UTC
+
+  Note: no code changes since 5.1.0.pre1 from January.^WNo, wait,
+  last minute performance improvement added today.  See below.
+
+  The big change is rack is not required (but still recommended).
+  Applications are expected to depend on rack on their own so they can
+  specify the version of rack they prefer without unicorn pulling
+  in a newer, potentially incompatible version.
+
+  unicorn will always attempt to work with multiple versions of rack
+  as practical.
+
+  The HTTP parser also switched to using the TypedData C-API for
+  extra type safety and memory usage accounting support in the
+  'objspace' extension.
+
+  Thanks to Adam Duke to bringing the rack change to our attention
+  and Aaron Patterson for helping with the matter.
+
+  Last minute change: we now support the new leftpad() syscall under
+  Linux for major performance and security improvement:
+
+      http://mid.gmane.org/1459463613-32473-1-git-send-email-richard@nod.at
+
+  8^H9 changes since 5.0.1:
+
+        http: TypedData C-API conversion
+        various documentation updates
+        doc: bump olddoc to ~> 1.2 for extra NNTP URL
+        rack is optional at runtime, required for dev
+        doc update for ClientShutdown exceptions class
+        unicorn 5.1.0.pre1 - rack is optional, again
+        doc: reference --keep-file-descriptors for "bundle exec"
+        doc: further trimming to reduce noise
+        use leftpad Linux syscall for speed!
+
+=== unicorn 5.1.0.pre1 - rack is optional, again / 2016-01-27 23:08 UTC
+
+  The big change is rack is not required (but still recommended).
+  Applications are expected to depend on rack on their own so they can
+  specify the version of rack they prefer without unicorn pulling
+  in a newer, potentially incompatible version.
+
+  unicorn will always attempt to work with multiple versions of rack
+  as practical.
+
+  The HTTP parser also switched to using the TypedData C-API for
+  extra type safety and memory usage accounting support in the
+  'objspace' extension.
+
+  Thanks to Adam Duke to bringing the rack change to our attention
+  and Aaron Patterson for helping with the matter.
+
+  There might be more documentation-related changes before 5.1.0
+  final.  I am considering dropping pandoc from manpage generation
+  and relying on pod2man (from Perl) because it has a wider install
+  base.
+
+  5 changes since v5.0.1:
+
+        http: TypedData C-API conversion
+        various documentation updates
+        doc: bump olddoc to ~> 1.2 for extra NNTP URL
+        rack is optional at runtime, required for dev
+        doc update for ClientShutdown exceptions class
+
+=== unicorn 5.0.1 - continuing to violate Rack SPEC / 2015-11-17 22:44 UTC
+
+  Once again, we allow nil values in response headers.  We've had
+  this bug since March 2009, and thus cannot expect existing
+  applications and middlewares running unicorn to fix this.
+
+  Unfortunately, supporting this bug contributes to application
+  server lock-in, but at least we'll document it as such.
+
+  Thanks to Owen Ou <o@heroku.com> for reporting this regression:
+
+    http://bogomips.org/unicorn-public/CAO47=rJa=zRcLn_Xm4v2cHPr6c0UswaFC_omYFEH+baSxHOWKQ@mail.gmail.com/
+
+  Additionally, systemd examples are now in the examples/ directory
+  based on a post by Christos Trochalakis <yatiohi@ideopolis.gr>:
+
+    http://bogomips.org/unicorn-public/20150708130821.GA1361@luke.ws.skroutz.gr/
+
+=== unicorn 5.0.0 - most boring major release. EVER. / 2015-11-01 08:48 UTC
+
+  An evolutionary dead-end since its announcement[1] nearly six years
+  ago, this old-fashioned preforker has had enough bugs and missteps
+  that it's managed to hit version 5!
+
+  I wish I could say unicorn 5 is leaps and bounds better than 4, but
+  it is not.  This major version change allows us to drop some cruft
+  and unused features which accumulated over the years, resulting in
+  several kilobytes of memory saved[2]!
+
+  Compatibility:
+
+  * The horrible, proprietary (:P) "Status:" response header is
+    finally gone, saving at least 16 precious bytes in every HTTP
+    response.  This should make it easier to write custom HTTP clients
+    which are compatible across all HTTP servers.  It will hopefully
+    make migrating between different Rack servers easier for new
+    projects.
+
+  * Ruby 1.8 support removed.  Ruby 1.9.3 is currently the earliest
+    supported version.  However, expect minor, likely-unnoticeable
+    performance regressions if you use Ruby 2.1 or earlier.  Going
+    forward, unicorn will favor the latest version (currently 2.2) of
+    the mainline Ruby implementation, potentially sacrificing
+    performance on older Rubies.
+
+  * Some internal, undocumented features and APIs used by
+    derivative servers are gone; removing bloat and slightly lowering
+    memory use.  We have never and will never endorse the use of any
+    applications or middleware with a dependency on unicorn,
+    applications should be written for Rack instead.
+    Note: Rainbows! 5.0 will be released next week or so to be
+    compatible with unicorn 5.x
+
+  New features:
+
+  * sd_listen_fds(3) emulation added for systemd compatibility.
+    You may now stop using PID files and other process monitoring
+    software when using systemd.
+
+  * Newly-set TCP socket options are now applied to inherited sockets.
+
+  * Dynamic changes in the application to Rack::Utils::HTTP_STATUS
+    hash is now supported; allowing users to set custom status lines
+    in Rack to be reflected in unicorn.  This feature causes a minor
+    performance regression, but is made up for Ruby 2.2 users with
+    other optimizations.
+
+  * The monotonic clock is used under Ruby 2.1+, making the
+    timeout feature immune to system clock changes.
+
+  As unicorn may be used anonymously without registration, the
+  project is committed to supporting anonymous and pseudonymous
+  help requests, contributions and feedback via plain-text mail to:
+
+      unicorn-public@bogomips.org
+
+  The mail submission port (587) is open to those behind firewalls
+  and allows access via Tor and anonymous remailers.
+  Archives are accessible via: http://bogomips.org/unicorn-public/
+  and mirrored to various other places, so you do not need to use
+  a valid address when posting.
+
+  Finally, rest assured the core design of unicorn will never change.
+  It will never use new-fangled things like threads, kqueue or epoll;
+  but will always remain a preforking server serving one client
+  per-process.
+
+  [1] http://mid.gmane.org/20090211230457.GB22926@dcvr.yhbt.net
+  [2] this would've been like, totally gnarly in the 80s!
+
+=== unicorn 5.0.0.pre2 - another prerelease! / 2015-07-06 21:37 UTC
+
+  There is a minor TCP socket options are now applied to inherited
+  sockets, and we have native support for inheriting sockets from
+  systemd (by emulating the sd_listen_fds(3) function).
+
+  Dynamic changes in the application to Rack::Utils::HTTP_STATUS
+  codes is now supported, so you can use your own custom status
+  lines.
+
+  Ruby 2.2 and later is now favored for performance.
+  Optimizations by using constants which made sense in earlier
+  versions of Ruby are gone: so users of old Ruby versions
+  will see performance regressions.  Ruby 2.2 users should
+  see the same or better performance, and we have less code
+  as a result.
+
+  * doc: update some invalid URLs
+  * apply TCP socket options on inherited sockets
+  * reflect changes in Rack::Utils::HTTP_STATUS_CODES
+  * reduce constants and optimize for Ruby 2.2
+  * http_response: reduce size of multi-line header path
+  * emulate sd_listen_fds for systemd support
+  * test/unit/test_response.rb: compatibility with older test-unit
+
+  This also includes all changes in unicorn 5.0.0.pre1:
+
+  http://bogomips.org/unicorn-public/m/20150615225652.GA16164@dcvr.yhbt.net.html
+
+=== unicorn 5.0.0.pre1 - incompatible changes! / 2015-06-15 22:49 UTC
+
+  This release finally drops Ruby 1.8 support and requires Ruby 1.9.3
+  or later.  The horrible "Status:" header in our HTTP response is
+  finally gone, saving at least 16 precious bytes in every single HTTP
+  response.
+
+  Under Ruby 2.1 and later, the monotonic clock is used for timeout
+  handling for better accuracy.
+
+  Several experimental, unused and undocumented features are removed.
+
+  There's also tiny, minor performance and memory improvements from
+  dropping 1.8 compatibility, but probably nothing noticeable on a
+  typical real-life (bloated) app.
+
+  The biggest performance improvement we made was to our website by
+  switching to olddoc.  Depending on connection speed, latency, and
+  renderer performance, it typically loads two to four times faster.
+
+  Finally, for the billionth time: unicorn must never be exposed
+  to slow clients, as it will never ever use new-fangled things
+  like non-blocking socket I/O, threads, epoll or kqueue.  unicorn
+  must be used with a fully-buffering reverse proxy such as nginx
+  for slow clients.
+
+  * ISSUES: update with mailing list subscription
+  * GIT-VERSION-GEN: start 5.0.0 development
+  * http: remove xftrust options
+  * FAQ: add entry for Rails autoflush_log
+  * dev: remove isolate dependency
+  * unicorn.gemspec: depend on test-unit 3.0
+  * http_response: remove Status: header
+  * remove RubyForge and Freecode references
+  * remove mongrel.rubyforge.org references
+  * http: remove the keepalive requests limit
+  * http: reduce parser from 72 to 56 bytes on 64-bit
+  * examples: add run_once to before_fork hook example
+  * worker: remove old tmp accessor
+  * http_server: save 450+ bytes of memory on x86-64
+  * t/t0002-parser-error.sh: relax test for rack 1.6.0
+  * remove SSL support
+  * tmpio: drop the "size" method
+  * switch docs + website to olddoc
+  * README: clarify/reduce references to unicorn_rails
+  * gemspec: fixup olddoc migration
+  * use the monotonic clock under Ruby 2.1+
+  * http: -Wshorten-64-to-32 warnings on clang
+  * remove old inetd+git examples and exec_cgi
+  * http: standalone require + reduction in binary size
+  * GNUmakefile: fix clean gem build + reduce build cruft
+  * socket_helper: reduce constant lookups and caching
+  * remove 1.8, <= 1.9.1 fallback for missing IO#autoclose=
+  * favor IO#close_on_exec= over fcntl in 1.9+
+  * use require_relative to reduce syscalls at startup
+  * doc: update support status for Ruby versions
+  * fix uninstalled testing and reduce require paths
+  * test_socket_helper: do not depend on SO_REUSEPORT
+  * favor "a.b(&:c)" form over "a.b { |x| x.c }"
+  * ISSUES: add section for bugs in other projects
+  * http_server: favor ivars over constants
+  * explain 11 byte magic number for self-pipe
+  * const: drop constants used by Rainbows!
+  * reduce and localize constant string use
+  * Links: mark Rainbows! as historical, reference yahns
+  * save about 200 bytes of memory on x86-64
+  * http: remove deprecated reset method
+  * http: remove experimental dechunk! method
+  * socket_helper: update comments
+  * doc: document UNICORN_FD in manpage
+  * doc: document Etc.nprocessors for worker_processes
+  * favor more string literals for cold call sites
+  * tee_input: support for Rack::TempfileReaper middleware
+  * support TempfileReaper in deployment and development envs
+  * favor kgio_wait_readable for single FD over select
+  * Merge tag 'v4.9.0'
+  * http_request: support rack.hijack by default
+  * avoid extra allocation for hijack proc creation
+  * FAQ: add note about ECONNRESET errors from bodies
+  * process SIGWINCH unless stdin is a TTY
+  * ISSUES: discourage HTML mail strongly, welcome nyms
+  * http: use rb_hash_clear in Ruby 2.0+
+  * http_response: avoid special-casing for Rack < 1.5
+  * www: install NEWS.atom.xml properly
+  * http_server: remove a few more accessors and constants
+  * http_response: simplify regular expression
+  * move the socket into Rack env for hijacking
+  * http: move response_start_sent into the C ext
+  * FAQ: reorder bit on Rack 1.1.x and Rails 2.3.x
+  * ensure body is closed during hijack
+
+=== unicorn 4.9.0 - TempfileReaper support in Rack 1.6 / 2015-04-24 03:09 UTC
+
+  This release supports the Rack::TempfileReaper middleware found
+  in rack 1.6 for cleaning up disk space used by temporary files.
+  We also use Rack::TempfileReaper for cleaning up large temporary
+  files buffered with TeeInput.  Users on rack 1.5 and earlier
+  will see no changes.
+
+  There's also a bunch of documentation/build system improvements.
+
+  This is likely to be the last Ruby 1.8-compatible release,
+  unicorn 5.x will require 1.9.3 or later as well as dropping lots
+  of cruft (the stupid "Status:" header in responses being the
+  most notable).
+
+  21 changes backported from master:
+
+        ISSUES: update with mailing list subscription
+        FAQ: add entry for Rails autoflush_log
+        dev: remove isolate dependency
+        unicorn.gemspec: depend on test-unit 3.0
+        remove RubyForge and Freecode references
+        remove mongrel.rubyforge.org references
+        examples: add run_once to before_fork hook example
+        t/t0002-parser-error.sh: relax test for rack 1.6.0
+        switch docs + website to olddoc
+        README: clarify/reduce references to unicorn_rails
+        gemspec: fixup olddoc migration
+        GNUmakefile: fix clean gem build + reduce build cruft
+        doc: update support status for Ruby versions
+        fix uninstalled testing and reduce require paths
+        test_socket_helper: do not depend on SO_REUSEPORT
+        ISSUES: add section for bugs in other projects
+        explain 11 byte magic number for self-pipe
+        Links: mark Rainbows! as historical, reference yahns
+        doc: document UNICORN_FD in manpage
+        tee_input: support for Rack::TempfileReaper middleware
+        support TempfileReaper in deployment and development envs
+
+=== unicorn 4.8.3 - the end of an era / 2014-05-07 07:50 UTC
+
+  This release updates documentation to reflect the migration of the
+  mailing list to a new public-inbox[1] instance.  This is necessary
+  due to the impending RubyForge shutdown on May 15, 2014.
+
+  The public-inbox address is: unicorn-public@bogomips.org
+      (no subscription required, plain text only)
+  ssoma[2] git archives: git://bogomips.org/unicorn-public
+  browser-friendly archives: http://bogomips.org/unicorn-public/
+
+  Using, getting help for, and contributing to unicorn will never
+  require any of the following:
+
+  1) non-Free software (including SaaS)
+  2) registration or sign-in of any kind
+  3) a real identity (we accept mail from Mixmaster)
+  4) a graphical user interface
+
+  Nowadays, plain-text email is the only ubiquitous platform which
+  meets all our requirements for communication.
+
+  There is also one small bugfix to handle premature grandparent death
+  upon initial startup.  Most users are unaffected.
+
+  [1] policy: http://public-inbox.org/ - git://80x24.org/public-inbox
+      an "archives first" approach to mailing lists
+  [2] mechanism: http://ssoma.public-inbox.org/ - git://80x24.org/ssoma
+      some sort of mail archiver (using git)
+
+=== unicorn 4.8.2 - avoid race condition during worker startup / 2014-02-05 18:24 UTC
+
+  We close SELF_PIPE in the worker immediately, but signal handlers
+  do not get setup immediately.  So prevent workers from erroring out
+  due to invalid SELF_PIPE.
+
+=== unicorn 4.8.1 / 2014-01-29 08:48 UTC
+
+  fix races/error handling in worker SIGQUIT handler
+
+  This protects us from two problems:
+
+  1) we (or our app) somehow called IO#close on one of the sockets
+     we listen on without removing it from the readers array.
+     We'll ignore IOErrors from IO#close and assume we wanted to
+     close it.
+
+  2) our SIGQUIT handler is interrupted by itself.  This can happen as
+     a fake signal from the master could be handled and a real signal
+     from an outside user is sent to us (e.g. from unicorn-worker-killer)
+     or if a user uses the killall(1) command.
+
+=== unicorn 4.8.0 - big internal changes, but compatible / 2014-01-11 07:34 UTC
+
+  This release contains fairly major internal workings of master-to-worker
+  notifications.  The master process no longer sends signals to workers
+  for most tasks.  This works around some compatibility issues with some
+  versions of the "pg" gem (and potentially any other code which may not
+  handle EINTR properly).  One extra benefit is it also helps stray
+  workers notice a rare, unexpected master death more easily.  Workers
+  continue to (and will always) accept existing signals for compatibility
+  with tools/scripts which may signal workers.
+
+  PID file are always written early (even on upgrade) again to avoid
+  breaking strange monitoring setups which use PID files.  Keep in mind we
+  have always discouraged monitoring based on PID files as they are
+  fragile.
+
+  We now avoid bubbling IOError to the Rack app on premature client
+  disconnects when streaming the input body.  This is usually not a
+  problem with nginx, but may be on some LAN setups without nginx).
+
+  Thanks to Sam Saffron, Jimmy Soho, Rodrigo Rosenfeld Rosas,
+  Michael Fischer, and Andrew Hobson for their help with this release.
+
+  Note: the unicorn mailing list will be moved/changed soon due to the
+  RubyForge shutdown.  unicorn will always rely only on Free Software.
+  There will never be any sign-up requirements nor terms-of-service to
+  agree to when communicating with us.
+
+=== unicorn 4.8.0pre1 / 2013-12-09 09:51 UTC
+
+  Eric Wong (6):
+        tests: fix SO_REUSEPORT tests for old Linux and non-Linux
+        stream_input: avoid IO#close on client disconnect
+        t0300: kill off stray processes in test
+        always write PID file early for compatibility
+        doc: clarify SIGNALS and reference init example
+        rework master-to-worker signaling to use a pipe
+
+=== unicorn 4.7.0 - minor updates, license tweak / 2013-11-04 06:59 UTC
+
+  * support SO_REUSEPORT on new listeners (:reuseport)
+
+  This allows users to start an independent instance of unicorn on
+  a the same port as a running unicorn (as long as both instances
+  use :reuseport).
+
+  ref: https://lwn.net/Articles/542629/
+
+  * unicorn is now GPLv2-or-later and Ruby 1.8-licensed
+  (instead of GPLv2-only, GPLv3-only, and Ruby 1.8-licensed)
+
+  This changes nothing at the moment.  Once the FSF publishes the next
+  version of the GPL, users may choose the newer GPL version without the
+  unicorn BDFL approving it.  Two years ago when I got permission to add
+  GPLv3 to the license options, I also got permission from all past
+  contributors to approve future versions of the GPL.  So now I'm
+  approving all future versions of the GPL for use with unicorn.
+
+  Reasoning below:
+
+  In case the GPLv4 arrives and I am not alive to approve/review it,
+  the lesser of evils is have give blanket approval of all future GPL
+  versions (as published by the FSF).  The worse evil is to be stuck
+  with a license which cannot guarantee the Free-ness of this project
+  in the future.
+
+  This unfortunately means the FSF can theoretically come out with
+  license terms I do not agree with, but the GPLv2 and GPLv3 will
+  always be an option to all users.
+
+  Note: we currently prefer GPLv3
+
+  Two improvements thanks to Ernest W. Durbin III:
+
+  * USR2 redirects fixed for Ruby 1.8.6 (broken since 4.1.0)
+  * unicorn(1) and unicorn_rails(1) enforces valid integer for -p/--port
+
+  A few more odd, minor tweaks and fixes:
+
+  * attempt to rename PID file when possible (on USR2)
+  * workaround reopen atomicity issues for stdio vs non-stdio
+  * improve handling of client-triggerable socket errors
+
+=== unicorn 4.6.3 - fix --no-default-middleware option / 2013-06-21 08:01 UTC
+
+  Thanks to Micah Chalmer for this fix.  There are also minor
+  documentation updates and internal cleanups.
+
+=== unicorn 4.6.2 - HTTP parser fix for Rainbows! / 2013-02-26 02:59 UTC
+
+  This release fixes a bug in Unicorn::HttpParser#filter_body
+  which affected some configurations of Rainbows!  There is
+  also a minor size reduction in the DSO.
+
+=== unicorn 4.6.1 - minor cleanups / 2013-02-21 08:38 UTC
+
+  Unicorn::Const::UNICORN_VERSION is now auto-generated from
+  GIT-VERSION-GEN and always correct.  Minor cleanups for
+  hijacking.
+
+=== unicorn 4.6.0 - hijacking support / 2013-02-06 11:23 UTC
+
+  This pre-release adds hijacking support for Rack 1.5 users.
+  See Rack documentation for more information about hijacking.
+  There is also a new --no-default-middleware/-N option
+  for the `unicorn' command to ignore RACK_ENV within unicorn
+  thanks to Lin Jen-Shin.
+
+  There are only documentation and test-portability updates
+  since 4.6.0pre1, no code changes.
+
+=== unicorn 4.6.0pre1 - hijacking support / 2013-01-29 21:05 UTC
+
+  This pre-release adds hijacking support for Rack 1.5 users.
+  See Rack documentation for more information about hijacking.
+  There is also a new --no-default-middleware/-N option
+  for the `unicorn' command to ignore RACK_ENV within unicorn.
+
+=== unicorn 4.5.0 - check_client_connection option / 2012-12-07 22:59 UTC
+
+  The new check_client_connection option allows unicorn to detect
+  most disconnected local clients before potentially expensive
+  application processing begins.
+
+  This feature is useful for applications experiencing spikes of
+  traffic leading to undesirable queue times, as clients will
+  disconnect (and perhaps even retry, compounding the problem)
+  before unicorn can even start processing the request.
+
+  To enable this feature, add the following line to a unicorn
+  config file:
+
+        check_client_connection true
+
+  This feature only works when nginx (or any other HTTP/1.0+
+  client) is on the same machine as unicorn.
+
+  A huge thanks to Tom Burns for implementing and testing this
+  change in production with real traffic (including mitigating
+  an unexpected DoS attack).
+
+  ref: http://mid.gmane.org/CAK4qKG3rkfVYLyeqEqQyuNEh_nZ8yw0X_cwTxJfJ+TOU+y8F+w@mail.gmail.com
+
+  This release fixes broken Rainbows! compatibility in 4.5.0pre1.
+
+=== unicorn 4.5.0pre1 - check_client_connection option / 2012-11-29 23:48 UTC
+
+  The new check_client_connection option allows unicorn to detect
+  most disconnected clients before potentially expensive
+  application processing begins.
+
+  This feature is useful for applications experiencing spikes of
+  traffic leading to undesirable queue times, as clients will
+  disconnect (and perhaps even retry, compounding the problem)
+  before unicorn can even start processing the request.
+
+  To enable this feature, add the following line to a unicorn
+  config file:
+
+    check_client_connection true
+
+  A huge thanks to Tom Burns for implementing and testing this
+  change in production with real traffic (including mitigating
+  an unexpected DoS attack).
+
+=== unicorn 4.4.0 - minor updates / 2012-10-11 09:11 UTC
+
+  Non-regular files are no longer reopened on SIGUSR1.  This
+  allows users to specify FIFOs as log destinations.
+
+  TCP_NOPUSH/TCP_CORK is no longer set/unset by default.  Use
+  :tcp_nopush explicitly with the "listen" directive if you wish
+  to enable TCP_NOPUSH/TCP_CORK.
+
+  Listen sockets are now bound _after_ loading the application for
+  preload_app(true) users.  This prevents load balancers from
+  sending traffic to an application server while the application
+  is still loading.
+
+  There are also minor test suite cleanups.
+
+=== unicorn 4.3.1 - shutdown() fixes / 2012-04-29 07:04 UTC
+
+  * Call shutdown(2) if a client EOFs on us during upload.
+    We can avoid holding a socket open if the Rack app forked a
+    process during uploads.
+
+  * ignore potential Errno::ENOTCONN errors (from shutdown(2)).
+    Even on LANs, connections can occasionally be accept()-ed but
+    be unusable afterwards.
+
+  Thanks to Joel Nimety <jnimety@continuity.net>,
+  Matt Smith <matt@nearapogee.com> and George <lists@southernohio.net>
+  on the mongrel-unicorn@rubyforge.org mailing list for their
+  feedback and testing for this release.
+
+=== unicorn 4.3.0 - minor fixes and updates / 2012-04-17 21:51 UTC
+
+  * PATH_INFO (aka REQUEST_PATH) increased to 4096 (from 1024).
+    This allows requests with longer path components and matches
+    the system PATH_MAX value common to GNU/Linux systems for
+    serving filesystem components with long names.
+
+  * Apps that fork() (but do not exec()) internally for background
+    tasks now indicate the end-of-request immediately after
+    writing the Rack response.
+
+  Thanks to Hongli Lai, Lawrence Pit, Patrick Wenger and Nuo Yan
+  for their valuable feedback for this release.
+
+=== unicorn 4.2.1 - minor fix and doc updates / 2012-03-26 21:39 UTC
+
+  * Stale pid files are detected if a pid is recycled by processes
+    belonging to another user, thanks to Graham Bleach.
+  * nginx example config updates thanks to to Eike Herzbach.
+  * KNOWN_ISSUES now documents issues with apps/libs that install
+    conflicting signal handlers.
+
+=== unicorn 4.2.0 / 2012-01-28 09:18 UTC
+
+  The GPLv3 is now an option to the Unicorn license.  The existing GPLv2
+  and Ruby-only terms will always remain options, but the GPLv3 is
+  preferred.
+
+  Daemonization is correctly detected on all terminals for development
+  use (Brian P O'Rourke).
+
+  Unicorn::OobGC respects applications that disable GC entirely
+  during application dispatch (Yuichi Tateno).
+
+  Many test fixes for OpenBSD, which may help other *BSDs, too.
+  (Jeremy Evans).
+
+  There is now _optional_ SSL support (via the "kgio-monkey"
+  RubyGem).  On fast, secure LANs, SSL is only intended for
+  detecting data corruption that weak TCP checksums cannot detect.
+  Our SSL support is remains unaudited by security experts.
+
+  There are also some minor bugfixes and documentation
+  improvements.
+
+  Ruby 2.0.0dev also has a copy-on-write friendly GC which can save memory
+  when combined with "preload_app true", so if you're in the mood, start
+  testing Unicorn with the latest Ruby!
+
+=== unicorn 4.1.1 - fix last-resort timeout accuracy / 2011-08-25 21:30 UTC
+
+  The last-resort timeout mechanism was inaccurate and often
+  delayed in activation since the 2.0.0 release.  It is now fixed
+  and remains power-efficient in idle situations, especially with
+  the wakeup reduction in MRI 1.9.3+.
+
+  There is also a new document on application timeouts
+  intended to discourage the reliance on this last-resort
+  mechanism.  It is visible on the web at:
+
+    http://unicorn.bogomips.org/Application_Timeouts.html
+
+=== unicorn 4.1.0 - small updates and fixes / 2011-08-20 00:33 UTC
+
+  * Rack::Chunked and Rack::ContentLength middlewares are loaded
+    by default for RACK_ENV=(development|deployment) users to match
+    Rack::Server behavior.  As before, use RACK_ENV=none if you want
+    fine-grained control of your middleware.  This should also
+    help users of Rainbows! and Zbatery.
+
+  * CTL characters are now rejected from HTTP header values
+
+  * Exception messages are now filtered for [:cntrl:] characters
+    since application/middleware authors may forget to do so
+
+  * Workers will now terminate properly if a SIGQUIT/SIGTERM/SIGINT
+    is received while during worker process initialization.
+
+  * close-on-exec is explicitly disabled to future-proof against
+    Ruby 2.0 changes [ruby-core:38140]
+
+=== unicorn 4.0.1 - regression bugfixes / 2011-06-29 18:59 UTC
+
+  This release fixes things for users of per-worker "listen"
+  directives in the after_fork hook.  Thanks to ghazel@gmail.com
+  for reporting the bug.
+
+  The "timeout" configurator directive is now truncated to
+  0x7ffffffe seconds to prevent overflow when calling
+  IO.select.
+
+=== unicorn 4.0.0 - for mythical hardware! / 2011-06-27 09:05 UTC
+
+  A single Unicorn instance may manage more than 1024 workers
+  without needing privileges to modify resource limits.  As a
+  result of this, the "raindrops"[1] gem/library is now a required
+  dependency.
+
+  TCP socket defaults now favor low latency to mimic UNIX domain
+  socket behavior (tcp_nodelay: true, tcp_nopush: false).  This
+  hurts throughput, users who want to favor throughput should
+  specify "tcp_nodelay: false, tcp_nopush: true" in the listen
+  directive.
+
+  Error logging is more consistent and all lines should be
+  formatted correctly in backtraces.  This may break the
+  behavior of some log parsers.
+
+  The call stack is smaller and thus easier to examine backtraces
+  when debugging Rack applications.
+
+  There are some internal API changes and cleanups, but none that
+  affect applications designed for Rack.  See "git log v3.7.0.."
+  for details.
+
+  For users who cannot install kgio[2] or raindrops, Unicorn 1.1.x
+  remains supported indefinitely.  Unicorn 3.x will remain
+  supported if there is demand.  We expect raindrops to introduce
+  fewer portability problems than kgio did, however.
+
+  [1] http://raindrops.bogomips.org/
+  [2] http://bogomips.org/kgio/
+
+=== unicorn 3.7.0 - minor feature update / 2011-06-09 20:51 UTC
+
+  * miscellaneous documentation improvements
+  * return 414 (instead of 400) for Request-URI Too Long
+  * strip leading and trailing linear whitespace in header values
+
+  User-visible improvements meant for Rainbows! users:
+
+  * add :ipv6only "listen" option (same as nginx)
+
+=== unicorn 3.6.2 - fix Unicorn::OobGC module / 2011-04-30 06:40 UTC
+
+  The optional Unicorn::OobGC module is reimplemented to fix
+  breakage that appeared in v3.3.1.  There are also minor
+  documentation updates, but no code changes as of 3.6.1 for
+  non-OobGC users.
+
+  There is also a v1.1.7 release to fix the same OobGC breakage
+  that appeared for 1.1.x users in the v1.1.6 release.
+
+=== unicorn 1.1.7 - major fixes to minor components / 2011-04-30 06:33 UTC
+
+  No changes to the core code, so this release only affects users
+  of the Unicorn::OobGC and Unicorn::ExecCGI modules.
+  Unicorn::OobGC was totally broken by the fix in the v1.1.6
+  release and is now reimplemented.  Unicorn::ExecCGI (which
+  hardly anybody uses) now returns proper HTTP status codes.
+
+=== unicorn 3.6.1 - fix OpenSSL PRNG workaround / 2011-04-26 23:06 UTC
+
+  Our attempt in 3.6.0 to workaround a problem with the OpenSSL
+  PRNG actually made the problem worse.  This release corrects the
+  workaround to properly reseed the OpenSSL PRNG after forking.
+
+=== unicorn 3.6.0 - small fixes, PRNG workarounds / 2011-04-21 06:46 UTC
+
+  Mainly small fixes, improvements, and workarounds for fork() issues
+  with pseudo-random number generators shipped with Ruby (Kernel#rand,
+  OpenSSL::Random (used by SecureRandom and also by Rails).
+
+  The PRNG issues are documented in depth here (and links to Ruby Redmine):
+
+    http://bogomips.org/unicorn.git/commit?id=1107ede7
+    http://bogomips.org/unicorn.git/commit?id=b3241621
+
+  If you're too lazy to upgrade, you can just do this in your after_fork
+  hooks:
+
+    after_fork do |server,worker|
+      tmp = srand
+      OpenSSL::Random.seed(tmp.to_s) if defined?(OpenSSL::Random)
+    end
+
+  There are also small log reopening (SIGUSR1) improvements:
+
+  * relative paths may also be reopened, there's a small chance this
+    will break with a handful of setups, but unlikely.  This should
+    make configuration easier especially since the "working_directory"
+    configurator directive exists.  Brought up by Matthew Kocher:
+    http://thread.gmane.org/gmane.comp.lang.ruby.unicorn.general/900
+
+  * workers will just die (and restart) if log reopening fails for
+    any reason (including user error).  This is to workaround the issue
+    reported by Emmanuel Gomez:
+    http://thread.gmane.org/gmane.comp.lang.ruby.unicorn.general/906
+
+=== unicorn 3.5.0 - very minor improvements / 2011-03-15 12:27 UTC
+
+  A small set of small changes but it's been more than a month
+  since our last release.  There are minor memory usage and
+  efficiently improvements (for graceful shutdowns).  MRI 1.8.7
+  users on *BSD should be sure they're using the latest patchlevel
+  (or upgrade to 1.9.x) because we no longer workaround their
+  broken stdio (that's MRI's job :)
+
+=== unicorn 3.4.0 - for people with very big LANs / 2011-02-04 21:23 UTC
+
+  * IPv6 support in the HTTP hostname parser and configuration
+    language.  Configurator syntax for "listen" addresses should
+    be the same as nginx.  Even though we support IPv6, we will
+    never support non-LAN/localhost clients connecting to Unicorn.
+
+  * TCP_NOPUSH/TCP_CORK is enabled by default to optimize
+    for bandwidth usage and avoid unnecessary wakeups in nginx.
+
+  * Updated KNOWN_ISSUES document for bugs in recent Ruby 1.8.7
+    (RNG needs reset after fork) and nginx+sendfile()+FreeBSD 8.
+
+  * examples/nginx.conf updated for modern stable versions of nginx.
+
+  * "Status" in headers no longer ignored in the response,
+    Rack::Lint already enforces this so we don't duplicate
+    the work.
+
+  * All tests pass under Ruby 1.9.3dev
+
+  * various bugfixes in the (mostly unused) ExecCGI class that
+    powers http://bogomips.org/unicorn.git
+
+=== unicorn 3.3.1 - one minor, esoteric bugfix / 2011-01-06 23:48 UTC
+
+  We now close the client socket after closing the response body.
+  This does not affect most applications that run under Unicorn,
+  in fact, it may not affect any.
+
+  There is also a new v1.1.6 release for users who do not use
+  kgio.
+
+=== unicorn 1.1.6 - one minor, esoteric bugfix / 2011-01-06 23:46 UTC
+
+  We now close the client socket after closing the response body.
+  This does not affect most applications that run under Unicorn,
+  in fact, it may not affect any.
+
+=== unicorn 3.3.0 - minor optimizations / 2011-01-05 23:43 UTC
+
+  Certain applications that already serve hundreds/thousands of requests a
+  second should experience performance improvements due to
+  Time.now.httpdate usage being removed and reimplemented in C.
+
+  There are also minor internal changes and cleanups for Rainbows!
+
+=== unicorn 3.2.1 - parser improvements for Rainbows! / 2010-12-26 08:04 UTC
+
+  There are numerous improvements in the HTTP parser for
+  Rainbows!, none of which affect Unicorn-only users.
+
+  The kgio dependency is incremented to 2.1: this should avoid
+  ENOSYS errors for folks building binaries on newer Linux
+  kernels and then deploying to older ones.
+
+  There are also minor documentation improvements, the website
+  is now JavaScript-free!
+
+  (Ignore the 3.2.0 release, I fat-fingered some packaging things)
+
+=== unicorn 3.2.0 - parser improvements for Rainbows! / 2010-12-26 07:50 UTC
+
+  There are numerous improvements in the HTTP parser for
+  Rainbows!, none of which affect Unicorn-only users.
+
+  The kgio dependency is incremented to 2.1: this should avoid
+  ENOSYS errors for folks building binaries on newer Linux
+  kernels and then deploying to older ones.
+
+  There are also minor documentation improvements, the website
+  is now JavaScript-free!
+
+=== unicorn 3.1.0 - client_buffer_body_size tuning / 2010-12-09 22:28 UTC
+
+  This release enables tuning the client_buffer_body_size to raise
+  or lower the threshold for buffering request bodies to disk.
+  This only applies to users who have not disabled rewindable
+  input.  There is also a TeeInput bugfix for uncommon usage
+  patterns and Configurator examples in the FAQ should be fixed
+
+=== unicorn 3.0.1 - one bugfix for Rainbows! / 2010-12-03 00:34 UTC
+
+  ...and only Rainbows!  This release fixes HTTP pipelining for
+  requests with bodies for users of synchronous Rainbows!
+  concurrency models.
+
+  Since Unicorn itself does not support keepalive nor pipelining,
+  Unicorn-only users need not upgrade.
+
+=== unicorn 3.0.0 - disable rewindable input! / 2010-11-20 02:41 UTC
+
+  Rewindable "rack.input" may be disabled via the
+  "rewindable_input false" directive in the configuration file.
+  This will violate Rack::Lint for Rack 1.x applications, but can
+  reduce I/O for applications that do not need a rewindable
+  input.
+
+  This release updates us to the Kgio 2.x series which should play
+  more nicely with other libraries and applications.  There are
+  also internal cleanups and improvements for future versions of
+  Rainbows!
+
+  The Unicorn 3.x series supercedes the 2.x series
+  while the 1.x series will remain supported indefinitely.
+
+=== unicorn 3.0.0pre2 - less bad than 2.x or 3.0.0pre1! / 2010-11-19 00:07 UTC
+
+  This release updates us to the Kgio 2.x series which should play
+  more nicely with other applications.  There are also bugfixes
+  from the 2.0.1 release and a small bugfix to the new StreamInput
+  class.
+
+  The Unicorn 3.x series will supercede the 2.x series
+  while the 1.x series will remain supported indefinitely.
+
+=== unicorn 2.0.1 - fix errors in error handling / 2010-11-17 23:48 UTC
+
+  This release fixes errors in our own error handling,
+  causing certain errors to not be logged nor responded
+  to correctly.
+
+  Eric Wong (3):
+        t0012: fix race condition in reload
+        http_server: fix HttpParserError constant resolution
+        tests: add parser error test from Rainbows!
+
+=== unicorn 3.0.0pre1 / 2010-11-17 00:04 UTC
+
+  Rewindable "rack.input" may be disabled via the
+  "rewindable_input false" directive in the configuration file.
+  This will violate Rack::Lint for Rack 1.x applications, but
+  can reduce I/O for applications that do not need it.
+
+  There are also internal cleanups and enhancements for future
+  versions of Rainbows!
+
+  Eric Wong (11):
+        t0012: fix race condition in reload
+        enable HTTP keepalive support for all methods
+        http_parser: add HttpParser#next? method
+        tee_input: switch to simpler API for parsing trailers
+        switch versions to 3.0.0pre
+        add stream_input class and build tee_input on it
+        configurator: enable "rewindable_input" directive
+        http_parser: ensure keepalive is disabled when reset
+        *_input: make life easier for subclasses/modules
+        tee_input: restore read position after #size
+        preread_input: no-op for non-rewindable "rack.input"
+
+=== unicorn 2.0.0 - mostly internal cleanups / 2010-10-27 23:44 UTC
+
+  Despite the version number, this release mostly features
+  internal cleanups for future versions of Rainbows!.  User
+  visible changes include reductions in CPU wakeups on idle sites
+  using high timeouts.
+
+  Barring possible portability issues due to the introduction of
+  the kgio library, this release should be ready for all to use.
+  However, 1.1.x (and possibly 1.0.x) will continue to be
+  maintained.  Unicorn 1.1.5 and 1.0.2 have also been released
+  with bugfixes found during development of 2.0.0.
+
+=== unicorn 1.1.5 / 2010-10-27 23:30 UTC
+
+  This maintenance release fixes several long-standing but
+  recently-noticed bugs.  SIGHUP reloading now correctly restores
+  default values if they're erased or commented-out in the Unicorn
+  configuration file.  Delays/slowdowns in signal handling since
+  0.990 are fixed, too.
+
+=== unicorn 1.0.2 / 2010-10-27 23:12 UTC
+
+  This is the latest maintenance release of the 1.0.x series.
+  All users are encouraged to upgrade to 1.1.x stable series
+  and report bugs there.
+
+  Shortlog of changes since 1.0.1:
+
+  Eric Wong (8):
+        SIGTTIN works after SIGWINCH
+        fix delays in signal handling
+        Rakefile: don't post freshmeat on empty changelogs
+        Rakefile: capture prerelease tags
+        configurator: use "__send__" instead of "send"
+        configurator: reloading with unset values restores default
+        gemspec: depend on Isolate 3.0.0 for dev
+        doc: stop using deprecated rdoc CLI options
+
+=== unicorn 2.0.0pre3 - more small fixes / 2010-10-09 00:06 UTC
+
+  There is a new Unicorn::PrereadInput middleware to which allows
+  input bodies to be drained off the socket and buffered to disk
+  (or memory) before dispatching the application.
+
+  HTTP Pipelining behavior is fixed for Rainbows!  There
+  are some small Kgio fixes and updates for Rainbows!
+  users as well.
+
+=== unicorn 2.0.0pre2 - releases are cheap / 2010-10-07 07:23 UTC
+
+  Internal changes/cleanups for Rainbows!
+
+=== unicorn 2.0.0pre1 - a boring "major" release / 2010-10-06 01:17 UTC
+
+  Mostly internal cleanups for future versions of Rainbows! and
+  people trying out Rubinius.  There are tiny performance
+  improvements for Ruby 1.9.2 users which may only be noticeable
+  with Rainbows!.
+
+  There is a new dependency on the "kgio" library for kinder,
+  gentler I/O :)  Please report any bugs and portability issues
+  with kgio to the Unicorn mailing list[1].
+
+  Unicorn 1.1.x users are NOT required nor even encouraged to
+  upgrade yet.  Unicorn 1.1.x will be maintained for the
+  forseeable future.
+
+  [1] - mongrel-unicorn@rubyforge.org
+
+=== unicorn 1.1.4 - small bug fix and doc updates / 2010-10-04 20:32 UTC
+
+  We no longer unlinking actively listening sockets upon startup
+  (but continue to unlink dead ones).  This bug could trigger
+  downtime and nginx failures if a user makes an error and
+  attempts to start Unicorn while it is already running.
+
+  Thanks to Jordan Ritter for the detailed bug report leading to
+  this fix.
+
+  ref: http://mid.gmane.org/8D95A44B-A098-43BE-B532-7D74BD957F31@darkridge.com
+
+  There are also minor documentation and test updates pulled in
+  from master.  This is hopefully the last bugfix release of the
+  1.1.x series.
+
+=== unicorn 1.1.3 - small bug fixes / 2010-08-28 19:27 UTC
+
+  This release fixes race conditions during SIGUSR1 log cycling.
+  This bug mainly affects Rainbows! users serving static files,
+  but some Rack apps use threads internally even under Unicorn.
+
+  Other small fixes:
+  * SIGTTIN works as documented after SIGWINCH
+  * --help output from `unicorn` and `unicorn_rails` is more consistent
+
+=== unicorn 1.1.2 - fixing upgrade rollbacks / 2010-07-13 20:04 UTC
+
+  This release is fixes a long-standing bug where the original PID
+  file is not restored when rolling back from a USR2 upgrade.
+  Presumably most upgrades aren't rolled back, so it took over a
+  year to notice this issue.  Thanks to Lawrence Pit for
+  discovering and reporting this issue.
+
+=== unicorn 1.0.1 - bugfixes only / 2010-07-13 20:01 UTC
+
+  The first maintenance release of 1.0.x, this release is
+  primarily to fix a long-standing bug where the original PID file
+  is not restored when rolling back from a USR2 upgrade.
+  Presumably most upgrades aren't rolled back, so it took over a
+  year to notice this issue.  Thanks to Lawrence Pit for
+  discovering and reporting this issue.
+
+  There is also a pedantic TeeInput bugfix which shouldn't affect
+  real apps from the 1.1.x series and a test case fix for OSX,
+  too.
+
+=== unicorn 1.1.1 - fixing cleanups gone bad :x / 2010-07-11 02:13 UTC
+
+  Unicorn::TeeInput constant resolution for Unicorn::ClientError
+  got broken simplifying code for RDoc.  This affects users
+  of Rainbows! and Zbatery.
+
+=== unicorn 1.1.0 - small changes and cleanups / 2010-07-08 07:57 UTC
+
+  This is a small, incremental feature release with some internal
+  changes to better support upcoming versions of the Rainbows! and
+  Zbatery web servers.  There is no need to upgrade if you're
+  happy with 1.0.0, but also little danger in upgrading.
+
+  There is one pedantic bugfix which shouldn't affect anyone
+  and small documentation updates as well.
+
+=== unicorn 1.0.0 - yes, this is a real project / 2010-06-17 09:18 UTC
+
+  There are only minor changes since 0.991.0.
+
+  For users clinging onto the past, MRI 1.8.6 support has been
+  restored.  Users are strongly encouraged to upgrade to the
+  latest 1.8.7, REE or 1.9.1.
+
+  For users looking towards the future, the core test suite and
+  the Rails 3 (beta) integration tests pass entirely under 1.9.2
+  preview3.  As of the latest rubinius.git[1], Rubinius support is
+  nearly complete as well.
+
+  Under Rubinius, signals may corrupt responses as they're being
+  written to the socket, but that should be fixable transparently
+  to us[4].  Support for the hardly used, hardly documented[2]
+  embedded command-line switches in rackup config (.ru) files is
+  is also broken under Rubinius.
+
+  The recently-released Rack 1.2.1 introduced no compatiblity
+  issues[3] in core Unicorn.  We remain compatible with all Rack
+  releases starting with 0.9.1 (and possibly before).
+
+  [1] tested with Rubinius upstream commit
+  cf4a5a759234faa3f7d8a92d68fa89d8c5048f72
+  [2] lets avoid the Dueling Banjos effect here :x
+  [3] actually, Rack 1.2.1 is broken under 1.8.6.
+  [4] http://github.com/evanphx/rubinius/issues/373
+
+=== unicorn 0.991.0 - startup improvements / 2010-06-11 02:18 UTC
+
+  The "working_directory" configuration parameter is now handled
+  before config.ru.  That means "unicorn" and "unicorn_rails" no
+  longer barfs when initially started outside of the configured
+  "working_directory" where a config.ru is required.  A huge
+  thanks to Pierre Baillet for catching this ugly UI inconsistency
+  before the big 1.0 release
+
+  Thanks to Hongli Lai, out-of-the-box Rails 3 (beta) support
+  should be improved for deployments lacking a config.ru
+
+  There are more new integration tests, cleanups and some
+  documentation improvements.
+
+=== unicorn 0.990.0 - inching towards 1.0 / 2010-06-08 09:41 UTC
+
+  Thanks to Augusto Becciu for finding a bug in the HTTP parser
+  that caused a TypeError (and 500) when a rare client set the
+  "Version:" header which conflicts with the HTTP_VERSION header
+  we parse in the first line of the request[1].
+
+  Horizontal tabs are now allowed as leading whitespace in header
+  values as according to RFC 2616 as pointed out by
+  Iñaki Baz Castillo[2].
+
+  Taking a hint from Rack 1.1, the "logger" configuration
+  parameter no longer requires a "close" method.  This means some
+  more Logger replacements may be used.
+
+  There's a new, optional, Unicorn (and maybe Passenger)-only
+  middleware, Unicorn::OobGC[2] that runs GC outside of the normal
+  request/response cycle to help out memory-hungry applications.
+  Thanks to Luke Melia for being brave enough to test and report
+  back on my big_app_gc.rb monkey patch[3] which lead up to this.
+
+  Rails 3 (beta) support:
+
+    Using "unicorn" is still recommended as Rails 3 comes with
+    a config.ru, but "unicorn_rails" is cleaned up a bit and
+    *should* work as well as "unicorn" out-of-the-box.  Feedback
+    is much appreciated.
+
+  Rubinius updates:
+
+    USR2 binary upgrades are broken due to
+    {TCPServer,UNIXServer}.for_fd[5][6] being broken
+    (differently).
+
+    Repeatedly hitting the server with signals in a tight
+    loop is unusual and not recommended[7].
+
+    There are some workarounds and general code cleanups for other
+    issues[8], as well but things should generally work unless you
+    need USR2 upgrades.  Feedback and reports would be greatly
+    appreciated as usual.
+
+  MRI support:
+
+    All tests (except old Rails) run and pass under 1.9.2-preview3.
+    1.8.7 and 1.9.1 work well as usual and will continue to be
+    supported indefinitely.
+
+  Lets hope this is the last release before 1.0.  Please report
+  any issues on the mailing list[9] or email us privately[a].
+  Don't send HTML mail.
+
+  [1] - http://mid.gmane.org/AANLkTimuGgcwNAMcVZdViFWdF-UcW_RGyZAue7phUXps@mail.gmail.com
+  [2] - http://mid.gmane.org/i2xcc1f582e1005070651u294bd83oc73d1e0adf72373a@mail.gmail.com
+  [3] - http://unicorn.bogomips.org/Unicorn/OobGC.html
+  [4] - http://unicorn.bogomips.org/examples/big_app_gc.rb
+  [5] - http://github.com/evanphx/rubinius/issues/354
+  [6] - http://github.com/evanphx/rubinius/issues/355
+  [7] - http://github.com/evanphx/rubinius/issues/356
+  [8] - http://github.com/evanphx/rubinius/issues/347
+  [9] - mailto:mongrel-unicorn@rubyforge.org
+  [a] - mailto:unicorn@bogomips.org
+
+=== unicorn 0.99.0 - simplicity wins / 2010-05-06 19:32 UTC
+
+  Starting with this release, we'll always load Rack up front at
+  startup.
+
+  Previously we had complicated ways to avoid loading Rack until
+  after the application was loaded to allow the application to
+  load an alternate version of Rack.  However this has proven too
+  error-prone to be worth supporting even though Unicorn does not
+  have strict requirements on currently released Rack versions.
+
+  If an app requires a different version of Rack than what Unicorn
+  would load by default, it is recommended they only install that
+  version of Rack (and no others) since Unicorn does not have any
+  strict requirements on currently released Rack versions.
+
+  Rails 2.3.x users should be aware of this as those versions are
+  not compatible with Rack 1.1.0.
+
+  If it is not possible to only have one Rack version installed
+  "globally", then they should either use Isolate or Bundler and
+  install a private version of Unicorn along with their preferred
+  version of Rack.  Users who install in this way are recommended
+  to execute the isolated/bundled version of Unicorn, instead of
+  what would normally be in $PATH.
+
+  Feedback/tips to mailto:mongrel-unicorn@rubyforge.org from
+  Isolate and Bundler users would be greatly appreciated.
+
+=== unicorn 0.98.0 / 2010-05-05 00:53 UTC
+
+  Deployments that suspend or hibernate servers should no longer
+  have workers killed off (and restarted) upon resuming.
+
+  For Linux users of {raindrops}[http://raindrops.bogomips.org/]
+  (v0.2.0+) configuration is easier as raindrops can now
+  automatically detect the active listeners on the server
+  via the new Unicorn.listener_names singleton method.
+
+  For the pedantic, chunked request bodies without trailers are no
+  longer allowed to omit the final CRLF.  This shouldn't affect
+  any real and RFC-compliant clients out there.  Chunked requests
+  with trailers have always worked and continue to work the same
+  way.
+
+  The rest are mostly small internal cleanups and documentation
+  fixes.  See the commit logs for full details.
+
+=== unicorn 0.97.1 - fix HTTP parser for Rainbows!/Zbatery / 2010-04-19 21:00 UTC
+
+  This release fixes a denial-of-service vector for derived
+  servers exposed directly to untrusted clients.
+
+  This bug does not affect most Unicorn deployments as Unicorn is
+  only supported with trusted clients (such as nginx) on a LAN.
+  nginx is known to reject clients that send invalid
+  Content-Length headers, so any deployments on a trusted LAN
+  and/or behind nginx are safe.
+
+  Servers affected by this bug include (but are not limited to)
+  Rainbows! and Zbatery.  This bug does not affect Thin nor
+  Mongrel, as neither got the request body filtering treatment
+  that the Unicorn HTTP parser got in August 2009.
+
+  The bug fixed in this release could result in a
+  denial-of-service as it would trigger a process-wide assertion
+  instead of raising an exception.  For servers such as
+  Rainbows!/Zbatery that serve multiple clients per worker
+  process, this could abort all clients connected to the
+  particular worker process that hit the assertion.
+
+=== unicorn 0.97.0 - polishing and cleaning up / 2010-03-01 18:26 UTC
+
+  A bunch of small fixes related to startup/configuration and hot
+  reload issues with HUP:
+
+  * Variables in the user-generated config.ru files no longer
+    risk clobbering variables used in laucher scripts.
+
+  * signal handlers are initialized before the pid file is
+    dropped, so over-eager firing of init scripts won't
+    mysteriously nuke a process.
+
+  * SIGHUP will return app to original state if an updated
+    config.ru fails to load due to {Syntax,Load}Error.
+
+  * unicorn_rails should be Rails 3 compatible out-of-the-box
+    ('unicorn' works as always, and is recommended for Rails 3)
+
+  * unicorn_rails is finally "working_directory"-aware when
+    generating default temporary paths and pid file
+
+  * config.ru encoding is the application's default in 1.9,
+    not forced to binary like many parts of Unicorn.
+
+  * configurator learned to handle the "user" directive outside
+    of after_fork hook (which will always remain supported).
+
+  There are also various internal cleanups and possible speedups.
+
+=== unicorn 0.96.1 - fix leak in Rainbows!/Zbatery / 2010-02-13 08:35 UTC
+
+  This maintenance release is intended for users of Rainbows! and
+  Zbatery servers (and anybody else using Unicorn::HttpParser).
+
+  This memory leak DID NOT affect Unicorn itself: Unicorn always
+  allocates the HttpParser once and always reuses it in every
+  sequential request.
+
+  This leak affects applications that repeatedly allocate a new
+  HTTP parser.  Thus this bug affects _all_ deployments of
+  Rainbows! and Zbatery.  These servers allocate a new parser for
+  every client connection to serve clients concurrently.
+
+  I misread the Data_Make_Struct()/Data_Wrap_Struct()
+  documentation and ended up passing NULL as the "free" argument
+  instead of -1, causing the memory to never be freed.
+
+  From README.EXT in the MRI source which I misread:
+  > The free argument is the function to free the pointer
+  > allocation.  If this is -1, the pointer will be just freed.
+  > The functions mark and free will be called from garbage
+  > collector.
+
+=== unicorn 0.96.0 - Rack 1.1 bump / 2010-01-08 05:18 UTC
+
+  This release includes small changes for things allowed by Rack
+  1.1.  It is also now easier to detect if daemonized process
+  fails to start.  Manpages received some minor updates as well.
+
+  Rack 1.1 allowed us to make the following environment changes:
+
+  * "rack.logger" is now set to the "logger" specified in
+    the Unicorn config file.  This defaults to a Logger
+    instance pointing to $stderr.
+
+  * "rack.version" is now at [1,1].  Unicorn remains
+    compatible with previous Rack versions if your app
+    depends on it.
+
+  While only specified since Rack 1.1, Unicorn has always exposed
+  "rack.input" in binary mode (and has ridiculous integration
+  tests that go outside of Ruby to prove it!).
+
+=== unicorn 0.95.3 / 2009-12-21 21:51 UTC
+
+  The HTTP parser now allows (but does not parse) the userinfo
+  component in the very rare requests that send absoluteURIs.
+  Thanks to Scott Chacon for reporting and submitting a test case
+  for this fix.
+
+  There are also minor documentation updates and tiny cleanups.
+
+=== unicorn 0.95.2 / 2009-12-07 09:52 UTC
+
+  Small fixes to our HTTP parser to allows semicolons in PATH_INFO
+  as allowed by RFC 2396, section 3.3.  This is low impact for
+  existing apps as semicolons are rarely seen in URIs.  Our HTTP
+  parser runs properly under Rubinius 0.13.0 and 1.0.0-rc1 again
+  (though not yet the rest of the server since we rely heavily on
+  signals).
+
+  Another round of small documentation tweaks and minor cleanups.
+
+=== unicorn 0.95.1 / 2009-11-21 21:13 UTC
+
+  Configuration files paths given on the command-line are no
+  longer expanded.  This should make configuration reloads
+  possible when a non-absolute path is specified for --config-file
+  and Unicorn was deployed to a symlink directories (as with
+  Capistrano).  Since deployments have always been strongly
+  encouraged to use absolute paths in the config file, this
+  change does not affect them.
+
+  This is our first gem release using gemcutter.
+
+  Eric Wong (3):
+        SIGNALS: HUP + preload_app cannot reload app code
+        Do not expand paths given on the shell
+        GNUmakefile: prep release process for gemcutter
+
+=== unicorn 0.95.0 / 2009-11-15 22:21 UTC
+
+  Mostly internal cleanups and documentation updates.  Irrelevant
+  stacktraces from client disconnects/errors while reading
+  "rack.input" are now cleared to avoid unnecessary noise.  If
+  user switching in workers is used, ownership of logs is now
+  preserved when reopening worker logs (send USR1 only to the the
+  master in this case).  The timeout config no longer affects long
+  after_fork hooks or application startups.
+
+  New features include the addition of the :umask option for the
+  "listen" config directive and error reporting for non-portable
+  socket options.
+
+  No ponies have ever been harmed in our development.
+
+  Eric Wong (28):
+        unicorn.1: document RACK_ENV changes in 0.94.0
+        HACKING: update with "gmake" in examples
+        don't nuke children for long after_fork and app loads
+        local.mk.sample: steal some updates from Rainbows!
+        Load Unicorn constants when building app
+        tee_input: fix RDoc argument definition for tee
+        Add FAQ
+        FAQ: fix links to Configurator docs
+        tee_input: better premature disconnect handling
+        tee_input: don't shadow struct members
+        raise Unicorn::ClientShutdown if client aborts in TeeInput
+        tee_input: fix comment from an intermediate commit
+        FAQ: additional notes on getting HTTPS redirects right
+        configurator: update RDoc and comments in examples
+        bump version to 0.95.0pre
+        configurator: listen :umask parameter for UNIX sockets
+        preserve user/group ownership when reopening logs
+        old_rails/static: avoid freezing strings
+        old_rails: autoload Static
+        const: no need to freeze HTTP_EXPECT
+        test_server: ensure stderr is written to before reading
+        tee_input: expand client error handling
+        replace "rescue => e" with "rescue Object => e"
+        socket_helper: do not hide errors when setting socket options
+        socket_helper: RDoc for constants
+        ClientShutdown: RDoc
+        Rakefile: add raa_update task
+        tee_input: client_error always raises
+
+=== unicorn 0.94.0 / 2009-11-05 09:52 UTC
+
+  The HTTP parser is fix for oddly-aligned reads of trailers (this
+  technically affects headers, too, but is highly unlikely due to
+  our non-support of slow clients).  This allows our HTTP parser
+  to better support very slow clients when used by other servers
+  (like Rainbows!).  Fortunately this bug does not appear to lead
+  to any invalid memory accesses (and potential arbitrary code
+  execution).
+
+  FreeBSD (and possibly other *BSDs) support is improved and and
+  all the test cases pass under FreeBSD 7.2.  Various flavors of
+  GNU/Linux remains our primary platform for development and
+  production.
+
+  New features added include the "working_directory" directive in
+  the configurator .  Even without specifying a
+  "working_directory", symlink-aware detection of the current path
+  no longer depends on /bin/sh so it should work out-of-the-box on
+  FreeBSD and Solaris and not just systems where /bin/sh is dash,
+  ksh93 or bash.
+
+  User-switching support is finally supported but only intended
+  for use in the after_fork hook of worker processes.  Putting it
+  in the after_fork hook allows allows users to set things like
+  CPU affinity[1] on a per-worker basis before dropping
+  privileges.  The master process retains all privileges it
+  started with.
+
+  The ENV["RACK_ENV"] (process-wide) environment variable is now
+  both read and set for `unicorn' in the same way RAILS_ENV is
+  used by `unicorn_rails'.  This allows the Merb launcher to read
+  ENV["RACK_ENV"] in config.ru.  Other web servers already set
+  this and there may be applications or libraries that already
+  rely on this de facto standard.
+
+  Eric Wong (26):
+        cleanup: avoid redundant error checks for fstat
+        test_helper: connect(2) may fail with EINVAL
+        GNUmakefile: fix non-portable tar(1) usage
+        tests: provide a pure Ruby setsid(8) equivalent
+        more portable symlink awareness for START_CTX[:cwd]
+        test_signals: avoid portability issues with fchmod(2)
+        cleanup error handling and make it less noisy
+        Do not override Dir.chdir in config files
+        configurator: add "working_directory" directive
+        configurator: working_directory is expanded
+        configurator: set ENV["PWD"] with working_directory, too
+        configurator: working_directory affects pid, std{err,out}_paths
+        configurator: update documentation for working_directory
+        TODO: remove working_directory bit, done
+        Util.reopen_logs: remove needless Range
+        worker: user/group switching for after_fork hooks
+        Fix autoload of Etc in Worker for Ruby 1.9
+        bin/unicorn: allow RACK_ENV to be passed from parent
+        tests for RACK_ENV preservation
+        http: allow headers/trailers to be written byte-wise
+        http: extra test for bytewise chunked bodies
+        tee_input: do not clobber trailer buffer on partial uploads
+        test_exec: ensure master is killed after test
+        Util::tmpio returns a TmpIO that responds to #size
+        TODO: remove user-switching bit, done
+        unicorn 0.94.0
+
+  Wayne Larsen (1):
+        bin/unicorn: set ENV["RACK_ENV"] on startup
+
+  [1] - Unicorn does not support CPU affinity directly, but it is
+        possible to load code that allows it inside after_fork hooks,
+        or even just call sched_tool(8).
+
+=== unicorn 0.93.5 / 2009-10-29 21:41 UTC
+
+  This release fixes a regression introduced in 0.93.3 where
+  timed-out worker processes run a chance of not being killed off
+  at all if they're hung.  While it's not ever advisable to have
+  requests take a long time, we realize it's easy to fix
+  everything :)
+
+  Eric Wong (3):
+        TODO: remove --kill
+        fix reliability of timeout kills
+        TODO: update for next version (possibly 1.0-pre)
+
+=== unicorn 0.93.4 / 2009-10-27 07:57 UTC
+
+  This release mainly works around BSD stdio compatibility issues
+  that affect at least FreeBSD and OS X.  While this issues was
+  documented and fixed in [ruby-core:26300][1], no production
+  release of MRI 1.8 has it, and users typically upgrade MRI more
+  slowly than gems.  This issue does NOT affect 1.9 users.  Thanks
+  to Vadim Spivak for reporting and testing this issue and Andrey
+  Stikheev for the fix.
+
+  Additionally there are small documentation bits, one error
+  handling improvement, and one minor change that should improve
+  reliability of signal delivery.
+
+  Andrey Stikheev (1):
+        workaround FreeBSD/OSX IO bug for large uploads
+
+  Eric Wong (7):
+        DESIGN: address concerns about on-demand and thundering herd
+        README: alter reply conventions for the mailing list
+        configurator: stop testing for non-portable listens
+        KNOWN_ISSUES: document Rack gem issue w/Rails 2.3.2
+        stop continually resends signals during shutdowns
+        add news bodies to site NEWS.atom.xml
+        configurator: fix broken example in RDoc
+
+  Suraj N. Kurapati (1):
+        show configuration file path in errors instead of '(eval)'
+
+  [1] http://redmine.ruby-lang.org/issues/show/2267
+
+=== unicorn 0.93.3 / 2009-10-09 22:50 UTC
+
+  This release fixes compatibility with OpenBSD (and possibly
+  other Unices with stricter fchmod(2) implementations) thanks to
+  Jeremy Evans.  Additionally there are small documentation
+  changes all around.
+
+  Eric Wong (12):
+        doc: expand on the SELF_PIPE description
+        fchmod heartbeat flips between 0/1 for compatibility
+        examples/init.sh: remove "set -u"
+        configurator: update with nginx fail_timeout=0 example
+        PHILOSOPHY: clarify experience other deployments
+        PHILOSOPHY: plug the Rainbows! spin-off project
+        README: remove unnecessary and extraneous dash
+        DESIGN: clarification and possibly improve HTML validity
+        README: remove the "non-existent" part
+        README: emphasize the "fast clients"-only part
+        drop the whitespace cleaner for Ragel->C
+        unicorn 0.93.3
+
+=== unicorn 0.93.2 / 2009-10-07 08:45 UTC
+
+  Avoid truncated POST bodies from with URL-encoded forms in Rails
+  by switching TeeInput to use read-in-full semantics (only) when
+  a Content-Length: header exists.  Chunked request bodies
+  continue to exhibit readpartial semantics to support
+  simultaneous bidirectional chunking.
+
+  The lack of return value checking in Rails to protect against a
+  short ios.read(length) is entirely reasonable even if not
+  pedantically correct.  Most ios.read(length) implementations
+  return the full amount requested except right before EOF.
+
+  Also there are some minor documentation improvements.
+
+  Eric Wong (8):
+        Fix NEWS generation on single-paragraph tag messages
+        Include GPLv2 in docs
+        doc: make it clear contributors retain copyrights
+        TODO: removed Rainbows! (see rainbows.rubyforge.org)
+        Document the START_CTX hash contents
+        more-compatible TeeInput#read for POSTs with Content-Length
+        tests for read-in-full vs readpartial semantics
+        unicorn 0.93.2
+
+=== unicorn 0.93.1 / 2009-10-03 01:17 UTC
+
+  Fix permissions for release tarballs/gems, no other changes.
+  Thanks to Jay Reitz for reporting this.
+
+=== unicorn 0.93.0 / 2009-10-02 21:04 UTC
+
+  The one minor bugfix is only for Rails 2.3.x+ users who set the
+  RAILS_RELATIVE_URL_ROOT environment variable in a config file.
+  Users of the "--path" switch or those who set the environment
+  variable in the shell were unaffected by this bug.  Note that we
+  still don't have relative URL root support for Rails < 2.3, and
+  are unlikely to bother with it unless there is visible demand
+  for it.
+
+  New features includes support for :tries and :delay when
+  specifying a "listen" in an after_fork hook.  This was inspired
+  by Chris Wanstrath's example of binding per-worker listen
+  sockets in a loop while migrating (or upgrading) Unicorn.
+  Setting a negative value for :tries means we'll retry the listen
+  indefinitely until the socket becomes available.
+
+  So you can do something like this in an after_fork hook:
+
+      after_fork do |server, worker|
+        addr = "127.0.0.1:#{9293 + worker.nr}"
+        server.listen(addr, :tries => -1, :delay => 5)
+      end
+
+  There's also the usual round of added documentation, packaging
+  fixes, code cleanups, small fixes and minor performance
+  improvements that are viewable in the "git log" output.
+
+  Eric Wong (55):
+        build: hardcode the canonical git URL
+        build: manifest dropped manpages
+        build: smaller ChangeLog
+        doc/LATEST: remove trailing newline
+        http: don't force -fPIC if it can't be used
+        .gitignore on *.rbc files Rubinius generates
+        README/gemspec: a better description, hopefully
+        GNUmakefile: add missing .manifest dep on test installs
+        Add HACKING document
+        configurator: fix user switch example in RDoc
+        local.mk.sample: time and perms enforcement
+        unicorn_rails: show "RAILS_ENV" in help message
+        gemspec: compatibility with older Rubygems
+        Split out KNOWN_ISSUES document
+        KNOWN_ISSUES: add notes about the "isolate" gem
+        gemspec: fix test_files regexp match
+        gemspec: remove tests that fork from test_files
+        test_signals: ensure we can parse pids in response
+        GNUmakefile: cleanup test/manifest generation
+        util: remove APPEND_FLAGS constant
+        http_request: simplify and remove handle_body method
+        http_response: simplify and remove const dependencies
+        local.mk.sample: fix .js times
+        TUNING: notes about benchmarking a high :backlog
+        HttpServer#listen accepts :tries and :delay parameters
+        "make install" avoids installing multiple .so objects
+        Use Configurator#expand_addr in HttpServer#listen
+        configurator: move initialization stuff to #initialize
+        Remove "Z" constant for binary strings
+        cgi_wrapper: don't warn about stdoutput usage
+        cgi_wrapper: simplify status handling in response
+        cgi_wrapper: use Array#concat instead of +=
+        server: correctly unset reexec_pid on child death
+        configurator: update and modernize examples
+        configurator: add colons in front of listen() options
+        configurator: remove DEFAULT_LOGGER constant
+        gemspec: clarify commented-out licenses section
+        Add makefile targets for non-release installs
+        cleanup: use question mark op for 1-byte comparisons
+        RDoc for Unicorn::HttpServer::Worker
+        small cleanup to pid file handling + documentation
+        rails: RAILS_RELATIVE_URL_ROOT may be set in Unicorn config
+        unicorn_rails: undeprecate --path switch
+        manpages: document environment variables
+        README: remove reference to different versions
+        Avoid a small window when a pid file can be empty
+        configurator: update some migration examples
+        configurator: listen :delay must be Numeric
+        test: don't rely on .manifest for test install
+        SIGNALS: state that we stole semantics from nginx
+        const: DEFAULT_PORT as a string doesn't make sense
+        test_helper: unused_port rejects 8080 unconditionally
+        GNUmakefile: SINCE variable may be unset
+        tests: GIT-VERSION-GEN is a test install dependency
+        unicorn 0.93.0
+
+=== unicorn 0.92.0 / 2009-09-18 21:40 UTC
+
+  Small fixes and documentation are the focus of this release.
+
+  James Golick reported and helped me track down a bug that caused
+  SIGHUP to drop the default listener (0.0.0.0:8080) if and only
+  if listeners were completely unspecified in both the
+  command-line and Unicorn config file.  The Unicorn config file
+  remains the recommended option for specifying listeners as it
+  allows fine-tuning of the :backlog, :rcvbuf, :sndbuf,
+  :tcp_nopush, and :tcp_nodelay options.
+
+  There are some documentation (and resulting website)
+  improvements.  setup.rb users will notice the new section 1
+  manpages for `unicorn` and `unicorn_rails`, Rubygems users
+  will have to install manpages manually or use the website.
+
+  The HTTP parser got a 3rd-party code review which resulted in
+  some cleanups and one insignificant bugfix as a result.
+
+  Additionally, the HTTP parser compiles, runs and passes unit
+  tests under Rubinius.  The pure-Ruby parts still do not work yet
+  and we currently lack the resources/interest to pursue this
+  further but help will be gladly accepted.
+
+  The website now has an Atom feed for new release announcements.
+  Those unfamiliar with Atom or HTTP may finger unicorn@bogomips.org
+  for the latest announcements.
+
+  Eric Wong (53):
+        README: update with current version
+        http: cleanup and avoid potential signedness warning
+        http: clarify the setting of the actual header in the hash
+        http: switch to macros for bitflag handling
+        http: refactor keepalive tracking to functions
+        http: use explicit elses for readability
+        http: remove needless goto
+        http: extra assertion when advancing p manually
+        http: verbose assertions
+        http: NIL_P(var) instead of var == Qnil
+        http: rb_gc_mark already ignores immediates
+        http: ignore Host: continuation lines with absolute URIs
+        doc/SIGNALS: fix the no-longer-true bit about socket options
+        "encoding: binary" comments for all sources (1.9)
+        http_response: don't "rescue nil" for body.close
+        CONTRIBUTORS: fix capitalization for why
+        http: support Rubies without the OBJ_FROZEN macro
+        http: define OFFT2NUM macro on Rubies without it
+        http: no-op rb_str_modify() for Rubies without it
+        http: compile with -fPIC
+        http: use rb_str_{update,flush} if available
+        http: create a new string buffer on empty values
+        Update documentation for Rubinius support status
+        http: cleanup assertion for memoized header strings
+        http: add #endif comment labels where appropriate
+        Add .mailmap file for "git shortlog" and other tools
+        Update Manifest with mailmap
+        Fix comment about speculative accept()
+        SIGNALS: use "Unicorn" when referring to the web server
+        Add new Documentation section for manpages
+        test_exec: add extra tests for HUP and preload_app
+        socket_helper: (FreeBSD) don't freeze the accept filter constant
+        Avoid freezing objects that don't benefit from it
+        SIGHUP no longer drops lone, default listener
+        doc: generate ChangeLog and NEWS file for RDoc
+        Remove Echoe and roll our own packaging/release...
+        unicorn_rails: close parentheses in help message
+        launchers: deprecate ambiguous -P/--p* switches
+        man1/unicorn: avoid unnecessary emphasis
+        Add unicorn_rails(1) manpage
+        Documentation: don't force --rsyncable flag with gzip(1)
+        Simplify and standardize manpages build/install
+        GNUmakefile: package .tgz includes all generated files
+        doc: begin integration of HTML manpages into RDoc
+        Update TODO
+        html: add Atom feeds
+        doc: latest news is available through finger
+        NEWS.atom: file timestamp matches latest entry
+        pandoc needs the standalone switch for manpages
+        man1/unicorn: split out RACK ENVIRONMENT section
+        man1/unicorn_rails: fix unescaped underscore
+        NEWS.atom.xml only lists the first 10 entries
+        unicorn 0.92.0
+
+=== unicorn 0.10.3r / 2009-09-09 00:09 UTC
+
+  Removes the Rev monkey patch, rev 0.3.0 is out now so we can
+  just depend on that instead of monkey patching it.  Experimental
+  HTTP keepalive/pipelining support has arrived as well.
+
+  Three features from mainline Unicorn are now working again with
+  this branch:
+
+  * Deadlocked workers can be detected by the master and nuked
+  * multiple (TCP) listeners per process
+  * graceful shutdown
+
+  This (pre-)release does NOT feature HTTP/0.9 support that
+  Unicorn 0.91.0 had, expect that when this branch is ready for
+  merging with mainline.
+
+=== unicorn 0.91.0 / 2009-09-04 19:04 UTC
+
+  HTTP/0.9 support, multiline header support, small fixes
+
+  18 years too late, Unicorn finally gets HTTP/0.9 support
+  as HTTP was implemented in 1991.
+
+  Eric Wong (16):
+        Documentation updates
+        examples/echo: "Expect:" value is case-insensitive
+        http: make strings independent before modification
+        http: support for multi-line HTTP headers
+        tee_input: fix rdoc
+        unicorn_http: "fix" const warning
+        http: extension-methods allow any tokens
+        http: support for simple HTTP/0.9 GET requests
+        test_http_parser_ng: fix failing HTTP/0.9 test case
+        launcher: defer daemonized redirects until config is read
+        test to ensure stderr goes *somewhere* when daemonized
+        http: SERVER_PROTOCOL matches HTTP_VERSION
+        http: add HttpParser#headers? method
+        Support HTTP/0.9 entity-body-only responses
+        Redirect files in binary mode
+        unicorn 0.91.0
+
+=== unicorn v0.10.2r --rainbows / 2009-08-18 22:28 UTC
+
+  Two botched releases in one day, hopefully this is the last...
+
+  Eric Wong (3):
+        rainbows: monkey-patch Rev::TCPListener for now
+        rainbows: make the embedded SHA1 app Rack::Lint-safe
+        unicorn 0.10.2r
+
+=== unicorn 0.10.1r --rainbows / 2009-08-18 22:01 UTC
+
+  Ruby 1.9 only, again
+
+  Eric Wong (2):
+        Actually hook up Rainbows to the rest of the beast
+        unicorn 0.10.1r
+
+=== unicorn 0.10.0r -- rainbows! / 2009-08-18 21:41 UTC
+
+  This "release" is for Ruby 1.9 only
+
+=== unicorn 0.90.0 / 2009-08-17 00:24 UTC
+
+  switch chunking+trailer handling to Ragel, v0.8.4 fixes
+
+  Moved chunked decoding and trailer parsing over to C/Ragel.
+  Minor bug fixes, internal code cleanups, and API changes.
+
+  Eric Wong (55):
+        README: update version numbers for website
+        Update Rails tests to run on Rails 2.3.3.1
+        README: latest stable version is 0.8.4
+        unicorn_http: small cleanups and size reduction
+        Remove Ragel-generated file from version control
+        unicorn_http: remove typedef from http_parser
+        unicorn_http: update copyright
+        unicorn_http: change "global_" prefix to "g_"
+        unicorn_http: add helpful macros
+        extconf: SIZEOF_OFF_T should be a ruby.h macro
+        Refactoring unicorn_http C/Ragel code
+        http: find_common_field_value => find_common_field
+        http: split uncommon_field into a separate function
+        http: remove some redundant functions
+        http: "hp" denotes http_parser structs for consistency
+        http: small cleanup in "https" detection
+        http: minor cleanup of http_field handling
+        http: split out server params handling
+        http: move global initialization code
+        http: cleanup setting for common values => globals
+        http: remove noise functions
+        http: move non-Ruby-specific macros c_util.h
+        http: prepare http_parser struct for body processing
+        http: generic C string vs VALUEs comparison function
+        http: process Content-Length and Transfer-Encoding
+        http: preliminary chunk decoding
+        test_upload: extra CRLF is needed
+        Switch to Ragel/C-based chunk/trailer parser
+        http: unit tests for overflow and bad lengths
+        http: add test for invalid trailer
+        http: join repeated headers with a comma
+        test_util: explicitly close tempfiles for GC-safety
+        test_exec: wait for worker readiness
+        Documentation updates
+        test_signals: unlink log files of KILL-ed process
+        http: rename read_body to filter_body
+        http: add CONST_MEM_EQ macro
+        http: add "HttpParser#keepalive?" method
+        http: freeze fields when creating them, always
+        README: everybody loves Ruby DSLs
+        http_request: reinstate empty StringIO optimization
+        tee_input: make interface more usable outside of Unicorn
+        Drop the micro benchmarks
+        http: fix warning when sizeof(off_t) == sizeof(long long)
+        GNUmakefile: Fix "install" target
+        Fix documentation for Util.reopen_logs
+        http_response: pass through unknown status codes
+        const: remove unused constants
+        update TODO
+        http: support for "Connection: keep-alive"
+        TODO: remove keep-alive/pipelining
+        Make launchers __END__-aware
+        Remove explicit requires for Rack things
+        app/inetd: explicitly close pipe descriptors on CatBody#close
+        unicorn 0.90.0
+
+=== unicorn 0.8.4 / 2009-08-06 22:48 UTC
+
+  pass through unknown HTTP status codes
+
+  This release allows graceful degradation in case a user is using a
+  status code not defined by Rack::Utils::HTTP_STATUS_CODES.  A patch has
+  been submitted[1] upstream to Rack but this issue may still affect users
+  of yet-to-be-standardized status codes.
+
+  Eric Wong (2):
+        http_response: pass through unknown status codes
+        unicorn 0.8.4
+
+  [1] - http://rack.lighthouseapp.com/projects/22435-rack/tickets/70
+
+=== unicorn 0.9.2 / 2009-07-20 01:29 UTC
+
+  Ruby 1.9.2 preview1 compatibility
+
+  This release mainly fixes compatibility issues the Ruby 1.9.2 preview1
+  release (and one existing 1.9.x issue).  Note that Rails 2.3.2.1 does
+  NOT appear to work with Ruby 1.9.2 preview1, but that is outside the
+  scope of this project.
+
+  The 0.9.x series (including this release) is only recommended for
+  development/experimental use.  This series is NOT recommended for
+  production use, use 0.8.x instead.
+
+  Eric Wong (10):
+        README: add Gmane newsgroup info
+        README: update about development/stable versions
+        Rename unicorn/http11 => unicorn_http
+        move all #gets logic to tee_input out of chunked_reader
+        http_request: don't support apps that close env["rack.input"]
+        HttpRequest: no need for a temporary variable
+        Remove core Tempfile dependency (1.9.2-preview1 compat)
+        fix tests to run correctly under 1.9.2preview1
+        app/exec_cgi: fix 1.9 compatibility
+        unicorn 0.9.2
+
+=== unicorn 0.8.3 / 2009-07-20 01:26 UTC
+
+  Ruby 1.9.2 preview1 compatibility
+
+  This release fixes compatibility issues the Ruby 1.9.2 preview1
+  release (and one existing 1.9.x issue).  Note that Rails 2.3.2.1
+  does NOT appear to work with Ruby 1.9.2 preview1, but that
+  is outside the scope of this project.
+
+  Eric Wong (4):
+        Remove core Tempfile dependency (1.9.2-preview1 compat)
+        fix tests to run correctly under 1.9.2preview1
+        app/exec_cgi: fix 1.9 compatibility
+        unicorn 0.8.3
+
+=== unicorn 0.8.2 / 2009-07-09 08:59 UTC
+
+  socket handling bugfixes and usability tweaks
+
+  Socket handling bugfixes and socket-related usability and
+  performance tweaks.  We no longer trust FD_CLOEXEC to be
+  inherited across accept(); thanks to Paul Sponagl for diagnosing
+  this issue on OSX.  There are also minor tweaks backported from
+  0.9.0 to make non-graceful restarts/upgrades go more smoothly.
+
+  Eric Wong (6):
+        Unbind listeners as before stopping workers
+        Retry listen() on EADDRINUSE 5 times every 500ms
+        Re-add support for non-portable socket options
+        Minor cleanups to core
+        always set FD_CLOEXEC on sockets post-accept()
+        unicorn 0.8.2
+
+=== unicorn 0.9.1 / 2009-07-09 08:49 UTC
+
+  FD_CLOEXEC portability fix (v0.8.2 port)
+
+  Minor cleanups, set FD_CLOEXEC on accepted listen sockets
+  instead of relying on the flag to be inherited across accept.
+
+  The 0.9.x series (including this release) is NOT recommended for
+  production use, try 0.8.x instead.
+
+  Eric Wong (10):
+        Avoid temporary array creation
+        Favor Struct members to instance variables
+        Minor cleanups to core
+        Unbind listeners as before stopping workers
+        Retry listen() on EADDRINUSE 5 times ever 500ms
+        Re-add support for non-portable socket options
+        Minor cleanups to core (cherry picked from commit ec70433f84664af0dff1336845ddd51f50a714a3)
+        always set FD_CLOEXEC on sockets post-accept()
+        unicorn 0.8.2
+        unicorn 0.9.1 (merge 0.8.2)
+
+=== unicorn 0.9.0 / 2009-07-01 22:24 UTC
+
+  bodies: "Transfer-Encoding: chunked", rewindable streaming
+
+  We now have support for "Transfer-Encoding: chunked" bodies in
+  requests.  Not only that, Rack applications reading input bodies
+  get that data streamed off to the client socket on an as-needed
+  basis.  This allows the application to do things like upload
+  progress notification and even tunneling of arbitrary stream
+  protocols via bidirectional chunked encoding.
+
+  See Unicorn::App::Inetd and examples/git.ru (including the
+  comments) for an example of tunneling the git:// protocol over
+  HTTP.
+
+  This release also gives applications the ability to respond
+  positively to "Expect: 100-continue" headers before being rerun
+  without closing the socket connection.  See Unicorn::App::Inetd
+  for an example of how this is used.
+
+  This release is NOT recommended for production use.
+
+  Eric Wong (43):
+        http_request: no need to reset the request
+        http_request: StringIO is binary for empty bodies (1.9)
+        http_request: fix typo for 1.9
+        Transfer-Encoding: chunked streaming input support
+        Unicorn::App::Inetd: reinventing Unix, poorly :)
+        README: update with mailing list info
+        local.mk.sample: publish_doc gzips all html, js, css
+        Put copyright text in new files, include GPL2 text
+        examples/cat-chunk-proxy: link to proposed curl(1) patch
+        Update TODO
+        Avoid duplicating the "Z" constant
+        Optimize body-less GET/HEAD requests (again)
+        tee_input: Don't expose the @rd object as a return value
+        exec_cgi: small cleanups
+        README: another note about older Sinatra
+        tee_input: avoid defining a @rd.size method
+        Make TeeInput easier to use
+        test_upload: add tests for chunked encoding
+        GNUmakefile: more stringent error checking in tests
+        test_upload: fix ECONNRESET with 1.9
+        GNUmakefile: allow TRACER= to be specified for tests
+        test_rails: workaround long-standing 1.9 bug
+        tee_input: avoid rereading fresh data
+        "Fix" tests that break with stream_input=false
+        inetd: fix broken constant references
+        configurator: provide stream_input (true|false) option
+        chunked_reader: simpler interface
+        http_request: force BUFFER to be Encoding::BINARY
+        ACK clients on "Expect: 100-continue" header
+        Only send "100 Continue" when no body has been sent
+        http_request: tighter Transfer-Encoding: "chunked" check
+        Add trailer_parser for parsing trailers
+        chunked_reader: Add test for chunk parse failure
+        TeeInput: use only one IO for tempfile
+        trailer_parser: set keys with "HTTP_" prefix
+        TrailerParser integration into ChunkedReader
+        Unbind listeners as before stopping workers
+        Retry listen() on EADDRINUSE 5 times ever 500ms
+        Re-add support for non-portable socket options
+        Move "Expect: 100-continue" handling to the app
+        tee_input: avoid ignoring initial body blob
+        Force streaming input onto apps by default
+        unicorn 0.9.0
+
+=== unicorn 0.8.1 / 2009-05-28 21:45 UTC
+
+  safer timeout handling, more consistent reload behavior
+
+  This release features safer, more descriptive timeout handling, more
+  consistent reload behavior, and is a miniscule amount faster on
+  "Hello World" benchmarks
+
+  Eric Wong (7):
+        doc: cleanup summary/description
+        Fix potential race condition in timeout handling
+        SIGHUP reloads app even if preload_app is true
+        Make our HttpRequest object a global constant
+        Avoid instance variables lookups in a critical path
+        Consistent logger assignment for multiple objects
+        unicorn 0.8.1
+
+=== unicorn 0.8.0 / 2009-05-26 22:59 UTC
+
+  enforce Rack dependency, minor performance improvements and fixes
+
+  The RubyGem now has a hard dependency on Rack.  Minor performance
+  improvements and code cleanups.  If RubyGems are in use, the Gem index
+  is refreshed when SIGHUP is issued.
+
+  Eric Wong (66):
+        test_request: enable with Ruby 1.9 now Rack 1.0.0 is out
+        Small cleanup
+        test_upload: still uncomfortable with 1.9 IO encoding...
+        Add example init script
+        app/exec_cgi: GC prevention
+        Add TUNING document
+        Make speculative accept() faster for the common case
+        app/old_rails: correctly log errors in output
+        http_request: avoid StringIO.new for GET/HEAD requests
+        http_response: luserspace buffering is barely faster
+        benchmark/*: updates for newer versions of Unicorn
+        http_request: switch to readpartial over sysread
+        No point in unsetting the O_NONBLOCK flag
+        Merge commit 'origin/benchmark'
+        Safer timeout handling and test case
+        Ignore unhandled master signals in the workers
+        TUNING: add a note about somaxconn with UNIX sockets
+        Remove redundant socket closing/checking
+        Instant shutdown signals really mean instant shutdown
+        test_signals: ready workers before connecting
+        Speed up the worker accept loop
+        Fix a warning about @pid being uninitialized
+        Inline and remove the HttpRequest#reset method
+        Preserve 1.9 IO encodings in reopen_logs
+        configurator: fix rdoc formatting
+        http_request: use Rack::InputWrapper-compatible methods
+        app/exec_cgi: use explicit buffers for read/sysread
+        Enforce minimum timeout at 3 seconds
+        Avoid killing sleeping workers
+        Remove trickletest
+        HttpRequest::DEF_PARAMS => HttpRequest::DEFAULTS
+        exec_cgi: don't assume the body#each consumer is a socket
+        Reopen master logs on SIGHUP, too
+        Require Rack for HTTP Status codes
+        http_response: allow string status codes
+        test_response: correct OFS test
+        privatize constants only used by old_rails/static
+        Disable formatting for command-line switches
+        GNUmakefile: glob all files in bin/*
+        test_request: enable with Ruby 1.9 now Rack 1.0.0 is out
+        test_upload: still uncomfortable with 1.9 IO encoding...
+        Add example init script
+        app/exec_cgi: GC prevention
+        Add TUNING document
+        app/old_rails: correctly log errors in output
+        Safer timeout handling and test case
+        Ignore unhandled master signals in the workers
+        TUNING: add a note about somaxconn with UNIX sockets
+        Fix a warning about @pid being uninitialized
+        Preserve 1.9 IO encodings in reopen_logs
+        configurator: fix rdoc formatting
+        Enforce minimum timeout at 3 seconds
+        http_response: allow string status codes
+        test_response: correct OFS test
+        Disable formatting for command-line switches
+        GNUmakefile: glob all files in bin/*
+        Merge branch '0.7.x-stable'
+        Define HttpRequest#reset if missing
+        Merge branch 'benchmark'
+        unicorn 0.7.1
+        Merge commit 'v0.7.1'
+        Refresh Gem list when building the app
+        Only refresh the gem list when building the app
+        Switch to autoload to defer requires
+        remove trickletest from Manifest
+        unicorn 0.8.0
+
+=== unicorn 0.7.1 / 2009-05-22 09:06 UTC
+
+  minor fixes, cleanups and documentation improvements
+
+  Eric Wong (18):
+        test_request: enable with Ruby 1.9 now Rack 1.0.0 is out
+        test_upload: still uncomfortable with 1.9 IO encoding...
+        Add example init script
+        app/exec_cgi: GC prevention
+        Add TUNING document
+        app/old_rails: correctly log errors in output
+        Safer timeout handling and test case
+        Ignore unhandled master signals in the workers
+        TUNING: add a note about somaxconn with UNIX sockets
+        Fix a warning about @pid being uninitialized
+        Preserve 1.9 IO encodings in reopen_logs
+        configurator: fix rdoc formatting
+        Enforce minimum timeout at 3 seconds
+        http_response: allow string status codes
+        test_response: correct OFS test
+        Disable formatting for command-line switches
+        GNUmakefile: glob all files in bin/*
+        unicorn 0.7.1
+
+=== unicorn 0.7.0 / 2009-04-25 18:59 UTC
+
+  rack.version is 1.0
+
+  Rack 1.0.0 compatibility, applications are now passed
+  env["rack.version"] == [1, 0]
+
+  Eric Wong (5):
+        doc: formatting changes for SIGNALS doc
+        configurator: "listen" directive more nginx-like
+        Fix log rotation being delayed in workers when idle
+        Rack 1.0.0 compatibility
+        unicorn 0.7.0
+
+=== unicorn 0.6.0 / 2009-04-24 21:47 UTC
+
+  cleanups + optimizations, signals to {in,de}crement processes
+
+  * Mostly OCD-induced yak-shaving changes
+
+  * SIGTTIN and SIGTTOU are now used to control incrementing and
+    decrementing of worker processes without needing to change
+    the config file and SIGHUP.
+
+  Eric Wong (46):
+        test_upload: ensure StringIO objects are binary
+        http11: cleanup #includes and whitespace
+        GNUmakefile: Fix ragel dependencies
+        GNUmakefile: kill trailing whitespace after ragel
+        Move absolute URI parsing into HTTP parser
+        http11: remove unused variables/elements
+        http_request: freeze modifiable elements
+        HttpParser: set QUERY_STRING for Rack-compliance
+        GNUmakefile: mark test_signals as a slow test
+        const: remove unused QUERY_STRING constant
+        http11: formatting cleanups
+        http11: remove callbacks from structure
+        replace DATA_GET macro with a function
+        http11: minor cleanups in return types
+        http11: make parser obey HTTP_HOST with empty port
+        http11: cleanup some CPP macros
+        http11: rfc2616 handling of absolute URIs
+        http_response: small speedup by eliminating loop
+        Stop extending core classes
+        rename socket.rb => socket_helper.rb
+        Remove @start_ctx instance variable
+        http11: support underscores in URI hostnames
+        test: empty port test for absolute URIs
+        Cleanup some unnecessary requires
+        Cleanup GNUmakefile and fix dependencies
+        Fix data corruption with small uploads via browsers
+        Get rid of UNICORN_TMP_BASE constant
+        GNUmakefile: mark test_upload as a slow test
+        unicorn_rails: avoid nesting lambdas
+        test_exec: cleanup stale socket on exit
+        Merge commit 'v0.5.4'
+        http_request: micro optimizations
+        IO_PURGATORY should be a global constant
+        Make LISTENERS and WORKERS global constants, too
+        test_socket_helper: disable GC for this test
+        http_response: just barely faster
+        http_response: minor performance gains
+        make SELF_PIPE is a global constant
+        Describe the global constants we use.
+        Fixup reference to a dead variable
+        Avoid getppid() if serving heavy traffic
+        minor cleanups and save a few variables
+        Allow std{err,out}_path to be changed via HUP
+        SIGTT{IN,OU} {in,de}crements worker_processes
+        cleanup: avoid duped self-pipe init/replacement logic
+        unicorn 0.6.0
+
+=== unicorn 0.5.4 / 2009-04-24 01:41 UTC
+
+  fix data corruption with some small uploads (not curl)
+
+  Eric Wong (2):
+        Fix data corruption with small uploads via browsers
+        unicorn 0.5.4
+
+=== unicorn 0.5.3 / 2009-04-17 05:32 UTC
+
+  fix 100% CPU usage when idle, small cleanups
+
+  fix 100% CPU usage when idle
+
+  Eric Wong (7):
+        update Manifest (add test_signals.rb)
+        Fix forgotten Rails tests
+        Fix my local.mk file to always run Rails tests
+        fix 100% CPU usage when idle
+        remove DATE constant
+        Small garbage reduction in HttpResponse
+        unicorn 0.5.3
+
+=== unicorn 0.5.2 / 2009-04-16 23:32 UTC
+
+  force Status: header for compat, small cleanups
+
+  * Ensure responses always have the "Status:" header.  This
+    is needed for compatibility with some broken clients.
+
+  * Other small and minor cleanups
+
+  Eric Wong (10):
+        Explicitly trap SIGINT/SIGTERM again
+        s/rotating/reopening/g in log messages
+        before_commit and before_exec can never be nil/false
+        worker_loop cleanups, var golf, and yak-shaving
+        http11: default server port is 443 for https
+        ensure responses always have the "Status:" header
+        test: fix dependency issue with "make test-unit"
+        GNUmakefile: small dependency cleanups
+        unicorn/const: kill trailing whitespace
+        unicorn 0.5.2
+
+=== unicorn 0.5.1 / 2009-04-13 21:24 UTC
+
+  exit correctly on INT/TERM, QUIT is still recommended, however
+
+  We now exit correctly on INT/TERM signals, QUIT is still
+  recommended as it does graceful shutdowns.
+
+  Eric Wong (2):
+        Fix SIGINT/SIGTERM handling (broken in 0.5.0)
+        unicorn 0.5.1
+
+=== unicorn 0.5.0 / 2009-04-13 19:08 UTC
+
+  {after,before}_fork API change, small tweaks/fixes
+
+  * There is an API change in the {after,before}_fork hooks
+    so now the entire Worker struct is exposed to the user.
+    This allows Unicorn to unofficially support user/group
+    privilege changing.
+
+  * The "X-Forwarded-Proto:" header can be set by proxies
+    to ensure rack.url_scheme is "https" for SSL-enabled
+    sites.
+
+  * Small cleanups and tweaks throughout, see shortlog (below)
+    or changelog for details.
+
+  Eric Wong (32):
+        test_helper: redirect_io uses append and sync
+        configurator: allow hooks to be passed callable objects
+        Add a test for signal recovery
+        Documentation updates
+        Enforce umask 0000 with UNIX domain sockets
+        local.mk: touch files after set-file-times
+        Add test for :preload_app config option
+        GNUmakefile: remove unnecessary asterisks in output
+        GNUmakefile: allow "make V=1 ..." for verbosity
+        test_configurator: rename test name that never ran
+        cleanup some log messages
+        test_request: tests esoteric/rare REQUEST_URIs
+        http11: Remove qsort/bsearch code paths
+        http11: handle "X-Forwarded-Proto: https"
+        close listeners when removing them from our array
+        config: handle listener unbind/replace in config file
+        README: doc updates
+        Restore unlinked UNIX sockets on SIGHUP
+        listen backlog, sndbuf, rcvbuf are always changeable
+        Remove _all_ non-POSIX socket options
+        http11: cleanup+safer rack.url_scheme handling
+        test_exec: fix potential races in fd leak test
+        test_http_parser: fix broken URL in comment
+        Save one fcntl() syscall on every request
+        Remove unnecessary sync assignment
+        Don't bother restoring ENV or umask across reexec
+        old_rails: try harder to ensure valid responses
+        small cleanups in signal handling and worker init
+        Remove unnecessary local variables in process_client
+        Expose worker to {before,after}_fork hooks
+        Configurator: add example for user/group switching
+        unicorn 0.5.0
+
+=== unicorn 0.4.2 / 2009-04-02 19:14 UTC
+
+  fix Rails ARStore, FD leak prevention, descriptive proctitles
+
+  Eric Wong (16):
+        Manifest: updates
+        Merge unicorn
+        test_exec: add test case for per-worker listeners
+        Remove set_cloexec wrapper and require FD_CLOEXEC
+        All IOs created in workers have FD_CLOEXEC set
+        FD_CLOEXEC all non-listen descriptors before exec
+        Close std{err,out} redirection targets
+        test_upload: fix a race condition in unlink test
+        More descriptive process titles
+        unicorn_rails: cleanup redundant bits
+        test/rails: v2.1.2 + ActiveRecordStore all around
+        Use File.basename instead of a regexp
+        Add log directories to tests
+        unicorn: remove unnecessary lambda generation
+        GNUmakefile: "install" preserves unicorn_rails
+        unicorn 0.4.2
+
+=== unicorn v0.4.1 / 2009-04-01 10:52 UTC
+
+  Rails support, per-listener backlog and {snd,rcv}buf
+
+  Eric Wong (50):
+        All new benchmarks, old ones removed
+        benchmark: header values must be strings
+        Merge commit 'origin/benchmark' into release
+        HttpResponse: speed up non-multivalue headers
+        Streamline rack environment generation
+        Don't bother unlinking UNIX sockets
+        unicorn_rails: support non-Rack versions of Rails
+        HttpRequest: small improvement for GET requests
+        simplify the HttpParser interface
+        Socket: add {snd,rcv}buf opts to bind_listen
+        Merge commit 'v0.2.3'
+        Don't allow failed log rotation to to break app
+        Deferred log rotation in workers
+        style: symbols instead of strings for signal names
+        No need to disable luserspace buffering on client socket
+        test_server: quieter tests
+        Remove needless line break
+        Always try to send a valid HTTP response back
+        test_response: ensure closed socket after write
+        test_response: ensure response body is closed
+        TODO: update roadmap to 1.0.0
+        configurator: per-listener backlog, {rcv,snd}buf config
+        configurator: favor "listen" directive over "listeners"
+        http11: use :http_body instead of "HTTP_BODY"
+        Avoid having two pid files pointing to the same pid
+        test_exec: fix race conditions
+        test_exec: fix response bodies
+        Fix default listener setup
+        test_exec: fix another race condition
+        bin/*: parse CLI switches in config.ru sooner
+        app/old_rails/static: define missing constant
+        unicorn_rails: give more info when aborting
+        GNUmakefile: add test-exec and test-unit targets
+        cgi_wrapper: ensure "Status:" header is not set
+        Better canonicalization of listener paths + tests
+        configurator: remove unnecessary SocketHelper include
+        unicorn_rails: minor cleanup for dead variable
+        Use {read,write}_nonblock on the pipe
+        unicorn_rails: cleanup path mapping usage
+        Rails stack tests for unicorn_rails
+        test: factor out exec helpers into common code for Rails tests
+        cgi_wrapper: fix cookies and other headers
+        GNUmakefile: prefix errors with $(extra) variable
+        cgi_wrapper: HTTP status code cleanups
+        Add more tests for Rails
+        test_rails: 4x speedup
+        Manifest update
+        Documentation updates, prep for 0.4.1 release
+        Add local.mk.sample file that I use
+        unicorn 0.4.1
+
+=== unicorn v0.2.3 / 2009-03-25 23:31 UTC
+
+  Unlink Tempfiles after use (they were closed, just not unlinked)
+
+  Eric Wong (3):
+        Don't bother unlinking UNIX sockets
+        Ensure Tempfiles are unlinked after every request
+        unicorn 0.2.3
+
+=== unicorn v0.2.2 / 2009-03-22 23:45 UTC
+
+  small bug fixes, fix Rack multi-value headers (Set-Cookie:)
+
+  Eric Wong (19):
+        Fix link to Rubyforge releases page
+        start libifying common launcher code
+        unicorn_rails: fix standard pid path setup
+        Move listen path and address expansion to Configurator
+        Trap WINCH to QUIT children without respawning
+        Remove Mongrel stuff from CHANGELOG
+        HttpResponse: close body if it can close
+        Add Unicorn::App::ExecCgi
+        Process management cleanups
+        documentation/disclaimer updates
+        unicorn_rails: remove unnecessary Rack-loading logic
+        unicorn/http11: remove GATEWAY_INTERFACE
+        http11: don't set headers Rack doesn't like
+        HttpRequest test so our requests pass Rack::Lint
+        HttpRequest: correctly reference logger
+        Rotate master logs before workers.
+        Simplify code for sleeping/waking up the master
+        Handle Rack multivalue headers correctly
+        unicorn 0.2.2
+
+=== unicorn v0.2.1 / 2009-03-19 03:20 UTC
+
+  Fix broken Manifest that cause unicorn_rails to not be bundled
+
+  Eric Wong (1):
+        unicorn v0.2.1, fix the Manifest
+
+=== unicorn v0.2.0 / 2009-03-19 03:16 UTC
+
+  unicorn_rails launcher script.
+
+  Eric Wong (8):
+        Start _Known Issues_ section in README
+        Allow binding to UNIX sockets relative to "~"
+        tests: do not trust (our correct use of) 1.9 encodings
+        gracefully die if working dir is invalid at fork
+        Add signal queueing for test reliability
+        Add unicorn_rails script for Rails 2.3.2
+        Documentation updates, prepare for 0.2.0
+        unicorn 0.2.0
+
+=== unicorn v0.1.0 / 2009-03-11 01:50 UTC
+
+  Unicorn - UNIX-only fork of Mongrel free of threading
+
+

@@ -1,0 +1,104 @@
+= Tips for using unicorn with Sandbox installation tools
+
+Since unicorn includes executables and is usually used to start a Ruby
+process, there are certain caveats to using it with tools that sandbox
+RubyGems installations such as
+{Bundler}[https://bundler.io/] or
+{Isolate}[https://github.com/jbarnette/isolate].
+
+== General deployment
+
+If you're sandboxing your unicorn installation and using Capistrano (or
+similar), it's required that you sandbox your RubyGems in a per-application
+shared directory that can be used between different revisions.
+
+unicorn will stash its original command-line at startup for the USR2
+upgrades, and cleaning up old revisions will cause revision-specific
+installations of unicorn to go missing and upgrades to fail.   If you
+find yourself in this situation and can't afford downtime, you can
+override the existing unicorn executable path in the config file like
+this:
+
+        Unicorn::HttpServer::START_CTX[0] = "/some/path/to/bin/unicorn"
+
+Then use HUP to reload, and then continue with the USR2+QUIT upgrade
+sequence.
+
+Environment variable pollution when exec-ing a new process (with USR2)
+is the primary issue with sandboxing tools such as Bundler and Isolate.
+
+== Bundler
+
+=== Running
+
+If you're bundling unicorn, use "bundle exec unicorn" (or "bundle exec
+unicorn_rails") to start unicorn with the correct environment variables
+
+ref: https://yhbt.net/unicorn-public/9ECF07C4-5216-47BE-961D-AFC0F0C82060@internetfamo.us/
+
+Otherwise (if you choose to not sandbox your unicorn installation), we
+expect the tips for Isolate (below) apply, too.
+
+=== RUBYOPT pollution from SIGUSR2 upgrades
+
+This is no longer be an issue as of bundler 0.9.17
+
+ref:
+https://yhbt.net/unicorn-public/8FC34B23-5994-41CC-B5AF-7198EF06909E@tramchase.com/
+
+=== BUNDLE_GEMFILE for Capistrano users
+
+You may need to set or reset the BUNDLE_GEMFILE environment variable in
+the before_exec hook:
+
+        before_exec do |server|
+          ENV["BUNDLE_GEMFILE"] = "/path/to/app/current/Gemfile"
+        end
+
+=== Other ENV pollution issues
+
+If you're using an older Bundler version (0.9.x), you may need to set or
+reset GEM_HOME, GEM_PATH and PATH environment variables in the
+before_exec hook as illustrated by https://gist.github.com/534668
+
+=== Ruby 2.0.0 close-on-exec and SIGUSR2 incompatibility
+
+Ruby 2.0.0 enforces FD_CLOEXEC on file descriptors by default.  unicorn
+has been prepared for this behavior since unicorn 4.1.0, and bundler
+needs the "--keep-file-descriptors" option for "bundle exec":
+https://bundler.io/man/bundle-exec.1.html
+
+== Isolate
+
+=== Running
+
+Installing "unicorn" as a system-wide Rubygem and using the
+isolate gem may cause issues if you're using any of the bundled
+application-level libraries in unicorn/app/* (for compatibility
+with CGI-based applications, Rails <= 2.2.2, or ExecCgi).
+For now workarounds include doing one of the following:
+
+1. Isolating unicorn, setting GEM_HOME to your Isolate path,
+   and running the isolated version of unicorn.  You *must* set
+   GEM_HOME before running your isolated unicorn install in this way.
+
+2.  Installing the same version of unicorn as a system-wide Rubygem
+    *and* isolating unicorn as well.
+
+3. Explicitly setting RUBYLIB or $LOAD_PATH to include any gem path
+   where the unicorn gem is installed
+   (e.g. /usr/lib/ruby/gems/1.9.3/gems/unicorn-VERSION/lib)
+
+=== RUBYOPT pollution from SIGUSR2 upgrades
+
+If you are using Isolate, using Isolate 2.x is strongly recommended as
+environment modifications are idempotent.
+
+If you are stuck with 1.x versions of Isolate, it is recommended that
+you disable it with the <tt>before_exec</tt> hook prevent the PATH and
+RUBYOPT environment variable modifications from propagating between
+upgrades in your Unicorn config file:
+
+        before_exec do |server|
+          Isolate.disable
+        end

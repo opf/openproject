@@ -1,0 +1,30 @@
+futurama:
+  id: 1
+  title: Isnt futurama awesome?
+  subtitle: It really is, isnt it.
+  content: I like futurama
+  created_at: <%= 1.day.ago.utc.to_s(:db) %>
+  updated_at:
+  
+harvey_birdman:
+  id: 2
+  title: Harvey Birdman is the king of all men
+  subtitle: yup
+  content: He really is
+  created_at: <%= 2.hours.ago.utc.to_s(:db) %>
+  updated_at:
+
+rails:
+  id: 3
+  project_id: 1
+  title: Rails is nice
+  subtitle: It makes me happy
+  content: except when I have to hack internals to fix pagination. even then really.
+  created_at: <%= 20.minutes.ago.utc.to_s(:db) %>
+
+ar:
+  id: 4
+  project_id: 1
+  title: ActiveRecord sometimes freaks me out
+  content: "I mean, what's the deal with eager loading?"
+  created_at: <%= 15.minutes.ago.utc.to_s(:db) %>

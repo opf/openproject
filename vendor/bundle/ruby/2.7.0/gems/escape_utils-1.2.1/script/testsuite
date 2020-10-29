@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+cd "$(dirname "$0")/.."
+
+# run entire test suite
+ruby --version 1>&2
+exec ruby -I. -rubygems \
+    -r "$(pwd)/test/helper" \
+    -e "ARGV.each { |f| require(f) }" \
+    -- ${*:-`find test -name '*_test.rb'`}

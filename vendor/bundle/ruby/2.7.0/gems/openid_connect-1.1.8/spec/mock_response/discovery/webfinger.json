@@ -1,0 +1,8 @@
+{
+  "expires": "2013-03-09T06:43:23Z",
+  "links": [{
+    "rel": "http://openid.net/specs/connect/1.0/issuer",
+    "href": "https://server.example.com"
+  }],
+  "subject": "acct:foo@server.example.com"
+}

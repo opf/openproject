@@ -114,10 +114,10 @@ describe Bim::IfcModels::UpdateService do
 
     context 'if the attachment is altered' do
       let(:attachment_marked_for_destruction) { true }
-      let(:call_attributes) do
-        { name: 'Some name',
-          identifier: 'Some identifier',
-          ifc_attachment: ifc_attachment }
+      before do
+        allow(ifc_attachment)
+          .to receive(:new_record?)
+          .and_return(true)
       end
 
       it 'schedules conversion job' do

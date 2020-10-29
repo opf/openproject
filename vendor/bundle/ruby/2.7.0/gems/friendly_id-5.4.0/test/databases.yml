@@ -1,0 +1,21 @@
+mysql:
+  adapter: mysql2
+  database: friendly_id_test
+  username: root
+  password: <%= ENV['MYSQL_PASSWORD'] %>
+  host: 127.0.0.1
+  port: 3306
+  encoding: utf8
+
+postgres:
+  adapter: postgresql
+  host: <%= ENV.fetch('PGHOST') { 'localhost' } %>
+  port: <%= ENV.fetch('PGPORT') { '5432' } %>
+  username: <%= ENV.fetch('PGUSER') { 'postgres' } %>
+  database: friendly_id_test
+  encoding: utf8
+
+sqlite3:
+  adapter: sqlite3
+  database: ":memory:"
+  encoding: utf8

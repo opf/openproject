@@ -1,0 +1,12 @@
+{
+  "expires": "2012-11-16T19:41:35Z",
+  "subject": "acct:nov@example.com",
+  "aliases": ["http://nov.example.com/"],
+  "properties": {
+    "http://example.com/rel/role/": "employee"
+  },
+  "links": [{
+    "rel": "http://openid.net/specs/connect/1.0/issuer",
+    "href": "https://openid.example.com/"
+  }]
+}

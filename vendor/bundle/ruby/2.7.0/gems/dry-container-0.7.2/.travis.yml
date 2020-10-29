@@ -1,0 +1,30 @@
+language: ruby
+dist: trusty
+sudo: required
+cache: bundler
+bundler_args: --without console
+script:
+  - bundle exec rake spec
+after_success:
+  - '[ -d coverage ] && bundle exec codeclimate-test-reporter'
+rvm:
+  - 2.4.6
+  - 2.5.5
+  - 2.6.3
+  - jruby-9.2.7.0
+  - truffleruby
+matrix:
+  allow_failures:
+    - rvm: truffleruby
+env:
+  global:
+    - JRUBY_OPTS='--dev -J-Xmx1024M'
+    - COVERAGE='true'
+notifications:
+  email: false
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/19098b4253a72c9796db
+    on_success: change  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: false     # default: false

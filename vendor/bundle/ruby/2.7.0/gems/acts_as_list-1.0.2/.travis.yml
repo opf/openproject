@@ -1,0 +1,29 @@
+language: ruby
+cache: bundler
+sudo: false
+before_script:
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
+  - mysql -e 'create database acts_as_list;'
+  - psql -c 'create database acts_as_list;' -U postgres
+rvm:
+  - 2.4.7
+  - 2.5.6
+  - 2.6.4
+services:
+  - mysql
+  - postgresql
+env:
+  - DB=sqlite
+  - DB=mysql
+  - DB=postgresql
+gemfile:
+  - gemfiles/rails_4_2.gemfile
+  - gemfiles/rails_5_0.gemfile
+  - gemfiles/rails_5_1.gemfile
+  - gemfiles/rails_5_2.gemfile
+  - gemfiles/rails_6_0.gemfile
+matrix:
+  exclude:
+    - rvm: 2.4.7
+      gemfile: gemfiles/rails_6_0.gemfile

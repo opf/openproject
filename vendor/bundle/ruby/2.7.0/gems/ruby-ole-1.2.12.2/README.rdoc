@@ -1,0 +1,81 @@
+= Introduction
+
+The ruby-ole library provides a variety of functions primarily for
+working with OLE2 structured storage files, such as those produced by
+Microsoft Office - eg *.doc, *.msg etc.
+
+= Example Usage
+
+Here are some examples of how to use the library functionality,
+categorised roughly by purpose.
+
+1. Reading and writing files within an OLE container
+
+   The recommended way to manipulate the contents is via the
+   "file_system" API, whereby you use Ole::Storage instance methods
+   similar to the regular File and Dir class methods.
+
+     ole = Ole::Storage.open('oleWithDirs.ole', 'rb+')
+     p ole.dir.entries('.') # => [".", "..", "dir1", "dir2", "file1"]
+     p ole.file.read('file1')[0, 25] # => "this is the entry 'file1'"
+     ole.dir.mkdir('newdir')
+
+2. Accessing OLE meta data
+
+   Some convenience functions are provided for (currently read only)
+   access to OLE property sets and other sources of meta data.
+
+     ole = Ole::Storage.open('test_word_95.doc')
+     p ole.meta_data.file_format # => "MSWordDoc"
+     p ole.meta_data.mime_type # => "application/msword"
+     p ole.meta_data.doc_author.split.first # => "Charles"
+
+3. Raw access to underlying OLE internals
+
+   This is probably of little interest to most developers using the
+   library, but for some use cases you may need to drop down to the
+   lower level API on which the "file_system" API is constructed,
+   which exposes more of the format details.
+
+   <tt>Ole::Storage</tt> files can have multiple files with the same name,
+   or with a slash in the name, and other things that are probably
+   strictly invalid. This API is the only way to access those files.
+
+   You can access the header object directly:
+
+     p ole.header.num_sbat # => 1
+     p ole.header.magic.unpack('H*') # => ["d0cf11e0a1b11ae1"]
+
+   You can directly access the array of all Dirent objects,
+   including the root:
+
+     p ole.dirents.length # => 5
+     puts ole.root.to_tree
+     # =>
+     - #<Dirent:"Root Entry">
+       |- #<Dirent:"\001Ole" size=20 data="\001\000\000\002\000...">
+       |- #<Dirent:"\001CompObj" size=98 data="\001\000\376\377\003...">
+       |- #<Dirent:"WordDocument" size=2574 data="\334\245e\000-...">
+       \- #<Dirent:"\005SummaryInformation" size=54788 data="\376\377\000\000\001...">
+
+   You can access (through RangesIO methods, or by using the
+   relevant Dirent and AllocationTable methods) information like where within
+   the container a stream is located (these are offset/length pairs):
+
+     p ole.root["\001CompObj"].open { |io| io.ranges } # => [[0, 64], [64, 34]]
+
+See the documentation for each class for more details.
+
+= Thanks
+
+* The code contained in this project was initially based on chicago's libole
+  (source available at http://prdownloads.sf.net/chicago/ole.tgz).
+
+* It was later augmented with some corrections by inspecting pole, and (purely
+  for header definitions) gsf.
+
+* The property set parsing code came from the apache java project POIFS.
+
+* The excellent idea for using a pseudo file system style interface by providing
+  #file and #dir methods which mimic File and Dir, was borrowed (along with almost
+  unchanged tests!) from Thomas Sondergaard's rubyzip.

@@ -1,0 +1,123 @@
+== Signal handling
+
+In general, signals need only be sent to the master process.  However,
+the signals Unicorn uses internally to communicate with the worker
+processes are documented here as well.  With the exception of TTIN/TTOU,
+signal handling matches the behavior of {nginx}[http://nginx.org/] so it
+should be possible to easily share process management scripts between
+Unicorn and nginx.
+
+One example init script is distributed with unicorn:
+https://yhbt.net/unicorn/examples/init.sh
+
+=== Master Process
+
+* HUP - reloads config file and gracefully restart all workers.
+  If the "preload_app" directive is false (the default), then workers
+  will also pick up any application code changes when restarted.  If
+  "preload_app" is true, then application code changes will have no
+  effect; USR2 + QUIT (see below) must be used to load newer code in
+  this case.  When reloading the application, +Gem.refresh+ will
+  be called so updated code for your application can pick up newly
+  installed RubyGems.  It is not recommended that you uninstall
+  libraries your application depends on while Unicorn is running,
+  as respawned workers may enter a spawn loop when they fail to
+  load an uninstalled dependency.
+
+* INT/TERM - quick shutdown, kills all workers immediately
+
+* QUIT - graceful shutdown, waits for workers to finish their
+  current request before finishing.
+
+* USR1 - reopen all logs owned by the master and all workers
+  See Unicorn::Util.reopen_logs for what is considered a log.
+
+* USR2 - reexecute the running binary.  A separate QUIT
+  should be sent to the original process once the child is verified to
+  be up and running.
+
+* WINCH - gracefully stops workers but keep the master running.
+  This will only work for daemonized processes.
+
+* TTIN - increment the number of worker processes by one
+
+* TTOU - decrement the number of worker processes by one
+
+=== Worker Processes
+
+Note: as of unicorn 4.8, the master uses a pipe to signal workers
+instead of kill(2) for most cases.  Using signals still (and works and
+remains supported for external tools/libraries), however.
+
+Sending signals directly to the worker processes should not normally be
+needed.  If the master process is running, any exited worker will be
+automatically respawned.
+
+* INT/TERM - Quick shutdown, immediately exit.
+  Unless WINCH has been sent to the master (or the master is killed),
+  the master process will respawn a worker to replace this one.
+  Immediate shutdown is still triggered using kill(2) and not the
+  internal pipe as of unicorn 4.8
+
+* QUIT - Gracefully exit after finishing the current request.
+  Unless WINCH has been sent to the master (or the master is killed),
+  the master process will respawn a worker to replace this one.
+
+* USR1 - Reopen all logs owned by the worker process.
+  See Unicorn::Util.reopen_logs for what is considered a log.
+  Log files are not reopened until it is done processing
+  the current request, so multiple log lines for one request
+  (as done by Rails) will not be split across multiple logs.
+
+  It is NOT recommended to send the USR1 signal directly to workers via
+  "killall -USR1 unicorn" if you are using user/group-switching support
+  in your workers.  You will encounter incorrect file permissions and
+  workers will need to be respawned.  Sending USR1 to the master process
+  first will ensure logs have the correct permissions before the master
+  forwards the USR1 signal to workers.
+
+=== Procedure to replace a running unicorn executable
+
+You may replace a running instance of unicorn with a new one without
+losing any incoming connections.  Doing so will reload all of your
+application code, Unicorn config, Ruby executable, and all libraries.
+The only things that will not change (due to OS limitations) are:
+
+1. The path to the unicorn executable script.  If you want to change to
+   a different installation of Ruby, you can modify the shebang
+   line to point to your alternative interpreter.
+
+The procedure is exactly like that of nginx:
+
+1. Send USR2 to the master process
+
+2. Check your process manager or pid files to see if a new master spawned
+   successfully.  If you're using a pid file, the old process will have
+   ".oldbin" appended to its path.  You should have two master instances
+   of unicorn running now, both of which will have workers servicing
+   requests.  Your process tree should look something like this:
+
+     unicorn master (old)
+     \_ unicorn worker[0]
+     \_ unicorn worker[1]
+     \_ unicorn worker[2]
+     \_ unicorn worker[3]
+     \_ unicorn master
+        \_ unicorn worker[0]
+        \_ unicorn worker[1]
+        \_ unicorn worker[2]
+        \_ unicorn worker[3]
+
+3. You can now send WINCH to the old master process so only the new workers
+   serve requests.  If your unicorn process is bound to an interactive
+   terminal (not daemonized), you can skip this step.  Step 5 will be more
+   difficult but you can also skip it if your process is not daemonized.
+
+4. You should now ensure that everything is running correctly with the
+   new workers as the old workers die off.
+
+5. If everything seems ok, then send QUIT to the old master.  You're done!
+
+   If something is broken, then send HUP to the old master to reload
+   the config and restart its workers.  Then send QUIT to the new master
+   process.

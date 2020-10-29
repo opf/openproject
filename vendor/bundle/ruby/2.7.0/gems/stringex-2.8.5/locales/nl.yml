@@ -1,0 +1,69 @@
+# NOTE: Some translation keys make use of matches from regular expressions
+# to manipulate whitespace and order. Please consult the source code for
+# Stringex::Localization::ConversionExpressions to see what those
+# regular expressions look like if you need to manipulate the order
+# differently than the usage below.
+nl:
+  stringex:
+    characters:
+      and: en
+      at: op
+      divide: gedeeld door
+      degrees: graden
+      dot: \1 punt \2
+      ellipsis: punt punt punt
+      equals: is
+      number: nummer
+      percent: procent
+      plus: plus
+      slash: slash
+      star: ster
+    currencies:
+      generic: \1 euro
+      dollars: \1 dollar
+      dollars_cents: \1 dollar \2 cent
+      pounds: \1 pond
+      pounds_pence: \1 pond \2 pence
+      euros: \1 euro
+      euros_cents: \1 euro \2 cent
+      yen: \1 yen
+      reais: \1 reais
+      reais_cents: \1 reais \2 cents
+    html_entities:
+      amp: en
+      cent: " cent"
+      copy: (c)
+      deg: " graden "
+      divide: " gedeeld door "
+      double_quote: '"'
+      ellipsis: "..."
+      en_dash: "-"
+      em_dash: "--"
+      frac14: eenvierde
+      frac12: half
+      frac34: drievierde
+      gt: ">"
+      lt: <
+      nbsp: " "
+      pound: " pond "
+      reg: (r)
+      single_quote: "'"
+      times: x
+      trade: (tm)
+      yen: " yen "
+    vulgar_fractions:
+      half: half
+      one_third: eenderde
+      two_thirds: tweederde
+      one_fourth: eenvierde
+      three_fourths: drievierde
+      one_fifth: eenvijfde
+      two_fifths: tweevijfde
+      three_fifths: drievijfde
+      four_fifths: viervijfde
+      one_sixth: eenzesde
+      five_sixths: vijfzesde
+      one_eighth: eenachtste
+      three_eighths: drieachtste
+      five_eighths: vijfachtste
+      seven_eighths: zevenachtste

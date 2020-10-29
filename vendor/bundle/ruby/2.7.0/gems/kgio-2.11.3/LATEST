@@ -1,0 +1,19 @@
+=== kgio 2.11.3 / 2020-01-08 09:25 UTC
+
+  Some doc and warning fixes for newer Rubies.
+
+  We're no longer on bogomips.org since it's due
+  for expiry and I can't pay extortionists for a .org, so
+  s/bogomips.org/yhbt.net/ for now, and be prepared to move again
+  when extortionists move onto the .net TLD.
+
+        pkg.mk: use --local to "gem install"
+        pkg.mk: use dark216 theme for Earth Day 2019
+        test: fix warnings with RUBYOPT=-w
+        tests: fix unused variable warnings from newer Rubies
+        test_connect_fd_leak: do not close socket if non-existent
+        test_syssend: avoid warning on cleanup
+        build: remove olddoc from the gemspec
+        doc: remove private email and outdated gmane archives
+        doc: move from bogomips.org/kgio to yhbt.net/kgio
+

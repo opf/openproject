@@ -34,17 +34,13 @@ module API
         helpers ::AvatarHelper
         helpers ::API::Helpers::AttachmentRenderer
 
-        finally do
-          set_cache_headers
-        end
-
         get '/avatar' do
           cache_seconds = @user == current_user ? nil : avatar_link_expires_in
 
           if (local_avatar = local_avatar?(@user))
             respond_with_attachment(local_avatar, cache_seconds: cache_seconds)
           elsif avatar_manager.gravatar_enabled?
-            set_cache_headers!(cache_seconds) if cache_seconds
+            set_cache_headers!(cache_seconds) unless cache_seconds.nil?
 
             redirect build_gravatar_image_url(@user)
           else

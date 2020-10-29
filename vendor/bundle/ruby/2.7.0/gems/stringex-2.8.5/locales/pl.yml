@@ -1,0 +1,88 @@
+# NOTE: Some translation keys make use of matches from regular expressions
+# to manipulate whitespace and order. Please consult the source code for
+# Stringex::Localization::ConversionExpressions to see what those
+# regular expressions look like if you need to manipulate the order
+# differently than the usage below.
+pl:
+  stringex:
+    characters:
+      and: i
+      at: o
+      divide: podzielone przez
+      degrees: stopni
+      dot: \1 kropka \2
+      ellipsis: kropka kropka kropka
+      equals: równy
+      number: numer
+      percent: procent
+      plus: plus
+      slash: ukośnik
+      star: gwiazdka
+    currencies:
+      generic: \1 złotych
+      dollars: \1 dolarów
+      dollars_cents: \1 dolarów \2 centów
+      pounds: \1 funtów
+      pounds_pence: \1 funtów \2 pensów
+      euros: \1 euro
+      euros_cents: \1 euro \2 centów
+      yen: \1 jenów
+      reais: \1 reali
+      reais_cents: \1 reali \2 centów
+    html_entities:
+      amp: i
+      cent: " centów"
+      copy: (c)
+      deg: " stopni "
+      divide: " podzielone przez "
+      double_quote: '"'
+      ellipsis: "..."
+      en_dash: "-"
+      em_dash: "--"
+      frac14: jedna czwarta
+      frac12: pół
+      frac34: trzy czwarte
+      gt: ">"
+      lt: <
+      nbsp: " "
+      pound: " funtów "
+      reg: (r)
+      single_quote: "'"
+      times: x
+      trade: (TM)
+      yen: " jen "
+    vulgar_fractions:
+      half: pół
+      one_third: jedna trzecia
+      two_thirds: dwie trzecie
+      one_fourth: jedna czwarta
+      three_fourths: trzy czwarte
+      one_fifth: jedna piąta
+      two_fifths: dwie piąte
+      three_fifths: trzy piąte
+      four_fifths: cztery piąte
+      one_sixth: jedna szósta
+      five_sixths: pięć szóstych
+      one_eighth: jedna ósma
+      three_eighths: trzy ósme
+      five_eighths: pięć ósmych
+      seven_eighths: siedem ósmych
+    transliterations:
+      Ą: A
+      Ć: C
+      Ę: E
+      Ł: L
+      Ń: N
+      Ó: O
+      Ś: S
+      Ź: Z
+      Ż: Z
+      ą: a
+      ć: c
+      ę: e
+      ł: l
+      ń: n
+      ó: o
+      ś: s
+      ź: z
+      ż: z

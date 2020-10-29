@@ -1,0 +1,15 @@
+version: "2"
+
+prepare:
+  fetch:
+  - url: "https://raw.githubusercontent.com/dry-rb/devtools/master/.rubocop.yml"
+    path: ".rubocop.yml"
+
+exclude_patterns:
+  - "benchmarks/"
+  - "examples/"
+  - "spec/"
+
+plugins:
+  rubocop:
+    enabled: true

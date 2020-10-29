@@ -1,0 +1,20 @@
+language: ruby
+
+rvm:
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - ruby-head
+  - jruby
+  - jruby-9.0.5.0
+  - jruby-9.1.6.0
+  - jruby-head
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-9.0.5.0
+    - rvm: jruby-9.1.6.0
+    - rvm: jruby-head
+  fast_finish: true

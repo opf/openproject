@@ -35,7 +35,6 @@ class AttributeHelpTextsController < ApplicationController
   before_action :require_admin
   before_action :find_entry, only: %i(edit update destroy)
   before_action :find_type_scope
-  before_action :require_enterprise_token_grant
 
   helper_method :gon
 
@@ -135,7 +134,4 @@ class AttributeHelpTextsController < ApplicationController
     @attribute_scope = AttributeHelpText.const_get(submodule)
   end
 
-  def require_enterprise_token_grant
-    render_404 unless EnterpriseToken.allows_to?(:attribute_help_texts)
-  end
 end

@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ru:
+  description_drill_down: "Показать в деталях"
+  label_click_to_edit: "Щелкнуть для изменения."
+  label_columns: "Столбцы"
+  label_count: "Количество"
+  label_filter: "Фильтр"
+  label_filter_add: "Добавить фильтр"
+  label_filter_plural: "Фильтры"
+  label_greater: ">"
+  label_group_by: "Группировать по"
+  label_group_by_add: "Добавить атрибут \"Группировать по\""
+  label_inactive: "«неактивен»"
+  label_less: "<"
+  label_no: "Нет"
+  label_none: "(нет данных)"
+  label_progress_bar_explanation: "Создание отчета..."
+  label_really_delete_question: "Вы действительно хотите удалить этот отчет?"
+  label_report: "Отчет"
+  label_rows: "Строки"
+  label_saving: "Сохранение ..."
+  label_sum: "Сумма"
+  label_yes: "да"
+  load_query_question: "Отчет будет иметь %{size} ячеек таблицы и может занять некоторое время для визуализации. Вы все еще хотите его сформировать?"
+  units: "Модули"
+  validation_failure_date: "не является допустимой датой"
+  validation_failure_integer: "не является допустимым целым числом"
+  reporting:
+    group_by:
+      selected_columns: "Выбранные столбцы"
+      selected_rows: "Выбранные строки"

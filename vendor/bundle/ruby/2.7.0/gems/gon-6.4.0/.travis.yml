@@ -1,0 +1,14 @@
+language: ruby
+sudo: false
+env:
+  - "RABL_GEM=rabl"
+  - "RABL_GEM=rabl-rails"
+
+rvm:
+  - 2.2.10
+  - 2.3.8
+  - 2.4.10
+  - 2.5.8
+  - 2.6.6
+  - 2.7.1
+  - ruby-head

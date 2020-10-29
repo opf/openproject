@@ -1,0 +1,3 @@
+* fix IPv6 inet_diag reporting for Raindrops::Middleware
+* pure Ruby version for non-forking servers (patches welcome!)
+* unix_diag and udp_diag support

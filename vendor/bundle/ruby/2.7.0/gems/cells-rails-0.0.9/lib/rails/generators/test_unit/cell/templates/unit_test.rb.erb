@@ -1,0 +1,11 @@
+require 'test_helper'
+
+class <%= class_name %>CellTest < Cell::TestCase
+<% states.each do |state| -%>
+  test "<%= state %>" do
+    html = cell("<%= file_name %>").(:<%= state %>)
+    assert html.match /<p>/
+  end
+
+<% end %>
+end

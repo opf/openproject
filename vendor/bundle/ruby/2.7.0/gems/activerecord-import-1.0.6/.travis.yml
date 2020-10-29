@@ -1,0 +1,74 @@
+language: ruby
+cache: bundler
+rvm:
+  - 2.5.5
+
+env:
+  global:
+    # https://github.com/discourse/discourse/blob/master/.travis.yml
+    - RUBY_GC_MALLOC_LIMIT=50000000
+  matrix:
+    - AR_VERSION=5.1
+    - AR_VERSION=5.2
+    - AR_VERSION=6.0
+
+matrix:
+  include:
+    - rvm: 2.3.8
+      env: AR_VERSION=3.2
+    - rvm: 2.3.8
+      env: AR_VERSION=4.0
+    - rvm: 2.3.8
+      env: AR_VERSION=4.1
+    - rvm: 2.3.8
+      env: AR_VERSION=4.2
+    - rvm: 2.3.8
+      env: AR_VERSION=5.0
+
+  fast_finish: true
+
+addons:
+  postgresql: "9.5"
+  apt:
+    sources:
+      - travis-ci/sqlite3
+      - mysql-5.7-trusty
+    packages:
+      - sqlite3
+      - mysql-server
+      - mysql-client
+      - postgresql-9.5-postgis-2.4
+
+before_install:
+  - gem update --system
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade
+  - sudo service mysql restart
+
+before_script:
+  - mysql -e 'create database activerecord_import_test;'
+  - psql -c 'create database activerecord_import_test;' -U postgres
+  - psql activerecord_import_test -c 'create extension if not exists hstore;' -U postgres
+  - psql -c 'create extension if not exists postgis;' -U postgres
+  - psql -c 'create extension if not exists "uuid-ossp";' -U postgres
+  - cp test/travis/database.yml test/database.yml
+
+script:
+  - bundle exec rake test:mysql2
+  - bundle exec rake test:mysql2_makara
+  - bundle exec rake test:mysql2spatial
+  - bundle exec rake test:postgis
+  - bundle exec rake test:postgresql
+  - bundle exec rake test:postgresql_makara
+  - bundle exec rake test:seamless_database_pool
+  - bundle exec rake test:spatialite
+  - bundle exec rake test:sqlite3
+  - bundle exec rubocop
+
+dist: xenial
+
+services:
+  - mysql
+  - postgresql
+
+sudo: required

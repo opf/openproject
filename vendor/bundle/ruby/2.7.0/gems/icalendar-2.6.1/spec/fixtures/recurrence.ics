@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:bsprodidfortestabc123
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+DTSTAMP:20050118T211523Z
+UID:bsuidfortestabc123
+DTSTART;VALUE=DATE:20050323
+DTEND;VALUE=DATE:20050323
+CLASS:PRIVATE
+ORGANIZER:mailto:joebob@random.net
+PRIORITY:2
+SUMMARY:This is a really long summary to test the method of unfolding lines
+ \, so I'm just going to make it a whole bunch of lines.
+EXDATE;VALUE=DATE:20120323,20130323
+RRULE:FREQ=YEARLY
+END:VEVENT
+END:VCALENDAR

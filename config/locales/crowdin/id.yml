@@ -28,14 +28,14 @@ id:
     plugins:
       no_results_title_text: Tidak ada plugin yang tersedia saat ini.
     custom_styles:
-      color_theme: "Warna tema"
-      color_theme_custom: "Kustomisasi"
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
       colors:
-        alternative-color: "Alternatif"
-        content-link-color: "Tautan huruf"
-        primary-color: "Primer"
-        primary-color-dark: "Primer (gelap)"
-        header-bg-color: "Latar Belakang Header"
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
         header-item-font-hover-color: "Header font on hover"

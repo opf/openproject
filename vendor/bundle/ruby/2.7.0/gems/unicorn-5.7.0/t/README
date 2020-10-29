@@ -1,0 +1,42 @@
+= Unicorn integration test suite
+
+These are all integration tests that start the server on random, unused
+TCP ports or Unix domain sockets.  They're all designed to run
+concurrently with other tests to minimize test time, but tests may be
+run independently as well.
+
+We write our tests in Bourne shell because that's what we're
+comfortable writing integration tests with.
+
+== Requirements
+
+* {Ruby 1.9.3+}[https://www.ruby-lang.org/en/] (duh!)
+* {GNU make}[https://www.gnu.org/software/make/]
+* {socat}[http://www.dest-unreach.org/socat/]
+* {curl}[https://curl.haxx.se/]
+* standard UNIX shell utilities (Bourne sh, awk, sed, grep, ...)
+
+We do not use bashisms or any non-portable, non-POSIX constructs
+in our shell code.  We use the "pipefail" option if available and
+mainly test with {ksh}[http://kornshell.com/], but occasionally
+with {dash}[http://gondor.apana.org.au/~herbert/dash/] and
+{bash}[https://www.gnu.org/software/bash/], too.
+
+== Running Tests
+
+To run the entire test suite with 8 tests running at once:
+
+  make -j8
+
+To run one individual test:
+
+  make t0000-simple-http.sh
+
+You may also increase verbosity by setting the "V" variable for
+GNU make.  To disable trapping of stdout/stderr:
+
+  make V=1
+
+To enable the "set -x" option in shell scripts to trace execution
+
+  make V=2

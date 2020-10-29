@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib,doc}/**/*', 'README.md']
   s.test_files = Dir['spec/**/*']
 
-  s.add_dependency 'icalendar', '~> 2.7.0'
+  s.add_dependency 'icalendar', '~> 2.6.1'
 end

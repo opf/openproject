@@ -1,0 +1,53 @@
+Release 0.4.4 - 2015/11/13
+  * update for Unicorn 5
+
+Release 0.4.3 - 2013/12/23
+  * fix for occasional 'invalid argument' error
+
+Release 0.4.2 - 2013/09/23
+  * `verbose` options provides verbose logging
+
+Release 0.4.1 - 2013/03/12
+  * Kill attempts happen once per request, not in a loop
+
+Release 0.4.0 - 2013/03/12
+  * Send signals from inside a Thread (required for QUIT signal)
+  * Fix broken if/else in kill_self
+
+Release 0.3.6 - 2013/03/09
+  * do not require configuration
+  * fix missing randomize() in MaxRequests killer
+
+Release 0.3.5 - 2013/03/08
+  * configurable max QUIT, TERM, and sleep interval
+  * fix warning message of signal handling
+
+Release 0.3.4 - 2013/03/08
+  * try SIGQUIT first, rather than SIGTERM
+
+Release 0.3.3 - 2013/02/28
+  * fix for ruby 1.8
+
+Release 0.3.2 - 2013/02/03
+  * add an option to disable the check for both MaxRequests and MaxMemory
+
+Release 0.3.1 - 2013/01/13
+  * fix for ruby 1.9.2
+
+Release 0.3.0 - 2012/12/31
+  * fix for 'preload_app true'
+
+Release 0.2.1 - 2012/12/10
+  * fix critical namespace error, introduced at the previous version
+
+Release 0.2.0 - 2012/11/22
+  * change namespace to Unicorn::WorkerKiller from UnicornWorkerKiller
+
+Release 0.1.2 - 2012/11/17
+  * change unicorn version dependency to '~> 4'
+
+Release 0.1.1 - 2012/11/17
+  * fix homepage
+
+Release 0.1 - 2012/11/17
+  * first release

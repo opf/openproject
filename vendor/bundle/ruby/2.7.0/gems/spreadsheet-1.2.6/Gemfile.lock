@@ -1,0 +1,23 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    hoe (3.17.1)
+      rake (>= 0.8, < 13.0)
+    minitest (5.10.1)
+    power_assert (1.0.1)
+    rake (12.3.0)
+    ruby-ole (1.2.12.2)
+    test-unit (3.2.3)
+      power_assert
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  hoe (>= 3.4)
+  minitest
+  ruby-ole (>= 1.2.12.2)
+  test-unit
+
+BUNDLED WITH
+   1.14.6

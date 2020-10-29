@@ -173,10 +173,10 @@ module OpenProject
       'sentry_dsn' => nil,
       # Allow separate error reporting for frontend errors
       'sentry_frontend_dsn' => nil,
-      'sentry_host' => 'https://sentry.openproject.com',
+      'sentry_host' => 'https://sentry.com',
 
       # Allow connection to Augur
-      'enterprise_trial_creation_host' => 'https://augur.openproject.com',
+      'enterprise_trial_creation_host' => '',
 
       # Allow override of LDAP options
       'ldap_auth_source_tls_options' => nil,

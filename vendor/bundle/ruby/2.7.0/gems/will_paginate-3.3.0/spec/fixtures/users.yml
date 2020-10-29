@@ -1,0 +1,35 @@
+david:
+  id: 1
+  name: David
+  salary: 80000
+  type: Developer
+
+jamis:
+  id: 2
+  name: Jamis
+  salary: 150000
+  type: Developer
+
+<% for digit in 3..10 %>
+dev_<%= digit %>:
+  id: <%= digit %>
+  name: fixture_<%= digit %>
+  salary: 100000
+  type: Developer
+<% end %>
+
+poor_jamis:
+  id: 11
+  name: Jamis
+  salary: 9000
+  type: Developer
+
+admin:
+  id: 12
+  name: admin
+  type: Admin
+
+goofy:
+  id: 13
+  name: Goofy
+  type: Admin

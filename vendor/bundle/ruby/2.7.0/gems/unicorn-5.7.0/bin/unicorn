@@ -1,0 +1,128 @@
+#!/this/will/be/overwritten/or/wrapped/anyways/do/not/worry/ruby
+# -*- encoding: binary -*-
+require 'unicorn/launcher'
+require 'optparse'
+
+ENV["RACK_ENV"] ||= "development"
+rackup_opts = Unicorn::Configurator::RACKUP
+options = rackup_opts[:options]
+set_no_default_middleware = true
+
+op = OptionParser.new("", 24, '  ') do |opts|
+  cmd = File.basename($0)
+  opts.banner = "Usage: #{cmd} " \
+                "[ruby options] [#{cmd} options] [rackup config file]"
+  opts.separator "Ruby options:"
+
+  lineno = 1
+  opts.on("-e", "--eval LINE", "evaluate a LINE of code") do |line|
+    eval line, TOPLEVEL_BINDING, "-e", lineno
+    lineno += 1
+  end
+
+  opts.on("-d", "--debug", "set debugging flags (set $DEBUG to true)") do
+    $DEBUG = true
+  end
+
+  opts.on("-w", "--warn", "turn warnings on for your script") do
+    $-w = true
+  end
+
+  opts.on("-I", "--include PATH",
+          "specify $LOAD_PATH (may be used more than once)") do |path|
+    $LOAD_PATH.unshift(*path.split(':'))
+  end
+
+  opts.on("-r", "--require LIBRARY",
+          "require the library, before executing your script") do |library|
+    require library
+  end
+
+  opts.separator "#{cmd} options:"
+
+  # some of these switches exist for rackup command-line compatibility,
+
+  opts.on("-o", "--host HOST",
+          "listen on HOST (default: #{Unicorn::Const::DEFAULT_HOST})") do |h|
+    rackup_opts[:host] = h
+    rackup_opts[:set_listener] = true
+  end
+
+  opts.on("-p", "--port PORT", Integer,
+          "use PORT (default: #{Unicorn::Const::DEFAULT_PORT})") do |port|
+    rackup_opts[:port] = port
+    rackup_opts[:set_listener] = true
+  end
+
+  opts.on("-E", "--env RACK_ENV",
+          "use RACK_ENV for defaults (default: development)") do |e|
+    ENV["RACK_ENV"] = e
+  end
+
+  opts.on("-N", "--no-default-middleware",
+          "do not load middleware implied by RACK_ENV") do |e|
+    rackup_opts[:no_default_middleware] = true if set_no_default_middleware
+  end
+
+  opts.on("-D", "--daemonize", "run daemonized in the background") do |d|
+    rackup_opts[:daemonize] = !!d
+  end
+
+  opts.on("-P", "--pid FILE", "DEPRECATED") do |f|
+    warn %q{Use of --pid/-P is strongly discouraged}
+    warn %q{Use the 'pid' directive in the Unicorn config file instead}
+    options[:pid] = f
+  end
+
+  opts.on("-s", "--server SERVER",
+          "this flag only exists for compatibility") do |s|
+    warn "-s/--server only exists for compatibility with rackup"
+  end
+
+  # Unicorn-specific stuff
+  opts.on("-l", "--listen {HOST:PORT|PATH}",
+          "listen on HOST:PORT or PATH",
+          "this may be specified multiple times",
+          "(default: #{Unicorn::Const::DEFAULT_LISTEN})") do |address|
+    options[:listeners] << address
+  end
+
+  opts.on("-c", "--config-file FILE", "Unicorn-specific config file") do |f|
+    options[:config_file] = f
+  end
+
+  # I'm avoiding Unicorn-specific config options on the command-line.
+  # IMNSHO, config options on the command-line are redundant given
+  # config files and make things unnecessarily complicated with multiple
+  # places to look for a config option.
+
+  opts.separator "Common options:"
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts.to_s.gsub(/^.*DEPRECATED.*$/s, '')
+    exit
+  end
+
+  opts.on_tail("-v", "--version", "Show version") do
+    puts "#{cmd} v#{Unicorn::Const::UNICORN_VERSION}"
+    exit
+  end
+
+  opts.parse! ARGV
+end
+
+set_no_default_middleware = false
+app = Unicorn.builder(ARGV[0] || 'config.ru', op)
+op = nil
+
+if $DEBUG
+  require 'pp'
+  pp({
+    :unicorn_options => options,
+    :app => app,
+    :daemonize => rackup_opts[:daemonize],
+  })
+end
+
+Unicorn::Launcher.daemonize!(options) if rackup_opts[:daemonize]
+Unicorn::HttpServer.new(app, options).start.join

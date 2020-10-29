@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+fr:
+  description_drill_down: "Afficher les détails"
+  label_click_to_edit: "Cliquez pour modifier."
+  label_columns: "Colonnes"
+  label_count: "Décompte"
+  label_filter: "Filtrer"
+  label_filter_add: "Ajouter un filtre"
+  label_filter_plural: "Filtres"
+  label_greater: ">"
+  label_group_by: "Grouper par"
+  label_group_by_add: "Ajoutez l'attribut \"Grouper par\""
+  label_inactive: "« inactif »"
+  label_less: "<"
+  label_no: "Non"
+  label_none: "(aucune donnée)"
+  label_progress_bar_explanation: "Rapport en cours de génération..."
+  label_really_delete_question: "Êtes-vous sûr de vouloir supprimer ce rapport ?"
+  label_report: "Rapport"
+  label_rows: "Lignes"
+  label_saving: "Enregistrement en cours …"
+  label_sum: "Total"
+  label_yes: "Oui"
+  load_query_question: "Le rapport contiendra un tableau de %{size} cellules et peut prendre un certain temps à être généré. Voulez-vous quand même le générer ?"
+  units: "Unités"
+  validation_failure_date: "n'est pas une date valide"
+  validation_failure_integer: "n'est pas un nombre entier valide"
+  reporting:
+    group_by:
+      selected_columns: "Colonnes sélectionnées"
+      selected_rows: "Lignes sélectionnées"

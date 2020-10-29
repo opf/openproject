@@ -1,0 +1,438 @@
+=== kgio 2.11.3 / 2020-01-08 09:25 UTC
+
+  Some doc and warning fixes for newer Rubies.
+
+  We're no longer on bogomips.org since it's due
+  for expiry and I can't pay extortionists for a .org, so
+  s/bogomips.org/yhbt.net/ for now, and be prepared to move again
+  when extortionists move onto the .net TLD.
+
+        pkg.mk: use --local to "gem install"
+        pkg.mk: use dark216 theme for Earth Day 2019
+        test: fix warnings with RUBYOPT=-w
+        tests: fix unused variable warnings from newer Rubies
+        test_connect_fd_leak: do not close socket if non-existent
+        test_syssend: avoid warning on cleanup
+        build: remove olddoc from the gemspec
+        doc: remove private email and outdated gmane archives
+        doc: move from bogomips.org/kgio to yhbt.net/kgio
+
+=== kgio 2.11.2 - fix Ruby 2.5 compatibility for accept_class / 2018-01-30 21:11 UTC
+
+  This release fixes a bug affecting the Rainbows! web server
+  which uses Kgio.accept_class:
+
+  https://bogomips.org/rainbows-public/CANp6QoJXRbPLqmOPpG7XmZBc+oYqLWCcq1ipvOyNEQPXDEwx9Q@mail.gmail.com/
+
+  * accept: avoid passing unnecessary arg to rb_funcall
+
+=== kgio 2.11.1 - fix Ruby 2.5.0dev compatibility / 2017-12-15 19:40 UTC
+
+  This release fixes compatibility with Ruby 2.5.0 preview and
+  release candidates (and thus should be ready for 2.5.0 final)
+  on some platforms.  At least clang 5.0.0 on OpenBSD is affected.
+
+  Thanks to Jeremy Evans for the fix.
+
+  There's also minor documentation updates since 2.11.0
+
+=== kgio 2.11.0 - reverting 2.10.0 breakage / 2016-12-16 22:56 UTC
+
+  Mainly this release reverts back to kgio 2.9.3 behavior by
+  supporting "autopush" functionality in the C extension.
+  Removing this feature in 2.10.0 was a monumental mistake(*) on
+  my part which caused a performance regression for ONE known user
+  of kgio on the deprecated (but supported) Rainbows! server.
+
+  This release does not affect known users outside of Rainbows!,
+  but we may have unknown users, too.
+
+  The attempt at a pure Ruby version of autopush had flaws and
+  regressions in real-world testing, so that was abandoned.
+
+  So yeah, kgio will be supported indefinitely even in the face
+  of internal changes to MRI, but I strongly discourage its use
+  for new projects.
+  Users who only support Ruby 2.3 (and later) are encouraged to
+  use `exception: false` with all *_nonblock methods.
+
+  4 changes since 2.10.0:
+
+        resurrect Kgio.autopush support in pure Ruby [REVERTED]
+        reinstate the original (and dangerous) autopush in C
+        TODO: update with Ruby 2.3 status
+        test: increase test data sizes to fill socket buffers
+
+  (*) - as was making this a separate project, at all
+
+=== kgio 2.10.0 - slimming down... / 2015-09-06 08:12 UTC
+
+  The largely-unused autopush functionality is now a no-op.
+  Existing applications will probably not notice, and are
+  better off using MSG_MORE anyways if they're on Linux.
+
+  Our poll(2) wrapper now uses rb_hash_clear if available,
+  reducing global method cache dependence.
+
+  shortlog of changes since 2.9.3:
+
+        README: remove reference to Rainbows!
+        writev: update comment on preserving errno
+        poll: avoid rb_funcall for rb_hash_clear
+        minor doc updates
+        remove autopush support and make it a no-op
+        HACKING: update URL for Message-ID lookup
+
+=== kgio 2.9.3 - minor cleanups and fixes / 2015-01-12 08:46 UTC
+
+  Most notably there's a new RB_GC_GUARD to fix an occasional segfault at
+  load time for Ruby 1.8 users thanks to Petr Novodvorskiy for reporting
+  the issue.
+
+  There's been a new mailing list for a few months now at:
+
+      kgio-public@bogomips.org
+
+  No subscription is required, but if you wish to subscribe
+  (existing librelist subscribers must resubscribe)
+
+      kgio-public+subscribe@bogomips.org
+
+  There's also a bunch of code cleanups and packaging
+  cleanups.  Our website is faster now thanks to olddoc:
+
+      http://bogomips.org/kgio/
+
+  shortlog:
+
+        test/lib_read_write: fix trywritev blocking test
+        new mailing list info: kgio-public@bogomips.org
+        relax license to allow LGPLv2.1 or later
+        gemspec: modernize for more recent rubygems
+        doc: switch to olddoc
+        remove references to rubyforge and ancient Rubies
+        TODO: updates for the future of kgio
+        tryopen: add RB_GC_GUARD for Ruby 1.8
+        LICENSE: prefer URL to FSF address
+        cleanup packaging harder
+        fixup -Wshorten-64-to-32 warnings
+        cleanup: avoid shadowing rb_str_subseq
+        cleanup: avoid shadowing rb_ary_subseq
+        pkg.mk: synchronize with my other projects
+        gemspec: remove invalid rdoc_options
+        gemspec: use SPDX license abbreviation
+
+=== kgio 2.9.2 - avoid deprecated/removed function / 2014-02-15 09:27 UTC
+
+  This release is for compatibility with future releases of mainline ruby,
+  as rb_thread_blocking_region is removed in r44955 of ruby trunk
+  This also avoids deprecation warnings fo rb_thread_blocking_region
+  2.0 and 2.1.
+
+=== kgio 2.9.1 - various Ruby 1.8.7 fixes / 2014-02-05 17:50 UTC
+
+  Thanks to Christopher Rigor for this release.
+
+  Eric Wong (2):
+        only define and test kgio_syssend on 1.9+
+        various 1.8.7 fixes
+
+=== kgio 2.9.0 - cleanups, bug fixes, minor improvements / 2014-02-04 03:09 UTC
+
+  This adds a new kgio_syssend method for Ruby 1.9+ which behaves
+  like BasicSocket#send, but will not raise exceptions on EAGAIN.
+
+  Eric Wong (12):
+        test_poll: remove race prone test_poll_EINTR_changed test
+        tryopen: remove RARRAY_PTR usage in init
+        read_write: remove the rest of RARRAY_PTR usage
+        my_writev: stylistic fixes
+        Rakefile: kill raa_update task
+        avoid downsizing casts
+        connect: constify RSTRING-related things
+        set RSTRING_MODIFIED where appropriate for Rubinius
+        split read_write.c into {read,write,writev}.c
+        add kgio_syssend method to wrap send(2)
+        write: correct check for various blocking regions
+        tryopen: additional debug information for bad Errno values
+
+  Hleb Valoshka (1):
+        Don't use deprecated api
+
+=== kgio 2.8.1 - minor improvements and test fixes / 2013-09-11 00:22 UTC
+
+  Improved error reporting for kgio_accept/kgio_tryaccept.
+  Minor size reduction throughout.  There are also several
+  test case fixes for race conditions.
+
+  Thanks to Hleb Valoshka and the Debian project for all the
+  help with this release!
+
+  Eric Wong (7):
+        check syscall returns against < 0 instead of == -1
+        accept: more informative exception on unknown family
+        test_tryopen: skip EACCES test when euid == 0
+        test/lib_read_write: account for larger-than-normal pipes
+        test_poll: avoid potentially thread-unsafe test
+        test_poll: preserve original trap(:USR1) handler
+        test_poll: be less dependent on signal handler ordering
+
+  Hleb Valoshka (4):
+        Change prefix of temporary sockets to prevent races
+        Don't dump 20M in case of failure
+        Create own directory for every unix socket in unit tests
+        Close tempfile and unlink it immediately.
+
+=== kgio 2.8.0 - TCP Fast Open, writev/trywritev / 2013-01-18 10:52 UTC
+
+  TCP Fast Open in Linux 3.7 and later is now supported
+  in the client via Kgio::Socket#kgio_fastopen.
+
+  This release also adds the kgio_writev and
+  kgio_trywritev methods, thanks to funny-falcon
+
+=== kgio 2.7.4 - small fixes and cleanups / 2012-03-24 01:15 UTC
+
+  Fix build for platforms lacking both TCP_CORK _and_ TCP_NOPUSH
+  There are many test case fixes and cleanups, too.
+
+=== kgio 2.7.3 - compatibility fixes / 2012-03-15 07:11 UTC
+
+  Fixed build and autopush support under Debian GNU/kFreeBSD.
+  Test case fixes for timing-sensitive tests.
+
+=== kgio 2.7.2 - for older, and older Rubies / 2012-01-08 03:42 UTC
+
+  Fix a missing #include for Ruby 1.8.5 users.  No need to
+  upgrade to this (nor 2.7.1) if you're on a modern version
+  of Ruby.
+
+=== kgio 2.7.1 - compatibility with older Rubies / 2012-01-08 01:59 UTC
+
+  This release fixes some compatibility issues with people
+  stuck on older versions of Ruby/RubyGems.
+
+  * define RARRAY_PTR/RARRAY_LEN macros for Ruby 1.8.6
+  * test/test_autopush: skip strace tests if not available
+  * gemspec: disable development dependencies for old systems
+
+=== kgio 2.7.0 - minor updates / 2011-12-13 06:16 UTC
+
+  When running under Ruby trunk/2.0.0dev, all IO objects created
+  by kgio will be close-on-exec by default to match the (future)
+  2.0.0 behavior.  accept()ed sockets in kgio have always been
+  close-on-exec by default..
+
+  Singleton Kgio.accept_* methods are deprecated as the
+  kgio_accept/kgio_tryaccept methods all take an additional
+  flags argument.
+
+  There are various, test, documentation, and error message
+  improvements.
+
+=== kgio 2.6.0 - minor feature update and cleanups / 2011-07-15 02:01 UTC
+
+  We now export SOCK_NONBLOCK, SOCK_CLOEXEC constants in the Kgio
+  namespace to make kgio_tryaccept/kgio_accept easier-to-use.
+  There are also some minor internal cleanups.
+
+=== kgio 2.5.0 - a minor feature update / 2011-06-20 19:30 UTC
+
+  * Kgio::File.tryopen method added.  It is like File.open
+    but won't raise exceptions.  The Kgio::File class includes
+    Kgio::PipeMethods, so FIFOs opened through this get the
+    kgio_* API.
+
+  * The kgio_wait_*able methods in Kgio::DefaultWaiters
+    now accept an optional timeout argument.
+
+=== kgio 2.4.2 - OpenSolaris build fix / 2011-06-14 18:41 UTC
+
+  * adds -lnsl and -lsocket checks for OpenSolaris
+
+=== kgio 2.4.1 - Kgio.poll avoids EINTR, really / 2011-05-21 02:54 UTC
+
+  This release fixes a race condition that could allow
+  Errno::EINTR to be raised even though the 2.4.0 release
+  was supposed to stop that.
+
+  Nobody uses Kgio.poll, really, so this shouldn't be an issue
+  for real code, yet.
+
+=== kgio 2.4.0 - portability fixes and more / 2011-05-05 22:58 UTC
+
+  == All supported platforms (*nix + MRI 1.8+, Rubinius)
+
+  * OpenBSD (and possibly other *BSD) fixes, thanks to Jeremy Evans.
+
+  * kgio_accept and kgio_tryaccept now take an optional second argument
+    for flags (like the accept4() flags argument).
+
+  == Ruby 1.9-only things
+
+  * Kgio.poll no longer raises Errno::EINTR to match IO.select.
+
+  == Ruby 1.9 trunk things
+
+  * close() on an active FD in a different thread is better
+    handled/detected.
+
+  * copy-on-write for strings is properly triggered
+
+=== kgio 2.3.3 - minor fixes / 2011-03-15 12:09 UTC
+
+  We no longer over-allocate memory for Kgio.poll (1.9.x-only).
+  Under Ruby 1.9.3dev, we also use rb_thread_io_blocking_region
+  to properly deal with cross-thread IO#close.
+
+=== kgio 2.3.2 - OpenBSD build fix / 2011-02-15 16:56 UTC
+
+  Thanks to Jeremy Evans, this release fixes the build under OpenBSD.
+
+=== kgio 2.3.1 - compatibility fix / 2011-02-14 00:51 UTC
+
+  * connect.c: disable AI_NUMERICSERV
+
+    It's not needed since we already verify the service is a
+    numeric port.  AI_NUMERICSERV is not available in older glibc
+    (<2.3.4) and probably other old systems.
+
+=== kgio 2.3.0 - MSG_PEEK and poll(2) support / 2011-02-09 10:26 UTC
+
+  recv() with MSG_PEEK for sockets is added with the try*
+  interface.  SocketMethods#kgio_trypeek and
+  SocketMethods#kgio_peek or Kgio.trypeek for non-Kgio-enabled
+  sockets.
+
+  For Ruby 1.9 only: poll(2) is exposed via the Kgio.poll
+  singleton method and should provide an alternative for IO.select
+  users.
+
+  Both of these new features should work well on modern Unix-like
+  operating systems.
+
+=== kgio 2.2.0 - kinder, gentler I/O for the Internets / 2011-02-04 03:07 UTC
+
+  * sockets accept()ed by a TCP_NOPUSH/TCP_CORK listener
+    automatically flush on kgio_*read calls if there is pending
+    data.  "Kgio.autopush = false" disables this globally,
+    and Kgio::Socket also get "kgio_autopush=" to enable/disable
+    on a per-object individual basis.
+
+  * ECONNRESET exceptions get empty backtraces for kgio_*read.
+    There's nothing a programmer can do about these, so there's
+    no point in going through the expensive backtrace generation
+    process.
+
+  * Kgio.try* singleton methods added for working with non-Kgio
+    enhanced objects.  No more needing to use Object#extend
+    and blowing away your method cache to make existing I/O
+    objects kinder and gentler.
+
+  * IPv6 support should be complete, systems without a native
+    getaddrinfo(3) are now unsupported (and will remain so
+    unless somebody complains).
+
+  There should be no other backwards-incompatible changes other
+  than requiring getaddrinfo(3) and friends for IPv6 support.
+
+=== kgio 2.1.1 - one small Rubinius fix / 2010-12-26 02:08 UTC
+
+  We now avoid errno side-effects in kgio_wait_*able methods.
+  This affects Rubinius, but may affect other Ruby platforms
+  (particularly those that use stdio) as well.
+
+=== kgio 2.1.0 - accept improvements and fixes / 2010-12-26 01:07 UTC
+
+  kgio_accept and kgio_tryaccept now take an optional argument
+  to override the default Kgio::Socket class that is returned.
+
+  These methods also fall back to using regular accept() if
+  kgio was built on a system with accept4() and later run on
+  a system without accept4().
+
+=== kgio 2.0.0 - major internal API changes / 2010-11-19 01:18 UTC
+
+  (no code changes from 2.0.0pre1)
+
+  This release should make Kgio easier and more consistent
+  to use across a variety of libraries/applications.
+
+  The global Kgio.wait_*able(=) accessor methods are gone in favor
+  of having default kgio_wait_readable and kgio_wait_writable
+  methods added to all Kgio-using classes.  Sub-classes may (and
+  are encouraged to) redefine these if needed.
+
+  Eric Wong (7):
+      expand Kgio::*#kgio_read! documentation
+      prefer symbolic names for waiting read/writability
+      EOFError message matches Ruby's
+      README: Gemcutter => RubyGems.org
+      update documentation with mailing list info
+      add default kgio_wait_*able methods
+      switch entirely to kgio_wait_*able methods
+
+=== kgio 2.0.0pre1 - major internal API changes / 2010-11-18 23:16 UTC
+
+  This release should make Kgio easier and more consistent
+  to use across a variety of libraries/applications.
+
+  The global Kgio.wait_*able(=) accessor methods are gone in favor
+  of having default kgio_wait_readable and kgio_wait_writable
+  methods added to all Kgio-using classes.  Sub-classes may (and
+  are encouraged to) redefine these if needed.
+
+  Eric Wong (7):
+        expand Kgio::*#kgio_read! documentation
+        prefer symbolic names for waiting read/writability
+        EOFError message matches Ruby's
+        README: Gemcutter => RubyGems.org
+        update documentation with mailing list info
+        add default kgio_wait_*able methods
+        switch entirely to kgio_wait_*able methods
+
+=== kgio 1.3.1 - fix zero-length reads / 2010-10-08 22:20 UTC
+
+  kgio_read and kgio_tryread will now return an empty string when
+  a length of zero is specified instead of nil (which would signal
+  an EOF).  This emulates the behavior of IO#read, IO#readpartial,
+  IO#sysread, IO#read_nonblock in core Ruby for consistency.
+
+=== kgio 1.3.0 - bug and usability fixes / 2010-10-08 03:03 UTC
+
+  * make Kgio::WaitWritable and Kgio::WaitReadable symbols
+  * trywrite: fix stupid off-by-one error causing corrupt writes
+    on retries
+
+=== kgio 1.2.1 - doc and *BSD workarounds / 2010-10-07 07:20 UTC
+
+  This fixes our accept4() wrapper which did not work as expected
+  on some *BSD-based systems due to fcntl(fd, F_GETFL) returning
+  false information.  Linux 2.6+ users are unnaffected, including
+  those without accept4().
+
+  Also some RDoc fixes.
+
+=== kgio 1.2.0 - cleanups and minor improvements / 2010-10-05 23:14 UTC
+
+  The C extension is now split into several files for
+  ease-of-maintenance.
+
+  Slightly more common, client-triggerable exceptions (EOFError,
+  Errno::EPIPE, Errno::ECONNRESET) are now less expensive as they
+  are generated without backtraces.
+
+=== kgio 1.1.0 - flexible accept methods / 2010-09-29 01:17 UTC
+
+  * alternate classes may now be returned by accept/tryaccept
+    by setting Kgio.accept_class=
+
+=== kgio 1.0.1 - compatibility fixes / 2010-09-28 03:00 UTC
+
+  * add compatibility for ancient Rubies (1.8.6)
+  * linux: fix accept4() support for newer Linux
+
+=== kgio 1.0.0 - initial release / 2010-09-28 00:29 UTC
+
+  A kinder, gentler I/O library for Ruby
+

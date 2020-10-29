@@ -56,7 +56,7 @@ fi:
     generating_chart: "Luodaan kaavio..."
     hours: "Tunnit"
     impediment: "Este"
-    label_versions_default_fold_state: "Näytä versiot ryhmiteltyinä"
+    label_versions_default_fold_state: "Näytä versiot taitettuna"
     work_package_is_closed: "Tehtävä on valmis, kun"
     label_is_done_status: "Tila %{status_name} tarkoittaa valmista"
     no_burndown_data: "Edistymistietoja ei ole saatavilla. Sprintin aloitus- ja lopetuspäivien asettaminen on välttämätöntä."

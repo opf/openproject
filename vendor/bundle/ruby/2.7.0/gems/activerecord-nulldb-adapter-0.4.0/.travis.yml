@@ -1,0 +1,75 @@
+language: ruby
+cache: bundler
+bundler_args: --without development
+sudo: false
+
+rvm:
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - jruby
+  - rbx
+
+gemfile:
+  - gemfiles/activerecord_2.3.gemfile
+  - gemfiles/activerecord_3.2.gemfile
+  - gemfiles/activerecord_4.0.gemfile
+  - gemfiles/activerecord_4.1.gemfile
+  - gemfiles/activerecord_4.2.gemfile
+  - gemfiles/activerecord_5.0.gemfile
+  - gemfiles/activerecord_5.1.gemfile
+  - gemfiles/activerecord_6.0.gemfile
+  - gemfiles/activerecord_master.gemfile
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: jruby
+    - rvm: rbx
+    - gemfile: gemfiles/activerecord_master.gemfile
+  exclude:
+    - rvm: 2.2
+      gemfile: gemfiles/activerecord_2.3.gemfile
+    - rvm: 2.2
+      gemfile: gemfiles/activerecord_6.0.gemfile
+    - rvm: 2.2
+      gemfile: gemfiles/activerecord_master.gemfile
+    - rvm: 2.3
+      gemfile: gemfiles/activerecord_2.3.gemfile
+    - rvm: 2.3
+      gemfile: gemfiles/activerecord_6.0.gemfile
+    - rvm: 2.3
+      gemfile: gemfiles/activerecord_master.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/activerecord_2.3.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/activerecord_3.2.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/activerecord_4.0.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/activerecord_4.1.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/activerecord_6.0.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/activerecord_master.gemfile
+    - rvm: 2.5
+      gemfile: gemfiles/activerecord_2.3.gemfile
+    - rvm: 2.5
+      gemfile: gemfiles/activerecord_3.2.gemfile
+    - rvm: 2.5
+      gemfile: gemfiles/activerecord_4.0.gemfile
+    - rvm: 2.5
+      gemfile: gemfiles/activerecord_4.1.gemfile
+    - rvm: 2.6
+      gemfile: gemfiles/activerecord_2.3.gemfile
+    - rvm: 2.6
+      gemfile: gemfiles/activerecord_3.2.gemfile
+    - rvm: 2.6
+      gemfile: gemfiles/activerecord_4.0.gemfile
+    - rvm: 2.6
+      gemfile: gemfiles/activerecord_4.1.gemfile
+
+
+

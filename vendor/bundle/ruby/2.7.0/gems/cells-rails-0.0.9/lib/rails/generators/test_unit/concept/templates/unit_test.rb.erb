@@ -1,0 +1,11 @@
+require 'test_helper'
+
+class <%= class_name %>ConceptTest < Cell::TestCase
+<% states.each do |state| -%>
+  test "<%= state %>" do
+    html = concept("<%= file_name %>/cell").(:<%= state %>)
+    assert html.match /<p>/
+  end
+
+<% end %>
+end

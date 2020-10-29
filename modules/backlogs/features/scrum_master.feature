@@ -65,7 +65,8 @@ Feature: Scrum Master
         | Resolved    | false      | false       |
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
-    And there is a default issuepriority
+    And there is a default issuepriority with:
+        | name   | Normal |
     And the type "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
@@ -129,6 +130,96 @@ Feature: Scrum Master
      And I should not see "Subfeature"
 
   @javascript
+  Scenario: Create an impediment
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the element with class "add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the tasks "Task 1" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    And the impediment "Bad Company" should signal successful saving
+    Then I should see "Bad Company" within "#impediments"
+
+  @javascript
+  Scenario: Create an impediment blocking an work_package of another sprint
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the element with class "add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the stories "Story C" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "IDs of blocked work packages can only contain IDs of work packages in the current sprint."
+
+  @javascript
+  Scenario: Create an impediment blocking a non existent work_package
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the element with class "add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "0" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "IDs of blocked work packages can only contain IDs of work packages in the current sprint."
+
+  @javascript
+  Scenario: Create an impediment without specifying what it blocks
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the element with class "add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "IDs of blocked work packages must contain the ID of at least one ticket"
+
+  @javascript
+  Scenario: Update an impediment
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the tasks "Task 1" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal successful saving
+
+  @javascript
+  Scenario: Update an impediment to block an work_package of another sprint
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the stories "Story C" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "IDs of blocked work packages can only contain IDs of work packages in the current sprint."
+
+  @javascript
+  Scenario: Update an impediment to block a non existent work_package
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "0" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "IDs of blocked work packages can only contain IDs of work packages in the current sprint."
+
+  @javascript
+  Scenario: Update an impediment to not block anything
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "IDs of blocked work packages must contain the ID of at least one ticket"
+
+  @javascript
   Scenario: Update sprint details
     Given I am on the master backlog
       And I want to edit the sprint named Sprint 001
@@ -186,6 +277,20 @@ Feature: Scrum Master
     Then the request should complete successfully
      And Story D should be in the 2nd position of the sprint named Sprint 005
      And Story E should be the higher item of Story D
+
+  @javascript
+  Scenario: View epic, stories, tasks, subtasks in the work_package list
+    When I go to the work_packages index page
+    Then I should see "Epic 1" within ".work-package-table--container table"
+     And I should see "Story D" within ".work-package-table--container table"
+     And I should see "Story E" within ".work-package-table--container table"
+     And I should see "Task 10" within ".work-package-table--container table"
+     And I should see "Task 11" within ".work-package-table--container table"
+     And I should see "Subtask 1" within ".work-package-table--container table"
+     And I should see "Subtask 2" within ".work-package-table--container table"
+     And I should see "Subtask 3" within ".work-package-table--container table"
+     And I should see "Subfeature" within ".work-package-table--container table"
+     And I should see "Subsubtask" within ".work-package-table--container table"
 
   @javascript
   Scenario: Move a task with subtasks around in the taskboard

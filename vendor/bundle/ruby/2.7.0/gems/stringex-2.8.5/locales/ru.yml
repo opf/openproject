@@ -1,0 +1,69 @@
+# NOTE: Some translation keys make use of matches from regular expressions
+# to manipulate whitespace and order. Please consult the source code for
+# Stringex::Localization::ConversionExpressions to see what those
+# regular expressions look like if you need to manipulate the order
+# differently than the usage below.
+ru:
+  stringex:
+    characters:
+      and: и
+      at: в
+      divide: делить на
+      degrees: градусов
+      dot: \1 точка \2
+      ellipsis: многоточие
+      equals: равно
+      number: номер
+      percent: процентов
+      plus: плюс
+      slash: слеш
+      star: звезда
+    currencies:
+      generic: \1 рубль
+      dollars: \1 долларов
+      dollars_cents: \1 долларов \2 центов
+      pounds: \1 фунтов
+      pounds_pence: \1 фунтов \2 пенсов
+      euros: \1 евро
+      euros_cents: \1 евро \2 центов
+      yen: \1 йен
+      reais: \1 реал
+      reais_cents: \1 реал \2 сентаво
+    html_entities:
+      amp: и
+      cent: " центов"
+      copy: (c)
+      deg: " градусов "
+      divide: " делить на "
+      double_quote: '"'
+      ellipsis: "..."
+      en_dash: "-"
+      em_dash: "--"
+      frac14: одна четверть
+      frac12: половина
+      frac34: три четверти
+      gt: ">"
+      lt: <
+      nbsp: " "
+      pound: " фунтов "
+      reg: (r)
+      single_quote: "'"
+      times: x
+      trade: (tm)
+      yen: " йен "
+    vulgar_fractions:
+      half: половина
+      one_third: одна треть
+      two_thirds: две трети
+      one_fourth: одна четверть
+      three_fourths: три четверти
+      one_fifth: одна пятая
+      two_fifths: две пятых
+      three_fifths: три пятых
+      four_fifths: четыре пятых
+      one_sixth: одна шестая
+      five_sixths: пять шестых
+      one_eighth: одна восьмая
+      three_eighths: три восьмых
+      five_eighths: пять восьмых
+      seven_eighths: семь восьмых

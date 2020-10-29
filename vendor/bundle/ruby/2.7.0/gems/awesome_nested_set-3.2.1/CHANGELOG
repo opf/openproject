@@ -1,0 +1,117 @@
+Unreleased version
+* [Compare to 3.2.1](https://github.com/collectiveidea/awesome_nested_set/compare/v3.2.1...master)
+
+3.2.1
+* Don't reload in after_save callback. [Petrik de Heus](https://github.com/p8)
+* Fix deprecation warning "Passing a range to `#in` is deprecated". [Konstantin Mochalov](https://github.com/kolen)
+* [Compare to 3.2.0](https://github.com/collectiveidea/awesome_nested_set/compare/v3.2.0...v3.2.1)
+
+3.2.0
+* Add support for Rails 6.0 [Stefan Andersen](https://github.com/stfnndrsn) and [Damian Legawiec](https://github.com/damianlegawiec) and [Jonathan Tapia](https://github.com/jtapia) and [Alex](https://github.com/a-ta-ta)
+* [Compare to 3.1.4](https://github.com/collectiveidea/awesome_nested_set/compare/v3.1.4...v3.2.0)
+
+3.1.4
+* Add support for Rails 5.2 [John Hawthorn](https://github.com/jhawthorn) and [marocchino](https://github.com/marocchino)
+* [Compare to 3.1.3](https://github.com/collectiveidea/awesome_nested_set/compare/v3.1.3...v3.1.4)
+
+3.1.3
+* Add support for Rails 5.1 [John Hawthorn](https://github.com/jhawthorn)
+* [Compare to 3.1.2](https://github.com/collectiveidea/awesome_nested_set/compare/v3.1.2...v3.1.3)
+
+3.1.2
+* Make belongs_to relation optional again [Jan Matusz](https://marahin.pl/)
+* [Compare to 3.0.0](https://github.com/collectiveidea/awesome_nested_set/compare/v3.1.1...v3.1.2)
+
+3.1.1
+* Fix a reloading bug when using default scope [Krzysztof Rybka](https://github.com/krzysiek1507)
+* [Compare to 3.1.0](https://github.com/collectiveidea/awesome_nested_set/compare/v3.1.0...v3.1.1)
+
+3.1.0
+* Ensure that nested_set queries respect the model's default_scope. [oesgalha](https://github.com/oesgalha)
+* Add Rails 5 support [Krzysztof Rybka](https://github.com/krzysiek1507)
+* Drop support for ruby 1.9.3 [Krzysztof Rybka](https://github.com/krzysiek1507)
+* Fix .all_roots_valid? method when model is ordered by default [Adam Hodowany](https://github.com/hodak)
+* Reuse the current model's connection when available [Tim Bugai] [#322](https://github.com/collectiveidea/awesome_nested_set/pull/322)
+* [Compare to 3.0.3](https://github.com/collectiveidea/awesome_nested_set/compare/v3.0.3...v3.1.0)
+
+3.0.3
+* Add :nullify option to :dependent functionality to orphan children rather
+than destroy them.
+* [Compare to 3.0.2](https://github.com/collectiveidea/awesome_nested_set/compare/v3.0.2...v3.0.3)
+
+3.0.2
+* Fix `dependent: :restrict_with_exception` not allowing a delete to occur. [Brendan Kilfoil]
+* Replace `Arel::SelectManager#join_sql` with `Arel::SelectManager#join_sources` as `Arel::Node#joins` accepts AST as well. [Swanand Pagnis]
+* Corrected nested_set_scope usage. [Finbarr Taylor] [#292](https://github.com/collectiveidea/awesome_nested_set/pull/292)
+* Fix bug: when model with default_scope make #lft and #rgt wrong [eddie](https://github.com/afunction) [#281](https://github.com/collectiveidea/awesome_nested_set/pull/281)
+* [Compare to 3.0.1](https://github.com/collectiveidea/awesome_nested_set/compare/v3.0.1...v3.0.2)
+
+3.0.1
+* Fixed `dependent: :destroy` when called from associated object. #162 [Kuldeep Aggarwal]
+* [Compare to 3.0.0](https://github.com/collectiveidea/awesome_nested_set/compare/v3.0.0...v3.0.1)
+
+3.0.0
+* Support Rails 4.1 [Micah Geisel]
+* Support dependent: restrict_with_error [Tiago Moraes]
+* Added information to the README regarding indexes to be added for performance [bdarfler]
+* Modified associate_parents to add child objects to the parent#children collection [Tiago Moraes]
+* Fix `dependent: :restrict_with_exception` not allowing a delete to occur. [Brendan Kilfoil]
+* [Compare to v2.1.6](https://github.com/collectiveidea/awesome_nested_set/compare/v2.1.6...v3.0.0)
+
+2.1.6
+* Fixed rebuild! when there is a default_scope with order [Adrian Serafin]
+* Testing with stable bundler, ruby 2.0, MySQL and PostgreSQL [Philip Arndt]
+* Optimized move_to for large trees [ericsmith66]
+
+2.1.5
+* Worked around issues where AR#association wasn't present on Rails 3.0.x. [Philip Arndt]
+* Adds option 'order_column' which defaults to 'left_column_name'. [gudata]
+* Added moving with order functionality. [Sytse Sijbrandij]
+* Use tablename in all select queries. [Mikhail Dieterle]
+* Made sure all descendants' depths are updated when moving parent, not just immediate child. [Phil Thompson]
+* Add documentation of the callbacks. [Tobias Maier]
+
+2.1.4
+* nested_set_options accept both Class & AR Relation. [Semyon Perepelitsa]
+* Reduce the number of queries triggered by the canonical usage of `i.level` in the `nested_set` helpers. [thedarkone]
+* Specifically require active_record [Bogdan Gusiev]
+* compute_level now checks for a non nil association target. [Joel Nimety]
+
+2.1.3
+* Update child depth when parent node is moved. [Amanda Wagener]
+* Added move_to_child_with_index. [Ben Zhang]
+* Optimised self_and_descendants for when there's an index on lft. [Mark Torrance]
+* Added support for an unsaved record to return the right 'root'. [Philip Arndt]
+
+2.1.2
+* Fixed regressions introduced. [Philip Arndt]
+
+2.1.1
+* Added 'depth' which indicates how many levels deep the node is.
+  This only works when you have a column called 'depth' in your table,
+  otherwise it doesn't set itself. [Philip Arndt]
+* Rails 3.2 support added. [Gabriel Sobrinho]
+* Oracle compatibility added. [Pikender Sharma]
+* Adding row locking to deletion, locking source of pivot values, and adding retry on collisions. [Markus J. Q. Roberts]
+* Added method and helper for sorting children by column. [bluegod]
+* Fixed .all_roots_valid? to work with Postgres. [Joshua Clayton]
+* Made compatible with polymorphic belongs_to. [Graham Randall]
+* Added in the association callbacks to the children :has_many association. [Michael Deering]
+* Modified helper to allow using array of objects as argument. [Rahmat Budiharso]
+* Fixed cases where we were calling attr_protected. [Jacob Swanner]
+* Fixed nil cases involving lft and rgt. [Stuart Coyle] and [Patrick Morgan]
+
+2.0.2
+* Fixed deprecation warning under Rails 3.1 [Philip Arndt]
+* Converted Test::Unit matchers to RSpec. [Uģis Ozols]
+* Added inverse_of to associations to improve performance rendering trees. [Sergio Cambra]
+* Added row locking and fixed some race conditions. [Markus J. Q. Roberts]
+
+2.0.1
+* Fixed a bug with move_to not using nested_set_scope [Andreas Sekine]
+
+2.0.0.pre
+* Expect Rails 3
+* Changed how callbacks work. Returning false in a before_move action does not block save operations. Use a validation or exception in the callback if you need that.
+* Switched to RSpec
+* Remove use of Comparable
