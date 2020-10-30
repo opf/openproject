@@ -73,6 +73,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Output fired upon query removal */
   @Output() onRemove = new EventEmitter<void>();
 
+  @Output() setContainerClass = new EventEmitter<string>();
+
   /** Access to the board resource */
   @Input() public board:Board;
 
@@ -388,7 +390,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   private get queryId():string {
     return (this.resource.options.queryId as number|string).toString();
   }
-
   private loadQuery(visibly = true) {
     let observable = this
       .apiv3Service
@@ -403,12 +404,15 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     observable
       .subscribe(
-        query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
+        query => {this.wpStatesInitialization.updateQuerySpace(query, query.results); },
         error => {
-           jQuery('#' + this.queryId).removeClass('boards-list--item');
+          // jQuery('#' + this.queryId).removeClass('boards-list--item');
+          // this.setContainerClass.emit(this.queryId);
           // It is commented inorder to #34840
+          this.setContainerClass.emit(this.queryId);
+          debugger;
          //this.loadingError = this.halNotification.retrieveErrorMessage(error);
-          this.cdRef.detectChanges();
+         this.cdRef.detectChanges();
         }
       );
   }

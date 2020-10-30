@@ -1,4 +1,4 @@
-import {Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {Observable, Subscription} from "rxjs";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
@@ -44,7 +44,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
-
+  itemErrorID:string;
 
   /** Container reference */
   public _container:HTMLElement;
@@ -71,6 +71,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   constructor(readonly I18n:I18nService,
               readonly state:StateService,
+              readonly cdRef:ChangeDetectorRef,
               readonly notifications:NotificationsService,
               readonly halNotification:HalResourceNotificationService,
               readonly boardComponent:BoardPartitionedPageComponent,
@@ -89,7 +90,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   ngOnInit():void {
     const id:string = this.state.params.board_id.toString();
-
     this.board$ = this
       .apiV3Service
       .boards
@@ -117,7 +117,16 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       this.state.go(this.state.current.data.baseRoute + '.details', { workPackageId: selection.focusedWorkPackage });
     });
   }
+  onSetContainerClass (itemErrorID:string) {
+      this.itemErrorID = itemErrorID;
+  }
 
+  setClass(CurrentItem:string) {
+    if (CurrentItem === this.itemErrorID) {
+      return 'boards-list--item--error'; }
+    else {
+       return 'boards-list--item'; }
+  }
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
     moveItemInArray(board.queries, event.previousIndex, event.currentIndex);
     this.saveBoard(board);
@@ -167,7 +176,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .pipe(
         this.untilDestroyed()
       )
-      .subscribe((collection) => this.requestRefreshOfUpdatedLists(collection.elements));
+      .subscribe((collection) => {this.requestRefreshOfUpdatedLists(collection.elements);  });
   }
 
   private showError(text = this.text.loadingError) {
@@ -184,7 +193,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
           return id === listId;
         })
-        .forEach((listComponent) => listComponent.refreshQueryUnlessCaused(query, false));
+        .forEach((listComponent) => {listComponent.refreshQueryUnlessCaused(query, false);  });
     });
   }
 
