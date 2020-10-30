@@ -11,9 +11,4 @@ while ! curl -sSL "${SELENIUM_GRID_URL}/status" 2>&1 \
     sleep 1
 done
 
-echo 'Waiting for the Frontend...'
-while ! curl -sSL "${OPENPROJECT_CLI_PROXY}" 2>&1  > /dev/null; do
-    sleep 1
-done
-
 exec $cmd
