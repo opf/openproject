@@ -1,6 +1,0 @@
-fallbacks: false
-
-translations:
-  - file: "tmp/i18n-js/merge_plurals.js"
-    only:
-      - "*.merge_plurals"

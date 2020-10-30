@@ -1,7 +1,0 @@
-This
-file
-is
-not
-inside
-root
-directory

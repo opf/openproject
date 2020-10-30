@@ -1,5 +1,0 @@
-runtime: ruby21
-doc: exec rake rdoc
-build: |
-  rock clean
-  {{parent}}

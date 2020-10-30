@@ -1,6 +1,0 @@
-<%= wrap_in_modules <<~rb
-  class ApplicationController < ActionController::#{api? ? "API" : "Base"}
-    #{ api? ? '# ' : '' }protect_from_forgery with: :exception
-  end
-rb
-%>

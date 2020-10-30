@@ -18,7 +18,6 @@ web:
     - "DATABASE_URL=postgresql://app:p4ssw0rd@db:5432/app?encoding=utf8&pool=5&timeout=5000&reconnect=true"
     - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
     - "RAILS_ENV=production"
-    - "HEROKU=true"
   env_file: ./.env.pullpreview
   ports:
     - "80:8080"
@@ -35,7 +34,6 @@ worker:
     - "DATABASE_URL=postgresql://app:p4ssw0rd@db:5432/app?encoding=utf8&pool=5&timeout=5000&reconnect=true"
     - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
     - "RAILS_ENV=production"
-    - "HEROKU=true"
   env_file: ./.env.pullpreview
   command: "./docker/worker --seed --set attachment_max_size=262144,host_name=${PULLPREVIEW_PUBLIC_DNS}"
   volumes_from:

@@ -1,5 +1,0 @@
-language: ruby
-sudo: false
-env: COVERAGE=true
-rvm:
-  - 2.3.0

@@ -1,7 +1,0 @@
-README
-LICENSE
-NEWS
-lib
-ext/raindrops/raindrops.c
-ext/raindrops/linux_inet_diag.c
-ext/raindrops/tcp_info.c

@@ -1,6 +1,0 @@
--e guide.rb
---files=Changelog.md,Guide.md
---private
---protected
---exclude lib/friendly_id/migration
---markup=markdown

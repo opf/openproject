@@ -1,9 +1,0 @@
-[Unit]
-StopWhenUnneeded=true
-
-[Service]
-# this service is just a placeholder
-ExecStart=/bin/sleep infinity
-
-[Install]
-WantedBy=multi-user.target

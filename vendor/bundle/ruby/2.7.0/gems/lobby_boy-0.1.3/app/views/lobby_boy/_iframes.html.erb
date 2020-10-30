@@ -1,7 +1,0 @@
-<% if LobbyBoy.configured? %>
-  <% op_src = LobbyBoy.provider.check_session_iframe %>
-  <% rp_src = "#{LobbyBoy.client.host}/session/check" %>
-
-  <iframe id="openid_connect_provider" src="<%= op_src %>" style="display: none;"></iframe>
-  <iframe id="openid_connect_relying_party" src="<%= rp_src %>" style="display: none;"></iframe>
-<% end %>

@@ -1,2 +1,0 @@
-require 'simplecov'
-SimpleCov.start

@@ -1,2 +1,0 @@
-bundle install --path vendor/gems --binstubs
-bin/rake clobber clean compile

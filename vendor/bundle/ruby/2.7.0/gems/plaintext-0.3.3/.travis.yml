@@ -1,7 +1,0 @@
-language: ruby
-rvm:
-  - 2.6.4
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y catdoc unrtf poppler-utils tesseract-ocr
-  - gem install bundler -v 2.0.1

@@ -1,5 +1,0 @@
-fallbacks: false
-
-translations:
-  - file: "tmp/i18n-js/translations.js"
-    only: '<%= "*." + "date." + "formats" %>'

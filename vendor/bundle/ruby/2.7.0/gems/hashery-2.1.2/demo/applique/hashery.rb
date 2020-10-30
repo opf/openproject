@@ -1,3 +1,0 @@
-require 'hashery'
-
-include Hashery

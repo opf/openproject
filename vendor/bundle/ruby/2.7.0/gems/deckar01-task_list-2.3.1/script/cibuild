@@ -1,7 +1,0 @@
-#!/bin/sh -e
-# Usage: script/cibuild
-# CI build script.
-
-npm run lint
-npm run qunit
-bundle exec rake test

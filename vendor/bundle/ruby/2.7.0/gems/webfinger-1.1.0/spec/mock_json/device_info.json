@@ -1,7 +1,0 @@
-{
-  "subject": "device:p1.example.com",
-  "links": [{
-    "rel": "http://example.com/rel/tipsi",
-    "href": "http://192.168.1.5/npap/"
-  }]
-}
