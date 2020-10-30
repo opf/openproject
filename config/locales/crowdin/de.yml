@@ -329,7 +329,7 @@ de:
         other: "Der Account wird aus dem System entfernt. Der Nutzer wird daher nicht mehr in der Lage sein, sich mit seinem derzeitigen Nutzernamen und Passwort anzumelden. Sofern der Nutzer es wünscht, kann er sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
         self: "Ihr Account wird aus dem System entfernt. Sie werden daher nicht mehr in der Lage sein, sich mit Ihrem derzeitigen Nutzernamen und Passwort anzumelden. Sofern Sie es wünschen, können Sie sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
       login_verification:
-        other: "Geben sie den %{name} ein um die löschung zu verifizieren. Zusätzlich müssen sie nach dem Absenden des Formulars ihr Password bestätigen."
+        other: "Geben Sie den Nutzernamen %{name} ein um die Löschung zu verifizieren. Zusätzlich müssen Sie nach dem Absenden des Formulars Ihr Passwort bestätigen."
         self: "Gebe deinen Login %{name} ein, um den Löschvorgang zu bestätigen. Sie müssen zusätzlich nach dem Absenden des Formulars Ihr Password bestätigen."
     error_inactive_activation_by_mail: >
       Ihr Konto wurde noch nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde.
