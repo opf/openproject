@@ -49,4 +49,5 @@ RUN apt-get update -qq && \
 
 USER $USER
 COPY ./docker/dev/backend/scripts/run-test /usr/sbin/run-test
+COPY ./docker/dev/backend/scripts/setup-tests /usr/sbin/setup-tests
 ENTRYPOINT [ "/usr/sbin/run-test" ]

@@ -16,9 +16,4 @@ while ! curl -sSL "${OPENPROJECT_CLI_PROXY}" 2>&1  > /dev/null; do
     sleep 1
 done
 
-bundle binstubs parallel_tests
-bundle exec rake db:migrate
-bundle exec rake i18n:js:export openproject:plugins:register_frontend assets:rebuild_manifest assets:clean
-cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
-
 exec $cmd

@@ -122,7 +122,7 @@ services:
     build:
       <<: *build
       target: test
-    command: sh -c 'echo "No tests specified"; exit 0;'
+    command: setup-tests
     hostname: backend-test
     networks:
       - testing
