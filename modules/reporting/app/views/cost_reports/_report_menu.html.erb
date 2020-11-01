@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% [:private, :public].each do |report_type| %>
-  <div class="tree-menu--container" data-selected-page="<%= @subpage %>">
+  <div class="tree-menu--container" data-selected-page="<%= @query ? @query.name : '' %>">
     <ul class="pages-hierarchy -with-hierarchy collapsible-menu--container">
       <li class="-hierarchy-expanded">
         <span class="tree-menu--item">
