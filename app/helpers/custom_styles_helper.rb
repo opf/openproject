@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,32 +26,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#+
+#++
 
-module Bim
-  module IfcModels
-    class UpdateService < ::BaseServices::Update
-      protected
+module CustomStylesHelper
+  def apply_custom_styles?(skip_ee_check: OpenProject::Configuration.bim?)
+    # Apply custom styles either if EE allows OR we are on a BIM edition with the BIM theme active.
+    CustomStyle.current.present? &&
+      (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
+  end
 
-      def before_perform(params)
-        @ifc_attachment_updated = params[:ifc_attachment].present?
+  # The default favicon and touch icons are both the same for normal OP and BIM.
+  def apply_custom_favicon?
+    apply_custom_styles?(skip_ee_check: false) && CustomStyle.current.favicon.present?
+  end
 
-        super
-      end
-
-      def after_perform(service_result)
-        if service_result.success?
-          # As the attachments association does not have the autosave option, we need to remove the
-          # attachments ourselves
-          model.attachments.select(&:marked_for_destruction?).each(&:destroy)
-
-          if @ifc_attachment_updated
-            IfcConversionJob.perform_later(service_result.result)
-          end
-        end
-
-        service_result
-      end
-    end
+  # The default favicon and touch icons are both the same for normal OP and BIM.
+  def apply_custom_touch_icon?
+    apply_custom_styles?(skip_ee_check: false) && CustomStyle.current.touch_icon.present?
   end
 end

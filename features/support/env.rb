@@ -70,11 +70,11 @@ if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_K
   }
 end
 
-Capybara.register_server :thin do |app, port, host|
-  require 'rack/handler/thin'
-  Rack::Handler::Thin.run(app, Port: port, Host: host, signals: false)
+Capybara.register_server :puma do |app, port, host|
+  require 'rack/handler/puma'
+  Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: "0:1")
 end
-Capybara.server = :thin
+Capybara.server = :puma
 
 unless (env_no = ENV['TEST_ENV_NUMBER'].to_i).zero?
   Capybara.server_port = 8888 + env_no
