@@ -276,8 +276,7 @@ OpenProject::Application.routes.draw do
 
     resources :members, only: %i[index create update destroy], shallow: true do
       collection do
-        get :paginate_users
-        match :autocomplete_for_member, via: %i[get post]
+        match :autocomplete_for_member, via: %i[get]
       end
     end
 

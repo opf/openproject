@@ -46,8 +46,7 @@ Feature: Team Member
         | Task  |
     And there is a default status with:
         | name | new |
-    And there is a default issuepriority with:
-        | name   | Normal |
+    And there is a default issuepriority
     And there is 1 user with:
         | login | paul |
     And there is a role "team member"

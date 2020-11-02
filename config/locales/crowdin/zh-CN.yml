@@ -610,7 +610,7 @@ zh-CN:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "过滤器有无效值。"
               format: "%{message}"
         relation:
           typed_dag:

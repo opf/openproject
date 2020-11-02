@@ -11,7 +11,7 @@
     @extend %tooltip--reset-styles
     @extend %tooltip--after
     content: attr(data-tippy-content)
-    // Here in the Xeokit viewer the toolbar alligns with the right border of the viewer's canvas. We need to make sure
+    // Here in the Xeokit viewer the toolbar aligns with the right border of the viewer's canvas. We need to make sure
     // that the tooltips of the last button don't get cut off on the right
     left: 0
 
@@ -19,4 +19,4 @@
     &::before, &::after
       @extend %tooltip--show
 
-  @extend [data-tooltip].tooltip--bottom
+  @extend .tooltip--bottom

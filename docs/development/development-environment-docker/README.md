@@ -22,8 +22,11 @@ as that will interfere with the database connection inside of the docker contain
 ```
 export OPENPROJECT_HOME=`pwd`
 
-bin/compose up
+bin/compose up frontend backend
 ```
+
+This starts only the frontend and backend containers and their dependencies. This excludes the testing containers, which
+are harmless to start as well, but take up system resources and clog your logs while running.
 
 This process can take quite a long time on the first run where all gems are installed for the first time.
 However, these are cached in a docker volume. Meaning that from the 2nd run onwards it will start a lot quicker.
@@ -50,13 +53,27 @@ There are volumes for
   * the attachments (`_opdata`)
   * the database (`_pgdata`)
   * the bundle (rubygems) (`_bundle`)
+  * the tmp directory (`_tmp`)
+  * the test database (`_pgdata-test`)
+  * the test tmp directory (`_tmp-test`)
 
 This means these will stay between runs even if you stop and restart the containers.
 If you want to reset the data you can delete the docker volumes via `docker volume rm`.
 
+## Running tests 
+
+Not all tests are functional within the docker containers yet, so it is recommended to run tests outside of Docker.
+However, you can run tests by executing
+
+```
+export OPENPROJECT_HOME=`pwd`
+
+./bin/compose up -d
+./bin/compose exec backend-test bundle exec rspec
+```
+
 ## Local files
 
 Running the docker images will change some of your local files in the mounted code directory.
-The `tmp` directory will be deleted on start of the backend container.
 The file `frontend/npm-shrinkwrap.json` may be modified.
 You can just reset these changes if you want to commit something or pull the latest changes.

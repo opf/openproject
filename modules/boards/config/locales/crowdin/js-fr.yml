@@ -50,7 +50,7 @@ fr:
         action_text_assignee: >
           Tableau avec colonnes automatisées basées sur des utilisateurs assignés. Idéal pour envoyer des lots de travaux.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Tableau avec des colonnes automatisées basées sur l'attribut de version. Idéal pour planifier le développement d'un produit.
         action_type:
           assignee: responsable
           status: état

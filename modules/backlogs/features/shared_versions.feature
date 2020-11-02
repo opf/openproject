@@ -54,8 +54,7 @@ Feature: Shared Versions
     And I am working in project "child"
     And there is a default status with:
         | name | new |
-    And there is a default issuepriority with:
-        | name   | Normal |
+    And there is a default issuepriority
     And there is 1 user with:
         | login | padme |
     And there is a role "project admin"

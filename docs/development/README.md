@@ -16,7 +16,7 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 
 - [Wish list](https://community.openproject.com/versions/26)
 
-- [Bug backlog](https://community.openproject.com/versions/136)
+- [Bug backlog](https://community.openproject.com/projects/openproject/work_packages?query_id=491)
 
 - [Reporting a bug](https://www.openproject.org/development/report-a-bug/)
 

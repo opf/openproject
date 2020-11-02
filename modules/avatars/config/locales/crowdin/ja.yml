@@ -1,6 +1,6 @@
 #English strings go here
 ja:
-  label_avatar: "Avatar"
+  label_avatar: "アバター"
   label_avatar_plural: "アバター"
   label_current_avatar: "現在のアバター"
   label_choose_avatar: "ファイルからアバターを選択"
@@ -14,7 +14,7 @@ ja:
   wrong_file_format: "利用可能な形式は jpg、png、gif"
   empty_file_error: "正しい画像をアップロードしてください (jpg、png、gif)"
   avatars:
-    label_avatar: "Avatar"
+    label_avatar: "アバター"
     label_gravatar: 'グラバター'
     label_current_avatar: '現在のアバター'
     label_local_avatar: 'カスタムのアバター'
