@@ -66,7 +66,7 @@ ja:
   project_module_bim: "BCF"
   permission_view_linked_issues: "BCF チケットを表示"
   permission_manage_bcf: "BCF チケットのインポートと管理"
-  permission_delete_bcf: "Delete BCF issues"
+  permission_delete_bcf: "BCFチケットの削除"
   oauth:
     scopes:
       bcf_v2_1: "BCF v2.1 API へのフルアクセス"
@@ -100,7 +100,7 @@ ja:
           snapshot_data_blank: "snapshot_data を提供する必要があります。"
           unsupported_key: "サポートされていない json プロパティが含まれています。"
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "同じGUIDを持つ別のチケットが存在するため、BCFチケットをインポートできません。このBCFチケットは既に他のプロジェクトにインポートされていませんか？"
   ifc_models:
     label_ifc_models: 'IFCモデル'
     label_new_ifc_model: '新しいIFCモデル'

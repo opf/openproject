@@ -28,22 +28,52 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Notifications.subscribe('journal_created') do |payload|
-  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
-end
+class WikiPages::CopyService
+  include ::Shared::ServiceContext
+  include Contracted
 
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWpMailService.call(payload[:journal], payload[:send_mail])
-end
+  attr_accessor :user,
+                :model,
+                :contract_class
 
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
-  Notifications::JournalWikiMailService.call(payload[:journal], payload[:send_mail])
-end
+  def initialize(user:, model:, contract_class: WikiPages::CreateContract)
+    self.user = user
+    self.model = model
+    self.contract_class = contract_class
+  end
 
-OpenProject::Notifications.subscribe('watcher_added') do |payload|
-  WatcherAddedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
-end
+  def call(send_notifications: true, **attributes)
+    in_context(model, send_notifications) do
+      copy(attributes)
+    end
+  end
 
-OpenProject::Notifications.subscribe('watcher_removed') do |payload|
-  WatcherRemovedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_remover])
+  protected
+
+  def copy(attribute_override)
+    attributes = copied_attributes(attribute_override)
+
+    create(attributes)
+  end
+
+  def create(attributes)
+    WikiPages::CreateService
+      .new(user: user,
+           contract_class: contract_class)
+      .call(attributes.symbolize_keys)
+  end
+
+  # Copy the wiki page attributes together with the wiki page content attributes
+  def copied_attributes(override)
+    model
+      .attributes
+      .merge(model.content.attributes)
+      .slice(*writable_attributes)
+      .merge(override)
+  end
+
+  def writable_attributes
+    instantiate_contract(model, user)
+      .writable_attributes
+  end
 end

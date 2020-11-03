@@ -28,22 +28,5 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Notifications.subscribe('journal_created') do |payload|
-  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
-end
-
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWpMailService.call(payload[:journal], payload[:send_mail])
-end
-
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
-  Notifications::JournalWikiMailService.call(payload[:journal], payload[:send_mail])
-end
-
-OpenProject::Notifications.subscribe('watcher_added') do |payload|
-  WatcherAddedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
-end
-
-OpenProject::Notifications.subscribe('watcher_removed') do |payload|
-  WatcherRemovedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_remover])
+class WikiPages::CreateService < ::BaseServices::Create
 end

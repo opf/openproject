@@ -28,22 +28,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Notifications.subscribe('journal_created') do |payload|
-  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
-end
+# Handles setting the attributes of a wiki page.
+# The wiki page is treated as one single entity although the data layer separates
+# between the page and the content.
+#
+# In the long run, those two should probably be unified on the data layer as well.
+#
+# Attributes for both the page as well as for the content are accepted.
+class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
+  private
 
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWpMailService.call(payload[:journal], payload[:send_mail])
-end
+  def set_attributes(params)
+    content_params, page_params = split_page_and_content_params(params.with_indifferent_access)
 
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
-  Notifications::JournalWikiMailService.call(payload[:journal], payload[:send_mail])
-end
+    set_page_attributes(page_params)
 
-OpenProject::Notifications.subscribe('watcher_added') do |payload|
-  WatcherAddedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
-end
+    set_default_attributes(params) if model.new_record?
 
-OpenProject::Notifications.subscribe('watcher_removed') do |payload|
-  WatcherRemovedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_remover])
+    set_content_attributes(content_params)
+  end
+
+  def set_page_attributes(params)
+    model.attributes = params
+  end
+
+  def set_default_attributes(_params)
+    change_by_system do
+      model.build_content author: user
+    end
+  end
+
+  def set_content_attributes(params)
+    model.content.attributes = params
+  end
+
+  def split_page_and_content_params(params)
+    params.partition { |p, _| WikiContent.column_names.include?(p) }.map(&:to_h)
+  end
+
+  def changed_attributes
+    super + (model.content&.changed || [])
+  end
 end
