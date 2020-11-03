@@ -12,6 +12,11 @@ def register_firefox(language, name: :"firefox_#{language}")
   require 'selenium/webdriver'
 
   Capybara.register_driver name do |app|
+    if ENV['CI']
+      client = Selenium::WebDriver::Remote::Http::Default.new
+      client.timeout = 180
+    end
+
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile['intl.accept_languages'] = language
     profile['browser.download.dir'] = DownloadedFile::PATH.to_s
@@ -41,13 +46,23 @@ def register_firefox(language, name: :"firefox_#{language}")
       options.args << "--headless"
     end
 
-    driver = Capybara::Selenium::Driver.new(
-      app,
-      browser: :remote,
-      url: ENV['SELENIUM_GRID_URL'],
-      desired_capabilities: capabilities,
-      options: options
-    )
+    if ENV['CI']
+      driver = Capybara::Selenium::Driver.new(
+        app,
+        browser: :firefox,
+        desired_capabilities: capabilities,
+        options: options
+        http_client: client
+      )
+    else
+      driver = Capybara::Selenium::Driver.new(
+        app,
+        browser: :remote,
+        url: ENV['SELENIUM_GRID_URL'],
+        desired_capabilities: capabilities,
+        options: options
+      )
+    end
 
     Capybara::Screenshot.register_driver(name) do |driver, path|
       driver.browser.save_screenshot(path)

@@ -46,21 +46,23 @@ def register_chrome(language, name: :"chrome_#{language}")
 
     driver = Capybara::Selenium::Driver.new(
       app,
-      browser: :remote,
+      browser: ENV['CI'] ? :chrome : :remote,
       url: ENV['SELENIUM_GRID_URL'],
       desired_capabilities: capabilities,
       http_client: client,
       options: options
     )
 
-    # Enable file downloads in headless mode
-    # https://bugs.chromium.org/p/chromium/issues/detail?id=696481
-    # bridge = driver.browser.send :bridge
+    if ENV['CI']
+      # Enable file downloads in headless mode
+      # https://bugs.chromium.org/p/chromium/issues/detail?id=696481
+      bridge = driver.browser.send :bridge
 
-    # bridge.http.call :post,
-    #                  "/session/#{bridge.session_id}/chromium/send_command",
-    #                  cmd: 'Page.setDownloadBehavior',
-    #                  params: { behavior: 'allow', downloadPath: DownloadedFile::PATH.to_s }
+      bridge.http.call :post,
+                       "/session/#{bridge.session_id}/chromium/send_command",
+                       cmd: 'Page.setDownloadBehavior',
+                       params: { behavior: 'allow', downloadPath: DownloadedFile::PATH.to_s }
+    end
 
     driver
   end
