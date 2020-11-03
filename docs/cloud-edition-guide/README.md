@@ -63,3 +63,8 @@ The protection of personal data is for OpenProject more than just a legal requir
 ### How can I export the documents loaded on OpenProject?
 
 Currently, there is unfortunately no option to export all the documents in OpenProject. We could manually export the entire database (including the attachments) for you. Due to the manual effort, we would however need to charge a service fee for this. Please contact sales@openproject.com.
+
+
+### Can I create a custom domain name instead of example.openproject.com?
+
+Yes, you can create your custom domain name. For this service we charge €100 once-off. Please add it in your booking process (will soon be available) or contact us via email (support@openproject.com).
