@@ -37,6 +37,7 @@ describe Projects::CopyService, 'integration', type: :model do
   shared_let(:source_category) { FactoryBot.create :category, project: source, name: 'Stock management' }
   shared_let(:source_version) { FactoryBot.create :version, project: source, name: 'Version A' }
   shared_let(:source_wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: source.wiki) }
+  shared_let(:source_child_wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: source.wiki, parent: source_wiki_page) }
   shared_let(:source_forum) { FactoryBot.create(:forum, project: source) }
   shared_let(:source_topic) { FactoryBot.create(:message, forum: source_forum) }
 
@@ -86,10 +87,11 @@ describe Projects::CopyService, 'integration', type: :model do
       expect(project_copy.forums.count).to eq 1
       expect(project_copy.forums.first.messages.count).to eq 1
       expect(project_copy.wiki).to be_present
-      expect(project_copy.wiki.pages.count).to eq 1
+      expect(project_copy.wiki.pages.count).to eq 2
       expect(project_copy.queries.count).to eq 1
       expect(project_copy.versions.count).to eq 1
-      expect(project_copy.wiki.pages.first.content.text).to eq source_wiki_page.content.text
+      expect(project_copy.wiki.pages.root.content.text).to eq source_wiki_page.content.text
+      expect(project_copy.wiki.pages.leaves.first.content.text).to eq source_child_wiki_page.content.text
       expect(project_copy.wiki.start_page).to eq 'Wiki'
 
       # Cleared attributes
@@ -229,10 +231,11 @@ describe Projects::CopyService, 'integration', type: :model do
     describe '#copy_wiki' do
       it 'will not copy wiki pages without content' do
         source.wiki.pages << FactoryBot.create(:wiki_page)
-        expect(source.wiki.pages.count).to eq 2
+        expect(source.wiki.pages.count).to eq 3
 
         expect(subject).to be_success
-        expect(project_copy.wiki.pages.count).to eq 1
+        expect(subject.errors).to be_empty
+        expect(project_copy.wiki.pages.count).to eq 2
       end
 
       it 'will copy menu items' do
