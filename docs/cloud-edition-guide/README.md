@@ -21,7 +21,7 @@ Welcome to the OpenProject **Cloud edition guide**.
 | Popular Topics                                               | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Create a free trial](./create-trial-installation)           | Learn more how to create a free trial for the cloud instance. |
-| [Sign in](./sign-in/)                                        | Sing in to your OpenProject Cloud Edition.                   |
+| [Sign in](./sign-in/)                                        | Sign in to your OpenProject Cloud Edition.                   |
 | [View payment history or download invoices](./invoices-and-billing-history) | How to see your payment history and download invoices?       |
 | [Upgrade, downgrade or cancel subscription](./manage-subscription/#update-existing-subscriptions) | How to upgrade your plan, downgrade or cancel your subscription for the Cloud Edition? |
 | [Manage your subscription](./manage-subscription) | How to change billing address, add or edit Credit Card details? |
