@@ -102,6 +102,16 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private orderedRows:RenderedWorkPackage[] = [];
 
+  get workPackagesWithGroupHeaderCell():RenderedWorkPackage[] {
+    const tableWorkPackages = this.querySpace.results.value!.elements;
+    const wpsWithGroupHeaderCell = tableWorkPackages
+      .filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage))
+      .map(tableWorkPackage => tableWorkPackage.id);
+    const workPackagesWithGroupHeaderCell = this.orderedRows.filter(row => wpsWithGroupHeaderCell.includes(row.workPackageId!) && !this.workPackageIdOrder.includes(row));
+
+    return workPackagesWithGroupHeaderCell;
+  }
+
   constructor(public readonly injector:Injector,
               private elementRef:ElementRef,
               private states:States,
@@ -356,15 +366,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     let changed = false;
 
     // Calculate view parameters
-    // Include rows from work packages that are show in collapsed row
+    // Include work packages that are show in collapsed group
     // headers into the calculation, if not they could be rendered out
     // of the timeline (ie: milestones are shown on collapsed row groups).
-    const tableWorkPackages = this.querySpace.results.value!.elements;
-    const workPackagesWithGroupHeaderCell = tableWorkPackages
-                                .filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage))
-                                .map(tableWorkPackage => tableWorkPackage.id);
-    const rowsToAddToTheWidthCalculation = this.orderedRows.filter(row => workPackagesWithGroupHeaderCell.includes(row.workPackageId!) && !this.workPackageIdOrder.includes(row));
-    const rowsToCalculateTimelineWidthFrom = [...this.workPackageIdOrder, ...rowsToAddToTheWidthCalculation];
+    const rowsToCalculateTimelineWidthFrom = [...this.workPackageIdOrder, ...this.workPackagesWithGroupHeaderCell];
 
     rowsToCalculateTimelineWidthFrom.forEach((renderedRow) => {
       const wpId = renderedRow.workPackageId;
@@ -440,8 +445,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     if (this.workPackageIdOrder.length === 0) {
       return;
     }
-
-    const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages, this._viewParameters);
+    // Include work packages that are show in collapsed group
+    // headers into the calculation, if not the zoom won't fit
+    // to them (ie: milestones are shown on collapsed row groups).
+    const workPackagesToCalculateWidthFrom = [...this.workPackageIdOrder, ...this.workPackagesWithGroupHeaderCell];
+    const daysSpan = calculateDaySpan(workPackagesToCalculateWidthFrom, this.states.workPackages, this._viewParameters);
     const timelineWidthInPx = this.$element.parent().width()! - (2 * requiredPixelMarginLeft);
 
     for (let zoomLevel of zoomLevelOrder) {
