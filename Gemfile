@@ -200,7 +200,7 @@ group :test do
   gem 'cucumber-rails', '~> 1.8.0', require: false
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
-  gem 'rspec', '~> 3.9.0'
+  gem 'rspec', '~> 3.10.0'
   # TODO: replace stub_model and mock_model by calls to factory or simple double
   # and remove this dependency
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
@@ -285,7 +285,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.4.5', require: false
+gem 'bootsnap', '~> 1.5.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'
