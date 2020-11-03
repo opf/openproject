@@ -1,12 +1,12 @@
 # Migrating from an old MySQL database
 
-If you need to migrate from any older version of OpenProject, upgrading multiple versions in order to get the newest version will be cumbersome. For example, for upgrading from OpenProject 4.3 to the current stable 10.6, you will need to ugprade to OpenProject 7.2, and then to OpenProject 10.6.
+If you need to migrate from any older version of OpenProject, upgrading multiple versions in order to get the newest version will be cumbersome. For example, for upgrading from OpenProject 4.3 to the stable 10.6, you will need to ugprade to OpenProject 7.2, and then to OpenProject 10.6.
 
 If you also need to migrate from MySQL to PostgreSQL during that process, the steps will become more involved.
 
 To make this easier there is a script which automates database migration and conversion in one simple step. The only dependency is [a docker installation](https://www.docker.com/get-started). It's included in the docker image itself but will want to run it directly on the docker host. To do that you can either copy it onto your system from `/app/script/migration/migrate-from-pre-8.sh` or simply download it [here](https://github.com/opf/openproject/tree/dev/script/migration/migrate-from-pre-8.sh).
 
-All the script needs is a docker installation. It will start containers as required for the migration and clean them up afterwards. The result of the migration will be a SQL dump of OpenProject in the current stable version. This can then be used with a fresh packaged installation, or an upgraded package.
+All the script needs is docker and the mysql command installed. It will start containers as required for the migration and clean them up afterwards. The result of the migration will be a SQL dump of OpenProject in the current stable version. This can then be used with a fresh packaged installation, or an upgraded package.
 
 ## Usage
 
@@ -27,17 +27,17 @@ This will output a MySQL dump at `/var/db/openproject/backup/mysql-dump-<timesta
 
 ```
 cp /var/db/openproject/backup/mysql-dump-<timestamp>.sql.gz /tmp/openproject-mysql.dump.gz
-gunzip /tmp/openproject/mysql.dump.gz
+gunzip /tmp/openproject/openproject-mysql.dump.gz
 ```
 
 
 
 ### Run the docker migration script
 
-With docker installed, use the following command to start the upgrade process on your MySQL dump.
+With docker and mysql installed, use the following command to start the upgrade process on your MySQL dump.
 
 ```bash
-bash migrate-from-pre-8.sh <docker host IP> <Path to MySQL dump file>"
+bash migrate-from-pre-8.sh <docker host IP> <Path to MySQL dump file>
 ```
 
 You will need to find the docker host IP to connect to the temporary MySQL database the docker container will start and connect to a host port. It will likely be `host.docker.internal` but you need to double-check with your docker version and OS.
@@ -66,7 +66,7 @@ You can simply upgrade your package first and then switch to a PostgreSQL databa
 
    `service openproject stop`
 
-   `pg_restore $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
+   `pg_restore --dbname $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
 
 4. Execute configure script to ensure the migrations are complete and to restart the server
 
@@ -98,7 +98,7 @@ The steps for this option is as follows:
 
    `service openproject stop`
 
-   `pg_restore $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
+   `pg_restore --dbname $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
 
 7. Execute configure script to ensure the migrations are complete and to restart the server
 
