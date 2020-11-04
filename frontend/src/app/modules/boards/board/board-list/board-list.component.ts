@@ -406,13 +406,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .subscribe(
         query => {this.wpStatesInitialization.updateQuerySpace(query, query.results); },
         error => {
-          // jQuery('#' + this.queryId).removeClass('boards-list--item');
-          // this.setContainerClass.emit(this.queryId);
-          // It is commented inorder to #34840
           this.setContainerClass.emit(this.queryId);
-          debugger;
+          // It is commented inorder to #34840
          //this.loadingError = this.halNotification.retrieveErrorMessage(error);
-         this.cdRef.detectChanges();
+         //this.cdRef.detectChanges();
         }
       );
   }

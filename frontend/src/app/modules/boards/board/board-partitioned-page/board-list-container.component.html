@@ -9,9 +9,7 @@
        (cdkDropListDropped)="moveList(board, $event)"
   >
     <div *ngFor="let queryWidget of board.queries; trackBy:trackByQueryId"
-         [ngClass]="setClass(queryWidget.options?.queryId)"
-         class="boards-list--item"
-         id="{{queryWidget.options?.queryId}}"
+         [ngClass]="setContainerClass(queryWidget.options?.queryId)"
          wp-isolated-query-space
          cdkDrag
          vsDragScroll
@@ -22,7 +20,7 @@
             cdkDragHandle></span>
       <board-list [resource]="queryWidget"
                   [board]="board"
-                  (setContainerClass)="onSetContainerClass($event)"
+                  (setContainerClass)="createHiddenColumnList($event)"
                   (onRemove)="removeList(board, queryWidget)"></board-list>
     </div>
 
