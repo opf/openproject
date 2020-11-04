@@ -30,15 +30,6 @@
 
 module Projects
   class CreateService < ::BaseServices::Create
-    def after_perform(attributes_call)
-      attributes_call.result.add_member!(user, Role.in_new_project) unless user.admin?
-
-      OpenProject::Notifications.send(
-        OpenProject::Events::PROJECT_CREATED,
-        project: attributes_call.result
-      )
-
-      super
-    end
+    include Projects::Concerns::NewProjectService
   end
 end

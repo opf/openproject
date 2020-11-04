@@ -84,7 +84,7 @@ module Projects::Copy
         .new(user: user,
              work_package: source_work_package,
              contract_class: WorkPackages::CopyProjectContract)
-        .call(overrides)
+        .call(**overrides)
 
       if service_call.success?
         service_call.result
