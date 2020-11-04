@@ -78,7 +78,7 @@ feature 'Wiki activities' do
     click_link('Wiki edit: My page (#2)')
 
     expect(page)
-      .to have_current_path(project_wiki_path(project.id, 'My page', version: 2))
+      .to have_current_path(project_wiki_path(project.id, 'my-page', version: 2))
 
     # disable the wiki module
 
