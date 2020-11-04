@@ -238,13 +238,17 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     if (!activeDragNDrop) {
       // normal display
 
-      // Show only one date field if left=start, right=dueDate
-      if (labelConfiguration.left === 'startDate' && labelConfiguration.right === 'dueDate') {
-        this.renderLabel(change, labels, 'left', null);
-        this.renderLabel(change, labels, 'right', 'date');
+      if (withCustomLabels) {
+        this.renderLabel(change, labels, 'right', 'subject');
       } else {
-        this.renderLabel(change, labels, 'left', labelConfiguration.left);
-        this.renderLabel(change, labels, 'right', labelConfiguration.right);
+        // Show only one date field if left=start, right=dueDate
+        if (labelConfiguration.left === 'startDate' && labelConfiguration.right === 'dueDate') {
+          this.renderLabel(change, labels, 'left', null);
+          this.renderLabel(change, labels, 'right', 'date');
+        } else {
+          this.renderLabel(change, labels, 'left', labelConfiguration.left);
+          this.renderLabel(change, labels, 'right', labelConfiguration.right);
+        }
       }
 
       this.renderLabel(change, labels, 'farRight', labelConfiguration.farRight);
