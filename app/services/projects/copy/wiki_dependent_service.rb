@@ -65,7 +65,7 @@ module Projects::Copy
         wiki_pages_map.each do |old_page, new_page|
           next unless old_page && new_page
 
-          copy_attachments(old_page.id, new_page.id, new_page.class.name)
+          copy_attachments(old_page, new_page.id)
         end
       end
     end
@@ -77,7 +77,7 @@ module Projects::Copy
       # Relying on ActionMailer::Base.perform_deliveries is violating cohesion
       # but the value is currently not otherwise provided
       service_call = WikiPages::CopyService
-                     .new(user: User.current, model: source_page, contract_class: WikiPages::CopyContract)
+                     .new(user: user, model: source_page, contract_class: WikiPages::CopyContract)
                      .call(wiki: target.wiki,
                            parent: new_parent,
                            send_notifications: ActionMailer::Base.perform_deliveries)

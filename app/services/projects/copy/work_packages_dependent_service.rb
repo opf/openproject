@@ -68,7 +68,7 @@ module Projects::Copy
 
         # Attachments
         if should_copy?(params, :work_package_attachments)
-          copy_attachments(wp.id, new_wp_id, 'WorkPackage')
+          copy_attachments(wp, new_wp_id)
         end
 
         copy_relations(wp, new_wp_id, work_packages_map)
