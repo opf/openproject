@@ -77,8 +77,18 @@ class Budget < ApplicationRecord
   def copy_from(arg)
     budget = (arg.is_a?(Budget) ? arg : self.class.find(arg))
     self.attributes = budget.attributes.dup
-    self.labor_budget_items = budget.labor_budget_items.map(&:dup)
-    self.material_budget_items = budget.material_budget_items.map(&:dup)
+    self.id = nil if self.id == budget.id
+    self.labor_budget_items = budget.labor_budget_items.map do |lc|
+      lc.dup do |d|
+        d.budget = self && d.budget_id = self.id
+      end
+    end
+    self.material_budget_items = budget.material_budget_items.map do |mc|
+      mc.dup do |d|
+        d.budget = self
+        d.budget_id = self.id
+      end
+    end
   end
 
   def budget
