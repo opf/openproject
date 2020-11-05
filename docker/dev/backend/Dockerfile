@@ -24,6 +24,7 @@ COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
 
 # The following lines are needed to make sure the file permissions are setup correctly after the volumes are mounted
 RUN mkdir -p /home/$USER/openproject/tmp
+RUN mkdir -p /usr/local/bundle
 RUN chown $USER:$USER /usr/local/bundle
 RUN chown $USER:$USER /home/$USER/openproject/tmp
 

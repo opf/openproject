@@ -61,6 +61,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
       RAILS_ENV: development
       RAILS_CACHE_STORE: memcache
       OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
