@@ -51,7 +51,7 @@ def register_firefox(language, name: :"firefox_#{language}")
         app,
         browser: :firefox,
         desired_capabilities: capabilities,
-        options: options
+        options: options,
         http_client: client
       )
     else
