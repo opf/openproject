@@ -28,10 +28,10 @@
 
 class DesignColor < ApplicationRecord
   after_commit -> do
-    # CustomStyle.current.updated_at determins the cache key for inline_css
+    # CustomStyle.current.updated_at determines the cache key for inline_css
     # in which the CSS color variables will be overwritten. That is why we need
     # to ensure that a CustomStyle.current exists and that the time stamps change
-    # whenever we chagen a color_variable.
+    # whenever we change a color_variable.
     if CustomStyle.current
       CustomStyle.current.touch
     else
