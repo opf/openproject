@@ -47,6 +47,7 @@ describe Projects::CopyService, 'integration', type: :model do
                       member_through_role: role)
   end
   let(:role) { FactoryBot.create :role, permissions: %i[copy_projects view_work_packages] }
+  shared_let(:new_project_role) { FactoryBot.create :role, permissions: %i[] }
   let(:instance) do
     described_class.new(source: source, user: current_user)
   end
@@ -56,6 +57,12 @@ describe Projects::CopyService, 'integration', type: :model do
   end
   let(:params) do
     { target_project_params: target_project_params, only: only_args }
+  end
+
+  before do
+    allow(Setting)
+      .to receive(:new_project_user_role_id)
+      .and_return(new_project_role.id.to_s)
   end
 
   describe 'call' do
@@ -107,6 +114,14 @@ describe Projects::CopyService, 'integration', type: :model do
 
       # Default attributes
       expect(project_copy).to be_active
+
+      # Default role being assigned according to setting
+      #  merged with the role the user already had.
+      member = project_copy.members.first
+      expect(member.principal)
+        .to eql(current_user)
+      expect(member.roles)
+        .to match_array [role, new_project_role]
     end
 
     it 'will copy the work package with category' do
