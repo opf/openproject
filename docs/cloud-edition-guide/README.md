@@ -38,7 +38,7 @@ You will get a detailed feature comparison [here](https://www.openproject.org/pr
 ## Frequently asked questions - FAQ
 
 
-### Can I import my OpenProject community instance into my cloud environment?
+### Can I import my OpenProject community instance into my Enterprise cloud environment?
 
 Yes, we provide an upload possibility of your data to move from a Community installation to the Enterprise cloud edition.
 To import your community instance into our cloud environment, please send us the following files:
