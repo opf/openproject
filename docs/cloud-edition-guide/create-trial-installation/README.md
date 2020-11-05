@@ -9,7 +9,7 @@ keywords: trial installation
 
 # Create an OpenProject trial installation
 
-You can easily set up a **14 days free trial** for the OpenProject Cloud Edition.
+You can easily set up a **14 days free trial** for the OpenProject Enterprise cloud edition.
 
 Here you can test all OpenProject functionalities thoroughly. After 14 days the trial will expire automatically, there is no further action nor cancellation required from your side. So, you have all freedom to test OpenProject unconcernedly.
 
@@ -41,9 +41,9 @@ Your OpenProject instance will be created and you will be directed to your OpenP
 
 ## Frequently asked questions (FAQ)
 
-### My OpenProject cloud trial expired – can I still access my data?
+### My OpenProject Enterprise cloud trial expired – can I still access my data?
 
 Due to data privacy reasons we automatically delete OpenProject trial environments a couple of weeks after they have expired.
-If your OpenProject Trial is not accessible through the known URL, it has likely been deleted.
+If your OpenProject trial is not accessible through the known URL, it has likely been deleted.
 You can easily [create a new OpenProject trial environment](https://start.openproject.com/). Simply enter your organization name (you can use the same name as before) and click on "Start Free Trial".
 In order to avoid that your data is getting deleted, please select a plan during your trial duration or shortly after your OpenProject trial environment has expired.

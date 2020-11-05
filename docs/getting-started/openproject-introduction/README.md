@@ -113,14 +113,14 @@ Document project achievements, lessons learned, best practices and easily summar
 
 ## OpenProject products
 
-###  What is the differences between the Community, Cloud and Enterprise Edition?
+###  What is the difference between the Community, Enterprise cloud and Enterprise on-premises edition?
 
-OpenProject can be used in three different Editions, either on-premise or as software-as-a-service.
+OpenProject can be used in three different editions, either on-premises or as software-as-a-service.
 
 ![openproject versions](1569586019132.png)
 
-* [Community Edition](https://www.openproject.org/download-and-installation/): self-installed on-premise.
-* [Cloud Edition](https://www.openproject.org/hosting/): we host it, incl. premium features and support.
-* [Enterprise Edition](https://www.openproject.org/enterprise-edition/): self-hosted version, incl. premium features and support.
+* [Community edition](https://www.openproject.org/download-and-installation/): self-installed on-premise.
+* [Enterprise cloud edition](https://www.openproject.org/hosting/): we host it, incl. premium features and support.
+* [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/): self-hosted version, incl. premium features and support.
 
 To compare the features side by side, please visit our [Feature Comparison](https://www.openproject.org/pricing/#features) page.

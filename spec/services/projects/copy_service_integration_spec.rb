@@ -319,6 +319,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
             wp = project_copy.work_packages.find_by(subject: work_package.subject)
             expect(wp.attachments.count).to eq(1)
+            expect(wp.attachments.first.author).to eql(current_user)
           end
         end
 

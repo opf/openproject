@@ -156,6 +156,10 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     end
 
     context 'with the page not existing' do
+      let(:stored_grids) do
+        # no pages exist so the page requests for is not existing as well
+      end
+
       let(:path) { api_v3_paths.grid(5) }
 
       it 'responds with 404 NOT FOUND' do
