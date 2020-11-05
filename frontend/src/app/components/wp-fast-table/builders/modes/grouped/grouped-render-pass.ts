@@ -11,7 +11,7 @@ import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource
 import {collapsedRowClass} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {GroupSumsBuilder} from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
 
-export const groupRowClass = 'group-row';
+export const groupRowClass = '-group-row';
 
 export class GroupedRenderPass extends PlainRenderPass {
 

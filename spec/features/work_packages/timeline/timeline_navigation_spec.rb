@@ -324,7 +324,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       header = find('.wp-table--group-header', text: 'My Project No.')
       header.find('.expander').click
 
-      expect(page).to have_selector('.group-row .timeline-element.milestone')
+      expect(page).to have_selector('.-group-row .timeline-element.milestone')
     end
 
     it 'does not show icons on expanded project group rows' do
@@ -338,7 +338,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       header_expander.click
       header_expander.click
 
-      expect(page).to have_no_selector('.group-row .timeline-element')
+      expect(page).to have_no_selector('.-group-row .timeline-element')
     end
 
     it 'shows correct labels when hovering milestone icons on collapsed group rows' do
