@@ -90,6 +90,6 @@ end
 # Resize window if firefox
 RSpec.configure do |config|
   config.before(:each, driver: Proc.new { |val| val.to_s.start_with? 'firefox_' }) do
-    Capybara.page.driver.browser.manage.window.maximize
+    Capybara.page.current_window.maximize
   end
 end
