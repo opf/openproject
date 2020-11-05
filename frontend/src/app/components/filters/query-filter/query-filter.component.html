@@ -36,9 +36,18 @@
     [filter]="filter"></filter-boolean-value>
 
   </div>
-
+  
+  <div class="advanced-filters--filter-value" *ngIf="filter.name==='Parent'">
+    <filter-searchable-multiselect-value
+      (filterChanged)="onFilterUpdated($event)"
+      [shouldFocus]="shouldFocus"
+      [filterConditions]="parentFilter.filters"
+      [filterResource]="parentFilter.resource"
+      [filterSearchKey]="parentFilter.searchKey"
+      [filter]="filter"></filter-searchable-multiselect-value>
+  </div>
   <!-- Values -->
-  <ng-container *ngIf="showValuesInput && valueType">
+  <ng-container *ngIf="showValuesInput && valueType && filter.name!=='Parent'">
     <div class="advanced-filters--filter-value" [ngSwitch]="valueType">
       <filter-integer-value *ngSwitchCase="'[1]Integer'"
                             (filterChanged)="onFilterUpdated($event)"
