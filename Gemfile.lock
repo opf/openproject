@@ -638,7 +638,7 @@ GEM
       sawyer (~> 0.8.0, >= 0.5.3)
     oj (3.10.15)
     okcomputer (1.18.2)
-    omniauth-saml (1.10.2)
+    omniauth-saml (1.10.3)
       omniauth (~> 1.3, >= 1.3.2)
       ruby-saml (~> 1.9)
     open4 (1.3.4)
