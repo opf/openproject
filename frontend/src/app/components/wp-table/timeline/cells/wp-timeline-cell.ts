@@ -58,7 +58,8 @@ export class WorkPackageCellLabels {
               public readonly leftHover:HTMLDivElement|null,
               public readonly right:HTMLDivElement,
               public readonly rightHover:HTMLDivElement|null,
-              public readonly farRight:HTMLDivElement) {
+              public readonly farRight:HTMLDivElement,
+              public readonly withCustomLabels?:boolean) {
   }
 
 }
@@ -195,8 +196,7 @@ export class WorkPackageTimelineCell {
         const shouldBeDisplayed = renderer.update(
           this.wpElement as HTMLDivElement,
           this.labels,
-          renderInfo,
-          withCustomLabels);
+          renderInfo);
 
         if (!shouldBeDisplayed) {
           this.clear();

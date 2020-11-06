@@ -116,7 +116,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return direction;
   }
 
-  public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo, withCustomLabels?:boolean):boolean {
+  public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
     const viewParams = renderInfo.viewParams;
     const date = moment(renderInfo.change.projectedResource.date);
 
@@ -140,7 +140,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     // Update labels if any
     if (labels) {
-      this.updateLabels(false, labels, renderInfo.change, withCustomLabels);
+      this.updateLabels(false, labels, renderInfo.change);
     }
 
     this.checkForActiveSelectionMode(renderInfo, diamond);
@@ -213,14 +213,14 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     labelHoverLeft.classList.add(classNameLeftHoverLabel, classNameShowOnHover, classNameHoverStyle);
     element.appendChild(labelHoverLeft);
 
-    const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight);
-    this.updateLabels(false, labels, renderInfo.change, withCustomLabels);
+    const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight, withCustomLabels);
+    this.updateLabels(false, labels, renderInfo.change);
 
     return labels;
   }
 
-  protected renderHoverLabels(labels:WorkPackageCellLabels, change:WorkPackageChangeset, withCustomLabels?:boolean) {
-    if (withCustomLabels) {
+  protected renderHoverLabels(labels:WorkPackageCellLabels, change:WorkPackageChangeset) {
+    if (labels.withCustomLabels) {
       this.renderLabel(change, labels, 'leftHover', 'date');
       this.renderLabel(change, labels, 'rightHover', 'subject');
     } else {
@@ -230,15 +230,14 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
   protected updateLabels(activeDragNDrop:boolean,
                          labels:WorkPackageCellLabels,
-                         change:WorkPackageChangeset,
-                         withCustomLabels?:boolean) {
+                         change:WorkPackageChangeset) {
 
     const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(change.projectedResource);
 
     if (!activeDragNDrop) {
       // normal display
 
-      if (withCustomLabels) {
+      if (labels.withCustomLabels) {
         this.renderLabel(change, labels, 'right', 'subject');
       } else {
         // Show only one date field if left=start, right=dueDate
@@ -255,7 +254,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     }
 
     // Update hover labels
-    this.renderHoverLabels(labels, change, withCustomLabels);
+    this.renderHoverLabels(labels, change);
   }
 
   protected renderLabel(change:WorkPackageChangeset,
