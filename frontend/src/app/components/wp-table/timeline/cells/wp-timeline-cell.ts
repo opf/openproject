@@ -128,7 +128,7 @@ export class WorkPackageTimelineCell {
     return this.cellContainer.find(`.${this.classIdentifier}`);
   }
 
-  private lazyInit(renderer:TimelineCellRenderer | TimelineMilestoneCellRenderer, renderInfo:RenderInfo):Promise<void> {
+  private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo):Promise<void> {
     const body = this.workPackageTimeline.timelineBody[0];
     const cell = this.cellElement;
 
@@ -176,7 +176,7 @@ export class WorkPackageTimelineCell {
     return Promise.resolve();
   }
 
-  private cellRenderer(workPackage:WorkPackageResource):TimelineCellRenderer | TimelineMilestoneCellRenderer {
+  private cellRenderer(workPackage:WorkPackageResource):TimelineCellRenderer {
     if (this.schemaCache.of(workPackage).isMilestone) {
       return this.renderers.milestone;
     }
