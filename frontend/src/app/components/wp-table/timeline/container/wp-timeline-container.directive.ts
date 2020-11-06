@@ -364,14 +364,9 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     const newParams = new TimelineViewParameters();
     let changed = false;
+    const workPackagesToCalculateTimelineWidthFrom = this.getWorkPackagesToCalculateTimelineWidthFrom();
 
-    // Calculate view parameters
-    // Include work packages that are show in collapsed group
-    // headers into the calculation, if not they could be rendered out
-    // of the timeline (ie: milestones are shown on collapsed row groups).
-    const rowsToCalculateTimelineWidthFrom = [...this.workPackageIdOrder, ...this.workPackagesWithGroupHeaderCell];
-
-    rowsToCalculateTimelineWidthFrom.forEach((renderedRow) => {
+    workPackagesToCalculateTimelineWidthFrom.forEach((renderedRow) => {
       const wpId = renderedRow.workPackageId;
 
       if (!wpId) {
@@ -445,10 +440,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     if (this.workPackageIdOrder.length === 0) {
       return;
     }
-    // Include work packages that are show in collapsed group
-    // headers into the calculation, if not the zoom won't fit
-    // to them (ie: milestones are shown on collapsed row groups).
-    const workPackagesToCalculateWidthFrom = [...this.workPackageIdOrder, ...this.workPackagesWithGroupHeaderCell];
+
+    const workPackagesToCalculateWidthFrom =  this.getWorkPackagesToCalculateTimelineWidthFrom();
     const daysSpan = calculateDaySpan(workPackagesToCalculateWidthFrom, this.states.workPackages, this._viewParameters);
     const timelineWidthInPx = this.$element.parent().width()! - (2 * requiredPixelMarginLeft);
 
@@ -543,5 +536,12 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   isMilestone = (workPackage:WorkPackageResource) => {
     return this.schemaCacheService.of(workPackage)?.isMilestone;
+  }
+
+  getWorkPackagesToCalculateTimelineWidthFrom() {
+    // Include work packages that are show in collapsed group
+    // headers into the calculation, if not they could be rendered out
+    // of the timeline (ie: milestones are shown on collapsed row groups).
+    return [...this.workPackageIdOrder, ...this.workPackagesWithGroupHeaderCell];
   }
 }
