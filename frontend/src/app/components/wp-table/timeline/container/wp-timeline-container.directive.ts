@@ -177,11 +177,13 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
       const refreshAllGroupHeaderCells = !change;
 
-      this.manageCollapsedGroupHeaderCells(this.querySpace.groups.value!,
-                                            collapsedGroupsChange,
-                                            this.querySpace.results.value!.elements,
-                                            this.collapsedGroupsCellsMap,
-                                            refreshAllGroupHeaderCells);
+      if (collapsedGroupsChange) {
+        this.manageCollapsedGroupHeaderCells(this.querySpace.groups.value!,
+                                              collapsedGroupsChange,
+                                              this.querySpace.results.value!.elements,
+                                              this.collapsedGroupsCellsMap,
+                                              refreshAllGroupHeaderCells);
+      }
     });
   }
 
@@ -466,14 +468,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   }
 
   manageCollapsedGroupHeaderCells(allGroups:GroupObject[],
-                                  collapsedGroupsChange:{[key:string]:boolean}|undefined,
+                                  collapsedGroupsChange:{[key:string]:boolean},
                                   tableWorkPackages:WorkPackageResource[],
                                   collapsedGroupsCellsMap:IGroupCellsMap,
-                                  updateAllHeaderCells?:boolean) {
-    if (!collapsedGroupsChange) {
-      return;
-    }
-
+                                  refreshAllGroupHeaderCells:boolean) {
     const collapsedGroupChangesToManage = Object.keys(collapsedGroupsChange).filter(groupKey => {
       const keyGroupType = groupKey.split('-')[0];
 
@@ -481,7 +479,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     });
     let groupsToUpdate:string[];
 
-    if (updateAllHeaderCells) {
+    if (refreshAllGroupHeaderCells) {
       groupsToUpdate = collapsedGroupChangesToManage;
     } else {
       groupsToUpdate = collapsedGroupChangesToManage.filter(groupKey => {
