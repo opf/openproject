@@ -4,12 +4,13 @@ module Copy
 
       ##
       # Tries to copy the given attachment between containers
-      def copy_attachments(from_container_id, to_container_id, container_type)
-        Attachment.where(container_id: from_container_id).find_each do |old_attachment|
+      def copy_attachments(from_container, to_container_id)
+        Attachment.where(container: from_container).find_each do |old_attachment|
           copied = old_attachment.dup
           old_attachment.file.copy_to(copied)
 
-          copied.container_type = container_type
+          copied.author = user
+          copied.container_type = from_container.class.name
           copied.container_id = to_container_id
 
           unless copied.save

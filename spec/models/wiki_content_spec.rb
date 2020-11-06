@@ -32,11 +32,22 @@ describe WikiContent, type: :model do
   let(:wiki) { FactoryBot.create(:wiki) }
   let(:page) { FactoryBot.create(:wiki_page, wiki: wiki) }
   let(:content) { FactoryBot.create(:wiki_content, page: page, author: author) }
-  let(:author) { FactoryBot.create(:user, member_in_project: wiki.project, member_with_permissions: [:view_wiki_pages]) }
+  let(:author) do
+    FactoryBot.create(:user,
+                      member_in_project: wiki.project,
+                      member_with_permissions: [:view_wiki_pages],
+                      mail_notification: nil)
+  end
+  let(:project_watcher) do
+    FactoryBot.create(:user,
+                      member_in_project: wiki.project,
+                      member_with_permissions: [:view_wiki_pages])
+  end
   let(:page_watcher) do
     watcher = FactoryBot.create(:user,
                                 member_in_project: wiki.project,
-                                member_with_permissions: [:view_wiki_pages])
+                                member_with_permissions: [:view_wiki_pages],
+                                mail_notification: nil)
     page.watcher_users << watcher
 
     watcher
@@ -45,7 +56,8 @@ describe WikiContent, type: :model do
   let(:wiki_watcher) do
     watcher = FactoryBot.create(:user,
                                 member_in_project: wiki.project,
-                                member_with_permissions: [:view_wiki_pages])
+                                member_with_permissions: [:view_wiki_pages],
+                                mail_notification: nil)
     wiki.watcher_users << watcher
 
     watcher
@@ -54,22 +66,29 @@ describe WikiContent, type: :model do
   describe '#save (create)' do
     let(:content) { FactoryBot.build(:wiki_content, page: page) }
 
-    it 'sends mails to the wiki`s watchers', with_settings: { notified_events: ['wiki_content_added'] } do
+    it 'sends mails to the wiki`s watchers and project all watchers', with_settings: { notified_events: ['wiki_content_added'] } do
       wiki_watcher
+      project_watcher
 
       expect {
         content.save!
         perform_enqueued_jobs
       }
         .to change { ActionMailer::Base.deliveries.size }
-        .by(1)
+        .by(2)
     end
   end
 
   describe '#save (update)' do
-    it 'sends mails to the author, the watchers and the wiki`s watchers', with_settings: { notified_events: ['wiki_content_updated'] } do
+    it 'sends mails to the watchers, the wiki`s watchers and project all watchers',
+       with_settings: { notified_events: ['wiki_content_updated'], journal_aggregation_time_minutes: 0 } do
       page_watcher
       wiki_watcher
+      project_watcher
+
+      content
+      perform_enqueued_jobs
+
       content.text = 'My new content'
 
       expect {

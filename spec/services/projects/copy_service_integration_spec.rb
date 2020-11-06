@@ -37,6 +37,7 @@ describe Projects::CopyService, 'integration', type: :model do
   shared_let(:source_category) { FactoryBot.create :category, project: source, name: 'Stock management' }
   shared_let(:source_version) { FactoryBot.create :version, project: source, name: 'Version A' }
   shared_let(:source_wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: source.wiki) }
+  shared_let(:source_child_wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: source.wiki, parent: source_wiki_page) }
   shared_let(:source_forum) { FactoryBot.create(:forum, project: source) }
   shared_let(:source_topic) { FactoryBot.create(:message, forum: source_forum) }
 
@@ -46,6 +47,7 @@ describe Projects::CopyService, 'integration', type: :model do
                       member_through_role: role)
   end
   let(:role) { FactoryBot.create :role, permissions: %i[copy_projects view_work_packages] }
+  shared_let(:new_project_role) { FactoryBot.create :role, permissions: %i[] }
   let(:instance) do
     described_class.new(source: source, user: current_user)
   end
@@ -55,6 +57,12 @@ describe Projects::CopyService, 'integration', type: :model do
   end
   let(:params) do
     { target_project_params: target_project_params, only: only_args }
+  end
+
+  before do
+    allow(Setting)
+      .to receive(:new_project_user_role_id)
+      .and_return(new_project_role.id.to_s)
   end
 
   describe 'call' do
@@ -86,10 +94,11 @@ describe Projects::CopyService, 'integration', type: :model do
       expect(project_copy.forums.count).to eq 1
       expect(project_copy.forums.first.messages.count).to eq 1
       expect(project_copy.wiki).to be_present
-      expect(project_copy.wiki.pages.count).to eq 1
+      expect(project_copy.wiki.pages.count).to eq 2
       expect(project_copy.queries.count).to eq 1
       expect(project_copy.versions.count).to eq 1
-      expect(project_copy.wiki.pages.first.content.text).to eq source_wiki_page.content.text
+      expect(project_copy.wiki.pages.root.content.text).to eq source_wiki_page.content.text
+      expect(project_copy.wiki.pages.leaves.first.content.text).to eq source_child_wiki_page.content.text
       expect(project_copy.wiki.start_page).to eq 'Wiki'
 
       # Cleared attributes
@@ -105,6 +114,14 @@ describe Projects::CopyService, 'integration', type: :model do
 
       # Default attributes
       expect(project_copy).to be_active
+
+      # Default role being assigned according to setting
+      #  merged with the role the user already had.
+      member = project_copy.members.first
+      expect(member.principal)
+        .to eql(current_user)
+      expect(member.roles)
+        .to match_array [role, new_project_role]
     end
 
     it 'will copy the work package with category' do
@@ -229,10 +246,11 @@ describe Projects::CopyService, 'integration', type: :model do
     describe '#copy_wiki' do
       it 'will not copy wiki pages without content' do
         source.wiki.pages << FactoryBot.create(:wiki_page)
-        expect(source.wiki.pages.count).to eq 2
+        expect(source.wiki.pages.count).to eq 3
 
         expect(subject).to be_success
-        expect(project_copy.wiki.pages.count).to eq 1
+        expect(subject.errors).to be_empty
+        expect(project_copy.wiki.pages.count).to eq 2
       end
 
       it 'will copy menu items' do
@@ -316,6 +334,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
             wp = project_copy.work_packages.find_by(subject: work_package.subject)
             expect(wp.attachments.count).to eq(1)
+            expect(wp.attachments.first.author).to eql(current_user)
           end
         end
 

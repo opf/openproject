@@ -112,7 +112,7 @@ class Journal < ApplicationRecord
   private
 
   def destroy_data
-    data.destroy
+    data&.destroy
   end
 
   def predecessor

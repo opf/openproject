@@ -64,7 +64,7 @@ Queries are regular APIv3 grape endpoints that can be accessed through the `/api
 
 The default query `/api/v3/queries/default`  and `/api/v3/:project_id/queries/default` contains a default set of configuration (back-end and front-end) global and for the given project, respectively. They can only be modified administrators through some global settings.
 
-A number of parameters can be passed to the Query through parameters as elaborated on in [the respective APIv3 documentation](https://docs.openproject.org/api/queries/#queries-query).
+A number of parameters can be passed to the Query through parameters as elaborated on in [the respective APIv3 documentation](https://docs.openproject.org/api/endpoints/queries/#queries-query).
 
 Clients can define a query once, save it and use it later on to load the same set of filters, columns, and so on. When retrieved from the database (a query id is passed), the query has been previously stored. Saved properties may be overridden through URL parameters, which override the existing saved query.
 
@@ -72,7 +72,7 @@ Clients can define a query once, save it and use it later on to load the same se
 
 ### Query collections responses
 
-Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 section](https://docs.openproject.org/api/queries/#queries-queries).
+Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 section](https://docs.openproject.org/api/endpoints/queries/#queries-queries).
 
 This response will end up representing the available queries on the `work packages` module sidebar as shown below.
 
