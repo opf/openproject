@@ -59,7 +59,7 @@ export class WorkPackageCellLabels {
               public readonly right:HTMLDivElement,
               public readonly rightHover:HTMLDivElement|null,
               public readonly farRight:HTMLDivElement,
-              public readonly withCustomLabels?:boolean) {
+              public readonly withAlternativeLabels?:boolean) {
   }
 
 }
@@ -128,7 +128,7 @@ export class WorkPackageTimelineCell {
     return this.cellContainer.find(`.${this.classIdentifier}`);
   }
 
-  private lazyInit(renderer:TimelineCellRenderer | TimelineMilestoneCellRenderer, renderInfo:RenderInfo, isDuplicatedCell?:boolean, withCustomLabels?:boolean):Promise<void> {
+  private lazyInit(renderer:TimelineCellRenderer | TimelineMilestoneCellRenderer, renderInfo:RenderInfo):Promise<void> {
     const body = this.workPackageTimeline.timelineBody[0];
     const cell = this.cellElement;
 
@@ -144,11 +144,11 @@ export class WorkPackageTimelineCell {
     }
 
     // Remove the element first if we're redrawing
-    !isDuplicatedCell && this.clear();
+    !renderInfo.isDuplicatedCell && this.clear();
 
     // Render the given element
     this.wpElement = renderer.render(renderInfo);
-    this.labels = renderer.createAndAddLabels(renderInfo, this.wpElement, withCustomLabels);
+    this.labels = renderer.createAndAddLabels(renderInfo, this.wpElement);
     this.elementShape = renderer.type;
 
     // Register the element
@@ -184,13 +184,13 @@ export class WorkPackageTimelineCell {
     return this.renderers.generic;
   }
 
-  public refreshView(renderInfo:RenderInfo, isDuplicatedCell?:boolean, withCustomLabels?:boolean) {
+  public refreshView(renderInfo:RenderInfo) {
     this.latestRenderInfo = renderInfo;
 
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
-    this.lazyInit(renderer, renderInfo, isDuplicatedCell, withCustomLabels)
+    this.lazyInit(renderer, renderInfo)
       .then(() => {
         // Render the upgrade from renderInfo
         const shouldBeDisplayed = renderer.update(

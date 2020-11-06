@@ -182,7 +182,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return element;
   }
 
-  createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement, withCustomLabels?:boolean):WorkPackageCellLabels {
+  createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement):WorkPackageCellLabels {
     // create left label
     const labelLeft = document.createElement('div');
     labelLeft.classList.add(classNameLeftLabel, classNameHideOnHover);
@@ -213,14 +213,14 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     labelHoverLeft.classList.add(classNameLeftHoverLabel, classNameShowOnHover, classNameHoverStyle);
     element.appendChild(labelHoverLeft);
 
-    const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight, withCustomLabels);
+    const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight, renderInfo.withAlternativeLabels);
     this.updateLabels(false, labels, renderInfo.change);
 
     return labels;
   }
 
   protected renderHoverLabels(labels:WorkPackageCellLabels, change:WorkPackageChangeset) {
-    if (labels.withCustomLabels) {
+    if (labels.withAlternativeLabels) {
       this.renderLabel(change, labels, 'leftHover', 'date');
       this.renderLabel(change, labels, 'rightHover', 'subject');
     } else {
@@ -237,7 +237,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     if (!activeDragNDrop) {
       // normal display
 
-      if (labels.withCustomLabels) {
+      if (labels.withAlternativeLabels) {
         this.renderLabel(change, labels, 'right', 'subject');
       } else {
         // Show only one date field if left=start, right=dueDate
