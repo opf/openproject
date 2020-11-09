@@ -84,25 +84,6 @@ Feature: Edit story type and status
     And I am on the master backlog
 
   @javascript
-  Scenario: Display only statuses which are allowed by workflow
-     When I click on the text "Story A"
-
-    And the available status of the story called "Story A" should be the following:
-        | New    |
-        | Closed |
-
-    When I select "Closed" from "status_id"
-     And I confirm the story form
-
-    Then the displayed attributes of the story called "Story A" should be the following:
-        | Status | Closed |
-
-    When I click on the text "Story A"
-
-    Then the available status of the story called "Story A" should be the following:
-        | Closed |
-
-  @javascript
   Scenario: Select a status and change to a type that does not offer the status
      When I click on the text "Story B"
 
@@ -128,21 +109,3 @@ Feature: Edit story type and status
 
      Then the displayed attributes of the story called "Story B" should be the following:
         | Status | New |
-
-  @javascript
-  Scenario: Edit a story having no permission for the status of the current ticket
-     When the Type "Bug" has for the Role "manager" the following workflows:
-        | old_status | new_status |
-        | New        | Resolved   |
-      And I am on the master backlog
-      And I click on the text "Story C"
-
-     Then the available status of the story called "Story C" should be the following:
-        | New      |
-        | Resolved |
-
-     When I select "Resolved" from "status_id"
-      And I confirm the story form
-
-     Then the displayed attributes of the story called "Story C" should be the following:
-        | Status | Resolved |

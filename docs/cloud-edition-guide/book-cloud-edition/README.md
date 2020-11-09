@@ -6,11 +6,11 @@ description: Book the OpenProject Cloud Edition.
 robots: index, follow
 keywords: Book Cloud Edition
 ---
-# Book the Cloud Edition
+# Book the Enterprise cloud edition
 
-After you have tested the OpenProject Could Edition and want to continue working with OpenProject, you can subscribe to one of our plans.
+After you have tested the OpenProject Enterprise cloud edition and want to continue working with OpenProject, you can subscribe to one of our plans.
 
-Please refer to our website for the Cloud Edition [pricing](https://www.openproject.org/pricing/).
+Please refer to our website for the Enterprise cloud edition [pricing](https://www.openproject.org/pricing/).
 
 You can subscribe to a monthly or yearly plan. The subscription can be **paid via Credit Card or Bank transfer** (only for yearly subscription).
 
@@ -57,7 +57,7 @@ Here, you can edit the account or billing information if needed.
 
 Subscribe to our regular newsletter in order to keep up to date with latest product developments.
 
-Click the blue **Pay button and subscribe** to the OpenProject Cloud Edition.
+Click the blue **Pay button and subscribe** to the OpenProject Enterprise cloud edition.
 
 A payment receipt will be sent via email.
 
@@ -88,4 +88,4 @@ An invoice will be sent via email to the Billing email.
 
 ### Is there an advantage of the annual over the monthly OpenProject plan?
 
-We offer two months of the Cloud Edition for free if you choose an annual plan.
+We offer two months of the Enterprise cloud edition for free if you choose an annual plan. If you decide for the two year plan, you get five months for free and if you commit to a five year plan, you get 15 months for free.

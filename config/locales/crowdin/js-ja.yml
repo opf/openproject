@@ -269,7 +269,7 @@ ja:
       blocks:
         new_features:
           text_new_features: "新しい機能と製品の更新について表示する"
-          learn_about: "Learn more about the new features"
+          learn_about: "新機能の詳細はこちら"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
@@ -379,7 +379,7 @@ ja:
     label_project_plural: "プロジェクト"
     label_visibility_settings: "表示の設定"
     label_quote_comment: "このコメントを引用"
-    label_recent: "Recent"
+    label_recent: "最新"
     label_reset: "リセット"
     label_remove_column: "列を削除"
     label_remove_columns: "選択した列を削除"
@@ -522,7 +522,7 @@ ja:
         more_information: "詳細情報"
         nevermind: "無視"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "フォーム設定"
         projects: "プロジェクト"
         settings: "設定"
     time_entry:
@@ -938,7 +938,7 @@ ja:
       child_work_packages:
         other: "%{count} の子ワークパッケージ"
       hour:
-        zero: "0 h"
+        zero: "0h"
         other: "%{count} 時間"
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'

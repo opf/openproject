@@ -30,8 +30,6 @@
 
 class Notifications::JournalWpMailService
   class << self
-    include Notifications::JournalNotifier
-
     def call(journal, send_mails)
       journal_complete_mail(journal, send_mails)
     end

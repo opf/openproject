@@ -38,7 +38,7 @@ class Tasks::UpdateService
     create_call = WorkPackages::UpdateService
                   .new(user: user,
                        model: task)
-                  .call(attributes)
+                  .call(**attributes)
 
     if create_call.success?
       create_call.result.move_after prev

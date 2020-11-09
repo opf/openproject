@@ -99,11 +99,6 @@ Feature: Team Member
       And the story named Story 1 should have 1 task named Whoa there, Sparky
 
   @javascript
-  Scenario: View a taskboard
-    Given I am on the taskboard for "Sprint 001"
-     Then I should see the taskboard
-
-  @javascript
   Scenario: View the burndown chart from the backlogs dashboard
     Given I am on the master backlog
       And I open the "Sprint 002" backlogs menu

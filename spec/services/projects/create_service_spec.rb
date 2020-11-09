@@ -112,9 +112,18 @@ describe Projects::CreateService, type: :model do
         .to receive(:in_new_project)
         .and_return(new_project_role)
 
-      expect(created_project)
-        .to receive(:add_member!)
-        .with(user, new_project_role)
+      create_member_instance = double('Members::CreateService instance')
+
+      expect(Members::CreateService)
+        .to receive(:new)
+        .with(user: user, contract_class: EmptyContract)
+        .and_return(create_member_instance)
+
+      expect(create_member_instance)
+        .to receive(:call)
+        .with(principal: user,
+              project: instance_of(Project),
+              roles: [new_project_role])
 
       subject
     end

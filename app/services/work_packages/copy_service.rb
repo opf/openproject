@@ -68,7 +68,7 @@ class WorkPackages::CopyService
     WorkPackages::CreateService
       .new(user: user,
            contract_class: contract_class)
-      .call(attributes.merge(send_notifications: send_notifications).symbolize_keys)
+      .call(**attributes.merge(send_notifications: send_notifications).symbolize_keys)
   end
 
   def copied_attributes(wp, override)

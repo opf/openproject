@@ -68,7 +68,7 @@ module Projects::Copy
 
         # Attachments
         if should_copy?(params, :work_package_attachments)
-          copy_attachments(wp.id, new_wp_id, 'WorkPackage')
+          copy_attachments(wp, new_wp_id)
         end
 
         copy_relations(wp, new_wp_id, work_packages_map)
@@ -84,7 +84,7 @@ module Projects::Copy
         .new(user: user,
              work_package: source_work_package,
              contract_class: WorkPackages::CopyProjectContract)
-        .call(overrides)
+        .call(**overrides)
 
       if service_call.success?
         service_call.result

@@ -120,15 +120,6 @@ Feature: Scrum Master
     And I am already logged in as "markus"
 
   @javascript
-  Scenario: View stories that have a parent ticket
-   Given I am on the master backlog
-    Then I should see 2 stories in "Sprint 005"
-     And I should not see "Epic 1"
-     And I should not see "Task 10"
-     And I should not see "Subtask 1"
-     And I should not see "Subfeature"
-
-  @javascript
   Scenario: Update sprint details
     Given I am on the master backlog
       And I want to edit the sprint named Sprint 001
