@@ -40,19 +40,14 @@ describe 'Stories in backlog',
   let!(:story) { FactoryBot.create(:type_feature) }
   let!(:task) { FactoryBot.create(:type_task) }
   let!(:priority) { FactoryBot.create(:default_priority) }
-  let!(:status) { FactoryBot.create(:status, is_default: true) }
+  let!(:default_status) { FactoryBot.create(:status, is_default: true) }
   let!(:other_status) { FactoryBot.create(:status) }
   let!(:workflows) do
     FactoryBot.create(:workflow,
-                      old_status: status,
+                      old_status: default_status,
                       new_status: other_status,
                       role: role,
                       type_id: story.id)
-    FactoryBot.create(:workflow,
-                      old_status: status,
-                      new_status: other_status,
-                      role: role,
-                      type_id: task.id)
   end
   let(:role) do
     FactoryBot.create(:role,
@@ -73,13 +68,29 @@ describe 'Stories in backlog',
     FactoryBot.create(:work_package,
                       project: project,
                       type: story,
+                      status: default_status,
                       version: sprint,
                       story_points: 10)
+  end
+  let!(:sprint_story1_task) do
+    FactoryBot.create(:work_package,
+                      project: project,
+                      type: task,
+                      status: default_status,
+                      version: sprint)
+  end
+  let!(:sprint_story2_parent) do
+    FactoryBot.create(:work_package,
+                      project: project,
+                      type: FactoryBot.create(:type),
+                      status: default_status,
+                      version: sprint)
   end
   let!(:sprint_story2) do
     FactoryBot.create(:work_package,
                       project: project,
                       type: story,
+                      status: default_status,
                       version: sprint,
                       story_points: 20)
   end
@@ -87,6 +98,7 @@ describe 'Stories in backlog',
     FactoryBot.create(:work_package,
                       project: project,
                       type: story,
+                      status: default_status,
                       version: backlog)
   end
   let!(:sprint) do
@@ -116,9 +128,24 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_velocity(sprint_story1, 30)
 
-    # Editing in a sprint
+    # All stories are visible in their sprint/backlog
+    # but non stories are not displayed
     backlogs_page
       .expect_story_in_sprint(sprint_story1, sprint)
+
+    backlogs_page
+      .expect_story_in_sprint(sprint_story2, sprint)
+
+    backlogs_page
+      .expect_story_in_sprint(backlog_story1, backlog)
+
+    backlogs_page
+      .expect_story_not_in_sprint(sprint_story2_parent, sprint)
+
+    backlogs_page
+      .expect_story_not_in_sprint(sprint_story1_task, sprint)
+
+    # Editing in a sprint
 
     backlogs_page
       .edit_story(sprint_story1,
@@ -138,18 +165,47 @@ describe 'Stories in backlog',
       .expect_velocity(sprint_story1, 35)
 
     # Editing in the backlog
-    backlogs_page
-      .expect_story_in_sprint(backlog_story1, backlog)
 
     backlogs_page
-      .edit_story(backlog_story1, subject: 'Altered backlog story1')
+      .enter_edit_story_mode(backlog_story1)
+
+    # The available statuses include those available by the workflow:
+    # Current and every reachable one
+    backlogs_page
+      .expect_status_options(backlog_story1,
+                             [default_status, other_status])
+
+    backlogs_page
+      .alter_attributes_in_edit_mode(backlog_story1,
+                                     subject: 'Altered backlog story1',
+                                     status: other_status.name)
+    backlogs_page
+      .save_story_from_edit_mode(backlog_story1)
 
     backlog_story1.reload
 
     expect(backlog_story1.subject)
       .to eql 'Altered backlog story1'
 
+    expect(backlog_story1.status)
+      .to eql other_status
+
     backlogs_page
-      .expect_for_story(backlog_story1, subject: 'Altered backlog story1')
+      .expect_for_story(backlog_story1,
+                        subject: 'Altered backlog story1',
+                        status: other_status.name)
+
+    backlogs_page
+      .enter_edit_story_mode(backlog_story1)
+
+    # Since we switched to other status, only the current status is available now.
+    backlogs_page
+      .expect_status_options(backlog_story1,
+                             [other_status])
+
+    # One can switch to the work package page by clicking on the id
+    # Clicking on it will open the wp in another tab which seems to trip up selenium.
+    backlogs_page
+      .expect_story_link_to_wp_page(sprint_story1)
   end
 end

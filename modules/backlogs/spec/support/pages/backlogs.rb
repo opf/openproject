@@ -37,21 +37,31 @@ module Pages
       @project = project
     end
 
-    def edit_story(story, attributes)
+    def enter_edit_story_mode(story)
       within_story(story) do
         find('*', text: story.subject).click
+      end
+    end
 
+    def alter_attributes_in_edit_mode(story, attributes)
+      within_story(story) do
         attributes.each do |key, value|
           case key
           when :subject
             fill_in 'subject', with: value
           when :story_points
             fill_in 'story points', with: value
+          when :status
+            select value, from: 'status'
           else
             raise NotImplementedError
           end
         end
+      end
+    end
 
+    def save_story_from_edit_mode(story)
+      within_story(story) do
         find('input[name=subject]').native.send_key :return
 
         expect(page)
@@ -62,9 +72,22 @@ module Pages
         .not_to have_selector("#{story_selector(story)}.ajax_indicator")
     end
 
+    def edit_story(story, attributes)
+      enter_edit_story_mode(story)
+
+      alter_attributes_in_edit_mode(story, attributes)
+
+      save_story_from_edit_mode(story)
+    end
+
     def expect_story_in_sprint(story, sprint)
       expect(page)
         .to have_selector("#backlog_#{sprint.id} #{story_selector(story)}")
+    end
+
+    def expect_story_not_in_sprint(story, sprint)
+      expect(page)
+        .not_to have_selector("#backlog_#{sprint.id} #{story_selector(story)}")
     end
 
     def expect_for_story(story, attributes)
@@ -74,10 +97,27 @@ module Pages
           when :subject
             expect(page)
               .to have_selector('div.subject', text: value)
+          when :status
+            expect(page)
+              .to have_selector('div.status_id', text: value)
           else
             raise NotImplementedError
           end
         end
+      end
+    end
+
+    def expect_story_link_to_wp_page(story)
+      within_story(story) do
+        expect(page)
+          .to have_link(story.id, href: work_package_path(story))
+      end
+    end
+
+    def expect_status_options(story, statuses)
+      within_story(story) do
+        expect(all('.status_id option').map { |n| n.text.strip } )
+          .to match_array(statuses.map(&:name))
       end
     end
 

@@ -90,14 +90,7 @@ Feature: Product Owner
           | Story B | Sprint 001 |
       And I am already logged in as "mathias"
 
-  @javascript
-  Scenario: View the product backlog
-     When I go to the master backlog
-     Then I should see the product backlog
-      And I should see 4 stories in the "Product Backlog"
-      And I should see 4 sprint backlogs
-      And I should see 2 product owner backlogs
-
+    # TODO: add to stories_in_backlog spec
   @javascript
   Scenario: Create a new story
      When I go to the master backlog
@@ -107,25 +100,6 @@ Feature: Product Owner
       And I create the story
      Then the 1st story in the "Product Backlog" should be "A Whole New Story"
       And all positions should be unique for each version
-
-  @javascript
-  Scenario: Update a story
-    Given I am on the master backlog
-      And I want to edit the story with subject Story 3
-      And I set the subject of the story to Relaxdiego was here
-      And I set the type of the story to Epic
-     When I update the story
-     Then the story should have a subject of Relaxdiego was here
-      And the story should have a type of Epic
-      And the story should be at position 3
-
-  @javascript
-  Scenario: Close a story
-    Given I am on the master backlog
-      And I want to edit the story with subject Story 4
-      And I set the status of the story to Closed
-     When I update the story
-     Then the status of the story should be set as closed
 
   @javascript
   Scenario: Move a story to the top
