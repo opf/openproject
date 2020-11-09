@@ -28,6 +28,7 @@ This way you will reduce wrong entries for attributes. This is especially releva
 | [Editing or deleting Attribute help texts](#editing-or-deleting-attribute-help-texts) | How to edit and how to delete an Attribute help text.      |
 | [Work packages](#work-packages)                              | Where will Attribute help texts for work packages be used? |
 | [Projects](#projects)                                        | Where will Attribute help texts for projects be used?      |
+| [WYSIWYG editor](#wysiwyg-editor)                            | Where can Attribute help texts be displayed?               |
 
 Navigate to -> *Administration* -> *Attribute help texts* to set up help texts for attributes and custom fields in work packages and projects. Here you can add, edit and delete Attribute help texts.
 
@@ -86,3 +87,9 @@ They will help the users (e.g. the project managers) understand what kind of inf
 
 
 ![image-20201007112741049](image-20201007112741049.png)
+
+
+
+## WYSIWYG editor
+
+The Attribute help texts can also be displayed in the WYSIWYG text editor by using a certain syntax. Find out more [here](../../user-guide/wysiwyg/#embedding-of-work-package-attributes-and-project-attributes). 
