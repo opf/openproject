@@ -20,13 +20,13 @@ ckEditor follows a particular model-view-controller architecture that could be s
 ###Model
 Is the HTML input data once loaded into the editor. ckEditor has a Model “DOM” where the HTML elements are replaced by ckEditor model elements emulating somehow the DOM tree.
 ###Views
-CkEditor has two types of views: \
-    * **Data View:** the editor’s input/output, the data imported to the editor and exported from the editor (HTML). \
-    * **Editing View:** the UI, the elements that the user interacts with in the editor’s UI.
+CkEditor has two types of views: 
+* **Data View:** the editor’s input/output, the data imported to the editor and exported from the editor (HTML).
+* **Editing View:** the UI, the elements that the user interacts with in the editor’s UI.
 ###Controller
-Layer in charge of transforming the elements from the two Views to the Model and the other way around. This means to transform: \
-    * The Data View (input HTML elements) into Model elements and the other way around. \
-    * The Editing View (UI elements) into Model elements and the other way around.
+Layer in charge of transforming the elements from the two Views to the Model and the other way around. This means to transform:
+* The Data View (input HTML elements) into Model elements and the other way around.
+* The Editing View (UI elements) into Model elements and the other way around.
 
 In ckEditor the Model is considered to be above the controllers, while the Views are below. This mental model is key to understand how the editor works.
 
@@ -45,7 +45,7 @@ Turning the Model into the Data View (the HTML output). We can hook into this pr
 ###Editing Downcast
 Turning the Model into the Editing View (the UI elements that the user manipulates). We can hook into this process with the method editor.conversion.for(“editingDowncast”).
 
-If we would want to hook into the Editing Downcast and the Data Downcast at the same time, this is applying the same transformations to the Model elements when placed in both views, we could hook into the generic method editor.conversion.for(“downcast”).
+If we would want to hook into the Editing Downcast and the Data Downcast at the same time, applying the same transformations to the Model elements in both views, we could hook into the generic method editor.conversion.for(“downcast”).
 
 ##Elements, Attributes and Schemas
 ckEditor has a Model “DOM” where the HTML elements are replaced by ckEditor model elements emulating somehow the DOM tree. Like in the DOM, in the CkEditor Model DOM we can place elements and attributes on elements.
@@ -90,7 +90,7 @@ In order to get it working, we did the following steps:
 ####1 - Markdown to HTML
 Define how the markdown elements are going to be translated to HTML elements. In this case, the backend is going to send the mention elements as tags (&lt;mention ...>...&lt;/mention>) right inside the markdown data, so we don’t need to make any conversion in order to turn it into the valid HTML that the CkEditor needs. \
 \
-In case it would be needed, it would be defined in the CommonMarkDataProcessor class (```commonmarkdataprocessor.js```), in its toView method.  
+In case it would be needed, it would be defined in the CommonMarkDataProcessor class (```commonmarkdataprocessor.js```), in its "toView" method.  
 
 ####2 - Upcast
 Define how the mention elements of the HTML input data are going to be represented in the ckEditor’s Model:
@@ -196,9 +196,9 @@ editor.conversion
 
 Here we say that we want to place the mention attributes of the ckEditor’s model as mention tags in the ckEditor’s output HTML (&lt;mention data-type=”user” data-id=”1” data-link=”/users/1” data-text=”@userName”>@userName&lt;/mention>).
 
-This is defined in the CkEditor plugin (MentionCaster).
+This is defined in the CkEditor plugin (```mentions-caster.js```).
 
-The model update of the mentions when the user adds or removes a mention is handled by the editor itself (we can’t hook into the editing upcast, only unto the data upcast called just ‘upcats’).
+The model update of the mentions when the user adds or removes a mention is handled by the editor itself (we can’t hook into the editing upcast, only into the data upcast called just ‘upcats’).
 
 ####5 - HTML to Markdown
 Define how the HTML mention tags are going to be represented in the markdown. They should be placed as strings, so we need to turn any mention element into its string representation: 
@@ -219,4 +219,7 @@ turndownService.addRule( 'mentions', {
 });
 ```
 
-This is defined in the CommonMarkDataProcessor class (```commonmarkdataprocessor.js```), in its toData method.
+This is defined in the CommonMarkDataProcessor class (```commonmarkdataprocessor.js```), in its "toData" method.
+
+###CkEditor documentation
+For more details about CkEditor, checkout its [documentation](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/overview.html).
