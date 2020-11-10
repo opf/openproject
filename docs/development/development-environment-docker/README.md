@@ -95,13 +95,13 @@ If you want to reset the data you can delete the docker volumes via `docker volu
 Start all linked containers and migrate the test database first:
 
 ```
-./bin/compose up backend-test
+docker-compose up backend-test 
 ```
 
 Afterwards, you can start the tests in the running `backend-test` container:
 
 ```
-./bin/compose run backend-test bundle exec rspec
+docker-compose run backend-test bundle exec rspec
 ```
 
 Tests are ran within Selenium containers, on a small local Selenium grid. You can connect to the containers via VNC if
