@@ -66,6 +66,7 @@ import {
 } from 'core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
 import {ExportTimelineService} from 'core-app/components/work-packages/exporter/ExportTimelineService';
 import {WorkPackageViewCollapsedGroupsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import {ExportTimelineService} from 'core-app/components/work-packages/exporter/ExportTimelineService';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -102,6 +103,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   private collapsedGroupsCellsMap:IGroupCellsMap = {};
 
   private orderedRows:RenderedWorkPackage[] = [];
+
+  public timelineExport: ExportTimelineService;
 
   get commonPipes() {
     return (source:Observable<any>) => {
