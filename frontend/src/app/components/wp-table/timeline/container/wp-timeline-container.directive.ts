@@ -513,7 +513,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.removeCollapsedGroupHeaderCells(groupIdentifier, collapsedGroupsCellsMap);
 
     const changedGroupId = groupIdFromIdentifier(groupIdentifier);
-    const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
+    const changedGroupType = groupTypeFromIdentifier(groupIdentifier);
+    const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage[changedGroupType].id === changedGroupId);
     const changedGroupWpsWithHeaderCells = changedGroupTableWorkPackages.filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage) &&
                                                                                                     (tableWorkPackage.date || tableWorkPackage.startDate));
     const changedGroupWpsWithHeaderCellsIds = changedGroupWpsWithHeaderCells.map(workPackage => workPackage.id!);
