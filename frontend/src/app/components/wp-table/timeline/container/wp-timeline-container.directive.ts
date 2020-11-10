@@ -165,32 +165,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.setupManageCollapsedGroupHeaderCells();
   }
 
-  setupManageCollapsedGroupHeaderCells() {
-    merge(
-      // Refresh the last collapsed/expanded group header cells when its collapsed state changes
-      this.querySpace.collapsedGroups.changes$().pipe(filter(collapsedGroupsChange => collapsedGroupsChange != null)),
-      // Refresh all the collapsed group header cells whenever the query changes
-      this.querySpace.initialized.values$().pipe(switchMap(() => this.querySpace.tableRendered.values$().pipe(take(1), map(() => false)))),
-    )
-      .pipe(
-        this.untilDestroyed(),
-        takeUntil(this.querySpace.stopAllSubscriptions),
-        filter(() => this.initialized && this.wpTableTimeline.isVisible),
-      )
-      .subscribe((change:{[identifier:string]:boolean} | false) => {
-        const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
-        const refreshAllGroupHeaderCells = !change;
-
-        if (collapsedGroupsChange) {
-          this.manageCollapsedGroupHeaderCells(this.querySpace.groups.value!,
-                                                collapsedGroupsChange,
-                                                this.querySpace.results.value!.elements,
-                                                this.collapsedGroupsCellsMap,
-                                                refreshAllGroupHeaderCells);
-        }
-      });
-  }
-
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
     return this.cellsRenderer.getCellsFor(wpId);
   }
@@ -469,6 +443,32 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         return;
       }
     }
+  }
+
+  setupManageCollapsedGroupHeaderCells() {
+    merge(
+      // Refresh the last collapsed/expanded group header cells when its collapsed state changes
+      this.querySpace.collapsedGroups.changes$().pipe(filter(collapsedGroupsChange => collapsedGroupsChange != null)),
+      // Refresh all the collapsed group header cells whenever the query changes
+      this.querySpace.initialized.values$().pipe(switchMap(() => this.querySpace.tableRendered.values$().pipe(take(1), map(() => false)))),
+    )
+      .pipe(
+        this.untilDestroyed(),
+        takeUntil(this.querySpace.stopAllSubscriptions),
+        filter(() => this.initialized && this.wpTableTimeline.isVisible),
+      )
+      .subscribe((change:{[identifier:string]:boolean} | false) => {
+        const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
+        const refreshAllGroupHeaderCells = !change;
+
+        if (collapsedGroupsChange) {
+          this.manageCollapsedGroupHeaderCells(this.querySpace.groups.value!,
+            collapsedGroupsChange,
+            this.querySpace.results.value!.elements,
+            this.collapsedGroupsCellsMap,
+            refreshAllGroupHeaderCells);
+        }
+      });
   }
 
   manageCollapsedGroupHeaderCells(allGroups:GroupObject[],
