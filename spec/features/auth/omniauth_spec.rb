@@ -29,6 +29,10 @@
 require 'spec_helper'
 
 describe 'Omniauth authentication', type: :feature do
+  def self.default_url_options
+    { host: Capybara.app_host.sub(/https?\/\//, "") }
+  end
+
   let(:user) do
     FactoryBot.create(:user,
                        force_password_change: false,
