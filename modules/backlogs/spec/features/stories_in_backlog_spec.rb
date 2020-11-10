@@ -175,7 +175,7 @@ describe 'Stories in backlog',
 
     # Velocity is calculated by summing up all story points in a sprint
     backlogs_page
-      .expect_velocity(sprint_story1, 30)
+      .expect_velocity(sprint, 30)
 
     # Creating a story
     backlogs_page
@@ -199,7 +199,7 @@ describe 'Stories in backlog',
 
     # Creating the story will update the velocity
     backlogs_page
-      .expect_velocity(sprint_story1, 40)
+      .expect_velocity(sprint, 40)
 
     # Editing in a sprint
 
@@ -218,7 +218,7 @@ describe 'Stories in backlog',
 
     # Updating the story_points of a story will update the velocity of the sprint
     backlogs_page
-      .expect_velocity(sprint_story1, 45)
+      .expect_velocity(sprint, 45)
 
     # Moving stories within the sprint via drag and drop
 
