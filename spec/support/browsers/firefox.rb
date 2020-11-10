@@ -1,5 +1,6 @@
 # Force the latest version of geckodriver using the webdriver gem
 require 'webdrivers/geckodriver'
+require 'socket'
 
 ::Webdrivers.logger.level = :DEBUG
 
@@ -46,21 +47,21 @@ def register_firefox(language, name: :"firefox_#{language}")
       options.args << "--headless"
     end
 
-    if ENV['CI']
-      driver = Capybara::Selenium::Driver.new(
-        app,
-        browser: :firefox,
-        desired_capabilities: capabilities,
-        options: options,
-        http_client: client
-      )
-    else
+    if ENV['SELENIUM_GRID_URL']
       driver = Capybara::Selenium::Driver.new(
         app,
         browser: :remote,
         url: ENV['SELENIUM_GRID_URL'],
         desired_capabilities: capabilities,
         options: options
+      )
+    else
+      driver = Capybara::Selenium::Driver.new(
+        app,
+        browser: :firefox,
+        desired_capabilities: capabilities,
+        options: options,
+        http_client: client
       )
     end
 
@@ -79,10 +80,13 @@ register_firefox 'de'
 # Register mocking proxy driver
 register_firefox 'en', name: :firefox_billy do |profile, options, capabilities|
   profile.assume_untrusted_certificate_issuer = false
-  profile.proxy = Selenium::WebDriver::Proxy.new(
-    http: "#{Billy.proxy.host}:#{Billy.proxy.port}",
-    ssl: "#{Billy.proxy.host}:#{Billy.proxy.port}")
 
+  ip_address = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
+  hostname = ENV['CAPYBARA_DYNAMIC_HOSTNAME'].present? ? ip_address : ENV.fetch('CAPYBARA_APP_HOSTNAME', Billy.proxy.host)
+
+  profile.proxy = Selenium::WebDriver::Proxy.new(
+    http: "#{hostname}:#{Billy.proxy.port}",
+    ssl: "#{hostname}:#{Billy.proxy.port}")
 
   capabilities[:accept_insecure_certs] = true
 end

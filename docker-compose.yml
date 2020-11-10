@@ -141,6 +141,7 @@ services:
       CAPYBARA_DYNAMIC_HOSTNAME: 0
       CAPYBARA_APP_HOSTNAME: backend-test
       OPENPROJECT_SERVE_OWN_ASSETS: 1
+      OPENPROJECT_TESTING_NO_HEADLESS: "true"
     volumes:
       - ".:/home/dev/openproject"
       - "fedata-test:/home/dev/openproject/public/assets/frontend"
