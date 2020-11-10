@@ -28,16 +28,11 @@
 
 // Reduced version of /frontend/src/app/components/wp-table/timeline/header/wp-timeline-header.directive.ts
 
-import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import * as moment from 'moment';
 import {
-  calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,
   TimelineViewParameters
 } from 'core-app/components/wp-table/timeline/wp-timeline';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import Moment = moment.Moment;
 import jsPDF from 'jspdf';
 import { ExportTimelineConfig } from './ExportTimelineService';

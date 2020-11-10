@@ -1,7 +1,6 @@
 import { WorkPackageRelationsService } from 'core-app/components/wp-relations/wp-relations.service';
 import { WorkPackageTimelineTableController } from 'core-app/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { calculatePositionValueForDayCountingPx, RenderInfo, TimelineViewParameters } from 'core-app/components/wp-table/timeline/wp-timeline';
-import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
 import jsPDF from 'jspdf';
 import { Moment } from 'moment';
 import { computeXAndWidth, ExportTimelineConfig, getRowY, isMilestone } from './ExportTimelineService';
