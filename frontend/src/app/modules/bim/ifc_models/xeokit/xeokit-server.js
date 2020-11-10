@@ -71,7 +71,7 @@ class XeokitServer {
   }
 
   attachmentUrl(attachmentId) {
-    return "/api/v3/attachments/" + attachmentId + "/content";
+    return window.appBasePath + "/api/v3/attachments/" + attachmentId + "/content";
   }
 }
 
