@@ -151,14 +151,6 @@ Feature: Scrum Master
       And Story 2 should be in the 1st position of the sprint named Sprint 002
 
   @javascript
-  Scenario: Move a story down in a sprint
-    Given I am on the master backlog
-     When I move the story named Story A below Story B
-     Then the request should complete successfully
-      And Story A should be in the 2nd position of the sprint named Sprint 001
-      And Story B should be the higher item of Story A
-
-  @javascript
   Scenario: View tasks that have subtasks
   Given I am on the taskboard for "Sprint 005"
    Then I should see "Task 10" within "#tasks"
@@ -169,14 +161,6 @@ Feature: Scrum Master
     And I should not see "Epic 1"
     And I should not see "Subfeature"
     And I should not see "Subsubtask"
-
-  @javascript
-  Scenario: Move stories around in the backlog that have a parent ticket
-   Given I am on the master backlog
-    When I move the story named Story D below Story E
-    Then the request should complete successfully
-     And Story D should be in the 2nd position of the sprint named Sprint 005
-     And Story E should be the higher item of Story D
 
   @javascript
   Scenario: Move a task with subtasks around in the taskboard

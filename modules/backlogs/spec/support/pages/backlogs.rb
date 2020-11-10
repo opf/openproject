@@ -104,6 +104,27 @@ module Pages
       end
     end
 
+    def drag_in_sprint(moved, target, before: true)
+      moved_element = find(story_selector(moved))
+      target_element = find(story_selector(target))
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(moved_element.native)
+        .click_and_hold(moved_element.native)
+        .perform
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(target_element.native, 0, before ? +10 : +20)
+        .release
+        .perform
+    end
+
     def expect_story_in_sprint(story, sprint)
       within_backlog(sprint) do
         expect(page)
@@ -150,8 +171,10 @@ module Pages
     end
 
     def expect_velocity(backlog, velocity)
-      expect(page)
-        .to have_selector("#backlog_#{backlog.id} .velocity", text: velocity.to_s)
+      within("#backlog_#{backlog.id} .velocity") do
+        expect(page)
+          .to have_content(velocity.to_s)
+      end
     end
 
     def expect_stories_in_order(backlog, *stories)

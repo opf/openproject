@@ -113,6 +113,30 @@ describe 'Stories in backlog',
                       project: project,
                       version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_RIGHT }])
   end
+  let!(:other_project) do
+    FactoryBot.create(:project).tap do |p|
+      FactoryBot.create(:member,
+                        principal: current_user,
+                        project: p,
+                        roles: [role])
+    end
+  end
+  let!(:sprint_story_in_other_project) do
+    FactoryBot.create(:work_package,
+                      project: other_project,
+                      type: story,
+                      status: default_status,
+                      version: sprint,
+                      story_points: 10)
+
+  end
+  let!(:export_card_configurations) do
+    ExportCardConfiguration.create!(name: 'Default',
+                                    per_page: 1,
+                                    page_size: 'A4',
+                                    orientation: 'landscape',
+                                    rows: "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false")
+  end
   let(:backlogs_page) { Pages::Backlogs.new(project) }
 
   before do
@@ -144,6 +168,9 @@ describe 'Stories in backlog',
       .expect_story_not_in_sprint(sprint_story1_task, sprint)
 
     backlogs_page
+      .expect_story_not_in_sprint(sprint_story_in_other_project, sprint)
+
+    backlogs_page
       .expect_stories_in_order(sprint, sprint_story1, sprint_story2)
 
     # Velocity is calculated by summing up all story points in a sprint
@@ -151,10 +178,12 @@ describe 'Stories in backlog',
       .expect_velocity(sprint_story1, 30)
 
     # Creating a story
+    backlogs_page
+      .click_in_backlog_menu(sprint, 'New Story')
 
-    backlogs_page.click_in_backlog_menu(sprint, 'New Story')
-    backlogs_page.edit_new_story(subject: 'New story',
-                                 story_points: 10)
+    backlogs_page
+      .edit_new_story(subject: 'New story',
+                      story_points: 10)
 
     new_story = WorkPackage.find_by(subject: 'New story')
 
@@ -162,8 +191,8 @@ describe 'Stories in backlog',
       .expect_story_in_sprint(new_story, sprint)
 
     # All positions will be unique in the sprint
-    expect(Story.where(version: sprint, type: story).pluck(:position))
-      .to match_array([1,2,3])
+    expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
+      .to match_array([1, 2, 3])
 
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story1, sprint_story2)
@@ -171,7 +200,6 @@ describe 'Stories in backlog',
     # Creating the story will update the velocity
     backlogs_page
       .expect_velocity(sprint_story1, 40)
-
 
     # Editing in a sprint
 
@@ -191,6 +219,32 @@ describe 'Stories in backlog',
     # Updating the story_points of a story will update the velocity of the sprint
     backlogs_page
       .expect_velocity(sprint_story1, 45)
+
+    # Moving stories within the sprint via drag and drop
+
+    # Moving to top
+    backlogs_page
+      .drag_in_sprint(sprint_story1, new_story)
+
+    sleep(0.5)
+
+    backlogs_page
+      .expect_stories_in_order(sprint, sprint_story1, new_story, sprint_story2)
+
+    expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
+      .to match_array([1, 2, 3])
+
+    # Moving to bottom
+    backlogs_page
+      .drag_in_sprint(sprint_story1, sprint_story2, before: false)
+
+    sleep(0.5)
+
+    backlogs_page
+      .expect_stories_in_order(sprint, new_story, sprint_story2, sprint_story1)
+
+    expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
+      .to match_array([1, 2, 3])
 
     # Editing in the backlog
 
@@ -230,6 +284,11 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_status_options(backlog_story1,
                              [other_status])
+
+    # The pdf export is reachable via the menu
+    backlogs_page
+      .click_in_backlog_menu(sprint, 'Export')
+    # Will download something that is currently not speced
 
     # One can switch to the work package page by clicking on the id
     # Clicking on it will open the wp in another tab which seems to trip up selenium.
