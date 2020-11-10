@@ -33,7 +33,7 @@ describe 'Omniauth authentication', type: :feature do
   # the Capybara app_host, however this change was not being reflected in the Rails host,
   # causing the redirect checks to fail below.
   def self.default_url_options
-    { host: Capybara.app_host }
+    { host: Capybara.app_host.sub(/https?\/\//, "") }
   end
 
   let(:user) do
