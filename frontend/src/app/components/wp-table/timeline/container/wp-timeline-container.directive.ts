@@ -62,6 +62,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 import {GroupObject} from "core-app/modules/hal/resources/wp-collection-resource";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {groupIdFromIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -476,8 +477,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
                                   tableWorkPackages:WorkPackageResource[],
                                   collapsedGroupsCellsMap:IGroupCellsMap,
                                   refreshAllGroupHeaderCells:boolean) {
-    const collapsedGroupChangesToManage = Object.keys(collapsedGroupsChange).filter(groupKey => {
-      const keyGroupType = groupKey.split('-')[0];
+    const collapsedGroupChangesToManage = Object.keys(collapsedGroupsChange).filter(groupIdentifier => {
+      const keyGroupType = groupIdFromIdentifier(groupIdentifier);
 
       return this.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType);
     });

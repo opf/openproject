@@ -34,3 +34,10 @@ export function groupByProperty(group:GroupObject):string {
 export function groupedRowClassName(groupIndex:number) {
   return `__row-group-${groupIndex}`;
 }
+
+/**
+ * Get the group id from its identifier.
+ */
+export function groupIdFromIdentifier(groupIdentifier:string) {
+  return groupIdentifier.split('-')[0];
+}
