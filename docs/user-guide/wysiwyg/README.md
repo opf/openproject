@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Rich text editor
 description: Find out about the CKEditor5 WYSIWYG editor in OpenProject
 robots: index, follow
-keywords: WYSIWYG, CKEditor
+keywords: WYSIWYG, CKEditor, Links to OpenProject resources
 ---
 
 # Rich text (WYSIWYG) editor in OpenProject
@@ -158,7 +158,7 @@ You can embed specific attributes of work packages or projects using the followi
 
 
 
-You can also embed attribute values and [their help texts](https://docs.openproject.org/system-admin-guide/manage-work-packages/attribute-help-texts/#manage-attribute-help-texts-premium-feature) by using `workPackageLabel` instead: `workPackageLabel:1234:status` would output the translated label for "Status" and (if exists), the corresponding help text for it.
+You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` instead: `workPackageLabel:1234:status` would output the translated label for "Status" and (if exists), the corresponding help text for it.
 
 Note that these macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.
 
@@ -192,7 +192,7 @@ The following list contains all suppported attribute names for the `workPackageV
 
 **Available attributes for projects**
 
-The following list contains all suppported attribute names for the `projectValue`  and `projectLabel` macros. The examples all show references to the _current_ project the document is rendered in. They can also reference another project with `projectValue:"Identifier of the project":attribute`.
+The following list contains all supported attribute names for the `projectValue`  and `projectLabel` macros. The examples all show references to the _current_ project the document is rendered in. They can also reference another project with `projectValue:"Identifier of the project":attribute`.
 
 | **Attribute**             | Usage example                                     |
 | ------------------------- | ------------------------------------------------- |
