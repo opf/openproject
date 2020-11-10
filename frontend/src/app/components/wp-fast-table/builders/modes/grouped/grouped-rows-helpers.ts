@@ -36,8 +36,15 @@ export function groupedRowClassName(groupIndex:number) {
 }
 
 /**
+ * Get the group type from its identifier.
+ */
+export function groupTypeFromIdentifier(groupIdentifier:string) {
+  return groupIdentifier.split('-')[0];
+}
+
+/**
  * Get the group id from its identifier.
  */
 export function groupIdFromIdentifier(groupIdentifier:string) {
-  return groupIdentifier.split('-')[0];
+  return groupIdentifier.split('-').pop();
 }

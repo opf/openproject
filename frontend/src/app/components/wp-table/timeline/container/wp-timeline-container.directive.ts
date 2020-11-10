@@ -62,7 +62,10 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 import {GroupObject} from "core-app/modules/hal/resources/wp-collection-resource";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {groupIdFromIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
+import {
+  groupIdFromIdentifier,
+  groupTypeFromIdentifier
+} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -478,7 +481,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
                                   collapsedGroupsCellsMap:IGroupCellsMap,
                                   refreshAllGroupHeaderCells:boolean) {
     const collapsedGroupChangesToManage = Object.keys(collapsedGroupsChange).filter(groupIdentifier => {
-      const keyGroupType = groupIdFromIdentifier(groupIdentifier);
+      const keyGroupType = groupTypeFromIdentifier(groupIdentifier);
 
       return this.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType);
     });
@@ -509,7 +512,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   createCollapsedGroupHeaderCells(groupIdentifier:string, tableWorkPackages:WorkPackageResource[], collapsedGroupsCellsMap:IGroupCellsMap) {
     this.removeCollapsedGroupHeaderCells(groupIdentifier, collapsedGroupsCellsMap);
 
-    const changedGroupId = groupIdentifier!.split('-').pop();
+    const changedGroupId = groupIdFromIdentifier(groupIdentifier);
     const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage.project.id === changedGroupId);
     const changedGroupWpsWithHeaderCells = changedGroupTableWorkPackages.filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage) &&
                                                                                                     (tableWorkPackage.date || tableWorkPackage.startDate));
