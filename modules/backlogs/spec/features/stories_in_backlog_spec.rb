@@ -126,10 +126,6 @@ describe 'Stories in backlog',
   it 'displays stories which are editable' do
     backlogs_page.visit!
 
-    # Velocity is calculated by summing up all story points in a sprint
-    backlogs_page
-      .expect_velocity(sprint_story1, 30)
-
     # All stories are visible in their sprint/backlog
     # but non stories are not displayed
     backlogs_page
@@ -149,6 +145,10 @@ describe 'Stories in backlog',
 
     backlogs_page
       .expect_stories_in_order(sprint, sprint_story1, sprint_story2)
+
+    # Velocity is calculated by summing up all story points in a sprint
+    backlogs_page
+      .expect_velocity(sprint_story1, 30)
 
     # Creating a story
 
