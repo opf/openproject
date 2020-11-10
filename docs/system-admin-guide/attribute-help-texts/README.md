@@ -82,11 +82,11 @@ The Attribute help texts for projects will be displayed in the Project details w
 
 They will help the users (e.g. the project managers) understand what kind of information to put in which fields.
 
-![image-20201007112035870](image-20201007112035870.png)
+![Attribute help texts project overview](image-20201007112035870.png)
 
 
 
-![image-20201007112741049](image-20201007112741049.png)
+![Attribute help texts project information](image-20201007112741049.png)
 
 
 

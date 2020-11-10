@@ -16,13 +16,13 @@ Starting with version 8.0.0, OpenProject features a quasi-WYSIWYG editor, powere
 
 
 
-| Topic                                                        | Content                                                 |
-| ------------------------------------------------------------ | ------------------------------------------------------- |
-| [Basic formating](#basic-formatting)                         | Basic formatting elements in the WYSIWYG editor         |
-| [Image handling](#image-handling)                            | How to add images in the WYSIWYG editor                 |
-| [Macros](#macros)                                            | Available macros in the WYSIWYG editor                  |
-| [Links to OpenProject resources](#links-to-openproject-resources) | How to link to resources like wikis, projects, meetings |
-| [Embedding of work package attributes and project attributes](#embedding-of-work-package-attributes-and-project-attributes) | How to embed attributes and attribute help texts.       |
+| Topic                                                        | Content                                                  |
+| ------------------------------------------------------------ | -------------------------------------------------------- |
+| [Basic formating](#basic-formatting)                         | Basic formatting elements in the WYSIWYG editor          |
+| [Image handling](#image-handling)                            | How to add images in the WYSIWYG editor?                 |
+| [Macros](#macros)                                            | Available macros in the WYSIWYG editor                   |
+| [Links to OpenProject resources](#links-to-openproject-resources) | How to link to resources like wikis, projects, meetings? |
+| [Embedding of work package attributes and project attributes](#embedding-of-work-package-attributes-and-project-attributes) | How to embed attributes and attribute help texts?        |
 
 ## Basic formatting
 
@@ -81,7 +81,7 @@ The attachment will be automatically uploaded and stored as an attachment.
 OpenProject has supported macros on textile formatted pages and continues to do so with the WYSIWYG editor. Note that macros are not expanded while editing the page, instead a placeholder is shown.
 
 You can find the macros here in the text editor:
-![image-20201109183018255](image-20201109183018255.png) 
+![Macros text editor](image-20201109183018255.png) 
 
 
 
@@ -151,13 +151,12 @@ For work packages and users, typing `#` or `@` will open an autocompleter for vi
 
 ## Embedding of work package attributes and project attributes
 
-You can embed specific attributes of work packages or projects using a certain syntax. Examples:
+You can embed specific attributes of work packages or projects using a certain syntax.
+Examples:
 
 - **Linking to the subject of work package with id #1234**: `workPackageValue:1234:subject`
 - **Linking to the current project's status**: `projectValue:status`
 - **Linking to the subject of work package with subject "Project start"**: `workPackageValue:"Project start":subject`
-
-
 
 <div class="alert alert-info" role="alert">
 
