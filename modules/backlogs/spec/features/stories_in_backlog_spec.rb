@@ -70,6 +70,7 @@ describe 'Stories in backlog',
                       type: story,
                       status: default_status,
                       version: sprint,
+                      position: 1,
                       story_points: 10)
   end
   let!(:sprint_story1_task) do
@@ -92,6 +93,7 @@ describe 'Stories in backlog',
                       type: story,
                       status: default_status,
                       version: sprint,
+                      position: 2,
                       story_points: 20)
   end
   let!(:backlog_story1) do
@@ -145,6 +147,32 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_story_not_in_sprint(sprint_story1_task, sprint)
 
+    backlogs_page
+      .expect_stories_in_order(sprint, sprint_story1, sprint_story2)
+
+    # Creating a story
+
+    backlogs_page.click_in_backlog_menu(sprint, 'New Story')
+    backlogs_page.edit_new_story(subject: 'New story',
+                                 story_points: 10)
+
+    new_story = WorkPackage.find_by(subject: 'New story')
+
+    backlogs_page
+      .expect_story_in_sprint(new_story, sprint)
+
+    # All positions will be unique in the sprint
+    expect(Story.where(version: sprint, type: story).pluck(:position))
+      .to match_array([1,2,3])
+
+    backlogs_page
+      .expect_stories_in_order(sprint, new_story, sprint_story1, sprint_story2)
+
+    # Creating the story will update the velocity
+    backlogs_page
+      .expect_velocity(sprint_story1, 40)
+
+
     # Editing in a sprint
 
     backlogs_page
@@ -162,7 +190,7 @@ describe 'Stories in backlog',
 
     # Updating the story_points of a story will update the velocity of the sprint
     backlogs_page
-      .expect_velocity(sprint_story1, 35)
+      .expect_velocity(sprint_story1, 45)
 
     # Editing in the backlog
 

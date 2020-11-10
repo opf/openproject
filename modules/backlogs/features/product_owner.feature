@@ -90,17 +90,6 @@ Feature: Product Owner
           | Story B | Sprint 001 |
       And I am already logged in as "mathias"
 
-    # TODO: add to stories_in_backlog spec
-  @javascript
-  Scenario: Create a new story
-     When I go to the master backlog
-      And I want to create a story
-      And I set the backlog of the story to Product Backlog
-      And I set the subject of the story to A Whole New Story
-      And I create the story
-     Then the 1st story in the "Product Backlog" should be "A Whole New Story"
-      And all positions should be unique for each version
-
   @javascript
   Scenario: Move a story to the top
     Given I am on the master backlog
