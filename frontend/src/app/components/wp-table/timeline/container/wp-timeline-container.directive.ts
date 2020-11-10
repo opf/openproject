@@ -60,6 +60,7 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 import {combineLatest} from "rxjs";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
+import { ExportTimelineService } from 'core-app/components/work-packages/exporter/ExportTimelineService';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -92,6 +93,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private refreshRequest = input<void>();
 
+  public timelineExport: ExportTimelineService;
+
   constructor(public readonly injector:Injector,
               private elementRef:ElementRef,
               private states:States,
@@ -105,6 +108,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
               private querySpace:IsolatedQuerySpace,
               readonly I18n:I18nService) {
     super();
+    this.timelineExport = new ExportTimelineService(injector, this, wpRelations);
   }
 
   ngAfterViewInit() {
