@@ -192,7 +192,7 @@ The following list contains all supported attribute names for the `workPackageVa
 | Parent work package | `workPackageValue:1234:parent`                               |
 | Priority            | `workPackageValue:1234:priority`                             |
 | Project             | `workPackageValue:1234:project`                              |
-| Remaining Time      | `workPackageValue:1234:remainingTime`                        |
+| Remaining hours     | `workPackageValue:1234:remainingTime` (sic!)                 |
 | Responsible user    | `workPackageValue:1234:responsible`                          |
 | Spent time          | `workPackageValue:1234:spentTime`                            |
 | Start date          | `workPackageValue:1234:startDate`                            |
