@@ -81,29 +81,6 @@ Feature: Team Member
     And I am already logged in as "paul"
 
   @javascript
-  Scenario: Create a task for a story
-    Given I am on the taskboard for "Sprint 001"
-      And I want to create a task for Story 1
-      And I set the subject of the task to A Whole New Task
-     When I create the task
-     Then the request should complete successfully
-      And the 1st task for Story 1 should be A Whole New Task
-
-  @javascript
-  Scenario: Update a task for a story
-    Given I am on the taskboard for "Sprint 001"
-      And I want to edit the task named Task 1
-      And I set the subject of the task to Whoa there, Sparky
-     When I update the task
-     Then the request should complete successfully
-      And the story named Story 1 should have 1 task named Whoa there, Sparky
-
-  @javascript
-  Scenario: View the burndown chart from the taskboard
-    Given I am on the taskboard for "Sprint 002"
-     Then I should see "Burndown Chart"
-
-  @javascript
   Scenario: Copy estimate to remaining
     Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1

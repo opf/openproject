@@ -139,18 +139,6 @@ Feature: Scrum Master
      Then the server should return an update error
 
   @javascript
-  Scenario: View tasks that have subtasks
-  Given I am on the taskboard for "Sprint 005"
-   Then I should see "Task 10" within "#tasks"
-    And I should see "Task 11" within "#tasks"
-    And I should not see "Subtask 1"
-    And I should not see "Subtask 2"
-    And I should not see "Subtask 3"
-    And I should not see "Epic 1"
-    And I should not see "Subfeature"
-    And I should not see "Subsubtask"
-
-  @javascript
   Scenario: Move a task with subtasks around in the taskboard
    Given I am on the taskboard for "Sprint 005"
     When I move the task named Task 10 below Task 11
