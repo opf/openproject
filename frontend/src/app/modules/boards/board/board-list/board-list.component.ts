@@ -224,8 +224,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.loadActionAttribute(query);
         this.cdRef.detectChanges();
       });
-
-    this.updateQuery();
   }
 
   ngOnDestroy() {
