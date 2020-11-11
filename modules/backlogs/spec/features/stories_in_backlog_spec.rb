@@ -34,10 +34,11 @@ describe 'Stories in backlog',
          js: true do
   let!(:project) do
     FactoryBot.create(:project,
-                      types: [story, task],
+                      types: [story, task, other_story],
                       enabled_module_names: %w(work_package_tracking backlogs))
   end
   let!(:story) { FactoryBot.create(:type_feature) }
+  let!(:other_story) { FactoryBot.create(:type) }
   let!(:task) { FactoryBot.create(:type_task) }
   let!(:priority) { FactoryBot.create(:default_priority) }
   let!(:default_status) { FactoryBot.create(:status, is_default: true) }
@@ -106,6 +107,8 @@ describe 'Stories in backlog',
   let!(:sprint) do
     FactoryBot.create(:version,
                       project: project,
+                      start_date: Date.today - 10.days,
+                      effective_date: Date.today + 10.days,
                       version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
   end
   let!(:backlog) do
@@ -143,7 +146,7 @@ describe 'Stories in backlog',
     login_as current_user
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return('story_types' => [story.id.to_s],
+            .and_return('story_types' => [story.id.to_s, other_story.id.to_s],
                         'task_type' => task.id.to_s)
   end
 
@@ -220,9 +223,7 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_velocity(sprint, 45)
 
-    # Moving stories within the sprint via drag and drop
-
-    # Moving to top
+    # Moving a story to top
     backlogs_page
       .drag_in_sprint(sprint_story1, new_story)
 
@@ -234,7 +235,7 @@ describe 'Stories in backlog',
     expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
       .to match_array([1, 2, 3])
 
-    # Moving to bottom
+    # Moving a story to bottom
     backlogs_page
       .drag_in_sprint(sprint_story1, sprint_story2, before: false)
 
@@ -246,7 +247,20 @@ describe 'Stories in backlog',
     expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
       .to match_array([1, 2, 3])
 
-    # Editing in the backlog
+    # Moving a story to from the backlog to the sprint (3nd position)
+
+    backlogs_page
+      .drag_in_sprint(backlog_story1, sprint_story2, before: false)
+
+    sleep(0.5)
+
+    backlogs_page
+      .expect_stories_in_order(sprint, new_story, sprint_story2, backlog_story1, sprint_story1)
+
+    expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
+      .to match_array([1, 2, 3, 4])
+
+    # Available statuses when editing
 
     backlogs_page
       .enter_edit_story_mode(backlog_story1)
@@ -280,19 +294,47 @@ describe 'Stories in backlog',
     backlogs_page
       .enter_edit_story_mode(backlog_story1)
 
-    # Since we switched to other status, only the current status is available now.
+    # Since we switched to other status, only the current status and the next one is available now.
     backlogs_page
       .expect_status_options(backlog_story1,
                              [other_status])
+
+    # Available statuses when editing and switching the type
+    backlogs_page
+      .alter_attributes_in_edit_mode(backlog_story1,
+                                     type: other_story)
+    # This will result in an error as the current status is not available
+    backlogs_page
+      .save_story_from_edit_mode(backlog_story1)
+
+    backlogs_page
+      .expect_for_story(backlog_story1,
+                        subject: 'Altered backlog story1',
+                        status: default_status.name,
+                        type: other_story.name)
 
     # The pdf export is reachable via the menu
     backlogs_page
       .click_in_backlog_menu(sprint, 'Export')
     # Will download something that is currently not speced
 
+    # Clicking would lead to having the burndown chart opened in another tab
+    # which seems hard to test with selenium.
+    backlogs_page
+      .expect_in_backlog_menu(sprint, 'Burndown Chart')
+
     # One can switch to the work package page by clicking on the id
     # Clicking on it will open the wp in another tab which seems to trip up selenium.
     backlogs_page
       .expect_story_link_to_wp_page(sprint_story1)
+
+    # Go to the index page of work packages within that sprint via the menu
+    backlogs_page
+      .click_in_backlog_menu(sprint, 'Stories/Tasks')
+
+    wp_table = Pages::WorkPackagesTable.new(project)
+
+    wp_table
+      .expect_work_package_listed(new_story, sprint_story2, backlog_story1, sprint_story1)
   end
 end

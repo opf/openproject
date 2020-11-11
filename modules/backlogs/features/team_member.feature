@@ -99,31 +99,9 @@ Feature: Team Member
       And the story named Story 1 should have 1 task named Whoa there, Sparky
 
   @javascript
-  Scenario: View the burndown chart from the backlogs dashboard
-    Given I am on the master backlog
-      And I open the "Sprint 002" backlogs menu
-     Then I should see "Burndown Chart"
-
-  @javascript
   Scenario: View the burndown chart from the taskboard
     Given I am on the taskboard for "Sprint 002"
      Then I should see "Burndown Chart"
-
- @javascript
-  Scenario: View sprint stories in the work_packages tab
-    Given I am on the master backlog
-     When I view the stories of Sprint 001 in the work_packages tab
-     Then I should be on the work packages index page of the project called "ecookbook"
-     When I press "Filter"
-     Then I should see "Sprint 001" within "#values-version"
-
-  @javascript
-  Scenario: View the project stories in the work_packages tab
-    Given I am on the master backlog
-     When I view the stories in the work_packages tab
-     Then I should be on the work packages index page of the project called "ecookbook"
-     When I press "Filter"
-     Then I should see "Version" within "#filters"
 
   @javascript
   Scenario: Copy estimate to remaining

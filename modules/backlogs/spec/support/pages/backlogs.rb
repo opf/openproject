@@ -53,6 +53,8 @@ module Pages
             fill_in 'story points', with: value
           when :status
             select value, from: 'status'
+          when :type
+            select value, from: 'type'
           else
             raise NotImplementedError
           end
@@ -149,6 +151,9 @@ module Pages
           when :status
             expect(page)
               .to have_selector('div.status_id', text: value)
+          when :type
+            expect(page)
+              .to have_selector('div.type_id', text: value)
           else
             raise NotImplementedError
           end
@@ -184,6 +189,18 @@ module Pages
 
         expect(existing_ids_in_order)
           .to eql(ids)
+      end
+    end
+
+    def expect_in_backlog_menu(backlog, item_name)
+      within_backlog(backlog) do
+        find('.header .menu-trigger').click
+
+        expect(page)
+          .to have_selector('.header .menu .item', text: item_name)
+
+        # Close it again for next test
+        find('.header .menu-trigger').click
       end
     end
 

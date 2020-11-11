@@ -139,18 +139,6 @@ Feature: Scrum Master
      Then the server should return an update error
 
   @javascript
-  Scenario: Move a story from product backlog to sprint backlog
-    Given I am on the master backlog
-     When I move the story named Story 1 up to the 1st position of the sprint named Sprint 001
-     Then the request should complete successfully
-     When I move the story named Story 4 up to the 2nd position of the sprint named Sprint 001
-      And I move the story named Story 2 up to the 1st position of the sprint named Sprint 002
-      And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
-     Then Story 4 should be in the 1st position of the sprint named Sprint 001
-      And Story 1 should be in the 2nd position of the sprint named Sprint 001
-      And Story 2 should be in the 1st position of the sprint named Sprint 002
-
-  @javascript
   Scenario: View tasks that have subtasks
   Given I am on the taskboard for "Sprint 005"
    Then I should see "Task 10" within "#tasks"
