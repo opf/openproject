@@ -39,7 +39,7 @@ Because OpenProject is using some functionality/elements that are not the HTML s
 ###Data Upcast
 Import the Data View into the Model (loading the HTML into the editor). We can hook into this process with the method editor.conversion.for(“upcast”).
 ###Editing Upcast
-Import the Editing View into the Model (translate the elements of the editor’s UI into the Model). This is done by the editor features/plugins. 
+Import the Editing View into the Model (translate the elements of the editor’s UI into the Model). This is done by the editor itself, we can’t hook into this process. 
 ###Data Downcast
 Turning the Model into the Data View (the HTML output). We can hook into this process with the method editor.conversion.for(“dataDowncast”).
 ###Editing Downcast
@@ -198,7 +198,7 @@ Here we say that we want to place the mention attributes of the ckEditor’s mod
 
 This is defined in the CkEditor plugin (```mentions-caster.js```).
 
-The model update of the mentions when the user adds or removes a mention is handled by the editor features/plugins (a third party mention plugin in this case).
+The model update of the mentions when the user adds or removes a mention is handled by the editor itself (we can’t hook into the editing upcast, only into the data upcast called just ‘upcats’).
 
 ####5 - HTML to Markdown
 Define how the HTML mention tags are going to be represented in the markdown. They should be placed as strings, so we need to turn any mention element into its string representation: 
