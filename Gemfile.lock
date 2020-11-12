@@ -905,7 +905,7 @@ GEM
     ttfunk (1.6.2.1)
     typed_dag (2.0.2)
       rails (>= 5.0.4)
-    tzinfo (1.2.7)
+    tzinfo (1.2.8)
       thread_safe (~> 0.1)
     tzinfo-data (1.2020.4)
       tzinfo (>= 1.0.0)
