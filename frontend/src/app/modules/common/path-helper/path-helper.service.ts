@@ -85,7 +85,7 @@ class Apiv3Paths {
 
 @Injectable({ providedIn: 'root' })
 export class PathHelperService {
-  public readonly appBasePath = window.appBasePath ? window.appBasePath : '';
+  public readonly appBasePath = window.appBasePath || '';
   public readonly api = {
     v3: new Apiv3Paths(this.appBasePath)
   };
@@ -102,6 +102,10 @@ export class PathHelperService {
     } else {
       return path;
     }
+  }
+
+  public attachmentContentPath(attachmentIdentifier:number|string) {
+    return this.staticBase + '/attachments/' + attachmentIdentifier + '/content';
   }
 
   public ifcModelsPath(projectIdentifier:string) {
