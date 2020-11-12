@@ -44,7 +44,7 @@ module Pages
     end
 
     def alter_attributes_in_edit_mode(story, attributes)
-      within_story(story) do
+      edit_proc = ->() do
         attributes.each do |key, value|
           case key
           when :subject
@@ -53,23 +53,34 @@ module Pages
             fill_in 'story points', with: value
           when :status
             select value, from: 'status'
+          when :type
+            select value, from: 'type'
           else
             raise NotImplementedError
           end
         end
       end
+
+      if story
+        within_story(story, &edit_proc)
+      else
+        edit_proc.call
+      end
     end
 
     def save_story_from_edit_mode(story)
-      within_story(story) do
+      save_proc = -> () do
         find('input[name=subject]').native.send_key :return
 
         expect(page)
           .not_to have_selector('input[name=subject]')
       end
 
-      expect(page)
-        .not_to have_selector("#{story_selector(story)}.ajax_indicator")
+      if story
+        within_story(story, &save_proc)
+      else
+        save_proc.call
+      end
     end
 
     def edit_story(story, attributes)
@@ -80,14 +91,54 @@ module Pages
       save_story_from_edit_mode(story)
     end
 
+    def edit_new_story(attributes)
+      within('.story.editing') do
+        alter_attributes_in_edit_mode(nil, attributes)
+
+        save_story_from_edit_mode(nil)
+      end
+    end
+
+    def click_in_backlog_menu(backlog, item_name)
+      within_backlog(backlog) do
+        find('.header .menu-trigger').click
+        find('.header .menu .item', text: item_name).click
+      end
+    end
+
+    def drag_in_sprint(moved, target, before: true)
+      moved_element = find(story_selector(moved))
+      target_element = find(story_selector(target))
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(moved_element.native)
+        .click_and_hold(moved_element.native)
+        .perform
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(target_element.native, 0, before ? +10 : +20)
+        .release
+        .perform
+    end
+
     def expect_story_in_sprint(story, sprint)
-      expect(page)
-        .to have_selector("#backlog_#{sprint.id} #{story_selector(story)}")
+      within_backlog(sprint) do
+        expect(page)
+          .to have_selector("#{story_selector(story)}")
+      end
     end
 
     def expect_story_not_in_sprint(story, sprint)
-      expect(page)
-        .not_to have_selector("#backlog_#{sprint.id} #{story_selector(story)}")
+      within_backlog(sprint) do
+        expect(page)
+          .not_to have_selector("#{story_selector(story)}")
+      end
     end
 
     def expect_for_story(story, attributes)
@@ -100,6 +151,9 @@ module Pages
           when :status
             expect(page)
               .to have_selector('div.status_id', text: value)
+          when :type
+            expect(page)
+              .to have_selector('div.type_id', text: value)
           else
             raise NotImplementedError
           end
@@ -122,8 +176,32 @@ module Pages
     end
 
     def expect_velocity(backlog, velocity)
-      expect(page)
-        .to have_selector("#backlog_#{backlog.id} .velocity", text: velocity.to_s)
+      within("#backlog_#{backlog.id} .velocity") do
+        expect(page)
+          .to have_content(velocity.to_s)
+      end
+    end
+
+    def expect_stories_in_order(backlog, *stories)
+      within_backlog(backlog) do
+        ids = stories.map { |s| "story_#{s.id}" }
+        existing_ids_in_order = all(ids.map { |id| "##{id}" }.join(', ')).map { |element| element[:id] }
+
+        expect(existing_ids_in_order)
+          .to eql(ids)
+      end
+    end
+
+    def expect_in_backlog_menu(backlog, item_name)
+      within_backlog(backlog) do
+        find('.header .menu-trigger').click
+
+        expect(page)
+          .to have_selector('.header .menu .item', text: item_name)
+
+        # Close it again for next test
+        find('.header .menu-trigger').click
+      end
     end
 
     def path
@@ -134,6 +212,10 @@ module Pages
 
     def within_story(story, &block)
       within(story_selector(story), &block)
+    end
+
+    def within_backlog(backlog, &block)
+      within("#backlog_#{backlog.id}", &block)
     end
 
     def story_selector(story)
