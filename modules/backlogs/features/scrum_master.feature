@@ -138,11 +138,3 @@ Feature: Scrum Master
      When I update the sprint
      Then the server should return an update error
 
-  @javascript
-  Scenario: Move a task with subtasks around in the taskboard
-   Given I am on the taskboard for "Sprint 005"
-    When I move the task named Task 10 below Task 11
-    Then the request should complete successfully
-     And Task 11 should be the higher task of Task 10
-     And the story named Story D should have 1 task named Task 10
-     And the story named Story D should have 1 task named Task 11

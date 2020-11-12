@@ -215,6 +215,33 @@ describe 'Tasks on taskboard',
     expect(story1_task.subject)
       .to eql "Updated task"
 
+    # Dragging a task within the same column (switching order)
+    taskboard_page
+      .drag_to_task(story1_task, added_task, :before)
+
+    taskboard_page
+      .expect_task_in_story_column(added_task, story1, 1)
+
+    taskboard_page
+      .expect_task_in_story_column(story1_task, story1, 1)
+
+    sleep(0.5)
+
+    expect(added_task.reload.higher_item.id)
+      .to eql story1_task.id
+
+    # Dragging a task to the next column (switching status)
+    taskboard_page
+      .drag_to_column(story1_task, story1, 2)
+
+    taskboard_page
+      .expect_task_in_story_column(story1_task, story1, 2)
+
+    sleep(0.5)
+
+    expect(story1_task.reload.status)
+      .to eql other_status
+
     # There is a button to the burndown chart
     expect(page)
       .to have_selector("a[href='#{backlogs_project_sprint_burndown_chart_path(project, sprint)}']",

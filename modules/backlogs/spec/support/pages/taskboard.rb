@@ -69,14 +69,42 @@ module Pages
       expect(page).to have_no_selector('#work_package_')
     end
 
-    def update_task(story, attributes)
-      find("#work_package_#{story.id}").click
+    def update_task(task, attributes)
+      find("#work_package_#{task.id}").click
 
       change_attributes_in_modal(attributes)
 
       expect(page).to have_no_selector('.ui-dialog')
 
       sleep(0.5)
+    end
+
+    def drag_to_task(dragged_task, target, before_or_after = :before)
+      moved_element = find("#work_package_#{dragged_task.id}")
+      target_element = find("#work_package_#{target.id}")
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(moved_element.native)
+        .click_and_hold(moved_element.native)
+        .perform
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(target_element.native, before_or_after == :before ? 0 : +50, +40)
+        .release
+        .perform
+    end
+
+    def drag_to_column(dragged_task, story, col_number)
+      moved_element = find("#work_package_#{dragged_task.id}")
+      target_element = find(".story_#{story.id} td:nth-of-type(#{col_number + 2})")
+
+      moved_element.drag_to(target_element)
     end
 
     def path
