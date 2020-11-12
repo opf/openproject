@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Runs cucumber while requiring all plugin feature folders to
 # make sure all steps are defined. Using this you can then run

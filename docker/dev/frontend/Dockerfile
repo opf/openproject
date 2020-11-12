@@ -13,7 +13,10 @@ RUN groupmod -g $DEV_GID $USER
 
 EXPOSE 4200
 
-VOLUME ["/home/$USER/openproject"]
+RUN mkdir -p /home/$USER/openproject/public/assets/frontend
+RUN chown $USER:$USER -R /home/$USER/openproject/public
+
+VOLUME ["/home/$USER/openproject", "/home/$USER/openproject/public/assets/frontend"]
 
 WORKDIR /home/$USER/openproject/frontend
 

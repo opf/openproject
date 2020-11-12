@@ -1,6 +1,6 @@
 FROM ruby:2.7.1-buster AS pgloader
 RUN apt-get update -qq && apt-get install -y libsqlite3-dev make curl gawk freetds-dev libzip-dev
-COPY docker/mysql-to-postgres/bin/build /tmp/build-pgloader
+COPY docker/prod/mysql-to-postgres/bin/build /tmp/build-pgloader
 RUN /tmp/build-pgloader && rm /tmp/build-pgloader
 
 FROM ruby:2.7.1-buster
@@ -40,8 +40,8 @@ COPY --from=pgloader /usr/local/bin/pgloader-ccl /usr/local/bin/
 
 WORKDIR $APP_PATH
 
-COPY docker/setup ./docker/setup
-RUN ./docker/setup/preinstall.sh
+COPY docker/prod/setup ./docker/prod/setup
+RUN ./docker/prod/setup/preinstall.sh
 
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./
@@ -57,7 +57,7 @@ RUN bundle install --quiet --deployment --path vendor/bundle --no-cache \
 # Finally, copy over the whole thing
 COPY . .
 
-RUN ./docker/setup/postinstall.sh
+RUN ./docker/prod/setup/postinstall.sh
 
 # Expose ports for apache and postgres
 EXPOSE 80 5432
@@ -66,7 +66,7 @@ EXPOSE 80 5432
 VOLUME ["$PGDATA", "$APP_DATA_PATH"]
 
 # Set a custom entrypoint to allow for privilege dropping and one-off commands
-ENTRYPOINT ["./docker/entrypoint.sh"]
+ENTRYPOINT ["./docker/prod/entrypoint.sh"]
 
 # Set default command to launch the all-in-one configuration supervised by supervisord
-CMD ["./docker/supervisord"]
+CMD ["./docker/prod/supervisord"]

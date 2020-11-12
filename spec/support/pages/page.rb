@@ -67,7 +67,7 @@ module Pages
     end
 
     def selenium_driver?
-      Capybara.current_driver.to_s.include?('headless')
+      Capybara.current_session.driver.is_a?(Capybara::Selenium::Driver)
     end
 
     def set_items_per_page!(n)

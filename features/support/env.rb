@@ -86,7 +86,7 @@ end
 require Rails.root.to_s + '/spec/support/downloaded_file'
 require Rails.root.to_s + '/spec/support/browsers/chrome'
 
-Capybara.javascript_driver = :chrome_headless_en
+Capybara.javascript_driver = :chrome_en
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how

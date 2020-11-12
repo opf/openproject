@@ -2,6 +2,6 @@
 
 if [ "$1" = "--seed" ]; then
 	shift
-	$APP_PATH/docker/seeder "$@"
+	$APP_PATH/docker/prod/seeder "$@"
 fi
 exec bundle exec rake jobs:work

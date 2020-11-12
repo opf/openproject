@@ -77,11 +77,11 @@ if [ "$(id -u)" = '0' ]; then
 		exec "$@"
 	fi
 
-	if [ "$1" = "./docker/supervisord" ] || [ "$1" = "./docker/proxy" ]; then
+	if [ "$1" = "./docker/prod/supervisord" ] || [ "$1" = "./docker/prod/proxy" ]; then
 		exec "$@"
 	fi
 
-	exec $APP_PATH/docker/gosu $APP_USER "$BASH_SOURCE" "$@"
+	exec $APP_PATH/docker/prod/gosu $APP_USER "$BASH_SOURCE" "$@"
 fi
 
 exec "$@"
