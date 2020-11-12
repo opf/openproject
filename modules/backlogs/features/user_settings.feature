@@ -28,7 +28,6 @@
 
 Feature: User settings
 
-  @javascript
   Scenario: A user can change its task color
     Given there is 1 user with the following:
       | login     | bob |
