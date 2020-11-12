@@ -221,5 +221,7 @@ turndownService.addRule( 'mentions', {
 
 This is defined in the CommonMarkDataProcessor class (```commonmarkdataprocessor.js```), in its "toData" method.
 
-###CkEditor documentation
+###More documentation
 For more details about CkEditor, checkout its [documentation](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/overview.html).
+
+If you're looking for instructions on how to use the WYSIWYG editor on OpenProject please look at [this page](../../../user-guide/wysiwyg).
