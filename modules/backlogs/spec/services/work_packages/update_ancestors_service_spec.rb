@@ -83,8 +83,8 @@ describe WorkPackages::UpdateAncestorsService do
   context 'for the previous ancestors' do
     let!(:work_package) do
       FactoryBot.create :work_package,
-                         remaining_hours: work_package_remaining_hours,
-                         parent: parent
+                        remaining_hours: work_package_remaining_hours,
+                        parent: parent
     end
 
     subject do
