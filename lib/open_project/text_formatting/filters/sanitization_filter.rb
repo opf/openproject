@@ -37,11 +37,13 @@ module OpenProject::TextFormatting
 
         Sanitize::Config.merge(
           base,
-          elements: base[:elements] + %w[macro],
+          elements: base[:elements] + %w[macro mention],
 
-          # Whitelist class and data-* attributes on all macros
           attributes: base[:attributes].deep_merge(
+            # Whitelist class and data-* attributes on all macros
             'macro' => ['class', :data],
+            # mentions
+            'mention' => %w[data-type data-text data-id class],
             # add styles to tables
             'figure' => ['class', 'style'],
             'table' => ['style'],
