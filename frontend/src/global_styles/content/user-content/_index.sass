@@ -1,0 +1,12 @@
+@import 'typography'
+@import 'figure'
+@import 'table'
+@import 'list'
+
+.op-uc-container
+  display: flex;
+  flex-direction: column;
+
+  > *:first-child,
+  > * + *
+    margin-top: 32px;
