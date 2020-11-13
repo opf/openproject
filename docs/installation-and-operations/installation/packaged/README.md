@@ -75,6 +75,8 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MTHZVQ_89-k?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### Ubuntu 18.04
 
 Import the PGP key used to sign our packages:
