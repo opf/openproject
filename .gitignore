@@ -86,7 +86,6 @@ npm-debug.log*
 /.rvmrc*
 /.ruby-gemset
 /.foreman
-/.env*
 .DS_Store
 .rspec
 
