@@ -1,18 +1,12 @@
 // @ts-ignore
 import {utils} from "@xeokit/xeokit-sdk/src/viewer/scene/utils";
 import {PathHelperService} from "../../../common/path-helper/path-helper.service";
-import {GonType} from "../../../common/gon/gon.service";
 import {IFCGonDefinition} from "../pages/viewer/ifc-models-data.service";
-
-interface Window {
-  gon:GonType;
-}
 
 /**
  * Default server client which loads content via HTTP from the file system.
  */
 export class XeokitServer {
-  private window:Window;
   private ifcModels:IFCGonDefinition;
   /**
    *
@@ -20,8 +14,7 @@ export class XeokitServer {
    * @param.config.pathHelper instance of PathHelperService.
    */
   constructor(private pathHelper:PathHelperService) {
-    this.window = window;
-    this.ifcModels = this.window.gon.ifc_models;
+    this.ifcModels = window.gon.ifc_models;
   }
 
   /**
