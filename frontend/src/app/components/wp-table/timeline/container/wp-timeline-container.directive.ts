@@ -30,7 +30,7 @@ import {AfterViewInit, Component, ElementRef, Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {IsolatedQuerySpace} from 'core-app/modules/work_packages/query-space/isolated-query-space';
 import * as moment from 'moment';
 import {Moment} from 'moment';
 import {filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
@@ -44,28 +44,28 @@ import {
   TimelineViewParameters,
   zoomLevelOrder
 } from '../wp-timeline';
-import {input, InputState} from "reactivestates";
-import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {WorkPackageTimelineCellsRenderer} from "core-components/wp-table/timeline/cells/wp-timeline-cells-renderer";
-import {States} from "core-components/states.service";
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/wp-timeline-cell";
-import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
-import {debugLog, timeOutput} from "core-app/helpers/debug_output";
-import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {combineLatest, merge, Observable} from "rxjs";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
-import {GroupObject} from "core-app/modules/hal/resources/wp-collection-resource";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {input, InputState} from 'reactivestates';
+import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
+import {WorkPackageTimelineCellsRenderer} from 'core-components/wp-table/timeline/cells/wp-timeline-cells-renderer';
+import {States} from 'core-components/states.service';
+import {WorkPackageViewTimelineService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
+import {WorkPackageViewHierarchiesService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import {WorkPackageTimelineCell} from 'core-components/wp-table/timeline/cells/wp-timeline-cell';
+import {selectorTimelineSide} from 'core-components/wp-table/wp-table-scroll-sync';
+import {debugLog, timeOutput} from 'core-app/helpers/debug_output';
+import {RenderedWorkPackage} from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
+import {HalEventsService} from 'core-app/modules/hal/services/hal-events.service';
+import {WorkPackageNotificationService} from 'core-app/modules/work_packages/notifications/work-package-notification.service';
+import {combineLatest, merge, Observable} from 'rxjs';
+import {UntilDestroyedMixin} from 'core-app/helpers/angular/until-destroyed.mixin';
+import {WorkPackagesTableComponent} from 'core-components/wp-table/wp-table.component';
+import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {
   groupIdFromIdentifier,
   groupTypeFromIdentifier
-} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
+} from 'core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -100,7 +100,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private collapsedGroupsCellsMap:IGroupCellsMap = {};
 
-  private wpTypesToShowInCollapsedGroupHeaders:Function[];
+  private wpTypesToShowInCollapsedGroupHeaders:((wp:WorkPackageResource) => boolean)[];
 
   private groupTypesWithHeaderCellsWhenCollapsed = ['project'];
 
@@ -547,7 +547,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     return this.wpTypesToShowInCollapsedGroupHeaders.some(wpTypeFunction => wpTypeFunction(workPackage));
   }
 
-  isMilestone = (workPackage:WorkPackageResource) => {
+  isMilestone = (workPackage:WorkPackageResource):boolean => {
     return this.schemaCacheService.of(workPackage)?.isMilestone;
   }
 

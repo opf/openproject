@@ -144,7 +144,9 @@ export class WorkPackageTimelineCell {
     }
 
     // Remove the element first if we're redrawing
-    !renderInfo.isDuplicatedCell && this.clear();
+    if (!renderInfo.isDuplicatedCell) {
+      this.clear();
+    }
 
     // Render the given element
     this.wpElement = renderer.render(renderInfo);
