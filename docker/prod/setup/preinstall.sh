@@ -11,11 +11,11 @@ display_error() {
 }
 
 echo " ---> Setting up common dependencies. This will take a while..."
-./docker/setup/prod/preinstall-common.sh > /tmp/dockerize.log || display_error
+./docker/prod/setup/preinstall-common.sh > /tmp/dockerize.log || display_error
 
-if test -f ./docker/setup/prod/preinstall-$PLATFORM.sh ; then
+if test -f ./docker/prod/setup/preinstall-$PLATFORM.sh ; then
 	echo " ---> Executing preinstall for $PLATFORM..."
-	./docker/setup/prod/preinstall-$PLATFORM.sh >/tmp/dockerize.log || display_error
+	./docker/prod/setup/preinstall-$PLATFORM.sh >/tmp/dockerize.log || display_error
 fi
 
 apt-get clean
