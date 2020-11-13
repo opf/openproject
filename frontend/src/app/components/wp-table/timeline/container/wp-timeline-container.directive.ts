@@ -57,7 +57,7 @@ import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {combineLatest, merge} from "rxjs";
+import {combineLatest, merge, Observable} from "rxjs";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 import {GroupObject} from "core-app/modules/hal/resources/wp-collection-resource";
@@ -105,6 +105,16 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   private groupTypesWithHeaderCellsWhenCollapsed = ['project'];
 
   private orderedRows:RenderedWorkPackage[] = [];
+
+  get commonPipes() {
+    return (source:Observable<any>) => {
+      return source.pipe(
+        this.untilDestroyed(),
+        takeUntil(this.querySpace.stopAllSubscriptions),
+        filter(() => this.initialized && this.wpTableTimeline.isVisible),
+      );
+    };
+  }
 
   get workPackagesWithGroupHeaderCell():RenderedWorkPackage[] {
     const tableWorkPackages = this.querySpace.results.value!.elements;
@@ -155,13 +165,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.refreshRequest.changes$(),
       this.wpTableTimeline.live$()
     ]).pipe(
-      this.untilDestroyed(),
-      takeUntil(this.querySpace.stopAllSubscriptions),
-      filter(() => this.initialized && this.wpTableTimeline.isVisible)
+      this.commonPipes,
     )
     .subscribe(([orderedRows, changes, timelineState]) => {
       // Remember all visible rows in their order of appearance.
-      this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
+      this.workPackageIdOrder = orderedRows.filter((row:RenderedWorkPackage) => !row.hidden);
       this.orderedRows = orderedRows;
       this.refreshView();
     });
@@ -457,9 +465,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.querySpace.initialized.values$().pipe(switchMap(() => this.querySpace.tableRendered.values$().pipe(take(1), map(() => false)))),
     )
       .pipe(
-        this.untilDestroyed(),
-        takeUntil(this.querySpace.stopAllSubscriptions),
-        filter(() => this.initialized && this.wpTableTimeline.isVisible),
+        this.commonPipes,
       )
       .subscribe((change:{[identifier:string]:boolean} | false) => {
         const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
