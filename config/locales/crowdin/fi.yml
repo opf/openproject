@@ -203,7 +203,7 @@ fi:
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
       edit_columns: 'Edit columns'
-      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt: 'Avaa Gantt-näkymässä'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Tällä hetkellä ei ole projekteja
@@ -537,6 +537,7 @@ fi:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "täytyy olla pienempi tai yhtä suuri kuin %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
         not_a_number: "ei ole numero."
@@ -1180,7 +1181,7 @@ fi:
   homescreen:
     additional:
       projects: "Uusimmat projektit."
-      no_visible_projects: "There are no visible projects in this instance."
+      no_visible_projects: "Ei nähtävissä olevia projekteja."
       users: "Uusimmat rekisteröityneet käyttäjät."
     blocks:
       community: "OpenProject yhteisö"
@@ -1473,8 +1474,8 @@ fi:
   label_message_posted: "Viesti lisätty"
   label_min_max_length: "Min - Max pituudet"
   label_minute_plural: "minuuttia"
-  label_missing_api_access_key: "Missing API access key"
-  label_missing_feeds_access_key: "Missing RSS access key"
+  label_missing_api_access_key: "API avain puuttuu"
+  label_missing_feeds_access_key: "RSS avain puuttuu"
   label_modification: "%{count} muutos"
   label_modified: "muokattu"
   label_module_plural: "Moduulit"
@@ -1894,11 +1895,11 @@ fi:
           mb: "Mt"
           tb: "Tt"
   onboarding:
-    heading_getting_started: "Get an overview"
+    heading_getting_started: "Yleiskatsaus"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Voit käynnistää tämä videon uudelleen ohjeet-valikosta"
     welcome: "Tervetuloa OpenProjectiin"
-    select_language: "Please select your language"
+    select_language: "Valitse kieli"
   permission_add_work_package_notes: "Lisää kommentteja"
   permission_add_work_packages: "Lisää tehtävä"
   permission_add_messages: "Jätä viesti"

@@ -120,15 +120,6 @@ Feature: Scrum Master
     And I am already logged in as "markus"
 
   @javascript
-  Scenario: View stories that have a parent ticket
-   Given I am on the master backlog
-    Then I should see 2 stories in "Sprint 005"
-     And I should not see "Epic 1"
-     And I should not see "Task 10"
-     And I should not see "Subtask 1"
-     And I should not see "Subfeature"
-
-  @javascript
   Scenario: Update sprint details
     Given I am on the master backlog
       And I want to edit the sprint named Sprint 001
@@ -147,51 +138,3 @@ Feature: Scrum Master
      When I update the sprint
      Then the server should return an update error
 
-  @javascript
-  Scenario: Move a story from product backlog to sprint backlog
-    Given I am on the master backlog
-     When I move the story named Story 1 up to the 1st position of the sprint named Sprint 001
-     Then the request should complete successfully
-     When I move the story named Story 4 up to the 2nd position of the sprint named Sprint 001
-      And I move the story named Story 2 up to the 1st position of the sprint named Sprint 002
-      And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
-     Then Story 4 should be in the 1st position of the sprint named Sprint 001
-      And Story 1 should be in the 2nd position of the sprint named Sprint 001
-      And Story 2 should be in the 1st position of the sprint named Sprint 002
-
-  @javascript
-  Scenario: Move a story down in a sprint
-    Given I am on the master backlog
-     When I move the story named Story A below Story B
-     Then the request should complete successfully
-      And Story A should be in the 2nd position of the sprint named Sprint 001
-      And Story B should be the higher item of Story A
-
-  @javascript
-  Scenario: View tasks that have subtasks
-  Given I am on the taskboard for "Sprint 005"
-   Then I should see "Task 10" within "#tasks"
-    And I should see "Task 11" within "#tasks"
-    And I should not see "Subtask 1"
-    And I should not see "Subtask 2"
-    And I should not see "Subtask 3"
-    And I should not see "Epic 1"
-    And I should not see "Subfeature"
-    And I should not see "Subsubtask"
-
-  @javascript
-  Scenario: Move stories around in the backlog that have a parent ticket
-   Given I am on the master backlog
-    When I move the story named Story D below Story E
-    Then the request should complete successfully
-     And Story D should be in the 2nd position of the sprint named Sprint 005
-     And Story E should be the higher item of Story D
-
-  @javascript
-  Scenario: Move a task with subtasks around in the taskboard
-   Given I am on the taskboard for "Sprint 005"
-    When I move the task named Task 10 below Task 11
-    Then the request should complete successfully
-     And Task 11 should be the higher task of Task 10
-     And the story named Story D should have 1 task named Task 10
-     And the story named Story D should have 1 task named Task 11

@@ -56,27 +56,6 @@ Feature: Version Settings
     And I am already logged in as "padme"
 
   @javascript
-  Scenario: Creating a new version
-    When I go to the versions/new page of the project called "ecookbook"
-     And I fill in "version_name" with "Sprint X"
-     And I press "Create"
-    Then I should be on the settings/versions page of the project called "ecookbook"
-     And I should see "Successful creation." within "div.notice"
-     And I should see "Sprint X"
-
-  @javascript
-  Scenario: One can select whether versions are displayed left or right (left is default) in the backlogs page
-    When I go to the edit page of the version called "Sprint 001"
-
-    Then the editable attributes of the version should be the following:
-      | Column in backlog | left |
-
-    When I select "right" from "Column in backlog"
-    And I press "Save"
-
-    Then I should be on the settings/versions page of the project called "ecookbook"
-
-  @javascript
   Scenario: Inherited versions can also be configured to be displayed left, right or not at all
     Given there is 1 project with:
         | name  | parent  |

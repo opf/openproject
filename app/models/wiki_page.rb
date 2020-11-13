@@ -217,11 +217,7 @@ class WikiPage < ApplicationRecord
   end
 
   def breadcrumb_title
-    if item = menu_item
-      item.title
-    else
-      title
-    end
+    menu_item&.title || title
   end
 
   def to_param

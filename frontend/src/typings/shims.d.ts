@@ -13,6 +13,7 @@
 /// <reference path="../../node_modules/@types/webpack-env/index.d.ts" />
 /// <reference path="../../node_modules/@types/es6-shim/index.d.ts" />
 /// <reference path="../../node_modules/@types/dragula/index.d.ts" />
+/// <reference path="../../node_modules/@types/resize-observer-browser/index.d.ts" />
 
 import {ErrorReporter} from "core-app/sentry/sentry-reporter";
 import {Injector} from '@angular/core';

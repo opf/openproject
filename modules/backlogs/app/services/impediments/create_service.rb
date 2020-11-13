@@ -38,6 +38,6 @@ class Impediments::CreateService
 
     WorkPackages::CreateService
       .new(user: user)
-      .call(attributes.merge(work_package: Impediment.new).symbolize_keys)
+      .call(**attributes.merge(work_package: Impediment.new).symbolize_keys)
   end
 end

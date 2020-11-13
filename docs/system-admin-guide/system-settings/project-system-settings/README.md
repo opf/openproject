@@ -19,7 +19,7 @@ To adapt the system project settings, go to System settings on the tab **Project
 
 ### Settings for the Project Overview List
 5. Choose **which columns should be visible** in the Project Overview List by default.
-6. Define the **settings for the Gantt chart view** displayed when clicking on "Open as Gantt view" in the Projects Overview List. You can choose filters, columns, sortings and more to configure the view. For more information on how the configuration works please refer to the instructions for the [work package table configuration](../../user-guide/work-packages/work-package-table-configuration/) in the User Guide.
+6. Define the **settings for the Gantt chart view** displayed when clicking on "Open as Gantt view" in the Projects Overview List. You can choose filters, columns, sortings and more to configure the view. For more information on how the configuration works please refer to the instructions for the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/) in the User Guide.
 7. Do not forget to **save** your changes.
 
 ![image-20201005103659097](image-20201005103659097.png)

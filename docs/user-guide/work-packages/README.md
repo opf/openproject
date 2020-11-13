@@ -15,10 +15,12 @@ keywords: work packages
 
 Work packages have a **type**, an **ID**, a **subject** and may have various additional attributes, such as **status**, **assignee**, **priority**, **due date**.
 
-<div class="glossary">**Work package ID** is defined as a unique integer assigned to a newly created work package. Work package IDs cannot be changed and are numbered across all projects of an OpenProject instance (therefore, the numbering within a project may not be sequential).</div>
+<div class="glossary">**Work package ID** is defined as a unique integer assigned to a newly created work package. Work package IDs cannot be changed and are numbered across all projects of an OpenProject instance (therefore, the numbering within a project may not be sequential). </div>
+
 <div class="glossary">
-**Types** are the different items a work package can represent, such as task, feature, bug, phase, milestone. The work package types can be configured in the system administration.
-</div>
+**Types** are the different items a work package can represent, such as task, feature, bug, phase, milestone. The work package types can be configured in the system administration. </div>
+
+
 
 Work packages can be displayed in a projects timeline, e.g. as a milestone or a phase. In order to use the work packages, the work package module has to be activated in the project settings.
 
@@ -27,7 +29,7 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Work packages views](work-package-views)                    | What is the difference between the work packages views: list view, split screen view, details view? |
-| [Create a work package](/create-work-package)                | How to create a new work package in OpenProject?             |
+| [Create a work package](create-work-package)                 | How to create a new work package in OpenProject?             |
 | [Edit work package](edit-work-package)                       | How to edit a work package in OpenProject?                   |
 | [Copy, move, delete](copy-move-delete)                       | How to copy, move, delete a work package?                    |
 | [Work package table configuration](work-package-table-configuration) | How to configure the work package table (columns, filters, group by, etc.)? |

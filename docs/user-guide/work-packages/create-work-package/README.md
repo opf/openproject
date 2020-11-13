@@ -9,7 +9,7 @@ keywords: create Work packages
 
 # Create Work packages
 
-| Feature                                                      | Documentation for                              |
+| Topic                                                        | Content                                        |
 | ------------------------------------------------------------ | ---------------------------------------------- |
 | [Create Work packages](#how-to-create-work-packages)         | How to create a new Work package in a project? |
 | [Add attachments to a Work package](#add-attachments-to-work-packages) | How to add attachments to a Work package?      |
@@ -55,7 +55,7 @@ Click the green **Save** button.
 
 
 
-To find out **how to create a child Work package** please click [here](../work-package-relations-hierachies/#adding-a-child-work-package).
+To find out **how to create a child Work package** please click [here](../work-package-relations-hierarchies/#adding-a-child-work-package).
 
 
 

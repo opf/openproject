@@ -42,7 +42,7 @@ module TimeEntries
     end
 
     def validate_user_current_user
-      errors.add :user_id, :invalid if model.user != user
+      errors.add :user_id, :not_current_user if model.user != user
     end
   end
 end

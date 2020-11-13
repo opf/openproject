@@ -52,7 +52,7 @@ el:
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
-          assignee: assignee
+          assignee: Αναθέτης
           status: κατάσταση
           version: έκδοση
           subproject: subproject
@@ -63,7 +63,7 @@ el:
           version: Έκδοση
           subproject: Υποέργο
           subtasks: Parent-Child
-          basic: Basic
+          basic: Βασικό
         select_attribute: "Χαρακτηριστικό ενέργειας"
       add_list_modal:
         labels:

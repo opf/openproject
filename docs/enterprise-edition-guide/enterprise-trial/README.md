@@ -6,15 +6,15 @@ description: Create an OpenProject Enterprise Edition trial installation.
 robots: index, follow
 keywords: Enterprise Edition trial
 ---
-# Create an Enterprise Edition trial
+# Create an Enterprise on-premises edition trial
 
-You can **test the OpenProject Enterprise Edition 14 days for free**. It will extend your current Community Edition with the premium features so you can thoroughly test those premium functionalities.
+You can **test the OpenProject Enterprise on-premises edition 14 days for free**. It will extend your current Community edition with the premium features so you can thoroughly test those premium functionalities.
 
 Please go to https://www.openproject.org/enterprise-edition/ and press the green **Get free trial license** button.
 
 ![create-enterprise-edition-trial](1567610649991.png)
 
-A window will appear which explains that you will receive a 14 days free trial license with that you can temporarily upgrade your Community Edition.
+A window will appear which explains that you will receive a 14 days free trial license with that you can temporarily upgrade your Community edition.
 
 There is no need to cancel the trial license. The license will run out automatically and will bring you back to the Community version.
 

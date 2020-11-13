@@ -12,6 +12,20 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 11.0.2
+
+Release date: 2020-11-06
+
+[Release Notes](11-0-2/)
+
+
+## 11.0.1
+
+Release date: 2020-10-28
+
+[Release Notes](11-0-1/)
+
+
 ## 11.0.0
 
 Release date: 2020-10-07
