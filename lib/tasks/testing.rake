@@ -30,7 +30,7 @@
 namespace :test do
   desc 'runs all tests'
   namespace :suite do
-    task run: [:cucumber, :spec, 'spec:legacy']
+    task run: [:spec, 'spec:legacy']
   end
 end
 
