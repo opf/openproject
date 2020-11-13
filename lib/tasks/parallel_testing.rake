@@ -30,8 +30,13 @@
 require 'optparse'
 require 'plugins/load_path_helper'
 
+
+require 'parallel_tests/tasks'
+# Remove task added by parallel_tests as it conflicts with our own.
+# Having both will lead to both being executred.
+Rake::Task["parallel:features"].clear if Rake::Task.task_defined?("parallel:features")
+
 def check_for_pending_migrations
-  require 'parallel_tests/tasks'
   ParallelTests::Tasks.check_for_pending_migrations
 end
 
