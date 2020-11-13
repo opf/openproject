@@ -60,12 +60,25 @@ class SeedCustomStyleWithBimTheme < ActiveRecord::Migration[6.0]
 
   def seed_bim_theme
     CustomStyle.transaction do
-      set_logo
-      set_colors
-      set_theme
-
-      custom_style.save!
+      set_custom_style
+      set_design_colors
     end
+  end
+
+  def set_design_colors
+    # There should not be any DesignColors present. However, we want to make sure.
+    DesignColor.delete_all
+
+    theme[:colors].each do |param_variable, param_hexcode|
+      DesignColor.create variable: param_variable, hexcode: param_hexcode
+    end
+  end
+
+  def set_custom_style
+    custom_style = (CustomStyle.current || CustomStyle.create!)
+    custom_style.attributes = { theme: theme[:theme], theme_logo: theme[:logo] }
+    custom_style.save!
+    custom_style
   end
 
   def theme
@@ -84,28 +97,5 @@ class SeedCustomStyleWithBimTheme < ActiveRecord::Migration[6.0]
       },
       logo: 'bim/logo_openproject_bim_big.png'
     }
-  end
-
-  def set_logo
-    custom_style.theme_logo = theme[:logo].presence
-  end
-
-  def set_colors
-    # There should not be any DesignColors be present. However, we want to make sure.
-    DesignColor.delete_all
-
-    theme[:colors].each do |param_variable, param_hexcode|
-      # create that design_color
-      design_color = DesignColor.new variable: param_variable, hexcode: param_hexcode
-      design_color.save
-    end
-  end
-
-  def set_theme
-    custom_style.theme = theme[:theme]
-  end
-
-  def custom_style
-    @custom_style ||= (CustomStyle.current || CustomStyle.create!)
   end
 end
