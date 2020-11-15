@@ -77,7 +77,8 @@ describe 'Upload attachment to documents', js: true do
       expect(page).to have_content('Image uploaded on creation')
 
       # Adding a second image
-      find('.toolbar-items .button', text: 'Edit').click
+      # We should be using the 'Edit' button at the top but that leads to flickering specs
+      visit edit_document_path(document)
 
       expect(page).to have_current_path "/documents/#{document.id}/edit", wait: 10
       editor.drag_attachment image_fixture, 'Image uploaded the second time'
