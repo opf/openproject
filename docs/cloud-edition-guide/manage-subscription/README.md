@@ -7,7 +7,7 @@ robots: index, follow
 keywords: manage subscription
 ---
 
-# Manage your OpenProject Cloud subscription
+# Manage your OpenProject Enterprise cloud subscription
 
 If you want to make changes to your subscription (Up- or downgrade, cancel), navigate to -> *Administration* -> *Billing* within your system's Administration.
 
@@ -54,7 +54,7 @@ Click the blue **Update your subscription now button** to save the changes.
 
 To cancel your subscription, open the [Manage subscription](#manage-your-openproject-cloud-subscription) form and click to [update the subscription](#update-existing-subscriptions) you want to cancel.
 
-Click on the **Cancel Subscription link** if you want to terminate your OpenProject Cloud Edition subscription.
+Click on the **Cancel Subscription link** if you want to terminate your OpenProject Enterprise cloud edition subscription.
 
 ![Cloud-cancel-subscription](Cloud-cancel-subscription.png)
 
@@ -64,18 +64,18 @@ Click on the **Cancel Subscription link** if you want to terminate your OpenProj
 
 ## Frequently asked questions (FAQ)
 
-### How can I increase the number of users in the OpenProject Cloud Edition?
+### How can I increase the number of users in the OpenProject Enterprise cloud edition?
 
 Please note that the minimum number of users is 5. You can then increase the number of users in steps of 5. Just write an email to sales@openproject.com.
 
-### Is it possible to change the number of users in the OpenProject Cloud Edition?
+### Is it possible to change the number of users in the OpenProject Enterprise cloud edition?
 
-You can always increase the number of users. The number of users can be increased in steps of 5 (e.g. you could start with 5 users and then increase the number of users to 10 users). You can purchase the Enterprise Edition from [here](https://www.openproject.org/enterprise-edition/). Simply click on the button "Book now" and follow the steps. A reduction in the number of users would take effect after the current service period.
+You can always increase the number of users. The number of users can be increased in steps of 5 (e.g. you could start with 5 users and then increase the number of users to 10 users). You can purchase the Enterprise on-premises edition from [here](https://www.openproject.org/enterprise-edition/). Simply click on the button "Book now" and follow the steps. A reduction in the number of users would take effect after the current service period.
 
 ### Do you have OpenProject guest accounts?
 
-Currently, all users working in the OpenProject Enterprise Edition need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users.
+Currently, all users working in the OpenProject Enterprise editions need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users.
 
 ### Can I run OpenProject as a single user?
 
-Our minimum plan for the Cloud Edition and Enterprise Edition is five users. Our pricing scheme covers three subscription options: Community ($0), Cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [community version](https://www.openproject.org/download-and-installation/) free of charge if the 5 user minimum is an issue.
+Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community ($0), Enterprise cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise on-premises (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the 5 user minimum is an issue.

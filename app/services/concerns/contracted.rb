@@ -103,7 +103,11 @@ module Contracted
     end
 
     def changed_compared_to(prior_changes)
-      model.changed.select { |c| !prior_changes[c] || prior_changes[c].last != model.changes[c].last }
+      changed_attributes.select { |c| !prior_changes[c] || prior_changes[c].last != model.changes[c].last }
+    end
+
+    def changed_attributes
+      model.changed
     end
   end
 end

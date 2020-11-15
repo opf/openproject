@@ -74,11 +74,11 @@ ja:
           subtasks: Select work package to add as a new list
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
+            利用可能な状態ではありません。<br>
+            または、既にボードに追加されています。
           assignee: There isn't any member matched with your filter value.  <br>
           no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+          add_members: <a href="%{link}">プロジェクトに新規メンバーを追加し</a> 、再度ユーザーを選択してください。
       configuration_modal:
         title: 'このボードの設定'
         display_settings:

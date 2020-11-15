@@ -85,7 +85,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <!-- page specific tags -->
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
   <%= render partial: "custom_styles/inline_css_logo" %>
-  <% if CustomStyle.try(:current).present? %>
+  <% if apply_custom_styles? %>
     <% cache(CustomStyle.current) do %>
       <%= render partial: "custom_styles/inline_css" %>
       <% if CustomStyle.current.favicon.present? %>

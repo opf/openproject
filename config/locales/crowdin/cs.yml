@@ -539,6 +539,7 @@ cs:
         invalid_url: 'není platná adresa URL.'
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
         less_than_or_equal_to: "musí být menší než nebo rovno %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "není platné datum."
         not_a_datetime: "není platný čas."
         not_a_number: "není číslo."

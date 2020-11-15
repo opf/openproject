@@ -55,7 +55,7 @@ Click the green **Save** button.
 
 
 
-To find out **how to create a child Work package** please click [here](../work-package-relations-hierachies/#adding-a-child-work-package).
+To find out **how to create a child Work package** please click [here](../work-package-relations-hierarchies/#adding-a-child-work-package).
 
 
 

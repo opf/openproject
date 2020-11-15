@@ -77,6 +77,6 @@ class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
   end
 
   def url_helper_parameter(event)
-    [event['project_id'], event['wiki_title'], { version: event['version'] }]
+    [event['project_id'], event['wiki_title'].to_url, { version: event['version'] }]
   end
 end

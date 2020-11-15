@@ -28,7 +28,7 @@ Inline editing is a core functionality of work packages and other attributes.
 
 In order to understand Inline Editing, you will need the following concepts:
 
-- [HAL resources](TODO:hal-resource)
+- [HAL resources](../hal-resources)
 
 - [Schemas](../resource-schemas)
 
