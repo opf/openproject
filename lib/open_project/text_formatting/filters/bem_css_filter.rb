@@ -27,39 +27,26 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'task_list/filter'
 
-module OpenProject::TextFormatting::Formats::Markdown
-  class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-    def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
+module OpenProject::TextFormatting
+  module Filters
+    class BemCssFilter < HTML::Pipeline::Filter
+      BEM_CLASSES = {
+        h1: 'op-uc-h1',
+        h2: 'op-uc-h2',
+        h3: 'op-uc-h3',
+        h4: 'op-uc-h4',
+        h5: 'op-uc-h5',
+        h6: 'op-uc-h6'
+      }.with_indifferent_access.freeze
 
-      output.html_safe
-    end
+      def call
+        doc.search(*BEM_CLASSES.keys.map(&:to_s)).each do |element|
+          element['class'] = BEM_CLASSES[element.name]
+        end
 
-    def to_document(text)
-      pipeline.to_document text, context
-    end
-
-    def filters
-      [
-        :markdown,
-        :sanitization,
-        ::TaskList::Filter,
-        :table_of_contents,
-        :macro,
-        :pattern_matcher,
-        :syntax_highlight,
-        :attachment,
-        :relative_link,
-        :autolink,
-        :bem_css
-      ]
-    end
-
-    def self.format
-      :markdown
+        doc
+      end
     end
   end
 end
