@@ -9,7 +9,7 @@ ENV USER=dev
 RUN usermod -l $USER -d /home/$USER -m node
 RUN usermod -u $DEV_UID $USER
 RUN groupadd $USER
-RUN groupmod -g $DEV_GID $USER
+RUN groupmod -g $DEV_GID $USER || true
 
 EXPOSE 4200
 

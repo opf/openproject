@@ -11,7 +11,7 @@ ENV BUNDLER_VERSION "2.0.2"
 
 RUN useradd -d /home/$USER -m $USER
 RUN usermod -u $DEV_UID $USER
-RUN groupmod -g $DEV_GID $USER
+RUN groupmod -g $DEV_GID $USER || true
 
 WORKDIR /home/$USER
 

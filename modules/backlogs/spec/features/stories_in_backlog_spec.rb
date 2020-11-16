@@ -272,9 +272,9 @@ describe 'Stories in backlog',
                              [default_status, other_status])
 
     backlogs_page
-      .alter_attributes_in_edit_mode(backlog_story1,
-                                     subject: 'Altered backlog story1',
-                                     status: other_status.name)
+      .alter_attributes_in_edit_story_mode(backlog_story1,
+                                           subject: 'Altered backlog story1',
+                                           status: other_status.name)
     backlogs_page
       .save_story_from_edit_mode(backlog_story1)
 
@@ -301,8 +301,8 @@ describe 'Stories in backlog',
 
     # Available statuses when editing and switching the type
     backlogs_page
-      .alter_attributes_in_edit_mode(backlog_story1,
-                                     type: other_story)
+      .alter_attributes_in_edit_story_mode(backlog_story1,
+                                           type: other_story)
     # This will result in an error as the current status is not available
     backlogs_page
       .save_story_from_edit_mode(backlog_story1)
