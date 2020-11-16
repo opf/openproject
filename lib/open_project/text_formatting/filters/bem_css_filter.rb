@@ -39,7 +39,9 @@ module OpenProject::TextFormatting
         h5: 'op-uc-h5',
         h6: 'op-uc-h6',
         p: 'op-uc-p',
-        blockquote: 'op-uc-blockquote'
+        blockquote: 'op-uc-blockquote',
+        code: 'op-uc-code',
+        pre: 'op-uc-code-block'
       }.with_indifferent_access.freeze
 
       def call

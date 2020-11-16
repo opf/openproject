@@ -27,50 +27,34 @@
 #++
 
 require 'spec_helper'
+require_relative './expected_markdown'
 
 describe OpenProject::TextFormatting,
-         'headings',
-         # Speeds up the spec by avoiding event mailers to be procssed
-         with_settings: {notified_events: []} do
-  include OpenProject::TextFormatting
-  include ERB::Util
-  include WorkPackagesHelper # soft-dependency
-  include ActionView::Helpers::UrlHelper # soft-dependency
-  include ActionView::Context
-  include OpenProject::StaticRouting::UrlHelpers
-
-  def controller
-    # no-op
-  end
+         'headings' do
+  include_context 'expected markdown modules'
 
   describe '.format_text' do
     shared_examples_for 'bem heading' do |level|
-      let(:raw) do
-        <<~RAW
-          Some text before
+      it_behaves_like 'format_text produces' do
+        let(:raw) do
+          <<~RAW
+            Some text before
 
-          #{'#' * level} the heading
+            #{'#' * level} the heading
 
-          more text
-        RAW
-      end
+            more text
+          RAW
+        end
 
-      let(:expected) do
-        <<~EXPECTED
-          <p class="op-uc-p">Some text before</p>
-          <h#{level} class="op-uc-h#{level}" id="the-heading">
-            <a class="wiki-anchor icon-paragraph" aria-hidden="true" href="#the-heading"></a>the heading
-          </h#{level}>
-          <p class="op-uc-p">more text</p>
-        EXPECTED
-      end
-
-
-      subject { format_text(raw) }
-
-      it 'produces the expected output' do
-        is_expected
-          .to be_html_eql(expected)
+        let(:expected) do
+          <<~EXPECTED
+            <p class="op-uc-p">Some text before</p>
+            <h#{level} class="op-uc-h#{level}" id="the-heading">
+              <a class="wiki-anchor icon-paragraph" aria-hidden="true" href="#the-heading"></a>the heading
+            </h#{level}>
+            <p class="op-uc-p">more text</p>
+          EXPECTED
+        end
       end
     end
 
@@ -83,38 +67,32 @@ describe OpenProject::TextFormatting,
 
     context 'with the heading being in a code bock' do
       shared_examples_for 'unchanged heading' do |level|
-        let(:raw) do
-          <<~RAW
-            Some text before
+        it_behaves_like 'format_text produces' do
+          let(:raw) do
+            <<~RAW
+              Some text before
 
-            ```
-            <h#{level}>The heading </h#{level}>
+              ```
+              <h#{level}>The heading </h#{level}>
 
-            ```
+              ```
 
-            more text
-          RAW
-        end
+              more text
+            RAW
+          end
 
-        let(:expected) do
-          <<~EXPECTED
-            <p class="op-uc-p">Some text before</p>
+          let(:expected) do
+            <<~EXPECTED
+              <p class="op-uc-p">Some text before</p>
 
-            <pre><code>
-            &lt;h#{level}&gt;The heading &lt;/h#{level}&gt;
+              <pre class='op-uc-code-block'><code class='op-uc-code'>
+              &lt;h#{level}&gt;The heading &lt;/h#{level}&gt;
 
-            </code></pre>
+              </code></pre>
 
-            <p class="op-uc-p">more text</p>
-          EXPECTED
-        end
-
-
-        subject { format_text(raw) }
-
-        it 'produces the expected output' do
-          is_expected
-            .to be_html_eql(expected)
+              <p class="op-uc-p">more text</p>
+            EXPECTED
+          end
         end
       end
 
@@ -124,6 +102,24 @@ describe OpenProject::TextFormatting,
       it_behaves_like 'unchanged heading', 4
       it_behaves_like 'unchanged heading', 5
       it_behaves_like 'unchanged heading', 6
+    end
+
+    context 'with the heading being a date (number and backslash)' do
+      it_behaves_like 'format_text produces' do
+        let(:raw) do
+          '# 2009\02\09'
+        end
+
+        let(:expected) do
+          <<~EXPECTED.strip_heredoc
+            <h1 class="op-uc-h1" id="20090209">
+            <a class="wiki-anchor icon-paragraph" href="#20090209" aria-hidden="true">
+            </a>
+              2009\\02\\09
+            </h1>
+          EXPECTED
+        end
+      end
     end
   end
 end

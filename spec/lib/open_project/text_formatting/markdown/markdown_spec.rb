@@ -652,7 +652,7 @@ describe OpenProject::TextFormatting,
         <<~EXPECTED
           <p class='op-uc-p'><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
           <p class='op-uc-p'><a class="issue work_package preview-trigger" href="/work_packages/#{issue.id}">##{issue.id}</a></p>
-          <pre><code>
+          <pre class="op-uc-code-block"><code class="op-uc-code">
           [[CookBook documentation]]
 
           ##{issue.id}

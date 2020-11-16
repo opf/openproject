@@ -30,23 +30,72 @@ require 'spec_helper'
 require_relative './expected_markdown'
 
 describe OpenProject::TextFormatting,
-         'paragraphs' do
+         'code' do
   include_context 'expected markdown modules'
 
-  it_behaves_like 'format_text produces' do
-    let(:raw) do
-      <<~RAW
-        Some text
+  context 'inline code' do
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        <<~RAW
+          this is `some code`
+        RAW
+      end
 
-        More text
-      RAW
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">
+            this is <code class="op-uc-code">some code</code>
+          </p>
+        EXPECTED
+      end
     end
 
-    let(:expected) do
-      <<~EXPECTED
-        <p class="op-uc-p">Some text</p>
-        <p class="op-uc-p">More text</p>
-      EXPECTED
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        <<~RAW
+          this is `<Location /redmine>` some code
+        RAW
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">
+            this is <code class="op-uc-code">&lt;Location /redmine&gt;</code> some code
+          </p>
+        EXPECTED
+      end
+    end
+  end
+
+  context 'block code' do
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        <<~RAW
+          Text before
+
+          ```
+           some code
+          ```
+
+          Text after
+        RAW
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">
+            Text before
+          </p>
+
+          <pre class="op-uc-code-block"><code class="op-uc-code">
+            some code
+          </code></pre>
+
+          <p class="op-uc-p">
+            Text after
+          </p>
+        EXPECTED
+      end
     end
   end
 end

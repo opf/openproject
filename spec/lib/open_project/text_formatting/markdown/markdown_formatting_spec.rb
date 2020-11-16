@@ -43,13 +43,6 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     )
   end
 
-  it 'should inline code' do
-    assert_html_output(
-      'this is `some code`'      => 'this is <code>some code</code>',
-      '`<Location /redmine>`'    => '<code>&lt;Location /redmine&gt;</code>'
-    )
-  end
-
   it 'escapes script tags' do
     assert_html_output(
       'this is a <script>' => 'this is a &lt;script&gt;'
@@ -61,19 +54,6 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
       'this is a <a style="display:none;" href="http://malicious">' =>
         'this is a <a href="http://malicious" rel="noopener noreferrer">'
     )
-  end
-
-  it 'should use of backslashes followed by numbers in headers' do
-    html = <<-HTML.strip_heredoc
-      <h1 class="op-uc-h1" id="20090209">
-        <a class="wiki-anchor icon-paragraph" href="#20090209" aria-hidden="true">
-        </a>
-        2009\\02\\09
-      </h1>
-    HTML
-    assert_html_output({
-                         '# 2009\02\09' => html
-                       }, expect_paragraph: false)
   end
 
   it 'should double dashes should not strikethrough' do

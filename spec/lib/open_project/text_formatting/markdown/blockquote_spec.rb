@@ -27,23 +27,13 @@
 #++
 
 require 'spec_helper'
+require_relative './expected_markdown'
 
 describe OpenProject::TextFormatting,
-         'blockquote',
-         # Speeds up the spec by avoiding event mailers to be procssed
-         with_settings: {notified_events: []} do
-  include OpenProject::TextFormatting
-  include ERB::Util
-  include WorkPackagesHelper # soft-dependency
-  include ActionView::Helpers::UrlHelper # soft-dependency
-  include ActionView::Context
-  include OpenProject::StaticRouting::UrlHelpers
+         'blockquote' do
+  include_context 'expected markdown modules'
 
-  def controller
-    # no-op
-  end
-
-  describe '.format_text' do
+  it_behaves_like 'format_text produces' do
     let(:raw) do
       <<~RAW
         John said:
@@ -87,14 +77,6 @@ describe OpenProject::TextFormatting,
         <p class="op-uc-p">Second quote</p>
         </blockquote>
       EXPECTED
-    end
-
-
-    subject { format_text(raw) }
-
-    it 'produces the expected output' do
-      is_expected
-        .to be_html_eql(expected)
     end
   end
 end

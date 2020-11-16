@@ -27,24 +27,14 @@
 #++
 
 require 'spec_helper'
+require_relative './expected_markdown'
 
 describe OpenProject::TextFormatting,
-         'Todo lists',
-         # Speeds up the spec by avoiding event mailers to be procssed
-         with_settings: {notified_events: []} do
-  include OpenProject::TextFormatting
-  include ERB::Util
-  include WorkPackagesHelper # soft-dependency
-  include ActionView::Helpers::UrlHelper # soft-dependency
-  include ActionView::Context
-  include OpenProject::StaticRouting::UrlHelpers
+         'Todo lists' do
+  include_context 'expected markdown modules'
 
-  def controller
-    # no-op
-  end
-
-  describe '.format_text' do
-    context 'With a todo list in a table' do
+  context 'With a todo list in a table' do
+    it_behaves_like 'format_text produces' do
       let(:raw) do
         <<~RAW
           <table>
@@ -53,7 +43,7 @@ describe OpenProject::TextFormatting,
                 <td>
                   <ul class="todo-list">
                     <li>
-                      <code>
+                      <code class='op-uc-code'>
                         <label class="todo-list__label"><input type="checkbox" disabled="disabled">
                           <span class="todo-list__label__description">asdf</span>
                         </label>
@@ -134,8 +124,8 @@ describe OpenProject::TextFormatting,
                   <ul class="task-list">
                     <li class="task-list-item">
                       <input type="checkbox" class="task-list-item-checkbox" disabled>
-                      <code>
-                          <span>asdf</span>
+                      <code class='op-uc-code'>
+                        <span>asdf</span>
                       </code>
                     </li>
                   </ul>
@@ -189,16 +179,11 @@ describe OpenProject::TextFormatting,
           </table>
         EXPECTED
       end
-
-
-      subject { format_text(raw) }
-
-      it 'should correctly place todo lists in table' do
-        expect(subject).to be_html_eql(expected)
-      end
     end
+  end
 
-    describe 'with a todo list with a link on second place' do
+  context 'with a todo list with a link on second place' do
+    it_behaves_like 'format_text produces' do
       let(:raw) do
         <<~RAW
           <table>
@@ -254,12 +239,6 @@ describe OpenProject::TextFormatting,
             </tbody>
           </table>
         EXPECTED
-      end
-
-      subject { format_text(raw) }
-
-      it 'should correctly place the link after the text node' do
-        expect(subject).to be_html_eql(expected)
       end
     end
   end
