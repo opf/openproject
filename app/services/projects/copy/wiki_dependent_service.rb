@@ -46,47 +46,72 @@ module Projects::Copy
       target.wiki.wiki_menu_items.delete_all
 
       copy_wiki_pages(params)
-      copy_wiki_menu_items(params)
+      copy_wiki_menu_items
     end
 
     # Copies wiki pages from +project+, requires a wiki to be already set
     def copy_wiki_pages(params)
       wiki_pages_map = {}
 
-      source.wiki.pages.find_each do |page|
-        # Skip pages without content
-        next if page.content.nil?
-
-        new_wiki_content = WikiContent.new(page.content.attributes.dup.except('id', 'page_id', 'updated_at'))
-        attributes = page
-          .attributes.dup.except('id', 'wiki_id', 'created_on', 'parent_id')
-          .merge(content: new_wiki_content)
-
-        new_wiki_page = target.wiki.pages.create attributes
-        wiki_pages_map[page] = new_wiki_page
-      end
-
-      # Save the wiki
-      target.wiki.save
-
-      # Reproduce page hierarchy
-      source.project.wiki.pages.each do |page|
-        if page.parent_id && wiki_pages_map[page]
-          wiki_pages_map[page].parent = wiki_pages_map[page.parent]
-          wiki_pages_map[page].save
-        end
+      # Copying top down so that the hierarchy (parent attribute)
+      # can be rewritten along the way.
+      pages_top_down do |page|
+        new_parent = wiki_pages_map[page.parent]
+        wiki_pages_map[page] = copy_wiki_page(page, new_parent)
       end
 
       # Copy attachments
       if should_copy?(params, :wiki_page_attachments)
         wiki_pages_map.each do |old_page, new_page|
-          copy_attachments(old_page.id, new_page.id, new_page.class.name)
+          next unless old_page && new_page
+
+          copy_attachments(old_page, new_page.id)
         end
       end
     end
 
+    def copy_wiki_page(source_page, new_parent)
+      # Skip pages without content
+      return if source_page.content.nil?
+
+      # Relying on ActionMailer::Base.perform_deliveries is violating cohesion
+      # but the value is currently not otherwise provided
+      service_call = WikiPages::CopyService
+                     .new(user: user, model: source_page, contract_class: WikiPages::CopyContract)
+                     .call(wiki: target.wiki,
+                           parent: new_parent,
+                           send_notifications: ActionMailer::Base.perform_deliveries)
+
+      if service_call.success?
+        service_call.result
+      else
+        add_error!(source_page, service_call.errors)
+        Rails.logger.warn do
+          "Project#copy_wiki_page: wiki_page ##{source_page.id} could not be copied: #{service_call.message}"
+        end
+
+        nil
+      end
+    end
+
+    def pages_top_down(&block)
+      id_by_parent = source.wiki.pages.pluck(:parent_id, :id).inject(Hash.new { [] }) { |h, (k, v)| h[k] += [v]; h }
+
+      yield_downwards(id_by_parent, nil, &block)
+    end
+
+    def yield_downwards(map, current, &block)
+      map[current].each do |child_id|
+        child = source.wiki.pages.find(child_id)
+
+        yield child
+
+        yield_downwards(map, child_id, &block)
+      end
+    end
+
     # Copies wiki_menu_items from +project+, requires a wiki to be already set
-    def copy_wiki_menu_items(params)
+    def copy_wiki_menu_items
       wiki_menu_items_map = {}
 
       source.wiki.wiki_menu_items.each do |item|

@@ -107,7 +107,7 @@ describe 'Projects copy',
                         done_ratio: 20,
                         category: category,
                         version: version,
-                        description: 'Some desciption',
+                        description: 'Some description',
                         custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
     end
 

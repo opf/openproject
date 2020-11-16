@@ -178,7 +178,7 @@ class SearchController < ApplicationController
   end
 
   def provision_gon
-    available_search_types = Redmine::Search.available_search_types.dup.push('all')
+    available_search_types = search_types.dup.push('all')
 
     gon.global_search = {
       search_term: @question,
