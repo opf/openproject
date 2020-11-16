@@ -27,7 +27,7 @@ if test -f ./docker/setup/postinstall-$PLATFORM.sh ; then
 fi
 
 echo " ---> Precompiling assets. This will take a while..."
-./docker/setup/postinstall-common.sh > /tmp/dockerize.log || display_error
+./docker/setup/postinstall-common.sh || display_error
 
 rm -f /tmp/dockerize.log
 echo "      OK."
