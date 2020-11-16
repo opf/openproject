@@ -65,7 +65,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
 
   it 'should use of backslashes followed by numbers in headers' do
     html = <<-HTML.strip_heredoc
-      <h1 id="20090209">
+      <h1 class="op-uc-h1" id="20090209">
         <a class="wiki-anchor icon-paragraph" href="#20090209" aria-hidden="true">
         </a>
         2009\\02\\09
@@ -170,48 +170,6 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     end
   end
 
-  it 'should blockquote' do
-    # orig raw text
-    raw = <<-RAW.strip_heredoc
-      John said:
-      > Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
-      > Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
-      >
-      > * Donec odio lorem,
-      > * sagittis ac,
-      > * malesuada in,
-      > * adipiscing eu, dolor.
-      >
-      > >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
-      >
-      > Proin a tellus. Nam vel neque.
-
-      He's right.
-    RAW
-
-    # expected html
-    expected = <<-EXPECTED.strip_heredoc
-      <p>John said:</p>
-      <blockquote>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br>
-      Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.</p>
-      <ul>
-        <li>Donec odio lorem,</li>
-        <li>sagittis ac,</li>
-        <li>malesuada in,</li>
-        <li>adipiscing eu, dolor.</li>
-      </ul>
-      <blockquote>
-      <p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
-      </blockquote>
-      <p>Proin a tellus. Nam vel neque.</p>
-      </blockquote>
-      <p>He's right.</p>
-    EXPECTED
-
-    expect(to_html(raw).gsub(%r{\s+}, '')).to eq(expected.gsub(%r{\s+}, ''))
-  end
-
   it 'should table' do
     raw = <<-RAW.strip_heredoc
       This is a table with header cells:
@@ -224,7 +182,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     RAW
 
     expected = <<-EXPECTED.strip_heredoc
-      <p>This is a table with header cells:</p>
+      <p class="op-uc-p">This is a table with header cells:</p>
 
       <table>
         <thead>
@@ -242,13 +200,13 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
   end
 
   it 'should not mangle brackets' do
-    expect(to_html('[msg1][msg2]')).to eq '<p>[msg1][msg2]</p>'
+    expect(to_html('[msg1][msg2]')).to eq '<p class="op-uc-p">[msg1][msg2]</p>'
   end
 
   it 'should textile should escape image urls' do
     # this is onclick="alert('XSS');" in encoded form
     raw = '![](/images/comment.png"onclick=&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x27;&#x58;&#x53;&#x53;&#x27;&#x29;;&#x22;)'
-    expected = %[<p><imgsrc="/images/comment.png%22onclick=alert('XSS');%22" alt=""></p>]
+    expected = %[<p class="op-uc-p"><imgsrc="/images/comment.png%22onclick=alert('XSS');%22" alt=""></p>]
 
     expect(expected.gsub(%r{\s+}, '')).to eq(to_html(raw).gsub(%r{\s+}, ''))
   end
@@ -283,8 +241,8 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     MARKDOWN
 
     html = <<-HTML.strip_heredoc
-      <p>
-        <h1>Table of contents</h1>
+      <p class="op-uc-p">
+        <h1 class="op-uc-h1">Table of contents</h1>
         <ul class="toc">
           <li><a href="#the-first-h1-heading">The first h1 heading</a></li>
           <ul class="section-nav">
@@ -298,39 +256,39 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
           </ul>
         </ul>
       </p>
-      <h1 id="the-first-h1-heading">
+      <h1 class="op-uc-h1" id="the-first-h1-heading">
         <a class="wiki-anchor icon-paragraph" href="#the-first-h1-heading" aria-hidden="true">
         </a>
         The first h1 heading
       </h1>
-      <p>Some text after the first h1 heading</p>
-      <h2 id="the-first-h2-heading">
+      <p class="op-uc-p">Some text after the first h1 heading</p>
+      <h2 class="op-uc-h2" id="the-first-h2-heading">
         <a class="wiki-anchor icon-paragraph" href="#the-first-h2-heading" aria-hidden="true">
         </a>
         The first h2 heading
       </h2>
-      <p>Some text after the first h2 heading</p>
-      <h3 id="the-first-h3-heading">
+      <p class="op-uc-p">Some text after the first h2 heading</p>
+      <h3 class="op-uc-h3" id="the-first-h3-heading">
         <a class="wiki-anchor icon-paragraph" href="#the-first-h3-heading" aria-hidden="true">
         </a>
         The first h3 heading
       </h3>
-      <p>Some text after the first h3 heading</p>
-      <h1 id="the-second-h1-heading">
+      <p class="op-uc-p">Some text after the first h3 heading</p>
+      <h1 class="op-uc-h1" id="the-second-h1-heading">
         <a class="wiki-anchor icon-paragraph" href="#the-second-h1-heading" aria-hidden="true">
         </a>The second h1 heading
       </h1>
-      <p>Some text after the second h1 heading</p>
-      <h2 id="the-second-h2-heading">
+      <p class="op-uc-p">Some text after the second h1 heading</p>
+      <h2 class="op-uc-h2" id="the-second-h2-heading">
         <a class="wiki-anchor icon-paragraph" href="#the-second-h2-heading" aria-hidden="true">
         </a>The second h2 heading
       </h2>
-      <p>Some text after the second h2 heading</p>
-      <h3 id="the-second-h3-heading">
+      <p class="op-uc-p">Some text after the second h2 heading</p>
+      <h3 class="op-uc-h3" id="the-second-h3-heading">
         <a class="wiki-anchor icon-paragraph" href="#the-second-h3-heading" aria-hidden="true">
         </a>The second h3 heading
       </h3>
-      <p>Some text after the second h3 heading</p>
+      <p class="op-uc-p">Some text after the second h3 heading</p>
     HTML
 
     assert_html_output({ markdown => html }, expect_paragraph: false)
@@ -343,7 +301,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     expect_paragraph = options.delete :expect_paragraph
 
     to_test.each do |text, expected|
-      expected = expect_paragraph ? "<p>#{expected}</p>" : expected
+      expected = expect_paragraph ? "<p class=\"op-uc-p\">#{expected}</p>" : expected
       expect(to_html(text, options)).to be_html_eql expected
     end
   end

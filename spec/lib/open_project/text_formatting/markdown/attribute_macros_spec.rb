@@ -54,19 +54,19 @@ describe OpenProject::TextFormatting,
 
     let(:expected) do
       <<~EXPECTED
-        <h1 id="my-headline">
+        <h1 class="op-uc-h1" id="my-headline">
          <a class="wiki-anchor icon-paragraph" aria-hidden="true" href="#my-headline"></a>My headline
         </h1>
-        <p>
+        <p class="op-uc-p">
           Inline reference to WP by ID: <macro class="macro--attribute-label" data-model="workPackage" data-id="1234" data-attribute="subject"></macro>
         </p>
-        <p>
+        <p class="op-uc-p">
           Inline reference to WP by subject: <macro class="macro--attribute-label" data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces"></macro>
         </p>
-        <p>
+        <p class="op-uc-p">
           Inline reference to project: <macro class="macro--attribute-label" data-model="project" data-attribute="status"></macro>
         </p>
-        <p>
+        <p class="op-uc-p">
           Inline reference to project with id: <macro class="macro--attribute-label" data-model="project" data-id="some id" data-attribute="status"></macro>
         </p>
       EXPECTED
@@ -94,19 +94,19 @@ describe OpenProject::TextFormatting,
 
     let(:expected) do
       <<~EXPECTED
-        <h1 id="my-headline">
+        <h1 class="op-uc-h1" id="my-headline">
          <a class="wiki-anchor icon-paragraph" aria-hidden="true" href="#my-headline"></a>My headline
         </h1>
-        <p>
+        <p class="op-uc-p">
           Inline reference to WP by ID: <macro class="macro--attribute-value" data-model="workPackage" data-id="1234" data-attribute="subject"></macro>
         </p>
-        <p>
+        <p class="op-uc-p">
           Inline reference to WP by subject: <macro class="macro--attribute-value" data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces"></macro>
         </p>
-        <p>
+        <p class="op-uc-p">
           Inline reference to project: <macro class="macro--attribute-value" data-model="project" data-attribute="status"></macro>
         </p>
-        <p>
+        <p class="op-uc-p">
           Inline reference to project with id: <macro class="macro--attribute-value" data-model="project" data-id="some id" data-attribute="status"></macro>
         </p>
       EXPECTED

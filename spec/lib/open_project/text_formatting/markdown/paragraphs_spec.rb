@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe OpenProject::TextFormatting,
-         'headings',
+         'paragraphs',
          # Speeds up the spec by avoiding event mailers to be procssed
          with_settings: {notified_events: []} do
   include OpenProject::TextFormatting
@@ -44,24 +44,19 @@ describe OpenProject::TextFormatting,
   end
 
   describe '.format_text' do
-    shared_examples_for 'bem heading' do |level|
+    context 'in the normal text flow' do
       let(:raw) do
         <<~RAW
-          Some text before
+          Some text
 
-          #{'#' * level} the heading
-
-          more text
+          More text
         RAW
       end
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">Some text before</p>
-          <h#{level} class="op-uc-h#{level}" id="the-heading">
-            <a class="wiki-anchor icon-paragraph" aria-hidden="true" href="#the-heading"></a>the heading
-          </h#{level}>
-          <p class="op-uc-p">more text</p>
+          <p class="op-uc-p">Some text</p>
+          <p class="op-uc-p">More text</p>
         EXPECTED
       end
 
@@ -72,58 +67,6 @@ describe OpenProject::TextFormatting,
         is_expected
           .to be_html_eql(expected)
       end
-    end
-
-    it_behaves_like 'bem heading', 1
-    it_behaves_like 'bem heading', 2
-    it_behaves_like 'bem heading', 3
-    it_behaves_like 'bem heading', 4
-    it_behaves_like 'bem heading', 5
-    it_behaves_like 'bem heading', 6
-
-    context 'with the heading being in a code bock' do
-      shared_examples_for 'unchanged heading' do |level|
-        let(:raw) do
-          <<~RAW
-            Some text before
-
-            ```
-            <h#{level}>The heading </h#{level}>
-
-            ```
-
-            more text
-          RAW
-        end
-
-        let(:expected) do
-          <<~EXPECTED
-            <p class="op-uc-p">Some text before</p>
-
-            <pre><code>
-            &lt;h#{level}&gt;The heading &lt;/h#{level}&gt;
-
-            </code></pre>
-
-            <p class="op-uc-p">more text</p>
-          EXPECTED
-        end
-
-
-        subject { format_text(raw) }
-
-        it 'produces the expected output' do
-          is_expected
-            .to be_html_eql(expected)
-        end
-      end
-
-      it_behaves_like 'unchanged heading', 1
-      it_behaves_like 'unchanged heading', 2
-      it_behaves_like 'unchanged heading', 3
-      it_behaves_like 'unchanged heading', 4
-      it_behaves_like 'unchanged heading', 5
-      it_behaves_like 'unchanged heading', 6
     end
   end
 end
