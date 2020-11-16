@@ -552,12 +552,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  # This route should probably be removed, but it's used at least by one cuke and we don't
-  # want to break it.
-  # This route intentionally occurs after the admin/roles/new route, so that one takes
-  # precedence when creating routes (possibly via helpers).
-  get 'roles/new' => 'roles#new', as: 'deprecated_roles_new'
-
   get '/robots' => 'homescreen#robots', defaults: { format: :txt }
 
   root to: 'account#login'

@@ -48,10 +48,6 @@ case "$1" in
         npm)
             cd frontend && npm run test
             ;;
-        plugins:cucumber)
-            # we only support cucumber in the backlogs plugin/module anyway
-            bundle exec rake cucumber:plugins
-            ;;
         *)
             bundle exec rake parallel:$1 -- --group-number $2 --only-group $3 --seed $CI_SEED
 esac
