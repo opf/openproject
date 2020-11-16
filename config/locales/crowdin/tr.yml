@@ -537,7 +537,7 @@ tr:
         invalid_url: 'geçerli bir adres değil.'
         invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
-        not_current_user: "is not the current user."
+        not_current_user: "mevcut kullanıcı değil."
         not_a_date: "geçerli bir tarih değil."
         not_a_datetime: "geçerli bir zaman değil."
         not_a_number: "bir sayı değil."
@@ -617,7 +617,7 @@ tr:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "filtrede geçersiz değerler var."
               format: "%{message}"
         relation:
           typed_dag:
@@ -2302,8 +2302,8 @@ tr:
   text_work_package_category_destroy_question: "Bu kategoriye bazı iş paketleri ( %{count}) atanmıştır. Ne yapmak istiyorsun?"
   text_work_package_category_reassign_to: "İş paketlerini bu kategoriye yeniden ata"
   text_work_package_updated: "%{id} iş paketi %{author} tarafından güncellendi."
-  text_work_package_watcher_added: "%{id} tarafından %{watcher_changer}. Work paketine izleyici olarak eklendi"
-  text_work_package_watcher_removed: "%{id} tarafından %{watcher_changer}. Work paketi saatlerinden çıkarıldınız"
+  text_work_package_watcher_added: "%{id} iş paketine %{watcher_changer} tarafından izleyici olarak eklendiniz."
+  text_work_package_watcher_removed: "%{id} iş paketinden, %{watcher_changer} tarafından izleyicilikten çıkarıldınız."
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
