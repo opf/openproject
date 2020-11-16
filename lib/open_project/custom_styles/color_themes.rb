@@ -29,9 +29,11 @@
 
 module OpenProject::CustomStyles
   class ColorThemes
+    OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = 'OpenProject'.freeze
+
     THEMES = [
       {
-        theme: 'OpenProject',
+        theme: OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME,
         colors: {
           'primary-color' => "#1A67A3",
           'primary-color-dark' => "#175A8E",

@@ -149,6 +149,9 @@ Navigate to the [project settings](project-settings) and click **Set as template
 You can create a new project by using an existing template. This causes the properties of the project template to be copied to the new project. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject. 
 Another way for using a template project would be to [copy it](#copy-a-project).
 
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/rhXYBrQQLBg?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 
 ### Copy a project
 

@@ -27,6 +27,7 @@
 // ++
 
 import {Injectable} from "@angular/core";
+import {IFCGonDefinition} from "../../bim/ifc_models/pages/viewer/ifc-models-data.service";
 
 declare global {
   interface Window {
@@ -36,6 +37,7 @@ declare global {
 
 export interface GonType {
  [key:string]:unknown;
+ ifc_models:IFCGonDefinition;
 }
 
 @Injectable({ providedIn: 'root' })
