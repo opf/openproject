@@ -48,7 +48,9 @@ RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     jq
 
-USER $USER
 COPY ./docker/dev/backend/scripts/run-test /usr/sbin/run-test
 COPY ./docker/dev/backend/scripts/setup-tests /usr/sbin/setup-tests
+
+USER $USER
+
 ENTRYPOINT [ "/usr/sbin/run-test" ]
