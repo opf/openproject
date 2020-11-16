@@ -57,7 +57,6 @@ ratings:
   paths:
   - app/**
   - config/**
-  - features/**
   - frontend/**
   - lib/**
   - spec/**
