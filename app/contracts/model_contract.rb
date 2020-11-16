@@ -70,11 +70,11 @@ class ModelContract < Disposable::Twin
     end
 
     def property(name, options = {}, &block)
-      if twin = options.delete(:form)
+      if (twin = options.delete(:form))
         options[:twin] = twin
       end
 
-      if validates_options = options[:validates]
+      if (validates_options = options[:validates])
         validates name, validates_options
       end
 
@@ -211,13 +211,17 @@ class ModelContract < Disposable::Twin
   end
 
   def attributes_changed_by_user
-    changed = model.changed
+    changed = changed_attributes
 
     if options[:changed_by_system]
       changed -= options[:changed_by_system]
     end
 
     changed
+  end
+
+  def changed_attributes
+    model.changed
   end
 
   def collect_ancestor_attribute_aliases

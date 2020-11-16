@@ -9,9 +9,9 @@ pt:
       redirect_errors: 'Devido a esses erros, você não será redirecionado automaticamente.'
       errors: 'Ocorreram alguns erros'
       generic_messages:
-        not_found: 'O trabalho não pôde ser encontrado.'
+        not_found: 'Este trabalho não pode ser encontrado.'
         in_queue: 'O trabalho foi colocado na fila e será processado em breve.'
         in_process: 'O trabalho está sendo processado.'
-        error: 'O trabalho não pôde ser finalizado.'
+        error: 'O trabalho não pode ser finalizado.'
         cancelled: 'O trabalho foi cancelado devido a um erro.'
         success: 'Trabalho concluído com sucesso.'

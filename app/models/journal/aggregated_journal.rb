@@ -76,7 +76,7 @@ class Journal::AggregatedJournal
     # Returns whether "notification-hiding" should be assumed for the given journal pair.
     # This leads to an aggregated journal effectively blocking notifications of an earlier journal,
     # because it "steals" the addition from its predecessor. See the specs section under
-    # "mail suppressing aggregation" (for EnqueueWorkPackageNotificationJob) for more details
+    # "mail suppressing aggregation" (for NotifyJournalCompletedJob) for more details
     def hides_notifications?(successor, predecessor)
       return false unless successor && predecessor
       return false if belong_to_different_groups?(predecessor, successor)
