@@ -73,11 +73,11 @@ describe OpenProject::TextFormatting,
 
     let(:expected) do
       <<~HTML
-        <p>#{meeting_link}</p>
+        <p class="op-uc-p">#{meeting_link}</p>
 
-        <p>#{meeting_link}</p>
+        <p class="op-uc-p">#{meeting_link}</p>
 
-        <p>#{meeting_link}</p>
+        <p class="op-uc-p">#{meeting_link}</p>
       HTML
     end
 
@@ -99,11 +99,11 @@ describe OpenProject::TextFormatting,
 
     let(:expected) do
       <<~HTML
-        <p>meeting##{meeting.id}</p>
+        <p class="op-uc-p">meeting##{meeting.id}</p>
 
-        <p>meeting:"monthly coordination"</p>
+        <p class="op-uc-p">meeting:"monthly coordination"</p>
 
-        <p>meeting:"Monthly coordination"</p>
+        <p class="op-uc-p">meeting:"Monthly coordination"</p>
       HTML
     end
 

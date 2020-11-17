@@ -116,7 +116,7 @@ describe 'OpenProject child pages macro' do
   end
 
   def error_html(exception_msg)
-    "<p><macro class=\"macro-unavailable\" data-macro-name=\"child_pages\">" \
+    "<p class=\"op-uc-p\"><macro class=\"macro-unavailable\" data-macro-name=\"child_pages\">" \
           "Error executing the macro child_pages (#{exception_msg})</macro></p>"
   end
 
@@ -127,7 +127,7 @@ describe 'OpenProject child pages macro' do
 
   context 'old macro syntax no longer works' do
     let(:input) { '{{child_pages(whatever)}}' }
-    it { is_expected.to be_html_eql("<p>#{input}</p>") }
+    it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
   end
 
   context 'when nothing passed' do

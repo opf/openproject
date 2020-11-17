@@ -108,7 +108,7 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
     it_behaves_like 'API V3 formattable', 'description' do
       let(:format) { 'markdown' }
       let(:raw) { document.description }
-      let(:html) { '<p>' + document.description + '</p>' }
+      let(:html) { '<p class="op-uc-p">' + document.description + '</p>' }
     end
   end
 

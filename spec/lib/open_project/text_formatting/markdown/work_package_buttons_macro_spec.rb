@@ -50,18 +50,18 @@ describe 'OpenProject work package button macros' do
   end
 
   def error_html(exception_msg)
-    "<p><macro class=\"macro-unavailable\" data-macro-name=\"create_work_package_link\"> " \
+    "<p class=\"op-uc-p\"><macro class=\"macro-unavailable\" data-macro-name=\"create_work_package_link\"> " \
           "Error executing the macro create_work_package_link (#{exception_msg}) </span></p>"
   end
 
   context 'old macro syntax no longer works' do
     let(:input) { '{{create_work_package_link}}' }
-    it { is_expected.to be_html_eql("<p>#{input}</p>") }
+    it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
   end
 
   context 'when nothing passed' do
     let(:input) { '<macro class="create_work_package_link"></macro>' }
-    it { is_expected.to be_html_eql("<p><a href=\"/projects/my-project/work_packages/new\">New work package</a></p>") }
+    it { is_expected.to be_html_eql("<p class=\"op-uc-p\"><a href=\"/projects/my-project/work_packages/new\">New work package</a></p>") }
   end
 
   context 'with invalid type' do
@@ -71,11 +71,11 @@ describe 'OpenProject work package button macros' do
 
   context 'with valid type' do
     let(:input) { '<macro class="create_work_package_link" data-type="MyTaskName"></macro>' }
-    it { is_expected.to be_html_eql("<p><a href=\"/projects/my-project/work_packages/new?type=#{type.id}\">New MyTaskName</a></p>") }
+    it { is_expected.to be_html_eql("<p class=\"op-uc-p\"><a href=\"/projects/my-project/work_packages/new?type=#{type.id}\">New MyTaskName</a></p>") }
 
     context 'with button style' do
       let(:input) { '<macro class="create_work_package_link" data-type="MyTaskName" data-classes="button"></macro>' }
-      it { is_expected.to be_html_eql("<p><a class=\"button\" href=\"/projects/my-project/work_packages/new?type=#{type.id}\">New MyTaskName</a></p>") }
+      it { is_expected.to be_html_eql("<p class=\"op-uc-p\"><a class=\"button\" href=\"/projects/my-project/work_packages/new?type=#{type.id}\">New MyTaskName</a></p>") }
     end
 
     context 'without project context' do

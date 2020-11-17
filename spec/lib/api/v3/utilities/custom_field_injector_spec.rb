@@ -419,7 +419,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
           {
             format: 'markdown',
             raw: value,
-            html: '<p><strong>Foobar</strong></p>'
+            html: '<p class="op-uc-p"><strong>Foobar</strong></p>'
           }
         end
         let(:expected_setter) { value }

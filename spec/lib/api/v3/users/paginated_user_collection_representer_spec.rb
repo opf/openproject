@@ -56,7 +56,7 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
 
   let(:representer) do
     described_class.new(users,
-                        '/api/v3/users',
+                        self_link: '/api/v3/users',
                         per_page: page_size,
                         page: page,
                         current_user: users.first)

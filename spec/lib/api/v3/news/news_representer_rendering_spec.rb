@@ -96,7 +96,7 @@ describe ::API::V3::News::NewsRepresenter, 'rendering' do
     it_behaves_like 'API V3 formattable', 'description' do
       let(:format) { 'markdown' }
       let(:raw) { news.description }
-      let(:html) { '<p>' + news.description + '</p>' }
+      let(:html) { '<p class="op-uc-p">' + news.description + '</p>' }
     end
   end
 

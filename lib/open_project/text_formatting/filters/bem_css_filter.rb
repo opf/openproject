@@ -46,7 +46,11 @@ module OpenProject::TextFormatting
 
       def call
         doc.search(*BEM_CLASSES.keys.map(&:to_s)).each do |element|
-          element['class'] = BEM_CLASSES[element.name]
+          if element['class'].present?
+            element['class'] += " #{BEM_CLASSES[element.name]}"
+          else
+            element['class'] = BEM_CLASSES[element.name]
+          end
         end
 
         doc

@@ -73,7 +73,7 @@ module API
 
           def attachments
             ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachment_set,
-                                                                        attachments_by_resource,
+                                                                        self_link: attachments_by_resource,
                                                                         current_user: current_user)
           end
 
