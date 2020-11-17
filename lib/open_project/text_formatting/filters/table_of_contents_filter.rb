@@ -77,7 +77,7 @@ module OpenProject::TextFormatting
         id = get_unique_id(node.text)
         add_header_link(node, id)
 
-        content_tag(:li) do
+        content_tag(:li, class: 'op-uc-toc--list-item') do
           content_tag(:a, node.text, href: "##{id}")
         end
       end
@@ -102,7 +102,7 @@ module OpenProject::TextFormatting
             result << process_item(node)
             result << render_nested(current_level)
           elsif level > current_level
-            result << (content_tag(:ul, class: 'section-nav') do
+            result << (content_tag(:ul, class: 'op-uc-toc--list') do
               process_item(node) + render_nested(level)
             end)
           end
@@ -117,15 +117,20 @@ module OpenProject::TextFormatting
       end
 
       def process!
-        result[:toc] =
+        result[:toc] = content_tag(:nav, class: 'op-uc-toc') do
           if headings.empty?
             I18n.t(:label_wiki_toc_empty)
           else
-            content_tag(:ul, render_nested(nil), class: 'toc')
+            heading.html_safe + content_tag(:ul, render_nested(nil), class: 'op-uc-toc--list')
           end
+        end
 
       rescue StandardError => e
         Rails.logger.error { "Failed to render table of contents: #{e} #{e.message}" }
+      end
+
+      def heading
+        "<h1 class=\"op-uc-toc--title\">#{I18n.t(:label_table_of_contents)}</h1>"
       end
     end
   end
