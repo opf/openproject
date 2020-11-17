@@ -42,7 +42,7 @@ module API
 
             if query.valid?
               GridCollectionRepresenter.new(query.results,
-                                            api_v3_paths.grids,
+                                            self_link: api_v3_paths.grids,
                                             grid_scope: query.filter_scope,
                                             page: to_i_or_nil(params[:offset]),
                                             per_page: resolve_page_size(params[:pageSize]),
