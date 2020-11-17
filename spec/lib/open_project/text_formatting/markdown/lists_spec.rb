@@ -169,66 +169,68 @@ describe OpenProject::TextFormatting,
 
         let(:expected) do
           <<~EXPECTED
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <ul class="task-list op-uc-list">
-                      <li class="task-list-item op-uc-list--item">
-                        <input type="checkbox" class="task-list-item-checkbox" disabled>
-                        <code class='op-uc-code'>
-                          <span>asdf</span>
-                        </code>
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul class="task-list op-uc-list">
-                      <li class="task-list-item op-uc-list--item">
-                        <input type="checkbox" class="task-list-item-checkbox" disabled>
-                        <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
-                          <span>asdfasd</span>
-                          <span> asdf</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul class="task-list op-uc-list">
-                      <li class="task-list-item op-uc-list--item">
-                        <input type="checkbox" class="task-list-item-checkbox" disabled>
-                        <span>asdfasdf</span>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <ul class="task-list op-uc-list">
-                      <li class="task-list-item op-uc-list--item">
-                        <input type="checkbox" class="task-list-item-checkbox" disabled>
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul class="task-list op-uc-list">
-                      <li class="task-list-item op-uc-list--item">
-                        <input type="checkbox" class="task-list-item-checkbox" disabled>
-                        <strong></strong>
-                        <span><strong>asdf</strong></span>
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul class="task-list op-uc-list">
-                      <li class="task-list-item op-uc-list--item">
-                        <input type="checkbox" class="task-list-item-checkbox" disabled>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <figure class="op-uc-figure"> 
+              <table class="op-uc-table op-uc-figure--content">
+                <tbody>
+                  <tr class="op-uc-table--row">
+                    <td class="op-uc-table--cell">
+                      <ul class="task-list op-uc-list">
+                        <li class="task-list-item op-uc-list--item">
+                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <code class='op-uc-code'>
+                            <span>asdf</span>
+                          </code>
+                        </li>
+                      </ul>
+                    </td>
+                    <td class="op-uc-table--cell">
+                      <ul class="task-list op-uc-list">
+                        <li class="task-list-item op-uc-list--item">
+                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
+                            <span>asdfasd</span>
+                            <span> asdf</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </td>
+                    <td class="op-uc-table--cell">
+                      <ul class="task-list op-uc-list">
+                        <li class="task-list-item op-uc-list--item">
+                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <span>asdfasdf</span>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr class="op-uc-table--row">
+                    <td class="op-uc-table--cell">
+                      <ul class="task-list op-uc-list">
+                        <li class="task-list-item op-uc-list--item">
+                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                        </li>
+                      </ul>
+                    </td>
+                    <td class="op-uc-table--cell">
+                      <ul class="task-list op-uc-list">
+                        <li class="task-list-item op-uc-list--item">
+                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <strong></strong>
+                          <span><strong>asdf</strong></span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td class="op-uc-table--cell">
+                      <ul class="task-list op-uc-list">
+                        <li class="task-list-item op-uc-list--item">
+                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </figure>
           EXPECTED
         end
       end
@@ -268,28 +270,30 @@ describe OpenProject::TextFormatting,
 
         let(:expected) do
           <<~EXPECTED
-            <table>
-              <tbody>
-                <tr>
-                  <td>asdf</td>
-                  <td>asdfasdf</td>
-                </tr>
-                <tr>
-                  <td>
-                    <ul class="task-list op-uc-list">
-                      <li class="task-list-item op-uc-list--item">
-                        <input type="checkbox" class="task-list-item-checkbox" disabled>
-                        <span>asdfasdfasdf </span>
-                        <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
-                          <span>foobar</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
+            <figure class="op-uc-figure"> 
+              <table class="op-uc-table op-uc-figure--content">
+                <tbody>
+                  <tr class="op-uc-table--row">
+                    <td class="op-uc-table--cell">asdf</td>
+                    <td class="op-uc-table--cell">asdfasdf</td>
+                  </tr>
+                  <tr class="op-uc-table--row">
+                    <td class="op-uc-table--cell">
+                      <ul class="task-list op-uc-list">
+                        <li class="task-list-item op-uc-list--item">
+                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <span>asdfasdfasdf </span>
+                          <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
+                            <span>foobar</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </td>
+                    <td class="op-uc-table--cell"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </figure>
           EXPECTED
         end
       end

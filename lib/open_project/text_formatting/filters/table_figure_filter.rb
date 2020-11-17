@@ -27,40 +27,20 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'task_list/filter'
 
-module OpenProject::TextFormatting::Formats::Markdown
-  class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-    def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
+module OpenProject::TextFormatting
+  module Filters
+    class TableFigureFilter < HTML::Pipeline::Filter
+      include ActionView::Context
+      include ActionView::Helpers::TagHelper
 
-      output.html_safe
-    end
+      def call
+        doc.search('table').each do |element|
+          element.wrap('<figure>') unless element.parent&.name == 'figure'
+        end
 
-    def to_document(text)
-      pipeline.to_document text, context
-    end
-
-    def filters
-      [
-        :markdown,
-        :sanitization,
-        ::TaskList::Filter,
-        :table_of_contents,
-        :macro,
-        :pattern_matcher,
-        :syntax_highlight,
-        :attachment,
-        :relative_link,
-        :table_figure,
-        :bem_css,
-        :autolink
-      ]
-    end
-
-    def self.format
-      :markdown
+        doc
+      end
     end
   end
 end

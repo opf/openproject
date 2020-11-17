@@ -15,7 +15,7 @@ shared_examples_for 'format_text produces' do
   let(:passed_options) { defined?(options) ? options : {} }
   subject { format_text(raw, passed_options) }
 
-  it 'produces the expected output' do
+  it 'the expected output' do
     is_expected
       .to be_html_eql(expected)
   end

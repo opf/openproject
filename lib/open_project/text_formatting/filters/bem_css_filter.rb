@@ -45,7 +45,12 @@ module OpenProject::TextFormatting
         li: 'op-uc-list--item',
         ul: 'op-uc-list',
         ol: 'op-uc-list',
-        a: 'op-uc-link'
+        a: 'op-uc-link',
+        figure: 'op-uc-figure',
+        table: 'op-uc-table op-uc-figure--content',
+        tr: 'op-uc-table--row',
+        td: 'op-uc-table--cell',
+        th: 'op-uc-table--cell op-uc-table--cell_head'
       }.with_indifferent_access.freeze
 
       # Contains all elements with their classes which should not be modified
