@@ -83,35 +83,6 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     end
   end
 
-  it 'should table' do
-    raw = <<-RAW.strip_heredoc
-      This is a table with header cells:
-
-      |header|header|
-      |------|------|
-      |cell11|cell12|
-      |cell21|cell23|
-      |cell31|cell32|
-    RAW
-
-    expected = <<-EXPECTED.strip_heredoc
-      <p class="op-uc-p">This is a table with header cells:</p>
-
-      <table>
-        <thead>
-          <tr><th>header</th><th>header</th></tr>
-        </thead>
-        <tbody>
-        <tr><td>cell11</td><td>cell12</td></tr>
-        <tr><td>cell21</td><td>cell23</td></tr>
-        <tr><td>cell31</td><td>cell32</td></tr>
-        </tbody>
-      </table>
-    EXPECTED
-
-    expect(to_html(raw).gsub(%r{\s+}, '')).to eq(expected.gsub(%r{\s+}, ''))
-  end
-
   it 'should not mangle brackets' do
     expect(to_html('[msg1][msg2]')).to eq '<p class="op-uc-p">[msg1][msg2]</p>'
   end
