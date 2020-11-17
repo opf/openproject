@@ -50,7 +50,7 @@ describe OpenProject::TextFormatting,
           <<~EXPECTED
             <p class="op-uc-p">Some text before</p>
             <h#{level} class="op-uc-h#{level}" id="the-heading">
-              <a class="wiki-anchor icon-paragraph" aria-hidden="true" href="#the-heading"></a>the heading
+              <a class="wiki-anchor icon-paragraph op-uc-link" aria-hidden="true" href="#the-heading"></a>the heading
             </h#{level}>
             <p class="op-uc-p">more text</p>
           EXPECTED
@@ -113,7 +113,7 @@ describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED.strip_heredoc
             <h1 class="op-uc-h1" id="20090209">
-            <a class="wiki-anchor icon-paragraph" href="#20090209" aria-hidden="true">
+            <a class="wiki-anchor icon-paragraph op-uc-link" href="#20090209" aria-hidden="true">
             </a>
               2009\\02\\09
             </h1>

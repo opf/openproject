@@ -12,7 +12,8 @@ shared_context 'expected markdown modules' do
 end
 
 shared_examples_for 'format_text produces' do
-  subject { format_text(raw) }
+  let(:passed_options) { defined?(options) ? options : {} }
+  subject { format_text(raw, passed_options) }
 
   it 'produces the expected output' do
     is_expected

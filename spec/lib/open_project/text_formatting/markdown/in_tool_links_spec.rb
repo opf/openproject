@@ -27,20 +27,11 @@
 #++
 
 require 'spec_helper'
+require_relative './expected_markdown'
 
 describe OpenProject::TextFormatting,
-         # Speeds up the spec by avoiding event mailers to be procssed
-         with_settings: { notified_events: [] } do
-  include OpenProject::TextFormatting
-  include ERB::Util
-  include WorkPackagesHelper # soft-dependency
-  include ActionView::Helpers::UrlHelper # soft-dependency
-  include ActionView::Context
-  include OpenProject::StaticRouting::UrlHelpers
-
-  def controller
-    # no-op
-  end
+         'in tool links' do
+  include_context 'expected markdown modules'
 
   describe '.format_text' do
     shared_let(:project) { FactoryBot.create :valid_project }
@@ -56,7 +47,7 @@ describe OpenProject::TextFormatting,
                         member_in_project: project,
                         member_through_role: role
     end
-    shared_let(:issue) do
+    shared_let(:work_package) do
       FactoryBot.create :work_package,
                         project: project,
                         author: project_member,
@@ -90,12 +81,12 @@ describe OpenProject::TextFormatting,
       let(:changeset_link) do
         link_to("r#{changeset1.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset1.revision },
-                class: 'changeset', title: 'My very first commit')
+                class: 'changeset op-uc-link', title: 'My very first commit')
       end
       let(:changeset_link2) do
         link_to("r#{changeset2.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset2.revision },
-                class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
+                class: 'changeset op-uc-link', title: 'This commit fixes #1, #2 and references #1 & #3')
       end
 
       before do
@@ -145,7 +136,7 @@ describe OpenProject::TextFormatting,
       let(:version_link) do
         link_to('1.0',
                 { controller: 'versions', action: 'show', id: version.id },
-                class: 'version')
+                class: 'version op-uc-link')
       end
 
       context 'Link with version id' do
@@ -200,36 +191,36 @@ describe OpenProject::TextFormatting,
       context 'Plain message' do
         subject { format_text("message##{message1.id}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(message1.subject, topic_path(message1), class: 'message')}</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(message1.subject, topic_path(message1), class: 'message op-uc-link')}</p>") }
       end
 
       context 'Message with parent' do
         subject { format_text("message##{message2.id}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(message2.subject, topic_path(message1, anchor: "message-#{message2.id}", r: message2.id), class: 'message')}</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(message2.subject, topic_path(message1, anchor: "message-#{message2.id}", r: message2.id), class: 'message op-uc-link')}</p>") }
       end
     end
 
-    context 'Issue links' do
-      let(:issue_link) do
-        link_to("##{issue.id}",
-                work_package_path(issue),
-                class: 'issue work_package preview-trigger')
+    context 'Work package links' do
+      let(:work_package_link) do
+        link_to("##{work_package.id}",
+                work_package_path(work_package),
+                class: 'issue work_package preview-trigger op-uc-link')
       end
 
-      context 'Plain issue link' do
-        subject { format_text("##{issue.id}, [##{issue.id}], (##{issue.id}) and ##{issue.id}.") }
+      context 'Plain work_package link' do
+        subject { format_text("##{work_package.id}, [##{work_package.id}], (##{work_package.id}) and ##{work_package.id}.") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{work_package_link}, [#{work_package_link}], (#{work_package_link}) and #{work_package_link}.</p>") }
       end
 
-      context 'Plain issue link with braces' do
-        subject { format_text("foo (bar ##{issue.id})") }
+      context 'Plain work_package link with braces' do
+        subject { format_text("foo (bar ##{work_package.id})") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>foo (bar #{issue_link})</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>foo (bar #{work_package_link})</p>") }
       end
 
-      context 'Plain issue link to non-existing element still links' do
+      context 'Plain work_package link to non-existing element still links' do
         subject { format_text('#0123456789') }
 
         it {
@@ -237,8 +228,8 @@ describe OpenProject::TextFormatting,
         }
       end
 
-      describe 'double hash issue link' do
-        let(:issue_link) do
+      describe 'double hash work_package link' do
+        let(:work_package_link) do
           content_tag :macro,
                       '',
                       class: "macro--wp-quickinfo",
@@ -246,11 +237,11 @@ describe OpenProject::TextFormatting,
         end
         subject { format_text("foo (bar ##1234)") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>foo (bar #{issue_link})</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>foo (bar #{work_package_link})</p>") }
       end
 
-      describe 'triple hash issue link' do
-        let(:issue_link) do
+      describe 'triple hash work_package link' do
+        let(:work_package_link) do
           content_tag :macro,
                       '',
                       class: "macro--wp-quickinfo",
@@ -258,18 +249,18 @@ describe OpenProject::TextFormatting,
         end
         subject { format_text("foo (bar ###1234)") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>foo (bar #{issue_link})</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>foo (bar #{work_package_link})</p>") }
       end
-      context 'Escaping issue link' do
-        subject { format_text("Some leading text. !##{issue.id}. Some following") }
+      context 'Escaping work_package link' do
+        subject { format_text("Some leading text. !##{work_package.id}. Some following") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>Some leading text. ##{issue.id}. Some following</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>Some leading text. ##{work_package.id}. Some following</p>") }
       end
 
-      context 'Escaping issue link' do
-        subject { format_text("!##{issue.id}") }
+      context 'Escaping work_package link' do
+        subject { format_text("!##{work_package.id}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>##{issue.id}</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>##{work_package.id}</p>") }
       end
 
       context 'WP subject with escapable chars' do
@@ -277,21 +268,21 @@ describe OpenProject::TextFormatting,
           FactoryBot.create :work_package, subject: "Title with \"quote\" and 'sòme 'chárs."
         end
 
-        let(:issue_link) do
-          link_to("##{issue.id}",
-                  work_package_path(issue),
-                  class: 'issue work_package preview-trigger')
+        let(:work_package_link) do
+          link_to("##{work_package.id}",
+                  work_package_path(work_package),
+                  class: 'issue work_package preview-trigger op-uc-link')
         end
 
-        subject { format_text("##{issue.id}") }
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{issue_link}</p>") }
+        subject { format_text("##{work_package.id}") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{work_package_link}</p>") }
       end
 
       context 'Description links' do
-        subject { format_text issue, :description }
+        subject { format_text work_package, :description }
 
-        it 'replaces the macro with the issue description' do
-          expect(subject).to be_html_eql("<p class='op-uc-p'>#{issue.description}</p>")
+        it 'replaces the macro with the work_package description' do
+          expect(subject).to be_html_eql("<p class='op-uc-p'>#{work_package.description}</p>")
         end
       end
     end
@@ -303,126 +294,20 @@ describe OpenProject::TextFormatting,
       context 'Plain project link' do
         subject { format_text("project##{subproject.id}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project')}</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project op-uc-link')}</p>") }
       end
 
       context 'Plain project link via identifier' do
         subject { format_text("project:#{subproject.identifier}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project')}</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project op-uc-link')}</p>") }
       end
 
       context 'Plain project link via name' do
         subject { format_text("project:\"#{subproject.name}\"") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project')}</p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project op-uc-link')}</p>") }
       end
-    end
-
-    context 'User links' do
-      let(:role) do
-        FactoryBot.create :role,
-                          permissions: %i[view_work_packages edit_work_packages
-                                          browse_repository view_changesets view_wiki_pages]
-      end
-
-      let(:linked_project_member) do
-        FactoryBot.create :user,
-                          member_in_project: project,
-                          member_through_role: role
-      end
-
-      context 'User link via ID' do
-        context 'when linked user visible for reader' do
-          subject { format_text("user##{linked_project_member.id}") }
-
-          it {
-            is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
-          }
-        end
-
-        context 'when linked user not visible for reader' do
-          let(:role) { FactoryBot.create(:non_member) }
-
-          subject { format_text("user##{linked_project_member.id}") }
-
-          it {
-            is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
-          }
-        end
-      end
-
-      context 'User link via login name' do
-        context 'when linked user visible for reader' do
-          context 'with a common login name' do
-            subject { format_text("user:\"#{linked_project_member.login}\"") }
-
-            it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>") }
-          end
-
-          context "with an email address as login name" do
-            let(:linked_project_member) do
-              FactoryBot.create :user,
-                                member_in_project: project,
-                                member_through_role: role,
-                                login: "foo@bar.com"
-            end
-            subject { format_text("user:\"#{linked_project_member.login}\"") }
-
-            it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>") }
-          end
-        end
-
-        context 'when linked user not visible for reader' do
-          let(:role) { FactoryBot.create(:non_member) }
-
-          subject { format_text("user:\"#{linked_project_member.login}\"") }
-
-          it {
-            is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
-          }
-        end
-      end
-    end
-
-    context 'Group reference' do
-      let(:role) do
-        FactoryBot.create :role,
-                          permissions: []
-      end
-
-      let(:linked_project_member_group) do
-        FactoryBot.create(:group).tap do |group|
-          FactoryBot.create(:member,
-                            principal: group,
-                            project: project,
-                            roles: [role])
-        end
-      end
-
-      context 'group exists' do
-        subject { format_text("group##{linked_project_member_group.id}") }
-
-        it 'produces the expected html' do
-          is_expected.to be_html_eql(
-            "<p class='op-uc-p'><span class='user-mention' title='Group #{linked_project_member_group.name}'>#{linked_project_member_group.name}</span></p>"
-            )
-        end
-      end
-
-      context 'group does not exist' do
-        subject { format_text("group#000000") }
-
-        it 'leaves the text unchangd' do
-          is_expected.to be_html_eql("<p class='op-uc-p'>group#000000</p>")
-        end
-      end
-    end
-
-    context 'Url links' do
-      subject { format_text('http://foo.bar/FAQ#3') }
-
-      it { is_expected.to be_html_eql('<p class="op-uc-p"><a class="rinku-autolink" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
     end
 
     context 'Wiki links' do
@@ -472,86 +357,86 @@ describe OpenProject::TextFormatting,
       context 'Plain wiki link' do
         subject { format_text('[[CookBook documentation]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation\">CookBook documentation</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation\">CookBook documentation</a></p>") }
       end
 
       context 'Arbitrary wiki link' do
         title = '<script>alert("FOO")</script>'
         subject { format_text("[[#{title}]]") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/alert-foo\">#{h(title)}</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/alert-foo\">#{h(title)}</a></p>") }
       end
 
       context 'Plain wiki page link' do
         subject { format_text('[[Another page|Page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></p>") }
       end
 
       context 'Wiki link with anchor' do
         subject { format_text('[[CookBook documentation#One-section]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation#One-section\">CookBook documentation</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation#One-section\">CookBook documentation</a></p>") }
       end
 
       context 'Wiki page link with anchor' do
         subject { format_text('[[Another page#anchor|Page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page#anchor\">Page</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page#anchor\">Page</a></p>") }
       end
 
       context 'Wiki link to an unknown page' do
         subject { format_text('[[Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>") }
       end
 
       context 'Wiki page link to an unknown page' do
         subject { format_text('[[Unknown page|404]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=404\">404</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=404\">404</a></p>") }
       end
 
       context "Link to another project's wiki" do
         subject { format_text('[[onlinestore:]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>") }
       end
 
       context "Link to another project's wiki with label" do
         subject { format_text('[[onlinestore:|Wiki]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>") }
       end
 
       context "Link to another project's wiki page" do
         subject { format_text('[[onlinestore:Start page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>") }
       end
 
       context "Link to another project's wiki page with label" do
         subject { format_text('[[onlinestore:Start page|Text]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>") }
       end
 
       context 'Link to an unknown wiki page in another project' do
         subject { format_text('[[onlinestore:Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new\" href=\"/projects/onlinestore/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/onlinestore/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>") }
       end
 
       context 'Struck through link to wiki page' do
         subject { format_text('~~[[Another page|Page]]~~') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>") }
       end
 
       context 'Named struck through link to wiki page' do
         subject { format_text('~~[[Another page|Page]] link~~') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>") }
+        it { is_expected.to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>") }
       end
 
       context 'Escaped link to wiki page' do
@@ -596,18 +481,18 @@ describe OpenProject::TextFormatting,
 
         @to_test = {
           # source
-          'source:/some/file' => link_to('source:/some/file', source_url, class: 'source'),
-          'source:/some/file.' => link_to('source:/some/file', source_url, class: 'source') + '.',
-          'source:"/some/file.ext".' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
-          'source:/some/file. ' => link_to('source:/some/file', source_url, class: 'source') + '.',
-          'source:"/some/file.ext". ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
-          'source:/some/file, ' => link_to('source:/some/file', source_url, class: 'source') + ',',
-          'source:/some/file@52' => link_to('source:/some/file@52', source_url(rev: 52), class: 'source'),
-          'source:"/some/file.ext@52"' => link_to('source:/some/file.ext@52', source_url_with_ext(rev: 52), class: 'source'),
-          'source:"/some/file#L110"' => link_to('source:/some/file#L110', source_url(anchor: 'L110'), class: 'source'),
-          'source:"/some/file.ext#L110"' => link_to('source:/some/file.ext#L110', source_url_with_ext(anchor: 'L110'), class: 'source'),
-          'source:"/some/file@52#L110"' => link_to('source:/some/file@52#L110', source_url(rev: 52, anchor: 'L110'), class: 'source'),
-          'export:/some/file' => link_to('export:/some/file', source_url(format: 'raw'), class: 'source download'),
+          'source:/some/file' => link_to('source:/some/file', source_url, class: 'source op-uc-link'),
+          'source:/some/file.' => link_to('source:/some/file', source_url, class: 'source op-uc-link') + '.',
+          'source:"/some/file.ext".' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link') + '.',
+          'source:/some/file. ' => link_to('source:/some/file', source_url, class: 'source op-uc-link') + '.',
+          'source:"/some/file.ext". ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link') + '.',
+          'source:/some/file, ' => link_to('source:/some/file', source_url, class: 'source op-uc-link') + ',',
+          'source:/some/file@52' => link_to('source:/some/file@52', source_url(rev: 52), class: 'source op-uc-link'),
+          'source:"/some/file.ext@52"' => link_to('source:/some/file.ext@52', source_url_with_ext(rev: 52), class: 'source op-uc-link'),
+          'source:"/some/file#L110"' => link_to('source:/some/file#L110', source_url(anchor: 'L110'), class: 'source op-uc-link'),
+          'source:"/some/file.ext#L110"' => link_to('source:/some/file.ext#L110', source_url_with_ext(anchor: 'L110'), class: 'source op-uc-link'),
+          'source:"/some/file@52#L110"' => link_to('source:/some/file@52#L110', source_url(rev: 52, anchor: 'L110'), class: 'source op-uc-link'),
+          'export:/some/file' => link_to('export:/some/file', source_url(format: 'raw'), class: 'source download op-uc-link'),
           # escaping
           '!source:/some/file' => 'source:/some/file',
           # invalid expressions
@@ -637,12 +522,12 @@ describe OpenProject::TextFormatting,
         <<~RAW
           [[CookBook documentation]]
 
-          ##{issue.id}
+          ##{work_package.id}
 
           ```
           [[CookBook documentation]]
 
-          ##{issue.id}
+          ##{work_package.id}
           ```
           </pre>
         RAW
@@ -650,12 +535,12 @@ describe OpenProject::TextFormatting,
 
       let(:expected) do
         <<~EXPECTED
-          <p class='op-uc-p'><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
-          <p class='op-uc-p'><a class="issue work_package preview-trigger" href="/work_packages/#{issue.id}">##{issue.id}</a></p>
+          <p class='op-uc-p'><a class="wiki-page op-uc-link" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
+          <p class='op-uc-p'><a class="issue work_package preview-trigger op-uc-link" href="/work_packages/#{work_package.id}">##{work_package.id}</a></p>
           <pre class="op-uc-code-block"><code class="op-uc-code">
           [[CookBook documentation]]
 
-          ##{issue.id}
+          ##{work_package.id}
           </code></pre>
         EXPECTED
       end
@@ -668,18 +553,6 @@ describe OpenProject::TextFormatting,
       subject { format_text(raw) }
 
       it { is_expected.to be_html_eql(expected) }
-    end
-
-    describe 'options' do
-      describe '#format' do
-        it 'uses format of Settings, if nothing is specified' do
-          expect(format_text('_Stars!_')).to be_html_eql('<p class="op-uc-p"><em>Stars!</em></p>')
-        end
-
-        it 'allows plain format of options, if specified' do
-          expect(format_text('*Stars!*', format: 'plain')).to be_html_eql('<p>*Stars!*</p>')
-        end
-      end
     end
   end
 end

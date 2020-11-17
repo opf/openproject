@@ -27,23 +27,15 @@
 #++
 
 require 'spec_helper'
+require_relative './expected_markdown'
 
-describe 'OpenProject work package button macros' do
+describe OpenProject::TextFormatting,
+         'work package button macro' do
+  include_context 'expected markdown modules'
   using_shared_fixtures :admin
-
-  include ActionView::Helpers::UrlHelper
-  include OpenProject::StaticRouting::UrlHelpers
-  include OpenProject::TextFormatting
-
-  def controller
-    # no-op
-  end
 
   let(:type) { FactoryBot.create :type, name: 'MyTaskName' }
   let(:project) { FactoryBot.create :valid_project, identifier: 'my-project', name: 'My project name', types: [type] }
-
-  let(:input) { }
-  subject { format_text(input, project: project) }
 
   before do
     login_as admin
@@ -54,36 +46,104 @@ describe 'OpenProject work package button macros' do
           "Error executing the macro create_work_package_link (#{exception_msg}) </span></p>"
   end
 
+  let(:options) { { project: project } }
+
   context 'old macro syntax no longer works' do
-    let(:input) { '{{create_work_package_link}}' }
-    it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        <<~RAW
+          {{create_work_package_link}}
+        RAW
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">#{raw}</p>
+        EXPECTED
+      end
+    end
   end
 
   context 'when nothing passed' do
-    let(:input) { '<macro class="create_work_package_link"></macro>' }
-    it { is_expected.to be_html_eql("<p class=\"op-uc-p\"><a href=\"/projects/my-project/work_packages/new\">New work package</a></p>") }
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        <<~RAW
+          <macro class="create_work_package_link"></macro>
+        RAW
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">
+            <a class="op-uc-link" href="/projects/my-project/work_packages/new">New work package</a>
+          </p>
+        EXPECTED
+      end
+    end
   end
 
   context 'with invalid type' do
-    let(:input) { '<macro class="create_work_package_link" data-type="InvalidType"></macro>' }
-    it { is_expected.to be_html_eql(error_html("No type found with name 'InvalidType' in project 'My project name'.")) }
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        <<~RAW
+          <macro class="create_work_package_link" data-type="InvalidType"></macro>
+        RAW
+      end
+
+      let(:expected) do
+        error_html("No type found with name 'InvalidType' in project 'My project name'.")
+      end
+    end
   end
 
   context 'with valid type' do
-    let(:input) { '<macro class="create_work_package_link" data-type="MyTaskName"></macro>' }
-    it { is_expected.to be_html_eql("<p class=\"op-uc-p\"><a href=\"/projects/my-project/work_packages/new?type=#{type.id}\">New MyTaskName</a></p>") }
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        <<~RAW
+          <macro class="create_work_package_link" data-type="MyTaskName"></macro>
+        RAW
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">
+            <a class="op-uc-link" href="/projects/my-project/work_packages/new?type=#{type.id}">New MyTaskName</a>
+          </p>
+        EXPECTED
+      end
+    end
 
     context 'with button style' do
-      let(:input) { '<macro class="create_work_package_link" data-type="MyTaskName" data-classes="button"></macro>' }
-      it { is_expected.to be_html_eql("<p class=\"op-uc-p\"><a class=\"button\" href=\"/projects/my-project/work_packages/new?type=#{type.id}\">New MyTaskName</a></p>") }
+      it_behaves_like 'format_text produces' do
+        let(:raw) do
+          <<~RAW
+            <macro class="create_work_package_link" data-type="MyTaskName" data-classes="button"></macro>
+          RAW
+        end
+
+        let(:expected) do
+          <<~EXPECTED
+            <p class="op-uc-p">
+              <a class="button op-uc-link" href="/projects/my-project/work_packages/new?type=#{type.id}">New MyTaskName</a>
+            </p>
+          EXPECTED
+        end
+      end
     end
 
     context 'without project context' do
-      subject { format_text(input, project: nil) }
+      let(:options) { { project: nil } }
 
-      it 'does not raise, but print error' do
-        expect { subject }.not_to raise_error
-        is_expected.to be_html_eql(error_html('Calling create_work_package_link macro from outside project context.'))
+      it_behaves_like 'format_text produces' do
+        let(:raw) do
+          <<~RAW
+            <macro class="create_work_package_link" data-type="MyTaskName"></macro>
+          RAW
+        end
+
+        let(:expected) do
+          error_html('Calling create_work_package_link macro from outside project context.')
+        end
       end
     end
   end

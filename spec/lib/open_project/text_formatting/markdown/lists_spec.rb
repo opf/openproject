@@ -106,7 +106,7 @@ describe OpenProject::TextFormatting,
                   <td>
                     <ul class="todo-list">
                       <li>
-                        <a href="https://example.com/">
+                        <a class="op-uc-link" href="https://example.com/">
                           <label class="todo-list__label">
                             <input type="checkbox" disabled="disabled">
                             <span class="todo-list__label__description">asdfasd</span>
@@ -186,7 +186,7 @@ describe OpenProject::TextFormatting,
                     <ul class="task-list op-uc-list">
                       <li class="task-list-item op-uc-list--item">
                         <input type="checkbox" class="task-list-item-checkbox" disabled>
-                        <a href="https://example.com/" rel="noopener noreferrer">
+                        <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
                           <span>asdfasd</span>
                           <span> asdf</span>
                         </a>
@@ -251,7 +251,7 @@ describe OpenProject::TextFormatting,
                         <label class="todo-list__label"><input type="checkbox" disabled="disabled">
                           <span class="todo-list__label__description">asdfasdfasdf </span>
                         </label>
-                        <a href="https://example.com/">
+                        <a class="op-uc-link" href="https://example.com/">
                           <label class="todo-list__label">
                             <span class="todo-list__label__description">foobar</span>
                           </label>
@@ -280,7 +280,7 @@ describe OpenProject::TextFormatting,
                       <li class="task-list-item op-uc-list--item">
                         <input type="checkbox" class="task-list-item-checkbox" disabled>
                         <span>asdfasdfasdf </span>
-                        <a href="https://example.com/" rel="noopener noreferrer">
+                        <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
                           <span>foobar</span>
                         </a>
                       </li>

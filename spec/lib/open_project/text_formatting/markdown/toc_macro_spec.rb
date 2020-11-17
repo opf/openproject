@@ -70,49 +70,65 @@ describe OpenProject::TextFormatting,
           <nav class="op-uc-toc">
             <h1 class="op-uc-toc--title">Table of contents</h1>
             <ul class="op-uc-toc--list">
-              <li class="op-uc-toc--list-item"><a href="#the-first-h1-heading">The first h1 heading</a></li>
+              <li class="op-uc-toc--list-item">
+                <a class="op-uc-link" href="#the-first-h1-heading">The first h1 heading</a>
+              </li>
               <ul class="op-uc-toc--list">
-                <li class="op-uc-toc--list-item"><a href="#the-first-h2-heading">The first h2 heading</a></li>
-                <ul class="op-uc-toc--list"><li class="op-uc-toc--list-item"><a href="#the-first-h3-heading">The first h3 heading</a></li></ul>
+                <li class="op-uc-toc--list-item">
+                  <a class="op-uc-link" href="#the-first-h2-heading">The first h2 heading</a>
+                </li>
+                <ul class="op-uc-toc--list">
+                  <li class="op-uc-toc--list-item">
+                    <a class="op-uc-link" href="#the-first-h3-heading">The first h3 heading</a>
+                  </li>
+                </ul>
               </ul>
-              <li class="op-uc-toc--list-item"><a href="#the-second-h1-heading">The second h1 heading</a></li>
+              <li class="op-uc-toc--list-item">
+                <a class="op-uc-link" href="#the-second-h1-heading">The second h1 heading</a>
+              </li>
               <ul class="op-uc-toc--list">
-                <li class="op-uc-toc--list-item"><a href="#the-second-h2-heading">The second h2 heading</a></li>
-                <ul class="op-uc-toc--list"><li class="op-uc-toc--list-item"><a href="#the-second-h3-heading">The second h3 heading</a></li></ul>
+                <li class="op-uc-toc--list-item">
+                  <a class="op-uc-link" href="#the-second-h2-heading">The second h2 heading</a>
+                </li>
+                <ul class="op-uc-toc--list">
+                  <li class="op-uc-toc--list-item">
+                    <a class="op-uc-link" href="#the-second-h3-heading">The second h3 heading</a>
+                  </li>
+                </ul>
               </ul>
             </ul>
           </nav>
         </p>
         <h1 class="op-uc-h1" id="the-first-h1-heading">
-          <a class="wiki-anchor icon-paragraph" href="#the-first-h1-heading" aria-hidden="true">
+          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-first-h1-heading" aria-hidden="true">
           </a>
           The first h1 heading
         </h1>
         <p class="op-uc-p">Some text after the first h1 heading</p>
         <h2 class="op-uc-h2" id="the-first-h2-heading">
-          <a class="wiki-anchor icon-paragraph" href="#the-first-h2-heading" aria-hidden="true">
+          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-first-h2-heading" aria-hidden="true">
           </a>
           The first h2 heading
         </h2>
         <p class="op-uc-p">Some text after the first h2 heading</p>
         <h3 class="op-uc-h3" id="the-first-h3-heading">
-          <a class="wiki-anchor icon-paragraph" href="#the-first-h3-heading" aria-hidden="true">
+          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-first-h3-heading" aria-hidden="true">
           </a>
           The first h3 heading
         </h3>
         <p class="op-uc-p">Some text after the first h3 heading</p>
         <h1 class="op-uc-h1" id="the-second-h1-heading">
-          <a class="wiki-anchor icon-paragraph" href="#the-second-h1-heading" aria-hidden="true">
+          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-second-h1-heading" aria-hidden="true">
           </a>The second h1 heading
         </h1>
         <p class="op-uc-p">Some text after the second h1 heading</p>
         <h2 class="op-uc-h2" id="the-second-h2-heading">
-          <a class="wiki-anchor icon-paragraph" href="#the-second-h2-heading" aria-hidden="true">
+          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-second-h2-heading" aria-hidden="true">
           </a>The second h2 heading
         </h2>
         <p class="op-uc-p">Some text after the second h2 heading</p>
         <h3 class="op-uc-h3" id="the-second-h3-heading">
-          <a class="wiki-anchor icon-paragraph" href="#the-second-h3-heading" aria-hidden="true">
+          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-second-h3-heading" aria-hidden="true">
           </a>The second h3 heading
         </h3>
         <p class="op-uc-p">Some text after the second h3 heading</p>

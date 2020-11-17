@@ -28,6 +28,7 @@
 #++
 
 require 'spec_helper'
+require_relative './expected_markdown'
 
 describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
   it 'should modifiers' do
@@ -49,13 +50,6 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     )
   end
 
-  it 'limits `a` tags and hardens them against tabnabbing' do
-    assert_html_output(
-      'this is a <a style="display:none;" href="http://malicious">' =>
-        'this is a <a href="http://malicious" rel="noopener noreferrer">'
-    )
-  end
-
   it 'should double dashes should not strikethrough' do
     assert_html_output(
       'double -- dashes -- test' => 'double -- dashes -- test',
@@ -63,89 +57,28 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     )
   end
 
-  it 'should inline auto link' do
-    assert_html_output(
-      'Autolink to http://www.google.com' => 'Autolink to <a class="rinku-autolink" href="http://www.google.com">http://www.google.com</a>'
-    )
-  end
-
-  it 'should inline auto link email addresses' do
-    assert_html_output(
-      'Mailto link to foo@bar.com' => 'Mailto link to <a class="rinku-autolink" href="mailto:foo@bar.com">foo@bar.com</a>'
-    )
-  end
-
-  describe 'mail address autolink' do
-    it 'prints autolinks for user references not existing' do
-      assert_html_output(
-        'Link to user:"foo@bar.com"' => 'Link to user:"<a href="mailto:foo@bar.com" class="rinku-autolink">foo@bar.com</a>"'
-      )
+  describe 'image links' do
+    context 'with only path' do
+      it 'does not replace all relative hrefs and images' do
+        assert_html_output(
+          {
+            'An inline image ![](/attachments/123/foobar.png)' =>
+              %(An inline image <img src="/attachments/123/foobar.png" alt="" />)
+          },
+          only_path: true
+        )
+      end
     end
 
-    context 'when visible user exists' do
-      shared_let(:project) { FactoryBot.create :project }
-      shared_let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
-      shared_let(:current_user) do
-        FactoryBot.create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
-      end
-      shared_let(:user) do
-        FactoryBot.create(:user,
-                          login: 'foo@bar.com',
-                          firstname: 'Foo',
-                          lastname: 'Barrit',
-                          member_in_project: project,
-                          member_through_role: role)
-      end
-
-      before do
-        user
-        login_as current_user
-      end
-
-      context 'with path only' do
-        it 'outputs the reference' do
-          assert_html_output(
-            'Link to user:"foo@bar.com"' => %(Link to <a class="user-mention" href="/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>)
-          )
-        end
-
-        it 'does not replace all relative hrefs and images' do
-          assert_html_output(
-            {
-              'Link to [relative path](/foo/bar)' =>
-                %(Link to <a href="/foo/bar" rel="noopener noreferrer">relative path</a>),
-              'An inline image ![](/attachments/123/foobar.png)' =>
-                %(An inline image <img src="/attachments/123/foobar.png" alt="" />)
-            },
-            only_path: true
-          )
-        end
-      end
-
-      context 'with relative URLs (path_only is false)', with_settings: { host_name: "openproject.org" } do
-        it 'outputs the reference' do
-          assert_html_output(
-            {
-              'Link to user:"foo@bar.com"' =>
-                %(Link to <a class="user-mention" href="http://openproject.org/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>)
-            },
-            only_path: false
-          )
-        end
-
-        it 'replaces all relative hrefs and images' do
-          assert_html_output(
-            {
-              'Link to [relative path](/foo/bar)' =>
-                %(Link to <a href="http://openproject.org/foo/bar" rel="noopener noreferrer">relative path</a>),
-              'An inline image ![](/attachments/123/foobar.png)' =>
-                %(An inline image <img src="http://openproject.org/attachments/123/foobar.png" alt="" />)
-            },
-            only_path: false
-          )
-        end
+    context 'with relative URLs (only_path is false)', with_settings: { host_name: "openproject.org" } do
+      it 'replaces all relative hrefs and images' do
+        assert_html_output(
+          {
+            'An inline image ![](/attachments/123/foobar.png)' =>
+              %(An inline image <img src="http://openproject.org/attachments/123/foobar.png" alt="" />)
+          },
+          only_path: false
+        )
       end
     end
   end
