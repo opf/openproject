@@ -503,7 +503,7 @@ GEM
       i18n (>= 0.7)
       multi_json
       request_store (>= 1.0)
-    grape (1.5.0)
+    grape (1.5.1)
       activesupport
       builder
       dry-types (>= 1.1)
