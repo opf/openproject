@@ -41,11 +41,24 @@ module OpenProject::TextFormatting
         p: 'op-uc-p',
         blockquote: 'op-uc-blockquote',
         code: 'op-uc-code',
-        pre: 'op-uc-code-block'
+        pre: 'op-uc-code-block',
+        li: 'op-uc-list--item',
+        ul: 'op-uc-list',
+        ol: 'op-uc-list'
+      }.with_indifferent_access.freeze
+
+      # Contains all elements with their classes which should not be modified
+      # as they already have the correct BEM class.
+      UNMODIFIED = {
+        h1: 'op-uc-toc--title',
+        li: 'op-uc-toc--list-item',
+        ul: 'op-uc-toc--list'
       }.with_indifferent_access.freeze
 
       def call
         doc.search(*BEM_CLASSES.keys.map(&:to_s)).each do |element|
+          next if not_to_be_modified?(element)
+
           if element['class'].present?
             element['class'] += " #{BEM_CLASSES[element.name]}"
           else
@@ -54,6 +67,14 @@ module OpenProject::TextFormatting
         end
 
         doc
+      end
+
+      private
+
+      def not_to_be_modified?(element)
+        element['class'].present? &&
+          UNMODIFIED[element.name] &&
+          element['class'].include?(UNMODIFIED[element.name])
       end
     end
   end
