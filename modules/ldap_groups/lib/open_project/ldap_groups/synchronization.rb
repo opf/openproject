@@ -100,15 +100,7 @@ module OpenProject::LdapGroups
 
       Rails.logger.info { "[LDAP groups] Adding #{new_member_ids.length} users to #{sync.dn}" }
 
-      # Bulk insert the memberships
-      memberships = new_member_ids.map do |user_id|
-        {
-          group_id: sync.id,
-          user_id: user_id
-        }
-      end
-      ::LdapGroups::Membership.insert_all memberships
-      sync.group.add_members! new_member_ids
+      sync.add_members! new_member_ids
     end
 
     ##
@@ -120,8 +112,8 @@ module OpenProject::LdapGroups
       end
 
       Rails.logger.info "[LDAP groups] Removing users #{memberships.pluck(:user_id)} from #{sync.dn}"
-      sync.remove_members!(memberships)
-      memberships.delete_all
+
+      sync.remove_members! memberships.pluck(:user_id)
     end
   end
 end

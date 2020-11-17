@@ -29,12 +29,6 @@
 require 'spec_helper'
 
 describe 'roles routes', type: :routing do
-  describe 'new' do
-    it do
-      expect(get('/roles/new')).to route_to('roles#new')
-    end
-  end
-
   context 'admin scoped' do
     it {
       is_expected.to route(:get, 'admin/roles').to(controller: 'roles',

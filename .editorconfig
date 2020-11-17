@@ -452,7 +452,7 @@ ij_json_spaces_within_braces = false
 ij_json_spaces_within_brackets = false
 ij_json_wrap_long_lines = false
 
-[{rcov,spec,rake,cucumber,rails,spork,capfile,gemfile,rakefile,guardfile,isolate,vagrantfile,Puppetfile,*.jbuilder,*.rbw,*.gemspec,*.thor,*.ru,*.rb,*.rake}]
+[{rcov,spec,rake,rails,spork,capfile,gemfile,rakefile,guardfile,isolate,vagrantfile,Puppetfile,*.jbuilder,*.rbw,*.gemspec,*.thor,*.ru,*.rb,*.rake}]
 indent_size = 2
 tab_width = 2
 ij_continuation_indent_size = 2

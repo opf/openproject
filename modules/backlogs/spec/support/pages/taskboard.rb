@@ -60,6 +60,11 @@ module Pages
         .to have_no_content(work_package.subject)
     end
 
+    def expect_color_for_task(hex_color, task)
+      expect(page)
+        .to have_selector("#work_package_#{task.id}[style='background-color:#{hex_color};']")
+    end
+
     def add_task(story, attributes)
       find(".story_#{story.id} td.add_new").click
 

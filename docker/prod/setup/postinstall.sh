@@ -21,13 +21,13 @@ mkdir -p /tmp/op_uploaded_files/ && chown -R $APP_USER:$APP_USER /tmp/op_uploade
 
 rm -f ./config/database.yml
 
-if test -f ./docker/setup/postinstall-$PLATFORM.sh ; then
+if test -f ./docker/prod/setup/postinstall-$PLATFORM.sh ; then
 	echo " ---> Executing postinstall for $PLATFORM..."
-	./docker/setup/postinstall-$PLATFORM.sh
+	./docker/prod/setup/postinstall-$PLATFORM.sh
 fi
 
 echo " ---> Precompiling assets. This will take a while..."
-./docker/setup/postinstall-common.sh > /tmp/dockerize.log || display_error
+./docker/prod/setup/postinstall-common.sh > /tmp/dockerize.log || display_error
 
 rm -f /tmp/dockerize.log
 echo "      OK."
