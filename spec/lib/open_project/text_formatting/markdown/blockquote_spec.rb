@@ -61,11 +61,11 @@ describe OpenProject::TextFormatting,
         <blockquote class="op-uc-blockquote">
         <p class="op-uc-p">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br>
         Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.</p>
-        <ul>
-          <li>Donec odio lorem,</li>
-          <li>sagittis ac,</li>
-          <li>malesuada in,</li>
-          <li>adipiscing eu, dolor.</li>
+        <ul class="op-uc-list">
+          <li class="op-uc-list--item">Donec odio lorem,</li>
+          <li class="op-uc-list--item">sagittis ac,</li>
+          <li class="op-uc-list--item">malesuada in,</li>
+          <li class="op-uc-list--item">adipiscing eu, dolor.</li>
         </ul>
         <blockquote class="op-uc-blockquote">
         <p class="op-uc-p">Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>

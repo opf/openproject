@@ -41,7 +41,10 @@ module OpenProject::TextFormatting
         p: 'op-uc-p',
         blockquote: 'op-uc-blockquote',
         code: 'op-uc-code',
-        pre: 'op-uc-code-block'
+        pre: 'op-uc-code-block',
+        li: 'op-uc-list--item',
+        ul: 'op-uc-list',
+        ol: 'op-uc-list'
       }.with_indifferent_access.freeze
 
       def call
