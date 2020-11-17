@@ -234,8 +234,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 4.4', require: nil
 
-  # For unknown reasons, parallel_tests 3.3 fails on travis.
-  gem 'parallel_tests', '~> 3.1', '< 3.3.0'
+  gem 'parallel_tests', '~> 3.1'
 end
 
 group :ldap do
