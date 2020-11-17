@@ -53,6 +53,8 @@ module OpenProject::TextFormatting::Formats::Markdown
         :syntax_highlight,
         :attachment,
         :relative_link,
+        :table_figure,
+        :bem_css,
         :autolink
       ]
     end

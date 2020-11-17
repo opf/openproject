@@ -41,7 +41,7 @@ module API
             available_responsibles = @project.possible_responsibles.includes(:preference)
             self_link = api_v3_paths.available_responsibles(@project.id)
             Users::UserCollectionRepresenter.new(available_responsibles,
-                                                 self_link,
+                                                 self_link: self_link,
                                                  current_user: current_user)
           end
         end

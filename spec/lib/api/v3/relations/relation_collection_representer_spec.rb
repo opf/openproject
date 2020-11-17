@@ -51,7 +51,7 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
 
   let(:representer) do
     described_class.new(relations,
-                        self_link,
+                        self_link: self_link,
                         current_user: user)
   end
 

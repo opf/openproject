@@ -72,25 +72,25 @@ describe ApplicationHelper do
       context "Plain link" do
         subject { format_text("document##{document.id}") }
 
-        it { is_expected.to eq("<p>#{document_link}</p>") }
+        it { is_expected.to eq("<p class=\"op-uc-p\">#{document_link}</p>") }
       end
 
       context "Link with document name" do
         subject { format_text("document##{document.id}") }
 
-        it { is_expected.to eq("<p>#{document_link}</p>") }
+        it { is_expected.to eq("<p class=\"op-uc-p\">#{document_link}</p>") }
       end
 
       context "Escaping plain link" do
         subject { format_text("!document##{document.id}") }
 
-        it { is_expected.to eq("<p>document##{document.id}</p>") }
+        it { is_expected.to eq("<p class=\"op-uc-p\">document##{document.id}</p>") }
       end
 
       context "Escaping link with document name" do
         subject { format_text('!document:"Test document"') }
 
-        it { is_expected.to eq('<p>document:"Test document"</p>') }
+        it { is_expected.to eq('<p class="op-uc-p">document:"Test document"</p>') }
       end
     end
 
@@ -100,25 +100,25 @@ describe ApplicationHelper do
       context "By name without project" do
         subject { format_text("document:\"#{document.title}\"", project: the_other_project) }
 
-        it { is_expected.to eq('<p>document:"Test document"</p>') }
+        it { is_expected.to eq('<p class="op-uc-p">document:"Test document"</p>') }
       end
 
       context "By id and given project" do
         subject { format_text("#{identifier}:document##{document.id}", project: the_other_project) }
 
-        it { is_expected.to eq("<p><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
+        it { is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
       end
 
       context "By name and given project" do
         subject { format_text("#{identifier}:document:\"#{document.title}\"", project: the_other_project) }
 
-        it { is_expected.to eq("<p><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
+        it { is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
       end
 
       context "Invalid link" do
         subject { format_text("invalid:document:\"Test document\"", project: the_other_project) }
 
-        it { is_expected.to eq('<p>invalid:document:"Test document"</p>') }
+        it { is_expected.to eq('<p class="op-uc-p">invalid:document:"Test document"</p>') }
       end
     end
   end

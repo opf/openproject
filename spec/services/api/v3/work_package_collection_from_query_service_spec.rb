@@ -83,7 +83,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
                :current_user) do
 
       def initialize(work_packages,
-                     self_link,
+                     self_link:,
                      query:,
                      project:,
                      groups:,

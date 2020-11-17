@@ -44,7 +44,7 @@ module API
             users = query.results.merge(@work_package.addable_watcher_users).includes(:preference)
             ::API::V3::Users::PaginatedUserCollectionRepresenter.new(
               users,
-              api_v3_paths.users,
+              self_link: api_v3_paths.users,
               page: to_i_or_nil(params[:offset]),
               per_page: resolve_page_size(params[:pageSize]),
               current_user: current_user
@@ -60,7 +60,7 @@ module API
               watchers = @work_package.watcher_users.active_or_registered
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UserCollectionRepresenter.new(watchers,
-                                                   self_link,
+                                                   self_link: self_link,
                                                    current_user: current_user)
             end
           end

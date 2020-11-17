@@ -67,7 +67,7 @@ describe ::API::V3::HelpTexts::HelpTextRepresenter do
       "helpText" => {
         "format" => 'markdown',
         "raw" => 'This is a help text for **status** attribute.',
-        "html" => '<p>This is a help text for <strong>status</strong> attribute.</p>'
+        "html" => '<p class="op-uc-p">This is a help text for <strong>status</strong> attribute.</p>'
       }
     }
   end

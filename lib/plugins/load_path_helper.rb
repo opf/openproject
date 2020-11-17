@@ -34,12 +34,6 @@ module Plugins
       }.keep_if{ |path| File.directory?(path) }
     end
 
-    def self.cucumber_load_paths
-      plugin_load_paths.map { |path|
-        File.join(path, 'features')
-      }.keep_if{ |path| File.directory?(path) }
-    end
-
     private
 
     # fetch load paths for available plugins

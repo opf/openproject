@@ -41,7 +41,7 @@ module API
             available_assignees = @project.possible_assignees.includes(:preference)
             self_link = api_v3_paths.available_assignees(@project.id)
             Users::UserCollectionRepresenter.new(available_assignees,
-                                                 self_link,
+                                                 self_link: self_link,
                                                  current_user: current_user)
           end
         end

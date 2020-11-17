@@ -361,7 +361,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           .to be_json_eql(
             {
               "format": "markdown",
-              "html": "<p>Some explanation.</p>",
+              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
               "raw": "Some explanation."
             }.to_json
           )
@@ -567,7 +567,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           .to be_json_eql(
             {
               "format": "markdown",
-              "html": "<p>Some explanation.</p>",
+              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
               "raw": "Some explanation."
             }.to_json
           )
@@ -594,7 +594,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           .to be_json_eql(
             {
               "format": "markdown",
-              "html": "<p>Some explanation.</p>",
+              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
               "raw": "Some explanation."
             }.to_json
           )

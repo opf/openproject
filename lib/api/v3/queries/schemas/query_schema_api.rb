@@ -44,7 +44,7 @@ module API
 
             get do
               representer.new(Query.new,
-                              api_v3_paths.query_schema,
+                              self_link: api_v3_paths.query_schema,
                               current_user: current_user,
                               form_embedded: false)
             end

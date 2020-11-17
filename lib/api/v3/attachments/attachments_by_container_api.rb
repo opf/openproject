@@ -161,7 +161,7 @@ module API
           -> do
             attachments = container.attachments
             AttachmentCollectionRepresenter.new(attachments,
-                                                get_attachment_self_path,
+                                                self_link: get_attachment_self_path,
                                                 current_user: current_user)
           end
         end

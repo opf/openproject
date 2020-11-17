@@ -43,7 +43,13 @@ module Pages
       end
     end
 
-    def alter_attributes_in_edit_mode(story, attributes)
+    def enter_edit_backlog_mode(backlog)
+      within_backlog(backlog) do
+        find('.start_date.editable').click
+      end
+    end
+
+    def alter_attributes_in_edit_story_mode(story, attributes)
       edit_proc = ->() do
         attributes.each do |key, value|
           case key
@@ -68,6 +74,23 @@ module Pages
       end
     end
 
+    def alter_attributes_in_edit_backlog_mode(backlog, attributes)
+      within_backlog(backlog) do
+        attributes.each do |key, value|
+          case key
+          when :name
+            find('input[name=name]').set value
+          when :start_date
+            find('input[name=start_date]').set value
+          when :effective_date
+            find('input[name=effective_date]').set value
+          else
+            raise NotImplementedError
+          end
+        end
+      end
+    end
+
     def save_story_from_edit_mode(story)
       save_proc = -> () do
         find('input[name=subject]').native.send_key :return
@@ -83,17 +106,34 @@ module Pages
       end
     end
 
+    def save_backlog_from_edit_mode(backlog)
+      within_backlog(backlog) do
+        find('input[name=name]').native.send_key :return
+
+        expect(page)
+          .to have_selector('.start_date.editable')
+      end
+    end
+
+    def edit_backlog(backlog, attributes)
+      enter_edit_backlog_mode(backlog)
+
+      alter_attributes_in_edit_backlog_mode(backlog, attributes)
+
+      save_backlog_from_edit_mode(backlog)
+    end
+
     def edit_story(story, attributes)
       enter_edit_story_mode(story)
 
-      alter_attributes_in_edit_mode(story, attributes)
+      alter_attributes_in_edit_story_mode(story, attributes)
 
       save_story_from_edit_mode(story)
     end
 
     def edit_new_story(attributes)
       within('.story.editing') do
-        alter_attributes_in_edit_mode(nil, attributes)
+        alter_attributes_in_edit_story_mode(nil, attributes)
 
         save_story_from_edit_mode(nil)
       end
@@ -125,6 +165,22 @@ module Pages
         .move_to(target_element.native, 0, before ? +10 : +20)
         .release
         .perform
+    end
+
+    def fold_backlog(backlog)
+      within_backlog(backlog) do
+        find('.toggler').click
+      end
+    end
+
+    def expect_sprint(sprint)
+      expect(page)
+        .to have_selector("#sprint_backlogs_container #{backlog_selector(sprint)}")
+    end
+
+    def expect_backlog(sprint)
+      expect(page)
+        .to have_selector("#owner_backlogs_container #{backlog_selector(sprint)}")
     end
 
     def expect_story_in_sprint(story, sprint)
@@ -204,6 +260,15 @@ module Pages
       end
     end
 
+    def expect_and_dismiss_error(message)
+      within '.ui-dialog' do
+        expect(page)
+          .to have_content message
+
+        click_button('OK')
+      end
+    end
+
     def path
       backlogs_project_backlogs_path(project)
     end
@@ -215,11 +280,19 @@ module Pages
     end
 
     def within_backlog(backlog, &block)
-      within("#backlog_#{backlog.id}", &block)
+      within(backlog_selector(backlog), &block)
+    end
+
+    def backlog_selector(backlog)
+      "#backlog_#{backlog.id}"
     end
 
     def story_selector(story)
       "#story_#{story.id}"
+    end
+
+    def notification_type
+      :ruby
     end
   end
 end

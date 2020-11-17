@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.24.0'
+gem 'rouge', '~> 3.25.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -99,7 +99,7 @@ gem 'date_validator', '~> 0.10.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
-gem 'sys-filesystem', '~> 1.3.3', require: false
+gem 'sys-filesystem', '~> 1.4.0', require: false
 
 # Faster posix-compliant spawns for 8.0. conversions with pandoc
 gem 'posix-spawn', '~> 0.3.13', require: false
@@ -177,7 +177,7 @@ gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.80'
+gem 'aws-sdk-s3', '~> 1.84'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -196,8 +196,6 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 0.12.0'
 
-  gem 'cucumber', '~> 3.1.0'
-  gem 'cucumber-rails', '~> 1.8.0', require: false
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.10.0'
@@ -245,7 +243,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.2.1' # Use for event-based reloaders
+  gem 'listen', '~> 3.3.0' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'

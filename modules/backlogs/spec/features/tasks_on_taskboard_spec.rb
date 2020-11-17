@@ -246,5 +246,17 @@ describe 'Tasks on taskboard',
     expect(page)
       .to have_selector("a[href='#{backlogs_project_sprint_burndown_chart_path(project, sprint)}']",
                         text: 'Burndown Chart')
+
+    # Tasks can get a color per assigned user
+    visit my_settings_path
+
+    fill_in 'Task color', with: '#FBC4B3'
+
+    click_button 'Save'
+
+    taskboard_page.visit!
+
+    taskboard_page
+      .expect_color_for_task('#FBC4B3', story1_task)
   end
 end

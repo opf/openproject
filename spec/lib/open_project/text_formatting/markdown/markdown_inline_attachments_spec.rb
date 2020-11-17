@@ -72,7 +72,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
   def assert_html_output(to_test)
     instance = described_class.new(context)
     to_test.each do |text, expected|
-      expect(instance.to_html(text)).to be_html_eql "<p>#{expected}</p>"
+      expect(instance.to_html(text)).to be_html_eql "<p class='op-uc-p'>#{expected}</p>"
     end
   end
 end

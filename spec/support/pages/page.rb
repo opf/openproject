@@ -104,7 +104,11 @@ module Pages
     end
 
     def dismiss_notification!
-      page.find('.notification-box--close').click
+      if notification_type == :angular
+        page.find('.notification-box--close').click
+      else
+        page.find('.flash .icon-close').click
+      end
     end
 
     def expect_no_notification(type: :success, message: nil)

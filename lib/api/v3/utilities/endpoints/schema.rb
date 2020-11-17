@@ -66,7 +66,7 @@ module API
 
             representer
               .create(contract_instance,
-                      self_path,
+                      self_link: self_path,
                       current_user: User.current)
           end
 

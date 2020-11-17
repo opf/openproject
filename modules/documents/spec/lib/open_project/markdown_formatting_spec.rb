@@ -71,9 +71,9 @@ describe OpenProject::TextFormatting,
 
     let(:expected) do
       <<~HTML
-        <p>#{document_link}</p>
+        <p class="op-uc-p">#{document_link}</p>
 
-        <p>#{document_link}</p>
+        <p class="op-uc-p">#{document_link}</p>
       HTML
     end
 
@@ -95,9 +95,9 @@ describe OpenProject::TextFormatting,
 
     let(:expected) do
       <<~HTML
-        <p>document##{document.id}</p>
+        <p class="op-uc-p">document##{document.id}</p>
 
-        <p>document:"My document"</p>
+        <p class="op-uc-p">document:"My document"</p>
       HTML
     end
 

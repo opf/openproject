@@ -218,7 +218,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       it "has property for the custom field" do
         expected = {
           format: "markdown",
-          html: "<p>#{custom_value.value}</p>",
+          html: "<p class=\"op-uc-p\">#{custom_value.value}</p>",
           raw: custom_value.value
         }
 

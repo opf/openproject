@@ -51,7 +51,7 @@ module API
           schema_link = api_v3_paths.work_package_schema(represented.project_id,
                                                          represented.type_id)
           Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                      nil,
+                                                      self_link: nil,
                                                       form_embedded: true,
                                                       base_schema_link: schema_link,
                                                       current_user: current_user)
