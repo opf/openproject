@@ -30,12 +30,12 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class TableFigureFilter < HTML::Pipeline::Filter
+    class FigureWrappedFilter < HTML::Pipeline::Filter
       include ActionView::Context
       include ActionView::Helpers::TagHelper
 
       def call
-        doc.search('table').each do |element|
+        doc.search('table', 'img').each do |element|
           element.wrap('<figure>') unless element.parent&.name == 'figure'
         end
 
