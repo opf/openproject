@@ -47,7 +47,7 @@ export class IFCViewerService extends ViewerBridgeService {
 
   public newViewer(elements:XeokitElements, projects:any[]) {
     import('@xeokit/xeokit-bim-viewer/dist/main').then((XeokitViewerModule:any) => {
-      let server = new XeokitServer();
+      let server = new XeokitServer(this.pathHelper);
       let viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
       viewerUI.on("queryPicked", (event:any) => {

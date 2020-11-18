@@ -200,7 +200,7 @@ el:
           status_confirmed: "επιβεβαιωμένο"
           status_waiting: "το email απεστάλη - αναμονή για επιβεβαίωση"
           test_ee: "Δοκιμάστε την Έκδοση για Επιχειρήσεις για 14 ημέρες δωρεάν "
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          quick_overview: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
         upsale:
           become_hero: "Γίνετε ήρωας!"
           benefits:

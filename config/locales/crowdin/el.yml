@@ -2654,7 +2654,7 @@ el:
     pre_authorization:
       status: 'Πριν την εξουσιοδότηση'
     auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    access_token_url: 'Token πρόσβασης'
     errors:
       messages:
         #Common error messages
