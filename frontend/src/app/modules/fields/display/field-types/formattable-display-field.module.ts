@@ -39,7 +39,7 @@ export class FormattableDisplayField extends DisplayField {
   public render(element:HTMLElement, displayText:string, options:any = {}):void {
     let div = document.createElement('div');
 
-    div.classList.add('read-value--html', 'wiki', 'highlight', '-multiline');
+    div.classList.add('read-value--html', 'wiki', 'highlight', 'op-uc-container', '-multiline');
     if (options.rtl) {
       div.classList.add('-rtl');
     }

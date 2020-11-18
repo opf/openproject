@@ -11,12 +11,12 @@
 <ng-template #text>
   <span #displayContainer
         class="inline-edit--formattable-display-text -default">
-    <span
+    <div class="op-uc-container"
         *ngIf="!textEmpty"
-        [innerHTML]="customText"></span>
-    <span
+        [innerHTML]="customText"></div>
+    <div
         *ngIf="textEmpty"
-        [innerHTML]="placeholderText"></span>
+        [innerHTML]="placeholderText"></div>
   </span>
 </ng-template>
 

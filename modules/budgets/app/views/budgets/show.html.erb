@@ -90,9 +90,9 @@ See docs/COPYRIGHT.rdoc for more details.
         <div class="attributes-key-value--key"><%= Budget.human_attribute_name(:description) %></div>
         <div class="attributes-key-value--value-container">
           <div class="attributes-key-value--value -text">
-            <span>
+            <div class="op-uc-container">
               <%= format_text @budget, :description, :attachments => @budget.attachments %>
-            </span>
+            </div>
           </div>
         </div>
       <% end %>
