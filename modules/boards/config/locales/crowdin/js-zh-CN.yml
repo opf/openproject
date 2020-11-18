@@ -63,7 +63,7 @@ zh-CN:
           version: 版本
           subproject: 子项目
           subtasks: 父子
-          basic: 基本
+          basic: 基础
         select_attribute: "操作属性"
       add_list_modal:
         labels:
@@ -77,7 +77,7 @@ zh-CN:
             目前没有可用的状态。<br>
             可能没有问题，或者它们已被全部添加到问题板中。
           assignee: 没有任何成员与您的筛选值匹配。<br>
-          no_member: 此项目当前没有可以添加的任何成员。<br>
+          no_member: 此项目目前没有可以添加的成员。  <br>
           add_members: <a href="%{link}">向此项目添加一个新成员</a>以重新选择用户。
       configuration_modal:
         title: '配置此面板'
