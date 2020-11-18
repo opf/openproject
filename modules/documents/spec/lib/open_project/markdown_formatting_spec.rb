@@ -81,7 +81,7 @@ describe OpenProject::TextFormatting,
       link_to(
         'My document',
         { controller: '/documents', action: 'show', id: document.id, only_path: true },
-        class: 'document'
+        class: 'document op-uc-link'
       )
     end
 

@@ -65,8 +65,8 @@ describe ApplicationHelper do
     context "Simple Document links" do
       let(:document_link) {
         link_to('Test document',
-                                     { controller: 'documents', action: 'show', id: document.id },
-                                     class: 'document')
+                { controller: 'documents', action: 'show', id: document.id },
+                class: 'document op-uc-link')
       }
 
       context "Plain link" do
@@ -106,13 +106,13 @@ describe ApplicationHelper do
       context "By id and given project" do
         subject { format_text("#{identifier}:document##{document.id}", project: the_other_project) }
 
-        it { is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
+        it { is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>") }
       end
 
       context "By name and given project" do
         subject { format_text("#{identifier}:document:\"#{document.title}\"", project: the_other_project) }
 
-        it { is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document\" href=\"/documents/#{document.id}\">Test document</a></p>") }
+        it { is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>") }
       end
 
       context "Invalid link" do
