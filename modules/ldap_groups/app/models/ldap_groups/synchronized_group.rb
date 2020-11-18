@@ -23,31 +23,59 @@ module LdapGroups
     before_destroy :remove_all_members
 
     ##
-    # Add a set of new members to the internal group
+    # Add a set of new members to the synchronized group as well as the internal group.
+    #
+    # @param new_users [Array<User> | Array<Integer>] Users (or User IDs) to add to the group.
     def add_members!(new_users)
+      return if new_users.empty?
+
       self.class.transaction do
-        users << new_users.map { |u| Membership.new group: self, user: u }
-        group.add_members!(new_users)
+        # create synchronized group memberships
+        memberships = new_users.map { |user| { group_id: self.id, user_id: user_id(user) } }
+        # Bulk insert the memberships to improve performance
+        ::LdapGroups::Membership.insert_all memberships
+
+        # add users to users collection of internal group
+        group.add_members! new_users
       end
     end
 
     ##
-    # Remove a set of users from the internal group
+    # Remove a set of users from the synchronized group as well as the internal group.
+    #
+    # @param users_to_remove [Array<User> | Array<Integer>] Users (or User IDs) to remove from the group.
     def remove_members!(users_to_remove)
-      self.class.transaction do
-        user_ids = users_to_remove.pluck(:user_id)
+      return if users_to_remove.empty?
 
-        # We don't have access to the join table
-        # so we need to ensure we delete the users that are still present in the group
-        # since users MAY want to remove users manually
-        group.users.where(id: user_ids).destroy_all
+      self.class.transaction do
+        # 1) Delete synchronized group MEMBERSHIPS from collection.
+        # 2) Remove users from users collection of internal group.
+        if users_to_remove.first.is_a? User
+          users.delete users.where(user: users_to_remove).select(:id)
+          group.users.delete users_to_remove
+        elsif users_to_remove.first.is_a? Integer
+          users.delete users.where(user_id: users_to_remove).select(:id)
+          group.users.delete group.users.where(id: users_to_remove).select(:id)
+        else
+          raise ArgumentError, "Expected collection of Users or User IDs, got collection of #{users_to_remove.map(&:class).map(&:name).uniq.join(", ")}"
+        end
       end
     end
 
     private
 
+    def user_id(user)
+      if user.is_a? Integer
+        user
+      elsif user.is_a? User
+        user.id
+      else
+        raise ArgumentError, "Expected User or User ID (Integer) but got #{user}"
+      end
+    end
+
     def remove_all_members
-      remove_members!(users)
+      remove_members! User.find(users.pluck(:user_id))
     end
   end
 end
