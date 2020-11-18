@@ -224,7 +224,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.9.1', require: false
+  gem 'webmock', '~> 3.10.0', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
@@ -234,8 +234,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 4.4', require: nil
 
-  # For unknown reasons, parallel_tests 3.3 fails on travis.
-  gem 'parallel_tests', '~> 3.1', '< 3.3.0'
+  gem 'parallel_tests', '~> 3.1'
 end
 
 group :ldap do
