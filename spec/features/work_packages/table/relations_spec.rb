@@ -57,8 +57,8 @@ describe 'Work Package table relations', js: true do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_from, wp_to, wp_to2)
 
-      columns.add("Relations to #{type.name}")
-      columns.add("follows relations")
+      columns.add(type.name, finicky: true)
+      columns.add("follows", finicky: true)
 
       wp_from_row = wp_table.row(wp_from)
       wp_from_to = wp_table.row(wp_to)

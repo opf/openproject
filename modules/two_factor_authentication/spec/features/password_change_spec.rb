@@ -31,6 +31,7 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
 
     expect(page).to have_selector('h2', text: I18n.t(:button_change_password))
     within('#content') do
+      SeleniumHubWaiter.wait
       fill_in('password', with: user_password)
       fill_in('new_password', with: new_user_password)
       fill_in('new_password_confirmation', with: new_user_password)
@@ -39,6 +40,7 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
 
     if requires_otp
       expect(page).to have_selector('input#otp')
+      SeleniumHubWaiter.wait
       fill_in 'otp', with: sms_token
       click_button I18n.t(:button_login)
     end

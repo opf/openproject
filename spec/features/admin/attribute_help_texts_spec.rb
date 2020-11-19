@@ -34,8 +34,7 @@ describe 'Attribute help texts', js: true do
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
   let(:editor) { Components::WysiwygEditor.new }
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
-
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:relation_columns_allowed) { true }
 
   describe 'Work package help texts' do
@@ -48,7 +47,7 @@ describe 'Attribute help texts', js: true do
 
     context 'with direct uploads (Regression #34285)', with_direct_uploads: true do
       before do
-        allow_any_instance_of(Attachment).to receive(:diskfile).and_return Struct.new(:path).new(image_fixture.to_s)
+        allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture
       end
 
       it 'can upload an image' do
@@ -56,7 +55,7 @@ describe 'Attribute help texts', js: true do
         select 'Status', from: 'attribute_help_text_attribute_name'
 
         editor.set_markdown('My attribute help text')
-        editor.drag_attachment image_fixture, 'Image uploaded on creation'
+        editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
         expect(page).to have_selector('attachment-list-item', text: 'image.png')
         click_button 'Save'
@@ -81,7 +80,7 @@ describe 'Attribute help texts', js: true do
 
         # Add an image
         # adding an image
-        editor.drag_attachment image_fixture, 'Image uploaded on creation'
+        editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
         expect(page).to have_selector('attachment-list-item', text: 'image.png')
         click_button 'Save'
 
@@ -105,13 +104,16 @@ describe 'Attribute help texts', js: true do
         modal.close!
 
         # -> edit
+        SeleniumHubWaiter.wait
         page.find('.attribute-help-text--entry td a', text: 'Status').click
+        SeleniumHubWaiter.wait
         expect(page).to have_selector('#attribute_help_text_attribute_name[disabled]')
         editor.set_markdown(' ')
         click_button 'Save'
 
         # Handle errors
         expect(page).to have_selector('#errorExplanation', text: "Help text can't be blank.")
+        SeleniumHubWaiter.wait
         editor.set_markdown('New**help**text')
         click_button 'Save'
 

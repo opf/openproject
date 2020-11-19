@@ -54,10 +54,12 @@ feature 'group memberships through groups page', type: :feature, js: true do
   shared_examples 'adding and removing principals' do
     scenario 'Adding and Removing a Group as Member' do
       members_page.visit!
+      SeleniumHubWaiter.wait
       members_page.add_user! 'A-Team', as: 'Manager'
 
       expect(members_page).to have_added_group('A-Team')
 
+      SeleniumHubWaiter.wait
       members_page.remove_group! 'A-Team'
       expect(page).to have_text 'Removed A-Team from project'
       expect(page).to have_text 'There are currently no members part of this project.'
@@ -65,10 +67,12 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
     scenario 'Adding and removing a User as Member' do
       members_page.visit!
+      SeleniumHubWaiter.wait
       members_page.add_user! 'Hannibal Smith', as: 'Manager'
 
       expect(members_page).to have_added_user 'Hannibal Smith'
 
+      SeleniumHubWaiter.wait
       members_page.remove_user! 'Hannibal Smith'
       expect(page).to have_text 'Removed Hannibal Smith from project'
       expect(page).to have_text 'There are currently no members part of this project.'
@@ -76,23 +80,29 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
     scenario 'Entering a Username as Member in firstname, lastname order' do
       members_page.visit!
+      SeleniumHubWaiter.wait
       members_page.open_new_member!
 
+      SeleniumHubWaiter.wait
       members_page.search_principal! 'Hannibal S'
       expect(members_page).to have_search_result 'Hannibal Smith'
     end
 
     scenario 'Entering a Username as Member in lastname, firstname order' do
       members_page.visit!
+      SeleniumHubWaiter.wait
       members_page.open_new_member!
 
+      SeleniumHubWaiter.wait
       members_page.search_principal! 'Smith, H'
       expect(members_page).to have_search_result 'Hannibal Smith'
     end
 
     scenario 'Escaping should work properly when entering a name' do
       members_page.visit!
+      SeleniumHubWaiter.wait
       members_page.open_new_member!
+      SeleniumHubWaiter.wait
       members_page.search_principal! 'script'
 
       expect(members_page).not_to have_alert_dialog
@@ -108,19 +118,23 @@ feature 'group memberships through groups page', type: :feature, js: true do
     scenario 'sorting the page' do
       members_page.visit!
 
+      SeleniumHubWaiter.wait
       members_page.sort_by 'last name'
       members_page.expect_sorted_by 'last name'
 
       expect(members_page.contents('lastname')).to eq ['', peter.lastname, hannibal.lastname]
 
+      SeleniumHubWaiter.wait
       members_page.sort_by 'last name'
       members_page.expect_sorted_by 'last name', desc: true
       expect(members_page.contents('lastname')).to eq [hannibal.lastname, peter.lastname, '']
 
+      SeleniumHubWaiter.wait
       members_page.sort_by 'first name'
       members_page.expect_sorted_by 'first name'
       expect(members_page.contents('firstname')).to eq ['', hannibal.firstname, peter.firstname]
 
+      SeleniumHubWaiter.wait
       members_page.sort_by 'email'
       members_page.expect_sorted_by 'email'
       expect(members_page.contents('email')).to eq ['', hannibal.mail, peter.mail]

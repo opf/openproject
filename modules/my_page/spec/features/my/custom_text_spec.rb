@@ -49,7 +49,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new 'body' }
   let(:field) { TextEditorField.new(page, 'description', selector: '.inline-edit--active-field') }
 
@@ -94,7 +94,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
 
     # The drag_attachment is written in a way that it requires to be executed with page on body
     # so we cannot have it wrapped in the within block.
-    editor.drag_attachment image_fixture, 'Image uploaded'
+    editor.drag_attachment image_fixture.path, 'Image uploaded'
 
     within custom_text_widget.area do
       expect(page).to have_selector('attachment-list-item', text: 'image.png')

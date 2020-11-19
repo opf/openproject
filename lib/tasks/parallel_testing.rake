@@ -50,12 +50,15 @@ namespace :parallel do
   class ParallelParser
     def self.with_args(args, allow_seed = true)
       options = {}
-      OptionParser.new do |opts|
-        opts.banner = "Usage: rails #{args[0]} -- [options]"
-        opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV['GROUP'] }
-        opts.on("-o ARG", "--only-group ARG", Integer) { |group_number| options[:group] = group_number || ENV['GROUP_SIZE'] }
-        opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV['CI_SEED'] } if allow_seed
-      end.parse!(args[2..-1])
+      parseable_args = args[2..-1]
+      if parseable_args
+        OptionParser.new do |opts|
+          opts.banner = "Usage: rails #{args[0]} -- [options]"
+          opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV['GROUP'] }
+          opts.on("-o ARG", "--only-group ARG", Integer) { |group_number| options[:group] = group_number || ENV['GROUP_SIZE'] }
+          opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV['CI_SEED'] } if allow_seed
+        end.parse!(parseable_args)
+      end
 
       yield options
     end

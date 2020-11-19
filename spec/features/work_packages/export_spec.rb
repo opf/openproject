@@ -50,6 +50,7 @@ describe 'work package export', type: :feature do
   let(:settings_menu) { ::Components::WorkPackages::SettingsMenu.new }
 
   before do
+    @download_list = DownloadList.new
     wp_1
     wp_2
     wp_3
@@ -59,11 +60,9 @@ describe 'work package export', type: :feature do
   end
 
   let(:export_type) { 'CSV' }
-  subject { DownloadedFile.download_content }
+  subject { @download_list.refresh_from(page).latest_downloaded_content }
 
-  def export!(wait_for_downloads = true)
-    DownloadedFile::clear_downloads
-
+  def export!(expect_success = true)
     work_packages_page.ensure_loaded
 
     settings_menu.open_and_choose 'Export ...'
@@ -82,15 +81,13 @@ describe 'work package export', type: :feature do
       # nothing
     end
 
-    if wait_for_downloads
-      # Wait for the file to download
-      ::DownloadedFile.wait_for_download
-      ::DownloadedFile.wait_for_download_content
+    if expect_success
+      expect(page).to have_text("The export has completed successfully")
     end
   end
 
   after do
-    DownloadedFile::clear_downloads
+    DownloadList.clear
   end
 
   context 'CSV export' do
@@ -101,7 +98,7 @@ describe 'work package export', type: :feature do
         filters.open
       end
 
-      it 'shows all work packages with the default filters', js: true, retry: 2 do
+      it 'shows all work packages with the default filters', js: true do
         export!
 
         expect(subject).to have_text(wp_1.description)
@@ -113,7 +110,7 @@ describe 'work package export', type: :feature do
         expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
       end
 
-      it 'shows all work packages grouped by ', js: true, retry: 2 do
+      it 'shows all work packages grouped by ', js: true do
         group_by.enable_via_menu 'Type'
 
         wp_table.expect_work_package_listed(wp_1)
@@ -133,7 +130,7 @@ describe 'work package export', type: :feature do
       end
 
       it 'shows only the work package with the right progress if filtered this way',
-         js: true, retry: 2 do
+         js: true do
         filters.add_filter_by 'Progress (%)', 'is', ['25'], 'percentageDone'
 
         sleep 1
@@ -149,7 +146,7 @@ describe 'work package export', type: :feature do
         expect(subject).not_to have_text(wp_3.description)
       end
 
-      it 'shows only work packages of the filtered type', js: true, retry: 2 do
+      it 'shows only work packages of the filtered type', js: true do
         filters.add_filter_by 'Type', 'is', wp_3.type.name
 
         expect(page).to have_no_content(wp_2.description) # safeguard
@@ -163,7 +160,7 @@ describe 'work package export', type: :feature do
         expect(subject).to have_text(wp_3.description)
       end
 
-      it 'exports selected columns', js: true, retry: 2 do
+      it 'exports selected columns', js: true do
         columns.add 'Progress (%)'
 
         export!

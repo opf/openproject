@@ -42,7 +42,7 @@ describe 'Upload attachment to forum message', js: true do
   end
   let(:project) { forum.project }
   let(:attachments) { ::Components::Attachments.new }
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
@@ -58,7 +58,7 @@ describe 'Upload attachment to forum message', js: true do
     create_page.set_subject 'A new message'
 
     # adding an image
-    editor.drag_attachment image_fixture, 'Image uploaded on creation'
+    editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
     expect(page).not_to have_selector('notification-upload-progress')
@@ -78,7 +78,7 @@ describe 'Upload attachment to forum message', js: true do
 
     editor.type_slowly("A spacer text")
 
-    editor.drag_attachment image_fixture, 'Image uploaded the second time'
+    editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
     expect(page).not_to have_selector('notification-upload-progress')

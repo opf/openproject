@@ -27,6 +27,7 @@ describe 'Login with 2FA remember cookie',
     first_login_step
 
     expect(page).to have_selector('input#remember_me')
+    SeleniumHubWaiter.wait
     check 'remember_me'
 
     two_factor_step sms_token

@@ -49,13 +49,11 @@ describe 'Toggle watching', type: :feature, js: true do
      topic_path(message),
      project_wiki_path(project, wiki_page)].each do |path|
        visit path
-
        click_link(I18n.t('button_watch'))
-
        expect(page).to have_link(I18n.t('button_unwatch'))
 
+       SeleniumHubWaiter.wait
        click_link(I18n.t('button_unwatch'))
-
        expect(page).to have_link(I18n.t('button_watch'))
      end
   end

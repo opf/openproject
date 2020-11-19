@@ -38,9 +38,9 @@ run() {
   eval $2;
 }
 
-run "bundle exec rake db:migrate webdrivers:chromedriver:update webdrivers:geckodriver:update"
+run "bundle exec rake db:create db:migrate webdrivers:chromedriver:update webdrivers:geckodriver:update"
 
-run "for i in {1..3}; do (cd frontend; npm install && break || sleep 15;) done"
+run "cd frontend; npm install ; cd -"
 
 run "bundle exec rake assets:precompile assets:clean"
 
