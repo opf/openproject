@@ -1,5 +1,5 @@
 import {Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
-import {Observable, Subscription} from "rxjs";
+import {forkJoin, Observable, of, Subscription} from "rxjs";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {StateService} from "@uirouter/core";
@@ -19,7 +19,7 @@ import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
-import {filter} from "rxjs/operators";
+import {catchError, filter, map, switchMap, tap} from "rxjs/operators";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import { WorkPackageStatesInitializationService } from 'core-app/components/wp-list/wp-states-initialization.service';
@@ -67,6 +67,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.queryId;
 
   board$:Observable<Board>;
+  queryWidgets:GridWidgetResource[];
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -97,7 +98,11 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .apiV3Service
       .boards
       .id(id)
-      .requireAndStream();
+      .requireAndStream()
+      .pipe(
+        this.setQueryWidgets,
+        tap((board) => this.setupQueryUpdatedMonitoring(board))
+      );
 
     this.Boards.currentBoard$.next(id);
 
@@ -106,8 +111,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         this.untilDestroyed()
       )
       .subscribe(board => {
-      this.checkForListErrors(board);
-      this.setupQueryUpdatedMonitoring(board);
       });
 
     this.boardListCrossSelectionService
@@ -122,31 +125,29 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     });
   }
 
-  checkForListErrors(board:Board) {
-    const newColumnsQueryProps:any = {
-      'columns[]': ['id', 'subject'],
-      'showHierarchies': false,
-      'pageSize': 500,
-      'filters': {}
-    };
-    board.queries.forEach((listQuery) => {
-     newColumnsQueryProps.filters = JSON.stringify(listQuery.options.filters);
+  setQueryWidgets = (boardObservable:Observable<Board>) => {
+    // The grid config could have widgets that the user is not allowed to
+    // see, so we filter out those that rise an access error.
+    return boardObservable.pipe(
+      switchMap(board => {
+          const queryRequests$ = board.queries.map(query => this.apiv3Service.queries
+              .find({filters: JSON.stringify(query.options.filters)} , query.options.queryId as string)
+              .pipe(
+                map(() => query),
+                catchError(() => of(null))
+              )
+          );
 
-      let observable = this
-      .apiv3Service
-      .queries
-      .find(newColumnsQueryProps , listQuery.options.queryId as string);
+          return forkJoin([...queryRequests$]);
+        },
+        (board, queries) => ({board, validQueries: queries.filter(queryWidget => !!queryWidget) as GridWidgetResource[]})
+      ),
+      map(result => {
+        this.queryWidgets = result.validQueries;
 
-      observable
-      .subscribe(
-        query => {this.wpStatesInitialization.updateQuerySpace(query, query.results); },
-        (error) => {
-          var index = board.queries.findIndex(p => p.options.queryId === listQuery.options.queryId as string);
-        if (index > -1) { board.queries.splice(index, 1); }
-        }
-      );
-    });
-    return board;
+        return result.board;
+      })
+    );
   }
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
