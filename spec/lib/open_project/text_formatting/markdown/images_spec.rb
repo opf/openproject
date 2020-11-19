@@ -1,0 +1,236 @@
+#-- encoding: UTF-8
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
+require 'spec_helper'
+
+require_relative './expected_markdown'
+describe OpenProject::TextFormatting,
+         'images' do
+  include_context 'expected markdown modules'
+
+  let(:options) { {} }
+
+  context 'inline linking attachments' do
+    context 'work package with attachments' do
+      let!(:work_package) do
+        FactoryBot.build_stubbed(:work_package).tap do |wp|
+          allow(wp)
+            .to receive(:attachments)
+            .and_return attachments
+        end
+      end
+      let(:attachments) { [inlinable, non_inlinable] }
+      let!(:inlinable) do
+        FactoryBot.build_stubbed(:attached_picture) do |a|
+          allow(a)
+            .to receive(:filename)
+            .and_return('my-image.jpg')
+          allow(a)
+            .to receive(:description)
+            .and_return('"foobar"')
+        end
+      end
+      let!(:non_inlinable) do
+        FactoryBot.build_stubbed(:attachment) do |a|
+          allow(a)
+            .to receive(:filename)
+            .and_return('whatever.pdf')
+        end
+      end
+
+      let(:only_path) { true }
+
+      let(:options) { { object: work_package, only_path: only_path } }
+
+      context 'for an inlineable attachment referenced by filename' do
+        it_behaves_like 'format_text produces' do
+          let(:raw) do
+            <<~RAW
+              ![](my-image.jpg)
+            RAW
+          end
+
+          let(:expected) do
+            <<~EXPECTED
+              <p class="op-uc-p">
+                <figure class="op-uc-figure">
+                  <img class="op-uc-image op-uc-figure--content" src="/api/v3/attachments/#{inlinable.id}/content" alt='"foobar"'>
+                </figure>
+              </p>
+            EXPECTED
+          end
+        end
+
+        context 'with only_path false' do
+          let(:only_path) { false }
+
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                ![](my-image.jpg)
+              RAW
+            end
+
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  <figure class="op-uc-figure">
+                    <img class="op-uc-image op-uc-figure--content" src="http://localhost:3000/api/v3/attachments/#{inlinable.id}/content" alt='"foobar"'>
+                  </figure>
+                </p>
+              EXPECTED
+            end
+          end
+        end
+      end
+
+      context 'for an inlineable attachment referenced by filename and alt-text' do
+        it_behaves_like 'format_text produces' do
+          let(:raw) do
+            <<~RAW
+              ![alt-text](my-image.jpg)
+            RAW
+          end
+
+          let(:expected) do
+            <<~EXPECTED
+              <p class="op-uc-p">
+                <figure class="op-uc-figure">
+                  <img class="op-uc-image op-uc-figure--content" src="/api/v3/attachments/#{inlinable.id}/content" alt="alt-text">
+                </figure>
+              </p>
+            EXPECTED
+          end
+        end
+      end
+
+      context 'for a non existing attachment and alt-text' do
+        it_behaves_like 'format_text produces' do
+          let(:raw) do
+            <<~RAW
+              ![foo](does-not-exist.jpg)
+            RAW
+          end
+
+          let(:expected) do
+            <<~EXPECTED
+              <p class="op-uc-p">
+                <figure class="op-uc-figure">
+                  <img class="op-uc-image op-uc-figure--content" src="does-not-exist.jpg" alt="foo">
+                </figure>
+              </p>
+            EXPECTED
+          end
+        end
+      end
+
+      context 'for a non inlineable attachment (non image)' do
+        it_behaves_like 'format_text produces' do
+          let(:raw) do
+            <<~RAW
+              ![](whatever.pdf)
+            RAW
+          end
+
+          let(:expected) do
+            <<~EXPECTED
+              <p class="op-uc-p">
+                <figure class="op-uc-figure">
+                  <img class="op-uc-image op-uc-figure--content" src="whatever.pdf" alt="">
+                </figure>
+              </p>
+            EXPECTED
+          end
+        end
+      end
+
+      context 'for a relative url (non attachment)' do
+        it_behaves_like 'format_text produces' do
+          let(:raw) do
+            <<~RAW
+              ![](some/path/to/my-image.jpg)
+            RAW
+          end
+
+          let(:expected) do
+            <<~EXPECTED
+              <p class="op-uc-p">
+                <figure class="op-uc-figure">
+                  <img class="op-uc-image op-uc-figure--content" src="some/path/to/my-image.jpg" alt="">
+                </figure>
+              </p>
+            EXPECTED
+          end
+        end
+      end
+
+      context 'for a relative url (non attachment)' do
+        it_behaves_like 'format_text produces' do
+          let(:raw) do
+            <<~RAW
+              ![](some/path/to/my-image.jpg)
+            RAW
+          end
+
+          let(:expected) do
+            <<~EXPECTED
+              <p class="op-uc-p">
+                <figure class="op-uc-figure">
+                  <img class="op-uc-image op-uc-figure--content" src="some/path/to/my-image.jpg" alt="">
+                </figure>
+              </p>
+            EXPECTED
+          end
+        end
+      end
+    end
+  end
+
+  context 'via html tags' do
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        <<~RAW
+          <figure class="image">
+            <img src="/api/v3/attachments/1293/content">
+            <figcaption>Some caption with meaning</figcaption>
+          </figure>
+        RAW
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <figure class="image op-uc-figure">
+            <img src="/api/v3/attachments/1293/content" class="op-uc-image op-uc-figure--content">
+            <figcaption class="op-uc-figure--description">Some caption with meaning</figcaption>
+          </figure>
+        EXPECTED
+      end
+    end
+  end
+end

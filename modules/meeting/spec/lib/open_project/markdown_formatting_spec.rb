@@ -85,7 +85,7 @@ describe OpenProject::TextFormatting,
       link_to(
         'Monthly coordination',
         { controller: '/meetings', action: 'show', id: meeting.id, only_path: true },
-        class: 'meeting'
+        class: 'meeting op-uc-link'
       )
     end
 
