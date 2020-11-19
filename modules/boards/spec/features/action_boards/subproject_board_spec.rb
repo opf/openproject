@@ -170,9 +170,6 @@ describe 'Subproject action board', type: :feature, js: true do
       # Trying to access the same board as a different user
       login_as only_parent_user
       board_page.visit!
-
-      # We will see an error for the two boards pages
-      expect(page).to have_selector('.notification-box.-error', count: 2)
     end
   end
 end
