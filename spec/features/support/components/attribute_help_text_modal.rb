@@ -51,6 +51,7 @@ module Components
     end
 
     def open!
+      FinickyTest.wait_for_frontend_binding
       container.find(".help-text--for-#{help_text.attribute_name}").click
       expect(page).to have_selector('.attribute-help-text--modal h3', text: help_text.attribute_caption)
     end

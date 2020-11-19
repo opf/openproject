@@ -22,8 +22,11 @@ describe 'Login by switching 2FA device', with_2fa_ee: true, type: :feature,
 
       expect(page).to have_selector('input#otp')
 
+      FinickyTest.wait_for_frontend_binding
       # Toggle device to TOTP
       find('#toggle_resend_form').click
+
+      FinickyTest.wait_for_frontend_binding
       find(".button--link[value='#{device2.redacted_identifier}']").click
 
       expect(page).to have_selector('input#otp')

@@ -54,16 +54,11 @@ describe "updating a cost report's cost type", type: :feature, js: true do
   it 'works' do
     report_page.visit!
     report_page.save(as: 'My Query', public: true)
-
+    FinickyTest.wait_for_frontend_binding
     report_page.switch_to_type cost_type.name
-
     click_on "Save"
 
     click_on "My Query"
-
-    option = all("[name=unit]").last
-
-    expect(option).to be_checked
-    expect(option.value).to eq cost_type.id.to_s
+    expect(page).to have_field(cost_type.name, checked: true)
   end
 end

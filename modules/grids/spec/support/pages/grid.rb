@@ -35,6 +35,7 @@ module Pages
         expect(page)
           .to have_content(I18n.t('js.grid.add_widget'))
 
+        FinickyTest.wait_for_frontend_binding
         page.find('.grid--addable-widget', text: Regexp.new("^#{name}$")).click
       end
     end

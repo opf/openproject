@@ -82,11 +82,14 @@ describe 'user deletion: ', type: :feature, js: true do
       expect(page).to have_content "#{user.firstname} #{user.lastname}"
 
       click_on 'Delete'
+
+      FinickyTest.wait_for_frontend_binding
       fill_in 'login_verification', with: user.login
       click_on 'Delete'
 
       dialog.confirm_flow_with 'wrong', should_fail: true
       
+      FinickyTest.wait_for_frontend_binding
       fill_in 'login_verification', with: user.login
       click_on 'Delete'
 

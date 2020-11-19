@@ -68,6 +68,7 @@ describe 'OAuth authorization code flow',
       forms
     end
 
+    FinickyTest.wait_for_frontend_binding
     # Authorize
     find('input.button[value="Authorize"]').click
 
@@ -105,6 +106,7 @@ describe 'OAuth authorization code flow',
 
     # Revoke the application
     within("#oauth-application-grant-#{app.id}") do
+      FinickyTest.wait_for_frontend_binding
       click_on 'Revoke'
     end
 

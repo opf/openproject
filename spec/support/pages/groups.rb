@@ -40,9 +40,13 @@ module Pages
     end
 
     def add_user_to_group!(user_name, group_name)
-      visit_page unless current_page?
+      unless current_page?
+        visit_page
+        FinickyTest.wait_for_frontend_binding
+      end
 
       edit_group! group_name
+      FinickyTest.wait_for_frontend_binding
       group(group_name).add_user! user_name
     end
 
@@ -90,6 +94,7 @@ module Pages
 
     def add_to_project!(project_name, as:)
       open_projects_tab!
+      FinickyTest.wait_for_frontend_binding
       select_project! project_name
       Array(as).each { |role| check role }
       click_on 'Add'
@@ -97,6 +102,7 @@ module Pages
 
     def remove_from_project!(name)
       open_projects_tab!
+      FinickyTest.wait_for_frontend_binding
       find_project(name).find('a[data-method=delete]').click
     end
 
@@ -114,6 +120,7 @@ module Pages
 
     def add_user!(user_name)
       open_users_tab!
+      FinickyTest.wait_for_frontend_binding
 
       container = page.find('.new-group-members--autocomplete')
       select_autocomplete container,
@@ -123,6 +130,8 @@ module Pages
 
     def remove_user!(user_name)
       open_users_tab!
+      FinickyTest.wait_for_frontend_binding
+
       find_user(user_name).find('a[data-method=delete]').click
     end
 

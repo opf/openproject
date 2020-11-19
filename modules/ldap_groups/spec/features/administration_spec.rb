@@ -23,6 +23,7 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
 
       # Create group
       find('.button', text: I18n.t('ldap_groups.synchronized_groups.singular')).click
+      FinickyTest.wait_for_frontend_binding
 
       select 'ldap', from: 'synchronized_group_auth_source_id'
       select 'foo', from: 'synchronized_group_group_id'
@@ -36,6 +37,7 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
       expect(page).to have_selector('td.users', text: '0')
 
       # Show entry
+      FinickyTest.wait_for_frontend_binding
       find('td.dn a').click
       expect(page).to have_selector '.generic-table--empty-row'
 
@@ -54,11 +56,12 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
 
       visit ldap_groups_synchronized_groups_path
       expect_angular_frontend_initialized
-
       find('.buttons a', text: 'Delete').click
+
+      FinickyTest.wait_for_frontend_binding
       find('.danger-zone--verification input').set 'cn=foo,ou=groups,dc=example,dc=com'
 
-      sleep 2
+      FinickyTest.wait_for_frontend_binding
       click_on 'Delete'
 
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))

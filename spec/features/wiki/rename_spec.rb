@@ -49,9 +49,11 @@ describe 'Wiki page', type: :feature, js: true do
   it 'allows renaming' do
     visit project_wiki_path(project, wiki_page)
 
+    FinickyTest.wait_for_frontend_binding
     click_link 'More'
     click_link 'Rename'
 
+    FinickyTest.wait_for_frontend_binding
     fill_in 'Title', with: rename_name
 
     click_button 'Rename'

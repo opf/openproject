@@ -63,9 +63,9 @@ describe 'Show viewpoint in model viewer',
       model_tree.expect_checked 'minimal'
       model_tree.all_checkboxes.each do |label, checkbox|
         if label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035'
-          expect(checkbox.checked?).to eq(true)
+          expect(checkbox).to be_checked
         else
-          expect(checkbox.checked?).to eq(false)
+          expect(checkbox).to_not be_checked
         end
       end
     end

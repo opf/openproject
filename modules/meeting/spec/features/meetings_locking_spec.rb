@@ -46,6 +46,7 @@ describe 'Meetings locking', type: :feature, js: true do
     within '#tab-content-agenda' do
       find('.button--edit-agenda').click
 
+      FinickyTest.wait_for_frontend_binding
       agenda.text = 'blabla'
       agenda.save!
 

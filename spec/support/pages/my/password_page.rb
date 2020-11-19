@@ -36,9 +36,8 @@ module Pages
       end
 
       def change_password(old_password, new_password, confirmation = new_password)
-        # use find and set with id to prevent ambiguous match I get with fill_in
-        page.find('#password').set(old_password)
-
+        FinickyTest.wait_for_frontend_binding
+        page.fill_in('password', with: old_password, match: :prefer_exact)
         page.fill_in('new_password', with: new_password)
         page.fill_in('new_password_confirmation', with: confirmation)
 

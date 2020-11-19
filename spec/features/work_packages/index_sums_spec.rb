@@ -118,11 +118,11 @@ RSpec.feature 'Work package index sums', js: true do
     # Add float cf column
     columns.add float_cf.name
     # Add overall costs column
-    columns.add 'Overall costs'
+    columns.add 'Overall costs', finicky: true
     # Add unit costs column
-    columns.add 'Unit costs'
+    columns.add 'Unit costs', finicky: true
     # Add labor costs column
-    columns.add 'Labor costs'
+    columns.add 'Labor costs', finicky: true
 
     # Trigger action from action menu dropdown
     modal.set_display_sums enable: true

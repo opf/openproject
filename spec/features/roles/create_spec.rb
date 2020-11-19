@@ -48,6 +48,7 @@ describe 'Role creation', type: :feature, js: true do
       click_link 'Role'
     end
 
+    FinickyTest.wait_for_frontend_binding
     fill_in 'Name', with: existing_role.name
     select existing_role.name, from: 'Copy workflow from'
     check 'Edit work packages'
@@ -58,6 +59,7 @@ describe 'Role creation', type: :feature, js: true do
     expect(page)
       .to have_selector('.errorExplanation', text: 'Name has already been taken')
 
+    FinickyTest.wait_for_frontend_binding
     fill_in 'Name', with: 'New role name'
 
     # This will lead to an error as manage versions requires view versions
@@ -69,6 +71,7 @@ describe 'Role creation', type: :feature, js: true do
       .to have_selector('.errorExplanation',
                         text: "Permissions need to also include 'View members' as 'Manage members' is selected.")
 
+    FinickyTest.wait_for_frontend_binding
     check 'View members'
     select existing_role.name, from: 'Copy workflow from'
 
@@ -83,6 +86,7 @@ describe 'Role creation', type: :feature, js: true do
     expect(page)
       .to have_selector('table td', text: 'New role name')
 
+    FinickyTest.wait_for_frontend_binding
     click_link 'New role name'
 
     expect(page)
@@ -109,6 +113,7 @@ describe 'Role creation', type: :feature, js: true do
     # Workflow routes are not resource-oriented.
     visit(url_for(controller: :workflows, action: :edit, only_path: true))
 
+    FinickyTest.wait_for_frontend_binding
     select 'New role name', from: 'Role'
     select type.name, from: 'Type'
     click_button 'Edit'
@@ -116,9 +121,6 @@ describe 'Role creation', type: :feature, js: true do
     from_id = existing_workflow.old_status_id
     to_id = existing_workflow.new_status_id
 
-    checkbox = page.find("input.old-status-#{from_id}.new-status-#{to_id}[value=always]")
-
-    expect(checkbox)
-      .to be_checked
+    expect(page).to have_field("status_#{from_id}_#{to_id}_", checked: true)
   end
 end

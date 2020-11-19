@@ -41,7 +41,7 @@ describe 'Upload attachment to documents', js: true do
   end
   let(:project) { FactoryBot.create(:project) }
   let(:attachments) { ::Components::Attachments.new }
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   before do
@@ -53,12 +53,13 @@ describe 'Upload attachment to documents', js: true do
       visit new_project_document_path(project)
 
       expect(page).to have_selector('#new_document', wait: 10)
+      FinickyTest.wait_for_frontend_binding
       select(category.name, from: 'Category')
       fill_in "Title", with: 'New documentation'
 
       # adding an image
       editor.click_and_type_slowly 'abc'
-      editor.drag_attachment image_fixture, 'Image uploaded on creation'
+      editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
       expect(page).to have_selector('attachment-list-item', text: 'image.png')
 
       click_on 'Create'
@@ -72,6 +73,7 @@ describe 'Upload attachment to documents', js: true do
       expect(document.title).to eq 'New documentation'
 
       # Expect it to be present on the show page
+      FinickyTest.wait_for_frontend_binding
       find('.document-category-elements--header a', text: 'New documentation').click
       expect(page).to have_current_path "/documents/#{document.id}", wait: 10
       expect(page).to have_selector('#content img', count: 1)
@@ -79,10 +81,12 @@ describe 'Upload attachment to documents', js: true do
 
       # Adding a second image
       # We should be using the 'Edit' button at the top but that leads to flickering specs
+      # FIXME: yes indeed
       visit edit_document_path(document)
 
       #editor.click_and_type_slowly 'abc'
-      editor.drag_attachment image_fixture, 'Image uploaded the second time'
+      FinickyTest.wait_for_frontend_binding
+      editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
       expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 
       click_on 'Save'
@@ -97,7 +101,7 @@ describe 'Upload attachment to documents', js: true do
 
   context 'with direct uploads (Regression #34285)', with_direct_uploads: true do
     before do
-      allow_any_instance_of(Attachment).to receive(:diskfile).and_return Struct.new(:path).new(image_fixture.to_s)
+      allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture
     end
 
     it_behaves_like 'can upload an image'

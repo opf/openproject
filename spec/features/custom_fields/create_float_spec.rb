@@ -14,6 +14,7 @@ describe 'custom fields', js: true do
       cf_page.visit!
 
       click_on "Create a new custom field"
+      FinickyTest.wait_for_frontend_binding
     end
 
     it "creates a new float custom field" do

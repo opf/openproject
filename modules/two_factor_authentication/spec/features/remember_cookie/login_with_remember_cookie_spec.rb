@@ -27,6 +27,7 @@ describe 'Login with 2FA remember cookie', type: :feature,
     first_login_step
 
     expect(page).to have_selector('input#remember_me')
+    FinickyTest.wait_for_frontend_binding
     check 'remember_me'
 
     two_factor_step sms_token

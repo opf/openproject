@@ -62,14 +62,13 @@ describe 'user self registration', type: :feature, js: true do
       within '.top-menu-items-right .menu_root' do
         click_link 'Sign in'
 
-        # Wait until click handler has been initialized
-        sleep(0.1)
-
+        FinickyTest.wait_for_frontend_binding
         click_link 'Create a new account'
       end
 
       # deliberately inserting a wrong password confirmation
       within '.registration-modal' do
+        FinickyTest.wait_for_frontend_binding
         fill_in 'Username', with: 'heidi'
         fill_in 'First name', with: 'Heidi'
         fill_in 'Last name', with: 'Switzerland'
@@ -87,6 +86,7 @@ describe 'user self registration', type: :feature, js: true do
       within '.registration-modal' do
         # Cannot use 'Password' here as the error message on 'Confirmation' is part of the label
         # and contains the string 'Password' as well
+        FinickyTest.wait_for_frontend_binding
         fill_in 'user_password', with: 'test123=321test'
         fill_in 'Confirmation', with: 'test123=321test'
 

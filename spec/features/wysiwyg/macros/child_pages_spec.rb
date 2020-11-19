@@ -129,6 +129,7 @@ describe 'Wysiwyg child pages spec',
           expect(page).not_to have_selector('.pages-hierarchy', text: 'Parent page')
           expect(page).to have_selector('h1', text: 'My page')
 
+          FinickyTest.wait_for_frontend_binding
           find('.toolbar .icon-edit').click
         end
 
@@ -161,9 +162,9 @@ describe 'Wysiwyg child pages spec',
           expect(page).to have_selector('.pages-hierarchy', text: 'Parent page')
           expect(page).to have_selector('h1', text: 'My page')
 
+          FinickyTest.wait_for_frontend_binding
           find('.toolbar .icon-edit').click
         end
-
       end
     end
   end

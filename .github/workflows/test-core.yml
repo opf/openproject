@@ -1,0 +1,57 @@
+name: Core / Test
+on:
+  push:
+
+jobs:
+  units:
+    name: Units
+    if: github.repository == 'opf/openproject'
+    runs-on: [self-hosted,public]
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v2
+    - name: cache
+      uses: actions/cache@v2
+      with:
+        path: /tmp/${{ github.sha }}
+        key: ${{ runner.os }}-tests
+    - name: test
+      env:
+        CI_JOBS: 16
+        CI_CACHE_PATH: "/tmp/${{ github.sha }}/"
+        LOCAL_DEV_CHECK: 1
+      run: |
+        cp .env.example .env
+        docker-compose build ci
+        docker-compose run ci setup run-units
+    - name: cleanup
+      if: ${{ always() }}
+      run: docker-compose down --remove-orphans -t 10
+  features:
+    needs: units
+    name: Features
+    if: github.repository == 'opf/openproject'
+    runs-on: [self-hosted,public]
+    timeout-minutes: 200
+    steps:
+    - uses: actions/checkout@v2
+    - name: cache
+      uses: actions/cache@v2
+      with:
+        path: /tmp/${{ github.sha }}
+        key: ${{ runner.os }}-tests
+    - name: test
+      env:
+        CI_JOBS: 12
+        CI_CACHE_PATH: "/tmp/${{ github.sha }}/"
+        LOCAL_DEV_CHECK: 1
+        # set to 0 for no retry at all. Useful to see how many flickering tests
+        CI_RETRY_COUNT: 3
+      run: |
+        cp .env.example .env
+        docker-compose build ci
+        docker-compose up -d --scale chrome=$CI_JOBS selenium-hub
+        docker-compose run ci setup run-features
+    - name: cleanup
+      if: ${{ always() }}
+      run: docker-compose down --remove-orphans -t 10

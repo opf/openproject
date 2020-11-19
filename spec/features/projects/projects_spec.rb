@@ -76,7 +76,9 @@ describe 'Projects', type: :feature do
 
     it 'can create a subproject' do
       click_on 'Foo project'
+      FinickyTest.wait_for_frontend_binding
       click_on 'Project settings'
+      FinickyTest.wait_for_frontend_binding
       click_on 'New subproject'
 
       fill_in 'project[name]', with: 'Foo child'
@@ -152,7 +154,9 @@ describe 'Projects', type: :feature do
     it 'updates the project identifier' do
       visit projects_path
       click_on project.name
+      FinickyTest.wait_for_frontend_binding
       click_on 'Project settings'
+      FinickyTest.wait_for_frontend_binding
       click_on 'Edit'
 
       expect(page).to have_content "CHANGE THE PROJECT'S IDENTIFIER"

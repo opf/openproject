@@ -135,6 +135,7 @@ describe 'Authentication Stages', type: :feature do
       expect(page).to have_selector('.account-consent')
       expect(page).to have_selector('h1', text: 'Consent header')
 
+      FinickyTest.wait_for_frontend_binding
       # Confirm consent
       check 'consent_check'
       click_on I18n.t(:button_continue)
@@ -164,6 +165,7 @@ describe 'Authentication Stages', type: :feature do
       visit signout_path
       login_with user.login, user_password
 
+      FinickyTest.wait_for_frontend_binding
       # Confirm consent
       check 'consent_check'
       click_on I18n.t(:button_continue)
@@ -215,6 +217,7 @@ describe 'Authentication Stages', type: :feature do
       expect(page).to have_selector('h2', text: 'Consent')
 
       # Confirm consent
+      FinickyTest.wait_for_frontend_binding
       check 'consent_check'
       click_on I18n.t(:button_continue)
 

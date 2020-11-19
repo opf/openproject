@@ -116,6 +116,7 @@ feature 'group memberships through project members page', type: :feature do
       expect(members_page).to have_user('group1') # the group is already there though
 
       groups_page.visit!
+      FinickyTest.wait_for_frontend_binding
       groups_page.add_user_to_group! 'Alice Wonderland', 'group1'
 
       members_page.visit!

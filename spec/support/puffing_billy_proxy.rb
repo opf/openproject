@@ -49,7 +49,8 @@ module BillyProxyPatch
   def stop
     return unless EM.reactor_running?
 
-    super
+  rescue Errno::ECONNRESET => e
+    STDERR.puts "Got error while shutting down Billy proxy"
   end
 end
 

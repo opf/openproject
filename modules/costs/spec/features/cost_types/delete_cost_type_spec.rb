@@ -51,6 +51,7 @@ describe 'deleting a cost type', type: :feature, js: true do
     expect_angular_frontend_initialized
     expect(page).to have_selector '.generic-table--no-results-container', wait: 10
 
+    FinickyTest.wait_for_frontend_binding
     # Show locked
     find('#include_deleted').set true
     click_on 'Apply'

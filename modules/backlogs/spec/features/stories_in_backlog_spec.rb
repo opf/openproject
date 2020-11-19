@@ -180,10 +180,12 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_velocity(sprint, 30)
 
+    FinickyTest.wait_for_frontend_binding
     # Creating a story
     backlogs_page
       .click_in_backlog_menu(sprint, 'New Story')
 
+    FinickyTest.wait_for_frontend_binding
     backlogs_page
       .edit_new_story(subject: 'New story',
                       story_points: 10)
@@ -206,6 +208,7 @@ describe 'Stories in backlog',
 
     # Editing in a sprint
 
+    FinickyTest.wait_for_frontend_binding
     backlogs_page
       .edit_story(sprint_story1,
                   subject: 'Altered story1',
@@ -223,11 +226,10 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_velocity(sprint, 45)
 
+    FinickyTest.wait_for_frontend_binding
     # Moving a story to top
     backlogs_page
       .drag_in_sprint(sprint_story1, new_story)
-
-    sleep(0.5)
 
     backlogs_page
       .expect_stories_in_order(sprint, sprint_story1, new_story, sprint_story2)
@@ -249,10 +251,9 @@ describe 'Stories in backlog',
 
     # Moving a story to from the backlog to the sprint (3nd position)
 
+    FinickyTest.wait_for_frontend_binding
     backlogs_page
       .drag_in_sprint(backlog_story1, sprint_story2, before: false)
-
-    sleep(0.5)
 
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story2, backlog_story1, sprint_story1)
@@ -271,6 +272,7 @@ describe 'Stories in backlog',
       .expect_status_options(backlog_story1,
                              [default_status, other_status])
 
+    FinickyTest.wait_for_frontend_binding
     backlogs_page
       .alter_attributes_in_edit_story_mode(backlog_story1,
                                            subject: 'Altered backlog story1',
@@ -291,6 +293,7 @@ describe 'Stories in backlog',
                         subject: 'Altered backlog story1',
                         status: other_status.name)
 
+    FinickyTest.wait_for_frontend_binding
     backlogs_page
       .enter_edit_story_mode(backlog_story1)
 
@@ -314,6 +317,7 @@ describe 'Stories in backlog',
                         type: other_story.name)
 
     # The pdf export is reachable via the menu
+    FinickyTest.wait_for_frontend_binding
     backlogs_page
       .click_in_backlog_menu(sprint, 'Export')
     # Will download something that is currently not speced

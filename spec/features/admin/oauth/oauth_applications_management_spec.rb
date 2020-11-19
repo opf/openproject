@@ -42,6 +42,8 @@ describe 'OAuth applications management', type: :feature, js: true do
 
     # Create application
     find('.button', text: 'Add').click
+
+    FinickyTest.wait_for_frontend_binding
     fill_in 'application_name', with: 'My API application'
     # Fill invalid redirect_uri
     fill_in 'application_redirect_uri', with: "not a url!"
@@ -50,6 +52,7 @@ describe 'OAuth applications management', type: :feature, js: true do
     expect(page).to have_selector('.errorExplanation', text: 'Redirect URI must be an absolute URI.')
 
     # Can create localhost without https (https://community.openproject.com/wp/34025)
+    FinickyTest.wait_for_frontend_binding
     fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
     click_on 'Create'
 
@@ -63,12 +66,15 @@ describe 'OAuth applications management', type: :feature, js: true do
     expect(page.first('.attributes-key-value--value code').text).to match /\w+/
 
     # Edit again
+    FinickyTest.wait_for_frontend_binding
     click_on 'Edit'
 
+    FinickyTest.wait_for_frontend_binding
     fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob"
     click_on 'Save'
 
     # Show application
+    FinickyTest.wait_for_frontend_binding
     find('td a', text: 'My API application').click
 
     expect(page).to have_no_selector('.attributes-key-value--key', text: 'Client secret')
@@ -76,6 +82,7 @@ describe 'OAuth applications management', type: :feature, js: true do
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
     expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob")
 
+    FinickyTest.wait_for_frontend_binding
     click_on 'Delete'
     page.driver.browser.switch_to.alert.accept
 

@@ -63,6 +63,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
     describe 'deleting all rates' do
       before do
         click_link 'Update'         # go to update view for rates
+        FinickyTest.wait_for_frontend_binding
         find('.icon-delete').click  # delete last existing rate
         click_on 'Save'             # save change
       end
@@ -72,7 +73,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
         expect(page).to have_text /rate history/i
         expect(page).to have_text I18n.t('no_results_title_text')
 
-        expect(page).not_to have_text 'Current rate'
+        expect(page).to have_no_text 'Current rate'
       end
     end
   end

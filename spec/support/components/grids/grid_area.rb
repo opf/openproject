@@ -27,6 +27,7 @@ module Components
 
         open_menu
 
+        FinickyTest.wait_for_frontend_binding
         find('a.menu-item', text: text).click
       end
 

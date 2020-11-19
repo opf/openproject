@@ -92,9 +92,11 @@ feature 'Wiki menu items' do
     visit project_wiki_path(project, wiki_page)
 
     # creating the menu item with the pages name for the menu item
+    FinickyTest.wait_for_frontend_binding
     click_link 'More'
     click_link 'Configure menu item'
 
+    FinickyTest.wait_for_frontend_binding
     choose "Show as menu item in project navigation"
 
     click_button "Save"
@@ -102,12 +104,14 @@ feature 'Wiki menu items' do
     expect(page)
       .to have_selector('.main-menu--children-menu-header', text: wiki_page.title)
 
+    FinickyTest.wait_for_frontend_binding
     find('.main-menu--arrow-left-to-project').click
 
     expect(page)
       .to have_selector('.main-item-wrapper', text: wiki_page.title)
 
     # clicking the menu item leads to the page
+    FinickyTest.wait_for_frontend_binding
     click_link wiki_page.title
 
     expect(page)
@@ -115,9 +119,11 @@ feature 'Wiki menu items' do
 
     # modifying the menu item to a different name and to be a subpage
 
+    FinickyTest.wait_for_frontend_binding
     click_link 'More'
     click_link 'Configure menu item'
 
+    FinickyTest.wait_for_frontend_binding
     fill_in 'Name of menu item', with: 'Custom page name'
 
     choose "Show as submenu item of"
@@ -133,12 +139,14 @@ feature 'Wiki menu items' do
     expect(page)
       .to have_selector('.wiki-menu--sub-item', text: 'Custom page name')
 
+    FinickyTest.wait_for_frontend_binding
     click_link 'Custom page name'
 
     expect(page)
       .to have_current_path(project_wiki_path(project, wiki_page))
 
     # the submenu item is not visible on top level
+    FinickyTest.wait_for_frontend_binding
     find('.main-menu--arrow-left-to-project').click
 
     expect(page)
@@ -169,6 +177,7 @@ feature 'Wiki menu items' do
     click_button 'Save'
 
     # Because it is the last wiki menu item, the user is prompted to select another menu item
+    FinickyTest.wait_for_frontend_binding
     select another_wiki_page.title, from: 'main-menu-item-select'
 
     click_button 'Save'

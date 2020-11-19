@@ -38,6 +38,7 @@ module Components
       include ::Components::NgSelectAutocompleteHelpers
 
       def open
+        FinickyTest.wait_for_frontend_binding
         retry_block do
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
@@ -65,9 +66,8 @@ module Components
         input = page.find('#filter-by-text-input')
         input.hover
         input.click
+        FinickyTest.wait_for_frontend_binding
         input.set text
-
-        sleep 1
       end
 
       def expect_available_filter(name, present: true)
@@ -75,7 +75,8 @@ module Components
       end
 
       def expect_loaded
-        expect(filter_button).to have_selector('.badge', wait: 20)
+        FinickyTest.wait_for_frontend_binding
+        expect(filter_button).to have_selector('.badge', wait: 2)
       end
 
       def add_filter_by(name, operator, value, selector = nil)

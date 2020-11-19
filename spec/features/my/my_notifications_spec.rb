@@ -43,6 +43,7 @@ describe 'My notifications spec', type: :feature, js: true do
     visit my_account_path
 
     click_on 'Email notifications'
+    FinickyTest.wait_for_frontend_binding
   end
 
   it 'allows to select a project to receive notifications for (Regression #28519)' do
@@ -53,6 +54,8 @@ describe 'My notifications spec', type: :feature, js: true do
     find("#notified_project_ids_#{project.id}", wait: 5).set true
 
     click_on 'Save'
+    FinickyTest.wait_for_frontend_binding
+
     expect(page).to have_selector('.flash.notice')
 
     user.reload

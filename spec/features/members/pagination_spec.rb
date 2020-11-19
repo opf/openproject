@@ -52,8 +52,10 @@ feature 'members pagination', type: :feature, js: true do
     members_page.set_items_per_page! 2
 
     members_page.visit!
+    FinickyTest.wait_for_frontend_binding
     members_page.add_user! 'Peter Pan', as: 'Manager'
 
+    FinickyTest.wait_for_frontend_binding
     members_page.go_to_page! 2
     expect(members_page).to have_user 'Alice Alison' # members are sorted by last name desc
   end
@@ -63,9 +65,11 @@ feature 'members pagination', type: :feature, js: true do
     members_page.set_items_per_page! 1
 
     members_page.visit!
+    FinickyTest.wait_for_frontend_binding
     members_page.remove_user! 'Peter Pan'
     expect(members_page).to have_user 'Bob Bobbit'
 
+    FinickyTest.wait_for_frontend_binding
     members_page.go_to_page! 2
     expect(members_page).to have_user 'Alice Alison'
   end
@@ -74,10 +78,12 @@ feature 'members pagination', type: :feature, js: true do
     members_page.set_items_per_page! 1
 
     members_page.visit!
+    FinickyTest.wait_for_frontend_binding
     members_page.edit_user! 'Bob Bobbit', add_roles: ['Developer']
     expect(page).to have_text 'Successful update'
     expect(members_page).to have_user 'Bob Bobbit', roles: ['Developer', 'Manager']
 
+    FinickyTest.wait_for_frontend_binding
     members_page.go_to_page! 2
     expect(members_page).to have_user 'Alice Alison'
   end

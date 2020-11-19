@@ -128,6 +128,8 @@ module Components
       end
 
       def add_query_group(name, relation_filter, expect: true)
+        FinickyTest.wait_for_frontend_binding
+
         add_button_dropdown.click
         add_table_button.click
 
@@ -166,6 +168,8 @@ module Components
       end
 
       def edit_query_group(name)
+        FinickyTest.wait_for_frontend_binding
+
         group = find_group(name)
         group.find('.type-form-query-group--edit-button').click
       end

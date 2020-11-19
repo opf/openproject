@@ -55,6 +55,7 @@ module Components
     end
 
     def edit_time_entry(new_value, row)
+      FinickyTest.wait_for_frontend_binding
       page.find("#{row_selector(row)} .icon-edit").click
 
       time_logging_modal.is_visible true
@@ -62,31 +63,29 @@ module Components
       time_logging_modal.work_package_is_missing false
 
       time_logging_modal.perform_action 'Save'
-
-      sleep(3)
+      FinickyTest.wait_for_frontend_binding
 
       expect_action_icon 'edit', row
       expect_value new_value, row
     end
 
     def edit_cost_entry(new_value, row, cost_entry_id)
+      FinickyTest.wait_for_frontend_binding
       page.find("#{row_selector(row)} .icon-edit").click
 
       expect(page).to have_current_path('/cost_entries/' + cost_entry_id + '/edit')
 
+      FinickyTest.wait_for_frontend_binding
       fill_in('cost_entry_units', with: new_value)
       click_button 'Save'
       expect(page).to have_selector('.flash.notice')
-
-      sleep(3)
     end
 
     def delete_entry(row)
+      FinickyTest.wait_for_frontend_binding
       page.find("#{row_selector(row)} .icon-delete").click
 
       page.driver.browser.switch_to.alert.accept
-
-      sleep(3)
     end
 
     private

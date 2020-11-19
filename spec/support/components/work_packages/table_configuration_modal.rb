@@ -56,6 +56,7 @@ module Components
       end
 
       def open!
+        FinickyTest.wait_for_frontend_binding
         scroll_to_and_click trigger
         expect_open
       end
@@ -99,10 +100,10 @@ module Components
       def switch_to(target)
         # Switching too fast may result in the click handler not yet firing
         # so wait a bit initially
-        sleep 1
+        FinickyTest.wait_for_frontend_binding
 
         retry_block do
-          find("#{selector} .tab-show", text: target.upcase, wait: 10).click
+          find("#{selector} .tab-show", text: target.upcase, wait: 2).click
           selected_tab(target)
         end
       end

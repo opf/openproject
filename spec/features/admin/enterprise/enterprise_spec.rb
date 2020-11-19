@@ -92,9 +92,9 @@ describe 'Enterprise token', type: :feature, js: true do
         RequestStore.clear!
         expect(EnterpriseToken.current.encoded_token).to eq('foobar')
 
-        # Replace token
-        find('.collapsible-section--toggle-link').click
-        textarea.set 'blabla'
+        expect(page).to have_text("Successful update")
+        click_on "Replace your current support token"
+        fill_in 'enterprise_token_encoded_token', with: "blabla"
         submit_button.click
         expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
 
@@ -103,7 +103,8 @@ describe 'Enterprise token', type: :feature, js: true do
         expect(EnterpriseToken.current.encoded_token).to eq('blabla')
 
         # Remove token
-        find('.button.icon-delete', text: I18n.t(:button_delete)).click
+        FinickyTest.wait_for_frontend_binding
+        click_on "Delete"
 
         # Expect modal
         find('.confirm-form-submit--continue').click

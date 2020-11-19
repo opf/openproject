@@ -72,7 +72,9 @@ describe 'Meetings', type: :feature, js: true do
         agenda_update
 
         visit meeting_path(meeting)
+
         click_on 'History'
+        FinickyTest.wait_for_frontend_binding
 
         find('#version-1').click
         expect(page).to have_selector('.meeting_agenda', text: 'foo')

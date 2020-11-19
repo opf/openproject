@@ -63,6 +63,7 @@ describe 'Repository Settings', type: :feature, js: true do
       expect(Repository.exists?(repository.id)).to be true
 
       if type == 'managed'
+        FinickyTest.wait_for_frontend_binding
         find('a.icon-delete', text: I18n.t(:button_delete)).click
 
         dangerzone = DangerZone.new(page)
@@ -70,16 +71,21 @@ describe 'Repository Settings', type: :feature, js: true do
         expect(page).to have_selector(dangerzone.container_selector)
         expect(dangerzone.disabled?).to be true
 
+        FinickyTest.wait_for_frontend_binding
         dangerzone.confirm_with('definitely not the correct value')
         expect(dangerzone.disabled?).to be true
 
+        FinickyTest.wait_for_frontend_binding
         dangerzone.confirm_with(project.identifier)
         expect(dangerzone.disabled?).to be false
 
+        FinickyTest.wait_for_frontend_binding
         dangerzone.danger_button.click
       else
+        FinickyTest.wait_for_frontend_binding
         find('a.icon-remove', text: I18n.t(:button_remove)).click
         expect(page).to have_selector('.notification-box.-warning')
+        FinickyTest.wait_for_frontend_binding
         find('a', text: I18n.t(:button_remove)).click
       end
 

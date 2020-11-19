@@ -66,18 +66,18 @@ describe 'Work Package cost fields', type: :feature, js: true do
   it 'does not show read-only fields' do
     full_view.visit!
     # Go to add cost entry page
+    FinickyTest.wait_for_frontend_binding
     find('#action-show-more-dropdown-menu .button').click
     find('.menu-item', text: 'Log unit costs').click
 
+    FinickyTest.wait_for_frontend_binding
     # Set single value, should update suffix
     select 'A', from: 'cost_entry_cost_type_id'
     fill_in 'cost_entry_units', with: '1'
-    sleep 1
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A single')
     expect(page).to have_selector('#cost_entry_costs', text: '1.00 EUR')
 
     fill_in 'cost_entry_units', with: '2'
-    sleep 1
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A plural')
     expect(page).to have_selector('#cost_entry_costs', text: '2.00 EUR')
 
@@ -88,6 +88,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
 
     # Override costs
     find('#cost_entry_costs').click
+    FinickyTest.wait_for_frontend_binding
     fill_in 'cost_entry_costs_edit', with: '15.52'
 
     click_on 'Save'
@@ -112,9 +113,11 @@ describe 'Work Package cost fields', type: :feature, js: true do
       full_view.visit!
 
       # Go to add cost entry page
+      FinickyTest.wait_for_frontend_binding
       find('#action-show-more-dropdown-menu .button').click
       find('.menu-item', text: I18n.t(:button_log_costs)).click
 
+      FinickyTest.wait_for_frontend_binding
       fill_in 'cost_entry_units', with: '1,42'
       select 'B', from: 'cost_entry_cost_type_id'
       expect(page).to have_selector('#cost_entry_unit_name', text: 'B plural')
@@ -122,6 +125,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
 
       # Override costs
       find('#cost_entry_costs').click
+      FinickyTest.wait_for_frontend_binding
       fill_in 'cost_entry_costs_edit', with: '1.350,25'
 
       click_on I18n.t(:button_save)
@@ -139,9 +143,11 @@ describe 'Work Package cost fields', type: :feature, js: true do
       expect(page).to have_selector('#cost_entry_costs', text: '1.350,25 EUR')
 
       # Toggle the cost button
+      FinickyTest.wait_for_frontend_binding
       find('#cost_entry_costs').click
 
       # Update the costs in german locale
+      FinickyTest.wait_for_frontend_binding
       fill_in 'cost_entry_costs_edit', with: '55.000,55'
       click_on I18n.t(:button_save)
 
