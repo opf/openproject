@@ -106,8 +106,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         this.untilDestroyed()
       )
       .subscribe(board => {
-      this.setupQueryUpdatedMonitoring(board);
       this.checkForListErrors(board);
+      this.setupQueryUpdatedMonitoring(board);
       });
 
     this.boardListCrossSelectionService
@@ -124,6 +124,9 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   checkForListErrors(board:Board) {
     const newColumnsQueryProps:any = {
+      'columns[]': ['id', 'subject'],
+      'showHierarchies': false,
+      'pageSize': 500,
       'filters': {}
     };
     board.queries.forEach((listQuery) => {
@@ -143,6 +146,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         }
       );
     });
+    return board;
   }
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
