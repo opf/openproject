@@ -22,6 +22,7 @@ import {BoardListCrossSelectionService} from "core-app/modules/boards/board/boar
 import {filter} from "rxjs/operators";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { WorkPackageStatesInitializationService } from 'core-app/components/wp-list/wp-states-initialization.service';
 
 @Component({
   templateUrl: './board-list-container.component.html',
@@ -82,7 +83,9 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
               readonly Boards:BoardService,
               readonly Banner:BannersService,
               readonly boardListCrossSelectionService:BoardListCrossSelectionService,
+              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly Drag:DragAndDropService,
+              readonly apiv3Service:APIV3Service,
               readonly QueryUpdated:QueryUpdatedService) {
     super();
   }
@@ -103,7 +106,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         this.untilDestroyed()
       )
       .subscribe(board => {
-        this.setupQueryUpdatedMonitoring(board);
+      this.setupQueryUpdatedMonitoring(board);
+      this.checkForListErrors(board);
       });
 
     this.boardListCrossSelectionService
@@ -115,6 +119,29 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       ).subscribe(selection => {
       // Update split screen
       this.state.go(this.state.current.data.baseRoute + '.details', { workPackageId: selection.focusedWorkPackage });
+    });
+  }
+
+  checkForListErrors(board:Board) {
+    const newColumnsQueryProps:any = {
+      'filters': {}
+    };
+    board.queries.forEach((listQuery) => {
+     newColumnsQueryProps.filters = JSON.stringify(listQuery.options.filters);
+
+      let observable = this
+      .apiv3Service
+      .queries
+      .find(newColumnsQueryProps , listQuery.options.queryId as string);
+
+      observable
+      .subscribe(
+        query => {this.wpStatesInitialization.updateQuerySpace(query, query.results); },
+        (error) => {
+          var index = board.queries.findIndex(p => p.options.queryId === listQuery.options.queryId as string);
+        if (index > -1) { board.queries.splice(index, 1); }
+        }
+      );
     });
   }
 
