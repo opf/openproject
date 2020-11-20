@@ -52,7 +52,7 @@ describe OpenProject::TextFormatting,
           <p class="op-uc-p">This is a table with header cells:</p>
           <figure class="op-uc-figure">
             <table class="op-uc-table op-uc-figure--content">
-              <thead>
+              <thead class="op-uc-table--head">
                 <tr class="op-uc-table--row">
                   <th class="op-uc-table--cell op-uc-table--cell_head">header</th>
                   <th class="op-uc-table--cell op-uc-table--cell_head">header</th>
@@ -84,7 +84,7 @@ describe OpenProject::TextFormatting,
       let(:raw) do
         <<~RAW
           <table>
-            <thead>
+            <thead class="op-uc-table--head">
               <tr>
                 <th>header</th>
                 <th>header</th>
@@ -112,7 +112,7 @@ describe OpenProject::TextFormatting,
         <<~EXPECTED
           <figure class="op-uc-figure">
             <table class="op-uc-table op-uc-figure--content">
-              <thead>
+              <thead class="op-uc-table--head">
                 <tr class="op-uc-table--row">
                   <th class="op-uc-table--cell op-uc-table--cell_head">header</th>
                   <th class="op-uc-table--cell op-uc-table--cell_head">header</th>

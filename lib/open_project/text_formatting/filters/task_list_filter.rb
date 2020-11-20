@@ -27,40 +27,23 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'task_list/filter'
 
-module OpenProject::TextFormatting::Formats::Markdown
-  class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-    def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
-
-      output.html_safe
-    end
-
-    def to_document(text)
-      pipeline.to_document text, context
-    end
-
-    def filters
-      [
-        :markdown,
-        :sanitization,
-        :task_list,
-        :table_of_contents,
-        :macro,
-        :pattern_matcher,
-        :syntax_highlight,
-        :attachment,
-        :relative_link,
-        :figure_wrapped,
-        :bem_css,
-        :autolink
-      ]
-    end
-
-    def self.format
-      :markdown
+module OpenProject::TextFormatting
+  module Filters
+    # Overwriting the gem class to roll with our own classes
+    class TaskListFilter < ::TaskList::Filter
+      # Copied and adapted from parent class
+      #
+      # Renders the item checkbox in a span including the item state.
+      #
+      # Returns an HTML-safe String.
+      def render_item_checkbox(item)
+        %(<input type="checkbox"
+        class="task-list-item-checkbox op-uc-list--task-checkbox"
+        #{'checked="checked"' if item.complete?}
+        disabled="disabled"
+      />)
+      end
     end
   end
 end

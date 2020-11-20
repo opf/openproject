@@ -47,9 +47,10 @@ module OpenProject::TextFormatting
         ol: 'op-uc-list',
         a: 'op-uc-link',
         figure: 'op-uc-figure',
-        table: 'op-uc-table op-uc-figure--content',
         img: 'op-uc-image op-uc-figure--content',
         figcaption: 'op-uc-figure--description',
+        table: 'op-uc-table op-uc-figure--content',
+        thead: 'op-uc-table--head',
         tr: 'op-uc-table--row',
         td: 'op-uc-table--cell',
         th: 'op-uc-table--cell op-uc-table--cell_head'

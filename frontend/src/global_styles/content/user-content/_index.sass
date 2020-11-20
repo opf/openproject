@@ -1,14 +1,16 @@
+@import 'mixins'
 @import 'typography'
 @import 'figure'
+@import 'image'
 @import 'table'
 @import 'list'
 @import 'toc'
 
 .op-uc-container
-  display: flex;
-  flex-direction: column;
+  display: block
+  overflow: hidden
   font-size: var(--wiki-default-font-size)
+  // TODO: This becomes obsolete once border-box is the default
+  box-sizing: border-box
 
-  > *:first-child,
-  > * + *
-    margin-top: 32px;
+  @include user-content-children
