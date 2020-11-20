@@ -60,6 +60,7 @@ describe 'Wysiwyg work package user mentions',
   end
 
   it 'can autocomplete users and groups' do
+    # Mentioning a user works
     comment_field.activate!
 
     comment_field.clear with_backspace: true
@@ -68,13 +69,17 @@ describe 'Wysiwyg work package user mentions',
     expect(page).to have_selector('.mention-list-item', text: group.name)
 
     page.find('.mention-list-item', text: user2.name).click
-    sleep 2
+
+    expect(page)
+      .to have_selector('a.mention', text: '@Foo Bar')
 
     retry_block do
       comment_field.submit_by_click if comment_field.active?
-      page.find('a.user-mention', text: 'Foo Bar')
+      expect(page)
+        .to have_selector('a.user-mention', text: 'Foo Bar')
     end
 
+    # Mentioning a group works
     comment_field.activate!
     comment_field.clear with_backspace: true
     comment_field.input_element.send_keys(" @Foo")
@@ -82,11 +87,25 @@ describe 'Wysiwyg work package user mentions',
     expect(page).to have_selector('.mention-list-item', text: group.name)
 
     page.find('.mention-list-item', text: group.name).click
-    sleep 2
+
+    expect(page)
+      .to have_selector('a.mention', text: '@Foogroup')
 
     retry_block do
       comment_field.submit_by_click if comment_field.active?
-      page.find('span.user-mention', text: 'Foogroup')
+      expect(page)
+        .to have_selector('span.user-mention', text: 'Foogroup')
     end
+
+    # The mention is still displayed as such when reentering the comment field
+    find('#activity-1')
+      .hover
+
+    within('#activity-1') do
+      click_link("Edit this comment")
+    end
+
+    expect(page)
+      .to have_selector('a.mention', text: '@Foo Bar')
   end
 end
