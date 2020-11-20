@@ -176,7 +176,7 @@ describe OpenProject::TextFormatting,
                     <td class="op-uc-table--cell">
                       <ul class="task-list op-uc-list">
                         <li class="task-list-item op-uc-list--item">
-                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <input type="checkbox" class="task-list-item-checkbox op-uc-list--item-checkbox" disabled>
                           <code class='op-uc-code'>
                             <span>asdf</span>
                           </code>
@@ -186,7 +186,7 @@ describe OpenProject::TextFormatting,
                     <td class="op-uc-table--cell">
                       <ul class="task-list op-uc-list">
                         <li class="task-list-item op-uc-list--item">
-                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <input type="checkbox" class="task-list-item-checkbox op-uc-list--item-checkbox" disabled>
                           <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
                             <span>asdfasd</span>
                             <span> asdf</span>
@@ -197,7 +197,7 @@ describe OpenProject::TextFormatting,
                     <td class="op-uc-table--cell">
                       <ul class="task-list op-uc-list">
                         <li class="task-list-item op-uc-list--item">
-                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <input type="checkbox" class="task-list-item-checkbox op-uc-list--item-checkbox" disabled>
                           <span>asdfasdf</span>
                         </li>
                       </ul>
@@ -207,14 +207,14 @@ describe OpenProject::TextFormatting,
                     <td class="op-uc-table--cell">
                       <ul class="task-list op-uc-list">
                         <li class="task-list-item op-uc-list--item">
-                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <input type="checkbox" class="task-list-item-checkbox op-uc-list--item-checkbox" disabled>
                         </li>
                       </ul>
                     </td>
                     <td class="op-uc-table--cell">
                       <ul class="task-list op-uc-list">
                         <li class="task-list-item op-uc-list--item">
-                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <input type="checkbox" class="task-list-item-checkbox op-uc-list--item-checkbox" disabled>
                           <strong></strong>
                           <span><strong>asdf</strong></span>
                         </li>
@@ -223,7 +223,7 @@ describe OpenProject::TextFormatting,
                     <td class="op-uc-table--cell">
                       <ul class="task-list op-uc-list">
                         <li class="task-list-item op-uc-list--item">
-                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <input type="checkbox" class="task-list-item-checkbox op-uc-list--item-checkbox" disabled>
                         </li>
                       </ul>
                     </td>
@@ -281,7 +281,7 @@ describe OpenProject::TextFormatting,
                     <td class="op-uc-table--cell">
                       <ul class="task-list op-uc-list">
                         <li class="task-list-item op-uc-list--item">
-                          <input type="checkbox" class="task-list-item-checkbox" disabled>
+                          <input type="checkbox" class="task-list-item-checkbox op-uc-list--item-checkbox" disabled>
                           <span>asdfasdfasdf </span>
                           <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
                             <span>foobar</span>
