@@ -10,7 +10,9 @@
   font-weight: bold
   border-bottom: 0
   margin: 0
-  padding-bottom: 0.1em
+  page-break-before: auto
+  page-break-after: avoid
+  page-break-inside: avoid
 
 .op-uc-h1
   font-size: 2.75em
@@ -27,6 +29,7 @@
   margin: 0
   line-height: 1.6em
   color: inherit
+  page-break-inside: avoid
 
 .op-uc-blockquote
   display: block
@@ -39,5 +42,6 @@
   @include user-content-children
 
 .op-uc-code-block
+  page-break-inside: avoid
 
 .op-uc-code

@@ -1,4 +1,6 @@
 .op-uc-table
+  page-break-inside: avoid
+
   &--row
     &:hover
       background: rgba(26, 103, 163, 0.05)
@@ -11,6 +13,7 @@
     padding: 12px
 
     &_head
+      z-index: 1
       background: rgb(242, 242, 242)
       background-clip: padding-box
       position: sticky
