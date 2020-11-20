@@ -1,4 +1,19 @@
 .op-uc-table
   &--row
-  &--cell
+    &:hover
+      background: rgba(26, 103, 163, 0.05)
 
+    &:not(:last-child)
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+
+  &--cell
+    text-align: left
+    padding: 12px
+
+    &_head
+      background: rgb(242, 242, 242)
+      background-clip: padding-box
+      position: sticky
+      top: 0
+      left: 0
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1)
