@@ -6,8 +6,6 @@
   float: none !important
   align-self: stretch
   max-width: 100%
-  max-height: 70vh
-  overflow: auto
 
   @media print
     display: block
@@ -22,10 +20,18 @@
     align-self: center
 
   &--content
-    width: 100%
+    flex-basis: 70vh
+    flex-grow: 0
+    flex-shrink: 1
+    overflow: auto
   &--description
+    flex-basis: auto
+    flex-grow: 1
+    flex-shrink: 0
+    padding: 12px
     width: 100%
-
+    text-align: center
+    background-color: rgb(242, 242, 242)
 
   &.table
     display: flex !important
