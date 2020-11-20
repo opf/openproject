@@ -57,42 +57,8 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     )
   end
 
-  describe 'image links' do
-    context 'with only path' do
-      it 'does not replace all relative hrefs and images' do
-        assert_html_output(
-          {
-            'An inline image ![](/attachments/123/foobar.png)' =>
-              %(An inline image <img src="/attachments/123/foobar.png" alt="" />)
-          },
-          only_path: true
-        )
-      end
-    end
-
-    context 'with relative URLs (only_path is false)', with_settings: { host_name: "openproject.org" } do
-      it 'replaces all relative hrefs and images' do
-        assert_html_output(
-          {
-            'An inline image ![](/attachments/123/foobar.png)' =>
-              %(An inline image <img src="http://openproject.org/attachments/123/foobar.png" alt="" />)
-          },
-          only_path: false
-        )
-      end
-    end
-  end
-
   it 'should not mangle brackets' do
     expect(to_html('[msg1][msg2]')).to eq '<p class="op-uc-p">[msg1][msg2]</p>'
-  end
-
-  it 'should textile should escape image urls' do
-    # this is onclick="alert('XSS');" in encoded form
-    raw = '![](/images/comment.png"onclick=&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x27;&#x58;&#x53;&#x53;&#x27;&#x29;;&#x22;)'
-    expected = %[<p class="op-uc-p"><imgsrc="/images/comment.png%22onclick=alert('XSS');%22" alt=""></p>]
-
-    expect(expected.gsub(%r{\s+}, '')).to eq(to_html(raw).gsub(%r{\s+}, ''))
   end
 
   private

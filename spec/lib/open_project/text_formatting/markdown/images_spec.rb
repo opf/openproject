@@ -210,6 +210,26 @@ describe OpenProject::TextFormatting,
         end
       end
     end
+
+    context 'escaping of malicious image urls' do
+      it_behaves_like 'format_text produces' do
+        let(:raw) do
+          <<~RAW
+            ![](/images/comment.png"onclick=&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x27;&#x58;&#x53;&#x53;&#x27;&#x29;;&#x22;)
+          RAW
+        end
+
+        let(:expected) do
+          <<~EXPECTED
+            <p class="op-uc-p">
+              <figure class="op-uc-figure">
+                <img class="op-uc-image op-uc-figure--content" src="/images/comment.png%22onclick=alert('XSS');%22" alt="">
+              </figure>
+            </p>
+          EXPECTED
+        end
+      end
+    end
   end
 
   context 'via html tags' do
