@@ -121,16 +121,12 @@ module OpenProject::TextFormatting
           if headings.empty?
             I18n.t(:label_wiki_toc_empty)
           else
-            heading.html_safe + content_tag(:ul, render_nested(nil), class: 'op-uc-toc--list')
+            content_tag(:ul, render_nested(nil), class: 'op-uc-toc--list')
           end
         end
 
       rescue StandardError => e
         Rails.logger.error { "Failed to render table of contents: #{e} #{e.message}" }
-      end
-
-      def heading
-        "<h1 class=\"op-uc-toc--title\">#{I18n.t(:label_table_of_contents)}</h1>"
       end
     end
   end

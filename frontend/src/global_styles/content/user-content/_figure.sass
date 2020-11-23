@@ -3,9 +3,13 @@
   display: flex
   flex-direction: column
   align-items: center
-  float: none !important
   align-self: stretch
+  max-height: 70vh
+  width: 100%
   max-width: 100%
+
+  @at-root .op-uc-container_editing &
+    max-height: unset
 
   @media print
     display: block
@@ -13,16 +17,22 @@
     max-height: unset
 
   &_align-end
-    align-self: flex-end
+    float: right
+    width: auto
   &_align-start
-    align-self: flex-start
+    float: left
+    width: auto
   &_align-center
-    align-self: center
+    clear: both;
+    width: auto
+    margin-left: auto
+    margin-right: auto
 
   &--content
-    flex-basis: 70vh
+    flex-basis: auto
     flex-grow: 0
     flex-shrink: 1
+    width: auto;
     overflow: auto
   &--description
     flex-basis: auto
