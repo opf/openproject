@@ -14,6 +14,9 @@
   page-break-after: avoid
   page-break-inside: avoid
 
+  &:hover .op-uc-link_permalink
+    display: inline-flex
+
 .op-uc-h1
   font-size: 2.75em
 .op-uc-h2
@@ -50,3 +53,26 @@
   border: 1px solid #dadada
 
 .op-uc-code
+
+.op-uc-link
+  color: var(--content-link-color)
+  font-size: 1em
+
+  &:hover
+    color: var(--content-link-hover-active-color)
+
+  &_permalink
+    display: none
+    height: 1em
+    text-decoration: none
+    vertical-align: middle
+    padding-right: 2px
+    color: #ccc
+    align-items: center
+
+    &::before
+      font-size: 1rem
+
+    &:hover
+      color: #aaa
+      text-decoration: none
