@@ -39,6 +39,12 @@ module Pages
       @budget_id = budget_id
     end
 
+    def click_copy
+      within '.toolbar-items' do
+        click_link 'Copy'
+      end
+    end
+
     def path
       "/budgets/#{budget_id}"
     end

@@ -63,23 +63,37 @@ class Budget < ApplicationRecord
     Budget.replace_author_with_deleted_user user
   end
 
-  def self.visible(user)
-    includes(:project)
-      .references(:projects)
-      .merge(Project.allowed_to(user, :view_budgets))
+  class << self
+    def visible(user)
+      includes(:project)
+        .references(:projects)
+        .merge(Project.allowed_to(user, :view_budgets))
+    end
+
+    # TODO: Extract into copy service
+    def new_copy(source)
+      copy = new(source.attributes.slice('project_id', 'subject', 'description', 'fixed_date').merge('author' => User.current))
+
+      source.labor_budget_items.each do |bi|
+        copy.labor_budget_items.build(bi.attributes.slice('hours', 'user_id', 'comments', 'amount').merge('budget' => copy))
+      end
+      source.material_budget_items.each do |bi|
+        copy.material_budget_items.build(bi.attributes.slice('units', 'cost_type_id', 'comments', 'amount').merge('budget' => copy))
+      end
+
+      copy
+    end
+
+    def replace_author_with_deleted_user(user)
+      substitute = DeletedUser.first
+
+      where(author_id: user.id).update_all(author_id: substitute.id)
+    end
   end
 
   def initialize(attributes = nil)
     super
     self.author = User.current if new_record?
-  end
-
-  def copy_from(arg)
-    budget = (arg.is_a?(Budget) ? arg : self.class.find(arg))
-    self.attributes = budget.attributes.dup
-    self.id = nil if self.id == budget.id
-    self.labor_budget_items = budget_items_copy_for(budget.labor_budget_items, self)
-    self.material_budget_items = budget_items_copy_for(budget.material_budget_items,self)
   end
 
   def budget
@@ -103,12 +117,6 @@ class Budget < ApplicationRecord
 
   def css_classes
     'budget'
-  end
-
-  def self.replace_author_with_deleted_user(user)
-    substitute = DeletedUser.first
-
-    where(author_id: user.id).update_all(author_id: substitute.id)
   end
 
   def to_s
@@ -246,14 +254,5 @@ class Budget < ApplicationRecord
   def valid_material_budget_attributes?(attributes)
     attributes &&
       attributes[:units].to_f.positive?
-  end
-
-  def budget_items_copy_for(budget_items, budget)
-    budget_items.map do |bi|
-      bi.dup do |i|
-        i.budget = budget
-        i.budget_id = budget.id
-      end
-    end
   end
 end
