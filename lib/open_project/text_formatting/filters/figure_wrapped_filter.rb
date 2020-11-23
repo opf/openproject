@@ -36,10 +36,56 @@ module OpenProject::TextFormatting
 
       def call
         doc.search('table', 'img').each do |element|
-          element.wrap('<figure>') unless element.parent&.name == 'figure'
+          case element.name
+          when 'img'
+            wrap_img(element)
+          when 'table'
+            wrap_table(element)
+          else
+            # nothing
+          end
         end
 
         doc
+      end
+
+      private
+
+      # Wrap img elements like this
+      # <figure>
+      #   <img></table>
+      # <figure>
+
+      # The figure and img element later on get css classes applied to them so it does
+      # not have to happen here.
+      def wrap_img(element)
+        wrap_in_figure(element)
+      end
+
+      # Wrap table elements like this
+      # <figure>
+      #   <div class="op-uc-figure--content">
+      #     <table></table>
+      #   </div>
+      # <figure>
+      #
+      # The figure and table element later on get css classes applied to them so it does
+      # not have to happen here.
+      def wrap_table(element)
+        wrap_in_div(element)
+        wrap_in_figure(element.parent)
+      end
+
+      def wrap_in_figure(element)
+        element.wrap('<figure>') unless element.parent&.name == 'figure'
+      end
+
+      def wrap_in_div(element)
+        element.wrap('<div>') unless element.parent&.name == 'div'
+
+        div = element.parent
+
+        div['class'] = 'op-uc-figure--content'
       end
     end
   end
