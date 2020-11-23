@@ -42,7 +42,7 @@ bundle install
 
 You may have a look at some existing OpenProject plugins to get inspiration. It is possible to add new routes, views, models, … and/or overwrite existing ones.
 
-Feel free to ask for help in our [Development Forum](https://community.openproject.org/projects/openproject/boards/7).
+Feel free to ask for help in our [Development Forum](https://community.openproject.com/projects/openproject/forums/7).
 
 ## Steps to release a plugin
 
@@ -62,7 +62,7 @@ A code review should check the whole code and remove glitches like:
  Usually, this should be GPLv3 and we are the copyright owner. However, some plugins might have additional authors or might originate from code with a different license. These issues have to be resolved first. Also check the years in the copyright. If you need to find all contributors of a repository including their contribution period use the following rake task:
  ```bash
 rake copyright:authors:show['../Path/to/repository/']
-```
+ ```
 
 2. Add a copyright notice to all the source files
 
@@ -126,9 +126,9 @@ It is probably best to use READMEs of already released plugins as a template.
 
 1. Make the github repository public.
 2. Make the plugin project public.
-  Do a little cleanup work first by removing modules not needed. Currently,
-  Activity, Issue Tracking, Time Tracking, Forums, and Backlogs are default.
-  Also, the My Project Page should only show Project Description and Tickets blocks.
+    Do a little cleanup work first by removing modules not needed. Currently,
+    Activity, Issue Tracking, Time Tracking, Forums, and Backlogs are default.
+    Also, the My Project Page should only show Project Description and Tickets blocks.
 3. Create a news article about the newly released plugin and its features.
 4. Twitter with a link to the news article.
 5. If the plugin is referenced in our feature tour, add a download link to the plugin in the feature tour

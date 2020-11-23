@@ -76,7 +76,9 @@ The results will be displayed accordingly in the work package list.
 By default, the work package list will be sorted by work package ID. 
 
 <div class="glossary">
-The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference to one specific work package in OpenProject. </div>
+The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference a specific work package in OpenProject. 
+</div>
+
 
 To sort the work package list view, open the [work package table configuration](#work-package-table-configuration) and select the tab **Sort by**. You can sort by up to three attributes, either ascending or descending.
 
@@ -87,7 +89,9 @@ Clicking the blue **Apply** button will save your changes and display the result
 ![sort-work-packages](sort-work-packages.png)
 
 <div class="alert alert-info" role="alert">
-**Note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. </div>
+**Note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
+</div>
+
 
 Therefore, the results may differ if you sort in a flat list or in a hierarchy mode.
 
