@@ -38,7 +38,8 @@ module OpenProject::TextFormatting
 
       def call
         doc.search('mention').each do |mention|
-          mention.replace mention_anchor(mention)
+          anchor = mention_anchor(mention)
+          mention.replace(anchor) if anchor
         end
 
         doc
@@ -47,12 +48,17 @@ module OpenProject::TextFormatting
       private
 
       def mention_anchor(mention)
-        principal = principal_from_mention(mention)
+        mention_instance = class_from_mention(mention)
 
-        if principal.is_a?(Group)
-          group_mention(principal)
+        case mention_instance
+        when Group
+          group_mention(mention_instance)
+        when User
+          user_mention(mention_instance)
+        when WorkPackage
+          work_package_mention(mention_instance)
         else
-          user_mention(principal)
+          mention_instance
         end
       end
 
@@ -69,21 +75,37 @@ module OpenProject::TextFormatting
                     class: 'user-mention'
       end
 
-      def principal_from_mention(mention)
-        principal_class = case mention.attributes['data-type'].value
-                          when 'user'
-                            User
-                          when 'group'
-                            Group
-                          else
-                            raise ArgumentError
-                          end
+      def work_package_mention(work_package)
+        link_to("##{work_package.id}",
+                work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
+                class: 'issue work_package preview-trigger')
+      end
 
-        principal_class.find_by(id: mention.attributes['data-id'].value) || mention.text
+      def class_from_mention(mention)
+        mention_class = case mention.attributes['data-type'].value
+                        when 'user'
+                          User
+                        when 'group'
+                          Group
+                        when 'work_package'
+                          WorkPackage
+                        else
+                          raise ArgumentError
+                        end
+
+        mention_class.find_by(id: mention_id(mention)) || mention.text
       end
 
       # For link_to
       def controller; end
+
+      def mention_id(mention)
+        attribute_value = mention.attributes['data-id']&.value
+
+        id_match = attribute_value&.match(/\d+/)
+
+        id_match ? id_match[0] : nil
+      end
     end
   end
 end
