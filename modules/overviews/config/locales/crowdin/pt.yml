@@ -1,3 +1,4 @@
 pt:
   overviews:
     label: 'Visão geral'
+  permission_manage_overview: 'Manage overview page'
