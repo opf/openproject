@@ -47,21 +47,12 @@ describe OpenProject::TextFormatting,
                         member_in_project: project,
                         member_through_role: role
     end
-    shared_let(:issue) do
-      FactoryBot.create :work_package,
-                        project: project,
-                        author: project_member,
-                        type: project.types.first
-    end
-
-    shared_let(:non_member) do
-      FactoryBot.create(:non_member)
-    end
 
     before do
-      @project = project
-      allow(User).to receive(:current).and_return(project_member)
+      login_as(project_member)
     end
+
+    let(:options) { { project: project } }
 
     context 'User links' do
       let(:role) do
@@ -76,32 +67,124 @@ describe OpenProject::TextFormatting,
                           member_through_role: role
       end
 
+      context 'User link via mention' do
+        context 'existing user' do
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                <mention class="mention"
+                         data-id="#{linked_project_member.id}"
+                         data-type="user"
+                         data-text="@#{linked_project_member.name}">
+                   @#{linked_project_member.name}
+                </mention>
+              RAW
+            end
+
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  #{link_to(linked_project_member.name,
+                            { controller: :users, action: :show, id: linked_project_member.id },
+                            title: "User #{linked_project_member.name}",
+                            class: 'user-mention op-uc-link')}
+                </p>
+              EXPECTED
+            end
+          end
+        end
+
+        context 'inexistent user' do
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                <mention class="mention"
+                         data-id="#{linked_project_member.id + 5}"
+                         data-type="user"
+                         data-text="@Some non existing user">
+                   @Some none existing user
+                </mention>
+              RAW
+            end
+
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  @Some none existing user
+                </p>
+              EXPECTED
+            end
+          end
+        end
+      end
+
       context 'User link via ID' do
         context 'when linked user visible for reader' do
-          subject { format_text("user##{linked_project_member.id}") }
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                user##{linked_project_member.id}
+              RAW
+            end
 
-          it {
-            is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention op-uc-link')}</p>")
-          }
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  #{link_to(linked_project_member.name,
+                            { controller: :users, action: :show, id: linked_project_member.id },
+                            title: "User #{linked_project_member.name}",
+                            class: 'user-mention op-uc-link')}
+                </p>
+              EXPECTED
+            end
+          end
         end
 
         context 'when linked user not visible for reader' do
           let(:role) { FactoryBot.create(:non_member) }
 
-          subject { format_text("user##{linked_project_member.id}") }
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                user##{linked_project_member.id}
+              RAW
+            end
 
-          it {
-            is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention op-uc-link')}</p>")
-          }
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  #{link_to(linked_project_member.name,
+                            { controller: :users, action: :show, id: linked_project_member.id },
+                            title: "User #{linked_project_member.name}",
+                            class: 'user-mention op-uc-link')}
+                </p>
+              EXPECTED
+            end
+          end
         end
       end
 
       context 'User link via login name' do
         context 'when linked user visible for reader' do
           context 'with a common login name' do
-            subject { format_text("user:\"#{linked_project_member.login}\"") }
+            it_behaves_like 'format_text produces' do
+              let(:raw) do
+                <<~RAW
+                  user:"#{linked_project_member.login}"
+                RAW
+              end
 
-            it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention op-uc-link')}</p>") }
+              let(:expected) do
+                <<~EXPECTED
+                  <p class="op-uc-p">
+                    #{link_to(linked_project_member.name,
+                              { controller: :users, action: :show, id: linked_project_member.id },
+                              title: "User #{linked_project_member.name}",
+                              class: 'user-mention op-uc-link')}
+                  </p>
+                EXPECTED
+              end
+            end
           end
 
           context "with an email address as login name" do
@@ -111,20 +194,49 @@ describe OpenProject::TextFormatting,
                                 member_through_role: role,
                                 login: "foo@bar.com"
             end
-            subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-            it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention op-uc-link')}</p>") }
+            it_behaves_like 'format_text produces' do
+              let(:raw) do
+                <<~RAW
+                  user:"#{linked_project_member.login}"
+                RAW
+              end
+
+              let(:expected) do
+                <<~EXPECTED
+                  <p class="op-uc-p">
+                    #{link_to(linked_project_member.name,
+                              { controller: :users, action: :show, id: linked_project_member.id },
+                              title: "User #{linked_project_member.name}",
+                              class: 'user-mention op-uc-link')}
+                  </p>
+                EXPECTED
+              end
+            end
           end
         end
 
         context 'when linked user not visible for reader' do
           let(:role) { FactoryBot.create(:non_member) }
 
-          subject { format_text("user:\"#{linked_project_member.login}\"") }
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                user:"#{linked_project_member.login}"
+              RAW
+            end
 
-          it {
-            is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention op-uc-link')}</p>")
-          }
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  #{link_to(linked_project_member.name,
+                            { controller: :users, action: :show, id: linked_project_member.id },
+                            title: "User #{linked_project_member.name}",
+                            class: 'user-mention op-uc-link')}
+                </p>
+              EXPECTED
+            end
+          end
         end
       end
 
@@ -224,21 +336,90 @@ describe OpenProject::TextFormatting,
         end
       end
 
-      context 'group exists' do
-        subject { format_text("group##{linked_project_member_group.id}") }
+      context 'via hash syntax' do
+        context 'group exists' do
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                Link to group##{linked_project_member_group.id}
+              RAW
+            end
 
-        it 'produces the expected html' do
-          is_expected.to be_html_eql(
-                           "<p class='op-uc-p'><span class='user-mention' title='Group #{linked_project_member_group.name}'>#{linked_project_member_group.name}</span></p>"
-                         )
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  Link to <span title="Group #{linked_project_member_group.name}" class="user-mention">#{linked_project_member_group.name}</span>
+                </p>
+              EXPECTED
+            end
+          end
+        end
+
+        context 'group does not exist' do
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                Link to group#000000
+              RAW
+            end
+
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  Link to group#000000
+                </p>
+              EXPECTED
+            end
+          end
         end
       end
 
-      context 'group does not exist' do
-        subject { format_text("group#000000") }
+      context 'via mention' do
+        context 'existing group' do
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                <mention class="mention"
+                         data-id="#{linked_project_member_group.id}"
+                         data-type="group"
+                         data-text="@#{linked_project_member_group.name}">@#{linked_project_member_group.name}</mention>
+              RAW
+            end
 
-        it 'leaves the text unchangd' do
-          is_expected.to be_html_eql("<p class='op-uc-p'>group#000000</p>")
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  <span class='user-mention'
+                        title='Group #{linked_project_member_group.name}'>
+                    #{linked_project_member_group.name}
+                  </span>
+                </p>
+              EXPECTED
+            end
+          end
+        end
+
+        context 'inexistent group' do
+          it_behaves_like 'format_text produces' do
+            let(:raw) do
+              <<~RAW
+                <mention class="mention"
+                         data-id="0"
+                         data-type="group"
+                         data-text="@Some none existing group">
+                  @Some none existing group
+                </mention>
+              RAW
+            end
+
+            let(:expected) do
+              <<~EXPECTED
+                <p class="op-uc-p">
+                  @Some none existing group
+                </p>
+              EXPECTED
+            end
+          end
         end
       end
     end

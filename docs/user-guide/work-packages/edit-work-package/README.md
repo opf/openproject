@@ -96,7 +96,7 @@ Tip: **keep the Ctrl. button pressed** in order to select and edit several work 
 
 To open the quick context menu, **press the RIGHT mouse button**.
 
-You have then the possibility to:
+Then you have the possibility to:
 
 * Open details view of all selected work packages.
 * Open the fullscreen view of all selected work packages.
@@ -106,3 +106,10 @@ You have then the possibility to:
 * Bulk delete all selected work packages.
 
 ![bulk edit right mouse click](image-20200331133245192.png)
+
+
+
+At the bottom of the page you can decide whether email updates regarding these changes should be sent or not. It makes sense not to tick the box for large updates to prevent users from getting flooded by emails.
+
+![bulk-edit_email-updates](image-20201119163714831.png)
+

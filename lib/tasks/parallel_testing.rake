@@ -30,6 +30,12 @@
 require 'optparse'
 require 'plugins/load_path_helper'
 
+begin
+  Bundler.gem('parallel_tests')
+rescue Gem::LoadError
+  # In case parallel_tests is not provided, the whole of the parallel task group will not work.
+  return
+end
 
 require 'parallel_tests/tasks'
 # Remove task added by parallel_tests as it conflicts with our own.

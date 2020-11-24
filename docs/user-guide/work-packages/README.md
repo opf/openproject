@@ -15,10 +15,13 @@ keywords: work packages
 
 Work packages have a **type**, an **ID**, a **subject** and may have various additional attributes, such as **status**, **assignee**, **priority**, **due date**.
 
-<div class="glossary">**Work package ID** is defined as a unique integer assigned to a newly created work package. Work package IDs cannot be changed and are numbered across all projects of an OpenProject instance (therefore, the numbering within a project may not be sequential). </div>
+<div class="glossary">**Work package ID** is defined as a unique integer assigned to a newly created work package. Work package IDs cannot be changed and are numbered across all projects of an OpenProject instance (therefore, the numbering within a project may not be sequential). 
+</div>
 
 <div class="glossary">
-**Types** are the different items a work package can represent, such as task, feature, bug, phase, milestone. The work package types can be configured in the system administration. </div>
+**Types** are the different items a work package can represent, such as task, feature, bug, phase, milestone. The work package types can be configured in the system administration. 
+</div>
+
 
 
 

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: LDAP group synchronization
-  priority: 
+  priority:
 description: Synchronize LDAP groups.
 robots: index, follow
 keywords: synchronize ldap groups
@@ -35,7 +35,7 @@ LDAP group synchronization augments the memberships defined by  administrators i
 
 In order to get to the LDAP group sync administration pane, expand the LDAP authentication menu item in your administration.
 
- 
+
 
 ### Define group base and key settings
 
@@ -43,7 +43,7 @@ In order for the LDAP groups plugin to locate your group entries, you first need
 
 ![LDAP group synchronization settings](Bildschirmfoto-2018-02-01-um-16.41.26.png)LDAP group synchronization settings
 
- 
+
 
 ### Create a synchronized group
 
@@ -51,4 +51,11 @@ To create a new synchronized group, use the button on the top right  of the page
 
 The *entry* *identifier* field corresponds to the value of the group key, e.g. **groupA** for our first exemplary group.
 
-Click on *Create* to finish the creation of the synchronized  group. The LDAP memberships of each user will be synchronized hourly  through a cron job on your packaged installation. Changes and output  will be logged to */var/log/openproject/cron-hourly.log*.
+Click on *Create* to finish the creation of the synchronized  group. The LDAP memberships of each user will be synchronized hourly  through a cron job on your packaged installation. Changes and output will be logged to */var/log/openproject/cron-hourly.log*.
+
+If you want to trigger the synchronization *manually* you can do so by running the respective rake task directly.
+In the packaged installation, for instance, this would work like this:
+
+```
+sudo openproject run bundle exec rake ldap_groups:synchronize
+```

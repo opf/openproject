@@ -242,10 +242,15 @@ describe 'Board management spec', type: :feature, js: true do
       # Add item
       board_page.add_card 'List 1', 'Task 1'
 
+      board_page.expect_and_dismiss_notification(message: "Successful creation.")
+
       # Move item to Second list
       board_page.move_card(0, from: 'List 1', to: 'List 2')
       board_page.expect_card('List 1', 'Task 1', present: false)
       board_page.expect_card('List 2', 'Task 1', present: true)
+
+      # There is no frontend visible semaphore to check for the change being saved
+      sleep(0.1)
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries

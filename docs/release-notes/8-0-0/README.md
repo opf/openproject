@@ -155,7 +155,3 @@ perform the upgrade.
 
 [Please visit our upgrade guides for more
 information](https://www.openproject.org/operations/upgrading/).
-
- 
-
-</div>
