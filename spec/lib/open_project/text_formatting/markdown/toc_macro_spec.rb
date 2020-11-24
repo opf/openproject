@@ -68,7 +68,6 @@ describe OpenProject::TextFormatting,
       <<~EXPECTED
         <p class="op-uc-p">
           <nav class="op-uc-toc">
-            <h1 class="op-uc-toc--title">Table of contents</h1>
             <ul class="op-uc-toc--list">
               <li class="op-uc-toc--list-item">
                 <a class="op-uc-link" href="#the-first-h1-heading">The first h1 heading</a>

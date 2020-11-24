@@ -62,9 +62,9 @@ To add a filter criteria, click the **+ Add filter:** button in the grey filter 
 ![add-filter](add-filter.png)
 
 You can add as many filter criteria as needed. 
-Also, you can filter by [custom fields](../../../system-admin-guide/) if you set this in the custom field configuration.
+Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
 
-If you want to search by subject of a work package, type in the **Filter by text** the expression you want to filter for.
+If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
 
 The results will be displayed accordingly in the work package list.
 
@@ -76,23 +76,22 @@ The results will be displayed accordingly in the work package list.
 By default, the work package list will be sorted by work package ID. 
 
 <div class="glossary">
-The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference to one specific work package in OpenProject.
-
+The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference a specific work package in OpenProject. 
 </div>
+
 
 To sort the work package list view, open the [work package table configuration](#work-package-table-configuration) and select the tab **Sort by**. You can sort by up to three attributes, either ascending or descending.
 
 ![1566396586476](1566396586476.png)
 
-Click the blue **Apply** button will save your changes and display the results accordingly in the list view.
+Clicking the blue **Apply** button will save your changes and display the results accordingly in the list view.
 
 ![sort-work-packages](sort-work-packages.png)
 
 <div class="alert alert-info" role="alert">
-
-**Note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
-
+**Note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
 </div>
+
 
 Therefore, the results may differ if you sort in a flat list or in a hierarchy mode.
 
@@ -106,7 +105,8 @@ You can sort the work package list manually, using the icon with the 6 dots on t
 
 Moving a work package will change its attributes, depending on the kind of list displayed, e.g. hierarchy changes or priority.
 
-To keep the sorting it is necessary to [save the work package view](#save-work-package-views). Please note: This has no effect on the "All open" view; you have to save your sorting with another name.
+To keep the sorting it is necessary to [save the work package view](#save-work-package-views). 
+Please note: This has no effect on the "All open" view; you have to save your sorting with another name.
 
 
 ## How to switch from flat list to hierarchy mode?
@@ -133,18 +133,16 @@ The following attributes can be highlighted in the list:
 * Status
 * Finish date
 
-Either ![attribute-highlighting](attribute-highlighting.png)
+![attribute-highlighting](attribute-highlighting.png)
 
-Furthermore, you can highlight the entire row by an attribute.
-
-The following attributes can be highlighted as a complete row:
+Furthermore, you can highlight the entire row by an attribute. The following attributes can be highlighted as a complete row:
 
 * Priority
 * Status
 
 ![highlight-priority](1566399038768.png)
 
-You can configure the colors for attribute highlighting in the [system administration](../../../system-admin-guide/#status-colors).
+You can configure the colors for attribute highlighting in the system administration. Find out how to set it [here](../../../system-admin-guide/enumerations/#edit-or-remove-enumeration-value) for the color of the priority and [here](../../../system-admin-guide/manage-work-packages/work-package-status/#edit-re-order-or-remove-a-work-package-status) for the color of the status.
 
 ## Save work package views
 

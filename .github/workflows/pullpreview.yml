@@ -28,7 +28,7 @@ jobs:
         cp ./docker/prod/Dockerfile ./Dockerfile
     - uses: pullpreview/action@v4
       with:
-        admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde
+        admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,b12f
         always_on: dev
         compose_files: docker-compose.pullpreview.yml
         instance_type: medium_2_0

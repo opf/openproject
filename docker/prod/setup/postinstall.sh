@@ -14,7 +14,7 @@ display_error() {
 echo " ---> POSTINSTALL"
 
 # Add MySQL-to-Postgres migration script to path (used in entrypoint.sh)
-cp ./docker/mysql-to-postgres/bin/migrate-mysql-to-postgres /usr/local/bin/
+cp ./docker/prod/mysql-to-postgres/bin/migrate-mysql-to-postgres /usr/local/bin/
 
 # Ensure we can write in /tmp/op_uploaded_files (cf. #29112)
 mkdir -p /tmp/op_uploaded_files/ && chown -R $APP_USER:$APP_USER /tmp/op_uploaded_files/
@@ -27,7 +27,6 @@ if test -f ./docker/prod/setup/postinstall-$PLATFORM.sh ; then
 fi
 
 echo " ---> Precompiling assets. This will take a while..."
-./docker/prod/setup/postinstall-common.sh > /tmp/dockerize.log || display_error
+./docker/prod/setup/postinstall-common.sh
 
-rm -f /tmp/dockerize.log
 echo "      OK."

@@ -32,7 +32,7 @@ en:
         projects:
           demo-construction-project:
             project-overview:
-              row_count: 5
+              row_count: 6
               column_count: 2
               widgets:
                 - identifier: 'custom_text'
@@ -106,7 +106,7 @@ en:
                     queryId: '##query.id:"Milestones"'
           demo-planning-constructing-project:
             project-overview:
-              row_count: 5
+              row_count: 6
               column_count: 2
               widgets:
                 - identifier: 'custom_text'
@@ -176,7 +176,7 @@ en:
                     queryId: '##query.id:"Milestones"'
           demo-bim-project:
             project-overview:
-              row_count: 5
+              row_count: 6
               column_count: 2
               widgets:
                 - identifier: 'custom_text'
@@ -249,7 +249,7 @@ en:
                     queryId: '##query.id:"Milestones"'
           demo-bcf-management-project:
             project-overview:
-              row_count: 4
+              row_count: 5
               column_count: 2
               widgets:
                 - identifier: 'custom_text'

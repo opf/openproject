@@ -1,3 +1,4 @@
 de:
   overviews:
     label: 'Übersicht'
+  permission_manage_overview: 'Manage overview page'

@@ -47,7 +47,7 @@ import {StateService, TransitionService} from "@uirouter/core";
 import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
-import {debounceTime, filter, map} from "rxjs/operators";
+import {debounceTime, filter, map, retry} from "rxjs/operators";
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {ChangeItem} from "core-app/modules/fields/changeset/changeset";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
@@ -224,8 +224,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.loadActionAttribute(query);
         this.cdRef.detectChanges();
       });
-
-    this.updateQuery();
   }
 
   ngOnDestroy() {
@@ -393,7 +391,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     let observable = this
       .apiv3Service
       .queries
-      .find(this.columnsQueryProps, this.queryId);
+      .find(this.columnsQueryProps, this.queryId)
+      .pipe(
+        retry(3)
+      );
 
     // Spread arguments on pipe does not work:
     // https://github.com/ReactiveX/rxjs/issues/3989

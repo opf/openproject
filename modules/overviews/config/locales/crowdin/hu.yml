@@ -1,3 +1,4 @@
 hu:
   overviews:
     label: 'Áttekintés'
+  permission_manage_overview: 'Manage overview page'
