@@ -586,6 +586,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.1104)
     mimemagic (0.3.5)
+    mini_magick (4.11.0)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minisyntax (0.2.5)
@@ -992,6 +993,7 @@ DEPENDENCIES
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.11.0)
   meta-tags (~> 2.13.0)
+  mini_magick (~> 4.11.0)
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.16.0)
