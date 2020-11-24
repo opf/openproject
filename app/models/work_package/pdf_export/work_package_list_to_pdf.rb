@@ -28,6 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'mini_magick'
+
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PDFExport::Common
   include WorkPackage::PDFExport::Attachments

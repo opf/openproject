@@ -18,7 +18,8 @@ apt-get install -y \
 	tesseract-ocr \
 	catdoc \
 	postgresql-9.6 \
-	postgresql-client-9.6
+	postgresql-client-9.6 \
+	imagemagick
 
 rm -rf "$PGDATA_LEGACY"
 

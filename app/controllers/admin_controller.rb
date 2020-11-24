@@ -26,6 +26,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'open3'
 
 class AdminController < ApplicationController
   layout 'admin'
@@ -84,6 +85,7 @@ class AdminController < ApplicationController
     @checklist += file_storage_checks
     @checklist += plaintext_extraction_checks
     @checklist += admin_information_hook_checks
+    @checklist += image_conversion_checks
 
     @storage_information = OpenProject::Storage.mount_information
   end
@@ -116,6 +118,14 @@ class AdminController < ApplicationController
     else
       []
     end
+  end
+
+  def image_conversion_checks
+    [[:'image_conversion.imagemagick', image_conversion_libs_available?]]
+  end
+
+  def image_conversion_libs_available?
+    Open3.capture2e('convert', '-version').first.include?('ImageMagick')
   end
 
   def file_storage_checks
