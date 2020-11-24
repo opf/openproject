@@ -1,6 +1,7 @@
 @import 'mixins'
 @import 'typography'
 @import 'figure'
+@import 'placeholder'
 @import 'image'
 @import 'table'
 @import 'list'
@@ -10,7 +11,13 @@
   display: block
   overflow: hidden
   font-size: var(--wiki-default-font-size)
+  z-index: 0;
+  padding-bottom: 1rem;
   // TODO: This becomes obsolete once border-box is the default
   box-sizing: border-box
 
   @include user-content-children
+
+  &_no-permalinks *:hover .op-uc-link_permalink
+    display: none
+

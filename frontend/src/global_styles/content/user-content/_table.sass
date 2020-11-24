@@ -1,5 +1,6 @@
 .op-uc-table
   page-break-inside: avoid
+  width: 100%
 
   &--row
     &:hover
@@ -8,15 +9,22 @@
     &:not(:last-child)
       border-bottom: 1px solid rgba(0, 0, 0, 0.1)
 
+  thead 
+    z-index: 1
+    position: sticky
+    top: 0
+    left: 0
+
   &--cell
     text-align: left
-    padding: 12px
+    padding: 0.75rem
+
+    @media print
+      word-break: break-all
+
+    @include user-content-children
 
     &_head
-      z-index: 1
       background: rgb(242, 242, 242)
       background-clip: padding-box
-      position: sticky
-      top: 0
-      left: 0
       border-bottom: 1px solid rgba(0, 0, 0, 0.1)

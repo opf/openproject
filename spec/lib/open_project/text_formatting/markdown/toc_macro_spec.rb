@@ -100,35 +100,35 @@ describe OpenProject::TextFormatting,
           </nav>
         </p>
         <h1 class="op-uc-h1" id="the-first-h1-heading">
-          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-first-h1-heading" aria-hidden="true">
+          <a class="op-uc-link_permalink icon-paragraph op-uc-link" href="#the-first-h1-heading" aria-hidden="true">
           </a>
           The first h1 heading
         </h1>
         <p class="op-uc-p">Some text after the first h1 heading</p>
         <h2 class="op-uc-h2" id="the-first-h2-heading">
-          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-first-h2-heading" aria-hidden="true">
+          <a class="op-uc-link_permalink icon-paragraph op-uc-link" href="#the-first-h2-heading" aria-hidden="true">
           </a>
           The first h2 heading
         </h2>
         <p class="op-uc-p">Some text after the first h2 heading</p>
         <h3 class="op-uc-h3" id="the-first-h3-heading">
-          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-first-h3-heading" aria-hidden="true">
+          <a class="op-uc-link_permalink icon-paragraph op-uc-link" href="#the-first-h3-heading" aria-hidden="true">
           </a>
           The first h3 heading
         </h3>
         <p class="op-uc-p">Some text after the first h3 heading</p>
         <h1 class="op-uc-h1" id="the-second-h1-heading">
-          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-second-h1-heading" aria-hidden="true">
+          <a class="op-uc-link_permalink icon-paragraph op-uc-link" href="#the-second-h1-heading" aria-hidden="true">
           </a>The second h1 heading
         </h1>
         <p class="op-uc-p">Some text after the second h1 heading</p>
         <h2 class="op-uc-h2" id="the-second-h2-heading">
-          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-second-h2-heading" aria-hidden="true">
+          <a class="op-uc-link_permalink icon-paragraph op-uc-link" href="#the-second-h2-heading" aria-hidden="true">
           </a>The second h2 heading
         </h2>
         <p class="op-uc-p">Some text after the second h2 heading</p>
         <h3 class="op-uc-h3" id="the-second-h3-heading">
-          <a class="wiki-anchor icon-paragraph op-uc-link" href="#the-second-h3-heading" aria-hidden="true">
+          <a class="op-uc-link_permalink icon-paragraph op-uc-link" href="#the-second-h3-heading" aria-hidden="true">
           </a>The second h3 heading
         </h3>
         <p class="op-uc-p">Some text after the second h3 heading</p>
