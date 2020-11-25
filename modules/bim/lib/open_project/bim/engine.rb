@@ -95,7 +95,7 @@ module OpenProject::Bim
 
     assets %w(bim/logo_openproject_bim_big.png)
 
-    patches %i[WorkPackage Type Journal RootSeeder Project]
+    patches %i[WorkPackage Type Journal RootSeeder Project FogFileUploader]
 
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter

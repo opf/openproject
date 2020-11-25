@@ -37,7 +37,8 @@ const newsletterURL = 'https://www.openproject.com/newsletter/';
 
 @Component({
   selector: 'enterprise-trial-form',
-  templateUrl: './ee-trial-form.component.html'
+  templateUrl: './ee-trial-form.component.html',
+  styleUrls: ['./ee-trial-form.component.sass']
 })
 export class EETrialFormComponent {
   // Retain used values

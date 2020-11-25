@@ -534,6 +534,7 @@ lt:
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
         less_than_or_equal_to: "turi būti mažesnis arba lygus %{count}."
+        not_current_user: "nėra dabartinis vartotojas"
         not_a_date: "nėra tinkama data."
         not_a_datetime: "nėra tinkama data ir laikas."
         not_a_number: "nėra skaičius."
@@ -610,6 +611,11 @@ lt:
             custom_fields:
               inexistent: "Filtrui nėra jokio pasirenkamo laukelio."
               invalid: "Pasirenkamas laukelis nėra tinkamas duotam kontekstui."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filtras turi neteisingas reikšmes."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Ryšys sukuria ryšių ciklą."

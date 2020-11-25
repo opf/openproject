@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Wysiwyg code block macro',
          type: :feature,
-         driver: :firefox_headless_en,
+         driver: :firefox_en,
          js: true do
   using_shared_fixtures :admin
   let(:user) { admin }

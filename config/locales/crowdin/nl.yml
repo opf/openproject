@@ -537,6 +537,7 @@ nl:
         invalid_url: 'is geen geldige URL.'
         invalid_url_scheme: 'is geen ondersteunde protocol (toegestaan: %{allowed_schemes}).'
         less_than_or_equal_to: "moet kleiner zijn dan of gelijk aan %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "is geen geldige datum."
         not_a_datetime: "is geen geldige datum tijd."
         not_a_number: "is geen getal."
@@ -613,6 +614,11 @@ nl:
             custom_fields:
               inexistent: "Er is geen aangepast veld voor dit filter."
               invalid: "Het aangepaste veld is niet geldig in deze context."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "De relatie wordt gemaakt van een kring van relaties."

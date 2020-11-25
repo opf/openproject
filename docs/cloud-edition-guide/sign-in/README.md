@@ -7,15 +7,15 @@ robots: index, follow
 keywords: sing in
 ---
 
-# Sign in to the OpenProject Cloud Edition
+# Sign in to the OpenProject Enterprise cloud edition
 
-Login to your OpenProject Cloud Edition via the website or by entering directly the URL of your OpenProject instance.
+Login to your OpenProject Enterprise cloud edition via the website or by entering directly the URL of your OpenProject instance.
 
-If you do not have an OpenProject Cloud Edition, you can [set up your own OpenProject installation](../create-trial-installation).
+If you do not have an OpenProject Enterprise cloud edition, you can [set up your own OpenProject installation](../create-trial-installation).
 
 ## Sign in via the OpenProject website
 
-In order to sign in to your OpenProject Cloud Edition via our website, navigate to https://www.openproject.org/ and click the **Sign in button** at the top of the page.
+In order to sign in to your OpenProject Enterprise cloud edition via our website, navigate to https://www.openproject.org/ and click the **Sign in button** at the top of the page.
 
 ![Sign-in-website](Sign-in-website.png)
 
@@ -29,7 +29,7 @@ Click the green **Sign in button** and you will be logged into your OpenProject 
 
 ## Forgot organization name of OpenProject Cloud Edition
 
-If you forgot the URL or the organization name of your OpenProject Cloud Edition and need to find your organization, you can click the **Find your organization** link on the Sign in page of the website.
+If you forgot the URL or the organization name of your OpenProject Enterprise cloud edition and need to find your organization, you can click the **Find your organization** link on the Sign in page of the website.
 
 ![Sign-in-find-organization](Sign-in-find-organization.png)
 

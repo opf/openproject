@@ -28,12 +28,12 @@ bg:
     plugins:
       no_results_title_text: В момента има няма плъгини на разположение.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Цвят на темата"
+      color_theme_custom: "Потребителски"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
+        alternative-color: "Алтернативно"
+        content-link-color: "Шрифт на връзката"
+        primary-color: "Основен"
         primary-color-dark: "Primary (dark)"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
@@ -78,7 +78,7 @@ bg:
     is_active: в момента е показан
     is_inactive: в момента не се показват
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Всеки текст и изображения, които добавяте в това поле, са публично видими за всички влезли потребители!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -90,16 +90,16 @@ bg:
       no_results_content_text: Създаване на нов режим на удостоверяване
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "Заданието има грешка, но се опитва отново Грешката беше: %{message}"
+      cancelled_due_to: "Заданието е отменено поради грешка: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Този LDAP формуляр изисква технически познания за настройката на LDAP / Active Directory.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Моля, посетете нашата документация за подробни инструкции </a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
+      name: Произволно име на LDAP връзката
+      host: LDAP име на хост или IP адрес
       login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
       generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
       admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
@@ -202,9 +202,9 @@ bg:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      edit_columns: 'Редактиране на колони'
+      open_as_gantt: 'Отваря се като изглед на Гант'
+      open_as_gantt_title: "Използвайте този бутон, за да генерирате изглед на Гант, който филтрира работни пакети за проектите, видими на тази страница."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: В момента няма проекти
       no_results_content_text: Създаване на нов проект
@@ -285,7 +285,7 @@ bg:
     overview:
       no_results_title_text: В момента има няма работни пакети, присвоен на тази версия.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: Исканата страница (все още) не съществува. Пренасочени сте към индекса на всички wiki страници.
     no_results_title_text: Няма в момента wiki страници.
     index:
       no_results_content_text: Добавяне на нова wiki страница
@@ -422,7 +422,7 @@ bg:
         types: "Видове"
         versions: "Версии"
         work_packages: "Работен пакет"
-        templated: 'Template project'
+        templated: 'Шаблонен проект'
       projects/status:
         code: 'Състояние'
         explanation: 'Status description'
@@ -494,7 +494,7 @@ bg:
         parent_work_package: "Горна категория"
         priority: "Приоритет"
         progress: "Прогрес (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Ръчно планиране"
         spent_hours: "Отработено време"
         spent_time: "Отработено време"
         subproject: "Подпроект"
@@ -520,7 +520,7 @@ bg:
         cant_link_a_work_package_with_a_descendant: "Работния пакет не може да бъде свързан с една от неговите подзадачи."
         circular_dependency: "Тази връзка ще доведе до циклична зависимост."
         confirmation: "не съвпада с %{attribute}."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} не може да бъде (напълно) копирана."
         does_not_exist: "не съществува."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
@@ -537,6 +537,7 @@ bg:
         invalid_url: 'невалиден URL адрес.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "трябва да бъде по-малка или равна на %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
         not_a_number: "не е число."
@@ -613,6 +614,11 @@ bg:
             custom_fields:
               inexistent: "There is no custom field for the filter."
               invalid: "The custom field is not valid in the given context."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "филтърът има невалидни стойности."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "The relationship creates a circle of relationships."
@@ -697,7 +703,7 @@ bg:
         version:
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "не може да се активира за състояния, които са маркирани по подразбиране."
       template:
         body: "Моля проверете следните полета:"
         header:
@@ -755,9 +761,9 @@ bg:
     date: "Дата"
     default_columns: "Колони по подразбиране"
     description: "Описание"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Изведена крайна дата"
+    derived_estimated_time: "Изведено приблизително време"
+    derived_start_date: "Изведена начална дата"
     display_sums: "Показване на суми"
     due_date: "Finish date"
     estimated_hours: "Очаквано време"
@@ -1111,7 +1117,7 @@ bg:
   error_no_default_work_package_status: "Не е дефиниран работен пакет по подразбиране. Моля проверете конфигурацията ( Отидете на Администрация -> Статуси на работни пакети)."
   error_no_type_in_project: "Няма тип свързан към този проект. Моля проверете проектните настройки."
   error_omniauth_registration_timed_out: "Изтече времето на изчакване за регистриране чрез удостоверяване на външен доставчик. Моля, опитайте отново."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "Информацията за удостоверяване, върната от доставчика на идентичност, е невалидна. Моля, свържете се с вашия администратор за допълнителна помощ."
   error_scm_command_failed: "Възникна грешка при опит за достъп до хранилището: %{value}"
   error_scm_not_found: "Търсеното или негова версия не е намерено в хранилището."
   error_unable_delete_status: "Състоянието на работният пакет не може да бъде изтрито, тъй като се използва от най-малко един работен пакет."
@@ -1139,8 +1145,8 @@ bg:
     work_package_edit: 'Работният пакет е редактиран'
     work_package_note: 'Добавена бележка за работен пакет'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Експорт на вашите работни пакети"
+    succeeded: "Експортирането завърши успешно"
     format:
       atom: "Атом"
       csv: "CSV"
@@ -1773,16 +1779,16 @@ bg:
   mail_body_account_information: "Информация за Вашия акаунт"
   mail_body_account_information_external: "Можете да използвате Вашия %{value} профил за да се впишете."
   mail_body_lost_password: "За да промените паролата си, използвайте следния линк:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "Добре дошли в OpenProject. Моля, активирайте акаунта си, като кликнете върху тази връзка:"
+  mail_body_register_header_title: "Имейл с покана за участник в проекта"
+  mail_body_register_user: "Уважаеми %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Моля, не се колебайте да разгледате нашия канал в YouTube ( %{youtube_link}), където ние предлагаме уеб семинар (%{webinar_link})
+    и „Започнете“ видеоклипове (%{get_started_link}), за да улесните максимално първите си стъпки в OpenProject.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    Ако имате някакви допълнителни въпроси, консултирайте се с нашата документация (%{documentation_link}) или се свържете с нас (%{contact_us_link}).
+  mail_body_register_closing: "Вашият екип на OpenProject"
+  mail_body_register_ending: "Останете свързани! Поздрави,"
   mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
   mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
@@ -1974,10 +1980,10 @@ bg:
       title: Change the project's identifier
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+        Вашият проект се създава от избрания шаблон на проект. Ще бъдете уведомени по пощата, веднага щом проектът стане наличен.
+      use_template: 'Използвайте шаблон'
+      make_template: 'Задайте като шаблон'
+      remove_from_templates: 'Премахване от шаблоните'
     archive:
       are_you_sure: "Наистина ли искате да архивирате на проекта \"%{name}\"?"
       archived: "Archived"
@@ -1997,8 +2003,8 @@ bg:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Включително подпроект"
+    only_subproject_id: "Само подпроект"
     name_or_identifier: "Name or identifier"
   repositories:
     at_identifier: 'at %{identifier}'
@@ -2104,13 +2110,13 @@ bg:
     warnings:
       cannot_annotate: "This file cannot be annotated."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'активиран'
+    deactivated: 'деактивиран'
   search_input_placeholder: "Търсене ..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "Активирайте CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) позволява разрешения"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Ако CORS е активиран, това са източниците, на които е разрешен достъп до API на OpenProject. <br/> Моля, проверете <a href="%{origin_link}" target="_blank"> Документацията в заглавието Origin </a> за това как да посочите очакваните стойности.
   setting_email_delivery_method: "Метод за доставка на имейл"
   setting_sendmail_location: "Местоположение на sendmail програма"
   setting_smtp_enable_starttls_auto: "Автоматично използвай STARTTLS ако е налично"
@@ -2155,7 +2161,7 @@ bg:
   setting_emails_header: "Emails header"
   setting_email_login: "Използвайте имейла като вход"
   setting_enabled_scm: "Enabled SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Вижда се в списъка с проекти"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2186,8 +2192,8 @@ bg:
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Протокол"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Gantt изглед портфолиото на проекта"
+  setting_project_gantt_query_text: "Можете да промените заявката, която се използва за показване на диаграмата на Гант от страницата за преглед на проекта."
   setting_security_badge_displayed: "Display security badge"
   setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
@@ -2227,8 +2233,8 @@ bg:
     session: "Сесия"
     brute_force_prevention: "Automated user blocking"
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Настройки за нови проекти"
+      section_project_overview: "Настройки за списък с преглед на проекти"
     user:
       default_preferences: "Настройки по подразбиране"
       deletion: "Deletion"
@@ -2651,8 +2657,8 @@ bg:
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    auth_url: 'URL за удостоверяване'
+    access_token_url: 'URL адрес на маркера за достъп'
     errors:
       messages:
         #Common error messages

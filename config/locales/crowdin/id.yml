@@ -28,14 +28,14 @@ id:
     plugins:
       no_results_title_text: Tidak ada plugin yang tersedia saat ini.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Warna tema"
+      color_theme_custom: "Kustomisasi"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
+        alternative-color: "Alternatif"
+        content-link-color: "Tautan huruf"
+        primary-color: "Primer"
+        primary-color-dark: "Primer (gelap)"
+        header-bg-color: "Latar Belakang Header"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
         header-item-font-hover-color: "Header font on hover"
@@ -535,6 +535,7 @@ id:
         invalid_url: 'bukanlah URL yang Valid.'
         invalid_url_scheme: 'bukanlah sebuah protokol yang didukung (diperbolehkan: %{allowed_schemes}).'
         less_than_or_equal_to: "harus kurang dari atau sama dengan %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "bukan tanggal yang valid."
         not_a_datetime: "bukan tanggal waktu yang valid."
         not_a_number: "harus diisi angka."
@@ -611,6 +612,11 @@ id:
             custom_fields:
               inexistent: "There is no custom field for the filter."
               invalid: "The custom field is not valid in the given context."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Relasi menciptakan lingkaran relasi-relasi."

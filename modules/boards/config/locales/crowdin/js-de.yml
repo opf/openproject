@@ -50,7 +50,7 @@ de:
         action_text_assignee: >
           Board mit dynamischen Spalten auf zugewiesene Nutzer von Arbeitspaketen. Ideal für die Verteilung von Aufgaben. 
         action_text_version: >
-          Board mit dynamischen Spalten, das auf dem Versions-Attribut basiert. Ideal für die Planung von Software-Releases.
+          Board mit dynamischen Spalten, das auf dem Versions-Attribut basiert. Ideal für die Planung der Produktentwicklung.
         action_type:
           assignee: Zugewiesen an
           status: Status

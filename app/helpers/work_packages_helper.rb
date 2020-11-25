@@ -129,26 +129,26 @@ module WorkPackagesHelper
         work_package_url(package)
       end
 
-    text = if options[:all_link]
-             link_text = [prefix, link].reject(&:empty?).join(' - ')
-             link_text = [link_text, suffix].reject(&:empty?).join(': ')
-             link_text = [hidden_link, link_text].reject(&:empty?).join('')
+    if options[:all_link]
+      link_text = [prefix, link].reject(&:empty?).join(' - ')
+      link_text = [link_text, suffix].reject(&:empty?).join(': ')
+      link_text = [hidden_link, link_text].reject(&:empty?).join('')
 
-             link_to(link_text.html_safe,
-                     work_package_link,
-                     title: title,
-                     class: css_class)
-           else
-             link_text = [hidden_link, link].reject(&:empty?).join('')
+      link_to(link_text.html_safe,
+              work_package_link,
+              title: title,
+              class: css_class)
+    else
+      link_text = [hidden_link, link].reject(&:empty?).join('')
 
-             html_link = link_to(link_text.html_safe,
-                                 work_package_link,
-                                 title: title,
-                                 class: css_class)
+      html_link = link_to(link_text.html_safe,
+                          work_package_link,
+                          title: title,
+                          class: css_class)
 
-             [[prefix, html_link].reject(&:empty?).join(' - '),
-              suffix].reject(&:empty?).join(': ')
-            end.html_safe
+      [[prefix, html_link].reject(&:empty?).join(' - '),
+       suffix].reject(&:empty?).join(': ')
+     end.html_safe
   end
 
   def work_package_list(work_packages, &_block)

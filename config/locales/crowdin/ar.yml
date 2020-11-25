@@ -60,14 +60,14 @@ ar:
         header-item-font-color: "لون الخط لعناصر الترويسة النقر عليها."
         header-item-font-hover-color: "لون الخط لعناصر الترويسة القابلة للنقر عند ربطها بالفأرة."
         header-border-bottom-color: "خط تحت الرأس. اترك هذا الحقل فارغاً إذا كنت لا تريد أي سطر."
-        main-menu-bg-color: "Left side menu's background color."
+        main-menu-bg-color: "لون خلفية القائمة اليسرى "
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
-      replace_token: "Replace your current support token"
-      order: "Order Enterprise Edition"
-      paste: "Paste your Enterprise Edition support token"
+      replace_token: "استبدال رمز الدعم الحالي الخاص بك"
+      order: "أُطلب نسخة الطبعة النهائية"
+      paste: "ألصق رمز دعم نسخة الطبعة النهائية الخاصة بك"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "For more information, click here."
       start_trial: 'Start free trial'
@@ -541,6 +541,7 @@ ar:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "يجب أن يكون أقل من أو يساوي %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
         not_a_number: "ليس رقماً."
@@ -617,6 +618,11 @@ ar:
             custom_fields:
               inexistent: "لا يوجد أي حقل مخصص لعامل التصفية."
               invalid: "الحقل المخصص غير صحيح في هذا السياق."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "The relationship creates a circle of relationships."
@@ -1244,10 +1250,10 @@ ar:
     blocks:
       community: "مجتمع أوبِن بروجِكت"
       upsale:
-        title: "Upgrade to Enterprise Edition"
+        title: "الترقية لنسخة الطبعة النهائية"
         more_info: "More information"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
+      upgrade_enterprise_edition: "الترقية لنسخة الطبعة النهائية"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "دليل المستخدم"
       faq: "الاسئلة الاكثر شيوعا(FAQ)"

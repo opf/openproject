@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+bundle install
+bundle exec rake db:create db:migrate
+bundle exec rake db:seed
+bundle exec rake openproject:plugins:register_frontend
+bundle exec rake i18n:js:export

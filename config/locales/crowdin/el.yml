@@ -534,6 +534,7 @@ el:
         invalid_url: 'δεν είναι μια έγκυρη διεύθυνση URL.'
         invalid_url_scheme: 'δεν είναι υποστηριζόμενο πρωτόκολλο (επιτρεπόμενα: %{allowed_schemes}).'
         less_than_or_equal_to: "πρέπει να είναι μικρότερο ή ίσο με %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "δεν είναι έγκυρη ημερομηνία."
         not_a_datetime: "δεν είναι έγκυρη ημερομηνία και ώρα."
         not_a_number: "δεν είναι αριθμός."
@@ -610,6 +611,11 @@ el:
             custom_fields:
               inexistent: "Δεν υπάρχει προσαρμοσμένο πεδίο για το φίλτρο."
               invalid: "Το προσαρμοσμένο πεδίο δεν είναι έγκυρο στο δοσμένο πλαίσιο."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Η σχέση αυτή δημιουργεί έναν κύκλο σχέσεων."
@@ -2648,7 +2654,7 @@ el:
     pre_authorization:
       status: 'Πριν την εξουσιοδότηση'
     auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    access_token_url: 'Token πρόσβασης'
     errors:
       messages:
         #Common error messages

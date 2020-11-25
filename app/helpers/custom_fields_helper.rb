@@ -191,6 +191,7 @@ module CustomFieldsHelper
     OpenProject::CustomFieldFormat
       .all_for_field(custom_field)
       .sort_by(&:order)
+      .reject { |format| format.label.nil? }
       .map do |custom_field_format|
         [label_for_custom_field_format(custom_field_format.name), custom_field_format.name]
       end

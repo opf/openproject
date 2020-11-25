@@ -70,7 +70,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
   end
   let(:service_result) do
     instance
-      .call(attributes)
+      .call(**attributes)
   end
 
   before do

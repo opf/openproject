@@ -50,7 +50,7 @@ pt:
         action_text_assignee: >
           Quadro com colunas automatizadas com base nos usuários designados. Ideal para despacho de pacotes de trabalho.
         action_text_version: >
-          Quadros com colunas automatizadas com base no atributo de versão. Ideal para planejar lançamentos de software.
+          Quadro com colunas automatizadas baseado no atributo da versão. Ideal para planejar desenvolvimento de produto.
         action_type:
           assignee: responsável
           status: estado

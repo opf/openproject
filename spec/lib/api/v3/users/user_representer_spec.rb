@@ -54,6 +54,7 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.not_to have_json_path('createdAt')
         is_expected.not_to have_json_path('status')
         is_expected.not_to have_json_path('email')
+        is_expected.not_to have_json_path('language')
       end
     end
 
@@ -70,6 +71,7 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.to have_json_path('createdAt')
         is_expected.to have_json_path('status')
         is_expected.to have_json_path('email')
+        is_expected.to have_json_path('language')
 
         is_expected.not_to have_json_path('admin')
       end
@@ -87,6 +89,7 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.to have_json_path('status')
         is_expected.to have_json_path('email')
         is_expected.to have_json_path('admin')
+        is_expected.to have_json_path('language')
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do

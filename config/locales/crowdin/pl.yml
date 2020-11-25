@@ -535,6 +535,7 @@ pl:
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         less_than_or_equal_to: "musi być mniejsze niż lub równe %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "nie jest poprawną datą."
         not_a_datetime: "nie jest poprawną datą i czasem."
         not_a_number: "nie jest liczbą."
@@ -611,6 +612,11 @@ pl:
             custom_fields:
               inexistent: "Brak pola niestandardowego dla tego filtra."
               invalid: "Pole niestandardowe jest nieprawidłowe w danym kontekście."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Relacja tworzy krąg relacji."

@@ -6,11 +6,11 @@ description: OpenProject Enterprise Edition support.
 robots: index, follow
 keywords: enterprise edition support
 ---
-# Enterprise Edition support
+# Enterprise on-premises edition support
 
-If you have the OpenProject Enterprise Edition you are eligible to get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical  environments.
+If you have the OpenProject Enterprise on-premises edition you are eligible to get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments.
 
-Our support engineers are highly-trained to diagnose and resolve  issues in your environment. We find solutions for the most complex  technical challenges you might be faced with.
+Our support engineers are highly-trained to diagnose and resolve  issues in your environment. We find solutions for the most complex technical challenges you might be faced with.
 
 - Guaranteed availability and resolution time based on SLA
 - Priority development and escalation
@@ -19,11 +19,11 @@ Our support engineers are highly-trained to diagnose and resolve  issues in your
 
 ## Support ticket
 
-You can create a support ticket on https://community.openproject.com/projects/openproject/. You first need to register on the OpenProject Community Edition to create a support ticket.
+You can create a support ticket on https://community.openproject.com/projects/openproject/. You first need to register on the OpenProject Community edition to create a support ticket.
 
 ## E-mail support
 
-Please write us an email to support@openproject.com to get help with your OpenProject Enterprise Edition.
+Please write us an email to support@openproject.com to get help with your OpenProject Enterprise on-premises edition.
 
 ## Contact us
 

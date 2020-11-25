@@ -1,3 +1,0 @@
-#!/bin/sh
-
-docker-compose -f ./docker/dev/compose.yml $*

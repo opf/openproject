@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Email
-  priority: 790
+  priority: 760
 description: Email configuration in OpenProject.
 robots: index, follow
 keywords: email configuration

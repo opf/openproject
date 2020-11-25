@@ -539,6 +539,7 @@ sk:
         invalid_url: 'nie je platnou URL adresou.'
         invalid_url_scheme: 'nie je podporovaný protokol (povolené: %{allowed_schemes}).'
         less_than_or_equal_to: "musí byť menšie alebo rovné ako %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "nie je platný dátum."
         not_a_datetime: "nie je platný dátum a čas."
         not_a_number: "nie je číslo."
@@ -615,6 +616,11 @@ sk:
             custom_fields:
               inexistent: "Neexistuje žiadne vlastné pole pre filter."
               invalid: "Vlastné pole je v tomto kontexte neplatné."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Vzťah vytvorí kruh vzťahov."

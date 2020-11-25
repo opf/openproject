@@ -13,7 +13,7 @@ The **Project overview** page is a dashboard with important project information.
 
 | Feature                                                      | Documentation for                                       |
 | ------------------------------------------------------------ | ------------------------------------------------------- |
-| [What is the project overview?](#what-is-the-project-overview?) | What can I do with the project overview page?           |
+| [What is the project overview?](#what-is-the-project-overview) | What can I do with the project overview page?           |
 | [Add a widget to the project overview](#add-a-widget-to-the-project-overview) | How can I add a new widget to the project overview?     |
 | [Available project overview widgets](#available-project-overview-widgets) | What kind of widgets can I add to the project overview? |
 | [Re-size and re-order widgets](#re-size-and-re-order-widgets) | How can I re-order or re-size the widgets?              |
@@ -21,7 +21,7 @@ The **Project overview** page is a dashboard with important project information.
 
 ## What is the project overview?
 
-The project overview is a single dashboard page where all important project information can be displayed. The idea is to have it centrally available for the whole project team.
+The project overview is a single dashboard page where all important information of the selected project can be displayed. The idea is to have it centrally available for the whole project team.
 
 You can add project information as widgets to the dashboard and not only order but also re-size the widgets according to your needs.
 

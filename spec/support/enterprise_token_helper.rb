@@ -47,6 +47,11 @@ module AuthenticationHelpers
 
     allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
   end
+
+  def without_enterprise_token
+    # Calling without params means no EE features are allowed.
+    with_enterprise_token
+  end
 end
 
 RSpec.configure do |config|

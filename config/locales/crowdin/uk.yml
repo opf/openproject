@@ -539,6 +539,7 @@ uk:
         invalid_url: 'не є дійсною URL-адресою.'
         invalid_url_scheme: 'не є підтримуваним протоколом (дозволено: %{allowed_schemes}).'
         less_than_or_equal_to: "має бути меншим або рівним %{count}"
+        not_current_user: "is not the current user."
         not_a_date: "не є дійсною датою."
         not_a_datetime: "не є дійсним датою."
         not_a_number: "не є числом"
@@ -615,6 +616,11 @@ uk:
             custom_fields:
               inexistent: "Немає спеціального поля для фільтра."
               invalid: "Спеціальне поле не є дійсним у даному контексті."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Відносини створюють коло відносин."

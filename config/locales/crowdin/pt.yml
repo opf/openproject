@@ -535,6 +535,7 @@ pt:
         invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "deve ser menor ou igual a %{count}."
+        not_current_user: "não é o usuário atual."
         not_a_date: "não é uma data válida."
         not_a_datetime: "não é uma data/hora válida."
         not_a_number: "não é um número."
@@ -611,6 +612,11 @@ pt:
             custom_fields:
               inexistent: "Não há nenhum campo personalizado para o filtro."
               invalid: "O campo personalizado não é válido no contexto em questão."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "o filtro tem valores inválidos."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "O relacionamento cria um círculo de relacionamentos."
@@ -2107,7 +2113,7 @@ pt:
   setting_apiv3_cors_enabled: "Habilitar CORS"
   setting_apiv3_cors_origins: "Origens permitidas à API V3 Cross-Origin Resource Sharing (CORS)"
   setting_apiv3_cors_origins_text_html: >
-    Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origem </a> sobre como especificar os valores esperados.
+    Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
   setting_email_delivery_method: "Método de entrega de e-mail"
   setting_sendmail_location: "Localização do executável do sendmail"
   setting_smtp_enable_starttls_auto: "Automaticamente usar STARTTLS, se disponível"

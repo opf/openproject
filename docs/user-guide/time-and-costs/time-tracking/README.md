@@ -12,19 +12,17 @@ keywords: time tracking, logging time
 Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can either log time in the work package view or via a commit message.
 
 <div class="alert alert-info" role="alert">
-
-**Note**: When using the time tracking functionality, the **Time tracking module** needs to be activated in the [project menu](../../projects).
-
+**Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 </div>
 
 
-| Feature                                                      | Documentation for                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                            |
-| [Track time with Toggl](./toggl-integration)                  | How to stop spent time with Toggl integration?               |
-| [Logging time via commit message](#logging-time-via-a-commit message) | How to log time via a commit message to a work package?      |
+| [Track time with Toggl](./toggl-integration)                 | How to stop spent time with Toggl integration?               |
+| [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package?      |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
-| [Delete time entries](#delte-time-entires)                   | How to delete time entries logged to a work package?         |
+| [Delete time entries](#delete-time-entires)                  | How to delete time entries logged to a work package?         |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
 
 ## Logging time in the work package view
@@ -47,7 +45,7 @@ The aggregated time spent on a work package is shown in the work package details
 
 ![spent-time-work-package](spent-time-work-package.png)
 
-## Logging time via a commit message
+## Logging time via commit message
 
 Note: the “enable time logging” option must be activated under system settings in order to log time via a commit message.
 
@@ -63,7 +61,7 @@ This will bring you to the time tracking report where you will see all time entr
 
 Click on the **Edit** icon next to a time entry in the list.
 
-![edit-logged-time-cost-report](edit-logged-time-cost-report-1306379.png)
+![image-20201005143256420](image-20201005143256420.png)
 
 The same detailed view to log your time entries will appear where you are now able to apply your changes.
 
@@ -73,7 +71,9 @@ To delete a time entry, also click on the **Spent time** in the details of a wor
 
 In the list of time entries, click on the **Delete** icon next to a time entry to drop the logged time.
 
-![time-logging-delete](time-logging-delete-1306503.png)
+![image-20201005143324624](image-20201005143324624.png)
+
+
 
 ## Track labor costs
 

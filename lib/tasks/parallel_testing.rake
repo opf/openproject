@@ -30,8 +30,19 @@
 require 'optparse'
 require 'plugins/load_path_helper'
 
+begin
+  Bundler.gem('parallel_tests')
+rescue Gem::LoadError
+  # In case parallel_tests is not provided, the whole of the parallel task group will not work.
+  return
+end
+
+require 'parallel_tests/tasks'
+# Remove task added by parallel_tests as it conflicts with our own.
+# Having both will lead to both being executred.
+Rake::Task["parallel:features"].clear if Rake::Task.task_defined?("parallel:features")
+
 def check_for_pending_migrations
-  require 'parallel_tests/tasks'
   ParallelTests::Tasks.check_for_pending_migrations
 end
 
@@ -89,32 +100,16 @@ namespace :parallel do
     sh "bundle exec parallel_test --type rspec #{group_options} #{folders} #{pattern}"
   end
 
-  def run_cukes(parsed_options, folders)
-    exit 'No feature folders to run cucumber on' if folders.blank?
-
-    group_options = group_option_string(parsed_options)
-
-    support_files = ([Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths)
-                    .map { |path| ['-r', Shellwords.escape(path)] }.flatten.join(' ')
-
-    cucumber_options = "-o ' -p rerun #{support_files}'"
-
-    sh "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} #{folders}"
-  end
-
   desc 'Run all suites in parallel (one after another)'
   task all: ['parallel:plugins:specs',
              'parallel:plugins:features',
-             'parallel:plugins:cucumber',
              :spec_legacy,
-             :rspec,
-             :cucumber]
+             :rspec]
 
   namespace :plugins do
     desc 'Run all plugin tests in parallel'
     task all: ['parallel:plugins:specs',
-               'parallel:plugins:features',
-               'parallel:plugins:cucumber']
+               'parallel:plugins:features']
 
     desc 'Run plugin specs in parallel'
     task specs: [:environment] do
@@ -144,17 +139,6 @@ namespace :parallel do
         ARGV.each { |a| task(a.to_sym) {} }
 
         run_specs options, plugin_spec_paths, pattern
-      end
-    end
-
-    desc 'Run plugin cucumber features in parallel'
-    task cucumber: [:environment] do
-      ParallelParser.with_args(ARGV) do |options|
-        ARGV.each { |a| task(a.to_sym) {} }
-
-        feature_folders  = Plugins::LoadPathHelper.cucumber_load_paths.join(' ')
-
-        run_cukes(options, feature_folders)
       end
     end
   end

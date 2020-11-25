@@ -48,22 +48,46 @@ export class BackRoutingService {
   constructor(readonly injector:Injector) {
   }
 
+  private goToOtherState(route:string, params:{}):Promise<any> {
+    return this.$state.go(route, params);
+  }
+
+  private goBackToDetailsState(preferListOverSplit:boolean, baseRoute:string):void {
+    if (preferListOverSplit) {
+      this.goToOtherState(baseRoute, this.backRoute.params);
+    } else {
+      this.goToOtherState(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
+    }
+  }
+
+  private goBackNotToDetailsState():void {
+    if (this.backRoute.parent) {
+      this.goToOtherState(this.backRoute.name, this.backRoute.params).then(() => { this.$state.reload(); });
+    }
+    else {
+      this.goToOtherState(this.backRoute.name, this.backRoute.params);
+    }
+  }
+
+  private goBackToPreviousState(preferListOverSplit:boolean, baseRoute:string):void {
+    if (this.keepTab.isDetailsState(this.backRoute.parent)) {
+      this.goBackToDetailsState(preferListOverSplit, baseRoute);
+    } else {
+      this.goBackNotToDetailsState();
+    }
+  }
+
   public goBack(preferListOverSplit:boolean = false) {
     // Default: back to list
     // When coming from a deep link or a create form
     const baseRoute = this.backRoute?.baseRoute || this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
-
-    if (!this.backRoute || this.backRoute.name.includes('new')) {
-      this.$state.go(baseRoute, this.$state.params);
-    } else {
-      if (this.keepTab.isDetailsState(this.backRoute.parent)) {
-        if (preferListOverSplit) {
-          this.$state.go(baseRoute, this.backRoute.params);
-        } else {
-          this.$state.go(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
-        }
+    // if we are in the first state
+    if (!this.backRoute && baseRoute.includes('show')) { this.$state.reload(); }
+    else {
+      if (!this.backRoute || this.backRoute.name.includes('new')) {
+        this.$state.go(baseRoute, this.$state.params);
       } else {
-        this.$state.go(this.backRoute.name, this.backRoute.params);
+        this.goBackToPreviousState(preferListOverSplit, baseRoute);
       }
     }
   }
