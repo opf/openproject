@@ -44,7 +44,7 @@ class MeetingContentsController < ApplicationController
   before_action :authorize
 
   def show
-    if params[:id].present? && @content.version == params[:id].to_i
+    if params[:id].present? && @content.last_journal.version == params[:id].to_i
       # Redirect links to the last version
       redirect_to controller: '/meetings',
                   action: :show,
