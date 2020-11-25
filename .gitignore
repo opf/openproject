@@ -51,6 +51,8 @@ npm-debug.log*
 /backup
 /.project
 /.loadpath
+
+# Generated files
 /app/assets/javascripts/editor/*
 /app/assets/javascripts/locales/*.*
 /frontend/src/locales/*.js
@@ -84,19 +86,25 @@ npm-debug.log*
 /.rvmrc*
 /.ruby-gemset
 /.foreman
-/.env*
 .DS_Store
 .rspec
+
 # coverage in plugins
 /lib/plugins/*/coverage
+
 # asset cache
 /.sass-cache/
+
 # Frontend debug log
 /frontend/npm-debug.log*
 /frontend/dist/
 /frontend/tests/*.gif
 node_modules/
+
 # Ignore global package-lock.json that generates
 /package-lock.json
 plaintext.yml
 structure.sql
+
+# Local development docker 
+/.env

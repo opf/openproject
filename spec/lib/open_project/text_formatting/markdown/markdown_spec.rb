@@ -332,13 +332,53 @@ describe OpenProject::TextFormatting,
                           member_through_role: role
       end
 
+      context 'User link via mention' do
+        context 'existing user' do
+          subject do
+            format_text("<mention class=\"mention\" \
+                          data-id=\"#{linked_project_member.id}\" \
+                          data-type=\"user\" \
+                          data-text=\"@#{linked_project_member.name}\">@#{linked_project_member.name}</mention>")
+          end
+
+          it 'produces the expected html' do
+            is_expected
+              .to be_html_eql("<p>#{link_to(linked_project_member.name,
+                                            { controller: :users, action: :show, id: linked_project_member.id },
+                                            title: "User #{linked_project_member.name}",
+                                            class: 'user-mention')}</p>")
+          end
+        end
+
+        context 'inexistent user' do
+          subject do
+            format_text("<mention \
+                          class=\"mention\" \
+                          data-id=\"#{linked_project_member.id + 5}\" \
+                          data-type=\"user\" \
+                          data-text=\"@Some non existing user\"> \
+                            @Some none existing user \
+                         </mention>")
+          end
+
+          it 'produces the expected html' do
+            is_expected
+              .to be_html_eql("<p>@Some none existing user</p>")
+          end
+        end
+      end
+
       context 'User link via ID' do
         context 'when linked user visible for reader' do
           subject { format_text("user##{linked_project_member.id}") }
 
-          it {
-            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
-          }
+          it 'produces the expected html' do
+            is_expected
+              .to be_html_eql("<p>#{link_to(linked_project_member.name,
+                                            { controller: :users, action: :show, id: linked_project_member.id },
+                                            title: "User #{linked_project_member.name}",
+                                            class: 'user-mention')}</p>")
+          end
         end
 
         context 'when linked user not visible for reader' do
@@ -346,9 +386,13 @@ describe OpenProject::TextFormatting,
 
           subject { format_text("user##{linked_project_member.id}") }
 
-          it {
-            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
-          }
+          it 'produces the expected html' do
+            is_expected
+              .to be_html_eql("<p>#{link_to(linked_project_member.name,
+                                            { controller: :users, action: :show, id: linked_project_member.id },
+                                            title: "User #{linked_project_member.name}",
+                                            class: 'user-mention')}</p>")
+          end
         end
       end
 
@@ -357,7 +401,13 @@ describe OpenProject::TextFormatting,
           context 'with a common login name' do
             subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>") }
+            it 'produces the expected html' do
+              is_expected
+                .to be_html_eql("<p>#{link_to(linked_project_member.name,
+                                              { controller: :users, action: :show, id: linked_project_member.id },
+                                              title: "User #{linked_project_member.name}",
+                                              class: 'user-mention')}</p>")
+            end
           end
 
           context "with an email address as login name" do
@@ -369,7 +419,13 @@ describe OpenProject::TextFormatting,
             end
             subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>") }
+            it 'produces the expected html' do
+              is_expected
+                .to be_html_eql("<p>#{link_to(linked_project_member.name,
+                                              { controller: :users, action: :show, id: linked_project_member.id },
+                                              title: "User #{linked_project_member.name}",
+                                              class: 'user-mention')}</p>")
+            end
           end
         end
 
@@ -378,9 +434,13 @@ describe OpenProject::TextFormatting,
 
           subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-          it {
-            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, title: "User #{linked_project_member.name}", class: 'user-mention')}</p>")
-          }
+          it 'produces the expected html' do
+            is_expected
+              .to be_html_eql("<p>#{link_to(linked_project_member.name,
+                                            { controller: :users, action: :show, id: linked_project_member.id },
+                                            title: "User #{linked_project_member.name}",
+                                            class: 'user-mention')}</p>")
+          end
         end
       end
     end
@@ -415,6 +475,42 @@ describe OpenProject::TextFormatting,
 
         it 'leaves the text unchangd' do
           is_expected.to be_html_eql("<p>group#000000</p>")
+        end
+      end
+
+      context 'Group link via mention' do
+        context 'existing group' do
+          subject do
+            format_text("<mention class=\"mention\" \
+                          data-id=\"#{linked_project_member_group.id}\" \
+                          data-type=\"group\" \
+                          data-text=\"@#{linked_project_member_group.name}\">@#{linked_project_member_group.name}</mention>")
+          end
+
+          it 'produces the expected html' do
+            is_expected
+              .to be_html_eql("<p><span class='user-mention' \
+                                        title='Group #{linked_project_member_group.name}'>\
+                                    #{linked_project_member_group.name} \
+                                  </span></p>")
+          end
+        end
+
+        context 'inexistent group' do
+          subject do
+            format_text("<mention \
+                          class=\"mention\" \
+                          data-id=\"0\" \
+                          data-type=\"group\" \
+                          data-text=\"@Some non existing group\"> \
+                            @Some none existing group \
+                         </mention>")
+          end
+
+          it 'produces the expected html' do
+            is_expected
+              .to be_html_eql("<p>@Some none existing group</p>")
+          end
         end
       end
     end

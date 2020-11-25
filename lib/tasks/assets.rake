@@ -67,6 +67,11 @@ namespace :assets do
       end
     end
 
+    Rake::Task['assets:rebuild_manifest'].invoke
+  end
+
+  desc 'Write angular assets manifest'
+  task :rebuild_manifest do
     puts "Writing angular assets manifest"
     OpenProject::Assets.rebuild_manifest!
   end

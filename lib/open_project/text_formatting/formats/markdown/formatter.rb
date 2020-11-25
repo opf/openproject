@@ -49,6 +49,7 @@ module OpenProject::TextFormatting::Formats::Markdown
         ::TaskList::Filter,
         :table_of_contents,
         :macro,
+        :mention,
         :pattern_matcher,
         :syntax_highlight,
         :attachment,

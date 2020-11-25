@@ -91,11 +91,10 @@ jobs:
         - bash script/ci/runner.sh npm
 
     - stage: test
-      name: 'legacy specs + cukes (1/1)'
+      name: 'legacy specs (1/1)'
       script:
       - bash script/ci/setup.sh spec_legacy
       - bash script/ci/runner.sh spec_legacy 1 1
-      - bash script/ci/runner.sh plugins:cucumber 1 1
     - stage: test
       name: 'units (1/5)'
       script:

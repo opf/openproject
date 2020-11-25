@@ -62,7 +62,7 @@ OpenProject::Application.routes.draw do
   # forward requests to the proxy
   if FrontendAssetHelper.assets_proxied?
     match '/assets/frontend/*appendix',
-          to: redirect("http://localhost:4200/assets/frontend/%{appendix}", status: 307),
+          to: redirect(FrontendAssetHelper.cli_proxy + "/assets/frontend/%{appendix}", status: 307),
           format: false,
           via: :all
   end
@@ -551,12 +551,6 @@ OpenProject::Application.routes.draw do
       post :move
     end
   end
-
-  # This route should probably be removed, but it's used at least by one cuke and we don't
-  # want to break it.
-  # This route intentionally occurs after the admin/roles/new route, so that one takes
-  # precedence when creating routes (possibly via helpers).
-  get 'roles/new' => 'roles#new', as: 'deprecated_roles_new'
 
   get '/robots' => 'homescreen#robots', defaults: { format: :txt }
 
