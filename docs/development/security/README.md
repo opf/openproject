@@ -34,10 +34,6 @@ Please include a description on how to reproduce the issue if possible. Our secu
 
 OpenProject administrators can enforce [authentication mechanisms and password rules]() to ensure users choose secure passwords according to current industry standards. Passwords stored by OpenProject are securely stored using salted bcrypt. Alternatively, external authentication providers and protocols (such as LDAP, SAML) can be enforced to avoid using and exposing passwords within OpenProject.
 
-### Two-step user registration
-
-In compliance with common requirements in works committees, ensure that new users added by project responsibles are confirmed by a superior before allowing the user to enter the system for the first time.
-
 ### User management and access control.
 
 Administrators are provided with [fine-grained role-based access control mechanisms]() to ensure that users are only seeing and accessing the data they are allowed to on an individual project level.
