@@ -28,6 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'task_list/filter'
+
 module OpenProject::TextFormatting
   module Filters
     # Overwriting the gem class to roll with our own classes
