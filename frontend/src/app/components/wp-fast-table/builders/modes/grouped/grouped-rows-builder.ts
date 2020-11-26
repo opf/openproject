@@ -70,7 +70,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
    */
   public refreshExpansionState() {
     const groups = this.getGroupData();
-    const colspan = this.wpTableColumns.columnCount + 1;
+    const colspan = this.wpTableColumns.columnCount + 2;
     const rendered = this.querySpace.tableRendered.value!;
     const builder = new GroupHeaderBuilder(this.injector);
 
