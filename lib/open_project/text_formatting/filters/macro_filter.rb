@@ -42,7 +42,7 @@ module OpenProject::TextFormatting
       def call
         doc.search('macro').each do |macro|
           registered.each do |macro_class|
-            next unless Array(macro['class']).include? macro_class.identifier
+            next unless macro_applies?(macro_class, macro)
 
             # If requested to skip macro expansion, do that
             if context[:disable_macro_expansion]
@@ -65,6 +65,8 @@ module OpenProject::TextFormatting
         doc
       end
 
+      private
+
       def macro_error_placeholder(macro_class, message)
         ApplicationController.helpers.content_tag :macro,
                                                   "#{I18n.t(:macro_execution_error, macro_name: macro_class.identifier)} (#{message})",
@@ -77,6 +79,10 @@ module OpenProject::TextFormatting
                                                   I18n.t('macros.placeholder', macro_name: macro_class.identifier),
                                                   class: 'macro-placeholder',
                                                   data: { macro_name: macro_class.identifier }
+      end
+
+      def macro_applies?(macro_class, element)
+        ((element['class'] || '').split & Array(macro_class.identifier)).any?
       end
     end
   end
