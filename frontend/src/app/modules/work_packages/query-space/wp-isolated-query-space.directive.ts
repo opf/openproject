@@ -65,6 +65,7 @@ import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_p
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
+import {WorkPackageViewGroupFoldService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-fold.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -89,6 +90,7 @@ import {TimeEntryCreateService} from "core-app/modules/time_entries/create/creat
     WorkPackageViewRelationColumnsService,
     WorkPackageViewPaginationService,
     WorkPackageViewGroupByService,
+    WorkPackageViewGroupFoldService,
     WorkPackageViewHierarchiesService,
     WorkPackageViewSortByService,
     WorkPackageViewColumnsService,

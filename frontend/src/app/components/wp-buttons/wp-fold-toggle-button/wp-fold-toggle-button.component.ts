@@ -34,6 +34,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackageViewGroupFoldService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-fold.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -65,7 +66,7 @@ export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageBut
     readonly transitions:TransitionService,
     readonly cdRef:ChangeDetectorRef,
     public states:States,
-    public wpTableFocus:WorkPackageViewFocusService,
+    public wpViewGroupFold:WorkPackageViewGroupFoldService,
     public keepTab:KeepTabService,
     readonly querySpace:IsolatedQuerySpace) {
     super(I18n);
@@ -102,5 +103,7 @@ export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageBut
     });
 
     this.querySpace.collapsedGroups.putValue(newState);
+
+    this.wpViewGroupFold.update(this.isActive);
   }
 }

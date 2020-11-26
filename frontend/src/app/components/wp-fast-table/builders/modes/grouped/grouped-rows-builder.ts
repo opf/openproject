@@ -26,12 +26,6 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
-
-    this.querySpace.collapsedGroups
-      .changes$()
-      .subscribe((state) => {
-        this.refreshExpansionState();
-    });
   }
 
   /**
