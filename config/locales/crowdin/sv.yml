@@ -1197,6 +1197,8 @@ sv:
       blog: "OpenProject blogg"
       forums: "Community forum"
       newsletter: "Säkerhetsnotifieringar / Nyhetsbrev"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
