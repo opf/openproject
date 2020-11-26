@@ -1194,6 +1194,8 @@ it:
       blog: "Blog di OpenProject"
       forums: "Forum della Comunità"
       newsletter: "Avvisi di sicurezza / Notizie"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Le modifiche sono state annullate."
   links:

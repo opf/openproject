@@ -1228,6 +1228,8 @@ sl:
       blog: "Blog OpenProject"
       forums: "Forum skupnosti"
       newsletter: "Varnostna opozorila / Glasilo"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Spremembe so bile umaknjene."
   links:

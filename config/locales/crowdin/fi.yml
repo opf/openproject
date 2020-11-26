@@ -1198,6 +1198,8 @@ fi:
       blog: "OpenProject blogi"
       forums: "Keskustelupalsta"
       newsletter: "Suojausvaroitukset / uutiskirje"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
