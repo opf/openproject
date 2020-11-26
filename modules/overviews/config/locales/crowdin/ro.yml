@@ -1,3 +1,4 @@
 ro:
   overviews:
     label: 'Vedere de ansamblu'
+  permission_manage_overview: 'Manage overview page'

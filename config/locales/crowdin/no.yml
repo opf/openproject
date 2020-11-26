@@ -1198,6 +1198,8 @@
       blog: "OpenProject blogg"
       forums: "Brukerforum"
       newsletter: "Security alerts / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
