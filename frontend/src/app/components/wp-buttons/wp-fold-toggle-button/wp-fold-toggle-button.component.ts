@@ -34,7 +34,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageViewGroupFoldService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-fold.service";
+import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -42,8 +42,6 @@ import {WorkPackageViewGroupFoldService} from "core-app/modules/work_packages/ro
   selector: 'wp-fold-toggle-view-button',
 })
 export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
-  public projectIdentifier:string;
-  public accessKey:number = 8;
   public activeState:string = 'work-packages.partitioned.list.details';
   public listState:string = 'work-packages.partitioned.list';
   public buttonId:string = 'work-packages-fold-toggle-button';
@@ -54,27 +52,17 @@ export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageBut
   public deactivateLabel:string;
 
   private labels = {
-    activate: this.I18n.t('js.button_fold'),
-    deactivate: this.I18n.t('js.button_unfold')
+    activate: this.I18n.t('js.button_collapse_all'),
+    deactivate: this.I18n.t('js.button_expand_all')
   };
 
   private transitionListener:Function;
 
   constructor(
-    readonly $state:StateService,
     readonly I18n:I18nService,
-    readonly transitions:TransitionService,
     readonly cdRef:ChangeDetectorRef,
-    public states:States,
-    public wpViewGroupFold:WorkPackageViewGroupFoldService,
-    public keepTab:KeepTabService,
-    readonly querySpace:IsolatedQuerySpace) {
+    public wpViewCollapsedGroups:WorkPackageViewCollapsedGroupsService) {
     super(I18n);
-
-    //this.transitionListener = this.transitions.onSuccess({}, () => {
-    //  this.isActive = this.$state.includes(this.activeState);
-    //  this.cdRef.detectChanges();
-    //});
   }
 
   public ngOnDestroy() {
@@ -96,14 +84,7 @@ export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageBut
 
   public performAction(event:Event) {
     this.isActive = !this.isActive;
-    let newState = {};
 
-    this.querySpace.groups.value.forEach((group) => {
-      newState[group.identifier] = this.isActive;
-    });
-
-    this.querySpace.collapsedGroups.putValue(newState);
-
-    this.wpViewGroupFold.update(this.isActive);
+    this.wpViewCollapsedGroups.setCollapsedAll(this.isActive);
   }
 }

@@ -23,7 +23,7 @@ import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/rout
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {WorkPackageViewGroupFoldService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-fold.service";
+import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -31,7 +31,7 @@ export class WorkPackageStatesInitializationService {
               protected querySpace:IsolatedQuerySpace,
               protected wpTableColumns:WorkPackageViewColumnsService,
               protected wpTableGroupBy:WorkPackageViewGroupByService,
-              protected wpTableGroupFold:WorkPackageViewGroupFoldService,
+              protected wpTableGroupFold:WorkPackageViewCollapsedGroupsService,
               protected wpTableSortBy:WorkPackageViewSortByService,
               protected wpTableFilters:WorkPackageViewFiltersService,
               protected wpTableSum:WorkPackageViewSumService,

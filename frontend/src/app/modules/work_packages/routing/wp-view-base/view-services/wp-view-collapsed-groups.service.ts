@@ -27,16 +27,31 @@
 // ++
 
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {WorkPackageQueryStateService, WorkPackageViewBaseService} from './wp-view-base.service';
-import {States} from 'core-components/states.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {WorkPackageViewBaseService} from './wp-view-base.service';
 import {Injectable} from '@angular/core';
-import {QueryColumn} from "core-components/wp-query/query-column";
 
 @Injectable()
-export class WorkPackageViewGroupFoldService extends WorkPackageViewBaseService<boolean> {
+export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<{ [identifier:string]:boolean }> {
   valueFromQuery(query:QueryResource) {
-    return false;
+    return {};
+  }
+
+  public collapseAll() {
+    this.setCollapsedAll(true);
+  }
+
+  public expandAll() {
+    this.setCollapsedAll(false);
+  }
+
+  public setCollapsedAll(collapsed:boolean) {
+    let newState:{ [identifier:string]:boolean } = {};
+
+    this.querySpace.groups.value!.forEach((group) => {
+      newState[group.identifier] = collapsed;
+    });
+
+    this.update(newState);
+    this.querySpace.collapsedGroups.putValue(newState);
   }
 }
