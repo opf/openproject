@@ -36,7 +36,7 @@ describe OpenProject::TextFormatting,
   it_behaves_like 'format_text produces' do
     let(:raw) do
       <<~RAW
-        <macro class="toc"></macro>
+        <macro class="toc op-uc-placeholder"></macro>
 
         # The first h1 heading
 
