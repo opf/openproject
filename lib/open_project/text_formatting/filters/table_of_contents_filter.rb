@@ -70,7 +70,7 @@ module OpenProject::TextFormatting
       ##
       # Appends the header link and returns
       # a toc item.
-      def process_item(node)
+      def process_item(node, number)
         text = node.text
         return ''.html_safe unless text.present?
 
@@ -78,16 +78,21 @@ module OpenProject::TextFormatting
         add_header_link(node, id)
 
         content_tag(:li, class: 'op-uc-toc--list-item') do
-          content_tag(:a, node.text, href: "##{id}")
+            number = content_tag(:span, number, class: 'op-uc-toc--list-item-number');
+            content = content_tag(:span, node.text, class: 'op-uc-toc--list-item-title');
+            content_tag(:a, number + content, href: "##{id}", class: 'op-uc-link op-uc-toc--item-link')
         end
       end
 
-      def render_nested(current_level)
+      def render_nested(current_level, parent_number = "")
         result = ''.html_safe
+        num_in_level = 0
 
         while headings.length > 0
           node = headings.first
           level = node.name[1,].to_i
+          num_in_level += 1
+          current_number = parent_number != "" ? parent_number + "." + num_in_level.to_s : num_in_level.to_s
 
           # Initialize first level
           current_level = level if current_level.nil?
@@ -99,11 +104,11 @@ module OpenProject::TextFormatting
           node = headings.shift
 
           if level == current_level
-            result << process_item(node)
-            result << render_nested(current_level)
+            result << process_item(node, current_number)
+            result << render_nested(current_level, current_number)
           elsif level > current_level
             result << (content_tag(:ul, class: 'op-uc-toc--list') do
-              process_item(node) + render_nested(level)
+              process_item(node, current_number) + render_nested(level, current_number)
             end)
           end
         end
