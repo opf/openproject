@@ -80,36 +80,36 @@ module OpenProject::TextFormatting
         content_tag(:li, class: 'op-uc-toc--list-item') do
             number = content_tag(:span, number, class: 'op-uc-toc--list-item-number');
             content = content_tag(:span, node.text, class: 'op-uc-toc--list-item-title');
-            content_tag(:a, number + content, href: "##{id}", class: 'op-uc-link op-uc-toc--item-link')
+            content_tag(:a, number + content, href: "##{id}", class: 'op-uc-toc--item-link')
         end
       end
 
-      def render_nested(current_level, parent_number = "")
+      def get_heading_number(parent_number, num_in_level)
+        parent_number == "" ? num_in_level.to_s : parent_number + "." + num_in_level.to_s
+      end
+
+      def render_nested(level = 0, parent_number = "")
         result = ''.html_safe
         num_in_level = 0
 
         while headings.length > 0
           node = headings.first
-          level = node.name[1,].to_i
-          num_in_level += 1
-          current_number = parent_number != "" ? parent_number + "." + num_in_level.to_s : num_in_level.to_s
+          node_level = node.name[1,].to_i
 
-          # Initialize first level
-          current_level = level if current_level.nil?
-
-          # Cancel our loop and let parent render this one
-          break if level < current_level
-
-          # We will render this node
-          node = headings.shift
-
-          if level == current_level
+          if level == node_level
+            # We will render this node
+            node = headings.shift
+            num_in_level =  num_in_level + 1
+            current_number = get_heading_number(parent_number, num_in_level)
             result << process_item(node, current_number)
-            result << render_nested(current_level, current_number)
-          elsif level > current_level
+          elsif level < node_level
+            # Render a parent
             result << (content_tag(:ul, class: 'op-uc-toc--list') do
-              process_item(node, current_number) + render_nested(level, current_number)
+              render_nested(node_level, num_in_level > 0 ? get_heading_number(parent_number, num_in_level) : "")
             end)
+          elsif level > node_level
+            puts "Breaking"
+            break
           end
         end
 
@@ -126,7 +126,7 @@ module OpenProject::TextFormatting
           if headings.empty?
             I18n.t(:label_wiki_toc_empty)
           else
-            content_tag(:ul, render_nested(nil), class: 'op-uc-toc--list')
+            render_nested()
           end
         end
 

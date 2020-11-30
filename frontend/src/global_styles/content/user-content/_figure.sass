@@ -7,6 +7,12 @@
   max-height: 70vh
   width: 100%
   max-width: 100%
+
+  clear: both;
+  width: auto
+  margin-left: auto
+  margin-right: auto
+
   @include styled-scroll-bar
 
   @at-root .op-uc-container_editing &
@@ -26,10 +32,7 @@
     float: left
     width: auto
   &_align-center
-    clear: both;
-    width: auto
-    margin-left: auto
-    margin-right: auto
+    // This is the current default behaviour, as ckeditor has no "don't align" option
 
   &--content
     flex-basis: auto

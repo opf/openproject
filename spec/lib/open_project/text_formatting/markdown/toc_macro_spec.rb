@@ -70,28 +70,46 @@ describe OpenProject::TextFormatting,
           <nav class="op-uc-toc">
             <ul class="op-uc-toc--list">
               <li class="op-uc-toc--list-item">
-                <a class="op-uc-link" href="#the-first-h1-heading">The first h1 heading</a>
+                <a class="op-uc-toc--item-link op-uc-link" href="#the-first-h1-heading">
+                  <span class="op-uc-toc--list-item-number">1</span>
+                  <span class="op-uc-toc--list-item-title">The first h1 heading</span>
+                </a>
               </li>
               <ul class="op-uc-toc--list">
                 <li class="op-uc-toc--list-item">
-                  <a class="op-uc-link" href="#the-first-h2-heading">The first h2 heading</a>
+                  <a class="op-uc-toc--item-link op-uc-link" href="#the-first-h2-heading">
+                    <span class="op-uc-toc--list-item-number">1.1</span>
+                    <span class="op-uc-toc--list-item-title">The first h2 heading</span>
+                  </a>
                 </li>
                 <ul class="op-uc-toc--list">
                   <li class="op-uc-toc--list-item">
-                    <a class="op-uc-link" href="#the-first-h3-heading">The first h3 heading</a>
+                    <a class="op-uc-toc--item-link op-uc-link" href="#the-first-h3-heading">
+                      <span class="op-uc-toc--list-item-number">1.1.1</span>
+                      <span class="op-uc-toc--list-item-title">The first h3 heading</span>
+                    </a>
                   </li>
                 </ul>
               </ul>
               <li class="op-uc-toc--list-item">
-                <a class="op-uc-link" href="#the-second-h1-heading">The second h1 heading</a>
+                <a class="op-uc-toc--item-link op-uc-link" href="#the-second-h1-heading">
+                  <span class="op-uc-toc--list-item-number">2</span>
+                  <span class="op-uc-toc--list-item-title">The second h1 heading</span>
+                </a>
               </li>
               <ul class="op-uc-toc--list">
                 <li class="op-uc-toc--list-item">
-                  <a class="op-uc-link" href="#the-second-h2-heading">The second h2 heading</a>
+                  <a class="op-uc-toc--item-link op-uc-link" href="#the-second-h2-heading">
+                    <span class="op-uc-toc--list-item-number">2.1</span>
+                    <span class="op-uc-toc--list-item-title">The second h2 heading</span>
+                  </a>
                 </li>
                 <ul class="op-uc-toc--list">
                   <li class="op-uc-toc--list-item">
-                    <a class="op-uc-link" href="#the-second-h3-heading">The second h3 heading</a>
+                    <a class="op-uc-toc--item-link op-uc-link" href="#the-second-h3-heading">
+                      <span class="op-uc-toc--list-item-number">2.1.1</span>
+                      <span class="op-uc-toc--list-item-title">The second h3 heading</span>
+                    </a>
                   </li>
                 </ul>
               </ul>
