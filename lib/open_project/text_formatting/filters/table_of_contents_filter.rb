@@ -103,12 +103,12 @@ module OpenProject::TextFormatting
             current_number = get_heading_number(parent_number, num_in_level)
             result << process_item(node, current_number)
           elsif level < node_level
-            # Render a parent
+            # Render a child list
             result << (content_tag(:ul, class: 'op-uc-toc--list') do
               render_nested(node_level, num_in_level > 0 ? get_heading_number(parent_number, num_in_level) : "")
             end)
           elsif level > node_level
-            puts "Breaking"
+            # Break and return to the parent loop
             break
           end
         end
