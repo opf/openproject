@@ -16,9 +16,11 @@
   // The selectors below are needed because the CKEditor currently
   // renders more nested tags than needed and its own classes
   // TODO: Make these obsolete
-  &_task-list &--item > *
-    display: inline
-    font: inherit
+  &_task-list &--item 
+    > span,
+    > label
+      display: inline
+      font: inherit
 
   &--item
     @at-root .op-uc-container_editing #{&} input[type="checkbox"]
