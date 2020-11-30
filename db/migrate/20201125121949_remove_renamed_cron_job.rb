@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,27 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require_relative 'budget_form'
-
-module Pages
-  class EditBudget < Page
-    include ::Pages::BudgetForm
-
-    attr_reader :budget_id # budget == budget
-
-    def initialize(budget_id)
-      @budget_id = budget_id
-    end
-
-    def click_copy
-      within '.toolbar-items' do
-        click_link 'Copy'
-      end
-    end
-
-    def path
-      "/budgets/#{budget_id}"
-    end
+class RemoveRenamedCronJob < ActiveRecord::Migration[6.0]
+  def up
+    # The job has been renamed to JobStatus::Cron::ClearOldJobStatusJob
+    # the new job will be added on restarting the application but the old will still be in the database
+    # and will cause 'uninitialized constant' errors.
+    Delayed::Job
+      .where('handler LIKE ?', "%job_class: Cron::ClearOldJobStatusJob%")
+      .delete_all
   end
 end
