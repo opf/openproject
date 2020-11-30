@@ -57,6 +57,7 @@ describe 'Upload attachment to documents', js: true do
       fill_in "Title", with: 'New documentation'
 
       # adding an image
+      editor.click_and_type_slowly 'abc'
       editor.drag_attachment image_fixture, 'Image uploaded on creation'
       expect(page).to have_selector('attachment-list-item', text: 'image.png')
 
@@ -80,7 +81,7 @@ describe 'Upload attachment to documents', js: true do
       # We should be using the 'Edit' button at the top but that leads to flickering specs
       visit edit_document_path(document)
 
-      expect(page).to have_current_path "/documents/#{document.id}/edit", wait: 10
+      #editor.click_and_type_slowly 'abc'
       editor.drag_attachment image_fixture, 'Image uploaded the second time'
       expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 
