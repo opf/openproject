@@ -216,6 +216,12 @@ $nm-color-success-background: #d8fdd1
     @include text-shortener
     padding: 0
 
+    // WYSIWYG content creates bigger headings than this. When viewing on screen, this is okay since the general page
+    // layout does a decent job conveying hierarchy. However, when printing we need to bump the size of this heading
+    // (which is really the page heading) to be larger than the user-content h1.
+    @media print
+      font-size: 4rem
+
   div.inline-edit
     cursor: pointer
 
