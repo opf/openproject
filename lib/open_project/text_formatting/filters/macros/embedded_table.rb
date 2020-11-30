@@ -38,8 +38,8 @@ module OpenProject::TextFormatting::Filters::Macros
       HTML_CLASS
     end
 
-    def apply(*_args)
-      # Nothing to do
+    def apply(macro, result:, context:)
+      macro['class'] = macro['class'].gsub('op-uc-placeholder', '').squish
     end
 
     def is?(macro)
