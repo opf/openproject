@@ -91,7 +91,7 @@ describe 'Wysiwyg child pages spec',
           editor.insert_macro 'Links to child pages'
 
           # Find widget, click to show toolbar
-          placeholder = find('.macro.-child_pages')
+          placeholder = find('.op-uc-placeholder', text: 'Links to child pages')
 
           # Placeholder states `this page` and no `Include parent`
           expect(placeholder).to have_text('this page')
@@ -134,7 +134,7 @@ describe 'Wysiwyg child pages spec',
 
         editor.in_editor do |_container, _editable|
           # Find widget, click to show toolbar
-          placeholder = find('.macro.-child_pages')
+          placeholder = find('.op-uc-placeholder', text: 'Links to child pages')
 
           # Edit widget and save
           placeholder.click

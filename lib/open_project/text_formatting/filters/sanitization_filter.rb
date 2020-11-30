@@ -82,7 +82,10 @@ module OpenProject::TextFormatting
 
           next unless name == 'table'
 
-          table.css('label.todo-list__label').each do |label|
+          # Support both the old css ('todo-list__label') as well as the new one
+          # ('op-uc-list_task-list').
+          table.css('label.todo-list__label, .op-uc-list_task-list label').each do |label|
+            #table.css('.op-uc-list_task-list label').each do |label|
             checkbox = label.css('input[type=checkbox]').first
             li_node = label.ancestors.detect { |node| node.name == 'li' }
 
