@@ -62,3 +62,5 @@ After you are done you can leave the console by entering `exit`.
 
 Once this is done you will see an "Okta" button in the bottom area of the login form.
 Clicking on it will start the login process.
+
+_**Note**: This is an Enterprise Edition feature. If you do not see the button you will have to activate the Enterprise Edition first._
