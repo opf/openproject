@@ -41,7 +41,7 @@ module OpenProject::TextFormatting
       # Returns an HTML-safe String.
       def render_item_checkbox(item)
         %(<input type="checkbox"
-        class="task-list-item-checkbox op-uc-list--task-checkbox"
+        class="op-uc-list--task-checkbox"
         #{'checked="checked"' if item.complete?}
         disabled="disabled"
       />)
