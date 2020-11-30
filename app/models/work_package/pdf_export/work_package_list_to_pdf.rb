@@ -68,10 +68,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     end
 
     @merged_pdf_file = merge_pdfs
-    merged_file_content = @merged_pdf_file.read
+
     delete_tmp_files
 
-    success(merged_file_content)
+    success(@merged_pdf_file)
   rescue Prawn::Errors::CannotFit
     error(I18n.t(:error_pdf_export_too_many_columns))
   rescue StandardError => e
@@ -89,8 +89,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   end
 
   def delete_tmp_files
-    files_to_delete = [@merged_pdf_file] + @batch_files
-    files_to_delete.each(&:delete)
+    @batch_files.each(&:delete)
   end
 
   def configure_page_size

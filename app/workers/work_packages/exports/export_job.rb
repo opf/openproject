@@ -31,7 +31,7 @@ module WorkPackages
         exporter.list(query, options) do |export_result|
           if export_result.error?
             raise export_result.message
-          elsif export_result.content.is_a? File
+          elsif [File, Tempfile].any? { |klass| export_result.content.is_a? klass }
             store_attachment(export, export_result.content)
           else
             store_from_string(export, export_result)
