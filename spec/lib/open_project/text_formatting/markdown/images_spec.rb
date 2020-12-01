@@ -80,7 +80,9 @@ describe OpenProject::TextFormatting,
             <<~EXPECTED
               <p class="op-uc-p">
                 <figure class="op-uc-figure">
-                  <img class="op-uc-image op-uc-figure--content" src="/api/v3/attachments/#{inlinable.id}/content" alt='"foobar"'>
+                  <div class="op-uc-figure--content">
+                    <img class="op-uc-image" src="/api/v3/attachments/#{inlinable.id}/content" alt='"foobar"'>
+                  </div>
                 </figure>
               </p>
             EXPECTED
@@ -101,7 +103,9 @@ describe OpenProject::TextFormatting,
               <<~EXPECTED
                 <p class="op-uc-p">
                   <figure class="op-uc-figure">
-                    <img class="op-uc-image op-uc-figure--content" src="http://localhost:3000/api/v3/attachments/#{inlinable.id}/content" alt='"foobar"'>
+                    <div class="op-uc-figure--content">
+                      <img class="op-uc-image" src="http://localhost:3000/api/v3/attachments/#{inlinable.id}/content" alt='"foobar"'>
+                    </div>
                   </figure>
                 </p>
               EXPECTED
@@ -122,7 +126,9 @@ describe OpenProject::TextFormatting,
             <<~EXPECTED
               <p class="op-uc-p">
                 <figure class="op-uc-figure">
-                  <img class="op-uc-image op-uc-figure--content" src="/api/v3/attachments/#{inlinable.id}/content" alt="alt-text">
+                  <div class="op-uc-figure--content">
+                    <img class="op-uc-image" src="/api/v3/attachments/#{inlinable.id}/content" alt="alt-text">
+                  </div>
                 </figure>
               </p>
             EXPECTED
@@ -142,7 +148,9 @@ describe OpenProject::TextFormatting,
             <<~EXPECTED
               <p class="op-uc-p">
                 <figure class="op-uc-figure">
-                  <img class="op-uc-image op-uc-figure--content" src="does-not-exist.jpg" alt="foo">
+                  <div class="op-uc-figure--content">
+                    <img class="op-uc-image" src="does-not-exist.jpg" alt="foo">
+                  </div>
                 </figure>
               </p>
             EXPECTED
@@ -162,7 +170,9 @@ describe OpenProject::TextFormatting,
             <<~EXPECTED
               <p class="op-uc-p">
                 <figure class="op-uc-figure">
-                  <img class="op-uc-image op-uc-figure--content" src="whatever.pdf" alt="">
+                  <div class="op-uc-figure--content">
+                    <img class="op-uc-image" src="whatever.pdf" alt="">
+                  </div>
                 </figure>
               </p>
             EXPECTED
@@ -182,7 +192,9 @@ describe OpenProject::TextFormatting,
             <<~EXPECTED
               <p class="op-uc-p">
                 <figure class="op-uc-figure">
-                  <img class="op-uc-image op-uc-figure--content" src="some/path/to/my-image.jpg" alt="">
+                  <div class="op-uc-figure--content">
+                    <img class="op-uc-image" src="some/path/to/my-image.jpg" alt="">
+                  </div>
                 </figure>
               </p>
             EXPECTED
@@ -202,7 +214,9 @@ describe OpenProject::TextFormatting,
             <<~EXPECTED
               <p class="op-uc-p">
                 <figure class="op-uc-figure">
-                  <img class="op-uc-image op-uc-figure--content" src="some/path/to/my-image.jpg" alt="">
+                  <div class="op-uc-figure--content">
+                    <img class="op-uc-image" src="some/path/to/my-image.jpg" alt="">
+                  </div>
                 </figure>
               </p>
             EXPECTED
@@ -223,7 +237,9 @@ describe OpenProject::TextFormatting,
           <<~EXPECTED
             <p class="op-uc-p">
               <figure class="op-uc-figure">
-                <img class="op-uc-image op-uc-figure--content" src="/images/comment.png%22onclick=alert('XSS');%22" alt="">
+                <div class="op-uc-figure--content">
+                  <img class="op-uc-image" src="/images/comment.png%22onclick=alert('XSS');%22" alt="">
+                </div>
               </figure>
             </p>
           EXPECTED
@@ -246,7 +262,9 @@ describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <figure class="image op-uc-figure">
-            <img src="/api/v3/attachments/1293/content" class="op-uc-image op-uc-figure--content">
+            <div class="op-uc-figure--content">
+              <img src="/api/v3/attachments/1293/content" class="op-uc-image">
+            </div>
             <figcaption class="op-uc-figure--description">Some caption with meaning</figcaption>
           </figure>
         EXPECTED
