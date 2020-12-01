@@ -33,10 +33,20 @@ module WorkPackages
             raise export_result.message
           elsif export_result.content.is_a? File
             store_attachment(export, export_result.content)
+          elsif export_result.content.is_a? Tempfile
+            store_from_tempfile(export, export_result)
           else
             store_from_string(export, export_result)
           end
         end
+      end
+
+      def store_from_tempfile(export, export_result)
+        renamed_file_path = File.join(File.dirname(export_result.content.path), export_result.title)
+        File.rename(export_result.content.path, renamed_file_path)
+        file = File.open(renamed_file_path)
+        store_attachment(export, file)
+        file.close
       end
 
       def schedule_cleanup
