@@ -90,7 +90,7 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
   .document-editor__toolbar
     position: sticky
     top: 0px
-    z-index: 1
+    z-index: 2
 
     // Adjust top offset to match if globally
     // scrolling (content-wrapper)
@@ -118,3 +118,6 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
   ol, ul
     margin-left: 0
     margin-right: 40px
+
+.ck tr .ck-editor__nested-editable 
+  border: 1px solid var(--ck-color-base-border)
