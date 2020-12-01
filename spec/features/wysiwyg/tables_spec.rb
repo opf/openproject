@@ -299,16 +299,6 @@ describe 'Wysiwyg tables',
 
           expect(editable).to have_selector('td[style*="width:250px"]')
 
-          # Expect break-all to be applied to this input
-          value = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak',
-                                       editable.all('.op-uc-table .op-uc-table--cell').first)
-          expect(value).to eq('break-all')
-
-          # Expect not to be set to cell that does not have width
-          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak',
-                                        editable.all('.op-uc-table .op-uc-table--cell').second)
-          expect(value2).to eq('normal')
-
         end
 
         # Save wiki page
@@ -318,10 +308,6 @@ describe 'Wysiwyg tables',
 
         within('#content') do
           expect(page).to have_selector('td[style*="width:250px"]')
-          # Expect not to be set to cell that does not have width
-          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak',
-                                        page.find('td[style*="width:250px"]'))
-          expect(value2).to eq('break-all')
         end
 
         # Edit again
@@ -329,16 +315,6 @@ describe 'Wysiwyg tables',
 
         editor.in_editor do |container, editable|
           expect(editable).to have_selector('td[style*="width:250px"]')
-
-          # Expect break-all to be applied to this input
-          value = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak',
-                                       editable.all('.op-uc-table .op-uc-table--cell').first)
-          expect(value).to eq('break-all')
-
-          # Expect not to be set to cell that does not have width
-          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak',
-                                        editable.all('.op-uc-table .op-uc-table--cell').second)
-          expect(value2).to eq('normal')
         end
       end
     end
