@@ -99,7 +99,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
   def merge_pdfs
     merged_pdf = Tempfile.new
-    # We use the command line tool "pdfunite" for concatinating the PDFs.
+    # We use the command line tool "pdfunite" for concatenating the PDFs.
     # That tool comes with the system package "poppler-utils" which we
     # fortunately already have installed for text extraction purposes.
     Open3.capture2e("pdfunite", *@batch_files.map(&:path), merged_pdf.path)

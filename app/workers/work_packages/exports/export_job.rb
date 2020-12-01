@@ -31,8 +31,14 @@ module WorkPackages
         exporter.list(query, options) do |export_result|
           if export_result.error?
             raise export_result.message
-          elsif [File, Tempfile].any? { |klass| export_result.content.is_a? klass }
+          elsif export_result.content.is_a? File
             store_attachment(export, export_result.content)
+          elsif export_result.content.is_a? Tempfile
+            renamed_file_path = File.join(File.dirname(export_result.content.path), export_result.title)
+            File.rename(export_result.content.path, renamed_file_path)
+            file = File.open(renamed_file_path)
+            store_attachment(export, file)
+            file.close
           else
             store_from_string(export, export_result)
           end
