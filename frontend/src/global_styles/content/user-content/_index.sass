@@ -8,6 +8,8 @@
 @import 'toc'
 
 .op-uc-container
+  --op-uc-heading-base: 3.5rem
+  --op-uc-heading-falloff: 0.7
   display: block
   overflow: hidden
   font-size: var(--wiki-default-font-size)
@@ -17,6 +19,10 @@
   box-sizing: border-box
 
   @include user-content-children
+
+  &_reduced-headings
+    --op-uc-heading-base: 1.5rem
+    --op-uc-heading-falloff: 0.9
 
   &_no-permalinks *:hover .op-uc-link_permalink
     display: none

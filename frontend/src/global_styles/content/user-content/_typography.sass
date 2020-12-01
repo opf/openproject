@@ -4,6 +4,7 @@
 .op-uc-h4,
 .op-uc-h5,
 .op-uc-h6,
+  --falloff: var(--op-uc-heading-falloff)
   color: inherit
   line-height: 1.6em
   text-transform: none
@@ -19,15 +20,15 @@
     display: inline-flex
 
 .op-uc-h1
-  font-size: 2.75em
+  font-size: var(--op-uc-heading-base)
 .op-uc-h2
-  font-size: 2.75em * 0.7
+  font-size: calc(var(--op-uc-heading-base) * var(--falloff))
 .op-uc-h3
-  font-size: 2.75em * 0.6
+  font-size: calc(var(--op-uc-heading-base) * var(--falloff) * var(--falloff))
 .op-uc-h4
-  font-size: 2.75em * 0.4
+  font-size: calc(var(--op-uc-heading-base) * var(--falloff) * var(--falloff) * var(--falloff))
 .op-uc-h5
-  font-size: 2.75em * 0.3
+  font-size: calc(var(--op-uc-heading-base) * var(--falloff) * var(--falloff) * var(--falloff) * var(--falloff))
   
 .op-uc-p
   font: inherit;
