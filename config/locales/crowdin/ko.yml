@@ -535,7 +535,7 @@ ko:
         invalid_url: '은(는) 올바른 URL이 아닙니다.'
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         less_than_or_equal_to: "은(는) %{count} 보다 작거나 같아야 합니다"
-        not_current_user: "is not the current user."
+        not_current_user: "은(는) 현재 유효한 사용자가 아닙니다."
         not_a_date: "은(는) 유효한 날짜가 아닙니다."
         not_a_datetime: "은(는) 유효한 날짜가 아닙니다."
         not_a_number: "은(는) 숫자가 아닙니다."
@@ -615,7 +615,7 @@ ko:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "필터에 잘못된 값이 있습니다."
               format: "%{message}"
         relation:
           typed_dag:

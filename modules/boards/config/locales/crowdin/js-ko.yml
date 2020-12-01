@@ -50,7 +50,7 @@ ko:
         action_text_assignee: >
           할당된 사용자에 기반한 자동화된 열이 있는 보드입니다. 작업 패키지 디스패치에 적합합니다.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          버전 속성 컬럼이 있는 보드. 소프트웨어 개발 계획에 적합함.
         action_type:
           assignee: 담당자
           status: 상태
