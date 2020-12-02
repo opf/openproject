@@ -45,7 +45,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
   }
 
   public setCollapsedAll(collapsed:boolean) {
-    let newState:{ [identifier:string]:boolean } = {};
+    const newState:{ [identifier:string]:boolean } = {};
 
     this.querySpace.groups.value!.forEach((group) => {
       newState[group.identifier] = collapsed;
