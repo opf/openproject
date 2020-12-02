@@ -34,6 +34,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
     <button class="button"
             id="wp-view-toggle-button"
             wpGroupToggleDropdown>
+      <op-icon icon-classes="button--icon icon-outline"></op-icon>
       <span class="button--text"
             aria-hidden="true"
             [textContent]="label">
