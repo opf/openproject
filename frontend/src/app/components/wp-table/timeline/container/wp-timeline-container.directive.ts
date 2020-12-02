@@ -468,15 +468,20 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         this.commonPipes,
       )
       .subscribe((change:{[identifier:string]:boolean} | false) => {
+        const allGroups = this.querySpace.groups.value!;
+        const allGroupsArray = allGroups.map(group => group.identifier);
+        const allGroupsChanged = change && allGroupsArray.every(groupIdentifier => change[groupIdentifier] != null && change[groupIdentifier] === change[allGroupsArray[0]]);
         const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
-        const refreshAllGroupHeaderCells = !change;
+        const refreshAllGroupHeaderCells = !change || allGroupsChanged;
 
         if (collapsedGroupsChange) {
-          this.manageCollapsedGroupHeaderCells(this.querySpace.groups.value!,
+          this.manageCollapsedGroupHeaderCells(
+            allGroups,
             collapsedGroupsChange,
             this.querySpace.results.value!.elements,
             this.collapsedGroupsCellsMap,
-            refreshAllGroupHeaderCells);
+            refreshAllGroupHeaderCells,
+          );
         }
       });
   }
