@@ -70,7 +70,6 @@ export class GroupedRowsBuilder extends RowsBuilder {
    */
   public refreshExpansionState() {
     const groups = this.getGroupData();
-    const colspan = this.wpTableColumns.columnCount + 2;
     const rendered = this.querySpace.tableRendered.value!;
     const builder = new GroupHeaderBuilder(this.injector);
 
@@ -81,7 +80,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
         let group = groups[groupIndex];
 
         // Refresh the group header
-        let newRow = builder.buildGroupRow(group, colspan);
+        let newRow = builder.buildGroupRow(group, this.colspan);
 
         if (oldRow.parentNode) {
           oldRow.parentNode.replaceChild(newRow, oldRow);
