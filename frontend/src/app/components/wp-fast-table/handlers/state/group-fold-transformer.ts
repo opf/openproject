@@ -20,9 +20,7 @@ export class GroupFoldTransformer {
         distinctUntilChanged()
       )
       .subscribe(() => {
-        //setTimeout(() => {
-          table.redrawTableAndTimeline();
-        //});
+        table.redrawTableAndTimeline();
       });
   }
 }

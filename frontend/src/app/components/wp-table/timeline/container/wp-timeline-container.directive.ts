@@ -173,8 +173,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.orderedRows = orderedRows;
       this.refreshView();
     });
-
-    this.setupManageCollapsedGroupHeaderCells();
   }
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
@@ -240,7 +238,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         cb(this._viewParameters);
       });
 
-      this.refreshCollapsedGroupsHeaderCells(this.collapsedGroupsCellsMap, this.cellsRenderer);
+      this.refreshGroupRows(false);
 
       // Calculate overflowing width to set to outer container
       // required to match width in all child divs.
@@ -457,33 +455,26 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     }
   }
 
-  setupManageCollapsedGroupHeaderCells() {
-    merge(
-      // Refresh the last collapsed/expanded group header cells when its collapsed state changes
-      this.querySpace.collapsedGroups.changes$().pipe(filter(collapsedGroupsChange => collapsedGroupsChange != null)),
-      // Refresh all the collapsed group header cells whenever the query changes
-      this.querySpace.initialized.values$().pipe(switchMap(() => this.querySpace.tableRendered.values$().pipe(take(1), map(() => false)))),
-    )
-      .pipe(
-        this.commonPipes,
-      )
-      .subscribe((change:{[identifier:string]:boolean} | false) => {
-        const allGroups = this.querySpace.groups.value!;
-        const allGroupsArray = allGroups.map(group => group.identifier);
-        const allGroupsChanged = change && allGroupsArray.every(groupIdentifier => change[groupIdentifier] != null && change[groupIdentifier] === change[allGroupsArray[0]]);
-        const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
-        const refreshAllGroupHeaderCells = !change || allGroupsChanged;
+  refreshGroupRows(change:{[identifier:string]:boolean} | false) {
+    if (!this.querySpace.groups.value!) {
+      return;
+    }
 
-        if (collapsedGroupsChange) {
-          this.manageCollapsedGroupHeaderCells(
-            allGroups,
-            collapsedGroupsChange,
-            this.querySpace.results.value!.elements,
-            this.collapsedGroupsCellsMap,
-            refreshAllGroupHeaderCells,
-          );
-        }
-      });
+    const allGroups = this.querySpace.groups.value!;
+    const allGroupsArray = allGroups.map(group => group.identifier);
+    const allGroupsChanged = change && allGroupsArray.every(groupIdentifier => change[groupIdentifier] != null && change[groupIdentifier] === change[allGroupsArray[0]]);
+    const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
+    const refreshAllGroupHeaderCells = !change || allGroupsChanged;
+
+    if (collapsedGroupsChange) {
+      this.manageCollapsedGroupHeaderCells(
+        allGroups,
+        collapsedGroupsChange,
+        this.querySpace.results.value!.elements,
+        this.collapsedGroupsCellsMap,
+        refreshAllGroupHeaderCells,
+      );
+    }
   }
 
   manageCollapsedGroupHeaderCells(allGroups:GroupObject[],

@@ -67,7 +67,6 @@ export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageBut
 
   public ngOnDestroy() {
     super.ngOnDestroy();
-    this.transitionListener();
   }
 
   public get label():string {
