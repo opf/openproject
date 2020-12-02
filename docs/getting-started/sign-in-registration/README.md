@@ -26,8 +26,6 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JO-ugpygx68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/11/OpenProject-Agile-Boards.mp4"></video>
-
 ## Sign in with an existing account
 
 To sign in to an OpenProject installation with an existing account, please enter the URL of your OpenProject in a modern browser, e.g. documentation.openproject.com.
