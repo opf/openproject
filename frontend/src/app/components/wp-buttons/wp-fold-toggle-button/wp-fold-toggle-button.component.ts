@@ -57,10 +57,6 @@ export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageBut
     super(I18n);
   }
 
-  public ngOnDestroy() {
-    super.ngOnDestroy();
-  }
-
   public get label():string {
     if (this.isActive) {
       return this.labels.deactivate;
@@ -81,10 +77,6 @@ export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageBut
   }
 
   private setIconClass() {
-    if (this.isActive) {
-      this.iconClass = 'icon-plus';
-    } else {
-      this.iconClass = 'icon-minus2';
-    }
+    this.iconClass = this.isActive ? 'icon-plus' : 'icon-minus2';
   }
 }
