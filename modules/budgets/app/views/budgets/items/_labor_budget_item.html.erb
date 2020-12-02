@@ -84,8 +84,8 @@ See docs/COPYRIGHT.rdoc for more details.
     <% if User.current.allowed_to?(:view_cost_rates, @project) %>
       <td class="currency budget-table--fields">
         <%# Keep current budget as hidden field because otherwise they will be overridden %>
-        <% if templated == false && !labor_budget_item.new_record? && labor_budget_item.overridden_costs? %>
-          <%= cost_form.hidden_field :amount, value: unitless_currency_number(labor_budget_item.amount) %>
+        <% if templated == false && labor_budget_item.overridden_costs? %>
+          <%= cost_form.hidden_field :amount, index: id_or_index, value: unitless_currency_number(labor_budget_item.amount) %>
         <% end %>
 
         <% cost_value = labor_budget_item.amount || labor_budget_item.calculated_costs(@budget.fixed_date, @budget.project_id) %>
