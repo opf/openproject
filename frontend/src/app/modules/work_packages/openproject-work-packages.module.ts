@@ -166,6 +166,7 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
 import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
+import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
 
 @NgModule({
   imports: [
@@ -283,6 +284,7 @@ import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.comp
     WorkPackageSingleContextMenuDirective,
     WorkPackageQuerySelectDropdownComponent,
     WorkPackageViewDropdownMenuDirective,
+    WorkPackageGroupToggleDropdownMenuDirective,
 
     // Timeline
     WorkPackageTimelineButtonComponent,

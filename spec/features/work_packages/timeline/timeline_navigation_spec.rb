@@ -320,7 +320,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
       # The button to fold/expand all groups is only present when grouping
       expect(page)
-        .not_to have_selector('#work-packages-fold-toggle-button')
+        .not_to have_button(I18n.t('js.label_group_plural'))#work-packages-fold-toggle-button')
 
       group_by.enable_via_menu 'Project'
 
@@ -349,7 +349,8 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
       expect(page).to have_no_selector('.-group-row .timeline-element')
 
-      click_button('work-packages-fold-toggle-button')
+      click_button(I18n.t('js.label_group_plural'))
+      click_link(I18n.t('js.button_collapse_all'))
 
       # Will again fold all rows so the milestone elements should again be present
       expect(page).to have_selector('.-group-row .timeline-element.milestone')

@@ -26,57 +26,27 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
-import {States} from '../../states.service';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {StateService, TransitionService} from '@uirouter/core';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
-import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 @Component({
-  templateUrl: '../wp-button.template.html',
+  template: `
+    <button class="button"
+            id="wp-view-toggle-button"
+            wpGroupToggleDropdown>
+      <span class="button--text"
+            aria-hidden="true"
+            [textContent]="label">
+      </span>
+      <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+    </button>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-fold-toggle-view-button',
 })
-export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
-  public buttonId:string = 'work-packages-fold-toggle-button';
-  public buttonClass:string = 'toolbar-icon';
-  public iconClass:string = 'icon-minus2';
+export class WorkPackageFoldToggleButtonComponent {
+  public label = this.I18n.t('js.label_group_plural');
 
-  private labels = {
-    activate: this.I18n.t('js.button_collapse_all'),
-    deactivate: this.I18n.t('js.button_expand_all')
-  };
-
-  constructor(
-    readonly I18n:I18nService,
-    public wpViewCollapsedGroups:WorkPackageViewCollapsedGroupsService) {
-    super(I18n);
-  }
-
-  public get label():string {
-    if (this.isActive) {
-      return this.labels.deactivate;
-    } else {
-      return this.labels.activate;
-    }
-  }
-
-  public isToggle():boolean {
-    return true;
-  }
-
-  public performAction(event:Event) {
-    this.isActive = !this.isActive;
-
-    this.setIconClass();
-    this.wpViewCollapsedGroups.setCollapsedAll(this.isActive);
-  }
-
-  private setIconClass() {
-    this.iconClass = this.isActive ? 'icon-plus' : 'icon-minus2';
+  constructor(readonly I18n:I18nService) {
   }
 }
