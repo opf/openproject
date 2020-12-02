@@ -740,7 +740,7 @@ de:
       property_groups:
         details: "Details"
         people: "Personen"
-        estimatesAndTime: "Schätzungen & Zeit"
+        estimatesAndTime: "Schätzungen & Zeiten"
         other: "Andere"
       properties:
         assignee: "Zugewiesen an"
