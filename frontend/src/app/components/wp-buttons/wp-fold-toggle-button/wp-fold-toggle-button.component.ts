@@ -42,25 +42,17 @@ import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packa
   selector: 'wp-fold-toggle-view-button',
 })
 export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
-  public activeState:string = 'work-packages.partitioned.list.details';
-  public listState:string = 'work-packages.partitioned.list';
   public buttonId:string = 'work-packages-fold-toggle-button';
   public buttonClass:string = 'toolbar-icon';
-  public iconClass:string = 'icon-hierarchy';
-
-  public activateLabel:string;
-  public deactivateLabel:string;
+  public iconClass:string = 'icon-minus2';
 
   private labels = {
     activate: this.I18n.t('js.button_collapse_all'),
     deactivate: this.I18n.t('js.button_expand_all')
   };
 
-  private transitionListener:Function;
-
   constructor(
     readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
     public wpViewCollapsedGroups:WorkPackageViewCollapsedGroupsService) {
     super(I18n);
   }
@@ -84,6 +76,15 @@ export class WorkPackageFoldToggleButtonComponent extends AbstractWorkPackageBut
   public performAction(event:Event) {
     this.isActive = !this.isActive;
 
+    this.setIconClass();
     this.wpViewCollapsedGroups.setCollapsedAll(this.isActive);
+  }
+
+  private setIconClass() {
+    if (this.isActive) {
+      this.iconClass = 'icon-plus';
+    } else {
+      this.iconClass = 'icon-minus2';
+    }
   }
 }
