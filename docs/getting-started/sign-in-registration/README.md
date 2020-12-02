@@ -1,11 +1,10 @@
----
 sidebar_navigation:
   title: Sign in and registration
   priority: 990
 description: Sign in and registration in OpenProject.
 robots: index, follow
 keywords: sing in, login, registration
----
+
 # Sign in and registration
 
 Here you will get an overview how to sign in and register to an existing OpenProject installation.
@@ -26,6 +25,8 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 | [Reset your password](#reset-your-password)                  | If you forgot your password find out how to reset it.        |
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JO-ugpygx68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<video src="https://www.openproject.org/wp-content/uploads/2020/11/OpenProject-Agile-Boards.mp4"></video>
 
 ## Sign in with an existing account
 
