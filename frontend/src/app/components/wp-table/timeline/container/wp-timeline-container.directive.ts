@@ -33,7 +33,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {IsolatedQuerySpace} from 'core-app/modules/work_packages/query-space/isolated-query-space';
 import * as moment from 'moment';
 import {Moment} from 'moment';
-import {filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
@@ -60,7 +60,6 @@ import {WorkPackageNotificationService} from 'core-app/modules/work_packages/not
 import {combineLatest, merge, Observable} from 'rxjs';
 import {UntilDestroyedMixin} from 'core-app/helpers/angular/until-destroyed.mixin';
 import {WorkPackagesTableComponent} from 'core-components/wp-table/wp-table.component';
-import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {
   groupIdFromIdentifier,
@@ -238,7 +237,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         cb(this._viewParameters);
       });
 
-      this.refreshGroupRows(false);
+      this.refreshGroupRows();
 
       // Calculate overflowing width to set to outer container
       // required to match width in all child divs.
@@ -455,52 +454,26 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     }
   }
 
-  refreshGroupRows(change:{[identifier:string]:boolean} | false) {
-    if (!this.querySpace.groups.value!) {
-      return;
-    }
-
-    const allGroups = this.querySpace.groups.value!;
-    const allGroupsArray = allGroups.map(group => group.identifier);
-    const allGroupsChanged = change && allGroupsArray.every(groupIdentifier => change[groupIdentifier] != null && change[groupIdentifier] === change[allGroupsArray[0]]);
-    const collapsedGroupsChange = change || this.querySpace.collapsedGroups.value;
-    const refreshAllGroupHeaderCells = !change || allGroupsChanged;
-
-    if (collapsedGroupsChange) {
+  refreshGroupRows() {
+    if (this.querySpace.groups.value! && this.querySpace.collapsedGroups.value) {
       this.manageCollapsedGroupHeaderCells(
-        allGroups,
-        collapsedGroupsChange,
+        this.querySpace.collapsedGroups.value,
         this.querySpace.results.value!.elements,
-        this.collapsedGroupsCellsMap,
-        refreshAllGroupHeaderCells,
+        this.collapsedGroupsCellsMap
       );
     }
   }
 
-  manageCollapsedGroupHeaderCells(allGroups:GroupObject[],
-                                  collapsedGroupsChange:{[key:string]:boolean},
+  manageCollapsedGroupHeaderCells(collapsedGroupsChange:{[key:string]:boolean},
                                   tableWorkPackages:WorkPackageResource[],
-                                  collapsedGroupsCellsMap:IGroupCellsMap,
-                                  refreshAllGroupHeaderCells:boolean) {
+                                  collapsedGroupsCellsMap:IGroupCellsMap) {
     const collapsedGroupChangesToManage = Object.keys(collapsedGroupsChange).filter(groupIdentifier => {
       const keyGroupType = groupTypeFromIdentifier(groupIdentifier);
 
       return this.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType);
     });
-    let groupsToUpdate:string[];
 
-    if (refreshAllGroupHeaderCells) {
-      groupsToUpdate = collapsedGroupChangesToManage;
-    } else {
-      groupsToUpdate = collapsedGroupChangesToManage.filter(groupKey => {
-        const currentGroupCollapsedValue = collapsedGroupsChange[groupKey];
-        const storedGroup = allGroups.find(group => group.identifier === groupKey);
-
-        return storedGroup && storedGroup.collapsed !== currentGroupCollapsedValue;
-      });
-    }
-
-    groupsToUpdate.forEach(groupIdentifier => {
+    collapsedGroupChangesToManage.forEach(groupIdentifier => {
       const groupIsCollapsed = collapsedGroupsChange[groupIdentifier];
 
       if (groupIsCollapsed) {
@@ -529,14 +502,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       collapsedGroupsCellsMap[groupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
       collapsedGroupsCellsMap[groupIdentifier!] = [];
     }
-  }
-
-  refreshCollapsedGroupsHeaderCells(collapsedGroupsCellsMap:IGroupCellsMap, cellsRenderer:WorkPackageTimelineCellsRenderer) {
-    Object.keys(collapsedGroupsCellsMap).forEach(collapsedGroupKey => {
-      const collapsedGroupCells = collapsedGroupsCellsMap[collapsedGroupKey];
-
-      collapsedGroupCells.forEach(cell => cellsRenderer.refreshSingleCell(cell, false, true));
-    });
   }
 
   shouldBeShownInCollapsedGroupHeaders(workPackage:WorkPackageResource) {
