@@ -51,7 +51,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
       newState[group.identifier] = collapsed;
     });
 
-    this.update(newState);
     this.querySpace.collapsedGroups.putValue(newState);
+    this.update(newState);
   }
 }
