@@ -170,12 +170,12 @@ sv:
         reset_to_defaults: 'Återställ standardinställningar'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "Bekräftelse av e-postadress"
           confirmation_info: >
             We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+              Jag godkänner <a target="_blank" href="%{link_terms}">användarvillkoren</a> och <a target="_blank" href="%{link_privacy}">integritetspolicyn</a>.
             invalid_email: "Invalid email address"
             label_company: "Company"
             label_first_name: "Förnamn"
@@ -213,11 +213,11 @@ sv:
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Professionell hjälp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "Starta fri provperiod"
+          button_book_now: "Boka nu"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+          link_quote: "Få en offert"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
