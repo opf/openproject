@@ -69,6 +69,8 @@ module WorkPackage::PDFExport::Attachments
     image.resize("x325")
     image.write(resized_file_path)
 
+    @resized_image_paths << resized_file_path
+
     resized_file_path
   end
 
@@ -82,5 +84,11 @@ module WorkPackage::PDFExport::Attachments
 
   def pdf_embeddable?(attachment)
     %w[image/jpeg image/png].include?(attachment.content_type)
+  end
+
+  def delete_all_resized_images
+    @resized_image_paths.each do |file_path|
+      File.delete(file_path)
+    end
   end
 end
