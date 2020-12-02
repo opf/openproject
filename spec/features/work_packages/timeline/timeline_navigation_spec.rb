@@ -318,6 +318,10 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     it 'shows milestone icons on collapsed project group rows but not on expanded ones' do
       wp_table.visit_query(query)
 
+      # The button to fold/expand all groups is only present when grouping
+      expect(page)
+        .not_to have_selector('#work-packages-fold-toggle-button')
+
       group_by.enable_via_menu 'Project'
 
       # Collapse Foo section
@@ -325,6 +329,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
         .find('.expander')
         .click
 
+      # Folding will lead to having milestones presented within the group row
       expect(page).to have_selector('.-group-row .timeline-element.milestone')
 
       # Check hover labels (milestone)
@@ -343,6 +348,11 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
         .click
 
       expect(page).to have_no_selector('.-group-row .timeline-element')
+
+      click_button('work-packages-fold-toggle-button')
+
+      # Will again fold all rows so the milestone elements should again be present
+      expect(page).to have_selector('.-group-row .timeline-element.milestone')
     end
   end
 end

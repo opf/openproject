@@ -72,15 +72,18 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
       component: WorkPackageFilterButtonComponent
     },
     {
-      component: WorkPackageFoldToggleButtonComponent
-    },
-    {
       component: WorkPackageViewToggleButton,
       containerClasses: 'hidden-for-mobile'
     },
     {
       component: WorkPackageDetailsViewButtonComponent,
       containerClasses: 'hidden-for-mobile'
+    },
+    {
+      component: WorkPackageFoldToggleButtonComponent,
+      show: () => {
+        return !!(this.currentQuery && this.currentQuery.groupBy);
+      }
     },
     {
       component: WorkPackageTimelineButtonComponent,
