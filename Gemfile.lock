@@ -60,7 +60,7 @@ PATH
   remote: modules/avatars
   specs:
     openproject-avatars (1.0.0)
-      fastimage (~> 2.1.0)
+      fastimage (~> 2.2.0)
       gravatar_image_tag (~> 1.2.0)
 
 PATH
@@ -462,7 +462,7 @@ GEM
       ruby2_keywords
     faraday-http-cache (2.2.0)
       faraday (>= 0.8)
-    fastimage (2.1.7)
+    fastimage (2.2.0)
     ffi (1.13.1)
     flamegraph (0.9.5)
     fog-aws (3.7.0)
