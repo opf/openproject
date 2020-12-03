@@ -17,13 +17,10 @@
   &--cell
     text-align: left
     padding: 0.75rem
-    word-break: normal
+    word-break: break-all
 
     &:not(:last-child):not([colspan])
       border-right: 1px solid rgba(0, 0, 0, 0.1)
-
-    @media print
-      word-break: break-all
 
     @include user-content-children
 
@@ -34,10 +31,6 @@
       background: rgb(242, 242, 242)
       background-clip: padding-box
       border-bottom: 1px solid rgba(0, 0, 0, 0.1)
-      z-index: 1
-      position: sticky
-      top: 0
-      left: 0
 
     &.ck-editor__editable_selected
       background: rgba(26, 103, 163, 0.1)

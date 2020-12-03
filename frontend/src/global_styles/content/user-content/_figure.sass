@@ -4,7 +4,6 @@
   flex-direction: column
   align-items: center
   align-self: stretch
-  max-height: 70vh
   width: 100%
   max-width: 100%
   position: relative
@@ -17,9 +16,6 @@
   @media print
     display: block
     max-height: unset
-
-    &--content
-      overflow: hidden
 
   &_align-end
     float: right
@@ -35,7 +31,6 @@
     flex-grow: 0
     flex-shrink: 1
     width: 100%
-    overflow: auto
     display: flex
     justify-content:  center
   &--description
