@@ -6,7 +6,7 @@ sidebar_navigation:
 
 # Frequently asked questions - FAQ
 
-## I lost access to my admin account, how to I reset my password?
+## I lost access to my admin account, how do I reset my password?
 
 You can reset your admin account through the Rails console.
 [Please see this separate page on how to start the console](https://docs.openproject.org/installation-and-operations/operation/control/).

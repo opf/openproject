@@ -1177,6 +1177,8 @@ zh-CN:
       blog: "OpenProject 博客"
       forums: "社区论坛"
       newsletter: "安全警报/通信"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "更改已撤回。"
   links:

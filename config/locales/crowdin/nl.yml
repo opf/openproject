@@ -1198,6 +1198,8 @@ nl:
       blog: "OpenProject blog"
       forums: "Gemeenschapsforum"
       newsletter: "Beveiligingswaarschuwingen / nieuwsbrief"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:

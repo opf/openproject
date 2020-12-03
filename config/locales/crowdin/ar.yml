@@ -1262,6 +1262,8 @@ ar:
       blog: "مدونة أوبِن بروجِكت"
       forums: "منتدى المجتمع"
       newsletter: "Security alerts / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:

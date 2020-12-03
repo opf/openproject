@@ -1225,6 +1225,8 @@ lt:
       blog: "OpenProject blogas"
       forums: "Bendruomenės forumas"
       newsletter: "Saugos įspėjimai / Naujienos"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Pakeitimai buvo atšaukti."
   links:

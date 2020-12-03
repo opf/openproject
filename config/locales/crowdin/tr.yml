@@ -1198,6 +1198,8 @@ tr:
       blog: "OpenProject blog"
       forums: "Topluluk forumu"
       newsletter: "Güvenlik uyarıları / haber bülteni"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Değişiklikler geri çekildi."
   links:
