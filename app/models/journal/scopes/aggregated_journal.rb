@@ -256,6 +256,7 @@ module Journal::Scopes
           #{notes_in_group_alias}.version notes_version,
           #{version_projection} AS version,
           #{created_at_projection} created_at,
+          #{updated_at_projection} updated_at,
           #{id_projection} id
         SQL
 
@@ -263,26 +264,26 @@ module Journal::Scopes
       end
 
       def id_projection
-        <<~SQL
-          CASE
-            WHEN successor_notes.version IS NOT NULL THEN #{notes_in_group_alias}.id
-            ELSE #{end_group_journals_alias}.id END
-        SQL
+        attribute_projection(:id)
       end
 
       def version_projection
-        <<~SQL
-          CASE
-          WHEN successor_notes.version IS NOT NULL THEN #{notes_in_group_alias}.version
-          ELSE #{end_group_journals_alias}.version END
-        SQL
+        attribute_projection(:version)
       end
 
       def created_at_projection
+        attribute_projection(:created_at)
+      end
+
+      def updated_at_projection
+        attribute_projection(:updated_at)
+      end
+
+      def attribute_projection(attribute)
         <<~SQL
           CASE
-            WHEN successor_notes.version IS NOT NULL THEN #{notes_in_group_alias}.created_at
-            ELSE #{end_group_journals_alias}.created_at END
+            WHEN successor_notes.version IS NOT NULL THEN #{notes_in_group_alias}.#{attribute}
+            ELSE #{end_group_journals_alias}.#{attribute} END
         SQL
       end
 

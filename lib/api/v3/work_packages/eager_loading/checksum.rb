@@ -59,9 +59,8 @@ module API
             def md5_concat
               md5_parts = checksum_associations.map do |association_name|
                 table_name = md5_checksum_table_name(association_name)
-                timestamp_column_name = md5_checksum_timestamp_column(association_name)
 
-                %W[#{table_name}.id #{table_name}.#{timestamp_column_name}]
+                %W[#{table_name}.id #{table_name}.updated_at]
               end.flatten
 
               <<-SQL
@@ -82,10 +81,6 @@ module API
               else
                 association_class(association_name).table_name
               end
-            end
-
-            def md5_checksum_timestamp_column(association_name)
-              (association_class(association_name).all_timestamp_attributes_in_model & %w[updated_at updated_on]).first
             end
 
             def association_class(association_name)

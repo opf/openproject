@@ -47,7 +47,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <p>
   <%= Version.model_name.human %> <%= link_to h(@annotate.content.version), action: 'show', id: @page, version: @annotate.content.version %>
-  <em>(<%= h(@annotate.content.journable.author ? @annotate.content.journable.author.name : t(:label_user_anonymous)) %>, <%= format_time(@annotate.content.journable.updated_on) %>)</em>
+  <em>(<%= h(@annotate.content.journable.author ? @annotate.content.journable.author.name : t(:label_user_anonymous)) %>, <%= format_time(@annotate.content.journable.updated_at) %>)</em>
 </p>
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
 <table class="filecontent annotate">

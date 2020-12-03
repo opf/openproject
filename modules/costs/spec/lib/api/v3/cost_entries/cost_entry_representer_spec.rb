@@ -83,12 +83,12 @@ describe ::API::V3::CostEntries::CostEntryRepresenter do
   end
 
   it_behaves_like 'has UTC ISO 8601 date and time' do
-    let(:date) { cost_entry.created_on }
+    let(:date) { cost_entry.created_at }
     let(:json_path) { 'createdAt' }
   end
 
   it_behaves_like 'has UTC ISO 8601 date and time' do
-    let(:date) { cost_entry.updated_on }
+    let(:date) { cost_entry.updated_at }
     let(:json_path) { 'updatedAt' }
   end
 end

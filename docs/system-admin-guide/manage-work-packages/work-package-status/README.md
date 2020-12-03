@@ -13,7 +13,8 @@ Work packages can have various status depending on their types, e.g. tasks can h
 
 The status can be set at the top of the work package details view or in the list view in the corresponding column.
 
-![Sys-admin-work-package-status](Sys-admin-work-package-status.png)The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package status in the system. You can add new status or change the name and order of existing status.
+![Sys-admin-work-package-status](Sys-admin-work-package-status.png)The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package status in the system. You can add new status or change the name and order of existing status. 
+To learn about the options for configuring the transition from one status to another navigate to [Manage work package workflows](../work-package-workflows).
 
 ## Create a new work package status
 

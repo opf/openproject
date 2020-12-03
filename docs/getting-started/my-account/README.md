@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 400
 description: Learn how to configure account settings.
 robots: index, follow
-keywords: my account, account settings
+keywords: my account, account settings, change language
 ---
 
 # My Account
@@ -16,7 +16,7 @@ Change your personal settings in My Account. Here you can adapt, e.g. the langua
 | [Open My Account settings](#open-my-account-settings)        | How to open your personal settings in OpenProject?           |
 | [Change password](#change-password)                          | How to change my password?                                   |
 | [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject?      |
-| [Profile settings: change your language, time zone or display of comments](#profile-settings:-change-your-language,-time-zone-or-display-of-comments) | How to change the language, time zone or display of comments in OpenProject? |
+| [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject? |
 | [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication?                   |
 | [Email notifications](#email-notifications)                  | How to change email notifications sent by OpenProject?       |
 | [Set an Avatar](#set-an-avatar)                              | How to set an Avatar in OpenProject and change the profile picture? |

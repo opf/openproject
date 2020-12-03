@@ -78,11 +78,7 @@ class BaseMailer < ActionMailer::Base
     end
 
     def mail_timestamp(object)
-      if object.respond_to? :created_at
-        object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
-      else
-        object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-      end
+      object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
     end
 
     def host

@@ -85,7 +85,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= Journal.human_attribute_name(:updated_on) %>
+                    <%= Journal.human_attribute_name(:updated_at) %>
                   </span>
                 </div>
               </div>
@@ -134,7 +134,7 @@ See docs/COPYRIGHT.rdoc for more details.
                   <%= radio_button_tag('version_from', ver.version, (line_num==2), id: "cbto-#{line_num}") %>
                 <% end %>
               </td>
-              <td class="updated_on"><%= format_time(ver.created_at) %></td>
+              <td class="updated_at"><%= format_time(ver.created_at) %></td>
               <td class="author"><%= link_to_user ver.user %></td>
               <td class="comments"><%=h ver.notes %></td>
               <td class="buttons"><%= link_to t(:button_annotate), action: 'annotate', id: @page, version: ver.version %></td>

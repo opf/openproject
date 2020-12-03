@@ -1230,6 +1230,8 @@ sk:
       blog: "OpenProject blog"
       forums: "Komunitné fórum"
       newsletter: "Bezpečnostné upozornenia / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:

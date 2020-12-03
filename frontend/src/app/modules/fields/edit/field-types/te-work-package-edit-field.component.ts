@@ -87,7 +87,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
       return this
         .apiV3Service
         .time_entries
-        .list({ filters: [['user_id', '=', ['me']]], sortBy: [["updated_on", "desc"]], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
+        .list({ filters: [['user_id', '=', ['me']]], sortBy: [["updated_at", "desc"]], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
         .toPromise()
         .then(collection => {
           this.recentWorkPackageIds = collection

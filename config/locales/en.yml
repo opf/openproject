@@ -229,7 +229,6 @@ en:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -811,7 +810,6 @@ en:
     content: "Content"
     color: "Color"
     created_at: "Created on"
-    created_on: "Created on"
     custom_options: "Possible values"
     custom_values: "Custom fields"
     date: "Date"
@@ -1054,6 +1052,7 @@ en:
   default_role_anonymous: "Anonymous"
   default_role_developer: "Developer"
   default_role_project_admin: "Project admin"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "Non member"
   default_role_reader: "Reader"
   default_role_member: "Member"
@@ -1237,6 +1236,9 @@ en:
       blog: "OpenProject blog"
       forums: "Community forum"
       newsletter: "Security alerts / Newsletter"
+
+  image_conversion:
+    imagemagick: 'Imagemagick'
 
   journals:
     changes_retracted: "The changes were retracted."
@@ -1450,7 +1452,6 @@ en:
   label_group_new: "New group"
   label_group: "Group"
   label_group_named: "Group %{name}"
-  label_group_plural: "Groups"
   label_help: "Help"
   label_here: here
   label_hide: "Hide"
@@ -1794,6 +1795,11 @@ en:
     other: "%{count} projects"
     zero: "no projects"
   label_yesterday: "yesterday"
+  label_role_type: "Type"
+  label_member_role: "Project Role"
+  label_global_role: "Global Role"
+  label_not_changeable: "(not changeable)"
+  label_global: "Global"
 
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."

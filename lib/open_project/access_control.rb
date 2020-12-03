@@ -92,9 +92,13 @@ module OpenProject
         @loggedin_only_permissions ||= @permissions.select(&:require_loggedin?)
       end
 
+      def global_permissions
+        @permissions.select(&:global?)
+      end
+
       def available_project_modules
         @available_project_modules ||= begin
-          (@permissions.map(&:project_module) + @project_modules_without_permissions)
+          (@permissions.reject(&:global?).map(&:project_module) + @project_modules_without_permissions)
             .uniq
             .compact
             .reject { |name| disabled_project_modules.include? name }

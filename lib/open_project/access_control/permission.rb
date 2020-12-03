@@ -41,6 +41,7 @@ module OpenProject
         @actions = []
         @public = options[:public] || false
         @require = options[:require]
+        @global = options[:global] || false
         @dependencies = Array(options[:dependencies]) || []
         @project_module = options[:project_module]
         hash.each do |controller, actions|
@@ -55,6 +56,10 @@ module OpenProject
 
       def public?
         @public
+      end
+
+      def global?
+        @global
       end
 
       def require_member?

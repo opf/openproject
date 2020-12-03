@@ -59,7 +59,7 @@ de:
   label_meeting_date_time: "Datum/Uhrzeit"
   label_meeting_diff: "Differenz"
   label_notify: "Zur Einsicht verschicken"
-  label_icalendar: "ICalendar senden"
+  label_icalendar: "iCalendar senden"
   label_version: "Version"
   label_time_zone: "Zeitzone"
   label_start_date: "Anfangstermin"

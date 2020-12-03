@@ -118,12 +118,6 @@ module Journals
                     ""
                   end
 
-      timestamp = if notes.blank? && journable_timestamp
-                    ':created_at'
-                  else
-                    'now()'
-                  end
-
       journal_sql = <<~SQL
         INSERT INTO
           journals (
@@ -133,7 +127,8 @@ module Journals
             activity_type,
             user_id,
             notes,
-            created_at
+            created_at,
+            updated_at
           )
         SELECT
           :journable_id,
@@ -142,7 +137,8 @@ module Journals
           :activity_type,
           :user_id,
           :notes,
-          #{timestamp}
+          #{journal_timestamp_sql(notes, ':created_at')},
+          #{journal_timestamp_sql(notes, ':updated_at')}
         FROM max_journals
         #{condition}
         RETURNING *
@@ -154,7 +150,8 @@ module Journals
                                               activity_type: journable.activity_type,
                                               journable_type: journable_type,
                                               user_id: user.id,
-                                              created_at: journable_timestamp)
+                                              created_at: journable_timestamp,
+                                              updated_at: journable_timestamp)
     end
 
     def insert_data_sql
@@ -393,7 +390,7 @@ module Journals
     end
 
     def journable_timestamp
-      journable.respond_to?(:updated_at) && journable.updated_at || journable.respond_to?(:updated_on) && journable.updated_on
+      journable.send(journable.class.aaj_options[:timestamp])
     end
 
     def journable_type
@@ -410,6 +407,14 @@ module Journals
 
     def normalize_newlines_sql(column)
       "REGEXP_REPLACE(COALESCE(#{column},''), '\\r\\n', '\n', 'g')"
+    end
+
+    def journal_timestamp_sql(notes, attribute)
+      if notes.blank? && journable_timestamp
+        attribute
+      else
+        'now()'
+      end
     end
 
     # Because we added the journal via bare metal sql, rails does not yet
