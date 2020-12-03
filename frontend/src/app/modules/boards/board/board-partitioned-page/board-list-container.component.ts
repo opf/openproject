@@ -125,6 +125,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     // see, so we filter out those that rise an access error.
     return boardObservable.pipe(
       switchMap(board => {
+        if (board.queries.length) {
           const queryRequests$ = board.queries.map(query => this.apiv3Service.queries
             .find({filters: JSON.stringify(query.options.filters)} , query.options.queryId as string)
               .pipe(
@@ -133,6 +134,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
               )
           );
           return forkJoin([...queryRequests$]);
+        }
+        else {
+          return of(([]));
+          }
         },
         (board, queries) => ({board, validQueries: queries.filter(queryWidget => !!queryWidget) as GridWidgetResource[]})
       ),
