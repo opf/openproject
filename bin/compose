@@ -27,7 +27,8 @@ elif [[ "$@" = "start" ]]; then
 elif [[ "$@" = "run" ]]; then
   docker-compose -f $COMPOSE_FILE up -d frontend
   docker-compose -f $COMPOSE_FILE stop backend
-  docker-compose -f $COMPOSE_FILE run -p ${PORT:-3000}:3000 backend # run backend in TTY so you can debug using pry for instance
+  docker-compose -f $COMPOSE_FILE run --rm backend rm -f tmp/pids/server.pid # delete if necessary so new server can come up
+  docker-compose -f $COMPOSE_FILE run --rm -p ${PORT:-3000}:3000 --name rails backend # run backend in TTY so you can debug using pry for instance
 elif [[ "$1" = "setup" ]]; then
   docker-compose -f $COMPOSE_FILE run backend setup
   yes no | docker-compose -f $COMPOSE_FILE run frontend npm install
