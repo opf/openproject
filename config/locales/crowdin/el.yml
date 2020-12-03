@@ -1195,6 +1195,8 @@ el:
       blog: "OpenProject blog"
       forums: "Φόρουμ κοινότητας"
       newsletter: "Ειδοποιήσεις ασφάλεια / Ενημερωτικό δελτίο"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Οι αλλαγές αποσύρθηκαν."
   links:

@@ -1,3 +1,4 @@
 "no":
   overviews:
     label: 'Oversikt'
+  permission_manage_overview: 'Manage overview page'

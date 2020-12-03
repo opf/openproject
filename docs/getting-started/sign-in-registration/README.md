@@ -1,11 +1,10 @@
----
 sidebar_navigation:
   title: Sign in and registration
   priority: 990
 description: Sign in and registration in OpenProject.
 robots: index, follow
 keywords: sing in, login, registration
----
+
 # Sign in and registration
 
 Here you will get an overview how to sign in and register to an existing OpenProject installation.

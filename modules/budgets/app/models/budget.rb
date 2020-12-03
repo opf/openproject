@@ -63,23 +63,53 @@ class Budget < ApplicationRecord
     Budget.replace_author_with_deleted_user user
   end
 
-  def self.visible(user)
-    includes(:project)
-      .references(:projects)
-      .merge(Project.allowed_to(user, :view_budgets))
+  class << self
+    def visible(user)
+      includes(:project)
+        .references(:projects)
+        .merge(Project.allowed_to(user, :view_budgets))
+    end
+
+    # TODO: Extract into copy service
+    def new_copy(source)
+      copy = new(copy_attributes(source))
+
+      copy_budget_items(source, copy, items: :labor_budget_items)
+      copy_budget_items(source, copy, items: :material_budget_items)
+
+      copy
+    end
+
+    def replace_author_with_deleted_user(user)
+      substitute = DeletedUser.first
+
+      where(author_id: user.id).update_all(author_id: substitute.id)
+    end
+
+    protected
+
+    def copy_attributes(source)
+      source.attributes.slice('project_id', 'subject', 'description', 'fixed_date').merge('author' => User.current)
+    end
+
+    def copy_budget_items(source, sink, items:)
+      raise ArgumentError unless %i(labor_budget_items material_budget_items).include? items
+
+      source.send(items).each do |bi|
+        to_slice = if items == :material_budget_items
+                     %w(units cost_type_id comments amount)
+                   else
+                     %w(hours user_id comments amount)
+                   end
+
+        sink.send(items).build(bi.attributes.slice(*to_slice).merge('budget' => sink))
+      end
+    end
   end
 
   def initialize(attributes = nil)
     super
     self.author = User.current if new_record?
-  end
-
-  def copy_from(arg)
-    budget = (arg.is_a?(Budget) ? arg : self.class.find(arg))
-    attrs = budget.attributes.dup
-    super(attrs)
-    self.labor_budget_items = budget.labor_budget_items.map(&:dup)
-    self.material_budget_items = budget.material_budget_items.map(&:dup)
   end
 
   def budget
@@ -103,12 +133,6 @@ class Budget < ApplicationRecord
 
   def css_classes
     'budget'
-  end
-
-  def self.replace_author_with_deleted_user(user)
-    substitute = DeletedUser.first
-
-    where(author_id: user.id).update_all(author_id: substitute.id)
   end
 
   def to_s
