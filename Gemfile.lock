@@ -1,14 +1,4 @@
 GIT
-  remote: https://github.com/finnlabs/omniauth-openid-connect.git
-  revision: 9e7fd0e7bd36d40451c6b3c2ea641e8d237c295d
-  ref: 9e7fd0e7bd36d40451c6b3c2ea641e8d237c295d
-  specs:
-    omniauth-openid-connect (0.3.0)
-      addressable (~> 2.5)
-      omniauth (~> 1.6)
-      openid_connect (~> 1.1.6)
-
-GIT
   remote: https://github.com/finnlabs/omniauth-openid_connect-providers.git
   revision: 5148dd402cacc2785cee76336d649ebdf84488ca
   ref: 5148dd402cacc2785cee76336d649ebdf84488ca
@@ -24,6 +14,16 @@ GIT
     omniauth (1.9.0)
       hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
+
+GIT
+  remote: https://github.com/opf/omniauth-openid-connect.git
+  revision: e1173e682a60010c018146443453560a13b01a90
+  ref: e1173e682a60010c018146443453560a13b01a90
+  specs:
+    omniauth-openid-connect (0.4.0)
+      addressable (~> 2.5)
+      omniauth (~> 1.6)
+      openid_connect (~> 1.1.6)
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
