@@ -36,7 +36,9 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
 
   let(:current_user) do
     FactoryBot.create(:user).tap do |u|
-      u.global_roles << global_role
+      FactoryBot.create(:global_member,
+                        principal: u,
+                        roles: [global_role])
     end
   end
   let(:global_role) do
