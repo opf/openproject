@@ -1229,6 +1229,8 @@ ru:
       blog: "Openproject блог"
       forums: "Форум сообщества"
       newsletter: "Оповещения системы безопасности / Новости"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Изменения отменены."
   links:

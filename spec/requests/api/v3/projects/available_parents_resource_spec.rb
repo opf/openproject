@@ -35,7 +35,9 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
 
   let!(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions).tap do |u|
-      u.global_roles << FactoryBot.create(:global_role, permissions: global_permissions)
+      FactoryBot.create(:global_member,
+                        principal: u,
+                        roles: [FactoryBot.create(:global_role, permissions: global_permissions)])
     end
   end
   let!(:project_with_add_suproject_permission) do

@@ -1214,6 +1214,8 @@ hr:
       blog: "OpenProject blog"
       forums: "Forum Zajednice"
       newsletter: "Security alerts / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:

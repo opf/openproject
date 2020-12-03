@@ -105,6 +105,7 @@ module Acts::Journalized
           class_name: Journal.name,
           dependent: :destroy,
           foreign_key: :journable_id,
+          timestamp: :updated_at,
           as: :journable
         }.merge(options.symbolize_keys)
       end

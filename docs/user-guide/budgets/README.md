@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 780
 description: Find out how to create and manage budgets for a project in OpenProject.
 robots: index, follow
-keywords: budgets
+keywords: budgets, project budget, costs
 ---
 
 # Budgets
@@ -15,14 +15,14 @@ You can add planned **unit costs** as well as **labor costs** for the project.
 
 Then, you will assign work packages to a budgets. If you log time or costs to this work package the costs will booked to this budget and show the percentage spent for a project budget.
 
-| Feature                                                      | Documentation for                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Create a project budget](#create-a-project-budget)          | How to set up a project budget in OpenProject?               |
 | [Add planned unit costs](#add-planned-unit-costs)            | How to add planned unit costs to a budget?                   |
 | [Add planned labor costs](#add-planned-labor-costs)          | How to add planned labor costs to a budget?                  |
-| [Assign a work package to a budget](#assign-work-package-to-a-budget) | How to assign a work package to book time and costs to a project budget? |
+| [Assign a work package to a budget](#assign-a-work-package-to-a-budget) | How to assign a work package to book time and costs to a project budget? |
 | [View details and update budget](#view-details-and-update-budget) | How to display the details, update, copy or delete a project budget? |
-|                                                              |                                                              |
+| [Frequently asked questions (FAQ)](Frequently-asked-questions-(FAQ)) | What are frequent questions regarding budgets?               |
 
 ## Create a project budget
 

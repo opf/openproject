@@ -33,7 +33,7 @@ class Changeset < ApplicationRecord
   has_many :file_changes, class_name: 'Change', dependent: :delete_all
   has_and_belongs_to_many :work_packages
 
-  acts_as_journalized
+  acts_as_journalized timestamp: :committed_on
 
   acts_as_event title: Proc.new { |o|
                   "#{I18n.t(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))

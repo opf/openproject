@@ -35,13 +35,11 @@ en:
         available: "Available"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
-        created_on: "Created on"
         description: "Description"
         spent: "Spent"
         status: "Status"
         subject: "Subject"
         type: "Cost type"
-        updated_on: "Updated on"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:

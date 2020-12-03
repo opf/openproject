@@ -1184,6 +1184,8 @@ vi:
       blog: "OpenProject blog"
       forums: "Diễn đàn cộng đồng"
       newsletter: "Security alerts / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Những thay đổi đã bị rút lại"
   links:

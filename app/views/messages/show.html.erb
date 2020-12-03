@@ -67,7 +67,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <div class="forum-message">
-  <p class="author additional-information"><%= authoring @topic.created_on, @topic.author %></p>
+  <p class="author additional-information"><%= authoring @topic.created_at, @topic.author %></p>
   <div class="wiki op-uc-container">
     <%= format_text(@topic.content, object: @topic, attachments: @topic.attachments) %>
   </div>
@@ -108,7 +108,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                                    r: message,
                                                    anchor: "message-#{message.id}") %>
           -
-          <%= authoring message.created_on, message.author %>
+          <%= authoring message.created_at, message.author %>
         </h4>
         <div class="wiki op-uc-container">
           <%= format_text message, :content, attachments: message.attachments %>

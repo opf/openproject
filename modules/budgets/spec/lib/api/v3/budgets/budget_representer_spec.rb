@@ -35,8 +35,8 @@ describe ::API::V3::Budgets::BudgetRepresenter do
   let(:user) do
     FactoryBot.build(:user,
                      member_in_project: project,
-                     created_on: 1.day.ago,
-                     updated_on: Date.today)
+                     created_at: 1.day.ago,
+                     updated_at: Date.today)
   end
   let(:budget) do
     FactoryBot.create(:budget,

@@ -1181,6 +1181,8 @@ id:
       blog: "OpenProject blog"
       forums: "Community forum"
       newsletter: "Peringatan keamanan / Jurnal berkala"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:

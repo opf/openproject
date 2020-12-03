@@ -32,6 +32,6 @@ class Queries::Members::Orders::DefaultOrder < Queries::BaseOrder
   self.model = Member
 
   def self.key
-    /\A(id|created_on)\z/
+    /\A(id|created_at|updated_at)\z/
   end
 end

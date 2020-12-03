@@ -457,28 +457,6 @@ module ApplicationHelper
     "<meta name='ROBOTS' content='#{h(content)}' />".html_safe
   end
 
-  # Returns true if arg is expected in the API response
-  def include_in_api_response?(arg)
-    unless @included_in_api_response
-      param = params[:include]
-      @included_in_api_response = param.is_a?(Array) ? param.map(&:to_s) : param.to_s.split(',')
-      @included_in_api_response.map!(&:strip)
-    end
-    @included_in_api_response.include?(arg.to_s)
-  end
-
-  # Returns options or nil if nometa param or X-OpenProject-Nometa header
-  # was set in the request
-  def api_meta(options)
-    if params[:nometa].present? || request.headers['X-OpenProject-Nometa']
-      # compatibility mode for activeresource clients that raise
-      # an error when deserializing an array with attributes
-      nil
-    else
-      options
-    end
-  end
-
   #
   # Returns the footer text displayed in the layout file.
   #

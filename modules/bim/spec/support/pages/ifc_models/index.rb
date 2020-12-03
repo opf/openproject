@@ -108,7 +108,7 @@ module Pages
       end
 
       def expect_model_active(model, active = true)
-        expect(page).to have_field(model.id.to_s, checked: active)
+        expect(page).to have_field(model.id.to_s, checked: active, wait: 30)
       end
 
       def show_defaults(models = [])

@@ -121,7 +121,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <td>
                 <% if forum.last_message %>
                   <% forum.last_message %>
-                  <%= authoring forum.last_message.created_on, forum.last_message.author %><br />
+                  <%= authoring forum.last_message.created_at, forum.last_message.author %><br />
                   <%= link_to_message forum.last_message, no_root: true %>
                 <% end %>
               </td>

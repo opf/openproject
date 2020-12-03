@@ -2,6 +2,28 @@
 
 The quickest way to get started developing OpenProject is to use the docker setup.
 
+## Requirements
+
+* docker
+
+And nothhing else!
+
+## Quickstart
+
+To get right into it and just start the application you can just do the following:
+
+```
+git clone https://github.com/opf/openproject.git
+cd openproject
+bin/compose setup
+bin/compose start
+```
+
+Once the containers are done booting you can access the application under http://localhost:3000.
+
+If there is an `.env` file (see below) `bin/compose` will source it.
+More details and options follow in the next section.
+
 ## Setup
 
 ### 1) Checkout the code
@@ -17,7 +39,7 @@ This will checkout the dev branch in `openproject`. **Change into that directory
 If you have OpenProject checked out already make sure that you do not have a `config/database.yml`
 as that will interfere with the database connection inside of the docker containers.
 
-### 3) Configure environment
+### 2) Configure environment
 
 Copy the env example to `.env`
 
@@ -28,7 +50,7 @@ cp .env.example .env
 Afterwards, set the environment variables to your liking. `DEV_UID` and `DEV_GID` are required to be set so your project
 directory will not end up with files owned by root.
 
-### 2) Setup database and install dependencies
+### 3) Setup database and install dependencies
 
 ```
 # Start the database. It needs to be running to run migrations and seeders
@@ -41,7 +63,7 @@ docker-compose run frontend npm i
 docker-compose run backend setup
 ```
 
-### 3) Start the stack
+### 4) Start the stack
 
 The docker compose file also has the test containers defined. The easiest way to start only the development stack, use
 
@@ -113,3 +135,20 @@ file to see which port each browser container is exposed on. The password is `se
 Running the docker images will change some of your local files in the mounted code directory.
 The file `frontend/npm-shrinkwrap.json` may be modified.
 You can just reset these changes if you want to commit something or pull the latest changes.
+
+## Debugging
+
+It's common to just start a debugger whithin ruby code using `binding.pry`.
+This **does not work** with the application running as shown above.
+
+If you want to be able to do that, you can, however, simply run the following:
+
+```
+bin/compose run
+```
+
+If the frontend container is not running yet, it will be started.
+If the backend container is already running, it will be stopped.
+Instead it will be started in the foreground.
+This way you can debug using pry just as if you had started the server locally using `rails s`.
+You can stop it simply with Ctrl + C too.
