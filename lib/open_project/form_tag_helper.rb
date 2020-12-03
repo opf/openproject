@@ -88,8 +88,10 @@ module OpenProject
     def text_formatting_wrapper(target_id, options = {})
       return ''.html_safe unless target_id.present?
 
-      helper = ::OpenProject::TextFormatting::Formats.rich_helper.new(self)
-      helper.wikitoolbar_for target_id, options
+      ::OpenProject::TextFormatting::Formats
+        .rich_helper
+        .new(self)
+        .wikitoolbar_for target_id, **options
     end
 
     def styled_check_box_tag(name, value = '1', checked = false, options = {})
