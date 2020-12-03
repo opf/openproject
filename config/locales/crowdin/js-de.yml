@@ -275,7 +275,7 @@ de:
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Die Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
