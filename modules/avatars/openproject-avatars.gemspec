@@ -15,5 +15,5 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency 'gravatar_image_tag', '~> 1.2.0'
-  s.add_dependency 'fastimage', '~> 2.1.0'
+  s.add_dependency 'fastimage', '~> 2.2.0'
 end

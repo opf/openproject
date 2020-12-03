@@ -167,7 +167,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.0.0' # used for development and optionally for production
+gem 'puma', '~> 5.1.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.8'
 
@@ -217,7 +217,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.33.0'
+  gem 'capybara', '~> 3.34.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
   gem 'webdrivers', '~> 4.4.1'
@@ -240,7 +240,7 @@ group :test do
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.16.0'
+  gem 'net-ldap', '~> 0.17.0'
 end
 
 group :development do
