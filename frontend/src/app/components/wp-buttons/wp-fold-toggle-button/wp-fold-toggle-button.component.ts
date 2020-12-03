@@ -35,19 +35,12 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
             id="wp-view-toggle-button"
             wpGroupToggleDropdown>
       <op-icon icon-classes="button--icon icon-outline"></op-icon>
-      <span class="button--text"
-            aria-hidden="true"
-            [textContent]="label">
-      </span>
+      <span class="button-text"></span>
       <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'wp-fold-toggle-view-button',
+  selector: 'wp-fold-toggle-view-button'
 })
 export class WorkPackageFoldToggleButtonComponent {
-  public label = this.I18n.t('js.label_group_plural');
-
-  constructor(readonly I18n:I18nService) {
-  }
 }
