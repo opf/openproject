@@ -63,7 +63,7 @@ sv:
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "33 / 5000\nUppgradera till Enterprise Edition"
+      upgrade_to_ee: "Uppgradera till Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
       replace_token: "Ersätta din nuvarande support-nyckel"
       order: "Beställ Enterprise Edition"
