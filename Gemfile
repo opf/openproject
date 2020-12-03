@@ -240,7 +240,7 @@ group :test do
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.16.0'
+  gem 'net-ldap', '~> 0.17.0'
 end
 
 group :development do
