@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,8 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::TimeEntries::Filters::CreatedOnFilter < Queries::TimeEntries::Filters::TimeEntryFilter
-  def type
-    :datetime_past
+require 'spec_helper'
+
+describe Queries::TimeEntries::Filters::CreatedAtFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :datetime_past }
+    let(:class_key) { :created_at }
+
+    describe '#available?' do
+      it 'is true' do
+        expect(instance).to be_available
+      end
+    end
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
+
+    it_behaves_like 'non ar filter'
   end
 end

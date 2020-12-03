@@ -35,8 +35,8 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     FactoryBot.build_stubbed(:time_entry,
                              comments: 'blubs',
                              spent_on: Date.today - 3.days,
-                             created_on: DateTime.now - 6.hours,
-                             updated_on: DateTime.now - 3.hours,
+                             created_at: DateTime.now - 6.hours,
+                             updated_at: DateTime.now - 3.hours,
                              activity: activity,
                              project: project,
                              user: user)

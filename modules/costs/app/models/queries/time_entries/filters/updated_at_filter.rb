@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,11 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostQuery::Filter::UpdatedOn < Report::Filter::Base
-  db_field 'entries.updated_at'
-  use :time_operators
-
-  def self.label
-    WorkPackage.human_attribute_name(:updated_at)
+class Queries::TimeEntries::Filters::UpdatedAtFilter < Queries::TimeEntries::Filters::TimeEntryFilter
+  def type
+    :datetime_past
   end
 end

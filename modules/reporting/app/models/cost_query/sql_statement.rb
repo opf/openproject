@@ -29,7 +29,7 @@
 class CostQuery::SqlStatement < Report::SqlStatement
   COMMON_FIELDS = %w[
     user_id project_id work_package_id rate_id
-    comments spent_on created_on updated_on tyear tmonth tweek
+    comments spent_on created_at updated_at tyear tmonth tweek
     costs overridden_costs type
   ]
 
@@ -53,7 +53,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
   #
   # Mapping for direct fields:
   #
-  #   Result                    | Time Entires             | Cost entries
+  #   Result                    | Time Entries             | Cost entries
   #   --------------------------|--------------------------|--------------------------
   #   id                        | id                       | id
   #   user_id                   | user_id                  | user_id
@@ -62,8 +62,8 @@ class CostQuery::SqlStatement < Report::SqlStatement
   #   rate_id                   | rate_id                  | rate_id
   #   comments                  | comments                 | comments
   #   spent_on                  | spent_on                 | spent_on
-  #   created_on                | created_on               | created_on
-  #   updated_on                | updated_on               | updated_on
+  #   created_at                | created_at               | created_at
+  #   updated_at                | updated_at               | updated_at
   #   tyear                     | tyear                    | tyear
   #   tmonth                    | tmonth                   | tmonth
   #   tweek                     | tweek                    | tweek

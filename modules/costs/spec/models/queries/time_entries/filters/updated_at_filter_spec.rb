@@ -26,11 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostQuery::Filter::UpdatedOn < Report::Filter::Base
-  db_field 'entries.updated_at'
-  use :time_operators
+require 'spec_helper'
 
-  def self.label
-    WorkPackage.human_attribute_name(:updated_at)
+describe Queries::TimeEntries::Filters::UpdatedAtFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :datetime_past }
+    let(:class_key) { :updated_at }
+
+    describe '#available?' do
+      it 'is true' do
+        expect(instance).to be_available
+      end
+    end
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
+
+    it_behaves_like 'non ar filter'
   end
 end

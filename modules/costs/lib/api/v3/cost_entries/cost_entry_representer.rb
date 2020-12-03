@@ -31,6 +31,7 @@ module API
     module CostEntries
       class CostEntryRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
 
         self_link title_getter: ->(*) { nil }
         associated_resource :project
@@ -44,17 +45,11 @@ module API
 
         property :id, render_nil: true
         property :units, as: :spentUnits
-        property :spent_on,
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_date(represented.spent_on) }
-        property :created_on,
-                 as: 'createdAt',
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
-        property :updated_on,
-                 as: 'updatedAt',
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
+
+        date_property :spent_on
+
+        date_time_property :created_at
+        date_time_property :updated_at
 
         def _type
           'CostEntry'
