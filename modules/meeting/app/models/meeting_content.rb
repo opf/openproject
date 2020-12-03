@@ -80,11 +80,6 @@ class MeetingContent < ApplicationRecord
       .first.data
   end
 
-  # Compatibility for mailer.rb
-  def updated_on
-    updated_at
-  end
-
   # Show the project on activity and search views
   def project
     meeting.project

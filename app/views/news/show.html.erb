@@ -88,7 +88,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                 title: t(:button_delete),
                                 alt: t(:button_delete) %>
         </div>
-        <h4 class="author additional-information"><%= avatar(comment.author) %><%= authoring comment.created_on, comment.author %></h4>
+        <h4 class="author additional-information"><%= avatar(comment.author) %><%= authoring comment.created_at, comment.author %></h4>
         <%= format_text(comment.comments, object: comment) %>
       </div>
     <% end %>

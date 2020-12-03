@@ -60,8 +60,8 @@ module Projects::Copy
                                                            'author_id',
                                                            'replies_count',
                                                            'last_reply_id',
-                                                           'created_on',
-                                                           'updated_on')
+                                                           'created_at',
+                                                           'updated_at')
         new_topic.forum = new_forum
         new_topic.author_id = topic.author_id
         new_forum.topics << new_topic

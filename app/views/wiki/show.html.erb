@@ -124,7 +124,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <div>
       <%= link_to(t(:label_previous), { action: 'show', id: @page, project_id: @page.project, version: (@content.version - 1) }, class: 'button navigate-left') if @content.version > 1 %>
       <span><%= "#{Version.model_name.human} #{@content.version}/#{@page.content.version}" %> &#x2014;</span>
-      <span><em><%= @content.author ? link_to_user(@content.author) : t(:label_user_anonymous) %></em> &#x2014; <%= format_time(@content.updated_on) %></span>
+      <span><em><%= @content.author ? link_to_user(@content.author) : t(:label_user_anonymous) %></em> &#x2014; <%= format_time(@content.updated_at) %></span>
       <%= link_to(t(:label_next), { action: 'show', id: @page, project_id: @page.project, version: (@content.version + 1) }, class: 'button navigate-right') if @content.version < @page.content.version %>
     </div>
     <hr />
