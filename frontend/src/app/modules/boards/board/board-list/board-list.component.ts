@@ -403,11 +403,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     observable
       .subscribe(
-        query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
-        error => {
-          // this.loadingError = this.halNotification.retrieveErrorMessage(error);
-          // this.cdRef.detectChanges();
-        }
+        query => this.wpStatesInitialization.updateQuerySpace(query, query.results)
       );
   }
 

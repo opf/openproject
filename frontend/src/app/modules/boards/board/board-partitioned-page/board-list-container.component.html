@@ -8,7 +8,7 @@
        cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="moveList(board, $event)"
   >
-    <div *ngFor="let queryWidget of board.queries; trackBy:trackByQueryId"
+    <div *ngFor="let queryWidget of queryWidgets; trackBy:trackByQueryId"
          class="boards-list--item"
          wp-isolated-query-space
          cdkDrag
