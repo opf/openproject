@@ -65,7 +65,7 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
     this.items = [
       {
         linkText: this.I18n.t('js.button_collapse_all'),
-        icon: 'icon-plus',
+        icon: 'icon-minus2',
         onClick: (evt:JQuery.TriggeredEvent) => {
           this.wpViewCollapsedGroups.collapseAll();
 
@@ -74,7 +74,7 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
       },
       {
         linkText: this.I18n.t('js.button_expand_all'),
-        icon: 'icon-minus2',
+        icon: 'icon-plus',
         onClick: (evt:JQuery.TriggeredEvent) => {
           this.wpViewCollapsedGroups.expandAll();
 
