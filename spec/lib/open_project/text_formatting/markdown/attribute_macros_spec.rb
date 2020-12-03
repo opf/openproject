@@ -52,7 +52,8 @@ describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <h1 class="op-uc-h1" id="my-headline">
-           <a class="op-uc-link_permalink icon-paragraph op-uc-link" aria-hidden="true" href="#my-headline"></a>My headline
+            My headline
+            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline"></a>
           </h1>
           <p class="op-uc-p">
             Inline reference to WP by ID: <macro class="macro--attribute-label" data-model="workPackage" data-id="1234" data-attribute="subject"></macro>
@@ -90,7 +91,8 @@ describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <h1 class="op-uc-h1" id="my-headline">
-           <a class="op-uc-link_permalink icon-paragraph op-uc-link" aria-hidden="true" href="#my-headline"></a>My headline
+            My headline
+            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline"></a>
           </h1>
           <p class="op-uc-p">
             Inline reference to WP by ID: <macro class="macro--attribute-value" data-model="workPackage" data-id="1234" data-attribute="subject"></macro>
