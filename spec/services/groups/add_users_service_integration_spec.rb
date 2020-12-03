@@ -51,7 +51,6 @@ describe Groups::AddUsersService, 'integration', type: :model do
     subject { instance.call(user_ids) }
 
     context 'as an admin user' do
-      #using_shared_fixtures :admin
       let(:current_user) { admin }
 
       it 'adds the users to the group and project' do
