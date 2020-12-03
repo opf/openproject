@@ -66,7 +66,7 @@ See docs/COPYRIGHT.rdoc for more details.
             </tr>
           </thead>
           <tbody>
-            <% @user.memberships.each do |membership| %>
+            <% @user.memberships.where.not(project: nil).each do |membership| %>
               <% next if membership.new_record? %>
                 <tr id="member-<%= membership.id %>" class="member">
                   <td class="project">
