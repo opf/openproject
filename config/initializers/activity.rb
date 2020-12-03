@@ -51,8 +51,8 @@ Project.register_latest_project_activity on: 'Changeset',
 
 Project.register_latest_project_activity on: 'WikiContent',
                                          chain: %w(Wiki WikiPage),
-                                         attribute: :updated_on
+                                         attribute: :updated_at
 
 Project.register_latest_project_activity on: 'Message',
                                          chain: 'Forum',
-                                         attribute: :updated_on
+                                         attribute: :updated_at

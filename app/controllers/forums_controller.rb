@@ -48,10 +48,10 @@ class ForumsController < ApplicationController
   end
 
   def show
-    sort_init 'updated_on', 'desc'
-    sort_update 'created_on' => "#{Message.table_name}.created_on",
+    sort_init 'updated_at', 'desc'
+    sort_update 'created_at' => "#{Message.table_name}.created_at",
                 'replies' => "#{Message.table_name}.replies_count",
-                'updated_on' => "#{Message.table_name}.updated_on"
+                'updated_at' => "#{Message.table_name}.updated_at"
 
     respond_to do |format|
       format.html do

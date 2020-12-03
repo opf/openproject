@@ -37,8 +37,6 @@ module Constants
       version: 'version',
       done_ratio: 'percentageDone',
       estimated_hours: 'estimatedTime',
-      created_on: 'createdAt',
-      updated_on: 'updatedAt',
       remaining_hours: 'remainingTime',
       spent_hours: 'spentTime',
       subproject: 'subprojectId',

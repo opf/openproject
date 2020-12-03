@@ -72,8 +72,8 @@ module OpenProject
     end
 
     def hierarchy_item_title(options, page)
-      if options[:timestamp] && page.updated_on
-        ::I18n.t(:label_updated_time, value: distance_of_time_in_words(Time.now, page.updated_on))
+      if options[:timestamp] && page.updated_at
+        ::I18n.t(:label_updated_time, value: distance_of_time_in_words(Time.now, page.updated_at))
       end
     end
 

@@ -188,12 +188,12 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
     end
 
     it_behaves_like 'has UTC ISO 8601 date and time' do
-      let(:date) { version.created_on }
+      let(:date) { version.created_at }
       let(:json_path) { 'createdAt' }
     end
 
     it_behaves_like 'has UTC ISO 8601 date and time' do
-      let(:date) { version.updated_on }
+      let(:date) { version.updated_at }
       let(:json_path) { 'updatedAt' }
     end
 
@@ -255,7 +255,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       end
 
       it 'changes when the version is updated' do
-        version.updated_on = Time.now + 20.seconds
+        version.updated_at = Time.now + 20.seconds
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

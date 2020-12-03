@@ -49,7 +49,7 @@ module Projects::Copy
         next if role_ids.empty?
 
         attributes = member
-          .attributes.dup.except('id', 'project_id', 'created_on')
+          .attributes.dup.except('id', 'project_id', 'created_at')
           .merge(role_ids: role_ids)
 
         target.memberships.create attributes

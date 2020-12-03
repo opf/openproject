@@ -55,7 +55,7 @@ class Backlog
     @owner_backlog = options['owner_backlog']
   end
 
-  def updated_on
+  def updated_at
     @stories.max_by(&:updated_at).try(:updated_at)
   end
 

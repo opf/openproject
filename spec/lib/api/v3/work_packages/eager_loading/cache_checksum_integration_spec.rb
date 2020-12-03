@@ -83,7 +83,7 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the author' do
-      work_package.author.update_attribute(:updated_on, Time.now + 10.seconds)
+      work_package.author.update_attribute(:updated_at, Time.now + 10.seconds)
 
       expect(new_checksum)
         .not_to eql orig_checksum
@@ -97,7 +97,7 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the assigned_to' do
-      work_package.assigned_to.update_attribute(:updated_on, Time.now + 10.seconds)
+      work_package.assigned_to.update_attribute(:updated_at, Time.now + 10.seconds)
 
       expect(new_checksum)
         .not_to eql orig_checksum
@@ -111,7 +111,7 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the responsible' do
-      work_package.responsible.update_attribute(:updated_on, Time.now + 10.seconds)
+      work_package.responsible.update_attribute(:updated_at, Time.now + 10.seconds)
 
       expect(new_checksum)
         .not_to eql orig_checksum
@@ -125,7 +125,7 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the version' do
-      work_package.version.update_attribute(:updated_on, Time.now + 10.seconds)
+      work_package.version.update_attribute(:updated_at, Time.now + 10.seconds)
 
       expect(new_checksum)
         .not_to eql orig_checksum

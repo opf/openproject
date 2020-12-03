@@ -1,5 +1,7 @@
 class FixAvailableLanguages < ActiveRecord::Migration[5.2]
   def up
+    Setting.reset_column_information
+
     Setting.available_languages = Setting.available_languages.map do |lang|
       if lang == 'zh'
         'zh-CN'
@@ -12,6 +14,8 @@ class FixAvailableLanguages < ActiveRecord::Migration[5.2]
   end
 
   def down
+    Setting.reset_column_information
+
     Setting.available_languages = Setting.available_languages.map do |lang|
       if lang == 'zh-CN'
         'zh'
@@ -22,6 +26,4 @@ class FixAvailableLanguages < ActiveRecord::Migration[5.2]
 
     User.where(language: 'zh-CN').update_all(language: 'zh')
   end
-
-  private
 end

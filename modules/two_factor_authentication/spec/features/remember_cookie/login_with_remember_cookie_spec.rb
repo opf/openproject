@@ -76,7 +76,7 @@ describe 'Login with 2FA remember cookie', type: :feature,
       # Expire token
       token = ::TwoFactorAuthentication::RememberedAuthToken.find_by!(user: user)
       expect(token).not_to be_expired
-      token.update_columns(expires_on: 1.day.ago, created_on: 31.days.ago)
+      token.update_columns(expires_on: 1.day.ago, created_at: 31.days.ago)
 
       # Log out and in again
       visit '/logout'

@@ -811,7 +811,6 @@ en:
     content: "Content"
     color: "Color"
     created_at: "Created on"
-    created_on: "Created on"
     custom_options: "Possible values"
     custom_values: "Custom fields"
     date: "Date"
