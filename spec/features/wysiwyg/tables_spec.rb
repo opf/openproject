@@ -176,11 +176,6 @@ describe 'Wysiwyg tables',
           expect(editable).to have_selector('td[style*="background-color:#123456"]')
           expect(editable).to have_selector('td[style*="text-align:center"]')
           expect(editable).to have_selector('td[style*="vertical-align:top"]')
-
-          # Expect word-break not to be set to cell that does not have width
-          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak',
-                                        editable.all('.op-uc-table .op-uc-table--cell').first)
-          expect(value2).to eq('normal')
         end
 
         # Save wiki page
