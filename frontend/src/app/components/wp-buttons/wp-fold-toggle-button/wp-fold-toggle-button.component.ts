@@ -32,10 +32,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 @Component({
   template: `
     <button class="button"
-            id="wp-view-toggle-button"
+            id="wp-fold-toggle-button"
             wpGroupToggleDropdown>
       <op-icon icon-classes="button--icon icon-outline"></op-icon>
-      <span class="button-text"></span>
+      <span class="button--text"></span>
       <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
     </button>
   `,
