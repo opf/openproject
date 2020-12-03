@@ -295,7 +295,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [successor, successor_child, successor_child2, successor_successor] }
 
       context 'with all scheduled automatically' do
-        it 'consists of the successor, its child and parent' do
+        it 'consists of the successor, its child and the successor˚s successor' do
           expect(described_class.fetch([origin]))
             .to match_array([successor, successor_child, successor_child2, successor_successor])
         end
@@ -306,7 +306,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
           successor_child2.update_column(:schedule_manually, true)
         end
 
-        it 'is empty' do
+        it 'consists of the successor, its automatically scheduled child and the successor˚s successor' do
           expect(described_class.fetch([origin]))
             .to match_array([successor_child, successor, successor_successor])
         end
@@ -391,7 +391,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [successor, successor_successor] }
 
       context 'with all scheduled automatically' do
-        it 'consists of the both successors' do
+        it 'consists of both successors' do
           expect(described_class.fetch([origin]))
             .to match_array([successor, successor_successor])
         end

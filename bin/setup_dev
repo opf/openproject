@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Deletes bundled javascript assets and rebuilds them.
 # Useful for when your frontend doesn't work (jQuery not defined etc.) for seemingly no reason at all.

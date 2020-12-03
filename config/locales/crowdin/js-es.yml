@@ -478,7 +478,7 @@ es:
           drag: 'Arrastra y suelta tus cartas dentro de una lista para volver a ordenar, o para otra lista. Un doble clic abrirá la vista de detalles.'
         wp:
           toggler: "Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece una vista más detallada de su trabajo."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: 'Esta es la lista del <b>Paquete de trabajo</b> con el trabajo importante del proyecto, como tareas, hitos, fases y más. <br> Puede crear o editar un paquete de trabajo directamente en esta lista. Para ver los datos, haga doble clic en una fila.'
           full_view: 'En los <b>Detalles del paquete de trabajo</b>, se muestra toda la información relevante, como la descripción, el estado y la prioridad, actividades, dependencias o comentarios.'
           back_button: 'Con la flecha, puede volver a la lista de paquetes de trabajo.'
           create_button: 'Use el botón <b>Crear</b> para agregar un nuevo paquete de trabajo al proyecto.'

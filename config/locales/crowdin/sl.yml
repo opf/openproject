@@ -537,6 +537,7 @@ sl:
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manjše ali enako %{count}. "
+        not_current_user: "is not the current user."
         not_a_date: "ni veljaven datum"
         not_a_datetime: "ni veljaven datum."
         not_a_number: "ni število."
@@ -613,6 +614,11 @@ sl:
             custom_fields:
               inexistent: "Za filter ni polja po meri."
               invalid: "Polje po meri v danem kontekstu ni veljavno."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Odnos ustvarja krog odnosov."
@@ -1222,6 +1228,8 @@ sl:
       blog: "Blog OpenProject"
       forums: "Forum skupnosti"
       newsletter: "Varnostna opozorila / Glasilo"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Spremembe so bile umaknjene."
   links:

@@ -27,9 +27,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'zlib'
-
 class WikiContent < ApplicationRecord
+  extend DeprecatedAlias
+
   belongs_to :page, class_name: 'WikiPage', foreign_key: 'page_id'
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   validates_length_of :comments, maximum: 255, allow_nil: true
@@ -37,8 +37,6 @@ class WikiContent < ApplicationRecord
   attr_accessor :comments
 
   before_save :comments_to_journal_notes
-  after_create :send_content_added_mail
-  after_update :send_content_updated_mail, if: :saved_change_to_text?
 
   acts_as_journalized
 
@@ -76,16 +74,7 @@ class WikiContent < ApplicationRecord
     super value.presence || ''
   end
 
-  # Returns the mail adresses of users that should be notified
-  def recipients
-    notified = project.notified_users
-    notified.select { |user| visible?(user) }
-  end
-
-  # FIXME: Deprecate
-  def versions
-    journals
-  end
+  deprecated_alias :versions, :journals
 
   # REVIEW
   def version
@@ -96,32 +85,5 @@ class WikiContent < ApplicationRecord
 
   def comments_to_journal_notes
     add_journal author, comments
-  end
-
-  def send_content_added_mail
-    return unless Setting.notified_events.include?('wiki_content_added')
-
-    create_recipients.uniq.each do |user|
-      UserMailer.wiki_content_added(user, self, User.current).deliver_later
-    end
-  end
-
-  def send_content_updated_mail
-    return unless Setting.notified_events.include?('wiki_content_updated')
-
-    update_recipients.uniq.each do |user|
-      UserMailer.wiki_content_updated(user, self, User.current).deliver_later
-    end
-  end
-
-  def create_recipients
-    recipients +
-      page.wiki.watcher_recipients
-  end
-
-  def update_recipients
-    recipients +
-      page.wiki.watcher_recipients +
-      page.watcher_recipients
   end
 end

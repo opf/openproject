@@ -30,6 +30,7 @@
 
 module Projects
   class CopyService < ::BaseServices::Copy
+    include Projects::Concerns::NewProjectService
 
     ##
     # In case a rollback is needed,

@@ -186,7 +186,7 @@ however most developers end up running the tasks in separate shells for better u
 gem install foreman
 foreman start -f Procfile.dev
 ```
-The application will be available at `http://127.0.0.1:5000`. To customize bind address and port copy the `.env.sample` provided in the root of this
+The application will be available at `http://127.0.0.1:5000`. To customize bind address and port copy the `.env.example` provided in the root of this
 project as `.env` and [configure values][foreman-env] as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,

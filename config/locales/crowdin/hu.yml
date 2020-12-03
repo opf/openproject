@@ -534,6 +534,7 @@ hu:
         invalid_url: 'nem érvényes URL.'
         invalid_url_scheme: 'nem támogatott protokoll (támogatott: %{allowed_schemes}).'
         less_than_or_equal_to: "kisebbnek vagy egyenlőnek kell lennie mint, %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "nem érvényes dátum."
         not_a_datetime: "ez nem érvényes dátum."
         not_a_number: "ez nem egy szám."
@@ -610,6 +611,11 @@ hu:
             custom_fields:
               inexistent: "Nincs egyedi mező ehhez a szűrőhöz."
               invalid: "Az egyéni mező érvénytelen az adott környezetben."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "A kapcsolat körkörös függőséget hoz létre."
@@ -1189,6 +1195,8 @@ hu:
       blog: "OpenProject blog"
       forums: "Közösségi fórum"
       newsletter: "Biztonsági figyelmeztetések / hírlevél"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:

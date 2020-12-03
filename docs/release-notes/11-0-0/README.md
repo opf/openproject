@@ -3,7 +3,7 @@ title: OpenProject 11.0.0
 sidebar_navigation:
     title: 11.0.0
 release_version: 11.0.0
-release_date: 2020-09-29
+release_date: 2020-10-12
 ---
 
 # OpenProject 11.0.0
@@ -163,7 +163,6 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Fixed: Order of work packages in XLS, PDF, CSV export differs from order in OpenProject \[[#34112](https://community.openproject.com/wp/34112)\]
 - Fixed: Checkboxes in table not displayed correctly in WYSIWYG editor \[[#34113](https://community.openproject.com/wp/34113)\]
 - Fixed: Archived projects not available via the API \[[#34120](https://community.openproject.com/wp/34120)\]
-- Fixed: Gantt chart: styles conflict between last active work package and hovered work package  \[[#34126](https://community.openproject.com/wp/34126)\]
 - Fixed: Gantt charts: rows misaligned when scrolling to bottom \[[#34127](https://community.openproject.com/wp/34127)\]
 - Fixed: Logged time is always one hour instead of the entered value \[[#34130](https://community.openproject.com/wp/34130)\]
 - Fixed: Cost types: Unable to add a new cost type \[[#34144](https://community.openproject.com/wp/34144)\]
@@ -173,7 +172,6 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Fixed: [all projects overview] Todo-list: checkboxes are preceded by bullets \[[#34190](https://community.openproject.com/wp/34190)\]
 - Fixed: Quick filter not applied for externally configured queries \[[#34239](https://community.openproject.com/wp/34239)\]
 - Fixed: Gantt Chart: Back-end - Front-end discrepancies when dragging a work package produces an error \[[#34252](https://community.openproject.com/wp/34252)\]
-- Fixed: Displaced datepicker for custom fields in the project dashboard \[[#34253](https://community.openproject.com/wp/34253)\]
 - Fixed: "Undefined" shown when editing cost entry in "Log unit cost" screen \[[#34257](https://community.openproject.com/wp/34257)\]
 - Fixed: All-in-one docker image on dev branch no longer works \[[#34272](https://community.openproject.com/wp/34272)\]
 - Fixed: Error displayed when deleting work package with logged time \[[#34283](https://community.openproject.com/wp/34283)\]
@@ -188,13 +186,10 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Fixed: Missing translations on copy project loading (and error) screen \[[#34298](https://community.openproject.com/wp/34298)\]
 - Fixed: Budget positions disappear from budget when editing \[[#34299](https://community.openproject.com/wp/34299)\]
 - Fixed: "Fixed date" in Budget not translated \[[#34300](https://community.openproject.com/wp/34300)\]
-- Fixed: Wrong default settings for Gantt chart button in project list \[[#34312](https://community.openproject.com/wp/34312)\]
 - Fixed: Work packages table: dropped element disappears when back-end error  \[[#34332](https://community.openproject.com/wp/34332)\]
 - Fixed: Link to a particular activity doesn't work \[[#34341](https://community.openproject.com/wp/34341)\]
 - Fixed: Broken error message when creating task on backlogs page \[[#34345](https://community.openproject.com/wp/34345)\]
 - Fixed: Date picker modal is cut off when switching from manual scheduling mode \[[#34346](https://community.openproject.com/wp/34346)\]
-- Fixed: Quick flickering when opening date picker \[[#34347](https://community.openproject.com/wp/34347)\]
-- Fixed: "Today" link in date picker is sometimes shown, sometimes not shown \[[#34348](https://community.openproject.com/wp/34348)\]
 - Fixed: Internal error shown when uploading document to attribute help text (projects) \[[#34352](https://community.openproject.com/wp/34352)\]
 - Fixed: Help text for custom fields (projects) not shown in project settings \[[#34353](https://community.openproject.com/wp/34353)\]
 - Fixed: Date settings are not applied for date picker or calendar \[[#34356](https://community.openproject.com/wp/34356)\]
@@ -213,7 +208,6 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Fixed: Logged time cannot be changed once error message is shown \[[#34433](https://community.openproject.com/wp/34433)\]
 - Fixed: Translation missing in Roadmap (time tracking) \[[#34434](https://community.openproject.com/wp/34434)\]
 - Fixed: Date picker for version disconnected / border missing \[[#34435](https://community.openproject.com/wp/34435)\]
-- Fixed: Date field for version cannot be set / edited from Backlogs page anymore \[[#34436](https://community.openproject.com/wp/34436)\]
 - Fixed: Burndown chart not displayed (from backlogs or taskboard page) \[[#34437](https://community.openproject.com/wp/34437)\]
 - Fixed: Text size on taskboard page too large \[[#34438](https://community.openproject.com/wp/34438)\]
 - Fixed: Spacing on meeting page looks crammed \[[#34439](https://community.openproject.com/wp/34439)\]
@@ -231,13 +225,23 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Fixed: Cost report filtered by custom field list does return an empty list \[[#34530](https://community.openproject.com/wp/34530)\]
 - Fixed: With global subproject filter disabled, subproject boards do not work \[[#34535](https://community.openproject.com/wp/34535)\]
 - Fixed: Clicking with modifier on global search results no longer works \[[#34544](https://community.openproject.com/wp/34544)\]
-- Fixed: Copying project with subproject board does not show error \[[#34550](https://community.openproject.com/wp/34550)\]
 - Fixed: Deleted work packages don't disappear in boards view \[[#34584](https://community.openproject.com/wp/34584)\]
-- Fixed: time-delayed display of the second date when entering start date and finish date \[[#34586](https://community.openproject.com/wp/34586)\]
 - Fixed: Error 500 when bulk-editing work packages \[[#34588](https://community.openproject.com/wp/34588)\]
 - Fixed: Year almost hidden in date picker for version \[[#34590](https://community.openproject.com/wp/34590)\]
 - Fixed: Onboarding tour broken in multiple places \[[#34597](https://community.openproject.com/wp/34597)\]
+- Fixed: Github Integration \[[#34598](https://community.openproject.com/wp/34598)\]
 - Fixed: Google OpenID provider image not shown in login form \[[#34601](https://community.openproject.com/wp/34601)\]
+- Fixed: Parent work package in manual scheduling mode without date cannot be scheduled from Gantt chart \[[#34710](https://community.openproject.com/wp/34710)\]
+- Fixed: Menu too small/completely hidden on Roadmap \[[#34712](https://community.openproject.com/wp/34712)\]
+- Fixed: QR code not displayed on 2FA device registration \[[#34793](https://community.openproject.com/wp/34793)\]
+- Fixed: Internal error (500) when creating child work package of parent with only start or finish date set \[[#34797](https://community.openproject.com/wp/34797)\]
+- Fixed: Text changes from German (Projekt kopieren) to English (Copy project) while loading \[[#34817](https://community.openproject.com/wp/34817)\]
+- Fixed: 500er Bug when Drag and Drop position in Gantt chart \[[#34836](https://community.openproject.com/wp/34836)\]
+- Fixed: Error messages in copy project modal (e.g. boards) not localized \[[#34843](https://community.openproject.com/wp/34843)\]
+- Fixed: Work package description containing work package attribute macro not displayed at all \[[#34852](https://community.openproject.com/wp/34852)\]
+- Fixed: Invalid or missing translation for format of project customfield in administration \[[#34863](https://community.openproject.com/wp/34863)\]
+- Fixed: On mobile the project side menu can get stuck / cut off when scrolling \[[#34868](https://community.openproject.com/wp/34868)\]
+- Fixed: Missing localization for "Subproject" and "Parent-Child" board heading \[[#34870](https://community.openproject.com/wp/34870)\]
 - Changed: Allow PDFs to be inlined \[[#24343](https://community.openproject.com/wp/24343)\]
 - Changed: Image size on Wiki \[[#24760](https://community.openproject.com/wp/24760)\]
 - Changed: Project copying: Clarify which work packages are invalid and where not copied \[[#26366](https://community.openproject.com/wp/26366)\]
@@ -274,7 +278,7 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Changed: Ability to filter views: Only show work packages from specified subproject, but not from father project \[[#33763](https://community.openproject.com/wp/33763)\]
 - Changed: Custom help text for project attributes \[[#33830](https://community.openproject.com/wp/33830)\]
 - Changed: Create subproject boards \[[#33864](https://community.openproject.com/wp/33864)\]
-- Changed: Create subtasks boards \[[#33865](https://community.openproject.com/wp/33865)\]
+- Changed: Create subtasks boards (Parent-Child board) \[[#33865](https://community.openproject.com/wp/33865)\]
 - Changed: Fine tune the design of the new date picker for the automatic scheduling mode \[[#33882](https://community.openproject.com/wp/33882)\]
 - Changed: Combine time and cost tracking and reporting module \[[#33918](https://community.openproject.com/wp/33918)\]
 - Changed: Prevent losing dates when adding the first child work package to an automatically scheduled work package \[[#33925](https://community.openproject.com/wp/33925)\]
@@ -290,12 +294,14 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Changed: [all projects overview] (Add option to) show status-text in expanded view. \[[#34191](https://community.openproject.com/wp/34191)\]
 - Changed: Map board subtasks columns when copying projects \[[#34238](https://community.openproject.com/wp/34238)\]
 - Changed: Having meetings as a linkable resource \[[#34256](https://community.openproject.com/wp/34256)\]
+- Changed: What's new teaser OpenProject BIM 11.0 \[[#34514](https://community.openproject.com/wp/34514)\]
 - Changed: New seed data for demo project - boards \[[#34526](https://community.openproject.com/wp/34526)\]
+- Changed: Change text in the Action board creation modal \[[#34847](https://community.openproject.com/wp/34847)\]
 - Epic: Switch between automatic and manual scheduling mode \[[#25624](https://community.openproject.com/wp/25624)\]
 - Epic: Time tracking and cost control 2.0 \[[#32125](https://community.openproject.com/wp/32125)\]
 - Epic: Wiki Macro functionality to allow retrieving work package and project attributes \[[#33648](https://community.openproject.com/wp/33648)\]
 - Epic: Basic portfoliomanagement for project list \[[#34167](https://community.openproject.com/wp/34167)\]
-- Epic: Project Templates \[[#34468](https://community.openproject.com/wp/34468)\]
+- Epic: Projekt Templates \[[#34468](https://community.openproject.com/wp/34468)\]
 
 ## Installation and Updates
 
@@ -310,7 +316,7 @@ Navigate to the -> *Administration*-> *Enterprise Edition* and request your tria
 
 ## Migrating to OpenProject 11.0
 
-Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0.
+Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0. Please note the blue box on top of the page.
 
 We update the hosted OpenProject environments (Enterprise Cloud) automatically.
 
@@ -328,7 +334,7 @@ Special thanks go to all OpenProject contributors without whom this release woul
 
 - Special thanks for reporting and finding bugs go to:
 
-  Marc Vollmer, Andy Shilton, Christian Forgács, L B, Gábor Sift, Thyago Sanabio, Daniel Narberhaus, Harpan Budi Santoso, Çağlar Yeşilyurt, Rajiv Ranjan Sinha, Freddy Trotin, xin meng, Kris M, schermi schermi, Nick Bailey, Adam Vanko, Hartwin Leen, Sergey Anikin, Petros Christopoulos, Oscar Meier, Matthias Laux, Carsten Klein, Dagyo Lee, Jonatan Zint, Gio @ Enuan, Peter Pof, Sergey Shalikin, Benoit PETIT-DEMOULIERE
+  Marc Vollmer, Andy Shilton, Christian Forgács, L B, Gábor Sift, Thyago Sanabio, Daniel Narberhaus, Harpan Budi Santoso, Çağlar Yeşilyurt, Rajiv Ranjan Sinha, Freddy Trotin, xin meng, Kris M, schermi schermi, Nick Bailey, Adam Vanko, Hartwin Leen, Sergey Anikin, Petros Christopoulos, Oscar Meier, Bert Regelink, Carsten Klein, Dagyo Lee, Jonatan Zint, Gio @ Enuan, Peter Pof, Sergey Shalikin, Benoit PETIT-DEMOULIERE
 
 ## What’s next?
 

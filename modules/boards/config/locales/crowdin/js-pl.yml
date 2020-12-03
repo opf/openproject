@@ -50,7 +50,7 @@ pl:
         action_text_assignee: >
           Tablica z zautomatyzowanymi kolumnami odpowiadającymi przypisanym użytkownikom. Idealna do rozsyłania pakietów roboczych.
         action_text_version: >
-          Tablica z zautomatyzowanymi kolumnami odpowiadającymi atrybutowi wersji. Idealna do planowania wydań oprogramowania.
+          Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
           assignee: przypisana osoba
           status: status

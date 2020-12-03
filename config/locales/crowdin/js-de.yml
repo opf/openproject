@@ -271,7 +271,7 @@ de:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Die Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
@@ -477,7 +477,7 @@ de:
           drag: 'Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet die Detailansicht.'
         wp:
           toggler: "Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere Sicht auf die Arbeit in Ihrem Projekt geben."
-          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
+          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf eine Zeile öffnet die Detailansicht.'
           full_view: 'In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten oder Kommentare.'
           back_button: 'Mit dem Pfeil kommen Sie zurück in die Listenansicht.'
           create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'
@@ -740,7 +740,7 @@ de:
       property_groups:
         details: "Details"
         people: "Personen"
-        estimatesAndTime: "Schätzungen & Zeit"
+        estimatesAndTime: "Schätzungen & Zeiten"
         other: "Andere"
       properties:
         assignee: "Zugewiesen an"

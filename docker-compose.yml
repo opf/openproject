@@ -1,30 +1,35 @@
 version: "3.7"
 
 networks:
-  frontend:
-  backend:
+  network:
+  testing:
 
 volumes:
   pgdata:
+  tmp:
   opdata:
+  bundle:
+  pgdata-test:
+  tmp-test:
+  fedata-test:
 
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
+x-op-build: &build
+  context: .
+  dockerfile: ./docker/dev/backend/Dockerfile
+  args:
+    DEV_UID: $DEV_UID
+    DEV_GID: $DEV_GID
 x-op-image: &image
-  image: openproject/community:${TAG:-10}
-x-op-app: &app
-  <<: *image
-  <<: *restart_policy
-  environment:
-    - "RAILS_CACHE_STORE=memcache"
-    - "OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211"
-    - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    - "DATABASE_URL=postgres://postgres:p4ssw0rd@db/openproject"
-    - "USE_PUMA=true"
-    # set to true to enable the email receiving feature. See ./docker/cron for more options
-    - "IMAP_ENABLED=false"
-  volumes:
-    - "opdata:/var/openproject/assets"
+  image:
+    openproject/dev:latest
+x-op-frontend-build: &frontend-build
+  context: .
+  dockerfile: ./docker/dev/frontend/Dockerfile
+  args:
+    DEV_UID: $DEV_UID
+    DEV_GID: $DEV_GID
 
 services:
   db:
@@ -34,65 +39,168 @@ services:
     volumes:
       - "pgdata:/var/lib/postgresql/data"
     environment:
-      - POSTGRES_PASSWORD=p4ssw0rd
-      - POSTGRES_DB=openproject
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-openproject}
     networks:
-      - backend
+      - network
 
   cache:
     image: memcached
     <<: *restart_policy
     networks:
-      - backend
+      - network
 
-  proxy:
+  backend:
+    build:
+      <<: *build
+      target: develop
     <<: *image
     <<: *restart_policy
-    command: "./docker/proxy"
+    command: run-app
     ports:
-      - "8080:80"
+      - "3000:3000"
     environment:
-      - APP_HOST=web
-      - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    depends_on:
-      - web
-    networks:
-      - frontend
-
-  web:
-    <<: *app
-    command: "./docker/web"
-    networks:
-      - frontend
-      - backend
+      LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
+      RAILS_ENV: development
+      RAILS_CACHE_STORE: memcache
+      OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+      DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
+    volumes:
+      - ".:/home/dev/openproject"
+      - "opdata:/var/openproject/assets"
+      - "bundle:/usr/local/bundle"
+      - "tmp:/home/dev/openproject/tmp"
     depends_on:
       - db
       - cache
-      - seeder
-
-  worker:
-    <<: *app
-    command: "./docker/worker"
     networks:
-      - backend
+      - network
+
+  frontend:
+    build:
+      <<: *frontend-build
+    command: "npm run serve"
+    volumes:
+      - ".:/home/dev/openproject"
+    ports:
+      - "4200:4200"
+    environment:
+      PROXY_HOSTNAME: backend
+    networks:
+      - network
     depends_on:
-      - db
-      - cache
-      - seeder
-
-  cron:
-    <<: *app
-    command: "./docker/cron"
-    networks:
       - backend
+
+######### Testing stuff below ############
+
+  db-test:
+    image: postgres:10
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata-test:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_DB: openproject
+      POSTGRES_USER: openproject
+      POSTGRES_PASSWORD: openproject
+    networks:
+      - testing
+
+  frontend-test:
+    build:
+      <<: *frontend-build
+    command: "npm run build-test"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+    environment:
+      PROXY_HOSTNAME: backend-test
+    networks:
+      - testing
+
+  backend-test:
+    build:
+      <<: *build
+      target: test
+    command: setup-tests
+    hostname: backend-test
+    networks:
+      - testing
     depends_on:
-      - db
-      - cache
-      - seeder
+      - db-test
+      - selenium-hub
+      - frontend-test
+    environment:
+      RAILS_ENV: test
+      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+      DATABASE_URL: postgresql://openproject:openproject@db-test/openproject
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+      SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
+      CAPYBARA_SERVER_PORT: 3000
+      CAPYBARA_DYNAMIC_HOSTNAME: 0
+      CAPYBARA_APP_HOSTNAME: backend-test
+      OPENPROJECT_DISABLE_DEV_ASSET_PROXY: 1
+      OPENPROJECT_TESTING_NO_HEADLESS: "true"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+      - "opdata:/var/openproject/assets"
+      - "bundle:/usr/local/bundle"
+      - "tmp-test:/home/dev/openproject/tmp"
 
-  seeder:
-    <<: *app
-    command: "./docker/seeder"
-    restart: on-failure
+  selenium-hub:
+    image: selenium/hub:latest
+    container_name: selenium-hub
+    hostname: selenium-hub
+    depends_on:
+      - chrome
+      - firefox
+      - opera
     networks:
-      - backend
+      - testing
+    ports:
+      - "4444:4444"
+
+  chrome:
+    image: selenium/node-chrome-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - testing
+    ports:
+      - 5900:5900
+    environment:
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+
+  firefox:
+    image: selenium/node-firefox-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - testing
+    ports:
+      - 5901:5900
+    environment:
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+
+  opera:
+    image: selenium/node-opera-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - testing
+    ports:
+      - 5902:5900
+    environment:
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+

@@ -29,9 +29,17 @@
 #++
 
 class Notifications::JournalWpMailService
-  class << self
-    include Notifications::JournalNotifier
+  MENTION_USER_ID_PATTERN =
+    '<mention[^>]*(?:data-type="user"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="user")[^>]*>)|(?:\buser#(\d+)\b'
+      .freeze
+  MENTION_USER_LOGIN_PATTERN =
+    '\buser:"(.+?)"'.freeze
+  MENTION_GROUP_ID_PATTERN =
+    '<mention[^>]*(?:data-type="group"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="group")[^>]*>)|(?:\bgroup#(\d+)\b'
+      .freeze
+  MENTION_PATTERN = Regexp.new("(?:#{MENTION_USER_ID_PATTERN})|(?:#{MENTION_USER_LOGIN_PATTERN})|(?:#{MENTION_GROUP_ID_PATTERN})")
 
+  class << self
     def call(journal, send_mails)
       journal_complete_mail(journal, send_mails)
     end
@@ -66,26 +74,22 @@ class Notifications::JournalWpMailService
         details = journal.details[field]
 
         if details.present?
-          potential_text << "\n" + Redmine::Helpers::Diff.new(*details).additions.join(' ')
+          potential_text << "\n" + Redmine::Helpers::Diff.new(*details.reverse).additions.join(' ')
         end
       end
       potential_text
     end
 
     def mentioned_ids(journal)
-      text = text_for_mentions(journal)
-      user_ids, user_login_names, group_ids = text
-                                              .scan(/\b(?:user#([\d]+))|(?:user:"(.+?)")|(?:group#([\d]+))\b/)
-                                              .transpose
-                                              .each(&:compact!)
+      matches = mention_matches(journal)
 
       base_scope = User
                    .includes(:groups)
                    .references(:groups_users)
 
-      by_id = base_scope.where(id: user_ids || [])
-      by_login = base_scope.where(login: user_login_names || [])
-      by_group = base_scope.where(groups_users: { id: group_ids || [] })
+      by_id = base_scope.where(id: matches[:user_ids])
+      by_login = base_scope.where(login: matches[:user_login_names])
+      by_group = base_scope.where(groups_users: { id: matches[:group_ids] })
 
       by_id
         .or(by_login)
@@ -102,6 +106,27 @@ class Notifications::JournalWpMailService
         notify_for_notes?(journal) ||
         notify_for_status?(journal) ||
         notify_for_priority(journal)
+    end
+
+    def mention_matches(journal)
+      text = text_for_mentions(journal)
+
+      user_ids_tag_after,
+        user_ids_tag_before,
+        user_ids_hash,
+        user_login_names,
+        group_ids_tag_after,
+        group_ids_tag_before,
+        group_ids_hash = text
+                         .scan(MENTION_PATTERN)
+                         .transpose
+                         .each(&:compact!)
+
+      {
+        user_ids: [user_ids_tag_after, user_ids_tag_before, user_ids_hash].flatten.compact,
+        user_login_names: [user_login_names].flatten.compact,
+        group_ids: [group_ids_tag_after, group_ids_tag_before, group_ids_hash].flatten.compact
+      }
     end
 
     def notify_for_wp_added?(journal)

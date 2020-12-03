@@ -30,24 +30,24 @@
 
 class Notifications::JournalNotificationService
   class << self
-    include Notifications::JournalNotifier
-
     def call(journal, send_mails)
-      if journal.journable_type == 'WorkPackage'
-        enqueue_work_package_notification(journal, send_mails)
-      end
+      enqueue_notification(journal, send_mails) if supported?(journal)
     end
 
     private
 
-    def enqueue_work_package_notification(journal, send_mails)
-      EnqueueWorkPackageNotificationJob
+    def enqueue_notification(journal, send_mails)
+      NotifyJournalCompletedJob
         .set(wait_until: delivery_time)
         .perform_later(journal.id, send_mails)
     end
 
     def delivery_time
       Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
+    end
+
+    def supported?(journal)
+      %w(WorkPackage WikiContent).include?(journal.journable_type)
     end
   end
 end

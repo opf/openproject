@@ -312,7 +312,10 @@ RB.Model = (function ($) {
 
       if (!j.hasClass('editing') && !j.hasClass('dragging') && !j.hasClass('prevent_edit') && !$(e.target).hasClass('prevent_edit')) {
         editor = model.edit();
-        editor.find('.' + $(e.currentTarget).attr('fieldname') + '.editor').focus();
+        var input = editor.find('.' + $(e.currentTarget).attr('fieldname') + '.editor');
+
+        input.focus();
+        input.click();
       }
     },
 

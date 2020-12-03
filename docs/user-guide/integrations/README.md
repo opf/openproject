@@ -10,6 +10,10 @@ keywords: projects, integration, Jira
 
 If you have previously worked with other tools and want to switch or need an integration to OpenProject, there is a way to do so for some applications.
 
+## GitHub
+
+OpenProject offers a basic GitHub integration. You will find more information about the GitHub integration in our [GitHub integration guideline](../../system-admin-guide/github-integration/).
+
 ## Gitlab
 
 The GitLab integration to OpenProject is currently being developed and you can find all information [here](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21933#note_309977508).
@@ -42,4 +46,4 @@ There is a rudimentary OpenProject Slack integration. It messages a configured S
 To activate it in the Cloud Edition please [get in touch](https://www.openproject.org/contact-us/). For the Enterprise Edition and the Cloud Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack#openproject-slack-plugin) 
 
 ## Timesheet
-Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple oush of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).
+Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).

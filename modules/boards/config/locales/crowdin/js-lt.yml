@@ -50,7 +50,7 @@ lt:
         action_text_assignee: >
           Lenta su automatiniais stulpeliais pagrįstais priskirtu vartotoju. Ideali darbo paketų paskirstymui.
         action_text_version: >
-          Lenta su automatiniais stulpeliais, pagrįstais versijos atributu. Ideali programinės įrangos laidų planavimui.
+          Lenta su automatiniais stulpeliais, pagrįstais versijos atributu. Ideali produkto vystymo planavimui.
         action_type:
           assignee: paskirtas
           status: būsena

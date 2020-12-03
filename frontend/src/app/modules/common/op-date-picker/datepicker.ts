@@ -35,8 +35,9 @@ import DateOption = flatpickr.Options.DateOption;
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
 
-  private datepickerCont:JQuery = jQuery(this.datepickerElemIdentifier);
+  private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier)! as HTMLElement;
   public datepickerInstance:Instance;
+  private reshowTimeout:any;
 
   constructor(private datepickerElemIdentifier:string,
               private date:any,
@@ -77,6 +78,8 @@ export class DatePicker {
     }
 
     this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
+
+    document.addEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public clear() {
@@ -93,12 +96,12 @@ export class DatePicker {
       this.datepickerInstance.close();
     }
 
-    this.datepickerCont.scrollParent().off('scroll');
+    document.removeEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public show() {
     this.datepickerInstance.open();
-    this.hideDuringScroll();
+    document.addEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public setDates(dates:DateOption|DateOption[]) {
@@ -109,33 +112,46 @@ export class DatePicker {
     return this.datepickerInstance.isOpen;
   }
 
-  private hideDuringScroll() {
-    let reshowTimeout:any = null;
-    let scrollParent = this.datepickerCont.scrollParent();
+  private hideDuringScroll = (event:Event) => {
+    // Prevent Firefox quirk: flatPicker emits
+    // multiple scrolls event when it is open
+    const target = event.target! as HTMLInputElement;
 
-    scrollParent.scroll(() => {
-      this.datepickerInstance.close();
-      if (reshowTimeout) {
-        clearTimeout(reshowTimeout);
+    if (target.classList.contains('flatpickr-monthDropdown-months')) {
+      return;
+    }
+
+    this.datepickerInstance.close();
+
+    if (this.reshowTimeout) {
+      clearTimeout(this.reshowTimeout);
+    }
+
+    this.reshowTimeout = setTimeout(() => {
+      if (this.visibleAndActive()) {
+        this.datepickerInstance.open();
       }
-
-      reshowTimeout = setTimeout(() => {
-        if (this.visibleAndActive()) {
-          this.datepickerInstance.open();
-        }
-      }, 50);
-    });
+    }, 50);
   }
 
   private visibleAndActive() {
-    var input = this.datepickerCont;
-
     try {
-      return document.elementFromPoint(input.offset()!.left, input.offset()!.top) === input[0] &&
-        document.activeElement === input[0];
+      return this.isInViewport(this.datepickerCont) &&
+        document.activeElement === this.datepickerCont;
     } catch (e) {
       console.error("Failed to test visibleAndActive " + e);
       return false;
     }
-  };
+  }
+
+  private isInViewport(element:HTMLElement) {
+    const rect = element.getBoundingClientRect();
+
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
 }

@@ -1,6 +1,0 @@
-#!/bin/sh
-
-bundle install \
-  && bundle exec rake db:create db:migrate \
-  && bundle exec rake db:seed \
-  && echo done > tmp/.seeding_status

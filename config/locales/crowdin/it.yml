@@ -533,6 +533,7 @@ it:
         invalid_url: 'non è un URL valido.'
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
         less_than_or_equal_to: "deve essere inferiore o uguale a %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "non è una data valida."
         not_a_datetime: "non è un'orario valido."
         not_a_number: "non è un numero."
@@ -609,6 +610,11 @@ it:
             custom_fields:
               inexistent: "Nessun campo personalizzato per il filtro."
               invalid: "Il campo personalizzato non è valido nel contesto dato."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "il filtro ha valori non validi."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "La relazione crea un riferimento circolare."
@@ -1188,6 +1194,8 @@ it:
       blog: "Blog di OpenProject"
       forums: "Forum della Comunità"
       newsletter: "Avvisi di sicurezza / Notizie"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Le modifiche sono state annullate."
   links:

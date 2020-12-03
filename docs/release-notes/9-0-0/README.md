@@ -79,4 +79,4 @@ For an extensive overview of bug fixes please refer to the [following list](http
 
 If you're using the OpenProject Cloud Edition, you are already running on the latest version of OpenProject 9.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
-[Please visit our upgrade guides for more information]().
+[Please visit our upgrade guides for more information](../../installation-and-operations/operation/upgrading).

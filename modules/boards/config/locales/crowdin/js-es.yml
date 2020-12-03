@@ -50,20 +50,20 @@ es:
         action_text_assignee: >
           Panel con columnas automáticas basadas en los usuarios asignados. Ideal para enviar paquetes de trabajo.
         action_text_version: >
-          Panel con columnas automáticas basadas en el atributo de versión. Ideal para planificar versiones de software.
+          Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
           assignee: asignado
           status: estado
           version: versión
           subproject: Subproyecto
-          subtasks: parent-child
+          subtasks: principal-secundaria
         board_type_title:
           assignee: Asignado a
           status: Estado
           version: Versión
           subproject: Subproyecto
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Principal-secundaria
+          basic: Básico
         select_attribute: "Atributo de acción"
       add_list_modal:
         labels:
@@ -76,8 +76,8 @@ es:
           status: |
             No hay estados disponibles actualmente. <br>
             Puede que no haya ninguno, o bien ya se añadieron todos al panel.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: No hay ningún miembro que coincida con el valor de filtro. <br>
+          no_member: El proyecto no tiene actualmente ningún miembro que pueda añadirse. <br>
           add_members: <a href="%{link}">Añada un miembro a este proyecto</a> para volver a seleccionar usuarios.
       configuration_modal:
         title: 'Configurar este panel'

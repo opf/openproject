@@ -22,7 +22,7 @@
 bg:
   button_save_as: "Save report as..."
   comments: "Коментар"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Време и разходи"
   label_cost_report: "Cost report"
   label_cost_report_plural: "Cost reports"
   description_drill_down: "Show details"

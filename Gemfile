@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.23.0'
+gem 'rouge', '~> 3.25.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -99,7 +99,7 @@ gem 'date_validator', '~> 0.10.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
-gem 'sys-filesystem', '~> 1.3.3', require: false
+gem 'sys-filesystem', '~> 1.4.0', require: false
 
 # Faster posix-compliant spawns for 8.0. conversions with pandoc
 gem 'posix-spawn', '~> 0.3.13', require: false
@@ -159,7 +159,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'i18n-js', '~> 3.7.0'
+gem 'i18n-js', '~> 3.8.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -177,7 +177,7 @@ gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.80'
+gem 'aws-sdk-s3', '~> 1.84'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -186,6 +186,8 @@ gem 'plaintext', '~> 0.3.2'
 gem 'rest-client', '~> 2.0'
 
 gem 'ruby-progressbar', '~> 1.10.0', require: false
+
+gem 'mini_magick', '~> 4.11.0', require: false
 
 group :test do
   gem 'launchy', '~> 2.5.0'
@@ -196,11 +198,9 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 0.12.0'
 
-  gem 'cucumber', '~> 3.1.0'
-  gem 'cucumber-rails', '~> 1.8.0', require: false
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
-  gem 'rspec', '~> 3.9.0'
+  gem 'rspec', '~> 3.10.0'
   # TODO: replace stub_model and mock_model by calls to factory or simple double
   # and remove this dependency
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
@@ -226,7 +226,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.9.1', require: false
+  gem 'webmock', '~> 3.10.0', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
@@ -236,8 +236,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 4.4', require: nil
 
-  # For unknown reasons, parallel_tests 3.3 fails on travis.
-  gem 'parallel_tests', '~> 3.1', '< 3.3.0'
+  gem 'parallel_tests', '~> 3.1'
 end
 
 group :ldap do
@@ -245,7 +244,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.2.1' # Use for event-based reloaders
+  gem 'listen', '~> 3.3.0' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
@@ -261,8 +260,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.2'
-
   # Require factory_bot for usage with openproject plugins testing
   gem 'factory_bot', '~> 6.1.0'
   # require factory_bot_rails for convenience in core development
@@ -280,20 +277,17 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 8.0.5'
+  gem 'danger', '~> 8.2.0'
 
   # Brakeman scanner
   gem 'brakeman', '~> 4.10.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.4.5', require: false
+gem 'bootsnap', '~> 1.5.0', require: false
 
 # API gems
-# Grape 1.4.0 has a bug which requires us to wait until 1.4.1 is released.
-# https://github.com/ruby-grape/grape/pull/2088
-# In 1.4.0, the Cache-Control will always be set to no-cache when sending a file.
-gem 'grape', '~> 1.3.0'
+gem 'grape', '~> 1.5.0'
 gem 'roar', '~> 1.1.0'
 
 # CORS for API
@@ -308,24 +302,18 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.4.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.5.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
   gem 'with_advisory_lock', '~> 4.6.0'
 end
 
-group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
-end
+gem 'openproject-translations',
+  git: 'https://github.com/opf/openproject-translations.git',
+  branch: 'dev'
 
-group :docker, optional: true do
-  gem 'passenger', '~> 6.0.1'
-
-  # Used to easily precompile assets
-  gem 'newrelic_rpm', require: !!ENV['HEROKU']
-  gem 'rails_12factor', require: !!ENV['HEROKU']
-end
+gem 'newrelic_rpm'
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',

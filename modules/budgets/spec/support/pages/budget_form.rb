@@ -121,6 +121,11 @@ module Pages
       end
     end
 
+    def expect_subject(subject)
+      expect(page)
+        .to have_field("Subject", with: subject)
+    end
+
     def unit_costs_at(num_row)
       unit_costs_container.all('tbody td.currency')[num_row - 1]
     end
@@ -175,6 +180,10 @@ module Pages
 
     def labor_rows
       @labor_rows ||= 0
+    end
+
+    def notification_type
+      :rails
     end
   end
 end

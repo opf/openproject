@@ -44,13 +44,13 @@ describe 'Wysiwyg work package linking',
       visit project_wiki_path(project, :wiki)
     end
 
-    it 'can add tables without headers' do
+    it 'can reference work packages' do
 
       # single hash autocomplete
       editor.click_and_type_slowly "##{work_package.id}"
       editor.click_autocomplete work_package.subject
 
-      expect(editor.editor_element).to have_selector('span.mention', text: "##{work_package.id}")
+      expect(editor.editor_element).to have_selector('a.mention', text: "##{work_package.id}")
 
       # Save wiki page
       click_on 'Save'

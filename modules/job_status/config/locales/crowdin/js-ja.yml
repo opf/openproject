@@ -5,9 +5,9 @@ ja:
       click_to_download: 'Or click here to download.'
       title: 'Background job status'
       redirect: 'You are being redirected.'
-      redirect_link: 'Please click here to continue.'
-      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
-      errors: 'Some errors have occurred'
+      redirect_link: '続行するにはここをクリックしてください。'
+      redirect_errors: 'これらのエラーのため、自動的にリダイレクトされません。'
+      errors: 'エラーが発生しました。'
       generic_messages:
         not_found: 'This job could not be found.'
         in_queue: 'The job has been queued and will be processed shortly.'

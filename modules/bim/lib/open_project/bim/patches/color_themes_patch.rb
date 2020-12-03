@@ -1,5 +1,7 @@
 require 'open_project/custom_styles/design'
 
+OpenProject::CustomStyles::ColorThemes::BIM_THEME_NAME = 'OpenProject BIM'.freeze
+
 module OpenProject::Bim
   module Patches
     module ColorThemesPatch
@@ -20,7 +22,7 @@ module OpenProject::Bim
 
         def bim_theme
           {
-            theme: 'OpenProject BIM',
+            theme: OpenProject::CustomStyles::ColorThemes::BIM_THEME_NAME,
             colors: {
               'primary-color' => "#3270DB",
               'primary-color-dark' => "#163473",

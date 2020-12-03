@@ -203,19 +203,11 @@ module RbCommonHelper
     end
   end
 
-  def show_burndown_link(sprint)
-    ret = ''
-
-    ret += link_to(I18n.t('backlogs.show_burndown_chart'),
-                   {},
-                   class: 'show_burndown_chart button')
-
-    ret += nonced_javascript_tag "
-            jQuery(document).ready(function(){
-              var burndown = RB.Factory.initialize(RB.Burndown, jQuery('.show_burndown_chart'));
-              burndown.setSprintId(#{sprint.id});
-            });"
-    ret.html_safe
+  def show_burndown_link(project, sprint)
+    link_to(I18n.t('backlogs.show_burndown_chart'),
+            backlogs_project_sprint_burndown_chart_path(project.identifier, sprint),
+            class: 'show_burndown_chart button',
+            target: :_blank)
   end
 
   private

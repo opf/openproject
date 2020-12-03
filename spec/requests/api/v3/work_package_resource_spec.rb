@@ -310,6 +310,35 @@ describe 'API v3 Work package resource',
               .at_path('derivedDueDate')
           end
         end
+
+        describe 'relations' do
+          let(:directly_related_wp) do
+            FactoryBot.create(:work_package, project_id: project.id)
+          end
+          let(:transitively_related_wp) do
+            FactoryBot.create(:work_package, project_id: project.id)
+          end
+
+          let(:work_package) do
+            FactoryBot.create(:work_package,
+                              project_id: project.id,
+                              description: 'lorem ipsum').tap do |wp|
+
+              FactoryBot.create(:relation, relates: 1, from: wp, to: directly_related_wp)
+              FactoryBot.create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
+            end
+          end
+
+          it 'embeds all direct relations' do
+            expect(subject)
+              .to be_json_eql(1.to_json)
+              .at_path('_embedded/relations/total')
+
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(directly_related_wp.id).to_json)
+              .at_path('_embedded/relations/_embedded/elements/0/_links/to/href')
+          end
+        end
       end
 
       context 'requesting nonexistent work package' do
@@ -404,7 +433,7 @@ describe 'API v3 Work package resource',
         context 'not set' do
           let(:params) { update_params }
 
-          it { expect(EnqueueWorkPackageNotificationJob).to have_been_enqueued.at_least(1) }
+          it { expect(NotifyJournalCompletedJob).to have_been_enqueued.at_least(1) }
         end
 
         context 'disabled' do
@@ -412,7 +441,7 @@ describe 'API v3 Work package resource',
           let(:params) { update_params }
 
           it do
-            expect(EnqueueWorkPackageNotificationJob)
+            expect(NotifyJournalCompletedJob)
               .to have_been_enqueued
               .at_least(1)
           end
@@ -423,7 +452,7 @@ describe 'API v3 Work package resource',
           let(:params) { update_params }
 
           it do
-            expect(EnqueueWorkPackageNotificationJob)
+            expect(NotifyJournalCompletedJob)
               .to have_been_enqueued
               .at_least(1)
           end

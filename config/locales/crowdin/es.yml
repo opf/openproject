@@ -199,7 +199,7 @@ es:
       completed: "Borrado del proyecto %{name} completado"
       completed_text: "La petición para borrar el proyecto '%{name}' se ha completado."
     index:
-      edit_columns: 'Edit columns'
+      edit_columns: 'Editar columnas'
       open_as_gantt: 'Abrir como diagrama de Gantt'
       open_as_gantt_title: "Use este botón para generar un diagrama de Gantt donde se filtren los paquetes de trabajo de los proyectos visibles en esta página."
       open_as_gantt_title_admin: "Puede modificar los ajustes de visualización (como los tipos de paquetes de trabajo seleccionados) en el apartado de administración de la configuración del proyecto."
@@ -534,6 +534,7 @@ es:
         invalid_url: 'no es una URL válida.'
         invalid_url_scheme: 'no es un protocolo admitido (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "debe ser menor o igual a %{count}."
+        not_current_user: "is not the current user."
         not_a_date: "no es una fecha válida."
         not_a_datetime: "no es una fecha/hora válida."
         not_a_number: "No es un número."
@@ -610,6 +611,11 @@ es:
             custom_fields:
               inexistent: "No hay ningún campo personalizado para el filtro."
               invalid: "El campo personalizado no es válido en el contexto válido."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "La relación crea un bucle de relaciones."
@@ -1108,7 +1114,7 @@ es:
   error_no_default_work_package_status: "Ningún estado del paquete trabajo predeterminado está definido. Por favor, compruebe su configuración (ir a \"Administración-> Situación del paquete de trabajo\")."
   error_no_type_in_project: "Ningún tipo se asocia a este proyecto. Por favor, Compruebe la configuración del proyecto."
   error_omniauth_registration_timed_out: "El registro mediante un proveedor de autenticación externa expiró. Por favor inténtelo nuevamente."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "La información de autenticación proporcionada por el proveedor de identidades no era válida. Póngase en contacto con el administrador para obtener ayuda."
   error_scm_command_failed: "Se produjo un error al intentar acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada o la revisión no se encontró en el repositorio."
   error_unable_delete_status: "El estado del paquete de trabajo no se puede eliminar ya que esta siendo utilizado por al menos un paquete de trabajo."
@@ -1189,6 +1195,8 @@ es:
       blog: "Blog de OpenProject"
       forums: "Foro de la comunidad"
       newsletter: "Alertas de seguridad / boletín"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Se deshicieron los cambios."
   links:
@@ -2647,8 +2655,8 @@ es:
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorización'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    auth_url: 'URL de autenticación'
+    access_token_url: 'URL del token de acceso'
     errors:
       messages:
         #Common error messages
