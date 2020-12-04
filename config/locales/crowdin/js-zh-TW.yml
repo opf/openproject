@@ -255,7 +255,6 @@ zh-TW:
     general_text_yes: "是"
     general_text_No: "否"
     general_text_Yes: "是"
-    global_roles: 全域角色
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -331,6 +330,7 @@ zh-TW:
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"
+    label_global_roles: "全域角色"
     label_greater_or_equal: ">="
     label_group: '群組'
     label_group_by: "分組依據"

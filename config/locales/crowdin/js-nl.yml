@@ -256,7 +256,6 @@ nl:
     general_text_yes: "Ja"
     general_text_No: "Nee"
     general_text_Yes: "Ja"
-    global_roles: Globale functies
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@ nl:
     label_filename: "Bestand"
     label_filesize: "Grootte"
     label_general: "Algemeen"
+    label_global_roles: "Globale functies"
     label_greater_or_equal: ">="
     label_group: 'Groep'
     label_group_by: "Groeperen op"

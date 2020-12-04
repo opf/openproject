@@ -63,7 +63,7 @@ sv:
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "33 / 5000\nUppgradera till Enterprise Edition"
+      upgrade_to_ee: "Uppgradera till Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
       replace_token: "Ersätta din nuvarande support-nyckel"
       order: "Beställ Enterprise Edition"
@@ -202,7 +202,6 @@ sv:
       completed: "Borttagning av projekt %{name} slutfört"
       completed_text: "Begäran om att ta bort projekt '%{name}' har slutförts."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -754,7 +753,6 @@ sv:
     content: "Innehåll"
     color: "Färg"
     created_at: "Skapat den"
-    created_on: "Skapat den"
     custom_options: "Möjliga värden"
     custom_values: "Anpassade fält"
     date: "Datum"
@@ -1030,6 +1028,7 @@ sv:
   default_role_anonymous: "Anonym"
   default_role_developer: "Utvecklare"
   default_role_project_admin: "Projektadministratör"
+  default_role_project_creator: "Projektskapare"
   default_role_non_member: "Icke medlem"
   default_role_reader: "Läsare"
   default_role_member: "Medlem"
@@ -1407,7 +1406,6 @@ sv:
   label_group_new: "Ny grupp"
   label_group: "Grupp"
   label_group_named: "Grupp %{name}"
-  label_group_plural: "Grupper"
   label_help: "Hjälp"
   label_here: här
   label_hide: "Dölj"
@@ -1751,6 +1749,11 @@ sv:
     one: "Ett projekt"
     other: "%{count} projekt"
   label_yesterday: "igår"
+  label_role_type: "Typ"
+  label_member_role: "Projektroll"
+  label_global_role: "Globalroll"
+  label_not_changeable: "(kan inte ändras)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Kan inte använda en abstrakt autentiseringskälla."
     ldap_error: "LDAP-fel: %{error_message}"

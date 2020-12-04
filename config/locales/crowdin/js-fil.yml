@@ -256,7 +256,6 @@ fil:
     general_text_yes: "oo"
     general_text_No: "Hindi"
     general_text_Yes: "Oo"
-    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@ fil:
     label_filename: "File"
     label_filesize: "Sukat"
     label_general: "Pangkalahatan"
+    label_global_roles: "Global Roles"
     label_greater_or_equal: ">=="
     label_group: 'Grupo'
     label_group_by: "Pangkat sa"

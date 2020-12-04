@@ -255,7 +255,6 @@ vi:
     general_text_yes: "có"
     general_text_No: "Không"
     general_text_Yes: "Có"
-    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Nhấn vào đây để làm mới tài nguyên và cập nhật lên phiên bản mới nhất."
@@ -331,6 +330,7 @@ vi:
     label_filename: "Tệp"
     label_filesize: "Kích cỡ"
     label_general: "Tổng quan"
+    label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
     label_group: 'Nhóm'
     label_group_by: "Nhóm theo"

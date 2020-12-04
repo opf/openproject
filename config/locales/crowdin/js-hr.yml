@@ -256,7 +256,6 @@ hr:
     general_text_yes: "da"
     general_text_No: "Ne"
     general_text_Yes: "Da"
-    global_roles: Globalne role
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@ hr:
     label_filename: "Datoteka"
     label_filesize: "Veličina"
     label_general: "Općenito"
+    label_global_roles: "Globalne role"
     label_greater_or_equal: ">="
     label_group: 'Grupa'
     label_group_by: "Grupiraj po"

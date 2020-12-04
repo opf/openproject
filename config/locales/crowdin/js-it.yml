@@ -256,7 +256,6 @@ it:
     general_text_yes: "si"
     general_text_No: "No"
     general_text_Yes: "Si"
-    global_roles: Ruoli globali
     hal:
       error:
         update_conflict_refresh: "Clicca qui per ricaricare il pacchetto di lavoro e aggiornare alla versione più recente."
@@ -332,6 +331,7 @@ it:
     label_filename: "File"
     label_filesize: "Dimensione"
     label_general: "Generale"
+    label_global_roles: "Ruoli globali"
     label_greater_or_equal: ">="
     label_group: 'Gruppo'
     label_group_by: "Raggruppa per"

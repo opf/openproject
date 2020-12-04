@@ -27,13 +27,11 @@ uk:
         available: "Доступно"
         budget: "Планується"
         budget_ratio: "Витрачено (співвідношення)"
-        created_on: "Створений"
         description: "Опис"
         spent: "Витрачений"
         status: "Статус"
         subject: "Тема"
         type: "Тип вартості"
-        updated_on: "Оновлене"
         labor_budget: "Планові витрати праці"
         material_budget: "Планові витрати на одиницю продукції"
       work_package:

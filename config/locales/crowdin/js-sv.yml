@@ -255,7 +255,6 @@ sv:
     general_text_yes: "ja"
     general_text_No: "Nej"
     general_text_Yes: "Ja"
-    global_roles: Globala roller
     hal:
       error:
         update_conflict_refresh: "Klicka här för att uppdatera resursen och uppdatera till den nyaste versionen."
@@ -331,6 +330,7 @@ sv:
     label_filename: "Fil"
     label_filesize: "Filstorlek"
     label_general: "Allmänt"
+    label_global_roles: "Globala roller"
     label_greater_or_equal: ">="
     label_group: 'Grupp'
     label_group_by: "Gruppera efter"

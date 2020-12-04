@@ -27,13 +27,11 @@ ja:
         available: "利用可能"
         budget: "計画"
         budget_ratio: "使用済 (比)"
-        created_on: "作成日時"
         description: "説明"
         spent: "使用済"
         status: "ステータス"
         subject: "題名"
         type: "コスト種類"
-        updated_on: "更新日時"
         labor_budget: "計画作業員コスト"
         material_budget: "計画単価"
       work_package:

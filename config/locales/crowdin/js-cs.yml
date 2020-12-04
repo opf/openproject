@@ -256,7 +256,6 @@ cs:
     general_text_yes: "ano"
     general_text_No: "Ne"
     general_text_Yes: "Ano"
-    global_roles: Globální role
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@ cs:
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_general: "Obecné"
+    label_global_roles: "Globální role"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Seskupit podle"

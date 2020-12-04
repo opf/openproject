@@ -202,7 +202,6 @@ bg:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Редактиране на колони'
       open_as_gantt: 'Отваря се като изглед на Гант'
       open_as_gantt_title: "Използвайте този бутон, за да генерирате изглед на Гант, който филтрира работни пакети за проектите, видими на тази страница."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -755,7 +754,6 @@ bg:
     content: "Съдържание"
     color: "Цвят"
     created_at: "Създаден на"
-    created_on: "Създаден на"
     custom_options: "Възможните стойности"
     custom_values: "допълнителни полета"
     date: "Дата"
@@ -1031,6 +1029,7 @@ bg:
   default_role_anonymous: "Анонимен"
   default_role_developer: "Разработчик"
   default_role_project_admin: "Администратор на проект"
+  default_role_project_creator: "Създател на проект"
   default_role_non_member: "Не е член"
   default_role_reader: "Четящ"
   default_role_member: "Член"
@@ -1408,7 +1407,6 @@ bg:
   label_group_new: "Нова група"
   label_group: "Група"
   label_group_named: "Група %{name}"
-  label_group_plural: "Групи"
   label_help: "Помощ"
   label_here: тук
   label_hide: "Скрий"
@@ -1752,6 +1750,11 @@ bg:
     one: "1 проект"
     other: "%{count} проекти"
   label_yesterday: "вчера"
+  label_role_type: "Тип"
+  label_member_role: "Project Role"
+  label_global_role: "Global Role"
+  label_not_changeable: "(не може да се променя)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
     ldap_error: "LDAP-Error: %{error_message}"

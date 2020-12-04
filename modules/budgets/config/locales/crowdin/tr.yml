@@ -27,13 +27,11 @@ tr:
         available: "Uygun"
         budget: "Planlanmış"
         budget_ratio: "Harcanma (oranı)"
-        created_on: "Oluşturma tarihi"
         description: "Açıklama"
         spent: "Harcanan"
         status: "Durum"
         subject: "Konu"
         type: "Maliyet türü"
-        updated_on: "Güncelleme tarihi"
         labor_budget: "Planlanan işçilik maliyetleri"
         material_budget: "Planlanan birim maliyetleri"
       work_package:

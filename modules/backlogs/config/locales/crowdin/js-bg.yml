@@ -23,5 +23,5 @@ bg:
   js:
     work_packages:
       properties:
-        storyPoints: "Story Points"
+        storyPoints: "Точки на история"
         remainingTime: "Remaining hours"

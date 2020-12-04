@@ -27,13 +27,11 @@ bg:
         available: "Достъпно"
         budget: "Планирано"
         budget_ratio: "Разход (съотношение)"
-        created_on: "Създаден на"
         description: "Описание"
         spent: "Отменено"
         status: "Състояние"
         subject: "Заглавие"
         type: "Тип разходи"
-        updated_on: "Актуализиран на"
         labor_budget: "Планирани разходи за труд"
         material_budget: "Планирани единични разходи"
       work_package:

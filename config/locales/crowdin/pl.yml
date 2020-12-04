@@ -198,7 +198,6 @@ pl:
       completed: "Usunięcie projektu %{name} zostało wykonane"
       completed_text: "Żądanie usunięcia projektu „%{name}” zostało wykonane."
     index:
-      edit_columns: 'Edytuj kolumny'
       open_as_gantt: 'Otwórz jako widok wykresu Gantta'
       open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
       open_as_gantt_title_admin: "Możesz modyfikować ustawienia widoku (takie jak wybrane typy pakietów roboczych) w obszarze administracji w ustawieniach projektu."
@@ -759,7 +758,6 @@ pl:
     content: "Zawartość"
     color: "Kolor"
     created_at: "Utworzone"
-    created_on: "Utworzone"
     custom_options: "Możliwe wartości"
     custom_values: "Pola niestandardowe"
     date: "Data"
@@ -1059,6 +1057,7 @@ pl:
   default_role_anonymous: "Anonimowy"
   default_role_developer: "Deweloper"
   default_role_project_admin: "Administrator projektu"
+  default_role_project_creator: "Twórca projektu"
   default_role_non_member: "nie jest członkiem"
   default_role_reader: "Czytnik"
   default_role_member: "Członek"
@@ -1436,7 +1435,6 @@ pl:
   label_group_new: "Nowa Grupa"
   label_group: "Grupa"
   label_group_named: "Grupa %{name}"
-  label_group_plural: "Grupy"
   label_help: "Pomoc"
   label_here: tutaj
   label_hide: "Ukryj"
@@ -1788,6 +1786,11 @@ pl:
     many: "%{count} projekty"
     other: "%{count} projekty"
   label_yesterday: "wczoraj"
+  label_role_type: "Typ"
+  label_member_role: "Rola projektu"
+  label_global_role: "Globalna rola"
+  label_not_changeable: "(niezmienialne)"
+  label_global: "Globalna"
   auth_source:
     using_abstract_auth_source: "Nie można użyć fikcyjnego źródła uwierzytelniania."
     ldap_error: "Błąd LDAP: %{error_message}"

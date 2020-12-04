@@ -200,7 +200,6 @@ el:
       completed: "Η διαγραφή του έργου %{name} ολοκληρώθηκε"
       completed_text: "Το αίτημα για διαγραφή του έργου %{name} έχει ολοκληρωθεί."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -752,7 +751,6 @@ el:
     content: "Περιεχόμενο"
     color: "Χρώμα"
     created_at: "Δημιουργήθηκε στις"
-    created_on: "Δημιουργήθηκε στις"
     custom_options: "Πιθανές τιμές"
     custom_values: "Προσαρμοσμένα πεδία"
     date: "Ημερομηνία"
@@ -1028,6 +1026,7 @@ el:
   default_role_anonymous: "Ανώνυμος"
   default_role_developer: "Προγραμματιστής"
   default_role_project_admin: "Διαχειριστής"
+  default_role_project_creator: "Δημιουργός έργου"
   default_role_non_member: "Μη μέλη"
   default_role_reader: "Αναγνώστης"
   default_role_member: "Μέλος"
@@ -1405,7 +1404,6 @@ el:
   label_group_new: "Νέα ομάδα"
   label_group: "Ομάδα"
   label_group_named: "Ομάδα %{name}"
-  label_group_plural: "Ομάδες"
   label_help: "Βοήθεια"
   label_here: εδώ
   label_hide: "Απόκρυψη"
@@ -1749,6 +1747,11 @@ el:
     one: "1 έργο"
     other: "%{count} έργα"
   label_yesterday: "χθες"
+  label_role_type: "Τύπος"
+  label_member_role: "Ρόλος στο έργο"
+  label_global_role: "Καθολικός Ρόλος"
+  label_not_changeable: "(μη μεταβλητό)"
+  label_global: "Καθολικό"
   auth_source:
     using_abstract_auth_source: "Δεν μπορεί να χρησιμοποιηθεί μια αφηρημένη πηγή αυθεντικοποίησης."
     ldap_error: "Σφάλμα-LDAP: %{error_message}"

@@ -255,7 +255,6 @@ el:
     general_text_yes: "ναι"
     general_text_No: "Όχι"
     general_text_Yes: "Ναι"
-    global_roles: Καθολικοί Ρόλοι
     hal:
       error:
         update_conflict_refresh: "Κάντε κλικ εδώ για να ανανεώσετε τον πόρο και να κάνετε ενημέρωση στην τελευταία έκδοση."
@@ -331,6 +330,7 @@ el:
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
     label_general: "Γενικά"
+    label_global_roles: "Καθολικοί Ρόλοι"
     label_greater_or_equal: ">="
     label_group: 'Ομάδα'
     label_group_by: "Ομαδοποίηση κατά"

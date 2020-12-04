@@ -27,13 +27,11 @@ nl:
         available: "Available"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
-        created_on: "Gemaakt op"
         description: "Omschrijving"
         spent: "Spent"
         status: "Status"
         subject: "Onderwerp"
         type: "Cost type"
-        updated_on: "Bijgewerkt op"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:

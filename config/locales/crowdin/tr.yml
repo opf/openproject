@@ -202,7 +202,6 @@ tr:
       completed: " %{name}  projesinin silinmesi tamamlandı"
       completed_text: "'%{name}' projesini silme isteği tamamlandı."
     index:
-      edit_columns: 'Sütunları düzenleyin'
       open_as_gantt: 'Gantt görünümü olarak aç'
       open_as_gantt_title: "Bu sayfada görünen projeler için iş paketlerini filtreleyen bir Gantt görünümü oluşturmak için bu düğmeyi kullanın."
       open_as_gantt_title_admin: "Proje ayarları altında yönetimde görünüm ayarlarını (seçilen iş paketi türleri gibi) değiştirebilirsiniz."
@@ -755,7 +754,6 @@ tr:
     content: "İçerik"
     color: "Renk"
     created_at: "Oluşturma tarihi"
-    created_on: "Oluşturma tarihi"
     custom_options: "Olası değerler"
     custom_values: "Özel alanlar"
     date: "Tarih"
@@ -1031,6 +1029,7 @@ tr:
   default_role_anonymous: "Anonim"
   default_role_developer: "Geliştirici"
   default_role_project_admin: "Proje yöneticisi"
+  default_role_project_creator: "Proje yaratıcısı"
   default_role_non_member: "Üye Değil"
   default_role_reader: "Okuyucu"
   default_role_member: "Üye"
@@ -1408,7 +1407,6 @@ tr:
   label_group_new: "Yeni grup"
   label_group: "Grup"
   label_group_named: "%{name} Grubu"
-  label_group_plural: "Gruplar"
   label_help: "Yardım"
   label_here: buraya
   label_hide: "Gizle"
@@ -1752,6 +1750,11 @@ tr:
     one: "1 proje"
     other: "%{count} proje"
   label_yesterday: "dün"
+  label_role_type: "Tür"
+  label_member_role: "Proje rolü"
+  label_global_role: "Küresel rolü"
+  label_not_changeable: "(değiştirilemez)"
+  label_global: "Küresel"
   auth_source:
     using_abstract_auth_source: "Özet kimlik doğrulama kaynağı kullanılamıyor."
     ldap_error: "LDAP-Hatası: %{error_message}"

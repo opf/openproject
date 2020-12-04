@@ -255,7 +255,6 @@ ru:
     general_text_yes: "Да"
     general_text_No: "Нет"
     general_text_Yes: "да"
-    global_roles: Глобальная роль
     hal:
       error:
         update_conflict_refresh: "Нажмите здесь, чтобы обновить ресурс до последней версии."
@@ -331,6 +330,7 @@ ru:
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общие"
+    label_global_roles: "Глобальная роль"
     label_greater_or_equal: ">="
     label_group: 'Группа'
     label_group_by: "Группировать по"

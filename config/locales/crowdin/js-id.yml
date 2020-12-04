@@ -256,7 +256,6 @@ id:
     general_text_yes: "yes"
     general_text_No: "No"
     general_text_Yes: "Yes"
-    global_roles: Peran global
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@ id:
     label_filename: "File"
     label_filesize: "Size"
     label_general: "Umum"
+    label_global_roles: "Peran global"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Pengelompokan"

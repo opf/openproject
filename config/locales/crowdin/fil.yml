@@ -202,7 +202,6 @@ fil:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -755,7 +754,6 @@ fil:
     content: "Nilalaman"
     color: "Kulay"
     created_at: "Nilikha sa"
-    created_on: "Nilikha sa"
     custom_options: "Ang mga posibleng halaga"
     custom_values: "Mga pasadyang patlang"
     date: "Petsa"
@@ -1031,6 +1029,7 @@ fil:
   default_role_anonymous: "Hindi kilala"
   default_role_developer: "Bumubuo"
   default_role_project_admin: "Namuno ng proyekto"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "Di-miyembro"
   default_role_reader: "Mambabasa"
   default_role_member: "Miyembro"
@@ -1408,7 +1407,6 @@ fil:
   label_group_new: "Bagong grupo"
   label_group: "Grupo"
   label_group_named: "Group %{name}"
-  label_group_plural: "Mga grupo"
   label_help: "Tulong"
   label_here: dito
   label_hide: "Itago"
@@ -1752,6 +1750,11 @@ fil:
     one: "Isang proyekto"
     other: "%{count} mga proyekto"
   label_yesterday: "kahapon"
+  label_role_type: "Uri"
+  label_member_role: "Project Role"
+  label_global_role: "Global Role"
+  label_not_changeable: "(not changeable)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Hindi magamit ang isang abstrak na pagpapatunay ng pinagmulan."
     ldap_error: "LDAP-Error: %{error_message}"

@@ -199,7 +199,6 @@ it:
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
     index:
-      edit_columns: 'Modifica colonne'
       open_as_gantt: 'Apri come vista Gantt'
       open_as_gantt_title: "Usa questo pulsante per generare una vista Gantt che filtra le macro-attività per i progetti visibili in questa pagina."
       open_as_gantt_title_admin: "È possibile modificare le impostazioni di visualizzazione (come i tipi di macro-attività selezionati) nell'amministrazione nelle impostazioni del progetto."
@@ -751,7 +750,6 @@ it:
     content: "Contenuto"
     color: "Colore"
     created_at: "Creato il"
-    created_on: "Creato il"
     custom_options: "Valori possibili"
     custom_values: "Campo personalizzato"
     date: "Data"
@@ -1027,6 +1025,7 @@ it:
   default_role_anonymous: "Anonimo"
   default_role_developer: "Sviluppatore"
   default_role_project_admin: "Amministratore di progetto"
+  default_role_project_creator: "Creatore del progetto"
   default_role_non_member: "Non membro"
   default_role_reader: "Osservatore"
   default_role_member: "Membro"
@@ -1404,7 +1403,6 @@ it:
   label_group_new: "Nuovo gruppo"
   label_group: "Gruppo"
   label_group_named: "Gruppo %{name}"
-  label_group_plural: "Gruppi"
   label_help: "Aiuto"
   label_here: qui
   label_hide: "Nascondi"
@@ -1748,6 +1746,11 @@ it:
     one: "1 progetto"
     other: "%{count} progetti"
   label_yesterday: "ieri"
+  label_role_type: "Tipo"
+  label_member_role: "Ruolo di progetto"
+  label_global_role: "Ruolo globale"
+  label_not_changeable: "(non modificabile)"
+  label_global: "Globale"
   auth_source:
     using_abstract_auth_source: "Non è possibile utilizzare una fonte di autenticazione astratta."
     ldap_error: "Errore LDAP: %{error_message}"

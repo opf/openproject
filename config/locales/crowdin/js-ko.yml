@@ -256,7 +256,6 @@ ko:
     general_text_yes: "예"
     general_text_No: "아니요"
     general_text_Yes: "예"
-    global_roles: 글로벌 역할
     hal:
       error:
         update_conflict_refresh: "리소스를 새로 고치고 최신 버전으로 업데이트하려면 여기를 클릭하세요."
@@ -332,6 +331,7 @@ ko:
     label_filename: "파일"
     label_filesize: "크기"
     label_general: "일반"
+    label_global_roles: "글로벌 역할"
     label_greater_or_equal: ">="
     label_group: '그룹'
     label_group_by: "그룹화 기준"

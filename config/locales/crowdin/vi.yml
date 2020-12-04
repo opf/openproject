@@ -204,7 +204,6 @@ vi:
       completed: "Đã xóa dự án %{name}"
       completed_text: "Yêu cầu xóa dự án '%{name}' đã được hoàn thành."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -753,7 +752,6 @@ vi:
     content: "Nội dung"
     color: "Màu sắc"
     created_at: "Tạo ngày"
-    created_on: "Tạo ngày"
     custom_options: "Giá trị có thể"
     custom_values: "Tùy chỉnh mục"
     date: "Ngày"
@@ -1017,6 +1015,7 @@ vi:
   default_role_anonymous: "Ẩn danh"
   default_role_developer: "Nhà phát triển"
   default_role_project_admin: "Quản trị dự án"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "Không là thành viên"
   default_role_reader: "Người đọc"
   default_role_member: "Thành viên"
@@ -1394,7 +1393,6 @@ vi:
   label_group_new: "Nhóm mới"
   label_group: "Nhóm"
   label_group_named: "Group %{name}"
-  label_group_plural: "Các Nhóm"
   label_help: "Trợ giúp"
   label_here: đây
   label_hide: "Ẩn"
@@ -1734,6 +1732,11 @@ vi:
     zero: "Không có dự án"
     other: "%{count} projects"
   label_yesterday: "yesterday"
+  label_role_type: "Kiểu"
+  label_member_role: "Project Role"
+  label_global_role: "Global Role"
+  label_not_changeable: "(not changeable)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
     ldap_error: "LDAP-Error: %{error_message}"

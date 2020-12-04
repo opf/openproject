@@ -201,7 +201,6 @@ sl:
       completed: "Projekt %{name} izbrisan"
       completed_text: "Zahteva za izbris projekta '%{name}' je zaključena."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -761,7 +760,6 @@ sl:
     content: "Vsebina"
     color: "Barva"
     created_at: "Ustvarjeno dne"
-    created_on: "Ustvarjeno dne"
     custom_options: "Možne vrednosti"
     custom_values: "Polja po meri"
     date: "Datum"
@@ -1061,6 +1059,7 @@ sl:
   default_role_anonymous: "Anonimno"
   default_role_developer: "Razvijalec"
   default_role_project_admin: "Skrbnik projekta"
+  default_role_project_creator: "Avtor projekta"
   default_role_non_member: "Nečlan"
   default_role_reader: "Bralec"
   default_role_member: "Član"
@@ -1438,7 +1437,6 @@ sl:
   label_group_new: "Nova skupina"
   label_group: "Skupina"
   label_group_named: "Skupina %{name}"
-  label_group_plural: "Skupine"
   label_help: "Pomoč"
   label_here: Tukaj
   label_hide: "Skrij"
@@ -1790,6 +1788,11 @@ sl:
     few: "Več projektov"
     other: "% {count} projektov"
   label_yesterday: "včeraj"
+  label_role_type: "Vrsta"
+  label_member_role: "Projektne vloge"
+  label_global_role: "Globalne vloge"
+  label_not_changeable: "(ne spremenljivo)"
+  label_global: "Globalno"
   auth_source:
     using_abstract_auth_source: "Ne morem uporabiti vira abstraktne avtentikacije."
     ldap_error: "LDAP-Napaka: %{error_message}"

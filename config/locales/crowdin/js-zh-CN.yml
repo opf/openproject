@@ -256,7 +256,6 @@ zh-CN:
     general_text_yes: "是"
     general_text_No: "否"
     general_text_Yes: "是"
-    global_roles: 全局角色
     hal:
       error:
         update_conflict_refresh: "点击此处刷新资源并更新到最新版本。"
@@ -332,6 +331,7 @@ zh-CN:
     label_filename: "文件"
     label_filesize: "大小"
     label_general: "通用"
+    label_global_roles: "全局角色"
     label_greater_or_equal: ">="
     label_group: '组'
     label_group_by: "分组依据"

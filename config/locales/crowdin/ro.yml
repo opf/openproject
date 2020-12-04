@@ -202,7 +202,6 @@ ro:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -759,7 +758,6 @@ ro:
     content: "Conținut"
     color: "Culoare"
     created_at: "Creat pe"
-    created_on: "Creat pe"
     custom_options: "Valori posibile"
     custom_values: "Câmpuri personalizate"
     date: "Dată"
@@ -1047,6 +1045,7 @@ ro:
   default_role_anonymous: "Anonim"
   default_role_developer: "Programator"
   default_role_project_admin: "Admin proiect"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "Non-membru"
   default_role_reader: "Cititor"
   default_role_member: "Membru"
@@ -1424,7 +1423,6 @@ ro:
   label_group_new: "Grupare nouă"
   label_group: "Grup"
   label_group_named: "Group %{name}"
-  label_group_plural: "Grupuri"
   label_help: "Asistenţă"
   label_here: aici
   label_hide: "Ascundere"
@@ -1772,6 +1770,11 @@ ro:
     few: "%{count} proiecte"
     other: "%{count} proiecte"
   label_yesterday: "ieri"
+  label_role_type: "Tip"
+  label_member_role: "Project Role"
+  label_global_role: "Global Role"
+  label_not_changeable: "(not changeable)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Nu poate fi folosită o sursă de autentificare abstractă."
     ldap_error: "Eroare LDAP: %{error_message}"
