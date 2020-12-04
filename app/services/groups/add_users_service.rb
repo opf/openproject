@@ -38,9 +38,9 @@ module Groups
             contract_class: Groups::AddUsersContract
     end
 
-    def after_validate(user_ids, _call)
+    def after_validate(params, _call)
       ::Group.transaction do
-        add_to_user_and_projects(user_ids)
+        add_to_user_and_projects(params[:ids])
       end
     end
 
