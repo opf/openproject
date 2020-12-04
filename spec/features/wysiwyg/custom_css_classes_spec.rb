@@ -147,17 +147,22 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
       # 2x2
       container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
 
-      editor.align_table_by_label(editor, editable, 'Align table to the left')
+      sleep(0.1)
+      # There are already multiple tables on the page.
+      # To avoid mixing them up, we need to select the appropriate one
+      table = container.find('.op-uc-figure:first-of-type .op-uc-table')
+
+      editor.align_table_by_label(editor, table, 'Align table to the left')
 
       # Table figure should now has the proper alignment class
       expect(editable).to have_selector('figure.op-uc-figure_align-start')
 
-      editor.align_table_by_label(editor, editable, 'Align table to the right')
+      editor.align_table_by_label(editor, table, 'Align table to the right')
 
       # Table figure should now has the proper alignment class
       expect(editable).to have_selector('figure.op-uc-figure_align-end')
 
-      editor.align_table_by_label(editor, editable, 'Center table')
+      editor.align_table_by_label(editor, table, 'Center table')
 
       # Table figure should now has the proper alignment class
       expect(editable).to have_selector('figure.op-uc-figure_align-center')

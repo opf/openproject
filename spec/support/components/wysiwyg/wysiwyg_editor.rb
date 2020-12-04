@@ -157,20 +157,17 @@ module Components
       page.find('.mention-list-item', text: text).click
     end
 
-    def align_table_by_label(editor, editable, label)
-      # Edit table
-      tds = editable.all('.op-uc-table .op-uc-table--cell')
-
-      # style first td
-      tds.first.click
+    def align_table_by_label(editor, table, label)
+      # Style first td in table
+      table
+        .find('.op-uc-table--row:first-of-type .op-uc-table--cell:first-of-type')
+        .click
 
       # Click table toolbar
       editor.click_hover_toolbar_button 'Table properties'
-      # page.find('.ck-button', text: 'Table properties', visible: :all).click
 
       # Set alignment left
       editor.click_hover_toolbar_button label
-      # page.find('.ck-button', text: 'Align table to the left', visible: :all).click
 
       find('.ck-button-save').click
     end
