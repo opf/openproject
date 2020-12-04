@@ -73,7 +73,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link,
+                           self_link: self_link,
                            form_embedded: embedded,
                            current_user: current_user)
   end

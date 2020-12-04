@@ -41,7 +41,7 @@ module API
 
           get do
             StatusCollectionRepresenter.new(Status.all,
-                                            api_v3_paths.statuses,
+                                            self_link: api_v3_paths.statuses,
                                             current_user: current_user)
           end
 

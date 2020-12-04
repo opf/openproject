@@ -149,7 +149,7 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
           .to be_json_eql(
             {
               "format": "markdown",
-              "html": "<p>A magic dwells in each beginning.</p>",
+              "html": "<p class=\"op-uc-p\">A magic dwells in each beginning.</p>",
               "raw": "A magic dwells in each beginning."
             }.to_json
           ).at_path("_embedded/payload/statusExplanation")

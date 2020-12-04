@@ -104,13 +104,14 @@ describe 'Upload attachment to work package', js: true do
 
           editor.in_editor do |container, editable|
             expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
+            expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
           end
 
           sleep 2
 
           # Besides testing caption functionality this also slows down clicking on the submit button
           # so that the image is properly embedded
-          caption = page.find('figure.image figcaption')
+          caption = page.find('.op-uc-figure .op-uc-figure--description')
           caption.click(x: 10, y: 10)
           sleep 0.2
           caption.base.send_keys('Some image caption')

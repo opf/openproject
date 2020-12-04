@@ -113,7 +113,9 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_group
-        if group = Group.find_by(id: oid)
+        group = Group.find_by(id: oid)
+
+        if group
           content_tag :span,
                       group.name,
                       title: I18n.t(:label_group_named, name: group.name),

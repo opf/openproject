@@ -45,13 +45,13 @@ describe 'OpenProject include wiki page macro' do
   subject { format_text(input, project: project) }
 
   def error_html(exception_msg)
-    "<p><macro class=\"macro-unavailable\" data-macro-name=\"include_wiki_page\">" \
+    "<p class=\"op-uc-p\"><macro class=\"macro-unavailable\" data-macro-name=\"include_wiki_page\">" \
           "Error executing the macro include_wiki_page (#{exception_msg})</macro></p>"
   end
 
   context 'old macro syntax no longer works' do
     let(:input) { '{{include(whatever)}}' }
-    it { is_expected.to be_html_eql("<p>#{input}</p>") }
+    it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
   end
 
   context 'with the new but also no longer supported syntax' do

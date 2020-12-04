@@ -196,7 +196,7 @@ describe 'activity comments', js: true, with_mail: false do
         # Add our comment
         expect(comment_field.input_element).to have_selector('blockquote')
         quote = comment_field.input_element[:innerHTML]
-        expect(quote).to eq '<p>Anonymous wrote:</p><blockquote><p>the first comment in this WP</p></blockquote>'
+        expect(quote).to eq '<p class="op-uc-p">Anonymous wrote:</p><blockquote class="op-uc-blockquote"><p class="op-uc-p">the first comment in this WP</p></blockquote>'
 
         # Extend the comment
         comment_field.input_element.click

@@ -35,7 +35,7 @@ describe ::API::V3::Users::UserCollectionRepresenter do
   }
   let(:representer) {
     described_class.new(users,
-                        '/api/v3/work_package/1/watchers',
+                        self_link: '/api/v3/work_package/1/watchers',
                         current_user: users.first)
   }
 

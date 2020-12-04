@@ -156,5 +156,20 @@ module Components
     def click_autocomplete(text)
       page.find('.mention-list-item', text: text).click
     end
+
+    def align_table_by_label(editor, table, label)
+      # Style first td in table
+      table
+        .find('.op-uc-table--row:first-of-type .op-uc-table--cell:first-of-type')
+        .click
+
+      # Click table toolbar
+      editor.click_hover_toolbar_button 'Table properties'
+
+      # Set alignment left
+      editor.click_hover_toolbar_button label
+
+      find('.ck-button-save').click
+    end
   end
 end
