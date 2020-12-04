@@ -104,6 +104,7 @@ describe 'Upload attachment to work package', js: true do
 
           editor.in_editor do |container, editable|
             expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
+            expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
           end
 
           sleep 2
