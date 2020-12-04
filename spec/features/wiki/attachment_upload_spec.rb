@@ -72,6 +72,9 @@ describe 'Upload attachment to wiki page', js: true do
 
     editor.drag_attachment image_fixture, 'Image uploaded the second time'
 
+    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+
     editor.in_editor do |container, _|
       # Expect URL is mapped to the correct URL
       expect(container).to have_selector('img[src^="/api/v3/attachments/"]')
@@ -82,10 +85,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     editor.click_hover_toolbar_button 'Resize image to 50%'
-    expect(page).to have_selector('.op-uc-figure.image_resized')
-
-    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
-    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).to have_selector('.op-uc-figure[style="width:50%;"')
 
     click_on 'Save'
 
@@ -96,8 +96,8 @@ describe 'Upload attachment to wiki page', js: true do
     # Both images rendered referring to the api endpoint
     expect(page).to have_selector('img[src^="/api/v3/attachments/"]', count: 2)
 
-    expect(wiki_page_content).to include '<figure class="op-uc-figure image_resized" style="width:50%;">'
-    expect(wiki_page_content).to include '<img class="op-uc-image op-uc-figure--content" src="/api/v3/attachments'
+    expect(wiki_page_content).to include '<figure class="op-uc-figure" style="width:50%;">'
+    expect(wiki_page_content).to include '<img class="op-uc-image" src="/api/v3/attachments'
   end
 
   it 'can upload an image on the new wiki page and recover from an error without losing the attachment (Regression #28171)' do
