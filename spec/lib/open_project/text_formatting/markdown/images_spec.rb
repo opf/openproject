@@ -252,7 +252,7 @@ describe OpenProject::TextFormatting,
     it_behaves_like 'format_text produces' do
       let(:raw) do
         <<~RAW
-          <figure class="image">
+          <figure class="image op-uc-figure" style="width:50%">
             <img src="/api/v3/attachments/1293/content">
             <figcaption>Some caption with meaning</figcaption>
           </figure>
@@ -261,7 +261,7 @@ describe OpenProject::TextFormatting,
 
       let(:expected) do
         <<~EXPECTED
-          <figure class="image op-uc-figure">
+          <figure class="image op-uc-figure" style="width:50%">
             <div class="op-uc-figure--content">
               <img src="/api/v3/attachments/1293/content" class="op-uc-image">
             </div>

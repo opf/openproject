@@ -66,13 +66,7 @@ module OpenProject::TextFormatting
 
       def call
         doc.search(*BEM_CLASSES.keys.map(&:to_s)).each do |element|
-          next if not_to_be_modified?(element)
-
-          if element['class'].present?
-            element['class'] += " #{BEM_CLASSES[element.name]}"
-          else
-            element['class'] = BEM_CLASSES[element.name]
-          end
+          add_css_class(element, BEM_CLASSES[element.name]) unless not_to_be_modified?(element)
         end
 
         doc
@@ -84,6 +78,16 @@ module OpenProject::TextFormatting
         element['class'].present? &&
           UNMODIFIED[element.name] &&
           element['class'].include?(UNMODIFIED[element.name])
+      end
+
+      def add_css_class(element, css_class)
+        if element['class'].present?
+          # Avoid using element['class'].include?(css_class) as css_class can be a substring
+          # of an existing class
+          element['class'] += " #{css_class}" unless element['class'].split.any? { |existing_class| existing_class == css_class }
+        else
+          element['class'] = css_class
+        end
       end
     end
   end
