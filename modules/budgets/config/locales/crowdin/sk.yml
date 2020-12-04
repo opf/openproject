@@ -27,13 +27,11 @@ sk:
         available: "Dostupný"
         budget: "Plánovaný"
         budget_ratio: "Použité (pomer)"
-        created_on: "Vytvorené"
         description: "Popis"
         spent: "Minuté"
         status: "Stav"
         subject: "Predmet"
         type: "Typ nákladu"
-        updated_on: "Aktualizované"
         labor_budget: "Plánované mzdové náklady"
         material_budget: "Plánované jednotkové náklady"
       work_package:

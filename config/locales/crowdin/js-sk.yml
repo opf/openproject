@@ -256,7 +256,6 @@ sk:
     general_text_yes: "áno"
     general_text_No: "Nie"
     general_text_Yes: "Áno"
-    global_roles: Globálne roly
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@ sk:
     label_filename: "Súbor"
     label_filesize: "Veľkosť"
     label_general: "Všeobecné"
+    label_global_roles: "Globálne roly"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Zoskupiť podľa"

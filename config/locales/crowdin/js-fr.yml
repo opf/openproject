@@ -256,7 +256,6 @@ fr:
     general_text_yes: "oui"
     general_text_No: "Non"
     general_text_Yes: "Oui"
-    global_roles: Rôles globaux
     hal:
       error:
         update_conflict_refresh: "Cliquez ici pour actualiser la resource et mettre à jour vers la version la plus récente."
@@ -332,6 +331,7 @@ fr:
     label_filename: "Fichier"
     label_filesize: "Taille"
     label_general: "Général"
+    label_global_roles: "Rôles globaux"
     label_greater_or_equal: ">="
     label_group: 'Groupe'
     label_group_by: "Grouper par"

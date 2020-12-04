@@ -256,7 +256,6 @@
     general_text_yes: "ja"
     general_text_No: "Nei"
     general_text_Yes: "Ja"
-    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generell"
+    label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Grupper etter"

@@ -255,7 +255,6 @@ ro:
     general_text_yes: "da"
     general_text_No: "Nu"
     general_text_Yes: "Da"
-    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -331,6 +330,7 @@ ro:
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_general: "General"
+    label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Grupare după"

@@ -256,7 +256,6 @@ fi:
     general_text_yes: "kyllä"
     general_text_No: "Ei"
     general_text_Yes: "Kyllä"
-    global_roles: Yleiset roolit
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@ fi:
     label_filename: "Tiedosto"
     label_filesize: "Koko"
     label_general: "Yleinen"
+    label_global_roles: "Yleiset roolit"
     label_greater_or_equal: ">="
     label_group: 'Ryhmä'
     label_group_by: "Ryhmittely"

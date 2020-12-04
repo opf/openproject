@@ -256,7 +256,6 @@ ar:
     general_text_yes: "نعم"
     general_text_No: "لا"
     general_text_Yes: "نعم"
-    global_roles: الأدوار العالمية
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -332,6 +331,7 @@ ar:
     label_filename: "ملف"
     label_filesize: "حجم"
     label_general: "عام"
+    label_global_roles: "الأدوار العالمية"
     label_greater_or_equal: "=<"
     label_group: 'مجموعة'
     label_group_by: "مجموعة من"

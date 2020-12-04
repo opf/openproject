@@ -255,7 +255,6 @@ sl:
     general_text_yes: "da"
     general_text_No: "Ne"
     general_text_Yes: "Da"
-    global_roles: Globalna pravila
     hal:
       error:
         update_conflict_refresh: "Kliknite tukaj za osvežitev vira in posodobite na najnovejšo različico."
@@ -331,6 +330,7 @@ sl:
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
+    label_global_roles: "Globalna pravila"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Razvrsti po"

@@ -255,7 +255,6 @@ hu:
     general_text_yes: "igen"
     general_text_No: "Nem"
     general_text_Yes: "Igen"
-    global_roles: Globális szerepek
     hal:
       error:
         update_conflict_refresh: "Kattintson ide, hogy a Feladatcsoportot legújabb verzióra történő frissítéséhez."
@@ -331,6 +330,7 @@ hu:
     label_filename: "Fájl"
     label_filesize: "Méret"
     label_general: "Általános"
+    label_global_roles: "Globális szerepek"
     label_greater_or_equal: ">="
     label_group: 'Csoport'
     label_group_by: "Csoportosítás"

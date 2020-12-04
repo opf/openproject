@@ -199,7 +199,6 @@ de:
       completed: "Löschen des Projekts %{name} abgeschlossen"
       completed_text: "Die Anfrage zum Löschen des Projekts '%{name}' wurde abgeschlossen."
     index:
-      edit_columns: 'Spalten bearbeiten'
       open_as_gantt: 'Als Gantt-Ansicht öffnen'
       open_as_gantt_title: "Eine Gantt-Ansicht für Arbeitspakete aus den auf dieser Seite sichtbaren Projekten erzeugen."
       open_as_gantt_title_admin: "Sie können die Einstellungen der erzeugten Ansicht (wie zum Beispiel die ausgewählten Arbeitspakettypen) in der Administration unter den Projekteinstellungen ändern."
@@ -750,7 +749,6 @@ de:
     content: "Inhalt"
     color: "Farbe"
     created_at: "Erstellt"
-    created_on: "Erstellt"
     custom_options: "Mögliche Werte"
     custom_values: "Benutzerdefinierte Felder"
     date: "Datum"
@@ -1026,6 +1024,7 @@ de:
   default_role_anonymous: "Anonym"
   default_role_developer: "Entwickler"
   default_role_project_admin: "Projekt-Admin"
+  default_role_project_creator: "Projektersteller"
   default_role_non_member: "Nichtmitglied"
   default_role_reader: "Leser"
   default_role_member: "Mitglied"
@@ -1403,7 +1402,6 @@ de:
   label_group_new: "Neue Gruppe"
   label_group: "Gruppe"
   label_group_named: "Gruppe %{name}"
-  label_group_plural: "Gruppen"
   label_help: "Hilfe"
   label_here: hier
   label_hide: "Verbergen"
@@ -1747,6 +1745,11 @@ de:
     one: "1 Projekt"
     other: "%{count} Projekte"
   label_yesterday: "gestern"
+  label_role_type: "Typ"
+  label_member_role: "Projekt Rolle"
+  label_global_role: "Globale Rolle"
+  label_not_changeable: "(nicht veränderbar)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Abstrakte Authentifizierungsquellen können nicht verwendet werden."
     ldap_error: "LDAP-Fehler: %{error_message}"

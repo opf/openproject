@@ -201,7 +201,6 @@ pt:
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
     index:
-      edit_columns: 'Editar colunas'
       open_as_gantt: 'Abrir como uma exibição Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
       open_as_gantt_title_admin: "Você pode modificar as configurações de exibição (tais como tipos de pacotes de trabalho selecionados) em administração, nas configurações de projeto."
@@ -753,7 +752,6 @@ pt:
     content: "Conteúdo"
     color: "Cor"
     created_at: "Criado em"
-    created_on: "Criado em"
     custom_options: "Valores possíveis"
     custom_values: "Campos personalizados"
     date: "Data"
@@ -1029,6 +1027,7 @@ pt:
   default_role_anonymous: "Anônimo"
   default_role_developer: "Desenvolvedor"
   default_role_project_admin: "Administrador do projeto"
+  default_role_project_creator: "Criador do projeto"
   default_role_non_member: "Não membro"
   default_role_reader: "Leitor"
   default_role_member: "Membro"
@@ -1406,7 +1405,6 @@ pt:
   label_group_new: "Novo grupo"
   label_group: "Grupo"
   label_group_named: "Grupo %{name}"
-  label_group_plural: "Grupos"
   label_help: "Ajuda"
   label_here: aqui
   label_hide: "Ocultar"
@@ -1750,6 +1748,11 @@ pt:
     one: "1 projeto"
     other: "%{count} projetos"
   label_yesterday: "ontem"
+  label_role_type: "Tipo"
+  label_member_role: "Papel no projeto"
+  label_global_role: "Papel global"
+  label_not_changeable: "(não modificável)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Não é possível usar uma fonte de autenticação abstrata."
     ldap_error: "Erro LDAP: %{error_message}"

@@ -202,7 +202,6 @@ fr:
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
     index:
-      edit_columns: 'Modifier les colonnes'
       open_as_gantt: 'Ouvrir comme vue Gantt'
       open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
       open_as_gantt_title_admin: "Vous pouvez modifier les paramètres d'affichage (comme les types de lots de travaux sélectionnés) dans l'administration dans les paramètres du projet."
@@ -754,7 +753,6 @@ fr:
     content: "Contenu"
     color: "Couleur"
     created_at: "Créé le"
-    created_on: "Créé le"
     custom_options: "Valeurs possibles"
     custom_values: "Champs personnalisés"
     date: "date"
@@ -1030,6 +1028,7 @@ fr:
   default_role_anonymous: "Anonyme"
   default_role_developer: "Développeur"
   default_role_project_admin: "Administrateur du projet"
+  default_role_project_creator: "Créateur du projet"
   default_role_non_member: "Non membre"
   default_role_reader: "Lecteur"
   default_role_member: "Membre"
@@ -1407,7 +1406,6 @@ fr:
   label_group_new: "Nouveau groupe"
   label_group: "Groupe"
   label_group_named: "Groupe %{name}"
-  label_group_plural: "Groupes"
   label_help: "Aide"
   label_here: ici
   label_hide: "Masquer"
@@ -1751,6 +1749,11 @@ fr:
     one: "1 projet"
     other: "%{count} projets"
   label_yesterday: "hier"
+  label_role_type: "Type"
+  label_member_role: "Rôle du projet"
+  label_global_role: "Rôle global"
+  label_not_changeable: "(non modifiable)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Impossible d'utiliser une source d'authentification abstraite."
     ldap_error: "Erreur LDAP : %{error_message}"

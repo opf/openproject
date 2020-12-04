@@ -202,7 +202,6 @@ uk:
       completed: "Видалення проекту %{name} завершено."
       completed_text: "Запит видалення проекту '%{name}' завершено."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -763,7 +762,6 @@ uk:
     content: "Контент"
     color: "Колір"
     created_at: "Створений"
-    created_on: "Створений"
     custom_options: "Можливі значення"
     custom_values: "Індивідуальні поля"
     date: "Дата"
@@ -1063,6 +1061,7 @@ uk:
   default_role_anonymous: "Анонімний режим"
   default_role_developer: "Розробник"
   default_role_project_admin: "Адміністратор проекту"
+  default_role_project_creator: "Творець проекту"
   default_role_non_member: "Не учасник"
   default_role_reader: "Читач"
   default_role_member: "Учасник"
@@ -1440,7 +1439,6 @@ uk:
   label_group_new: "Нова група"
   label_group: "Група"
   label_group_named: "Група %{name}"
-  label_group_plural: "Групи"
   label_help: "Допомога"
   label_here: тут
   label_hide: "Приховати"
@@ -1792,6 +1790,11 @@ uk:
     many: "%{count} проектів"
     other: "%{count} проектів"
   label_yesterday: "вчора"
+  label_role_type: "Тип"
+  label_member_role: "Роль проекту"
+  label_global_role: "Глобальна роль"
+  label_not_changeable: "(не змінюється)"
+  label_global: "Глобальний"
   auth_source:
     using_abstract_auth_source: "Неможливо використовувати абстрактне джерело автентифікації."
     ldap_error: "LDAP-Помилка: %{error_message}"

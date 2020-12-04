@@ -202,7 +202,6 @@ hr:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -759,7 +758,6 @@ hr:
     content: "Sadržaj"
     color: "Boja"
     created_at: "Izrađeno"
-    created_on: "Izrađeno"
     custom_options: "Moguće vrijednosti"
     custom_values: "Prilagođena polja"
     date: "Datum"
@@ -1047,6 +1045,7 @@ hr:
   default_role_anonymous: "Anonimno"
   default_role_developer: "Razvojni programer"
   default_role_project_admin: "Projekt administrator"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "Nije član"
   default_role_reader: "Lektor"
   default_role_member: "Član"
@@ -1424,7 +1423,6 @@ hr:
   label_group_new: "Nova grupa"
   label_group: "Grupa"
   label_group_named: "Group %{name}"
-  label_group_plural: "Grupe"
   label_help: "Pomoć"
   label_here: ovdje
   label_hide: "Sakrij"
@@ -1772,6 +1770,11 @@ hr:
     few: "%{count} projekta"
     other: "%{count} projekta"
   label_yesterday: "jučer"
+  label_role_type: "Tip"
+  label_member_role: "Projekt role"
+  label_global_role: "Globalne role"
+  label_not_changeable: "(ne promijenjiv)"
+  label_global: "Globalne"
   auth_source:
     using_abstract_auth_source: "Ne možete se koristiti apstraktni izvor autentifikacije."
     ldap_error: "LDAP-Greška: %{error_message}"

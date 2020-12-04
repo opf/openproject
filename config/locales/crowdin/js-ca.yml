@@ -256,7 +256,6 @@ ca:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
-    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Cliqui aquí per refrescar la font i actualitzar a la última versió."
@@ -332,6 +331,7 @@ ca:
     label_filename: "Fitxer"
     label_filesize: "Mida"
     label_general: "General"
+    label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Agrupa per"

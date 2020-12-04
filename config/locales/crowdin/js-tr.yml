@@ -256,7 +256,6 @@ tr:
     general_text_yes: "evet"
     general_text_No: "Hayır"
     general_text_Yes: "Evet"
-    global_roles: Küresel rolleri
     hal:
       error:
         update_conflict_refresh: "Kaynağı yenilemek ve en yeni sürüme güncellemek için burayı tıklayın."
@@ -332,6 +331,7 @@ tr:
     label_filename: "Dosya"
     label_filesize: "Boyutu"
     label_general: "Genel"
+    label_global_roles: "Küresel rolleri"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Grupla"

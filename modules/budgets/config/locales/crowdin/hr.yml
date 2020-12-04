@@ -27,13 +27,11 @@ hr:
         available: "Dostupno"
         budget: "Planirano"
         budget_ratio: "Potrošeno (omjer)"
-        created_on: "Izrađeno"
         description: "Opis"
         spent: "Potrošeno"
         status: "Status"
         subject: "Predmet"
         type: "Vrsta troška"
-        updated_on: "Ažurirano"
         labor_budget: "Planirani troškovi rada"
         material_budget: "Planirani troškovi jedinica"
       work_package:
