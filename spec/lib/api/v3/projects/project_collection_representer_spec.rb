@@ -33,7 +33,7 @@ describe ::API::V3::Projects::ProjectCollectionRepresenter do
   let(:projects) { FactoryBot.build_list(:project, 3) }
   let(:current_user) { FactoryBot.build(:user) }
   let(:representer) {
-    described_class.new(projects, self_link, current_user: current_user)
+    described_class.new(projects, self_link: self_link, current_user: current_user)
   }
 
   context 'generation' do

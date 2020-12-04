@@ -58,7 +58,7 @@ describe 'API v3 Work package form resource', type: :request do
         let(:format) { 'markdown' }
         let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
         let(:html) {
-          defined?(html_value) ? html_value : ('<p>' + work_package.description.to_s + '</p>')
+          defined?(html_value) ? html_value : ('<p class="op-uc-p">' + work_package.description.to_s + '</p>')
         }
       end
     end

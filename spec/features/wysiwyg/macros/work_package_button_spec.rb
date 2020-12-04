@@ -73,7 +73,7 @@ describe 'Wysiwyg work package button spec',
           find('.op-modal--submit-button').click
 
           # Find widget, click to show toolbar
-          modal = find('.macro.-create_work_package_link')
+          modal = find('.button.op-uc-placeholder', text: 'Create work package')
 
           # Edit widget again
           modal.click

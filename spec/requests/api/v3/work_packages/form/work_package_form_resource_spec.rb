@@ -111,7 +111,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             let(:format) { 'markdown' }
             let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
             let(:html) do
-              defined?(html_value) ? html_value : ('<p>' + work_package.description.to_s + '</p>')
+              defined?(html_value) ? html_value : ('<p class="op-uc-p">' + work_package.description.to_s + '</p>')
             end
           end
         end
@@ -257,7 +257,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
               it_behaves_like 'valid payload' do
                 let(:raw_value) { description }
                 let(:html_value) do
-                  '<p><strong>Some text</strong> <em>describing</em> ' \
+                  '<p class="op-uc-p"><strong>Some text</strong> <em>describing</em> ' \
                   '<strong>something</strong>...</p>'
                 end
               end

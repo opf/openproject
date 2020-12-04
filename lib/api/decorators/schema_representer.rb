@@ -235,9 +235,9 @@ module API
 
       include InstanceMethods
 
-      def self.create(represented, self_link = nil, current_user:, form_embedded: false)
+      def self.create(represented, current_user:, self_link: nil, form_embedded: false)
         new(represented,
-            self_link,
+            self_link: self_link,
             current_user: current_user,
             form_embedded: form_embedded)
       end
@@ -252,8 +252,8 @@ module API
       end
 
       def initialize(represented,
-                     self_link = nil,
                      current_user:,
+                     self_link: nil,
                      form_embedded: false)
 
         self.form_embedded = form_embedded

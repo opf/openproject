@@ -46,7 +46,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       [
         :markdown,
         :sanitization,
-        ::TaskList::Filter,
+        :task_list,
         :table_of_contents,
         :macro,
         :mention,
@@ -54,6 +54,8 @@ module OpenProject::TextFormatting::Formats::Markdown
         :syntax_highlight,
         :attachment,
         :relative_link,
+        :figure_wrapped,
+        :bem_css,
         :autolink
       ]
     end

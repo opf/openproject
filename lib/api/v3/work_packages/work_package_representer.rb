@@ -540,7 +540,7 @@ module API
                               .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
-                                                                  self_path,
+                                                                  self_link: self_path,
                                                                   current_user: current_user)
         end
 

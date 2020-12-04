@@ -65,7 +65,7 @@ module API
             if query.valid?
               users = query.results.includes(:preference)
               PaginatedUserCollectionRepresenter.new(users,
-                                                     api_v3_paths.users,
+                                                     self_link: api_v3_paths.users,
                                                      page: to_i_or_nil(params[:offset]),
                                                      per_page: resolve_page_size(params[:pageSize]),
                                                      current_user: current_user)
