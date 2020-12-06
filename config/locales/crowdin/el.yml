@@ -113,17 +113,15 @@ el:
         Το OpenProject θα φιλτράρει τα δοθέντα ονόματα χρηστών μόνο σε αυτό το υποδέντρο.
         Παράδειγμα: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Προσθέστε ένα προαιρετικό φίλτρο RFC4515 για εφαρμογή στα αποτελέσματα που επιστρέφονται για χρήστες που φιλτράρονται στο LDAP. Αυτό μπορεί να χρησιμοποιηθεί για τον περιορισμό του συνόλου των χρηστών που βρίσκονται στο OpenProject για έλεγχο ταυτότητας και συγχρονισμό ομάδας.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        Το OpenProject θα φιλτράρει πάντα το χαρακτηριστικό σύνδεσης που παρέχεται από τον χρήστη για να αναγνωρίσει την εγγραφή. Εάν παρέχετε ένα φίλτρο εδώ, θα συνδυαστεί με ένα AND. Από προεπιλογή, ένα catch-all (objectClass = *) θα χρησιμοποιηθεί ως φίλτρο.
       onthefly_register: |
         Αν επιλέξετε αυτό το κουτί, το OpenProject θα δημιουργεί αυτόματα καινούργιους χρήστες από τις καταχωρήσεις του LDAP όταν ταυτοποιούνται για πρώτη φορά στο OpenProject.
         Αφήστε το μη επιλεγμένο για να επιτρέψετε μόνο στους υπάρχοντες λογαριασμούς στο OpenProject να ταυτοποιηθούν μέσω LDAP!
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        Εάν ενεργοποιήσετε τον συγχρονισμό ομάδας για αυτήν τη σύνδεση LDAP, οι χρήστες θα δημιουργηθούν επίσης αυτόματα
+        στο OpenProject για συγχρονισμένες ομάδες. Χωρίς αυτό, μόνο οι υπάρχοντες λογαριασμοί στο OpenProject θα προστεθούν σε ομάδες.
     connection_encryption: 'Κρυπτογράφηση σύνδεσης'
     system_account: 'Λογαριασμός συστήματος'
     system_account_legend: |
@@ -237,8 +235,8 @@ el:
       no_results_content_text: Προσθέστε ένα στοιχείο νέων
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'Αυτός ο χρήστης είναι μέλος των παρακάτω ομάδων :'
+      no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιας ομάδας
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
   prioritiies:
@@ -1097,7 +1095,7 @@ el:
   error_cookie_missing: 'Τα cookie του OpenProject λείπουν. Παρακαλούμε σιγουρευτείτε ότι τα cookies είναι ενεργοποιημένα, καθώς αυτή η εφαρμογή δεν θα μπορεί να λειτουργήσει σωστά χωρίς αυτά.'
   error_custom_option_not_found: "Η επιλογή δεν υπάρχει."
   error_enterprise_activation_user_limit: "Ο λογαριασμός σας δεν ήταν δυνατό να ενεργοποιηθεί (επετεύχθη το όριο χρηστών). Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας για να αποκτήσετε πρόσβαση."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Η έκδοση Enterprise δεν είναι ενεργή. Ο τομέας του διακριτικού Enterprise (%{actual}) δεν ταιριάζει με το όνομα κεντρικού υπολογιστή του συστήματος (%{expected})."
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
