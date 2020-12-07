@@ -6,9 +6,9 @@ description: Custom fields for projects.
 robots: index, follow
 keywords: custom fields for projects, show custom fields
 ---
-# Display custom fields in the project list (Premium feature)
+# Manage and display custom fields in the project list (Premium feature)
 
-As a user of the [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [OpenProject Enterprise cloud](https://www.openproject.org/hosting/) you can customize the work package list and show additional project information by adding custom fields to the project list, e.g. adding accountable, project due date, progress, and more.
+As a user of [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [OpenProject Enterprise cloud](https://www.openproject.org/hosting/) you can customize the work package list and show additional project information by adding custom fields to the project list, e.g. adding accountable, project due date, progress, and more.
 
 ## Creating a custom field for projects
 
