@@ -38,7 +38,7 @@ If you would like to learn more about OpenProject's features vs Trello, please r
 
 ## Toggl
 
-We do offer an [integration](../time-and-costs/time-tracking/toggl-integration/) between OpenProject and the time tracking app Toggl.
+We do offer an [integration](../time-and-costs/time-tracking/toggl-integration/) between OpenProject and the time tracking app Toggl. Find out more [here](../time-and-costs/time-tracking/toggl-integration/).
 
 ## Slack
 
@@ -46,4 +46,4 @@ There is a rudimentary OpenProject Slack integration. It messages a configured S
 To activate it in the Cloud Edition please [get in touch](https://www.openproject.org/contact-us/). For the Enterprise Edition and the Cloud Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack#openproject-slack-plugin) 
 
 ## Timesheet
-Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple oush of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).
+Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).
