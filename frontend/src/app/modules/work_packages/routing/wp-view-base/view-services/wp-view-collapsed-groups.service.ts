@@ -32,26 +32,33 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<{ [identifier:string]:boolean }> {
+  get groupsCollapseState():{[key:string]:boolean} {
+    return this.querySpace.collapsedGroups.value || {};
+  }
+
+  toggleGroupCollapseState(groupIdentifier:string) {
+    const newState = {...this.groupsCollapseState, [groupIdentifier]: !this.groupsCollapseState[groupIdentifier]};
+
+    this.update(newState);
+  }
+
+  setAllGroupsCollapseStateTo(collapseState:boolean) {
+    const groups = this.querySpace.groups.value!;
+    const newState = groups.reduce((newState:{[key:string]:boolean}, group) => {
+      return {
+        ...newState,
+        [group.identifier]:collapseState,
+      };
+    }, {});
+
+    this.update(newState);
+  }
+
+  // TODO: Implement when the CollaspsedGroupState has been included in the Query
   valueFromQuery(query:QueryResource) {
     return {};
   }
 
-  public collapseAll() {
-    this.setCollapsedAll(true);
-  }
-
-  public expandAll() {
-    this.setCollapsedAll(false);
-  }
-
-  public setCollapsedAll(collapsed:boolean) {
-    const newState:{ [identifier:string]:boolean } = {};
-
-    this.querySpace.groups.value!.forEach((group) => {
-      newState[group.identifier] = collapsed;
-    });
-
-    this.querySpace.collapsedGroups.putValue(newState);
-    this.update(newState);
-  }
+  // TODO: Implement when the CollaspsedGroupState has been included in the Query
+  applyToQuery(query:QueryResource) { return null; }
 }

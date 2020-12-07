@@ -3,7 +3,6 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-
 import {States} from '../states.service';
 import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
 import {GroupedRowsBuilder} from './builders/modes/grouped/grouped-rows-builder';
@@ -12,12 +11,12 @@ import {PlainRowsBuilder} from './builders/modes/plain/plain-rows-builder';
 import {RowsBuilder} from './builders/modes/rows-builder';
 import {PrimaryRenderPass} from './builders/primary-render-pass';
 import {WorkPackageTableEditingContext} from './wp-table-editing';
-
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 export class WorkPackageTable {
 
@@ -25,17 +24,17 @@ export class WorkPackageTable {
   @InjectField() apiV3Service:APIV3Service;
   @InjectField() states:States;
   @InjectField() I18n:I18nService;
+  @InjectField() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
 
   public originalRows:string[] = [];
   public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
+  private hierarchyRowsBuilder = new HierarchyRowsBuilder(this.injector, this);
+  private groupedRowsBuilder = new GroupedRowsBuilder(this.injector, this);
+  private plainRowsBuilder = new PlainRowsBuilder(this.injector, this);
 
   // WP rows builder
   // Ordered by priority
-  private builders = [
-    new HierarchyRowsBuilder(this.injector, this),
-    new GroupedRowsBuilder(this.injector, this),
-    new PlainRowsBuilder(this.injector, this)
-  ];
+  private builders = [this.hierarchyRowsBuilder, this.groupedRowsBuilder, this.plainRowsBuilder];
 
   // Last render pass used for refreshing single rows
   public lastRenderPass:PrimaryRenderPass|null = null;
@@ -171,5 +170,15 @@ export class WorkPackageTable {
     }
 
     return renderPass;
+  }
+
+  setGroupsCollapseState(newState:{[key:string]:boolean}) {
+    this.querySpace.collapsedGroups.putValue(newState);
+
+    const t0 = performance.now();
+    this.groupedRowsBuilder.refreshExpansionState();
+    const t1 = performance.now();
+
+    debugLog('Group redraw took ' + (t1 - t0) + ' milliseconds.');
   }
 }

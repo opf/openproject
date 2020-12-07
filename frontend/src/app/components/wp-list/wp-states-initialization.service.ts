@@ -156,6 +156,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableColumns.applyToQuery(query);
     this.wpTableSortBy.applyToQuery(query);
     this.wpTableGroupBy.applyToQuery(query);
+    this.wpTableGroupFold.applyToQuery(query);
     this.wpTableTimeline.applyToQuery(query);
     this.wpTableHighlighting.applyToQuery(query);
     this.wpTableHierarchies.applyToQuery(query);

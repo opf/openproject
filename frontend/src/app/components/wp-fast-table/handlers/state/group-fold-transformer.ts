@@ -19,8 +19,6 @@ export class GroupFoldTransformer {
         takeUntil(this.querySpace.stopAllSubscriptions),
         distinctUntilChanged()
       )
-      .subscribe(() => {
-        table.redrawTableAndTimeline();
-      });
+      .subscribe((collapseState) => table.setGroupsCollapseState(collapseState));
   }
 }
