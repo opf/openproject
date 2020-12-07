@@ -27,11 +27,11 @@ Click on the link **Create a new custom field** to create a project custom field
 
 ![Sys-admin-custom-fields-projects](Sys-admin-custom-fields-projects.png)
 
-## Setting a project custom field
+## Populating a project custom field
 
-Once you created the custom field you can set it in the [project settings](../../../user-guide/projects/project-settings/).
+Once you created the custom field you can set a value for it in the [project settings](../../../user-guide/projects/project-settings/).
 
-To do this navigate to a project and select *Project settings* from the side menu. The project custom field is visible under *Information*. As a project manager you can set the project custom field.
+To do this navigate to a project and select *Project settings* from the side menu. The project custom field is visible under *Information*. As a project manager you can populate or edit the project custom field.
 
 ![Sys-admin-custom-fields-project-settings](Sys-admin-custom-fields-project-settings.png)
 
@@ -47,9 +47,13 @@ Navigate to this project list by selecting *View all projects* from the project 
 
 ![Sys-admin-view-all-projects](Sys-admin-view-all-projects-1579704910470.png)
 
-In the list of all projects you will see the project custom fields displayed as a columns in the  project list. Therefore, you can easily communicate project information across multiple projects.
+In the list of all projects you will see the project custom fields displayed as a columns in the project list. Therefore, you can easily communicate project information across multiple projects.
 
 ![Sys-admin-display-project-custom-field](Sys-admin-display-project-custom-field.png)
+
+<div class="alert alert-info" role="alert">
+**Please note**: The visibility settings of the project custom fields will be overruled by [these settings](../../system-settings/project-system-settings/#settings-for-the-project-overview-list) for the projects overview list.
+</div>
 
 To change the **order of the project custom fields' columns**, change it in -> *Administration* -> *Custom fields* by using the sorting **arrows**.
 
