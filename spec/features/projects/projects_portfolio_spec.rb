@@ -116,7 +116,7 @@ describe 'Projects index page',
       # Add a project filter that gets overridden
       model_filters.add_filter_by('Project', 'is', project_a.name)
 
-      model_filters.add_filter_by('Type', 'is', type_milestone.name)
+      model_filters.expect_filter_by('Type', 'is', type_milestone.name)
       model_filters.save
 
       # Save the page
@@ -141,8 +141,8 @@ describe 'Projects index page',
       expect(page).to have_selector '.group--value', text: 'A'
       expect(page).to have_selector '.group--value', text: 'B'
 
-      # Expect status, type and project filters
-      filters.expect_filter_count 3
+      # Expect type and project filters
+      filters.expect_filter_count 2
       filters.open
 
       filters.expect_filter_by('Type', 'is', [type_milestone.name])
