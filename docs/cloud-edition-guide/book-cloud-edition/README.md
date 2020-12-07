@@ -12,7 +12,7 @@ After you have tested the OpenProject Enterprise cloud edition and want to conti
 
 Please refer to our website for the Enterprise cloud edition [pricing](https://www.openproject.org/pricing/).
 
-You can subscribe to a monthly or yearly plan. The subscription can be **paid via Credit Card or Bank transfer** (only for yearly subscription).
+You can subscribe to a monthly or yearly plan. The subscription can be **paid via Credit Card or Bank transfer** (only for yearly subscriptions for customers in the EU, Switzerland and the United States).
 
 
 
@@ -20,11 +20,11 @@ To upgrade your trial to the full version, **click on the BUY NOW teaser**, e.g.
 
 ![Cloud-edition-buy-now-teaser](Cloud-edition-buy-now-teaser.png)
 
-You will be directed to the -> *Administration* -> *Billing*.
+You will be directed to -> *Administration* -> *Billing*.
 
-(1) First, choose if you want to subscribe to an **annual or monthly plan**. Only annually billed plans can be paid via bank transfer.
+(1) First, choose if you want to subscribe to an **annual or monthly plan**.
 
-(2) Select the **amount of users** from the drop-down list. It is only to book members in the steps of 5, minimum 5 users.
+(2) Select the **amount of users** from the drop-down list. It is only possible to book members in the steps of 5, minimum 5 users.
 
 (3) Select your **country** from the drop-down list.
 
@@ -57,7 +57,7 @@ Here, you can edit the account or billing information if needed.
 
 Subscribe to our regular newsletter in order to keep up to date with latest product developments.
 
-Click the blue **Pay button and subscribe** to the OpenProject Enterprise cloud edition.
+Click the blue **Pay** button and subscribe to the OpenProject Enterprise cloud edition.
 
 A payment receipt will be sent via email.
 
@@ -65,12 +65,12 @@ A payment receipt will be sent via email.
 
 ## Pay per invoice (via bank transfer)
 
-If you book an annual plan you can also choose to pay via invoice.
+If you book an annual plan and your organization is based in the EU, Switzerland or the United States you can also choose to pay via invoice.
 
-(1) Click the **Pay per invoice check mark**.
+(1) Click the **Pay per invoice** check mark.
 
 (2) Enter your **Billing information**. Make sure to validate your billing email to receive the required information and invoice.
-If you are a business customer, please enter a valid **VAT ID number**.
+If you are a business customer from the EU, please enter a valid **VAT ID number**.
 
 (3) You have to **agree to our terms of services and privacy policy**.
 
@@ -80,7 +80,7 @@ If you are a business customer, please enter a valid **VAT ID number**.
 
 You will get an overview of your booked subscription.
 
-An invoice will be sent via email to the Billing email.
+An invoice will be sent via email to the Billing email address.
 
 ![Subscription](image-20200115141724205.png)
 
@@ -88,4 +88,5 @@ An invoice will be sent via email to the Billing email.
 
 ### Is there an advantage of the annual over the monthly OpenProject plan?
 
-We offer two months of the Enterprise cloud edition for free if you choose an annual plan. If you decide for the two year plan, you get five months for free and if you commit to a five year plan, you get 15 months for free.
+We offer two months of the Enterprise cloud edition for free if you choose an annual plan. If you decide for the two year plan, you get five months for free and if you commit to a five year plan, you get 15 months for free. 
+Please note: The free months will be included in the chosen length of your subscription period and won't be added on top.
