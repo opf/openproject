@@ -32,8 +32,14 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<{ [identifier:string]:boolean }> {
+  private _allGroupsAreCollapsed:boolean;
+
   get groupsCollapseState():{[key:string]:boolean} {
     return this.querySpace.collapsedGroups.value || {};
+  }
+
+  get allGroupsAreCollapsed() {
+    return this._allGroupsAreCollapsed;
   }
 
   toggleGroupCollapseState(groupIdentifier:string) {
@@ -44,12 +50,15 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
 
   setAllGroupsCollapseStateTo(collapseState:boolean) {
     const groups = this.querySpace.groups.value!;
-    const newState = groups.reduce((newState:{[key:string]:boolean}, group) => {
+    const groupsCollapseStateUpdate = groups.reduce((newState:{[key:string]:boolean}, group) => {
       return {
         ...newState,
         [group.identifier]:collapseState,
       };
     }, {});
+    const newState = {...this.groupsCollapseState, ...groupsCollapseStateUpdate};
+
+    this._allGroupsAreCollapsed = collapseState;
 
     this.update(newState);
   }
