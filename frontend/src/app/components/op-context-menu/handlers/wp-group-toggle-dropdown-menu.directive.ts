@@ -74,7 +74,7 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
         }
       },
       {
-        disabled: !this.wpViewCollapsedGroups.allGroupsAreCollapsed,
+        disabled: this.wpViewCollapsedGroups.allGroupsAreExpanded,
         linkText: this.I18n.t('js.button_expand_all'),
         icon: 'icon-plus',
         onClick: (evt:JQuery.TriggeredEvent) => {
