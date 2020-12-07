@@ -42,7 +42,7 @@ FactoryBot.define do
       User.system.run_given do |system_user|
         ::Groups::AddUsersService
           .new(group, current_user: system_user)
-          .call(members.map(&:id))
+          .call(ids: members.map(&:id))
           .on_failure { |call| raise call.message }
       end
     end

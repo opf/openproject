@@ -269,7 +269,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
         path = api_v3_paths.available_watchers work_package.id
         filters = %([{ "name": { "operator": "~", "values": ["#{query}"] } }])
 
-        "#{path}?filters=#{URI::escape(filters)}"
+        "#{path}?filters=#{URI::RFC2396_Parser.new.escape(filters)}"
       end
 
       context 'that does not exist' do

@@ -48,7 +48,7 @@ describe Groups::AddUsersService, 'integration', type: :model do
     let(:user2) { FactoryBot.create :user }
 
     let(:user_ids) { [user1.id, user2.id] }
-    subject { instance.call(user_ids) }
+    subject { instance.call(ids: user_ids) }
 
     context 'as an admin user' do
       let(:current_user) { admin }
