@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package user mentions',
-         type: :feature, js: true do
+         type: :feature,
+         js: true do
   let!(:user) { FactoryBot.create :admin }
   let!(:user2) { FactoryBot.build(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
   let!(:group) { FactoryBot.create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
@@ -41,7 +42,11 @@ describe 'Wysiwyg work package user mentions',
                       roles: [group_role])
   end
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking]) }
-  let!(:work_package) { FactoryBot.create(:work_package, subject: 'Foobar', project: project) }
+  let!(:work_package) do
+    User.execute_as user do
+      FactoryBot.create(:work_package, subject: 'Foobar', project: project)
+    end
+  end
 
   let(:wp_page) { ::Pages::FullWorkPackage.new work_package, project }
   let(:editor) { ::Components::WysiwygEditor.new }
@@ -75,6 +80,9 @@ describe 'Wysiwyg work package user mentions',
 
     retry_block do
       comment_field.submit_by_click if comment_field.active?
+
+      wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
+
       expect(page)
         .to have_selector('a.user-mention', text: 'Foo Bar')
     end
@@ -93,6 +101,9 @@ describe 'Wysiwyg work package user mentions',
 
     retry_block do
       comment_field.submit_by_click if comment_field.active?
+
+      wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
+
       expect(page)
         .to have_selector('span.user-mention', text: 'Foogroup')
     end
