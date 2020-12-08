@@ -29,52 +29,118 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageViewBaseService} from './wp-view-base.service';
 import {Injectable} from '@angular/core';
+import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {take} from "rxjs/operators";
+import {GroupObject, WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-resource";
+import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-by-resource";
 
 @Injectable()
-export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<{ [identifier:string]:boolean }> {
-  private _allGroupsAreCollapsed = false;
-  private _allGroupsAreExpanded = true;
-
-  get groupsCollapseState():{[key:string]:boolean} {
-    return this.querySpace.collapsedGroups.value || {};
+export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {
+  get config():IGroupsCollapseEvent {
+    return this.updatesState.getValueOr(this.getDefaultState());
   }
 
-  get allGroupsAreCollapsed() {
-    return this._allGroupsAreCollapsed;
+  get currentGroups():GroupObject[] {
+   return this.querySpace.groups.value!;
   }
 
-  get allGroupsAreExpanded() {
-    return this._allGroupsAreExpanded;
+  get allGroupsAreCollapsed():boolean {
+    return this.config.allGroupsAreCollapsed;
   }
 
-  toggleGroupCollapseState(groupIdentifier:string) {
-    const newState = {...this.groupsCollapseState, [groupIdentifier]: !this.groupsCollapseState[groupIdentifier]};
+  get allGroupsAreExpanded():boolean {
+    return this.config.allGroupsAreExpanded;
+  }
 
-    this._allGroupsAreCollapsed = false;
-    this._allGroupsAreExpanded = false;
+  get currentGroupedBy():QueryGroupByResource|null {
+    return this.workPackageViewGroupByService.current;
+  }
+
+  constructor(
+    protected readonly querySpace:IsolatedQuerySpace,
+    readonly workPackageViewGroupByService:WorkPackageViewGroupByService,
+  ) {
+    super(querySpace);
+  }
+
+  // Every time the groupedBy changes, this services is initialized
+  private getDefaultState():IGroupsCollapseEvent {
+    return {
+      state: this.querySpace.collapsedGroups.value || {},
+      allGroupsChanged: false,
+      lastChangedGroup: null,
+      groupedBy: this.currentGroupedBy?.id || null,
+      ...this.getAllGroupsCollapsedState(this.currentGroups, this.querySpace.collapsedGroups.value!),
+    };
+  }
+
+  toggleGroupCollapseState(groupIdentifier:string):void {
+    const newCollapsedState = !this.config.state[groupIdentifier];
+    const state = {
+      ...this.config.state,
+      [groupIdentifier]: newCollapsedState
+    };
+    const newState = {
+      ...this.config,
+      state,
+      lastChangedGroup: groupIdentifier,
+      ...this.getAllGroupsCollapsedState(this.currentGroups, state),
+    };
 
     this.update(newState);
   }
 
-  setAllGroupsCollapseStateTo(collapseState:boolean) {
-    const groups = this.querySpace.groups.value!;
-    const groupsCollapseStateUpdate = groups.reduce((newState:{[key:string]:boolean}, group) => {
+  setAllGroupsCollapseStateTo(collapsedState:boolean):void {
+    const groupUpdatedState = this.currentGroups.reduce((newState:{[key:string]:boolean}, group) => {
       return {
         ...newState,
-        [group.identifier]:collapseState,
+        [group.identifier]:collapsedState,
       };
     }, {});
-    const newState = {...this.groupsCollapseState, ...groupsCollapseStateUpdate};
-
-    this._allGroupsAreCollapsed = collapseState;
-    this._allGroupsAreExpanded = !collapseState;
+    const newState = {
+      ...this.config,
+      state: {
+        ...this.config.state,
+        ...groupUpdatedState,
+      },
+      lastChangedGroup: null,
+      allGroupsAreCollapsed: collapsedState,
+      allGroupsAreExpanded: !collapsedState,
+      allGroupsChanged: true,
+    };
 
     this.update(newState);
+  }
+
+  getAllGroupsCollapsedState(groups:GroupObject[], currentCollapsedGroupsState:IGroupsCollapseEvent['state']) {
+    let allGroupsAreCollapsed = false;
+    let allGroupsAreExpanded = true;
+
+    if (currentCollapsedGroupsState) {
+      const firstGroupIdentifier = groups[0].identifier;
+      const firstGroupCollapsedState = currentCollapsedGroupsState[firstGroupIdentifier];
+      const allGroupsHaveTheSameCollapseState = groups.every((group) => {
+        return currentCollapsedGroupsState[group.identifier] != null &&
+              currentCollapsedGroupsState[group.identifier] === currentCollapsedGroupsState[firstGroupIdentifier];
+      });
+
+      allGroupsAreCollapsed = allGroupsHaveTheSameCollapseState && firstGroupCollapsedState;
+      allGroupsAreExpanded = allGroupsHaveTheSameCollapseState && !firstGroupCollapsedState;
+    }
+
+    return {allGroupsAreCollapsed, allGroupsAreExpanded};
   }
 
   // TODO: Implement when the CollaspsedGroupState has been included in the Query
-  valueFromQuery(query:QueryResource) {
-    return {};
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
+    this.querySpace.tableRendered.values$().pipe(take(1)).subscribe(() => this.update({ ...this.config, allGroupsChanged: true }));
+  }
+
+  // TODO: Implement when the CollaspsedGroupState has been included in the Query
+  valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
+    return this.getDefaultState();
   }
 
   // TODO: Implement when the CollaspsedGroupState has been included in the Query

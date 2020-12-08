@@ -7,18 +7,17 @@ import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packa
 
 export class GroupFoldTransformer {
 
-  @InjectField() public wpGroupFold:WorkPackageViewCollapsedGroupsService;
+  @InjectField() public workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
   @InjectField() public querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-
-    this.wpGroupFold
+    this.workPackageViewCollapsedGroupsService
       .updates$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
         distinctUntilChanged()
       )
-      .subscribe((collapseState) => table.setGroupsCollapseState(collapseState));
+      .subscribe((groupsCollapseEvent) => table.setGroupsCollapseState(groupsCollapseEvent.state));
   }
 }
