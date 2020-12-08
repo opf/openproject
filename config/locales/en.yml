@@ -1452,6 +1452,7 @@ en:
   label_group_new: "New group"
   label_group: "Group"
   label_group_named: "Group %{name}"
+  label_group_plural: "Groups"
   label_help: "Help"
   label_here: here
   label_hide: "Hide"
