@@ -42,10 +42,24 @@ module Projects
 
     attr_reader :selected_project_ids
 
-    ##
-    # Returns the current query or the default one if none was saved
-    def self.current_query
-      Setting.project_gantt_query.presence || DEFAULT_GANTT_QUERY
+    class << self
+      ##
+      # Returns the current query or the default one if none was saved
+      def current_query
+        Setting.project_gantt_query.presence || default_gantt_query
+      end
+
+      def default_gantt_query
+        default_with_filter = JSON
+                              .parse(Projects::GanttQueryGeneratorService::DEFAULT_GANTT_QUERY)
+
+        milestone_ids = Type.milestone.pluck(:id).map(&:to_s)
+        if milestone_ids.any?
+          default_with_filter.merge!('f' => [{ 'n' => 'type', 'o' => '=', 'v' => milestone_ids }])
+        end
+
+        JSON.dump(default_with_filter)
+      end
     end
 
     def initialize(selected_project_ids)
@@ -83,9 +97,9 @@ module Projects
       JSON.parse(self.class.current_query)
     rescue JSON::JSONError => e
       Rails.logger.error "Failed to read project gantt view, resetting to default. Error was: #{e.message}"
-      Setting.project_gantt_query = DEFAULT_GANTT_QUERY
+      Setting.project_gantt_query = self.class.default_gantt_query
 
-      JSON.parse(DEFAULT_GANTT_QUERY)
+      JSON.parse(self.class.default_gantt_query)
     end
   end
 end
