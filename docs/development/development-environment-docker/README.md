@@ -6,7 +6,7 @@ The quickest way to get started developing OpenProject is to use the docker setu
 
 * docker
 
-And nothhing else!
+And nothing else!
 
 ## Quickstart
 

@@ -343,3 +343,8 @@ at 127.0.0.1 on port 389.
 Setting up the test ldap server is beyond the scope of this documentation.
 The Apache DS project provides a simple LDAP implementation that should work
 good as a test server.
+
+## Running tests locally in Docker
+
+Most of the above applies to running tests locally, with some docker specific setup changes that are discussed [in the
+docker development documentation](../development-environment-docker).
