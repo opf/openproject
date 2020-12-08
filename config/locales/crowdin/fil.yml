@@ -1198,6 +1198,8 @@ fil:
       blog: "Blog ng OpenProject"
       forums: "Komunidad forum"
       newsletter: "Mga alertong seguridad/ Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:

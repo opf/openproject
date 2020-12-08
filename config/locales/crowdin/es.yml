@@ -1195,6 +1195,8 @@ es:
       blog: "Blog de OpenProject"
       forums: "Foro de la comunidad"
       newsletter: "Alertas de seguridad / boletín"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Se deshicieron los cambios."
   links:

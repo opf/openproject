@@ -119,7 +119,7 @@ module OpenProject
 
       'youtube_channel' => 'https://www.youtube.com/c/OpenProjectCommunity',
 
-      'ee_manager_visible' => true,
+      'ee_manager_visible' => false,
 
       # Health check configuration
       'health_checks_authentication_password' => nil,
