@@ -192,7 +192,10 @@ class Budget < ApplicationRecord
     material_budget_item_attributes.each do |_index, attributes|
       correct_material_attributes!(attributes)
 
-      material_budget_items.build(attributes) if attributes[:units].to_f.positive?
+      if valid_material_budget_attributes?(attributes)
+        attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
+        material_budget_items.build(attributes)
+      end
     end
   end
 
@@ -211,6 +214,7 @@ class Budget < ApplicationRecord
       correct_labor_attributes!(attributes)
 
       if valid_labor_budget_attributes?(attributes)
+        attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
         item = labor_budget_items.build(attributes)
         item.budget = self # to please the labor_budget_item validation
       end
