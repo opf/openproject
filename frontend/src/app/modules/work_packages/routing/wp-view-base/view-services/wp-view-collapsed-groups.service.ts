@@ -29,12 +29,12 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageViewBaseService} from './wp-view-base.service';
 import {Injectable} from '@angular/core';
-import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {take} from "rxjs/operators";
-import {GroupObject, WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
-import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-resource";
-import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-by-resource";
+import {WorkPackageViewGroupByService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import {IsolatedQuerySpace} from 'core-app/modules/work_packages/query-space/isolated-query-space';
+import {take} from 'rxjs/operators';
+import {GroupObject, WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {
@@ -93,9 +93,9 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
   }
 
   setAllGroupsCollapseStateTo(collapsedState:boolean):void {
-    const groupUpdatedState = this.currentGroups.reduce((newState:{[key:string]:boolean}, group) => {
+    const groupUpdatedState = this.currentGroups.reduce((groupUpdatedState:{[key:string]:boolean}, group) => {
       return {
-        ...newState,
+        ...groupUpdatedState,
         [group.identifier]:collapsedState,
       };
     }, {});
@@ -133,16 +133,11 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     return {allGroupsAreCollapsed, allGroupsAreExpanded};
   }
 
-  // TODO: Implement when the CollaspsedGroupState has been included in the Query
   public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
     this.querySpace.tableRendered.values$().pipe(take(1)).subscribe(() => this.update({ ...this.config, allGroupsChanged: true }));
   }
 
-  // TODO: Implement when the CollaspsedGroupState has been included in the Query
   valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
     return this.getDefaultState();
   }
-
-  // TODO: Implement when the CollaspsedGroupState has been included in the Query
-  applyToQuery(query:QueryResource) { return null; }
 }

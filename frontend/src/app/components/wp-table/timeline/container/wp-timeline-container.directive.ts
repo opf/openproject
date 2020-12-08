@@ -65,7 +65,7 @@ import {
   groupIdFromIdentifier,
   groupTypeFromIdentifier
 } from 'core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
-import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
+import {WorkPackageViewCollapsedGroupsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 
 @Component({
   selector: 'wp-timeline-container',
