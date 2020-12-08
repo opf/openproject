@@ -10,6 +10,10 @@ keywords: projects, integration, Jira
 
 If you have previously worked with other tools and want to switch or need an integration to OpenProject, there is a way to do so for some applications.
 
+## GitHub
+
+OpenProject offers a basic GitHub integration. You will find more information about the GitHub integration in our [GitHub integration guideline](../../system-admin-guide/github-integration/).
+
 ## Gitlab
 
 The GitLab integration to OpenProject is currently being developed and you can find all information [here](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21933#note_309977508).

@@ -20,8 +20,8 @@ fi:
         ifc_models: 'IFC models'
       views:
         viewer: 'Selain'
-        split: 'Viewer and table'
+        split: 'Näkymä ja tiedot'
         split_cards: 'Selain ja kortit'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Revit Lisäosa"
+      revit_add_in_settings: "Revit Lisäosa asetukset"

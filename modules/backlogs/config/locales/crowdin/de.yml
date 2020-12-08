@@ -84,7 +84,7 @@ de:
   backlogs_product_backlog: "Produkt Backlog"
   backlogs_product_backlog_is_empty: "Produkt Backlog ist leer"
   backlogs_product_backlog_unsized: "Die Spitze des Produkt Backlogs hat Stories ohne Aufwandsangaben"
-  backlogs_sizing_inconsistent: "Story Aufwand weicht von den Schätzwerten ab"
+  backlogs_sizing_inconsistent: "Die Story-Aufwände weichen von den Schätzwerten ab"
   backlogs_sprint_notes_missing: "Geschlossene Sprints ohne Closed sprints without Retrospective-/Besprechungsnotizen"
   backlogs_sprint_unestimated: "Geschlossene oder aktive Sprints mit nicht abgeschätzten Stories"
   backlogs_sprint_unsized: "Das Projekt hat Stories auf aktiven oder vor kurzem geschlossenen Sprints welche keine Aufwandsangaben enthalten"

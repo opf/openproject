@@ -1182,6 +1182,8 @@ zh-TW:
       blog: "Openproject 部落格"
       forums: "社群論壇"
       newsletter: "安全警報 / 消息"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:

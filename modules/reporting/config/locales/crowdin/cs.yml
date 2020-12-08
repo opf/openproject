@@ -22,7 +22,7 @@
 cs:
   button_save_as: "Uložit report jako..."
   comments: "Komentář"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Čas a náklady"
   label_cost_report: "Výkaz nákladů"
   label_cost_report_plural: "Výkazy nákladů"
   description_drill_down: "Zobrazit detaily"

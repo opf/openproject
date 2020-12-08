@@ -1198,6 +1198,8 @@ da:
       blog: "OpenProject blog"
       forums: "Community forum"
       newsletter: "Security alerts / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
