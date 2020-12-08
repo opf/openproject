@@ -17,7 +17,7 @@ The API v3 is a general purpose API supporting multiple use cases.
 While by no means complete, a whole lot of different scenarios can be automatised which otherwise would have to be caried out by hand via the UI. 
 Examples for this include managing work packages, projects and users.
 
---> [Go to OpenProject API](/introduction/)
+--> [Go to OpenProject API](./introduction/)
 
 ## BCF v2.1
 
@@ -25,4 +25,4 @@ This API supports BCF management in the context of BIM projects.
 
 While this API supports way less use cases than the more generic *API v3* it is compatible with the generic specification of a BCF API as [defined by the standard](https://github.com/buildingSMART/BCF-API/blob/release_2_1/README.md). This, clients implementing the specification can manage topics and viewpoints.
 
---> [Go to BCF API](/bcf-rest-api/)
+--> [Go to BCF API](./bcf-rest-api/)
