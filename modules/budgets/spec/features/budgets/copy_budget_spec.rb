@@ -61,7 +61,7 @@ describe 'Copying a budget', type: :feature, js: true do
                       units: 10,
                       cost_type: cost_type,
                       budget: budget,
-                      amount: 60.00
+                      amount: 600000.00
   end
 
   let!(:labor_budget_item) do
@@ -85,7 +85,7 @@ describe 'Copying a budget', type: :feature, js: true do
 
     budget_page.expect_planned_costs!(type: :labor, row: 1, expected: '125.00 EUR')
     budget_page.expect_planned_costs!(type: :material, row: 1, expected: '150.00 EUR')
-    budget_page.expect_planned_costs!(type: :material, row: 2, expected: '60.00 EUR')
+    budget_page.expect_planned_costs!(type: :material, row: 2, expected: '600,000.00 EUR')
 
     click_button 'Create'
 
