@@ -33,7 +33,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {IsolatedQuerySpace} from 'core-app/modules/work_packages/query-space/isolated-query-space';
 import * as moment from 'moment';
 import {Moment} from 'moment';
-import {filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
@@ -57,10 +57,9 @@ import {debugLog, timeOutput} from 'core-app/helpers/debug_output';
 import {RenderedWorkPackage} from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
 import {HalEventsService} from 'core-app/modules/hal/services/hal-events.service';
 import {WorkPackageNotificationService} from 'core-app/modules/work_packages/notifications/work-package-notification.service';
-import {combineLatest, merge, Observable} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {UntilDestroyedMixin} from 'core-app/helpers/angular/until-destroyed.mixin';
 import {WorkPackagesTableComponent} from 'core-components/wp-table/wp-table.component';
-import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {
   groupIdFromIdentifier,
   groupTypeFromIdentifier
@@ -100,10 +99,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private collapsedGroupsCellsMap:IGroupCellsMap = {};
 
-  private wpTypesToShowInCollapsedGroupHeaders:((wp:WorkPackageResource) => boolean)[];
-
-  private groupTypesWithHeaderCellsWhenCollapsed = ['project'];
-
   private orderedRows:RenderedWorkPackage[] = [];
 
   get commonPipes() {
@@ -138,13 +133,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
               private halEvents:HalEventsService,
               private querySpace:IsolatedQuerySpace,
               readonly I18n:I18nService,
-              private schemaCacheService:SchemaCacheService,
               private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService) {
     super();
   }
 
   ngAfterViewInit() {
-    this.wpTypesToShowInCollapsedGroupHeaders = [this.isMilestone];
     this.$element = jQuery(this.elementRef.nativeElement);
 
     this.text = {
@@ -505,8 +498,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   shouldManageCollapsedGroupHeaderCells(groupIdentifier:string, groupsCollapseConfig:IGroupsCollapseEvent) {
     const keyGroupType = groupTypeFromIdentifier(groupIdentifier);
 
-    return this.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType) &&
-          this.groupTypesWithHeaderCellsWhenCollapsed.includes(groupsCollapseConfig.groupedBy!);
+    return this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType) &&
+          this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(groupsCollapseConfig.groupedBy!);
   }
 
   createCollapsedGroupHeaderCells(groupIdentifier:string, tableWorkPackages:WorkPackageResource[], collapsedGroupsCellsMap:IGroupCellsMap) {
@@ -538,11 +531,9 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   }
 
   shouldBeShownInCollapsedGroupHeaders(workPackage:WorkPackageResource) {
-    return this.wpTypesToShowInCollapsedGroupHeaders.some(wpTypeFunction => wpTypeFunction(workPackage));
-  }
-
-  isMilestone = (workPackage:WorkPackageResource):boolean => {
-    return this.schemaCacheService.of(workPackage)?.isMilestone;
+    return this.workPackageViewCollapsedGroupsService
+                  .wpTypesToShowInCollapsedGroupHeaders
+                  .some(wpTypeFunction => wpTypeFunction(workPackage));
   }
 
   getWorkPackagesToCalculateTimelineWidthFrom() {

@@ -35,9 +35,14 @@ import {take} from 'rxjs/operators';
 import {GroupObject, WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {
+  readonly wpTypesToShowInCollapsedGroupHeaders:((wp:WorkPackageResource) => boolean)[];
+  readonly groupTypesWithHeaderCellsWhenCollapsed = ['project'];
+
   get config():IGroupsCollapseEvent {
     return this.updatesState.getValueOr(this.getDefaultState());
   }
@@ -61,8 +66,10 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
   constructor(
     protected readonly querySpace:IsolatedQuerySpace,
     readonly workPackageViewGroupByService:WorkPackageViewGroupByService,
+    private schemaCacheService:SchemaCacheService,
   ) {
     super(querySpace);
+    this.wpTypesToShowInCollapsedGroupHeaders = [this.isMilestone];
   }
 
   // Every time the groupedBy changes, this services is initialized
@@ -74,6 +81,10 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
       groupedBy: this.currentGroupedBy?.id || null,
       ...this.getAllGroupsCollapsedState(this.currentGroups, this.querySpace.collapsedGroups.value!),
     };
+  }
+
+  isMilestone(workPackage:WorkPackageResource):boolean {
+    return this.schemaCacheService.of(workPackage)?.isMilestone;
   }
 
   toggleGroupCollapseState(groupIdentifier:string):void {
@@ -133,11 +144,16 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     return {allGroupsAreCollapsed, allGroupsAreExpanded};
   }
 
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
+  initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
+    // When this service is initialized (first time the table is loaded and very time the groupBy changes),
+    // we need to wait until the table is ready to emit the collapseStatus. Otherwise the groups are not
+    // ready in the DOM and can't be collapsed/expanded.
     this.querySpace.tableRendered.values$().pipe(take(1)).subscribe(() => this.update({ ...this.config, allGroupsChanged: true }));
   }
 
   valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
     return this.getDefaultState();
   }
+
+  applyToQuery(query:QueryResource) { return; }
 }
