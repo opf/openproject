@@ -67,7 +67,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.queryId;
 
   board$:Observable<Board>;
-  queryWidgets:GridWidgetResource[];
+  boardWidgets:GridWidgetResource[] = [];
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -93,25 +93,17 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   ngOnInit():void {
     const id:string = this.state.params.board_id.toString();
-
     this.board$ = this
       .apiV3Service
       .boards
       .id(id)
       .requireAndStream()
       .pipe(
-        this.setQueryWidgets,
-        tap((board) => this.setupQueryUpdatedMonitoring(board))
+        this.setAllowedBoardWidgets,
+        tap(board => this.setupQueryUpdatedMonitoring(board))
       );
 
     this.Boards.currentBoard$.next(id);
-
-    this.board$
-      .pipe(
-        this.untilDestroyed()
-      )
-      .subscribe(board => {
-      });
 
     this.boardListCrossSelectionService
       .selections()
@@ -125,29 +117,41 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     });
   }
 
-  setQueryWidgets = (boardObservable:Observable<Board>) => {
+  setAllowedBoardWidgets = (boardObservable:Observable<Board>) => {
     // The grid config could have widgets that the user is not allowed to
     // see, so we filter out those that rise an access error.
-    return boardObservable.pipe(
-      switchMap(board => {
-          const queryRequests$ = board.queries.map(query => this.apiv3Service.queries
-              .find({filters: JSON.stringify(query.options.filters)} , query.options.queryId as string)
-              .pipe(
-                map(() => query),
-                catchError(() => of(null))
-              )
-          );
+    return boardObservable
+      .pipe(
+        switchMap(
+          board => this.getAllowedBoardWidgets(board).pipe(map(allowedBoardWidgets => ({board, allowedBoardWidgets}))),
+        ),
+        map(result => {
+          this.boardWidgets = result.allowedBoardWidgets;
+          return result.board;
+        })
+      );
+  }
 
-          return forkJoin([...queryRequests$]);
-        },
-        (board, queries) => ({board, validQueries: queries.filter(queryWidget => !!queryWidget) as GridWidgetResource[]})
-      ),
-      map(result => {
-        this.queryWidgets = result.validQueries;
+  getAllowedBoardWidgets(board:Board) {
+    if (board.queries.length) {
+      const queryRequests$ = board.queries.map(query => this.apiv3Service.queries
+        .find({filters: JSON.stringify(query.options.filters)} , query.options.queryId as string)
+        .pipe(
+          map(() => query),
+          catchError(error => {
+            const userIsNotAllowedToSeeSubprojectError = 'urn:openproject-org:api:v3:errors:InvalidQuery';
+            const result = error.errorIdentifier ===  userIsNotAllowedToSeeSubprojectError ? null : query;
 
-        return result.board;
-      })
-    );
+            return of(result);
+          })
+        )
+      );
+
+      return forkJoin([...queryRequests$])
+              .pipe(map(boardWidgets => boardWidgets.filter(boardWidget => !!boardWidget) as GridWidgetResource[]));
+    } else {
+      return of([]);
+    }
   }
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
