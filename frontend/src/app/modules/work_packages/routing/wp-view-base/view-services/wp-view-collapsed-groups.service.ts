@@ -35,8 +35,8 @@ import {take} from 'rxjs/operators';
 import {GroupObject, WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {
@@ -104,9 +104,9 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
   }
 
   setAllGroupsCollapseStateTo(collapsedState:boolean):void {
-    const groupUpdatedState = this.currentGroups.reduce((groupUpdatedState:{[key:string]:boolean}, group) => {
+    const groupUpdatedState = this.currentGroups.reduce((updatedState:{[key:string]:boolean}, group) => {
       return {
-        ...groupUpdatedState,
+        ...updatedState,
         [group.identifier]:collapsedState,
       };
     }, {});
