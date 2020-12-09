@@ -50,21 +50,6 @@ shared_examples_for 'acts_as_attachable included' do
   end
   let(:current_user) { add_permission_user }
 
-  describe '#attach_files' do
-    context 'with id hashes' do
-      it 'memoizes the attachments for later claiming but does not do so itself' do
-        params = { 1 => { 'id' => attachment1.id }, 2 => { 'id' => attachment2.id } }
-
-        model_instance.attach_files(params)
-
-        expect(model_instance.attachments_claimed.map(&:id)).to match_array [attachment1.id, attachment2.id]
-        expect(model_instance.attachments.reload).to be_empty
-        expect(attachment1.reload.container).to be_nil
-        expect(attachment2.reload.container).to be_nil
-      end
-    end
-  end
-
   describe '#validations on attachments_claimed' do
     before do
       login_as(current_user)
