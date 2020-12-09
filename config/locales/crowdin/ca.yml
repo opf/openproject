@@ -1407,6 +1407,7 @@ ca:
   label_group_new: "Nou grup"
   label_group: "Grup"
   label_group_named: "Group %{name}"
+  label_group_plural: "Grups"
   label_help: "Ajuda"
   label_here: aquí
   label_hide: "Amagar"

@@ -1423,6 +1423,7 @@ ro:
   label_group_new: "Grupare nouă"
   label_group: "Grup"
   label_group_named: "Group %{name}"
+  label_group_plural: "Grupuri"
   label_help: "Asistenţă"
   label_here: aici
   label_hide: "Ascundere"

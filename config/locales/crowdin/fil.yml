@@ -1407,6 +1407,7 @@ fil:
   label_group_new: "Bagong grupo"
   label_group: "Grupo"
   label_group_named: "Group %{name}"
+  label_group_plural: "Mga grupo"
   label_help: "Tulong"
   label_here: dito
   label_hide: "Itago"

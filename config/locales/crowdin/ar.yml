@@ -1471,6 +1471,7 @@ ar:
   label_group_new: "مجموعة جديدة"
   label_group: "مجموعة"
   label_group_named: "Group %{name}"
+  label_group_plural: "المجموعات"
   label_help: "مساعدة"
   label_here: هنا
   label_hide: "إخفاء"

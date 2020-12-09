@@ -1407,6 +1407,7 @@ fi:
   label_group_new: "Uusi ryhmä"
   label_group: "Ryhmä"
   label_group_named: "Group %{name}"
+  label_group_plural: "Ryhmät"
   label_help: "Ohjeet"
   label_here: tässä
   label_hide: "Piilota"

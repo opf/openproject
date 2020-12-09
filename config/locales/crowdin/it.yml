@@ -1403,6 +1403,7 @@ it:
   label_group_new: "Nuovo gruppo"
   label_group: "Gruppo"
   label_group_named: "Gruppo %{name}"
+  label_group_plural: "Gruppi"
   label_help: "Aiuto"
   label_here: qui
   label_hide: "Nascondi"

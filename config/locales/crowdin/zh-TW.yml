@@ -1391,6 +1391,7 @@ zh-TW:
   label_group_new: "新增群組"
   label_group: "群組"
   label_group_named: "群組名稱 %{name}"
+  label_group_plural: "群組"
   label_help: "説明"
   label_here: 這裡
   label_hide: "隱藏"
