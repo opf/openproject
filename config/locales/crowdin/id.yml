@@ -1390,6 +1390,7 @@ id:
   label_group_new: "Grup baru"
   label_group: "Grup"
   label_group_named: "Group %{name}"
+  label_group_plural: "Grup"
   label_help: "Support"
   label_here: disini
   label_hide: "Sembunyikan"

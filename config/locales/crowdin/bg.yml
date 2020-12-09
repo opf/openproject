@@ -1407,6 +1407,7 @@ bg:
   label_group_new: "Нова група"
   label_group: "Група"
   label_group_named: "Група %{name}"
+  label_group_plural: "Групи"
   label_help: "Помощ"
   label_here: тук
   label_hide: "Скрий"

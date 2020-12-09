@@ -1438,6 +1438,7 @@ ru:
   label_group_new: "Новая группа"
   label_group: "Группа"
   label_group_named: "Группа %{name}"
+  label_group_plural: "Группы"
   label_help: "Справка"
   label_here: здесь
   label_hide: "Скрыть"

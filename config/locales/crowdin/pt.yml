@@ -1405,6 +1405,7 @@ pt:
   label_group_new: "Novo grupo"
   label_group: "Grupo"
   label_group_named: "Grupo %{name}"
+  label_group_plural: "Grupos"
   label_help: "Ajuda"
   label_here: aqui
   label_hide: "Ocultar"

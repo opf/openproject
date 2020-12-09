@@ -1439,6 +1439,7 @@ sk:
   label_group_new: "Nová skupina"
   label_group: "Skupina"
   label_group_named: "Skupina %{name}"
+  label_group_plural: "Skupiny"
   label_help: "Nápoveda"
   label_here: tu
   label_hide: "Skryť"

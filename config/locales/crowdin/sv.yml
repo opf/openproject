@@ -1406,6 +1406,7 @@ sv:
   label_group_new: "Ny grupp"
   label_group: "Grupp"
   label_group_named: "Grupp %{name}"
+  label_group_plural: "Grupper"
   label_help: "Hjälp"
   label_here: här
   label_hide: "Dölj"

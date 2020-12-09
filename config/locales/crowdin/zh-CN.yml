@@ -1386,6 +1386,7 @@ zh-CN:
   label_group_new: "新的组"
   label_group: "组"
   label_group_named: "组 %{name}"
+  label_group_plural: "组"
   label_help: "帮助"
   label_here: 这里
   label_hide: "隐藏"

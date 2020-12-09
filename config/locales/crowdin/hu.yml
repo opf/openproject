@@ -1404,6 +1404,7 @@ hu:
   label_group_new: "Új csoport"
   label_group: "Csoport"
   label_group_named: "Csoport %{name}"
+  label_group_plural: "Csoportok"
   label_help: "Segítség"
   label_here: itt
   label_hide: "Elrejt"

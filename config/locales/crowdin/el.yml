@@ -1402,6 +1402,7 @@ el:
   label_group_new: "Νέα ομάδα"
   label_group: "Ομάδα"
   label_group_named: "Ομάδα %{name}"
+  label_group_plural: "Ομάδες"
   label_help: "Βοήθεια"
   label_here: εδώ
   label_hide: "Απόκρυψη"
