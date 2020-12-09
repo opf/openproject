@@ -23,6 +23,7 @@ import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/rout
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -30,6 +31,7 @@ export class WorkPackageStatesInitializationService {
               protected querySpace:IsolatedQuerySpace,
               protected wpTableColumns:WorkPackageViewColumnsService,
               protected wpTableGroupBy:WorkPackageViewGroupByService,
+              protected wpTableGroupFold:WorkPackageViewCollapsedGroupsService,
               protected wpTableSortBy:WorkPackageViewSortByService,
               protected wpTableFilters:WorkPackageViewFiltersService,
               protected wpTableSum:WorkPackageViewSumService,
@@ -138,6 +140,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableColumns.initialize(query, results);
     this.wpTableSortBy.initialize(query, results);
     this.wpTableGroupBy.initialize(query, results);
+    this.wpTableGroupFold.initialize(query, results);
     this.wpTableTimeline.initialize(query, results);
     this.wpTableHierarchies.initialize(query, results);
     this.wpTableHighlighting.initialize(query, results);
@@ -153,6 +156,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableColumns.applyToQuery(query);
     this.wpTableSortBy.applyToQuery(query);
     this.wpTableGroupBy.applyToQuery(query);
+    this.wpTableGroupFold.applyToQuery(query);
     this.wpTableTimeline.applyToQuery(query);
     this.wpTableHighlighting.applyToQuery(query);
     this.wpTableHierarchies.applyToQuery(query);
@@ -174,6 +178,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableColumns.clear(reason);
     this.wpTableSortBy.clear(reason);
     this.wpTableGroupBy.clear(reason);
+    this.wpTableGroupFold.clear(reason);
     this.wpDisplayRepresentation.clear(reason);
     this.wpTableSum.clear(reason);
 

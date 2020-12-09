@@ -36,17 +36,16 @@ import {
   wpDisplayListRepresentation
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import {WorkPackageViewCollapsedGroupsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 @Directive({
-  selector: '[wpViewDropdown]'
+  selector: '[wpGroupToggleDropdown]'
 })
-export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
+export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly I18n:I18nService,
-              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
-              readonly wpTableTimeline:WorkPackageViewTimelineService) {
-
+              readonly wpViewCollapsedGroups:WorkPackageViewCollapsedGroupsService) {
     super(elementRef, opContextMenu);
   }
 
@@ -58,61 +57,33 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
   public get locals() {
     return {
       items: this.items,
-      contextMenuId: 'wp-view-context-menu'
+      contextMenuId: 'wp-group-fold-context-menu'
     };
   }
 
   private buildItems() {
-    this.items = [];
+    this.items = [
+      {
+        disabled: this.wpViewCollapsedGroups.allGroupsAreCollapsed,
+        linkText: this.I18n.t('js.button_collapse_all'),
+        icon: 'icon-minus2',
+        onClick: (evt:JQuery.TriggeredEvent) => {
+          this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(true);
 
-    if (this.wpDisplayRepresentationService.current !== wpDisplayCardRepresentation) {
-      this.items.push(
-        {
-          // Card View
-          linkText: this.I18n.t('js.views.card'),
-          icon: 'icon-view-card',
-          onClick: (evt:any) => {
-            this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
-            if (this.wpTableTimeline.isVisible) {
-              // Necessary for the timeline buttons to disappear
-              this.wpTableTimeline.toggle();
-            }
-            return true;
-          }
-        });
-    }
+          return true;
+        }
+      },
+      {
+        disabled: this.wpViewCollapsedGroups.allGroupsAreExpanded,
+        linkText: this.I18n.t('js.button_expand_all'),
+        icon: 'icon-plus',
+        onClick: (evt:JQuery.TriggeredEvent) => {
+          this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(false);
 
-    if (this.wpTableTimeline.isVisible || this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation) {
-      this.items.push(
-        {
-          // List View
-          linkText: this.I18n.t('js.views.list'),
-          icon: 'icon-view-list',
-          onClick: (evt:any) => {
-            this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
-            if (this.wpTableTimeline.isVisible) {
-              this.wpTableTimeline.toggle();
-            }
-            return true;
-          }
-        });
-    }
-
-    if (!this.wpTableTimeline.isVisible || this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation) {
-      this.items.push(
-        {
-          // List View with enabled Gantt
-          linkText: this.I18n.t('js.views.timeline'),
-          icon: 'icon-view-timeline',
-          onClick: (evt:any) => {
-            if (!this.wpTableTimeline.isVisible) {
-              this.wpTableTimeline.toggle();
-            }
-            this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
-            return true;
-          }
-        });
-    }
+          return true;
+        }
+      }
+    ];
   }
 }
 

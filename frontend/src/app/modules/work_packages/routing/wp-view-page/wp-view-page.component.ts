@@ -43,6 +43,7 @@ import {WorkPackageTimelineButtonComponent} from "core-components/wp-buttons/wp-
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 import {of} from "rxjs";
+import {WorkPackageFoldToggleButtonComponent} from "core-components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component";
 
 @Component({
   selector: 'wp-view-page',
@@ -73,6 +74,12 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     {
       component: WorkPackageViewToggleButton,
       containerClasses: 'hidden-for-mobile'
+    },
+    {
+      component: WorkPackageFoldToggleButtonComponent,
+      show: () => {
+        return !!(this.currentQuery && this.currentQuery.groupBy);
+      }
     },
     {
       component: WorkPackageDetailsViewButtonComponent,
