@@ -83,7 +83,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     };
   }
 
-  isMilestone(workPackage:WorkPackageResource):boolean {
+  isMilestone = (workPackage:WorkPackageResource):boolean => {
     return this.schemaCacheService.of(workPackage)?.isMilestone;
   }
 
@@ -129,7 +129,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     let allGroupsAreCollapsed = false;
     let allGroupsAreExpanded = true;
 
-    if (currentCollapsedGroupsState) {
+    if (currentCollapsedGroupsState && groups?.length) {
       const firstGroupIdentifier = groups[0].identifier;
       const firstGroupCollapsedState = currentCollapsedGroupsState[firstGroupIdentifier];
       const allGroupsHaveTheSameCollapseState = groups.every((group) => {
