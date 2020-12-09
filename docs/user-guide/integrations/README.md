@@ -38,7 +38,7 @@ If you would like to learn more about OpenProject's features vs Trello, please r
 
 ## Toggl
 
-We do offer an [integration](../time-and-costs/time-tracking/toggl-integration/) between OpenProject and the time tracking app Toggl.
+We do offer an [integration](../time-and-costs/time-tracking/toggl-integration/) between OpenProject and the time tracking app Toggl. Find out more [here](../time-and-costs/time-tracking/toggl-integration/).
 
 ## Slack
 
