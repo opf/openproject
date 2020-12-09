@@ -183,4 +183,4 @@ rm -rf /opt/openproject/frontend/node_modules
 
 OpenProject 8.0. has removed Textile, all previous content is migrated to GFM Markdown using [pandoc](https://pandoc.org). This will happen automatically during the migration run. A recent pandoc version will be downloaded by OpenProject.
 
-For more information, please visit this separate guide: https://github.com/opf/openproject/tree/dev/docs/user/textile-to-markdown-migration
+For more information, please visit [this separate guide](../../misc/textile-migration).
