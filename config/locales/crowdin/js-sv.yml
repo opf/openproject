@@ -55,6 +55,8 @@ sv:
     button_duplicate: "Duplicera"
     button_edit: "Redigera"
     button_filter: "Filter"
+    button_collapse_all: "Fäll ihop alla"
+    button_expand_all: "Expandera alla"
     button_advanced_filter: "Avancerat filter"
     button_list_view: "Listvy"
     button_show_view: "Helskärmsläge"

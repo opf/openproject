@@ -55,6 +55,8 @@ ro:
     button_duplicate: "Duplicare"
     button_edit: "Editare"
     button_filter: "Filtrare"
+    button_collapse_all: "Restrângere totală"
+    button_expand_all: "Extindere totală"
     button_advanced_filter: "Filtru avansat"
     button_list_view: "Vizualizare listă"
     button_show_view: "Vizualizare pe tot ecranul"

@@ -55,6 +55,8 @@ hu:
     button_duplicate: "Másolás ide"
     button_edit: "Szerkesztés"
     button_filter: "Szűrő"
+    button_collapse_all: "Az összes bezárása"
+    button_expand_all: "Az összes kibontása"
     button_advanced_filter: "Speciális szűrő"
     button_list_view: "Lista nézet"
     button_show_view: "Teljes képernyős nézet"

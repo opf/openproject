@@ -55,6 +55,8 @@ id:
     button_duplicate: "Duplikasi"
     button_edit: "Edit"
     button_filter: "Filter"
+    button_collapse_all: "Tutup semua"
+    button_expand_all: "Buka semua"
     button_advanced_filter: "Advanced filter"
     button_list_view: "Tampilan tabel"
     button_show_view: "Tampilan layar penuh"

@@ -55,6 +55,8 @@ da:
     button_duplicate: "Lav dublet"
     button_edit: "Rediger"
     button_filter: "Filter"
+    button_collapse_all: "Fold alle sammen"
+    button_expand_all: "Fold alle ud"
     button_advanced_filter: "Avanceret filter"
     button_list_view: "Listevisning"
     button_show_view: "Fuldskærmsvisning"

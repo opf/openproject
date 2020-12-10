@@ -55,6 +55,8 @@ el:
     button_duplicate: "Δημιουργία αντιγράφου"
     button_edit: "Επεξεργασία"
     button_filter: "Φίλτρο"
+    button_collapse_all: "Σύμπτυξη όλων"
+    button_expand_all: "Ανάπτυξη όλων"
     button_advanced_filter: "Προχωρημένο φίλτρο"
     button_list_view: "Προβολή λίστας"
     button_show_view: "Προβολή πλήρης οθόνης"

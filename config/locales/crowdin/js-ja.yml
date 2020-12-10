@@ -56,6 +56,8 @@ ja:
     button_duplicate: "複製"
     button_edit: "編集"
     button_filter: "フィルタ"
+    button_collapse_all: "全てを折りたたむ"
+    button_expand_all: "全てを展開"
     button_advanced_filter: "詳細フィルター"
     button_list_view: "一覧表示"
     button_show_view: "全画面表示"

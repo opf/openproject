@@ -55,6 +55,8 @@ sl:
     button_duplicate: "Podvoji"
     button_edit: "Uredi"
     button_filter: "Filtriraj"
+    button_collapse_all: "Strni vse"
+    button_expand_all: "Razširi vse"
     button_advanced_filter: "Napredni filter"
     button_list_view: "Prikaz seznama"
     button_show_view: "Celozaslonski pogled"

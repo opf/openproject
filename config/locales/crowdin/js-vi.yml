@@ -55,6 +55,8 @@ vi:
     button_duplicate: "Nhân đôi"
     button_edit: "Chỉnh sửa"
     button_filter: "Bộ lọc"
+    button_collapse_all: "Thu gọn tất cả"
+    button_expand_all: "Mở rộng tất cả"
     button_advanced_filter: "Bộ lọc nâng cao"
     button_list_view: "Xem kiểu danh sách"
     button_show_view: "Xem toàn màn hình"

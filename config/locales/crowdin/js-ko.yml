@@ -55,6 +55,8 @@ ko:
     button_duplicate: "복제"
     button_edit: "편집"
     button_filter: "필터"
+    button_collapse_all: "모두 축소"
+    button_expand_all: "모두 확장"
     button_advanced_filter: "고급 필터"
     button_list_view: "목록 보기"
     button_show_view: "전체화면 보기"

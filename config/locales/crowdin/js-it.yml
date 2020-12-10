@@ -55,6 +55,8 @@ it:
     button_duplicate: "Duplica"
     button_edit: "Modifica"
     button_filter: "Filtro"
+    button_collapse_all: "Comprimi Tutto"
+    button_expand_all: "Espandi tutto"
     button_advanced_filter: "Filtro avanzato"
     button_list_view: "Vista elenco"
     button_show_view: "Visualizzazione a schermo intero"

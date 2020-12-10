@@ -55,6 +55,8 @@ lt:
     button_duplicate: "Dublikuoti"
     button_edit: "Redaguoti"
     button_filter: "Filtras"
+    button_collapse_all: "Sutraukti visus"
+    button_expand_all: "Išskleisti visus"
     button_advanced_filter: "Sudėtingesnis filtras"
     button_list_view: "Sąrašo rodinys"
     button_show_view: "Viso ekrano rodinys"

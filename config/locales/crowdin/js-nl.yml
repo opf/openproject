@@ -55,6 +55,8 @@ nl:
     button_duplicate: "Dupliceren"
     button_edit: "Wijzig"
     button_filter: "Filter"
+    button_collapse_all: "Alles inklappen"
+    button_expand_all: "Alles uitklappen"
     button_advanced_filter: "Geavanceerd filter"
     button_list_view: "Lijstweergave"
     button_show_view: "Fullscreen weergave"

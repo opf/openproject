@@ -55,6 +55,8 @@ pl:
     button_duplicate: "Duplikat"
     button_edit: "Edycja"
     button_filter: "Filtr"
+    button_collapse_all: "Zwiń wszystko"
+    button_expand_all: "Rozwiń wszystkie"
     button_advanced_filter: "Zaawansowane filtrowanie"
     button_list_view: "Widok listy"
     button_show_view: "Tryb pełnoekranowy"
