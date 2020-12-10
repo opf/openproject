@@ -39,7 +39,8 @@ class WikiPage < ApplicationRecord
   acts_as_url :title,
               url_attribute: :slug,
               scope: :wiki_id, # Unique slugs per WIKI
-              sync_url: true # Keep slug updated on #rename
+              sync_url: true, # Keep slug updated on #rename
+              adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
 
   acts_as_watchable
   acts_as_event title: Proc.new { |o| "#{Wiki.model_name.human}: #{o.title}" },
@@ -82,7 +83,7 @@ class WikiPage < ApplicationRecord
   after_destroy :delete_wiki_menu_item
 
   def slug
-    read_attribute(:slug).presence || title.try(:to_url)
+    read_attribute(:slug).presence || super
   end
 
   def delete_wiki_menu_item
