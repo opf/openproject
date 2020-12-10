@@ -55,6 +55,8 @@
     button_duplicate: "Kopier"
     button_edit: "Rediger"
     button_filter: "Filter"
+    button_collapse_all: "Skjul alle"
+    button_expand_all: "Utvid alle"
     button_advanced_filter: "Avansert filter"
     button_list_view: "Listevisning"
     button_show_view: "Fullskjermvisning"

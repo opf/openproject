@@ -55,6 +55,8 @@ zh-TW:
     button_duplicate: "複本"
     button_edit: "編輯"
     button_filter: "篩選器"
+    button_collapse_all: "全部摺疊"
+    button_expand_all: "全部展開"
     button_advanced_filter: "進階篩選"
     button_list_view: "清單檢視"
     button_show_view: "全螢幕瀏覽"

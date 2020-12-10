@@ -55,6 +55,8 @@ sk:
     button_duplicate: "Duplikovať"
     button_edit: "Upraviť"
     button_filter: "Filtrovať"
+    button_collapse_all: "Zbaliť všetko"
+    button_expand_all: "Rozbaliť všetko"
     button_advanced_filter: "Rozšírený filter"
     button_list_view: "Zobraziť ako zoznam"
     button_show_view: "Zobrazenie na celú obrazovku"

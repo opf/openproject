@@ -55,6 +55,8 @@ ru:
     button_duplicate: "Дублировать"
     button_edit: "Правка"
     button_filter: "Фильтр"
+    button_collapse_all: "Свернуть все"
+    button_expand_all: "Развернуть все"
     button_advanced_filter: "Расширенный фильтр"
     button_list_view: "Представление списком"
     button_show_view: "Полноэкранный просмотр"

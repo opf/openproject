@@ -55,6 +55,8 @@ bg:
     button_duplicate: "Дублиране"
     button_edit: "Редактиране"
     button_filter: "Филтър"
+    button_collapse_all: "Свиване на всички"
+    button_expand_all: "Разгъване на всички"
     button_advanced_filter: "Advanced filter"
     button_list_view: "Изглед списък"
     button_show_view: "Изглед на цял екран"

@@ -55,6 +55,8 @@ hr:
     button_duplicate: "Dupliciraj"
     button_edit: "Uredi"
     button_filter: "Filter"
+    button_collapse_all: "Sažmi sve"
+    button_expand_all: "Proširi sve"
     button_advanced_filter: "Advanced filter"
     button_list_view: "Prikaz popisa"
     button_show_view: "Prikaz na cijelom ekranu"

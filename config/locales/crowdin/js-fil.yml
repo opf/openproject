@@ -55,6 +55,8 @@ fil:
     button_duplicate: "Kapareha"
     button_edit: "I-edit"
     button_filter: "Salain"
+    button_collapse_all: "Bumagsak lahat"
+    button_expand_all: "Malakihin lahat"
     button_advanced_filter: "Advanced filter"
     button_list_view: "Tingnan ang listahan"
     button_show_view: "Tanawin sa buong screen"

@@ -55,6 +55,8 @@ de:
     button_duplicate: "Duplizieren"
     button_edit: "Bearbeiten"
     button_filter: "Filter"
+    button_collapse_all: "Alle zuklappen"
+    button_expand_all: "Alle ausklappen"
     button_advanced_filter: "Erweiterte Filter"
     button_list_view: "Listenansicht"
     button_show_view: "Vollbildansicht"

@@ -55,6 +55,8 @@ cs:
     button_duplicate: "Kopie"
     button_edit: "Upravit"
     button_filter: "Filtr"
+    button_collapse_all: "Sbalit vše"
+    button_expand_all: "Rozbalit vše"
     button_advanced_filter: "Pokročilý filtr"
     button_list_view: "Zobrazit jako seznam"
     button_show_view: "Celá obrazovka"

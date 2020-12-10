@@ -55,6 +55,8 @@ ar:
     button_duplicate: "كرِّر"
     button_edit: "تعديل"
     button_filter: "فلترة"
+    button_collapse_all: "طَيْ الجميع"
+    button_expand_all: "توسيع الجميع"
     button_advanced_filter: "Advanced filter"
     button_list_view: "عرض القائمة"
     button_show_view: "عرض ملء الشاشة"

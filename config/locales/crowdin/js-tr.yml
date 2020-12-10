@@ -55,6 +55,8 @@ tr:
     button_duplicate: "Çoğalt"
     button_edit: "Düzenle"
     button_filter: "Filtre"
+    button_collapse_all: "Tümünü daralt"
+    button_expand_all: "Tümünü genişlet"
     button_advanced_filter: "Gelişmiş filtre"
     button_list_view: "Liste görünümü"
     button_show_view: "Tam Ekran görünümü"

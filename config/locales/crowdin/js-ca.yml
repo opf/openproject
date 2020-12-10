@@ -55,6 +55,8 @@ ca:
     button_duplicate: "Duplicar"
     button_edit: "Editar"
     button_filter: "Filtre"
+    button_collapse_all: "Replega-ho tot"
+    button_expand_all: "Expandeix tot"
     button_advanced_filter: "Filtres avançats"
     button_list_view: "Vista de llista"
     button_show_view: "Vista de pantalla completa"

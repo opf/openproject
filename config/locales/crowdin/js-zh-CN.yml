@@ -55,6 +55,8 @@ zh-CN:
     button_duplicate: "复制"
     button_edit: "编辑"
     button_filter: "筛选器"
+    button_collapse_all: "全部折叠"
+    button_expand_all: "全部展开"
     button_advanced_filter: "高级筛选"
     button_list_view: "列表视图"
     button_show_view: "全屏视图"

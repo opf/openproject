@@ -55,6 +55,8 @@ uk:
     button_duplicate: "Дублювати"
     button_edit: "Редагувати"
     button_filter: "Фільтр"
+    button_collapse_all: "Згорнути все"
+    button_expand_all: "Розгорнути все"
     button_advanced_filter: "Розширений фільтр"
     button_list_view: "Подання списком"
     button_show_view: "Повноекранний режим"

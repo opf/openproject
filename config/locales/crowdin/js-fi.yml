@@ -55,6 +55,8 @@ fi:
     button_duplicate: "Luo kopio"
     button_edit: "Muokkaa"
     button_filter: "Suodata"
+    button_collapse_all: "Tiivistä kaikki"
+    button_expand_all: "Laajenna kaikki"
     button_advanced_filter: "Edistynyt suodatin"
     button_list_view: "Luettelonäkymä"
     button_show_view: "Koko näytön tila"
