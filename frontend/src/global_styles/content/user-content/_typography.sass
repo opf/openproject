@@ -51,8 +51,10 @@
   display: block
   margin: 0
   padding: 1rem
-  background-color: #fafafa
-  border: 1px solid #dadada
+
+  @at-root .op-uc-container_editing &
+    background-color: #fafafa
+    border: 1px solid #dadada
 
 .op-uc-code
   font-family: Consolas, "Liberation Mono", Courier, monospace
