@@ -201,13 +201,11 @@ To get an overview of all your projects, select the **View all projects** option
 
 ![view all projects](1566293251039.png)
 
-You will then get a list of all your projects in OpenProject.
+You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
-With the **three dots** icon at the right in the list you can open further features, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project).
+With the horizontal **three dots** icons at the right in the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). With the **arrow** you can display the **project description**.
 
 ![image-20201005092427629](image-20201005092427629.png)
-
-With the **arrow** you can display the project description.
 
 You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
@@ -215,17 +213,16 @@ You can choose the **columns displayed by default** in the [System Settings](../
 
 
 
-To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) follow the instructions here: [Displaying a project custom field](/system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
+To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](/system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
 
 
 
-To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to get to the report described in the chapter below quickly. The Gantt chart view can be configured in the  [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
+To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to get to the report described in the chapter below quickly. 
+The Gantt chart view can be configured in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
 ![image-20201007161248903](image-20201007161248903.png)
 
 
-
-In the view all projects overview list you can also **create a multi project status dashboard** if you include [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), such as Status, Status description, Accountable, Project duration, and more.
 
 
 
@@ -235,11 +232,13 @@ Often you need to see more than one project in your lists and want to create pro
 
 Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
 
-Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
+Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
-You can group by project by clicking in the header of the work package list next to project and select Group by.
+In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../../work-packages/work-package-table-configuration) in each project.
+
+You can group by project by clicking in the header of the work package list next to project and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#aggregation-by-project).
 
 ![project-overarching-report](project-overarching-report.gif)
 
-In the project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the project specific work package list.
+
 
