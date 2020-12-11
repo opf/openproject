@@ -82,6 +82,10 @@ class WikiPage < ApplicationRecord
 
   after_destroy :delete_wiki_menu_item
 
+  def slug
+    read_attribute(:slug).presence || super
+  end
+
   def delete_wiki_menu_item
     menu_item&.destroy
     # ensure there is a menu item for the wiki
