@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: OpenProject Documentation
   priority: 999
-description: Help and documentation for OpenProject Community, Enterprise Edition and Cloud Edition.
+description: Help and documentation for OpenProject Community Edition, Enterprise on-premises and Enterprise cloud.
 robots: index, follow
 keywords: help, documentation
 ---
