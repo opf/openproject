@@ -55,7 +55,9 @@ class Wiki < ApplicationRecord
   # if page doesn't exist, return a new page
   def find_or_new_page(title)
     title = start_page if title.blank?
-    find_page(title) || WikiPage.new(wiki: self, title: title)
+    # If a new page is initialized, it needs to have a slug (via the ensure_unique_url)
+    # method right away, so that the correct menu item (if that exists already) is highlighted
+    find_page(title) || WikiPage.new(wiki: self, title: title).tap(&:ensure_unique_url)
   end
 
   ##
