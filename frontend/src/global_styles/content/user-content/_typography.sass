@@ -51,12 +51,18 @@
   display: block
   margin: 0
   padding: 1rem
-  overflow: hidden
+  overflow-x: auto
+  overflow-y: hidden
+  background-color: #fafafa
+  border: 1px solid #dadada
+
+  > *
+    background-color: transparent
+    border: none
 
   @at-root .op-uc-container_editing &
-    background-color: #fafafa
-    border: 1px solid #dadada
-    overflow-x: auto
+    overflow: visible
+    white-space: pre-wrap
 
 .op-uc-code
   font-family: Consolas, "Liberation Mono", Courier, monospace
