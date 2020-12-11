@@ -10,7 +10,7 @@ keywords: projects
 
 In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure and organize your work in OpenProject.
 
-Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community nor in the Cloud or Enterprise Edition.
+Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community Edition nor in the Enterprise cloud or in Enterprise on-premises.
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -78,7 +78,8 @@ OpenProject, for example, uses the projects to structure the different modules/p
 ![project-structure](1566214944644.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
+**Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
+
 
 </div>
 
@@ -135,11 +136,12 @@ Set up everything that you want to have available for future projects.
 - Creating your work package templates.
 - ...
 
-Navigate to the [project settings](project-settings) and click **Set as template** in the upper right corner.  You can remove a project from the template collection on the same spot. 
+Navigate to the [project settings](project-settings) and click **Set as template** in the upper right corner. You can remove a project from the template collection on the same spot. 
 
 <div class="alert alert-info" role="alert">
-**Note**: The option to set a project as template or to remove it from templates is only available for Administrators.
+**Please note**: The option to set a project as template or to remove it from templates is only available for Administrators.
 </div>
+
 
 
 
