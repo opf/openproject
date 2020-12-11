@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.3.2'
+gem 'rails', '~> 6.1.0'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -110,8 +110,8 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
-gem 'delayed_job_active_record', '~> 4.1.4'
-gem 'delayed_cron_job', '~> 0.7.2'
+gem 'delayed_job_active_record', '~> 4.1.5'
+gem 'delayed_cron_job', '~> 0.7.4'
 
 gem 'rack-protection', '~> 2.1.0'
 
