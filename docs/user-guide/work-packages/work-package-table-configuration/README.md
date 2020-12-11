@@ -146,7 +146,13 @@ Use the minus next to the project's name or the **collapse button** in the upper
 
 This will give you an **aggregated view of the projects' milestones**.
 
-**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../../getting-started/work-packages-introduction/#what-is-a-work-package). Which projects are shown depends on the [filters](#filter-work-packages) of the work package table you're in and your [permissions](../../../system-admin-guide/users-permissions/roles-permissions/).
+![aggregated-projects-milestones](image-20201211131511543.png)
+
+**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../../getting-started/work-packages-introduction/#what-is-a-work-package). Which projects are shown depends on the [filters](#filter-work-packages) of the work package table you're in and your [permissions](../../../system-admin-guide/users-permissions/roles-permissions/). 
+In some cases (many work packages) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../../system-admin-guide/system-settings/general-settings/) if necessary.
+ ![image-20201211131803961](image-20201211131803961.png)
+
+
 
 
 ## Attribute highlighting (Premium Feature)
@@ -198,6 +204,8 @@ The view will then be saved in the work packages menu in your **Favorite views**
 If you check the Public visibility, the view will be saved under your Public views in the work package menu:
 
 ![Work-packages-public-views](Work-packages-public-views.png)
+
+**Please note:** The collapse status (collapsed or expanded groups) can not be saved.
 
 ### Change saved work package views
 
