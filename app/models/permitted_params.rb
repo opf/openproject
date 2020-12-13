@@ -188,6 +188,13 @@ class PermittedParams
     permitted_params
   end
 
+  def placeholder_user
+    permitted_params = params.require(:placeholder_user).permit(*self.class.permitted_attributes[:placeholder_user])
+    permitted_params = permitted_params.merge(custom_field_values(:placeholder_user))
+
+    permitted_params
+  end
+
   def user_register_via_omniauth
     permitted_params = params
                        .require(:user)
@@ -534,6 +541,10 @@ class PermittedParams
           :client_credentials_user_id,
           scopes: []
         ],
+        placeholder_user: %i(
+          lastname
+          custom_fields
+        ),
         project_type: [
           :name,
           type_ids: []],

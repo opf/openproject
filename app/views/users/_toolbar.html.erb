@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= breadcrumb_toolbar(@user.new_record? ? t(:label_user_new) : @user.name) do %>
+<%= breadcrumb_toolbar(@user.new_record? ? t("label_#{@user.class.name.underscore}_new".to_sym) : @user.name) do %>
   <% unless @user.new_record? %>
-    <% if current_user.admin? || current_user.id == @user.id %>
+    <% if (current_user.admin? || current_user.id == @user.id) && !@user.is_a?(PlaceholderUser) %>
       <li class="toolbar-item hidden-for-mobile">
         <%= form_for(@user, html: { class: 'toolbar-item'},
                             url: { action: :resend_invitation },

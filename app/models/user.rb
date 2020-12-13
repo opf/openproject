@@ -118,11 +118,15 @@ class User < Principal
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
 
-  validates_presence_of :login,
+  validates_presence_of(:login,
                         :firstname,
                         :lastname,
                         :mail,
-                        unless: Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
+                        unless: Proc.new do |user|
+                          user.is_a?(AnonymousUser) ||
+                          user.is_a?(DeletedUser) ||
+                          user.is_a?(SystemUser) ||
+                          user.is_a?(PlaceholderUser) end)
 
   validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
   validates_uniqueness_of :mail, allow_blank: true, case_sensitive: false

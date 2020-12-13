@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+#-- encoding: UTF-8
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -461,6 +462,17 @@ OpenProject::Application.routes.draw do
       match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation
+      get :deletion_info
+    end
+  end
+
+  resources :placeholder_users, except: %i[index] do
+    resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
+
+    member do
+      match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
+      match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
+      post :change_status
       get :deletion_info
     end
   end

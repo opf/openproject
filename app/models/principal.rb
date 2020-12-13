@@ -73,7 +73,8 @@ class Principal < ApplicationRecord
   }
 
   scope :not_builtin, -> {
-    where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name])
+    # TODO: Remove PlaceholderUser from this list. This is a temporary hack.
+    where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name, PlaceholderUser.name])
   }
 
   scope :like, ->(q) {
