@@ -30,6 +30,8 @@
 require 'uri'
 require 'cgi'
 
+require 'doorkeeper/dashboard_helper'
+
 class ApplicationController < ActionController::Base
   class_attribute :_model_object
   class_attribute :_model_scope
