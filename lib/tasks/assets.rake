@@ -38,6 +38,10 @@ Rake::Task['assets:precompile']
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
   task compile_environment: :prepare_op do
+    # Turn the yarn:install taks into a noop.
+    Rake::Task['yarn:install']
+      .clear
+
     Rake::Task['assets:environment'].invoke
   end
 
