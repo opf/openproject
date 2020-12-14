@@ -57,7 +57,6 @@ describe 'Upload attachment to documents', js: true do
       fill_in "Title", with: 'New documentation'
 
       # adding an image
-      editor.click_and_type_slowly 'abc'
       editor.drag_attachment image_fixture, 'Image uploaded on creation'
       expect(page).to have_selector('attachment-list-item', text: 'image.png')
 
