@@ -21,7 +21,7 @@ keywords: work packages table configuration, work package list, columns, filter,
 
 You can configure the work package table view in OpenProject to display the information that you need in the list.
 
-You can change the header in the table and add or remove columns, filter and group work packages or sort them according to a specific criteria. Also, you can change between a flat list view, a hierarchy view and a grouped view.
+You can change the header in the table and add or remove columns, filter and group work packages or sort them according to specific criteria. Also, you can change between a flat list view, a hierarchy view and a grouped view.
 
 Save the view to have it available directly from your project menu. A work package view is the sum of all modifications you made to the default list (e.g. filters you set). 
 
@@ -127,14 +127,14 @@ To switch between the different criteria, open the [work package table configura
 
 ![display-settings](1566397517070.png)
 
-When choosing grouping the work package list by an attribute or by project a button to collapse groups shows up:
+When you group the work package list by an attribute or by project a button to collapse groups shows up:
 ![collapse-button](image-20201211021022685.png)
 
 Use it to quickly collapse or expand all groups at the same time.
 
 ## Aggregation by project
 
-You can get a **quick overview of multiple projects** in the Gantt chart. Therefore navigate to the work package module of a project or the [project overarching work package list](../../projects/#project-overarching-reports).
+You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the work package module of a project or the [project overarching work package list](../../projects/#project-overarching-reports).
 
 **Group the list** by project by using the work package table configuration (as described above) or by clicking on the small triangle next to "Project" in the table header.
  ![group-by-project](image-20201211020614221.png)
@@ -148,7 +148,7 @@ This will give you an **aggregated view of the projects' milestones**.
 
 ![aggregated-projects-milestones](image-20201211131511543.png)
 
-**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../../getting-started/work-packages-introduction/#what-is-a-work-package). Which projects are shown depends on the [filters](#filter-work-packages) of the work package table you're in and your [permissions](../../../system-admin-guide/users-permissions/roles-permissions/). 
+**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../../getting-started/work-packages-introduction/#what-is-a-work-package). Apart from the set filters the list of displayed projects depends on your [permissions](../../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
 In some cases (many work packages) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../../system-admin-guide/system-settings/general-settings/) if necessary.
  ![image-20201211131803961](image-20201211131803961.png)
 

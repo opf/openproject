@@ -10,7 +10,7 @@ keywords: projects
 
 In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure and organize your work in OpenProject.
 
-Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community Edition nor in the Enterprise cloud or in Enterprise on-premises.
+Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community Edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -45,7 +45,7 @@ To create a subproject for an existing project, navigate to the [project setting
 
 Follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
 
-![image-20200921153208651](image-20200921153208651.png)
+![create-a-subproject](image-20200921153208651.png)
 
 ## Project structure
 
@@ -168,7 +168,7 @@ You can copy existing [boards](../agile-boards) (apart from the Subproject board
 
 For further configuration open the **Advanced settings**. Here you can specify (among other things) the project's URL (identifier), its visibility and status. Furthermore you can set values for custom fields (not shown in the screenshot).
 
-![image-20201007172208540](image-20201007172208540.png)
+![advanced-settings-project](image-20201007172208540.png)
 
 Then click the blue **Copy** button.
 
@@ -209,7 +209,7 @@ With the horizontal **three dots** icons at the right of the list you can open *
 
 With the **arrow** you can display the **project description**.
 
-![image-20201005092427629](image-20201005092427629.png)
+![projects-overview](image-20201005092427629.png)
 
 You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
@@ -224,7 +224,7 @@ To change the order of the displayed [custom fields](../../system-admin-guide/cu
 To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the chapter below. 
 The Gantt chart view can be configured in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
-![image-20201007161248903](image-20201007161248903.png)
+![open-global-gantt-chart](image-20201007161248903.png)
 
 
 
@@ -240,7 +240,7 @@ Select **Work packages** from the drop down menu. Now, you will see all work pac
 
 In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../../work-packages/work-package-table-configuration) in each project.
 
-You can group by project by clicking in the header of the work package list next to project and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#aggregation-by-project).
+You can group by projects by clicking in the header of the work package list next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#aggregation-by-project).
 
 ![project-overarching-report](project-overarching-report.gif)
 

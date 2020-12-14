@@ -67,7 +67,7 @@ Also, you can click the green button **+ Project** directly on the system's home
 
 ![image-20200921122508132](image-20200921122508132.png)
 
-Creating a new project will set you as project admin, regardless of whether you copied a project, used a template or created a project from scratch. Now, you can get started working on your project.
+By default, creating a new project will set you as project admin, regardless of whether you copied a project, used a template or created a project from scratch. Now, you can get started working on your project.
 
 To configure further project information, see the documentation for [project settings](../../user-guide/projects/project-settings/project-information/). 
 
