@@ -43,7 +43,7 @@ module CustomField::OrderStatements
       if multi_value?
         [select_custom_values_as_group]
       else
-        coalesce_select_custom_value_as_string
+        [coalesce_select_custom_value_as_string]
       end
     when 'int', 'float'
       # Make the database cast values into numeric
@@ -73,12 +73,12 @@ module CustomField::OrderStatements
   # Returns the grouping result
   # which differ for multi-value select fields,
   # because in this case we do want the primary CV values
-  def group_by_statements
+  def group_by_statement
     return order_statements unless field_format == 'list'
 
     if multi_value?
       # We want to return the internal IDs in the case of grouping
-      [select_custom_values_as_group]
+      select_custom_values_as_group
     else
       coalesce_select_custom_value_as_string
     end
@@ -88,11 +88,9 @@ module CustomField::OrderStatements
 
   def coalesce_select_custom_value_as_string
     # COALESCE is here to make sure that blank and NULL values are sorted equally
-    [
-      <<-SQL
-        COALESCE(#{select_custom_value_as_string}, '')
-      SQL
-    ]
+    <<-SQL
+      COALESCE(#{select_custom_value_as_string}, '')
+    SQL
   end
 
   def select_custom_value_as_string
