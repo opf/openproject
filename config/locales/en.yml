@@ -773,6 +773,7 @@ en:
       status: "Work package status"
       member: "Member"
       news: "News"
+      placeholder_user: "Placeholder user"
       project: "Project"
       query: "Custom query"
       role:

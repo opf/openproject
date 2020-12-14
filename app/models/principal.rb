@@ -77,6 +77,12 @@ class Principal < ApplicationRecord
     where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name, PlaceholderUser.name])
   }
 
+  scope :not_builtin_but_with_placeholder_users, -> {
+    # TODO: This is temporary precaution scope to circumvent the hack in the :not_builtin scope. Needs to be
+    # removed.
+    where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name])
+  }
+
   scope :like, ->(q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
     lastnamefirstname = "((lastname || ' ') || firstname)"

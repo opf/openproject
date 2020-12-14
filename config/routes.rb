@@ -466,7 +466,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :placeholder_users, except: %i[index] do
+  resources :placeholder_users do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do

@@ -50,15 +50,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <span class="button--text"><%= t('activerecord.models.user') %></span>
     <% end %>
   </li>
-  <li class="toolbar-item">
-    <%= link_to new_placeholder_user_path,
-                { class: 'button',
-                  aria: { label: t(:label_placeholder_user_new) },
-                  title: t(:label_placeholder_user_new) } do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('activerecord.models.placeholder_user') %></span>
-    <% end %>
-  </li>
   <%= call_hook(:user_admin_action_menu) %>
 <% end %>
 

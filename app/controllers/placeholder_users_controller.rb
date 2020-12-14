@@ -36,16 +36,20 @@ class PlaceholderUsersController < ApplicationController
   before_action :find_placeholder_user, only: [:show,
                                                :edit,
                                                :update,
-                                               :change_status_info,
-                                               :change_status,
                                                :destroy,
-                                               :deletion_info,
                                                :resend_invitation]
-  # should also contain destroy but post data can not be redirected
-  before_action :require_login, only: [:deletion_info]
-  before_action :authorize_for_user, only: [:destroy]
-  before_action :check_if_deletion_allowed, only: [:deletion_info,
-                                                   :destroy]
+  before_action :check_if_deletion_allowed, only: [:destroy]
+
+  def index
+    @groups = Group.all.sort
+    @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.filter params
+
+    respond_to do |format|
+      format.html do
+        render layout: !request.xhr?
+      end
+    end
+  end
 
   def show
     # show projects based on current user visibility
@@ -98,11 +102,11 @@ class PlaceholderUsersController < ApplicationController
   def update
     @placeholder_user.attributes = permitted_params.placeholder_user
 
-    if @user.save
+    if @placeholder_user.save
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_update)
-          redirect_back(fallback_location: edit_placeholder_user_path(@user))
+          redirect_back(fallback_location: edit_placeholder_user_path(@placeholder_user))
         end
       end
     else
@@ -116,72 +120,16 @@ class PlaceholderUsersController < ApplicationController
     end
   end
 
-  def change_status_info
-    @status_change = params[:change_action].to_sym
-
-    return render_400 unless %i(activate lock unlock).include? @status_change
-  end
-
-  def change_status
-    if @user.id == current_user.id
-      # user is not allowed to change own status
-      redirect_back_or_default(action: 'edit', id: @user)
-      return
-    end
-
-    if (params[:unlock] || params[:activate]) && user_limit_reached?
-      show_user_limit_error!
-
-      return redirect_back_or_default(action: 'edit', id: @user)
-    end
-
-    if params[:unlock]
-      @user.failed_login_count = 0
-      @user.activate
-    elsif params[:lock]
-      @user.lock
-    elsif params[:activate]
-      @user.activate
-    end
-    # Was the account activated? (do it before User#save clears the change)
-    was_activated = (@user.status_change == [User::STATUSES[:registered],
-                                             User::STATUSES[:active]])
-
-    if params[:activate] && @user.missing_authentication_method?
-      flash[:error] = I18n.t(:error_status_change_failed,
-                             errors: I18n.t(:notice_user_missing_authentication_method),
-                             scope: :user)
-    elsif @user.save
-      flash[:notice] = I18n.t(:notice_successful_update)
-      if was_activated
-        UserMailer.account_activated(@user).deliver_later
-      end
-    else
-      flash[:error] = I18n.t(:error_status_change_failed,
-                             errors: @user.errors.full_messages.join(', '),
-                             scope: :user)
-    end
-    redirect_back_or_default(action: 'edit', id: @user)
-  end
-
-
   def destroy
-    # true if the user deletes him/herself
-    self_delete = (@user == User.current)
-
-    Users::DeleteService.new(@user, User.current).call
+    Users::DeleteService.new(@placeholder_user, User.current).call
 
     flash[:notice] = I18n.t('account.deleted')
 
     respond_to do |format|
       format.html do
-        redirect_to self_delete ? signin_path : users_path
+        redirect_to placeholder_users_path
       end
     end
-  end
-
-  def deletion_info
-    render action: 'deletion_info', layout: my_or_admin_layout
   end
 
   private
@@ -196,27 +144,13 @@ class PlaceholderUsersController < ApplicationController
     render_404 unless Users::DeleteService.deletion_allowed? @placeholder_user, User.current
   end
 
-  def my_or_admin_layout
-    # TODO: how can this be done better:
-    # check if the route used to call the action is in the 'my' namespace
-    if url_for(:delete_my_account_info) == request.url
-      'my'
-    else
-      'admin'
-    end
-  end
-
-  def set_password?(params)
-    params[:user][:password].present? && !OpenProject::Configuration.disable_password_choice?
-  end
-
   protected
 
   def default_breadcrumb
     if action_name == 'index'
-      t('label_user_plural')
+      t('label_placeholder_user_plural')
     else
-      ActionController::Base.helpers.link_to(t('label_user_plural'), users_path)
+      ActionController::Base.helpers.link_to(t('label_placeholder_user_plural'), placeholder_users_path)
     end
   end
 
