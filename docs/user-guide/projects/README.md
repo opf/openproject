@@ -205,7 +205,9 @@ To get an overview of all your projects, select the **View all projects** option
 
 You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
-With the horizontal **three dots** icons at the right in the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). With the **arrow** you can display the **project description**.
+With the horizontal **three dots** icons at the right of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features.
+
+With the **arrow** you can display the **project description**.
 
 ![image-20201005092427629](image-20201005092427629.png)
 
@@ -219,7 +221,7 @@ To change the order of the displayed [custom fields](../../system-admin-guide/cu
 
 
 
-To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to get to the report described in the chapter below quickly. 
+To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the chapter below. 
 The Gantt chart view can be configured in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
 ![image-20201007161248903](image-20201007161248903.png)
