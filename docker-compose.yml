@@ -84,6 +84,7 @@ services:
     command: "npm run serve"
     volumes:
       - ".:/home/dev/openproject"
+      - "../commonmark-ckeditor-build/build/:/home/dev/openproject/frontend/src/vendor/ckeditor/"
     ports:
       - "4200:4200"
     environment:
