@@ -29,6 +29,8 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [View all projects](#view-all-projects)                      | Get an overview of all your projects in the projects overview list. |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## Select a project
 
 Find out in our Getting started guide [how to open an existing project](../../getting-started/projects/) in OpenProject.
@@ -149,9 +151,7 @@ Navigate to the [project settings](project-settings) and click **Set as template
 You can create a new project by using an existing template. This causes the properties of the project template to be copied to the new project. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject. 
 Another way for using a template project would be to [copy it](#copy-a-project).
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/rhXYBrQQLBg?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Templates.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Copy a project
 

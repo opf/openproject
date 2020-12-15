@@ -31,6 +31,6 @@ Please note that this user guide does not represent an introduction into scrum m
 | [Burndown chart](work-with-backlogs#burndown-chart)          | How to create a burndown chart?                              |
 | [Print story cards](work-with-backlogs#print-story-cards)    | How to print story cards?                                    |
 | [Sprint wiki page](work-with-backlogs#sprint-wiki)           | How to create a sprint wiki page?                            |
-| [Selecting folded or collapsed backlogs view](taskboard#configure-backlogs-settings-under-my-account) | How to select the folded or collapsed backlogs view?         |
+| <video src="https://www.openproject.org/wp-content/uploads/2020/11/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video> | How to select the folded or collapsed backlogs view?         |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wwWtuDcqj18" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Agile-and-Scrum-Backlogs.mp4" type="video/mp4" controls="" style="width:100%"></video>

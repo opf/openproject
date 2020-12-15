@@ -11,15 +11,16 @@ keywords: members
 
 
 
-| Feature                                         | Documentation for                                            |
-| ----------------------------------------------- | ------------------------------------------------------------ |
-| [Add members](#add-members)                     | How to add existing members or invite new members to a project? |
-| [Edit members](#edit-members)                   | How to change the role of a member in a project?             |
-| [Remove members](#remove-members)               | How to remove members from a project?                        |
-| [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
-| [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
+| Feature                                                      | Documentation for                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Add members](#add-members)                                  | How to add existing members or invite new members to a project? |
+| [Edit members](#edit-members)                                | How to change the role of a member in a project?             |
+| [Remove members](#remove-members)                            | How to remove members from a project?                        |
+| [Roles and permissions](#roles-and-permissions)              | How to manage roles and permissions for members?             |
+| <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Track-Time-and-Costs.mp4" type="video/mp4" controls="" style="width:100%"></video> | How to add members to a groups and add groups to a project?  |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/aidzIYnmTvQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## Add members
 
 Find out how to [add existing members](../../getting-started/invite-members/#add-existing-members) to join a project or [invite new team members](../../getting-started/invite-members/#invite-new-members).

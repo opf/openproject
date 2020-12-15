@@ -41,11 +41,12 @@ The manual scheduling mode is **mostly used when creating a top-down project pla
 
 Changing to the **manual scheduling mode makes sense if**
 
-- you want to set a parent work package's date independently from the dates of its children, or
+- <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 - you don't want a parent work package's dates being updated automatically when changing the children's dates, or
 - you don't want a follower's start date be automatically updated when you change the predecessor's finish date
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Me4cMULZKRM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/09/OpenProject-Top-down-Scheduling.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 
 ## Changing mode

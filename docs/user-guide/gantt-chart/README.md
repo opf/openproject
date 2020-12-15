@@ -27,7 +27,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 |                                                              |                                                              |
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/JNRmqWwSfeU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Activate the Gantt chart
 

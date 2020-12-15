@@ -30,9 +30,7 @@ Watch a short 3-minute introduction video to get started with OpenProject in 5 e
 4. Create a project plan
 5. Filter, group and create reports
 
-```html
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/5-steps-to-get-started-with-OpenProject.mp4" type="video/mp4" controls="" style="width:100%"></video>
-```
 
 ## OpenProject product demo video
 

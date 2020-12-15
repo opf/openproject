@@ -24,7 +24,7 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 | [Choose your language](#choose-your-language)                | How to select your language in OpenProject?                  |
 | [Reset your password](#reset-your-password)                  | If you forgot your password find out how to reset it.        |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/JO-ugpygx68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Sign-in-and-Registration-2.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Sign in with an existing account
 
