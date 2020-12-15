@@ -55,6 +55,8 @@ es:
     button_duplicate: "Duplicar"
     button_edit: "Editar"
     button_filter: "Filtro"
+    button_collapse_all: "Colapsar todo"
+    button_expand_all: "Expandir todos"
     button_advanced_filter: "Filtro avanzado"
     button_list_view: "Vista de lista"
     button_show_view: "Vista de pantalla completa"
@@ -269,13 +271,13 @@ es:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
           learn_about: "Más información sobre las nuevas características"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Programación descendente</b> para definir todas las tareas del proyecto. Los elementos secundarios no afectan a las fechas de inicio y finalización del elemento principal.</li> <li>Los <b>paneles ágiles y versátiles</b> permiten crear una estructura de desglose del trabajo o distribuir las tareas entre subproyectos.</li> <li><b>Plantillas de proyecto</b> para crear fácilmente nuevos proyectos.</li> <li>La configuración de la página de proyectos permite <b>gestionar mejor la cartera de proyectos</b>.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Programación descendente</b> para definir todas las tareas del proyecto. Los elementos secundarios no afectan a las fechas de inicio y finalización del elemento principal.</li> <li>Los <b>paneles ágiles y versátiles</b> permiten crear una estructura de desglose del trabajo o distribuir las tareas entre subproyectos.</li> <li><b>Plantillas de proyecto</b> para crear fácilmente nuevos proyectos.</li> <li>La configuración de la página de proyectos permite <b>gestionar mejor la cartera de proyectos</b>.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"

@@ -1437,6 +1437,7 @@ sl:
   label_group_new: "Nova skupina"
   label_group: "Skupina"
   label_group_named: "Skupina %{name}"
+  label_group_plural: "Skupine"
   label_help: "Pomoč"
   label_here: Tukaj
   label_hide: "Skrij"

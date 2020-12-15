@@ -1407,6 +1407,7 @@ tr:
   label_group_new: "Yeni grup"
   label_group: "Grup"
   label_group_named: "%{name} Grubu"
+  label_group_plural: "Gruplar"
   label_help: "Yardım"
   label_here: buraya
   label_hide: "Gizle"

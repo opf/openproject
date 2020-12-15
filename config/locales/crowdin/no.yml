@@ -1407,6 +1407,7 @@
   label_group_new: "Ny gruppe"
   label_group: "Gruppe"
   label_group_named: "Gruppe %{name}"
+  label_group_plural: "Grupper"
   label_help: "Hjelp"
   label_here: her
   label_hide: "Skjul"

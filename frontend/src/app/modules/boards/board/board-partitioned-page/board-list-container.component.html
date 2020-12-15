@@ -8,19 +8,19 @@
        cdkDropListOrientation="horizontal"
        (cdkDropListDropped)="moveList(board, $event)"
   >
-    <div *ngFor="let boardWidget of boardWidgets; trackBy:trackByQueryId"
+    <div *ngFor="let queryWidget of board.queries; trackBy:trackByQueryId"
          class="boards-list--item"
          wp-isolated-query-space
          cdkDrag
          vsDragScroll
-         [cdkDragData]="boardWidget"
+         [cdkDragData]="queryWidget"
          [vsDragScrollContainer]="_container">
       <span *ngIf="board.editable"
             class="boards-list-item-handle icon icon-drag-handle"
             cdkDragHandle></span>
-      <board-list [resource]="boardWidget"
+      <board-list [resource]="queryWidget"
                   [board]="board"
-                  (onRemove)="removeList(board, boardWidget)">
+                  (onRemove)="removeList(board, queryWidget)">
       </board-list>
     </div>
 

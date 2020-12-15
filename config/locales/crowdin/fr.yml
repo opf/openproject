@@ -1406,6 +1406,7 @@ fr:
   label_group_new: "Nouveau groupe"
   label_group: "Groupe"
   label_group_named: "Groupe %{name}"
+  label_group_plural: "Groupes"
   label_help: "Aide"
   label_here: ici
   label_hide: "Masquer"

@@ -55,6 +55,8 @@ de:
     button_duplicate: "Duplizieren"
     button_edit: "Bearbeiten"
     button_filter: "Filter"
+    button_collapse_all: "Alle zuklappen"
+    button_expand_all: "Alle ausklappen"
     button_advanced_filter: "Erweiterte Filter"
     button_list_view: "Listenansicht"
     button_show_view: "Vollbildansicht"
@@ -268,13 +270,13 @@ de:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Die Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Die Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"

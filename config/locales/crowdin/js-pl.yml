@@ -55,6 +55,8 @@ pl:
     button_duplicate: "Duplikat"
     button_edit: "Edycja"
     button_filter: "Filtr"
+    button_collapse_all: "Zwiń wszystko"
+    button_expand_all: "Rozwiń wszystkie"
     button_advanced_filter: "Zaawansowane filtrowanie"
     button_list_view: "Widok listy"
     button_show_view: "Tryb pełnoekranowy"
@@ -269,13 +271,13 @@ pl:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Planowanie hierarchiczne</b> w celu zdefiniowania wszystkich zadań związanych z projektem. Daty rozpoczęcia i zakończenia elementu nadrzędnego nie mają wpływu na jego elementy podrzędne.</li> <li><b>Wszechstronne tablice zwinne</b> pozwalają na utworzenie struktury podziału pracy lub rozdzielanie zadań między podprojekty.</li> <li><b>Szablony projektów</b> ułatwiające tworzenie nowych projektów.</li> <li>Konfiguracja strony projektów umożliwiająca lepsze <b>zarządzanie portfelem projektów</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Planowanie hierarchiczne</b> w celu zdefiniowania wszystkich zadań związanych z projektem. Daty rozpoczęcia i zakończenia elementu nadrzędnego nie mają wpływu na jego elementy podrzędne.</li> <li><b>Wszechstronne tablice zwinne</b> pozwalają na utworzenie struktury podziału pracy lub rozdzielanie zadań między podprojekty.</li> <li><b>Szablony projektów</b> ułatwiające tworzenie nowych projektów.</li> <li>Konfiguracja strony projektów umożliwiająca lepsze <b>zarządzanie portfelem projektów</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"

@@ -55,6 +55,8 @@ ko:
     button_duplicate: "복제"
     button_edit: "편집"
     button_filter: "필터"
+    button_collapse_all: "모두 축소"
+    button_expand_all: "모두 확장"
     button_advanced_filter: "고급 필터"
     button_list_view: "목록 보기"
     button_show_view: "전체화면 보기"
@@ -269,13 +271,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              이 릴리스에는 다음과 같은 여러 가지 새로운 기능과 개선된 기능이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>하향식 스케줄링</b>으로 모든 관련 프로젝트 작업을 정의할 수 있습니다. 부모의 시작 날짜와 완료 날짜는 자식에 의해 영향을 받지 않습니다.</li> <li><b>다기능 애자일 보드</b>를 사용하여 작업 분류 구조를 만들거나 하위 프로젝트 간에 작업을 배포 할 수 있습니다.</li> <li><b>프로젝트 템플릿</b>으로 새 프로젝트를 손쉽게 만들 수 있습니다.</li> <li>프로젝트 페이지 구성을 통해 더욱 효과적으로 <b>프로젝트 포트폴리오 관리를 할 수 있습니다.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              이 릴리스에는 다음과 같은 여러 가지 새로운 기능과 개선된 기능이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>하향식 스케줄링</b>으로 모든 관련 프로젝트 작업을 정의할 수 있습니다. 부모의 시작 날짜와 완료 날짜는 자식에 의해 영향을 받지 않습니다.</li> <li><b>다기능 애자일 보드</b>를 사용하여 작업 분류 구조를 만들거나 하위 프로젝트 간에 작업을 배포 할 수 있습니다.</li> <li><b>프로젝트 템플릿</b>으로 새 프로젝트를 손쉽게 만들 수 있습니다.</li> <li>프로젝트 페이지 구성을 통해 더욱 효과적으로 <b>프로젝트 포트폴리오 관리를 할 수 있습니다.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
