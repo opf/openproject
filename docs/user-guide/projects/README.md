@@ -221,7 +221,7 @@ To change the order of the displayed [custom fields](../../system-admin-guide/cu
 
 
 
-To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the chapter below. 
+To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the [chapter below](#project-overarching-reports). 
 The Gantt chart view can be configured in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
 ![open-global-gantt-chart](image-20201007161248903.png)
