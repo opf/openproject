@@ -271,13 +271,13 @@ fr:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li><b>Planification de haut en bas</b> pour définir toutes les tâches du projet impliquées. Les dates de début et de fin du parent ne sont pas affectées par ses enfants.</li> <li><b>Les planches agiles polyvalentes</b> vous permettent de créer une structure de répartition du travail ou de répartir les tâches entre les sous-projets.</li> <li><b>Modèle de projet</b> pour faciliter la création de nouveaux projets.</li> <li>Configuration de la page des projets permettant de mieux <b>gérer le portefeuille.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li><b>Planification de haut en bas</b> pour définir toutes les tâches du projet impliquées. Les dates de début et de fin du parent ne sont pas affectées par ses enfants.</li> <li><b>Les planches agiles polyvalentes</b> vous permettent de créer une structure de répartition du travail ou de répartir les tâches entre les sous-projets.</li> <li><b>Modèle de projet</b> pour faciliter la création de nouveaux projets.</li> <li>Configuration de la page des projets permettant de mieux <b>gérer le portefeuille.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
