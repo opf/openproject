@@ -68,11 +68,11 @@ describe 'Wysiwyg code block macro',
 
           # Expect first macro saved to editor
           expect(container).to have_selector('.op-uc-code-block', text: snippet)
-          expect(container).to have_selector('.op-uc-code-block__language', text: 'ruby')
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
 
           editor.set_markdown "#{expected}\n#{expected}"
           expect(container).to have_selector('.op-uc-code-block', text: snippet, count: 2)
-          expect(container).to have_selector('.op-uc-code-block__language', text: 'ruby', count: 2)
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby', count: 2)
         end
 
         click_on 'Save'
@@ -88,7 +88,7 @@ describe 'Wysiwyg code block macro',
 
         editor.in_editor do |container,|
           expect(container).to have_selector('.op-uc-code-block', text: snippet, count: 2)
-          expect(container).to have_selector('.op-uc-code-block__language', text: 'ruby', count: 2)
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby', count: 2)
         end
       end
 
@@ -146,7 +146,7 @@ describe 'Wysiwyg code block macro',
 
           # Expect macro saved to editor
           expect(container).to have_selector('.op-uc-code-block', text: snippet)
-          expect(container).to have_selector('.op-uc-code-block__language', text: 'ruby')
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
         end
 
         # Save wiki page
@@ -168,13 +168,13 @@ describe 'Wysiwyg code block macro',
 
         editor.in_editor do |container,|
           expect(container).to have_selector('.op-uc-code-block', text: snippet)
-          expect(container).to have_selector('.op-uc-code-block__language', text: 'ruby')
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
 
           widget = container.find('.op-uc-code-block')
           page.driver.browser.action.double_click(widget.native).perform
           expect(page).to have_selector('.op-modal--macro-modal')
 
-          expect(page).to have_selector('.op-uc-code-block__language', text: 'ruby')
+          expect(page).to have_selector('.op-uc-code-block--language', text: 'ruby')
           expect(page).to have_selector('.cm-keyword', text: 'def')
           expect(page).to have_selector('.cm-def', text: 'foobar')
         end
