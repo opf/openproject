@@ -32,7 +32,7 @@ require 'ostruct'
 describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
-  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new('')) }
+  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, @controller) }
   let(:builder) { described_class.new(:user, resource, helper, {}) }
 
   describe '#custom_field' do
@@ -187,7 +187,7 @@ describe CustomFieldFormBuilder do
                   id="user#{custom_field.id}"
                   name="user[#{custom_field.id}]"
                   no_label="true"><option
-                  value=\"\"></option>
+                  value=\"\" label=\" \"></option>
                   <option value=\"#{custom_option.id}\">my_option</option></select>
         }).at_path('select')
       end
@@ -250,7 +250,7 @@ describe CustomFieldFormBuilder do
                   id="user#{resource.custom_field_id}"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true">
-            <option value=\"\"></option>
+            <option value=\"\" label=\" \"></option>
             <option value="#{user1.id}">#{user1.name}</option>
             <option value="#{user2.id}">#{user2.name}</option>
           </select>
@@ -300,7 +300,7 @@ describe CustomFieldFormBuilder do
                   id="user#{resource.custom_field_id}"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true">
-            <option value=\"\"></option>
+            <option value=\"\" label=\" \"></option>
             <option value="#{version1.id}">#{version1.name}</option>
             <option value="#{version2.id}">#{version2.name}</option>
           </select>
