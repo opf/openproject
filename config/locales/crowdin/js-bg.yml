@@ -271,13 +271,13 @@ bg:
           text_new_features: "Read about new features and product updates."
           learn_about: "Learn more about the new features"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              Изданието съдържа различни нови функции и подобрения: <br> <ul class = "%{list_styling_class}"> <li> <b> Планиране отгоре надолу </b> за дефиниране на всички участващи задачи на проекта. Датите на начало и край на родителя не се влияят от неговите деца. </li> <li> <b> Универсалните agile-дъски </b> ви позволяват да създадете структура на разбивка на работата или да разпределите задачи между подпроектите. </li> <li> <b> Шаблони за проекти </b> за лесно създаване на нови проекти. </li> <li> Конфигуриране на страницата с проекти, позволяваща по-добро управление на портфолиото на проекти. </b> </li> </ ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Изданието съдържа различни нови функции и подобрения: <br> <ul class = "%{list_styling_class}"> <li> <b> Планиране отгоре надолу </b> за дефиниране на всички участващи задачи на проекта. Датите на начало и край на родителя не се влияят от неговите деца. </li> <li> <b> Универсалните agile-дъски </b> ви позволяват да създадете структура на разбивка на работата или да разпределите задачи между подпроектите. </li> <li> <b> Шаблони за проекти </b> за лесно създаване на нови проекти. </li> <li> Конфигуриране на страницата с проекти, позволяваща по-добро управление на портфолиото на проекти. </b> </li> </ ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Activate"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
