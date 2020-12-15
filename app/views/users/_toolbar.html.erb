@@ -46,7 +46,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <span class="button--text"><%= t(:label_profile) %></span>
       <% end %>
     </li>
-    <% unless current_user.id == @user.id %>
+    <% if current_user.id != @user.id && @user.is_a?(User) %>
       <%= form_for @user, html: { class: 'toolbar-item hidden-for-mobile' }, :url => {:action => :change_status},
                 :method => :post do %>
         <li>

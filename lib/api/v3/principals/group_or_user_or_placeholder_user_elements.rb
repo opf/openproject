@@ -31,7 +31,7 @@
 module API
   module V3
     module Principals
-      module GroupOrUserElements
+      module GroupOrUserOrPlaceholderUserElements
         extend ::ActiveSupport::Concern
 
         included do
@@ -41,6 +41,8 @@ module API
                          representer_class = case model
                                              when User
                                                ::API::V3::Users::UserRepresenter
+                                             when PlaceholderUser
+                                               ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
                                              when Group
                                                ::API::V3::Groups::GroupRepresenter
                                              else

@@ -1,0 +1,148 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% roles = Role.givable %>
+<% projects = Project.active.order(Arel.sql('lft')) %>
+
+<div class="grid-block">
+  <div class="grid-content">
+  <% if @placeholder_user.memberships.any? %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table memberships">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <%= call_hook(:view_placeholder_users_memberships_table_colgroup, placeholder_user: @placeholder_user )%>
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Project.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= t(:label_role_plural) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <%= call_hook(:view_users_memberships_table_header, placeholder_user: @placeholder_user )%>
+              <th><div class="generic-table--empty-header"></div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @placeholder_user.memberships.where.not(project: nil).each do |membership| %>
+              <% next if membership.new_record? %>
+                <tr id="member-<%= membership.id %>" class="member">
+                  <td class="project">
+                    <%= link_to_project membership.project %>
+                  </td>
+                  <td class="roles">
+                    <span id="member-<%= membership.id %>-roles"
+                          class="member-<%= membership.id %>--edit-toggle-item">
+                      <%=h membership.roles.sort.collect(&:to_s).join(', ') %>
+                    </span>
+                    <%= labelled_tabular_form_for(:membership,
+                                                  url: placeholder_user_membership_path(placeholder_user_id: @placeholder_user, id: membership),
+                                                  html: { id: "member-#{membership.id}-roles-form",
+                                                          class: "member-#{membership.id}--edit-toggle-item",
+                                                          style: 'display:none;'},
+                                                  method: :patch) do |f| %>
+                      <div>
+                        <% roles.each do |role| %>
+                            <label class="form--label-with-check-box">
+                            <%= f.collection_check_box :role_ids,
+                                                       role.id,
+                                                       membership.roles.include?(role),
+                                                       role.name,
+                                                       disabled: membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?},
+                                                       no_label: true,
+                                                       id: nil
+                            %>
+                            <%= role %>
+                            </label>
+                        <% end %>
+                      </div>
+                      <p><%= submit_tag t(:button_change), class: 'user-memberships--edit-submit-button button -highlight -small' %>
+                        <%= link_to_function t(:button_cancel),
+                                             "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
+                  class: 'button -small' %></p>
+                    <% end %>
+                  </td>
+                  <%= call_hook(:view_placheholder_users_memberships_table_row, placeholder_user: @placeholder_user, membership: membership, roles: roles, projects: projects )%>
+                  <td class="buttons">
+                    <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
+                                         "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
+                                         class: "member-#{membership.id}--edit-toggle-item user-memberships--edit-button",
+                                         title: t(:button_edit) %>
+                    <%= link_to(icon_wrapper('icon icon-remove', t(:button_remove)),
+                                placeholder_user_membership_path(placeholder_user_id: @placeholder_user, id: membership),
+                                method: :delete,
+                                title: t(:button_remove)) if membership.deletable? %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    <% else %>
+      <%= no_results_box %>
+    <% end %>
+  </div>
+  <div class="grid-content">
+    <% if projects.any? %>
+      <%= labelled_tabular_form_for(:membership,
+                                    url: placeholder_user_memberships_path(placeholder_user_id: @placeholder_user),
+                                    html: {id: "new_project_membership"}) do %>
+        <fieldset class="form--fieldset">
+          <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
+          <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@placeholder_user, projects) %>
+          <div class="form--field -vertical">
+            <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
+            <div class="form--field-container -vertical">
+              <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
+            </div>
+          </div>
+          <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+        </fieldset>
+      <% end %>
+    <% end %>
+  </div>
+</div>

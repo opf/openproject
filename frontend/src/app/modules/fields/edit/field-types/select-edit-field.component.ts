@@ -258,7 +258,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   protected mapAllowedValue(value:HalResource):ValueOption {
-    return { name: value.name, $href: value.$href };
+    let option = { name: value.name, $href: value.$href };
+    if (value._type === "PlaceholderUser") {
+      option.name = `${value.name} - Placeholder`;
+    } else if (value._type === "Group") {
+      option.name = `${value.name} - Group`;
+    }
+    return option;
   }
 
   // Subclasses shall be able to override the filters with which the

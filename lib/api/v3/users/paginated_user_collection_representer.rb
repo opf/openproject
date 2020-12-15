@@ -38,7 +38,7 @@ module API
   module V3
     module Users
       class PaginatedUserCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        include API::V3::Principals::GroupOrUserElements
+        include API::V3::Principals::GroupOrUserOrPlaceholderUserElements
       end
     end
   end

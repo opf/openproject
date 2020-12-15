@@ -378,6 +378,10 @@ module API
             "#{root}/groups/#{id}"
           end
 
+          def self.placeholder_user(id)
+            "#{root}/placeholder_users/#{id}"
+          end
+
           resources :version
 
           def self.versions_available_projects

@@ -26,18 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% groups = @user.groups.pluck(:id, :lastname) %>
+<% groups = @placeholder_user.groups.pluck(:id, :lastname) %>
 
-<%= labelled_tabular_form_for(:user, url: { action: 'update' }, html: { method: :put }) do %>
+<%= labelled_tabular_form_for(:placeholder_user, url: { action: 'update' }, html: { method: :put }) do %>
   <section class="form--section">
     <% if groups.empty? %>
       <%= no_results_box action_url: groups_path,
                          display_action: true,
-                         custom_title: t('users.groups.no_results_title_text'),
+                         custom_title: t('placeholder_users.groups.no_results_title_text'),
                          custom_action_text: t(:label_manage_groups)
       %>
     <% else %>
-      <p><%= t('users.groups.member_in_these_groups') %></p>
+      <p><%= t('placeholder_users.groups.member_in_these_groups') %></p>
     <% end %>
 
     <% groups.each do |id, name| %>

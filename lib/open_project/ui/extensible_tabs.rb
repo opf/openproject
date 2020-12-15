@@ -94,22 +94,16 @@ module OpenProject
               },
               {
                   name: 'memberships',
-                  partial: 'users/memberships',
+                  partial: 'placeholder_users/memberships',
                   path: ->(params) { tab_edit_placeholder_user_path(params[:placeholder_user], tab: :memberships) },
                   label: :label_project_plural
               },
               {
                   name: 'groups',
-                  partial: 'users/groups',
+                  partial: 'placeholder_users/groups',
                   path: ->(params) { tab_edit_placeholder_user_path(params[:placeholder_user], tab: :groups) },
                   label: :label_group_plural,
                   if: ->(*) { Group.all.any? }
-              },
-              {
-                  name: 'global_roles',
-                  partial: 'users/global_roles',
-                  path: ->(params) { tab_edit_user_path(params[:placeholder_user], tab: :global_roles) },
-                  label: :label_global_roles
               }
           ]
         end

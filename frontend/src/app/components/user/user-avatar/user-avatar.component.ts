@@ -49,7 +49,7 @@ export class UserAvatarComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     const element = this.elementRef.nativeElement;
-    let user = this.user || { name: element.dataset.userName!, id: element.dataset.userId };
+    let user = this.user || { name: element.dataset.userName!, id: element.dataset.userId, href: null };
     this.avatarRenderer.render(element, user, false, element.dataset.classList);
   }
 }

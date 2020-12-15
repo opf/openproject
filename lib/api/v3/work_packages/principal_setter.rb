@@ -34,7 +34,7 @@ module API
       class PrincipalSetter
         def self.lambda(name, property_name = name)
           ->(args) {
-            expected_namespaces = Setting.work_package_group_assignment? ? %i(groups users) : %i(users)
+            expected_namespaces = Setting.work_package_group_assignment? ? %i(groups users placeholder_users) : %i(users)
 
             lambda = ::API::V3::Principals::AssociatedSubclassLambda
                      .setter(name,

@@ -43,6 +43,8 @@ module API
                         :user
                       when Group
                         :group
+                      when PlaceholderUser
+                        :placeholder_user
                       when NilClass
                         # Fall back to user for unknown principal
                         # since we do not have a principal route.
@@ -62,7 +64,6 @@ module API
         def self.getter(name)
           ->(*) {
             next unless embed_links
-
             instance = represented.send(name)
 
             case instance
@@ -70,6 +71,8 @@ module API
               ::API::V3::Users::UserRepresenter.new(represented.send(name), current_user: current_user)
             when Group
               ::API::V3::Groups::GroupRepresenter.new(represented.send(name), current_user: current_user)
+            when PlaceholderUser
+              ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter.new(represented.send(name), current_user: current_user)
             when NilClass
               nil
             else
@@ -78,7 +81,7 @@ module API
           }
         end
 
-        def self.setter(name, property_name: name, namespaces: %i(groups users))
+        def self.setter(name, property_name: name, namespaces: %i(groups users placeholder_users))
           ->(fragment:, **) {
             link = ::API::Decorators::LinkObject.new(represented,
                                                      property_name: property_name,

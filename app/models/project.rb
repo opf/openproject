@@ -101,6 +101,7 @@ class Project < ApplicationRecord
              includes(:principal)
                .references(:principals)
                .where("#{Principal.table_name}.type='Group' OR " +
+               "(#{Principal.table_name}.type='PlaceholderUser' OR " +
                "(#{Principal.table_name}.type='User' AND " +
                "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
                "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
@@ -522,9 +523,9 @@ class Project < ApplicationRecord
 
   def self.possible_principles_condition
     condition = if Setting.work_package_group_assignment?
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group']
+                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?  OR #{Principal.table_name}.type=?)", 'User', 'Group', 'PlaceholderUser']
                 else
-                  ["(#{Principal.table_name}.type=?)", 'User']
+                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'PlaceholderUser']
                 end
 
     condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"

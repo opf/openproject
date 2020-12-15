@@ -6,6 +6,7 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 export interface UserLike {
   name:string;
   id:string|number|null;
+  href:string|null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -49,14 +50,25 @@ export class UserAvatarRendererService {
          user:UserLike,
          renderName:boolean = true,
          classes:string = 'avatar-medium'):void {
-    const userInitials = this.getInitials(user.name);
     const colorCode = this.colors.toHsl(user.name);
 
     let fallback = document.createElement('div');
     fallback.className = classes;
+    fallback.textContent = this.getInitials(user.name)
     fallback.classList.add('avatar-default');
-    fallback.textContent = userInitials;
-    fallback.style.background = colorCode;
+    // Todo: move this matcher to HAL ressource
+    if (user.href && user.href.includes('/placeholder_users/')) {
+      fallback.classList.add("-placeholder-user");
+      fallback.style.color = colorCode;
+      fallback.style.borderColor = colorCode;
+      fallback.style.background = 'transparent';
+    } else if (user.href && user.href.includes('/groups/')) {
+      fallback.classList.add("-group");
+      fallback.style.background = colorCode;
+    } else {
+      fallback.classList.add("-user");
+      fallback.style.background = colorCode;
+    }
 
     container.appendChild(fallback);
 

@@ -28,7 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PlaceholderUser < User
+class PlaceholderUser < Principal
   validates_presence_of(:lastname)
   validates_uniqueness_of(:lastname)
+
+  acts_as_customizable
+
+  has_and_belongs_to_many :groups,
+                          join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
+                          foreign_key: 'user_id',
+                          after_add:    ->(user, group) { group.user_added(user) },
+                          after_remove: ->(user, group) { group.user_removed(user) }
+
+  def to_s
+    lastname
+  end
 end

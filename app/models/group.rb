@@ -33,6 +33,10 @@ class Group < Principal
                           before_add: :fail_add,
                           after_remove: :user_removed
 
+  has_and_belongs_to_many :placeholder_users,
+                          join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
+                          before_add: :fail_add,
+                          after_remove: :user_removed
   acts_as_customizable
 
   before_destroy :remove_references_before_destroy

@@ -268,6 +268,13 @@ en:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
 
+  placeholder_users:
+    groups:
+      member_in_these_groups: 'This placeholder user is currently a member of the following groups:'
+      no_results_title_text: This placeholder user is currently not a member in any group.
+    memberships:
+      no_results_title_text: This placeholder user is currently not a member of a project.
+
   users:
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
