@@ -273,11 +273,11 @@ zh-CN:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>改进了 WYSIWYG 编辑器的样式</b>。</li> <li>编辑时可直接显示 <b>@notifications 用户名</b>。</li> <li>通过添加一个 <b>OpenID Connect 提供商</b>扩展了 身份验证配置文件。</li> <li>在甘特图中以单行显示项目<b>完整的里程碑</b>。</li> <li><b>收起工作包列表中各组的所有按钮</b>。</li> <li>通过浏览器打印功能<b>优化了打印</b>，例如 wiki 页面的打印。</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>改进了 WYSIWYG 编辑器的样式</b>。</li> <li>编辑时可直接显示 <b>@notifications 用户名</b>。</li> <li>通过添加一个 <b>OpenID Connect 提供商</b>扩展了 身份验证配置文件。</li> <li>在甘特图中以单行显示项目<b>完整的里程碑</b>。</li> <li><b>收起工作包列表中各组的所有按钮</b>。</li> <li>通过浏览器打印功能<b>优化了打印</b>，例如 wiki 页面的打印。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"

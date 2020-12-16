@@ -273,11 +273,11 @@ ko:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>WYSIWYG 편집기의 <b>개선된 스타일링</b> .</li> <li>편집 시 <b>@notifications에 대한 사용자 이름</b> 직접 표시.</li> <li><b>OpenID Connect 공급자</b>의 확장된 인증 프로필.</li> <li>Gantt 차트에서 단일 행으로 <b>집계된 프로젝트 마일스톤</b> 표시.</li> <li>작업 패키지 목록에서 <b>그룹에 대한 모든 버튼 축소</b>.</li> <li>wiki 페이지 등 브라우저 인쇄 기능을 통해 <b>인쇄 최적화</b>.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>WYSIWYG 편집기의 <b>개선된 스타일링</b> .</li> <li>편집 시 <b>@notifications에 대한 사용자 이름</b> 직접 표시.</li> <li><b>OpenID Connect 공급자</b>의 확장된 인증 프로필.</li> <li>Gantt 차트에서 단일 행으로 <b>집계된 프로젝트 마일스톤</b> 표시.</li> <li>작업 패키지 목록에서 <b>그룹에 대한 모든 버튼 축소</b>.</li> <li>wiki 페이지 등 브라우저 인쇄 기능을 통해 <b>인쇄 최적화</b>.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
