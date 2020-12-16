@@ -32,7 +32,7 @@ require 'ostruct'
 describe TabularFormBuilder do
   include Capybara::RSpecMatchers
 
-  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new('')) }
+  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, nil) }
   let(:resource) do
     FactoryBot.build(:user,
                      firstname:  'JJ',
