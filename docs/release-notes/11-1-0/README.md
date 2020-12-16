@@ -6,13 +6,45 @@ release_version: 11.1.0
 release_date: 2020-12-17
 ---
 
+
 # OpenProject 11.1.0
 
 We released [OpenProject 11.1.0](https://community.openproject.com/versions/1424).
-The release contains several bug fixes and we recommend updating to the newest version.
+This new release will bring many new features and bug fixes that will improve classical as well as agile project management. 
 
-<!--more-->
-#### Bug fixes and changes
+## Improved styling of the WYSIWYG text editor
+
+The styling of texts, headlines, tables, the layout of the table of  contents, and much more have been improved in the WYSIWYG text editor.  This applies not only to wiki pages but also for other text fields, e.g. the description of work packages. To achieve these improvements, we  have, among other things, updated the [CK Editor 5](https://ckeditor.com/ckeditor-5/) to version 23.0.0.
+
+![WYSIWYG-text-editor](WYSIWYG-text-editor.png)
+
+## Direct display of user name for @notifications
+
+While editing a work package comment and @-notify someone, the user  name will now directly be displayed even in the edit mode. This way,  it’s much more convenient to notify the correct team member.
+
+![@notifications](@notifications.png)
+
+## Display project milestones aggregated for projects in a single row in Gantt chart
+
+With OpenProject 11.1 users are now able to **aggregate milestones for projects in the Gantt chart in one single row**. When grouped by projects, the rows can be collapsed with the collapse  all button and the project milestones are still visible in one row. This way, you easily get a high level overview of all important due dates in a project.
+
+![Aggregated-milestones](Aggregated-milestones.png)
+
+## Collapse all button for groups in the work packages list
+
+In the work package list it is possible to group by any attribute,  e.g. assignee, status, priority or type. Now, once grouped by an  attribute, you will have a **collapse all button on top of the work packages list** to close and open all attributes within a group at once.
+
+![Collapse-all-button](Collapse-all-button.png)
+
+## Various improvements and bug fixes
+
+Furthermore, we have extended the authentication profile with an **OpenID Connect provider.** Also, the printing, e.g. for wiki pages, has been optimized via the browser print function.
+
+## As always,…… there’s much more!
+
+There are a lot more things we packed into 11.1 to tell you about.
+
+### Bug fixes and changes in 11.1
 
 - Changed: @ mention should show user name in the editor \[[#32645](https://community.openproject.com/wp/32645)\]
 - Changed: Update CK Editor 5 to version 23.0.0 \[[#34595](https://community.openproject.com/wp/34595)\]
@@ -41,9 +73,39 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Typo in DPA text in OpenProject \[[#35654](https://community.openproject.com/wp/35654)\]
 - Fixed: Cannot set nummerated headings without duplicating nummeration in table of contents \[[#35656](https://community.openproject.com/wp/35656)\]
 
-#### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+## Installation and Updates
 
-Special thanks for reporting and finding bugs go to
+To use OpenProject 11.1 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
 
-Gio @ Enuan, Klaas van Thoor, Paul Kernstock, Rainer Proehl
+Prefer to run OpenProject 11.1 in your own infrastructure?
+Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
+
+Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition-upgrade-test-free/)
+
+Navigate to the -> *Administration*-> *Enterprise Edition* and request your trial token.
+
+## Migrating to OpenProject 11.0
+
+Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0. Please note the blue box on top of the page.
+
+We update the hosted OpenProject environments (Enterprise Cloud) automatically.
+
+## Credits and contributions
+
+Special thanks go to all OpenProject contributors without whom this release would not have been possible:
+
+- All the developers, designers, project managers who have contributed to OpenProject 11.1.
+
+- The City of Cologne for sponsoring some of the open source features and thus contributing them to the Community.
+
+- Every dedicated user who has created feature request, [reported bugs](../../development/report-a-bug/) for 11.1 and also supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+
+- All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
+
+- Special thanks for reporting and finding bugs go to:
+
+  Gio @ Enuan, Klaas van Thoor, Paul Kernstock, Rainer Proehl
+
+## What’s next?
+
+We are continuously developing new features and improvements for  OpenProject. If you’d like to preview what’s coming in the next release, be sure to check out our [development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=918).
