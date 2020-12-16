@@ -9,9 +9,7 @@ keywords: members
 
 # Manage members
 
-
-
-| Feature                                                      | Documentation for                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Add members](#add-members)                                  | How to add existing members or invite new members to a project? |
 | [Edit members](#edit-members)                                | How to change the role of a member in a project?             |
