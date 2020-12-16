@@ -36,7 +36,6 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     described_class.create!(name: cf_accessor, operator: '=', context: query)
   end
   let(:instance_key) { nil }
-  let(:name) { field.name }
 
   shared_let(:list_wp_custom_field) { FactoryBot.create(:list_wp_custom_field) }
   let(:bool_wp_custom_field) { FactoryBot.build_stubbed(:bool_wp_custom_field) }
