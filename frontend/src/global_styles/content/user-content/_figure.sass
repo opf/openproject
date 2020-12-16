@@ -7,6 +7,7 @@
   width: 100%
   max-width: 100%
   position: relative
+  break-inside: avoid
 
   @include styled-scroll-bar
 
@@ -32,14 +33,14 @@
     flex-shrink: 1
     width: 100%
     display: flex
-    justify-content:  center
+    justify-content:  flex-start
+    overflow: auto
+    max-height: 100%
+
   &--description
     flex-basis: auto
     flex-grow: 1
     flex-shrink: 0
     padding: 0.75rem
-    width: 100%
+    max-width: 100%
     text-align: center
-
-  &.table
-    display: flex !important
