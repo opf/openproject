@@ -98,7 +98,7 @@ describe Costs::QueryCurrencyColumn, type: :model do
           .to receive(:group_by_statement)
           .and_return('author_id')
 
-        expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).column_types.keys)
+        expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).columns)
           .to match_array %w(id material_costs)
       end
     end
@@ -137,7 +137,7 @@ describe Costs::QueryCurrencyColumn, type: :model do
           .to receive(:group_by_statement)
           .and_return('author_id')
 
-        expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).column_types.keys)
+        expect(ActiveRecord::Base.connection.select_all(instance.summable.(query, true).to_sql).columns)
           .to match_array %w(id labor_costs)
       end
     end
