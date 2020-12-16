@@ -405,7 +405,7 @@ en:
     label_next: "Next"
     label_no_color: "No color"
     label_no_data: "No data to display"
-    label_no_due_date: "no end date"
+    label_no_due_date: "no finish date"
     label_no_start_date: "no start date"
     label_no_value: "No value"
     label_none: "none"
