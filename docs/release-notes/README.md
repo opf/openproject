@@ -4,13 +4,19 @@
 
 # Release Notes
 
-We never stop improving OpenProject. Every year there are several major stable releases offering new OpenProject features.
+We never stop improving OpenProject. Every year there are several stable releases offering new OpenProject features.
 
 Stay up to date and get an overview of the new features included in the releases.
 
 
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
+
+## 11.1.0
+
+Release date: 2020-12-17
+
+[Read more](11-1-0/)
 
 ## 11.0.4
 
