@@ -55,8 +55,6 @@ RSpec.configure do |config|
   config.include LegacyAssertionsAndHelpers
   config.include ActiveSupport::Testing::Assertions
   config.include Shoulda::Context::Assertions
-  # included in order to use #fixture_file_upload
-  config.include ActionDispatch::TestProcess
 
   config.include RSpec::Rails::RequestExampleGroup,   file_path: %r(spec_legacy/integration)
   config.include Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
@@ -79,8 +77,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     reset_global_state!
-
-    initialize_attachments
 
     I18n.locale = 'en'
   end

@@ -100,25 +100,6 @@ describe WikiController, type: :controller do
     assert_equal 'Created the page', page.content.last_journal.notes
   end
 
-  it 'should create page with attachments' do
-    session[:user_id] = 2
-    assert_difference 'WikiPage.count' do
-      assert_difference 'Attachment.count' do
-        post :create, params: { project_id: 1,
-                               id: 'New page',
-                               content: { comments: 'Created the page',
-                                          text: "h1. New page\n\nThis is a new page",
-                                          lock_version: 0,
-                                          page: { title: 'Freshly created page',
-                                                  parent_id: '' } },
-                               attachments: { '1' => { 'file' => uploaded_test_file('testfile.txt', 'text/plain') } } }
-      end
-    end
-    page = wiki.find_page('Freshly created page')
-    assert_equal 1, page.attachments.count
-    assert_equal 'testfile.txt', page.attachments.first.filename
-  end
-
   it 'should update page with failure' do
     session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
@@ -142,52 +123,6 @@ describe WikiController, type: :controller do
     assert_error_tag descendant: { content: /Comment is too long/ }
     assert_select 'textarea', attributes: { id: 'content_text' }, content: /edited/
     assert_select 'input', attributes: { id: 'content_lock_version', value: '1' }
-  end
-
-  # NOTE: this test seems to depend on other tests in suite
-  # because running whole suite is fine, but running only this test
-  # results in failure
-  it 'should update stale page should not raise an error' do
-    FactoryBot.create :wiki_content_journal,
-                      journable_id: 2,
-                      version: 1,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
-                                              text: "h1. Another page\n\n\nthis is a link to ticket: #2")
-    session[:user_id] = 2
-    c = Wiki.find(1).find_page('Another page').content
-    c.text = 'Previous text'
-    c.save!
-    assert_equal 2, c.version
-
-    assert_no_difference 'WikiPage.count' do
-      assert_no_difference 'WikiContent.count' do
-        assert_no_difference 'Journal.count' do
-          put :update, params: { project_id: 1,
-                                 id: 'Another page',
-                                 content: {
-                                   comments: 'My comments',
-                                   text: 'Text should not be lost',
-                                   lock_version: 1,
-                                   page: { title: 'Another page',
-                                           parent_id: '' }
-                                 } }
-        end
-      end
-    end
-    assert_response :success
-    assert_template 'edit'
-    assert_select 'div',
-                  attributes: { class: /error/ },
-                  content: /Information has been updated by at least one other user in the meantime/
-    assert_select 'textarea',
-                  attributes: { name: 'content[text]' },
-                  content: /Text should not be lost/
-    assert_select 'input',
-                  attributes: { name: 'content[comments]', value: 'My comments' }
-
-    c.reload
-    assert_equal 'Previous text', c.text
-    assert_equal 2, c.version
   end
 
   it 'should history' do
