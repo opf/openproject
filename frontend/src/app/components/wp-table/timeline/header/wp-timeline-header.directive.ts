@@ -103,7 +103,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     });
 
     this.renderTimeSlices(vp, 'week', 13, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('ww');
+      cell.innerHTML = start.format('WW');
       cell.classList.add('-top-border');
       cell.style.height = '32px';
     });
@@ -127,7 +127,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     });
 
     this.renderTimeSlices(vp, 'week', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('ww');
+      cell.innerHTML = start.format('WW');
       cell.classList.add('-top-border');
       cell.style.height = '22px';
     });
@@ -151,7 +151,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     });
 
     this.renderTimeSlices(vp, 'week', 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('ww');
+      cell.innerHTML = start.format('WW');
       cell.classList.add('wp-timeline--header-middle-element');
     });
   }
