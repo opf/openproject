@@ -70,22 +70,22 @@ module OpenProject::TextFormatting
       ##
       # Appends the header link and returns
       # a toc item.
+      # The item is prefixed by a number. If there is already a number prefix provided in the text,
+      # that prefix is used if it matches the calculated number.
       def process_item(node, number)
         text = node.text
         return ''.html_safe unless text.present?
 
-        id = get_unique_id(node.text)
+        id = get_unique_id(text)
         add_header_link(node, id)
 
         content_tag(:li, class: 'op-uc-toc--list-item') do
-            number = content_tag(:span, number, class: 'op-uc-toc--list-item-number');
-            content = content_tag(:span, node.text, class: 'op-uc-toc--list-item-title');
-            content_tag(:a, number + content, href: "##{id}", class: 'op-uc-toc--item-link')
+          anchor_tag(text, number, id)
         end
       end
 
       def get_heading_number(parent_number, num_in_level)
-        parent_number == "" ? num_in_level.to_s : parent_number + "." + num_in_level.to_s
+        parent_number == "" ? num_in_level.to_s : "#{parent_number}.#{num_in_level}"
       end
 
       def render_nested(level = 0, parent_number = "")
@@ -99,7 +99,7 @@ module OpenProject::TextFormatting
           if level == node_level
             # We will render this node
             node = headings.shift
-            num_in_level =  num_in_level + 1
+            num_in_level = num_in_level + 1
             current_number = get_heading_number(parent_number, num_in_level)
             result << process_item(node, current_number)
           elsif level < node_level
@@ -126,12 +126,22 @@ module OpenProject::TextFormatting
           if headings.empty?
             I18n.t(:label_wiki_toc_empty)
           else
-            render_nested()
+            render_nested
           end
         end
 
       rescue StandardError => e
         Rails.logger.error { "Failed to render table of contents: #{e} #{e.message}" }
+      end
+
+      private
+
+      def anchor_tag(text, number, id)
+        parsed_text = text.match(Regexp.new("^(#{number}[.)]*)?(.+)$"))
+        number = parsed_text[1] || number
+        number_span = content_tag(:span, number, class: 'op-uc-toc--list-item-number')
+        content_span = content_tag(:span, parsed_text[2].strip, class: 'op-uc-toc--list-item-title')
+        content_tag(:a, number_span + content_span, href: "##{id}", class: 'op-uc-toc--item-link')
       end
     end
   end
