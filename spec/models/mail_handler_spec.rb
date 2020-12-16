@@ -231,10 +231,11 @@ describe MailHandler, type: :model do
           end
 
           it 'sends a mail as a work package has been created' do
-            subject
+            perform_enqueued_jobs do
+              subject
+            end
 
             # Email notification should be sent
-            perform_enqueued_jobs
             mail = ActionMailer::Base.deliveries.last
 
             expect(mail)
