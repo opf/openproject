@@ -48,14 +48,15 @@ describe WorkPackage, type: :model do
       allow(work_package).to receive(:watcher_recipients).and_return([user_2])
 
       Journal::NotificationConfiguration.with true do
-        work_package.save
+        perform_enqueued_jobs do
+          work_package.save
+        end
       end
     end
 
     subject { ActionMailer::Base.deliveries.size }
 
     it do
-      perform_enqueued_jobs
       expect(subject).to eq 2
     end
 
