@@ -37,7 +37,7 @@ describe WorkPackage, type: :model do
     let(:user) { admin }
     let(:current_user) { FactoryBot.create :admin }
     let(:project) { FactoryBot.create :project }
-    let!(:work_package) do
+    let(:work_package) do
       FactoryBot.create :work_package,
                         author: user,
                         subject: 'I can see you',
@@ -46,7 +46,10 @@ describe WorkPackage, type: :model do
 
     context 'after creation' do
       it "are sent to the work package's author" do
-        perform_enqueued_jobs
+        perform_enqueued_jobs do
+          work_package
+        end
+
         mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
 
         expect(mail).to be_present
@@ -65,6 +68,10 @@ describe WorkPackage, type: :model do
         end
 
         it "are not sent to the work package's author" do
+          perform_enqueued_jobs do
+            work_package
+          end
+
           mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
 
           expect(mail).not_to be_present
@@ -74,11 +81,12 @@ describe WorkPackage, type: :model do
 
     describe 'after update' do
       before do
-        work_package.update subject: 'the wind of change'
+        perform_enqueued_jobs do
+          work_package.update subject: 'the wind of change'
+        end
       end
 
       it "are sent to the work package's author" do
-        perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'the wind of change' }
 
         expect(mail).to be_present

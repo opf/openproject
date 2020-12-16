@@ -188,7 +188,9 @@ describe UsersController, type: :controller do
         expect(ActionMailer::Base.deliveries).to be_empty
 
         as_logged_in_user admin do
-          post :resend_invitation, params: { id: invited_user.id }
+          perform_enqueued_jobs do
+            post :resend_invitation, params: { id: invited_user.id }
+          end
         end
       end
 
@@ -197,7 +199,6 @@ describe UsersController, type: :controller do
       end
 
       it 'sends another activation email' do
-        perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.first.body.parts.first.body.to_s
         token = Token::Invitation.find_by user_id: invited_user.id
 

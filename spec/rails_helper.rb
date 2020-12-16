@@ -73,6 +73,9 @@ RSpec.configure do |config|
   config.include JsonSpec::Helpers
 
   # Add job helper
+  # Only the ActiveJob::TestHelper is actually used but it in turn requires
+  # e.g. assert_nothing_raised
+  config.include ::ActiveSupport::Testing::Assertions
   config.include ::ActiveJob::TestHelper
 
   OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'

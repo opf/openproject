@@ -71,8 +71,9 @@ describe WikiContent, type: :model do
       project_watcher
 
       expect {
-        content.save!
-        perform_enqueued_jobs
+        perform_enqueued_jobs do
+          content.save!
+        end
       }
         .to change { ActionMailer::Base.deliveries.size }
         .by(2)
@@ -86,14 +87,12 @@ describe WikiContent, type: :model do
       wiki_watcher
       project_watcher
 
-      content
-      perform_enqueued_jobs
-
       content.text = 'My new content'
 
       expect {
-        content.save!
-        perform_enqueued_jobs
+        perform_enqueued_jobs do
+          content.save!
+        end
       }
         .to change { ActionMailer::Base.deliveries.size }
         .by(3)

@@ -35,12 +35,11 @@ describe 'create users', type: :feature, selenium: true do
   let(:new_user_page) { Pages::NewUser.new }
 
   before do
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
   end
 
   shared_examples_for 'successful user creation' do
     let(:mail) do
-      perform_enqueued_jobs
       ActionMailer::Base.deliveries.last
     end
     let(:mail_body) { mail.body.parts.first.body.to_s }
@@ -68,7 +67,9 @@ describe 'create users', type: :feature, selenium: true do
                              last_name: 'boblast',
                              email: 'bob@mail.com'
 
-      new_user_page.submit!
+      perform_enqueued_jobs do
+        new_user_page.submit!
+      end
     end
 
     it_behaves_like 'successful user creation' do
@@ -109,7 +110,9 @@ describe 'create users', type: :feature, selenium: true do
                              auth_source: auth_source.name
 
 
-      new_user_page.submit!
+      perform_enqueued_jobs do
+        new_user_page.submit!
+      end
     end
 
     after do
