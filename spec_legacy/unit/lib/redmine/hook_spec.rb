@@ -176,6 +176,6 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
   end
 
   def view_hook_helper
-    @view_hook_helper ||= TestHookHelperView.new(ActionView::LookupContext.new(Rails.root.to_s + '/app/views'))
+    @view_hook_helper ||= TestHookHelperView.new(ActionView::LookupContext.new(Rails.root.to_s + '/app/views'), {}, nil)
   end
 end
