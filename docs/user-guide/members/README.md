@@ -9,13 +9,13 @@ keywords: members
 
 # Manage members
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Add members](#add-members)                                  | How to add existing members or invite new members to a project? |
-| [Edit members](#edit-members)                                | How to change the role of a member in a project?             |
-| [Remove members](#remove-members)                            | How to remove members from a project?                        |
-| [Roles and permissions](#roles-and-permissions)              | How to manage roles and permissions for members?             |
-| <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Track-Time-and-Costs.mp4" type="video/mp4" controls="" style="width:100%"></video> | How to add members to a groups and add groups to a project?  |
+| Topic                                           | Content                                                      |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| [Add members](#add-members)                     | How to add existing members or invite new members to a project? |
+| [Edit members](#edit-members)                   | How to change the role of a member in a project?             |
+| [Remove members](#remove-members)               | How to remove members from a project?                        |
+| [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
+| [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
 

@@ -17,7 +17,7 @@ OpenProject supports your work with the Scrum methodology by providing a variety
 
 Please note that this user guide does not represent an introduction into scrum methodology, but merely explains the scrum-related functionalities and user instructions in OpenProject.
 
-| Topic                                                      | Content                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Working with backlogs](work-with-backlogs)                  | How to work with backlogs for Scrum projects in OpenProject? |
 | [Create new sprint](manage-sprints)                          | How to set up the product backlog, bug backlog, and create a new sprint in the backlogs view? |
@@ -27,6 +27,6 @@ Please note that this user guide does not represent an introduction into scrum m
 | [Burndown chart](work-with-backlogs#burndown-chart)          | How to create a burndown chart?                              |
 | [Print story cards](work-with-backlogs#print-story-cards)    | How to print story cards?                                    |
 | [Sprint wiki page](work-with-backlogs#sprint-wiki)           | How to create a sprint wiki page?                            |
-| <video src="https://www.openproject.org/wp-content/uploads/2020/11/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video> | How to select the folded or collapsed backlogs view?         |
+| [Selecting folded or collapsed backlogs view](taskboard/#configure-backlogs-settings-under-my-account) | How to select the folded or collapsed backlogs view?         |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Agile-and-Scrum-Backlogs.mp4" type="video/mp4" controls="" style="width:100%"></video>

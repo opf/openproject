@@ -47,4 +47,6 @@ You will receive an email from OpenProject with the installations you are curren
 
 Click the link in the email to get directed to your installation. If you are member of several OpenProject installations, they will all be listed in this email.
 
+Watch this video about sign in and registration:
+
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Sign-in-and-Registration-2.mp4" type="video/mp4" controls="" style="width:100%"></video>

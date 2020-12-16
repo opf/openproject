@@ -40,8 +40,6 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the form and how they are grouped.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Forms-and-Custom-Fields-1.mp4" type="video/mp4" controls="" style="width:100%"></video>
-
 To configure a type, first select the type from the list of types (see above) and select the tab ***Form configuration*** *(1)*.
 
 Active attributes shown in blue color on the left will be displayed in the work package form for this type.
@@ -62,6 +60,10 @@ If you then create a new work package of this type, the input form will have exa
 In this case, all attributes in the blue area on the left are displayed under the corresponding attribute group.
 
 ![work package form configuration](image-20200116150227458.png)
+
+Watch the following video to see how you can customize your work packages with custom fields and configure the work package forms:
+
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Forms-and-Custom-Fields-1.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Add table of related work packages to a work package form
 

@@ -26,16 +26,16 @@ The package will:
 
 The package is available for the following Linux distributions:
 
-| <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Sign-in-and-Registration-2.mp4" type="video/mp4" controls="" style="width:100%"></video> |
-| ------------------------------------------------------------ |
-| [Ubuntu 20.04 Focal](#ubuntu-2004)                           |
-| [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)                   |
-| [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)                    |
-| [Debian 10 Buster](#debian-10)                               |
-| [Debian 9 Stretch](#debian-9)                                |
-| [CentOS/RHEL 8.x](#el-8)                                     |
-| [CentOS/RHEL 7.x](#el-7)                                     |
-| [Suse Linux Enterprise Server 12](#sles-12)                  |
+| Distribution (64 bits only)                 |
+| ------------------------------------------- |
+| [Ubuntu 20.04 Focal](#ubuntu-2004)          |
+| [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
+| [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
+| [Debian 10 Buster](#debian-10)              |
+| [Debian 9 Stretch](#debian-9)               |
+| [CentOS/RHEL 8.x](#el-8)                    |
+| [CentOS/RHEL 7.x](#el-7)                    |
+| [Suse Linux Enterprise Server 12](#sles-12) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
 
