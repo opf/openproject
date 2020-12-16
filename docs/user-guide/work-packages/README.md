@@ -39,7 +39,8 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | [Exporting](exporting)                                       | How to export work packages for other tools such as Microsoft Excel? |
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies?        |
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/R6-p8HgFmm8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## Frequently asked questions (FAQ)
 
 ### How to copy work package hierarchies with their relations?

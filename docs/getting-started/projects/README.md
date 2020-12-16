@@ -25,7 +25,7 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 | [View all projects](#view-all-projects)                 | Get an overview about all your projects.                     |
 | [Advanced project settings](#advanced-project-settings) | Configure further advanced settings for your project.        |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/q1jxzPNQTls" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Open an existing project
 

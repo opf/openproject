@@ -20,6 +20,8 @@ For further documentation, please visit our [user guide for work packages](../..
 | [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package? |
 | [Activity of work packages](#activity-of-work-packages)      | See all changes in a work package.                        |
 
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## What is a work package?
 
 A work package in OpenProject can basically be everything you need to keep track off within your projects. It can be e.g. a task, a feature, a bug, a risk, a milestone or a project phase. This different kinds of work packages are called work package types.
