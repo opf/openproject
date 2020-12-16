@@ -534,7 +534,7 @@ pl:
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         less_than_or_equal_to: "musi być mniejsze niż lub równe %{count}."
-        not_current_user: "is not the current user."
+        not_current_user: "nie jest bieżącym użytkownikiem."
         not_a_date: "nie jest poprawną datą."
         not_a_datetime: "nie jest poprawną datą i czasem."
         not_a_number: "nie jest liczbą."
