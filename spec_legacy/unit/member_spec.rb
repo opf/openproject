@@ -68,30 +68,6 @@ describe Member, type: :model do
     assert_equal 2, @member.reload.roles.size
   end
 
-  it 'should validate' do
-    members = []
-    user_id = FactoryBot.create(:user).id
-    2.times do
-      members << Member.new.tap do |m|
-        m.attributes = { project_id: @project.id,
-                               user_id: user_id,
-                               role_ids: [@role.id] }
-      end
-    end
-
-    assert members.first.save
-    # same user can't have more than one membership for a project
-    assert !members.last.save
-
-    member = Member.new.tap do |m|
-      m.attributes = { project_id: @project,
-                             user_id: FactoryBot.create(:user).id,
-                             role_ids: [] }
-    end
-    # must have one role at least
-    assert !member.save
-  end
-
   it 'should destroy' do
     assert_difference 'Member.count', -1 do
       assert_difference 'MemberRole.count', -1 do
