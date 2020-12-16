@@ -65,7 +65,7 @@ describe WikiContent, type: :model do
   it 'should fetch history' do
     wiki_content_journal = FactoryBot.create(:wiki_content_journal,
                                              journable: @page.content)
-    wiki_content_journal.data.update_attributes(page_id: @page.id, text: '')
+    wiki_content_journal.data.update(page_id: @page.id, text: '')
 
     assert !@page.content.journals.empty?
     @page.content.journals.each do |journal|
