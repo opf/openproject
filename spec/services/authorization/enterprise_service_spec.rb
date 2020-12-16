@@ -38,7 +38,7 @@ describe Authorization::EnterpriseService do
 
     token
   end
-  let(:token) { mock_model(EnterpriseToken, token_object: token_object) }
+  let(:token) { double('EnterpriseToken', token_object: token_object) }
   let(:instance) { described_class.new(token) }
   let(:result) { instance.call(action) }
   let(:action) { :an_action }

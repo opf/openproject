@@ -35,15 +35,6 @@ GIT
       mixlib-shellout (~> 2.1.0)
       rubyzip
 
-GIT
-  remote: https://github.com/rspec/rspec-activemodel-mocks
-  revision: 0338d50039cad672bbe695fff5591da1ba849308
-  specs:
-    rspec-activemodel-mocks (1.1.0)
-      activemodel (>= 3.0)
-      activesupport (>= 3.0)
-      rspec-mocks (>= 2.99, < 4.0)
-
 PATH
   remote: modules/auth_plugins
   specs:
@@ -1051,7 +1042,6 @@ DEPENDENCIES
   roar (~> 1.1.0)
   rouge (~> 3.25.0)
   rspec (~> 3.10.0)
-  rspec-activemodel-mocks (~> 1.1.0)!
   rspec-rails (~> 4.0.0)
   rspec-retry (~> 0.6.1)
   rubocop

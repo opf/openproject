@@ -32,8 +32,10 @@ require_relative 'shared_query_column_specs'
 describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:custom_field) do
-    mock_model(CustomField, field_format: 'string',
-                            order_statements: nil)
+    double('CustomField',
+           field_format: 'string',
+           id: 5,
+           order_statements: nil)
   end
   let(:instance) { described_class.new(custom_field) }
 
