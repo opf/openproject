@@ -1,0 +1,32 @@
+.op-uc-code-block
+  break-inside: avoid
+  display: block
+  margin: 0
+  padding: 1rem
+  overflow-x: auto
+  overflow-y: hidden
+  background-color: #fafafa
+  border: 1px solid #dadada
+
+  > *
+    background-color: transparent
+    border: none
+
+  @at-root .op-uc-container_editing &
+    overflow: visible
+    white-space: pre-wrap
+
+  &--language
+    margin-top: 0.5rem
+    margin-bottom: -0.5rem
+    text-align: right
+    font-style: italic
+
+.op-uc-code
+  font-family: Consolas, "Liberation Mono", Courier, monospace
+  font-weight: normal
+  color: #333739
+  background-color: #fafafa
+  border: 1px solid #dadada
+  padding: 0.125em 0.3125em
+  break-inside: avoid
