@@ -171,8 +171,11 @@ describe 'Subproject action board', type: :feature, js: true do
       login_as only_parent_user
       board_page.visit!
 
-      # We will see an error for the two boards pages
-      expect(page).to have_selector('.notification-box.-error', count: 2)
+      # Not allowed subproject lists should not rise error and
+      # should not be shown
+      expect(page).to have_no_selector('.notification-box.-error')
+      board_page.expect_no_list 'Child 1'
+      board_page.expect_no_list 'Child 2'
     end
   end
 end
