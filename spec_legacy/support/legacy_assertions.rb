@@ -38,28 +38,6 @@ module LegacyAssertionsAndHelpers
     RequestStore.clear!
   end
 
-  ##
-  # Attachments generated through fixtures do not files associated with them even
-  # when one provides them within the fixture yml. Dunno why.
-  #
-  # This method fixes that. Tries to lookup existing files. Generates temporary files
-  # where none exist.
-  def initialize_attachments
-    Attachment.all.each do |a|
-      if a.file.filename.nil?
-        begin # existing file under `spec/fixtures/files`
-          a.file = uploaded_test_file a.disk_filename, a.attributes['content_type'],
-                                      original_filename: a.attributes['filename']
-        rescue # imaginary file: create it on-the-fly
-          a.file = LegacyFileHelpers.mock_uploaded_file name: a.attributes['filename'],
-                                                  content_type: a.attributes['content_type']
-        end
-
-        a.save!
-      end
-    end
-  end
-
   def log_user(login, password)
     User.anonymous
     get '/login'
@@ -70,59 +48,12 @@ module LegacyAssertionsAndHelpers
     assert_equal login, User.find(session[:user_id]).login
   end
 
-  ##
-  # Creates a UploadedFile for a file in the fixtures under `spec/fixtures/files`.
-  # Optionally allows to override the original filename.
-  #
-  # Shortcut for Rack::Test::UploadedFile.new(
-  #   ActionController::TestCase.fixture_path + path, mime)
-  def uploaded_test_file(name, mime, original_filename: nil)
-    file = fixture_file_upload("/files/#{name}", mime, true)
-    file.define_singleton_method(:original_filename) { original_filename } if original_filename
-    file
-  end
-
-  def save_and_open_page
-    body = response.body
-
-    body.gsub!('/assets', '../../public/assets')
-
-    FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
-
-    page_path = Rails.root.join("tmp/pages/#{SecureRandom.hex(16)}.html").to_s
-    File.open(page_path, 'w') do |f| f.write(body) end
-
-    Launchy.open(page_path)
-
-    begin
-      binding.pry
-    rescue NoMethodError
-      debugger
-    end
-
-    FileUtils.rm(page_path)
-  end
-
-  # Use a temporary directory for attachment related tests
-  def set_tmp_attachments_directory
-    attachments_path = Rails.root.join('tmp/test/attachments')
-    FileUtils.mkdir_p(attachments_path)
-    Attachment.storage_path = attachments_path.to_s
-  end
-
   def with_settings(options, &_block)
     saved_settings = options.keys.inject({}) { |h, k| h[k] = Setting[k].dup; h }
     options.each do |k, v| Setting[k] = v end
     yield
   ensure
     saved_settings.each { |k, v| Setting[k] = v }
-  end
-
-  def change_user_password(login, new_password)
-    user = User.find_by_login(login)
-    user.password = new_password
-    user.password_confirmation = new_password
-    user.save!
   end
 
   # Shoulda macros
@@ -139,15 +70,6 @@ module LegacyAssertionsAndHelpers
   def should_render_404
     should respond_with :not_found
     should render_template 'common/error'
-  end
-
-  def should_create_a_new_user(&block)
-    # it "create a new user" do
-    user = instance_eval &block
-    assert user
-    assert_kind_of User, user
-    assert !user.new_record?
-    # end
   end
 
   def should_respond_with_content_type(content_type)
