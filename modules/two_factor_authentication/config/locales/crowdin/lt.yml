@@ -1,0 +1,175 @@
+#English strings go here for Rails i18n
+lt:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Identifikatorius'
+        default: 'Naudoti kaip numatytąjį'
+      two_factor_authentication/device/sms:
+        phone_number: "Telefono numeris"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'jau nustatytas kitam OTP įrenginiui.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "formatas turi būti +XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "2FA įrenginys"
+      two_factor_authentication/device/sms: "Mobilus telefonas"
+      two_factor_authentication/device/totp: "Autentikatoriaus aplikacija"
+  two_factor_authentication:
+    error_2fa_disabled: "2FA pristatymas buvo išjungtas."
+    error_no_device: "Šiam naudotojui nerastas joks 2FA įrenginys, nors tai ir reikalaujama."
+    error_no_matching_strategy: "Nėra atitinkančios 2FA strategijos šiam naudotojui. Prašome susisiekti su administratoriumi."
+    error_is_enforced_not_active: 'Konfigūracijos klaida: dviejų veiksnių autentikacija buvo įjungta, bet nėra aktyvių strategijų.'
+    error_invalid_backup_code: 'Netinkamas 2FA atsarginis kodas'
+    channel_unavailable: "Pristatymo kanalas %{channel} neprieinamas."
+    no_valid_phone_number: "Nėra tinkamų telefono numerių."
+    label_pwd_confirmation: "Slaptažodis"
+    notice_pwd_confirmation: "Keičiant šiuos nustatymus jūs turite patvirtinti savo slaptažodį."
+    label_device_type: "Įrenginio tipas"
+    label_default_device: "Numatytasis 2FA įrenginys"
+    label_device: "2FA įrenginys"
+    label_devices: "2FA įrenginiai"
+    label_one_time_password: 'Vienkartinis slaptažodis'
+    label_2fa_enabled: 'Dviejų veiksnių autentikacija aktyvi'
+    label_2fa_disabled: 'Dviejų veiksnių autentikacija neaktyvi'
+    text_otp_delivery_message_sms: "Jūsų %{app_title} vienkartinis slaptažodis yra %{token}"
+    text_otp_delivery_message_voice: "Jūsų %{app_title} vienkartinis slaptažodis yra: %{pause} %{token}. %{pause} Aš kartoju: %{pause} %{token}"
+    text_enter_2fa: 'Prašome įvesti vienkartinį slaptažodį iš jūsų įrenginio.'
+    text_2fa_enabled: 'Kiekvieną kartą prisijungiant jūs turėsite įvesti OTP žetoną iš jūsų numatytojo 2FA įrenginio.'
+    text_2fa_disabled: 'Norėdami įjungti dviejų veiksnių autentikaciją, naudokite aukščiau esantį mygtuką, kad priregistruotumėte naują 2FA įrenginį. Jei jau turite įrenginį, jums reikia jį padaryti numatytuoju.'
+    login:
+      enter_backup_code_title: Įveskite atsarginį kodą
+      enter_backup_code_text: Prašome įvesti atsarginį kodą iš jūsų kodų sąrašą, jei daugiau nebeturite prieigos prie jūsų registruotų 2FA įrenginių.
+      other_device: 'Naudoti kitą įrenginį ar atsarginį kodą'
+    settings:
+      title: '2FA nustatymai'
+      current_configuration: 'Dabartinė konfigūracija'
+      label_active_strategies: 'Aktyvios 2FA strategijos'
+      label_enforced: 'Įgalinti 2FA'
+      label_remember: 'Prisiminti 2FA prisijungimą'
+      text_configuration: |
+        Pastaba: šios reikšmės atspindi dabartinę aplikacijos konfigūraciją. Jūs negalite išjungti nustatymų, kurie įgalinti konfigūracijoje arba pakeisti dabar aktyvių strategijų, nes tam reikia perstartuoti serverį.
+      text_configuration_guide: Daugiau informacijos rasite konfigūravimo vadove.
+      text_enforced: 'Įjunkite šį nustatymą, kad priverstumėte visus naudotojus registruoti 2FA įrenginį kitą kartą prisijungiant. Išjungti galima tik kai nėra įgalinta konfigūracijoje.'
+      text_remember: |
+        Nustatykite teigiamą reikšmę, kad leistumėte naudotojams atsiminti jų 2FA autentikaciją nustatytą kiekį dienų.
+        Jų nebus prašoma iš naujo įvesti nurodytą periodą. Gali būti nurodyta tik kai neįgalinta konfigūracijoje.
+      error_invalid_settings: 'Jūsų parinktos 2FA strategijos yra netinkamos'
+      failed_to_save_settings: 'Nepavyko atnaujinti 2FA nustatymų: %{message}'
+    admin:
+      self_edit_path: 'Norėdami pakeisti jūsų 2FA įrenginius, prašome eiti į %{self_edit_link}'
+      self_edit_link_name: 'Dviejų veiksnių autentikacija jūsų paskyros puslapyje'
+      self_edit_forbidden: 'Jūs negalite keisti jūsų 2FA įrenginių šiame kelyje. Eikite į Mano paskyra -> Dviejų veiksnių autentikacija.'
+      no_devices_for_user: 'Šiam naudotojui nepriregistruotas joks 2FA įrenginys.'
+      all_devices_deleted: 'Visi šio naudotojo 2FA įrenginiai buvo ištrinti'
+      delete_all_are_you_sure: 'Ar tikrai norite ištrinti visus šio naudotojo 2FA įrenginius?'
+      button_delete_all_devices: 'Trinti registruotus 2FA įrenginius'
+      button_register_mobile_phone_for_user: 'Registruoti mobilų telefoną'
+      text_2fa_enabled: 'Kiekvieną kartą prisijungiant, naudotojo bus paprašoma įvesti OTB žetoną iš jo numatytojo 2FA įrenginio.'
+      text_2fa_disabled: "Naudotojas nenustatė savo 2FA įrenginio savo „Mano paskyros puslapyje“"
+    upsale:
+      title: 'Dviejų veiksnių autentikacija yra mokama savybė'
+      description: 'Sustiprinkite jūsų vidinės ir išorinės autentikacijos mechanizmus antru veiksniu.'
+    backup_codes:
+      none_found: Ši paskyra neturi atsarginių kodų.
+      singular: Atsarginis kodas
+      plural: Atsarginiai kodai
+      your_codes: jūsų %{app_name} paskyrai %{login}
+      overview_description: |
+        Jei negalite pasiekti jūsų dviejų veiksnių įrenginių, jūs galite naudoti atsarginius kodus, kad atgautumėte prieigą prie savo paskyros.
+        Naudokite šį mygtuką, kad sugeneruotumėte naują atsarginių kodų rinkinį.
+      generate:
+        title: Generuoti atsarginius kodus
+        keep_safe_as_password: 'Svarbu! Šie kodai svarbūs kaip slaptažodžiai.'
+        keep_safe_warning: 'Arba įrašykite juos į slaptažodžių tvarkyklę, arba atspausdinkite šį puslapį ir padėkite jį į saugią vietą.'
+        regenerate_warning: 'Įspėjimas: jei anksčiau sukūrėte atsargos kodus, jie daugiau nebeveiks.'
+    devices:
+      add_new: 'Pridėti naują 2FA įrenginį'
+      register: 'Registruoti įrenginį'
+      confirm_default: 'Patvirtinkite numatytojo įrenginio keitimą'
+      confirm_device: 'Patvirtinkite įrenginį'
+      confirm_now: 'Nepatvirtinta, spauskite čia, kad aktyvuotumėte'
+      cannot_delete_default: 'Negalima ištrinti numatytojo įrenginio'
+      make_default_are_you_sure: 'Ar tikrai norite šį 2FA įrenginį padaryti numatytuoju?'
+      make_default_failed: 'Nepavyko atnaujinti numatytojo 2FA įrenginio.'
+      deletion_are_you_sure: 'Ar tikrai norite ištrinti šį 2FA įrenginį?'
+      registration_complete: '2FA įrenginio registracija baigta!'
+      registration_failed_token_invalid: '2FA įrenginio registracija nepavyko, netinkamas žetonas.'
+      registration_failed_update: '2FA įrenginio registracija nepavyko, žetonas tinkamas, bet nepavyko atnaujinti įrenginio.'
+      confirm_send_failed: 'Jūsų 2FA įrenginio patvirtinimas nepavyko.'
+      button_complete_registration: 'Baigti 2FA registraciją'
+      text_confirm_to_complete_html: "Prašome baigti jūsų įrenginio <strong>%{identifier}</strong> registraciją įvedant vienkartinį slaptažodį iš jūsų numatytojo įrenginio."
+      text_confirm_to_change_default_html: "Prašome patvirtinti jūsų numatytojo įrenginio keitimą į <strong>%{new_identifier}</strong> įvedant vienkartinį slaptažodį iš jūsų dabartinio numatytojo įrenginio."
+      text_identifier: 'Šio lauko pagalba galite įrenginiui suteikti savo identifikatorių.'
+      failed_to_delete: 'Nepavyko ištrinti 2FA įrenginio.'
+      is_default_cannot_delete: 'Šis įrenginys pažymėtas kaip numatytasis ir todėl negali būti ištrintas dėl aktyvios saugumo politikos. Prieš trindami pažymėkite kitą įrenginį kaip numatytąjį.'
+      not_existing: 'Jūsų paskyrai nėra priregistruotas joks 2FA įrenginys.'
+      request_2fa: Jūsų asmenybės identifikavimui prašome įvesti kodą iš jūsų %{device_name}.
+      totp:
+        title: 'Naudoti jūsų aplikacija paremtą autentikatorių'
+        provisioning_uri: 'Įtraukimo URI'
+        secret_key: 'Slaptas raktas'
+        time_based: 'Pagrįstas laiku'
+        account: 'Prisijungimo vardas / Išdavėjas'
+        setup: |
+          Norėdami įjungti dviejų veiksnių autentikaciją su Google Authenticator, atsisiųskite aplikaciją iš Apple App ar Google Play Store.
+          Atidarę aplikaciją jūs galėsite nuskenuoti šį QR kodą ir priregistruoti įrenginį.
+        question_cannot_scan: |
+          Negalite nuskenuoti kodo su jūsų aplikacija?
+        text_cannot_scan: |
+          Jei negalite nuskenuoti kodo, jūs galite jį įvesti rankomis naudodami šią informaciją:
+        description: |
+          Registruokite aplikacijos autentikatorių OpenProject'e naudodami nuo laiko priklausančio ar vienkartinio slaptažodžio autentikavimo standartą. Pavyzdžiai yra Google Authenticator arba Authy.
+      sms:
+        title: 'Naudoti jūsų mibilų telefoną'
+        redacted_identifier: 'Mobilus įrenginys (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, mes išsiuntėme jums autentikavimo kodą į %{delivery_channel}'
+        description: |
+          Registruokite savo mobilų telefoną OpenProject vienkartinių slaptažodžių siuntimui.
+    sns:
+      delivery_failed: 'SNS pristatymas nepavyko:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS pristatymas nepavyko'
+      voice_delivery_failed: 'MessageBird balso skambutis nepavyko.'
+    restdt:
+      delivery_failed_with_code: 'Žetono pristatymas nepavyko. (Klaidos kodas %{code})'
+    strategies:
+      totp: 'Autentikatoriaus aplikacija'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "Vienkartinis slaptažodis buvo išsiųstas į jūsų mobilų telefoną."
+    label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
+    forced_registration:
+      required_to_add_device: 'Saugumo tvarka reikalauja jus įjungti dviejų-dalių autentifikavimą. Prašome šioje formoje užregistruoti savo įrangą.'
+    remember:
+      active_session_notice: >
+        Jūsų paskyra turi aktyvų prisiminimo „sausainį“, kuris galioja iki  %{expires_on}. Šis „sausainis“ leidžia jums prisijungti be dviejų-dalių autentifikacijos iki to laiko.
+      other_active_session_notice: Jūsų paskyra turi aktyvų prisiminimo „sausainį“ kitoje sesijoje.
+      label: 'Atsiminti'
+      clear_cookie: 'Paspauskite čia, kad pašalintumėt visas prisimenamas 2FA sesijas.'
+      cookie_removed: 'Visos prisimenamos 2FA sesijos buvo pašalintos.'
+      dont_ask_again: "Kurti slapuką, kad šiame kliente 2FA autentikacija būtų atsiminta %{days} dienų."
+  field_phone: "Telefonas"
+  field_otp: "Vienkartinis slaptažodis"
+  notice_account_otp_invalid: "Netinkamas vienkartinis slaptažodis."
+  notice_account_otp_expired: "Jūsų įvestas vienkartinis slaptažodis nebegalioja."
+  notice_developer_strategy_otp: "Vystytojo strategija sugeneravo šį vienkartinį slaptažodį: %{token} (Channel: %{channel})"
+  notice_account_otp_send_failed: "Nepavyko išsiųsti jūsų vienkartinio slaptažodžio."
+  notice_account_has_no_phone: "Su jūsų paskyra nesusietas joks telefono numeris."
+  label_expiration_hint: "%{date} arba atsijungus"
+  label_actions: 'Veiksmai'
+  label_confirmed: 'Patvirtinta'
+  button_continue: 'Tęsti'
+  button_make_default: 'Pažymėti kaip numatytąjį'
+  label_unverified_phone: "Telefonas dar nepatikrintas"
+  notice_phone_number_format: "Prašome įvesti numerį tokiu formatu: +XX XXXXXXXX."
+  text_otp_not_receive: "Kiti patikrinimo būdai"
+  text_send_otp_again: "Pakartotinai siųsti vienkartinį slaptažodį taip:"
+  button_resend_otp_form: "Siųsti iš naujo"
+  button_otp_by_voice: "Balso skambutis"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "Pristatymo kanalas"

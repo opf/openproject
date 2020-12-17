@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+it:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Attendi ...'
+    verify_account: "Verifica il tuo account"
+    error_captcha: "Il tuo account non può essere verificato. Contatta un amministratore."
+    settings:
+      website_key: 'Chiave del sito'
+      website_key_text: 'Inserisci la chiave del sito web che hai creato sulla console di amministrazione reCAPTCHA per questo dominio.'
+      secret_key: 'Chiave segreta'
+      secret_key_text: 'Inserisci la chiave segreta che hai creato sulla console di amministrazione reCAPTCHA.'
+      type: 'Usa reCAPTCHA'
+      type_disabled: 'Disattiva reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA è un servizio gratuito di Google che può essere abilitato per la tua istanza OpenProject. Se abilitato, un modulo captcha verrà visualizzato al momento dell'accesso per tutti gli utenti che non hanno ancora verificato un captcha. <br/> Vedi il seguente link per maggiori dettagli su reCAPTCHA e le loro versioni, e su come creare il sito web e le chiavi segrete: %{recaptcha_link}

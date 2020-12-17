@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+fil:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Lokasyon"
+        duration: "Durasyon"
+        participants: "Mga Kalahok"
+        participants_attended: "Mga Dadalo"
+        participants_invited: "Mga Imbitado"
+        start_time: "Oras"
+        start_time_hour: "Oras ng Pagsisimula"
+    errors:
+      messages:
+        invalid_time_format: "ay hindi balidong oras. Ang hinihinging format ay: HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Minutes"
+  description_attended: "dumalo"
+  description_invite: "imbitado"
+  events:
+    meeting: Inedit ang pagpupulong
+    meeting_agenda: Inedit ang adyenda ng pagpupulong
+    meeting_agenda_closed: Isinara ang adyenda ng pagpupulong
+    meeting_agenda_opened: Binuksan ang adyenda ng pagpupulong
+    meeting_minutes: Inedit ang minutes ng pagpupulong
+    meeting_minutes_created: Nilikha ang minutes ng pagpupulong
+  error_notification_with_errors: "Bigo sa pagpaadala ng abiso. Ang mga sumusunod tatanggap ay hindi maaabisuhan: %{recipients}"
+  label_meeting: "Pagpupulong"
+  label_meeting_plural: "Mga Pagpupulong"
+  label_meeting_new: "Bagong Pagpupulong"
+  label_meeting_edit: "I-edit and Pagpupulong"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Minutes"
+  label_meeting_close: "Isara"
+  label_meeting_open: "Bukas"
+  label_meeting_agenda_close: "Isarado ang adyenda para simulan ang Minutes"
+  label_meeting_date_time: "Petsa/Oras"
+  label_meeting_diff: "Diff"
+  label_notify: "Ipadala para sa pagsusuri"
+  label_icalendar: "Ipadala ang iCalendar"
+  label_version: "Bersyon"
+  label_time_zone: "Time zone"
+  label_start_date: "Petsa ng pagsimula"
+  notice_successful_notification: "Ang abiso ay naipadala ng matagumpay"
+  notice_timezone_missing: Walang nakatakdang time zone at ang %{zone} ay ipinagpalagay na siyang time zone. Para piliin ang iyong time zone, mangyaring magclick dito.
+  permission_create_meetings: "Lumikha ng mga pulong"
+  permission_edit_meetings: "I-edit ang mga pulong"
+  permission_delete_meetings: "Burahin ang mga pulong"
+  permission_view_meetings: "Tingnang ang mga pulong"
+  permission_create_meeting_agendas: "Pamahalaan ang mga adyenda"
+  permission_close_meeting_agendas: "Isarado ang mga adyenda"
+  permission_send_meeting_agendas_notification: "Ipadala ang abiso ng pagsusuri para sa mga adyenda"
+  permission_create_meeting_minutes: "Pamahalaan ang minutes"
+  permission_send_meeting_minutes_notification: "Ipadala ang abiso ng pagsusuri sa minutes"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "Mga Pagpupulong"
+  text_duration_in_hours: "Tagal sa oras"
+  text_in_hours: "sa mga oras"
+  text_meeting_agenda_for_meeting: 'adyenda para sa pulong "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'minutes para sa pulong "%{meeting}"'
+  text_review_meeting_agenda: "Ang %{author} ay naglagay ng %{link} para sa pagsusuri."
+  text_review_meeting_minutes: "Ang %{author} ay naglagay ng %{link} para sa pagsusuri."
+  text_notificiation_invited: "Ang mail na ito ay naglalaman ng isang ics entry para sa pagpupulong na makikita sa ibaba:"

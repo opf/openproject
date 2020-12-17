@@ -1,0 +1,59 @@
+zh-CN:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: '有效载荷 URL'
+        secret: '签名密钥'
+        events: '事件'
+        projects: '已启用的项目'
+      webhooks/log:
+        event_name: '事件名称'
+        url: '有效载荷 URL'
+        response_code: '响应代码'
+        response_body: '响应'
+    models:
+      webhooks/outgoing_webhook: "传出 Webhook"
+  webhooks:
+    singular: Webhook
+    plural: Webhook
+    resources:
+      time_entry:
+        name: "时间条目"
+    outgoing:
+      no_results_table: 尚未定义任何 Webhook。
+      label_add_new: 添加新的 Webhook
+      label_edit: 编辑 Webhook
+      label_event_resources: 事件资源
+      events:
+        created: "已创建"
+        updated: "已更新"
+      status:
+        enabled: 'Webhook 已启用'
+        disabled: 'Webhook 已禁用'
+        enabled_text: 'Webhook 将为下面的定义事件释放有效载荷。'
+        disabled_text: '点击“编辑”按钮以激活 Webhook。'
+      deliveries:
+        no_results_table: 此 Webhook 尚未进行任何传送。
+        title: '最近传送'
+        time: '传送时间'
+      form:
+        introduction: >
+          对于您所订阅项目中的任何事件，将 POST 请求发送到下面的有效载荷 URL。有效载荷将对应于要修改的对象的 APIv3 表示。
+        apiv3_doc_url: 有关更多信息，请访问 API 文档
+        description:
+          placeholder: 'Webhook 的可选描述。'
+        enabled:
+          description: >
+            选中时，Webhook 将触发选定事件。取消选中可以禁用 Webhook。
+        events:
+          title: '已启用事件'
+        project_ids:
+          title: '已启用的项目'
+          description: '选择此 Webhook 应当针对哪些项目执行。'
+          all: '所有项目'
+          selected: '仅限选定项目'
+        selected_project_ids:
+          title: '选定项目'
+        secret:
+          description: >
+            如果设置，OpenProject 将使用此密钥值对 Webhook 有效载荷进行签名。

@@ -1,0 +1,54 @@
+ko:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        auth_source: 'LDAP 연결'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP 필터'
+        auth_source: 'LDAP 연결'
+        group_name_attribute: "그룹 이름 특성"
+    models:
+      ldap_groups/synchronized_group: '동기화된 LDAP 그룹'
+      ldap_groups/synchronized_filter: 'LDAP 그룹 동기화 필터'
+  ldap_groups:
+    label_menu_item: 'LDAP 그룹 동기화'
+    label_group_key: 'LDAP 그룹 필터 키'
+    label_synchronize: '동기화'
+    settings:
+      name_attribute: 'LDAP 그룹 이름 특성'
+      name_attribute_text: '필터에 의해 생성될 때 OpenProject 그룹 명명에 사용되는 LDAP 특성입니다.'
+    synchronized_filters:
+      add_new: '동기화된 LDAP 필터 추가'
+      singular: 'LDAP 그룹 동기화 필터'
+      plural: 'LDAP 그룹 동기화 필터'
+      destroy:
+        title: '동기화된 필터 %{name} 제거'
+        confirmation: "계속하는 경우, 동기화된 필터 %{name} 및 이를 통해 생성된 모든 그룹 %{groups_count}개가 제거됩니다."
+        removed_groups: "경고: 이렇게 하면 OpenProject에서 다음 그룹이 제거되고 모든 프로젝트에서 이것이 제거됩니다."
+        verification: "삭제를 확인하려면 필터 이름 %{name}(을)를 입력하세요."
+      form:
+        group_name_attribute_text: 'OpenProject 그룹 이름 설정에 사용된 LDAP 그룹의 특성을 입력하세요.'
+        filter_string_text: 'OpenProject와 동기화하려면 해당 LDAP에서 그룹을 반환하는 RFC4515 LDAP 필터를 입력하세요.'
+    synchronized_groups:
+      add_new: '동기화된 LDAP 그룹 추가'
+      destroy:
+        title: '동기화된 그룹 %{name} 제거'
+        confirmation: "계속하는 경우, 동기화된 그룹 %{name} 및 이를 통해 동기화된 %{users_count}명의 사용자 모두가 제거됩니다."
+        info: "참고: OpenProject 그룹 자체 그리고 이 LDAP 동기화 이외에서 추가된 멤버는 제거되지 않습니다."
+        verification: "삭제를 확인하려면 프로젝트 이름 %{name}(을)를 입력하십시오."
+      help_text_html: |
+        이 모듈을 통해 LDAP 및 OpenProject 그룹 간에 동기화를 설정할 수 있습니다.
+        LDAP 그룹은 OpenProject와 작동하도록 설정된 <em>groupOfNames / memberOf</em> 특성을 사용해야 합니다.
+        <br/>
+        그룹은 cron 작업을 통해 시간별로 동기화됩니다.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">이 항목은 설명서를 참조하세요</a>.
+      no_results: '동기화된 그룹이 없습니다.'
+      no_members: '이 그룹에는 아직 동기화된 멤버가 없습니다.'
+      plural: '동기화된 LDAP 그룹'
+      singular: '동기화된 LDAP 그룹'
+      form:
+        auth_source_text: '사용해야 하는 LDAP 연결을 선택하세요.'
+        dn_text: 'LDAP에서 그룹의 전체 DN 입력'
+        group_text: 'LDAP 그룹의 멤버가 동기화되는 기존 OpenProject 그룹 선택'
+

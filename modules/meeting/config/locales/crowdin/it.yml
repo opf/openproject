@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+it:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Luogo"
+        duration: "Durata"
+        participants: "Partecipanti"
+        participants_attended: "Presenti"
+        participants_invited: "Invitati"
+        start_time: "Tempo"
+        start_time_hour: "Ora di inizio"
+    errors:
+      messages:
+        invalid_time_format: "non è un tempo valido. Formato richiesto: HH: mm"
+    models:
+      meeting_agenda: "Ordine del giorno"
+      meeting_minutes: "Verbali"
+  description_attended: "ha partecipato"
+  description_invite: "invitato"
+  events:
+    meeting: Riunione modificata
+    meeting_agenda: Agenda riunione modificata
+    meeting_agenda_closed: Agenda riunione chiusa
+    meeting_agenda_opened: Agenda riunione aperta
+    meeting_minutes: Verbali riunione modificati
+    meeting_minutes_created: Verbale riunione creato
+  error_notification_with_errors: "Impossibile inviare notifica. Non è possibile notificare i seguenti destinatari: %{recipients}"
+  label_meeting: "Riunione"
+  label_meeting_plural: "Riunioni"
+  label_meeting_new: "Nuova riunione"
+  label_meeting_edit: "Modifica riunione"
+  label_meeting_agenda: "Ordine del giorno"
+  label_meeting_minutes: "Verbali"
+  label_meeting_close: "Chiuso"
+  label_meeting_open: "Aperti"
+  label_meeting_agenda_close: "Chiudere l'agenda per iniziare i verbali"
+  label_meeting_date_time: "Data/ora"
+  label_meeting_diff: "Differenza"
+  label_notify: "Invia per revisione"
+  label_icalendar: "Invia iCalendar"
+  label_version: "Versione"
+  label_time_zone: "Fuso orario"
+  label_start_date: "Data di inizio"
+  notice_successful_notification: "Notifica inviata con successo"
+  notice_timezone_missing: Nessun fuso orario è impostato e la %{zone} è un requisito necessario. Per scegliere il tuo fuso orario, fare clic qui.
+  permission_create_meetings: "Creare riunioni"
+  permission_edit_meetings: "Modificare riunioni"
+  permission_delete_meetings: "Annullare riunioni"
+  permission_view_meetings: "Vedere riunioni"
+  permission_create_meeting_agendas: "Gestire gli ordini del giorno"
+  permission_close_meeting_agendas: "Chiudere gli ordini del giorno"
+  permission_send_meeting_agendas_notification: "Inviare notifiche di modifica degli ordini del giorno"
+  permission_create_meeting_minutes: "Gestire i verbali"
+  permission_send_meeting_minutes_notification: "Inviare notifiche di verbali modificati"
+  permission_meetings_send_invite: "Invita gli utenti alle riunioni"
+  permission_send_meeting_agendas_icalendar: "Invia l'agenda della riunione come voce del calendario"
+  project_module_meetings: "Riunioni"
+  text_duration_in_hours: "Durata in ore"
+  text_in_hours: "in ore"
+  text_meeting_agenda_for_meeting: 'ordine del giorno della riunione "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Sicuri di voler chiudere questo meeting?"
+  text_meeting_agenda_open_are_you_sure: "Questo sovrascriverà tutte le modifiche nei verbali! Vuoi continuare?"
+  text_meeting_minutes_for_meeting: 'verbali per l''incontro "%{meeting}"'
+  text_review_meeting_agenda: "%{author} ha pubblicato %{link} per la revisione."
+  text_review_meeting_minutes: "%{author} ha pubblicato %{link} per la revisione."
+  text_notificiation_invited: "Questa mail contiene un elemento di riunione ics qui in seguito:"

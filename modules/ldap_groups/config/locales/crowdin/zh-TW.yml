@@ -1,0 +1,54 @@
+zh-TW:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: '獨特名'
+        auth_source: 'LDAP 連線'
+      ldap_groups/synchronized_filter:
+        filter_string: '簡約登入目錄制約(LDAP)篩選'
+        auth_source: 'LDAP 連線'
+        group_name_attribute: "群組名字屬性"
+    models:
+      ldap_groups/synchronized_group: 'Synchronized LDAP group'
+      ldap_groups/synchronized_filter: 'LDAP群組同步篩選'
+  ldap_groups:
+    label_menu_item: 'LDAP group synchronization'
+    label_group_key: 'LDAP group filter key'
+    label_synchronize: '同步'
+    settings:
+      name_attribute: 'LDAP群組名屬性'
+      name_attribute_text: '以篩選來創建OpenProject群組的LDAP命名屬性'
+    synchronized_filters:
+      add_new: '新增同步LDAP篩選'
+      singular: 'LDAP群組同步篩選'
+      plural: 'LDAP群組同步篩選'
+      destroy:
+        title: '移除同步篩選 %{name}'
+        confirmation: "如果繼續,本同步篩選 %{name} 和藉此創建的群組 %{groups_count} 將會刪除"
+        removed_groups: "警告: 將從OpenProject和專案中移除以下群組"
+        verification: "輸入篩選名稱 %{name} 以確定刪除"
+      form:
+        group_name_attribute_text: '輸入用於設定OpenProject群組名的LDAP群組屬性'
+        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+    synchronized_groups:
+      add_new: 'Add synchronized LDAP group'
+      destroy:
+        title: 'Remove synchronized group %{name}'
+        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
+        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        verification: "Enter the group's name %{name} to verify the deletion."
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
+      no_results: '找不到同步的群組。'
+      no_members: '這個群組還沒有同步的成員。'
+      plural: 'Synchronized LDAP groups'
+      singular: 'Synchronized LDAP group'
+      form:
+        auth_source_text: 'Select which LDAP connection should be used.'
+        dn_text: 'Enter the full DN of the group in LDAP'
+        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+

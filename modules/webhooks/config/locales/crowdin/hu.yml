@@ -1,0 +1,59 @@
+hu:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'Tartalom URL-címe'
+        secret: 'titkos aláírás'
+        events: 'Események'
+        projects: 'Engedélyezett projektek'
+      webhooks/log:
+        event_name: 'Esemény neve'
+        url: 'Tartalom URL-címe'
+        response_code: 'Válasz kód'
+        response_body: 'Válasz'
+    models:
+      webhooks/outgoing_webhook: "Kimenő webhook"
+  webhooks:
+    singular: Webhook
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: "Belépési idő"
+    outgoing:
+      no_results_table: Nincs definiált webhook
+      label_add_new: Webhook hozzáadása
+      label_edit: Webhook szerkesztése
+      label_event_resources: Esemény források
+      events:
+        created: "Létrehoz"
+        updated: "Frissítve"
+      status:
+        enabled: 'Webhook engedélyezve'
+        disabled: 'Webhook tiltva'
+        enabled_text: 'A webhook hasznos terheket bocsát ki az alább meghatározott eseményekhez.'
+        disabled_text: 'Kattintson a szerkesztés gombra a webhook aktiválásához.'
+      deliveries:
+        no_results_table: Ehhez a webhookhoz nem történt kézbesítés.
+        title: 'Utóbbi kézbesítések'
+        time: 'Kézbesítési idő'
+      form:
+        introduction: >
+          Küldjön POST-kérelmet az alábbi hasznos URL-re az előfizetésben szereplő projekt minden eseményére. A hasznos teher megfelel a módosítandó objektum APIv3 reprezentációjának.
+        apiv3_doc_url: További információt az API dokumentációjában talál
+        description:
+          placeholder: 'Opcionális leírás a webhook számára.'
+        enabled:
+          description: >
+            Ha be van jelölve, a webhook elindítja a kiválasztott eseményeket. Törölje a jelölőnégyzetet a webhook letiltásához.
+        events:
+          title: 'Engedélyezett események'
+        project_ids:
+          title: 'Engedélyezett projektek'
+          description: 'Válassza ki, mely projektekhez hajtsa végre ezt a webhookot.'
+          all: 'Minden projekt'
+          selected: 'Csak a kiválasztott projektek'
+        selected_project_ids:
+          title: 'Kiválasztott projektek'
+        secret:
+          description: >
+            Ha be van állítva, ezt a titkos értéket az OpenProject használja a webhook hasznos teher aláírására.

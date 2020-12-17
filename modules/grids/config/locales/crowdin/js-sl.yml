@@ -1,0 +1,63 @@
+sl:
+  js:
+    grid:
+      add_widget: 'Dodaj gradnik'
+      remove: 'Odstrani gradnik'
+      configure: 'Configure widget'
+      upsale:
+        text: "Nekateri gradniki, kot delovni paket graf Gradnik, so dostopni samo v"
+        link: 'podjetniška verzija. '
+      widgets:
+        custom_text:
+          title: 'Besedilo po meri'
+        documents:
+          title: 'Dokumenti'
+          no_results: 'Ni še dokumentov. '
+        members:
+          title: 'Člani'
+          no_results: 'Ni še vidnih članov. '
+          view_all_members: 'Poglej vse člane'
+          add: 'Član'
+          too_many: 'Prikazanih %{count} od %{total} članov.'
+        news:
+          title: 'Novice'
+          at: 'na'
+          no_results: 'Ni novih poročil.'
+        project_description:
+          title: 'Opis projekta'
+          no_results: "Opis še ni bil napisan. Lahko ga dodate v 'Projektnih nastavitvah'. "
+        project_details:
+          title: 'Podrobnosti projekta'
+          no_results: 'Za projekte niso bila definirana nobena polja po meri. '
+        project_status:
+          title: 'Status projekta'
+          on_track: 'Na poti'
+          off_track: 'Izven poti'
+          at_risk: 'Ogroženo'
+          not_set: 'Ni nastavljeno'
+        subprojects:
+          title: 'Podprojekti'
+          no_results: 'Ni podprojektov. '
+        time_entries_current_user:
+          title: 'Poglej porabljen čas'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Porabljen čas (zadnjih 7 dni) '
+          no_results: 'Nobenih zapisov časa zadnjih 7 dni. '
+        work_packages_accountable:
+          title: "Delovni paketi, za katere sem odgovoren"
+        work_packages_assigned:
+          title: 'Delovni paketi, ki so mi bili dodeljeni'
+        work_packages_created:
+          title: 'Delovni paketi, ki sem jih ustvaril'
+        work_packages_watched:
+          title: 'Delovni paketi, ki jih opazujem'
+        work_packages_table:
+          title: 'Tabela delovnih paketov'
+        work_packages_graph:
+          title: 'Graf delovnih paketov'
+        work_packages_calendar:
+          title: 'Koledar'
+        work_packages_overview:
+          title: 'Pregled delovnih paketov'
+          placeholder: 'Klikni za urejanje... '

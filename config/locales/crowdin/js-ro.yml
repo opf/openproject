@@ -1,0 +1,963 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ro:
+  js:
+    ajax:
+      hide: "Ascundere"
+      loading: "Se încarcă..."
+    attachments:
+      draggable_hint: |
+        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+    autocomplete_select:
+      placeholder:
+        multi: "Adăugaţi \"%{name}\""
+        single: "Selectaţi \"%{name}\""
+      remove: "Elminaţi \"%{name}\""
+      active: "Active %{label} %{name}"
+    close_popup_title: "Închidere pop-up"
+    close_filter_title: "Închide filtrul"
+    close_form_title: "Închide formularul"
+    button_add_watcher: "Adăugare observator"
+    button_add: "Adăugare"
+    button_back: "Înapoi"
+    button_back_to_list_view: "Înapoi la listă"
+    button_cancel: "Anulare"
+    button_close: "Închide"
+    button_change_project: "Change project"
+    button_check_all: "Selectează tot"
+    button_configure-form: "Configure form"
+    button_confirm: "Confirmă"
+    button_continue: "Continuaţi"
+    button_copy: "Copiere"
+    button_custom-fields: "Câmpuri personalizate"
+    button_delete: "Ștergere"
+    button_delete_watcher: "Ştergere observator"
+    button_details_view: "Vizualizare detaliată"
+    button_duplicate: "Duplicare"
+    button_edit: "Editare"
+    button_filter: "Filtrare"
+    button_collapse_all: "Restrângere totală"
+    button_expand_all: "Extindere totală"
+    button_advanced_filter: "Filtru avansat"
+    button_list_view: "Vizualizare listă"
+    button_show_view: "Vizualizare pe tot ecranul"
+    button_log_time: "Consum timp"
+    button_more: "Mai mult"
+    button_open_details: "Deschidere vizualizare detaliată"
+    button_close_details: "Închideţi fereastra cu detalii"
+    button_open_fullscreen: "Afișare pe tot ecranul"
+    button_show_cards: "Show card view"
+    button_show_list: "Show list view"
+    button_quote: "Citare"
+    button_save: "Salvare"
+    button_settings: "Setări"
+    button_uncheck_all: "Deselecteaza tot"
+    button_update: "Actualizare"
+    button_export-pdf: "Descărcare PDF"
+    button_export-atom: "Descărcare Atom"
+    calendar:
+      title: 'Calendar'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
+    clipboard:
+      browser_error: "Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să copiaţi textul selectat manual."
+      copied_successful: "Copiere în ecranul tampon reușită!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'General'
+        dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+    description_available_columns: "Coloane disponibile"
+    description_current_position: "You are here: "
+    description_select_work_package: "Selectaţi pachetul de lucru #%{id}"
+    description_selected_columns: "Coloane selectate"
+    description_subwork_package: "Fiu al pachetului de lucru #%{id}"
+    editor:
+      preview: 'Activaţi/Dezactivați previzualizarea'
+      source_code: 'Toggle Markdown source mode'
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      error_initialization_failed: 'Failed to initialize CKEditor!'
+      mode:
+        manual: 'Switch to Markdown source'
+        wysiwyg: 'Switch to WYSIWYG editor'
+      macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
+        child_pages:
+          button: 'Links to child pages'
+          include_parent: 'Include parent'
+          text: '[Placeholder] Links to child pages of'
+          page: 'Pagină wiki'
+          this_page: 'această pagină'
+          hint: |
+            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+        code_block:
+          button: 'Inserați fragmentul de cod'
+          title: 'Inserați/Editați fragmentul de cod'
+          language: 'Limbaj de formatare'
+          language_hint: 'Introduceți limbajul de formatare care va fi utilizat pentru evidențiere (dacă există suport pentru acesta).'
+        dropdown:
+          macros: 'Macro'
+          chose_macro: 'Alegeți macro'
+        toc: 'Table of contents'
+        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        wiki_page_include:
+          button: 'Includeți conținul altei pagini wiki'
+          text: '[Placeholder] Pagină wiki inclusă'
+          page: 'Pagină wiki'
+          not_set: '(Pagina nu a fost încă stabilită)'
+          hint: |
+            Includeți conținutul altei pagini wiki specificând titul sau adresa(slug). Puteți include pagina wiki din cadrul altui proiect separându-le prin simbolul ”:” ca și în exemplul următor.
+        work_package_button:
+          button: 'Insert create work package button'
+          type: 'Tip pachet de lucru'
+          button_style: 'Folosește butonul de stil'
+          button_style_hint: 'Optional: Bifați pentru a vedea comenzile macro sub formă de butoane, nu sub formă de link.'
+          without_type: 'Creați pachet de lucru'
+          with_type: 'Creați pachet de lucru (Tip: %{typename})'
+        embedded_table:
+          button: 'Inserați tabel pachet de lucru'
+          text: '[Placeholder] Tabelul pachetului de lucru inserat'
+        embedded_calendar:
+          text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Câmp personalizat'
+        inactive: 'Inactive'
+        drag_to_activate: "Mutați câmpuri de aici pentru a le activa"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'Grupare nouă'
+        reset_to_defaults: 'Reset to defaults'
+      enterprise:
+        trial:
+          confirmation: "Confirmation of email address"
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+          form:
+            general_consent: >
+              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+            invalid_email: "Invalid email address"
+            label_company: "Company"
+            label_first_name: "Prenume"
+            label_last_name: "Nume"
+            label_email: "E-mail"
+            label_domain: "Domain"
+            label_subscriber: "Subscriber"
+            label_maximum_users: "Număr maxim de utilizatori activi"
+            label_starts_at: "Starts at"
+            label_expires_at: "Expires at"
+            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
+          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
+          try_another_email: "Or try it with another email address."
+          next_steps: "Next steps"
+          resend_link: "Resend"
+          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
+          resend_warning: "Could not resend email."
+          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          status_label: "Status:"
+          status_confirmed: "confirmed"
+          status_waiting: "email sent - waiting for confirmation"
+          test_ee: "Test the Enterprise Edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "Become a hero!"
+          benefits:
+            description: "What are the benefits?"
+            high_security: "Security features"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            installation: "Installation support"
+            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            premium_features: "Premium features"
+            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            professional_support: "Suport profesional"
+            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+          button_start_trial: "Start free trial"
+          button_book_now: "Book now"
+          confidence: >
+            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+          link_quote: "Get a quote"
+          text: >
+            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+          unlimited: "Unlimited"
+          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+    custom_actions:
+      date:
+        specific: 'pe'
+        current_date: 'Current date'
+    error:
+      internal: "A apărut o eroare internă."
+      cannot_save_changes_with_message: "Schimbările nu pot fi salvate datorită acestei erori: %{error}"
+      query_saving: "Configurația nu poate salvată."
+      embedded_table_loading: "Configurația inserată nu poate fi încarcată: %{message}"
+    enumeration_activities: "Activități (durata de lucru)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
+    filter:
+      description:
+        text_open_filter: "Deschideți acest filtru cu 'ALT' și tastele săgeată."
+        text_close_filter: "Pentru a selecta o poziție schimbați prim-planul (de exemplu apasand Enter). Pentru a ieși fără filtrare selectați prima poziție (goală)."
+      noneElement: "(nimic)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} ora locală."
+        only_start: "Începând cu %{from} ora locală."
+        only_end: "Până la %{to} ora locală."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "Primul criteriu de sortare"
+          two: "Al doilea criteriu de sortare"
+          three: "Al treilea criteriu de sortare"
+      upsale_for_more: "Pentru filtre mai avansate, accesați"
+      upsale_link: 'Versiunea Enterprise.'
+    general_text_no: "nu"
+    general_text_yes: "da"
+    general_text_No: "Nu"
+    general_text_Yes: "Da"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} nu este o dată validă - Este necesar formatul AAAA-LL-ZZ."
+        general: "A apărut o eroare."
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "Read about new features and product updates."
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+    label_activate: "Activare"
+    label_add_column_after: "Adauga o coloana dupa"
+    label_add_column_before: "Adauga o coloana inainte"
+    label_add_columns: "Adaugați coloane"
+    label_add_comment: "Adăugare comentariu"
+    label_add_comment_title: "Comentați şi tastaţi @ pentru a notifica alte persoane"
+    label_add_row_after: "Adauga un rand dupa"
+    label_add_row_before: "Adauga un rand inainte"
+    label_add_selected_columns: "Adăugați coloanele selectate"
+    label_added_by: "adăugat de"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_ago: "zile în urmă"
+    label_all: "toate"
+    label_all_work_packages: "toate pachetele de lucru"
+    label_and: "și"
+    label_ascending: "Crescător"
+    label_author: "Autor: %{user}"
+    label_avatar: "Avatar"
+    label_between: "between"
+    label_board: "Board"
+    label_board_locked: "Închis"
+    label_board_plural: "Boards"
+    label_board_sticky: "Lipicios"
+    label_create: "Creare"
+    label_create_work_package: "Creare pachet de lucru nou"
+    label_created_by: "Creat de"
+    label_date: "Dată"
+    label_date_with_format: "Introduceţi %{date_attribute} folosind următorul format: %{format}"
+    label_deactivate: "Dezactivare"
+    label_descending: "Descrescător"
+    label_description: "Descriere"
+    label_details: "Detalii"
+    label_display: "Afișare"
+    label_cancel_comment: "Anulează comentariu"
+    label_closed_work_packages: "închis"
+    label_collapse: "Restrângere"
+    label_collapsed: "restrâns"
+    label_collapse_all: "Restrângere totală"
+    label_comment: "Comentariu"
+    label_committed_at: "%{committed_revision_link} la data de %{date}"
+    label_committed_link: "revizia încărcată %{revision_identifier}"
+    label_contains: "conţine"
+    label_created_on: "creat la data de"
+    label_edit_comment: "Editare comentariu"
+    label_edit_status: "Editați starea pachetului de lucru"
+    label_equals: "este"
+    label_expand: "Extindere"
+    label_expanded: "extins"
+    label_expand_all: "Extindere totală"
+    label_expand_project_menu: "Deschideți meniul proiectului"
+    label_export: "Exportare"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_filename: "Fișier"
+    label_filesize: "Dimensiune"
+    label_general: "General"
+    label_global_roles: "Global Roles"
+    label_greater_or_equal: ">="
+    label_group: 'Grup'
+    label_group_by: "Grupare după"
+    label_group_plural: "Grupuri"
+    label_hide_attributes: "Arată mai puţin"
+    label_hide_column: "Ascundere coloana"
+    label_hide_project_menu: "Închideți meniul proiectului"
+    label_in: "în"
+    label_in_less_than: "în mai puțin de"
+    label_in_more_than: "în mai mult de"
+    label_incoming_emails: "E-mailuri primite"
+    label_information_plural: "Informații"
+    label_import: "Import"
+    label_latest_activity: "Activitate recentă"
+    label_last_updated_on: "Ultima actualizare la data de"
+    label_learn_more_link: "Aflați mai multe"
+    label_less_or_equal: "<="
+    label_less_than_ago: "acum mai puțin de zile"
+    label_loading: "Se încarcă..."
+    label_mail_notification: "Notificări prin e-mail"
+    label_me: "eu"
+    label_meeting_agenda: "Agendă"
+    label_meeting_minutes: "Concluzii"
+    label_menu_collapse: "restrângere"
+    label_menu_expand: "extindere"
+    label_more_than_ago: "acum mai mult de zile"
+    label_next: "Înainte"
+    label_no_color: "Nicio culoare"
+    label_no_data: "Nu există date de afișat"
+    label_no_due_date: "no finish date"
+    label_no_start_date: "fără dată început"
+    label_no_value: "Nici o valoare"
+    label_none: "niciunul"
+    label_not_contains: "nu conține"
+    label_not_equals: "nu este"
+    label_on: "pe"
+    label_open_menu: "Deschidere meniu"
+    label_open_context_menu: "Deschideți meniul contextual"
+    label_open_work_packages: "deschise"
+    label_password: "Parolă"
+    label_previous: "Înapoi"
+    label_per_page: "Pe pagină:"
+    label_please_wait: "Așteptați"
+    label_project_plural: "Proiecte"
+    label_visibility_settings: "Setări de vizibilitate"
+    label_quote_comment: "Citare comentariu"
+    label_recent: "Recent"
+    label_reset: "Resetare"
+    label_remove_column: "Elimina colana"
+    label_remove_columns: "Eliminare coloane selectate"
+    label_remove_row: "Elimina rand"
+    label_report: "Raportare"
+    label_repository_plural: "Repo-uri"
+    label_save_as: "Salvare ca"
+    label_select_watcher: "Selectaţi un observator..."
+    label_selected_filter_list: "Filtre selectate"
+    label_show_attributes: "Afișați toate câmpurile"
+    label_show_in_menu: "Vizualizați configurația în meniu"
+    label_sort_by: "Sortare după"
+    label_sorted_by: "sortare după"
+    label_sort_higher: "Mută în sus"
+    label_sort_lower: "Mută în jos"
+    label_sorting: "Sortare"
+    label_spent_time: "Timp consumat"
+    label_star_query: "Favorite"
+    label_press_enter_to_save: "Apăsați tasta ”Enter” pentru a salva."
+    label_public_query: "Public"
+    label_sum: "Sumă"
+    label_sum_for: "Suma pentru"
+    label_subject: "Subiect"
+    label_this_week: "săptămâna curentă"
+    label_today: "Today"
+    label_time_entry_plural: "Timp consumat"
+    label_up: "Sus"
+    label_user_plural: "Utilizatori"
+    label_activity_show_only_comments: "Afișați doar activitățile ce conțin comentarii"
+    label_activity_show_all: "Afișează toate activitățile"
+    label_total_progress: "%{percent} % Progres total"
+    label_total_amount: "Total: %{amount}"
+    label_updated_on: "actualizat la data de"
+    label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
+    label_warning: "Avertizare"
+    label_work_package: "Pachet de lucru"
+    label_work_package_parent: "Parent work package"
+    label_work_package_plural: "Pachete de lucru"
+    label_watch: "Monitorizare"
+    label_watch_work_package: "Urmăriți pachetul de lucru"
+    label_watcher_added_successfully: "Observator adăugat cu succes!"
+    label_watcher_deleted_successfully: "Observator eliminat cu succes!"
+    label_work_package_details_you_are_here: "Esti în secțiunea %{tab} din %{type} %{subject}."
+    label_unwatch: "Stop monitorizare"
+    label_unwatch_work_package: "Opriți urmărirea pachetului de lucru"
+    label_uploaded_by: "Încărcat de"
+    label_default_queries: "Configurații implicite"
+    label_starred_queries: "Configurații favorite"
+    label_global_queries: "Configurații publice"
+    label_custom_queries: "Configurații private"
+    label_columns: "Coloane"
+    label_attachments: Fişiere
+    label_drop_files: Trageți fișierele aici
+    label_drop_files_hint: sau dați click pentru a adăuga fişiere
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
+    label_add_attachments: "Adaugă fișiere"
+    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
+    label_remove_file: "Ştergere %{fileName}"
+    label_remove_watcher: "Eliminare observator %{name}"
+    label_remove_all_files: Ştergeţi toate fişierele
+    label_add_description: "Adăugați o descriere pentru %{file}"
+    label_upload_notification: "Se încarcă fișierele..."
+    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare"
+    label_wp_id_added_by: "#%{id} adaugat de %{author}"
+    label_files_to_upload: "Următoarele fişiere vor fi încărcate:"
+    label_rejected_files: "Următoarele fişiere nu pot fi încărcate:"
+    label_rejected_files_reason: "Aceste fişiere nu pot fi încărcate deoarece mărimea lor este mai mare decât %{maximumFilesize}"
+    label_wait: "Vă rugăm să aşteptaţi pentru configurare..."
+    label_upload_counter: "%{done} din %{count} de fişiere terminate"
+    label_validation_error: "Pachetul de lucru nu a putut fi salvat din cauza următoarelor erori:"
+    label_version_plural: "Versiuni"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    help_texts:
+      show_modal: 'Show attribute help text entry'
+    onboarding:
+      buttons:
+        skip: 'Skip'
+        next: 'Înainte'
+        got_it: 'Got it'
+      steps:
+        help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>Members</b> to join your project.'
+        project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
+        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
+        wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
+        backlogs:
+          overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
+          task_board_select: '... and select the <b>Task board</b> entry.'
+          task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
+        boards:
+          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
+          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
+          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
+          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+        wp:
+          toggler: "Now let's have a look at the <b>Work package</b> section, which gives you a more detailed view of your work."
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
+          back_button: 'With the arrow you can navigate back to the work package list.'
+          create_button: 'The <b>Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
+          timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
+    password_confirmation:
+      field_description: 'Trebuie să introduceţi parola contului dumneavoastră pentru a confirma această schimbare.'
+      title: 'Vă rugăm să confirmați parola dumneavoastră pentru a continua'
+    pagination:
+      no_other_page: "Sunteți pe pagina unică."
+      pages:
+        next: "Avansare la pagina următoare"
+        previous: "Înapoi la pagina precedentă"
+    placeholders:
+      default: '-'
+      subject: 'Introduceţi subiectul aici'
+      selection: 'Vă rugăm să selectaţi'
+      relation_description: 'Click pentru a adauga o descriere pentru această relaţie'
+    project:
+      required_outside_context: >
+        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      context: 'Project context'
+      work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
+      click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      autocompleter:
+        label: 'Completarea automată a proiectului'
+    text_are_you_sure: "Sunteți sigur?"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "Numele %{group} este utilizat de mai multe ori. Fiecare grup trebuie să aibă un nume unic."
+        error_no_table_configured: "Please configure a table for %{group}."
+        reset_title: "Reset form configuration"
+        confirm_reset: >
+          Antenție: Sunteți sigur că doriți să resetați congurația formularului? Această acțiune va reseta toate atributele înapoi la grupul implicit și va dezactiva TOATE câmpurile personalizate.
+        upgrade_to_ee: "Achiziționați versiunea Enterprise"
+        upgrade_to_ee_text: "Hopa! Dacă aveți nevoie de această opțiune înseamnă că sunteți un profesionist! Dacă doriți, puteți susține acest produs achiziționând Versiunea Enterprise."
+        more_information: "More information"
+        nevermind: "Asta e..."
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Proiecte"
+        settings: "Setări"
+    time_entry:
+      project: 'Proiect'
+      work_package: 'Pachet de lucru'
+      work_package_required: 'Requires selecting a work package first.'
+      activity: 'Activitate'
+      comment: 'Comentariu'
+      duration: 'Durată'
+      spent_on: 'Dată'
+      hours: 'Ore'
+      title: 'Consum timp'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
+    watchers:
+      label_loading: se încarcă observatorii...
+      label_error_loading: A apărut o eroare în timpul încărcării observatorilor
+      label_search_watchers: Caută observator
+      label_add: Adăugare observatori
+      label_discard: Renunțare la selecţie
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: "Părinte"
+      children: "Fii"
+      relates: "În relație cu"
+      duplicates: "Dublează"
+      duplicated: "Dublate de"
+      blocks: "Blochează"
+      blocked: "Blocat de"
+      precedes: "Precede"
+      follows: "Urmează după"
+      includes: "Include"
+      partof: "Parte din"
+      requires: "Necesită"
+      required: "Cerut de"
+      relation_type: "tipul de relaţie"
+    relations_hierarchy:
+      parent_headline: "Părinte"
+      hierarchy_headline: "Hierarchy"
+      children_headline: "Fii"
+    relation_buttons:
+      set_parent: "Set parent"
+      change_parent: "Modificare părinte"
+      remove_parent: "Elimina părinte"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
+      group_by_wp_type: "Grupează după tipul packetului de lucru"
+      group_by_relation_type: "Grupează dupa tipul legăturii"
+      add_parent: "Adaugă părinte existent"
+      add_new_child: "Crează un nou copil"
+      create_new: "Create new"
+      add_existing: "Add existing"
+      add_existing_child: "Adaugă un copil existent"
+      remove_child: "Elimină copil"
+      add_new_relation: "Crează o nouă relație"
+      add_existing_relation: "Add existing relation"
+      update_description: "Setează sau actualizează descrierea acestei relații"
+      toggle_description: "Activați/Dezactivați descrierea legăturilor"
+      update_relation: "Faceți click pentru a schimba tipul de legătură"
+      add_follower: "Add follower"
+      add_predecessor: "Add predecessor"
+      remove: "Eliminare relaţie"
+      save: "Salvează relația"
+      abort: "Anulează"
+    relations_autocomplete:
+      placeholder: "Type to search"
+      parent_placeholder: "Choose new parent or press escape to cancel."
+    repositories:
+      select_tag: 'Selectare etichetă'
+      select_branch: 'Selectare ramură'
+    field_value_enter_prompt: "Introduceţi o valoare pentru '%{field}'"
+    project_menu_details: "Detalii"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
+    sort:
+      sorted_asc: 'Sortare ascendentă aplicată '
+      sorted_dsc: 'Sortare descendentă aplicată '
+      sorted_no: 'Nu a fost selectată nicio sortare '
+      sorting_disabled: 'sortarea este dezactivată'
+      activate_asc: 'activați pentru a sorta ascendent'
+      activate_dsc: 'activați pentru a sorta descendent'
+      activate_no: 'activați pentru a înlătura sortarea'
+    text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
+    text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
+    text_attachment_destroy_confirmation: "Sunteţi sigur că doriţi să ştergeţi atașamentul?"
+    timelines:
+      quarter_label: 'Q%{quarter_number}'
+      gantt_chart: 'Grafic Gantt'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Stânga'
+        right: 'Dreapta'
+        farRight: 'Far right'
+        showNone: '-- Fără etichetă --'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      cancel: Anulare
+      change: "Schimbare în planificare"
+      due_date: "Finish date"
+      empty: "(gol)"
+      error: "A apărut o eroare."
+      errors:
+        not_implemented: "Planificările nu pot fi afișate deoarece utilizează o funcționalitate care nu este încă implementată."
+        report_comparison: "Planificările nu au putut afișa comparațiile configurate. Verificați secțiunea corespunzătoare din configurare, resetarea acesteia poate ajuta la rezolvarea problemei."
+        report_epicfail: "Planificările nu au putut fi încărcate din cauza unei erori neașteptate."
+        report_timeout: "Planificările nu au putut fi încărcate într-un interval de timp rezonabil."
+      filter:
+        grouping_other: "Altele"
+        noneSelection: "(nimic)"
+      name: "Nume"
+      outline: "Resetare contur"
+      outlines:
+        aggregation: "Afișare doar a agregărilor"
+        level1: "Afișare level 1"
+        level2: "Afișare level 2"
+        level3: "Afișare level 3"
+        level4: "Afișare level 4"
+        level5: "Afișare level 5"
+        all: "Afișare completă"
+      project_status: "Stare proiect"
+      really_close_dialog: "Sunteți sigur că doriți să închideți formularul și să pierdeți datele introduse?"
+      responsible: "Responsabil"
+      save: Salvare
+      start_date: "Data de început"
+      tooManyProjects: "Mai mult de %{count} proiecte. Vă rugăm să folosiţi un filtru potrivit!"
+      selection_mode:
+        notification: 'Faceți click pe oricare dintre pachetele de lucru pentru a crea o legătură. Apăsați Escape pentru a anula.'
+      zoom:
+        in: "Mărire"
+        out: "Micșorare"
+        auto: "Auto zoom"
+        days: "Zile"
+        weeks: "Săptămâni"
+        months: "Luni"
+        quarters: "Trimestre"
+        years: "Ani"
+        slider: "Selector de orizont de timp"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
+    tl_toolbar:
+      zooms: "Orizont de timp"
+      outlines: "Nivel ierarhic"
+    upsale:
+      ee_only: 'Enterprise Edition only feature'
+    wiki_formatting:
+      strong: "Aldin"
+      italic: "Italic"
+      underline: "Subliniat"
+      deleted: "Taiat"
+      code: "Limbaj de programare"
+      heading1: "Titlu 1"
+      heading2: "Titlu 2"
+      heading3: "Titlu 3"
+      unordered_list: "Listă neordonată"
+      ordered_list: "Listă ordonată"
+      quote: "Citare"
+      unquote: "Elimină formatare citat"
+      preformatted_text: "Text preformatat"
+      wiki_link: "Link la o pagină Wiki"
+      image: "Imagine"
+    work_packages:
+      bulk_actions:
+        move: 'Bulk change of project'
+        edit: 'Editează mai multe elemente'
+        copy: 'Copiază mai multe elemente'
+        delete: 'Șterge mai multe element'
+      button_clear: "Inițializare"
+      comment_added: "Comentariul a fost adăugat cu succes."
+      comment_send_failed: "A apărut o eroare. Comentariul nu a putut fi salvat."
+      comment_updated: "Comentariul a fost actualizat cu succes."
+      confirm_edit_cancel: "Sunteți sigur că doriți să renunțați la editarea pachetului de lucru?"
+      description_filter: "Filtrare"
+      description_enter_text: "Introduceţi textul"
+      description_options_hide: "Ascundere opțiuni"
+      description_options_show: "Afișare opțiuni"
+      edit_attribute: "%{attribute} - Editare"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "Activare selecție multiplă"
+      label_disable_multi_select: "Dezactivare selecție multiplă"
+      label_filter_add: "Adăugare filtru"
+      label_filter_by_text: "Filtreaza dupa text"
+      label_options: "Opțiuni"
+      label_column_multiselect: "Câmp desfășurat combinat: selectaţi cu săgețile, confirmați alegerea cu enter, ştergeţi cu backspace"
+      message_error_during_bulk_delete: A apărut o eroare la ștergerea pachetelor de lucru.
+      message_successful_bulk_delete: Pachetele de lucru au fost șterse cu succes.
+      message_successful_show_in_fullscreen: "Click aici pentru a afișa acest pachet de lucru pe tot ecranul."
+      message_view_spent_time: "Arată timpul petrecut pentru acest pachet de lucru"
+      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      placeholder_filter_by_text: "Subiect, descriere, comentarii, ..."
+      inline_create:
+        title: 'Click aici pentru a adăuga un nou pachet de lucru în listă'
+      create:
+        title: 'Pachet de lucru nou'
+        header: 'Nou %{type}'
+        header_no_type: 'Nou pachet de lucru (Tipul incă nu a fost stabilit)'
+        header_with_parent: 'Nou %{type} (copilul %{parent_type} #%{id})'
+        button: 'Creare'
+      copy:
+        title: 'Copy work package'
+      hierarchy:
+        show: "Afișați modul ierarhic"
+        hide: "Ascundeți modul ierarhic"
+        toggle_button: 'Faceți click pentru a activa/dezactiva modul ierarhic.'
+        leaf: 'Work package leaf at level %{level}.'
+        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
+        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
+      faulty_query:
+        title: Pachetele de lucru nu au putut fi încărcate.
+        description: Your view is erroneous and could not be processed.
+      no_results:
+        title: Nu sunt pachete de lucru de afișat.
+        description: Nu a fost creat niciun pachet de lucru, sau toate sunt eliminate prin filtru.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      property_groups:
+        details: "Detalii"
+        people: "Persoane"
+        estimatesAndTime: "Estimări și Durate"
+        other: "Altele"
+      properties:
+        assignee: "Executant"
+        author: "Autor"
+        createdAt: "Creat pe"
+        description: "Descriere"
+        date: "Dată"
+        dueDate: "Finish date"
+        estimatedTime: "Durata estimată"
+        spentTime: "Timp consumat"
+        category: "Categorie"
+        percentageDone: "Procent realizat"
+        priority: "Prioritate"
+        projectName: "Proiect"
+        responsible: "Responsabil"
+        startDate: "Data de început"
+        status: "Stare"
+        subject: "Subiect"
+        subproject: "Subproiect"
+        title: "Titlu"
+        type: "Tip"
+        updatedAt: "Actualizat pe"
+        versionName: "Versiune"
+        version: "Versiune"
+      default_queries:
+        latest_activity: "Activitate recentă"
+        created_by_me: "Created by me"
+        assigned_to_me: "Assigned to me"
+        recently_created: "Recently created"
+        all_open: "All open"
+        summary: "Descriere"
+      jump_marks:
+        pagination: "Salt la paginarea tabelului"
+        label_pagination: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"
+        content: "Săriți la conținut"
+        label_content: "Click here to skip over the menu and go to the content"
+      placeholders:
+        default: "-"
+        formattable: "%{name}: Click to edit..."
+      query:
+        column_names: "Coloane"
+        group_by: "Grupare rezultate"
+        group: "Grupare după"
+        group_by_disabled_by_hierarchy: "Gruparea este dezactivată deoarece modul ierarhic este activ."
+        hierarchy_disabled_by_group_by: "Modul ierarhic este dezactivat deoarece rezultatele sunt grupate în %{column}."
+        sort_ascending: "Ordonare ascendentă"
+        sort_descending: "Ordonare descendentă"
+        move_column_left: "Mutați coloana la stânga"
+        move_column_right: "Mutați coloana la dreapta"
+        hide_column: "Ascundere coloana"
+        insert_columns: "Inserare coloane..."
+        filters: "Filtre"
+        display_sums: "Afişare totaluri"
+        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
+        click_to_edit_query_name: "Click to edit title of this view."
+        rename_query_placeholder: "Name of this view"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+        errors:
+          unretrievable_query: "Unable to retrieve view from URL"
+          not_found: "There is no such view"
+          duplicate_query_title: "Name of this view already exists. Change anyway?"
+        text_no_results: "No matching views were found."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      table:
+        configure_button: 'Configure work package table'
+        summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."
+        text_inline_edit: "Majoritatea celulelor din acest tabel sunt butoane care activează editarea \"inline\" a câmpului respectiv."
+        text_sort_hint: "Cu link-urile din capul de tabel puteți sorta, grupa, reordona, elimina și adăuga coloane la tabel."
+        text_select_hint: "Casetele de selectare ar trebui să fie deschise cu 'ALT' si tastele săgeată."
+      table_configuration:
+        button: 'Configure this work package table'
+        choose_display_mode: 'Display work packages as'
+        modal_title: 'Work package table configuration'
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        default: "implicit"
+        display_settings: 'Display settings'
+        default_mode: "Flat list"
+        hierarchy_mode: "Hierarchy"
+        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
+        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        highlighting: 'Highlighting'
+        highlighting_mode:
+          description: "Highlight with color"
+          none: "No highlighting"
+          inline: 'Highlighted attribute(s)'
+          inline_all: 'All attributes'
+          entire_row_by: 'Entire row by'
+          status: 'Stare'
+          priority: 'Prioritate'
+          type: 'Tip'
+        sorting_mode:
+          description: 'Chose the mode to sort your Work packages:'
+          automatic: 'Automatic'
+          manually: 'Manually'
+          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        upsale:
+          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
+          relation_columns: 'Need to see relations in the work package list?'
+          check_out_link: 'Check out the Enterprise Edition.'
+        relation_filters:
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+      tabs:
+        overview: Vedere de ansamblu
+        activity: Activitate
+        relations: Relații
+        watchers: Observatori
+        attachments: Atașamente
+      time_relative:
+        days: "zile"
+        weeks: "săptămâni"
+        months: "luni"
+    toolbar:
+      settings:
+        configure_view: "Configure view ..."
+        columns: "Coloane..."
+        sort_by: "Sortare după..."
+        group_by: "Grupare după..."
+        display_sums: "Afişare totaluri"
+        display_hierarchy: "Afișați ierarhia"
+        hide_hierarchy: "Ascundeți ierarhia"
+        hide_sums: "Ascundere totaluri"
+        save: "Salvare"
+        save_as: "Salvare ca ..."
+        export: "Exportare ..."
+        visibility_settings: "Visibility settings ..."
+        page_settings: "Rename view ..."
+        delete: "Ștergere"
+      filter: "Filtrare"
+      unselected_title: "Pachet de lucru"
+      search_query_label: "Search saved views"
+      search_query_title: "Click to search saved views"
+      placeholder_query_title: "Set a title for this view"
+    modals:
+      label_settings: "Rename view"
+      label_name: "Nume"
+      label_delete_page: "Ştergeți pagina curentă"
+      button_apply: "Salvare"
+      button_save: "Salvare"
+      button_submit: "Trimitere"
+      button_cancel: "Anulare"
+      form_submit:
+        title: 'Confirmați pentru a continua'
+        text: 'Sunteți sigur/ă că doriți să realizați această acțiune?'
+      destroy_work_package:
+        title: "Confirmați ștergerea %{label}"
+        text: "Sunteți sigur/ă că doriți să ștergeți %{label}?"
+        has_children: "Pachetul de lucru conține %{childUnits}:"
+        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
+        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
+    notice_no_results_to_display: "Fara rezultate vizibile de afisat."
+    notice_successful_create: "Creare reuşită."
+    notice_successful_delete: "Ştergere reuşită."
+    notice_successful_update: "Actualizare reușită."
+    notice_bad_request: "Cerere invalidă."
+    relations:
+      empty: Nu există relații
+      remove: Eliminare relaţie
+    inplace:
+      button_edit: "%{attribute}: Editare"
+      button_save: "%{attribute}: Salvare"
+      button_cancel: "%{attribute}: Anulare"
+      button_save_all: "Salvare"
+      button_cancel_all: "Anulare"
+      link_formatting_help: "Ajutor pentru formatarea textului"
+      btn_preview_enable: "Previzualizare"
+      btn_preview_disable: "Dezactivare previzualizare"
+      null_value_label: "Nici o valoare"
+      clear_value_label: "-"
+      errors:
+        required: '%{field} nu poate fi gol'
+        number: '%{field} nu este un număr valid'
+        maxlength: '%{field} nu poate conține mai mult de %{maxLength} cifre'
+        minlength: '%{field} nu poate conține mai puțin de %{minLength} cifre'
+        messages_on_field: 'Acest câmp este invalid: %{messages}'
+    error_could_not_resolve_version_name: "Nu a putut fi detectat numele versiunii"
+    error_could_not_resolve_user_name: "Nu a putut fi detectat numele utilizatorului"
+    error_attachment_upload: "Fisierul nu a putut fi incarcat: %{error}"
+    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+    units:
+      workPackage:
+        one: "pachet de lucru"
+        few: "pachete de lucru"
+        other: "pachete de lucru"
+      child_work_packages:
+        one: "one child work package"
+        few: "%{count} work package children"
+        other: "%{count} work package children"
+      hour:
+        zero: "0 h"
+        one: ""
+        few: ""
+        other: ""
+    zen_mode:
+      button_activate: 'Activați modul zen'
+      button_deactivate: 'Dezactivați modul zen'
+    global_search:
+      all_projects: "In toate proiectele"
+      search: "Căutare"
+      close_search: "Inchide cautarea"
+      current_project: "In acest proiect"
+      current_project_and_all_descendants: "In acest proiect + subproiecte"
+      title:
+        all_projects: "toate proiectele"
+        project_and_subprojects: "si toate subproiectele"
+        search_for: "Cauta dupa"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Gantt'

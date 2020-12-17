@@ -1,0 +1,19 @@
+nl:
+  logout_warning: >
+    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Naam
+        display_name: Display name
+        identifier: Identifier
+        secret: Secret
+        scope: Scope
+  openid_connect:
+    menu_title: OpenID providers
+    providers:
+      label_add_new: Add a new OpenID provider
+      label_edit: Edit OpenID provider %{name}
+      no_results_table: No providers have been defined yet.
+      plural: OpenID providers
+      singular: OpenID provider

@@ -1,0 +1,5 @@
+uk:
+  dashboards:
+    label: 'Панелі керування'
+    menu_badge: 'Альфа'
+  project_module_dashboards: 'Панелі керування'

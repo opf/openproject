@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+nl:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Locatie"
+        duration: "Duur"
+        participants: "Deelnemers"
+        participants_attended: "Aanwezigen"
+        participants_invited: "Genodigden"
+        start_time: "Tijd"
+        start_time_hour: "Starting time"
+    errors:
+      messages:
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Minuten"
+  description_attended: "bijgewoond"
+  description_invite: "uitgenodigd"
+  events:
+    meeting: Vergadering bewerkt
+    meeting_agenda: Vergaderagenda bewerkt
+    meeting_agenda_closed: Vergaderagenda gesloten
+    meeting_agenda_opened: Vergaderagenda geopend
+    meeting_minutes: Notulen van de vergadering bewerkt
+    meeting_minutes_created: Notulen gemaakt
+  error_notification_with_errors: "Notificatie verzenden mislukt. De volgende geadresseerden konden niet worden gemeld: %{recipients}"
+  label_meeting: "Vergadering"
+  label_meeting_plural: "Vergaderingen"
+  label_meeting_new: "Nieuwe vergadering"
+  label_meeting_edit: "Vergadering bewerken"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Minuten"
+  label_meeting_close: "Sluiten"
+  label_meeting_open: "Open"
+  label_meeting_agenda_close: "Sluit de agenda om de notulen te beginnen"
+  label_meeting_date_time: "Datum/Tijd"
+  label_meeting_diff: "Diff"
+  label_notify: "Verzenden voor revisie"
+  label_icalendar: "Send iCalendar"
+  label_version: "Versie"
+  label_time_zone: "Tijdzone"
+  label_start_date: "Startdatum"
+  notice_successful_notification: "Notificatie succesvol verzonden"
+  notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
+  permission_create_meetings: "Creëer vergaderingen"
+  permission_edit_meetings: "Vergaderingen bewerken"
+  permission_delete_meetings: "Verwijder vergaderingen"
+  permission_view_meetings: "Bekijk vergaderingen"
+  permission_create_meeting_agendas: "Agenda's beheren"
+  permission_close_meeting_agendas: "Sluit agenda's"
+  permission_send_meeting_agendas_notification: "Send review notification for agendas"
+  permission_create_meeting_minutes: "Manage minutes"
+  permission_send_meeting_minutes_notification: "Send review notification for minutes"
+  permission_meetings_send_invite: "Gebruikers uitnodigen voor vergaderingen"
+  permission_send_meeting_agendas_icalendar: "Afspraak als agenda-item verzenden"
+  project_module_meetings: "Vergaderingen"
+  text_duration_in_hours: "Duration in hours"
+  text_in_hours: "in uren"
+  text_meeting_agenda_for_meeting: 'agenda voor de vergadering "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "Dit overschrijft alle wijzigingen in de aantekeningen! Wilt u doorgaan?"
+  text_meeting_minutes_for_meeting: 'minuten voor de vergadering "%{meeting}"'
+  text_review_meeting_agenda: "%{author} heeft de %{link} geselecteerd voor herziening."
+  text_review_meeting_minutes: "%{author} heeft de %{link} geselecteerd voor herziening."
+  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"

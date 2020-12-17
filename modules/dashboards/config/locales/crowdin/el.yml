@@ -1,0 +1,5 @@
+el:
+  dashboards:
+    label: 'Πίνακες Ελέγχου'
+    menu_badge: 'Άλφα'
+  project_module_dashboards: 'Πίνακες Ελέγχου'

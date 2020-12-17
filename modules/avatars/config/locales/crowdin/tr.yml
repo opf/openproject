@@ -1,0 +1,40 @@
+#English strings go here
+tr:
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatarlar"
+  label_current_avatar: "Mevcut Avatar"
+  label_choose_avatar: "Dosyadan Avatarı seçin"
+  message_avatar_uploaded: "Avatar başarıyla değiştirildi."
+  error_image_upload: "Resim kaydedilirken hata oluştu."
+  error_image_size: "Resim çok büyük."
+  button_change_avatar: "Avatarı değiştir"
+  are_you_sure_delete_avatar: "Avatarını silmek istediğinden emin misin?"
+  avatar_deleted: "Avatar başarıyla silindi."
+  unable_to_delete_avatar: "Avatar silinemedi."
+  wrong_file_format: "İzin verilen biçimler jpg, png, gif"
+  empty_file_error: "Lütfen geçerli bir resim yükle (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Mevcut avatar'
+    label_local_avatar: 'Özel avatar'
+    text_current_avatar: |
+      Aşağıdaki görüntü mevcut avatarı göstermektedir.
+    text_upload_instructions: |
+      128 x 128 piksellik kendi özel avatarınızı yükleyin. Büyük dosyalar yeniden boyutlandırılacak ve eşleşecek şekilde kırpılacaktır.
+      Bir resmi seçtikten sonra, yüklemeden önce avatarınızın bir önizlemesi gösterilir.
+    text_change_gravatar_html: 'Posta adresinize ait Gravatar''ı değiştirmek veya eklemek için, %{gravatar_url}. adresine gidin.'
+    text_your_local_avatar: |
+      OpenProject kendi özel avatarınızı yüklemenizi sağlar.
+    text_local_avatar_over_gravatar: |
+      Birini ayarlarsanız, bu özel avatar yukarıdaki gravatar üzerinde öncelikli olarak kullanılır.
+    text_your_current_gravatar: |
+      OpenProject bir tanesini kaydettiyseniz gravatarınızı veya varsa bir varsayılan görüntü veya simgeyi kullanır.
+      Mevcut gravatar aşağıdaki gibidir:
+    settings:
+      enable_gravatars: 'Kullanıcı gravatarlarını etkinleştir'
+      gravatar_default: "Varsayılan Gravatar resmi"
+      enable_local_avatars: 'Kullanıcı özel avatarları etkinleştir'
+
+
+

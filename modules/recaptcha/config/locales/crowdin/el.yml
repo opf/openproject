@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+el:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Παρακαλούμε περιμένετε ...'
+    verify_account: "Επαληθεύστε τον λογαριασμό σας"
+    error_captcha: "Ο λογαριασμός σας δεν ήταν δυνατό να επαληθευτεί. Παρακαλούμε επικοινωνήστε με ένα διαχειριστή."
+    settings:
+      website_key: 'Κλειδί ιστοσελίδας'
+      website_key_text: 'Εισάγετε το κλειδί της ιστοσελίδας που δημιουργήσατε στο reCAPTCHA στην κονσόλα διαχειριστή αυτού του τομέα.'
+      secret_key: 'Κρυφό κλειδί'
+      secret_key_text: 'Εισάγετε το κρυφό κλειδί που δημιουργήσατε στο reCAPTCHA στην κονσόλα διαχειριστή.'
+      type: 'Χρήση reCAPTCHA'
+      type_disabled: 'Απενεργοποίηση reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        Το reCAPTCHA είναι μια δωρεάν υπηρεσία της Google που μπορεί να ενεργοποιηθεί για το στιγμιότυπο του OpenProject σας. Αν ενεργοποιηθεί, μια φόρμα captcha θα δημιουργείται κατά τη σύνδεση για όλους τους χρήστες που δεν έχουν επαληθεύσει ένα captcha ακόμα. <br/> Παρακαλούμε δείτε τον ακόλουθο σύνδεσμο για περισσότερες λεπτομέρειες για το reCAPTCHA και τις εκδόσεις του και για το πως να δημιουργήσετε την ιστοσελίδα και τα κρυφά κλειδιά: %{recaptcha_link}

@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+uk:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Місцезнаходження"
+        duration: "Тривалість"
+        participants: "Учасники"
+        participants_attended: "Учасники"
+        participants_invited: "Запрошені"
+        start_time: "Час"
+        start_time_hour: "Початковий час"
+    errors:
+      messages:
+        invalid_time_format: "не є допустимим часом. Необхідний формат: HH:MM"
+    models:
+      meeting_agenda: "Порядок денний"
+      meeting_minutes: "Хвилини"
+  description_attended: "Участь"
+  description_invite: "запрошені"
+  events:
+    meeting: Нотатки до зустрічі
+    meeting_agenda: Порядок денний зустрічі редагувався
+    meeting_agenda_closed: Порядок засідань закритий
+    meeting_agenda_opened: Порядок зустрічей був відкритий
+    meeting_minutes: Відредаговані хвилини наради
+    meeting_minutes_created: Створено протокол зустрічей
+  error_notification_with_errors: "Не вдалося надіслати сповіщення. Неможливо отримати сповіщення про таких одержувачів: %{recipients}"
+  label_meeting: "Зустріч"
+  label_meeting_plural: "Зустрічі"
+  label_meeting_new: "Нова зустріч"
+  label_meeting_edit: "Редагувати збори"
+  label_meeting_agenda: "Порядок денний"
+  label_meeting_minutes: "Хвилини"
+  label_meeting_close: "Закрити"
+  label_meeting_open: "Відкрити"
+  label_meeting_agenda_close: "Закрийте порядок денний, щоб розпочати протоколи"
+  label_meeting_date_time: "Дата, час"
+  label_meeting_diff: "Відмінність"
+  label_notify: "Надіслати на розгляд"
+  label_icalendar: "Надіслати iCalendar"
+  label_version: "Версія"
+  label_time_zone: "Часовий пояс"
+  label_start_date: "Початок"
+  notice_successful_notification: "Повідомлення успішно надіслано"
+  notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
+  permission_create_meetings: "Створюйте зустрічі"
+  permission_edit_meetings: "Редагувати зустрічі"
+  permission_delete_meetings: "Видалити зустрічі"
+  permission_view_meetings: "Переглянути зустрічі"
+  permission_create_meeting_agendas: "Керувати програмами"
+  permission_close_meeting_agendas: "Закрити порядок денний"
+  permission_send_meeting_agendas_notification: "Надіслати повідомлення про перегляд для порядку денного"
+  permission_create_meeting_minutes: "Керування хвилинами"
+  permission_send_meeting_minutes_notification: "Надішліть повідомлення про перегляд за хвилини"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "Зустрічі"
+  text_duration_in_hours: "Тривалість у годинах"
+  text_in_hours: "у годинах"
+  text_meeting_agenda_for_meeting: 'порядку денного засідання %{meeting}'
+  text_meeting_closing_are_you_sure: "Дійсно закрити нараду?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
+  text_review_meeting_agenda: "%{author} поставив %{link} на розгляд."
+  text_review_meeting_minutes: "%{author} поставив %{link} на розгляд."
+  text_notificiation_invited: "У цьому листі міститься запис ics для зустрічі нижче:"

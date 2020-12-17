@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+nl:
+  error_can_not_delete_export_card_configuration: "Deze configuratie kan niet verwijderd worden."
+  error_can_not_change_name_of_default_configuration: "Standaardconfiguratie naam kan niet gewijzigd worden."
+  label_backlogs_export_card_config_select: "Kies export kaartinstellingen"
+  label_backlogs_export_card_export: "Exporteren"
+  label_export_card_configuration_new: "Nieuwe Export Card Instelling"
+  label_export_card_configuration: "Export Card Instelling"
+  label_export_card_configuration_plural: "Export Card Instellingen"
+  label_export_card_activate: "Activeren"
+  label_export_card_deactivate: "De-activeren"
+  notice_export_card_configuration_activated: "Configuratie succesvol geactiveerd."
+  notice_export_card_configuration_deactivated: "Configuratie succesvol gedeactiveerd"
+  error_can_not_activate_export_card_configuration: "Deze configuratie kan niet geactiveerd worden"
+  error_can_not_deactivate_export_card_configuration: "Deze configuratie kan niet gedeactiveerd worden"
+  validation_error_required_keys_not_present: "Vereiste sleutel(s) is(zijn) niet aanwezig:"
+  validation_error_yaml_is_badly_formed: "heeft geen geldig YAML-formaat."
+  validation_error_uknown_key: "Onbekende sleutel:"
+  yaml_error: "YAML fout:"
+  help_link_rows_format: "Rijen opmaken"
+  export_config_per_page: "Per pagina"
+  export_config_page_size: "Paginagrootte"
+  export_config_orientation: "Oriëntatie"
+  export_config_rows: "Rijen"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Rijen"
+        per_page: "Per pagina"
+        page_size: "Paginagrootte"
+        orientation: "Oriëntatie"

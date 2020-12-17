@@ -1,0 +1,59 @@
+pl:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL do wywołania'
+        secret: 'Tajny klucz podpisu'
+        events: 'Zdarzenia'
+        projects: 'Aktywne projekty'
+      webhooks/log:
+        event_name: 'Nazwa zdarzenia'
+        url: 'URL do wywołania'
+        response_code: 'Kod odpowiedzi'
+        response_body: 'Odpowiedź'
+    models:
+      webhooks/outgoing_webhook: "Webhook wychodzący"
+  webhooks:
+    singular: Webhook
+    plural: Webhooki
+    resources:
+      time_entry:
+        name: "Wpis czasu"
+    outgoing:
+      no_results_table: Jeszcze nie określono żadnych webhooków.
+      label_add_new: Dodaj nowy webhook
+      label_edit: Edytuj webhook
+      label_event_resources: Zasoby zdarzeń
+      events:
+        created: "Utworzono"
+        updated: "Zaktualizowano"
+      status:
+        enabled: 'Webhook jest włączony'
+        disabled: 'Webhook jest wyłączony'
+        enabled_text: 'Webhook będzie emitować zawartość zdarzeń określonych poniżej.'
+        disabled_text: 'Kliknij przycisk edycji, aby aktywować webhook.'
+      deliveries:
+        no_results_table: Nie wykonano żadnych dostaw dla tego webhooka.
+        title: 'Ostatnie dostawy'
+        time: 'Czas dostawy'
+      form:
+        introduction: >
+          Wyślij żądanie POST na adres URL zawartości każdego zdarzenia w subskrybowanym projekcie. Zawartość będzie odpowiadała reprezentacji modyfikowanego obiektu w APIv3.
+        apiv3_doc_url: Więcej informacji zawiera dokumentacja interfejsu API
+        description:
+          placeholder: 'Opcjonalny opis webhooka.'
+        enabled:
+          description: >
+            W razie zaznaczenia webhook będzie uruchamiany przez wybrane zdarzenia. Usuń zaznaczenie, aby wyłączyć webhook.
+        events:
+          title: 'Włączone zdarzenia'
+        project_ids:
+          title: 'Aktywne projekty'
+          description: 'Wybierz projekty, dla których ma być wykonywany ten webhook.'
+          all: 'Wszystkie projekty'
+          selected: 'Tylko wybrane projekty'
+        selected_project_ids:
+          title: 'Wybrane projekty'
+        secret:
+          description: >
+            W razie ustawienia ta wartość tajnego klucza jest używana przez OpenProject do podpisywania zawartości webhooka.

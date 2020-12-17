@@ -1,0 +1,59 @@
+ko:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: '페이로드 URL'
+        secret: '서명 비밀번호'
+        events: '이벤트'
+        projects: '활성화 된 프로젝트'
+      webhooks/log:
+        event_name: '이벤트 이름'
+        url: '페이로드 URL'
+        response_code: '응답 코드'
+        response_body: '응답'
+    models:
+      webhooks/outgoing_webhook: "발신 Webhook"
+  webhooks:
+    singular: Webhook
+    plural: Webhook
+    resources:
+      time_entry:
+        name: "시간 입력"
+    outgoing:
+      no_results_table: 아직 정의된 Webhook이 없습니다.
+      label_add_new: 새로운 Webhook 추가
+      label_edit: Webhook 편집
+      label_event_resources: 이벤트 리소스
+      events:
+        created: "생성됨"
+        updated: "업데이트됨"
+      status:
+        enabled: 'Webhook이 활성화되었습니다'
+        disabled: 'Webhook이 비활성화되었습니다'
+        enabled_text: 'Webhook은 아래에 정의된 이벤트의 페이로드를 내보냅니다.'
+        disabled_text: '편집 버튼을 클릭하여 Webhook을 활성화하십시오.'
+      deliveries:
+        no_results_table: 이 Webhook에 대한 배달이 진행되지 않았습니다.
+        title: '최근 배달'
+        time: '배달 시간'
+      form:
+        introduction: >
+          구독하는 프로젝트의 모든 이벤트에 대해 아래의 페이로드 URL에 POST 요청을 보내십시오. 페이로드는 수정될 개체의 APIv3 표현에 해당합니다.
+        apiv3_doc_url: 자세한 내용은 API 설명서를 참조하십시오.
+        description:
+          placeholder: 'Webhook에 대한 선택적 설명입니다.'
+        enabled:
+          description: >
+            선택한 경우, 선택된 이벤트에서 Webhook이 트리거됩니다. Webhook을 비활성화하려면 선택 취소하십시오.
+        events:
+          title: '활성화된 이벤트'
+        project_ids:
+          title: '활성화 된 프로젝트'
+          description: '이 Webhook이 실행되는 프로젝트를 선택하십시오.'
+          all: '모든 프로젝트'
+          selected: '선택한 프로젝트만'
+        selected_project_ids:
+          title: '선택한 프로젝트'
+        secret:
+          description: >
+            설정한 경우 이 비밀번호 값은 OpenProject에 의해 Webhook 페이로드에 서명하는 데 사용됩니다.

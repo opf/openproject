@@ -1,0 +1,59 @@
+it:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL Payload'
+        secret: 'Firma segreta'
+        events: 'Eventi'
+        projects: 'Progetti abilitati'
+      webhooks/log:
+        event_name: 'Nome dell''evento'
+        url: 'URL Payload'
+        response_code: 'Codice di risposta'
+        response_body: 'Risposta'
+    models:
+      webhooks/outgoing_webhook: "Webhook in uscita"
+  webhooks:
+    singular: Webhook
+    plural: Webhook
+    resources:
+      time_entry:
+        name: "Inserimento tempo"
+    outgoing:
+      no_results_table: Non è stato definito ancora nessun webhook.
+      label_add_new: Aggiungi nuovo webhook
+      label_edit: Modifica webhook
+      label_event_resources: Risorse evento
+      events:
+        created: "Creato"
+        updated: "Aggiornato"
+      status:
+        enabled: 'Webhook abilitato'
+        disabled: 'Webhook disabilitato'
+        enabled_text: 'Il webhook emetterà i payload per gli eventi definiti di seguito.'
+        disabled_text: 'Clicca sul pulsante Modifica per attivare il webhook.'
+      deliveries:
+        no_results_table: Non sono state effettuate consegne per questo webhook.
+        title: 'Consegne recenti'
+        time: 'Tempo di consegna'
+      form:
+        introduction: >
+          Invia una richiesta POST all'URL di payload qui sotto per ogni evento nel progetto che hai sottoscritto. Il payload corrisponde alla rappresentazione APIv3 dell'oggetto in fase di modifica.
+        apiv3_doc_url: Per maggiori informazioni visitare la documentazione sulle API
+        description:
+          placeholder: 'Descrizione opzionale del webhook.'
+        enabled:
+          description: >
+            Quando selezionato, il webhook si attiverà sugli eventi selezionati. Deseleziona per disabilitare il webhook.
+        events:
+          title: 'Eventi abilitati'
+        project_ids:
+          title: 'Progetti abilitati'
+          description: 'Seleziona per quali progetti questo webhook deve essere eseguito.'
+          all: 'Tutti i progetti'
+          selected: 'Solo progetti selezionati'
+        selected_project_ids:
+          title: 'Progetti selezionati'
+        secret:
+          description: >
+            Se impostato, questo valore segreto è utilizzato da OpenProject per firmare il payload del webhook.

@@ -1,0 +1,63 @@
+fi:
+  js:
+    grid:
+      add_widget: 'Lisää widgetti'
+      remove: 'Remove widget'
+      configure: 'Configure widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Mukautettu teksti'
+        documents:
+          title: 'Asiakirjat'
+          no_results: 'No documents yet.'
+        members:
+          title: 'Jäsenet'
+          no_results: 'Ei nähtävissä olevia jäseniä.'
+          view_all_members: 'Kaikki jäsenet'
+          add: 'Jäsen'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Uutiset'
+          at: 'at'
+          no_results: 'Ei uutta raportoitavaa.'
+        project_description:
+          title: 'Projektin kuvaus'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Projektin tiedot'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Projektin tila'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Määrittelemätön'
+        subprojects:
+          title: 'Aliprojektit'
+          no_results: 'Ei aliprojekteja.'
+        time_entries_current_user:
+          title: 'Käyttämäni aika'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Käytetty aika (viimeiset 7 päivää)'
+          no_results: 'No time entries for the last 7 days.'
+        work_packages_accountable:
+          title: "Kaikki tehtävät joista olen vastuussa"
+        work_packages_assigned:
+          title: 'Minulle määritellyt tehtävät'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Kalenteri'
+        work_packages_overview:
+          title: 'Tehtävien yleisnäkymä'
+          placeholder: 'Muokkaa klikkaamalla...'

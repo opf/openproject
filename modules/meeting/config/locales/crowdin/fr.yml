@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+fr:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Lieu"
+        duration: "Durée"
+        participants: "Participant(s)"
+        participants_attended: "Présent(s)"
+        participants_invited: "Invités"
+        start_time: "Heure "
+        start_time_hour: "Heure de début"
+    errors:
+      messages:
+        invalid_time_format: "n’est pas une heure valide. Format requis : HH:MM"
+    models:
+      meeting_agenda: "Ordre du jour"
+      meeting_minutes: "Compte-rendu"
+  description_attended: "ont participé"
+  description_invite: "invité"
+  events:
+    meeting: Réunion modifiée
+    meeting_agenda: Ordre du jour de la réunion modifié
+    meeting_agenda_closed: Ordre du jour de la réunion fermé
+    meeting_agenda_opened: Ordre du jour de la réunion ouvert
+    meeting_minutes: Compte-rendu de la réunion modifié
+    meeting_minutes_created: Compte-rendu de la réunion créé
+  error_notification_with_errors: "L'envoi de notifications a échoué. Les destinataires suivant n'ont pas pu être notifiés : %{recipients}"
+  label_meeting: "Réunion"
+  label_meeting_plural: "Réunions"
+  label_meeting_new: "Nouvelle réunion"
+  label_meeting_edit: "Modifier la réunion"
+  label_meeting_agenda: "Ordre du jour"
+  label_meeting_minutes: "Compte-rendu"
+  label_meeting_close: "Fermer"
+  label_meeting_open: "Ouvertes"
+  label_meeting_agenda_close: "Fermer l'ordre du jour pour commencer les procès-verbaux"
+  label_meeting_date_time: "Date/Heure"
+  label_meeting_diff: "Différence"
+  label_notify: "Envoyer pour révision"
+  label_icalendar: "Envoyer iCalendar"
+  label_version: "Version"
+  label_time_zone: "Fuseau horaire"
+  label_start_date: "Date de début"
+  notice_successful_notification: "Notification envoyée avec succès"
+  notice_timezone_missing: Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici.
+  permission_create_meetings: "Créer des réunions"
+  permission_edit_meetings: "Modifier les réunions"
+  permission_delete_meetings: "Supprimer des réunions"
+  permission_view_meetings: "Afficher les réunions"
+  permission_create_meeting_agendas: "Gérer les ordres du jour"
+  permission_close_meeting_agendas: "Fermer les ordres du jour"
+  permission_send_meeting_agendas_notification: "Envoyer une notification de révision pour les ordres du jour"
+  permission_create_meeting_minutes: "Gérer les minutes"
+  permission_send_meeting_minutes_notification: "Envoyer une notification de révision pour les minutes"
+  permission_meetings_send_invite: "Inviter des utilisateurs à des réunions"
+  permission_send_meeting_agendas_icalendar: "Envoyer l'ordre du jour de la réunion comme entrée du calendrier"
+  project_module_meetings: "Réunions"
+  text_duration_in_hours: "Durée en heures"
+  text_in_hours: "en heures"
+  text_meeting_agenda_for_meeting: 'ordre du jour de la réunion «%{meeting} »'
+  text_meeting_closing_are_you_sure: "Êtes-vous certain de vouloir fermer la rencontre ?"
+  text_meeting_agenda_open_are_you_sure: "Ceci va écraser toutes les modifications dans les minutes ! Voulez-vous continuer ?"
+  text_meeting_minutes_for_meeting: 'Minutes de la réunion "%{meeting}"'
+  text_review_meeting_agenda: "%{author} à marqué le %{link} pour vérification."
+  text_review_meeting_minutes: "%{author} à marqué le %{link} pour vérification."
+  text_notificiation_invited: "Cet e-mail contient une entrée ics pour la réunion ci-dessous :"

@@ -1,0 +1,54 @@
+el:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'DN'
+        auth_source: 'Σύνδεση LDAP'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP Φίλτρο'
+        auth_source: 'Σύνδεση LDAP'
+        group_name_attribute: "Group name attribute"
+    models:
+      ldap_groups/synchronized_group: 'Συγχρονισμένη ομάδα LDAP'
+      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+  ldap_groups:
+    label_menu_item: 'Ομαδικός συγχρονισμός LDAP'
+    label_group_key: 'Κλειδί φίλτρου ομάδα LDAP'
+    label_synchronize: 'Συγχρονισμός'
+    settings:
+      name_attribute: 'LDAP groups name attribute'
+      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+    synchronized_filters:
+      add_new: 'Προσθήκη συγχρονισμένου LDAP φίλτρου'
+      singular: 'LDAP Group synchronization filter'
+      plural: 'LDAP Group synchronization filters'
+      destroy:
+        title: 'Remove synchronized filter %{name}'
+        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
+        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
+        verification: "Enter the filter name %{name} to verify the deletion."
+      form:
+        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
+        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+    synchronized_groups:
+      add_new: 'Προσθήκη συγχρονισμένης LDAP ομάδας'
+      destroy:
+        title: 'Αφαίρεση της συγχρονισμένης ομάδας %{name}'
+        confirmation: "Αν συνεχίσετε, η συγχρονισμένη ομάδα %{name} και οι %{users_count} χρήστες που έχουν συγχρονιστεί μέσω αυτής θα αφαιρεθούν."
+        info: "Σημείωση: Η ομάδας OpenProject και τα μέλη που προστέθηκαν εκτός του συγχρονισμού LDAP δεν θα αφαιρεθούν."
+        verification: "Εισάγετε το όνομα της ομάδας %{name} για να επιβεβαιώσετε τη διαγραφή."
+      help_text_html: |
+        Αυτή η ενότητα σάς επιτρέπει να ρυθμίσετε συγχρονισμό μεταξύ ομάδων LDAP και OpenProject.
+        Εξαρτάται από τις ομάδες LDAP που πρέπει να χρησιμοποιήσουν το σύνολο χαρακτηριστικών <em> groupOfNames / memberOf </em> που θα λειτουργούν με το OpenProject.
+        <br/>
+        Οι ομάδες συγχρονίζονται κάθε ώρα μέσω μιας εργασίας cron.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Ανατρέξτε στην τεκμηρίωσή μας σχετικά με αυτό το θέμα </a>.
+      no_results: 'Δεν βρέθηκαν συγχρονισμένες ομάδες.'
+      no_members: 'Αυτή η ομάδα δεν έχει συγχρονισμένα μέλη ακόμα.'
+      plural: 'Συγχρονισμένες ομάδες LDAP'
+      singular: 'Συγχρονισμένη ομάδα LDAP'
+      form:
+        auth_source_text: 'Select which LDAP connection should be used.'
+        dn_text: 'Enter the full DN of the group in LDAP'
+        group_text: 'Επιλέξτε μια υπάρχουσα ομάδα OpenProject με το οποία θα συγχρονιστούν τα μέλη της ομάδας LDAP'
+
