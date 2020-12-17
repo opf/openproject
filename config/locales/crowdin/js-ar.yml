@@ -363,7 +363,7 @@ ar:
     label_next: "التالي"
     label_no_color: "No color"
     label_no_data: "لا يوجد بيانات لعرضها"
-    label_no_due_date: "لا يوجد تاريخ انتهاء"
+    label_no_due_date: "no finish date"
     label_no_start_date: "لا يوجد تاريخ بدء"
     label_no_value: "لا توجد قيمة"
     label_none: "لا شيء"

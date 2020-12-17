@@ -362,7 +362,7 @@ vi:
     label_next: "Tiếp"
     label_no_color: "Không màu"
     label_no_data: "Không có dữ liệu để hiển thị"
-    label_no_due_date: "không có ngày kết thúc"
+    label_no_due_date: "no finish date"
     label_no_start_date: "không có ngày bắt đầu"
     label_no_value: "No value"
     label_none: "không"

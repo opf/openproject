@@ -363,7 +363,7 @@ sk:
     label_next: "Ďalšie"
     label_no_color: "Žiadna farba"
     label_no_data: "Žiadne dáta na zobrazenie"
-    label_no_due_date: "bez dátumu ukončenia"
+    label_no_due_date: "no finish date"
     label_no_start_date: "žiadny dátum začatia"
     label_no_value: "Žiadna hodnota"
     label_none: "žiadne"

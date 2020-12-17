@@ -363,7 +363,7 @@ hr:
     label_next: "Sljedeći"
     label_no_color: "No color"
     label_no_data: "Nema podataka za prikaz"
-    label_no_due_date: "nema datuma kraja"
+    label_no_due_date: "no finish date"
     label_no_start_date: "nema datuma početka"
     label_no_value: "Nema vrijednosti"
     label_none: "none"

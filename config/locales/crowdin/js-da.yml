@@ -362,7 +362,7 @@ da:
     label_next: "Næste"
     label_no_color: "Ingen farve"
     label_no_data: "Ingen data at vise"
-    label_no_due_date: "ingen slutdato"
+    label_no_due_date: "no finish date"
     label_no_start_date: "ingen startdato"
     label_no_value: "Ingen værdi tildelt"
     label_none: "ingen"

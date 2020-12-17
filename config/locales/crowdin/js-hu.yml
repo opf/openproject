@@ -362,7 +362,7 @@ hu:
     label_next: " Következő"
     label_no_color: "Nincs szín"
     label_no_data: "Nincs megjelenítendő adat"
-    label_no_due_date: "nincs záró dátuma"
+    label_no_due_date: "no finish date"
     label_no_start_date: "nincs kezdő dátuma"
     label_no_value: "Nincs érték"
     label_none: "Egyik sem"

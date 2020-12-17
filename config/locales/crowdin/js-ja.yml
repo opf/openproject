@@ -364,7 +364,7 @@ ja:
     label_next: "次へ"
     label_no_color: "色なし"
     label_no_data: "表示できるデータがありません。"
-    label_no_due_date: "完了日なし"
+    label_no_due_date: "no finish date"
     label_no_start_date: "開始日なし"
     label_no_value: "値なし"
     label_none: "なし"

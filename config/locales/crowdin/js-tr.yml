@@ -363,7 +363,7 @@ tr:
     label_next: "Sonraki"
     label_no_color: "Renk yok"
     label_no_data: "Görüntülenecek veri yok"
-    label_no_due_date: "bitiş tarihi yok"
+    label_no_due_date: "no finish date"
     label_no_start_date: "başlangıç tarihi yok"
     label_no_value: "Değer yok"
     label_none: "hiçbiri"

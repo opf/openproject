@@ -363,7 +363,7 @@ es:
     label_next: "Siguiente"
     label_no_color: "Sin color"
     label_no_data: "No hay datos disponibles"
-    label_no_due_date: "no hay fecha de finalización"
+    label_no_due_date: "no finish date"
     label_no_start_date: "sin fecha de inicio"
     label_no_value: "Sin valor"
     label_none: "ninguno"

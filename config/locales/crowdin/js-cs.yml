@@ -363,7 +363,7 @@ cs:
     label_next: "Další"
     label_no_color: "Bez barvy"
     label_no_data: "Žádná data k zobrazení"
-    label_no_due_date: "žádné datum ukončení"
+    label_no_due_date: "no finish date"
     label_no_start_date: "žádné datum začátku"
     label_no_value: "Žádná hodnota"
     label_none: "žádný"

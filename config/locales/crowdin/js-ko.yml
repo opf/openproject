@@ -363,7 +363,7 @@ ko:
     label_next: "다음"
     label_no_color: "색상 없음"
     label_no_data: "표시할 데이터가 없습니다."
-    label_no_due_date: "종료일이 지정되지 않음"
+    label_no_due_date: "no finish date"
     label_no_start_date: "시작일이 지정되지 않음"
     label_no_value: "값 없음"
     label_none: "없음"

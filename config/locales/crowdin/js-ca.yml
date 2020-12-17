@@ -363,7 +363,7 @@ ca:
     label_next: "Següent"
     label_no_color: "Sense color"
     label_no_data: "No hi ha dades per mostrar"
-    label_no_due_date: "no hi ha data de finalització"
+    label_no_due_date: "no finish date"
     label_no_start_date: "no hi ha data d'inici"
     label_no_value: "Cap valor"
     label_none: "cap"

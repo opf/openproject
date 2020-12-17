@@ -363,7 +363,7 @@ nl:
     label_next: "Volgende"
     label_no_color: "Geen kleur"
     label_no_data: "Geen gegevens om weer te geven"
-    label_no_due_date: "geen einddatum"
+    label_no_due_date: "no finish date"
     label_no_start_date: "geen startdatum"
     label_no_value: "Geen waarde"
     label_none: "geen"

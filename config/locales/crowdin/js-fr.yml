@@ -363,7 +363,7 @@ fr:
     label_next: "Suivante"
     label_no_color: "Aucune couleur"
     label_no_data: "Aucune donnée à afficher"
-    label_no_due_date: "pas d'échéance"
+    label_no_due_date: "no finish date"
     label_no_start_date: "pas de date de début"
     label_no_value: "Aucune valeur"
     label_none: "aucune"

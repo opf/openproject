@@ -363,7 +363,7 @@ id:
     label_next: "Lanjut"
     label_no_color: "No color"
     label_no_data: "Tidak ada data untuk ditampilkan"
-    label_no_due_date: "tidak ada tanggal berakhir"
+    label_no_due_date: "no finish date"
     label_no_start_date: "tidak ada tanggal mulai"
     label_no_value: "Kosongkan"
     label_none: "kosong"

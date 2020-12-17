@@ -362,7 +362,7 @@ ro:
     label_next: "Înainte"
     label_no_color: "Nicio culoare"
     label_no_data: "Nu există date de afișat"
-    label_no_due_date: "fără dată sfârșit"
+    label_no_due_date: "no finish date"
     label_no_start_date: "fără dată început"
     label_no_value: "Nici o valoare"
     label_none: "niciunul"

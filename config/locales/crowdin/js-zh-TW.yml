@@ -362,7 +362,7 @@ zh-TW:
     label_next: "下一個"
     label_no_color: "無顏色"
     label_no_data: "沒有資料可顯示"
-    label_no_due_date: "無結束日期"
+    label_no_due_date: "no finish date"
     label_no_start_date: "無開始日期"
     label_no_value: "無值"
     label_none: "無"

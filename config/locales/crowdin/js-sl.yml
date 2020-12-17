@@ -362,7 +362,7 @@ sl:
     label_next: "Naprej"
     label_no_color: "Brez barve"
     label_no_data: "Ni podatkov za prikaz"
-    label_no_due_date: "Brez končnega datuma"
+    label_no_due_date: "no finish date"
     label_no_start_date: "Brez začetnega datuma"
     label_no_value: "Brez vrednosti"
     label_none: "Brez"

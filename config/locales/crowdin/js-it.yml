@@ -363,7 +363,7 @@ it:
     label_next: "Prossimo"
     label_no_color: "Nessun colore"
     label_no_data: "Nessun dato da visualizzare"
-    label_no_due_date: "nessuna data terminale"
+    label_no_due_date: "no finish date"
     label_no_start_date: "nessuna data di inizio"
     label_no_value: "Nessun valore"
     label_none: "nessuno"

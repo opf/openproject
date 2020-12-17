@@ -362,7 +362,7 @@ el:
     label_next: "Επόμενο"
     label_no_color: "Χωρίς χρώμα"
     label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
-    label_no_due_date: "δεν υπάρχει ημερομηνία λήξης"
+    label_no_due_date: "no finish date"
     label_no_start_date: "δεν υπάρχει ημερομηνία έναρξης"
     label_no_value: "Καμία τιμή"
     label_none: "κανένα"

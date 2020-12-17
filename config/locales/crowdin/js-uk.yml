@@ -363,7 +363,7 @@ uk:
     label_next: "Далі"
     label_no_color: "Без кольору"
     label_no_data: "Немає даних для відображення"
-    label_no_due_date: "немає дати завершення"
+    label_no_due_date: "no finish date"
     label_no_start_date: "немає дати початку"
     label_no_value: "Значення відсутнє"
     label_none: "нічого"

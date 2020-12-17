@@ -362,7 +362,7 @@ sv:
     label_next: "Nästa"
     label_no_color: "Ingen färg"
     label_no_data: "Ingen data att visa"
-    label_no_due_date: "inget slutdatum"
+    label_no_due_date: "no finish date"
     label_no_start_date: "inget startdatum"
     label_no_value: "Inget värde"
     label_none: "inga"

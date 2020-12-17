@@ -363,7 +363,7 @@ fi:
     label_next: "Seuraava"
     label_no_color: "No color"
     label_no_data: "Ei tietoja"
-    label_no_due_date: "ei päättymispäivää"
+    label_no_due_date: "no finish date"
     label_no_start_date: "ei aloituspäivää"
     label_no_value: "Ei arvoa"
     label_none: "ei mitään"

@@ -363,7 +363,7 @@ bg:
     label_next: "Следващо"
     label_no_color: "No color"
     label_no_data: "Няма данни за показване"
-    label_no_due_date: "Няма крайна дата"
+    label_no_due_date: "no finish date"
     label_no_start_date: "няма начална дата"
     label_no_value: "Няма стойност"
     label_none: "none"
