@@ -106,21 +106,19 @@ You will be directed to the meeting view, where you can
 
 3. send the minutes for review to invitees and attendees (as well as watchers and the meeting’s author).
 
-![meeting-agenda](meeting-agenda-1567601684299.png)
+   ![minutes-for-meeting](image-20201217115729682.png)
+   
 
 ## Copy a meeting (recurring meetings)
 
 If you have recurring meetings, such as a Jour Fixe, and want to simplify the process of creating meetings and agendas, you can **copy an existing meeting**. To do that select the meeting and open the detailed meeting view.
 
-Select **Copy** in the top right side.
+Select **Copy** in the upper right corner.
 
 ![copy-meeting](copy-meeting.png)
 
 You can now edit the copied meeting and add the new details. Click the **Save** button to secure your changes.
 
 <div class="alert alert-info" role="alert">
-**Note**: all the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.
-
-
-</div>
+**Note**: all the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.</div>
 
