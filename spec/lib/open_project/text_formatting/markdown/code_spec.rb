@@ -87,9 +87,9 @@ describe OpenProject::TextFormatting,
             Text before
           </p>
 
-          <pre class="op-uc-code-block"><code class="op-uc-code">
+          <pre class="op-uc-code-block">
             some code
-          </code></pre>
+          </pre>
 
           <p class="op-uc-p">
             Text after
@@ -121,7 +121,7 @@ describe OpenProject::TextFormatting,
             Text before
           </p>
 
-          <pre lang="ruby" class="highlight highlight-ruby op-uc-code-block">  
+          <pre lang="ruby" class="highlight highlight-ruby op-uc-code-block">
             <span class="k">def</span> <span class="nf">foobar</span>
             <span class="n">some</span> <span class="n">ruby</span> <span class="n">code</span>
             <span class="k">end</span>
@@ -133,5 +133,22 @@ describe OpenProject::TextFormatting,
         EXPECTED
       end
     end
+  end
+
+  context 'blubs' do
+    it_behaves_like 'format_text produces' do
+      let(:raw) do
+        "\n\n    git clone git@github.com:opf/openproject.git\n\n"
+      end
+
+      let(:expected) do
+        <<~EXPECTED
+          <pre class="op-uc-code-block">
+            git clone git@github.com:opf/openproject.git
+          </pre>
+        EXPECTED
+      end
+    end
+
   end
 end

@@ -86,10 +86,10 @@ describe OpenProject::TextFormatting,
             <<~EXPECTED
               <p class="op-uc-p">Some text before</p>
 
-              <pre class='op-uc-code-block'><code class='op-uc-code'>
+              <pre class='op-uc-code-block'>
               &lt;h#{level}&gt;The heading &lt;/h#{level}&gt;
 
-              </code></pre>
+              </pre>
 
               <p class="op-uc-p">more text</p>
             EXPECTED
