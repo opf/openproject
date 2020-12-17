@@ -2,27 +2,30 @@
 sidebar_navigation:
   title: Configure work package table
   priority: 700
-description: How to configure the work package table in OpenProject?
+description: How to configure the work package list in OpenProject?
 robots: index, follow
-keywords: work packages table configuration
+keywords: work packages table configuration, work package list, columns, filter, group
 ---
 
 # Work package table configuration
 
-| Feature                                                      | Documentation for                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
 | [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
 | [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
-| [Display settings](#how-to-switch-from-flat-list-to-hierarchy-mode?) | How to switch from flat list to hierarchy mode in the work package list? |
+| [Display settings](#flat-list,-hierarchy-mode-and-group-by)  | Get to know the flat list, the hierarchy mode and the group by feature. |
+| [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
 | [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package list? |
-| [Save work package views](#save-work-package-views)          | How to save a new work package view?                         |
+| [Save work package views](#save-work-package-views)          | How to save a new work package view and how to change existing ones? |
 
 You can configure the work package table view in OpenProject to display the information that you need in the list.
 
-You can change the header in the table and add or remove columns, filter and group work packages or sort them according to a specific criteria. Save the view to have it available directly from your project menu.
+You can change the header in the table and add or remove columns, filter and group work packages or sort them according to specific criteria. Also, you can change between a flat list view, a hierarchy view and a grouped view.
 
-Also, you can change between a flat list view and a hierarchy view.
+Save the view to have it available directly from your project menu. A work package view is the sum of all modifications you made to the default list (e.g. filters you set). 
+
+
 
 To open the work package table configuration, open the **Settings** icon with the three dots at the top right of the work package table.
 
@@ -89,8 +92,9 @@ Clicking the blue **Apply** button will save your changes and display the result
 ![sort-work-packages](sort-work-packages.png)
 
 <div class="alert alert-info" role="alert">
-**Note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
+**Please note**:  If you have the hierarchy mode activated, all filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed. 
 </div>
+
 
 
 Therefore, the results may differ if you sort in a flat list or in a hierarchy mode.
@@ -109,11 +113,11 @@ To keep the sorting it is necessary to [save the work package view](#save-work-p
 Please note: This has no effect on the "All open" view; you have to save your sorting with another name.
 
 
-## How to switch from flat list to hierarchy mode?
+## Flat list, Hierarchy mode and Group by
 
 You have three different options to display results in the work package list.
 
-* **A flat list** (default), which contains all work packages in a list no matter how their parent-child-relation is.
+* A **Flat list** (default), which contains all work packages in a list no matter how their parent-child-relation is.
 * A **Hierarchy**, which will display the filtered results within the parent-child-relation.
 * **Group by** will group the list according to a defined attribute.
 
@@ -122,6 +126,34 @@ You have to choose either option when displaying work packages in the list.
 To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the list and click the blue **Apply** button.
 
 ![display-settings](1566397517070.png)
+
+When you group the work package list by an attribute or by project a button to collapse groups shows up:
+![collapse-button](image-20201211021022685.png)
+
+Use it to quickly collapse or expand all groups at the same time.
+
+## Aggregation by project
+
+You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the work package module of a project or the [project overarching work package list](../../projects/#project-overarching-reports).
+
+**Group the list** by project by using the work package table configuration (as described above) or by clicking on the small triangle next to "Project" in the table header.
+ ![group-by-project](image-20201211020614221.png)
+
+**Display the [Gantt chart](../../gantt-chart)** by clicking on the button in the upper right corner.
+![insert-gantt-chart-button](image-20201211020748715.png)
+
+Use the minus next to the project's name or the **collapse button** in the upper right corner to collapse some or all projects.
+
+This will give you an **aggregated view of the projects' milestones**.
+
+![aggregated-projects-milestones](image-20201211131511543.png)
+
+**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../../getting-started/work-packages-introduction/#what-is-a-work-package). Apart from the set filters the list of displayed projects depends on your [permissions](../../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
+In some cases (many work packages) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../../system-admin-guide/system-settings/general-settings/) if necessary.
+ ![image-20201211131803961](image-20201211131803961.png)
+
+
+
 
 ## Attribute highlighting (Premium Feature)
 
@@ -142,7 +174,7 @@ Furthermore, you can highlight the entire row by an attribute. The following att
 
 ![highlight-priority](1566399038768.png)
 
-You can configure the colors for attribute highlighting in the system administration. Find out how to set it [here](../../../system-admin-guide/enumerations/#edit-or-remove-enumeration-value) for the color of the priority and [here](../../../system-admin-guide/manage-work-packages/work-package-status/#edit-re-order-or-remove-a-work-package-status) for the color of the status.
+You can configure the colors for attribute highlighting in the system administration. Find out how to set it for the color of the priority [here](../../../system-admin-guide/enumerations/#edit-or-remove-enumeration-value) and for the color of the status [here](../../../system-admin-guide/manage-work-packages/work-package-status/#edit-re-order-or-remove-a-work-package-status).
 
 ## Save work package views
 
@@ -173,10 +205,16 @@ If you check the Public visibility, the view will be saved under your Public vie
 
 ![Work-packages-public-views](Work-packages-public-views.png)
 
+**Please note:** The collapse status (collapsed or expanded groups) can not be saved.
+
 ### Change saved work package views
 
 If you make changes to a saved view, e.g. change a filter criteria, you have to save the new view once again. In order to apply the change to the actual saved view, click on the disk icon which appears next to the title of the saved view:
 
 ![Work-package-change-saved-views](Work-package-change-saved-views.png)
 
-If you want to save a completely new work package view, again click on the Settings and select **Save as...** as described above to [Save work package views](#save-work-package-views).
+If you want to save a completely new work package view, again click on the Settings and select **Save as...** as described [above](#save-work-package-views). 
+
+<div class="alert alert-info" role="alert">
+**Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. 
+</div>

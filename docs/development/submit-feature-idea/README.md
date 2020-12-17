@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Submit a feature idea
+description: How to submit an idea for a feature for OpenProject
+robots: index, follow
+keywords: feature requests, ideas, open feature request
+---
 # Submit a feature idea
 
 ## How to submit a feature idea?
