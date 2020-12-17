@@ -38,6 +38,28 @@ module LegacyAssertionsAndHelpers
     RequestStore.clear!
   end
 
+  ##
+  # Attachments generated through fixtures do not files associated with them even
+  # when one provides them within the fixture yml. Dunno why.
+  #
+  # This method fixes that. Tries to lookup existing files. Generates temporary files
+  # where none exist.
+  def initialize_attachments
+    Attachment.all.each do |a|
+      if a.file.filename.nil?
+        begin # existing file under `spec/fixtures/files`
+          a.file = uploaded_test_file a.disk_filename, a.attributes['content_type'],
+                                      original_filename: a.attributes['filename']
+        rescue # imaginary file: create it on-the-fly
+          a.file = LegacyFileHelpers.mock_uploaded_file name: a.attributes['filename'],
+                                                  content_type: a.attributes['content_type']
+        end
+
+        a.save!
+      end
+    end
+  end
+
   def log_user(login, password)
     User.anonymous
     get '/login'
@@ -46,6 +68,18 @@ module LegacyAssertionsAndHelpers
     assert_template 'account/login'
     post '/login', username: login, password: password
     assert_equal login, User.find(session[:user_id]).login
+  end
+
+  ##
+  # Creates a UploadedFile for a file in the fixtures under `spec/fixtures/files`.
+  # Optionally allows to override the original filename.
+  #
+  # Shortcut for Rack::Test::UploadedFile.new(
+  #   ActionController::TestCase.fixture_path + path, mime)
+  def uploaded_test_file(name, mime, original_filename: nil)
+    file = fixture_file_upload("/files/#{name}", mime, true)
+    file.define_singleton_method(:original_filename) { original_filename } if original_filename
+    file
   end
 
   def with_settings(options, &_block)
