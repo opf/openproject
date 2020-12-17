@@ -16,6 +16,15 @@ Stay up to date and get an overview of the new features included in the releases
 
 Release date: 2020-12-17
 
+#### Community features:
+
+- Improved styling of the WYSIWYG text editor
+- Direct display of user name for @notifications
+- Display project milestones aggregated for projects in a single row in Gantt chart
+- Collapse all button for groups in the work packages list
+- Extended the authentication profile with an **OpenID Connect provider
+- Improvements for printing, e.g. for wiki pages, via the browser print function
+
 [Read more](11-1-0/)
 
 ## 11.0.4
