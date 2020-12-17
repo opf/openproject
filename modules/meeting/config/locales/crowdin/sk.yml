@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+sk:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Miesto"
+        duration: "Trvanie"
+        participants: "Účastníci"
+        participants_attended: "Účastníci"
+        participants_invited: "Pozvaných"
+        start_time: "Čas"
+        start_time_hour: "Čas začiatku"
+    errors:
+      messages:
+        invalid_time_format: "nie je platný čas. Požadovaný formát: HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Zápisnica"
+  description_attended: "sa zúčastnil"
+  description_invite: "pozvaný"
+  events:
+    meeting: Stretnutie upravené
+    meeting_agenda: Agenda stretnutia upravená
+    meeting_agenda_closed: Agenda stretnutia uzavretá
+    meeting_agenda_opened: Agenda stretnutia otvorená
+    meeting_minutes: Zápisnica zo stretnutia upravená
+    meeting_minutes_created: Zápisnica zo stretnutia vytvorená
+  error_notification_with_errors: "Nepodarilo sa odoslať notifikáciu. Nasledovní príjemcovia nemohli byť oboznámení: %{recipients}"
+  label_meeting: "Stretnutie"
+  label_meeting_plural: "Stretnutia"
+  label_meeting_new: "Nové stretnutie"
+  label_meeting_edit: "Upraviť stretnutie"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Zápisnica"
+  label_meeting_close: "Zatvoriť"
+  label_meeting_open: "Otvorené"
+  label_meeting_agenda_close: "Uzavrieť agendu za účelom začatia logu stretnutia"
+  label_meeting_date_time: "Dátum/čas"
+  label_meeting_diff: "Rozdieľ"
+  label_notify: "Odoslať na revíziu"
+  label_icalendar: "Zaslať iKalendár"
+  label_version: "Verzia"
+  label_time_zone: "Časové pásmo"
+  label_start_date: "Dátum začiatku"
+  notice_successful_notification: "Notifikácia úspešne odoslaná"
+  notice_timezone_missing: Časové pásmo nebolo špecificky nastavené, použilo sa teda %{zone}. Ak chcete vybrať iné časové pásmo, kliknite prosím tu.
+  permission_create_meetings: "Vytvárať stretnutia"
+  permission_edit_meetings: "Upravovať stretnutia"
+  permission_delete_meetings: "Odstraňovať stretnutia"
+  permission_view_meetings: "Prezerať stretnutia"
+  permission_create_meeting_agendas: "Spravovať stretnutia"
+  permission_close_meeting_agendas: "Definovať agendy stretnutí"
+  permission_send_meeting_agendas_notification: "Rozposielať notifikácie ne revízie agend stretnutí"
+  permission_create_meeting_minutes: "Spravovať zápisnice zo stretnutí"
+  permission_send_meeting_minutes_notification: "Rozposielať notifikácie na revízie zápisníc zo stretnutí"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "Stretnutia"
+  text_duration_in_hours: "Doba trvania v hodinách"
+  text_in_hours: "v hodinách"
+  text_meeting_agenda_for_meeting: 'agenda stretnutia "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Naozaj chcete ukončiť tento míting?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'zápisnica zo stretnutia "%{meeting}"'
+  text_review_meeting_agenda: "%{author} odoslal %{link} na revíziu."
+  text_review_meeting_minutes: "%{author} odoslal %{link} na revíziu."
+  text_notificiation_invited: "Tento e-mail obsahuje položku ics pre stretnutie nižšie:"

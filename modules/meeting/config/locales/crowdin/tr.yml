@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+tr:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Yer"
+        duration: "Süre"
+        participants: "Katılımcılar"
+        participants_attended: "Katılımcılar"
+        participants_invited: "Davetliler"
+        start_time: "Saat"
+        start_time_hour: "Başlangıç saati"
+    errors:
+      messages:
+        invalid_time_format: "geçerli bir zaman değil. Gerekli format: SS:DD"
+    models:
+      meeting_agenda: "Ajanda"
+      meeting_minutes: "Dakika"
+  description_attended: "katıldı"
+  description_invite: "davet"
+  events:
+    meeting: Toplantı düzenlendi
+    meeting_agenda: Düzenlenen toplantı gündem
+    meeting_agenda_closed: Toplantı gündemi kapat
+    meeting_agenda_opened: Toplantı gündemi açıldı
+    meeting_minutes: Toplantı dakikaları düzenlendi
+    meeting_minutes_created: Toplantı tutanakları oluşturuldu
+  error_notification_with_errors: "Bildirim hatalı. Aşağıdaki alıcılar bilgilendirilemedi: %{recipients}"
+  label_meeting: "Toplantı"
+  label_meeting_plural: "Toplantılar"
+  label_meeting_new: "Yeni Toplantı"
+  label_meeting_edit: "Toplantıyı Düzenle"
+  label_meeting_agenda: "Ajanda"
+  label_meeting_minutes: "Dakika"
+  label_meeting_close: "Kapat"
+  label_meeting_open: "Aç"
+  label_meeting_agenda_close: "Başlamak için gündemi dakikalar sonra kapatın"
+  label_meeting_date_time: "Tarih/Saat"
+  label_meeting_diff: "Fark"
+  label_notify: "Gözden geçirilmek üzere gönder"
+  label_icalendar: "Takvime gönder"
+  label_version: "Sürüm"
+  label_time_zone: "Zaman dilimi"
+  label_start_date: "Başlangıç tarihi"
+  notice_successful_notification: "Bildirim başarıyla gönderildi"
+  notice_timezone_missing: Saat dilimi ayarlanmadı ve %{zone} kabul edildi. Saat dilimini seçmek için lütfen buraya tıklayın.
+  permission_create_meetings: "Toplantı oluşturma"
+  permission_edit_meetings: "Toplantıları düzenleme"
+  permission_delete_meetings: "Toplantıları silme"
+  permission_view_meetings: "Toplantıları görüntüle"
+  permission_create_meeting_agendas: "Acentaları yönetme"
+  permission_close_meeting_agendas: "Acenta kapat"
+  permission_send_meeting_agendas_notification: "Acentalar için inceleme bildirimi gönder"
+  permission_create_meeting_minutes: "Dakikaları yönet"
+  permission_send_meeting_minutes_notification: "Dakikalar için inceleme bildirimini gönderin"
+  permission_meetings_send_invite: "Kullanıcıları toplantılara davet edin"
+  permission_send_meeting_agendas_icalendar: "Toplantı gündemini takvim girişi olarak gönderme"
+  project_module_meetings: "Toplantılar"
+  text_duration_in_hours: "Saat süresi"
+  text_in_hours: "saatlerde"
+  text_meeting_agenda_for_meeting: 'toplantı gündemi "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Toplantıyı kapatmak istediğinden emin misin?"
+  text_meeting_agenda_open_are_you_sure: "Bu, dakikalardaki tüm değişikliklerin üzerine yazacaktır! Devam etmek istiyor musun?"
+  text_meeting_minutes_for_meeting: 'toplantı için dakikalar "%{meeting}"'
+  text_review_meeting_agenda: "%{author}, %{link} 'i incelemeye koydu."
+  text_review_meeting_minutes: "%{author}, %{link} 'i incelemeye koydu."
+  text_notificiation_invited: "Bu posta, aşağıdaki toplantı için bir ics girişi içermektedir:"

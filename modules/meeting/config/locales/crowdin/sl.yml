@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+sl:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Lokacija"
+        duration: "Trajanje"
+        participants: "Udeleženci"
+        participants_attended: "Udeleženi"
+        participants_invited: "Povabljeni"
+        start_time: "Čas"
+        start_time_hour: "Čas začetka"
+    errors:
+      messages:
+        invalid_time_format: "neveljaven čas. Potreben format: HH:MM"
+    models:
+      meeting_agenda: "Dnevni red"
+      meeting_minutes: "Minut"
+  description_attended: "Udeleženi"
+  description_invite: "Povabljen"
+  events:
+    meeting: Sestanek uredil
+    meeting_agenda: Dnevni red pripravil
+    meeting_agenda_closed: Dnevni red zaprl
+    meeting_agenda_opened: Dnevni red odprl
+    meeting_minutes: Čas dogodka spremenil
+    meeting_minutes_created: Čas dogodka pripravil
+  error_notification_with_errors: "Pošiljanje obvestil je bilo neuspešno. Naslednji naslovniki nisi bili obveščeni: %{recipients}"
+  label_meeting: "Sestanek"
+  label_meeting_plural: "Sestanki"
+  label_meeting_new: "Nov sestanek"
+  label_meeting_edit: "Spremeni sestanek"
+  label_meeting_agenda: "Dnevni red"
+  label_meeting_minutes: "Minut"
+  label_meeting_close: "Zapri"
+  label_meeting_open: "Odprto"
+  label_meeting_agenda_close: "Zaprite dnevni red za začetek sestanka"
+  label_meeting_date_time: "Datum/čas"
+  label_meeting_diff: "Razlikovanje"
+  label_notify: "Pošljite v pregled"
+  label_icalendar: "Pošljite iCalendar"
+  label_version: "Različica"
+  label_time_zone: "Časovni pas"
+  label_start_date: "Datum začetka"
+  notice_successful_notification: "Obvestila uspešno poslana"
+  notice_timezone_missing: Časovni pas ni določen, %{zone} je izbran avtomatsko. Za določitev časovnega pasu kliknite tukaj.
+  permission_create_meetings: "Ustvarite sestanke"
+  permission_edit_meetings: "Spremenite sestanke"
+  permission_delete_meetings: "Izbrišite sestanke"
+  permission_view_meetings: "Poglej sestanke"
+  permission_create_meeting_agendas: "Uredi dnevne rede"
+  permission_close_meeting_agendas: "Zapri dnevne rede"
+  permission_send_meeting_agendas_notification: "Pošlji obvestilo o pregledu dnevnih redov"
+  permission_create_meeting_minutes: "Uredi minute"
+  permission_send_meeting_minutes_notification: "Pošlji obvestilo o pregledu minut"
+  permission_meetings_send_invite: "Povabite uporabnike na sestanke"
+  permission_send_meeting_agendas_icalendar: "ošlji dnevni red sestanka kot vnos v koledar"
+  project_module_meetings: "Sestanki"
+  text_duration_in_hours: "Trajanje v urah"
+  text_in_hours: "v urah"
+  text_meeting_agenda_for_meeting: 'dnevni red za sestanek "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Ali ste prepričani, da želite zapreti sestanek?"
+  text_meeting_agenda_open_are_you_sure: "To bo prepisalo vse spremembe v minutah! Ali želite nadaljevati?"
+  text_meeting_minutes_for_meeting: 'minute za sestanek "%{meeting}"'
+  text_review_meeting_agenda: "%{author} je dal %{link} v pregled."
+  text_review_meeting_minutes: "%{author} je dal %{link} v pregled."
+  text_notificiation_invited: "To sporočilo vsebuje ics vnos za sestanek spodaj:"

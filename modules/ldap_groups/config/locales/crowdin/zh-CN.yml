@@ -1,0 +1,54 @@
+zh-CN:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: '可分辨名称'
+        auth_source: 'LDAP 连接'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP 筛选器'
+        auth_source: 'LDAP 连接'
+        group_name_attribute: "组名称属性"
+    models:
+      ldap_groups/synchronized_group: '同步的 LDAP 组'
+      ldap_groups/synchronized_filter: 'LDAP 组同步筛选器'
+  ldap_groups:
+    label_menu_item: 'LDAP 组同步'
+    label_group_key: 'LDAP 组筛选器密钥'
+    label_synchronize: '同步'
+    settings:
+      name_attribute: 'LDAP 组名称属性'
+      name_attribute_text: '由筛选器创建时用于为 OpenProject 组命名的 LDAP 属性'
+    synchronized_filters:
+      add_new: '添加同步的 LDAP 筛选器'
+      singular: 'LDAP 组同步筛选器'
+      plural: 'LDAP 组同步筛选器'
+      destroy:
+        title: '移除同步的筛选器 %{name}'
+        confirmation: "如果您继续，将移除同步的筛选器 %{name} 和通过该筛选器创建的全部 %{groups_count} 个组。"
+        removed_groups: "警告：这将从 OpenProject 中移除以下组并将该筛选器从所有项目中移除！"
+        verification: "输入筛选器名称 %{name} 以验证删除。"
+      form:
+        group_name_attribute_text: '输入用于设置 OpenProject 组名称的 LDAP 组的属性。'
+        filter_string_text: '输入 RFC4515 LDAP 筛选器，该筛选器将返回 LDAP 中的组以与 OpenProject 同步。'
+    synchronized_groups:
+      add_new: '添加同步的 LDAP 组'
+      destroy:
+        title: '移除同步组 %{name}'
+        confirmation: "如果您继续，将移除同步组 %{name} 和通过该组同步的全部 %{users_count} 个用户。"
+        info: "注意：OpenProject 组本身以及在 LDAP 同步之外添加的成员将不会被移除。"
+        verification: "输入组名称 %{name} 以验证删除。"
+      help_text_html: |
+        此模块允许您在 LDAP 与 OpenProject 组之间设置同步。
+        它要求 LDAP 组使用 <em>groupOfNames / memberOf</em> 属性集才能与 OpenProject 一起使用。
+        <br/>
+        组通过 Cron 作业每小时同步。
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">请参阅我们关于此主题的文档</a>。
+      no_results: '未找到同步的组。'
+      no_members: '此组尚无同步成员。'
+      plural: '同步的 LDAP 组'
+      singular: '同步的 LDAP 组'
+      form:
+        auth_source_text: '选择应使用哪个 LDAP 连接。'
+        dn_text: '输入 LDAP 中组的完整可分辨名称'
+        group_text: '选择 LDAP 组的成员应与其同步的现有 OpenProject 组'
+

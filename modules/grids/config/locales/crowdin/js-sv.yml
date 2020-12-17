@@ -1,0 +1,63 @@
+sv:
+  js:
+    grid:
+      add_widget: 'Lägg till widget'
+      remove: 'Ta bort widget'
+      configure: 'Configure widget'
+      upsale:
+        text: "Vissa widgets, som t ex widgeten med graf över arbetspaket är endast tillgängliga i "
+        link: 'enterprise Edition.'
+      widgets:
+        custom_text:
+          title: 'Egen text'
+        documents:
+          title: 'Dokument'
+          no_results: 'Inga dokument ännu.'
+        members:
+          title: 'Medlemmar'
+          no_results: 'Inga synliga medlemmar.'
+          view_all_members: 'Visa alla medlemmar'
+          add: 'Medlem'
+          too_many: 'Visar %{count} av %{total} medlemmar.'
+        news:
+          title: 'Nyheter'
+          at: 'vid'
+          no_results: 'Inget nytt att rapportera.'
+        project_description:
+          title: 'Projektbeskrivning'
+          no_results: "Ingen beskrivning har skrivits ännu. Den kan anges i 'Projektinställningar'."
+        project_details:
+          title: 'Projektinformation'
+          no_results: 'Inga anpassade fält har definierats för projekt.'
+        project_status:
+          title: 'Projektstatus'
+          on_track: 'På banan'
+          off_track: 'Utanför banan'
+          at_risk: 'I riskzonen'
+          not_set: 'Ej inställd'
+        subprojects:
+          title: 'Delprojekt'
+          no_results: 'Inga delprojekt.'
+        time_entries_current_user:
+          title: 'My spent time'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Spenderad tid (senaste 7 dagarna)'
+          no_results: 'Inga tidsinlägg för de senaste 7 dagarna.'
+        work_packages_accountable:
+          title: "Arbetspaket Jag är ansvarig för"
+        work_packages_assigned:
+          title: 'Arbetspaket som tilldelats till mig'
+        work_packages_created:
+          title: 'Arbetspaket skapade av mig'
+        work_packages_watched:
+          title: 'Arbetspaket bevakade av mig'
+        work_packages_table:
+          title: 'Tabell för arbetspaket'
+        work_packages_graph:
+          title: 'Graf för arbetspaket'
+        work_packages_calendar:
+          title: 'Kalender'
+        work_packages_overview:
+          title: 'Översikt över arbetspaket'
+          placeholder: 'Klicka för att redigera ...'

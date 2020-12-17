@@ -1,0 +1,41 @@
+#English strings go here
+id:
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatar"
+  label_current_avatar: "Avatar saat ini"
+  label_choose_avatar: "Pilih avatar dari file"
+  message_avatar_uploaded: "Avatar berhasil diubah"
+  error_image_upload: "Kesalahan menyimpan gambar"
+  error_image_size: "Gambar terlalu besar"
+  button_change_avatar: "Ubah avatar"
+  are_you_sure_delete_avatar: "Apakah anda yakin ingin menghapus avatar anda?"
+  avatar_deleted: "Avatar berhasil dihapus"
+  unable_to_delete_avatar: "Avatar tidak bisa dihapus"
+  wrong_file_format: "Format yang diperbolehkan adalah jpg, png, gif"
+  empty_file_error: "Unggah gambar yang valid (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Avatar saat ini'
+    label_local_avatar: 'Avatar khusus'
+    text_current_avatar: |
+      Gambar berikut menunjukkan avatar saat ini.
+    text_upload_instructions: |
+      Unggah avatar khusus Anda sendiri sebesar 128 x 128 pixel. File yang lebih besar akan diubah ukurannya dan dipotong agar sesuai.
+      Pratinjau avatar Anda akan ditampilkan sebelum mengunggah, setelah Anda memilih gambar
+    text_change_gravatar_html: "\nUntuk mengubah atau menambahkan Gravatar untuk alamat email Anda, buka %{gravatar_url}"
+    text_your_local_avatar: |
+
+      OpenProject memungkinkan Anda untuk mengunggah avatar khusus Anda sendiri.
+    text_local_avatar_over_gravatar: |
+      Jika Anda menyetelnya, avatar khusus ini digunakan lebih dulu daripada gravatar di atas.
+    text_your_current_gravatar: |
+      OpenProject menggunakan gravatar Anda jika Anda mendaftar, atau gambar atau ikon default jika ada.
+      Gravatar saat ini adalah sebagai berikut:
+    settings:
+      enable_gravatars: 'Aktifkan gravatar pengguna'
+      gravatar_default: "Gambar Gravatar default"
+      enable_local_avatars: 'Aktifkan Avatar khusus pengguna'
+
+
+

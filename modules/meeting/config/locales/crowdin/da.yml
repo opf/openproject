@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+da:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Placering"
+        duration: "Varighed"
+        participants: "Deltagere"
+        participants_attended: "Tilsluttede"
+        participants_invited: "Inviterede"
+        start_time: "Tidspunkt"
+        start_time_hour: "Starting time"
+    errors:
+      messages:
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
+    models:
+      meeting_agenda: "Dagsorden"
+      meeting_minutes: "Referat"
+  description_attended: "tilsluttede"
+  description_invite: "inviteret"
+  events:
+    meeting: Mødet er ændret
+    meeting_agenda: Mødedagsorden er ændret
+    meeting_agenda_closed: Mødedagsorden er afsluttet
+    meeting_agenda_opened: Mødedagsorden er påbegyndt
+    meeting_minutes: Mødereferat er ændret
+    meeting_minutes_created: Mødereferat er udfærdiget
+  error_notification_with_errors: "Kunne ikke sende påmindelse. Følgende modtagere blev ikke nået: %{recipients}"
+  label_meeting: "Møde"
+  label_meeting_plural: "Møder"
+  label_meeting_new: "Nyt møde"
+  label_meeting_edit: "Rediger møde"
+  label_meeting_agenda: "Dagsorden"
+  label_meeting_minutes: "Referat"
+  label_meeting_close: "Luk"
+  label_meeting_open: "Åbn"
+  label_meeting_agenda_close: "Afslut dagsorden og påbegynd referat"
+  label_meeting_date_time: "Dato/tidspunkt"
+  label_meeting_diff: "Uenigheder"
+  label_notify: "Send til vurdering"
+  label_icalendar: "Send iCalendar"
+  label_version: "Version"
+  label_time_zone: "Tidszone"
+  label_start_date: "Start dato"
+  notice_successful_notification: "Påmindelse er afsendt"
+  notice_timezone_missing: Der er ikke sat en tidszone og systemet har valgt %{zone}. For at vælge din egen tidszone, klik venligst her.
+  permission_create_meetings: "Opret møder"
+  permission_edit_meetings: "Rediger møder"
+  permission_delete_meetings: "Slet møder"
+  permission_view_meetings: "Se møder"
+  permission_create_meeting_agendas: "Håndter dagsordner"
+  permission_close_meeting_agendas: "Luk dagsordner"
+  permission_send_meeting_agendas_notification: "Send påmindelse om vurdering af dagsorden"
+  permission_create_meeting_minutes: "Håndter referater"
+  permission_send_meeting_minutes_notification: "Send påmindelse om vurdering af referater"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "Møder"
+  text_duration_in_hours: "Duration in hours"
+  text_in_hours: "i timer"
+  text_meeting_agenda_for_meeting: 'dagsorden for mødet "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'referat  for mødet "%{meeting}"'
+  text_review_meeting_agenda: "%{author} har lagt dette %{link} ud til vurdering."
+  text_review_meeting_minutes: "%{author} har lagt dette %{link} ud til vurdering."
+  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"

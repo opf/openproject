@@ -1,0 +1,15 @@
+#English strings go here
+sv:
+  js:
+    label_preview: 'Förhandsgranska'
+    button_update: 'Uppdatera'
+    avatars:
+      label_choose_avatar: "Välj profilbild från fil"
+      uploading_avatar: "Ladda upp din avatar."
+      text_upload_instructions: |
+        Ladda upp din egen avatar på 128 gånger 128 pixlar. Större filer kommer att skalas om och beskäras för att matcha.
+        En förhandsvisning av din avatar kommer att visas innan du laddar upp, när du har valt en bild.
+      error_image_too_large: "Bilden är för stor."
+      wrong_file_format: "Tillåtna format är jpg, png, gif"
+      empty_file_error: "Vänligen ladda upp en giltig bild (jpg, png, gif)"
+

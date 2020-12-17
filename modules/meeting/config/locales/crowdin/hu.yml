@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+hu:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Helyszín"
+        duration: "Időtartam"
+        participants: "Közreműködők"
+        participants_attended: "Résztvevők"
+        participants_invited: "Meghívottak"
+        start_time: "Idő"
+        start_time_hour: "Kezdési időpont"
+    errors:
+      messages:
+        invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
+    models:
+      meeting_agenda: "Napirend"
+      meeting_minutes: "Jegyzőkönyv"
+  description_attended: "részt vett"
+  description_invite: "meghívott"
+  events:
+    meeting: Esemény szerkesztve
+    meeting_agenda: Esemény napirendje szerkesztve
+    meeting_agenda_closed: Esemény napirendje lezárva
+    meeting_agenda_opened: Esemény napirendje megnyitva
+    meeting_minutes: Jegyzőkönyv szerkesztve
+    meeting_minutes_created: Jegyzőkönyv létrehozva
+  error_notification_with_errors: "Nem sikerült elküldeni az értesítőt. A következő címzettek nem lettek értesítve: %{recipients}"
+  label_meeting: "Megbeszélés"
+  label_meeting_plural: "Megbeszélések"
+  label_meeting_new: "Új megbeszélés"
+  label_meeting_edit: "Megbeszélés szerkesztése"
+  label_meeting_agenda: "Napirend"
+  label_meeting_minutes: "Jegyzőkönyv"
+  label_meeting_close: "Bezár"
+  label_meeting_open: "Open"
+  label_meeting_agenda_close: "Napirend lezárása a jegyzőkönyv megkezdéséhez"
+  label_meeting_date_time: "Dátum/idő"
+  label_meeting_diff: "Eltérés"
+  label_notify: "Küldés véleményezésre"
+  label_icalendar: "iCalendar küldése"
+  label_version: "Verzió"
+  label_time_zone: "Idő zóna"
+  label_start_date: "Indulási dátum"
+  notice_successful_notification: "Értesítés sikeresen kiküldve"
+  notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
+  permission_create_meetings: "Megbeszélések létrehozása"
+  permission_edit_meetings: "Megbeszélések szerkesztése"
+  permission_delete_meetings: "Megbeszélések törlése"
+  permission_view_meetings: "Megbeszélések megtekintése"
+  permission_create_meeting_agendas: "Napirendek kezelése"
+  permission_close_meeting_agendas: "Napirendek lezárása"
+  permission_send_meeting_agendas_notification: "Napirend véleményezésre küldésének értesítése"
+  permission_create_meeting_minutes: "Jegyzőkönyvek kezelése"
+  permission_send_meeting_minutes_notification: "Jegyzőkönyvek véleményezésre küldésének értesítése"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "Megbeszélések"
+  text_duration_in_hours: "Hossza (óra)"
+  text_in_hours: "órában"
+  text_meeting_agenda_for_meeting: 'a "%{meeting}" megbeszélés napirendje'
+  text_meeting_closing_are_you_sure: "Biztosan le akarod zárni a találkozót?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'a "%{meeting}" megbeszélés jegyzőkönyve'
+  text_review_meeting_agenda: "%{author} véleményezésre küldte %{link} -t."
+  text_review_meeting_minutes: "%{author} véleményezésre küldte %{link} -t."
+  text_notificiation_invited: "Ez a levél alább egy ics bejegyzést tartalmaz a megbeszélésről:"

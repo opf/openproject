@@ -1,0 +1,19 @@
+it:
+  logout_warning: >
+    Sei stato disconnesso. Il contenuto di qualsiasi modulo che invii potrebbe essere perso. Per favore [accedi].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nome
+        display_name: Visualizza nome
+        identifier: Identificatore
+        secret: Parola chiave
+        scope: Ambito
+  openid_connect:
+    menu_title: OpenID provider
+    providers:
+      label_add_new: Aggiungi un nuovo provider OpenID
+      label_edit: Modifica provider OpenID %{name}
+      no_results_table: Non è stato definito alcun provider.
+      plural: OpenID provider
+      singular: Provider OpenID

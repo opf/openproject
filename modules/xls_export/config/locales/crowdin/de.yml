@@ -1,0 +1,13 @@
+de:
+  export_to_excel: "Als XLS exportieren"
+  print_with_description: "Vorschau mit Beschreibung drucken"
+  sentence_separator_or: "oder"
+  different_formats: Andere Formate
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS mit Beschreibung"
+      xls_with_relations: "XLS mit Beziehungen"
+  xls_export:
+    child_of: Kind von
+    parent_of: Elternelement von

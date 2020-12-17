@@ -1,0 +1,40 @@
+#English strings go here
+it:
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatars"
+  label_current_avatar: "Avatar attuale"
+  label_choose_avatar: "Scegli Avatar da file"
+  message_avatar_uploaded: "Avatar cambiato correttamente."
+  error_image_upload: "Errore nel salvataggio dell'immagine."
+  error_image_size: "L'immagine è troppo grande."
+  button_change_avatar: "Cambia avatar"
+  are_you_sure_delete_avatar: "Sei sicuro di voler eliminare il tuo avatar?"
+  avatar_deleted: "Avatar eliminato con successo."
+  unable_to_delete_avatar: "L'avatar non può essere eliminato."
+  wrong_file_format: "I formati consentiti sono jpg, png, gif"
+  empty_file_error: "Per favore caricare un'immagine valida (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Avatar corrente'
+    label_local_avatar: 'Avatar personalizzato'
+    text_current_avatar: |
+      L'immagine seguente mostra l'avatar corrente.
+    text_upload_instructions: |
+      Carica il tuo avatar personalizzato di 128x128 pixel. I file più grandi saranno ridimensionati e tagliati per corrispondere.
+      Una volta selezionata un'immagine, verrà mostrata un'anteprima del tuo avatar prima del caricamento.
+    text_change_gravatar_html: 'Per cambiare o aggiungere il Gravatar per il tuo indirizzo email, vai su %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject ti permette di caricare il tuo avatar personalizzato.
+    text_local_avatar_over_gravatar: |
+      Se ne selezioni uno, questo avatar personalizzato viene utilizzato in precedenza rispetto al gravatar sopra.
+    text_your_current_gravatar: |
+      OpenProject utilizza il tuo gravatar se ne hai registrato uno, o un'immagine o un'icona predefinita se esiste.
+      Il gravatar corrente è il seguente:
+    settings:
+      enable_gravatars: 'Abilita i gravatars dell''utente'
+      gravatar_default: "Immagine Gravatar predefinita"
+      enable_local_avatars: 'Abilita gli avatar personalizzati dell''utente'
+
+
+

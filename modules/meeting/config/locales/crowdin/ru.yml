@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+ru:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Расположение"
+        duration: "Продолжительность"
+        participants: "Участники"
+        participants_attended: "Участники"
+        participants_invited: "Приглашенные"
+        start_time: "Время"
+        start_time_hour: "Время начала"
+    errors:
+      messages:
+        invalid_time_format: "недопустимое время. Требуемый формат: ЧЧ:ММ"
+    models:
+      meeting_agenda: "Повестка дня"
+      meeting_minutes: "Протокол(-ы)"
+  description_attended: "участие"
+  description_invite: "приглашено"
+  events:
+    meeting: Встреча отредактирована
+    meeting_agenda: Повестка встречи отредактирована
+    meeting_agenda_closed: Повестка дня встречи закрыта
+    meeting_agenda_opened: Повестка дня встречи открыта
+    meeting_minutes: Править  протокол заседания
+    meeting_minutes_created: Создан протокол заседания
+  error_notification_with_errors: "Не удалось отправить уведомление. Следующие получатели не могут быть уведомлены: %{recipients}"
+  label_meeting: "Совещание"
+  label_meeting_plural: "Совещания"
+  label_meeting_new: "Новое совещание"
+  label_meeting_edit: "Измененить совещание"
+  label_meeting_agenda: "Повестка дня"
+  label_meeting_minutes: "Протокол(-ы)"
+  label_meeting_close: "Закрыть"
+  label_meeting_open: "Открыть"
+  label_meeting_agenda_close: "Закрыть повестку для начала протоколирования"
+  label_meeting_date_time: "Дата/Время"
+  label_meeting_diff: "Различия"
+  label_notify: "Отправка на рецензию"
+  label_icalendar: "Отправить iCalendar"
+  label_version: "Стадия"
+  label_time_zone: "Часовой пояс"
+  label_start_date: "Дата начала"
+  notice_successful_notification: "Уведомление успешно отправленно"
+  notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
+  permission_create_meetings: "Создание совещания"
+  permission_edit_meetings: "Править встречи"
+  permission_delete_meetings: "Удалить встречу"
+  permission_view_meetings: "Просмотреть встречи"
+  permission_create_meeting_agendas: "Управлять повестками дня"
+  permission_close_meeting_agendas: "Закрыть повестки дня"
+  permission_send_meeting_agendas_notification: "Отправить уведомление о реценизии  повесток дня"
+  permission_create_meeting_minutes: "Управление протоколами"
+  permission_send_meeting_minutes_notification: "Отправить уведомление о рецензии протокола"
+  permission_meetings_send_invite: "Пригласить пользователей на встречи"
+  permission_send_meeting_agendas_icalendar: "Отправить повестку встречи как элемент календаря"
+  project_module_meetings: "Совещания"
+  text_duration_in_hours: "Длительность в часах"
+  text_in_hours: "в часах"
+  text_meeting_agenda_for_meeting: 'Повестка дня встречи «%{meeting}»'
+  text_meeting_closing_are_you_sure: "Вы уверены, что хотите закрыть совещание?"
+  text_meeting_agenda_open_are_you_sure: "Все изменения в протоколах будут перезаписаны! Продолжить?"
+  text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
+  text_review_meeting_agenda: "%{author} поставил %{link} для рецензии."
+  text_review_meeting_minutes: "%{author} поставил %{link} для рецензии."
+  text_notificiation_invited: "Это сообщение содержит запись ics для совещания ниже:"

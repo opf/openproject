@@ -1,0 +1,19 @@
+es:
+  logout_warning: >
+    Se ha cerrado la sesión. Puede que se haya perdido el contenido de cualquier formulario que haya enviado. [Inicie la sesión].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nombre
+        display_name: Nombre para mostrar
+        identifier: Identificador
+        secret: Secreto
+        scope: Ámbito
+  openid_connect:
+    menu_title: Proveedores de OpenID
+    providers:
+      label_add_new: Agregar nuevo proveedor de OpenID
+      label_edit: Editar el proveedor de OpenID %{name}
+      no_results_table: Aún no se han definido proveedores.
+      plural: Proveedores de OpenID
+      singular: Proveedor de OpenID

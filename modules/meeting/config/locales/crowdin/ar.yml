@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+ar:
+  activerecord:
+    attributes:
+      meeting:
+        location: "الموقع"
+        duration: "المدّة"
+        participants: "المشاركون"
+        participants_attended: "الحضور"
+        participants_invited: "المدعوّون"
+        start_time: "الوقت"
+        start_time_hour: "وقت البدء"
+    errors:
+      messages:
+        invalid_time_format: "ليس وقتًا صالحًا. التصميم المطلوب: HH:MM"
+    models:
+      meeting_agenda: "جدول الأعمال"
+      meeting_minutes: "محضر الجلسة"
+  description_attended: "حَضَر"
+  description_invite: "مدعوّ"
+  events:
+    meeting: تحرير الاجتماع
+    meeting_agenda: تحرير جدول أعمال الاجتماع
+    meeting_agenda_closed: أُغْلِق جدول أعمال الاجتماع
+    meeting_agenda_opened: فُتِح جدول أعمال الاجتماع
+    meeting_minutes: تحرير محضر الجلسة
+    meeting_minutes_created: إنشاء محضر الجلسة
+  error_notification_with_errors: "فشِل في إرسال الإشعار. لم يتم إشعار المستلمين التالية أسماؤهم: %{recipients}"
+  label_meeting: "الاجتماع"
+  label_meeting_plural: "الاجتماعات"
+  label_meeting_new: "اجتماع جديد"
+  label_meeting_edit: "تحرير الاجتماع"
+  label_meeting_agenda: "جدول الأعمال"
+  label_meeting_minutes: "محضر الجلسة"
+  label_meeting_close: "أغلِق"
+  label_meeting_open: "مفتوح"
+  label_meeting_agenda_close: "أغلِق جدول الأعمال للبدء في محضر الجلسة"
+  label_meeting_date_time: "التاريخ/الوقت"
+  label_meeting_diff: "الاختلاف"
+  label_notify: "إرسال للمراجعة"
+  label_icalendar: "إرسال iCalendar"
+  label_version: "الإصدار"
+  label_time_zone: "المنطقة الزمنية"
+  label_start_date: "تاريخ البدء"
+  notice_successful_notification: "تم إرسال الإشعار بنجاح"
+  notice_timezone_missing: لم يتم تعيين المنطقة الزمنية و%{zone} مُفترض. لاختيار منطقتك الزمنية، من فضلك اضغط هنا.
+  permission_create_meetings: "إنشاء الاجتماعات"
+  permission_edit_meetings: "تعديل الاجتماعات"
+  permission_delete_meetings: "إلغاء الاجتماعات"
+  permission_view_meetings: "عرض الاجتماعات"
+  permission_create_meeting_agendas: "إدارة جداول الأعمال"
+  permission_close_meeting_agendas: "إغلاق جداول الأعمال"
+  permission_send_meeting_agendas_notification: "أرسِل إشعارًا لمراجعة جداول الأعمال"
+  permission_create_meeting_minutes: "إدارة محضر الجلسة"
+  permission_send_meeting_minutes_notification: "أرسِل إشعارًا لمراجعة محضر الجلسة"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "الاجتماعات"
+  text_duration_in_hours: "المدة بالساعات"
+  text_in_hours: "في الساعات"
+  text_meeting_agenda_for_meeting: 'جدول أعمال للاجتماع "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'محضر الجسلة للاجتماع "%{meeting}"'
+  text_review_meeting_agenda: "%{author} طرح %{link} للمراجعة."
+  text_review_meeting_minutes: "%{author} طرح %{link} للمراجعة."
+  text_notificiation_invited: "هذا البريد الألكتروني يحتوي على مدخل (ics) للاجتماع أدناه:"

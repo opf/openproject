@@ -1,0 +1,4 @@
+es:
+  overviews:
+    label: 'Resumen'
+  permission_manage_overview: 'Administrar la página de resumen'

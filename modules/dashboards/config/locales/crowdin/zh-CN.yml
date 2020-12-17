@@ -1,0 +1,5 @@
+zh-CN:
+  dashboards:
+    label: '仪表板'
+    menu_badge: 'Alpha 版'
+  project_module_dashboards: '仪表板'

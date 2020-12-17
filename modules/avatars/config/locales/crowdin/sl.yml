@@ -1,0 +1,38 @@
+#English strings go here
+sl:
+  label_avatar: "Podoba"
+  label_avatar_plural: "Podobe"
+  label_current_avatar: "Trenutna podoba"
+  label_choose_avatar: "Izberi podobo iz datoteke"
+  message_avatar_uploaded: "Podoba uspešno spremenjena"
+  error_image_upload: "Napaka pri shranjevanju slike"
+  error_image_size: "Slika je prevelika"
+  button_change_avatar: "Spremeni podobo"
+  are_you_sure_delete_avatar: "Ali ste prepričani, da želite izbrisati podobo?"
+  avatar_deleted: "Podoba uspešno izbrisana."
+  unable_to_delete_avatar: "Podobe ni bili mogoče izbrisati."
+  wrong_file_format: "Dovoljeni formati so jpg, png, gif"
+  empty_file_error: "Prosimo naložite veljavno sliko (jpg, png, gif)"
+  avatars:
+    label_avatar: "Podoba"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Trenutna podoba'
+    label_local_avatar: 'Podoba po meri'
+    text_current_avatar: |
+      Naslednja slika prikazuje trenutno podobo.
+    text_upload_instructions: |
+      Naložite podobo po meri velikosti 128x128 pixlov. Večje datoteke bodo zmanjšane in odrezane. Predpodoba bo prikazana pred končno naložitvijo, ko izberete sliko.
+    text_change_gravatar_html: 'Za spremembo ali dodajanje Gravatarja za vaš mail naslov, pojdite na %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject vam dovoljuje naložitev podobe po meri.
+    text_local_avatar_over_gravatar: |
+      Če jo naložite, bo ta podoba pa meri uporabljena pred gravatarjem zgoraj.
+    text_your_current_gravatar: |
+      OpenProject uporabi vašega gravatarja, če ga registrirate ali pa privzeto sliko ali ikono, če ta obstaja. Vaša trenutna podoba je takšna:
+    settings:
+      enable_gravatars: 'Omogoči uporabniškega gravatarja'
+      gravatar_default: "Privzeta Gravatar slika"
+      enable_local_avatars: 'Omogoči podobo po meri'
+
+
+

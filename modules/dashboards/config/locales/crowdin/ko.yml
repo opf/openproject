@@ -1,0 +1,5 @@
+ko:
+  dashboards:
+    label: '대시보드'
+    menu_badge: '알파'
+  project_module_dashboards: '대시보드'

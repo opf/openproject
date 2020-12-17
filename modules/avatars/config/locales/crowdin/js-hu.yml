@@ -1,0 +1,14 @@
+#English strings go here
+hu:
+  js:
+    label_preview: 'Előnézet'
+    button_update: 'Frissítés'
+    avatars:
+      label_choose_avatar: "Profilkép kiválasztása fájlból"
+      uploading_avatar: "Az avatar frissítése."
+      text_upload_instructions: |
+        Töltsön fel saját, 128x128 képpont méretű profilképet. A nagyobb fájlok átméretezésre és levágásra kerülnek, hogy illeszkedjenek a méretkorláthoz. Feltöltés előtt megjelenik a profilképének előnézete, miután kiválasztott egy képet.
+      error_image_too_large: "Fájl mérete túl nagy."
+      wrong_file_format: "A megengedett formátumok: jpg, png, gif"
+      empty_file_error: "Töltsön fel egy érvényes képet (jpg, png, gif)"
+

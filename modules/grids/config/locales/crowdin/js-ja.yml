@@ -1,0 +1,63 @@
+ja:
+  js:
+    grid:
+      add_widget: 'ウィジェットを追加'
+      remove: 'ウィジェットを削除'
+      configure: 'Configure widget'
+      upsale:
+        text: "作業項目グラフウィジェットなどの一部のウィジェットは、次のみ利用可能です "
+        link: 'エンタープライズ版。'
+      widgets:
+        custom_text:
+          title: 'カスタムテキスト'
+        documents:
+          title: 'ドキュメント'
+          no_results: 'まだドキュメントはありません。'
+        members:
+          title: 'メンバー'
+          no_results: '表示するメンバーはありません。'
+          view_all_members: 'すべてのメンバーを表示'
+          add: 'メンバー'
+          too_many: '%{count} / %{total} メンバーを表示しています。'
+        news:
+          title: 'ニュース'
+          at: '日時'
+          no_results: '新しい報告はありません。'
+        project_description:
+          title: 'プロジェクトの説明'
+          no_results: "説明はまだ記載されていません。 1つは「プロジェクト設定」で入力できます。"
+        project_details:
+          title: 'プロジェクトの詳細'
+          no_results: 'プロジェクトにカスタムフィールドが定義されていません。'
+        project_status:
+          title: 'プロジェクトの進捗状況'
+          on_track: '順調'
+          off_track: '脱線'
+          at_risk: 'リスクあり'
+          not_set: '未設定'
+        subprojects:
+          title: '子プロジェクト'
+          no_results: '子プロジェクトはありません。'
+        time_entries_current_user:
+          title: '自分の作業時間'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: '経過時間(過去7日)'
+          no_results: '過去7日間の時間エントリはありません。'
+        work_packages_accountable:
+          title: "責任者である作業項目"
+        work_packages_assigned:
+          title: '担当している作業項目'
+        work_packages_created:
+          title: '自分が作成した作業項目'
+        work_packages_watched:
+          title: '自分が見た作業項目'
+        work_packages_table:
+          title: '作業項目のテーブル'
+        work_packages_graph:
+          title: '作業項目のグラフ'
+        work_packages_calendar:
+          title: 'カレンダー'
+        work_packages_overview:
+          title: '作業項目の概要'
+          placeholder: 'クリックして編集 ...'

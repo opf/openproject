@@ -1,0 +1,39 @@
+#English strings go here
+uk:
+  label_avatar: "Аватар"
+  label_avatar_plural: "Аватари"
+  label_current_avatar: "Поточний аватар"
+  label_choose_avatar: "Оберіть ваш Avatar з файлу"
+  message_avatar_uploaded: "Avatar успішно змінено."
+  error_image_upload: "Помилка під час збереження зображення."
+  error_image_size: "Зображення завелике."
+  button_change_avatar: "Змінити avatar"
+  are_you_sure_delete_avatar: "Ви впевнені, що хочете видалити свій avatar?"
+  avatar_deleted: "Аватар успішно видалено."
+  unable_to_delete_avatar: "Avatar не може бути видалений."
+  wrong_file_format: "Дозволені формати: jpg, png, gif"
+  empty_file_error: "Будь ласка, завантажте зображення вірного формату (jpg, png, gif)"
+  avatars:
+    label_avatar: "Аватар"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Поточний avatar'
+    label_local_avatar: 'Довільний avatar'
+    text_current_avatar: |
+      Наступне зображення відоброжає поточний avatar.
+    text_upload_instructions: |
+      Завантажте особистий avatar розміром 128х128 пікселів. Зображення більшого розміру будуть автоматично обрізані та змаштабовані. Як тількі ви оберете зображення, буде відображено попередній перегляд вашого avatar до завантаження.
+    text_change_gravatar_html: 'Для зміни або додавання Gravatar до вашої електронної адреси, перейдіть за наступним посиланням: %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject дозволяє користувачам завантажувати особисті довільні avatar.
+    text_local_avatar_over_gravatar: |
+      Якщо ви встановите особистий avatar, він буде застосований до вашого облікового запису незалежно від налаштунків gravatar.
+    text_your_current_gravatar: |
+      OpenProject використовує ваше зображення gravatar, якщо ви зареєстровані у цьому сервісі, або буде використане зображення за замовчуванням, або ваш завантажений довільний avatar.
+      Ваше поточне зображення gravatar наступне:
+    settings:
+      enable_gravatars: 'Увімкнути gravatars'
+      gravatar_default: "Зображення Gravatar за замовчуванням"
+      enable_local_avatars: 'Увімкнути можливість завантажувати особисті avatars'
+
+
+

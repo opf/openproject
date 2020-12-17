@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+ja:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'お待ちください ...'
+    verify_account: "アカウントを確認してください"
+    error_captcha: "アカウントを確認できませんでした。 管理者に連絡してください。"
+    settings:
+      website_key: 'Webサイトキー'
+      website_key_text: 'このドメインのreCAPTCHA管理コンソールで作成したWebサイトキーを入力してください。'
+      secret_key: '秘密鍵'
+      secret_key_text: 'reCAPTCHA管理コンソールで作成した秘密鍵を入力してください。'
+      type: 'reCAPTCHAを使用する'
+      type_disabled: 'reCAPTCHAを無効にする'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHAは、お使いのOpenProjectインスタンスで有効にできるGoogleの無料サービスです。 有効にすると、キャプチャをまだ確認していないすべてのユーザーのログイン時にキャプチャフォームが表示されます。 <br/> reCAPTCHAとそのバージョンの詳細、およびWebサイトキーと秘密鍵の作成方法については、次のリンクを参照してください: %{recaptcha_link}

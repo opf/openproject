@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+ko:
+  activerecord:
+    attributes:
+      meeting:
+        location: "위치"
+        duration: "기간"
+        participants: "참가자"
+        participants_attended: "참석자"
+        participants_invited: "초대된 사람"
+        start_time: "시간"
+        start_time_hour: "시작 시간"
+    errors:
+      messages:
+        invalid_time_format: "은(는) 유효한 시간이 아닙니다. 필요한 형식: HH:MM"
+    models:
+      meeting_agenda: "의제"
+      meeting_minutes: "의사록"
+  description_attended: "참석함"
+  description_invite: "초대됨"
+  events:
+    meeting: 미팅 편집됨
+    meeting_agenda: 미팅 의제 편집됨
+    meeting_agenda_closed: 미팅 의제 닫힘
+    meeting_agenda_opened: 미팅 의제 열림
+    meeting_minutes: 미팅 의제 편집됨
+    meeting_minutes_created: 미팅 의제 생성됨
+  error_notification_with_errors: "알림을 보내지 못했습니다. 다음 수신자에게 알리지 못했습니다. %{recipients}"
+  label_meeting: "미팅"
+  label_meeting_plural: "미팅"
+  label_meeting_new: "새 미팅"
+  label_meeting_edit: "미팅 편집"
+  label_meeting_agenda: "의제"
+  label_meeting_minutes: "의사록"
+  label_meeting_close: "닫기"
+  label_meeting_open: "열기"
+  label_meeting_agenda_close: "의사록을 시작하려면 의제 닫기"
+  label_meeting_date_time: "날짜/시간"
+  label_meeting_diff: "차이"
+  label_notify: "검토를 위해 보내기"
+  label_icalendar: "iCalendar 보내기"
+  label_version: "버전"
+  label_time_zone: "표준 시간대"
+  label_start_date: "시작 날짜"
+  notice_successful_notification: "알림이 전송됨"
+  notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
+  permission_create_meetings: "미팅 생성"
+  permission_edit_meetings: "미팅 편집"
+  permission_delete_meetings: "미팅 삭제"
+  permission_view_meetings: "미팅 보기"
+  permission_create_meeting_agendas: "의제 관리"
+  permission_close_meeting_agendas: "의제 닫기"
+  permission_send_meeting_agendas_notification: "의제에 대한 검토 알림 보내기"
+  permission_create_meeting_minutes: "의사록 관리"
+  permission_send_meeting_minutes_notification: "의사록에 대한 검토 알림 보내기"
+  permission_meetings_send_invite: "미팅에 사용자 초대"
+  permission_send_meeting_agendas_icalendar: "달력 항목으로 미팅 의제 보내기"
+  project_module_meetings: "미팅"
+  text_duration_in_hours: "기간(시간)"
+  text_in_hours: " 시간"
+  text_meeting_agenda_for_meeting: '미팅 "%{meeting}"에 대한 의제'
+  text_meeting_closing_are_you_sure: "이 미팅을 닫으시겠습니까?"
+  text_meeting_agenda_open_are_you_sure: "그러면 몇 분 내에 모든 변경 사항을 덮어씁니다. 계속하시겠습니까?"
+  text_meeting_minutes_for_meeting: '미팅 "%{meeting}"에 대한 의사록'
+  text_review_meeting_agenda: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
+  text_review_meeting_minutes: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
+  text_notificiation_invited: "이 메일에는 아래 모임에 대한 ics 항목이 포함되어 있습니다."

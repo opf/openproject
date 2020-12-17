@@ -1,0 +1,88 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#English strings go here for Rails i18n
+zh-CN:
+  activerecord:
+    attributes:
+      meeting:
+        location: "地点"
+        duration: "持续时间"
+        participants: "参加者"
+        participants_attended: "出席者"
+        participants_invited: "受邀者"
+        start_time: "时间"
+        start_time_hour: "开始时间"
+    errors:
+      messages:
+        invalid_time_format: "不是有效时间。所需格式：HH:MM"
+    models:
+      meeting_agenda: "议程"
+      meeting_minutes: "会议记录"
+  description_attended: "已出席"
+  description_invite: "已邀请"
+  events:
+    meeting: 会议已编辑
+    meeting_agenda: 会议议程已编辑
+    meeting_agenda_closed: 会议议程已确定
+    meeting_agenda_opened: 会议议程已开启
+    meeting_minutes: 会议记录已编辑
+    meeting_minutes_created: 会议记录已建立
+  error_notification_with_errors: "发送通知失败。无法通知下列收件人：%{recipients}"
+  label_meeting: "会议"
+  label_meeting_plural: "会议"
+  label_meeting_new: "新增会议"
+  label_meeting_edit: "编辑会议"
+  label_meeting_agenda: "议程"
+  label_meeting_minutes: "会议记录"
+  label_meeting_close: "关闭"
+  label_meeting_open: "打开"
+  label_meeting_agenda_close: "确定议程以开始会议记录"
+  label_meeting_date_time: "日期/时间"
+  label_meeting_diff: "比较"
+  label_notify: "发送待审阅"
+  label_icalendar: "发送 iCalendar"
+  label_version: "版本"
+  label_time_zone: "时区"
+  label_start_date: "开始日期"
+  notice_successful_notification: "通知发送成功"
+  notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
+  permission_create_meetings: "创建会议"
+  permission_edit_meetings: "编辑会议"
+  permission_delete_meetings: "删除会议"
+  permission_view_meetings: "查看会议"
+  permission_create_meeting_agendas: "管理议程"
+  permission_close_meeting_agendas: "确定议程"
+  permission_send_meeting_agendas_notification: "发送议程审阅通知"
+  permission_create_meeting_minutes: "管理会议记录"
+  permission_send_meeting_minutes_notification: "发送会议记录审阅通知"
+  permission_meetings_send_invite: "邀请用户参加会议"
+  permission_send_meeting_agendas_icalendar: "将会议议程作为日历条目发送"
+  project_module_meetings: "会议"
+  text_duration_in_hours: "持续时间（单位：小时）"
+  text_in_hours: "时长"
+  text_meeting_agenda_for_meeting: '“%{meeting}”会议议程'
+  text_meeting_closing_are_you_sure: "您确定要关闭此会议吗？"
+  text_meeting_agenda_open_are_you_sure: "这将在几分钟内覆盖所有变更！要继续吗？"
+  text_meeting_minutes_for_meeting: '“%{meeting}“会议记录'
+  text_review_meeting_agenda: "%{author} 已经将 %{link} 上传待审阅。"
+  text_review_meeting_minutes: "%{author} 已经将 %{link} 上传待审阅。"
+  text_notificiation_invited: "此邮件包含以下会议的 ics 条目："

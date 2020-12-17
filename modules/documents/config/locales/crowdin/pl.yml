@@ -1,0 +1,42 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+pl:
+  activerecord:
+    models:
+      document: "Dokument"
+  default_doc_category_tech: "Dokumentacja techniczna"
+  default_doc_category_user: "Dokumentacja użytkownika"
+  enumeration_doc_categories: "Kategoria dokumentu"
+  enumeration:
+    document_category:
+      documentation: Dokumentacja
+      specification: Specyfikacja
+      other: Inne
+  documents:
+    label_attachment_author: "Autor załącznika"
+  label_document_added: "Dodano dokument"
+  label_document_new: "Nowy dokument"
+  label_document_plural: "Dokumenty"
+  label_documents: "Dokumenty"
+  permission_manage_documents: "Zarządzanie dokumentami"
+  permission_view_documents: "Zobacz dokumenty"
+  project_module_documents: "Dokumenty"

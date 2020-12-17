@@ -1,0 +1,39 @@
+#English strings go here
+vi:
+  label_avatar: "Hình đại diện"
+  label_avatar_plural: "Các hình đại diện"
+  label_current_avatar: "Hình đại diện hiện tại"
+  label_choose_avatar: "Chọn hình đại diện từ tập tin"
+  message_avatar_uploaded: "Hình đại diện đã thay đổi thành công"
+  error_image_upload: "Lỗi khi lưu ảnh!"
+  error_image_size: "Ảnh quá lớn"
+  button_change_avatar: "Đổi ảnh đại diện"
+  are_you_sure_delete_avatar: "Bạn có chắc muốn xóa hình đại diện của bạn ?"
+  avatar_deleted: "Hình đại diện đã xóa thành công"
+  unable_to_delete_avatar: "Hình đại diện không thể bị xóa"
+  wrong_file_format: "Định dạng ảnh được chấp nhận: jpg, png, gif"
+  empty_file_error: "Xin hãy tải lên hình ảnh đúng định dạng(jpg, png, gif)"
+  avatars:
+    label_avatar: "Hình đại diện"
+    label_gravatar: 'Nhóm ảnh đại diện'
+    label_current_avatar: 'Hình đại diện hiện tại'
+    label_local_avatar: 'Tùy chỉnh hình đại diện'
+    text_current_avatar: |
+      The following image shows the current avatar.
+    text_upload_instructions: |
+      Tải lên hình đại diện tùy chỉnh của bạn, kích thước 128x128 điểm ảnh. Kích thước lớn hơn sẽ bị giảm chất lượng và thu nhỏ để phù hợp. Ảnh xem trước của hình đại diện sẽ hiện lên trước khi tải lên khi mà bạn chọn ảnh.
+    text_change_gravatar_html: 'Để thay đổi hoặc thêm Gravatar cho địa chỉ thư điện tử, đi đến  %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject chấp thuận hình đại diện được tùy chỉnh.
+    text_local_avatar_over_gravatar: |
+      If you set one, this custom avatar is used in precedence over the gravatar above.
+    text_your_current_gravatar: |
+      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
+      The current gravatar is as follows:
+    settings:
+      enable_gravatars: 'Enable user gravatars'
+      gravatar_default: "Default Gravatar image"
+      enable_local_avatars: 'Cho phép người dùng tùy chỉnh hình đại diện'
+
+
+
