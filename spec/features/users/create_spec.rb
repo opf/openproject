@@ -31,20 +31,19 @@ require 'spec_helper'
 describe 'create users', type: :feature, selenium: true do
   using_shared_fixtures :admin
   let(:current_user) { admin }
-  let(:auth_source) { FactoryBot.build :dummy_auth_source }
+  let!(:auth_source) { FactoryBot.create :dummy_auth_source }
   let(:new_user_page) { Pages::NewUser.new }
+  let(:mail) do
+    ActionMailer::Base.deliveries.last
+  end
+  let(:mail_body) { mail.body.parts.first.body.to_s }
+  let(:token) { mail_body.scan(/token=(.*)$/).first.first.strip }
 
   before do
-    login_as current_user
+    allow(User).to receive(:current).and_return admin
   end
 
   shared_examples_for 'successful user creation' do
-    let(:mail) do
-      ActionMailer::Base.deliveries.last
-    end
-    let(:mail_body) { mail.body.parts.first.body.to_s }
-    let(:token) { mail_body.scan(/token=(.*)$/).first.first }
-
     it 'creates the user' do
       expect(page).to have_selector('.flash', text: 'Successful creation.')
 
@@ -100,7 +99,6 @@ describe 'create users', type: :feature, selenium: true do
 
   context 'with external authentication', js: true do
     before do
-      auth_source.save!
       new_user_page.visit!
 
       new_user_page.fill_in! first_name: 'bobfirst',
