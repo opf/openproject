@@ -69,7 +69,8 @@ module OpenProject::TextFormatting
 
       def transformers
         [
-          todo_list_transformer
+          todo_list_transformer,
+          code_block_transformer
         ]
       end
 
@@ -120,6 +121,22 @@ module OpenProject::TextFormatting
         }
       end
 
+      # Prevent nested pre + code.
+      # In such a case, the code is removed.
+      def code_block_transformer
+        lambda { |env|
+          name = env[:node_name]
+          code = env[:node]
+
+          next unless name == 'code'
+
+          parent = code.parent
+
+          if parent&.name == 'pre'
+            parent.children = code.children
+          end
+        }
+      end
     end
   end
 end

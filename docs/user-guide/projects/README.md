@@ -10,7 +10,7 @@ keywords: projects
 
 In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure and organize your work in OpenProject.
 
-Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community nor in the Cloud or Enterprise Edition.
+Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community Edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -45,7 +45,7 @@ To create a subproject for an existing project, navigate to the [project setting
 
 Follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
 
-![image-20200921153208651](image-20200921153208651.png)
+![create-a-subproject](image-20200921153208651.png)
 
 ## Project structure
 
@@ -78,7 +78,8 @@ OpenProject, for example, uses the projects to structure the different modules/p
 ![project-structure](1566214944644.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
+**Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
+
 
 </div>
 
@@ -135,11 +136,12 @@ Set up everything that you want to have available for future projects.
 - Creating your work package templates.
 - ...
 
-Navigate to the [project settings](project-settings) and click **Set as template** in the upper right corner.  You can remove a project from the template collection on the same spot. 
+Navigate to the [project settings](project-settings) and click **Set as template** in the upper right corner. You can remove a project from the template collection on the same spot. 
 
 <div class="alert alert-info" role="alert">
-**Note**: The option to set a project as template or to remove it from templates is only available for Administrators.
+**Please note**: The option to set a project as template or to remove it from templates is only available for Administrators.
 </div>
+
 
 
 
@@ -166,7 +168,7 @@ You can copy existing [boards](../agile-boards) (apart from the Subproject board
 
 For further configuration open the **Advanced settings**. Here you can specify (among other things) the project's URL (identifier), its visibility and status. Furthermore you can set values for custom fields (not shown in the screenshot).
 
-![image-20201007172208540](image-20201007172208540.png)
+![advanced-settings-project](image-20201007172208540.png)
 
 Then click the blue **Copy** button.
 
@@ -201,31 +203,30 @@ To get an overview of all your projects, select the **View all projects** option
 
 ![view all projects](1566293251039.png)
 
-You will then get a list of all your projects in OpenProject.
+You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
-With the **three dots** icon at the right in the list you can open further features, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project).
+With the horizontal **three dots** icons at the right of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features.
 
-![image-20201005092427629](image-20201005092427629.png)
+With the **arrow** you can display the **project description**.
 
-With the **arrow** you can display the project description.
+![projects-overview](image-20201005092427629.png)
 
 You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
-![edit-columns](image-20201007151542352.png)
+![configure-columns-for-view-all-projects](image-20201210234705031.png)
 
 
 
-To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) follow the instructions here: [Displaying a project custom field](/system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
+To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](/system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
 
 
 
-To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to get to the report described in the chapter below quickly. The Gantt chart view can be configured in the  [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
+To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the [chapter below](#project-overarching-reports). 
+The Gantt chart view can be configured in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
-![image-20201007161248903](image-20201007161248903.png)
+![open-global-gantt-chart](image-20201007161248903.png)
 
 
-
-In the view all projects overview list you can also **create a multi project status dashboard** if you include [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), such as Status, Status description, Accountable, Project duration, and more.
 
 
 
@@ -235,11 +236,13 @@ Often you need to see more than one project in your lists and want to create pro
 
 Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
 
-Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
+Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
-You can group by project by clicking in the header of the work package list next to project and select Group by.
+In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../../work-packages/work-package-table-configuration) in each project.
+
+You can group by projects by clicking in the header of the work package list next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#aggregation-by-project).
 
 ![project-overarching-report](project-overarching-report.gif)
 
-In the project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the project specific work package list.
+
 
