@@ -61,18 +61,17 @@ class MeetingContentsController < ApplicationController
 
   def update
     (render_403; return) unless @content.editable? # TODO: not tested!
-    @content.attributes = content_params
-    @content.author = User.current
+    @content.attributes = content_params.merge(author: User.current)
     @content.attach_files(permitted_params.attachments.to_h)
-    if @content.save
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
+
+    if !@content.lock_version_changed?
+      if @content.save
+        flash[:notice] = I18n.t(:notice_successful_update)
+        redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
+      end
+    else
+      render_conflict
     end
-  rescue ActiveRecord::StaleObjectError
-    # Optimistic locking exception
-    flash.now[:error] = I18n.t(:notice_locking_conflict)
-    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
-    render 'meetings/show'
   end
 
   def history
@@ -135,6 +134,12 @@ class MeetingContentsController < ApplicationController
     @author = User.current
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def render_conflict
+    flash.now[:error] = I18n.t(:notice_locking_conflict)
+    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+    render 'meetings/show'
   end
 
   def content_params
